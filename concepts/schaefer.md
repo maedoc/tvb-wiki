@@ -1,19 +1,28 @@
 ---
-title: Schaefer Parcellation
 created: 2026-04-20
-updated: 2026-05-08
+sources:
+- raw/papers/arxiv-2510.05325.md
+- raw/papers/power-2011.md
+- raw/papers/smith-2013-hcp.md
+tags:
+- brain-parcellation
+- functional-connectivity
+- resting-state
+- neuroimaging-fmri
+- database-hcp
+- software-tvb
+title: Schaefer Parcellation
 type: entity
-tags: [brain-parcellation, functional-connectivity, resting-state, neuroimaging-fmri, database-hcp, software-tvb]
-sources: [raw/papers/arxiv-2510.05325.md, raw/papers/power-2011.md, raw/papers/smith-2013-hcp.md]
+updated: '2026-05-08'
 ---
 
-The **Schaefer Parcellation** is a widely-used functional brain parcellation derived from resting-state fMRI data collected by the [[human-connectome-project]]. Developed by Alexander Schaefer and colleagues (2018), it provides a systematic division of the human cerebral cortex into spatially contiguous regions of interest, offering a hierarchical organization that has become one of the standard node definitions for whole-brain connectivity analyses and computational modeling.
+The **Schaefer Parcellation** is a widely-used functional [[brain-parcellation]] derived from resting-state [[fmri]] data collected by the [[human-[[connectome]]-project]]. Developed by Alexander Schaefer and colleagues (2018), it provides a systematic division of the human cerebral cortex into spatially contiguous regions of interest, offering a hierarchical organization that has become one of the standard node definitions for [[whole-brain]] [[connectivity]] analyses and computational modeling.
 
 ## Motivation and Context
 
-Prior to the Schaefer parcellation, brain parcellations were often derived from anatomical landmarks (such as the Desikan-Killiany atlas) or from meta-analytic activations. While anatomical parcellations have clear neuroanatomical grounding, they do not necessarily reflect functional boundaries — the cortex is functionally organized in ways that transect cytoarchitectural borders. The Schaefer parcellation addressed this limitation by using intrinsic [[functional-connectivity]] patterns from large-scale [[resting-state]] fMRI data to define parcels that respect functional networks rather than purely anatomical divisions.
+Prior to the Schaefer parcellation, [[brain-parcellations]] were often derived from anatomical landmarks (such as the Desikan-Killiany atlas) or from meta-analytic activations. While anatomical parcellations have clear neuroanatomical grounding, they do not necessarily reflect functional boundaries — the cortex is functionally organized in ways that transect cytoarchitectural borders. The Schaefer parcellation addressed this limitation by using intrinsic [[functional-connectivity]] patterns from large-scale [[resting-state]] fMRI data to define parcels that respect functional networks rather than purely anatomical divisions.
 
-The Human Connectome Project's resting-state fMRI dataset was instrumental to this approach. As documented in the HCP resting-state studies (Smith et al., 2013), the HCP protocol acquired high-quality, multi-band fMRI data at 1.2mm resolution across over 200 subjects, enabling identification of functional networks at unprecedented spatial resolution. The Schaefer parcellation leveraged this data to create parcels that correspond to functionally coherent brain regions — areas that show strong temporal correlation in their blood-oxygen-level-dependent (BOLD) signal during rest.
+The Human Connectome Project's resting-state fMRI dataset was instrumental to this approach. As documented in the HCP resting-state studies (Smith et al., 2013), the HCP protocol acquired high-quality, multi-band fMRI data at 1.2mm resolution across over 200 subjects, enabling identification of functional networks at unprecedented spatial resolution. The Schaefer parcellation leveraged this data to create parcels that correspond to functionally coherent brain regions — areas that show strong temporal correlation in their blood-oxygen-level-dependent ([[bold-signal|BOLD]]) signal during [[rest]].
 
 ## Technical Details
 
@@ -21,7 +30,7 @@ The Schaefer parcellation provides parcels at multiple resolutions: 100, 200, 30
 
 Each parcel is assigned to one of two network labeling schemes: the Yeo 7-network parcellation or the more fine-grained 17-network parcellation (Yeo et al., 2011). The Yeo networks, derived independently from resting-state connectivity, include major systems such as the [[default-mode-network]], visual network, somatomotor network, dorsal attention network, ventral attention network, limbic network, and frontoparietal control network. This dual assignment means that Schaefer parcels inherit both a spatial definition and a network identity — a powerful feature for comparing functional organization across conditions or subject groups.
 
-The parcellation is surface-based, originally defined on [[freesurfer]]'s fsaverage template. This means the parcels are represented on the cortical sheet rather than in volumetric space, which is particularly appropriate for fMRI data that is naturally 2D on the cortical surface after projection. The surface representation also facilitates integration with other surface-based data types, including MEG/EEG source estimates and diffusion imaging tractography.
+The parcellation is surface-based, originally defined on [[freesurfer]]'s fsaverage template. This means the parcels are represented on the cortical sheet rather than in volumetric space, which is particularly appropriate for fMRI data that is naturally 2D on the cortical surface after projection. The surface representation also facilitates integration with other surface-based data types, including MEG/EEG source estimates and [[diffusion-imaging]] [[tractography]].
 
 ## Relationship to The Virtual Brain
 

@@ -56,8 +56,8 @@ sources:
 tags:
 - neural-mass-models
 - epilepsy-modeling
-- dynamical-systems-theory
-- metabolic-modeling
+- [[dynamical-systems-theory]]
+- [[metabolic-modeling]]
 - ion-dynamics
 - excitability
 - seizure-dynamics

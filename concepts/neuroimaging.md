@@ -163,8 +163,8 @@ sources:
 tags:
 - software-neural-simulation
 - software-tvb
-- neural-mass-models
-- whole-brain-modeling
+- [[neural-mass-models]]
+- [[whole-brain-modeling]]
 - python
 - computational-neuroscience
 title: NIPAL
