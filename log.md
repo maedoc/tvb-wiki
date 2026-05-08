@@ -1,6 +1,7 @@
 # Wiki Activity Log
 
 ## 2026-05-08
+- Improved [[aging-brain]] page: removed 4 invalid citations (finn2015, tasker2006, bennett2010, nyberg2012) not in sources, kept only properly sourced claims, expanded functional connectivity section with King et al. findings on dementia spectrum, added more detail on brain maintenance
 - Verified [[michael-fox]] page meets schema requirements (15 wikilinks, valid taxonomy tags, complete content)
 - Improved [[michael-fox]] page: expanded TVB relationship section with neural-mass-model and dynamic-causal-modeling links, added epilepsy-modeling cross-reference, expanded related concepts to 11 items
 
@@ -73,3 +74,5 @@
 ## [2026-05-08 04:59] Matcher: 4 pages got 12 new sources
 
 ## [2026-05-08 05:10] Improve: 1 pages improved (aging-brain)
+
+## [2026-05-08 05:32] Improve: 1 pages improved (aging-brain)
