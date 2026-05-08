@@ -1,7 +1,7 @@
 ---
 title: NeuroQuery
 created: 2024-01-15
-updated: 2026-05-06
+updated: 2026-05-08
 type: entity
 tags: [software-neuroquery, machine-learning, neuroimaging, meta-analysis, text-mining]
 sources:

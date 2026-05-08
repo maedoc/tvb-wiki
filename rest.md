@@ -1,7 +1,7 @@
 ---
 title: REST (Resting State)
 created: 2024-01-15
-updated: 2026-05-07
+updated: 2026-05-08
 type: concept
 tags: [resting-state, neuroimaging-fmri, functional-connectivity, network-dynamics, whole-brain-modeling, computational-neuroscience]
 sources: [raw/papers/smith-2013-hcp.md, raw/papers/deco-2013.md, raw/papers/power-2011.md, raw/papers/biswal-1995.md]
@@ -17,7 +17,7 @@ The modern era of resting-state neuroscience began with the discovery that spati
 
 Computational approaches to understanding resting-state activity have made significant contributions by revealing the mechanisms from which spontaneous fluctuations emerge. The work by Deco, Jirsa, and McIntosh (2013) [Deco et al., 2013] demonstrated, using large-scale neural mass models, that noise-driven fluctuations in a structured network—constrained by empirical structural connectivity derived from diffusion imaging—can reproduce empirical resting-state functional connectivity patterns. Their framework emphasized that resting-state dynamics arise from the interaction between the anatomical scaffold provided by white matter tracts and the stochastic activity inherent to neural systems, with the brain continuously exploring a repertoire of functional states that overlap substantially with patterns evoked during task performance [Deco et al., 2013].
 
-The relationship between [[structural-connectivity]] and resting-state [[functional-connectivity]] is neither deterministic nor trivial. While structural connections provide the necessary substrate for functional coupling, the mapping from anatomy to function is highly nonlinear. Honey and colleagues (2009) demonstrated that structural connectivity explains only a portion of the variance in functional connectivity, with the remainder arising from dynamic interactions and shared input. This insight has been incorporated into [[whole-brain-modeling]] frameworks that use empirical structural connectivity matrices—typically derived from [[neuroimaging-dti]] or tractography—as the primary constraint for simulating resting-state dynamics. The work by Smith and colleagues (2013) in the [[human-connectome-project]] provided high-resolution maps of resting-state networks in over 200 subjects, establishing reference datasets that computational models can be validated against [Smith et al., 2013].
+The relationship between [[structural-connectivity]] and resting-state [[functional-connectivity]] is neither deterministic nor trivial. While structural connections provide the necessary substrate for functional coupling, the mapping from anatomy to function is highly nonlinear. Honey and colleagues (2009) demonstrated that structural connectivity explains only a portion of the variance in functional connectivity, with the remainder arising from dynamic interactions and shared input. This insight has been incorporated into [[whole-brain-modeling]] frameworks that use empirical structural connectivity matrices—typically derived from [[neuromorpho-toolkit]] or tractography—as the primary constraint for simulating resting-state dynamics. The work by Smith and colleagues (2013) in the [[human-connectome-project]] provided high-resolution maps of resting-state networks in over 200 subjects, establishing reference datasets that computational models can be validated against [Smith et al., 2013].
 
 ## Network Organization at Rest
 

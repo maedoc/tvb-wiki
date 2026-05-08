@@ -1,10 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- '[Dockès et al. 2020](](https://elifesciences.org/articles/53385)) - Primary NeuroQuery
-  paper'
-- '[NeuroQuery website](https://neuroquery.org)'
-- '[NeuroQuery GitHub](https://github.com/neuroquery/neuroquery)'
 - raw/papers/glean-github.md
 - raw/papers/arxiv-2601.03796.md
 - raw/papers/semanticscholar-ab726d866649.md

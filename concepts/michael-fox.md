@@ -2,9 +2,6 @@
 created: 2026-04-20
 sources:
 - raw/papers/fox-raichle-2007.md
-- raw/papers/fox-greicius-2004.md
-- raw/papers/fox-herman-2012.md
-- raw/papers/fox-buckner-2014.md
 - raw/papers/raichle-2001.md
 - raw/papers/semanticscholar-d70e1661858c.md
 - raw/papers/semanticscholar-f05f8cbafb78.md
