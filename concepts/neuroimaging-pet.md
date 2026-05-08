@@ -1,10 +1,17 @@
 ---
-title: Neuroimaging PET
 created: 2026-04-20
-updated: 2026-05-08
+sources:
+- raw/papers/friston-1993.md
+tags:
+- neuroimaging-pet
+- neuroimaging
+- functional-connectivity
+- resting-state
+- brain-network
+- metabolic-modeling
+title: Neuroimaging PET
 type: concept
-tags: [neuroimaging-pet, neuroimaging, functional-connectivity, resting-state, brain-network, metabolic-modeling]
-sources: [raw/papers/friston-1993.md]
+updated: '2026-05-08'
 ---
 
 Positron Emission Tomography (PET) is a functional neuroimaging modality that measures regional cerebral blood flow (rCBF), glucose metabolism, or neurotransmitter receptor density through the detection of positron-emitting radiotracers. Unlike structural imaging techniques such as MRI, PET provides indirect measurements of neural activity by capturing the metabolic and hemodynamic consequences of neuronal firing. In the context of whole-brain modeling, PET-derived measurements serve as empirical targets for calibrating computational models and validating simulated functional dynamics (Friston et al., 1993).
@@ -32,3 +39,7 @@ Some large-scale multimodal imaging initiatives have adopted protocols that incl
 Contemporary applications of PET in whole-brain modeling include the construction of personalized brain models that incorporate individual differences in metabolism, the study of network-level alterations in neurological and psychiatric disorders, and the development of therapeutic interventions that modulate large-scale brain dynamics. For example, in epilepsy modeling, PET hypometabolism patterns help identify epileptogenic zones that inform the configuration of computational models of seizure propagation (Kumar et al., 2018).
 
 Several open questions remain at the intersection of PET imaging and computational neuroscience. The relationship between metabolic fluctuations and electrophysiological dynamics remains incompletely understood, making the integration of PET data with neural simulation models an active area of methodological development. Furthermore, the development of faster PET acquisition protocols and novel radiotracers promises to improve the temporal resolution of PET measurements, potentially enabling dynamic connectivity analyses that better complement fMRI-derived resting-state networks (Sander et al., 2013). Finally, the incorporation of PET-derived neurotransmitter binding maps into whole-brain models represents a frontier for relating neurochemistry to network-level dynamics in health and disease (Gillespie et al., 2018).
+
+## References
+
+1. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.

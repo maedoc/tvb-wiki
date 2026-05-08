@@ -17,7 +17,7 @@ tags:
 - structural-connectivity
 title: Jenkinson et al. 2012
 type: entity
-updated: '2026-05-07'
+updated: '2026-05-08'
 ---
 
 The Jenkinson et al. 2012 paper, published in NeuroImage as "FSL," represents one of the most cited foundational works in computational neuroimaging. This entity page references the software paper authored by Mark Jenkinson, Christian F. Beckmann, Timothy E.J. Behrens, Mark W. Woolrich, and Stephen M. Smith, which describes the suite of tools collectively known as FMRIB Software Library (FSL). The paper serves as a key citation in many whole-brain modeling workflows, particularly those involving [[tractography]] and [[diffusion-imaging]] preprocessing pipelines that feed into [[connectome]] construction for [[the-virtual-brain]] and similar simulators.
@@ -59,3 +59,9 @@ Modern pipelines like [[dmriprep]] and [[qsiprep]] incorporate elements of FSL b
 ## Relationship to TVB
 
 Within [[the-virtual-brain]] ecosystems, Jenkinson et al. 2012 functions as a foundational citation when researchers describe their connectivity preprocessing pipeline. While TVB itself focuses on neural [[dynamic-causal-modeling]] and [[neural-mass-models]], the empirical [[structural-connectivity]] matrices that constrain TVB simulations typically derive from diffusion imaging processed with FSL tools. Any TVB workflow that uses tractography outputs should cite this reference when describing data preprocessing.
+
+## References
+
+1. Gorgolewski et al. (2016). *The brain imaging data structure, a format for organizing and describing outputs of neuroimaging experiments*. Scientific Data. [DOI](https://doi.org/10.1038/sdata.2016.44)
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)

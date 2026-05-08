@@ -1,10 +1,20 @@
 ---
-title: White Matter
 created: 2025-01-15
-updated: 2026-05-08
+sources:
+- raw/papers/semanticscholar-d801ad366cdb.md
+- raw/papers/semanticscholar-deecd9987645.md
+- raw/papers/semanticscholar-ce89e593c89e.md
+tags:
+- neuroimaging-dti
+- structural-connectivity
+- connectomics
+- whole-brain-modeling
+- diffusion-imaging
+- tractography
+- neuroimaging
+title: White Matter
 type: concept
-tags: [neuroimaging-dti, structural-connectivity, connectomics, whole-brain-modeling, diffusion-imaging, tractography, neuroimaging]
-sources: [raw/papers/semanticscholar-d801ad366cdb.md, raw/papers/semanticscholar-deecd9987645.md, raw/papers/semanticscholar-ce89e593c89e.md]
+updated: '2026-05-08'
 ---
 
 White matter refers to the collections of myelinated axons that form the structural scaffolding of the brain, enabling rapid communication between distant cortical and subcortical regions. Unlike gray matter, which contains neuronal cell bodies and is primarily responsible for information processing, white matter consists predominantly of bundles of axons—termed fibers—that are wrapped in a lipid-rich myelin sheath produced by oligodendrocytes. This myelination dramatically increases the conduction velocity of action potentials, allowing white matter tracts to transmit signals at velocities exceeding 100 m/s in the most heavily myelinated pathways (Hursh, 1929; Rushton, 1951). The anatomical arrangement of white matter forms the physical substrate through which functionally specialized brain regions coordinate their activity, making it indispensable for whole-brain modeling approaches that seek to understand how large-scale network dynamics emerge from the interaction of distributed brain areas.
@@ -28,3 +38,9 @@ White matter occupies a central position in the hierarchy of brain connectivity 
 ## Conclusion
 
 The relationship between white matter structure and brain function remains an active area of research. While the passive diffusion model demonstrates that functional connectivity partially reflects anatomy (Sipes et al., 2026), the emergence of complex dynamics—such as those exhibiting critical behavior with long-range temporal correlations—requires models that go beyond simple anatomical coupling (Myrov et al., 2026). Future directions include incorporating white matter temporal dynamics, including activity-dependent myelination and plasticity, into whole-brain frameworks to capture the adaptive remodeling of structural connectivity that occurs throughout the lifespan. As diffusion imaging techniques continue to improve (Asay et al., 2025) and computational models become increasingly sophisticated, white matter will remain a cornerstone of whole-brain neuroscience, bridging the gap between anatomical structure and emergent functional dynamics.
+
+## References
+
+1. Benjamin S. Sipes, Fahimeh Arab, S. Nagarajan, Ashish Raj. (2026). *HONeD-in on Brain Activity: Deconvolving Passive Diffusion on the Structural Network from Functional Brain Signals*. bioRxiv. [DOI](https://doi.org/10.64898/2026.01.05.697753)
+2. Daniel J. Asay, Timothy M. O'Keefe, Randy L. Buckner, Ross W Mair. (2025). *DWIQC: A Python package for preprocessing and quality assurance of diffusion weighted images*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.06974)
+3. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123)

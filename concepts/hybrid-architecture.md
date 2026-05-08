@@ -1,10 +1,20 @@
 ---
-title: Hybrid Architecture
 created: 2024-01-15
-updated: 2026-05-08
+sources:
+- raw/papers/arxiv-2603.07524.md
+- raw/papers/arxiv-2509.02799.md
+- raw/papers/semanticscholar-85e2123db1a7.md
+tags:
+- whole-brain-modeling
+- neural-mass-models
+- spiking-neural-networks
+- mean-field-theory
+- personalized-brain-modeling
+- computational-neuroscience
+- network-dynamics
+title: Hybrid Architecture
 type: concept
-tags: [whole-brain-modeling, neural-mass-models, spiking-neural-networks, mean-field-theory, personalized-brain-modeling, computational-neuroscience, network-dynamics]
-sources: [raw/papers/arxiv-2603.07524.md, raw/papers/arxiv-2509.02799.md, raw/papers/semanticscholar-85e2123db1a7.md]
+updated: '2026-05-08'
 ---
 
 A hybrid architecture in whole-brain modeling refers to computational frameworks that combine multiple modeling paradigms—typically coupling [[neural-mass-models]] or [[mean-field-theory]] approximations with detailed [[spiking-neural-networks]]—to leverage the respective strengths of each approach. Such architectures aim to capture both the computational efficiency of population-level models and the biological realism of single-neuron simulations, enabling multiscale simulations that bridge microscale neuronal mechanisms with macroscale brain dynamics observable via [[neuroimaging-fmri]], [[neuroimaging-eeg]], or [[neuroimaging-meg]].
@@ -36,3 +46,9 @@ Recent work on [[neural-dynamics-informed]] pre-trained frameworks further exten
 Several challenges remain in the development of hybrid architectures. Parameter estimation across heterogeneous model components requires new inference frameworks capable of handling multiscale uncertainty—recent work using simulation-based inference on synthetic fMRI data demonstrates progress, but scalability to real multimodal datasets remains limited [[breyton-ref]]. Validation against ground truth across scales requires careful comparison of model predictions against empirical data from multiple modalities, including invasive recordings where available. The computational cost of hybrid simulations, while reduced relative to full spiking networks, still exceeds that of pure mean-field approaches, motivating continued work on model reduction and acceleration techniques.
 
 As [[whole-brain-modeling]] moves toward clinical translation in contexts ranging from [[epilepsy-modeling]] to [[alzheimers-modeling]], hybrid architectures offer a promising path to capture the mechanistic complexity necessary for personalized predictions while maintaining the tractability required for clinical decision support.
+
+## References
+
+1. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for Personalized Brain Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)
+2. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
+3. M. Gabriela, Navas Zuloaga, S.M. Purcell, Maxim Bazhenov. (2026). *Age-related sleep changes in the human brain: insights from a large-scale thalamocortical model*. bioRxiv. [DOI](https://doi.org/10.64898/2026.03.16.712170)
