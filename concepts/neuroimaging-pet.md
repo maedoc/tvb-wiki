@@ -2,6 +2,8 @@
 created: 2026-04-20
 sources:
 - raw/papers/friston-1993.md
+- raw/papers/semanticscholar-028f7c6ac41d.md
+- raw/papers/semanticscholar-d2dfba2091a2.md
 tags:
 - neuroimaging-pet
 - neuroimaging

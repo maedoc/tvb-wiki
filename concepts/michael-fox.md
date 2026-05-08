@@ -5,6 +5,9 @@ sources:
 - raw/papers/fox-greicius-2004.md
 - raw/papers/fox-herman-2012.md
 - raw/papers/fox-buckner-2014.md
+- raw/papers/raichle-2001.md
+- raw/papers/semanticscholar-d70e1661858c.md
+- raw/papers/semanticscholar-f05f8cbafb78.md
 tags:
 - people-researcher
 - brain-stimulation
