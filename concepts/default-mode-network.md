@@ -18,7 +18,7 @@ tags:
 - epilepsy-modeling
 title: Default Mode Network (DMN)
 type: concept
-updated: '2026-05-07'
+updated: '2026-05-08'
 ---
 
 The **Default Mode Network (DMN)** is a large-scale [[brain-network]] identified through [[neuroimaging]] that demonstrates high metabolic activity during wakeful [[rest]] and systematic deactivation during externally-oriented goal-directed tasks. First characterized by [[raichle-2001]] using positron emission tomography (PET), the DMN represents the brain's baseline or "default" mode of operation—the spontaneous neural activity that dominates when an individual is not engaged in explicit task performance. This network has become fundamental to our understanding of intrinsic brain organization and its dysfunction in psychiatric and neurological conditions.
@@ -100,7 +100,7 @@ The DMN presents both opportunities and challenges for [[whole-brain modeling]] 
 - [[bold-signal]] – Blood oxygen level-dependent signal underlying [[fmri]]
 - [[brain-network]] – Large-scale organized brain connectivity patterns
 - [[network-hubs]] – Regions with high connectivity serving integration roles
-- [[structural-connectivity]] – Anatomical white matter pathways
+- [[structural-connectivity]] – Anatomical [[white-matter]] pathways
 - [[neuroimaging-fmri]] – Functional magnetic resonance imaging
 - [[aging]] – Effects of aging on brain networks
 - [[neurodevelopment]] – Developmental processes shaping brain organization

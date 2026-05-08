@@ -15,7 +15,7 @@ tags:
 - lab-institute
 title: CRCNS
 type: entity
-updated: '2026-05-07'
+updated: '2026-05-08'
 ---
 
 # CRCNS
@@ -50,7 +50,7 @@ CRCNS has played an indirect but meaningful role in the development of [[the-vir
 
 ## Related Funding and Organizations
 - [[human-[[connectome]]-project]] — NIH-funded consortium for mapping human brain [[connectivity]]
-- [[human-connectome-project]] — Major neuroimaging dataset initiative
+- [[human-[[connectome]]-project]] — Major neuroimaging dataset initiative
 - [[ebrains]] — European research infrastructure for brain simulation
 - [[open-source-brain]] — Platform for collaborative computational neuroscience model development
 - [[model-validation]] — Database of computational neuroscience models

@@ -63,3 +63,5 @@
 ## [2026-05-08 03:29] Improve: 1 pages improved (local-field-potentials)
 
 ## [2026-05-08 03:45] RefFormatter: formatted references on 7 pages
+
+## [2026-05-08 04:38] FullTextFetcher: fetched 4 new full texts (68 total in corpus)
