@@ -57,3 +57,5 @@
 ## [2026-05-08 02:47] Improve: 2 pages improved (local-field-potentials, wilson-cowan-model)
 
 ## [2026-05-08 03:04] Audit: 808 issues (74 broken links, 35 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 13 opaque-refs, 19 thin, 440 missing-links)
+
+## [2026-05-08 03:05] Improve: 1 pages improved (local-field-potentials)
