@@ -61,3 +61,5 @@
 ## [2026-05-08 03:05] Improve: 1 pages improved (local-field-potentials)
 
 ## [2026-05-08 03:29] Improve: 1 pages improved (local-field-potentials)
+
+## [2026-05-08 03:45] RefFormatter: formatted references on 7 pages

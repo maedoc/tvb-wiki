@@ -1,0 +1,856 @@
+                                                                                                                                                                                 1
+
+
+
+
+                                               Brain Age Group Classification Based on Resting
+                                                     State Functional Connectivity Metrics
+                                                         Prerna Singh1 ∗, Kuldeep Singh Yadav2 , Lalan Kumar1,2,3 , and Tapan Kumar Gandhi1,2,3
+                                             1 Bharti School of Telecommunication Technology and Management, Indian Institute of Technology Delhi, India
+                                                            2 Department of Electrical Engineering, Indian Institute of Technology Delhi, India
+                                                            3 Yardi School of Artificial Intelligence, Indian Institute of Technology Delhi, India
+
+                                                                               *corresponding author: bsz208534@iitd.ac.in
+arXiv:2503.21414v1 [q-bio.NC] 27 Mar 2025
+
+
+
+
+                                               Abstract—This study investigated age-related changes in func-     cognition, and brain network organization [4]. However, this
+                                            tional connectivity using resting-state fMRI and explored the        process varies significantly across individuals, with some ex-
+                                            efficacy of traditional deep learning for classifying brain de-      periencing ”successful aging” and others showing ”accelerated
+                                            velopmental stages (BDS). Functional connectivity was assessed
+                                            using Seed-Based Phase Synchronization (SBPS) and Pearson            aging,” which is often associated with cognitive impairments
+                                            correlation across 160 ROIs. Clustering was performed using          and neurodegenerative diseases such as Alzheimer’s disease
+                                            t-SNE, and network topology was analyzed through graph-              (AD) [5], [6]. Several studies suggest that neurodegenerative
+                                            theoretic metrics. Adaptive learning was implemented to classify     conditions accelerate brain aging, with observable changes
+                                            the age group by extracting bottleneck features through mo-          occurring years before clinical symptoms appear [7], [8].
+                                            bileNetV2. These deep features were embedded and classified
+                                            using Random Forest and PCA. Results showed a shift in phase         For example, AD patients exhibit an estimated 10-year ac-
+                                            synchronization patterns from sensory-driven networks in youth       celeration in brain aging [9], [10], while conditions such
+                                            to more distributed networks with aging. t-SNE revealed that         as noninsulin-dependent diabetes mellitus (+4.6 years) [11],
+                                            SBPS provided the most distinct clustering of BDS. Global            hypertension (+4.1 years) and schizophrenia (+5.5 years) [12]
+                                            efficiency and participation coefficient followed an inverted U-     also show deviations from typical aging trajectories. These
+                                            shaped trajectory, while clustering coefficient and modularity
+                                            exhibited a U-shaped pattern. MobileNet outperformed other           deviations highlight the potential role of brain age as an early
+                                            models, achieving the highest classification accuracy for BDS. Ag-   biomarker for neurological and psychiatric disorders.
+                                            ing was associated with reduced global integration and increased        Resting-state functional connectivity (rs-FC) has emerged
+                                            local connectivity, indicating functional network reorganization.    as a powerful tool for examining large-scale brain network
+                                            While this study focused solely on functional connectivity from      organization and its disruptions with age [10], [13]. Functional
+                                            resting-state fMRI and a limited set of connectivity features,
+                                            deep learning demonstrated superior classification performance,      MRI (fMRI) studies have shown that aging is associated with
+                                            highlighting its potential for characterizing age-related brain      reduced connectivity within the default mode network (DMN)
+                                            changes.                                                             and altered connectivity patterns in other brain networks [14],
+                                              Index Terms—Aging, SBPS, BDS, Adaptive Learning.                   [15]. In parallel, phase synchronization—reflecting the tempo-
+                                                                                                                 ral coordination of neural oscillations—has gained attention as
+                                                                                                                 a critical marker of age-related changes in functional brain net-
+                                                                  I. I NTRODUCTION                               works. Studies using phase-based connectivity measures, such
+                                               The global demographic shift towards an aging population          as phase-locking value (PLV) and weighted phase-lag index
+                                            has intensified research into cognitive decline and its underly-     (wPLI), have revealed a decline in long-range synchronization
+                                            ing neural mechanisms. Aging is associated with progressive          and an increase in local connectivity with aging, suggesting
+                                            brain structure and function alterations, impacting cognitive        a shift from global to more fragmented network organization
+                                            domains such as memory, attention, and executive control             [16]–[19]. These changes may contribute to reduced neural
+                                            [1], [2]. Structural neuroimaging studies using MRI have ex-         efficiency and cognitive deficits commonly observed in older
+                                            tensively documented age-related changes, including cortical         adults.
+                                            atrophy, white matter hyperintensities, and reduced grey matter         Recent advances in computational neuroscience have en-
+                                            volume [3]. However, these structural markers do not fully           abled the integration of deep learning models with functional
+                                            capture the functional alterations in brain network interactions     connectivity metrics to improve the prediction of brain ag-
+                                            that underlie cognitive aging.                                       ing and neurodegenerative risk [20], [21]. Machine learning
+                                               Aging is a key risk factor for cognitive decline and a po-        approaches leveraging graph-based and time-frequency do-
+                                            tential indicator of progression to neurodegenerative diseases.      main features have been increasingly applied to characterize
+                                            It can impact specific brain regions, influencing neural dy-         aging-related disruptions in connectivity patterns [22]. Despite
+                                            namics by modifying their activity patterns, affecting directly      these advancements, most studies still rely on coarse-grained
+                                            connected regions, altering interactions across the brain, and       connectivity measures that may overlook fine-scale temporal
+                                            ultimately reshaping the entire brain network [4]. Brain aging       dynamics crucial for understanding cognitive decline [21].
+                                            is a gradual process involving changes in neural function,              This study aims to bridge this gap by leveraging deep
+                                                                                                                                 2
+
+
+
+learning techniques to analyze functional connectivity patterns   developmental stages using additional functional connectivity
+derived from rs-FC and phase synchronization measures. It         metrics. In our previous study, SampEn, which quantifies sig-
+introduces an adaptive learning approach to extract and learn     nal complexity, is extracted for 1,096 subjects and combined
+more prominent features for the limited samples. Various pre-     with age information to create a dataset. K-means clustering,
+designed and customized deep-learning networks were ex-           using the elbow criterion, identifies four developmental stages:
+plored. Dimension reduction and traditional classification ap-    Young (7-19 years), Middle Young (20-34 years), Middle Late
+proaches were employed to mitigate the overfitting/underfitting   (35-53 years), and Elderly (54-89 years) [25]. These four brain
+issue during training. By integrating network neuroscience        developmental stages resting state fMRI data have been used
+with adaptive learning, we seek to identify novel biomarkers      further for functional connectivity studies.
+of cognitive aging, contributing to a more comprehensive
+understanding of healthy and pathological aging trajectories.
+Our approach will enhance the predictive modeling of age-         C. Feature Engineering
+related functional brain alterations and provide insights into       The accurate classification of age groups based on resting-
+their implications for neurocognitive health.                     state fMRI (rs-fMRI) requires extracting meaningful and dis-
+   The paper is structured as follows: Section II describes the   criminative features from the functional connectivity patterns
+materials and methods, Section III presents the results and       of the brain. This study considered three key feature rep-
+discussion, and Section IV provides the conclusion..              resentations, i.e., a) the raw functional time-series data, b)
+                                                                  Seed-based Phase Synchronization (SBPS), and c) the Z-
+              II. M ATERIALS AND M ETHODS                         transformed connectivity matrix. Each feature representation
+                                                                  captures different aspects of functional connectivity, providing
+  Figure 1 provides a visual representation of the study’s
+                                                                  complementary information for classification. In addition, a
+conceptual framework, outlining the key processes, method-
+                                                                  channel-wise fusion is also incorporated to employ more
+ologies, and relationships between different components of the
+                                                                  prominent features.
+analysis.
+                                                                     1) Raw Functional Time-Series Representation: Given an
+                                                                  rs-fMRI signal Si (t) from a region of interest (ROI) i, where t
+A. Dataset                                                        represents the time points, the raw feature matrix X ∈ RN ×T
+   The resting-state fMRI data for this study were obtained       is constructed as:
+from the Human Connectome Project (HCP) [23]. The primary
+                                                                                 X = [S1 (t), S2 (t), . . . , SN (t)],         (1)
+objective of HCP was to collect data from a diverse cohort
+across various age groups and generate an in vivo functional      where N denotes the number of ROIs, and T is the number of
+connectivity map for research purposes. This publicly available   time points. This representation retains the full spatiotemporal
+dataset includes rs-fMRI scans from 1,096 healthy participants    information and serves as a baseline for comparison.
+aged 7 to 89 years. Data acquisition was performed using             2) Seed-Based Phase Synchronization (SBPS): Phase syn-
+a 3.0 Tesla Magnetom Tim Trio scanner with the following          chronization is a crucial measure of functional connectivity,
+parameters: repetition time (TR) of 2530 ms, echo time (TE)       capturing dynamic relationships between brain regions. The
+of 30 ms, field of view (FOV) of 240 × 240 mm², acquisition       analytic signal ψi (t) of an rs-fMRI time series Si (t) can be
+matrix of 64 × 64, voxel size of 3 × 3 × 4 mm, and 34             derived using the Hilbert Transform:
+slices covering the entire brain. Each scan lasted 500 seconds
+per subject, with participants instructed to remain awake to                       ψi (t) = Si (t) + jH[Si (t)],               (2)
+ensure accurate 3D functional imaging. Samples were retained
+after applying head motion correction and other preprocessing     where H[·] is the Hilbert Transform. The instantaneous phase
+criteria.                                                         is then computed as:
+   Following the necessary preprocessing steps, the blood-
+                                                                                       ϕi (t) = arg(ψi (t)).                   (3)
+oxygen-level-dependent (BOLD) signal time series was ex-
+tracted from each voxel of the functional images [24]. Using      The phase synchronization between two ROIs, i and j, is given
+Dosenbach’s template [22], 160 regions of interest (ROIs) were    by:
+predefined, and the mean time series within a 5 mm spherical
+                                                                                 γi,j = ⟨cos(ϕi (t) − ϕj (t))⟩t ,            (4)
+radius was computed. Finally, a time-series data matrix was
+generated for each subject, comprising 160 brain nodes across     where ⟨·⟩t denotes temporal averaging. The resulting SBPS
+different timestamps, which was subsequently utilized in the      matrix Γ ∈ RN ×N quantifies synchronization-based functional
+study.                                                            connectivity.
+                                                                    3) Z-Transformed Functional Connectivity Matrix: Pearson
+B. Prediction of Brain Developmental Stages                       correlation is widely used to construct functional connectivity
+                                                                  matrices. The correlation coefficient between ROIs i and j is
+   Building on our previous study [25], which predicted brain
+                                                                  defined as:
+developmental stages using resting-state fMRI data and sample
+                                                                                     PT
+entropy (SampEn) features from 160 Dosenbach ROIs, we                                      (Si (t) − µi )(Sj (t) − µj )
+further investigated brain network differences across these                   ri,j = t=1                                ,     (5)
+                                                                                               (T − 1)σi σj
+                                                                                                                                                       3
+
+
+
+
+                                   Figure 1. Flow chart of the conceptual framework of the study.
+
+
+where µi and σi are the mean and standard deviation of             [26], researchers have significantly improved feature extrac-
+Si (t). To achieve normality and stabilize variance, Fisher’s      tion and classification in various pattern recognition tasks by
+Z-transformation is applied:                                       designing robust and lightweight deep convolutional neural
+                          1
+                             
+                               1 + ri,j
+                                                                  networks, such as ResNet-50 [27], SqueezeNet [28], Mo-
+                  Zi,j = ln               .               (6)      bileNetV2 [29], and EfficientNet-B0 [30]. Some of these archi-
+                          2    1 − ri,j
+                                                                   tectures are particularly well-suited for real-time deployment
+The transformed matrix Z ∈ RN ×N enhances the robustness           due to their efficiency and computational scalability. Table
+of connectivity features by mapping them to a Gaussian-like        I shows the performance and parametric evaluation of the
+distribution.                                                      ImageNet dataset [26].
+   4) Feature Fusion via Multi-Channel Representation
+(FMCR): The three extracted features represent different per-      TABLE I: Performance comparison of deep networks on
+spectives of brain connectivity, and their fusion can enhance      ImageNet dataset
+classification performance. Instead of using them indepen-
+                                                                                           Accuracy (%)
+dently, we adopt a multi-channel representation where each          Model                                  Params (M)   Size (MB)   Infer. Time (ms)
+                                                                                           Top-1   Top-5
+feature type forms a distinct channel in a combined input
+                                                                    AlexNet [31]           57.2    80.3       61.0        233             8.9
+tensor:
+                                                                    VGG-16 [32]            71.5    89.8      138.4        528             8.0
+                     F = concat(X, Γ, Z),                 (7)       VGG-19 [32]            74.0    91.0      143.7        549             9.2
+                                                                    ResNet-50 [27]         76.6    93.1       25.6         98             6.0
+where F ∈ RN ×N ×3 . This approach allows CNNs to ex-               ResNet-101 [27]        78.3    94.1       44.6        171             8.1
+ploit spatial correlations across different connectivity repre-     SqueezeNet [28]        57.5    80.3      1.24         4.9             3.2
+                                                                    MobileNetV2 [29]       72.0    91.0        3.4         14             4.0
+sentations, improving feature learning. The advantage of this
+                                                                    EfficientNet-B0 [30]   77.1    93.3        5.3         20             5.6
+fusion lies in leveraging complementary information, reducing       DarkNet-53 [33]        77.2    93.8       41.6        155             7.5
+redundancy, and capturing both direct and indirect functional
+interactions in the brain.                                            Building on the strengths of state-of-the-art deep learning
+   Integrating these diverse functional connectivity descriptors   models, this study explored the potential of leveraging rs-
+into a unified multi-channel representation provides a more        fMRI data for age group classification. Specifically, the pre-
+comprehensive and informative input to deep learning models,       trained MobileNetV2 network was extensively utilized due
+enhancing the predictive accuracy for age group classification.    to its robustness and computational efficiency. This network
+                                                                   was customized for the input 160 × 160. This network was
+D. Deep Network Design and Analysis                                trained and fine-tuned by leveraging transfer learning for the
+  Driven by the advancements in deep learning from the Im-         rs-fMRI data. This network achieved significantly high training
+ageNet Large Scale Visual Recognition Challenge (ILSVRC)           performance. However, validating this network on the ageing
+                                                                                                                                   4
+
+
+
+dataset revealed significant overfitting, primarily due to the     layers are then applied at strategic depths to reduce spatial
+limited number of samples per class.                               dimensions progressively.
+   Less complex architecture, fine-tuning techniques, and             Multiple dropout layers with varying rates (0.2, 0.7, 0.5, and
+feature-reduction strategies were employed to mitigate this        0.3) are introduced to address overfitting. Dropout randomly
+issue. This study introduced and explored customized CNN           deactivates neurons during training, ensuring the network
+tailored for EEG-based age group classification, i.e., Shallow-    does not become overly reliant on specific features. The
+CNN and DeepReg-CNN. These models were developed to                fully connected layers in DeepReg-CNN are more extensive
+balance computational efficiency and model complexity while        than Shallow-CNN, containing 512, 128, and 64 neurons,
+ensuring effective spatial feature extraction. Shallow-CNN         respectively. Each fully connected layer is followed by batch
+is a lightweight architecture with minimal depth, making it        normalization, which normalizes activations and accelerates
+suitable for computationally constrained environments. In con-     convergence. The batch normalization process is mathemati-
+trast, DeepReg-CNN incorporates a deeper architecture with         cally defined as:
+advanced regularization strategies, enhancing feature learning                        m                    m
+capacity and mitigating overfitting.                                              1 X            2     1 X
+                                                                           µB =         Xi ,    σB =         (Xi − µB )2 ,      (9)
+   1) Shallow-CNN: The Shallow-CNN model was designed                             m i=1                m i=1
+to efficiently extract spatial features while maintaining low
+computational complexity. The architecture begins with an                                       Xi − µB
+                                                                                          X̂i = p 2     ,                      (10)
+input layer that processes single-channel rs-fMRI images of                                      σB + ϵ
+size H × W × 1. Feature extraction uses three convolutional                                                        2
+                                                                      where Xi represents the input, µB and σB       are the batch
+layers with filter sizes of 3 × 3, progressively increasing
+                                                                   statistics, and ϵ is a small constant for numerical stability.
+in depth from 16 to 64 filters. Each convolutional layer
+                                                                      The final classification is performed using a softmax layer.
+is followed by batch normalization to stabilize the learning
+                                                                   Unlike Shallow-CNN, which employs a smaller capacity net-
+process and ReLU activation to introduce non-linearity.
+                                                                   work, DeepReg-CNN is trained with an initial learning rate of
+   To progressively reduce spatial dimensions and retain es-
+                                                                   0.001, a mini-batch size of 64, and 50 epochs, ensuring robust
+sential information, max-pooling layers are introduced after
+                                                                   feature extraction and improved generalization.
+each convolutional block. Max-pooling selects the highest
+                                                                      Both architectures offer distinct advantages based on com-
+activation in a given region, enabling the network to achieve
+                                                                   putational constraints and classification performance. Shallow-
+spatial invariance while reducing computational complexity.
+                                                                   CNN provides an efficient baseline to extract essential spatial
+The network employs a fully connected layer with 64 neurons
+                                                                   features with minimal depth. Its low computational footprint
+and ReLU activation following feature extraction. To enhance
+                                                                   makes it suitable for real-time applications and deployment
+generalization and prevent overfitting, a dropout layer with a
+                                                                   on resource-limited devices. However, due to its relatively
+rate of 0.3 is incorporated, stochastically deactivating neurons
+                                                                   shallow depth, the model may struggle to capture highly
+during training. The final classification is performed by a
+                                                                   abstract features required for complex classification tasks. In
+softmax layer, which assigns probability scores to each age
+                                                                   contrast, DeepReg-CNN demonstrates superior generalization
+group:
+                                                                   performance, which is attributed to its deeper architecture and
+                              ezi                                  regularization strategies. Adding multiple convolutional layers
+                        Pi = P zj ,                          (8)   allows it to learn hierarchical representations, while dropout
+                              je
+                                                                   and batch normalization ensure robust training. Empirical
+    where zi represents the logit for class i. The network         results indicate that DeepReg-CNN consistently outperforms
+is trained using the Adam optimizer with a learning rate           Shallow-CNN in terms of classification accuracy. However, the
+of 0.0001, a mini-batch size of 32, and 100 epochs. This           increased complexity of DeepReg-CNN demands higher com-
+architecture is particularly suitable for applications where       putational resources, making it less feasible for lightweight
+computational efficiency is a priority.                            applications.
+    2) DeepReg-CNN: The DeepReg-CNN model extends the
+capabilities of Shallow-CNN by increasing network depth
+and incorporating additional regularization techniques. The        E. Deep Feature Embedding with Adaptive Learning
+architecture begins with an input layer for single-channel rs-        Deep Feature Embedding with Adaptive Learning (DFEAL)
+fMRI data of size H × W × 1. The feature extraction process        is designed to enhance EEG-based age group classification by
+is conducted through multiple convolutional layers, where the      integrating deep learning with traditional machine learning.
+filter sizes remain 3 × 3, but the number of filters increases     The methodology comprises three main stages: deep feature
+progressively (16, 32, 64, and 128).                               extraction using MobileNetV2, dimensionality reduction via
+    A key characteristic of DeepReg-CNN is the inclusion of        Principal Component Analysis (PCA) [34], and classification
+consecutive convolutional layers within the same block, which      using traditional machine learning algorithms.
+enhances hierarchical feature learning. Unlike Shallow-CNN,           1) Deep Feature Extraction using MobileNetV2: Mo-
+where a pooling operation follows each convolutional layer,        bileNetV2, a lightweight deep convolutional neural network
+DeepReg-CNN stacks multiple convolutional layers before            optimized for computational efficiency, is employed to ex-
+downsampling. This strategy enables the model to learn more        tract high-level features from EEG-based representations. The
+abstract and complex features at deeper levels. Max-pooling        network is pre-trained on ImageNet and fine-tuned to learn
+                                                                                                                                  5
+
+
+
+domain-specific representations from EEG-derived feature ma-       prediction is obtained via majority voting among T individual
+trices.                                                            trees:
+                                                                                                T
+   Given an input image X ∈ RH×W ×3 , MobileNetV2 applies                                      X
+                                                                                  y = arg max      ⊮(ht (F ′ ) = c),        (17)
+a sequence of depthwise separable convolutions to extract hier-                             c
+                                                                                                t=1
+archical features, represented as a feature embedding F ∈ Rd :
+                                                                   where ht represents the classification output of the t-th deci-
+                  F = MobileNetV2(X; θ),                   (11)    sion tree.
+                                                                      Empirical evaluations demonstrated that the DFEAL frame-
+where θ represents the network parameters, and d is the            work significantly improves classification accuracy compared
+dimensionality of the extracted features.                          to standalone deep learning models. By leveraging deep fea-
+   2) Dimensionality Reduction using Principal Component           ture extraction, dimensionality reduction, and adaptive learn-
+Analysis (PCA): The extracted feature set is typically high-       ing through traditional classifiers, DFEAL enhances general-
+dimensional and may contain redundant information. PCA             ization while mitigating overfitting.
+is employed to transform the feature space into a lower-
+dimensional representation while preserving essential vari-
+                                                                   G. Brain Network Visualization based on SBPS
+ance. Given a feature matrix F ∈ RN ×d , where N is
+the number of samples, PCA computes eigenvectors of the               To visualize the average brain networks of different age
+covariance matrix:                                                 cohorts, we categorized participants into four groups: Younger
+                         N
+                                                                   Adults (Y: 7-19 years), Middle Young (MY: 20-34 years),
+                     1 X                                           Middle Late (ML: 35-53 years), and Elderly (E: 54-89 years)
+               Σ=          (Fi − µ)(Fi − µ)T ,             (12)
+                     N i=1                                         based on age clusters. BrainNet Viewer, a graph-theoretical
+                                                                   network visualization toolbox, was used to represent human
+where µ is the mean feature vector. The feature transformation     connectomes as ball-and-stick models [35]. The methodol-
+is then performed using the top k principal components:            ogy involved several steps. Firstly, the raw rs-fMRI time-
+                                                                   series data for each participant were extracted based on the
+                         F ′ = F Wk ,                      (13)
+                                                                   Dosenbach brain anatomical parcellation. Next, seed-based
+where Wk ∈ Rd×k consists of the k eigenvectors correspond-         phase synchronization between different ROI time-series data
+ing to the largest eigenvalues.                                    was computed. A threshold analysis was performed based
+                                                                   on a graphical approach (number of edges versus threshold
+                                                                   value), and an absolute threshold of 0.2 was chosen, as
+F. Traditional Machine Learning Classification                     previously used in studies for binarizing connectivity matrices
+   The reduced feature set is classified using three tradi-        [36]. After thresholding, the binarized phase-synchronized
+tional machine learning models: K-Nearest Neighbors (KNN),         matrices for different subjects within each age cohort were
+Support Vector Machine (SVM), and Random Forest (RF).              averaged, and an edge file was generated for visualization.
+These models leverage the refined feature space for improved       Each age group’s mean SBPS matrix was analyzed to visualize
+classification performance.                                        connectivity patterns, ensuring a clear understanding of brain
+   K-Nearest Neighbors (KNN): The KNN classifier assigns           network changes across developmental stages. The resulting
+a class label based on the majority vote among the k nearest       visualization effectively highlights how functional connectivity
+neighbors in the feature space. The decision function is defined   evolves from young adulthood to late aging.
+as:                             X
+                 y = arg max        ⊮(yi = c),              (14)   H. Clustering of each Brain Developmental Stages
+                             c
+                                 i∈Nk                                 We performed clustering of brain developmental stages
+where Nk represents the set of k nearest neighbors, and            based on brain connectivity features extracted for each age
+⊮(yi = c) is an indicator function.                                cohort, utilizing Z-transformed Pearson correlation matrices,
+  Support Vector Machine (SVM): SVM constructs a hy-               seed-based phase-synchronized (SBPS) matrices, and their
+perplane to separate classes in the transformed feature space      combined features to assess clustering improvements. Previ-
+by solving:                                                        ous studies have primarily used Pearson correlation for age
+                                      N                            group clustering [25], but comparing it with SBPS provides
+                        1     2
+                                     X
+                                                                   additional insights into connectivity patterns and improved
+                   min ∥w∥ + C           ξi ,            (15)
+                   w,b 2
+                                     i=1                           visualization of age-related differences. We systematically
+                                                                   processed data from four age-based clusters—Young, Middle
+subject to:
+                                                                   Young, Middle-Late, and Elderly—across two feature types.
+              yi (wT Fi′ + b) ≥ 1 − ξi ,   ξi ≥ 0,         (16)    For each cluster, we extracted matrices, handled inconsisten-
+                                                                   cies, computed mean matrices, and concatenated data types for
+where w and b define the decision boundary, and ξi are slack       each feature. The final combined matrices were analyzed using
+variables allowing for soft-margin classification.                 t-SNE for visualization [37], ensuring reproducibility through
+   Random Forest (RF): RF constructs an ensemble of deci-          fixed random seeds. The results help evaluate how clustering
+sion trees to enhance classification robustness. The final class   performance improves with different feature combinations. By
+                                                                                                                                     6
+
+
+
+comparing the clustering performance of Pearson correlation,         4) Integration: The integration metric was computed from
+SBPS, and their combined features, we assessed how feature         the determinant of the correlation matrix [41]:
+selection impacts the clarity of age group separation. This
+analysis highlights the advantages of incorporating multiple                                I = log det(C)                       (22)
+connectivity measures for robust clustering.
+                                                                      where C is the positive semi-definite correlation matrix
+                                                                   obtained after eigenvalue decomposition.
+I. Study of Brain Functional Network Measures with Age                5) Modularity: Modularity quantifies the degree of modular
+   In    this   study,    we     investigate   key    network      structure within the network [42]:
+measures—clustering coefficient, participation coefficient,                                                
+                                                                                       1 X            ki kj
+global efficiency, integration, and modularity—derived from                     Q=            Aij −           δ(ci , cj )   (23)
+resting-state fMRI correlation matrices. These metrics provide                        2m i,j          2m
+insights into network segregation, integration, and efficiency,      where Aij represents the adjacency matrix, ki and kj are the
+helping to understand age-related cognitive changes. The           degrees of nodes i and j, m is the total number of edges, and
+fMRI data for 1096 subjects were preprocessed, and                 δ(ci , cj ) is 1 if nodes i and j belong to the same community
+correlation matrices were derived from the region-wise time        and 0 otherwise. Community detection was performed using
+series data. Pearson’s correlation was used to compute the         k-means clustering with two communities.
+correlation coefficients between 160 ROIs (Dosenbach atlas),         To analyze the variation of these network measures with
+forming subject-specific functional connectivity matrices. The     age, we extracted subject ages from a predefined dataset
+Pearson correlation coefficient between two ROIs i and j was       (AGEMATRIX). Outliers were removed using Z-score thresh-
+computed as:                                                       olding. The relationship between network metrics and age was
+                P                                                  analyzed using quadratic polynomial fitting [43]:
+                   t (Xi (t) − X̄i )(Xj (t) − X̄j )
+    rij = qP                                                (18)
+                                                                                          y = ax2 + bx + c                       (24)
+                                     qP
+                                 2                      2
+                t (Xi (t) − X̄i )      t (Xj (t) − X̄j )
+                                                                      where y represents each network metric (clustering coef-
+    where Xi (t) and Xj (t) represent the time series of ROIs i    ficient, participation coefficient, global efficiency, integration,
+and j, respectively.                                               modularity) and x represents age.
+    To construct functional brain networks, these correlation         Scatter plots were generated with polynomial trend lines
+matrices were thresholded at values ranging from 0.1 to 0.5        to visualize the association between age and each network
+in increments of 0.05, setting connections below the threshold     measure, highlighting potential nonlinear trends.
+to zero to ensure sparse network representations.
+    After that following Graph-Theoretic Measures were com-
+                                                                                 III. R ESULTS AND D ISCUSSIONS
+puted:
+    1) Clustering Coefficient: The clustering coefficient quan-    A. Experimental Setup
+tifies the likelihood of nodes forming local clusters and is          The experiments were conducted in MATLAB, utilizing
+computed as [38]:                                                  toolboxes for image processing, machine learning, deep net-
+                                                                   work design, and Brainstorm. The implementation ran on
+                                  2Ti                              a high-performance system featuring an Intel i7-13650HX
+                       Ci =                                 (19)
+                              ki (ki − 1)                          processor, 64 GB RAM, and an NVIDIA Quadro P5000 GPU
+   where Ti represents the number of triangles including node      with 16 GB of dedicated memory. This robust computational
+i, and ki is the node degree.                                      setup facilitated efficient data processing, extensive model
+   2) Participation Coefficient: The participation coefficient     evaluation, and reliable performance across all experimental
+reflects how evenly a node distributes its connections across      analyses.
+different communities [39]:
+                                                                   B. Evaluation of Various CNNs
+                              X  ki,m 2
+                   Pi = 1 −                                 (20)      To assess the efficacy of different CNNs in fMRI-based age
+                                m
+                                      ki                           group classification, we conducted a comprehensive evalua-
+  where ki,m is the strength of connections between node i         tion using MobileNetV2, Shallow-CNN, and DeepReg-CNN
+and community m, and ki is the total degree of node i.             across multiple feature representations, including SBPS, Z-
+  3) Global Efficiency: Global efficiency measures network-        Transformed Features (ZTF), Raw fMRI, and FMCR data.
+wide information transfer and is given by [40]:                    The classification performance of each model was quantified
+                                                                   in terms of training and validation accuracy, as summarized in
+                               1     X 1                           Table II.
+                 Eglob =                                    (21)
+                           N (N − 1)  dij                             The results indicate a substantial variation in model per-
+                                          i̸=j
+                                                                   formance depending on both the network architecture and
+   where dij represents the shortest path length between nodes     the type of input feature representation. In general, models
+i and j.                                                           trained on raw and FMCR data achieved superior validation
+                                                                                                                                                7
+
+
+
+TABLE II: CNN-Based Approaches for fMRI-Based Age                                          Accuracy Trends with Number of Trees
+Group Classification                                                            0.92
+
+    Model           Approach    Train Acc (%)   Val Acc (%)                     0.91
+
+    MobileNetV2     SBPS            95.56          60.23
+                                                                                 0.9
+    Shallow-CNN     SBPS            99.89          52.80
+    DeepReg-CNN     SBPS            93.88          62.80
+    MobileNetV2     ZTF             77.98          60.23                        0.89
+
+
+
+
+                                                                     Accuracy
+    Shallow-CNN     ZTF             60.00          58.23
+    DeepReg-CNN     ZTF             69.09          63.33                        0.88
+    MobileNetV2     Raw fMRI        97.36          82.15
+    Shallow-CNN     Raw fMRI        68.23          67.80                        0.87
+    DeepReg-CNN     Raw fMRI        95.50          76.89
+    MobileNetV2     FMCR            99.23          85.88
+                                                                                0.86
+    Shallow-CNN     FMCR            99.12          79.55
+    DeepReg-CNN     FMCR            96.50          84.32
+                                                                                0.85                                          3-Channel
+                                                                                                                              1-Channel
+                                                                                0.84
+accuracy compared to those utilizing SBPS or ZTF, suggesting                        50     100    150    200    250    300    350         400
+that preserving spatial and temporal integrity in the input                                         Number of Trees (NoT)
+representation enhances classification robustness.
+   MobileNetV2 consistently demonstrated superior general-                               Figure 2. DFEAL Performance across NoT
+ization capability across all feature representations. Notably,
+when trained on FMCR data, MobileNetV2 achieved a valida-
+tion accuracy of 85.88%, outperforming both Shallow-CNN             be sufficient. These insights motivate the need for feature fu-
+(79.55%) and DeepReg-CNN (84.32%). Similarly, for Raw               sion techniques to further improve classification performance,
+fMRI data, MobileNetV2 attained an accuracy of 82.15%, sur-         as explored in the subsequent sections.
+passing DeepReg-CNN (76.89%) and Shallow-CNN (67.80%).
+This highlights the effectiveness of MobileNetV2 in extracting      C. Evaluation of DFEAL
+high-level discriminative features, particularly when trained on       The proposed DFEAL approach was implemented to en-
+richer, augmented datasets. Conversely, for SBPS-based fea-         hance classification performance further, integrating deep fea-
+tures, all models exhibited a significant performance drop, with    ture extraction, dimensionality reduction, and traditional ma-
+the best validation accuracy reaching only 62.80% (DeepReg-         chine learning classifiers. This method involves extracting
+CNN). This suggests that SBPS alone may not be sufficiently         bottleneck features using MobileNetV2, applying PCA for
+expressive for capturing age-related resting state fMRI data        dimensionality reduction, and employing Random Forest (RF)
+patterns. A similar trend is observed for ZTF, where DeepReg-       for classification. The evaluation was performed using a 10-
+CNN achieved the highest validation accuracy of 63.33%,             fold cross-validation strategy, and the classification perfor-
+emphasizing that statistical transformations such as ZTF, while     mance was analyzed by varying the number of trees (NoT)
+useful, may require complementary features for optimal clas-        in the RF classifier.
+sification.                                                            The classification results for different NoT values are pre-
+   The results reveal that Shallow-CNN, despite achieving           sented in Table III, where the accuracy across different folds
+high training accuracy, suffers from poor generalization, as        (F1–F10) is reported along with the average accuracy. The
+evidenced by the drastic performance gap between training           FMCR approach was utilized as feature engineering. This
+and validation accuracies. For instance, when trained on SBPS       fusion allowed the model to capture complementary infor-
+features, Shallow-CNN reached an overfitted 99.89% training         mation from distinct feature spaces, improving classification
+accuracy but yielded only 52.80% validation accuracy. This          robustness.
+suggests that its limited depth may prevent effective feature          The results indicate that the optimal performance is achieved
+learning, particularly in high-dimensional fMRI data.               with NoT = 50, yielding an average accuracy of 89.33% across
+   DeepReg-CNN, designed to incorporate additional regu-            all folds. The model performance remains consistent for NoT =
+larization and deeper feature extraction, exhibited a better        100 and NoT = 150, achieving average accuracies of 89.17%
+balance between training and validation performance com-            and 89.26%, respectively. While minor fluctuations in fold-
+pared to Shallow-CNN. However, it was still outperformed by         wise accuracy exist, the overall performance remains stable
+MobileNetV2 in most cases, suggesting that deeper CNNs with         across different RF configurations.
+pre-trained feature extractors can further enhance classification      The observed improvements in classification accuracy can
+robustness.                                                         be attributed to integrating multiple feature representations.
+   The experimental findings underscore that MobileNetV2,           Unlike single-modality input approaches, the three-channel
+coupled with FMCR data, provides the most reliable classifi-        representation leverages both spatial and statistical properties
+cation performance, achieving the highest validation accuracy       of fMRI signals, enhancing the model’s ability to discern age-
+(85.88%). The results also emphasize that raw fMRI signals          related patterns. The PCA transformation effectively reduces
+preserve essential spatial-temporal characteristics crucial for     redundancy in deep features, ensuring that the most informa-
+accurate classification, whereas SBPS and ZTF alone may not         tive components are retained for classification.
+                                                                                                                                         8
+
+
+
+     TABLE III: MobileNet + PCA + Random Forest with K-Fold Cross-Validation (Three-Channel Input: 160x160x3)
+             NoT      F1       F2       F3       F4       F5         F6         F7      F8       F9       F10     Avg Acc (%)
+             50     0.8872   0.8906   0.8845    0.9027   0.8875   0.9058      0.9179   0.8723   0.9058   0.8719     0.8926
+             100    0.9024   0.8936   0.8815    0.8754   0.8815   0.9179      0.8693   0.8997   0.9210   0.8750     0.8917
+             150    0.8719   0.8967   0.8997    0.8723   0.9058   0.8875      0.9179   0.9149   0.8632   0.8963     0.8926
+             200    0.8963   0.8784   0.9119    0.8967   0.8723   0.8936      0.8875   0.8967   0.8875   0.8750     0.8896
+             250    0.8689   0.8967   0.8906    0.9210   0.8906   0.8784      0.8784   0.9179   0.8693   0.9299     0.8942
+             300    0.9055   0.9271   0.9179    0.9119   0.8875   0.8967      0.8845   0.8997   0.8663   0.9024     0.8999
+             400    0.9085   0.8967   0.8875    0.8784   0.9210   0.8815      0.8967   0.8906   0.9058   0.8598     0.8926
+
+
+
+
+Figure 3. (a), (b), (c), and (d) represent brain network connectivity based on Phase Synchronization for 160 dos ROIs of Young (Y), Middle
+Young (MY), (Middle late) ML, and Elder (E) stages respectively. With increasing age anterior brain nodes are showing more connectivity
+than young age.
+
+
+   Compared to direct CNN-based classifiers (as discussed in              a comparative analysis by benchmarking various classifiers,
+the previous subsection), DFEAL exhibits a 3% improvement                 including KNN, SVM, and RF, to determine the optimal
+in classification accuracy, further reinforcing the effective-            choice for resting-state time series fMRI-based age group
+ness of hybrid approaches that combine deep learning with                 classification.
+traditional machine learning techniques. The MobileNetV2                     To assess the contribution of feature fusion in DFEAL, we
+model alone, when trained end-to-end, achieved a maximum                  compared the classification performance of the Random Forest
+validation accuracy of 85.88%, whereas the DFEAL pipeline,                classifier using single-channel input (160×160×1) versus three-
+integrating PCA and RF, boosted the accuracy to 89.33%.                   channel input (160×160×3). Table IV presents the classifica-
+   Increasing NoT beyond 50 does not result in significant                tion results for single-channel input, while Table II (discussed
+improvements, suggesting that a higher number of decision                 in the previous subsection) details the results for the three-
+trees may introduce redundancy without providing additional               channel configuration.
+discriminative power. The slight variations in accuracy across               The results indicate that the three-channel representation
+different folds indicate that RF remains a robust and stable              significantly outperforms the single-channel input, achieving
+classifier, effectively utilizing the deep feature representations        an average accuracy of 89.33% compared to 87.21% with
+extracted from MobileNetV2.                                               single-channel input. This improvement underscores the ad-
+   The experimental findings highlight that DFEAL effectively             vantage of incorporating multiple feature matrices (raw fMRI,
+enhances classification performance by leveraging deep feature            ZTF, and phase synchronization) to capture complementary as-
+extraction, dimensionality reduction, and ensemble learning.              pects of fMRI dynamics. The fusion of diverse representations
+Combining MobileNetV2 bottleneck features, PCA-based di-                  enhances feature richness, enabling the model to learn more
+mensionality reduction, and RF classification balances com-               discriminative patterns associated with different age groups.
+putational efficiency and predictive accuracy. This approach                 Furthermore, the single-channel approach exhibits greater
+demonstrates the potential of hybrid learning paradigms in                variability across different folds, with certain folds showing a
+resting state fMRI-based age group classification, outperform-            notable drop in accuracy. This suggests that relying on a single
+ing standalone deep learning models.                                      feature representation may lead to inconsistent generalization
+                                                                          across various subsets of the dataset.
+D. Ablation Study and Comparative Analysis                                   To evaluate the effectiveness of various machine learning
+  To gain deeper insights into the effectiveness of the pro-              classifiers in the DFEAL framework, we tested KNN, SVM,
+posed DFEAL approach, we conducted an ablation study                      and RF on the extracted deep features. Table V summarizes
+by evaluating the impact of different input configurations                the classification performance across different folds.
+on classification performance. Additionally, we performed                    The results demonstrate that Random Forest consistently
+                                                                                                                                                                               9
+
+
+
+     TABLE IV: MobileNet + PCA + Random Forest with K-Fold Cross-Validation (Single-Channel Input: 160x160x1)
+             NoT        F1            F2            F3            F4            F5            F6            F7            F8            F9          F10     Avg Acc (%)
+             50      0.8781        0.8480        0.8571        0.8663        0.8784        0.9088        0.8359        0.8511        0.8632        0.8781       0.8665
+             100     0.8933        0.8815        0.8936        0.8663        0.8632        0.8754        0.8754        0.8754        0.8359        0.8659       0.8726
+             150     0.8842        0.8663        0.8936        0.8571        0.8815        0.8632        0.8511        0.8784        0.8845        0.8750       0.8735
+             200     0.8750        0.8298        0.9119        0.9088        0.8663        0.8875        0.8754        0.8723        0.8723        0.8781       0.8777
+             250     0.8811        0.8815        0.8845        0.8663        0.8754        0.8571        0.8723        0.8511        0.8723        0.8628       0.8704
+             300     0.8750        0.8693        0.8663        0.8906        0.8602        0.8328        0.9058        0.8906        0.8571        0.8872       0.8735
+             400     0.8567        0.8632        0.8815        0.8571        0.8875        0.8906        0.8875        0.8480        0.8663        0.8628       0.8701
+
+                                           TABLE V: Comparative Performance of Different Classifiers
+        Classifier            F1            F2            F3            F4            F5            F6            F7            F8            F9          F10    Avg Acc (%)
+        KNN                  0.7317        0.7264        0.7690        0.8055        0.7629        0.7903        0.7812        0.7477        0.7720    0.7256       0.7612
+        SVM                  0.7134        0.7508        0.7325        0.7508        0.7386        0.7568        0.7599        0.7477        0.7204    0.7683       0.7439
+        Random Forest        0.9055        0.9271        0.9179        0.9119        0.8875        0.8967        0.8845        0.8997        0.8663    0.9024       0.8999
+
+
+
+outperforms KNN and SVM, achieving an average accuracy                                             and executive processing networks, supporting the progressive
+of 89.99%, which is 13.87% higher than KNN (76.12%)                                                adaptation of brain function with age.
+and 15.60% higher than SVM (74.39%). This performance                                                 As individuals transition to middle-late adulthood, syn-
+advantage can be attributed to the ensemble nature of RF,                                          chronization further involves a few frontal nodes alongside
+which effectively captures complex decision boundaries by ag-                                      temporal, central, occipital, post-occipital, and cerebellar re-
+gregating multiple decision trees, thereby reducing overfitting                                    gions. This pattern may indicate the onset of compensatory
+and improving robustness.                                                                          network reorganization due to age-related declines in long-
+   In contrast, KNN and SVM exhibit lower performance,                                             range connectivity, as previously reported in resting-state fMRI
+with KNN performing slightly better than SVM. The rela-                                            studies [45].
+tively weaker performance of these classifiers suggests that                                          In the elderly group, synchronization is most widespread,
+deep feature representations extracted from MobileNetV2 are                                        encompassing prefrontal, frontal, temporal, central, occipital,
+inherently nonlinear, and traditional linear classifiers (such as                                  post-occipital, and cerebellar nodes. This broader distribu-
+SVM) struggle to separate the age groups in the transformed                                        tion aligns with studies reporting increased local connectivity
+feature space effectively.                                                                         and potential compensatory mechanisms to preserve cogni-
+                                                                                                   tive function in aging populations [40], [46]. The greater
+                                                                                                   involvement of frontal regions supports the notion of frontal
+E. Phase Synchronization Across Age Groups                                                         over-recruitment, often associated with compensatory neural
+                                                                                                   responses during aging [47].
+   Phase synchronization, a key indicator of functional connec-
+                                                                                                      These findings suggest a progressive shift from a sensory-
+tivity, undergoes notable shifts with aging, reflecting changes
+                                                                                                   driven network in youth to a more distributed synchroniza-
+in neural communication and network organization. Previ-
+                                                                                                   tion pattern with age, potentially compensating for declining
+ous studies using phase-based connectivity measures, such
+                                                                                                   global efficiency in functional connectivity. The observed age-
+as phase-locking value (PLV) and weighted phase-lag index
+                                                                                                   related reorganization of phase synchronization highlights the
+(wPLI), have reported a decline in long-range synchronization
+                                                                                                   dynamic nature of brain networks and their adaptation to
+and an increase in local connectivity with aging, suggesting
+                                                                                                   neurobiological changes across the lifespan.
+a transition from a globally integrated to a more fragmented
+network structure [17], [19]. These changes have been linked
+to age-related alterations in neural efficiency, reduced network                                   F. Clustering of BDS using t-SNE
+integration, and potential compensatory mechanisms aimed at                                           Understanding the developmental trajectory of brain net-
+maintaining cognitive function [44].                                                               works is crucial for studying age-related changes in functional
+   Consistent with these findings, our results, as shown in                                        connectivity. Previous studies have demonstrated that brain
+Figure 3, reveal distinct phase synchronization patterns across                                    connectivity features derived from resting-state fMRI can ef-
+different age groups at a stronger synchronization threshold                                       fectively capture age-related variations in network organization
+(0.3). In young adults, synchronization is primarily observed                                      [48], [49]. In particular, seed-based functional connectivity
+in subcortical, occipital, and cerebellar nodes, indicating a                                      and phase synchronization measures have been widely used to
+reliance on sensory and subcortical processing hubs. This                                          assess developmental changes in neural communication [46],
+pattern suggests efficient information transfer through well-                                      [50].
+established neural pathways.                                                                          This study applied t-distributed Stochastic Neighbor Embed-
+   In the middle-young group, phase synchronization extends                                        ding (t-SNE) to different brain connectivity features to cluster
+to temporal, central, occipital, post-occipital, and cerebellar                                    and visualize brain developmental stages (BDS). Specifically,
+nodes, suggesting increased recruitment of cortical regions.                                       we used (i) Pearson correlation z-transformed (ZTF) connec-
+This shift may reflect the early integration of associative                                        tivity matrices, (ii) seed-based phase synchronization (SBPS)
+                                                                                                                                        10
+
+
+
+
+      (a) Clustering of BDS based on ZTF Pearson correlation data.                      (b) Clustering of BDS based on SBPS data.
+
+
+
+
+                                   (c) Clustering of BDS based on combined ZTF Pearson correlation and SBPS.
+                                 Figure 4. Clustering and Plotting of four BDS based on t-SNE clustering.
+
+
+data for 160 Dosenbach ROIs, and (iii) a combined feature                G. Age-Related Variation in Functional Connectivity Metrics
+set of both connectivity measures as shown in figure 4 (a),
+4(b) and 4(c) respectively. t-SNE successfully distinguished                This study examined resting-state functional MRI (rs-fMRI)
+different BDS, with SBPS-based features yielding the most                data from 1,096 subjects to explore how key network met-
+well-defined clusters, followed by Correlation ZTF and the               rics—clustering coefficient, participation coefficient, global
+combined feature set.                                                    efficiency, integration, and modularity—evolve with age, as
+                                                                         shown in Figure 5. These measures provide crucial insights
+                                                                         into network segregation, integration, and efficiency, which
+                                                                         play a fundamental role in cognitive aging. We employed
+   These findings align with previous research demonstrating             scatter plots with quadratic polynomial fits to capture nonlinear
+that phase-based connectivity measures, such as SBPS, are                trends across age groups.
+more sensitive to age-related changes in functional integration             a) Clustering Coefficient The clustering coefficient, which
+and segregation [19], [45]. The observed clustering pattern              represents local segregation within brain networks, followed a
+suggests that brain connectivity features can effectively distin-        U-shaped trajectory across the lifespan. It declined from young
+guish various age groups and could serve as reliable markers             adulthood (18–35 years), reaching its lowest point around
+for predicting developmental trajectories. The superior clus-            midlife ( 50 years), and then increased in older age ( 80
+tering performance of SBPS further supports its relevance in             years), as shown in Figure 5. This pattern aligns with previous
+capturing dynamic neural interactions and age-related reorga-            findings that suggest a decline in local connectivity efficiency
+nization of functional networks.                                         during midlife due to cortical thinning and synaptic pruning,
+                                                                                                                                    11
+
+
+
+
+                      Figure 5. Variation of correaltion based functional connectivity metrics with increasing age.
+
+
+followed by a compensatory increase in later years [48], [51].        played a weak U-shaped trajectory, as observed in Figure 5.
+   b) Participation Coefficient The participation coefficient,        A slight reduction in midlife ( 50 years) was followed by an
+a measure of cross-modular integration, exhibited an inverted         increase in old age. This suggests that middle adulthood may
+U-shaped trend, as observed in Figure 5. It increased during          represent a transitional phase of reduced modularity, whereas
+young adulthood, peaked around midlife ( 50 years), and               aging is characterized by a shift toward a more segregated
+subsequently declined with aging. This pattern suggests that          network architecture [46]. The increased modularity in older
+middle-aged adults achieve the most efficient network integra-        adults may act as a compensatory mechanism to preserve
+tion, whereas aging leads to reduced intermodular connectivity        cognitive function despite widespread neural declines.
+[52], [53]. The decline in older adults implies that brain               Our results suggest that integration-based metrics, including
+regions become more functionally specialized, forming fewer           the participation coefficient and global efficiency, follow an
+connections across modules, a trend consistent with prior             inverted U-shaped trajectory, peaking in midlife before de-
+research on reduced network integration in aging populations.         clining in older age. In contrast, segregation-related metrics
+   c) Global Efficiency Global efficiency, indicative of the          such as clustering coefficient and modularity exhibit a U-
+brain’s ability to facilitate information transfer across the         shaped trend, with a midlife dip followed by recovery in later
+network, also followed an inverted U-shaped pattern. It peaked        years. These findings align with the notion that brain networks
+around midlife ( 40–50 years) before declining in older age           transition from a balanced integration-segregation regime in
+as observed in figure 5. The observed reduction in later years        early adulthood to midlife declines, followed by compensatory
+likely results from white matter degeneration and diminished          reorganization in aging [48].
+long-range connectivity [54]. This trend is consistent with              These age-related shifts in network topology underscore
+previous findings that associate aging with decreased global          the dynamic nature of brain connectivity across the lifespan.
+efficiency, which may contribute to cognitive slowing and             The initial increase in the clustering coefficient followed by
+processing deficits in older adults [55].                             a decline, along with reductions in participation coefficient
+   d) Integration Network integration, quantified using the           and global efficiency, suggest a transition from an integrated
+determinant of the correlation matrix, showed a distinct U-           to a more segregated network organization with aging. Such
+shaped pattern. It was highest in early adulthood, declined           changes may underlie cognitive aging phenomena such as
+sharply around midlife ( 50 years), and then partially recovered      slowed processing speed and reduced cognitive flexibility.
+in older age, as shown in Figure 5. This pattern aligns               Understanding these patterns is essential for developing tar-
+with prior studies indicating that middle-aged individuals            geted interventions to mitigate cognitive decline in aging
+experience transient functional network disintegration due to         populations.
+structural and synaptic reorganization [13]. The reduction in
+integration during midlife may underlie declines in cognitive                                 IV. C ONCLUSION
+processes such as memory and executive function.                        This study explored age-related changes in functional brain
+   e) Modularity Network modularity, which reflects the               connectivity using phase synchronization, clustering tech-
+degree of network segregation into distinct communities, dis-         niques, and Pearson correlation-based graph-theoretic metrics.
+                                                                                                                                               12
+
+
+
+Our findings reveal a progressive shift in phase synchro-                               VI. ACKNOWLEDGEMENT
+nization patterns from sensory-driven networks in youth to           This research work is supported by the Neurocomputing
+more distributed and compensatory connectivity in aging,           Laboratory and Multichannel Signal Processing Laboratory
+aligning with previous reports of altered functional network       (MSP Lab) at the Indian Institute of Technology Delhi (IIT
+organization across the lifespan.                                  Delhi). Data were provided [in part] by the Human Connec-
+   Through t-SNE clustering, we demonstrated that seed-            tome Project, WU-Minn Consortium (Principal Investigators:
+based phase synchronization (SBPS) features offer superior         David Van Essen and Kamil Ugurbil; 1U54MH091657) funded
+differentiation of brain developmental stages compared to          by the 16 NIH Institutes and Centers that support the NIH
+correlation-based connectivity measures. This highlights SBPS      Blueprint for Neuroscience Research; and by the McDonnell
+as a potential biomarker for tracking age-related changes in       Center for Systems Neuroscience at Washington University.
+neural communication.
+   To further enhance classification performance, we imple-                                      R EFERENCES
+mented deep learning and machine learning approaches, in-
+                                                                    [1] Kaare Christensen, Gabriele Doblhammer, Roland Rau, and James W
+cluding MobileNet, Random Forest, and Principal Compo-                  Vaupel. Ageing populations: the challenges ahead. The lancet,
+nent Analysis (PCA)-based feature reduction. The classifica-            374(9696):1196–1208, 2009.
+tion of brain developmental stages (BDS) using combined             [2] Lawrence J Whalley, Ian J Deary, Charlotte L Appleton, and John M
+                                                                        Starr. Cognitive reserve and the neurobiology of cognitive aging. Ageing
+connectivity features showed improved accuracy with these               research reviews, 3(4):369–382, 2004.
+models, with MobileNet outperforming traditional methods.           [3] M Brant-Zawadzki, M Solomon, TH Newton, P Weinstein, J Schmidley,
+This suggests that deep learning approaches effectively capture         and D Norman. Basic principles of magnetic resonance imaging in
+                                                                        cerebral ischemia and initial clinical experience. Cerebral Ischaemia: A
+complex, nonlinear relationships in functional connectivity,            Neuroradiological Study, pages 67–70, 1985.
+making them valuable for age-related brain network analysis.        [4] Lan Lin, Cong Jin, Zhenrong Fu, Baiwen Zhang, Guangyu Bin, and
+   Analysis of network topology metrics further supports the            Shuicai Wu. Predicting healthy older adult’s brain age based on struc-
+                                                                        tural connectivity networks using artificial neural networks. Computer
+notion of dynamic shifts in brain organization with aging.              methods and programs in biomedicine, 125:8–17, 2016.
+Integration-based measures, such as participation coefficient       [5] Karen Ritchie, Sylvaine Artero, and Jacques Touchon. Classification
+and global efficiency, followed an inverted U-shaped trajec-            criteria for mild cognitive impairment: a population-based validation
+                                                                        study. Neurology, 56(1):37–42, 2001.
+tory, peaking around midlife before declining. In contrast,         [6] Rachel Swainson, JR Hodges, CJ Galton, J Semple, A Michael,
+segregation-related measures, such as clustering coefficient            BD Dunn, JL Iddon, TW Robbins, and BJ Sahakian. Early detection
+and modularity, exhibited a U-shaped pattern, indicating a tran-        and differential diagnosis of alzheimer’s disease and depression with
+                                                                        neuropsychological tasks. Dementia and geriatric cognitive disorders,
+sition from balanced network integration in early adulthood to          12(4):265–280, 2001.
+midlife declines, followed by compensatory reorganization in        [7] Dietmar Rudolf Thal, Kelly Del Tredici, and Heiko Braak. Neurodegen-
+aging.                                                                  eration in normal brain aging and disease. Science of aging knowledge
+                                                                        environment, 2004(23):pe26–pe26, 2004.
+   However, this study has several limitations. First, only         [8] Jinhua Sheng, Qian Zhang, Qiao Zhang, Luyun Wang, Ze Yang, Yu Xin,
+a subset of functional connectivity features was used for               and Binbing Wang. A hybrid multimodal machine learning model for
+                                                                        detecting alzheimer’s disease. Computers in Biology and Medicine,
+age group classification, potentially overlooking additional            170:108035, 2024.
+network characteristics relevant to aging. Second, the analysis     [9] Christian Gaser, Katja Franke, Stefan Klöppel, Nikolaos Koutsouleris,
+was limited to resting-state fMRI data, which does not capture          Heinrich Sauer, and Alzheimer’s Disease Neuroimaging Initiative.
+                                                                        Brainage in mild cognitive impaired patients: predicting the conversion
+task-specific neural dynamics. Third, the study focused solely          to alzheimer’s disease. PloS one, 8(6):e67346, 2013.
+on functional connectivity without incorporating structural        [10] Peng He, Zhan Shi, Yaping Cui, Ruyan Wang, Dapeng Wu, Alzheimer’s
+connectivity or multimodal imaging data, which could provide            Disease Neuroimaging Initiative, et al. A spatiotemporal graph trans-
+                                                                        former approach for alzheimer’s disease diagnosis with rs-fmri. Com-
+a more comprehensive understanding of age-related brain                 puters in Biology and Medicine, 178:108762, 2024.
+network changes.                                                   [11] Katja Franke, Christian Gaser, Brad Manor, and Vera Novak. Advanced
+   Despite these limitations, our findings underscore the adap-         brainage in older adults with type 2 diabetes mellitus. Frontiers in aging
+                                                                        neuroscience, 5:90, 2013.
+tive nature of brain networks across different age groups. The     [12] Nikolaos Koutsouleris, Christos Davatzikos, Stefan Borgwardt, Christian
+observed alterations in connectivity patterns suggest that ag-          Gaser, Ronald Bottlender, Thomas Frodl, Peter Falkai, Anita Riecher-
+ing involves both functional reorganization and compensatory            Rössler, Hans-Jürgen Möller, Maximilian Reiser, et al. Accelerated
+                                                                        brain aging in schizophrenia and beyond: a neuroanatomical marker of
+mechanisms to maintain cognitive function. The use of deep              psychiatric disorders. Schizophrenia bulletin, 40(5):1140–1153, 2014.
+learning for classification further highlights the potential of    [13] Cheryl Grady. The cognitive neuroscience of ageing. Nature Reviews
+advanced computational approaches in understanding brain                Neuroscience, 13(7):491–505, 2012.
+                                                                   [14] Bharat Biswal, F Zerrin Yetkin, Victor M Haughton, and James S Hyde.
+aging. Future studies should explore multimodal datasets,               Functional connectivity in the motor cortex of resting human brain using
+incorporate additional connectivity features, and investigate           echo-planar mri. Magnetic resonance in medicine, 34(4):537–541, 1995.
+task-based fMRI to gain a more holistic view of brain network      [15] Linda Geerligs, Remco J Renken, Emi Saliasi, Natasha M Maurits,
+                                                                        and Monicque M Lorist. A brain-wide study of age-related changes
+alterations across the lifespan.                                        in functional connectivity. Cerebral cortex, 25(7):1987–1999, 2015.
+                                                                   [16] Emily L Dennis and Paul M Thompson. Functional brain connectivity
+                                                                        using fmri in aging and alzheimer’s disease. Neuropsychology review,
+                       V. D ISCLOSURE                                   24:49–62, 2014.
+                                                                   [17] Cornelis J Stam, Guido Nolte, and Andreas Daffertshofer. Phase lag
+                                                                        index: assessment of functional connectivity from multi channel eeg
+   The authors have declared no conflict of interest related to         and meg with diminished bias from common sources. Human brain
+this study.                                                             mapping, 28(11):1178–1193, 2007.
+                                                                                                                                                          13
+
+
+
+[18] Junfeng Sun, Zhijun Li, and Shanbao Tong. Inferring functional             [38] Duncan J Watts and Steven H Strogatz. Collective dynamics of ‘small-
+     neural connectivity with phase synchronization analysis: a review of            world’networks. nature, 393(6684):440–442, 1998.
+     methodology. Computational and mathematical methods in medicine,           [39] Mikail Rubinov and Olaf Sporns. Complex network measures of brain
+     2012(1):239210, 2012.                                                           connectivity: uses and interpretations. Neuroimage, 52(3):1059–1069,
+[19] Fabrizio Vecchio, Francesca Miraglia, Camillo Marra, Davide Quaranta,           2010.
+     Maria Gabriella Vita, Placido Bramanti, and Paolo Maria Rossini.           [40] Ed Bullmore and Olaf Sporns. Complex brain networks: graph the-
+     Human brain networks in cognitive decline: a graph theoretical analysis         oretical analysis of structural and functional systems. Nature reviews
+     of cortical connectivity from eeg data. Journal of Alzheimer’s Disease,         neuroscience, 10(3):186–198, 2009.
+     41(1):113–127, 2014.                                                       [41] Olaf Sporns. Network attributes for segregation and integration in the
+[20] James H Cole, Rudra PK Poudel, Dimosthenis Tsagkrasoulis,                       human brain. Current opinion in neurobiology, 23(2):162–171, 2013.
+     Matthan WA Caan, Claire Steves, Tim D Spector, and Giovanni Mon-           [42] Mark EJ Newman. Modularity and community structure in networks.
+     tana. Predicting brain age with deep learning from raw imaging data             Proceedings of the national academy of sciences, 103(23):8577–8582,
+     results in a reliable and heritable biomarker. NeuroImage, 163:115–124,         2006.
+     2017.                                                                      [43] Liang Zhan, Jiayu Zhou, Yalin Wang, Yan Jin, Neda Jahanshad, Gautam
+[21] Hongming Li, Theodore D Satterthwaite, and Yong Fan. Brain age                  Prasad, Talia M Nir, Cassandra D Leonardo, Jieping Ye, Paul M
+     prediction based on resting-state functional connectivity patterns using        Thompson, et al. Comparison of nine tractography algorithms for
+     convolutional neural networks. In 2018 ieee 15th international sympo-           detecting abnormal structural brain networks in alzheimer’s disease.
+     sium on biomedical imaging (isbi 2018), pages 101–104. IEEE, 2018.              Frontiers in aging neuroscience, 7:48, 2015.
+[22] Nico UF Dosenbach, Binyam Nardos, Alexander L Cohen, Damien A              [44] Zsófia Anna Gaál, Roland Boha, Cornelis J Stam, and Márk Molnár.
+     Fair, Jonathan D Power, Jessica A Church, Steven M Nelson, Gagan S              Age-dependent features of eeg-reactivity—spectral, complexity, and
+     Wig, Alecia C Vogel, Christina N Lessov-Schlaggar, et al. Prediction            network characteristics. Neuroscience letters, 479(1):79–84, 2010.
+     of individual brain maturity using fmri. Science, 329(5997):1358–1361,     [45] Roser Sala-Llonch, David Bartrés-Faz, and Carme Junqué. Reorgani-
+     2010.                                                                           zation of brain networks in aging: a review of functional connectivity
+[23] David C Van Essen, Kamil Ugurbil, Edward Auerbach, Deanna Barch,                studies. Frontiers in psychology, 6:663, 2015.
+     Timothy EJ Behrens, Richard Bucholz, Acer Chang, Liyong Chen,              [46] David Meunier, Sophie Achard, Alexa Morcom, and Ed Bullmore. Age-
+     Maurizio Corbetta, Sandra W Curtiss, et al. The human connectome                related changes in modular organization of human brain functional
+     project: a data acquisition perspective. Neuroimage, 62(4):2222–2231,           networks. Neuroimage, 44(3):715–723, 2009.
+     2012.                                                                      [47] Roberto Cabeza, Nicole D Anderson, Jill K Locantore, and Anthony R
+[24] Xin Di, Sridhar S Kannurpatti, Bart Rypma, and Bharat B Biswal.                 McIntosh. Aging gracefully: compensatory brain activity in high-
+     Calibrating bold fmri activations with neurovascular and anatomical             performing older adults. Neuroimage, 17(3):1394–1402, 2002.
+     constraints. Cerebral Cortex, 23(2):255–263, 2013.                         [48] Richard F Betzel, Lisa Byrge, Ye He, Joaquı́n Goñi, Xi-Nian Zuo, and
+[25] Prerna Singh, Tapan Kumar Gandhi, et al. Reorganization of resting-state        Olaf Sporns. Changes in structural and functional connectivity among
+     brain network functional connectivity across human brain developmental          resting-state networks across the human lifespan. Neuroimage, 102:345–
+     stages. Brain Research, 1800:148196, 2023.                                      357, 2014.
+[26] Olga Russakovsky, Jia Deng, Hao Su, Jonathan Krause, Sanjeev               [49] Damien A Fair, Alexander L Cohen, Nico UF Dosenbach, Jessica A
+     Satheesh, Sean Ma, Zhiheng Huang, Andrej Karpathy, Aditya Khosla,               Church, Francis M Miezin, Deanna M Barch, Marcus E Raichle,
+     Michael Bernstein, et al. Imagenet large scale visual recognition               Steven E Petersen, and Bradley L Schlaggar. The maturing architecture
+     challenge. International journal of computer vision, 115:211–252, 2015.         of the brain’s default network. Proceedings of the National Academy of
+                                                                                     Sciences, 105(10):4028–4032, 2008.
+[27] Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun. Deep
+                                                                                [50] Wei Gao, Weili Lin, Karen Grewen, and John H Gilmore. Functional
+     residual learning for image recognition. In Proceedings of the IEEE
+                                                                                     connectivity of the infant human brain: plastic and modifiable. The
+     conference on computer vision and pattern recognition, pages 770–778,
+                                                                                     Neuroscientist, 23(2):169–184, 2017.
+     2016.
+                                                                                [51] Jie Song, Rasmus M Birn, Mélanie Boly, Timothy B Meier, Veena A
+[28] Kuldeep Singh Yadav, Anish Monsley Kirupakaran, and Rabul Hussain
+                                                                                     Nair, Mary E Meyerand, and Vivek Prabhakaran. Age-related reorga-
+     Laskar. Gcr-net: A deep learning-based bare hand detection and ges-
+                                                                                     nizational changes in modularity and functional connectivity of human
+     ticulated character recognition system for human-computer interaction.
+                                                                                     brain networks. Brain connectivity, 4(9):662–676, 2014.
+     Concurrency and Computation: Practice and Experience, 35(6):1–1,
+                                                                                [52] Richard F Betzel and Danielle S Bassett. Structural brain networks:
+     2023.
+                                                                                     Topology, anatomy, and dynamics. Nature Reviews Neuroscience,
+[29] Mark Sandler, Andrew Howard, Menglong Zhu, Andrey Zhmoginov,                    20(7):322–336, 2019.
+     and Liang-Chieh Chen. Mobilenetv2: Inverted residuals and linear           [53] Micaela Y Chan, Denise C Park, Neil K Savalia, Steven E Petersen,
+     bottlenecks. In Proceedings of the IEEE conference on computer vision           and Gagan S Wig. Decreased segregation of brain systems across the
+     and pattern recognition, pages 4510–4520, 2018.                                 healthy adult lifespan. Proceedings of the National Academy of Sciences,
+[30] Mingxing Tan and Quoc Le. Efficientnet: Rethinking model scaling for            111(46):E4997–E5006, 2014.
+     convolutional neural networks. In International conference on machine      [54] Sophie Achard and Ed Bullmore. Efficiency and cost of economical
+     learning, pages 6105–6114. PMLR, 2019.                                          brain functional networks. PLoS computational biology, 3(2):e17, 2007.
+[31] Alex Krizhevsky, Ilya Sutskever, and Geoffrey E Hinton. Imagenet           [55] Yue Gu, Liangfang Li, Yining Zhang, Junji Ma, Chenfan Yang, Yu Xiao,
+     classification with deep convolutional neural networks. Advances in             Ni Shu, CAN Cam, Ying Lin, and Zhengjia Dai. The overlapping
+     neural information processing systems, 25, 2012.                                modular organization of human brain functional networks across the
+[32] Karen Simonyan and Andrew Zisserman.               Very deep convolu-           adult lifespan. NeuroImage, 253:119125, 2022.
+     tional networks for large-scale image recognition. arXiv preprint
+     arXiv:1409.1556, 2014.
+[33] Joseph Redmon and Ali Farhadi. Yolov3: An incremental improvement.
+     arXiv preprint arXiv:1804.02767, 2018.
+[34] Sonalika Singh, Kuldeep Singh Yadav, Punit Gupta, and Lalan Kumar.
+     Cross-cultural facial expression recognition: A deep learning study on
+     indian cultural diversity. In 2025 National Conference on Communica-
+     tions (NCC), pages 1–6. IEEE, 2025.
+[35] Mingrui Xia, Jinhui Wang, and Yong He. Brainnet viewer: a network
+     visualization tool for human brain connectomics. PloS one, 8(7):e68910,
+     2013.
+[36] Farzad Azarmi, Seyedeh Naghmeh Miri Ashtiani, Ahmad Shalbaf,
+     Hamid Behnam, and Mohammad Reza Daliri. Granger causality analysis
+     in combination with directed network measures for classification of ms
+     patients and healthy controls using task-related fmri. Computers in
+     biology and medicine, 115:103495, 2019.
+[37] Laurens Van der Maaten and Geoffrey Hinton. Visualizing data using
+     t-sne. Journal of machine learning research, 9(11), 2008.
+
