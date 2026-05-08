@@ -36,3 +36,19 @@ Recent work on [[neural-dynamics-informed]] pre-trained frameworks further exten
 Several challenges remain in the development of hybrid architectures. Parameter estimation across heterogeneous model components requires new inference frameworks capable of handling multiscale uncertainty—recent work using simulation-based inference on synthetic fMRI data demonstrates progress, but scalability to real multimodal datasets remains limited [[breyton-ref]]. Validation against ground truth across scales requires careful comparison of model predictions against empirical data from multiple modalities, including invasive recordings where available. The computational cost of hybrid simulations, while reduced relative to full spiking networks, still exceeds that of pure mean-field approaches, motivating continued work on model reduction and acceleration techniques.
 
 As [[whole-brain-modeling]] moves toward clinical translation in contexts ranging from [[epilepsy-modeling]] to [[alzheimers-modeling]], hybrid architectures offer a promising path to capture the mechanistic complexity necessary for personalized predictions while maintaining the tractability required for clinical decision support.
+
+## References
+
+[breyton-ref] Breyton, M., Sip, V., Woodman, M., Hashemi, M., Petkoski, S., & Jirsa, V. (2025). Data-driven mean-field within whole-brain models. *arXiv preprint* arXiv:2509.02799.
+
+[jansen-rit-ref] Jansen, B. H., & Rit, V. G. (1995). Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns. *Biological Cybernetics*, 73(4), 357-366.
+
+[wong-wang-ref] Wong, K. F., & Wang, X. J. (2006). A recurrent network mechanism of time integration in perceptual decisions. *Journal of Neuroscience*, 26(4), 1314-1328.
+
+[epileptor-ref] Jirsa, V. K., Stacey, W. C., Quilichini, P. P., Ivanov, A. I., & Bernard, C. (2014). On the nature of seizure dynamics. *Brain*, 137(8), 2210-2230.
+
+[tvb-nest-ref] The Virtual Brain Project. (2024). TVB-NEST co-simulation adapter architecture. https://www.thevirtualbrain.org
+
+[thalamocortical-ref] Gabriela, M., Navas Zuloaga, J., Purcell, S. M., & Bazhenov, M. (2026). Age-related sleep changes in the human brain: insights from a large-scale thalamocortical model. *bioRxiv preprint* DOI: 10.64898/2026.03.16.712170.
+
+[jiang-ref] Jiang, H., Tang, Y., & Wang, S. (2026). Neural dynamics-informed pre-trained framework for personalized brain functional network construction. *arXiv preprint* arXiv:2603.07524.
