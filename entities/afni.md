@@ -79,11 +79,11 @@ tags:
 - software-neuroimaging
 - neuroimaging-pipeline
 - preprocessing
-- bids
+- [[bids]]
 - fmri
 - python
 - workflows
-- nipype
+- [[nipype]]
 - software-freesurfer
 - software-fsl
 -
