@@ -51,6 +51,13 @@ Within [[the-virtual-brain]] ecosystem, the Wilson-Cowan model serves as one of 
 
 The relationship between excitation and inhibition in the Wilson-Cowan framework connects directly to TVB's analysis of [[excitation-inhibition-balance]] in brain dynamics. TVB's exploration of parameter spaces using tools like [[bifurcation-analysis]] allows researchers to identify critical parameter regimes where the model transitions between different dynamical states, supporting studies of brain criticality and [[brain-dynamics]] more broadly.
 
+## Related Concepts
+
+- [[oscillator]]
+- [[neural-mass-models]]
+- [[excitation-inhibition-balance]]
+- [[bifurcation-theory]]
+
 ## References
 
 [1] Wilson, H.R., & Cowan, J.D. (1972). Excitatory and inhibitory interactions in localized populations of model neurons. *Biophysical Journal*, 12(1), 1-24. https://doi.org/10.1016/s0006-3495(72)86068-5
