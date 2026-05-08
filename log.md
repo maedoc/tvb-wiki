@@ -108,3 +108,5 @@
 ## [2026-05-08 16:09] DeepResearch: 15 papers added via focused research
 
 ## [2026-05-08 16:11] Ingest: 4 new papers, 0 stubs created
+
+## [2026-05-08 16:53] FullTextFetcher: fetched 2 new full texts (83 total in corpus)
