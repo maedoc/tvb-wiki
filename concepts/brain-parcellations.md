@@ -51,4 +51,4 @@ Brain parcellations are closely linked to several other concepts in the wiki: [[
 
 1. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.
 2. (authors unknown). *Functional Network Organization of the Human Brain*.
-3. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics‑Informed Pre‑trained Framework for [[personalized‑brain‑modeling|Personalized Brain]] Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)
+3. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics‑Informed Pre‑trained Framework for [[personalized‑brain‑modeling|Personalized Brain]] Functional Network Construction*. [Link](](https://arxiv.org/abs/2603.07524))

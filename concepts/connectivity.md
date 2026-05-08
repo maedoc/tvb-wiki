@@ -59,6 +59,6 @@ Key methodological tools for connectivity analysis include [[ica|independent com
 
 ## References
 
-1. Caitlin Lienkaemper, G. Ocker. (2025). *Diverse [[mean-field-theory|mean-field]] dynamics of clustered, inhibition-stabilized Hawkes networks via combinatorial threshold-[[linear]] networks*. [Link](https://www.semanticscholar.org/paper/fbd6e0d74d7094beee2f373371f61ee03edaa40d)
+1. Caitlin Lienkaemper, G. Ocker. (2025). *Diverse [[mean-field-theory|mean-field]] dynamics of clustered, inhibition-stabilized Hawkes networks via combinatorial threshold-[[linear]] networks*. [Link](](https://www.semanticscholar.org/paper/fbd6e0d74d7094beee2f373371f61ee03edaa40d))
 2. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
 3. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
