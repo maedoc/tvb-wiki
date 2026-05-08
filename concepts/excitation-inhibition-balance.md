@@ -15,7 +15,7 @@ tags:
 - network-dynamics
 title: Excitation-Inhibition Balance
 type: concept
-updated: '2026-05-07'
+updated: '2026-05-08'
 ---
 
 Excitation-Inhibition (E/I) balance refers to the dynamical equilibrium between excitatory synaptic currents that promote neuronal firing and inhibitory synaptic currents that suppress it. This balance is a fundamental organizing principle in cortical and subcortical circuits, enabling stable yet flexible neural dynamics that support sensation, cognition, and behavior. In mathematical models of neural populations, E/I balance typically emerges from the interplay between coupling strengths, time constants, and nonlinear response functions, where excessive excitation relative to inhibition can lead to hyperexcitability, seizures, or pathological oscillations, while excessive inhibition can produce neural suppression and cognitive deficits.
@@ -26,7 +26,7 @@ The [[wilson-cowan]] model offers an alternative mathematical framework that des
 
 In [[whole-brain|whole-brain modeling]], E/I balance serves as a mechanistic bridge between microscale synaptic properties and macroscale [[brain-dynamics]] observable through [[neuroimaging]]. The Digital Twin Brain framework integrates individual neuroanatomy with personalized [[brain-network]] models, enabling in silico manipulation of excitatory and inhibitory synaptic conductance to predict how pharmacological or behavioral interventions propagate through distributed circuits. These models reveal that E/I modulation produces bidirectional, heterogeneous responses across individuals, reflecting the inherent variability in [[structural-connectivity]] and baseline neural dynamics.
 
-The significance of E/I balance extends to clinical applications in [[computational-psychiatry]], where alterations in excitation-inhibition equilibrium are hypothesized to contribute to conditions including schizophrenia, epilepsy, and autism. [[schizophrenia-models]] based on E/I dysregulation predict specific deficits in gamma-band oscillations that can be tested against empirical data from EEG and MEG studies. Similarly, [[epilepsy-modeling]] often centers on pathological shifts in E/I balance that transition the system from healthy dynamics to seizure-like oscillations, enabling prediction of seizure onset and optimization of stimulation protocols.
+The significance of E/I balance extends to clinical applications in [[computational-psychiatry]], where alterations in excitation-inhibition equilibrium are hypothesized to contribute to conditions including schizophrenia, epilepsy, and autism. [[schizophrenia-models]] based on E/I dysregulation predict specific deficits in gamma-band oscillations that can be tested against empirical data from EEG and MEG studies. Similarly, [[epilepsy-modeling]] often centers on pathological shifts in E/I balance that transition the system from healthy dynamics to seizure-like oscillations, enabling prediction of seizure onset and optimization of stimulation protocols, and involves ion exchange mechanisms such as [[k-ion-exchange]].
 
 Mathematically, E/I balance in [[neural-mass-models]] is typically expressed through equations of the form:
 
@@ -43,3 +43,29 @@ Open questions in the field include determining the precise mechanisms by which 
 1. Zhengdi Zhang, Yan Xu, Wenjun Xia. *Single-Node Wilson--Cowan Model Accounts for Speech-Evoked $γ$-Band Deficits in Schizophrenia*. [Link](](https://arxiv.org/abs/2601.15032))
 2. Yunman Xia, S. Peng, J. Dukart, C. Xie, Shitong Xiang, S. Petkoski, Zilin Li, Joerg F. Hipp, S. Muthukumaraswamy, A. Forsyth, Tianye Jia, N. Vaidya, T. Lett, Liyi Qian, Xiao Chang, Yuxiang Dai, T. Banaschewski, G. Barker, A. Bokde, R. Brühl, S. Desrivières, Herta Flor, P. Gowland, A. Grigis, Andreas Heinz, H. Lemaître, F. Nees, D. Orfanos, Luise Poustka, M. Smolka, Sarah Hohmann, H. Walter, R. Whelan, Paul Wirsching, Zuo Zhang, Lauren Robinson, J. Winterer, Yuning Zhang, H. Kebir, Ulrike Schmidt, Julia Sinclair, Yuchen Liu, Jiexiang Wang, Fei Dai, Longbin Zeng, Yubo Hou, Huarui Wang, Leijun Ye, Chunhe Li, Qibao Zheng, Andre F Marquand, Changsong Zhou, V. Jirsa, Jianfeng Feng, Wenlian Lu, Gunter Schumann. (2026). *Digital Twin Brain simulation and manipulation of a functional brain network underlying mental illness*. bioRxiv. [DOI](](https://doi.org/10.64898/2026.03.06.710030))
 3. Breno C. Bispo, Stefania Sardellitti, Juliano B. Lima, Fernando A. N. Santos. (2026). *Multimodal Higher-Order Brain Networks: A Topological Signal Processing Perspective*. [Link](](https://arxiv.org/abs/2603.29903))
+
+## ORPHAN PAGE CONTEXT (k-ion-exchange)
+---
+created: 2026-04-20
+sources:
+- raw/papers/semanticscholar-7733d5476149.md
+- raw/papers/arxiv-2509.02799.md
+- raw/papers/arxiv-2603.25991.md
+- raw/papers/arxiv-2512.03907.md
+- raw/papers/semanticscholar-cc2129666e15.md
+tags:
+- neural-mass-models
+- epilepsy-modeling
+- dynamical-systems-theory
+- metabolic-modeling
+- ion-dynamics
+- excitability
+- seizure-dynamics
+title: K-Ion Exchange Model
+type: concept
+updated: '2026-05-07'
+---
+
+# K-Ion Exchange Model
+
+A metabolic [[neural-mass-models|neural m

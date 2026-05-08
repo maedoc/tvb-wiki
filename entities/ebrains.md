@@ -16,7 +16,7 @@ tags:
 - research-infrastructure
 title: EBRAINS
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-08'
 ---
 
 # EBRAINS
@@ -49,7 +49,7 @@ The EBRAINS architecture comprises several interconnected layers: a data layer h
 
 ## Related Software and Platforms
 
-EBRAINS integrates with numerous software tools in the computational neuroscience ecosystem. For neuroimaging analysis, the platform supports Nilearn and [[nipype]] for pipeline construction, along with Mne Python for electrophysiology data processing. Simulation platforms including [[neuron]], [[arbor]], and [[carlsim]] are available for detailed neural modeling. Visualization tools like [[brainnet-viewer]] and [[connectome-workbench]] enable exploration of connectomic datasets. The infrastructure also provides access to databases including [[neuromorpho]] for morphological data and Modeldb for computational models.
+EBRAINS integrates with numerous software tools in the computational neuroscience ecosystem. For neuroimaging analysis, the platform supports Nilearn and [[nipype]] for pipeline construction, along with Mne Python for electrophysiology data processing. Simulation platforms including [[neuron]], [[arbor]], and [[carlsim]] are available for detailed neural modeling. Visualization tools like [[brainnet-viewer]] and [[connectome-workbench]] enable exploration of connectomic datasets. Data handling also supports the [[nix]] format for electrophysiology recordings. The infrastructure also provides access to databases including [[neuromorpho]] for morphological data and Modeldb for computational models.
 
 ## External Relationships
 
@@ -69,4 +69,4 @@ The infrastructure connects to several foundational concepts in modern neuroscie
 
 1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate [[brain-network]] dynamics*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
 2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.10.06.680781))
-3. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. Brain Stimulation. [DOI](](https://doi.org/10.1016/j.brs.2025.103016))
+3. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Research.*. Brain Stimulation. [DOI](](https://doi.org/10.1016/j.brs.2025.103016))
