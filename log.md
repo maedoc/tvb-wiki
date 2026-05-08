@@ -122,3 +122,5 @@
 ## [2026-05-08 20:58] FullTextFetcher: fetched 4 new full texts (87 total in corpus)
 
 ## [2026-05-08 21:21] Improve: 1 pages improved (jansen-rit-model)
+
+## [2026-05-08 21:45] RefFormatter: formatted references on 2 pages

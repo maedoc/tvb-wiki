@@ -28,7 +28,7 @@ The name "Nunez" in this wiki context refers primarily to Paul L. Nunez, whose t
 
 Whole-brain models [[the-virtual-brain]] and similar platform rely on the ability to translate population-level neural activity into predicted observable signals. This translation is mediated by [[volume-conduction]] theory—the physical framework describing how current sources in the brain produce electric fields in the surrounding tissue and at the scalp surface. Nunez and Srinivasan's textbook provides the rigorous treatment of this forward problem that enables modelers to validate their simulations against empirical [[eeg]] recordings.
 
-The textbook's treatment of source localization methods is particularly relevant for parameter fitting in whole-brain models. When constructing a [[personalized-brain-model]], one typically tunes the model's parameters so that its simulated dynamics reproduce observed resting-state [[functional-connectivity]] patterns. Understanding the relationship between modeled source activity and recorded scalp potentials is essential for validating these models against [[neuroimaging-eeg]] data.
+The textbook's treatment of source localization methods is particularly relevant for parameter fitting in whole-brain models. When constructing a [[bold-model]], one typically tunes the model's parameters so that its simulated dynamics reproduce observed resting-state [[functional-connectivity]] patterns. Understanding the relationship between modeled source activity and recorded scalp potentials is essential for validating these models against [[neuroimaging-eeg]] data.
 
 ## Key Conceptual Contributions
 

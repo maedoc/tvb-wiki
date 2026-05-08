@@ -13,7 +13,7 @@ tags:
 - brain-oscillations
 title: Ion Channel
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-08'
 ---
 
 Ion channels are pore-forming proteins in neuronal membranes that allow the selective passage of specific ions (such as Na⁺, K⁺, Ca²⁺, and Cl⁻) down their electrochemical gradients. These proteins constitute the fundamental biophysical substrate for electrical signaling in neurons and are therefore central to [[computational-neuroscience]] modeling at both the microscopic level of single neurons and the mesoscopic level of [[neural-mass-model]]s used in [[whole-brain]] modeling. The opening and closing (gating) of ion channels produces transmembrane currents that generate action potentials, subthreshold oscillations, and synaptic integration—phenomena that must be captured either explicitly or phenomenologically in any biologically realistic brain model.
@@ -32,7 +32,7 @@ Several classes of ion channels are particularly relevant for whole-brain modeli
 
 ## Relationship to Whole-Brain Modeling
 
-In [[whole-brain]] frameworks like [[the-virtual-brain]], the microscopic biophysics of ion channels are typically abstracted into population-level parameters that govern the dynamics of [[brain-regions]] coupled via [[structural-connectivity]] derived from diffusion MRI. However, ion channel dysfunction plays a critical role in clinical applications of whole-brain models. For example, [[epilepsy-modeling]] simulations can incorporate changes in ionic conductances to model seizure genesis and propagation [@krishnan-etal-2016], while [[alzheimers-modeling]] may account for calcium channel dysregulation associated with pathological aging. The [[excitation-inhibition-balance]]—the ratio of excitatory to inhibitory synaptic currents, itself a product of ion channel function—is a key determinant of whole-brain dynamics and is often used to constrain model parameters during [[personalized-brain-modeling]] workflows.
+In [[whole-brain]] frameworks like [[the-virtual-brain]], the microscopic biophysics of ion channels are typically abstracted into population-level parameters that govern the dynamics of [[brain-map]] coupled via [[structural-connectivity]] derived from diffusion MRI. However, ion channel dysfunction plays a critical role in clinical applications of whole-brain models. For example, [[epilepsy-modeling]] simulations can incorporate changes in ionic conductances to model seizure genesis and propagation [@krishnan-etal-2016], while [[alzheimers-modeling]] may account for calcium channel dysregulation associated with pathological aging. The [[excitation-inhibition-balance]]—the ratio of excitatory to inhibitory synaptic currents, itself a product of ion channel function—is a key determinant of whole-brain dynamics and is often used to constrain model parameters during [[personalized-brain-modeling]] workflows.
 
 ## Related Concepts
 

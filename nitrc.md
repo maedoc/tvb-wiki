@@ -1,7 +1,7 @@
 ---
 title: NITRC
 created: 2024-01-15
-updated: 2026-05-07
+updated: 2026-05-08
 type: entity
 tags: [neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, neuroimaging-dti, reproducibility, software-bct, software-fsl, software-spm]
 sources:

@@ -18,10 +18,10 @@ tags:
 - connectomics
 title: Neuroimaging
 type: concept
-updated: '2026-05-07'
+updated: '2026-05-08'
 ---
 
-Neuroimaging encompasses the suite of techniques used to directly or indirectly image the structure, function, or pharmacology of the nervous system. In the context of [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]], neuroimaging provides the essential empirical data that constrains [[connectome]]-based models, enables validation of simulated dynamics, and bridges the gap between mathematical abstraction and biological reality. The field has transformed from simple anatomical mapping to a sophisticated toolkit for probing [[brain-network]] organization across multiple spatiotemporal scales.
+Neuroimaging encompasses the suite of techniques used to directly or indirectly image the structure, function, or pharmacology of the nervous system. Large-scale datasets such as [[aomic]] provide rich resources for these studies. In the context of [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]], neuroimaging provides the essential empirical data that constrains [[connectome]]-based models, enables validation of simulated dynamics, and bridges the gap between mathematical abstraction and biological reality. The field has transformed from simple anatomical mapping to a sophisticated toolkit for probing [[brain-network]] organization across multiple spatiotemporal scales.
 
 ## Historical Context and Motivation
 
@@ -134,3 +134,23 @@ updated: '2026-05-06'
 ## Overview
 
 MedPy is an open-source Python library dedicated to medical image processing, providing a comprehensive set of tools for the analysis and manipulation of volumetric medical imaging data. Built on top of
+
+## ORPHAN PAGE CONTEXT ( Allen SDK)
+---
+created: 2024-01-15
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-028f7c6ac41d.md
+- raw/papers/ritter-2013.md
+tags:
+- software
+- connectomics
+- structural-connectivity
+- diffusion-imaging
+- neuroimaging-dti
+title: Allen SDK
+type: entity
+updated: '2026-05-05'
+---
+
+The [[allen-sdk]] is a software development kit produced by the Allen Institute for Brain Science that provides programmatic access to the institute's brain mapping datasets, particularly the Allen Mouse Brain
