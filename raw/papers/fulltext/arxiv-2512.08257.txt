@@ -1,0 +1,474 @@
+                                            Geometric-Stochastic MultiModal Deep Learning
+                                             for Predictive Modeling of SUDEP and Stroke
+                                                             Vulnerability
+                                                     Rachana Mysore1                                  Preksha Girish1                   Dr. Mahanthesha U
+                                              Dept. of Artificial Intelligence &             Dept. of Artificial Intelligence &   Dept. of Artificial Intelligence &
+                                                     Machine Learning                               Machine Learning                     Machine Learning
+                                               B.N.M Institute of Technology                  B.N.M Institute of Technology        B.N.M Institute of Technology
+                                                      Bengaluru, India                               Bengaluru, India                     Bengaluru, India
+                                                rachanamysore@gmail.com                        prekshagirish04@gmail.com             mahantheshua@bnmit.in
+arXiv:2512.08257v1 [cs.LG] 9 Dec 2025
+
+
+
+
+                                                        Shrey Kumar                             Misbah Fatimah Annigeri                       Tanish Jain
+                                                 Dept. of Computer Science                   Dept. of Artificial Intelligence &      Dept. of Computer Science
+                                                        Engineering                                 Machine Learning                         Engineering
+                                                B.N.M Institute of Technology                 B.N.M Institute of Technology         B.N.M Institute of Technology
+                                                      Bengaluru, India                               Bengaluru, India                      Bengaluru, India
+                                               shreysanjeevkumar@gmail.com                    misbahannigeri10@gmail.com              tanishjain797@gmail.com
+
+                                           Abstract—Sudden Unexpected Death in Epilepsy (SUDEP) and                                  I. I NTRODUCTION
+                                        acute ischemic stroke are critical manifestations of neural and
+                                        autonomic dysfunction, involving complex interactions across              Sudden Unexpected Death in Epilepsy (SUDEP) and acute
+                                        cortical, brainstem, and cardioregulatory networks. We propose         ischemic stroke represent extreme manifestations of dysregula-
+                                        a mathematically rigorous multimodal predictive framework
+                                        that integrates EEG, ECG, respiration, SpO2 , EMG, and fMRI
+                                                                                                               tion across neural and autonomic systems. Traditional clinical
+                                        data to quantify and forecast risk. The framework leverages            risk assessment approaches rely on coarse physiological in-
+                                        Lie group-invariant Riemannian embeddings to preserve cross-           dices (e.g., heart rate variability, oxygen desaturation, seizure
+                                        modal symmetries and captures temporal evolution through               frequency), which fail to capture the underlying multi-scale
+                                        fractional stochastic dynamics to model long-memory physio-            dynamical interactions between cortical, subcortical, brain-
+                                        logical processes and inherent variability. Energy flows between
+                                        cortical, brainstem, and cardiac subsystems are encoded via
+                                                                                                               stem, and cardioregulatory centers [1], [2].
+                                        Hamiltonian-inspired layers, while attention-based operators pro-         Recent advances in deep learning for epilepsy have en-
+                                        vide interpretable coupling across modalities. Stroke vulnera-         abled high-fidelity feature extraction from EEG and wear-
+                                        bility is modeled using network diffusion dynamics on brain            able sensor data, improving seizure detection and forecasting
+                                        graphs, capturing propagation of ischemic risk across regions.         accuracy [3], [4]. In particular, convolutional and recurrent
+                                        The model explicitly incorporates brainstem chemoreceptive and
+                                        autonomic centers—including the retrotrapezoid nucleus, locus          architectures trained on large EEG datasets have demonstrated
+                                        coeruleus, raphe nuclei, nucleus tractus solitarius, and hypotha-      superior temporal sensitivity to ictal dynamics and postictal
+                                        lamus—within the Hamiltonian network. From this multimodal             autonomic suppression, providing promising foundations for
+                                        architecture, we derive interpretable biomarkers such as latent        SUDEP prediction [5]. However, most models remain fun-
+                                        energy entropy, manifold curvature, geodesic distances, fractional     damentally Euclidean and feed-forward, overlooking the
+                                        memory indices, diffusion centrality, attention entropy, and a
+                                        composite risk index. Experiments on the MULTI-CLARID                  geometric structure of physiological manifolds and the inher-
+                                        dataset (OpenNeuro ds005795) demonstrate that our framework            ent stochastic, long-memory characteristics of biological time
+                                        achieves state-of-the-art predictive performance while providing       series [6].
+                                        biologically interpretable measures of neural and autonomic vul-          To address these limitations, we propose a geomet-
+                                        nerability, establishing a principled geometric-stochastic founda-
+                                        tion for early detection and risk stratification of life-threatening   ric–stochastic multimodal deep learning framework that
+                                        neural-cardiac events.                                                 integrates EEG, ECG, respiration, SpO2 , EMG, and fMRI
+                                                                                                               signals into a unified mathematical model. The proposed
+                                          Keywords—SUDEP, stroke, multimodal deep learning, Rie-               framework simultaneously captures Riemannian geometry,
+                                        mannian geometry, fractional stochastic processes, Hamiltonian         Lie group symmetries, and fractional stochastic dynamics
+                                        networks, attention mechanisms.                                        underlying physiological processes.
+                                                                                                                  Mathematically, we consider a multimodal dataset
+
+                                          1 These authors contributed to the work equally.                                           D = {(xm        N
+                                                                                                                                            i , yi )}i=1 ,
+                Tm ×Cm
+where xmi ∈R            denotes time-series data from modality           D. Attention-Based Cross-Modality Coupling
+m for subject i, with Tm time points and Cm channels,                       Cross-modal physiological dependencies are inherently
+and yi ∈ {0, 1} the binary SUDEP or stroke outcome. The                  asymmetric—EEG phase modulates heart rate variability,
+objective is to learn a predictive function                              while cardiac rhythm perturbations can reciprocally alter corti-
+          fθ : X → Y,      fθ (x1i , x2i , . . . , xM                    cal excitability. To quantify such directed coupling, we employ
+                                                    i ) ≈ yi ,
+                                                                         self- and cross-attention operators:
+that preserves cross-modal symmetries and captures both
+                                                                                                                  QK ⊤
+                                                                                                                       
+short- and long-range temporal dependencies across modal-                              A(Q, K, V ) = softmax √            V,
+ities.                                                                                                               dk
+                                                                         where Q, K, V are learned modality-specific projections. The
+A. Geometric Embeddings and Lie Group Symmetries                         resulting attention weights αi allow computation of inter-
+   Physiological signals such as EEG, ECG, and respiration               pretable entropy-based biomarkers:
+inherently reside on non-Euclidean manifolds M rather than                                              X
+                                                                                               Hatt = −     αi log αi ,
+flat vector spaces. For instance, EEG covariance matrices
+                                                                                                        i
+are symmetric positive definite (SPD), forming a Riemannian
+manifold with well-defined geodesic structure [7]. To cap-               which quantify cross-modal uncertainty and coupling
+ture this intrinsic geometry, we map each signal into a Lie              strength—similar in spirit to neural attention entropy
+group–invariant embedding ϕ : X → M, ensuring that phys-                 measures proposed in deep neurophysiological studies [4].
+iologically meaningful transformations—rotations, scaling, or            E. Network Diffusion for Stroke Propagation
+temporal shifts—preserve local distances:
+                                                                            Finally, stroke vulnerability is modeled as epidemic diffu-
+                                                                         sion on a structural brain graph, consistent with network-
+ dM (ϕ(xi ), ϕ(xj )) = dM (ϕ(g · xi ), ϕ(g · xj )),         g ∈ G, (1)   theoretic studies of ischemic spread [1]:
+
+ where G denotes the relevant transformation group for                                   Dtα X(t) = βAX(t) − γX(t),
+modality m, and dM is the geodesic distance on M.                        where X(t) ∈ RNr represents regional ischemic risk, A is
+B. Fractional Stochastic Dynamics                                        the brain connectivity adjacency matrix, β is the diffusion
+                                                                         rate, and γ denotes the recovery coefficient. This formulation
+   Empirical evidence from long-term EEG and ECG record-                 captures how vascular or metabolic dysfunctions propagate
+ings demonstrates long-memory effects and non-Markovian                  across interconnected regions, aligning with the concept of
+fluctuations in neural–autonomic coupling, especially in pre-            ”epidemic stroke vulnerability.”
+ictal and pre-stroke periods [6]. To mathematically represent               Overall, the proposed framework unifies geometric repre-
+this, we employ fractional stochastic differential equations             sentation learning, stochastic modeling, and energy-conserving
+(fSDEs):                                                                 neural architectures to derive interpretable, physiologically
+          Dtα x(t) = f (x(t)) + σ dBt ,        α ∈ (0, 1),               grounded biomarkers for SUDEP and stroke prediction [5],
+                                                                         [6].
+where Dtα denotes the Caputo fractional derivative, Bt is
+Brownian motion, and σ parameterizes stochastic perturba-                                    II. R ELATED W ORK
+tions. This captures long-range correlations and persistent                 Extensive research has focused on automated seizure de-
+memory, offering a richer representation of pathophysiological           tection, SUDEP prediction, and stroke vulnerability modeling.
+dynamics than classical SDEs.                                            These studies can be categorized into EEG-based deep learn-
+                                                                         ing, multimodal wearable sensing, geometric-stochastic
+C. Hamiltonian Neural Networks for Energy Flow                           modeling, and network diffusion frameworks.
+  Neural and autonomic systems exchange energy across
+                                                                         A. EEG-based Deep Learning for Seizure Detection
+cortical, brainstem, and cardiac subsystems through nonlin-
+ear coupling. Inspired by principles of analytical mechanics,              Ilakiyaselvan et al. [1] proposed a deep learning framework
+we introduce Hamiltonian neural network layers to preserve               using reconstructed phase space images from EEG signals.
+energy flow consistency:                                                 Let X(t) ∈ RC×T denote EEG recordings with C channels
+                                                                         and T time points. They constructed phase-space matrices
+ dx                                                                      Φ(X) capturing nonlinear dynamics:
+    = J(x)∇H(x), H(x) = Hcortical + Hbrainstem + Hcardiac ,
+ dt
+                                                                           Φ(X) = [x(t), x(t + τ ), . . . , x(t + (m − 1)τ )] ∈ RT ×m ,
+where J(x) is a skew-symmetric symplectic matrix, and
+H(x) denotes the total system energy encompassing cortical               where τ is the embedding delay and m the embedding dimen-
+oscillatory activity, brainstem respiratory control, and cardiac         sion. Convolutional neural networks (CNNs) were trained on
+regulation. This framework aligns with recent neural energy              Φ(X) to classify ictal vs interictal states, achieving high tem-
+modeling paradigms that ensure physical interpretability and             poral sensitivity. However, the model does not explicitly model
+stability.                                                               cross-modal interactions or long-range temporal correlations.
+   Similarly, Abdelhameed and Bayoumi [4] developed a                    Fractional stochastic differential equations (fSDEs) have
+CNN-LSTM hybrid for automatic seizure detection in pedi-               been proposed to model long-memory effects in neural-
+atric populations. The temporal evolution of EEG windows               autonomic coupling:
+xi (t) was captured via LSTM states ht :
+                                                                                   Dtα x(t) = f (x(t)) + σ dBt ,        α ∈ (0, 1),
+                   ht = LSTM(xi (t), ht−1 ),
+                                                                       capturing temporal correlations over multiple scales.
+allowing long short-term dependencies to influence prediction.
+                                                                       E. Network Diffusion and Stroke Propagation
+While effective in capturing temporal dynamics, geometric
+properties of EEG covariance matrices were not considered.                Finally, epidemic diffusion models for stroke and SUDEP
+                                                                       risk propagation have been proposed [1]:
+B. Wearable Device and Multimodal Sensor Approaches
+                                                                                                dX
+   Raj et al. [3] introduced deep learning-based seizure detec-                                     = βAX − γX,
+                                                                                                 dt
+tion using wearable ECG and EEG devices. Sensor modalities
+xm                                                                     where X ∈ RNr denotes regional vulnerability, A is the
+  i were fused using early and late fusion techniques:
+                                                                     adjacency matrix of structural connectivity, β the diffusion
+                                                                
+fθ (x1i , x2i , . . . , xM
+                         i ) = σ  W CNN(x1
+                                         i ), LSTM(x2
+                                                    i ), . . .  +b ,   rate, and γ the decay parameter. These models underscore
+                                                                       the importance of network topology in understanding risk
+where M denotes the number of modalities, σ is the activa-             propagation.
+tion function, and W, b are learned parameters. This method
+highlighted the potential of multimodal data but relied on             F. Summary and Research Gap
+Euclidean embeddings, limiting interpretability for manifold-             While prior works [1]–[7] have significantly advanced
+valued data.                                                           seizure detection and SUDEP risk assessment, most ap-
+                                                                       proaches either:
+C. SUDEP Risk Assessment and Data Standardization
+                                                                          • Ignore geometric constraints of physiological manifolds,
+   Iyengar et al. [2] emphasized the need for standardized data           • Fail to incorporate long-memory stochastic dynamics, or
+elements for SUDEP research, formalizing common variables                 • Do not unify multi-modal, cross-system (EEG, ECG,
+C = {HRV, SpO2 , seizure f req, EEG f eatures} for lon-                     respiration, fMRI) interactions into a single interpretable
+gitudinal studies. These standardized elements enable more                  framework.
+reproducible modeling across cohorts.
+                                                                          Our work addresses these gaps by combining Riemannian
+   Chen et al. [7] analyzed interictal EEG and ECG record-
+                                                                       embeddings, fractional stochastic dynamics, Hamiltonian
+ings from multiple centers. They modeled SUDEP risk using
+                                                                       energy flow, and attention-based cross-modal coupling for
+logistic regression with features fi extracted from time- and
+                                                                       predictive SUDEP and stroke modeling.
+frequency-domain measures:
+                                         1                                               III. S YSTEM A RCHITECTURE
+               P (yi = 1|fi ) =                    ,
+                                  1 + exp(−w⊤ fi )                        The proposed framework, termed Geometric–Stochastic
+                                                                       Multimodal Deep Learning (GSM-DL), is designed to in-
+where yi indicates SUDEP occurrence. The work highlighted
+                                                                       tegrate heterogeneous physiological data to predict SUDEP
+multivariate feature selection but lacked explicit incorporation
+                                                                       and stroke vulnerability. The system architecture is modular,
+of nonlinear and stochastic temporal dynamics.
+                                                                       with clearly defined stages: preprocessing, modality-specific
+   Zhu et al. [5] employed lightweight CNNs to extract EEG
+                                                                       feature extraction, geometric embedding, cross-modal fusion,
+biomarkers for SUDEP risk, focusing on channel-wise convo-
+                                                                       Hamiltonian energy modeling, stroke diffusion modeling, and
+lutions:
+                                                                       risk prediction. Figure 1 illustrates the overall architecture.
+              hli = ReLU(Conv1D(xi , W l ) + bl ),
+allowing efficient computation for real-time risk assessment.
+Nevertheless, cross-modal interactions with cardiac or respi-
+ratory signals were not explicitly modeled.
+D. Geometric and Stochastic Modeling of Physiological Sig-
+nals
+  Recent studies have highlighted the importance of non-
+Euclidean modeling. EEG covariance matrices and functional
+connectivity networks are symmetric positive definite (SPD)
+matrices, residing on Riemannian manifolds MSP D [6].
+Geodesic distances dM and Lie group-invariant embeddings
+ϕ : X 7→ MSP D preserve intrinsic geometry:                            Fig. 1: System architecture of the proposed Geometric–Stochastic Multimodal
+                                                                       Deep Learning (GSM-DL) framework.
+dM (ϕ(Xi ), ϕ(Xj )) = ∥ log(ϕ(Xi )−1/2 ϕ(Xj )ϕ(Xi )−1/2 )∥F .
+A. Data Acquisition and Preprocessing                          D. Cross-Modal Attention Fusion
+   We consider a multimodal dataset:                              To model interactions across modalities, multi-head atten-
+                                                               tion is applied to the embedded features:
+                                                                                                      QK ⊤ 
+D = {(xm          N
+         i , yi )}i=1 , m ∈ {EEG, ECG, Resp, SpO2 , EMG, fMRI}
+                                                                             A(Q, K, V ) = softmax √           V
+                                                                                                          dk
+where xm i   ∈ RTm ×Cm is the time-series or imaging data with learned projections Q, K, V for each modality. The atten-
+from modality m for patient i, with Tm time points and Cm tion weights αi are used to compute entropy-based biomarkers:
+channels. The labels yi ∈ {0, 1} correspond to SUDEP or                                      X
+stroke outcomes.                                                                    Hatt = −     αi log αi
+                                                                                              i
+   Each modality undergoes modality-specific preprocessing:
+                                                               capturing cross-modality uncertainty and coupling strength.
+   • EEG, ECG, EMG: Bandpass filtering, artifact rejection,
+                                                               E. Hamiltonian Neural Network Layer
+     z-score normalization.
+   • Respiration, SpO2 : Low-pass filtering, normalization,       Energy transfer across cortical, brainstem, and cardiac net-
+     resampling to uniform Tm .                                works   is modeled using Hamiltonian dynamics:
+   • fMRI: Motion correction, slice timing correction, spatial  dx
+                                                                    = J(x)∇H(x), H(x) = Hcortical + Hbrainstem + Hcardiac
+     normalization to standard brain atlas, and extraction of    dt
+     region-wise BOLD time series.                             where J(x) is a skew-symmetric symplectic matrix and H(x)
+                                                               encodes total system energy. This ensures physically consistent
+B. Modality-Specific Feature Extraction                        dynamics and stability of learned representations.
+                                                                   F. Stroke Epidemic Diffusion Module
+   Each modality is processed through specialized neural ar-
+chitectures:                                                          Stroke vulnerability is modeled via fractional network dif-
+                                                                   fusion over structural brain graphs:
+   EEG: 1D Convolutional layers followed by bidirectional
+LSTM (Bi-LSTM) to capture both spatial and temporal cor-                           Dtα X(t) = βAX(t) − γX(t)
+relations:                                                         where X(t) ∈ RNr is the risk vector for Nr brain regions,
+                                                                   A is the adjacency matrix of the structural connectome, β is
+            hEEG
+             i   (t) = Bi-LSTM(Conv1D(xEEG
+                                       i   ))                      diffusion rate, γ is recovery rate, and Dtα denotes the Caputo
+                                                                   fractional derivative.
+ECG, Respiration, SpO2 : 1D Convolution → attention layers
+to extract salient temporal patterns:                              G. Output Layer and Biomarker Derivation
+                                                                      The fused representations are passed to a fully connected
+hm                     m
+ i = Attention(Conv1D(xi )),         m ∈ {ECG, Resp, SpO2 }        layer followed by a sigmoid activation to compute SUDEP
+                                                                   and stroke risk probabilities:
+ EMG: 1D Convolution → MaxPooling layers to extract                                 ŷi = σ(Wout hfusion
+                                                                                                  i      + bout )
+muscle activation features:
+                                                                   Simultaneously, interpretable biomarkers are derived from:
+                                                                      • Latent energy entropy from Hamiltonian layer H(x)
+             hEMG
+              i   = MaxPool(Conv1D(xEMG
+                                    i   ))
+                                                                      • Manifold curvature and geodesic distances dM
+                                                                      • Fractional memory indices α from fSDEs
+   fMRI: Graph Convolutional Networks (GCNs) over struc-              • Attention entropy Hatt
+tural connectivity matrices A:                                        • Diffusion centrality from stroke network
+                                                                      This architecture unifies deep learning, Riemannian geom-
+  H (l+1) = σ(D−1/2 AD−1/2 H (l) W (l) ),      H (0) = XfMRI       etry, stochastic modeling, and network diffusion theory into a
+                                                                   single interpretable predictive framework for life-threatening
+C. Geometric Embedding and Lie Group Symmetries                    neural-cardiac events.
+  Physiological signals lie on non-Euclidean manifolds, e.g.,                           IV. M ETHODOLOGY
+EEG covariance matrices are Symmetric Positive Definite               Our proposed framework, Geometric-Stochastic Multi-
+(SPD). For each modality, a Lie group-invariant mapping            modal Deep Learning for Predictive Modeling of SUDEP
+embeds the features into Riemannian manifolds:                     and Stroke Vulnerability, integrates EEG, ECG, respiration,
+                                                                   SpO2 , EMG, and fMRI signals into a unified, mathematically
+ dM (ϕ(xi ), ϕ(xj )) = dM (ϕ(g · xi ), ϕ(g · xj )),   g ∈ G, (2)   rigorous architecture. The methodology consists of four ma-
+                                                                   jor components: data preprocessing, geometric-stochastic
+ where G denotes the relevant transformation group for             embeddings, deep learning fusion network, and stroke
+modality m, and dM is the geodesic distance on M.                  epidemic diffusion module.
+A. Data Description and Preprocessing                                EMG: CNN + max-pooling layers to extract high-frequency
+   We use multimodal datasets from the MULTI-CLARID                motor activity features.
+dataset (OpenNeuro ds005795) and other clinical cohorts,             fMRI: Graph Convolutional Network (GCN) applied to
+comprising:                                                        parcellated BOLD covariance graphs:
+   • EEG: 64-channel scalp EEG, sampled at 512 Hz, seg-
+                                                                                (l+1)                        (l)
+                                                                             HfMRI = σ D̃−1/2 ÃD̃−1/2 HfMRI W (l)
+                                                                                                                      
+      mented into 5-second epochs.                                                                                              (8)
+   • ECG: 12-lead ECG signals at 256 Hz, preprocessed for
+      R-peak detection and HRV extraction.                            where Ã = A + I is the adjacency matrix with self-loops,
+   • Respiration: Thoracic and abdominal belts measuring           D̃ is the degree matrix, W (l) learnable weights, and σ an
+      airflow and chest movement.                                  activation.
+   • SpO2 : Peripheral oxygen saturation from pulse oximetry.         Cross-Modality Attention Fusion: The latent embeddings
+   • EMG: Muscle activity recorded via surface electrodes for      from all modalities are fused using self- and cross-attention
+      seizure-associated motor events.                             mechanisms:
+   • fMRI: Resting-state BOLD signals parcellated using the
+      AAL atlas.
+                                                                             Q = HWQ ,   K = HWK , V = HWV                      (9)
+   Preprocessing steps include band-pass filtering, artifact re-
+                                                                                               ⊤
+                                                                                                
+jection, z-score normalization per channel, and time alignment                            QK
+                                                                   A(Q, K, V ) = softmax √         V                           (10)
+across modalities. EEG covariance matrices are computed over                                 dk
+sliding windows to capture instantaneous network connectiv-                 Z = Concat(hEEG , hECG , hResp , hSpO2 , hEMG , hfMRI )
+ity.                                                                                                                           (11)
+B. Geometric-Stochastic Embeddings                                       ŷSUDEP = FC(A(Q, K, V ) + Z)                        (12)
+  Physiological signals reside on non-Euclidean manifolds            where FC is a fully connected prediction layer.
+M. For each modality m, the raw data xm  i for patient i is
+mapped to a Lie group-invariant Riemannian embedding ϕm :          D. Stroke Epidemic Diffusion Module
+Xm → Mm :
+                                                                   Stroke risk is modeled as a diffusion process over a struc-
+                                                               tural brain graph:
+dMm (ϕm (xi ), ϕm (xj )) = dMm (ϕm (g·xi ), ϕm (g·xj )), g ∈ Gm ,
+                                                           (3)
+                                                                                 Dtα X(t) = βAX(t) − γX(t)                (13)
+   where Gm is the symmetry group of modality m (e.g.,
+rotations, temporal shifts), and dMm is the geodesic distance.     where X(t) ∈ RNr is the risk vector, A adjacency matrix of
+   Temporal dependencies are captured via fractional stochas- N brain regions, β diffusion rate, γ recovery/decay, and Dα
+                                                                  r                                                         t
+tic differential equations:                                    a fractional derivative capturing long-memory propagation.
+                                                                     Numerically, we implement this using Graph Neural Net-
+          Dtα x(t) = f (x(t)) + σdBt ,    α ∈ (0, 1),        (4)   work layers:
+  with Dtα the Caputo derivative, Bt Brownian motion, and                                                                 
+σ stochastic perturbation amplitude.                                       X(t + 1) = σ Wgcn AX(t) + bgcn − γX(t)             (14)
+C. Deep Learning Fusion Network                                      with multiple GCN layers to capture high-order interactions.
+  Each modality is fed into modality-specific deep learning        The resulting stroke embedding hstroke is concatenated with
+pipelines:                                                         other modality embeddings before the final prediction.
+  EEG: Temporal convolutional layers with kernel sizes
+k = 3, 5, 7, followed by Bi-LSTM layers to capture long-range      E. Interpretability and Biomarker Extraction
+dependencies:
+                                                                     From the combined model, we compute:
+                                                                     • Latent energy entropy from Hamiltonian layers.
+                hconv = ReLU(Conv1D(xEEG ))                  (5)     • Attention entropy from cross-modality attention
+               hEEG = Bi-LSTM(hconv )                        (6)       weights.
+                                                                     • Manifold curvature and geodesic distances from Rie-
+   ECG/Respiration/SpO2 : 1D CNNs followed by attention                mannian embeddings.
+layers:                                                              • Fractional memory indices from fSDEs.
+                                                                     • Diffusion centrality of brain regions from stroke GCN.
+
+hm = Attention(Conv1D(xm )),        m ∈ {ECG, Resp, SpO2 }           These biomarkers provide interpretable metrics for both
+                                                       (7)         SUDEP and stroke risk stratification.
+F. Loss Function and Optimization                                         C. Stroke Vulnerability and Ischemic Propagation
+  We train the model end-to-end using a composite loss:                      Stroke vulnerability was modeled via the fractional network
+                                                                          diffusion module over structural brain graphs. Let X(t) ∈ RNr
+                                                                          denote the ischemic risk vector for Nr brain regions, and
+L = LBCE (ŷ, y) + λatt Lentropy + λstroke ∥Dtα X − (βAX − γX)∥22         A the adjacency matrix of the structural connectome. The
+                                                             (15)         spatiotemporal evolution of risk follows:
+   where LBCE is binary cross-entropy, Lentropy encourages
+informative attention, and the last term ensures accurate stroke                            Dtα X(t) = βAX(t) − γX(t),
+diffusion modeling. Hyperparameters λatt and λstroke balance
+contributions.                                                               where β is the diffusion rate, γ is the recovery rate, and
+                                                                          Dtα is the Caputo fractional derivative capturing long-memory
+                 V. R ESULTS AND D ISCUSSION                              propagation effects.
+                                                                             Figure 3 visualizes predicted ischemic risk propagation
+   We evaluated the proposed Geometric–Stochastic Mul-
+                                                                          across cortical, subcortical, and brainstem regions over mul-
+timodal Deep Learning (GSM-DL) framework on the
+                                                                          tiple time snapshots. Nodes are color-coded from blue (low
+MULTI-CLARID dataset (OpenNeuro ds005795), which
+                                                                          risk) to red (high risk), highlighting key areas such as the
+includes EEG, ECG, respiration, SpO2 , EMG, and fMRI
+                                                                          hippocampus, prefrontal cortex, locus coeruleus, raphe nuclei,
+recordings from 200 subjects, with 50 cases of SUDEP and
+                                                                          and nucleus tractus solitarius.
+40 patients with acute ischemic stroke. Data were split into
+70% training, 15% validation, and 15% test sets, ensuring no
+subject overlap between splits.
+
+A. Evaluation Metrics
+  To assess predictive performance, we computed standard
+metrics for binary classification:
+                               T P +T N
+  • Accuracy (ACC): T P +T N +F P +F N
+  • Area Under ROC Curve (AUC)
+  • F1-score: Harmonic mean of precision and recall
+                   TP
+  • Precision: T P +F P
+                               TP
+  • Recall (Sensitivity): T P +F N
+
+B. SUDEP Prediction Results
+  Table I summarizes SUDEP prediction results comparing
+                                                                          Fig. 3: Visualization of Locus Coeruleus showing ischemic vulnerability or
+GSM-DL with baseline models:                                              relevant anatomical features.
+       TABLE I: Performance Comparison for SUDEP Prediction
+                                                                           Interpretation of the Propagation Figure:
+ Model                   ACC (%)      AUC      F1    Precision   Recall
+                                                                           • Early Onset (0–10 min): Brainstem autonomic nuclei
+ Random Forest (RF)         71.5      0.75    0.69      0.72      0.66       (raphe, locus coeruleus, nucleus tractus solitarius) exhibit
+ 1D CNN                     76.2      0.81    0.74      0.76      0.72
+ Bi-LSTM                    78.9      0.84    0.77      0.79      0.76
+                                                                             the first signs of ischemic stress (yellow/red), while
+ GCN + Attention            81.3      0.87    0.80      0.82      0.79       cortical regions remain blue, indicating low vulnerability.
+ GSM-DL (Proposed)          84.7      0.91    0.83      0.85      0.82     • Intermediate Diffusion (10–30 min): Ischemic risk
+                                                                             spreads along structural connections toward cortical and
+                                                                             subcortical regions. Gradual color transition from blue
+                                                                             → orange → red illustrates progressive network-level
+                                                                             diffusion.
+                                                                           • Global Involvement (30–60 min): Most cortical and
+                                                                             subcortical regions turn red, indicating widespread is-
+                                                                             chemic vulnerability, demonstrating the nonlinear, cas-
+                                                                             cading propagation dynamics captured by the fractional
+                                                                             diffusion model.
+                                                                           • Gray/Partial Zones: Transitional grayish colors indicate
+                                                                             regions with intermediate vulnerability, highlighting the
+                                                                             heterogeneity and threshold-dependent activation of is-
+Fig. 2: Receiver Operating Characteristic (ROC) curve demonstrating the
+                                                                             chemic risk across the network.
+classification performance of the proposed GSM-DL model for SUDEP and      Table II reports stroke prediction performance comparing
+stroke risk prediction.                                                   GSM-DL with baseline models:
+ TABLE II: Performance Comparison for Stroke Vulnerability Prediction
+                                                                              •  The dataset size remains moderate, and generalization to
+ Model                  ACC (%)        AUC      F1     Precision   Recall        larger, multi-center cohorts requires further validation.
+ GCN only                  72.4        0.78     0.71     0.74       0.69       • AUC values above 0.9 for SUDEP and 0.88 for stroke
+ GCN + RNN                 75.6        0.81     0.74     0.76       0.73         indicate good discriminative power but are not per-
+ Fractional Diffusion      78.1        0.85     0.77     0.79       0.76         fect—false positives and negatives still occur.
+ GSM-DL (Proposed)         82.3        0.88     0.81     0.83       0.79
+                                                                               • Derived biomarkers provide mechanistic insight, but clin-
+                                                                                 ical translation requires prospective validation.
+D. Ablation Study                                                              Overall,       GSM-DL        establishes      a     principled
+                                                                            geometric–stochastic foundation for early detection and
+   Table III quantifies the contribution of each GSM-DL mod-                risk stratification of SUDEP and stroke vulnerability, while
+ule to SUDEP prediction. Removing geometric embeddings,                     retaining interpretability crucial for translational adoption.
+attention fusion, Hamiltonian layers, or fractional SDEs re-
+duces performance, highlighting the importance of capturing                                        ACKNOWLEDGEMENTS
+both geometric and temporal dynamics for accurate risk pre-                    The authors would like to express their sincere gratitude
+diction.                                                                    to the Department of Artificial Intelligence and Machine
+ TABLE III: Ablation Study on GSM-DL Modules (SUDEP Prediction)
+                                                                            Learning, and the Department of Computer Science at B.N.M.
+                                                                            Institute of Technology, Bengaluru, India. We also thank the
+           Model Variant                 ACC (%)       AUC                  MULTI-CLARID dataset contributors (OpenNeuro ds005795)
+           Full GSM-DL                        84.7      0.91                for making their multimodal physiological recordings publicly
+           w/o Geometric Embedding            80.2      0.86                available. Authors acknowledge support from their respective
+           w/o Attention Fusion               81.0      0.87
+           w/o Hamiltonian Layer              82.1      0.88
+                                                                            faculty mentors and colleagues for insightful discussions on
+           w/o Fractional SDE Module          79.5      0.85                deep learning architectures and physiological modeling. Fi-
+                                                                            nally, we appreciate the reviewers for their valuable feedback,
+                                                                            which helped improve the quality and clarity of this work.
+E. Interpretation of Biomarkers                                                                          R EFERENCES
+  The proposed framework provides interpretable biomarkers:                 [1] N. Ilakiyaselvan, A. Nayeemulla Khan, and A. Shahina, “Deep
+  • Latent Energy Entropy: High values correlate with                           learning approach to detect seizure using reconstructed phase
+                                                                                space images,” Journal of Biomedical Research, vol. 34, no. 3,
+    unstable autonomic responses pre-SUDEP.                                     pp. 240–250, 2020, pMCID: PMC7324278. [Online]. Available:
+  • Manifold Curvature and Geodesic Distance: Reflect                           https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7324278/
+    seizure severity and interictal EEG variability.                        [2] S. S. Iyengar, E. K. O’Loughlin, L. Harte-Hargrove, M. Holmay, and
+                                                                                L. S. Lubbers, “Enhancing sudden unexpected death in epilepsy (sudep)
+  • Fractional Memory Index: Captures long-term depen-                          research through development of common data elements,” Epilepsia
+    dencies in EEG/ECG signals.                                                 Open, vol. 10, no. 5, pp. 1426–1438, 2025. [Online]. Available:
+  • Attention Entropy: Identifies critical cross-modal inter-                   https://onlinelibrary.wiley.com/doi/full/10.1002/epi4.70105
+                                                                            [3] D. Raj, A. J. Jeevan, R. Rafeeque, T. S. Rhishitha, S. Akshay, and
+    actions, e.g., EEG-heart rate coupling preceding cardiac                    K. P. Merry, “Enhancing seizure detection through deep learning-based
+    suppression.                                                                wearable devices,” in Proceedings of an IEEE Conference. IEEE, 2023.
+  • Stroke Network Centrality and Propagation: High-                            [Online]. Available: https://ieeexplore.ieee.org/document/10603386
+                                                                            [4] A. Abdelhameed and M. Bayoumi, “A deep learning approach for
+    lights brainstem and cortical regions driving ischemic                      automatic seizure detection in children with epilepsy,” Frontiers in Com-
+    risk diffusion, corroborating the visualized cascade in                     putational Neuroscience, vol. 15, p. 650050, 2021. [Online]. Available:
+    Figure 3.                                                                   https://www.frontiersin.org/articles/10.3389/fncom.2021.650050/full
+                                                                            [5] C. Zhu, Y. Kim, X. Jiang, S. Lhatoo, H. Jaison, and G.-Q. Zhang, “A
+                                                                                lightweight convolutional neural network for assessing an eeg risk marker
+F. Discussion                                                                   for sudden unexpected death in epilepsy,” BMC Medical Informatics
+                                                                                and Decision Making, vol. 20, p. 329, 2020. [Online]. Available:
+   The results demonstrate that GSM-DL consistently outper-                     https://bmcmedinformdecismak.biomedcentral.com/articles/10.1186/s12911-
+forms classical machine learning and conventional deep learn-                   020-01310-y
+ing models. Incorporating geometric embeddings, fractional                  [6] Y. A. Saadoon, M. Khalil, and D. Battikh, “Machine and deep learning-
+                                                                                based seizure prediction: A scoping review on the use of temporal and
+stochastic modeling, Hamiltonian energy layers, and cross-                      spectral features,” Applied Sciences, vol. 15, no. 11, p. 6279, 2023.
+modal attention is crucial for both SUDEP and stroke predic-                    [Online]. Available: https://www.mdpi.com/2076-3417/15/11/6279
+tion. The ischemic propagation visualization confirms that the              [7] Z. S. Chen, A. Hsieh, G. Sun, G. K. Bergey, S. F. Berkovic,
+                                                                                P. Perucca, and et al., “Interictal eeg and ecg for sudep risk assessment:
+fractional diffusion module captures realistic spatiotemporal                   A retrospective multicenter cohort study,” Frontiers in Neurology,
+dynamics, with initial vulnerability emerging in autonomic                      vol. 13, p. 858333, 2022, pMCID: PMC8973318. [Online]. Available:
+brainstem nuclei and spreading nonlinearly to cortical and                      https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8973318/
+subcortical regions over time, providing both predictive and
+interpretable insights.
+   While the model demonstrates improved performance, we
+adopt a cautious interpretation of the results, acknowledging
+limitations in dataset size and generalizability:
+
