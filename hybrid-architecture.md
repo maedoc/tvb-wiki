@@ -1,7 +1,7 @@
 ---
 title: Hybrid Architecture
 created: 2025-01-15
-updated: 2026-05-07
+updated: 2026-05-08
 type: concept
 tags: [whole-brain-modeling, neural-mass-models, spiking-neural-networks, mean-field-theory, computational-neuroscience, multi-scale-modeling]
 sources: [raw/papers/arxiv-2603.07524.md, raw/papers/arxiv-2509.02799.md, raw/papers/semanticscholar-85e2123db1a7.md]

@@ -116,3 +116,5 @@
 ## [2026-05-08 17:21] Matcher: 1 pages got 3 new sources
 
 ## [2026-05-08 18:07] Audit: 839 issues (82 broken links, 35 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 13 opaque-refs, 19 thin, 441 missing-links)
+
+## [2026-05-08 20:39] DeepResearch: 2 papers added via focused research

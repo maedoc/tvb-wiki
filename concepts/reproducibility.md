@@ -13,7 +13,7 @@ tags:
 - best-practices
 title: Reproducibility
 type: concept
-updated: '2026-05-07'
+updated: '2026-05-08'
 ---
 
 # Reproducibility
@@ -44,7 +44,7 @@ The [[neuroconv]] framework provides data conversion tools that map between vari
 
 ## Open Science and Data Sharing
 
-Beyond technical solutions, reproducibility in computational neuroscience requires cultural and institutional shifts toward open science practices. Preprints on arXiv and other open repositories have accelerated dissemination of methods, allowing independent verification before formal publication [10]. Dataset sharing through repositories like [[openneuro]] and the [[human-[[connectome]]-project]] enables external researchers to test analyses on identical data. Code publication via platforms such as GitHub, with appropriate licensing and documentation, transforms computational methods from opaque "methods black boxes" into transparent, auditable scientific contributions.
+Beyond technical solutions, reproducibility in computational neuroscience requires cultural and institutional shifts toward open science practices. Preprints on arXiv and other open repositories have accelerated dissemination of methods, allowing independent verification before formal publication [10]. Dataset sharing through repositories like [[openneuro]] and the [[mrtrix3-connectome]] enables external researchers to test analyses on identical data. Code publication via platforms such as GitHub, with appropriate licensing and documentation, transforms computational methods from opaque "methods black boxes" into transparent, auditable scientific contributions.
 
 Practices such as registering analysis plans, documenting pipeline versions, and citing exact software versions further strengthen reproducibility. The field has seen growing adoption of badging systems that recognize reproducible computational publications, incentivizing researchers to invest in reproducibility infrastructure [11].
 
@@ -54,7 +54,7 @@ Despite significant progress, reproducibility remains challenging in practice. C
 
 ## Relationship to Related Concepts
 
-Reproducibility intersects with multiple other concepts in this wiki. It serves as a prerequisite for effective [[model-validation]], enabling independent verification that models capture target phenomena. The standardization efforts underlying reproducible pipelines connect closely to [[bids]] and [[neurodata-without-borders]] data formats. Software containers support reproducible execution across the spectrum of [[spiking-neural-networks]] simulations (via [[nest]] and [[brian2]]) and [[neural-mass-models]] implementations (via [[the-virtual-brain]]). The growing emphasis on reproducibility reflects broader trends in [[open-science]] and [[reproducibility]] movements across computational science more broadly.
+Reproducibility intersects with multiple other concepts in this wiki. It serves as a prerequisite for effective [[model-validation]], enabling independent verification that models capture target phenomena. The standardization efforts underlying reproducible pipelines connect closely to [[bids]] and [[neurodata-without-borders]] data formats. Software containers support reproducible execution across the spectrum of [[spiking-neural-networks]] simulations (via [[nest]] and [[brian2]]) and [[neural-mass-models]] implementations (via [[the-virtual-brain]]). The growing emphasis on reproducibility reflects broader trends in [[open-source-brain]] and [[reproducibility]] movements across computational science more broadly.
 
 ## References
 

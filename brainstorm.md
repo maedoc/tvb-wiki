@@ -1,7 +1,7 @@
 ---
 title: Brainstorm
 created: 2024-01-15
-updated: 2026-05-07
+updated: 2026-05-08
 type: entity
 tags: [software-brain-modeling, neuroimaging-eeg, neuroimaging-meg, source-localization, connectivity, software-visualization]
 sources: [raw/papers/brainstorm-tutorial.pdf, raw/papers/brainstorm-mne-2020.pdf, raw/papers/brainstorm-isbi-2013.pdf]

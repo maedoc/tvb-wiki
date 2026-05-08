@@ -12,7 +12,7 @@ tags:
 - regions
 title: Brain Parcellation
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-08'
 ---
 
 # Brain Parcellation
@@ -23,7 +23,7 @@ updated: '2026-05-06'
 
 Parcellation provides the nodes of the brain graph:
 - Anatomical parcellations: based on gyral and sulcal boundaries (e.g., [[desikan-killiany-atlas]], Destrieux, AAL)
-- Functional parcellations: based on [[resting-state]] connectivity (e.g., [[gordon-parcellation]], Yeo networks)
+- Functional parcellations: based on [[resting-state]] connectivity (e.g., [[parameter-estimation]], Yeo networks)
 - Cytoarchitectonic parcellations: based on cellular-level anatomy (e.g., von Economo, Brodmann)
 - Multi-modal parcellations: combining structural, functional, and connectivity data (e.g., [[hcp-dataset|Glasser 2016]])
 
@@ -45,5 +45,5 @@ Parcellation choices directly constrain TVB simulations:
 ## References
 
 1. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
-2. Federica Franza, M. Cirillo, M. Silvestro, F. Trojsi, Antonio Russo, Fabrizio Esposito, M. A. Pirozzi. (2025). *Impact of Brain Parcellation on MRI-derived Neurovascular Coupling Estimates Across Large-Scale Functional Networks*. 2025 IEEE International Conference on Metrology for eXtended Reality, Artificial Intelligence and Neural Engineering (MetroXRAINE). [DOI](](https://doi.org/10.1109/MetroXRAINE66377.2025.11340209))
-3. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](](https://doi.org/10.1038/s41593-017-0015-4))
+2. Federica Franza, M. Cirillo, M. Silvestro, F. Trojsi, Antonio Russo, Fabrizio Esposito, M. A. Pirozzi. (2025). *Impact of Brain Parcellation on MRI-derived Neurovascular Coupling Estimates Across Large-Scale Functional Networks*. 2025 IEEE International Conference on Metrology for eXtended Reality, Artificial Intelligence and Neural Engineering (MetroXRAINE). [DOI](https://doi.org/10.1109/MetroXRAINE66377.2025.11340209))
+3. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4))

@@ -1,0 +1,495 @@
+                                                Learning Mechanistic Subtypes of Neurodegeneration
+                                                 with a Physics-Informed Variational Autoencoder
+                                                                  Mixture Model
+arXiv:2509.15124v1 [eess.IV] 18 Sep 2025
+
+
+
+
+                                           Sanduni Pinnawala∗1 , Annabelle Hartanto1,2 , Ivor J. A. Simpson1 , and Peter
+                                                                         A. Wijeratne1
+                                           1
+                                               Sussex AI Centre, School of Engineering and Informatics, University of Sussex, UK
+                                                    2
+                                                      Sussex Neuroscience, School of Life Sciences, University of Sussex, UK
+
+
+                                                                                  Abstract
+                                                       Modelling the underlying mechanisms of neurodegenerative diseases
+                                                   demands methods that capture heterogeneous and spatially varying dy-
+                                                   namics from sparse, high-dimensional neuroimaging data. Integrating par-
+                                                   tial diﬀerential equation (PDE) based physics knowledge with machine
+                                                   learning provides enhanced interpretability and utility over classic nu-
+                                                   merical methods. However, current physics-integrated machine learning
+                                                   methods are limited to considering a single PDE, severely limiting their
+                                                   application to diseases where multiple mechanisms are responsible for dif-
+                                                   ferent groups (i.e., subtypes) and aggravating problems with model mis-
+                                                   speciﬁcation and degeneracy. Here, we present a deep generative model
+                                                   for learning mixtures of latent dynamic models governed by physics-based
+                                                   PDEs, going beyond traditional approaches that assume a single PDE
+                                                   structure. Our method integrates reaction-diﬀusion PDEs within a vari-
+                                                   ational autoencoder (VAE) mixture model framework, supporting infer-
+                                                   ence of subtypes of interpretable latent variables (e.g. diﬀusivity and
+                                                   reaction rates) from neuroimaging data. We evaluate our method on syn-
+                                                   thetic benchmarks and demonstrate its potential for uncovering mecha-
+                                                   nistic subtypes of Alzheimer’s disease progression from positron emission
+                                                   tomography (PET) data.
+
+
+                                           1       Introduction
+                                           Neurodegenerative diseases, such as Alzheimer’s disease (AD), are currently hy-
+                                           pothesised to be caused by the spread of pathological proteins (tau and amyloid)
+                                           across the brain [3]. Positron emission tomography (PET) imaging is routinely
+                                           used to obtain surrogate measures of tau and amyloid concentration in vivo; re-
+                                           cently, longitudinal PET studies such as the Alzheimer’s Disease Neuroimaging
+                                           Initiative (ADNI) [17] have provided measurements of tau and amyloid spa-
+                                           tiotemporal dynamics, supporting the development of mechanistic models of
+                                                ∗ m.pinnawala@sussex.ac.uk
+
+
+
+
+                                                                                       1
+disease propagation [25]. The spatiotemporal dynamics are commonly mod-
+elled mathematically using partial diﬀerential equations (PDEs), which confer
+interpretability of model parameters and functional forms. Recently, PDEs
+have been integrated into machine learning frameworks to leverage their ability
+to scale inference to large, high dimensional datasets [13].
+    A challenge with using PDE-based approaches is that the structure and pa-
+rameters of the PDEs underlying tau and amyloid propagation are not fully
+known. Further complicating the problem, neurodegenerative diseases such as
+AD are highly heterogeneous in progression between individuals, with disease
+clusters (i.e., subtypes) reported in both tau and amyloid PET [6, 22]. Further-
+more, the inverse problems of inferring these PDEs are fundamentally ill-posed,
+leading to several fundamental issues, including solution non-uniqueness [2].
+Among the inference challenges, model misspeciﬁcation – where the modelled
+PDE does not reﬂect the true underlying PDE generating the data – and model
+degeneracy – where multiple distinct parameter sets or model structures yield
+indistinguishable outputs – are inherent challenges when attempting to learn
+biophysical mechanistic models, further exacerbating the problem. These issues
+motivate an approach that can account for variability in both data and model
+structure to help support reliable inference.
+
+1.1    Contributions
+We propose “BrainPhys”, a physics-informed variational autoencoder (VAE)
+mixture model of neurodegenerative disease dynamics. Unlike approaches that
+assume a single governing PDE, we permit multiple possible PDEs simultane-
+ously via mixture modelling, enabling our model to uncover subtypes of disease
+mechanisms within the same population. Our primary contributions are as fol-
+lows.
+  1. We introduce a novel physics-guided VAE mixture model that can learn
+     the parameters of multiple PDEs within the same dataset and be used to
+     study issues regarding mechanistic model misspeciﬁcation and degeneracy.
+  2. We demonstrate our model’s ability to recover clusters of mechanistic mod-
+     els and their parameters using synthetic data.
+  3. We apply our model to a combined tau and amyloid PET dataset from
+     ADNI, and ﬁnd evidence supporting a 2-component mixture model.
+
+1.2    Related Work
+Physics-Informed Modelling of Neurodegeneration. Modelling the pro-
+gression of neurodegenerative diseases has increasingly relied on physical models
+of protein propagation (e.g., prion-like spread) [9, 12, 23]. One inﬂuential line
+of work includes [10], where the authors employed Gaussian processes to model
+and simulate the dynamics of protein concentration in the brain. However,
+these models often assume ﬁxed dynamics and rely on strong priors, whereas
+our method enables more ﬂexible latent modelling with physical constraints.
+
+                                       2
+    Probabilistic Models for PDE-Constrained Systems. Recent years
+have seen a surge in probabilistic approaches for learning solutions to paramet-
+ric PDEs. These include Bayesian physics-informed neural networks [24], Gaus-
+sian processes with ﬁnite element methods [7], normalising ﬂow models [11],
+physics-driven deep latent variable models [21]. Notably, the physics-integrated
+VAE framework introduced in [18] incorporates physics constraints within the
+VAE architecture. Our approach builds upon this concept and extends to model
+structural variability in PDE dynamics. Instead of embedding all sources of un-
+certainty within a single neural surrogate, we adopt a mixture-model formula-
+tion that enables the latent space to reﬂect distinct PDE regimes (e.g., diﬀerent
+reaction dynamics), enabling interpretable modelling of structural variability.
+    Interpretable and Structured Latent Representations. There is grow-
+ing interest in learning interpretable latent spaces that correspond to physically
+meaningful variables. Some approaches focus on disentangled representations
+[5, 14], while others embed neural operators or physics-informed neural networks
+(PINNs) within generative models [13, 20]. Our work contributes to this area
+by explicitly designing the latent space to represent a mixture of biophysically
+meaningful quantities (e.g., diﬀusion and reaction coeﬃcients).
+
+2      Methodology
+2.1     Problem Setting
+We consider parameter learning in reaction-diﬀusion type equations of the form:
+                     ∂
+                        u(x, t) = D∇2 u(x, t) + f (u(x, t)), on Ω,              (1)
+                     ∂t
+                               ∇u(x, t) · n = 0, on ∂Ω,                         (2)
+                              u(x, t) = u0 (x), for t = 0.                      (3)
+Here u(x, t) is a scalar-valued function of space, x, and time, t; D is the diﬀusion
+coeﬃcient; and f (x, t) is the reaction term; Ω and ∂Ω are the domain and
+boundary, respectively; n is the normal unit vector on the surface ∂Ω; and
+u0 (x) is the initial ﬁeld at the start of the simulation. Models of this type are
+used extensively for modelling biophysical processes, e.g., [8, 16, 19].
+
+2.2     BrainPhys: A VAE Mixture of Physics Models
+A schematic overview of our physics-informed VAE mixture model (“BrainPhys”)
+is given in Figure 1. The source code is available at 1 . Expanding Equation 1 we
+deﬁne the diﬀusion coeﬃcient as D = zx and the source term as f (u) = zr fr (u),
+
+                        ∂ (k)
+                           u = zx(k) ∇2 u(k) + zr(k) fr(k) (u(k) ).             (4)
+                        ∂t
+    1 https://github.com/sanpinnawala/BrainPhys
+
+
+
+
+                                            3
+Figure 1: Schematic of the BrainPhys model. Given a sequence of observations,
+a categorical encoder infers the mixture weights c, representing the probability of each
+candidate model being responsible for the observed dynamics. For each of the K candi-
+                                                                                     (k)
+date PDE models, a latent encoder infers the corresponding physical parameters zx ,
+  (k)
+zr . Each component simulates disease dynamics using a diﬀerentiable ODE solver
+based on the component-speciﬁc KPP-type equation with the inferred parameters.
+The likelihood of the observed data is evaluated under each model, and the total data
+likelihood is computed as a weighted sum of these component likelihoods using the
+inferred mixture weights. This aggregate likelihood is used to compute and minimise
+the negative evidence lower bound (ELBO).
+
+
+Here, we adopt a KPP-type model [1] to describe the accumulation and propa-
+gation of misfolded protein. In our mixture of k = 1, 2, 3, ...K components, each
+                                                                              (k)
+component corresponds to a distinct formulation of the reaction term, fr ,
+                           (k) (k)                                   (k)
+with its own coeﬃcients zx ,zr , where the diﬀusion coeﬃcient zx describes
+                                                     (k)
+protein propagation, and the reaction coeﬃcient zr describes protein accu-
+mulation, i.e., we make the form of the diﬀusion term common to all mixture
+components but allow the reaction term to vary. This decision was motivated
+by the hypothesis that the protein accumulation dynamics are more variable
+
+
+                                           4
+between individuals than the diﬀusion process.
+
+2.2.1   Encoders
+Each encoder branch, categorical and latent (Figure 1), maps observed image
+sequences to a structured, low-dimensional latent space. Each image is passed
+through a convolutional backbone; the resulting features are concatenated with
+timestamps and passed to a long short-term memory (LSTM) module. The ﬁnal
+LSTM hidden state is passed through task-speciﬁc fully connected layers.
+
+Categorical Encoder. The categorical encoder outputs a vector of logits
+representing unnormalised mixture weights over the K components. We apply
+the softmax function to obtain a probability vector c ∈ ∆K−1 . At inference
+time, we select the most probable component k̂ = arg maxk ck .
+
+Latent Encoder For each component k ∈ {1, . . . , K}, the speciﬁc latent en-
+                                                                         (k) (k)
+coder outputs the mean and log variance for the physical parameters (zx , zr ).
+To ensure positive values, physical parameters are sampled from log-normal dis-
+tributions, where z̃ = exp (z) and z ∼ N (µ, σ 2 ). z is reparameterised using the
+reparameterisation trick [15].
+
+2.2.2   Decoder
+Given the sampled physical parameters z(k) and initial condition X0 , we use
+the diﬀerentiable ordinary/partial diﬀerential equation solver (odeint) from
+torchdiffeq [4] to integrate the PDE (discretised in space; see Equation 4)
+forward in time. The solver outputs X̂ (k) , the predicted dynamics from compo-
+nent k:
+                X̂ (k) = ODEINT(X0 , f (k) (zx(k) , zr(k) ), {t0 , . . . , tT }) (5)
+
+2.2.3   Evidence Lower Bound
+The training objective is adapted to account for the component mixture. This
+is achieved by maximising the evidence lower bound (ELBO), incorporating
+both the reconstruction likelihood and latent regularisation. The expected log-
+likelihood under the mixture model is computed using a log-sum-exp over the
+component-wise negative log-likelihoods:
+                                N             K               
+                                                 (i)     (k,i)
+                                X             X
+                     Lrecon =         − log     ck exp −LNLL                    (6)
+                                i=1           k=1
+
+        (i)
+where ck denotes the relaxed mixture weight for component k and sample i,
+      (k,i)
+and LNLL is the Gaussian negative log-likelihood (see Equation 12 in the Ap-
+pendix). LKL(z) account for the divergence between the approximate and prior
+
+
+
+
+                                              5
+                                                                                (i)
+distributions over physical parameters, weighted by the mixture assignment ck :
+           X X (i) h                                                         i
+LKL(z) =          ck KL q(zx(i,k) | Xi ) k p(zx ) + KL q(zr(i,k) | Xi ) k p(zr )
+            i   k
+                                                                           (7)
+LKL(c) is the KL divergence between the inferred categorical distribution q(c |
+                                                       1
+                                                         
+X) and the uniform prior over components p(c) = Cat K     :
+
+                          LKL(c) = KL (q(c | X) k p(c))                         (8)
+
+3     Experiments
+3.1    Synthetic Data
+We generate the synthetic dataset by numerically solving discretised Equation 1
+using Runge-Kutta method of order 5 (RK45) with SciPy’s solve_ivp function.
+We deﬁne three distinct formulations of the reaction term, referred to as ID 0
+(Equation 9), ID 1 (Equation 10), and ID 2 (Equation 11), corresponding to
+three distinct clusters. The system is simulated on a 32 × 32 2D spatial grid.
+We model initial conditions representing the initial protein concentration with
+Gaussian-like distributions over the spatial grid. We impose Neumann boundary
+conditions to ensure no ﬂux across the domain boundaries. For each generated
+sample, we draw spatial and temporal parameters from uniform distributions:
+zx ∈ [0.01, 1.0] and zr ∈ [0.01, 0.1]. Data normalisation scales values to the range
+[0, 1]. The training set consists of data samples representing 800 individuals with
+3 observations per individual. The validation set consists of 200 data samples.
+For evaluation we generate a test set of 1000 samples.
+
+                           ID 0: fr (u) = zr u(1 − u)                           (9)
+
+                           ID 1: fr (u) = zr u(1 − u)2                         (10)
+                           ID 2: fr (u) = zr u2 (1 − u)                        (11)
+
+3.2    Alzheimer’s Disease Data
+For Alzheimer’s disease data, we use AV145-PET scans and AV45-PET scans
+from the Alzheimer’s Disease Neuroimaging Initiative (ADNI) [17]. Access to
+the dataset is granted upon request through [17]. We combine the two data
+types (tau and amyloid) comprising AD (Alzheimer’s disease), MCI (mild cog-
+nitive impairment), and CN (cognitively normal) individuals. We hypothesise
+that there should be evidence for more than one cluster in this dataset. The
+ADNI data has been preprocessed for longitudinal consistency, including co-
+registration to the ﬁrst time point for spatial alignment, spatial normalisation
+using SPM, and resampling to a uniform resolution of 6mm³. We apply inten-
+sity normalisation across dataset, scaling values to the range [0, 1]. The training
+and validation sets consist of 237 and 60 individuals, respectively, each with 3
+observations acquired at irregular time points.
+
+                                         6
+4     Results
+4.1    Synthetic Data
+
+
+
+
+Figure 2: PDE component inference, PDE parameter inference, and pre-
+dicted dynamics. (a) Confusion matrix comparing the true cluster assignments
+(IDs 0, 1, 2) with the predicted assignments. (b) True vs. predicted distributions
+of component assignments. (c) Predicted mixture weights across 100 test samples.
+(d) residual distribution for the inferred diﬀusion and reaction coeﬃcients. (e) Model
+predictions of a representative test sample.
+
+   Figure 2 presents results from the synthetic data experiment. Figure 2(a)
+and Figure 2(b) compare component assignments to the ground truth. Figure
+2(c) shows the infered mixture weights for each PDE component across test
+samples, representing the model’s belief about which component best explains
+
+
+                                          7
+Figure 3: Evaluation on ADNI data using a diﬀusion and reaction-diﬀusion
+mixture model. (a) Learnt parameter distribution. (b) Comparison of the mean
+prediction over 100 inferred parameter samples to the observations. Here, t refers
+to time in months from the baseline scan. (c) Central horizontal and vertical cross
+sections at the ﬁnal reconstructed time point compared to the ground truth.
+
+
+each test sample. The assigned cluster corresponds to the component with the
+highest weight (see Categorical Encoder part of Section 2.2). Figure 2(d) shows
+the residual distribution, computed as the diﬀerence between ground truth and
+predicted values from the assigned PDE component. The ﬁgure demonstrates
+successful inference of true parameters, notably the reaction rate. Figure 2(e)
+compares the ground truth to the mean prediction taken over 100 inferred pa-
+rameter samples. Here, t=18 is an interpolated time point, and t=36 is an
+extrapolated one, demonstrating the model’s ability to generalise both within
+
+
+                                        8
+and beyond the observed data range. Model evidence across multiple runs is
+shown in Appendix Figure 5, reﬂecting variability attributable to random ini-
+tialisation.
+
+4.2     Alzheimer’s Disease Data
+Figure 3 describes results from the ADNI experiment using a two-component
+mixture model, where the components correspond to diﬀusion and reaction-
+diﬀusion PDEs. These PDEs reﬂect common competing hypotheses for tau and
+amyloid pathology. Since our model estimates the posterior over both compo-
+nents, we can infer the dynamics and parameters for each subject under either
+PDE. We compare the parameter distributions across the validation set and
+show reconstructions for a representative subject under both components. We
+evaluate the model evidence by recomputing the ELBO for each subset of mix-
+ture components at inference time. The evidence is highest when both PDE
+components are used (2.07 × 106 ), compared to using only reaction-diﬀusion
+(1.96 × 106 ), or only diﬀusion (2.03 × 106 ). The results suggest distinct clus-
+ters within the cohort, with the model beneﬁting from access to multiple PDE
+components.
+
+5     Discussion
+Here, we introduced “BrainPhys”, a novel unsupervised methodology for infer-
+ring mixtures of mechanistic models from the same population. We demon-
+strated its ability to recover the parameters of PDE models and their respective
+weights from synthetic data. We also provided a ﬁrst application of the model
+in ADNI, where we found evidence of a mixture of two components in a cohort
+of tau and amyloid PET data; however, further analysis is necessary to validate
+the clusters. Future work will extend this analysis to larger datasets. Our model
+also has potential for identifying sources of model degeneracy (see Figure 4 in
+the Appendix), a problem that the mechanistic modelling community has yet to
+address. However, several challenges need to be addressed, including (but not
+limited to) disentangling factors contributing to ill-posedness, identifying model
+degeneracy when there is only one true model in the data, incorporating partial
+knowledge of PDE forms (e.g., unknown reaction terms), and inferring clusters
+within imaging modalities such as tau or amyloid PET alone.
+
+A       Appendix
+A.1     Supplementary Methods
+A.1.1    Gaussian Negative Log-Likelihood
+                          "                           #
+                                  (k)
+                  (k,i) 1 kXi − X̂i k2
+                 LNLL =                + D log(2πσ 2 )                       (12)
+                        2      σ2
+
+
+
+                                        9
+where D is the dimensionality of Xi and σ 2 is the learned observation noise vari-
+ance. KL term regularises the variational posteriors against its corresponding
+priors.
+
+A.2     Supplementary Results
+
+
+
+
+Figure 4: Testing model degeneracy on synthetic data. A. Predictions from
+the true physics-based model used to generate the data. B. A degenerate model that
+achieves similar predictive accuracy but with inaccurate reaction rates, highlighting
+potential identiﬁability issues. C. The reaction term is treated as unknown and learnt
+using a neural network (MLP), demonstrating the model’s ability to approximate
+dynamics in the absence of explicit physical structure.
+
+
+
+
+                                         10
+Figure 5: Model evidence for component subsets across runs. Model evidence
+(i.e., ELBO) computed for each subset of mixture components across 10 random seeds
+in the synthetic data experiment (Section 3.1). The subset IDs correspond to the
+component deﬁnitions in Equation 9–11.
+
+
+References
+ [1] G. Adomian. Fisher-Kolmogorov equation. Applied Mathematics Letters, 8(2):51–
+     52, March 1995.
+
+ [2] Simon Arridge, Peter Maass, Ozan Öktem, and Carola-Bibiane Schönlieb. Solving
+     inverse problems using data-driven models. Acta Numerica, 28:1–174, May 2019.
+
+ [3] Marc Aurel Busche and Bradley T. Hyman. Synergy between amyloid-β and tau
+     in Alzheimer’s disease. Nature Neuroscience, 23(10):1183–1193, October 2020.
+
+ [4] Ricky T. Q. Chen. Torchdiﬀeq, June 2021.
+
+ [5] Ricky T. Q. Chen, Xuechen Li, Roger Grosse, and David Duvenaud. Isolating
+     Sources of Disentanglement in Variational Autoencoders, April 2019.
+
+ [6] Lyduine E. Collij, Gemma Salvadó, Viktor Wottschel, Pierre Schoenmakers, Mar-
+     tina Mutti, Leon M Aksman, Alle Meije Wink, Wiesje M van der Flier, Philip
+     Scheltens, Pieter Jelle Visser, Bart N.M. Van Berckel, Frederik Barkhof, Sven
+     Haller, Juan Domingo Gispert, and Isadora Lopes Alves. Data-driven evidence
+     for three distinct patterns of amyloid-β accumulation. Alzheimer’s & Dementia,
+     17(S4):e055417, 2021.
+
+ [7] Connor Duﬃn, Edward Cripps, Thomas Stemler, and Mark Girolami. Statistical
+     ﬁnite elements for misspeciﬁed models. Proceedings of the National Academy of
+     Sciences, 118(2):e2015006118, January 2021.
+
+
+
+
+                                        11
+ [8] Radek Erban and S Jonathan Chapman. Stochastic modelling of reaction–
+     diﬀusion processes: Algorithms for bimolecular reactions. Physical Biology,
+     6(4):046001, August 2009.
+
+ [9] Sara Garbarino and Marco Lorenzi. Modeling and inference of spatio-temporal
+     protein dynamics across brain networks, January 2019.
+
+[10] Sara Garbarino, Marco Lorenzi, and Alzheimer’s Disease Neuroimaging Initiative.
+     Investigating hypotheses of neurodegeneration by learning dynamical systems of
+     protein propagation in the brain. NeuroImage, 235:117980, July 2021.
+
+[11] Ling Guo, Hao Wu, and Tao Zhou. Normalizing ﬁeld ﬂows: Solving forward
+     and inverse stochastic diﬀerential equations using physics-informed ﬂow models.
+     Journal of Computational Physics, 461:111202, July 2022.
+
+[12] Yasser Iturria-Medina, Roberto C. Sotero, Paule J. Toussaint, and Alan C. Evans.
+     Epidemic Spreading Model to Characterize Misfolded Proteins Propagation in Ag-
+     ing and Associated Neurodegenerative Disorders. PLoS Computational Biology,
+     10(11):e1003956, November 2014.
+
+[13] George Em Karniadakis, Ioannis G. Kevrekidis, Lu Lu, Paris Perdikaris, Sifan
+     Wang, and Liu Yang. Physics-informed machine learning. Nature Reviews
+     Physics, 3(6):422–440, May 2021.
+
+[14] Hyunjik Kim and Andriy Mnih. Disentangling by Factorising, July 2019.
+
+[15] Diederik P. Kingma and Max Welling. Auto-Encoding Variational Bayes, Decem-
+     ber 2022.
+
+[16] Shigeru Kondo and Takashi Miura. Reaction-Diﬀusion Model as a Framework
+     for Understanding Biological Pattern Formation. Science, 329(5999):1616–1620,
+     September 2010.
+
+[17] R C. Petersen, P S. Aisen, L A. Beckett, M C. Donohue, A C. Gamst, D J.
+     Harvey, C R. Jack, W J. Jagust, L M. Shaw, A W. Toga, J Q. Trojanowski, and
+     M W. Weiner. Alzheimer’s Disease Neuroimaging Initiative (ADNI). Neurology,
+     74(3):201–209, January 2010.
+
+[18] Naoya Takeishi and Alexandros Kalousis. Physics-Integrated Variational Autoen-
+     coders for Robust and Interpretable Generative Modeling, October 2021.
+
+[19] Matthew J Thompson, Hans G Othmer, and David M Umulis. A Primer on
+     Reaction–Diﬀusion Models in Embryonic Development, pages 1–16. Wiley, 1 edi-
+     tion, August 2018.
+
+[20] Juan Diego Toscano, Vivek Oommen, Alan John Varghese, Zongren Zou,
+     Nazanin Ahmadi Daryakenari, Chenxi Wu, and George Em Karniadakis. From
+     PINNs to PIKANs: Recent Advances in Physics-Informed Machine Learning,
+     October 2024.
+
+[21] Arnaud Vadeboncoeur, Ömer Deniz Akyildiz, Ieva Kazlauskaite, Mark Girolami,
+     and Fehmi Cirak. Fully probabilistic deep models for forward and inverse problems
+     in parametric PDEs. Journal of Computational Physics, 491:112369, October
+     2023.
+
+
+                                         12
+[22] Jacob W. Vogel, Alexandra L. Young, Neil P. Oxtoby, Ruben Smith, Rik Os-
+     senkoppele, Olof T. Strandberg, Renaud La Joie, Leon M. Aksman, Michel J.
+     Grothe, Yasser Iturria-Medina, Michael J. Pontecorvo, Michael D. Devous, Gil D.
+     Rabinovici, Daniel C. Alexander, Chul Hyoung Lyoo, Alan C. Evans, and Oskar
+     Hansson. Four distinct trajectories of tau deposition identiﬁed in Alzheimer’s
+     disease. Nature Medicine, 27(5):871–881, May 2021.
+
+[23] Johannes Weickenmeier, Ellen Kuhl, and Alain Goriely. Multiphysics of Prionlike
+     Diseases: Progression and Atrophy. Physical Review Letters, 121(15):158101,
+     October 2018.
+
+[24] Liu Yang, Xuhui Meng, and George Em Karniadakis. B-PINNs: Bayesian Physics-
+     Informed Neural Networks for Forward and Inverse PDE Problems with Noisy
+     Data. Journal of Computational Physics, 425:109913, January 2021.
+
+[25] Alexandra L. Young, Neil P. Oxtoby, Sara Garbarino, Nick C. Fox, Frederik
+     Barkhof, Jonathan M. Schott, and Daniel C. Alexander. Data-driven modelling
+     of neurodegenerative disease progression: Thinking outside the black box. Nature
+     Reviews Neuroscience, 25(2):111–130, February 2024.
+
+
+
+
+                                         13
+
