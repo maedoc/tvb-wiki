@@ -82,3 +82,9 @@ Computational modeling approaches are expected to play an increasingly important
 ## Conclusion
 
 The aging brain represents a complex phenomenon encompassing structural, functional, and cognitive changes that unfold over decades of the lifespan. Understanding this process requires the integration of findings across multiple levels of analysis, from molecular mechanisms to large-scale network dynamics, and across multiple methodological approaches, from epidemiological studies to computational modeling. Key concepts including cognitive reserve, brain reserve, functional connectivity alterations, and brain maintenance provide frameworks for understanding why some individuals maintain cognitive function despite substantial neurobiological changes while others experience progressive decline. The continued development of neuroimaging methods, computational models, and analytical approaches promises to deepen this understanding and ultimately enable interventions that support healthy brain aging.
+
+## References
+
+1. (authors unknown). *The Cognitive Neuroscience of Ageing and Functional Reserve*.
+2. J. King, M. Prigge, Vincent Koppelmans, John M. Hoffman, Kevin Duff. (2026). *Altered functional connectivity is associated with Repeatable Battery for the Assessment of Neuropsychological Status across the dementia spectrum*. Journal of the International Neuropsychological Society. [DOI](https://doi.org/10.1017/s135561772610191x)
+3. (authors unknown). *UK Biobank Brain Imaging: Structural MRI in a Massive Population Resource*.

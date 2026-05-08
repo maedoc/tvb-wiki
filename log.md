@@ -84,3 +84,5 @@
 ## [2026-05-08 08:05] Audit: 813 issues (82 broken links, 35 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 13 opaque-refs, 19 thin, 441 missing-links)
 
 ## [2026-05-08 08:43] FullTextFetcher: fetched 9 new full texts (77 total in corpus)
+
+## [2026-05-08 09:20] DeepResearch: 2 papers added via focused research
