@@ -138,3 +138,5 @@
 ## [2026-05-08 23:22] Improve: 1 pages improved (jansen-rit-model)
 
 ## [2026-05-08 23:32] CrosslinkApplier: added 38 wikilinks (38 inline, 0 suggested)
+
+## [2026-05-08 23:32] Matcher: 2 pages got 6 new sources
