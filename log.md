@@ -126,3 +126,5 @@
 ## [2026-05-08 21:45] RefFormatter: formatted references on 2 pages
 
 ## [2026-05-08 22:06] Improve: 1 pages improved (jansen-rit-model)
+
+## [2026-05-08 22:19] Repair: 72 issues fixed (14 source refs, 27 index, 4 frontmatter, 17 wikilinks, 10 orphans, 0 dup-refs, 0 opaque-refs, 0 crosslinks)
