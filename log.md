@@ -110,3 +110,5 @@
 ## [2026-05-08 16:11] Ingest: 4 new papers, 0 stubs created
 
 ## [2026-05-08 16:53] FullTextFetcher: fetched 2 new full texts (83 total in corpus)
+
+## [2026-05-08 17:21] CrosslinkApplier: added 23 wikilinks (23 inline, 0 suggested)
