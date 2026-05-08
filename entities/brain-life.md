@@ -24,7 +24,7 @@ updated: '2026-05-08'
 
 ## Overview
 
-Brainlife is designed as a comprehensive data processing and analysis platform that integrates multiple neuroimaging tools into modular, pipelined workflows. The platform was developed to address the growing computational demands of modern neuroimaging research, particularly in the context of large-scale datasets such as those from the [[human-[[connectome]]-project]] and [[uk-biobank]]. By providing a web-based interface and programmable APIs, brainlife lowers the barrier to entry for sophisticated neuroimaging analyses that would otherwise require significant computational infrastructure.
+Brainlife is designed as a comprehensive data processing and analysis platform that integrates multiple neuroimaging tools into modular, pipelined workflows. The platform was developed to address the growing computational demands of modern neuroimaging research, particularly in the context of large-scale datasets such as those from the [[mrtrix3-connectome]] and [[uk-biobank]]. By providing a web-based interface and programmable APIs, brainlife lowers the barrier to entry for sophisticated neuroimaging analyses that would otherwise require significant computational infrastructure.
 
 The platform supports a wide range of neuroimaging modalities including [[fmri]], [[diffusion-mri]] (DTI), [[eeg]], and [[meg]], making it versatile for both functional and structural connectivity studies. Brainlife was developed by researchers at multiple institutions to serve the computational neuroscience community, with ongoing development supported by various grants. For whole-brain modeling researchers, brainlife provides essential preprocessing capabilities including tissue segmentation, tractography, and parcellation that generate inputs for [[structural-connectivity]] matrices used in models like [[the-virtual-brain]].
 
@@ -54,6 +54,6 @@ Brainlife provides both a web-based graphical interface for interactive use and 
 
 ## References
 
-1. Wen-ju Pan, L. Daley, Harrison Watters, Lisa Meyer-Baese, K. Gopinath, Dieter Jaeger, Shella Keilholz. (2026). *An integrated platform for simultaneous wide-field voltage/calcium imaging and fMRI (EPI & ZTE) reveals neuronal infraslow dynamics underlying functional [[connectivity]]*. bioRxiv. [DOI](](https://doi.org/10.64898/2026.01.26.701889))
-2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.10.06.680781))
-3. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. [[brain-stimulation]]. [DOI](](https://doi.org/10.1016/j.brs.2025.103016))
+1. Wen-ju Pan, L. Daley, Harrison Watters, Lisa Meyer-Baese, K. Gopinath, Dieter Jaeger, Shella Keilholz. (2026). *An integrated platform for simultaneous wide-field voltage/calcium imaging and fMRI (EPI & ZTE) reveals neuronal infraslow dynamics underlying functional [[connectivity]]*. bioRxiv. [DOI](https://doi.org/10.64898/2026.01.26.701889))
+2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.10.06.680781))
+3. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. [[brain-stimulation]]. [DOI](https://doi.org/10.1016/j.brs.2025.103016))

@@ -1,10 +1,10 @@
 ---
 title: Connectivity
 created: 2024-01-15
-updated: 2026-05-07
+updated: 2026-05-08
 type: concept
 tags: [connectomics, structural-connectivity, functional-connectivity, effective-connectivity, network-dynamics, whole-brain-modeling]
-sources: [raw/papers/friston-1993.md, raw/papers/sporns-tononi-kotter-2005.md, raw/papers/arxiv-2506.06234.md]
+sources: [raw/papers/friston-1993.md]
 ---
 
 Connectivity is a fundamental concept in [[whole-brain]] modeling and [[computational-neuroscience]] that describes the patterns of anatomical and functional relationships between neural elements—ranging from individual neurons to large-scale brain regions. Understanding connectivity is essential for constructing biologically realistic models of brain dynamics, as the structure of connections fundamentally constrains the set of possible [[network-dynamics]] that can emerge in a neural system. In the context of whole-brain modeling, connectivity serves as the primary input for simulating large-scale brain activity, whether at the level of [[neural-mass-models]] or [[spiking-neural-networks]].

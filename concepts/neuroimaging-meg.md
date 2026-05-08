@@ -11,7 +11,7 @@ tags:
 - source-localization
 title: MEG
 type: concept
-updated: '2026-05-07'
+updated: '2026-05-08'
 ---
 
 # MEG
@@ -23,7 +23,7 @@ updated: '2026-05-07'
 MEG provides empirical constraints on [[brain-dynamics]] at the temporal scale that TVB models aim to capture:
 - TVB can simulate source-localized MEG time series via forward models
 - [[neural-mass-models]] in TVB generate oscillatory dynamics comparable to empirical MEG spectra
-- TVB's [[jansen-rit-model]] and [[wendling-model]] were originally derived from EEG/MEG phenomenology
+- TVB's [[jansen-rit-model]] and [[bold-model]] were originally derived from EEG/MEG phenomenology
 
 ## Related
 

@@ -1,10 +1,20 @@
 ---
-title: REST (Resting State)
 created: 2024-01-15
-updated: 2026-05-08
+sources:
+- raw/papers/smith-2013-hcp.md
+- raw/papers/deco-2013.md
+- raw/papers/power-2011.md
+- raw/papers/biswal-1995.md
+tags:
+- resting-state
+- neuroimaging-fmri
+- functional-connectivity
+- network-dynamics
+- whole-brain-modeling
+- computational-neuroscience
+title: REST (Resting State)
 type: concept
-tags: [resting-state, neuroimaging-fmri, functional-connectivity, network-dynamics, whole-brain-modeling, computational-neuroscience]
-sources: [raw/papers/smith-2013-hcp.md, raw/papers/deco-2013.md, raw/papers/power-2011.md, raw/papers/biswal-1995.md]
+updated: '2026-05-08'
 ---
 
 # REST (Resting State)
@@ -38,3 +48,10 @@ REST provides the foundational brain state for several related concepts in this 
 ## Open Questions
 
 Despite substantial progress, fundamental questions remain about the biological significance of resting-state activity and its relationship to cognition. Whether resting-state fluctuations primarily reflect ongoing processing, passive maintenance of neural circuitry, or emergent properties of neural architecture remains debated. The field continues to advance through combinations of improved neuroimaging at higher temporal and spatial resolution, more sophisticated computational models, and rigorous validation against empirical data.
+
+## References
+
+1. (authors unknown). *Resting-State fMRI in the Human Connectome Project*.
+2. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
+3. (authors unknown). *Functional Network Organization of the Human Brain*.
+4. (authors unknown). *Functional connectivity in the motor cortex of resting human brain using echo-planar MRI*.

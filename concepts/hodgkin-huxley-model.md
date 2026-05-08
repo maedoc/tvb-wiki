@@ -1,10 +1,22 @@
 ---
-title: Hodgkin-Huxley Model
 created: 2024-01-15
-updated: 2026-05-08
+sources:
+- raw/papers/semanticscholar-ce89e593c89e.md
+- raw/papers/semanticscholar-71ffb8153870.md
+- raw/papers/semanticscholar-cc2129666e15.md
+tags:
+- neural-mass-models
+- computational-neuroscience
+- ion-channel
+- spiking-neural-networks
+- dynamical-systems-theory
+- bifurcation-theory
+- stochastic-differential-equations
+- whole-brain-modeling
+- brain-oscillations
+title: Hodgkin-Huxley Model
 type: concept
-tags: [neural-mass-models, computational-neuroscience, ion-channel, spiking-neural-networks, dynamical-systems-theory, bifurcation-theory, stochastic-differential-equations, whole-brain-modeling, brain-oscillations]
-sources: [raw/papers/semanticscholar-ce89e593c89e.md, raw/papers/semanticscholar-71ffb8153870.md, raw/papers/semanticscholar-cc2129666e15.md]
+updated: '2026-05-08'
 ---
 
 The Hodgkin-Huxley model is a mathematical framework describing how action-potentials in [[neuron|neurons]] are generated and propagate along axons. Proposed by Alan Hodgkin and Andrew Huxley in 1952, the model provides a biophysically grounded description of [[ion-channel]] dynamics using a system of coupled differential equations that capture the voltage-dependent gating of sodium (Na⁺) and potassium (K⁺) channels, alongside a leak conductance. The Hodgkin-Huxley formalism represents the foundational pillar upon which modern [[neural-mass-models]] and [[spiking-neural-networks]] are built, and it remains essential for understanding the cellular basis of large-scale [[brain-dynamics]] observed in [[neuroimaging-fmri]], [[neuroimaging-eeg]], and [[neuroimaging-meg]] data.
@@ -48,3 +60,9 @@ These reduced models are particularly relevant for the TVB/whole-brain ecosystem
 The original Hodgkin-Huxley model has been extended in numerous ways to capture diverse neuronal dynamics. The [[izhikevich-neuron-model]] provides a reduced two-dimensional representation that can reproduce the firing patterns of multiple neuronal types with greater computational efficiency. The [[adaptive-exponential-integrate-and-fire]] model offers another simplified approach that captures spike-frequency adaptation and dynamic refractoriness. For detailed biophysical simulations, the [[brian2]] and [[neuron]] simulators provide flexible frameworks for implementing custom Hodgkin-Huxley-style channel dynamics, while [[nest]] offers efficient spiking network simulations at scale.
 
 The [[neuroml]] standard provides a declarative format for specifying Hodgkin-Huxley-type channel models, facilitating model reuse and interoperability across simulators. [[neurodamus]] and [[tvb-nest]] exemplify efforts to bridge the gap between cellular-scale Hodgkin-Huxley models and [[whole-brain]] simulators like [[the-virtual-brain]], enabling multi-scale simulations where microscopic neuronal dynamics give rise to macroscopic brain-wide activity patterns measurable with [[fmri]] and [[eeg]].
+
+## References
+
+1. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123)
+2. Valerio Barabino, F. Callegari, Sérgio Martinoia, P. Massobrio. (2026). *Hierarchical afferent connectivity drives population-wide bursting dynamics in a computational model of human-derived excitatory neuronal networks*. Journal of Neuroscience. [DOI](https://doi.org/10.1523/jneurosci.0912-25.2026)
+3. Gianluca Gaglioti, L. Porta, M. Colombo, Simone Russo, Thierry Nieus, G. Deco, M. Corbetta, S. Sarasso, M. V. Sanchez-Vives, M. Massimini. (2026). *Slow wave generation and propagation in a model of brain lesions*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121817)

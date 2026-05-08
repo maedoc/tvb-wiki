@@ -8,7 +8,7 @@ tags:
 - fractional-anisotropy
 title: Fractional Anisotropy
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-08'
 ---
 
 Fractional Anisotropy — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].

@@ -120,3 +120,5 @@
 ## [2026-05-08 20:39] DeepResearch: 2 papers added via focused research
 
 ## [2026-05-08 20:58] FullTextFetcher: fetched 4 new full texts (87 total in corpus)
+
+## [2026-05-08 21:21] Improve: 1 pages improved (jansen-rit-model)
