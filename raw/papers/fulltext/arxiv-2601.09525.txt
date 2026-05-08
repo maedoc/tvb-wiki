@@ -1,0 +1,1093 @@
+                                                   Sparse covariate-driven factorization of high-dimensional
+                                                  brain connectivity with application to site effect correction
+                                                                  Rongqian Zhang1∗, Elena Tuzhilina1 , Jun Young Park1,2†
+                                                        1
+                                                            Department of Statistical Sciences, University of Toronto, Toronto, ON, Canada
+                                                              2
+                                                                Department of Psychology, University of Toronto, Toronto, ON, Canada
+arXiv:2601.09525v1 [stat.ME] 14 Jan 2026
+
+
+
+
+                                           Abstract. Large-scale neuroimaging studies often collect data from multiple scanners across dif-
+                                           ferent sites, where variations in scanners, scanning procedures, and other conditions across sites
+                                           can introduce artificial site effects. These effects may bias brain connectivity measures, such as
+                                           functional connectivity (FC), which quantify functional network organization derived from func-
+                                           tional magnetic resonance imaging (fMRI). How to leverage high-dimensional network structures
+                                           to effectively mitigate site effects has yet to be addressed. In this paper, we propose SLACC
+                                           (Sparse LAtent Covariate-driven Connectome) factorization, a multivariate method that explic-
+                                           itly parameterizes covariate effects in latent subject scores corresponding to sparse rank-1 latent
+                                           patterns derived from brain connectivity. The proposed method identifies localized site-driven
+                                           variability within and across brain networks, enabling targeted correction. We develop a penalized
+                                           Expectation-Maximization (EM) algorithm for parameter estimation, incorporating the Bayesian
+                                           Information Criterion (BIC) to guide optimization. Extensive simulations validate SLACC’s ro-
+                                           bustness in recovering the true parameters and underlying connectivity patterns. Applied to the
+                                           Autism Brain Imaging Data Exchange (ABIDE) dataset, SLACC demonstrates its ability to reduce
+                                           site effects. The R package to implement our method is publicly available.
+                                           Keywords: Batch effects; blind-source separation; functional connectivity; sparsity; low-rank; ten-
+                                           sor.
+
+
+
+
+                                              ∗
+                                                Current affiliation: Department of Epidemiology and Biostatistics, The University of California San Francisco,
+                                           San Francisco, CA, United States.
+                                              †
+                                                Corresponding author: junjy.park@utoronto.ca
+
+
+                                                                                                   1
+1   Introduction
+
+Brain magnetic resonance imaging (MRI) offers a powerful tool for studying brain activity and
+structure in both healthy and clinical populations. One of its key applications is functional con-
+nectivity (FC) derived from functional MRI (fMRI), which quantifies the statistical dependencies
+between blood-oxygen-level-dependent (BOLD) signals measured over time from two spatially dis-
+tinct brain regions (Biswal et al., 1995; Friston et al., 1993; Greicius et al., 2003). FC has been
+extensively used to investigate brain network organization and its alterations due to neurodevel-
+opment, neuropsychiatric/ neurological disease progression or treatment (Zonneveld et al., 2019;
+Van Den Heuvel & Pol, 2010; Fox & Greicius, 2010). Common measures of FC include the Pearson
+correlation (Fox et al., 2005), partial correlation (Marrelec et al., 2006) and mutual information
+(Z. Wang et al., 2015).
+    Despite the widespread use of FC in neuroimaging studies, multi-site data collection introduces
+significant challenges to its data quality. In large-scale fMRI studies, data collection often involves
+multiple sites and scanners, which can lead to artificial site effects due to differences in scanner
+models, scanning protocols, and other local conditions. These effects can increase unwanted vari-
+ations in FC, which can confound analyses and limit the generalizability and reproducibility of
+findings. Several statistical harmonization methods have been developed to identify, characterize,
+and mitigate site effects in neuroimaging data, enabling the construction of harmonized datasets
+across multiple sites. ComBat, a prominent approach originally proposed for genomics by Johnson
+et al. (2007), characterizes site effects as an additive (mean) and a multiplicative (variance) site
+effect for each feature. It has shown great potential for neuroimaging modalities, including diffusion
+tensor imaging (DTI) (Fortin et al., 2017), cortical thickness (Fortin et al., 2018), and functional
+connectivity (Yu et al., 2018). More recent harmonization methods, such as CovBat and RELIEF,
+expand the scope of statistical harmonization to address not only mean-variance differences but
+also heterogeneity in covariances across sites (A. A. Chen, Beer, et al., 2022; Zhang et al., 2023,
+2024).
+    Despite the advancements in harmonization techniques, existing harmonization methods for
+brain connectivity data remain limited, ignoring the structure of FC that is represented as a sym-
+metric matrix, where each element corresponds to the connection strength, or edge, between two
+brain regions. Many methods are based on applying existing harmonization approaches to the
+vectorized connectivity matrices (Yu et al., 2018; A. A. Chen, Srinivasan, et al., 2022), thus suffer
+from ignoring important network properties inherent to fMRI. This creates difficulties in interpret-
+ing how site effects have been identified and corrected within and across brain networks, potentially
+leading to suboptimal harmonization.
+    In brain network analysis, blind source separation (BSS) and independent component analysis
+(ICA) have been used in recent methodological advances to decompose FC into low-rank and
+sparse structures. These structures identify patterns between and within functional networks, while
+simultaneously quantifying the strength of these patterns in each subject (Eavani et al., 2015; Cai
+et al., 2017; Y. Wang & Guo, 2023). Other studies aim to explore the relationships between
+
+
+                                                  2
+connectivity patterns and clinical or demographic factors, as well as other imaging modalities,
+typically within a linear modeling framework (Sun & Li, 2017; Zhao et al., 2021; Zhao & Zhao, 2025;
+Park, 2025). The connectivity matrix is either used as a high-dimensional predictor to examine its
+associations with clinical or demographic variables or other imaging modalities as the response, or
+the connectivity matrix itself is modeled as the response to these variables. To reduce the number
+of parameters, these models often impose low-rank structures either on the FC matrix itself (Zhao
+et al., 2021; Zhao & Zhao, 2025) or on the regression parameters (Sun & Li, 2017). In a more
+generalized dimension reduction framework, Lock & Li (2018) propose a likelihood-based latent
+variable representation for CANDECOMP/PARAFAC (CP) decomposition on tensors of arbitrary
+dimensions, where the latent variables are informed by covariates. However, as Zhao et al. (2021)
+and Park (2025) noted, incorporating the high dimensionality of the whole-brain network remains
+an important methodological and practical challenge.
+    In this paper, we hypothesize that leveraging recent advances in latent variable modeling, par-
+ticularly in low-rank matrix/tensor factorization techniques, would be beneficial for improving the
+harmonization of brain connectivity data. Building on this, we propose a covariate-driven latent
+factor model for brain connectivity, which decomposes connectivity data into a linear combination
+of low-rank, sparse connectivity patterns, weighted by covariate factors. The sparsity assumption
+is motivated by two key considerations. First, the human brain is organized into distinct func-
+tional networks, each involving a relatively small number of regions (Salvador et al., 2005). Sparse
+connectivity patterns provide a parsimonious representation of these localized connections between
+brain regions (Eavani et al., 2015). Second, because connectivity matrices are high-dimensional,
+enforcing sparsity in latent patterns reduces the effective number of parameters, resulting in more
+stable and reliable estimates while preventing the risk of spurious findings (Y. Wang & Guo, 2023).
+    By embedding site and covariate effects into these latent factors, our model aims to identify
+and correct for localized site-specific heterogeneity within and across brain networks, while also
+accounting for biological effects from covariates. Our model achieves a more efficient and flexible
+representation of multi-site connectivity matrices by explicitly using site effects to drive the de-
+composition, avoiding the need for vectorization and thus preserving the network properties and
+the dependence structure of the connectivity matrix. Moreover, incorporating low-rank structure
+and regularization into modeling the sparse connectivity patterns reduces model complexity. To-
+gether, these efforts not only allow for the accurate localization and correction of site effects but
+also improve the interpretability of these effects in multi-site connectivity data.
+    The rest of this paper is organized as follows. In Section 2, we introduce SLACC (sparse latent
+covariate-driven connectome) factorization, a low-rank sparse latent factor model, for decomposing
+and harmonizing multi-site functional connectivity matrices, along with a penalized Expectation-
+Maximization (EM) algorithm. In Section 3, we conduct extensive simulations to demonstrate
+SLACC’s ability to recover true parameters and underlying connectivity patterns. In Section 4, we
+apply our method to the resting-state fMRI data from the Autism Brain Imaging Data Exchange
+(ABIDE) study and compare its performance with other harmonization approaches. We conclude
+with a discussion of the merits of SLACC, its limitations and future extensions in Section 5.
+
+
+                                                 3
+2     Methods
+
+2.1    Notation and setup
+
+In this paper, we formulate and present our model under a multi-site setting for generality, although
+a single-site setting can be considered as a special case if site effect correction is not a primary
+objective. Let i = 1, . . . , M denote the site index and j = 1, . . . , ni denote the subject index in
+the ith site. We denote by n = M
+                                  P
+                                     i=1 ni the total number of subjects in the study. Let xij be the
+q-dimensional covariate vector for the subject j in the site i (e.g., age and sex), Xi ∈ Rni ×q to be
+the xij stacked in rows for the ith site, and X ∈ Rn×q be the Xi stacked in rows across sites. Let
+Yij be a V ×V brain connectivity matrix for the subject j in the site i, where V denotes the number
+of brain regions. We define yij = T (Yij ) to be the vector of p = V (V + 1)/2 upper-triangular
+entries of Yij including the diagonal entries, and is defined similarly for any symmetric matrix as
+an input.
+    In this paper, matrices are denoted by bold uppercase letters, while vectors are denoted by
+bold lowercase letters. A ⊙ B, refers to the Hadamard product of A and B in same dimension, ⊗
+denotes the Kronecker product, and a ◦ b refers to the outer product of a and b. diag(a) refers to
+the diagonal matrix with entries a. ||a||q refers to the Lq norm of a.
+
+2.2    Model
+
+In our proposed model, Yij is decomposed into a linear combination of symmetric rank-1 sparse
+connectivity patterns {ul u⊤     L
+                              l }l=1 common to all sites, weighted by covariate-dependent subject
+scores {aijl }L
+              l=1 that we further parameterize to capture site and covariate effects. These aijl terms
+enable our model to identify and correct for localized site-specific heterogeneity within and across
+brain functional networks, while also accounting for biological covariate effects.
+   Specifically, we assume that connectivity matrices Yij follow the model:
+
+                                                 L
+                                                 X
+                                     Yij =             aijl × ul u⊤
+                                                                  l + Eij .                        (1)
+                                                 l=1
+
+
+Here, each ul = (ul1 , . . . , ulV )⊤ ∈ RV represents a vector of region weights for the lth sparsity
+pattern, and L represents the number of sparse connectivity patterns. Each element of the noise
+matrix Eij follows a Gaussian distribution:
+
+                                         i.i.d
+                              Eij [v, v ′ ] ∼ N (0, ϕ2i ),      1 ≤ v ≤ v ′ ≤ V.
+
+Note that Equation (1) is a common signal-plus-noise model to decompose and factorize brain
+connectivity, a specification widely used in the fMRI literature (Eavani et al., 2015; Zhao et al.,
+2021; Y. Wang & Guo, 2023), and the rank-1 patterns ul u⊤  l are well-informed by the observation
+that FC patterns often exhibit block-diagonal structure, as illustrated in Figure 1.
+   We further assume a linear model for aijl to incorporate covariate effects and site-related het-
+
+
+                                                          4
+erogeneity:
+
+                                                aijl = x⊤
+                                                        ij β l + δijl ,                                               (2)
+
+            i.i.d
+where δijl ∼ N (0, σil2 ) for j = 1, . . . , ni . To complete the model, we assume that Eij is independent
+of δijl for all i, j, l.
+    We note that, in Equations (1) and (2), the site effects are characterized by three sources: site-
+specific mean effects (via x⊤                                                     2
+                                ij β l ), site-specific latent-factor variances (σil ), and site-specific noise
+variance (ϕ2i ), providing flexibility in capturing site-specific heterogeneity in mean and covariance.
+
+
+
+
+Figure 1: Illustration of framework decomposing a subject’s connectivity matrix into sparse rank-1
+connectivity patterns {ul u⊤    L
+                             l }l=1 , weighted by subject scores aijl modeled by covariates xij .
+
+
+2.3    Likelihood
+
+Under (1)–(2), Yij follows a multilinear normal model (Ohlson et al., 2013). Given the symmetry
+of Yij , we derive its likelihood by considering the likelihood of yij = T (Yij ). For notational
+simplicity, define sl = T (ul u⊤           p
+                                    l ) ∈ R , S = [s1 ; . . . ; sL ] ∈ R
+                                                                        p×L , and denote the regression coefficients
+
+as B = [β 1 ; . . . ; β L ] ∈ Rq×L .
+   Let Θ = {B, U, σil2 , ϕ2i ; i = 1, . . . , M, l = 1, . . . , L} be the parameter set. Then yij follows a
+multivariate normal distribution with mean
+                                                     L
+                                                     X
+                                µij = E(yij |xij ) =   (x⊤               ⊤
+                                                         ij β l ) sl = SB xij ,
+                                                         l=1
+
+and site–specific covariance
+
+                                         L
+                                         X
+                Σi = Cov(yij | xij ) =         σil2 sl s⊤    2             2             2    ⊤   2
+                                                        l + ϕi Ip = Sdiag(σi1 , . . . , σiL )S + ϕi Ip ,
+                                         l=1
+
+where Ip is a p × p identity matrix. Then, the negative log–likelihood can then be written as
+                                                                                                               
+                                          M                           ni
+                                                                    M X
+                       1              1 X ni                       X    1                                      
+  −log L(Θ|yij ) =       log(2π) +                    log |Σi | +               (yij − µij )⊤ Σ−1
+                                                                                               i  (y ij − µ ij )  .   (3)
+                       2           pn            2                           2                                 
+                                            i=1                     i=1 j=1
+
+
+
+                                                           5
+2.4     Identifiability
+
+Let Y and E denote the n × V × V tensors that are formed by stacking Yij and Eij with the
+first mode corresponding to subjects, and the second and third modes corresponding to regions.
+Then, our model is reformulated as a 3-way array model using CANDECOMP/PARAFAC (CP)
+decomposition:
+
+                                      L
+                                      X
+                                Y=          al ◦ ul ◦ ul + E,     al = Xβ l + δ l ,                              (4)
+                                      l=1
+
+
+where δ l = (δ11l , . . . , δ1n1 l , . . . , δM 1l , . . . , δM nM l )⊤ . Under the CP decomposed form, we obtain the
+following result that equivalence of the likelihood implies equivalence of the parameters. The proof
+naturally follows the result of Lock & Li (2018).
+
+Theorem 1 The parameter set Θ is identifiable under the following regularity conditions:
+ A.1 min(n, q, L) ≥ 2 and L < V .
+ A.2 U = [u1 ; . . . ; uL ] is of full column rank, and ||ul ||2 = 1 for l = 1, . . . , L.
+ A.3 The first nonzero entries of ul for l = 1, . . . , L are positive.
+      2 ≥ σ 2 ≥ · · · ≥ σ 2 > 0.
+ A.4 σ11     12               1L
+ A.5 X is of full column rank.
+
+A.1 is needed to meet Kruskal’s uniqueness condition that is required to establish identifiability,
+and A.2-A.4 are needed because CP decomposition is not identifiable under scaling, sign flipping,
+and re-ordering.
+
+2.5     Parameter estimation
+
+It should be noted in Section 2.2 that the objective function in (3) is not convex with respect to
+all parameters, making optimization challenging. More importantly, the sparsity of ul needs to be
+included into the optimization process. We develop a penalized EM algorithm for optimizing the
+conditional expectation of the log-likelihood (3) for fixed L. Choosing L is discussed in Section 2.7.
+
+2.5.1    E-step
+
+As aij ≡ (aij1 , . . . , aijL )⊤ are latent variables in our model, the E-step updates aij by computing
+its conditional expectation given the data yij and the parameter estimates from the previous step:
+
+                                                                       ⊤ −1
+                            E(aij |yij ) = Σaij |yij (Σ−1    ⊤
+                                                       aij (B xij ) + S Σyij |aij yij ),                         (5)
+
+                   2 , . . . , σ 2 ), Σ             2             −1          ⊤ −1            −1
+where Σaij = diag(σi1           iL      yij |aij = ϕi · Ip , and Σaij |yij = S Σyij |aij S + Σaij .
+
+
+2.5.2    M-step: Updating β l , σil2 , and ϕ2i
+
+In the M-step, we maximize the conditional expectation of the joint log-likelihood of aij and yij .
+Since the joint log-likelihood of yij and aij can be decomposed into the log-likelihood of aij and the
+
+                                                         6
+conditional log-likelihood of yij given aij , the M-step is partitioned into two optimization problems:
+
+                             X ni
+                             M X                                                                   ni
+                                                                                                 M X
+                                                                                                 X
+        max                            Eaij |yij [log L(aij )]       and            max                    Eaij |yij [log L(yij |aij )].
+             2 M,L                                                          {ul }L      2 M
+{β l }L
+      l=1 ,{σil }i=1,l=1     i=1 j=1                                             l=1 ,{ϕi }i=1   i=1 j=1
+                                                                                                                                    (6)
+
+where Eaij |yij represents the conditional expectation of aij given yij . For parameters {β l , σil2 , ϕ2i },
+the closed-form solutions can be derived during each M-step. However, updating ul requires addi-
+tional algorithmic procedure that we address in Section 2.5.3. The first optimization problem in
+Equation (6) can be further separated into two parts, one updating β l and the other updating σil2 .
+
+Updating β l .             The part of the expected complete-data log-likelihood that depends on β l is
+
+                                                            M   n
+                                                         1 XXi
+                                                               (aijl − x⊤  ij β l )
+                                                                                   2
+                                   Q(β l ) = −                                       + constant,
+                                                         2
+                                                           i=1 j=1
+                                                                      σil2
+
+which is reduced to the weighted least squares problem, yielding the closed form as follows:
+                                                              −1                   
+                                              M X ni                  M X ni
+                                            X        xij x⊤ ij 
+                                                                     X       xij aijl 
+                                       β
+                                       b =
+                                         l               2
+                                                                   
+                                                                                 2      .                                           (7)
+                                             i=1 j=1
+                                                      σ  il          i=1 j=1
+                                                                               σ il
+
+
+Updating σil2 .            The site-specific conditional second-moment estimator is provided by
+
+                                      i   n
+                                   1 X
+                                        ((aij − B⊤ xij )(aij − B⊤ xij )⊤ + Σaij |yij ).                                             (8)
+                                   ni
+                                         j=1
+
+
+From here, {σil2 }M
+                  i=1 is obtained by taking diagonal entries of the above form.
+
+
+Updating ϕ2i .             ϕ2i is updated by
+
+                                                   i n
+                                               1 X
+                                  ϕ̂2i =             Eaij |yij ||yij − Saij ||22
+                                              ni p
+                                                     j=1
+                                                      ni
+                                               1     X                           1
+                                        =                  ||yij − Saij ||22 +     tr(S Σaij |yij S⊤ ).                             (9)
+                                              ni p                               p
+                                                     j=1
+
+
+
+
+                                                                       7
+2.5.3   M-step: updating ul with regularization
+
+Provided parameter updates in Sections 2.5.1 and 2.5.2, the M-step for updating U ≡ [u1 ; . . . ; uL ]
+without any penalization is equivalent to
+
+                                   ni
+                                 M X
+                                 X    ||Yij − UΠij U⊤ ||2F + tr((U⊤ U ⊙ U⊤ U)Σaij |yij )
+                   U = argmin                                                                 ,          (10)
+                          U      i=1 j=1
+                                                                 4ϕ2i
+
+         (t)
+where Πij = diag(aij1 , . . . , aijL ) ∈ RL×L . Its derivation is presented in Supplementary material A.
+To achieve sparsity, we propose to use L0 regularization on Us for two reasons. First, it provides
+estimates with less bias compared to other regularization methods (e.g., Lasso and ridge penalties),
+while still ensuring sparsity. This step is critical for harmonization, as it allows for more accurate
+identification and correction of site effects. Second, L0 regularization enables us to incorporate
+the Bayesian Information Criterion (BIC) directly into the M-step, thus avoiding the need for
+computationally expensive fine-tuning of parameters.
+    Specifically, when all the parameters other than U are fixed, the penalized objective guided by
+BIC is:
+                      ni
+                    M X
+                    X    ||Yij − UΠij U⊤ ||2F + tr((U⊤ U ⊙ U⊤ U)Σaij |yij )
+    U
+    b = argmin                                                                     + log(n) · ||U||0 .   (11)
+               U     i=1 j=1
+                                                      2ϕ2i
+
+Solving Equation (11) poses two computational challenges regarding non-convexity. First, di-
+rectly optimizing over L0 penalty is computationally intractable. To mitigate this issue, we
+consider the Truncated
+                         Lasso Penalty (TLP), a surrogate of L0 penalty expressed by ||U||0 ≈
+PV PL              |uvl |
+   v=1   l=1 min     τ , 1 (Shen et al., 2012). Here, τ > 0 is a tuning parameter controlling the de-
+gree of approximation, and the τ value closer to 0 makes TLP close to the L0 penalty. Following the
+default implementation of Shen et al. (2012) where the default τ depends on the dimensionality, we
+                 p
+choose τ = 0.5 · log(V L)/n as a default. Second, even the (unpenalized) objective in U contains
+bilinear form UΠij U⊤ , making Equation (11) computationally challenging. We handle this by
+using the Alternating Direction Method of Multipliers (ADMM) splitting, which allows mitigating
+the non-convexity by alternating convex subproblems. Specifically, we introduce an auxiliary copy
+U⋆ of U and enforce the consensus constraints U = U⋆ .
+    Addressing the proposed solutions to the challenges above results in the updated objective
+
+                            ni
+                          M X
+                          X    ||Yij − U⋆ Πij U⊤ ||2F + tr((U⋆⊤ U ⊙ U⋆⊤ U)Σaij |yij )
+          U
+          b = argmin
+                     U    i=1 j=1
+                                                             2ϕ2i
+                                       V   L                              V   L
+                               log(n) X X I(|uvl | ≤ τ )          log(n) X X I(|u⋆vl | ≤ τ ) ⋆
+                          +                              |uvl | +                           |uvl |,      (12)
+                                  2            τ                     2             τ
+                                      v=1 l=1                            v=1 l=1
+
+subject to the U = U⋆ that we solve using ADMM by alternating updates of U and U⋆ under
+the consensus constraint U = U⋆ . Analogous to the one-step update done in Shen et al. (2012),
+
+
+                                                        8
+we replace uv,l and u⋆v,l in the penalty term with the estimates from the previous step of the EM
+                  (t−1)           ⋆,(t−1)
+algorithm, i.e., uv,l     and uv,l          . The details are illustrated in Supplementary material B.
+
+2.6   Algorithmic considerations
+
+Altogether, our algorithm when L is fixed is summarized in Algorithm 1.
+
+Algorithm 1 Penalized EM algorithm, when L is provided
+                                       (0)           2(0)           2(0)
+ 1: Initialize: Initialize U(0) , aij , B(0) , σil          and ϕi         .
+ 2: for t = 1, 2, . . . until convergence do
+                                                2(t−1)          2(t−1)             (t)
+ 3:   E-step: Given U(t−1) ,B(t−1) , σil                 ,and ϕi         , update aij using Equation (5).
+                            (t)    2(t−1)
+ 4:   M-step: Given aij , ϕi                , and U(t−1) update U(t) by solving Equation (12).
+                            (t)             2(t−1)          (t−1)                        2(t)
+ 5:    M-step: Given aij , U(t) , σil          and ϕi    update B(t) and σil , using Equations (7) and
+       (8).
+                      (t)             (t−1)         2(t)        2(t)
+ 6:    M-step: Given aij , U(t) , ϕi         and σil , update ϕi using Equation (9).
+ 7:    Check for convergence: If ||U(t) − U(t−1) ||F < ϵ, stop the algorithm.
+ 8: end for
+                               (t)              (t)
+ 9: Normalize: Normalize ul with ||ul ||2 = 1 and make corresponding adjustments to B and
+     2
+    σil .
+10: Return: Θb = {U(t) , B(t) , σ 2(t) , ϕ2(t) }
+                                  il      i
+
+
+We note that each step of updating U in the penalized EM could lead to a local minimum, especially
+when L is high. To improve algorithmic stability, we find that implementing the unpenalized EM
+(i.e., solving Equation (10)) initialized with higher-order singular value decomposition (De Lath-
+auwer et al., 2000) and using the estimates as the initial estimates of the penalized EM algorithm
+significantly improves the convergence behavior. In addition to this, we find that an annealing
+strategy that gradually increases the penalty in Equation (12) from 0 (unpenalized EM) to log(n)
+at each iteration of the EM further mitigates the local minimum problem.
+
+2.7   Selection of L
+
+Up to this point, we have assumed that L in our model is known. To choose L from the data,
+we use the extended BIC to choose L (J. Chen & Chen, 2008). Specifically, the extended BIC is
+defined as:
+                                     ni
+                                   M X
+                                   X
+                    b = −2
+               EBIC(Θ)                         log L(Θ|y
+                                                     b ij ) + log(n) · df(Θ)
+                                                                          b + 2γ log(p) · df(Θ),
+                                                                                             b              (13)
+                                    i=1 j=1
+
+
+where df(Θ)b = qL + M L + M + ||U||  b 0 , the number of nonzero elements of the parameter set.
+0 ≤ γ ≤ 1 is chosen by user, and we set γ = 0.5 as a default. If p is deemed to be high, higher
+values of up to γ = 1 can be used. Alternative strategies may be used, such as site-stratified
+likelihood cross-validation to measure bias-variance tradeoff.
+
+
+
+                                                              9
+2.8    Harmonization
+
+After estimating parameters, we construct the harmonized data by removing site-specific means,
+normalizing site-specific variances for each latent factor, and rescaling the residual variances. Note
+that, if xij includes biological covariates zij and site dummy variables, then x⊤ ij β l can be rewritten
+         ⊤
+                                       PM
+as αl +zij θ l +γil with the constraint i=1 γil = 0. Since the site-specific heterogeneity is embedded
+in both the latent factors and the residual noise, we harmonize them as
+
+                                 (h)
+                  (h)       σl                                                           (h)    ϕ(h) b
+                 aijl =           (âijl − α̂l − z⊤                         ⊤
+                                                  ij θ̂ l − γ̂il ) + α̂l + zij θ̂ l ,   Eij =        Eij ,   (14)
+                             σ̂il                                                                ϕ̂i
+              q PM                          q PM
+                            2                           2
+       (h)         i=1 ni σ̂il                 i=1 ni ϕ̂i
+where σl =            n          , ϕ(h) =          n        . The harmonized data is therefore given by
+
+                                                       L
+                                               (h)        (h)            (h)
+                                                       X
+                                             Yij =       aijl ûl û⊤
+                                                                    l + Eij .
+                                                       l=1
+
+
+3     Simulation studies
+
+In this section, we evaluate the performance of our model through two simulation studies designed
+to validate theoretical properties, assess robustness, and demonstrate practical utility.
+
+3.1    Simulation 1
+
+
+
+
+            Figure 2: True U ∈ R50×5 for scenarios 1 and 2 used in simulation studies.
+
+
+                                                               10
+Simulation 1 evaluates parameter estimation under varying sample sizes (n = 100, 200, . . . , 500),
+when true L is specified correctly. We specify M = 2, L = 5, V = 50 (p = 1275), and q = 4.
+We considered two possible scenarios of U as illustrated in Figure 4: (i) Scenario 1 is the case
+where there are no overlapping entries across V and 20% of the entries are nonzero, and scenario
+2 has overlapping elements and 40% of the entries are nonzero. Each nonzero entries for both
+scenarios were generated once from Uniform(0.5, 1.0) and multiplied by either 1 or -1 randomly,
+then each column of U was normalized to have unit norm. We used 4 covariates in total, consisting
+of two continuous biological covariates and two site-specific intercepts. The biological covariates
+were generated from N (0, 1) and the corresponding regression coefficients were also generated from
+N (0, 1) and kept fixed throughout the simulation. Site-specific intercepts for each l were fixed
+to be 0.3 for site 1 and -0.3 for site 2 for every l = 1, . . . , 5. For variance components, we set
+  2 = 1, σ 2 = 2, . . . , σ 2 = 5 for site 1 and σ 2 = 5, σ 2 = 4, . . . , σ 2 = 1 for site 2. Lastly, we
+σ11           11              15                        21      22           25
+set ϕ21 = 1.2 and ϕ22 = 0.8. It yielded the median of σ 2 parameters divided by the median of ϕ2
+parameters equal to 3, and we note that it is considerably lower than the fit from the real data
+analysis in Section 4 in which the ratio was nearly 25.
+    For each sample size, we repeated the simulation B = 1000 times. After fitting the model, the
+column order as the sign of U       b were reordered based on the correlation between U
+                                                                                      b and U, and other
+parameters were re-ordered accordingly.
+    Due to the lack of statistical methods addressing the same problem, we considered two related
+methods as competitors: (i) (SLACC-True) SLACC with true U provided, which serves as a
+benchmark, and (ii) (SLACC-NoPen) SLACC without penalization in the M-step in updating
+U. To compare the performances, we use the following metrics. We first compare mean square error
+(MSE) for B, {σil2 }2,5             2 2
+                                                                                             PB      b (b)
+                        i=1,l=1 , {ϕi }i=1 . For example, the MSE for U is computed by 1/B ·   b=1 ||U −
+                                                                      b
+                                                                                               B
+U||2F where U    b (b) is the estimated U from the bth simulation. The variance (1/B ·               b (b) −
+                                                                                             P
+                                                                                               b=1 ||U
+PB        (b)      2                     2
+   b=1 U /B||F ) as well as bias (defined as MSE−variance) are reported. Second, we evaluated
+sensitivity and specificity of U.      b Sensitivity is defined as the proportion that Ub (b) captures the
+true nonzero indices out of the number of nonzero entries of U, and specificity is defined as the
+proportion that U     b (b) captures the true zero indices out of the number of zero entries of U. Note
+that, trivially, the sensitivity and specificity of SLACC-True are both 100% and the values for
+SLACC-NoPen are 100% and 0% respectively.
+    Figure 3 shows the results in Simulation 1. The overall patterns look similar in both scenarios,
+and we see a clearly decreasing MSE as sample size increases bounded above the performance of
+SLACC-true in all parameters. SLACC achieved consistently lower MSE than SLACC-NoPen in
+estimating U, while the difference in performance on other parameters become marginal as sample
+size increases. We also note that, attributed to the surrogate L0 penalization, the bias in SLACC’s
+parameter estimation was similar to SLACC-NoPen or often lower (e.g., in estimating ϕ2i ). Also,
+the surrogate L0 penalty in estimating U achieved high sensitivity and specificity in all n except
+for n = 100, which imply the case where the low signal-to-residual-noise (e.g., B and σil2 in relative
+to ϕ2i ) impedes the estimation of U.
+
+
+
+                                                    11
+Figure 3: Results of Simulation 1. The left and right columns describe scenarios 1 and 2, respec-
+tively. The first 4 rows describe MSE (red+blue), bias2 (red) and variance (blue). The last row
+shows sensitivity and specificity of the estimated U.
+
+
+
+                                               12
+3.2    Simulation 2
+
+Simulation 2 evaluates the EBIC approach in selecting the true L = 5 used in Simulation 1. We
+fit the model with varying L in the grid L ∈ {2, 3, . . . , 10} and extracted EBIC for each fit. The
+results of estimated L over 200 simulations are reported in Figure 6 of Supplementary material
+C. As expected, as n increases, the distribution of the chosen L gets closer to the true L in both
+scenarios. Similar to the sensitivity/specificity results discussed in Simulation 1, the BIC criterion is
+shown to be conservative depending on the signal-to-residual-noise ratio or sample size. Compared
+to scenario 1 where ul were orthogonal and the nonzero indices were not overlapping, a higher n
+was needed to consistently recover the true L as shown in Scenario 2.
+
+4     Data analysis
+
+4.1    Data preparation and preprocessing
+
+We use preprocessed resting-state fMRI (rs-fMRI) data from the Autism Brain Imaging Data Ex-
+change (ABIDE) (Di Martino et al., 2014) to empirically evaluate our model’s performance. ABIDE
+is a multi-site consortium providing rs-fMRI data from 408 subjects with Autism Spectrum Disor-
+der (ASD) and 476 controls. Due to the lack of prior coordination between sites, scan parameters,
+scanner types, and diagnostic/assessment protocols varied across sites. The sample size for each
+site ranged from 21 (CALTECH) to 169 (NYU). In addition to the existing evidence of site effects
+on functional connectivity (Yu et al., 2018), we also note that the number of scans per person
+varied substantially by sites, ranging from 78 (OHSU) to 296 time points (UM), which serves as a
+design-based evidence of site effects in variances because FC is a statistical estimate whose variance
+depends on the number of time points.
+    We used the ABIDE dataset preprocessed using the Configurable Pipeline for the Analysis of
+Connectomes (CPAC), which includes slice-timing correction, motion realignment, and intensity
+normalization. Further preprocessing details are provided in Craddock et al. (2013). The fMRI
+time-series for a set of regions of interest (ROIs) were obtained from the Harvard-Oxford (HO) atlas
+(Desikan et al., 2006; Frazier et al., 2005), which consists of V = 110 ROIs that we subsequently
+map to Yeo’s 7-network parcellation (Yeo et al., 2011) plus the subcortical network. The resulting
+8 functional networks include the Visual Network (VN), Subcortical Network (Scor), Somatomotor
+Network (SMN), Salience/Ventral Attention Network (SN/VAN), Limbic Network (LN), Fron-
+toparietal Control Network (FPCN), Dorsal Attention Network (DAN) and Default Mode Network
+(DMN).
+    We excluded 38 subjects with incomplete brain coverage and the CMU site due to its limited
+sample size (5 subjects). The final sample comprises 845 subjects across 16 sites. We then computed
+Fisher-transformed Pearson correlation matrices from the fMRI time-series data. Since our goal
+is to understand the individual differences in connectivity, we removed the sample mean across
+subjects for each edge as a preprocessing step. The diagonal entries were set to 0 and were not
+used in estimating ϕ2i .
+
+
+
+                                                   13
+4.2   Results
+
+We included six biological covariates in all methods: age, age2 , sex, diagnosis, age × sex, and
+age × diagnosis. We split the data into two folds consisting of 591 (70%) training and 254 (30%)
+test subjects, stratified by each study site. We fit our model to the training data, with L = 73
+selected by EBIC. About 68.2% of the entries in U             b were 0, which is shown in Figure 4. Our
+analysis reveals that the covariate-dependent latent patterns seem to vary across within-network
+and between-network structures. For example, a subset of regions in visual network (VN) had
+a noticeable similarity in latent patterns, and these seemed to be related to the salience/ventral
+attention network (SN/VAN) as well as frontoparietal control network (FPCN). At the same time,
+some latent patterns are very sparse and concentrated on a very few regions not clearly aligned
+with network structure.
+    We used the estimated parameters to extract the latent subject scores âijl for both the training
+and test data. Then, using the estimated parameters, we further constructed the ‘batch-free’ model
+                                         (h)
+with the parameters {ûl , θ̂ l , α̂l , σl ϕ(h) }L
+                                                 l=1 defined in Section 2.8, and obtained the corrected latent
+                                  ⋆
+subject scores, denoted by âijl , for both training and test data. We calculated two F test statistics
+for each edge to test (i) equality in means across sites and (ii) equality of variance across sites using
+absolute residuals as in Levene’s test (Carroll & Schneider, 1985).
+
+
+
+
+Figure 4: Estimated U (L = 73) using the training data (n = 591), with the column orders obtained
+by hierarchical clustering.
+
+   As seen in Figure 5, SLACC identified latent factors in training data that are highly associated
+with site effects in means and variances, and a few of them exhibited huge effects (i.e., F > 10
+in training data). After harmonization, most statistics shrink toward the null level. Although the
+average F statistic lower than 1 (expected value of the F distribution under the null) may occur
+
+                                                     14
+Figure 5: F test statistic for measuring mean and variance heterogeneity across sites, using both
+training (first row) and test data (second row). The dotted horizontal line is the expected value of
+the null F distribution (i.e., no site effects). The solid line is the 45 degree line.
+
+
+due to overfitting to the training data, our results on the test data also show that most F statistics
+are reduced closer to the nominal level as well, which is more evident for the latent features with
+large F statistics before harmonization.
+    We further compared the edge-level harmonization performance of SLACC to ComBat (Fortin et
+al., 2018), which adjusts feature-wise means and variances using a normal–inverse-gamma prior and
+uses Empirical Bayes for estimation. For ComBat, we used ComBatFamily (https://github.com/
+andy1764/ComBatFamily, ver. 0.2.1) to fit the model on the training data and to harmonize the
+test data. On the edge level, the median F for mean and variance were 1.40 and 1.08 for SLACC,
+compared to 1.25 and 1.15 for ComBat. This suggests that SLACC more effectively harmonizes
+variances, whereas ComBat more effectively harmonizes means. Lastly, we evaluate how well our
+method preserves biological variations. For each harmonized test data, we extracted p values for
+each edge by using the six covariates. ComBat had 7.58% of the p values less than 0.05, and SLACC
+had 7.40%. While ComBat was slightly more effective in preserving biological variations, we also
+note that biological covariates including age and sex were correlated with sites in the ABIDE data,
+
+                                                 15
+which might have confounded in the harmonization step (Bridgeford et al., 2025).
+
+5   Discussion
+
+In this paper, we propose SLACC, a novel statistical method for decomposing brain connectivity
+data into sparse rank-1 latent patterns and covariate-dependent subject scores in both mean and
+variance. We studied the identifiability of the model parameters under mild regulatory conditions
+and proposed a surrogate L0 penalized EM algorithm guided by the BIC, ensuring less biased
+parameter estimation while avoiding computationally expensive tuning. In our applications in a
+multi-site brain connectivity study, it enables modeling site effects in three different ways, improving
+interpretability and model-based understanding of site effects. By leveraging low-rank, sparse rep-
+resentations of connectivity matrices within the probabilistic modeling framework, SLACC captures
+and corrects artificial site effects through latent factors, preserving the underlying brain network
+structure. Incorporating low-rank structure and regularization reduces model complexity, leading
+to more reliable localization and correction of site effects.
+    Our work bridges recent advances in brain connectivity modeling for addressing popular ‘batch
+effects’ problems in neuroimaging. Recent work on blind source separation for brain connectivity
+(Y. Wang & Guo, 2023) models its sparse latent patterns while allowing each latent patterns have
+rank greater than 1. However, establishing identifiability and incorporating covariate effects in a
+generative model framework has been limited. A related approach aimed to adopt covariate-driven
+factorization of brain connectivity, but adopting sparsity of latent patterns in high dimension is
+non-trivial (Zhao et al., 2021; Park, 2025). By restricting latent patterns to be rank-1, our method
+achieves (i) identification of model parameters (ii) sparsity directly enforced in estimating ul s, and
+(iii) flexibility in modeling latent subject scores. Moreover, our model for latent subject scores is
+grounded in a linear modeling framework, which can be extended to more complex settings (e.g.,
+longitudinal designs).
+    The proposed model has some room for extension. First, our assumption that connectivity data
+follow a multivariate normal distribution does not guarantee that the harmonized connectivity ma-
+trices are positive semidefinite, which is a statistical property in brain connectivity derived from
+fMRI BOLD time series in addition to symmetry considered in this paper. We note, however,
+that (i) most brain-wide association studies (BWASs) rely on univariate correlational analysis of
+edge-level connectivity and a behavioral outcome and do not explicitly utilize the positive semidef-
+initeness, and (ii) not all brain connectivity matrices are positive semidefinite (e.g., structural
+connectivity). For these reasons, we focused on a general setting that enforces symmetry and mod-
+eled structured relationships. When ensuring positive definiteness is important, a simple remedy
+would be to truncate negative eigenvalues to 0 after applying SLACC. Another direction is to in-
+corporate alternative distributional assumptions (e.g., Wishart distributions) or log-link functions
+to model latent factors. Such adaptations, however, may compromise the computational efficiency
+(e.g., closed-form solutions in the estimation) and interpretability (e.g., mean/variance/covariance
+specification of site effects) offered by the current normal distribution framework. Second, SLACC
+
+
+                                                  16
+decomposes connectivity matrices into a set of rank-1 matrices of latent patterns, which may limit
+the method’s ability to recover neural circuits with complex topological structures or spatial pat-
+terns that extend beyond a rank-1 structure (Y. Wang & Guo, 2023). A potential extension of
+the SLACC framework could involve adopting more flexible higher-rank representations to better
+capture such complexity. Nevertheless, this extension would require addressing challenges such as
+ensuring identifiability. Third, uncertainty quantification and hypothesis testing for model param-
+eters in latent subject scores is not straightforward, and it might require conditioning on ûl s being
+known, as Zhao & Zhao (2025) also noted.
+
+Software availability
+
+The R package for implementing SLACC is publicly available at https://github.com/junjypark/
+SLACC.
+
+Declaration of competing interests
+
+None.
+
+Acknowledgements
+
+We would like to thank Dr. Piotr Zwiernik (University of Toronto) and Dr. Lindsay D. Oliver
+(Centre for Addiction and Mental Health) for their helpful suggestions.
+
+Funding
+
+RZ was partially supported by the University of Toronto’s Data Sciences Institute through the
+doctoral student fellowship. ET was partially supported by the Natural Sciences and Engineering
+Research Council of Canada under grant RGPIN-2023-04727, the University of Toronto Data Sci-
+ence Institute, and the University of Toronto McLaughlin Centre. JYP was partially supported by
+the Natural Sciences and Engineering Research Council of Canada under grant RGPIN-2022-04831,
+the University of Toronto Data Science Institute, and the Connaught Fund. The computing re-
+sources were enabled in part by support provided by University of Toronto and the Digital Research
+Alliance of Canada.
+
+References
+
+Biswal, B., Zerrin Yetkin, F., Haughton, V. M., & Hyde, J. S. (1995). Functional connectivity in the
+  motor cortex of resting human brain using echo-planar MRI. Magnetic Resonance in Medicine,
+  34 (4), 537–541.
+
+Bridgeford, E. W., Powell, M., Kiar, G., Noble, S., Chung, J., Panda, S., . . . others (2025).
+  When no answer is better than a wrong answer: A causal perspective on batch effects. Imaging
+  Neuroscience, 3 , imag a 00458.
+
+
+
+                                                  17
+Cai, B., Zille, P., Stephen, J. M., Wilson, T. W., Calhoun, V. D., & Wang, Y. P. (2017). Estimation
+  of dynamic sparse connectivity patterns from resting state fMRI. IEEE Transactions on Medical
+  Imaging, 37 (5), 1224–1234.
+Carroll, R. J., & Schneider, H. (1985). A note on Levene’s tests for equality of variances. Statistics
+  & Probability Letters, 3 (4), 191–194.
+Chen, A. A., Beer, J. C., Tustison, N. J., Cook, P. A., Shinohara, R. T., Shou, H., & Initiative,
+ A. D. N. (2022). Mitigating site effects in covariance for machine learning in neuroimaging data.
+ Human Brain Mapping, 43 (4), 1179–1195.
+Chen, A. A., Srinivasan, D., Pomponio, R., Fan, Y., Nasrallah, I. M., Resnick, S. M., . . . others
+ (2022). Harmonizing functional connectivity reduces scanner effects in community detection.
+ NeuroImage, 256 , 119198.
+Chen, J., & Chen, Z. (2008). Extended bayesian information criteria for model selection with large
+ model spaces. Biometrika, 95 (3), 759–771.
+Craddock, C., Sikka, S., Cheung, B., Khanuja, R., Ghosh, S. S., Yan, C., . . . others (2013). Towards
+  automated analysis of connectomes: The configurable pipeline for the analysis of connectomes
+  (c-pac). Frontiers in Neuroinformatics, 42 (10.3389).
+De Lathauwer, L., De Moor, B., & Vandewalle, J. (2000). A multilinear singular value decomposi-
+  tion. SIAM journal on Matrix Analysis and Applications, 21 (4), 1253–1278.
+Desikan, R. S., Ségonne, F., Fischl, B., Quinn, B. T., Dickerson, B. C., Blacker, D., . . . others
+  (2006). An automated labeling system for subdividing the human cerebral cortex on MRI scans
+  into gyral based regions of interest. NeuroImage, 31 (3), 968–980.
+Di Martino, A., Yan, C.-G., Li, Q., Denio, E., Castellanos, F. X., Alaerts, K., . . . others (2014).
+  The autism brain imaging data exchange: towards a large-scale evaluation of the intrinsic brain
+  architecture in autism. Molecular Psychiatry, 19 (6), 659–667.
+Eavani, H., Satterthwaite, T. D., Filipovych, R., Gur, R. E., Gur, R. C., & Davatzikos, C. (2015).
+  Identifying sparse connectivity patterns in the brain using resting-state fMRI. NeuroImage, 105 ,
+  286–299.
+Fortin, J.-P., Cullen, N., Sheline, Y. I., Taylor, W. D., Aselcioglu, I., Cook, P. A., . . . others (2018).
+  Harmonization of cortical thickness measurements across scanners and sites. NeuroImage, 167 ,
+  104–120.
+Fortin, J.-P., Parker, D., Tunç, B., Watanabe, T., Elliott, M. A., Ruparel, K., . . . others (2017).
+  Harmonization of multi-site diffusion tensor imaging data. NeuroImage, 161 , 149–170.
+Fox, M. D., & Greicius, M. (2010). Clinical applications of resting state functional connectivity.
+  Frontiers in Systems Neuroscience, 4 , 1443.
+Fox, M. D., Snyder, A. Z., Vincent, J. L., Corbetta, M., Van Essen, D. C., & Raichle, M. E. (2005).
+  The human brain is intrinsically organized into dynamic, anticorrelated functional networks.
+  Proceedings of the National Academy of Sciences, 102 (27), 9673–9678.
+Frazier, J. A., Chiu, S., Breeze, J. L., Makris, N., Lange, N., Kennedy, D. N., . . . others (2005).
+  Structural brain magnetic resonance imaging of limbic and thalamic volumes in pediatric bipolar
+  disorder. American Journal of Psychiatry, 162 (7), 1256–1265.
+
+                                                    18
+Friston, K. J., Frith, C. D., Liddle, P. F., & Frackowiak, R. S. (1993). Functional connectivity:
+  the principal-component analysis of large (PET) data sets. Journal of Cerebral Blood Flow &
+  Metabolism, 13 (1), 5–14.
+
+Greicius, M. D., Krasnow, B., Reiss, A. L., & Menon, V. (2003). Functional connectivity in the
+  resting brain: a network analysis of the default mode hypothesis. Proceedings of the National
+  Academy of Sciences, 100 (1), 253–258.
+
+Johnson, W. E., Li, C., & Rabinovic, A. (2007). Adjusting batch effects in microarray expression
+  data using empirical Bayes methods. Biostatistics, 8 (1), 118–127.
+
+Lock, E. F., & Li, G. (2018). Supervised multiway factorization. Electronic Journal of Statistics,
+  12 (1), 1150.
+
+Marrelec, G., Krainik, A., Duffau, H., Pélégrini-Issac, M., Lehéricy, S., Doyon, J., & Benali, H.
+ (2006). Partial correlation for functional brain interactivity investigation in functional MRI.
+ NeuroImage, 32 (1), 228–237.
+
+Ohlson, M., Ahmad, M. R., & Von Rosen, D. (2013). The multilinear normal distribution: Intro-
+ duction and some basic properties. Journal of Multivariate Analysis, 113 , 37–47.
+
+Park, H. G. (2025). Bayesian estimation of covariate assisted principal regression for brain func-
+  tional connectivity. Biostatistics, 26 (1), kxae023.
+
+Salvador, R., Suckling, J., Coleman, M. R., Pickard, J. D., Menon, D., & Bullmore, E. (2005).
+  Neurophysiological architecture of functional magnetic resonance images of human brain. Cerebral
+  Cortex , 15 (9), 1332–1342.
+
+Shen, X., Pan, W., & Zhu, Y. (2012). Likelihood-based selection and sharp parameter estimation.
+  Journal of the American Statistical Association, 107 (497), 223–232.
+
+Sun, W. W., & Li, L. (2017). STORE: sparse tensor response regression and neuroimaging analysis.
+  Journal of Machine Learning Research, 18 (135), 1–37.
+
+Van Den Heuvel, M. P., & Pol, H. E. H. (2010). Exploring the brain network: a review on resting-
+  state fMRI functional connectivity. European Neuropsychopharmacology, 20 (8), 519–534.
+
+Wang, Y., & Guo, Y. (2023). LOCUS: A regularized blind source separation method with low-
+ rank structure for investigating brain connectivity. The Annals of Applied Statistics, 17 (2),
+ 1307–1332.
+
+Wang, Z., Alahmadi, A., Zhu, D., & Li, T. (2015). Brain functional connectivity analysis us-
+ ing mutual information. In 2015 IEEE global conference on signal and information processing
+ (GlobalSIP) (pp. 542–546).
+
+Yeo, B. T., Krienen, F. M., Sepulcre, J., Sabuncu, M. R., Lashkari, D., Hollinshead, M., . . .
+  others (2011). The organization of the human cerebral cortex estimated by intrinsic functional
+  connectivity. Journal of Neurophysiology.
+
+Yu, M., Linn, K. A., Cook, P. A., Phillips, M. L., McInnis, M., Fava, M., . . . Sheline, Y. I.
+  (2018). Statistical harmonization corrects site effects in functional connectivity measurements
+  from multi-site fMRI data. Human Brain Mapping, 39 (11), 4213–4227.
+
+
+                                                19
+Zhang, R., Chen, L., Oliver, L. D., Voineskos, A. N., & Park, J. Y. (2024). SAN: Mitigating
+  spatial covariance heterogeneity in cortical thickness data collected from multiple scanners or
+  sites. Human Brain Mapping, 45 (7), e26692.
+
+Zhang, R., Oliver, L. D., Voineskos, A. N., & Park, J. Y. (2023). RELIEF: A structured multivariate
+  approach for removal of latent inter-scanner effects. Imaging Neuroscience, 1 , 1–16.
+
+Zhao, Y., Wang, B., Mostofsky, S. H., Caffo, B. S., & Luo, X. (2021). Covariate assisted principal
+  regression for covariance matrix outcomes. Biostatistics, 22 (3), 629–645.
+
+Zhao, Y., & Zhao, Y. (2025). Covariance-on-covariance regression. Biometrics, 81 (3), ujaf097.
+
+Zonneveld, H. I., Pruim, R. H., Bos, D., Vrooman, H. A., Muetzel, R. L., Hofman, A., . . . others
+  (2019). Patterns of functional connectivity in an aging population: The Rotterdam Study.
+  NeuroImage, 189 , 432–444.
+
+
+
+
+                                                20
+                                         Supplementary materials
+
+A   Derivation of Equation (10)
+
+Recall our model is summarized by Yij = UΠij U⊤ + Eij , with Πij = diag(aij1 , . . . , aijL ) and
+T (Eij ) ∼ N 0, ϕ2i Ip . Up to an additive constant, the conditional negative log-likelihood is
+                      
+
+
+                                                          1
+                          − log p(Yij |aij ; U) ∝             ||T(Yij − UΠij U⊤ )||22 .              (15)
+                                                         2ϕ2i
+
+Here, we optimize an equivalent form using a Frobenius norm: ||T (M)| |22 = κ · ||M| |2F , where κ
+is a constant that depends only on the choice of T (·). Since κ does not depend on U, it does not
+affect the optimizer. Equation (15) is equivalent (up to constants) to
+
+                                                            1
+                           − log p(Yij |aij ; U) ∝              ||Yij − UΠij U⊤ ||2F .               (16)
+                                                           4ϕ2i
+
+   As a preliminary step, let âij = E(aij |yij ) and Qij = Cov(aij |yij ) be the posterior mean and
+covariance from the E-step. Write
+
+                    aij = âij + dij ,       E(dij |yij ) = 0,        E(dij d⊤
+                                                                             ij |yij ) = Qij .
+
+
+Define Π
+       b ij = diag(âij1 , . . . , âijL ) so that Πij = Π
+                                                         b ij + diag(dij ). Then, consider the conditional
+expectation of the squared Frobenius loss in Equation (16):
+
+         E[||Yij − UΠij U⊤ ||2F | yij ] = E[||Yij − UΠ
+                                                     b ij U⊤ − Udiag(dij )U⊤ ||2 | yij ]
+                                                                               F
+                                                      b ij U⊤ ||2 + E[||Udiag(dij )U⊤ ||2 | yij ].
+                                           = ||Yij − UΠ                                              (17)
+                                                                F                       F
+
+
+Note that the cross-term vanishes because E(dij |yij ) = 0.
+   Now, it is sufficient to obtain the second term of Equation (17). Using Udiag(dij )U⊤ =
+PL             ⊤
+  l=1 dijl ul ul , we obtain
+
+                                         L X
+                                         X L
+               ||Udiag(dij )U⊤ ||2F =                dijl dijl′ (u⊤      2   ⊤    ⊤     ⊤
+                                                                  l ul′ ) = dij (U U ⊙ U U)dij .
+                                         l=1 l′ =1
+
+
+Taking expectation and using E(dij d⊤
+                                    ij |yij ) = Qij yields
+
+
+                        E[||Udiag(dij )U⊤ ||2F | yij ] = tr((U⊤ U ⊙ U⊤ U) Qij ).                     (18)
+
+Combining (16), (17), and (18), the M-step objective for updating U reduces to Equation (10).
+
+
+
+
+                                                          21
+B     Details of the ADMM algorithm for U in the penalized M-step
+
+B.1    Penalized M-step objective for updating U via Equation (12)
+
+Let Qij = Qi = Σaij |yij ∈ RL×L denote the conditional covariance of aij in the E-step. In our
+implementation, Qi is site-specific and does not depend on j. Define weights wij = 1/ϕ2i and
+wsum = M
+        P Pni
+          i=1   j=1 wij . Then the penalized M-step for U (after one-step linearization of the TLP
+penalty) can be written as
+
+                     ni
+                   M X
+                   X    wij
+           min                    {||Yij − U⋆ Πij U⊤ ||2F + tr((U⋆⊤ U ⊙ U⋆⊤ U)Qi )}
+           U,U⋆               2
+                   i=1 j=1
+
+                     + λ||C(t−1) ⊙ U||1 + λ||C⋆(t−1) ⊙ U⋆ ||1         subject to        U = U⋆ ,      (19)
+
+where λ = log(n)/2 in our paper. Following Equation (12), the (v, l)th entry of C(t−1) are
+1     (t−1)
+τ I(|uvl    | ≤ τ ), and the entries for C⋆(t−1) are defined accordingly.
+
+B.2    ADMM splitting and augmented Lagrangian
+
+To handle the nonsmooth L1 terms and the symmetry constraint U = U⋆ , we introduce auxiliary
+variables Z and Z⋆ and impose U = Z, U⋆ = Z⋆ , and U = U⋆ . Let f (U, U⋆ ) denote the smooth
+part of (19). We solve
+
+                        min         f (U, U⋆ ) + λ||C(t−1) ⊙ Z||1 + λ||C⋆(t−1) ⊙ Z⋆ ||1
+                     U,U⋆ ,Z,Z⋆
+
+                    such that       U = Z,          U⋆ = Z⋆ ,   U = U⋆ .
+
+Using the scaled ADMM form, we introduce dual variables W, W⋆ for (U − Z) and (U⋆ − Z⋆ ),
+and Λ for (U − U⋆ ). With penalty parameters ρ > 0 and η > 0, the scaled augmented Lagrangian
+becomes
+
+             Lρ,η =f (U, U⋆ ) + λ||C(t−1) ⊙ Z||1 + λ||C⋆(t−1) ⊙ Z⋆ ||1
+                      ρ                     ρ                        η
+                   + ||U − Z + W||2F + ||U⋆ − Z⋆ + W⋆ ||2F + ||U − U⋆ + Λ||2F .                       (20)
+                      2                     2                        2
+
+B.3    Closed-form updates for U and U⋆
+
+At iteration k, updating U reduces to solving
+
+                                        ρ                        η
+         U(k+1) = argmin f (U, U⋆(k) ) + ||U − Z(k) + W(k) ||2F + ||U − U⋆(k) + Λ(k) ||2F .           (21)
+                     U                  2                        2
+
+Let GU ⋆ and HU ⋆ be defined by
+
+                   X ni
+                   M X                                                     ni
+                                                                         M X
+                                                                         X
+                                          ⋆⊤    ⋆
+          GU ⋆ =             wij Πij (U        U ) Πij    and   HU ⋆ =             wij Yij U⋆ Πij ,
+                   i=1 j=1                                               i=1 j=1
+
+
+
+
+                                                         22
+                                                                 1                   PM Pni
+and define the aggregated conditional second-moment matrix Q = wsum                    i=1   j=1 wij Qi .   Then
+the optimality condition for (21) yields the linear system
+
+                        U(k+1) KU ⋆ = HU ⋆ + ρ(Z(k) − W(k) ) + η(U⋆(k) − Λ(k) ),
+
+where
+
+                           KU ⋆ = GU ⋆ + (ρ + η)IL + wsum (U⋆(k)⊤ U⋆(k) ⊙ Q).
+
+Therefore,
+
+                       U(k+1) = (HU ⋆ + ρ(Z(k) − W(k) ) + η(U⋆(k) − Λ(k) ))K−1
+                                                                            U⋆.
+
+
+   The U⋆ -update is analogous with U and U⋆ swapped.
+
+B.4     Soft-thresholding updates and dual steps
+
+Updating Z reduces to the following objective:
+
+                                                        ρ
+                      Z(k+1) = argmin λ||C(t−1) ⊙ Z||1 + ||U(k+1) − Z + W(k) ||2F ,
+                                  Z                     2
+
+which has the elementwise soft-thresholding solution
+
+              (k+1)                      (k+1)       (k)
+             Zvl      = S(λ/ρ)C (t−1)(Uvl        + Wvl ),       Sκ (x) = sign(x) · max(|x| − κ, 0).
+                                vl
+
+
+
+The update for Z⋆ is identical with (U⋆ , W⋆ , C⋆(t−1) ).
+  The dual variables are updated by
+
+                                     W(k+1) = W(k) + U(k+1) − Z(k+1) ,
+                                     W⋆(k+1) = W⋆(k) + U⋆(k+1) − Z⋆(k+1) ,
+                                      Λ(k+1) = Λ(k) + U(k+1) − U⋆(k+1) .
+
+
+
+
+                                                           23
+C   Supplementary figures for Simulation 2 results
+
+
+
+
+Figure 6: Evaluation of the EBIC criterion in choosing L in simulation studies. Each simulation
+was repeated 200 times. Each dotted curve and gray dot denote the EBIC curve and its minimum
+for each simulated data, and the solid curve represents the pointwise average across simulations.
+
+
+
+
+                                               24
+
