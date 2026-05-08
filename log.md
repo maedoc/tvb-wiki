@@ -112,3 +112,7 @@
 ## [2026-05-08 16:53] FullTextFetcher: fetched 2 new full texts (83 total in corpus)
 
 ## [2026-05-08 17:21] CrosslinkApplier: added 23 wikilinks (23 inline, 0 suggested)
+
+## [2026-05-08 17:21] Matcher: 1 pages got 3 new sources
+
+## [2026-05-08 18:07] Audit: 839 issues (82 broken links, 35 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 13 opaque-refs, 19 thin, 441 missing-links)
