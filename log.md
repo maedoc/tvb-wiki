@@ -104,3 +104,5 @@
 ## [2026-05-08 15:45] Linter: 82 broken links, 35 orphans, 1 stale, 0 empty
 
 ## [2026-05-08 15:45] LinkRepair: fixed 25 files (9 wikilink-in-URL, 16 abs-path)
+
+## [2026-05-08 16:09] DeepResearch: 15 papers added via focused research
