@@ -4,6 +4,7 @@ sources:
 - raw/papers/arxiv-2507.20990.md
 - raw/papers/semanticscholar-9afbfd2d37be.md
 - raw/papers/semanticscholar-39decd6e7d9f.md
+- raw/papers/semanticscholar-2d6ce9a9b368.md
 tags:
 - jax
 - machine-learning

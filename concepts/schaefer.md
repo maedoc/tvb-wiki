@@ -4,6 +4,9 @@ sources:
 - raw/papers/arxiv-2510.05325.md
 - raw/papers/power-2011.md
 - raw/papers/smith-2013-hcp.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-66f887e82e89.md
+- raw/papers/anticevic-2012.md
 tags:
 - brain-parcellation
 - functional-connectivity

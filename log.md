@@ -136,3 +136,5 @@
 ## [2026-05-08 23:09] Audit: 773 issues (63 broken links, 26 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 15 opaque-refs, 18 thin, 441 missing-links)
 
 ## [2026-05-08 23:22] Improve: 1 pages improved (jansen-rit-model)
+
+## [2026-05-08 23:32] CrosslinkApplier: added 38 wikilinks (38 inline, 0 suggested)
