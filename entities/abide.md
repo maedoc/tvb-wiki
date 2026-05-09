@@ -10,7 +10,7 @@ tags:
 - dataset
 title: ABIDE
 type: entity
-updated: '2026-05-08'
+updated: '2026-05-09'
 ---
 
 The Autism Brain Imaging Data Exchange (ABIDE) is a collaborative consortium that aggregates and publicly shares [[neuroimaging]] datasets from individuals with autism spectrum disorder (ASD) and matched neurotypical controls. Launched in 2012, ABIDE represents one of the earliest large-scale open-science initiatives in psychiatric neuroimaging, providing researchers worldwide with access to preprocessed and raw [[resting-state]] functional magnetic resonance imaging ([[fmri]]) data collected across multiple institutions. The consortium addresses a fundamental barrier in [[neurodevelopment]] research: the scarcity of large, multi-site datasets needed to achieve statistical power for detecting subtle yet clinically meaningful patterns of brain dysfunction.
@@ -57,4 +57,4 @@ Beyond its role in TVB workflows, ABIDE complements other major neuroimaging dat
 
 ## References
 
-1. (authors unknown). *ABIDE Dataset*. [Link](](http://fcon_1000.projects.nitrc.org/indi/abide/))
+1. (authors unknown). *ABIDE Dataset*. [Link](](http://fcon_1000.projects.[[nitrc]].org/indi/abide/))

@@ -57,7 +57,7 @@ Third, the parcellation is cortical-only; subcortical structures are not include
 
 1. V. Kirova, Dzerassa Kadieva, Daniil Vlasenko, Isak B. Blank, Fedor Ratnikov. (2025). *Dynamic Functional Connectivity Features for Brain State Classification: Insights from the [[human-[[connectome]]-project]]*. arXiv.org. [DOI](](https://doi.org/10.48550/arXiv.2510.05325))
 2. (authors unknown). *Functional Network Organization of the Human Brain*.
-3. (authors unknown). *Resting-State fMRI in the Human Connectome Project*.
+3. (authors unknown). *Resting-State fMRI in the [[human-[[connectome]]-project]]*.
 4. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
 5. Federica Franza, M. Cirillo, M. Silvestro, F. Trojsi, Antonio Russo, Fabrizio Esposito, M. A. Pirozzi. (2025). *Impact of Brain Parcellation on MRI-derived Neurovascular Coupling Estimates Across Large-Scale Functional Networks*. 2025 IEEE International Conference on Metrology for eXtended Reality, Artificial Intelligence and Neural Engineering (MetroXRAINE). [DOI](](https://doi.org/10.1109/MetroXRAINE66377.2025.11340209))
 6. Anticevic et al. (2012). *Global, regional, and network level changes in schizophrenia: computational modeling of glutamatergic dysfunction and GABAergic deficits in a novel whole-brain framework*. Proceedings of the National Academy of Sciences (PNAS). [DOI](](https://doi.org/10.1073/pnas.1114858109))
