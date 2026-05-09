@@ -196,3 +196,7 @@
 ## [2026-05-09 14:02] DeepResearch: 2 papers added via focused research
 
 ## [2026-05-09 14:13] Audit: 776 issues (66 broken links, 27 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 16 opaque-refs, 15 thin, 443 missing-links)
+
+## [2026-05-09 15:45] Linter: 66 broken links, 27 orphans, 1 stale, 0 empty
+
+## [2026-05-09 15:45] Librarian: catalog rebuilt, 9547 asymmetric links noted

@@ -52,6 +52,6 @@ Despite substantial progress, fundamental questions remain about the biological 
 ## References
 
 1. (authors unknown). *Resting-State fMRI in the Human [[connectome]] Project*.
-2. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
+2. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](](https://doi.org/10.1016/j.tins.2013.09.002))
 3. (authors unknown). *Functional Network Organization of the Human Brain*.
 4. (authors unknown). *Functional connectivity in the motor cortex of resting human brain using echo-planar MRI*.
