@@ -1,0 +1,1400 @@
+Cognitive Neurodynamics        (2026) 20:48
+https://doi.org/10.1007/s11571-026-10415-5
+
+    RESEARCH ARTICLE
+
+
+
+A brain-constrained neural model of cognition and language with
+NEST: transitioning from the Felix framework
+Maxime Carriere1 · Fynn Dobler1,4 · Hans Ekkehard Plesser6,7,8 · Agata Feledyn1 · Rosario Tomasello1,2 ·
+Thomas Wennekers5 · Friedemann Pulvermüller1,2,3,4
+
+Received: 1 September 2025 / Revised: 16 December 2025 / Accepted: 14 January 2026
+© The Author(s) 2026
+
+
+Abstract
+We introduce a brain-constrained neurocomputational model designed to simulate higher cognitive functions of the human
+brain, implemented using NEST, a widely used open-source simulator optimised for high-performance spiking neural net-
+work simulations. Previously implemented in the custom-built C-based Felix simulation library, transitioning the model to
+NEST enhances accessibility, reproducibility, and computational efficiency. At the cellular level, the model comprises spik-
+ing excitatory neurons and local inhibitory neurons, whereas at the network level, it replicates the structural and functional
+organisation of 12 cortical regions spanning frontal, temporal, and occipital cortices, along with their associated inter-area
+connectivity. Additionally, global inhibition mechanisms and neuronal noise are integrated. Learning in the model follows
+biologically plausible Hebbian plasticity principles, incorporating both long-term potentiation and long-term depression. To
+validate the NEST implementation, we replicated previous simulation findings obtained with the Felix-based model. The
+new implementation successfully reproduced the same topographical distribution of cell assemblies following associative
+learning of object and action words within action and perception systems, replicating a range of previous neuroimaging
+results. Although the NEST model produced larger cell assemblies than Felix, the overall topographical patterns remained
+similar, indicating preservation of fundamental network characteristics. Moreover, the transition to NEST significantly
+enhanced computational efficiency, reducing simulation runtime nearly sixfold compared to Felix. This improvement in
+computational speed is crucial for expanding the model to include additional cortical regions, such as extending to the
+right hemisphere, which necessitates increased computational resources.
+
+Keywords Brain-constrained model · Language model · Hebbian learning · NEST · Neural network
+
+
+Introduction                                                              such as language, memory, and perception (Bibbig et al.
+                                                                          1995; Eliasmith and Anderson 2003; Sommer and Wen-
+In recent decades, brain-constrained computational models                 nekers 2003; Wennekers et al. 2006; Garagnani et al. 2007;
+have emerged as powerful tools for understanding the neu-                 Garagnani and Pulvermüller 2016; van Gerven and Bohte
+ral mechanisms underlying complex cognitive processes,                    2017; Kriegeskorte and Douglas 2018; Tomasello et al.
+
+
+                                                                          4
+     Maxime Carriere                                                          Einstein Center for Neurosciences, 10117 Berlin, Germany
+     carriere.maxim@gmail.com                                             5
+                                                                              School of Engineering, Computing and Mathematics, Faculty
+1                                                                             of Science and Engineering, University of Plymouth,
+     Department of Philosophy and Humanities Brain Language
+                                                                              PL4 8AA Plymouth, UK
+     Laboratory, WE4 Freie Universität Berlin, 14195 Berlin,
+                                                                          6
+     Germany                                                                  Department of Data Science, Faculty of Science and
+2                                                                             Technology, Norwegian University of Life Sciences, Ås,
+     Cluster of Excellence’ Matters of Activity. Image Space
+                                                                              Norway
+     Material’, Humboldt Universität zu Berlin, 10099 Berlin,
+                                                                          7
+     Germany                                                                  Institute for Advanced Simulation (IAS-6), Research Centre
+3                                                                             Jülich, Jülich, Germany
+     School of Mind and Brain, Humboldt Universität zu Berlin,
+                                                                          8
+     10117 Berlin, Germany                                                    Käte Hamburger Kolleg: Cultures of Research (c:o/re),
+                                                                              RWTH Aachen University, Aachen, Germany
+
+
+                                                                                                                                  13
+ 48      Page 2 of 24                                                             Cognitive Neurodynamics      (2026) 20:48
+
+
+2018; Dobler et al. 2024, 2025; Nguyen et al. 2024; Car-           six cortical areas known to be of particular relevance to lan-
+riere et al. 2024, 2025). These models integrate biological        guage, which include the left auditory and articulatory areas
+and plausible principles by mimicking key aspects of neural        and the so-called ‘language regions’ of Broca and Wernicke
+anatomy, connectivity, and dynamics, allowing research-            (Wennekers et al. 2006; Garagnani et al. 2008). This 6-area
+ers to explore how specific features of the brain’s structure      model was subsequently expanded to include 12 cortical
+shape its functional properties (van Albada et al. 2022; Pro-      areas, integrating visual, motor and adjacent prefrontal and
+nold et al. 2024). By grounding theoretical hypotheses in          anterior-temporal regions to provide a more comprehensive
+biologically plausible frameworks, these models can pro-           framework for studying semantic learning and symbolic
+vide a bridge between experimental data and computational          processing (Garagnani and Pulvermüller 2016; Tomasello
+neuroscience (Deco et al. 2008; Carandini 2012; Einevoll et        et al. 2017, 2018, 2019; Henningsen-Schomers and Pulver-
+al. 2019; Pulvermüller et al. 2021).                               müller 2022; Dobler et al. 2024). The model integrates neu-
+    However, the rapid expansion of this field has exposed         roanatomical and physiological principles across micro- and
+critical challenges, particularly regarding reproducibility,       macro-levels of the human cortex, supporting biologically
+scalability, and accessibility (Poldrack et al. 2017; Mar-         grounded simulations (Pulvermüller et al. 2021; 2023).
+wick et al. 2018; Plesser 2018). Many existing models lack         Although several biological features may require further
+accessibility as their code is often unavailable or difficult to   refinement, such as more realistic neural dynamics, precise
+reproduce due to incomplete documentation of training pro-         temporal structure, and a biologically plausible excitatory–
+cedures and parameters. This limits replication and exten-         inhibitory balance, the model in its present form has none-
+sions of modelling approaches, and their adoption by the           theless successfully reproduced a range of neuroimaging
+broader research community (Goodman and Brette 2009;               findings and provided mechanistic accounts for multiple
+Ngai 2022). These barriers hinder progress and underscore          linguistic phenomena (see Pulvermüller 2023; for review).
+the need for open, scalable tools to support the reproduc-            While these models have yielded critical insights into the
+ibility and democratisation of brain-constrained modelling.        neural basis of language processing, their reliance on Felix
+    A recent variant of brain-constrained neural network           – an older simulator restricted to 32-bit Linux, has limited
+models, the ‘Brain-constrained Perception Action Model of          their accessibility, reproducibility, and scalability. This has
+Cognition and Language’ or BPAM-o-CAL, has been exten-             created barriers for widespread adoption and independent
+sively applied to implement higher human cognitive capaci-         validation, underscoring the need for a transition to an open-
+ties, including the emergence of verbal working memory,            source, widely available alternative.
+building of symbolic representations, the formation and               To address these challenges, we chose to re-implemenent
+processing of concepts and different types of meaning              the BPAM-o-CAL model in NEST (NEural Simulation
+(Garagnani and Pulvermüller 2016; Tomasello et al. 2017,           Tool), a parallel open-source simulator designed for spik-
+2018; 2025; Constant et al. 2023; Henningsen-Schomers              ing neural networks (Gewaltig and Diesmann 2007; Plesser
+and Pulvermüller 2022; Dobler et al. 2024). Specific stud-         et al. 2022). By transitioning our model to NEST, we not
+ies covered a range of topics, including: (i) the interaction      only take advantage of its technical strengths but also con-
+between attention processes and language (Garagnani et al.         tribute to the model sharing and re-use in advanced brain-
+2008); (ii) neural plasticity in congenitally blind popula-        constrained modelling, addressing ongoing concerns about
+tions (Tomasello et al. 2019, 2024); (iii) fast mapping of         reproducibility and ensuring that biologically realistic sim-
+words to referents (Constant et al. 2023; Tomasello 2025);         ulations remain at the forefront of cognitive neuroscience
+(iv) neuroanatomical constraints enabling memory forma-            (Nordlie et al. 2009; Rougier et al. 2017; Plesser 2018).
+tion for spoken words (Schomers et al. 2017; Carriere et              The primary objective of this study is to validate the re-
+al. 2024); (v) learning and representation building for con-       implementation of the BPAM-o-CAL to NEST by replicat-
+crete conceptual categories (Nguyen et al. 2024); (vi) lan-        ing key results from a seminal neurocomputational study on
+guage modulating color perception (Tomasello et al. under          semantic learning in a spiking network anatomically aligned
+review); and (vii) concrete versus abstract concepts and           with relevant cortical structures (Pandya 1995; Pulvermül-
+symbolic meanings (Henningsen-Schomers and Pulver-                 ler 1999; Fadiga et al. 2002; Dum and Strick 2005; Rilling
+müller 2022; Henningsen-Schomers et al. 2022; Dobler et            2014). This previous study investigated essential features of
+al. 2024). Notably, all of the aforementioned studies were         semantic circuits and word acquisition, demonstrating the
+developed within the same research group using the Felix           emergence of distributed, category-specific representations
+neural simulation framework (Wennekers et al. 2006; for            across cortical areas for action and object words (Tomasello
+recent review see Pulvermüller 2023).                              et al. 2018). Specifically, neural populations responsive to
+    Initially designed for small-scale network simulations         action words were predominantly found in the motor sys-
+and dynamical systems, Felix was later adapted to model            tem, particularly in the lateral primary motor and pre-motor
+
+
+
+13
+Cognitive Neurodynamics     (2026) 20:48                                                                   Page 3 of 24   48
+
+
+cortex, areas M1L and PML, whereas those for object words         a graphical user interface (GUI) that allows intuitive con-
+were more prevalent in the visual system, especially in the       trol of model parameters while running simulations (Wen-
+primary visual cortex, area V1, and temporo-occipital cor-        nekers et al. 2006). To validate the consistency of neuronal
+tex, area TO. To investigate the formation of these seman-        dynamics across implementations, we first constructed a
+tic circuits, each network implementation was subject to a        single-neuron model in both Felix and NEST. This compari-
+learning phase in which articulatory-auditory activity pat-       son focused on membrane potential dynamics, adaptation
+terns were presented alongside activation patterns in the         mechanisms, and spiking behaviour, ensuring alignment
+primary visual or the dorsal motor cortex. This simulated         between the two frameworks. Building upon this validation,
+spoken word learning in the context of either object per-         we implemented a multi-area cortical network in NEST,
+ception (for object words) or motor action execution (for         replicating the architecture and dynamics of the Felix-based
+action words) (Garagnani and Pulvermüller 2016; Toma-             model while leveraging Python’s flexibility and NEST’s
+sello et al. 2017, 2018, 2024; Constant et al. 2023; Carriere     computational efficiency. The 12-area network incorporated
+et al. 2024). Learning was governed by Hebbian plasticity,        spiking excitatory and graded inhibitory neurons, activity-
+incorporating both long-term potentiation and depression,         dependent synaptic plasticity, and structured long-range
+ensuring that connections strengthened or weakened based          connectivity, capturing essential features of higher cogni-
+on correlated activity.                                           tive processing. These core components, established as fun-
+   In the present, we provide a precise description of the        damental for modelling cognitive functions (Pulvermüller et
+neural model and systematically compare results obtained          al. 2021), were systematically transferred to NEST, ensur-
+with Felix and NEST across multiple levels of analysis. This      ing fidelity to the original Felix model:
+includes (i) single-neuron analyses, enabling direct valida-
+tion of the spiking behaviour and adaptation properties of        ● Cortical areas The model includes 12 cortical regions
+the model, and (ii) larger-scale network analyses. The latter       spanning auditory, visual, motor, and multimodal sys-
+is crucial for confirming that NEST implementation repli-           tems, organised into four functional subsystems:
+cates the semantic category specificity observed in the Felix
+implementation – namely, the predominant emergence of                – Auditory system Primary auditory cortex (A1),
+action-word circuits in motor regions and object-word cir-             auditory belt (AB), and auditory parabelt (PB).
+cuits in visual regions, as documented in a range of neu-            – Visual system Primary visual cortex (V1), temporo-
+roimaging studies (Binder et al. 2011; Pulvermüller 2013).             occipital cortex (TO), and anterior-temporal lobe
+While the underlying models in both Felix and NEST are                 (AT).
+formulated using the same differential equations and imple-          – Articulatory system Inferior motor (M1i), inferior
+ment the same neurocomputational principles, achieving a               premotor (PMi), and inferior prefrontal motor (PFi)
+perfect 1:1 numerical match is not always feasible due to              cortices.
+implementation-level differences. These include explicit             – Dorsolateral motor system Dorsolateral motor
+enforcement of synaptic delays in NEST, which were absent              (M1L), dorsolateral premotor (PML), and dorsolat-
+in Felix. Such differences can result in shifts in spike timing        eral prefrontal (PFL) cortices.
+and activation dynamics that accumulate across simulation
+time. To compensate for these effects and ensure compa-           ● Neuron model The model employs excitatory spiking
+rable network behaviour, several model parameters, par-             neurons to emulate the dynamics of cortical pyramidal
+ticularly those governing inter-area connectivity and time          cells, incorporating spatial and temporal summation of
+constants, had to be adjusted. Replicating previous results         inputs, threshold-based “all-or-nothing” spiking, and
+would confirm that our Felix-based findings are robust              neuronal adaptation. This approach captures key fea-
+across simulation environments and would establish a solid          tures of real neuronal activity, ensuring the model’s
+basis for future NEST simulations, enabling the incorpora-          biological plausibility (Connors et al. 1982; Matthews
+tion of more detailed neural mechanisms and supporting              2001).
+multi-level modelling of cognitive functions.                     ● Regulation and control Neural activity in the model is
+                                                                    regulated by two types of inhibitory feedback mecha-
+                                                                    nisms: local lateral inhibition within cortical areas and
+Materials and methods                                               area-specific global inhibition. These mechanisms pre-
+                                                                    vent runaway excitation and maintain physiological
+The brain-constrained neural network model was initially            activity levels (Braitenberg 1978; Knoblauch and Palm
+developed using Felix, a C-based simulation tool designed           2002).
+for building neural networks and dynamical systems with
+
+
+
+                                                                                                                     13
+ 48     Page 4 of 24                                                            Cognitive Neurodynamics     (2026) 20:48
+
+
+● Local connectivity Connectivity within each cortical           Macro-level implementations
+  region is sparse, random, and initially weak, with a bias
+  toward short-range links. It includes excitatory neurons       Cortical areas
+  with both local and long-distance links and inhibitory
+  neurons with local connections only, with interneurons         The model simulated 12 cortical regions critical for lan-
+  having an even more restricted local reach than excit-         guage processing, sensory integration, and motor control,
+  atory cells. This structure reflects the localised organ-      organised into four functional systems: auditory, articula-
+  isation of cortical circuits (Kaas 1997; Braitenberg and       tory, visual and motor (See Fig. 1B–C). The auditory sys-
+  Schüz 2013).                                                   tem included the primary auditory cortex (A1), auditory belt
+● Between-area global connectivity Long-range cortico-           (AB), and parabelt (PB), which are essential for auditory
+  cortical connections between regions are bidirectional,        information processing and phonological representation
+  following neuroanatomical principles derived from              (Pulvermüller 1999; Pulvermüller and Fadiga 2010). The
+  experimental data. This connectivity enables the inte-         articulatory system comprised the inferior motor cortex
+  gration of sensory, motor, and multimodal information          (M1i), inferior premotor cortex (PMi), and multimodal pre-
+  across cortical systems (Garagnani and Pulvermüller            frontal motor cortex (PFi), which are involved in motor con-
+  2016).                                                         trol of speech articulatory movements (Zatorre et al. 1996;
+● Learning mechanisms Synaptic plasticity is governed            Fadiga et al. 2002).
+  by a Hebbian learning rule, encompassing long-term po-            Beyond these perisylvian language-related regions, the
+  tentiation (LTP) and long-term depression (LTD). These         model incorporated six additional areas extending into
+  mechanisms simulate experience-dependent synaptic              visual and motor systems. The visual system included the
+  changes, allowing the formation of distributed neural as-      primary visual cortex (V1), temporo-occipital cortex (TO),
+  semblies representing learned associations (Artola and         and anterior-temporal cortex (AT), supporting visual per-
+  Singer 1993).                                                  ception and integration (Ungerleider and Haxby 1994).
+● Neural noise To mimic spontaneous neural activity              The dorsolateral motor system consisted of the dorsolateral
+  and environmental variability, the model incorporates          primary motor cortex (M1L), premotor cortex (PML), and
+  uncorrelated white noise at both the neuronal and input        prefrontal cortex (PFL), which are involved in arm and leg
+  levels. This approach captures baseline firing rates and       motor control (Deiber et al. 1991; Dum and Strick 2005).
+  mimics activity from unmodelled brain areas and per-           Each system contained one multimodal cortical region –
+  ceptual inputs (Deco et al. 2009).                             PB, PFi, AT, and PFL, which served as connector hub areas
+                                                                 that integrate sensory, motor, and multimodal information.
+Below, we provide a detailed description of the biological       These regions are considered “convergence zones” (Dama-
+principles underlying the model, along with the correspond-      sio 1989) or “connector hubs” (Heuvel and Sporns 2013),
+ing mathematical formulations implemented in NEST, fol-          characterised by their dense connectivity to other cortical
+lowing the previous implementation in Felix (Tomasello           regions.
+et al. 2017, 2018; Constant et al. 2023; Dobler et al. 2024;        In both the original Felix implementation and the updated
+Carriere et al. 2024). These principles were integrated          NEST framework, each cortical area consists of a 25 × 25
+into the brain-constrained neural network to simulate key        grid of excitatory spiking neurons (625 neurons), a corre-
+mechanisms of the human cortex. We begin by outlining the        sponding 25 × 25 grid of inhibitory neurons modelled using
+macro-level implementation, covering the neuron popula-          rate-based dynamics, and a single area-specific global inhib-
+tion and cortical areas. This is followed by a description of    itory unit (See Fig. 1A and Table 1). Although this 1:1 ratio
+the neuron model, including excitatory and inhibitory cell       between excitatory and inhibitory neurons deviates from the
+populations and their connectivity patterns, as well as the      typical composition of the mammalian cortex (~ 80% excit-
+Hebbian synaptic plasticity rule, global inhibition, and addi-   atory, ~ 20% inhibitory; Azevedo et al. 2009; Herculano-
+tional neurophysiological constraints essential for simulat-     Houzel 2009), it follows the design of previous simulations
+ing higher cognitive functions.                                  employing brain-constrained models (e.g., Garagnani et al.
+                                                                 2008; Garagnani and Pulvermüller 2016; Tomasello et al.
+                                                                 2018). This modelling choice was originally introduced for
+                                                                 numerical convenience and because neurons within small
+                                                                 local cortical patches (approximately micro-columnar scale)
+                                                                 tend to fire in a highly similar way (Hubel 1995; Mountcas-
+                                                                 tle 1997; Defelipe et al. 2012). Each modelled excitatory–
+                                                                 inhibitory pair is therefore placed at this spatial scale: the
+
+
+
+13
+Cognitive Neurodynamics         (2026) 20:48                                                                             Page 5 of 24     48
+
+
+
+
+Fig. 1 Structure and connectivity of the Brain-constrained Perception     frontal articulatory areas (red), while extrasylvian regions comprise
+Action Model of Cognition and Language’ or BPAM-o-CAL. A Neu-             dorsal motor areas (yellow/brown) and ventral visual areas (green).
+ron-level connectivity of a single excitatory neuron (“e”) from one of    C Schematic representation of the network's inter-area connectivity.
+the 7500 modeled neurons. Excitatory connections (gray) to and from       Adjacent areas within each system are connected via next-neighbour
+“e” are random, sparse, and restricted to a local 19 × 19 neighborhood    links (black arrows), while jumping links connect non-adjacent areas
+(light pink shaded area). Lateral inhibition is implemented through a     within the same system (blue arrows), or between two distinct sys-
+dedicated inhibitory neuron (“i”), which inhibits “e” in proportion to    tems (blue arrows with purple halo). Additionally, long-distance links
+the total excitatory input received from a 5 × 5 neighborhood (darker     (purple arrows) interconnect multimodal hub areas (PB, PFi, AT, and
+pink shaded area). Reciprocal inhibitory connections ensure local         PFL), facilitating cross-system integration. This connectivity struc-
+competition between excitatory neurons. B Cortical structure and con-     ture is based on neuroanatomical findings and previous computational
+nectivity of the left hemisphere as modeled in the network. Perisylvian   models (adapted from Tomasello et al., 2018).
+regions include superior temporal auditory areas (blue) and inferior-
+
+Table 1 Number and types of neurons in one area                           spiking excitatory neuron is a typical exemplar of nearby
+                       One area            Neuron type                    excitatory cells, whose activity can be taken as indicative of
+                       Felix     NEST      Felix             NEST         the response of that patch, while the graded inhibitory neu-
+Excitatory Neurons     625       625       Spiking           Spiking      ron summarizes the collective influence of local inhibitory
+Inhibitory Neurons     625       625       Mean field        Mean         interneurons. In this sense, the network constitutes a spa-
+                                                             field        tially downsampled representation of cortex, in which many
+Area Specific Inhibitory    1         1        Mean field    Mean         biological neurons in each patch are represented by a single
+Neurons                                                      field
+                                                                          excitatory–inhibitory pair in the model. The current NEST
+                                                                          implementation retains this configuration for comparability
+
+
+
+
+                                                                                                                                    13
+ 48      Page 6 of 24                                                                Cognitive Neurodynamics    (2026) 20:48
+
+
+with previous studies, but it also provides the flexibility to   where:
+explore biologically more realistic ratios in future work.
+                                                                 •   w(x, y): Synaptic weight from presynaptic neuron y to
+                                                                     x.
+Micro-level implementation                                       •   ϕy(t): Output of presynaptic neuron y at time t (binary: 1
+                                                                     if firing, 0 otherwise).
+Neuron model                                                     •   GA(t): Global inhibitory feedback specific to the corti-
+                                                                     cal area A where the neuron x is located.
+The model incorporates two types of neurons: excitatory          •   kG: Scaling constant for global inhibition.
+spiking neurons and mean-field inhibitory neurons, each          •   The sum in Eq. 2 runs over all presynaptic neurons y
+serving distinct functional roles within the network. Excit-         connected to neuron x.
+atory neurons are modelled as spiking leaky integrate-
+and-fire units, generating binary output (0 or 1) based on       The output ϕy(t) of a spiking excitatory neuron is binary and
+threshold activation, while inhibitory neurons operate under     determined by the following threshold function:
+a mean-field approximation, producing graded responses                       {
+that captures the collective influence of inhibitory interneu-                   1    if (V ( e, t) − ψ α ω (e, t )) > thresh
+                                                                 φ y (t) =                        0 otherwise                 (3)
+rons within a cortical column. This distinction supports sta-
+ble excitatory-inhibitory dynamics and controlled assembly
+growth, with excitatory neurons driving activity propaga-        where:
+tion and Hebbian association, and inhibitory neurons locally
+regulating network activity.                                     ●   thresh: Firing threshold of the neuron.
+                                                                 ●   ω(e, t): Adaptation level of the neuron.
+Excitatory neurons                                               ●   ⍺: Scaling constant for adaptation level.
+                                                                 ●   ψ : Constant.
+Excitatory neurons in the model approximate cortical pyra-
+midal cell dynamics, including spatial and temporal summa-       The scaling factor ψ = 0.872 adjusts the contribution of
+tion of inputs, threshold-based “all-or-nothing” spiking, and    adaptation in the spiking model to match firing behaviour
+neuronal adaptation. These neurons are modelled as inte-         observed in earlier mean-field implementations (Garagnani
+grate-and-fire units, with their activity governed by changes    and Pulvermüller 2016; Tomasello et al. 2017). It was intro-
+in membrane potential over time (Connors et al. 1982; Mat-       duced when the Felix model was first extended to spiking
+thews 2001). The membrane potential V of an excitatory           dynamics (Garagnani et al. 2017; Tomasello et al. 2018), to
+neuron e at time t is governed by the following first-order      ensure consistent threshold behaviour by compensating for
+differential equation:                                           differences in how adaptation influences excitability across
+                                                                 excitatory neuron model types.
+      dV (e, t)                                                     Neuronal adaptation is modelled by monitoring the cell’s
+τ ·             = −V (e, t) + k1 (I( e, t) + k2 η (e, t ))(1)
+         dt                                                      recent firing activity:
+
+where:                                                                           dω (e, t)
+                                                                 τ ADAP T ·                = −ω (e, t) + ϕ (e, t)(4)
+                                                                                    dt
+● τ: Membrane time constant.
+● I(e, t): Net synaptic input or current to the neuron (excit-   where:
+  atory and inhibitory postsynaptic potentials, or EPSPs/
+  IPSPs).                                                        ● τADAPT : Time constant of adaptation.
+● η(e, t): Independent and identically distributed white         ● ω(e, t): Low-pass filtered representation of recent firing
+  noise processes with a uniform distribution over                 activity.
+  [− 0.5,0.5] representing baseline neural activity.
+● k1, k2: Scaling constants.                                     A neuron’s average firing activity is used to compute the
+                                                                 network’s Hebbian synaptic updates. The estimated instan-
+The current I is calculated as:                                  taneous mean firing rate ωE(e, t) of an excitatory neuron is
+                          ∑                                      defined by:
+I(x, t) = −kG GA (t) +            y wx,y · φ y (t)(2)
+
+
+
+
+13
+Cognitive Neurodynamics      (2026) 20:48                                                                       Page 7 of 24   48
+
+           d ω E (e, t)                                              grid. By dynamically balancing excitation, local inhibition
+τ Favg ·                = −ω E (e, t) + φ (e, t)(5)
+               dt                                                    prevents excessive activity and helps maintain sparse and
+                                                                     efficient neural representations, which are essential for cor-
+where:                                                               tical processing. In addition to local inhibitory circuits, the
+                                                                     model also implements an area-specific global inhibitory
+● τFavg : Time constant for firing rate estimation.                  mechanism, which ensures that the total firing activity of
+● ωE(e, t) : Instantaneous mean firing rate of neuron e.             excitatory neurons within a cortical area remains within
+● ϕ(e, t) : Binary firing output.                                    physiological levels (Braitenberg and Schüz 1998). This
+                                                                     global inhibitory feedback is provided by a single graded-
+This firing rate estimation provides a real-time measure of a        response inhibitory unit per area, which continuously moni-
+neuron’s recent spiking activity, which is critical for imple-       tors the total excitatory activity and proportionally inhibits
+menting Hebbian learning rules in the model (See Learning            all excitatory neurons within that area. The global inhibition
+Mechanisms Section). Unlike the classical integrate-and-             signal GA(t) for a given area A at time t is defined by Eq. (6):
+fire neuron model, which explicitly tracks membrane poten-
+tial and spike events, this approach focuses on estimating                      dGA (t)             ∑
+                                                                     τ GLOB ·           = −GA (t) +        φ (e, t)(6)
+the mean firing rate over time, offering a simplified repre-                      dt                  e∈ A
+
+sentation of the neuron’s spiking behaviour.
+    In the Felix implementation, spikes are modelled in              where:
+discrete time steps, with the neuron’s firing activity being
+updated at each time step. The spike output ϕ(e, t) is treated       ●  τGLOB is the time constant for global inhibition, making
+as a binary value, where a neuron either fires (1) or does not         it slower than local excitation-inhibition interactions.
+fire (0) at a given time step. This discrete-time handling of        ● GA(t) represents the global inhibitory feedback signal
+spikes allows for efficient computation and aligns with the            for area A.
+model’s temporal resolution, which operates in a stepwise            ● The summation term computes the total firing rate of all
+fashion rather than simulating continuous spike events.                excitatory neurons in the area.
+
+Inhibitory neurons                                                       This mechanism ensures that inhibition is applied propor-
+                                                                     tionally across all excitatory neurons, maintaining balanced
+Inhibitory neurons in the model follow a mean-field approx-          excitatory–inhibitory dynamics and preventing runaway
+imation to represent the collective activity of interneurons         excitation. It also provides a winner-takes-all dynamics –
+within a cortical column. Unlike excitatory neurons, which           an area-wide competition that stabilises retrieved attrac-
+are modelled as spiking integrate-and-fire units with binary         tor patterns, which would be difficult to achieve with local
+outputs (per simulated time-step), inhibitory neurons pro-           inhibition alone. It follows the same formulation used in
+duce graded responses that reflect their overall activity            the original Felix-based models (Wennekers et al. 2006;
+level. This approach simplifies computations while preserv-          Garagnani et al. 2008). Despite its abstraction, the global
+ing the essential inhibitory dynamics required for maintain-         inhibition implementation is intended to mimic a simplified
+ing network stability. The membrane potential V(i, t) of an          representation of the well-known distributed corticotha-
+inhibitory neuron i at time t follows the same first-order dif-      lamic and reticular inhibitory systems that provide global
+ferential equation as excitatory neurons described in Eq. (1).       gain control and attentional modulation across cortical ter-
+However, unlike excitatory neurons, inhibitory neurons do            ritories (Jones, 2001; Sherman & Guillery, 1996). However,
+not include an adaptation mechanism, meaning ω(i, t) does            more work is needed to flesh out this interpretation (Table
+not modulate their threshold or firing rate. The noise com-          2).
+ponent η(i, t) is also absent for simplicity, i.e., k2 = 0, ensur-
+ing that spontaneous activity is solely driven by excitatory
+input. The net synaptic input or current I(i, t) is computed         Connectivity
+using Eq. (2) where inhibitory neurons receive excitatory
+drive from nearby pyramidal neurons and contribute to the            Local connections
+homeostatic balance of excitation and inhibition within the
+cortical area. This local feedback inhibition supports com-          Excitatory to excitatory neurons
+petition among excitatory units by suppressing activity at
+each location, while the lateral excitatory connectivity medi-       In the implementation, excitatory-to-excitatory (E-E) con-
+ates competition between neighbouring locations across the           nectivity is generated as pairwise Bernoulli trials with a
+
+
+
+                                                                                                                          13
+ 48       Page 8 of 24                                                                    Cognitive Neurodynamics      (2026) 20:48
+
+
+Table 2 Parameters for excitatory, inhibitory and global inhibitory neurons equations
+                                                          Excitatory Neurons            Inhibitory Neurons          Global inhibitory
+                                                                                                                    neurons
+                                                                  Felix   NEST          Felix         NEST          Felix          NEST
+k1 (constant)                                                     0.01    0.01          1             1             1              1
+k2 (noise)                                                        0.005   0.005         0             0             0              0
+τ (Membrane time constant)                                        2.5     5             5             10            12             24
+τADAPT (Time constant of adaptation)                              10      20            n/a           n/a           n/a            n/a
+τFAVG (Time constant for firing rate estimation)                  30      30            n/a           n/a           n/a            n/a
+τGLOB                                                             n/a     n/a           n/a           n/a           12             24
+thresh (Firing threshold)                                         0.18    0.18          n/a           n/a           n/a            n/a
+
+
+distance-dependent connection probability. Specifically, the               assumption, enabling a more detailed analysis of spatial pat-
+probability p(x, y) that an excitatory neuron at location y                terns in cortical circuits.
+connects to another excitatory neuron at location x follows                   This probability function is used to decide if a connection
+a bivariate Gaussian spatial profile, meaning that nearby                  is made, where each pair of neurons is treated as an indepen-
+neurons are more likely to connect than distant ones. This                 dent Bernoulli trial. Specifically, for each potential connec-
+approach corresponds to the distance-dependent connectiv-                  tion, a random value is sampled, and if it falls below p(x, y),
+ity schemes described in Senk et al. (2022). The probability               the connection is established. This probabilistic approach
+function is given by the following formula (7):                            ensures realistic sparsity in the network’s connectivity struc-
+                                                                           ture. In our implementation, we set σx and σy = 3.2, which
+                      (x−x)2       (y−y)2       2q (x−x)(y−y )
+                  −
+                        2      +     2      +                              represents a relatively low spread of connectivity (See Fig.
+                                                                 (7)
+                       σx           σy               σx σy
+
+p (x, y) = kC e                     2(1−q 2 )                              2A). The kC = 0.15 parameter, which scales overall connec-
+                                                                           tion probability, was adjusted to match the average number
+where:                                                                     of excitatory connections per neuron in the Felix implemen-
+                                                                           tation. As a result, each excitatory neuron forms 9.5 connec-
+● x and y: Coordinates of the target neuron relative to the                tions with other excitatory neurons within the same area,
+  source neuron.                                                           with a standard error of 0.008. This configuration produces
+● x̄ and ȳ: Mean coordinates in the x and y dimensions,                    tightly clustered local connectivity, consistent with cortical
+  representing the centre of the distribution.                             architecture (Song et al. 2005; Perin et al. 2011). Each excit-
+● σx and σy: Standard deviations along the x and y dimen-                  atory neuron can connect to other excitatory neurons within
+  sions, which control the spread of the distribution in two               a 19 × 19 neighbourhood of the grid, which spans a radius of
+  orthogonal directions.                                                   9 cells around the neuron (See Fig. 2G) following previous
+● q: Coefficient which accounts for the orientation of an                  studies (Bibbig et al. 1995; Wennekers et al. 2006).
+  un-isotropic Gaussian in the x-y-plane.                                     The grid is treated as toroidal, meaning that neurons near
+● kC: scaling factor.                                                      the edges of the 25 × 25 grid can connect to neurons on the
+                                                                           opposite edge. This approach ensures seamless connectiv-
+Although the Eq. (7) appears more complex due to the                       ity without boundary effects. If a connection is formed, the
+inclusion of the parameters x̄ , ȳ and q, we set x̄ = ȳ = 0 and          synaptic weight is initialised as a random value drawn from
+q = 0 in the implementation to yield an isotropic Gaussian                 a uniform distribution, with values bounded between 0 and
+distribution for all connection probabilities. This ensures                a predefined upper limit wu p​= 0.1 (See Fig. 2I). The delay
+that the connectivity pattern is symmetric around each neu-                between excitatory and excitatory neurons is 1 time step,
+ron, without any directional bias. By doing so, the equa-                  corresponding to twice the model’s resolution, which oper-
+tion simplifies to a standard isotropic Gaussian. The more                 ates at 0.5 per time step.
+general form of the equation, with non-zero values for x̄ ,
+ȳand q, is retained for flexibility. This allows the model to             Excitatory to inhibitory neurons
+explore non-isotropic (anisotropic) Gaussian distributions,
+which may be relevant for specific types of connections,                   Each excitatory neuron connects to a 5 × 5 neighbourhood
+such as patch connections or other forms of spatially struc-               of inhibitory neurons with a probability of 1, ensuring that
+tured connectivity (Muir and Douglas 2011; Koestinger et                   all inhibitory neurons within this region are connected to
+al. 2017). These possibilities can be useful for investigating             the source excitatory neuron (See Fig. 2, D). The bivari-
+different network architectures that go beyond the isotropy                ate Gaussian distribution (Eq. 7) is used to determine the
+                                                                           synaptic weight values of E-to-I connections, meaning that
+
+
+
+13
+Cognitive Neurodynamics        (2026) 20:48                                                                             Page 9 of 24     48
+
+
+
+
+Fig. 2 A–C Probability distributions of E-E connections for local        between-area connections within the same functional system (orange),
+(within-area) neurons, between-area neurons within the same func-        and cross-system connections (green). H Connectivity matrix illustrat-
+tional system, and between-area neurons across distinct systems. The     ing area-to-area connections. Areas are connected to themselves, to
+probability is shown for a neuron located at the center, with connec-    other areas within the same functional system, and to secondary and
+tions limited to a 19 × 19 grid around it. D Probability distributions   central areas through cross-system connections. I Initial E-E synaptic
+of E-to-I connections. E Weight distributions of E-to-I connections. F   weight distribution. The initial weights are uniformly distributed for
+Probability distributions of I-to-E connections G Average number of      local, between-area within the same system, and cross-system connec-
+E-E connections per neuron for local connections (within-area, blue),    tions, with a maximum value of 0.1
+
+
+neurons closer in space receive stronger weights, and more                  This arrangement reflects the localised nature of inhibi-
+distant neurons receive weaker weights. To ensure tightly                tion in cortical circuits. Each excitatory neuron exerts its
+localised connectivity, we set σx and σy = 1.42, producing a             strongest influence on nearby inhibitory neurons, consistent
+more concentrated distribution of weights (See Fig. 2E). To              with the principles of cortical feedback and lateral inhibition.
+match the average synaptic strength observed in the Felix                The weights are initialised as before, decreasing smoothly
+implementation, we set kC = 0.295, aligning the weight dis-              with increasing distance according to the Gaussian profile.
+tribution across implementations while retaining spatially               Additionally, excitatory-to-inhibitory connections have a
+local inhibition.
+
+
+
+                                                                                                                                   13
+ 48      Page 10 of 24                                                            Cognitive Neurodynamics     (2026) 20:48
+
+
+delay of 0.5-time steps, corresponding to the model’s time         plausibility. Adjacent areas within both perisylvian and
+resolution.                                                        extrasylvian regions are reciprocally connected, consistent
+                                                                   with documented cortico-cortical pathways (Pandya and
+Inhibitory to excitatory neurons                                   Yeterian 1985; Arikuni et al. 1988; Bressler et al. 1993;
+                                                                   Dum and Strick 2005). Furthermore, multimodal connector
+For inhibitory-to-excitatory connectivity, a simple one-to-        hub areas (e.g., PB, PFi, AT, PFL) are linked through inter-
+one connection scheme is used: each inhibitory neuron con-         area reciprocal connections, reflecting their role in inte-
+nects exclusively to its associated excitatory neuron at the       grating sensory-motor information across cortical domains
+same model location (i.e., at approximately micro-columnar         (Fuster et al. 1985; Eacott and Gaffan 1992; Rilling et al.
+scale). There is no probability distribution or weight initiali-   2008; Petrides and Pandya 2009).
+sation involved in this setup, as the connection is determin-         The inter-area, or between-area, connections in the
+istic (See Fig. 2F). The strength of the connection is uniform     model are exclusively E-E connections, ensuring that inter-
+across all such pairs, reflecting the direct and localised         area communication is mediated by excitatory connections.
+nature of inhibitory feedback within cortical circuits. I-to-E     These between-area connections follow the same bivariate
+connections have a delay of 0.5 time steps, corresponding          Gaussian spatial distribution used for local E-E connections
+to the model’s time resolution. The cumulative connection          (Eq. 7). However, the standard deviations (σx = σy = 9) are
+delay of E-to-I and I-to-E connections leads to the inhibitory     larger, reflecting the broader spatial spread of long-range
+circuit E-I-E operating at the model’s time resolution.            cortico-cortical projections (See Fig. 2C). This adjustment
+                                                                   accounts for the fact that between-area connections are
+Excitatory to area-wide global inhibitory neurons                  more dispersed, enabling neurons to form links across a
+                                                                   wider range of the target area.
+Each of the 625 excitatory neurons within a given cortical            In Felix, no distinction was made between within-system
+area projects to a single, area-specific global inhibitory neu-    (black and blue arrows in Fig. 1) and cross-system (blue
+ron with a fixed synaptic strength of 1 and a delay of 0.5         arrow with purple halo and purple arrows in Fig. 1) E-E
+time-steps. This global inhibitory neuron integrates the total     connections; all inter-area connections were implemented
+excitatory activity within its respective area and provides        with the same probability, regardless of whether they linked
+uniform inhibitory feedback to all excitatory neurons within       areas within the same functional system or across different
+that region. This mechanism ensures network stability by           systems. However, in NEST, we introduced a differentiation
+preventing runaway excitation and maintaining balanced             in connection probability due to fundamental differences in
+excitation-inhibition dynamics across the network.                 how excitation-inhibition interactions unfold over time in
+                                                                   the two implementations: in Felix, excitation and inhibition
+Global inhibitory to excitatory neurons                            interacted instantaneously without explicit delays, whereas
+                                                                   NEST enforces synaptic delays, leading to stronger exci-
+The area-specific global inhibitory neuron provides feedback       tation and necessitating adjustments to limit cross-system
+inhibition to all 625 excitatory neurons within its respective     activation.
+cortical area with a fixed synaptic strength and a delay of 0.5       Within-system connections refer to inter-area excitatory
+time-steps. This ensures that the overall excitatory activity      projections that remain within the same functional system
+remains within physiological limits by dynamically mod-            – auditory, articulatory, visual, or motor – and these con-
+ulating neural responses based on the cumulative activity          nections were kept identical to those in Felix. For example,
+within the area. Each excitatory neuron receives inhibitory        in the auditory system, neurons in A1 connect to PB, and in
+input from the global inhibitory neuron, ensuring uniform          the articulatory system, neurons in M1i connect to PFi with
+regulation of excitation and preventing excessive firing.          the same connection probability as in Felix. To reflect this,
+                                                                   we set the scaling factor kC = 0.13, ensuring that the prob-
+Inter-area connections                                             ability distribution of these connections remains consistent
+                                                                   with the original implementation (See Fig. 2H).
+For the NEST implementation of the brain-constrained                  In contrast, cross-system connections, which link neu-
+network we adopted the connectivity scheme used in ear-            rons across different functional systems (e.g., auditory-
+lier neuroanatomically informed simulations, ensuring that         articulatory connections like PB to PFi, or auditory-motor
+Felix and NEST were compared under an equivalent archi-            connections like PB to M1L), were adjusted in NEST by
+tecture. Specifically, the connectivity structure between          reducing the probability of connection by half. This change
+cortical areas is guided by well-established neuroanatomi-         reflects neuroanatomical findings showing that direct syn-
+cal studies in primates and humans, ensuring biological            aptic connectivity between different functional systems is
+
+
+
+13
+Cognitive Neurodynamics         (2026) 20:48                                                                                Page 11 of 24       48
+
+
+Table 3 Parameters for connections
+Connection        Type Boundaries Probability                                    Initial Weights                                   Strength Delay
+Local
+E-E               Plastic 19 × 19  Gaussian Distribution                         Uniform [0, 0.1]                                  500      1
+                                   (σx = σy = 3.2, x̄ = ȳ = 0; q = 0, kC = 0.15)
+E-I               Static 5 × 5     Deterministic = 1                             Gaussian Distribution                             0.295    0.5
+                                                                                 (σx = σy = 1.42, x̄ = ȳ = 0; q = 0, kC = 0.295)
+I-E               Static 1 × 1     Deterministic = 1                             1                                                 500      0.5
+E-GI              Static 625 × 1   Deterministic = 1                             1                                                 1        0.5
+GI-E              Static 1 × 625   Deterministic = 1                             1                                                 65       0.5
+Distant
+E-E               Plastic 19 × 19  Gaussian Distribution                         Uniform [0, 0.1]                                  500      1
+(within system)                    (σx = σy = 9, x̄ = ȳ = 0; q = 0, kC = 0.13)
+E-E               Plastic 19 × 19  Gaussian Distribution                         Uniform [0, 0.1]                                  500      1
+(between system)                   (σx = σy = 9, x̄ = ȳ = 0; q = 0, kC = 0.065)
+
+sparser than within-system connectivity, often relying on                   Table 4 Parameters for E-E learning mechanisms
+additional relay areas for communication. To account for                                                      Felix                         NEST
+this, we set kC = 0.065 for cross-system connections, ensur-                θpre                              0.05                          0.05
+ing that the NEST implementation better aligns with known                   θ+                                0.15                          0.15
+cortical connectivity principles while introducing a biologi-               θ-                                0.14                          0.11
+cally plausible differentiation that was absent in Felix.                   ∆                                 0.0008                        0.0002
+   On average, each excitatory neuron forms 33.78 con-                      Maximum value                     0.225                         0.225
+nections (standard deviation: 0.15) with neurons within the
+same system and 16.65 connections (standard deviation:                      plasticity. Importantly, in our model, only E-E neuron con-
+0.01) with neurons from other systems (See Fig. 2G). If a                   nections exhibit synaptic plasticity, whereas all other synap-
+connection is formed, the synaptic weight is initialised as                 tic connections remain static.
+a random value drawn from a uniform distribution between                        The Hebbian learning rule encompasses both homo-syn-
+0 and a predefined upper limit of 0.1 following the same                    aptic and hetero-synaptic forms of plasticity, allowing for
+rule of local connectivity as in Felix implementation. Addi-                associative LTP and LTD. To operationalize this, we dis-
+tionally, all between-area connections have a fixed synaptic                cretize the continuous range of possible synaptic changes
+strength of 500 and a delay of 1 time-step (equivalent to                   into two fixed levels, +Δ and -Δ, where Δ is a small con-
+twice the model’s resolution of 0.5 time-steps) (Table 3).                  stant representing synaptic efficacy change. An excitatory
+                                                                            synaptic connection from neuron i to neuron j is considered
+Learning mechanisms                                                         “active” if the estimated firing rate wE(i,t) of the presynap-
+                                                                            tic neuron i at time t exceeds a predefined threshold θpre​.
+The Hebbian learning mechanism implemented in this                          This threshold represents the minimum level of presynaptic
+model simulates established synaptic plasticity processes,                  activity required to induce LTP or homosynaptic LTD.
+specifically long-term potentiation and long-term depres-                       The modification of synaptic weight Δw(i,t) between a
+sion, as described by Artola, Bröcher, and Singer (Artola                   presynaptic neuron i and a postsynaptic neuron j is deter-
+and Singer 1993). This learning rule offers a biologically                  mined as follows:
+motivated approximation of experience-dependent neuronal
+           
+            +∆
+                         if ωE (i, t) ≥ θpre and V (j, t) ≥ θ+ (LTP)
+             −∆           if ωE (i, t) ≥ θpre and θ− ≤ V (j, t) ≤ θ+ (homosynaptic LTD)
+∆w(i, j) =
+            −∆
+                         if ωE (i, t) < θpre and V (j, t) ≥ θ+ (heterosynaptic LTD)    (8)
+             0            otherwise
+
+
+where:                                                                      The learning parameters were selected based on prior neu-
+                                                                            rocomputational modelling studies (Garagnani et al. 2008;
+● θpre: Threshold for presynaptic activity.                                 Garagnani and Pulvermüller 2016; Schomers et al. 2017;
+● θ+ and θ−: Upper and lower thresholds for postsynaptic                    Tomasello et al. 2017, 2018) to ensure biologically plausible
+  membrane potential V(j,t).                                                synaptic modifications relevant for language learning and
+                                                                            associative memory. The Hebbian framework implemented
+
+
+
+                                                                                                                                           13
+ 48     Page 12 of 24                                                           Cognitive Neurodynamics      (2026) 20:48
+
+
+in the model facilitates the formation of distributed cell       excitatory-inhibitory pair of neurons in the simulated grid
+assemblies (CAs), supporting the emergence of functional         as single representatives of clusters of excitatory and inhibi-
+neural circuits responsive to language and sensory stimuli.      tory cells, for example, in a micro-column, because neurons
+Inhibitory connections remained static, ensuring consis-         in small clusters typically act in a correlated way in the neo-
+tent regulation of network activity by preventing excessive      cortex. In this sense, the model provides a spatially downs-
+excitation.                                                      ampled representation of cortex: many biological neurons
+    While most learning parameters (See Table 4) were kept       are represented by a single model unit. A spiking excitatory
+consistent across implementations, some adjustments were         neuron in the model therefore samples the typical activation
+necessary to account for differences in how NEST and Felix       pattern of excitatory neurons in a small neighbourhood (of
+handle spike propagation and synaptic updates. The lower         the order of perhaps 100–200 μm in radius), and the cor-
+postsynaptic threshold (θ-) was slightly reduced in NEST         responding local inhibitory cell represents the collective
+(0.11 vs. 0.14 in Felix). This adjustment was not required to    response of nearby interneurons (Fuster 1997; Braitenberg
+prevent excessive synaptic strengthening in Felix but rather     and Schüz 1998). Rather than simulating individual syn-
+to accelerate the development of stable CAs. Using the           apses, connections on this short scale are aggregated into
+same θ- value across implementations resulted in stronger        effective coupling constants between exemplar units; the
+long-term depression (LTD) in Felix, which slowed down           postsynaptic responses are therefore best understood as
+CA formation. Additionally, the learning rate (∆) was lower      effective population-level PSPs, not unitary single-synapse
+in NEST (0.0002) than in Felix (0.0008). Preliminary simu-       PSPs (conceptually similar to downscaling approaches in
+lations indicated that using Felix’s learning rate in NEST led   large asynchronous networks; van Albada, Helias, & Dies-
+to the rapid formation of overly large CAs, suggesting that      mann, 2015). In addition, the cortex exhibits longer-range
+NEST facilitates faster associative learning and CA growth       lateral connections between cortical pyramidal cells (which,
+(see Supplementary Materials). Despite these parameter           for example, in the primary visual cortex predominantly
+differences, both implementations successfully captured the      connect neurons with similar orientation tuning properties
+key principles of Hebbian learning and distributed seman-        (Gilbert and Wiesel 1989; Hubel 1995). The probability of
+tic representation (See Supplementary Materials for a more       these connections decays quickly with distance on a scale
+thorough parameter analysis).                                    of 5–10 mm. It is this sort of connection that the Gaussian
+    To prevent runaway excitation and ensure that excitatory     coupling kernels in our model implement. Therefore, each
+activity remains balanced within the network, a maximum          grid-cell in the model can be interpreted as a cortical patch
+synaptic weight of 0.225 was imposed on all plastic E-E          of a few hundred micrometres in diameter, with the activity
+connections. Since inhibitory connections remain static, an      of the associated model neuron reflecting the typical firing
+upper bound on excitatory synapses is necessary to prevent       pattern of neurons within such a patch, whereas the connec-
+excessive potentiation, which could otherwise lead to net-       tions made from any specific location fan out a few milli-
+work instability. Despite these parameter differences, both      metres. Space in the model does therefore not linearly map
+implementations successfully captured the key principles of      to space in a real cortical area but only preserves topology.
+Hebbian learning and distributed semantic representation.        For this reason, we mostly refer to “cells” and “units” in this
+                                                                 paper but do not often use physical length units.
+Spatial and temporal scales of the model                            The fast neuronal time scale of the model is anchored
+                                                                 to the millisecond range: in both Felix and NEST a single
+The general paradigm we have adopted in the present and          excitatory update step corresponds to 1 ms (see Numeri-
+previous works spans across several spatial and tempo-           cal Simulation Details). Given this choice of microscopic
+ral scales, from single neurons to global cortical systems       time scale and the size of the network, the overall tempo-
+in space, and from fast firing patterns of neurons to global     ral structure of our simulations becomes effectively com-
+inter-area dynamics on a “behavioural scale”.                    pressed: stimuli are presented only for a few time steps (i.e.
+   The functional base-units in the model are the local          a few milliseconds), and learning unfolds over hundreds
+excitatory-inhibitory pairs of neurons in each area, where       to thousands of such steps, which should be understood as
+the excitatory neurons and their network of interconnec-         an abstract approximation of much longer behavioural and
+tions carry the core computational work (feature detection,      developmental time scales. This limitation is acceptable
+learning and memory), and the inhibitory neurons serve           for the present purpose of comparing Felix and NEST and
+sub-ordinate tasks, such as controlling network activity         modelling relative timing between cortical areas; however,
+levels, sharpen feature tuning, or contributing to oscil-        more realistic studies of microcircuits or behaviour would
+lations and their synchronisation (the latter two aspects        require longer stimulation durations and explicit modelling
+do not play a role in the present work). We interpret each       of slower plasticity processes.
+
+
+
+13
+Cognitive Neurodynamics      (2026) 20:48                                                                     Page 13 of 24   48
+
+
+   Finally, it may seem inconsistent that we use spiking neu-       the integration step and synaptic delays are thus defined
+rons for the excitatory cells and graded neurons for the local      in milliseconds, the durations of external stimuli and of
+inhibition. This is motivated by the fact that the I-cells in the   learning protocols in our simulations should be regarded
+model basically only regulate the activity locally, whereas         as a temporally compressed approximation of much longer
+the E-cells implement the Hebbian learning dynamics and             behavioural time scales.
+“information processing”. We have also run simulations in              The Felix implementation updates all leaky state vari-
+which the inhibitory neurons were implemented as spiking            ables (e.g., membrane potential, adaptation currents) using
+units. These tests produced promising results and repro-            the forward Euler method, where values are incrementally
+duced the same qualitative network, learning, and retrieval         adjusted at each fixed time step. In contrast, the NEST simu-
+properties. However, because the original Felix model               lator solves the underlying linear differential equations with
+implement local inhibition as a mean-field pool, we retain          an exact integration scheme (Rotter and Diesmann 1999).
+the graded (mean-field) inhibitory units in the present study       This method assumes a constant input over the integration
+for comparability.                                                  step and uses a pre-computed exponential decay factor,
+   Whereas the above constraints take some of the physio-           allowing for a numerically stable and efficient update via
+logical “realism” of the model, many of them are not crucial        a single multiply-and-add operation. These differences in
+as we see very similar activation, learning and retrieval pat-      numerical integration are a likely source of any subtle varia-
+terns under a wide range of parameters. One crucial aspect          tions observed in the dynamics between the two simulations.
+may be the short stimulus times as they limit the interpret-
+ability of spiking activity in the model. However, we see           Model comparisons
+similar excitation-inhibition cycles/oscillations as in the
+model also in earlier, simpler models with on-going stimu-          To document differences and similarities between the model
+lation (Wennekers and Sommer 1999; Bibbig et al. 2002).             implementations in NEST and Felix from the neuron level
+This, however, requires further study and is out of the scope       to whole model dynamics, we have conducted different sim-
+of the present work. Currently, it is not possible to simulate      ulations with increasing levels of complexity: (i) a single
+every desirable feature in reasonable time on available hard-       excitatory neuron and (ii) 12 areas with all model features as
+ware. However, for specific purposes, the model could be            described in previous sections after training (See next sec-
+quite easily adapted using the new NEST implementation.             tion). This allows us to report, in order, (i) the cell membrane
+                                                                    potential and spiking behaviour over time during and after
+Numerical simulation details                                        a spike train input and (ii) emergent whole-network spatio-
+                                                                    temporal dynamics of spiking, as well as CA formation.
+In Felix, inhibitory neurons were updated at each simula-
+tion time step (t) based on excitatory input from the previ-        Single neuron behaviour
+ous time step (t − 1), while excitatory neurons were updated
+within the same step (t) using inhibition computed during the       To assess the consistency of neuronal dynamics across
+same step. This allowed for immediate interaction between           implementations, we conducted simulations in both NEST
+excitation and inhibition without requiring explicit synaptic       and Felix, focusing on a minimal network consisting of a
+delays. Felix therefore operated with a simulation resolution       single excitatory and a single inhibitory neuron. The excit-
+of 1.0 units per time step (corresponding to 1 millisecond).        atory neuron was stimulated using an external constant
+   In contrast, NEST requires all synaptic delays to be             current applied for a duration of 16 time steps. Through-
+explicitly defined and enforces a minimal non-zero delay.           out the simulation, we measured the membrane potential of
+To accommodate this, we set the internal simulation resolu-         the inhibitory neuron and excitatory neuron along with its
+tion to 0.5 ms per computational step in NEST, allowing             adaptation and spiking activity. These recorded variables
+inhibitory and excitatory updates to occur on a finer tem-          were used to evaluate the alignment of neuronal behaviour
+poral grid. However, the effective excitatory connection            between the two implementations.
+delay remains 1 ms (two internal steps), matching the tim-
+ing of the original Felix implementation (see Connectivity).        Multi-area model – training procedure
+Accordingly, throughout the present work we report all tim-
+ing in excitatory time steps, corresponding to 1 ms in both         We replicated the multi-area object-and-action word-learn-
+Felix and NEST. To maintain comparable neural dynamics              ing model originally run in the Felix simulator in both the
+across both implementations, we adjusted synaptic delays            Felix and NEST environments. To capture network-to‐net-
+accordingly (see ‘Connectivity’) and doubled all membrane           work variability, we generated 12 independent network sim-
+and adaptation time constants (τ, τADAPT) in NEST. While            ulations, each using a different random seed to stochastically
+
+
+
+                                                                                                                         13
+ 48     Page 14 of 24                                                            Cognitive Neurodynamics      (2026) 20:48
+
+
+wire excitatory-to-excitatory connections and generate ran-      simulation runs, amounting to 288,000 learning trials in
+dom input patterns. During learning, these external input        total. This number of repetitions was chosen based on exten-
+patterns co-activated targeted subsets of neurons and drove      sive previous work, which demonstrated stabilisation of
+Hebbian plasticity of the E→E synapses. Our plasticity rule      learning outcomes after 1000 exposures per words (Garag-
+combined LTP – strengthening of synapses between co-             nani et al. 2008; Schomers et al. 2017).
+active neurons in accordance with the principle “neurons
+that fire together wire together” (Hebb 1949), LTD – the         Evaluation
+weakening of synapses between neurons that were not co-
+active, “neurons out of sync delink” (Artola and Singer          After the learning phase, we examined the neurophysi-
+1993). After repeated presentations, neurons that regularly      ological mechanisms underlying object- and action-word
+fired together became strongly interconnected, forming           processing across different network architectures. To assess
+characteristic “cell-assembly circuits” (Hebb 1949).             how learned representations were encoded within the net-
+    Prior to simulation, 12 stimulus triplets were created,      work, each of the twelve trained acoustic patterns was pre-
+each consisting of 20 randomly selected excitatory neurons       sented to the primary auditory cortex (A1) and in different
+in three of the four primary cortical areas (A1, M1i, V1, or     trials twelve motor patterns were presented to the primary
+M1L). Each learning trial comprised 16 time steps. At each       articulatory area (M1i). The resulting neural activity was
+time step, the triplet’s neurons were activated within those     mapped across all modelled cortical areas.
+three areas, while the fourth received uncorrelated random           Mapping of cell assembly circuits Each evaluation trial
+input. This setup produced sparse activation, engaging           began with a baseline period of 5 time steps without exter-
+about 3% of neurons in each 25 × 25 primary area.                nal input, followed by 2 time steps of pattern presentation to
+    Stimulation was applied simultaneously to the primary        A1, simulating speech comprehension. The activation was
+auditory cortex (A1) and inferior motor cortex (M1i), along      then allowed to propagate through the network for 60 time
+with either the primary visual cortex (V1) (for object-related   steps (Garagnani et al. 2008; Schomers et al. 2017; Toma-
+words) or lateral motor cortex (M1L) (for action-related         sello et al. 2017; Tomasello et al. 2018). Throughout this
+signs). This setup mimics natural word learning, where a         process, all neurons received white noise, consistent with
+novel word form is uttered while an object is visually per-      the learning phase. To evaluate network activity, each excit-
+ceived (Vouloumanos and Werker 2009) or while perform-           atory neuron was assessed based on its spiking behaviour.
+ing a relevant motor action (Tomasello and Kruger 1992).         A neuron was considered active if it fired at least once dur-
+To reflect natural learning variability, stimulation patterns    ing an evaluation trial. For each learned pattern, three trials
+included uncorrelated noise in V1 for action-related words       were conducted where the corresponding auditory stimulus
+and in M1L for object-related words. This ensured that while     was presented to A1, and the active neurons were recorded.
+the correlation between word form and semantic features          In a separate set of trials, the same procedure was repeated
+was high in the relevant modality, it remained low in the        with stimulation in M1i to simulate speech production. This
+non-relevant one. The patterns applied to visual and motor       process was also repeated three times. A neuron was classi-
+cortices captured the experiential and environmental con-        fied as part of a cell assembly for a given pattern if it spiked
+text associated with learning word meanings – representing,      at least four times across the six trials (three auditory and
+for instance, the object or action a word refers to.             three articulatory stimulations). This procedure was applied
+    Each network learned 12 distinct triplets of sensory-        consistently across all networks and averaged for different
+motor activation patterns, simulating the learning of six        word types to ensure robust identification of cell assemblies
+action-related signs and six object-related signs. White noise   for both NEST and Felix implementations.
+was continuously presented to all model areas throughout
+the learning phase, regardless of whether stimulation pat-       Statistical analysis
+terns were applied, maintaining baseline neural activity.
+Following the 16 time step stimulation period, a stimulus-       A statistical analysis was conducted to examine differ-
+to-stimulus interval (STSI) was introduced, during which         ences in cell assembly size and distributions between word-
+no input was given to the model. This interval lasted until      related categories across different network areas for each
+network activity returned to baseline levels, allowing global    implementation. A two-way repeated-measures ANOVA
+inhibition in multimodal hub areas (PFi and PB) to reset         was performed with the factors WordType (2 levels: Action
+before the next trial. This ensured that consecutive learning    and Object) and Areas (12 levels: A1, AB, PB, PFi, PMi,
+trials did not interfere with one another.                       M1i, V1, TO, AT, PFL, PML, M1L). In the case of a sig-
+    Each word was trained for 2000 trials, resulting in a        nificant interaction effect, a post-hoc Tukey test was con-
+total of 24,000 trials per network across the 12 network         ducted for the factor WordType within each area, with
+
+
+
+13
+Cognitive Neurodynamics                      (2026) 20:48                                                                                             Page 15 of 24    48
+
+
+Bonferroni correction applied to adjust for multiple com-                                               Results
+parisons. Importantly, no direct statistical comparisons were
+made between implementations, as the objective was to                                                   One neuron comparison
+assess whether similar overall patterns emerged rather than
+to establish a precise one-to-one correspondence between                                                To validate the consistency of neuronal dynamics across
+them. The focus of this analysis was to observe converg-                                                implementations, we analysed the membrane potential,
+ing trends in the effects of WordType on cell assembly size                                             adaptation, and spiking behaviour of a minimalist pair of a
+across different implementations, rather than evaluating                                                single excitatory and a single inhibitory neuron in both NEST
+their exact equivalence.                                                                                and Felix by stimulating the excitatory cells with an exter-
+                                                                                                        nal constant current of 16 time-steps and recorded its mem-
+Simulation framework and code availability                                                              brane potential, adaptation and spikes (Fig. 3). The results
+                                                                                                        demonstrate a perfect match in the evolution of membrane
+All simulations were conducted using NEST 3.6, extended                                                 potential over time, with identical depolarisation and repo-
+with the felixmodule package, developed as part of the pres-                                            larisation cycles observed in both implementations. Dur-
+ent work, which provides custom neuron models (felix_exc,                                               ing periods of external stimulation (shaded grey regions in
+felix_inh), a synapse model (abs_synapse), and a record-                                                Fig. 3), neurons in both models exhibited similar activation,
+ing device (felix_spike_recorder). The full implementation,                                             with membrane potentials rising to the threshold, followed
+including network definitions, connectivity parameters,                                                 by sharp resets corresponding to spike events. Similarly, the
+plasticity rules, and simulation scripts, is publicly avail-                                            neuronal adaptation variable followed an identical trajec-
+able on GitHub at ​h​t​t​p​​s​:​/​​/​g​i​t​​h​u​​b​.​c​​o​m​/​M​​a​x​i​​m​e​C​​a​r​r​i​e​r​e​/​c​o​g​   tory across implementations. The gradual increase in adap-
+n​i​n​e​s​t. This ensures full transparency and reproducibility,                                        tation during periods of high firing activity, followed by a
+allowing other researchers to replicate, modify, and extend                                             slow decay after stimulation, was identical between NEST
+our work for further investigations in neurocomputational                                               and Felix, confirming that the adaptation mechanism was
+modelling. Simulations were executed on the HPC cluster                                                 preserved across both platforms. This ensures that neurons
+of Freie Universität Berlin, using 6 CPU cores of Intel Xeon                                            in both implementations exhibit the same history-dependent
+processors under AlmaLinux 8 with the Slurm batch system                                                modulation of excitability and inhibitory mechanisms.
+(Bennett et al. 2020).                                                                                     The spiking patterns further confirmed the equivalence
+                                                                                                        between NEST and Felix at the neuronal level. The timing
+
+
+
+
+Fig. 3 Comparison of neuronal dynamics between NEST and Felix                                           The right panels show the corresponding spiking activity for the same
+implementations. The left panels display the membrane potential                                         neuron in NEST (top) and Felix (bottom), where each vertical line
+(top), neuronal adaptation (middle) and inhibitory membrane potential                                   represents a spike event. The shaded grey regions indicate periods of
+(bottom) of a pair of a single excitatory neuron and a single inhibi-                                   external stimulation. The solid NEST traces and dashed Felix traces
+tory neuron over time in both NEST (orange) and Felix (dashed blue).                                    overlap perfectly, indicating a match between the two implementations
+
+
+                                                                                                                                                                 13
+ 48       Page 16 of 24                                                                   Cognitive Neurodynamics      (2026) 20:48
+
+
+and number of spikes were precisely aligned in both imple-                 the visual system, with no CA neurons present in V1, while
+mentations, indicating that the underlying integrate-and-fire              object words exhibited only limited emergence in the motor
+mechanism and spike thresholding processes operate con-                    system, with no CA neurons found in M1L. This further rein-
+sistently across both platforms. This finding is critical, as              forces the specialisation of sensorimotor areas for concep-
+even small discrepancies in spike generation could lead to                 tual grounding, while phonological representations remain
+divergent network-level behaviour. Overall, these results                  largely uniform across word types in the perisylvian regions
+confirm that the fundamental neuronal properties, mem-                     (A1, AB, PB, and articulatory motor areas M1i, PMi, PFi),
+brane dynamics, adaptation, and spiking, are faithfully rep-               where no word-type-related differences were observed in
+licated in NEST. Therefore, any differences observed at the                either implementation. Note that in both implementations
+level of larger-scale network dynamics, such as cell assem-                the multimodal hub areas (PB, PFi, AT, and PFL) contain a
+bly formation, inter-area propagation, or temporal activa-                 higher number of CA cells compared to the secondary areas
+tion patterns, can be attributed to system-level mechanisms                (AB, PMi, TO, PML), which in turn have more CA cells
+(e.g., synaptic delays, connectivity patterns), rather than                than the primary areas (A1, M1i, V1, M1L). This pattern
+inconsistencies in the basic neuronal model.                               appears to be independent of whether the represented word
+                                                                           is object- or action-related.
+Cell assemblies size and topographical distribution:                          The descriptions above were confirmed by the two-way
+Felix vs. NEST                                                             repeated-measures ANOVA (WordType: 2 levels X Area:12
+                                                                           levels) conducted on topographical CA size and distribution
+The distribution of cell assemblies (CAs) across the net-                  in both Felix and NEST Model output data.
+work reveals a qualitative similarity between the NEST and                    For Felix, the analysis revealed a significant main effect
+Felix implementations (Fig. 4). Across all modelled cortical               of Area, (F(11, 121) = 198.04, p < 0.001), indicating that cell
+areas, CA formation followed the same topographical pat-                   assembly size varied significantly across different brain
+tern in both implementations, indicating that the transition to            regions. However, the main effect of WordType was not sig-
+NEST preserves the general organisation of semantic repre-                 nificant, (F(1, 11) = 0.35, p = 0.565), suggesting that Word-
+sentations. Quantitatively, however, the size of CAs differed              Type alone did not influence cell assembly size across all
+substantially, with NEST producing assemblies roughly                      areas. Importantly, a significant interaction between Area
+twice as large as those in Felix. This difference in CA size               and WordType, (F(11, 121) = 25.41, p < 0.001), indicated
+is analysed in detail in the discussion section. Despite these             that the effect of WordType on cell assembly size varied by
+quantitative differences, the overall network organisation                 cortical areas.
+and activation patterns remained comparable across imple-                     Post-hoc Tukey tests with Bonferroni correction (12
+mentations, supporting the conclusion that NEST maintains                  comparisons; critical p-value = 0.0042) revealed that Action
+the main functional properties of the original model.                      words elicited significantly larger cell assemblies in motor-
+   Crucially, the emergence of semantic specificity is con-                related areas, whereas Object words elicited significantly
+sistent across both implementations. Action-word CAs are                   larger cell assemblies in visual-related areas. Specifically,
+more prevalent in the motor system, particularly in M1L,                   significant differences in cell assembly size between Object
+PML and PFL whereas object-word CAs are more dominant                      and Action word types were observed in all extrasylvian
+in the visual system, especially in V1, TO and AT. Addi-                   regions (p < 0.0042). In contrast, no significant differences
+tionally, action words showed only limited emergence in                    between Action and Object word types were found in any
+                                                                           perisylvian regions.
+                                                                              For NEST, a similar two-way repeated-measures
+                                                                           ANOVA confirmed a significant main effect of Area,
+                                                                           (F(11, 121) = 587.23, p < 0.001), further demonstrating that
+                                                                           cell assembly size varied across brain regions. The main
+                                                                           effect of WordType was non-significant (F(1, 11) = 0.36,
+                                                                           p = 0.563), indicating that WordType alone did not influence
+Fig. 4 Comparison of Cell Assembly (CA) distributions across NEST
+and Felix implementations. The mean number of CA neurons is plotted        cell assembly size when all areas were considered together.
+for each cortical area. Blue bars represent Felix, orange bars represent   However, there was a strong significant interaction between
+NEST. Within each implementation, hatched bars show action words           WordType and Area, (F(11, 121) = 137.68, p < 0.001), con-
+and solid bars show object words. Notable topographical differences        firming that the effect of WordType on cell assembly size
+emerge in extrasylvian regions, particularly in the lateral motor cor-
+tex (M1L), where action words elicit the highest CA neuron counts,         was region-dependent.
+and in the primary visual cortex (V1), where object words show the            Post-hoc Tukey tests with Bonferroni correction revealed
+strongest activation. These patterns are consistent across both model      the same pattern observed in Felix, where Action words
+implementations
+
+
+13
+Cognitive Neurodynamics        (2026) 20:48                                                                              Page 17 of 24     48
+
+
+led to significantly larger cell assemblies in motor-related             reorganisation occurs, and the network has reached a stable
+regions, while Object words led to significantly larger cell             configuration for encoding learned representations.
+assemblies in visual-related regions (p-value < 0.0042).                    Importantly, the multimodal connector hub areas (PB,
+These effects were limited to extrasylvian regions, while no             PFi, AT and PFM) also showed a clear difference in CA sizes
+significant differences were found in perisylvian regions.               between the two implementations. While these areas were
+   Overall, the preservation of semantic specialisation and              strongly engaged in both models, NEST exhibited a more
+cortical distribution in NEST confirms the model’s robust-               pronounced increase in CA size, consistent with its greater
+ness and reproducibility, while the observed increase in                 recruitment of neurons.
+CA size highlights a quantitative difference without alter-                 Overall, these results confirm that the transition from
+ing the fundamental computational structure underlying the               Felix to NEST preserves the core learning dynamics and
+network.                                                                 topographical organisation of CAs. While NEST consis-
+                                                                         tently forms larger CAs, the trajectory of their growth, stabi-
+Cell assemblies emergence over learning episodes:                        lisation after 1000 learning steps, and semantic distribution
+Felix vs. NEST                                                           remain unchanged, reinforcing the robustness of the model
+                                                                         across implementations.
+The development of cell assemblies (CAs) over the course
+of learning followed a similar trajectory in both NEST and               Spatiotemporal activation: Felix vs. NEST
+Felix implementations, with a progressive increase in CA
+size across all cortical areas as learning progressed (Fig. 5).          To investigate the temporal evolution of activation, we ana-
+However, a consistent and substantial difference emerged                 lysed the spiking activity across cortical areas following
+between the two implementations: CAs formed in NEST                      auditory (A1) stimulation for an action word in both NEST
+were systematically larger than those in Felix across all                and Felix implementations (Fig. 6). The stimulation proto-
+modelled regions, confirming the earlier observations. This              col included an initial 5 time steps baseline period during
+difference was evident from the earliest stages of learning              which no external input was applied, ensuring that spon-
+and remained stable as learning progressed.                              taneous network activity remained at minimal levels. This
+   Across all perisylvian areas (A1, AB, PB, PFi, PMi,                   was followed by 2 time steps of direct stimulation to A1,
+M1i), CA growth was steepest in the first 500 learning steps,            which led to a rapid increase in neuronal activity in this area
+after which CA sizes stabilised around 1000 learning steps,              before activation propagated throughout the network.
+indicating a consolidation of network learning. The same                    Following stimulation, activation quickly spread from
+stabilisation was observed in extrasylvian areas, including              A1 to adjacent perisylvian regions, including secondary
+motor regions (M1L, PML, PFL) for action words and visual                auditory areas (AB, PB) and articulatory motor regions
+regions (V1, TO) for object words, reinforcing the semantic              (M1i, PMi, PFi). This early propagation phase was nearly
+specificity of CA distributions. This plateau in CA growth               identical in both implementations. However, as activation
+suggests that, beyond this point, no further large-scale                 reached multimodal regions, key differences emerged: in
+
+
+
+
+Fig. 5 Evolution of Cell Assembly Size counted as the average num-       in both NEST (orange) and Felix (blue) implementations. Each panel
+ber of CA neurons per area across Learning-steps in NEST and Felix       represents a different cortical area, showing the progressive increase in
+Implementations. The mean number of neurons per cell assembly (CA)       CA size as learning progresses
+is plotted for each cortical area over the course of learning episodes
+
+
+                                                                                                                                     13
+ 48       Page 18 of 24                                                                    Cognitive Neurodynamics         (2026) 20:48
+
+
+
+
+Fig. 6 Time course of activation following auditory (A1) stimulation      vian regions (AB, PB, PFi, PMi, M1i) and further into extrasylvian
+for an action word across cortical areas in NEST and Felix implemen-      lateral prefrontal and sensorimotor regions (PFL, PML, M1L) in both
+tations. The number of spikes is plotted over simulation time steps for   implementations. The overall duration of the stimulation and response
+each cortical area, separately for NEST (orange) and Felix (blue). One    should be interpreted as a temporally compressed, schematic represen-
+simulation time step corresponds to 1 ms of model time. The stimula-      tation of a much longer real cortical process (see “Spatial and Tempo-
+tion period in A1 (2 time steps, i.e. 2 ms on the microscopic scale) is   ral Scales of the Model”)
+indicated by the shaded red area. Activity spreads from A1 to perisyl-
+
+NEST, activation levels were consistently higher, particu-                with motor areas preferentially activated for action words
+larly in prefrontal (PFi), premotor (PML), and primary                    and visual areas for object words. Thus, the time-course
+motor (M1L) areas. In contrast, Felix exhibited lower peak                activation results validate the observed differences in cell
+activity, with stronger engagement remaining largely con-                 assembly size, demonstrating stronger motor activation
+fined to perisylvian regions. Importantly, both implementa-               for action words and stronger visual activation for object
+tions demonstrated clear category specificity, with strongest             words. These activation patterns also confirm the systematic
+activation in the motor system and very low in the visual                 increase in CA size in NEST compared to Felix.
+system. In both models, no activation was observed in V1,                    Importantly, the spatiotemporal activation profiles
+reinforcing the expected semantic category specificity –                  obtained in both implementations align with neurophysi-
+that is, action words preferentially engage the motor system              ological evidence: auditory regions show an early, strong
+rather than visual processing areas.                                      response at the stimulation site (mimicking auditory percep-
+   A key distinction between NEST and Felix arises due to                 tion), followed by more moderate, modality-specific cortical
+synaptic delays in NEST, which were not present in Felix.                 recruitment of extrasylvian regions distal to the stimulated
+In Felix, activity in excitatory neurons was updated within               region during word recognition processess (Hauk et al.
+the same time step as inhibition, allowing for near-instan-               2004; Pulvermüller 2005). The NEST simulations, which
+taneous transmission of activation between neurons within                 include explicit conduction delays, reproduce a slightly
+a single area. However, NEST requires explicit synaptic                   more gradual propagation of activity across areas, provid-
+delays, resulting in a gradual prolongation in the timing of              ing a testable plausible temporal pattern and suggesting
+activation spread. This effect becomes more pronounced                    that such delays may contribute to the graded and stronger
+as activity propagates further from the initial stimulation               recruitment of neural matters across the modelled regions.
+site, leading to increasingly delayed peak activations in
+distant regions such as M1L and PML compared to Felix.
+The impact of this delay accumulates along the processing                 Discussion
+hierarchy, such that regions further from A1 exhibit peak
+activity at progressively later time steps in NEST relative               In this study, we implemented the 12-area spiking Brain-
+to Felix.                                                                 constrained Perception Action Model of Cognition and
+   A similar analysis was conducted for object words,                     Language (BPAM-o-CAL) within the NEST simulation
+revealing stronger visual system activation (particularly in              framework, ensuring greater accessibility, reproducibility,
+V1 and TO) compared to the motor system. These results,                   and scalability compared to the previously used Felix pack-
+available in the supplementary material, further support the              age. The model consists of 12 interconnected cortical areas,
+model’s ability to capture semantic category specificity,                 incorporating spiking neurons with inhibitory populations,
+
+
+
+13
+Cognitive Neurodynamics     (2026) 20:48                                                                   Page 19 of 24   48
+
+
+enabling biologically plausible neural dynamics and cell          occasionally leading to merging of cell assemblies. Because
+assembly formation for concept, symbol, and semantic pro-         single-neuron parameters (membrane potential dynamics,
+cessing. While maintaining identical network architectures,       thresholds, adaptation) were identical in both implementa-
+synaptic organisation, and learning mechanisms across             tions (Fig. 3), the altered activation patterns can be attrib-
+implementations, we examined the emergence of cell assem-         uted solely to the delayed timing of synaptic inhibition in
+blies and their distributions across cortical areas following     NEST (Figs. 4 and 6).
+Hebbian-based associative learning of action and object              To address excessive excitation, we introduced distinct
+words in action and perception system. The current work           connectivity constraints differentiating functional systems
+should thus be regarded as a first-stage replication aimed        by within-system and cross-system inter-area connections.
+at faithfully transferring and validating the well-established    Cross-system connectivity was reduced by half, while
+Felix model within NEST before introducing further biolog-        within-system connections remained unchanged from the
+ical refinements. Importantly, the present simulation serves      Felix model. This adjustment mitigated runaway excitation,
+as proof that the core results previously obtained with Felix     stabilised the network, and restored functional specificity.
+can be reproduced in a different simulation environment,          Furthermore, this modification aligns with neuroanatomi-
+requiring only minimal adjustments. This step ensures full        cal evidence suggesting weaker cross-system compared to
+functional equivalence and provides a solid foundation for        within-system connectivity (Passingham et al. 2002; Mar-
+future developments, incorporating, for instance, anatomi-        kov et al. 2013).
+cal scaling, realistic delays, and inhibitory plasticity.            Despite these adjustments and resultant differences, the
+   Although the primary goal was a one-to-one numerical           NEST implementation faithfully replicated core neuronal
+replication between Felix and NEST, differences in the simu-      properties observed in Felix, including membrane potential
+lation engines posed significant challenges. A felix-package      dynamics, adaptation, and spiking behaviour, confirming
+had to be implemented to extend NEST and allow it to cover        robustness across simulation platforms. Both implementa-
+the neuron-types and learning rule used. The most critical        tions successfully reproduced the semantic category-speci-
+difference involved synaptic delays, which are biologically       ficity of CAs, with action words primarily engaging motor
+plausible and required in NEST but are absent in Felix. In        areas (M1L, PML, PFi) and object words strongly activat-
+Felix, inhibition was instantaneously computed alongside          ing visual regions (V1, TO, AT), consistent with sensorimo-
+excitation and external input. In contrast, NEST enforces         tor theories of semantic representation (Pulvermüller 1999;
+a minimal synaptic delay, requiring excitatory neurons to         Hauk et al. 2004; Pulvermüller et al. 2009; Shtyrov et al.
+process inhibitory inputs from the previous time step. This       2014; Kemmerer 2015). Notably, perisylvian regions (A1,
+fixed delay introduces a more realistic temporal separation       AB, PB, M1i, PMi, PFi) did not show word-type-related dif-
+between excitation and inhibition, consistent with the pres-      ferences, reinforcing the distinction between phonological
+ence of synaptic and axonal conduction delays in the brain        processing and conceptual grounding (Pulvermüller 2018).
+(Waxman 1980; Sabatini and Regehr 1996; Swadlow 2000).            The fact that these patterns previously described in Felix-
+   The inclusion of synaptic delays in NEST resulted in           based simulations (see for a detail discussion Tomasello et
+excitatory neurons remaining active for longer periods            al. 2018) similarly emerged in NEST shows topographical
+before inhibitory regulation became effective. The relatively     distinct semantic circuits for different word types and are to
+later onset of inhibition leads to less inhibition being avail-   a degree resilient against variations in spike timing. These
+able at early time steps, shortly after stimulation. As a con-    findings provide further computational validation of neu-
+sequence, excitatory activity in NEST could spread more           robiologically-founded models of language in which word
+widely and recruit additional neurons before delayed inhi-        meaning is distributed across sensorimotor and multimodal
+bition became effective. This mechanism explains both the         integration hubs rather than being localised in a single amo-
+larger activation peaks and the slight temporal shift of CA       dal region (Binder et al. 2011; Pulvermüller 2013).
+activity observed across several cortical areas (Fig. 6). The        Furthermore, the implementation in NEST significantly
+resulting increase in overall excitation produced systemati-      enhanced computational efficiency, reducing simulation
+cally larger cell assemblies – about twice as many neurons        runtime nearly sixfold compared to Felix. This substan-
+per assembly as in Felix (Fig. 4). Further analyses con-          tial improvement in computational speed is particularly
+firmed that this effect reflected enhanced network excitation     critical for future expansions of the model, such as incor-
+rather than greater learning efficiency (Supplementary Figs.      porating additional cortical regions or including the right
+S1, S2). Such excessive excitation disrupted the excitatory–      hemisphere, which would demand increased computational
+inhibitory balance essential for stable cortical processing       demands. Beyond replicating previous results, imple-
+(Wilson and Cowan 1973; van Vreeswijk and Sompolin-               menting BPAM-o-CAL in NEST offers significant practi-
+sky 1996; Sadeh et al. 2015; Denève and Machens 2016),            cal advantages. Unlike Felix, which relied on outdated,
+
+
+
+                                                                                                                      13
+ 48      Page 20 of 24                                                             Cognitive Neurodynamics     (2026) 20:48
+
+
+unsupported graphics libraries (XView) incompatible with            the current simplification of using equal numbers of excit-
+modern 64-bit systems, the NEST-based model utilizes a              atory and inhibitory neurons. Adjusting this ratio toward a
+contemporary simulation environment accessible through              more biologically plausible 4:1 proportion will enhance the
+a Python interface. Additionally, encapsulating the model           neurophysiological realism of the model, though it requires
+within a Docker image allows seamless installation and              revising the local inhibitory connectivity scheme (currently
+enhanced reproducibility across platforms, facilitating             one-to-one). This will be considerably easier to implement
+future research and model extensions.                               in NEST than in the Felix framework, as the first starts from
+                                                                    single neurons and synapses that can be connected with-
+                                                                    out further constraints, whereas the latter starts from less
+Implications and future directions                                  flexible two-dimensional arrays of cells (fields). Likewise,
+                                                                    introducing plastic connections for inhibitory neurons and
+We report successful replication of key neurophysiological          additional adaptive mechanisms, such as neuron-intrinsic or
+signatures of single cell and circuit level activity in the Felix   homeostatic plasticity, may be required to allow the model
+and NEST implementations of the 12-area BPAM-o-CAL                  to maintain stable firing dynamics in the presence of ongo-
+model. These result demonstrate the potential of the imple-         ing synaptic plasticity. Including these mechanisms would
+mentation in NEST to become a scalable, open-source option          also enhance the models’ biological realism (Lamsa et al.
+for large-scale brain-constrained neural modelling. Such an         2005).
+implementation would be useful for several reasons. First,              The NEST framework already provides access to a vari-
+the Felix implementation currently only offers simulations          ety of learning rules, such as spike-timing–dependent plas-
+of representational learning with rather small numbers of           ticity (STDP; Song et al. 2000; Morrison et al. 2007) which
+different representations. A substantial increase of network        could be systematically tested within our architecture. Com-
+size would be required to implement, for example, large             paring the behaviour of the model under different synaptic
+vocabularies or rich repertoires of concepts. Furthermore,          learning mechanisms would offer valuable insight into how
+syntactic learning requires the availability of a large stock of    plasticity dynamics influence associative learning, stabil-
+symbols, so that the new tool could also assist in modelling        ity, and cell assembly formation in large-scale language
+aspects of grammar. Likewise, for the modelling of addi-            networks.The modularity of NEST makes such extensions
+tional cognitive and perceptual brain systems and related           feasible, paving the way for more accurate simulations of
+capabilities, it may be necessary to add implementations of         cortical microcircuit organisation.
+the dorsal visual pathway, the somatosensory system, olfac-             Another promising extension would be to incorpo-
+tory and gustatory systems and multimodal areas in the pari-        rate distance-dependent conduction delays between corti-
+etal and prefrontal cortex, or emotion-related regions (e.g.,       cal areas. Adding inter-area delay variability could help
+limbic structures, insula), which are known to play a role in       examine how transmission times influence synchronisa-
+affective and social aspects of communication (Moseley et           tion, oscillatory coupling, and temporal integration in lan-
+al. 2012; Vigliocco et al. 2014; Hinojosa et al. 2020). Such        guage-related networks. This adjustment would increase the
+extensions would require a substantial increase in compu-           temporal realism of the model and allow to study the spa-
+tational resources, which we could not achieve in the past          tio-temporal dynamics of cortical representations in much
+based on Felix implementations and parallel extensions              more detail than possible in our previous works. That said,
+thereof. We hope that the computational infrastructure of           greater biological realism does not necessarily guarantee a
+NEST will allow us to realize at least some of these projects.      better mechanistic explanation. Future studies are therefore
+    Future work should also explore alternative plasticity          needed to directly test how much anatomical and temporal
+rules, reinforcement learning mechanisms, and multimodal            detail is truly required for explanatory validity, and whether
+sensory integration within this framework to refine com-            more abstract, but still biologically plausible, may, in some
+putational models of language learning and representation.          cases, capture the essential mechanisms equally well. By
+One promising direction is the incorporation of dendritic           leveraging these model refinements, we can make the net-
+computations, which have been shown to play a crucial role          work more neurophysiologically realistic while simultane-
+in sequence detection and temporal processing (Hawkins              ously expanding its scope to investigate key questions in
+and Ahmad 2016; Quaresima et al. 2023). Given that syn-             language structure and grammar emergence. With enhanced
+tax relies on the precise encoding of word order and hier-          scalability, computational efficiency, and open-source
+archical structure, integrating dendritic nonlinearities into       availability, these advancements will not only accelerate
+our spiking model could provide a mechanistic account of            research in neural language processing but also contribute
+syntactic processing in biologically plausible circuits (Pul-       to broader investigations in cognitive neuroscience, artifi-
+vermüller 2003). In addition, future work should address            cial intelligence, and neuromorphic computing. By making
+
+
+
+13
+Cognitive Neurodynamics                          (2026) 20:48                                                                                                                                       Page 21 of 24                   48
+
+                                                                                                                definitions, connectivity parameters, plasticity rules, and simulation
+the implementation publicly available, other research teams                                                     scripts, is publicly available on GitHub at ​[h​ ​t​t​​p​s​:​​/​/​g​i​​t​h​​u​b​.​c​o​m​/​M​a​x​i​
+worldwide will be able to test their own hypotheses and                                                         m​e​C​a​r​r​i​e​r​e​/​c​o​g​n​i​n​e​s​t​]​(​h​t​t​p​s​:​/​g​i​t​h​u​b​.​c​o​m​/​M​a​x​i​m​e​C​a​r​r​i​e​r​e​/​c​o​g​n​i​n​e​s​t​
+extend the model for new applications. This fosters a col-                                                      )​. This ensures full transparency and reproducibility, allowing other
+laborative scientific effort, where different computational                                                     researchers to replicate, modify, and extend our work for further inves-
+                                                                                                                tigations in neurocomputational modelling. Simulations were executed
+neuroscience groups can explore alternative architectures,                                                      on the HPC cluster of Freie Universität Berlin, using 6 CPU cores of
+learning paradigms, or even integrate multimodal sensory                                                        Intel Xeon processors under AlmaLinux 8 with the Slurm batch system
+input (Plesser et al., 2025).                                                                                   (Bennett et al. 2020).
+
+                                                                                                                Declarations
+Conclusion
+                                                                                                                Competing interests The authors declare no competing interests.
+
+By transitioning to NEST, we established an accessible,                                                         Open Access This article is licensed under a Creative Commons
+scalable framework for brain-constrained modelling of lan-                                                      Attribution 4.0 International License, which permits use, sharing,
+guage and cognition: the 12-area BPAM-o-CAL network.                                                            adaptation, distribution and reproduction in any medium or format,
+The new implementation successfully replicated key fea-                                                         as long as you give appropriate credit to the original author(s) and the
+                                                                                                                source, provide a link to the Creative Commons licence, and indicate
+tures of the original Felix model, including biologically                                                       if changes were made. The images or other third party material in this
+realistic spiking behaviour, homeostatic balance between                                                        article are included in the article’s Creative Commons licence, unless
+excitation and inhibition, Hebbian-based associative                                                            indicated otherwise in a credit line to the material. If material is not
+learning, and the emergence of distributed, semantically                                                        included in the article’s Creative Commons licence and your intended
+                                                                                                                use is not permitted by statutory regulation or exceeds the permitted
+meaningful cell assemblies organised in a topographical                                                         use, you will need to obtain permission directly from the copyright
+manner. These assemblies displayed sensorimotor speci-                                                          holder. To view a copy of this licence, visit ​h​t​t​p​​:​/​/​​c​r​e​a​​t​i​​v​e​c​​o​m​m​o​​n​s​.​​o​
+ficity – differentiating between action- and object-related                                                     r​g​​/​l​i​c​e​n​s​e​s​/​b​y​/​4​.​0​/.
+words – and maintained phonological invariance in perisyl-
+vian areas, consistent with previous findings. At both the
+cellular and network levels, the successful replication of                                                      References
+neurophysiological properties confirms the robustness of
+the new implementation, validating NEST as a robust simu-                                                       Arikuni T, Watanabe K, Kubota K (1988) Connections of area 8 with
+                                                                                                                     area 6 in the brain of the macaque monkey. J Comp Neurol
+lation environment for investigating neural mechanisms                                                               277(1):21–40. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​2​​/​c​n​​e​.​9​0​2​7​7​0​1​0​3
+underlying language and cognition. Beyond replication,                                                          Artola A, Singer W (1993) Long-term depression of excitatory syn-
+the new implementation enables substantial model exten-                                                              aptic transmission and its relationship to long-term potentiation.
+sions. Improved computational efficiency and open-source                                                             Trends Neurosci 16(11):480–487. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​6​​/​0​1​​6​6​-​2​
+                                                                                                                     2​3​6​(​9​3​)​9​0​0​8​1​-​V
+availability allow scaling to larger vocabularies and more                                                      Azevedo FAC, Carvalho LRB, Grinberg LT, Farfel JM, Ferretti REL,
+complex conceptual structures, opening new avenues for                                                               Leite REP, Filho WJ, Lent R, Herculano-Houzel S (2009) Equal
+exploring symbolic, syntactic, and multimodal processes in                                                           numbers of neuronal and nonneuronal cells make the human
+biologically grounded neural models of language (Plesser                                                             brain an isometrically scaled‐up primate brain. J Comp Neurol
+                                                                                                                     513(5):532–541. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​2​​/​c​n​​e​.​2​1​9​7​4
+et al. 2025).                                                                                                   Bennett L, Melchers B, Proppe B (2020) Curta: A general-purpose
+                                                                                                                     high-performance computer at ZEDAT. Freie Universität Berlin.​
+Supplementary Information The             online                     version                 contains                h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​7​1​6​​9​/​r​​e​f​u​b​i​u​m​-​2​6​7​5​4
+supplementary material available at ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​7​​/​s​1​​1​5​7​1​-​0​   Bibbig A, Wennekers T, Palm G (1995) A neural network model of the
+2​6​-​1​0​4​1​5​-​5.                                                                                                 cortico-hippocampal interplay and the representation of contexts.
+                                                                                                                     Behav Brain Res 66(1):169–175. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​6​​/​0​1​​6​6​-​4​
+Author contributions M.C. ran the code, performed the analyses,                                                      3​2​8​(​9​4​)​0​0​1​3​7​-​5
+and wrote the manuscript. F.D. performed the single-neuron analysis.                                            Binder JR, Gross WL, Allendorfer JB, Bonilha L, Chapin J, Edwards
+HE.P. implemented the core translation to NEST. A.F. participated in                                                 JC, Grabowski TJ, Langfitt JT, Loring DW, Lowe MJ et al (2011)
+and commented on the translation to NEST and revised the paper. R.T.,                                                Mapping anterior temporal lobe language areas with fMRI: a
+T.W., and F.P. commented on the overall analysis and reviewed the                                                    multicenter normative study. Neuroimage 54(2):1465–1475. ​h​t​t​
+manuscript. All authors approved the final version of the manuscript.                                                p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​6​​/​j​.​​n​e​u​​r​o​i​​m​a​g​e​​.​2​​0​1​0​.​0​9​.​0​4​8
+                                                                                                                Braitenberg V (1978) Cell assemblies in the cerebral cortex. In: Heim
+Funding Open Access funding enabled and organized by Projekt                                                         R, Palm G (eds) Theoretical approaches to complex systems.
+DEAL.                                                                                                                Springer, Berlin, Heidelberg, pp 171–188. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​
+                                                                                                                     7​​/​9​7​​8​-​3​-​6​4​2​-​9​3​0​8​3​-​6​_​9
+Data availability All simulations were conducted using NEST 3.6,                                                Braitenberg V, Schüz A (2013) Cortex: statistics and geometry of neu-
+extended with the felixmodule package, developed as part of the                                                      ronal connectivity. Springer Science & Business Media, [place
+present work, which provides custom neuron models (felix_exc,                                                        unknown]
+felix_inh), a synapse model (abs_synapse), and a recording device                                               Braitenberg V, Schüz A (1998) Cortex: statistics and geometry of
+(felix_spike_recorder). The full implementation, including network                                                   neuronal connectivity [Internet]. Springer, Berlin, Heidelberg.
+
+
+
+                                                                                                                                                                                                                         13
+  48            Page 22 of 24                                                                                                                       Cognitive Neurodynamics                                 (2026) 20:48
+
+     [accessed 2025 Jan 10] ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​7​​/​9​7​​8​-​3​-​6​6​2​-​0​3​7​3​         Brain Res 330(2):299–307. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​6​​/​0​0​​0​6​-​8​9​9​3​(​8​
+     3​-​1                                                                                                                5​)​9​0​6​8​9​-​4
+Bressler SL, Coppola R, Nakamura R (1993) Episodic multiregional                                                      Garagnani M, Pulvermüller F (2016) Conceptual grounding of lan-
+     cortical coherence at multiple frequencies during visual task per-                                                   guage in action and perception: a neurocomputational model of
+     formance. Nature 366(6451):153–156. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​3​8​​/​3​                       the emergence of category specificity and semantic hubs. Eur J
+     6​​6​1​5​3​a​0                                                                                                       Neurosci 43(6):721–737. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​1​1​1​​/​e​j​​n​.​1​3​1​4​5
+Carandini M (2012) From circuits to behavior: a bridge too far? Nat                                                   Garagnani M, Wennekers T, Pulvermüller F (2007) A neuronal model
+     Neurosci 15(4):507–509. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​3​8​​/​n​n​​.​3​0​4​3                       of the language cortex. Neurocomputing 70(10):1914–1919. ​h​t​t​p​​
+Carriere M, Tomasello R, Pulvermüller F (2024) Can human brain                                                            s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​6​​/​j​.​​n​e​u​c​o​m​.​2​0​0​6​.​1​0​.​0​7​6
+     connectivity explain verbal working memory? Network: Compu-                                                      Garagnani M, Wennekers T, Pulvermüller F (2008) A neuroanatomi-
+     tation in Neural Systems. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​8​0​​/​0​9​​5​4​8​​9​8​X​​.​2​0​2​​       cally grounded Hebbian-learning model of attention–language
+     4​.​​2​4​2​1​1​9​6                                                                                                   interactions in the human brain. Eur J Neurosci 27(2):492–513. ​h​
+Carriere M, Tomasello R, Pulvermüller F (2025) What is the role of                                                        t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​1​1​1​​/​j​.​​1​4​6​​0​-​9​​5​6​8​.​​2​0​​0​8​.​0​6​0​1​5​.​x
+     the sensori-motor system in semantics? Evidence from a brain-                                                    Garagnani M, Lucchese G, Tomasello R, Wennekers T, Pulvermüller
+     constrained neural network model of action verbs. Language,                                                          F (2017) A spiking neurocomputational model of high-frequency
+     Cognition and Neuroscience                                                                                           oscillatory brain responses to words and pseudowords. Front
+Connors BW, Gutnick MJ, Prince DA (1982) Electrophysiologi-                                                               Comput Neurosci. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​3​​3​8​9​​/​f​n​​c​o​m​.​2​0​1​6​.​0​0​1​4​5
+     cal properties of neocortical neurons in vitro. J Neurophysiol                                                   van Gerven M, Bohte S (2017) Editorial: artificial neural networks as
+     48(6):1302–1320. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​1​5​2​​/​j​n​​.​1​9​8​2​.​4​8​.​6​.​1​3​0​2          models of neural information processing. Front Comput Neuro-
+Constant M, Pulvermüller F, Tomasello R (2023) Brain-constrained                                                          sci. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​3​​3​8​9​​/​f​n​​c​o​m​.​2​0​1​7​.​0​0​1​1​4
+     neural modeling explains fast mapping of words to meaning.                                                       Gewaltig M-O, Diesmann M (2007) NEST (NEural simulation Tool).
+     Cereb Cortex 33(11):6872–6890. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​9​3​​/​c​e​​r​c​o​r​/​               Scholarpedia 2(4):1430. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​4​​2​4​9​​/​s​c​​h​o​l​a​r​p​e​d​i​a​.​1​4​
+     b​h​a​d​0​0​7                                                                                                        3​0
+Damasio AR (1989) Time-locked multiregional retroactivation: a                                                        Goodman DFM, Brette R (2009) The Brian simulator. Front Neurosci.​
+     systems-level proposal for the neural substrates of recall and rec-                                                  h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​3​​3​8​9​​/​n​e​​u​r​o​.​0​1​.​0​2​6​.​2​0​0​9
+     ognition. Cognition 33(1):25–62. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​6​​/​0​0​​1​0​-​0​           Hauk O, Johnsrude I, Pulvermüller F (2004) Somatotopic representa-
+     2​7​7​(​8​9​)​9​0​0​0​5​-​X                                                                                          tion of action words in human motor and premotor cortex. Neuron
+Deco G, Jirsa VK, Robinson PA, Breakspear M, Friston K (2008) The                                                         41(2):301–307. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​6​​/​S​0​​8​9​6​-​6​2​7​3​(​0​3​)​0​0​8​3​8​-​9
+     dynamic brain: from spiking neurons to neural masses and corti-                                                  Hawkins J, Ahmad S (2016) Why neurons have thousands of synapses,
+     cal fields. PLoS Comput Biol 4(8):e1000092. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​                          a theory of sequence memory in neocortex. Front Neural Circuits.
+     3​7​1​​/​j​o​​u​r​n​a​l​.​p​c​b​i​.​1​0​0​0​0​9​2                                                                    ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​3​​3​8​9​​/​f​n​​c​i​r​.​2​0​1​6​.​0​0​0​2​3
+Deco G, Rolls ET, Romo R (2009) Stochastic dynamics as a principle                                                    Hebb DO (1949) The organization of behavior; a neuropsychological
+     of brain function. Prog Neurobiol 88(1):1–16. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​                            theory. Wiley, Oxford, England
+     1​​0​1​6​​/​j​.​​p​n​e​​u​r​o​​b​i​o​.​​2​0​​0​9​.​0​1​.​0​0​6                                                   Henningsen-Schomers MR, Pulvermüller F (2022) Modelling con-
+Deiber M-P, Passingham RE, Colebatch JG, Friston KJ, Nixon PD,                                                             crete and abstract concepts using brain-constrained deep neural
+     Frackowiak RSJ (1991) Cortical areas and the selection of move-                                                       networks. Psychol Res 86(8):2533–2559. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​
+     ment: a study with positron emission tomography. Exp Brain Res                                                        7​​/​s​0​​0​4​2​6​-​0​2​1​-​0​1​5​9​1​-​6
+     84(2):393–402. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​7​​/​B​F​​0​0​2​3​1​4​6​1                      Henningsen-Schomers MR, Garagnani M, Pulvermüller F (2022)
+Dobler FR, Henningsen-Schomers MR, Pulvermüller F (2024) Verbal                                                            Influence of language on perception and concept formation in a
+     symbols support concrete but enable abstract concept formation:                                                       brain-constrained deep neural network model. Philos Trans Royal
+     evidence from brain‐constrained deep neural networks. Lang                                                            Soc B: Biol Sci 378(1870):20210373. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​9​8​​/​r​s​​t​
+     Learn 74(Suppl 1):258–295. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​1​1​1​​/​l​a​​n​g​.​1​2​6​4​6               b​.​2​0​2​1​.​0​3​7​3
+Dobler F, Stroppa L, Pulvermüller F (2025) What is so hard about                                                      Herculano-Houzel S (2009) The human brain in numbers: a linearly
+     abstract words, anyways? A neuromechanistic explanation using                                                         scaled-up primate brain. Front Hum Neurosci. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​
+     brain-constrained neural network models                                                                               3​​3​8​9​​/​n​e​​u​r​o​.​0​9​.​0​3​1​.​2​0​0​9
+Dum RP, Strick PL (2005) Frontal lobe inputs to the digit representa-                                                 Heuvel MP, Sporns O (2013) Network hubs in the human brain. Trends
+     tions of the motor areas on the lateral surface of the hemisphere.                                                    Cogn Sci 17(12):683–696. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​6​​/​j​.​​t​i​c​s​.​2​0​1​3​.​0​9​.​
+     J Neurosci 25(6):1375–1386. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​5​2​3​​/​J​N​​E​U​R​​O​S​                  0​1​2
+     C​​I​.​3​9​​0​2​​-​0​4​.​2​0​0​5                                                                                 Hinojosa JA, Moreno EM, Ferré P (2020) Affective neurolinguistics:
+Eacott MJ, Gaffan D (1992) Inferotemporal-frontal disconnection: the                                                       towards a framework for reconciling language and emotion. Lang
+     uncinate fascicle and visual associative learning in monkeys. Eur                                                     Cognit Neurosci. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​8​0​​/​2​3​​2​7​3​​7​9​8​​.​2​0​1​​9​.​​1​6​2​0​9​5​
+     J Neurosci 4(12):1320–1332. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​1​1​1​​/​j​.​​1​4​6​​0​-​9​​5​6​           7
+     8​.​​1​9​​9​2​.​t​b​0​0​1​5​7​.​x                                                                                Kaas JH (1997) Topographic maps are fundamental to sensory pro-
+Einevoll GT, Destexhe A, Diesmann M, Grün S, Jirsa V, de Kamps                                                             cessing. Brain Res Bull 44(2):107–112. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​6​​/​S​
+     M, Migliore M, Ness TV, Plesser HE, Schürmann F (2019) The                                                            0​​3​6​1​-​9​2​3​0​(​9​7​)​0​0​0​9​4​-​4
+     scientific case for brain simulations. Neuron 102(4):735–744. ​h​t​t​                                            Kemmerer D (2015) Are the motor features of verb meanings repre-
+     p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​6​​/​j​.​​n​e​u​r​o​n​.​2​0​1​9​.​0​3​.​0​2​7                             sented in the precentral motor cortices? Yes, but within the context
+Eliasmith C, Anderson CH (2003) Neural Engineering: Computation,                                                           of a flexible, multilevel architecture for conceptual knowledge.
+     Representation, and Dynamics in Neurobiological Systems. MIT                                                          Psychon Bull Rev 22(4):1068–1075. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​3​​7​5​8​​/​s​1​​3​
+     Press                                                                                                                 4​2​3​-​0​1​4​-​0​7​8​4​-​1
+Fadiga L, Craighero L, Buccino G, Rizzolatti G (2002) Speech listen-                                                  Knoblauch A, Palm G (2002) Scene segmentation by spike synchro-
+     ing specifically modulates the excitability of tongue muscles: a                                                      nization in reciprocally connected visual areas. II. Global assem-
+     TMS study. Eur J Neurosci 15(2):399–402. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​4​                          blies and synchronization on larger space and time scales. Biol
+     6​​/​j​.​​0​9​5​​3​-​8​​1​6​x​.​​2​0​​0​1​.​0​1​8​7​4​.​x                                                             Cybern 87(3):168–184. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​7​​/​s​0​​0​4​2​2​-​0​0​2​-​0​3​3​
+Fuster JM, Bauer RH, Jervey JP (1985) Functional interactions                                                              2​-​3
+     between inferotemporal and prefrontal cortex in a cognitive task.
+
+
+
+13
+Cognitive Neurodynamics                               (2026) 20:48                                                                                                                                      Page 23 of 24                48
+
+Koestinger G, Martin KAC, Roth S, Rusch ES (2017) Synaptic con-                                                             Pulvermüller F (1999) Words in the brain’s language. Behav Brain Sci
+     nections formed by patchy projections of pyramidal cells in                                                                 22(2):253–279. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​7​​/​S​0​​1​4​0​5​2​5​X​9​9​0​0​1​8​2​X
+     the superficial layers of Cat visual cortex. Brain Struct Funct                                                        Pulvermüller F (2003) Sequence detectors as a basis of grammar in the
+     222(7):3025–3042. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​7​​/​s​0​​0​4​2​9​-​0​1​7​-​1​3​8​4​-​4                brain. Theory Biosci 122(1):87–103. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​7​​/​s​1​​2​
+Kriegeskorte N, Douglas PK (2018) Cognitive computational neuro-                                                                 0​6​4​-​0​0​3​-​0​0​3​9​-​6
+     science. Nat Neurosci 21(9):1148–1160. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​3​8​​/​                        Pulvermüller F (2005) Brain mechanisms linking language and action.
+     s​4​​1​5​9​3​-​0​1​8​-​0​2​1​0​-​5                                                                                          Nat Rev Neurosci 6(7):576–582. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​3​8​​/​n​r​​n​1​7​0​6
+Lamsa K, Heeroma JH, Kullmann DM (2005) Hebbian ltp in feed-                                                                Pulvermüller F (2013) How neurons make meaning: brain mechanisms
+     forward inhibitory interneurons and the temporal fidelity of input                                                          for embodied and abstract-symbolic semantics. Trends Cogn Sci
+     discrimination. Nat Neurosci 8(7):916–924. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​                                  17(9):458–470. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​6​​/​j​.​​t​i​c​s​.​2​0​1​3​.​0​6​.​0​0​4
+     0​3​8​​/​n​n​​1​4​8​6                                                                                                  Pulvermüller F (2018) Neural reuse of action perception circuits for
+Markov NT, Ercsey-Ravasz M, Van Essen DC, Knoblauch K, Toroc-                                                                    language, concepts and communication. Prog Neurobiol 160:1–
+     zkai Z, Kennedy H (2013) Cortical high-density counterstream                                                                44. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​6​​/​j​.​​p​n​e​​u​r​o​​b​i​o​.​​2​0​​1​7​.​0​7​.​0​0​1
+     architectures. Science 342(6158):1238406. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​1​2​                          Pulvermüller F (2023) Neurobiological mechanisms for language,
+     6​​/​s​c​​i​e​n​c​e​.​1​2​3​8​4​0​6                                                                                         symbols and concepts: clues from brain-constrained deep neural
+Marwick B, Boettiger C (2017) Mullen L (2018) Packaging Data Ana-                                                                networks. Prog Neurobiol 230:102511. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​6​​/​j​.​​
+     lytical Work Reproducibly Using R (and Friends). The American                                                               p​n​e​​u​r​o​​b​i​o​.​​2​0​​2​3​.​1​0​2​5​1​1
+     Statistician. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​8​0​​/​0​0​​0​3​1​​3​0​5​​.​2​0​1​​7​.​​1​3​7​5​9​8​6   Pulvermüller F, Fadiga L (2010) Active perception: sensorimo-
+Matthews GG (2001) Neurobiology: molecules, cells, and systems.                                                                  tor circuits as a cortical basis for language. Nat Rev Neurosci
+     (No Title) [Internet]. [accessed 2024 Feb 5]. ​h​t​t​p​​s​:​/​​/​c​i​r​​.​n​​i​i​.​​a​c​.​j​​p​/​                           11(5):351–360. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​3​8​​/​n​r​​n​2​8​1​1
+     c​​r​i​d​​/​1​1​​3​0​0​​0​0​7​9​​7​8​​3​7​9​2​0​3​8​4                                                                  Pulvermüller F, Kherif F, Hauk O, Mohr B, Nimmo-Smith I (2009)
+Moseley R, Carota F, Hauk O, Mohr B, Pulvermüller F (2012) A role                                                                Distributed cell assemblies for general lexical and category-
+     for the motor system in binding abstract emotional meaning.                                                                 specific semantic processing as revealed by fmri cluster analysis.
+     Cereb Cortex 22(7):1634–1647. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​9​3​​/​c​e​​r​c​o​r​/​b​                     Hum Brain Mapp 30(12):3837–3850. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​2​​/​h​b​​
+     h​r​2​3​8                                                                                                                   m​.​2​0​8​1​1
+Muir DR, Douglas RJ (2011) From neural arbors to daisies. Cereb Cor-                                                        Pulvermüller F, Tomasello R, Henningsen-Schomers MR, Wennekers
+     tex 21(5):1118–1133. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​9​3​​/​c​e​​r​c​o​r​/​b​h​q​1​8​4                     T (2021) Biological constraints on neural network models of cog-
+Ngai J (2022) Brain 2.0: transforming neuroscience. Cell 185(1):4–8.​                                                            nitive function. Nat Rev Neurosci 22(8):488–502. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​
+     h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​6​​/​j​.​​c​e​l​l​.​2​0​2​1​.​1​1​.​0​3​7                                 1​0​.​1​​0​3​8​​/​s​4​​1​5​8​3​-​0​2​1​-​0​0​4​7​3​-​5
+Nguyen PTU, Henningsen-Schomers MR, Pulvermüller F (2024)                                                                   Quaresima A, Fitz H, Duarte R, Broek D, Hagoort P, Petersson KM
+     Causal influence of linguistic learning on perceptual and concep-                                                           (2023) The tripod neuron: a minimal structural reduction of the
+     tual processing: a brain-constrained deep neural network study of                                                           dendritic tree. J Physiol 601(15):3265–3295. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​
+     proper names and category terms. J Neurosci. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​                                1​1​3​​/​J​P​​2​8​3​3​9​9
+     5​2​3​​/​J​N​​E​U​R​​O​S​C​​I​.​1​0​​4​8​​-​2​3​.​2​0​2​3                                                              Rilling JK, Glasser MF, Preuss TM, Ma X, Zhao T, Hu X, Behrens
+Nordlie E, Gewaltig M-O, Plesser HE (2009) Towards reproducible                                                                  TEJ (2008) The evolution of the arcuate fasciculus revealed with
+     descriptions of neuronal network models. PLoS Comput Biol                                                                   comparative DTI. Nat Neurosci 11(4):426–428. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​
+     5(8):e1000456. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​3​7​1​​/​j​o​​u​r​n​a​l​.​p​c​b​i​.​1​0​0​0​4​5​6             0​.​1​​0​3​8​​/​n​n​​2​0​7​2
+Pandya DN, Yeterian EH (1985) Architecture and connections of cor-                                                          Rotter S, Diesmann M (1999) Exact digital simulation of time-invari-
+     tical association areas. In: Peters A, Jones EG (eds) Association                                                           ant linear systems with applications to neuronal modeling. Biol
+     and auditory cortices [Internet]. Springer US;, Boston, MA, pp                                                              Cybern 81(5–6):381–402. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​7​​/​s​0​​0​4​2​2​0​0​5​0​5​
+     3–61. [accessed 2024 Feb 5] ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​7​​/​9​7​​8​-​1​-​4​7​5​                     7​0
+     7​-​9​6​1​9​-​3​_​1                                                                                                    Rougier NP, Hinsen K, Alexandre F, Arildsen T, Barba LA, Benureau
+Passingham RE, Stephan KE, Kötter R (2002) The anatomical basis of                                                               FCY, Brown CT, Buyl P, Caglayan O, Davison AP et al (2017)
+     functional localization in the cortex. Nat Rev Neurosci 3(8):606–                                                           Sustainable computational science: the ReScience initiative.
+     616. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​3​8​​/​n​r​​n​8​9​3                                                   PeerJ Comput Sci 3:e142. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​7​​7​1​7​​/​p​e​​e​r​j​-​c​s​.​1​4​2
+Petrides M, Pandya DN (2009) Distinct parietal and temporal path-                                                           Sabatini BL, Regehr WG (1996) Timing of neurotransmission at fast
+     ways to the homologues of Broca’s area in the monkey. PLoS                                                                  synapses in the mammalian brain. Nature 384(6605):170–172. ​h​t​
+     Biol 7(8):e1000170. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​3​7​1​​/​j​o​​u​r​n​a​l​.​p​b​i​o​.​1​0​0​0​1​           t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​3​8​​/​3​8​​4​1​7​0​a​0
+     7​0                                                                                                                    Schomers MR, Garagnani M, Pulvermüller F (2017) Neurocomputa-
+Plesser HE (2018) Reproducibility vs. replicability: a brief history of                                                          tional consequences of evolutionary connectivity changes in Peri-
+     a confused terminology. Front Neuroinform. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​3​​                                  sylvian language cortex. J Neurosci 37(11):3045–3055. ​h​t​t​p​​s​:​/​​/​d​o​
+     3​8​9​​/​f​n​​i​n​f​.​2​0​1​7​.​0​0​0​7​6                                                                                   i​​.​o​​r​g​/​​1​0​.​1​​5​2​3​​/​J​N​​E​U​R​​O​S​C​​I​.​2​6​​9​3​​-​1​6​.​2​0​1​7
+Plesser HE, Diesmann M, Gewaltig M-O, Morrison A (2022) NEST:                                                               Senk J, Kriener B, Djurfeldt M, Voges N, Jiang H-J, Schüttler L,
+     the neural simulation tool. Encyclopedia of computational neu-                                                              Gramelsberger G, Diesmann M, Plesser HE, Albada SJ (2022)
+     roscience [Internet]. [place unknown]. Springer, New York, NY;,                                                             Connectivity concepts in neuronal network modeling. PLoS
+     pp 2187–2189. [accessed 2025 Aug 8] ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​7​​/​9​7​​                           Comput Biol 18(9):e1010086. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​3​7​1​​/​j​o​​u​r​n​a​l​.​p​
+     8​-​1​​-​0​7​​1​6​-​1​​0​0​​6​-​0​_​2​5​8                                                                                   c​b​i​.​1​0​1​0​0​8​6
+Poldrack RA, Baker CI, Durnez J, Gorgolewski KJ, Matthews PM,                                                               Shtyrov Y, Butorina A, Nikolaeva A, Stroganova T (2014) Automatic
+     Munafò MR, Nichols TE, Poline J-B, Vul E, Yarkoni T (2017)                                                                  ultrarapid activation and inhibition of cortical motor systems in
+     Scanning the horizon: towards transparent and reproducible neu-                                                             spoken word comprehension. Proc Natl Acad Sci 111(18):E1918–
+     roimaging research. Nat Rev Neurosci 18(2):115–126. ​h​t​t​p​​s​:​/​​/​d​o​i​​                                              E1923. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​7​3​​/​p​n​​a​s​.​1​3​2​3​1​5​8​1​1​1
+     .​o​​r​g​/​​1​0​.​1​​0​3​8​​/​n​r​​n​.​2​0​1​6​.​1​6​7                                                                 Sommer FT, Wennekers T (2003) Models of distributed associative
+Pronold J, van Meegen A, Shimoura RO, Vollenbröker H, Senden                                                                     memory networks in the brain. Theory Biosci 122(1):55–69. ​h​t​t​p​​
+     M, Hilgetag CC, Bakker R, van Albada SJ (2024) Multi-scale                                                                  s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​7​8​​/​1​4​​3​1​-​7​6​1​3​-​0​0​0​7​4
+     spiking network model of human cerebral cortex. Cereb Cortex
+     34(10):bhae409. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​9​3​​/​c​e​​r​c​o​r​/​b​h​a​e​4​0​9
+
+
+
+                                                                                                                                                                                                                           13
+  48             Page 24 of 24                                                                                                                                      Cognitive Neurodynamics                                          (2026) 20:48
+
+Song S, Miller KD, Abbott LF (2000) Competitive hebbian learning                                                                Denève, S., & Machens, C. K. (2016). Efficient codes and balanced
+     through spike-timing-dependent synaptic plasticity. Nat Neurosci                                                                networks. Nature neuroscience, 19(3), 375-382. ​h​t​t​p​​s​:​/​​/​w​w​w​​.​n​​a​t​
+     3(9):919–926. https://doi.org/10.1038/78829                                                                                     u​​r​e​.​c​​o​m​/​​a​r​t​​i​c​l​e​s​/​n​n​.​4​2​4​3
+Swadlow HA (2000) Information Flow along Neocortical Axons. Time                                                                Plesser, H. E., Davison, A. P., Diesmann, M., Fukai, T., Gemmeke, T.,
+     and the Brain. CRC Press                                                                                                        Gleeson, P., ... & Van Albada, S. J. (2025). Building on models—
+Tomasello R (2025) From neural matter to rapid symbolic learning in                                                                  a perspective for computational neuroscience. Cerebral Cortex,
+     brains and artificial neural networks: A brief overview and per-                                                                35(11), bhaf295. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​9​3​​/​c​e​​r​c​o​r​/​b​h​a​f​2​9​5
+     spective. Linguistics Vanguard. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​5​1​5​​/​l​i​​n​g​v​a​n​-​2​                Morrison, A., Aertsen, A., & Diesmann, M. (2007). Spike-timing-
+     0​2​4​-​0​2​4​9                                                                                                                 dependent plasticity in balanced random networks. Neural com-
+Tomasello M, Kruger AC (1992) Joint attention on actions: acquir-                                                                    putation, 19(6), 1437-1467. ​h​t​t​p​​s​:​/​​/​d​i​r​​e​c​​t​.​m​​i​t​.​e​​d​u​/​​n​e​c​​o​/​a​​r​t​i​​c​l​e​-​​a​b​​
+     ing verbs in ostensive and non-ostensive contexts. J Child Lang                                                                 s​t​r​​a​c​t​/​​1​9​/​​6​/​1​​4​3​7​​/​7​1​​9​4​/​S​​p​i​​k​e​-​​T​i​m​i​​n​g​-​​D​e​p​​e​n​d​​e​n​t​​-​P​l​a​​s​t​​i​c​i​t​y​-​i​n​-​B​a​
+     19(2):311–333. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​7​​/​s​0​​3​0​5​0​0​0​9​0​0​0​1​1​4​3​0                       l​a​n​c​e​d
+Tomasello R, Garagnani M, Wennekers T, Pulvermüller F (2017) Brain                                                              Wennekers, T., & Sommer, F. T. (1999). Gamma-oscillations support
+     connections of words, perceptions and actions: a neurobiological                                                                optimal retrieval in associative memories of two-compartment
+     model of spatio-temporal semantic activation in the human cor-                                                                  neurons. Neurocomputing, 26, 573-578. ​h​t​t​p​​s​:​/​​/​w​w​w​​.​s​​c​i​e​​n​c​e​d​​i​r​
+     tex. Neuropsychologia 98:111–129. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​6​​/​j​.​​n​e​u​​                          e​​c​t​.​​c​o​m​​/​s​c​​i​e​n​c​​e​/​​a​r​t​​i​c​l​e​​/​p​i​​i​/​S​​0​9​2​5​2​3​1​2​9​9​0​0​0​3​6​3
+     r​o​p​​s​y​c​h​​o​l​​o​g​i​a​.​2​0​1​6​.​0​7​.​0​0​4                                                                       Bibbig, A., Traub, R. D., & Whittington, M. A. (2002). Long-range
+Tomasello R, Garagnani M, Wennekers T, Pulvermüller F (2018) A                                                                       synchronization of γ and β oscillations and the plasticity of excit-
+     neurobiologically constrained cortex model of semantic ground-                                                                  atory and inhibitory synapses: a network model. Journal of Neu-
+     ing with spiking neurons and brain-like connectivity. Front Com-                                                                rophysiology, 88(4), 1634-1654. ​h​t​t​p​​s​:​/​​/​j​o​u​​r​n​​a​l​s​​.​p​h​y​​s​i​o​​l​o​g​​y​.​o​​r​g​/​​
+     put Neurosci 12:412624. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​3​​3​8​9​​/​f​n​​c​o​m​.​2​0​1​8​.​0​0​                     d​o​i​/​​f​u​​l​l​/​​1​0​.​1​​1​5​2​​/​j​n​​.​2​0​0​2​.​8​8​.​4​.​1​6​3​4
+     0​8​8                                                                                                                      Van Albada, S. J., Helias, M., & Diesmann, M. (2015). Scalability
+Tomasello R, Wennekers T, Garagnani M, Pulvermüller F (2019)                                                                         of asynchronous networks is limited by one-to-one mapping
+     Visual cortex recruitment during language processing in blind                                                                   between effective connectivity and correlations. PLoS computa-
+     individuals is explained by Hebbian learning. Sci Rep 9(1):3579.​                                                               tional biology, 11(9), e1004490. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​3​7​1​​/​j​o​​u​r​n​a​l​.​
+     h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​3​8​​/​s​4​​1​5​9​8​-​0​1​9​-​3​9​8​6​4​-​1                                     p​c​b​i​.​1​0​0​4​4​9​0
+Tomasello R, Carriere M, Pulvermüller F (2024) The impact of early                                                              Gilbert, C. D., & Wiesel, T. N. (1989). Columnar specificity of intrin-
+     and late blindness on language and verbal working memory: a                                                                     sic horizontal and corticocortical connections in cat visual cortex.
+     brain-constrained neural model. Neuropsychologia 196:108816.                                                                    Journal of Neuroscience, 9(7), 2432-2442. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​5​2​
+     ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​6​​/​j​.​​n​e​u​​r​o​p​​s​y​c​h​​o​l​​o​g​i​a​.​2​0​2​4​.​1​0​8​8​1​6        3​​/​J​N​​E​U​R​​O​S​C​​I​.​0​9​​-​0​​7​-​0​2​4​3​2​.​1​9​8​9
+Ungerleider LG, Haxby JV (1994) What’ and ‘where’ in the human                                                                  Hubel, D. H. (1995). Eye, brain, and vision. Scientific American
+      brain. Curr Opin Neurobiol 4(2):157–165. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​                                   Library/Scientific American Books. ​h​t​t​p​​s​:​/​​/​p​s​y​​c​n​​e​t​.​​a​p​a​.​​o​r​g​​/​r​e​​c​o​
+      6​​/​0​9​​5​9​-​4​3​8​8​(​9​4​)​9​0​0​6​6​-​3                                                                                  r​​d​/​1​​9​9​5​-​​9​7​​8​9​9​-​0​0​0
+van Albada SJ, Morales-Gregorio A, Dickscheid T, Goulas A, Bakker                                                               Fuster, J. M. (1997). Network memory. Trends in neurosciences,
+      R, Bludau S, Palm G, Hilgetag C-C, Diesmann M (2022) Bring-                                                                    20(10), 451-459. ​h​t​t​p​​s​:​/​​/​p​u​b​​m​e​​d​.​n​​c​b​i​.​​n​l​m​​.​n​i​​h​.​g​o​v​/​9​3​4​7​6​1​2​/
+      ing anatomical information into neuronal network models. Adv                                                              Song, S., Sjöström, P. J., Reigl, M., Nelson, S., & Chklovskii, D. B.
+      Exp Med Biol 1359:201–234. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​7​​/​9​7​​8​-​3​-​0​3​                           (2005). Highly nonrandom features of synaptic connectivity in
+      0​-​8​9​4​3​9​-​9​_​9                                                                                                          local cortical circuits. PLoS biology, 3(3), e68. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​
+Vigliocco G, Kousta S-T, Della Rosa PA, Vinson DP, Tettamanti M,                                                                     1​​3​7​1​​/​j​o​​u​r​n​a​l​.​p​b​i​o​.​0​0​3​0​0​6​8
+      Devlin JT, Cappa SF (2014) The neural representation of abstract                                                          Perin, R., Berger, T. K., & Markram, H. (2011). A synaptic organiz-
+      words: the role of emotion. Cereb Cortex 24(7):1767–1777. ​h​t​t​p​​s​                                                         ing principle for cortical neuronal groups. Proceedings of the
+      :​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​9​3​​/​c​e​​r​c​o​r​/​b​h​t​0​2​5                                                         National Academy of Sciences, 108(13), 5419-5424. ​h​t​t​p​​s​:​/​​/​d​o​i​​
+Vouloumanos A, Werker JF (2009) Infants’ learning of novel words in                                                                  .​o​​r​g​/​​1​0​.​1​​0​7​3​​/​p​n​​a​s​.​1​0​1​6​0​5​1​1​0​8
+      a stochastic environment. Dev Psychol 45(6):1611–1617. ​h​t​t​p​​s​:​/​​/​                                                Jones, E. G. (2001). The thalamic matrix and thalamocortical syn-
+      d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​3​7​​/​a​0​​0​1​6​1​3​4                                                                          chrony. Trends in neurosciences, 24(10), 595-601. ​h​t​t​p​​s​:​/​​/​p​u​b​​m​
+Waxman SG (1980) Determinants of conduction velocity in myelin-                                                                      e​​d​.​n​​c​b​i​.​​n​l​m​​.​n​i​​h​.​g​o​v​/​1​1​5​7​6​6​7​4​/
+      ated nerve fibers. Muscle Nerve 3(2):141–150. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​                                  Sherman, S. M., & Guillery, R. W. (1996). Functional organization of
+      .​1​​0​0​2​​/​m​u​​s​.​8​8​0​0​3​0​2​0​7                                                                                       thalamocortical relays. Journal of neurophysiology, 76(3), 1367-
+Wennekers T, Garagnani M, Pulvermüller F (2006) Language models                                                                      1395. ​h​t​t​p​​s​:​/​​/​p​u​b​​m​e​​d​.​n​​c​b​i​.​​n​l​m​​.​n​i​​h​.​g​o​v​/​8​8​9​0​2​5​9​/
+      based on hebbian cell assemblies. J Physiol-Paris 100(1):16–30.​                                                          Mountcastle, V. B. (1997). The columnar organization of the neocor-
+      h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​6​​/​j​.​​j​p​h​​y​s​p​​a​r​i​s​​.​2​​0​0​6​.​0​9​.​0​0​7                    tex. Brain: a journal of neurology, 120(4), 701-722. ​h​t​t​p​​s​:​/​​/​p​u​b​​m​
+Zatorre RJ, Meyer E, Gjedde A, Evans AC (1996) PET studies of pho-                                                                   e​​d​.​n​​c​b​i​.​​n​l​m​​.​n​i​​h​.​g​o​v​/​9​1​5​3​1​3​1​/
+      netic processing of speech: Review, Replication, and reanalysis.                                                          DeFelipe, J., Markram, H., & Rockland, K. S. (2012). The neocortical
+      Cereb Cortex 6(1):21–30. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​9​3​​/​c​e​​r​c​o​r​/​6​.​1​.​2​1                    column. Frontiers in neuroanatomy, 6, 22. ​h​t​t​p​​s​:​/​​/​p​m​c​​.​n​​c​b​i​​.​n​l​m​​.​n​
+Wilson, H. R., & Cowan, J. D. (1973). A mathematical theory of the                                                                   i​​h​.​g​​o​v​/​​a​r​t​​i​c​l​e​​s​/​​P​M​C​3​3​8​3​2​0​3​/
+      functional dynamics of cortical and thalamic nervous tissue.                                                              Pandya, D. N. (1995). Anatomy of the auditory cortex. Revue neu-
+      Kybernetik, 13(2), 55-80. ​h​t​t​p​​s​:​/​​/​l​i​n​​k​.​​s​p​r​​i​n​g​e​​r​.​c​​o​m​/​​a​r​t​​i​c​l​​e​/​1​0​​.​1​​0​          rologique, 151(8-9), 486-494. ​h​t​t​p​​s​:​/​​/​e​u​r​​o​p​​e​p​m​​c​.​o​r​​g​/​a​​r​t​i​​c​l​e​/​m​e​d​
+      0​7​/​b​f​0​0​2​8​8​7​8​6                                                                                                      /​8​5​7​8​0​6​9
+Van Vreeswijk, C., & Sompolinsky, H. (1996). Chaos in neuronal net-                                                             Rilling, J. K. (2014). Comparative primate neuroimaging: insights
+      works with balanced excitatory and inhibitory activity. Science,                                                               into human brain evolution. Trends in cognitive sciences, 18(1),
+      274(5293), 1724-1726. ​h​t​t​p​​s​:​/​​/​w​w​w​​.​s​​c​i​e​​n​c​e​.​​o​r​g​​/​d​o​​i​/​f​​u​l​l​​/​1​0​.​​1​1​​2​6​            46-55. ​h​t​t​p​s​:​​​/​​/​p​u​b​m​e​​​d​.​n​​c​b​​i​​.​n​​l​​m​.​​n​​i​h​.​​g​o​v​/​2​4​5​0​1​7​7​9​/
+      /​​s​c​i​e​​n​c​e​​.​2​7​​4​.​5​2​9​3​.​1​7​2​4
+Sadeh, S., Clopath, C., & Rotter, S. (2015). Emergence of functional                                                            Publisher’s note Springer Nature remains neutral with regard to juris-
+      specificity in balanced networks with synaptic plasticity. PLoS                                                           dictional claims in published maps and institutional affiliations.
+      computational biology, 11(6), e1004307. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​3​7​1​​/​
+      j​o​​u​r​n​a​l​.​p​c​b​i​.​1​0​0​4​3​0​7
+
+
+
+13
+

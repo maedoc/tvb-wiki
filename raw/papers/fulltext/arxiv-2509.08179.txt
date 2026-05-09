@@ -1,0 +1,574 @@
+                                            Computational modelling of Parkinson’s disease: A multiscale approach
+                                            with deep brain stimulation and stochastic noise
+                                                     A. Herrera*1 and H. Shaheen2
+                                                     1) Department of Statistics, University of Manitoba, Winnipeg, Canada
+                                                     2) Department of Statistics, Faculty of Science, University of Manitoba, Winnipeg, Canada
+
+                                                     (*herrera8@myumanitoba.ca)
+                                                     (Dated: 18 September 2025)
+                                                     Multiscale modelling presents a multifaceted perspective into understanding the mechanisms of the brain and how
+                                                     neurodegenerative disorders like Parkinson’s disease (PD) manifest and evolve over time. In this study, we propose
+                                                     a novel co-simulation multiscale approach that unifies both micro- and macroscales to more rigorously capture brain
+                                                     dynamics. The presented design considers the electrodiffusive activity across the brain and in the network defined by the
+                                                     cortex, basal ganglia, and thalamus that is implicated in the mechanics of PD, as well as the contribution of presynaptic
+arXiv:2509.08179v2 [q-bio.NC] 16 Sep 2025
+
+
+
+
+                                                     inputs in the highlighted regions. The application of deep brain stimulation (DBS) and its effects, along with the
+                                                     inclusion of stochastic noise are also examined. We found that the thalamus exhibits large, fluctuating spiking in both
+                                                     the deterministic and stochastic conditions, suggesting that noise contributes primarily to neural variability, rather than
+                                                     driving the overall spiking activity. Ultimately, this work intends to provide greater insights into the dynamics of PD
+                                                     and the brain which can eventually be converted into clinical use.
+
+
+                                            Computational modelling has proved to be an invaluable                 movement, emotional control, and the processing of external
+                                            tool in attempts to discern the intricacies of the brain.              stimuli through our senses.
+                                            The results of research in this field can have many dif-                  Although the basal ganglia and thalamus (BGTH) individu-
+                                            ferent implications, including explanations to the under-              ally are imperative to our normal functioning, the higher pro-
+                                            lying mechanisms of cognition or the origin and develop-               cesses that we are capable of, such as motor movement, are ul-
+                                            ment of neurodegenerative diseases (NDDs). This study                  timately shaped by the dynamic between these regions and the
+                                            focuses on Parkinson’s disease (PD), a type of NDD that                entire brain network collectively. Previous studies have been
+                                            can degrade the quality of life by inducing movement dis-              able to highlight the significant connections between these re-
+                                            orders and other non-motor symptoms. We strive to clar-                gions and produce a detailed circuitry of the excitatory and
+                                            ify the dynamics of PD and see how deep brain stimula-                 inhibitory inputs that these structures receive.5,6 Despite these
+                                            tion — a common treatment given to those with PD and                   strides in unravelling the intricate interactions in the BGTH,
+                                            other NDDs — affects the brain when in the Parkinso-                   gaps in the behaviour of other components and how they relate
+                                            nian state. This study accomplishes this by incorporat-                to one another still exist. For example, the origin and pathol-
+                                            ing a model that links the large-scale behaviour of diffu-             ogy of numerous neurodegenerative disorders (NDDs) that re-
+                                            sion across the brain, as well as a microscale environment             late heavily to the BGTH, such as Parkinson’s disease, remain
+                                            that simulates the neuron-level functioning for regions in             unknown. Parkinson’s disease (PD) is one of the most com-
+                                            the basal ganglia and thalamus which are significant con-              mon NDDs (only behind Alzheimer’s disease), affecting over
+                                            stituents in PD development. The brain is also character-              six million people globally.7 It is characterized by the loss
+                                            ized by randomness (i.e. noise), an innate feature in its              of neurons in the SN. These neurons are essential in the cre-
+                                            processes. Hence, our design also involves a noise term.               ation of dopamine, a vital part of the body that creates smooth
+                                            In general, we found that this model reflects the inherent             movement. Consequently, various forms of motor impairment
+                                            unpredictability of neural firing within the brain.                    can occur, including tremors, muscle rigidity, bradykinesia,
+                                                                                                                   and postural instability.8,9 Additionally, individuals with PD
+                                                                                                                   have an accumulation of α-synuclein which compose Lewy
+                                                                                                                   bodies in different brain regions, often affecting cognition.10
+                                            I.   INTRODUCTION                                                      While the exact origin of PD is largely unknown, it is believed
+                                                                                                                   that a combination of genetics and exposure to several envi-
+                                               The basal ganglia (BG) is a group of brain nuclei responsi-         ronmental components, such as pesticides and neurotoxins, is
+                                            ble for various tasks, including executive functions and emo-          associated with a higher risk of developing PD.11,12 Other fac-
+                                            tion regulation. However, its primary purpose is for motor             tors that complicate our understanding of PD in addition to the
+                                            control.1,2 In greater detail, the BG is composed of the cau-          unclear etiology, are the inconsistent symptoms and dissimi-
+                                            date nucleus, the lenticular nucleus — which consists of the           lar pathogenesis among separate individuals who suffer from
+                                            putamen, globus pallidus externus (GPe), and the globus pal-           this disease. With how hindering this disease can be and the
+                                            lidus internus (GPi) — the subthalamic nucleus (STN), and              fact that no treatment yet exists to slow down its progress, it
+                                            the substantia nigra (SN).3 Located in the center of the brain,        is critical to address the elements of PD that still lack clarity.
+                                            the thalamus (TH) plays a crucial role in passing information          Although there is no definitive cure for PD currently, there
+                                            to different regions as motor, limbic, and sensory pathways all        are several treatments that help alleviate the associated symp-
+                                            coincide in this region.4 Thus, the TH also contributes to our         toms, one of them being deep brain stimulation (DBS). High-
+                                                                                                                                   2
+
+frequency DBS was first used in 1997.13 It was intended to be      focus of the BGTH, we first present the modified Hodgkin-
+a safer alternative to thalamotomies — another type of treat-      Huxley (HH) equations that was proposed by Maama et
+ment where a lesion would be made in the thalamus to prevent       al.25,26 The original HH model was developed to describe the
+the movement impairments induced by PD. DBS consists of            propagation of action potentials in a giant squid axon. Since
+surgically connecting one or more electrodes to specific loca-     then, the HH model has served as the backbone of multiple
+tions in the brain and delivering electrical signals.14,15 These   mathematical frameworks.27,28 Drawing from recent studies
+locations are typically the STN, GPi, and TH due to the sub-       that aimed to express the electrical activity of the primary vi-
+stantial role they have in producing our movement.                 sual cortex (i.e. the V1), Maama et al. adjusts the HH model
+   One approach that has been taken to advance our compre-         by incorporating feed-forward inputs through a stochastic in-
+hension of PD is producing brain network models. These             put drive and recurrent circuitry by considering excitatory
+models can provide significant insight into the dynamics           and inhibitory inputs from presynaptic neurons.26,29–33 The
+of PD, including its progression and the effect of distinct        following ordinary differential equations (ODEs) denote the
+treatments without the risk of performing them on actual           electrical activity of a single neuron i:
+patients.16 Moreover, models of the brain network enhance
+our grasp on how various sections communicate and influ-                 dVi
+ence each other. This is incredibly important for the im-              C     = ḡNa m3 h(ENa −Vi ) + ḡK n4 (EK −Vi )
+                                                                          dt                                                    (1a)
+provement of DBS, as the exact mechanism of how it works
+                                                                                + ḡL (EL −Vi ) + gE (EE −Vi ) + gI (EI −Vi )
+is not known.17 On top of this, uncertainty in which brain
+areas should be implanted with electrodes for DBS is still               dni
+                                                                             = αn (Vi )(1 − ni ) − βn (Vi )ni                   (1b)
+disputed.18 Simulating how DBS impacts the brain through                  dt
+computational modelling can give valuable insight and help               dmi
+                                                                             = αm (Vi )(1 − mi ) − βm (Vi )mi                   (1c)
+answer these lingering questions.                                         dt
+   Another current challenge in the field of neuroscience is the         dhi
+                                                                             = αh (Vi )(1 − hi ) − βh (Vi )hi                   (1d)
+construction of comprehensive multiscale models. Although                 dt
+single-scale models have advanced our knowledge of brain-               dgEi
+related processes, the results only disclose a simplified per-       τE      = − gEi + Sdr ∑s∈D(i) δ (t − s)
+                                                                         dt                                                     (1e)
+spective. Multiscale brain models allow researchers to gain
+                                                                                + SQE ∑ j∈Γ (i),s∈N( j) δ (t − s)
+deeper insight into the complicated mechanisms of the brain                                   E
+and NDDs by amalgamating information from the different                  dgIi
+levels and simulating how they interact.4,19 For example, in          τI      = − gIi + SQI ∑ j∈Γ (i) s∈N( j) δ (t − s)         (1f)
+                                                                          dt                     I ,
+the context of PD, seeing how the loss of dopaminergic neu-
+                                                                   with C = 1, EK = −77, ENa = 50, EL = −54.387, ḡK =
+rons leads to disruptions in the motor circuit.19–21 Account-
+                                                                   36, ḡNa = 120, and ḡL = 0.3. In Eq. 1a, V is the membrane
+ing for the inherent randomness that is involved in our neu-
+                                                                   potential, gE is the maximum excitatory conductance, gI rep-
+ronal activity (i.e. noise) can also clarify how the brain op-
+                                                                   resents the maximum inhibitory conductance, and EE and EI
+erates and shed light on the progression of PD.22 This ran-
+                                                                   are the Nernst equilibrium potentials for the excitatory and in-
+dom behaviour can affect processes, such as action poten-
+                                                                   hibitory currents. C refers to the membrane capacitance. Eqs.
+tial timing and membrane voltage fluctuations, influencing the
+                                                                   1b-1d are for the gating variables that model the opening and
+overall neural system.23 Including stochastic terms within the
+                                                                   closing of ionic channels.26 More specifically, n depicts the
+model provides a more accurate representation of the brain
+                                                                   movement of potassium ions across the membrane and m and
+and potentially more realistic results. Lastly, the movement of
+                                                                   h represent the sodium fluxes.
+ions across brain regions plays an integral role in the com-
+                                                                      In Eq. 1e, the excitatory conductance is based on two fac-
+munication between neurons and is fundamental for neural
+                                                                   tors. Firstly, there are random poissonian kicks of size Sdr ,
+functioning.24 This study attempts to address these obstacles
+                                                                   with s ∈ D(i) corresponding to the times that i receives these
+by introducing a novel model of the BGTH system with large-
+                                                                   kicks and the Dirac term δ (t − s) illustrating the instantaneous
+and small-scale representations of diffusion and stochasticity.
+                                                                   jumps in conductance that these kicks provide. Secondly, in-
+In addition, it considers a subnetwork of neurons to mimic the
+                                                                   puts coming from neurons that are presynaptic to i also affect
+presynaptic inputs that cells within the brain receive. Through
+                                                                   gEi . The sizes of these kicks are of magnitude SEE or SIE de-
+this model, we aim to more clearly express the dynamics of
+                                                                   pending on whether the neuron i is excitatory or inhibitory.
+the brain in both the healthy and Parkinsonian condition and
+                                                                   The number of presynaptic neurons that contribute these in-
+elucidate the effects of deep brain stimulation.
+                                                                   puts are described by j ∈ ΓE (i) and s ∈ N( j). j ∈ ΓE (i) por-
+                                                                   trays the set of all excitatory neurons to i and s ∈ N( j) are the
+                                                                   neurons that have crossed the threshold to spike and conse-
+II.   MODEL DESIGN OF THE BRAIN NETWORK
+                                                                   quently add to the excitatory conductance. Additionally, τE
+                                                                   depicts the decay time constant for gEi . The presynaptic ex-
+A.    Modified Hodgkin-Huxley Model                                citatory current is expressed as IEi = gEi (EE −Vi ). Similarly,
+                                                                   the inhibitory conductance in Eq. 1f includes kicks of size SEI
+  Before introducing the discrete brain network model that is      and SII coming from the connected inhibitory neurons contin-
+used to depict the membrane potentials of the four regions of      gent on if i is excitatory or inhibitory. The summation term
+                                                                                                                                       3
+
+
+
+
+                                                                     FIG. 2. (Color online) The BGTH network model. The red arrows
+                                                                     represent excitatory the connections and the blue arrows denote the
+                                                                     inhibitory inputs. There is excitatory input from the SMC being pro-
+                                                                     jected to the TH. The purple arrows portray the DBS stimulus to the
+                                                                     STN and GPi.
+
+
+
+FIG. 1. (Color online) The brain network connectome in the healthy
+state. The blue nodes represent the STN, GPe, GPi, and TH. The
+red connections between these nodes indicate the diffusion between
+these regions.
+
+                                                                                dh p
+                                                                                     = eh p [h∞p − h p ]/τh p                       (2a)
+is identical to that of gEi except that the set of all inhibitory                dt
+neurons to i are considered, not excitatory. There is also no                   dn p
+stochastic input drive for the inhibitory conductance. Addi-                         = en p [n∞p − n p ]/τn p                       (2b)
+                                                                                 dt
+tionally, τI is the decay time constant for gIi . The presynaptic               dr p
+inhibitory current is modelled as IIi = gIi (EI −Vi ).                               = er p [r∞p − r p ]/τr p                       (2c)
+                                                                                 dt
+                                                                                dc p
+                                                                                     = ec p [c∞p − c p ]/τc p                       (2d)
+                                                                                 dt
+B.   Discrete Brain Network: Spatio-Temporal Domain                             dw p
+                                                                                     = ew p (−ICa − IT − lw p w p )                 (2e)
+                                                                                 dt
+    We offer a novel approach of modelling the BGTH network
+by synthesizing the method used in [34] and Eqs. 1a–1f.26 The
+model alters the framework introduced by Rubin and Terman,
+and comprises the four main nuclei in the BGTH: the STN,
+GPi, GPe, and the TH.35,36 These four regions are linked by
+several excitatory and inhibitory connections which the model
+considers, and responds to information stemming from the
+sensorimotor cortex (SMC). Note that these associations are                          ni j
+                                                                               W=         ,   i, j = 1, . . . ,V                     (3)
+derived from known physiological connections which can be                            li2j
+observed in Fig. 2. We harnessed the same reaction kinetics                             V
+and equations for the gating variables applied in [34] which                  Dii = ∑ j=1 Wi j ,      i = 1, . . . ,V                (4)
+are described by Eqs. 2a–2e. The method outlined here fol-                    Li j = ρ(Di j −Wi j ),      i, j = 1, . . . ,V         (5)
+lows the graph-network approach in [34] which takes inspira-
+tion from Thompson et al. to capture the diffusion dynamics
+across the brain network.37 The connectome is defined by a
+graph G with V nodes and E edges based on diffusion tensor
+imaging (DTI) and tractography data from the Human Con-                 In order to merge the modified HH model established in
+nectome Project (HCP) to encapsulate the change of voltage           [26] with this discrete BGTH network, a system of fifty neu-
+over time at different nodal points.37–40 In greater detail, W is    rons following Eqs. 1a–1f for the STN, GPe, GPi, and TH
+the weighted adjacency matrix that mirrors Eq. 3. The term           were simulated. The number of excitatory and inhibitory neu-
+ni j is the mean fiber number and li2j is the mean length squared    rons for each region was determined by the ratio used in [26].
+of the axonal bundles that connect the nodes i and j. The            At each time step for dt = 0.01 ms, the average excitatory and
+weighted degree matrix D, follows Eq. 4. These terms culmi-          inhibitory currents from the neuronal network were added to
+nate in the weighted graph Laplacian, L in Eq. 5, where ρ is         the equations for the membrane voltage of the corresponding
+the diffusion coefficient. This Laplacian operator shapes the        brain regions. The equations for the spatio-temporal model
+diffusion dynamics of the system.                                    are:
+                                                                                                                                                4
+
+                                                                          stimulation period which is integrated from [36 and 41]. It
+               V                                                          is important to mention that this is an open-loop application.
+ dv1                       1     sn                                       The equations for the STN and GPi membrane potentials in
+     = − dvsn ∑ L1k vk + (−INa       − IKsn − ILsn − ITsn − ICa
+                                                             sn
+ dt           k=1         c m                                             the brain network model with the DBS term are:
+          sn
+       − Iahp − Ige→sn + Isnapp + I¯E,sn + I¯I,sn )
+                                                                   (6a)   dv1           V
+                                                                                                    1     sn
+                     V                                                        = − dvsn ∑ L1k vk + (−INa      − IKsn − ILsn − ITsn − ICa
+                                                                                                                                     sn
+ dv2                     1  gi                                            dt                       c
+     = − dvgi ∑ L2k vk + (−INa                         gi
+                               − IKgi − ILgi − ITgi − ICa                              k=1          m
+ dt           k=1       cm                                                         sn
+                                                                                − Iahp − Ige→sn + Isnapp + IDBS + I¯E,sn + I¯I,sn )
+              gi
+           − Iahp − Isn→gi − Ige→gi + Igiapp + I¯E,gi + I¯I,gi )                                                                             (8a)
+                                                                   (6b)   dv2               V
+                                                                                                   1      gi
+                     V
+                                                                              = − dvgi ∑ L2k vk + (−INa                               gi
+                                                                                                             − IKgi − ILgi − ITgi − ICa     gi
+                                                                                                                                         − Iahp
+ dv3                       1    ge                                        dt                      cm
+     = − dvge ∑ L3k vk + (−INa     − IKge − ILge − ITge − ICage                        k=1
+ dt           k=1         c m                                                   − Isn→gi − Ige→gi + Igiapp + IDBS + I¯E,gi + I¯I,gi )
+       − I ge − Isn→ge − Ige→ge + Igeapp + I¯E,ge + I¯I,ge )
+              ahp                                                                                                                            (8b)
+                                                                   (6c)
+               V
+ dv4                           1  th
+     = − dvth ∑ L4k vk + (−INa       − IKth − ILth − ITth − Igi→th        D.   Implementing Stochastic Noise
+ dt           k=1             cm
+       + Ismc + I¯E,th + I¯I,th )                                            Adopting the approach from Shaheen and Melnik, stochas-
+                                                               (6d)       tic noise is added to the discrete brain network.22 The new
+                                                                          equations are:
+                Np
+             1                                                            dv1            V             1      sn
+     I¯E,p =     ∑ gEi,p (EE −Vi,p ),     p = sn, gi, ge,th        (7a)       = − dvsn ∑k=1 L1k vk + (−INa       − IKsn − ILsn − ITsn − ICa
+                                                                                                                                         sn
+             N p i=1                                                      dt                          cm
+                                                                                   sn
+                Np                                                              − Iahp − Ige→sn + Isnapp + I¯E,sn + I¯I,sn )
+             1
+     I¯I,p =     ∑ gIi,p (EI −Vi,p ),    p = sn, gi, ge,th         (7b)           + σ1 · dW1 (t)
+             N p i=1
+                                                                                                                                             (9a)
+where I¯E,p and I¯I,p are the average excitatory and inhibitory           dv2           V             1      gi
+currents for the neurons in region p, p = sn, gi, ge,th and fol-              = − dvgi ∑k=1 L2k vk + (−INa      − IKgi − ILgi − ITgi − ICa
+                                                                                                                                        gi
+                                                                          dt                         cm
+low Eqs. 7a-7b. The terms v1 , v2 , v3 , and v4 are the membrane
+potentials for the STN, GPi, GPe, and TH neurons. Also, dv p                    − I gi − Isn→gi − Ige→gi + Igiapp + I¯E,gi + I¯I,gi )
+                                                                                      ahp
+is the diffusion term for the node for region p, with N p be-                     + σ2 · dW2 (t)
+ing the number of neurons for that particular region. As pre-                                                                                (9b)
+viously mentioned, N p = 50 for all p. To solve this model,
+                                                                          dv3            V            1     ge
+Euler’s method was used. In addition, the PD state was sim-                   = − dvge ∑k=1 L3k vk + (−INa     − IKge − ILge − ITge − ICa
+                                                                                                                                       ge
+
+ulated by setting the parameter pd = 1 and pd = 0 when in                 dt                         cm
+                                                                                   ge
+the healthy state which aligns with the work from Lu et al.36                   − Iahp − Isn→ge − Ige→ge + Igeapp + I¯E,ge + I¯I,ge )
+This reduces the constant bias currents Iapp to the STN, GPi,                     + σ3 · dW3 (t)
+and GPe neurons. Therefore, we have constructed an orig-
+                                                                                                                                             (9c)
+inal co-simulation model that focuses on the cortex-BGTH
+network. It encompasses the sophisticated diffusion dynam-                dv4            V                  1     th
+                                                                              = − dvth ∑k=1 L4k vk + (−INa           − IKth − ILth − ITth − Igi→th
+ics across the entire brain and considers the recurrent input of          dt                               cm
+presynaptic neurons and a feed-forward stochastic drive.                        + Ismc + I¯E,th + I¯I,th ) + σ4 · dW4 (t)
+                                                                                                                                              (9d)
+C.    Adding Deep Brain Stimulation                                       where σi , i = 1, 2, 3, 4 are the scaling factors which control
+                                                                          the noise intensity for the four brain regions of interest. Their
+   To simulate the effects of DBS on the PD state, a DBS cur-             values are σ1 = 0.1, σ2 = 0.4, σ3 = 0.4, and σ4 = 0.5. Fur-
+rent term denoted IDBS is added to Eqs. 6a–6d. Similar to                 thermore, dWi (t) is the increment of the Wiener process Wi (t)
+the work by Shaheen et al., this term is only added to the                where dt = 0.01 ms is the size of the increment. Due to
+STN and GPi equations as they are the primary targets for                 the added white noise, these stochastic differential equations
+DBS application.34 The DBS term is specifically modelled                  (SDEs) are solved using the Euler-Maruyama method. It is
+as IDBS = iD H(sin(2πt/ρD )) · [1 − H(sin(2π(t + δD )/ρd ))],             worth mentioning that when DBS is employed, the only dif-
+where iD = 200µA/cm2 is the amplitude of the DBS stimu-                   ference is that IDBS is added to the STN and GPi equations
+lation, δD = 0.6 ms is the impulse length, and ρD = 6 is the              similar to Eqs. 8a–8b.
+                                                                                                                                            5
+
+
+
+
+FIG. 3. (Color online) Membrane voltages of the TH, STN, GPe, and        FIG. 4. (Color online) Membrane voltages of the TH, STN, GPe,
+GPi neurons in a healthy state for the discrete brain network. The red   and GPi neurons in a healthy state for the discrete brain network
+pulse train refers to SMC signals.                                       with stochastic noise. The red pulse train refers to SMC signals.
+
+
+
+III.   RESULTS
+
+
+A.     The Healthy and Parkinsonian State
+
+
+   Fig. 3 and Fig. 4 portray the healthy state of the brain when
+stochastic noise was absent and present. Fig. 5 and Fig. 6
+reflect the membrane voltages of the TH, STN, GPe, and GPi
+while in the Parkinsonian state. By comparing the spiking
+activity, we found that healthy neurons exhibit greater oscil-
+latory patterns between spikes than neurons in the PD state.
+We also found that the healthy GPe neurons displayed more
+spikes than when diseased. These findings were consistent in
+the deterministic and stochastic model. Additionally, certain
+instances of the simulation revealed exaggerated spike jumps
+when compared to the typical spiking activity. For example,              FIG. 5. (Color online) Membrane voltages of the TH, STN, GPe, and
+in Fig. 3 the average spikes for the TH region hovered around            GPi neurons in the Parkinsonian state for the discrete brain network.
+-10 mV. However, several spikes leaned closer to 0 mV and                The red pulse train refers to SMC signals.
+some even spiking to positive values. These irregular, greater
+spikes also occurred in the other regions. Interestingly, sim-
+ilar behaviour in the TH was still present in the new model
+                                                                         B.   Results of Deep Brain Stimulation
+even without stochastic noise being added. Moreover, from
+the aforementioned figures, it is clear that the thalamic spikes
+were not uniform and achieved varying levels of voltage. It                 Next, open-loop DBS was applied to the STN and GPi neu-
+is worth noting that the ability of the TH to accurately re-             rons while in the PD condition which are presented in Fig.
+spond to information from the SMC was disrupted in both                  11 and Fig. 12. After the application of DBS, the STN and
+cases, as evidenced by the TH spiking without explicit SMC               GPi neurons were able to transition into the healthy state tem-
+input. Figures 7–10 illustrate how the voltage patterns of the           porarily. We discovered that the healthy state experienced
+TH and STN changed during the simulation. In the healthy                 an increase in the oscillations between spikes and the total
+and PD condition, the voltages across both regions displayed             spiking activity in the STN and GPi neurons were reduced
+synchronized and unsynchronized spiking. Additionally, the               than when in the diseased condition. Akin to the outcomes
+added stochastic noise resulted in a more “fuzzy” pattern in             in section III A, the thalamus had many spikes with unsteady
+comparison to the smoother lines in the figures that denote the          voltage values. The majority of these spikes took place even
+deterministic approach. Corresponding to the earlier diagrams            without information being relayed by the SMC. When DBS
+with high thalamic activity, the TH spiked on many instances             was applied to either the STN or GPi, there was more va-
+where the STN was at or near its resting state.                          riety in the voltage patterns between the TH and STN, and
+                                                                                                                                       6
+
+
+
+
+                                                                       FIG. 9. (Color online) Membrane voltages of the TH and STN neu-
+FIG. 6. (Color online) Membrane voltages of the TH, STN, GPe, and      rons in the Parkinsonian state for 1000 ms. No DBS was applied.
+GPi neurons in the Parkinsonian state for the discrete brain network
+with stochastic noise. The red pulse train refers to SMC signals.
+
+
+
+
+                                                                       FIG. 10. (Color online) Membrane voltages of the TH and STN neu-
+FIG. 7. (Color online) Membrane voltages of the TH and STN neu-        rons in the Parkinsonian state for 1000 ms. No DBS was applied and
+rons in a healthy state for 1000 ms.                                   stochastic noise was present.
+
+
+
+                                                                       the TH and GPi as seen in Fig. 13 and Fig. 14. The to-
+                                                                       tal movement was greater when DBS was applied to the GPi,
+                                                                       which coincides with the more extensive spiking in Fig. 12.
+                                                                       There were occasions where the spikes happened simultane-
+                                                                       ously (i.e. when the voltage reaches the top-right corner) or
+                                                                       independently while the other region was at rest (i.e. when
+                                                                       the voltage is at the top-left corner or bottom-right corner).
+                                                                       In both cases where DBS was administered to the STN or
+                                                                       GPi, we saw more STN spiking activity which was closely
+                                                                       followed by TH spikes compared to the cases where DBS was
+                                                                       not applied. This result also materialized with the GPi neu-
+                                                                       rons. Furthermore, many thalamic spikes happened when the
+                                                                       STN was at rest and similarly for the GPi. This is demon-
+                                                                       strated by the cluster of straight lines at the bottom of Fig. 13
+                                                                       and Fig. 14. Another remarkable detail, was that the GPi neu-
+FIG. 8. (Color online) Membrane voltages of the TH and STN neu-
+                                                                       rons had a wider range of independent spiking while the TH
+rons in a healthy state for 1000 ms. Stochastic noise was present.
+                                                                       was rest as opposed to the STN neurons.
+                                                                                                                                       7
+
+
+
+
+                                                                       FIG. 13. (Color online) Membrane voltages of the TH and STN neu-
+FIG. 11. (Color online) Membrane voltages of the STN and TH neu-       rons in the Parkinsonian state for 2500 ms. DBS was applied to the
+rons in the Parkinsonian state for the discrete brain network with     STN and stochastic noise was present.
+stochastic noise. Black represents the PD state, red denotes the ap-
+plication of DBS to the STN, and blue refers to the healthy state.
+
+
+
+
+                                                                       FIG. 14. (Color online) Membrane voltages of the TH and GPi neu-
+                                                                       rons in the Parkinsonian state for 2500 ms. DBS was applied to the
+                                                                       GPi and stochastic noise was present.
+
+FIG. 12. (Color online) Membrane voltages of the GPi and TH neu-
+rons in the Parkinsonian state for the discrete brain network with     also be observed when in the PD state and DBS is applied
+stochastic noise. Black represents the PD state, red denotes the ap-   to the STN or GPi. Another perspective that can explain this
+plication of DBS to the GPi, and blue refers to the healthy state.     result is that since large and irregular thalamic spiking activ-
+                                                                       ity emerges in both the deterministic and stochastic models,
+                                                                       this suggests that such dynamics are intrinsic to the network
+IV.   DISCUSSION                                                       connectivity and conductance interactions rather than being
+                                                                       solely noise-driven. The inclusion of stochastic terms does not
+   As previously mentioned in section III A, the firing of the         fundamentally alter the overall spiking regime, but instead in-
+TH neurons were characterized by numerous spikes with fluc-            troduces additional variability in spike timing and amplitude,
+tuating values. This was contrary to the result in [34] where          producing less smooth and more biologically realistic trajec-
+the TH experienced less, steadier, tonic spiking. Since this in-       tories. This effect is most clearly observed as a “fuzzier” pat-
+consistent spiking endured in the deterministic model in both          tern in the stochastic simulations compared to the smoother
+the healthy and PD conditions, we can infer that this behaviour        deterministic outputs, highlighting noise as a modulator of ex-
+is not caused by noise, but rather, manifests as a result of           isting variability rather than a primary cause of spiking. In
+the high spiking activity in the neuronal subnetwork of the            contrast to prior work, where noise was reported to be essen-
+TH (i.e. the neurons following the equations in II A). Conse-          tial for disrupting thalamic activity, our findings demonstrate
+quently, these neurons generate a stronger presynaptic current         that irregular dynamics persist even in its absence, emphasiz-
+that can amplify the membrane voltage of the TH and cause              ing the robustness of the model and suggesting that stochas-
+these slightly higher jumps in spiking. A similar trend can            ticity serves mainly to enhance variability and better capture
+                                                                                                                                              8
+
+the inherent unpredictability of neural firing.22 With these dif-   that can regulate the stimulation parameters based on feed-
+fering outcomes on the role of stochastic noise, further re-        back received by the patient’s brain. By catering the out-
+search should continue to explore whether stochasticity acts        put to the state of each individual, this increases the treat-
+as a catalyst for greater brain activity and potentially brain      ment’s effectiveness and potentially reduces the risk of ad-
+dysfunction, or mainly a component that fosters the flexibility     verse effects.43 Another beneficial scope to examine is intro-
+in neural dynamics.                                                 ducing other aspects of the brain into these multiscale models.
+   Although the framework presented in this study provides a        By expanding to include other vital regions, the prospect of
+novel approach for modelling the cortex-BGTH network with           further illuminating the underlying processes of the brain and
+a strong emphasis on the application of DBS and delineat-           its involvement in PD is facilitated. Lastly, in our integrated
+ing the dynamics of PD, there are limitations. As outlined in       brain connectome data, only one node is associated with each
+section II B, a network of fifty neurons following the ODEs         region (STN, GPe, GPi, and TH), and each one is connected
+in section II A was simulated for the STN, GPe, GPi, and TH,        with others as presented in Fig. 1. Therefore, it would be
+and the average currents were added to their overall membrane       interesting to study when high-resolution brain connectome
+voltages. This was simulated independently for each region.         data is available, where each region consists of more than one
+Consequently, this strategy lacks the physiological realism in      node, so that the internal structural organization within a re-
+imitating how neurons across different portions of the brain        gion can also be represented. Such a framework would allow
+connect and interact. Hence, the internal, cross-region brain       us to capture finer details of intra-regional interactions, rather
+dynamics are not fully rendered, which can affect the accuracy      than reducing an entire area of the brain to a single repre-
+of the results, and makes the closed-loop system seen here un-      sentative point. Furthermore, considering multiple nodes per
+optimized. A potentially more suitable approach would have          sector would open the possibility of exploring heterogeneity
+been to establish the network connections of the neurons as         within the same sector, such as differences in excitability, con-
+shown in Fig. 2. Due to their physiologically accurate link-        nectivity strength, or functional roles of neuronal populations.
+ages in terms of providing excitatory and inhibitory inputs to      This could lead to richer dynamical models that better approx-
+each other, building the model to reproduce this idea augments      imate realistic brain activity. Ultimately, such high-resolution
+the closed-loop modulation which more correctly reflects the        connectome studies would provide valuable insights into how
+self-regulating facets of the brain.42 As tractography data im-     both local and global interactions contribute to emergent cog-
+proves and supplementary information regarding the physio-          nitive processes and neurological disorders. Understanding
+logical links across brain regions emerges, a more united net-      the intricacies of the brain has been, and still, presents itself
+work that expands on the technique utilized in this study may       to be an immense hurdle. However, by persisting in refining
+yield further information on the behaviour of the brain and the     our methods, we strive to be able to exercise our findings to
+pathology of PD.                                                    have therapeutical application to those affected by PD, and
+                                                                    eventually, all NDDs.
+
+V.   CONCLUSION AND FUTURE DIRECTIONS
+                                                                    ACKNOWLEDGMENTS
+   The goal of our work was to explicate the elaborate pro-
+cesses that constitute neural functioning, specifically exam-          The authors appreciate the support provided to Prof. Hina
+ining regions within the BGTH and contrasting the healthy           Shaheen from the start-up grant at the University of Mani-
+and Parkinsonian state. To achieve this, we created a co-           toba and the NSERC Undergraduate Student Research Awards
+simulation multiscale model that considers the intricate mech-      (USRA) program. The authors are grateful to Dr. Swadesh Pal
+anisms of neuronal firing, diffusion, presynaptic inputs, and       of Wilfrid Laurier University for his insightful comments on
+the effects of DBS on the brain network. Through this appli-        the initial version of the manuscript.
+cation, we were able to record the dynamics at both the micro-
+and macroscale, more closely capturing the complexities of
+the brain. Our findings suggest that irregular thalamic spiking     DATA AVAILABILITY
+may naturally occur in the context of the connections and con-
+ductance changes in the network, rather than being provoked            The datasets generated and/or analyzed during the current
+purely by noise. Despite this, noise still has a notable influ-     study are available in the Human Connectome Project reposi-
+ence on voltage patterns and timing, mimicking the realistic        tory (https://braingraph.org/cms/).
+behaviour of neurons.
+   Regardless of these insights, many uncertainties revolving
+around the neural dynamics — especially under the circum-           REFERENCES
+stances of PD and other NDDs — still remain. Thus, our
+model can serve as a stepping stone to future work that can
+                                                                    1 J. L. Lanciego, N. Luquin,   and J. A. Obeso, “Functional neuroanatomy of
+expand on the findings described here. One direction that
+                                                                      the basal ganglia,” Cold Spring Harbor Perspectives in Medicine 2, a009621
+should be investigated is the inclusion of closed-loop DBS            (2012).
+which can contribute to the continued development of adap-          2 A. M. Graybiel, “The basal ganglia,” Current Biology 10, R509–R511
+
+tive DBS. Adaptive DBS employs a closed-loop framework                (2000).
+                                                                                                                                                                9
+
+3 C. B. Young, V. Reddy,      and J. Sonne, “Neuroanatomy, basal ganglia,” in     24 E. Syková and C. Nicholson, “Diffusion in brain extracellular space,” Phys-
+
+   StatPearls (StatPearls Publishing, Treasure Island (FL), 2023).                  iological Reviews 88, 1277–1340 (2008).
+ 4 N. Sheridan and P. Tadi, “Neuroanatomy, thalamic nuclei,” in StatPearls        25 A. L. Hodgkin and A. F. Huxley, “A quantitative description of membrane
+
+   (StatPearls Publishing, Treasure Island (FL), 2023).                              current and its application to conduction and excitation in nerve,” The Jour-
+ 5 J. B. Smith, Y. Smith, L. Venance, and G. D. R. Watson, “Editorial: Tha-          nal of Physiology 117, 500–544 (1952).
+   lamic interactions with the basal ganglia: Thalamostriatal system and be-      26 M. Maama, B. Ambrosio, M. A. Aziz-Alaoui, and S. M. Mintchev, “Emer-
+
+   yond,” Frontiers in Systems Neuroscience 16, 883094 (2022).                       gent properties in a V1-inspired network of Hodgkin–Huxley neurons,”
+ 6 J. E. Rubin, C. C. McIntyre, R. S. Turner, and T. Wichmann, “Basal gan-
+                                                                                     Mathematical Modelling of Natural Phenomena 19, 3 (2024).
+   glia activity patterns in parkinsonism and computational modeling of their     27 R. FitzHugh, “Impulses and physiological states in theoretical models of
+   downstream effects,” The European Journal of Neuroscience 36, 2213–               nerve membrane,” Biophysical Journal 1, 445–466 (1961).
+   2228 (2012).                                                                   28 J. L. Hindmarsh and R. M. Rose, “A model of neuronal bursting using three
+ 7 M. J. Armstrong and M. S. Okun, “Diagnosis and treatment of Parkinson
+                                                                                     coupled first order differential equations,” Proceedings of the Royal Society
+   disease: A review,” JAMA 323, 548–560 (2020).                                     of London. Series B. Biological Sciences 221, 87–102 (1997).
+ 8 National Institute of Mental Health, “Parkinson’s disease,” U.S. De-           29 L. Chariker and L.-S. Young, “Emergent spike patterns in neuronal popula-
+   partment of Health and Human Services, National Institutes of                     tions,” Journal of Computational Neuroscience 38, 203–220 (2015).
+   Health (2025), https://www.ninds.nih.gov/health-information/                   30 L. Chariker, R. Shapley, and L.-S. Young, “Orientation selectivity from
+   disorders/parkinsons-disease.                                                     very sparse LGN inputs in a comprehensive model of Macaque V1 cor-
+ 9 S. Ramesh and A. S. P. M. Arachchige, “Depletion of dopamine in Parkin-
+                                                                                     tex,” The Journal of Neuroscience: The Official Journal of the Society for
+   son’s disease and relevant therapeutic options: A review of the literature,”      Neuroscience 36, 12368–12384 (2016).
+   AIMS Neuroscience 10, 200–231 (2023).                                          31 L. Chariker, R. Shapley, and L.-S. Young, “Rhythm and synchrony in a
+10 A. J. Lees, J. Hardy, and T. Revesz, “Parkinson’s disease,” The Lancet 373,
+                                                                                     cortical network model,” Journal of Neuroscience 38, 8621–8634 (2018).
+   2055–2066 (2009).                                                              32 A. V. Rangan and L.-S. Young, “Emergent dynamics in a model of visual
+11 B. R. Bloem, M. S. Okun, and C. Klein, “Parkinson’s disease,” The Lancet
+                                                                                     cortex,” Journal of Computational Neuroscience 35, 155–167 (2013).
+   397, 2284–2303 (2021).                                                         33 D. Zhou, A. V. Rangan, D. W. McLaughlin, and D. Cai, “Spatiotemporal
+12 L. V. Kalia and A. E. Lang, “Parkinson’s disease,” The Lancet 386, 896–912
+                                                                                     dynamics of neuronal population response in the primary visual cortex,”
+   (2015).                                                                           Proceedings of the National Academy of Sciences of the United States of
+13 A. L. Benabid, “Deep brain stimulation for Parkinson’s disease,” Current
+                                                                                     America 110, 9517–9522 (2013).
+   Opinion in Neurobiology 13, 696–706 (2003).                                    34 H. Shaheen, S. Pal, and R. Melnik, “Multiscale co-simulation of deep brain
+14 M. S. Okun, “Deep-brain stimulation for Parkinson’s disease,” New Eng-
+                                                                                     stimulation with brain networks in neurodegenerative disorders,” Brain
+   land Journal of Medicine 367, 1529–1538 (2012).                                   Multiphysics 3, 100058 (2022).
+15 National Institute of Mental Health, “Deep brain stimulation (DBS),”           35 J. E. Rubin and D. Terman, “High frequency stimulation of the subthalamic
+   U.S. Department of Health and Human Services, National Institutes of              nucleus eliminates pathological thalamic rhythmicity in a computational
+   Health (2025), https://www.ninds.nih.gov/health-information/                      model,” Journal of computational neuroscience 16, 211–235 (2004).
+   disorders/deep-brain-stimulation-dbs.                                          36 M. Lu, X. Wei, Y. Che, J. Wang, and K. A. Loparo, “Application of rein-
+16 C. Eliasmith and O. Trujillo, “The use and abuse of large-scale brain mod-
+                                                                                     forcement learning to deep brain stimulation in a computational model of
+   els,” Current Opinion in Neurobiology Theoretical and computational neu-          Parkinson’s disease,” IEEE Transactions on Neural Systems and Rehabili-
+   roscience, 25, 1–6 (2014).                                                        tation Engineering 28, 339–349 (2019).
+17 J. S. Perlmutter and J. W. Mink, “Deep brain stimulation,” Annual Review       37 T. B. Thompson, P. Chaggar, E. Kuhl, A. Goriely, and A. D. N. Initiative,
+   of Neuroscience 29, 229–257 (2006).                                               “Protein-protein interactions in neurodegenerative diseases: A conspiracy
+18 A. M. Lozano, N. Lipsman, H. Bergman, P. Brown, S. Chabardes, J. W.
+                                                                                     theory,” PLoS computational biology 16, e1008267 (2020).
+   Chang, K. Matthews, C. C. McIntyre, T. E. Schlaepfer, M. Schulder,             38 J. A. McNab, B. L. Edlow, T. Witzel, S. Y. Huang, H. Bhat, K. Heberlein,
+   Y. Temel, J. Volkmann, and J. K. Krauss, “Deep brain stimulation: Current         T. Feiweier, K. Liu, B. Keil, J. Cohen-Adad, M. D. Tisdall, R. D. Folkerth,
+   challenges and future directions,” Nature Reviews Neurology 15, 148–160           H. C. Kinney, and L. L. Wald, “The Human Connectome Project and be-
+   (2019).                                                                           yond: Initial applications of 300 mT/m gradients,” NeuroImage Mapping
+19 O. Krejcar and H. Namazi, “Multiscale brain modeling: Bridging micro-
+                                                                                     the Connectome, 80, 234–245 (2013).
+   scopic and macroscopic brain dynamics for clinical and technological ap-       39 B. Szalkai, C. Kerepesi, B. Varga, and V. Grolmusz, “Parameterizable con-
+   plications,” Frontiers in Cellular Neuroscience 19 (2025).                        sensus connectomes from the Human Connectome Project: The Budapest
+20 A. F. Khan, Q. Adewale, S.-J. Lin, T. R. Baumeister, Y. Zeighami, F. Car-
+                                                                                     reference connectome server v3. 0,” Cognitive neurodynamics 11, 113–116
+   bonell, N. Palomero-Gallagher, and Y. Iturria-Medina, “Patient-specific           (2017).
+   models link neurotransmitter receptor mechanisms with motor and visu-          40 C. Kerepesi, B. Szalkai, B. Varga, and V. Grolmusz, “How to direct the
+   ospatial axes of Parkinson’s disease,” Nature Communications 14, 6009             edges of the connectomes: Dynamics of the consensus connectomes and
+   (2023).                                                                           the development of the connections in the human brain,” PLoS One 11,
+21 H. Yan, C. Coughlin, L. Smolin, and J. Wang, “Unraveling the complexity
+                                                                                     e0158680 (2016).
+   of Parkinson’s disease: Insights into pathogenesis and precision interven-     41 H. Shaheen and R. Melnik, “Deep brain stimulation with a computational
+   tions,” Advanced Science 11, 2405309 (2024).                                      model for the cortex-thalamus-basal-ganglia system and network dynam-
+22 H. Shaheen and R. Melnik, “Neural dynamics in Parkinson’s disease: Inte-
+                                                                                     ics of neurological disorders,” Computational and Mathematical Methods
+   grating machine learning and stochastic modelling with connectomic data,”         2022, 8998150 (2022).
+   in Computational Science – ICCS 2024, edited by L. Franco, C. de Mu-           42 F. Farkhondeh Tale Navi, S. Heysieattalab, D. S. Ramanathan, M. R.
+   latier, M. Paszynski, V. V. Krzhizhanovskaya, J. J. Dongarra, and P. M. A.        Raoufy, and M. A. Nazari, “Closed-loop modulation of the self-regulating
+   Sloot (Springer Nature Switzerland, Cham, 2024) pp. 46–60.                        brain: A review on approaches, emerging paradigms, and experimental de-
+23 A. Scarciglia, C. Bonanno, and G. Valenza, “Physiological noise: A com-
+                                                                                     signs,” Neuroscience 483, 104–126 (2022).
+   prehensive review on informative randomness in neural systems,” Physics        43 J. K. Krauss, N. Lipsman, T. Aziz, A. Boutet, P. Brown, J. W. Chang,
+   of Life Reviews 53, 281–293 (2025).                                               B. Davidson, W. M. Grill, M. I. Hariz, A. Horn, M. Schulder, A. Mam-
+                                                                                     mis, P. A. Tass, J. Volkmann, and A. M. Lozano, “Technology of deep
+                                                                                     brain stimulation: Current status and future directions,” Nature Reviews
+                                                                                     Neurology 17, 75–87 (2021).
+

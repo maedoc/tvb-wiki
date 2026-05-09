@@ -1,0 +1,1703 @@
+   medRxiv preprint doi: https://doi.org/10.1101/2025.08.30.25333188; this version posted September 2, 2025. The copyright holder for this preprint
+      (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                              It is made available under a CC-BY 4.0 International license .
+
+
+
+
+                                              Advanced Deep Learning Architecture for the Early and
+                                              Accurate Detection of Autism Spectrum Disorder Using
+                                              Neuroimaging
+                                              Nazeela Fatima1,Y , Nargis Bibi1,Y , Amad Ud Din2*,Y
+
+                                              1 Department of Computer Science, Fatima Jinnah Women University, Rawalpindi,
+                                              Punjab, Pakistan
+                                              2 Information Technology Center, Fatima Jinnah Women University, Rawalpindi,
+                                              Punjab, Pakistan
+
+                                              * ammad@fjwu.edu.pk
+
+
+                                              Abstract
+                                              Autism Spectrum Disorder (ASD) is a neurological condition that affects the brain,
+                                              leading to challenges in speech, communication, social interaction, repetitive behaviors,
+                                              and motor skills. This research aims to develop a deep learning based model for the
+                                              accurate diagnosis and classification of autistic symptoms in children, thereby benefiting
+                                              both patients and their families. Existing literature indicates that classification methods
+                                              typically analyze region based summaries of Functional Magnetic Resonance Imaging
+                                              (fMRI). However, few studies have explored the diagnosis of ASD using brain imaging.
+                                              The complexity and heterogeneity of biomedical data modeling for big data analysis
+                                              related to ASD remain unclear. In the present study, the Autism Brain Imaging Data
+                                              Exchange 1 (ABIDE-1) dataset was utilized, comprising 1,112 participants, including
+                                              539 individuals with ASD and 573 controls from 17 different sites. The dataset,
+                                              originally in NIfTI format, required conversion to a computer-readable extension. For
+                                              ASD classification, the researcher proposed and implemented a VGG20 architecture.
+                                              This deep learning VGG20 model was applied to neuroimages to distinguish ASD from
+                                              the non ASD cases. Four evaluation metrics were employed which are recall, precision,
+                                              F1-score, and accuracy. Experimental results indicated that the proposed model
+                                              achieved an accuracy of 61%. Prior to this work, machine learning algorithms had been
+                                              applied to the ABIDE-1 dataset, but deep learning techniques had not been extensively
+                                              utilized for this dataset and the methods implied in this study as this research is
+                                              conducted to facilitate the early diagnosis of ASD.
+
+                                              Keywords:
+                                              Autism Spectrum Disorder (ASD); Autism Brain Imaging Data Exchange 1 (ABIDE-1);
+                                              Magnetic Resonance Imaging (MRI); Neural Network;
+
+
+                                              Introduction                                                                                                  1
+
+
+
+                                              Autism spectrum disorder (ASD) is a neurological condition that affects the brain,                            2
+
+                                              leading to difficulties in speech, communication, social interaction, repetitive behaviors,                   3
+
+                                              and cognitive abilities. This disorder impacts multiple areas of the brain. The main                          4
+
+                                              causes of autism spectrum disorder are genetic and environmental factors. Globally,                           5
+
+
+
+
+August 3, 2025                                                                                                                                       1/22
+            NOTE: This preprint reports new research that has not been certified by peer review and should not be used to guide clinical practice.
+   medRxiv preprint doi: https://doi.org/10.1101/2025.08.30.25333188; this version posted September 2, 2025. The copyright holder for this preprint
+      (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                              It is made available under a CC-BY 4.0 International license .
+
+
+
+
+                                            autism affects one in every 70 children. In 2018, the United States had one of the                          6
+
+                                            highest prevalence rates, with autism spectrum disorder estimated to affect 168 out of                      7
+
+                                            every 10,000 children. Early detection of ASD is crucial as it allows for the                               8
+
+                                            implementation of early intervention strategies. These initial interventions have proven                    9
+
+                                            effective in mitigating deficits and can result in improved long-term outcomes for                          10
+
+                                            children. In the US, autism spectrum disorder affects approximately 3.63% of boys aged                      11
+
+                                            3-17, compared to about 1.25% of girls [1] [2] [3].                                                         12
+
+                                                Autism is a chronic illness that affects the patient and causes stress in the family.                   13
+
+                                            People with autism spectrum disorder have a high level of unemployment. Maintaining                         14
+
+                                            and obtaining employment is exceedingly challenging for young individuals with ASD,                         15
+
+                                            and some people with ASD have been qualified in paid job skills [4]. Medical imaging                        16
+
+                                            encompasses a variety of technologies that offer visible depictions of the inside of the                    17
+
+                                            human body to help radiotherapists and doctors discover, identify, and treat diseases                       18
+
+                                            more quickly and effectively. In recent years, deep learning has quickly become the                         19
+
+                                            technique of choice for clinical image interpretation [5].                                                  20
+
+                                                Our brain is a complicated network comprising several functionally connected but                        21
+
+                                            spatially dispersed brain areas. In the past few decades, brain research has grown into a                   22
+
+                                            major community well-being concern. Research institutions and Scientists have devoted                       23
+
+                                            a significant amount of time and resources to improve understanding of the brain’s                          24
+
+                                            operating processes. Neuroimaging grew in popularity as research progressed [6].                            25
+
+                                            Another class of autism spectrum disorder diagnosis methods that specialists prefer is                      26
+
+                                            neuroimaging approaches. Numerous investigations based on neuroimaging data, like                           27
+
+                                            functional and structural, for the diagnosis of ASD have been undertaken in recent                          28
+
+                                            years. Because it enables them to look at the structure and connections among different                     29
+
+                                            parts of the brain, structural brain imaging is a crucial technique for studying structural                 30
+
+                                            brain issues in autism spectrum disorder. Techniques utilizing magnetic resonance                           31
+
+                                            imaging are the main equipment used for structural neuroimaging. The analysis of brain                      32
+
+                                            activity and functional connections using functional neuroimaging can be helpful in the                     33
+
+                                            study of autism spectrum disorder. For fMRI, there are two techniques. For these, there                     34
+
+                                            are two terms: task-based functional magnetic resonance imaging and resting-state                           35
+
+                                            functional magnetic resonance imaging. ASD can be recognized using the rs-fMRI                              36
+
+                                            method [7]. Functional imaging techniques over structural approaches are more                               37
+
+                                            important for understanding ASD. Numerous medical disciplines are utilizing deep                            38
+
+                                            learning models, including structural and functional neuroimaging [9].                                      39
+
+                                                The blood oxygen level-dependent variations in magnetic resonance imaging indicate                      40
+
+                                            that occur when alterations in neural activity coincide with alteration in the state of                     41
+
+                                            mind are perceived by functional magnetic resonance imaging. The fMRI produces                              42
+
+                                            images of brain neuronal activity, which gives a unique and important piece of                              43
+
+                                            information for medical neurosciences, primary, and translational research. Screening                       44
+
+                                            and diagnosis approaches can be used to characterize autism spectrum disorder traits                        45
+
+                                            from a very early age, and similar techniques can also be used to determine the intensity                   46
+
+                                            of ASD. A variety of methods are utilized to check for autism spectrum disorder risk                        47
+
+                                            and severity, differentiate it from other neurodevelopmental disorders, plan therapy, and                   48
+
+                                            conduct research. There are no currently accepted treatments or medications for autism                      49
+
+                                            spectrum disorder [9] [10].                                                                                 50
+
+                                                For many applications for medical image analysis, like segmentation, image                              51
+
+                                            classification, and registration, the preferred machine learning technique is quickly                       52
+
+                                            moving toward deep learning methods. Deep neural networks can learn directly from                           53
+
+                                            raw images and have a tremendous learning capability. As a result, learning meaningful                      54
+
+                                            models usually necessitates extensive training on big datasets and the application of                       55
+
+                                            appropriate model validation approaches. The huge data requirement makes                                    56
+
+                                            interpreting many medical imaging datasets difficult. Clinical research uses deep                           57
+
+
+
+
+August 3, 2025                                                                                                                                   2/22
+   medRxiv preprint doi: https://doi.org/10.1101/2025.08.30.25333188; this version posted September 2, 2025. The copyright holder for this preprint
+      (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                              It is made available under a CC-BY 4.0 International license .
+
+
+
+
+                                            learning algorithms to make disease diagnoses [10]. One of the most well-liked deep                          58
+
+                                            learning methods is the convolutional neural network. It was used to categorize a                            59
+
+                                            variety of domains, including heartbeats, the categorization of brain areas in MRIs, face                    60
+
+                                            detection, the recognition of race bib numbers, and license plate recognition [11]. Deep                     61
+
+                                            learning models are utilized in this study. The model we proposed for this study is                          62
+
+                                            VGG-20. Our study aims to distinguish children with ASD and children without ASD                             63
+
+                                            using a deep learning model [10] [12] [13].                                                                  64
+
+
+
+
+                                            Literature Review                                                                                            65
+
+
+
+                                             [5] proposed diagnoses of autism spectrum disorder by applying Deep graph                                   66
+
+                                            convolutional neural networks (GCN). The structure was created on sixteen layers of                          67
+
+                                            graph convolutional neural networks. They joined scale data with neuroimaging with                           68
+
+                                            the use of autism brain imaging data exchange. They utilize a Deep graph convolutional                       69
+
+                                            neural network algorithm to use nodes with supervised learning designed for                                  70
+
+                                            constructed graphs. For the training of this model, they used the drop edge strategy.                        71
+
+                                            While using Deep graph convolutional neural networks, their result displays 73%                              72
+
+                                            accuracy. [14] proposed a deep learning approach for using neuroimages to identify                           73
+
+                                            individuals with ASD. They used fMRI for the diagnosis of ASD. In their research, they                       74
+
+                                            utilized the Autism Brain Imaging Data Exchange (ABIDE). In their research, they                             75
+
+                                            used two models, ResNet-50 and VGG-16. The unprocessed data that were taken from                             76
+
+                                            ABIDE-I and ABIDE-II were three-dimensional; they converted these images into                                77
+
+                                            two-dimensional by using MRIcron software. A graphical user interface was also                               78
+
+                                            developed for the system. The accuracy acquired by these two models ResNet 50 and                            79
+
+                                            VGG 16, is 87% and 63% respectively. [15] presented deep learning models for the                             80
+
+                                            identification of ASD. In this paper, they create deep learning approaches for the                           81
+
+                                            classification of ASD. In their study, they used the ABIDE-1 dataset. Initially, they                        82
+
+                                            create brain systems from functional magnetic resonance imaging and describe the                             83
+
+                                            unprocessed features, like brain links. Then they utilize an autoencoder to learn                            84
+
+                                            unprocessed attributes. Then they train deep neural networks to achieve features. They                       85
+
+                                            apply an autoencoder and deep neural networks to achieve better accuracy. This model                         86
+
+                                            has an accuracy rate of 79%. [16] presented a deep learning model for the classification                     87
+
+                                            of ASD. They develop a model ASD-SAENet using fMRI data. They develop sparse                                 88
+
+                                            autoencoder outcomes for obtaining features. Pearson’s correlation was used for feature                      89
+
+                                            selection. They develop an autoencoder for the rebuilding of features. They tested                           90
+
+                                            complete data and applied 10-fold layer cross-validation and obtained 70% accuracy.                          91
+
+                                            [16] presented an analysis and diagnosis of ASD with the use of Machine Learning. The                        92
+
+                                            dataset was gathered from the UCL ML repository. In the proposed technique, the                              93
+
+                                            Dataset was first normalized and cleaned to remove null values. After that,                                  94
+
+                                            pre-processing was done on the data to split it into training and testing sets. SVM,                         95
+
+                                            Naı̈ve Bayes, logical Regression, and Convolutional Neural Network (CNN) were applied                        96
+
+                                            to pre-processing data. Results showed that the proposed model detects and analyses                          97
+
+                                            ASD with an accuracy of 95%. [13] and [16] identified ASD using deep learning and the                        98
+
+                                            ABIDE dataset. UCI ML repository was used to gather the dataset. After that,                                 99
+
+                                            encoding, normalization, variable reduction, and handling of missing data were done. A                      100
+
+                                            deep neural network model was applied to the data, and performance was compared                             101
+
+                                            with a support vector machine. The accuracy achieved by deep neural networks was                            102
+
+                                            higher than compared to SVM. Results showed that ASD can be diagnosed accurately                            103
+
+                                            by using Deep Neural Network. [17] presented deep neural networks for the diagnosis of                      104
+
+                                            ASD. Their approach consists of two prime aspects. Firstly, they built a deep neural                        105
+
+                                            network model with the use of TensorFlow. They used the ABIDE dataset. Second,                              106
+
+                                            using the same dataset and the same study designs, they used four distinct hidden-layer                     107
+
+
+
+
+August 3, 2025                                                                                                                                   3/22
+   medRxiv preprint doi: https://doi.org/10.1101/2025.08.30.25333188; this version posted September 2, 2025. The copyright holder for this preprint
+      (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                              It is made available under a CC-BY 4.0 International license .
+
+
+
+
+                                            deep neural network models, each of which had been preprocessed using four different                        108
+
+                                            methods. They used four different arrangements of a multilayer perceptron. Their                            109
+
+                                            presented method has a 75.27 percent accuracy rate. [14] [18] presented a strategy for                      110
+
+                                            the automatic detection of ASD that combines a multi-atlas graph convolutional                              111
+
+                                            network and ensemble learning. To begin, they extract several feature representations                       112
+
+                                            from each subject’s fMRI data based on the functional connectivity of various brain                         113
+
+                                            atlases. This technique constructs several graphs based on the association among pairs                      114
+
+                                            of subjects, after which it applies the graph convolution process to these graphs. In this                  115
+
+                                            research, they make six graphs. Their presented method has a 75.86 percent accuracy                         116
+
+                                            rate. [19] provided CNN-based automatic diagnosis of ASD. They detected ASD with                            117
+
+                                            the use of fMRI. They employed a CNN architecture with one convolutional layer and                          118
+
+                                            tightly connected layers interleaved inside max-pooling. The output node is associated                      119
+
+                                            with a dense layer, which is then utilized to classify the data. The model was trained for                  120
+
+                                            300 epochs with a batch size of 32, and the learning rate was set at 0.005. They                            121
+
+                                            acquired 70.22% accuracy, which is higher than the rest of the work. [20] [21] presented                    122
+
+                                            automated diagnosis of autism spectrum disorder were used to extract characteristics.                       123
+
+                                            In this research paper, they used a transfer learning approach. They utilized the                           124
+
+                                            VGG16 model for ASD detection for this purpose. The structural MRI images from the                          125
+
+                                            ABIDE dataset were used in this research. The VGG16 model’s last completely                                 126
+
+                                            connected dense layer was replaced and retrained using extracted images from the                            127
+
+                                            ABIDE dataset. The researchers used the activation function softmax and optimizer                           128
+
+                                            ADAM to train the last dense layer with images with a 0.01 learning rate. The                               129
+
+                                            proposed approach had a 66 percent accuracy rate in detecting autism. [7] presented                         130
+
+                                            autism spectrum disorder detection using the outlier diagnosis method. A generative                         131
+
+                                            adversarial network was trained entirely with structural magnetic resonance imaging                         132
+
+                                            scans of healthy people to discover spatial patterns in the structural connections of the                   133
+
+                                            brain. The ABIDE-II dataset was used in this study. The goal of the generative                              134
+
+                                            adversarial network was to reassemble the following three consecutive segments from a                       135
+
+                                            stack of three adjoining portions as input. Their proposed work achieved an accuracy of                     136
+
+                                            95.65%. [10] [20] [46] presented different methods of learning generalizable RNNs as                        137
+
+                                            fewer task-functional magnetic resonance imaging datasets. They used the data                               138
+
+                                            augmentation method. To create predictions of an entire-brain parcellation of functional                    139
+
+                                            magnetic resonance imaging data, they first use an RNN with extensive temporary                             140
+
+                                            memory. [45] [47] presented a deep learning methodology joint with the F-score                              141
+
+                                            attribute collection technique aimed at autism spectrum disorder identification. To                         142
+
+                                            extract a bottom characteristics representation that relates to the network’s bottleneck                    143
+
+                                            layer, an autoencoder is used. The prepared strategy was compared against two                               144
+
+                                            standard techniques: Stack autoencoder and ASD-DiagNet. Their suggested approach                            145
+
+                                            has the potential to achieve accuracy levels of 74%. [39]presented via 3D CNN and the                       146
+
+                                            temporal statistics of rs-fMRI data to classify autism spectrum disorder. They identified                   147
+
+                                            patients from the ABIDE I and ABIDE II datasets after pre-processing. They used a                           148
+
+                                            3D convolutional neural network architecture in this research. To compare their 3D                          149
+
+                                            convolutional neural network models, they employed the linear SVM as a baseline. The                        150
+
+                                            accuracy of this method was 68%. [28] proposed a technique for comparing autistic                           151
+
+                                            patients to control participants utilizing combining sMRI and fMRI. They used the                           152
+
+                                            ABIDE-I dataset, and 817 samples were taken from the ABIDE-I dataset. After the                             153
+
+                                            dimension reduction phase, the first technique includes linking the attribute vectors,                      154
+
+                                            after then executing the autoencoder training. The second approach entails the use of                       155
+
+                                            independent classification processes, followed by a mechanism for selecting the final                       156
+
+                                            classifications. A multimodal approach using a group of classifiers for both functional                     157
+
+                                            and structural data classification led to the greatest classification accuracy of                           158
+
+                                            85.06%. [4] proposed an artificial neural network model for the analysis of ASD. They                       159
+
+
+
+
+August 3, 2025                                                                                                                                   4/22
+   medRxiv preprint doi: https://doi.org/10.1101/2025.08.30.25333188; this version posted September 2, 2025. The copyright holder for this preprint
+      (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                              It is made available under a CC-BY 4.0 International license .
+
+
+
+
+                                            provide a deep learning approach in this research paper to address the three issues with                    160
+
+                                            current techniques. First, by incorporating a convolutional layer that recognizes the                       161
+
+                                            combination of areas, they may deduce the parts of the brain connected for the                              162
+
+                                            classification of ASD. Secondly, they may discover the hidden layer of circulatory                          163
+
+                                            characteristics that alter over time by merging the temporal convolution layer with a                       164
+
+                                            recurrent neural network. Lastly, by including the details of the multiple sites, modeling                  165
+
+                                            the differences between the sites was another option. In their research, they used the                      166
+
+                                            ABIDE-I dataset. The existing model achieved an accuracy of 54% while their proposed                        167
+
+                                            model achieved ed accuracy of 74%. [16] presented based on brain structure, their                           168
+
+                                            proposed research intends to diagnose autism spectrum disorder from a big dataset by                        169
+
+                                            using CNN. Utilizing the feature extraction method, it determines the region of interest.                   170
+
+                                            In this research, the authors used the ABIDE-I dataset, which contains 539 autistic                         171
+
+                                            patients and 573 typical controls. A convolutional neural network analyzes the image                        172
+
+                                            attributes and picks up new information after a set number of training images. It uses                      173
+
+                                            matrix multiplication to apply filters on the input image’s pixel block. Each cell in the                   174
+
+                                            matrix has its Pearson correlation coefficient tested, and the results vary from -1 to 1.                   175
+
+                                            The learning rate was fixed at 0.005; likewise, the model’s training utilized 300 epochs                    176
+
+                                            and 32 batch sizes. Their model achieved an accuracy of 95%. [16] [17] proposed the                         177
+
+                                            Multi-site Clustering and Nested Feature Extraction (MC-NFE) technique for                                  178
+
+                                            fMRI-based ASD detection. To simulate cross-site variations in every group, they train                      179
+
+                                            latent representations and execute subject grouping throughout every section using a                        180
+
+                                            multi-view feature model of continuous restoration. The ABIDE-I and ABIDE-II                                181
+
+                                            dataset was used in this study. In this study, the authors suggest an MC-NFE method                         182
+
+                                            for functional magnetic resonance imaging-based autism spectrum disorder                                    183
+
+                                            identification that can handle high-dimensional fMRI data and reduce multi-variation.                       184
+
+                                            Their model achieved an accuracy of 68%.                                                                    185
+
+
+
+
+                                            Background                                                                                                  186
+
+
+
+                                            Magnetic Resonance Imaging (MRI)                                                                            187
+
+
+                                            MRI is a significant method for scanning the brain that provides high-resolution data                       188
+
+                                            on the structure, physiology, and working of the brain [34]. The brain imaging                              189
+
+                                            technique that accurately identifies the size and shape of the brain is magnetic                            190
+
+                                            resonance imaging [35]. The usage of MRI data to discover ASD indicators by revealing                       191
+
+                                            small changes in brain patterns and networks. Various researchers have found, by using                      192
+
+                                            MRI scans, that specific areas of the brain are related to ASD. According to the type of                    193
+
+                                            scanning method utilized, MRI scans are further classified into structural magnetic                         194
+
+                                            resonance imaging (s-MRI) and functional magnetic resonance imaging (fMRI) [31] [35].                       195
+
+
+
+
+                                            Fig 1. (a) Axial View (b) Sagittal View (c) Coronal View
+
+
+
+
+August 3, 2025                                                                                                                                   5/22
+   medRxiv preprint doi: https://doi.org/10.1101/2025.08.30.25333188; this version posted September 2, 2025. The copyright holder for this preprint
+      (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                              It is made available under a CC-BY 4.0 International license .
+
+
+
+
+Table 1. Details of Existing Literature
+ References             Classifier                               Accuracy                  Modality                      Dataset
+                                                                                                                         ABIDE I
+       [7]                      DeepGCN                             73.7%                     fMRI
+                                                                                                                        871 samples
+       [9]              VGG-16 and ResNet-50                 63.4% and 87.0%                  fMRI                   ABIDE I, ABIDE II
+                                                                                                                         ABIDE-I
+      [44]                     autoencoder                          79.2%                     fMRI
+                                                                                                                        871 samples
+       [2]                    ASD-SAENet                          70.8%                      fMRI                   ABIDE I 1035 samples
+                                                             99.53%, 98.30%,             Age, gender,
+                                                                                                                       ASD screening
+                            Convolutional                    96.88% achieved          patient suffer from
+      [11]                                                                                                       in data for adults, children,
+                         neural network model                accuracy in three        jaundice, screening
+                                                                                                                       and adolescents
+                                                                 datasets            test, screening score
+      [12]              Deep neural network                        70%                      rs-fMRI                       ABIDE
+       [7]              Deep neural network                       75.27%                    rs-fMRI                  ABIDE 1035 samples
+                   multi-atlas graph convolutional                                                                        ABIDE
+      [13]                                                         75.86%                     fMRI
+                     network method (MAGCN)                                                                             949 samples
+                            Convolutional
+      [14]                                                         70.22%                     fMRI                            ABIDE
+                        neural network model
+      [14]                  VGG16 model                          55% – 65%                    s-MRI                          ABIDE
+                       Generative Adversarial                                                  T1w                          ABIDE-II
+      [16]                                                         95.65%
+                           Network (GAN)                                                      s-MRI                         38 samples
+                           RNN with long                                                                                    Task-fMRI
+       [8]                                                          52.5%                     fMRI
+                         short-term memory                                                                                  40 samples
+                     The deep learning approach
+      [17]         joined with the F-score feature                  70.9%                     fMRI                            ABIDE
+                          selection method
+                          Three-dimensional                                                                                  ABIDE
+      [18]                                                           66%                     rs-fMRI
+                    convolutional neural network                                                                          1028 samples
+                    Autoencoder and multi-layer                                               fMRI,                         ABIDE-I
+      [19]                                                         85.06%
+                             perceptron                                                       s-MRI                        817 samples
+                                                                                                                            ABIDE-I
+      [20]             Artificial neural network                     74%                     rs-fMRI
+                                                                                                                           575 samples
+      [21]          Convolutional neural network                     95%                     rs-fMRI                        ABIDE-I
+                        multi-site clustering
+                                                                                                                      ABIDE-I, ABIDE-II
+      [13]          and nested feature extraction                    68%                      fMRI
+                                                                                                                         609 samples
+                             (MC-NFE)
+
+
+                                            Structural magnetic resonance imaging                                                                       196
+
+
+                                            To evaluate the neurology or anatomy of the brain, structural MRI scans are used.                           197
+
+                                            Additionally, structural MRI scans are used to quantify the size of the brain, including                    198
+
+                                            the volume of its subregions’ grey matter, and white matter [31]. Structural MRI may                        199
+
+                                            be used to acquire anatomical characteristics of the brain, during brain MRI                                200
+
+                                            analysis [34].                                                                                              201
+
+
+
+
+                                            Functional magnetic resonance imaging                                                                       202
+
+
+                                            To see the active brain parts linked to brain function, functional MRI (fMRI) scans are                     203
+
+                                            used. By detecting variations in blood flow across several cognitive areas, f-MRI                           204
+
+                                            calculates synchronized activity in the brain [31]. fMRI measures the Blood Oxygen                          205
+
+                                            Level Dependent Signals’ temporal connections with various parts of the brain when the                      206
+
+                                            individual is at rest from cognitive activity. To analyze connectivity and to distinguish                   207
+
+
+
+
+August 3, 2025                                                                                                                                   6/22
+   medRxiv preprint doi: https://doi.org/10.1101/2025.08.30.25333188; this version posted September 2, 2025. The copyright holder for this preprint
+      (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                              It is made available under a CC-BY 4.0 International license .
+
+
+
+
+                                            ASD patients from neurotypical people, the pairwise correlation coefficients of the                         208
+
+                                            Blood Oxygen Level Dependent sign obtained from the numerous parts of the brain                             209
+
+                                            were directly utilized [35].                                                                                210
+
+
+
+
+                                            Resting-state Functional magnetic resonance imaging                                                         211
+
+
+                                            Rs-fMRI has emerged as a vital method for studying neurology. Investigating the                             212
+
+                                            variations in activities of the brain between people with autism spectrum disorder and                      213
+
+                                            healthy control subjects makes it simpler to identify the underlying causes of ASD,                         214
+
+                                            resulting in a more accurate diagnosis and path of treatments. The brain’s regions are                      215
+
+                                            represented by the graph’s nodes, and its edges show how those nodes are                                    216
+
+                                            connected [42]. According to conventional fMRI procedures, each element of the brain’s                      217
+
+                                            cognitive system must be studied separately. A relatively new technique, resting-state                      218
+
+                                            functional connectivity, may have the benefit of overcoming constraints in traditional                      219
+
+                                            fMRI techniques [44].                                                                                       220
+
+
+
+
+                                            Deep learning                                                                                               221
+
+
+                                            The development of high-performance computing resources led to the popularity of deep                       222
+
+                                            learning approaches that use these networks. Deep learning is implemented nowadays in                       223
+
+                                            several applications, such as image identification, vision, and language processing. The                    224
+
+                                            data is passed through numerous layers of the deep learning algorithm; each layer can                       225
+
+                                            gradually extract the features and pass the data to the next layer [21]. As the big data                    226
+
+                                            period has developed, deep learning has advanced to have a more complex network                             227
+
+                                            structure and more powerful feature learning and characteristic representation abilities                    228
+
+                                            than traditional machine learning algorithms. Deep learning methods are used by the                         229
+
+                                            most effective classifiers that successfully categorize images [24]. Medical imaging is a                   230
+
+                                            field where deep learning technology is extremely useful. One of these fields that has                      231
+
+                                            been greatly impacted by this quick advancement is medical image processing,                                232
+
+                                            particularly in image identification and classification [20]. The following are the deep                    233
+
+                                            learning models                                                                                             234
+
+
+
+
+                                            Convolutional Neural Network                                                                                235
+
+
+                                            Every layer in a convolutional neural network uses a discrete feature to convert one                        236
+
+                                            volume of activation functions into another. Pooling layers are placed between the                          237
+
+                                            convolutional layers, which ultimately results in fully linked layers [48]. CNN has                         238
+
+                                            emerged as a significant tool for analyzing medical images. Using techniques involving                      239
+
+                                            image classification, localization, segmentation, detection, and more, CNNs make a                          240
+
+                                            significant advancement in the domain of analyzing medical images. The fundamental                          241
+
+                                            components of a Convolutional Neural Network include convolutional, pooling, and fully                      242
+
+                                            connected layers, and activation functions [30].                                                            243
+
+
+
+
+                                            Recurrent Neural Network                                                                                    244
+
+
+                                            RNNs manage the data in a different way than CNNs by using time-series knowledge                            245
+
+                                            and processing it in situations with consecutive input and disrupted response. It                           246
+
+                                            analyzes sequential input, picks up features from that sequence, and outputs another                        247
+
+                                            sequence. It belongs to the ANN family and consists of input, output, and hidden nodes                      248
+
+                                            [8]. For processing sequence data, RNNs have also been constructed [3]. An extension                        249
+
+                                            of an RNN may extract the features and long-term connections from consecutive and                           250
+
+                                            time information [48].                                                                                      251
+
+
+
+
+August 3, 2025                                                                                                                                   7/22
+   medRxiv preprint doi: https://doi.org/10.1101/2025.08.30.25333188; this version posted September 2, 2025. The copyright holder for this preprint
+      (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                              It is made available under a CC-BY 4.0 International license .
+
+
+
+
+                                            Fig 2. Architecture of CNN [30]
+
+
+
+
+                                            Fig 3. Architecture of RNN (Katte, T. 2018)
+
+
+                                            Autoencoder                                                                                                 252
+
+
+                                            An autoencoder is an unsupervised algorithm for learning that compresses input into a                       253
+
+                                            latent-space representation using the backpropagation technique with predicted values                       254
+
+                                            that are identical to the inputs. It consists of two sections: The network’s encoder                        255
+
+                                            section reduces the input into a representation of latent space. decoder section recreates                  256
+
+                                            the input from the latent space model [12]. Several autoencoders are layered together to                    257
+
+                                            make a deep system. Additionally, several types of autoencoders, sparse autoencoders,                       258
+
+                                            denoising autoencoders, and variational autoencoders [48].                                                  259
+
+
+
+
+August 3, 2025                                                                                                                                   8/22
+   medRxiv preprint doi: https://doi.org/10.1101/2025.08.30.25333188; this version posted September 2, 2025. The copyright holder for this preprint
+      (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                              It is made available under a CC-BY 4.0 International license .
+
+
+
+
+                                            Fig 4. Architecture of Autoencoder [46]
+
+
+                                            Visual Geometry Group (VGG)                                                                                 260
+
+
+                                            In [31], K. Simonyan and A. Zisserman proposed the VGG. It is one of the well-known                         261
+
+                                            deep-learning architectures. In 2014, the VGG, a common form of convolutional neural                        262
+
+                                            network, was first proposed. To extract image characteristics, it has been mostly used.                     263
+
+                                            The increase in the depth of neural networks can enhance the performance of the                             264
+
+                                            network [43]. VGG is a common deep CNN design with multiple layers. With VGG-16                             265
+
+                                            or VGG-19 having 16 or 19 convolutional layers, respectively, the word ”deep” refers to                     266
+
+                                            the number of layers.                                                                                       267
+
+
+
+
+                                            Visual Geometry Group-16 (VGG-16)                                                                           268
+
+
+                                            The ImageNet database was used to train the VGG-16. The VGG-16 has undergone                                269
+
+                                            significant training, which results in good accuracy even with small image data sets [38].                  270
+
+                                            It takes low-level input images and runs them through a series of computing units to get                    271
+
+                                            the results it needs for higher-layer categorization. The convolutional layers extract                      272
+
+                                            features from the input data. It is a large model with about 138 million parameters.                        273
+
+                                            Five blocks comprised the 13 convolutional layers. The first two phases each contain                        274
+
+                                            two convolutional layers. The final three blocks each have three convolutional layers [6].                  275
+
+
+
+
+                                            Visual Geometry Group-19 (VGG-19)                                                                           276
+
+
+                                            VGG-19 is a variant of the VGG structures that has 19 highly connected layers. VGG19                        277
+
+                                            has 16 convolutional and 3 fully connected layers. The model’s convolutional layers are                     278
+
+                                            fully and firmly linked, which enhances the extraction of features and enables the use of                   279
+
+                                            Maxpooling before identification using the activation function [15]. The complete                           280
+
+                                            convolution section is divided into five sub-regions by five max-pooling layers in a                        281
+
+
+
+
+August 3, 2025                                                                                                                                   9/22
+   medRxiv preprint doi: https://doi.org/10.1101/2025.08.30.25333188; this version posted September 2, 2025. The copyright holder for this preprint
+      (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                              It is made available under a CC-BY 4.0 International license .
+
+
+
+
+                                            Fig 5. Block diagram of VGG-16 [37]
+
+
+                                            sequence. The first and second subregions are made up of two convolution layers, each                      282
+
+                                            with a depth dimension of 64 and 128. The remaining three convolution layers have                          283
+
+                                            depth sizes of 256, 512, and 512. The output element is positioned between two hidden                      284
+
+                                            layers. To minimize overfitting in its implementation, L2 regularization is used in this                   285
+
+                                            model after every completely connected layer [23].                                                         286
+
+
+
+
+                                            Methodology                                                                                                287
+
+
+
+                                            To classify autism deep learning model, VGG20 has been proposed. VGG 20 consists of                        288
+
+                                            20 layers. The dataset Autism Brain Imaging Data Exchange I (ABIDE-I) was used in                          289
+
+                                            this research. The dataset was downloaded via their website, Autism Brain Imaging                          290
+
+                                            Data Exchange, in NIFTI format. The main steps of the methodology consist of                               291
+
+                                            converting NII images to PNG format, pre-processing, converting images to the array,                       292
+
+                                            training the model, and displaying results. In a preprocessing step, normalization is                      293
+
+                                            applied. The following figure shows the proposed methodology.                                              294
+
+
+
+
+August 3, 2025                                                                                                                                 10/22
+   medRxiv preprint doi: https://doi.org/10.1101/2025.08.30.25333188; this version posted September 2, 2025. The copyright holder for this preprint
+      (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                              It is made available under a CC-BY 4.0 International license .
+
+
+
+
+                                            Fig 6. Block diagram of VGG-19
+
+
+
+
+                                            Fig 7. Proposed Methodology
+
+
+                                            Dataset                                                                                                    295
+
+
+                                            ABIDE-I dataset is selected for the training of the proposed model.                                        296
+
+
+
+
+                                            ABIDE-I Dataset                                                                                            297
+
+
+                                            The most prominent data-driven method for autism identification and biomarker                              298
+
+                                            research is the autism brain imaging data exchange (ABIDE), a joint effort that                            299
+
+                                            incorporates brain imaging and phenotype data collected from 1,112 subjects. The                           300
+
+                                            ABIDE I includes 1,112 participants from 17 sites, including 539 ASD patients and 573                      301
+
+                                            others. In our research, we used the ABIDE-I dataset. The ABIDE I dataset is made up                       302
+
+                                            of structural and resting-state functional magnetic resonance imaging data in addition                     303
+
+                                            to phenotypic information collected from 17 international imaging locations [32].                          304
+
+
+
+
+August 3, 2025                                                                                                                                 11/22
+   medRxiv preprint doi: https://doi.org/10.1101/2025.08.30.25333188; this version posted September 2, 2025. The copyright holder for this preprint
+      (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                              It is made available under a CC-BY 4.0 International license .
+
+
+
+
+                                            Table 2. Demographics Information of ABIDE Dataset
+                                               Site ID   ASD HC Male Female Age at scan
+                                              CALTECH     19     19    30       8     17.0-56.2
+                                                CMU       14     13    21       6       19-40
+                                              LEUVEN      29     35    56       8      12.1-32
+                                             MAX MUN      24     33    50       7        7-58
+                                                OHSU      13     15    28       0      8.0-15.2
+                                                OLIN      20     16    31       5       10-24
+                                                PITT      30     27    49       8      9.3-35.2
+                                                 SBL      15     15    30       0       20-64
+                                                SDSU      14     22    29       7      8.7-17.2
+                                             STANFORD     20     20    32       8      1.5-12.9
+                                              TRINITY     24     25    49       0     12.0-25.9
+                                                UCLA      13     14    25       2      8.4-17.9
+                                                YALE      28     28    40      16      7.0-17.8
+
+
+                                            Steps for Converting NII Images into PNG                                                                   305
+
+
+                                            Initially, the dataset is present in NII format so we need to convert images into PNG                      306
+
+                                            format. Here are some steps for the conversion of images.                                                  307
+
+
+
+
+                                            Extraction of NIFTI files                                                                                  308
+
+
+                                            The dataset that we have obtained (i.e., ABIDE-I); is currently in Raw Form. These                         309
+
+                                            raw format files are NIfTI imaging format, which is a way to look at objects as 3D                         310
+
+                                            images in art and with other neural imaging software. NIfTI stands for Neuroimaging                        311
+
+                                            Information Technology Initiative. It’s a standard representation of images, and it’s the                  312
+
+                                            most commonly used type of analytic file. These files have been developed to facilitate                    313
+
+                                            cross-platform and cross-software interpretability. These images are 3-dimensional                         314
+
+                                            arrays. The file representation for the NIfTI is a 3D image of the entire brain, or a                      315
+
+                                            3-dimensional array of numbers. The header for the NIfTI doesn’t contain patient                           316
+
+                                            information, but it does have imaging metadata such as the pixel dimensions.                               317
+
+
+
+
+                                            Creating Folder                                                                                            318
+
+
+                                            For NIfTIs, since they only have one image for each file, we can store these all together                  319
+
+                                            for one subject in a single folder. For this, we create a folder. The extracted data                       320
+
+                                            consists of two folders, which are autism and non-autism.                                                  321
+
+
+
+
+                                            Extraction of Files                                                                                        322
+
+
+                                            After extracting the files in the folder, there’s a package that’s created for working with                323
+
+                                            NIfTI files called Oro.NIfTI. And this has a function called writeNIfTI and readNIfTI                      324
+
+                                            which has been used in many analyses. Each NII file moves into the corresponding                           325
+
+                                            folder.                                                                                                    326
+
+
+
+
+                                            Converting NII to PNG                                                                                      327
+
+
+                                            As PC can’t be viewed directly NII images, there is a need to convert each image into                      328
+
+                                            (PNG/JPG format) using code. There is also some software available that converts NII                       329
+
+                                            images into PNG, like MRIcron. MRIcron is a 3D viewer and volume renderer for                              330
+
+                                            medical images. It is designed for NIfTI format images (popular with neuroimaging                          331
+
+                                            scientists) but can typically view images in many popular 3D raster formats including                      332
+
+
+
+
+August 3, 2025                                                                                                                                 12/22
+   medRxiv preprint doi: https://doi.org/10.1101/2025.08.30.25333188; this version posted September 2, 2025. The copyright holder for this preprint
+      (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                              It is made available under a CC-BY 4.0 International license .
+
+
+
+
+                                            BioRad PIC, DICOM, NRRD, MGZ/MGH, AFNI BRIK, ITK MHA format images.                                        333
+
+                                            The drawback of this software is that it can only convert 1 image at a time. So, it’s best                 334
+
+                                            to write some code that would convert the images in bulk. So, we made a code that                          335
+
+                                            helped us to convert NII to PNG images.                                                                    336
+
+
+
+
+                                            Images to Array                                                                                            337
+
+
+                                            In Python, the numpy library reads the images in array form, so we need to convert the                     338
+
+                                            images into an array format. We used Python with the numpy library to convert 3D                           339
+
+                                            images into 2D images. When we give the path of images to the library, it automatically                    340
+
+                                            converts into an array. This array ranges from 0 to 255 values.                                            341
+
+
+
+
+                                            Pre-Processing                                                                                             342
+
+
+                                            All the changes made to the original data before feeding it to the deep learning                           343
+
+                                            algorithm are referred to as pre-processing. The errors from the rs-fMRI data are                          344
+
+                                            removed using the same preparation techniques as (Mostafa, S, Tang, L, et al., 2019),                      345
+
+                                            which prepares the data for the subsequent ROI extraction stages. Pre-processing                           346
+
+                                            comprises Cleaning, batch normalization, and noise removal. Cleaning and cropping the                      347
+
+                                            images was the goal of the data preparation. The fact that the data were gathered from                     348
+
+                                            online sources meant that they needed to be pre-processed before being utilized.                           349
+
+                                            Preprocessing is commonly implemented to transform data into the proper type,                              350
+
+                                            standardize the data in some way, or extract relevant information. 90% of the dataset                      351
+
+                                            for our research study was used for training, 5% for testing, and 5% for validation.                       352
+
+
+
+
+                                            Normalization                                                                                              353
+
+
+                                            Normalization is a process in which data are transformed to be on the same scale.                          354
+
+                                            Normalization is the process of converting the numeric columns of a dataset to a                           355
+
+                                            standard scale without eliminating any data or affecting the value range. It removes any                   356
+
+                                            extraneous data. The dataset was rescaled with all image parameters from [0, 255] to [0,                   357
+
+                                            1] using the normalization technique.                                                                      358
+
+
+
+
+                                            Proposed Model                                                                                             359
+
+
+
+                                            This study proposed the VGG20 model and used the ABIDE-I dataset for the detection                         360
+
+                                            of autism and non-autism. The Visual Geometry Group Network (VGG20), a 20-layer                            361
+
+                                            deep artificial neural network model, is referred to by the term VGG20. 16                                 362
+
+                                            convolutional layers and 4 fully connected layers make up the VGG20 model. Figure 5.2                      363
+
+                                            shows the architecture of the VGG20 model.                                                                 364
+
+                                                On the ImageNet dataset, the VGG20 algorithm which essentially draws on the                            365
+
+                                            convolution neural network approach, is often used and is useful for its simplicity                        366
+
+                                            because it has three convolutional layers connected to its upper side that rise with                       367
+
+                                            changes in gravity. In VGG20, max pooling layers were used as assigners to minimize                        368
+
+                                            the input volume size. Three FC layers with a total of 4,096 neurons and one layer with                    369
+
+                                            1000 neurons were used in the VGG20 structure to connect each layer to the others The                      370
+
+                                            input layer’s purpose is to receive an image input with the dimensions 224, 224, 3. The                    371
+
+                                            central 224, 224, 3 patches in every image were selected by the model’s developers for                     372
+
+                                            the sake of keeping the image consistent in the input size for the ImageNet competition.                   373
+
+                                            VGG20 model contains 16 convolution layers. The convolutional layers of the VGG use                        374
+
+                                            a small receptive field, or 3X3, which is the lowest practical size that nevertheless                      375
+
+                                            releases both up and down as well as left and right. The convolution stride is set at 1                    376
+
+                                            pixel to keep the spatial resolution after the convolution. All the hidden layers of the                   377
+
+
+
+
+August 3, 2025                                                                                                                                 13/22
+   medRxiv preprint doi: https://doi.org/10.1101/2025.08.30.25333188; this version posted September 2, 2025. The copyright holder for this preprint
+      (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                              It is made available under a CC-BY 4.0 International license .
+
+
+
+
+                                            Fig 8. Architecture of VGG20 model
+
+                                            Table 3. Hyperparameter for Proposed Model
+                                               Hyperparameters       ABIDE-I Dataset
+                                                   Batch Size              32
+                                                Number of Epoch            20
+                                                  Learning Rate          0.001
+                                                    Optimizer            Adam
+                                             Convolution Kernel Size     (3, 3)
+                                             Max Pooling Kernel Size     (2, 2)
+
+
+                                            VGG network use ReLU. VGG rarely affects Local Response Normalization because of                           378
+
+                                            its longer training time and memory requirements. Additionally, it does not improve the                    379
+
+                                            model’s overall accuracy. The first three fully connected layers of the VGG20 each                         380
+
+                                            feature 4,096 channels, and layer four has 1,000 channels.                                                 381
+
+
+
+
+                                            Data Augmentation                                                                                          382
+
+
+                                            Machine learning methods, particularly deep learning techniques, can be helpful if given                   383
+
+                                            enough training data. The model overfits and is not generalizable due to insufficient                      384
+
+                                            data [29]. Huge training sets are often not accessible, and gathering additional data                      385
+
+                                            might be expensive, similar to how medical imaging works. In these cases, a training set                   386
+
+                                            can be utilized with data augmentation techniques to create simulated data. To expand                      387
+
+                                            the amount of data or produce artificial data, data augmentation involves adding copies                    388
+
+                                            of previously existing data and making minor modifications to them [25]. For various                       389
+
+                                            applications, several data augmentation techniques have been proposed, including                           390
+
+                                            random translation, rotation, and cropping, and adding random noise to the features.                       391
+
+                                            In this study, the cropping augmentation method was used.                                                  392
+
+
+
+
+                                            Performance Evaluation                                                                                     393
+
+
+                                            Evaluation measures are used to evaluate how well the statistical or deep learning model                   394
+
+                                            is performing. To assess the model’s quality, evaluation measures are applied. Before we                   395
+
+                                            put our model into production on untested data, we should be able to increase its                          396
+
+                                            overall predictive power by assessing its performance using several metrics. A few                         397
+
+
+
+
+August 3, 2025                                                                                                                                 14/22
+   medRxiv preprint doi: https://doi.org/10.1101/2025.08.30.25333188; this version posted September 2, 2025. The copyright holder for this preprint
+      (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                              It is made available under a CC-BY 4.0 International license .
+
+
+
+
+                                            metrics used to evaluate the performance of the model include recall, precision,                           398
+
+                                            accuracy, and F1-score.                                                                                    399
+
+
+
+
+                                            Results                                                                                                    400
+
+
+
+                                            Training and Testing Accuracy                                                                              401
+
+
+                                            In this section, the findings of the research work performed to classify autism spectrum                   402
+
+                                            disorder. One pre-trained deep learning model, the VGG20, was used in these studies to                     403
+
+                                            identify ASD. Based on the neuroimaging characteristics of the children, a deep learning                   404
+
+                                            model was developed and evaluated to identify the characteristics that distinguish                         405
+
+                                            autism and non-autism. Figure 9 and 10 depicts the accuracy and loss graph, with the                       406
+
+                                            x-axis showing the epochs while the y-axis shows accuracy. The dataset was split into                      407
+
+                                            training, validation, and testing with a ratio of 90:5:5. The training accuracy of the                     408
+
+                                            proposed model is 90%, validation accuracy is 69% and testing accuracy was 61%. The                        409
+
+                                            VGG20 model accuracy increased during training, going from 57% to over 90% after 6                         410
+
+                                            epochs. Its validation loss was 0.60, while its training loss was 0.72.                                    411
+
+
+
+
+                                            Training and Testing Accuracy                                                                              412
+
+
+                                            In this section, the findings of the research work performed to classify autism spectrum                   413
+
+                                            disorder are presented. One pre-trained deep learning model, the VGG20, was used in                        414
+
+                                            these studies to identify ASD. Based on the neuroimaging characteristics of the children,                  415
+
+                                            a deep learning model was developed and evaluated to identify the characteristics that                     416
+
+                                            distinguish autism and non-autism. Figures 9 and 10 depict the accuracy and loss                           417
+
+                                            graph, with the x-axis showing the epochs while the y-axis shows accuracy. The dataset                     418
+
+                                            was split into training, validation, and testing with a ratio of 90:5:5. The training                      419
+
+                                            accuracy of the proposed model is 90%, validation accuracy is 69% and testing accuracy                     420
+
+                                            was 61%. The VGG20 model accuracy increased during training, going from 57% to                             421
+
+                                            over 90% after 6 epochs. Its validation loss was 0.60, while its training loss was 0.72.                   422
+
+                                                The pre-trained model had a 61% accuracy rate using the 32-batch size as shown in                      423
+
+                                            Figure 12.                                                                                                 424
+
+                                                Moreover, the evaluation matrices like Precision, f1 score, recall, and score achieved                 425
+
+                                            findings are displayed in Figure 13. The figure exhibits that Autism precision is 70%                      426
+
+                                            which is more than the non-Autism percentage, recall is 59%, which is less than the                        427
+
+                                            non-autism percentage, f1-score accuracy is 64%, and accuracy lies at 61%.                                 428
+
+                                                The VGG20 deep learning model’s confusion metrics are displayed in Figure 14. The                      429
+
+                                            figure shows that the model predicted the true values of autism are 101 while the                          430
+
+                                            non-autism values are 75.                                                                                  431
+
+
+
+
+                                            Performance Comparison                                                                                     432
+
+
+                                             [41] presented an inspection Resnet V2 model. In this research, the author used the                       433
+
+                                            ABIDE-I dataset. From this dataset, they used 172 samples in their research. Their                         434
+
+                                            suggested model had a 57% accuracy rate. [42] presented the classification of ASD by                       435
+
+                                            using an RNN with a long short-term memory model. The researchers utilized a small                         436
+
+                                            task functional magnetic resonance imaging dataset. They took only 40 samples from                         437
+
+                                            this dataset. Their model has a 52% accuracy rate. [45] developed a deep autoencoder                       438
+
+                                            model to identify ASD. In this research paper, the authors used the ABIDE-I dataset.                       439
+
+                                            They took only 25 samples from this dataset. 54% accuracy was attained by the                              440
+
+                                            suggested model. [8] presented a machine learning model. In this research, the authors                     441
+
+                                            proposed a support vector machine model. On the ABIDE dataset, their model had a                           442
+
+                                            52% accuracy rate. The authors took 341 samples for their research.                                        443
+
+
+
+
+August 3, 2025                                                                                                                                 15/22
+   medRxiv preprint doi: https://doi.org/10.1101/2025.08.30.25333188; this version posted September 2, 2025. The copyright holder for this preprint
+      (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                              It is made available under a CC-BY 4.0 International license .
+
+
+
+
+                                            Fig 9. Model performance plot for the VGG20 model
+
+
+
+
+                                            Fig 10. Model loss graph plot for the VGG20 model
+
+
+                                            Discussion                                                                                                 444
+
+
+
+                                            The term ASD is used to characterize a variety of repeated visual and auditory                             445
+
+                                            behavioral patterns and early-appearing social communication deficits that have genetic                    446
+
+                                            factors roots as well as other factors. Nowadays, autism is thought to exist on a                          447
+
+
+
+
+August 3, 2025                                                                                                                                 16/22
+   medRxiv preprint doi: https://doi.org/10.1101/2025.08.30.25333188; this version posted September 2, 2025. The copyright holder for this preprint
+      (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                              It is made available under a CC-BY 4.0 International license .
+
+
+
+
+                                            Fig 11. Number of Epoch for VGG20 model
+
+
+
+
+                                            Fig 12. Result of Evaluation Metrics
+
+
+
+
+                                            Fig 13. Accuracy result of the VGG20 model
+
+
+                                            spectrum with varying degrees of severity. Genetics and neurology have discovered                          448
+
+                                            significant risk factors, but there haven’t been many practical uses until now [19].                       449
+
+                                            According to a survey, autism affects 1 in every 70 children globally. Autism spectrum                     450
+
+                                            disorder affects roughly 3.63% of boys aged 3 to 17 in the US, in comparison to about                      451
+
+                                            1.25% of girls [1]. Various medical disciplines are utilizing deep learning algorithms,                    452
+
+                                            including structural and functional neuroimaging [1]. For many medical image analyses,                     453
+
+                                            applications/programs such as segmentation, deep learning approaches, image                                454
+
+                                            classification, and registration, are rapidly replacing existing machine learning methods.                 455
+
+                                            Deep neural networks can learn directly from raw images and have a tremendous                              456
+
+                                            learning capability [10]. Our study’s objective was to distinguish children with ASD and                   457
+
+                                            children without ASD using deep neural networks. The autism brain imaging data                             458
+
+                                            exchange (ABIDE 1) dataset was used in this study. The most popular information                            459
+
+                                            approach aimed at autism identification and biomarker research is the autism brain                         460
+
+                                            imaging data exchange (ABIDE), a joint project that incorporates brain imaging and                         461
+
+                                            phenotype data collected from 1,112 individuals. The author used 2725 images from the                      462
+
+                                            ABIDE-1 dataset for her research. The ABIDE I is made up of anatomical and                                 463
+
+                                            resting-state fMRI data in addition to phenotypic information collected from 17                            464
+
+                                            international imaging locations [32]. The dataset that the researcher had obtained (i.e.,                  465
+
+                                            ABIDE-1), was in raw form, i.e., NIfTI. It’s a standard representation of images, and                      466
+
+                                            it’s the most commonly used type of analytic file. The file representation of the NIfTI is                 467
+
+                                            such that it has a 3D image of the entire brain or a 3-dimensional array of numbers.                       468
+
+                                            The author had to convert NIFTI images into a format that is easily readable for a                         469
+
+                                            personal computer, i.e., PNG format. That’s why the author had to first convert the                        470
+
+                                            entire dataset to the PNG format. Then the researcher had to apply normalization for                       471
+
+                                            preprocessing of images. The challenge was of rescaling all of the picture/image                           472
+
+
+
+
+August 3, 2025                                                                                                                                 17/22
+   medRxiv preprint doi: https://doi.org/10.1101/2025.08.30.25333188; this version posted September 2, 2025. The copyright holder for this preprint
+      (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                              It is made available under a CC-BY 4.0 International license .
+
+
+
+
+                                            Fig 14. Confusion Matrix for VGG20 model
+
+
+                                            parameters from [0, 255] to [0, 1]. Furthermore, the author for the classification of the                  473
+
+                                            images, utilized deep learning models in her study. The model that the researcher                          474
+
+                                            proposed and implemented was VGG-20. The name VGG20 refers to the visual                                   475
+
+                                            geometry group network, which contains 20 layers. Consequently, ABIDE 1 dataset                            476
+
+                                            images were not sufficient for training the model, so to counter this problem, the                         477
+
+                                            researcher applied the “cropping data augmentation technique” to expand the dataset.                       478
+
+                                            The optimizer used in this study’s model was Adam with a batch size of 32. Similarly,                      479
+
+                                            for the training of the model, the author used 20 epochs. In this study, recall, accuracy,                 480
+
+                                            F1 score, and precision were the four evaluation metrics used. The suggested model                         481
+
+                                            thus attained a 61% accuracy.                                                                              482
+
+
+
+
+                           Table 4. Comparison of the Existing model with the Proposed model
+                              Reference                 Model              Accuracy      Dataset
+                                                                                         ABIDE-I
+                                  [41]           Inspection Resnet V2         57%
+                                                                                       172 samples
+                                                                                     Small Task fMRI
+                                  [42]     Long short-term memory (LSTM)     52.2%
+                                                                                        40 samples
+                                                                                         ABIDE I
+                                  [45]             Deep autoencoder           54%
+                                                                                        25 samples
+                                                                                         ABIDE
+                                   [8]         Support Vector Machine         52%
+                                                                                       341 samples
+                            Proposed Model              VGG20                 61%        ABIDE-I
+
+
+
+
+August 3, 2025                                                                                                                                 18/22
+   medRxiv preprint doi: https://doi.org/10.1101/2025.08.30.25333188; this version posted September 2, 2025. The copyright holder for this preprint
+      (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                              It is made available under a CC-BY 4.0 International license .
+
+
+
+
+                                            Conclusion and Future work                                                                                 483
+
+
+
+                                            Autism is indeed a neurological condition characterized by severe as well as continuous                    484
+
+                                            behavior patterns that appear early in development, issues with social communication                       485
+
+                                            and interaction, and other signs, behavior, and interests. In this research, the difficulty                486
+
+                                            of differentiating between individuals with ASD and healthy volunteers was addressed.                      487
+
+                                            In contrast to previous investigations by other authors, who used a range of                               488
+
+                                            machine-learning models, this study was conducted using a deep-learning model. The                         489
+
+                                            VGG20 model for the classification of autism spectrum disorder was also proposed and                       490
+
+                                            implemented by the researcher using the autism brain imaging data exchange 1 (ABIDE                        491
+
+                                            1) dataset. This study might be useful for categorizing autistic and non-autistic patients.                492
+
+                                            Our model had a 61% accuracy rate. Future recommendations include creating new                             493
+
+                                            deep-learning techniques and training them using various datasets, such as ABIDE 2.                        494
+
+                                            Future researchers can also include the varied viewpoints of the neuroimaging dataset.                     495
+
+
+
+
+                                            Acknowledgments                                                                                            496
+
+
+
+                                            This research is based on the study of neuroimaging-based diagnosis of Autism Spectrum                     497
+
+                                            Disorder. The authors gratefully acknowledge the financial support provided by Fatima                      498
+
+                                            Jinnah Women University (FJWU), Pakistan through its research grant program.                               499
+
+
+
+
+                                            References
+                                                1. Almuqhim F, Saeed F. ASD-SAENet: a sparse autoencoder, and deep-neural
+                                                   network model for detecting autism spectrum disorder (ASD) using fMRI data.
+                                                   Frontiers in Computational Neuroscience. 2021;15:27.
+                                                2. Bayram MA, İlyas ÖZER, Temurtaş F. Deep learning methods for autism
+                                                   spectrum disorder diagnosis based on fMRI images. Sakarya University Journal of
+                                                   Computer and Information Sciences. 2021;4(1):142-155.
+                                                3. Byeon K, Kwon J, Hong J, Park H. Artificial neural network inspired by
+                                                   neuroimaging connectivity: application in autism spectrum disorder. In: 2020
+                                                   IEEE International Conference on Big Data and Smart Computing (BigComp).
+                                                   2020 February. p. 575-578. IEEE.
+                                                4. Syriopoulou-Delli CK, Stefani A. Applications of assistive technology in skills
+                                                   development for people with autism spectrum disorder: A systematic review.
+                                                   Research, Society and Development. 2021;10(11):e163101119690-e163101119690.
+                                                5. Yang X, Schrader PT, Zhang N. A deep neural network study of the ABIDE
+                                                   repository on autism spectrum classification. International Journal of Advanced
+                                                   Computer Science and Applications. 2020;11(4).
+                                                6. Yang X, Zhang N, Schrader P. A study of brain networks for autism spectrum
+                                                   disorder classification using resting-state functional connectivity. Machine
+                                                   Learning with Applications. 2022;8:100290.
+                                                7. Deepan P, Sudha LR. Object classification of remote sensing image using deep
+                                                   convolutional neural network. In: The cognitive approach in cloud computing
+                                                   and internet of things technologies for surveillance tracking systems. 2020. p.
+                                                   107-120. Academic Press.
+
+
+
+
+August 3, 2025                                                                                                                                 19/22
+   medRxiv preprint doi: https://doi.org/10.1101/2025.08.30.25333188; this version posted September 2, 2025. The copyright holder for this preprint
+      (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                              It is made available under a CC-BY 4.0 International license .
+
+
+
+
+                                                8. Georges N, Mhiri I, Rekik I, Alzheimer’s Disease Neuroimaging Initiative.
+                                                   Identifying the best data-driven feature selection method for boosting
+                                                   reproducibility in classification tasks. Pattern Recognition. 2020;101:107183.
+
+                                                9. Ikechukwu AV, Murali S, Deepu R, Shivamurthy RC. ResNet-50 vs VGG-19 vs
+                                                   training from scratch: a comparative analysis of the segmentation and
+                                                   classification of Pneumonia from chest X-ray images. Global Transitions
+                                                   Proceedings. 2021;2(2):375-381.
+                                               10. Yin W, Mostafa S, Wu FX. Diagnosis of autism spectrum disorder based on
+                                                   functional brain networks with deep learning. Journal of Computational Biology.
+                                                   2021;28(2):146-165.
+                                               11. Raj S, Masood S. Analysis and detection of autism spectrum disorder using
+                                                   machine learning techniques. Procedia Computer Science. 2020;167:994-1004.
+
+                                               12. Husna RNS, Syafeeza AR, Hamid NA, Wong YC, Raihan RA. Functional
+                                                   magnetic resonance imaging for autism spectrum disorder detection using deep
+                                                   learning. Jurnal Teknologi. 2021;83(3):45-52.
+                                               13. Wang N, Yao D, Ma L, Liu M. Multi-site clustering and nested feature extraction
+                                                   for identifying autism spectrum disorder with resting-state fMRI. Medical Image
+                                                   Analysis. 2022;75:102279.
+                                               14. Sherkatghanad Z, Akhondzadeh M, Salari S, Zomorodi-Moghadam M, Abdar M,
+                                                   Acharya UR, Salari V. Automated detection of autism spectrum disorder using a
+                                                   convolutional neural network. Frontiers in neuroscience. 2020;13:1325.
+                                               15. Sharif H, Khan RA. A novel machine learning based framework for detection of
+                                                   autism spectrum disorder (ASD). Applied Artificial Intelligence.
+                                                   2022;36(1):2004655.
+                                               16. Domingues I, Pereira G, Martins P, Duarte H, Santos J, Abreu PH. Using deep
+                                                   learning techniques in medical imaging: a systematic review of applications on
+                                                   CT and PET. Artificial Intelligence Review. 2020;53(6):4093-4160.
+                                               17. Zhang J, Feng F, Han T, Gong X, Duan F. Detection of Autism Spectrum
+                                                   Disorder using fMRI Functional Connectivity with Feature Selection and Deep
+                                                   Learning. Cognitive Computation. 2022:1-12.
+                                               18. Thomas RM, Gallo S, Cerliani L, Zhutovsky P, El-Gazzar A, Van Wingen G.
+                                                   Classifying autism spectrum disorder using the temporal statistics of resting-state
+                                                   functional MRI data with 3D convolutional neural networks. Frontiers in
+                                                   psychiatry. 2020;11:440.
+                                               19. Rakić M, Cabezas M, Kushibar K, Oliver A, Lladó X. Improving the detection of
+                                                   autism spectrum disorder by combining structural and functional MRI
+                                                   information. NeuroImage: Clinical. 2020;25:102181.
+                                               20. Cao M, Yang M, Qin C, Zhu X, Chen Y, Wang J, Liu T. Using DeepGCN to
+                                                   identify the autism spectrum disorder from multi-site resting-state data.
+                                                   Biomedical Signal Processing and Control. 2021;70:103015.
+                                               21. Ke F, Choi S, Kang YH, Cheon KA, Lee SW. Exploring the structural and
+                                                   strategic bases of autism spectrum disorders with deep learning. IEEE Access.
+                                                   2020;8:153341-153352.
+
+
+
+
+August 3, 2025                                                                                                                                 20/22
+   medRxiv preprint doi: https://doi.org/10.1101/2025.08.30.25333188; this version posted September 2, 2025. The copyright holder for this preprint
+      (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                              It is made available under a CC-BY 4.0 International license .
+
+
+
+
+                                               22. Subbaraju V, Sundaram S, Narasimhan S, Suresh MB. Accurate detection of
+                                                   autism spectrum disorder from structural MRI using extended metacognitive
+                                                   radial basis function network. Expert Systems with Applications.
+                                                   2015;42(22):8775-8790.
+                                               23. Subbaraju V, Suresh MB, Sundaram S, Narasimhan S. Identifying differences in
+                                                   brain activities and an accurate detection of autism spectrum disorder using
+                                                   resting state functional-magnetic resonance imaging: A spatial filtering approach.
+                                                   Medical image analysis. 2017;35:375-389.
+                                               24. Wen G, Cao P, Bao H, Yang W, Zheng T, Zaiane O. MVS-GCN: A prior brain
+                                                   structure learning-guided multi-view graph convolution network for autism
+                                                   spectrum disorder diagnosis. Computers in Biology and Medicine.
+                                                   2022;142:105239.
+                                               25. Mathew A, Amudha P, Sivakumari S. Deep learning techniques: an overview. In:
+                                                   International conference on advanced machine learning technologies and
+                                                   applications. 2020 February. p. 599-608. Springer, Singapore.
+                                               26. Obaid KB, Zeebaree S, Ahmed OM. Deep learning models based on image
+                                                   classification: a review. International Journal of Science and Business.
+                                                   2020;4(11):75-81.
+                                               27. Maier A, Syben C, Lasser T, Riess C. A gentle introduction to deep learning in
+                                                   medical image processing. Zeitschrift für Medizinische Physik. 2019;29(2):86-101.
+                                               28. Zhang L, Wang M, Liu M, Zhang D. A survey on deep learning for
+                                                   neuroimaging-based brain disorder analysis. Frontiers in neuroscience.
+                                                   2020;14:779.
+                                               29. Sarvamangala DR, Kulkarni RV. Convolutional neural networks in medical image
+                                                   understanding: a survey. Evolutionary intelligence. 2021:1-22.
+                                               30. Heinsfeld AS, Franco AR, Craddock RC, Buchweitz A, Meneguzzi F.
+                                                   Identification of autism spectrum disorder using deep learning and the ABIDE
+                                                   dataset. NeuroImage: Clinical. 2018;17:16-23.
+                                               31. Simonyan K, Zisserman A. Very deep convolutional networks for large-scale
+                                                   image recognition. arXiv preprint arXiv:1409.1556. 2014.
+                                               32. Xu C, Huang J, Wang SP, Hu AQ. A Novel Parameterized Activation Function
+                                                   in Visual Geometry Group. In: 2018 2nd International Conference on Data
+                                                   Science and Business Analytics (ICDSBA). 2018 September. p. 386-389. IEEE.
+                                               33. Theckedath D, Sedamkar RR. Detecting affect states using VGG16, ResNet50
+                                                   and SE-ResNet50 networks. SN Computer Science. 2020;1(2):1-7.
+                                               34. Devika K, Mahapatra D, Subramanian R, Oruganti VRM. Outlier-based Autism
+                                                   Detection using Longitudinal Structural MRI. IEEE Access. 2022;10:27794-27808.
+                                               35. Karuppasamy SG, Muralitharan D, Gowr S, Arumugam SR, Devi EA,
+                                                   Maharajan K. Prediction of Autism Spectrum Disorder using Convolution Neural
+                                                   Network. In: 2022 6th International Conference on Trends in Electronics and
+                                                   Informatics (ICOEI). 2022 April. p. 1096-1100. IEEE.
+                                               36. Tammina S. Transfer learning using vgg-16 with deep convolutional neural
+                                                   network for classifying images. International Journal of Scientific and Research
+                                                   Publications (IJSRP). 2019;9(10):143-150.
+
+
+
+
+August 3, 2025                                                                                                                                 21/22
+   medRxiv preprint doi: https://doi.org/10.1101/2025.08.30.25333188; this version posted September 2, 2025. The copyright holder for this preprint
+      (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                              It is made available under a CC-BY 4.0 International license .
+
+
+
+
+                                               37. Mostafiz R, Rahman MM, Islam AKM, Belkasim S. Focal liver lesion detection in
+                                                   ultrasound image using deep feature fusions and super resolution. Machine
+                                                   Learning and Knowledge Extraction. 2020;2(3):172-191.
+                                               38. Raschka S, Mirjalili V. Python Machine Learning. Birmingham: Packt
+                                                   Publishing Ltd.; 2017.
+                                               39. Perez L, Wang J. The effectiveness of data augmentation in image classification
+                                                   using deep learning. arXiv [preprint]. 2017;arXiv:1712.04621.
+                                               40. Lord C, Elsabbagh M, Baird G, Veenstra-Vanderweele J. Autism spectrum
+                                                   disorder. The lancet. 2018;392(10146):508-520.
+                                               41. Dominic N, Cenggoro TW, Budiarto A, Pardamean B. Transfer learning using
+                                                   the inception-ResNet-v2 model to the augmented neuroimages data for autism
+                                                   spectrum disorder classification. Commun. Math. Biol. Neurosci. 2021:Article-ID.
+                                               42. Dvornek NC, Yang D, Ventola P, Duncan JS. Learning generalizable recurrent
+                                                   neural networks from small task-fmri datasets.
+                                               43. Haque IRI, Neubert J. Deep learning approaches to biomedical image
+                                                   segmentation. Informatics in Medicine Unlocked. 2020;18:100297.
+                                               44. Khodatars M, Shoeibi A, Sadeghi D, Ghaasemi N, Jafari M, Moridian P, Berk M.
+                                                   Deep learning for neuroimaging-based diagnosis and rehabilitation of autism
+                                                   spectrum disorder: a review. Computers in Biology and Medicine.
+                                                   2021;139:104949.
+                                               45. Liao D, Lu H. Classify autism and control based on deep learning and community
+                                                   structure on resting-state fmri. In: 2018 Tenth International Conference on
+                                                   Advanced Computational Intelligence (ICACI). 2018 March. p. 289-294. IEEE.
+                                               46. Mostafa S, Tang L, Wu FX. Diagnosis of autism spectrum disorder based on
+                                                   Eigenvalues of brain networks. IEEE Access. 2019;7:128474–128486.
+                                               47. Obaid KB, Zeebaree S, Ahmed OM. Deep learning models based on image
+                                                   classification: a review. International Journal of Science and Business.
+                                                   2020;4(11):75-81.
+                                               48. Rahman MM, Wadud MAH, Hasan MM. Computerized classification of
+                                                   gastrointestinal polyps using stacking ensemble of convolutional neural network.
+                                                   Informatics in Medicine Unlocked. 2021;24:100603.
+
+
+
+
+August 3, 2025                                                                                                                                 22/22
+
