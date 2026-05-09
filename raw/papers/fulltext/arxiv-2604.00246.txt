@@ -1,0 +1,224 @@
+   HARMONIZATION MITIGATES DIFFUSION MRI SCANNER EFFECTS IN INFANCY:
+  INSIGHTS FROM THE HEALTHY BRAIN AND CHILD DEVELOPMENT (HBCD) STUDY
+
+  Elyssa M. McMaster1, Gaurav Rudravaram1, Michael E. Kim1, Trent M. Schwartz1, Chloe Scholten2,
+   Jongyeon Yoon1, Adam M. Saunders1, Andre T. S. Hucke1, Karthik Ramadass1, Emily M. Harriott1,
+Steven L. Meisler3, Simon N. Vandekar4, Allen Newton1,4, Seth A. Smith1,4, Saikat Sengupta,4, Kathryn L.
+    Humphreys1, Sarah Osmundson4, Daniel Moyer1, Laurie E. Cutting1,4, and Bennett A. Landman1,4
+         1
+          Vanderbilt University, Nashville, TN, USA, 2University of Calgary, Calgary, AB, Canada, 3University of
+         Pennsylvania, Philadelphia, PA, USA, 4Vanderbilt University Medical Center, Nashville, TN, US
+
+                           ABSTRACT                                      HBCD’s diffusion MRI protocols include high
+     The HEALthy Brain and Childhood Development                   resolution spatial sampling, uniform TR and TE, and a
+(HBCD) Study is an ongoing longitudinal initiative to              common multi-shell diffusion acquisition, however, some
+understand population-level brain maturation; however,             parameters, such as flip angle and phase partial Fourier vary
+large-scale studies must overcome site-related variance and        across scanners [1]. Though the pre-harmonized parameters
+preserve biologically relevant signal. In addition to diffusion-   from HBCD show great promise for future white matter
+weighted magnetic resonance imaging images, the HBCD               modeling [6], [7] the diffusion-relevant scanner effects for
+dataset offers analysis-ready derivatives for scientists to        this study have not yet been investigated despite the use of
+conduct their analysis, including scalar diffusion tensor (DTI)    six unique scanner models.
+metrics in a predetermined set of bundles. The purpose of this           All data for this experiment is accessible in release 1.1 of
+study is to characterize HBCD-specific site effects in             HBCD. Participants cluster around the same age at time of
+diffusion MRI data, which have not been systematically             scan, which skews the current available data to include 437
+reported. In this work, we investigate the sensitivity of HBCD     subjects with available HBCD site codes younger than 0.2
+bundle metrics to scanner model-related variance and address       years old, each scanned on one of six scanner models (Fig.
+these variations with ComBat-GAM harmonization within              1). HBCD’s data includes derivates processed with QSIPrep
+the current HBCD data release 1.1 across six scanner models.       and QSIRecon [8] including calculation of diffusion tensor
+Following ComBat-GAM, we observe zero statistically                imaging (DTI) scalar metrics within bundles derived from
+significant differences between the distributions from any         TORTOISE tensor fitting [9], [10]. These DTI metrics
+scanner model following FDR correction and reduce Cohen’s          include axial diffusivity (AD), fractional anisotropy (FA),
+f effect sizes across all metrics. Our work underscores the        lattice index (LI), and radial diffusivity (RD) [9]; population-
+importance of rigorous harmonization efforts in large-scale        level analysis of these metrics inform biomarkers of disease
+studies, and we encourage future investigations of HBCD            and disorder [11] and harmonization within infants offers an
+data to control for these effects.                                 opportunity to characterize expected ranges for a healthy
+                                                                   population in a pediatric cohort.
+    Index    Terms—       Harmonization,     diffusion    MRI,
+pediatrics
+                     1. INTRODUCTION
+     Large-scale national studies introduce an exciting
+opportunity to study population-level brain qualities and
+changes [1], [2], but these studies inherently introduce site-
+related biases despite best efforts for protocol harmonization
+due to scanner hardware limitations [3], [4], [5]. The
+HEALthy Brain and Childhood Development (HBCD) Study
+[1], [2] is an ongoing multi-site, longitudinal initiative to
+collect imaging data as well as other data of interest
+(biospecimens, surveys, etc.) at unprecedented scale for
+infancy and early childhood. Since the HBCD consortium
+spans 27 recruitment sites [1] across the United States,
+scientists must anticipate significant site and scanner-related
+                                                                   Fig. 1. The data available from HBCD Release 1.1 clusters
+variance.
+                                                                   between 0 and 0.2 years old. We exclude subjects over 0.2
+                                                                            years of age to avoid additional variation.
+                                                                                               3. RESULTS
+     In this work, we quantify the scanner model-related                  The ANOVA test resulted in 221 positive (p < 0.05)
+effects within the distribution of DTI metrics. Despite the          results out of 268 tests (4 metrics x 67 bundles) prior to
+presence of scanner biases in DTI metrics, we hypothesize            ComBat-GAM harmonization after FDR correction, which
+that ComBatGAM harmonization [4], [5] mitigates unwanted             indicates that at least one scanner model had statistically
+site-related variation in the HBCD derived data.                     significant effects within most bundles for most metrics. We
+                                                                     show the 𝛾𝑠𝑓 (shifting factor) and 𝛿𝑠𝑓 (scaling factor) for
+                           2. METHODS                                every scanner model and metric combination in Figure 2.
+     HBCD collected diffusion-weighted images (DWI) from                  We perform the same statistical tests following ComBat-
+the 437 subjects of interest across six scanner types with           GAM harmonization and observe zero statistically significant
+spatial resolution 1.7 mm3, TR 4800 ms, TE 88 ms, and b              scanner model effects following FDR correction. We
+values of 0, 500, 1,000, 2,000, and 3,000 s/mm2. Data                evaluate mean Cohen’s f effect size for each bundle across all
+underwent preprocessing and multi-shell tensor modeling via          scanner models. Before ComBat-GAM harmonization, the
+TORTOISE [10] to generate scalar maps [9].                           Cohen’s f effect size computations result in 13 (4.9%) results
+     Following collection of HBCD scalar metrics from the            with small effect size, 147 (54.9%) results with medium
+LASSO data sharing platform, we applied ComBat-GAM as                effect size, and 108 (40.3%) results with large effect size.
+presented by Pomponio et al. [5] based on the masked mean            Following ComBat-GAM, the Cohen’s f effect size
+for four scalar metrics, axial diffusivity (AD), fractional          computations result in 266 (99.3%) results with small effect
+anisotropy (FA), lattice index (LI), and radial diffusivity          size, 2 (0.7%) results with medium effect size, and 0 results
+(RD) in every bundle for the 437 subjects that fit our study         with large effect size. (Fig. 3). Spatial maps from HCP-842
+criteria (available site label and between 0 and 0.2 years old,      [14] with bundles registered to MNI-152 [15] reveal that
+inclusive). We select ComBat-GAM over traditional ComBat             different bundles experience different scanner-related effect
+to handle biologically related variability within the scalar         sizes across the brain for FA, but ComBat-GAM
+metrics expected with brain development [4], [5], [11].              harmonization reduces these effects across the brain (Fig. 4).
+     ComBat-GAM assumes that the input scalar features for
+feature f from scan i from scanner model s are defined in
+Equation (1) as
+
+𝑌!"# = 𝛼# + 𝑓# (𝑎𝑔𝑒! ) + 𝛽#,"%& 𝑆𝑒𝑥! + 𝛾"# + 𝛿"# 𝜀!"#         (1)
+
+     where 𝛼# is the global mean for feature f across all
+subjects and scanner models, 𝑓# (𝑎𝑔𝑒! ) is the smooth
+nonlinear age function to capture how feature f changes with
+age, fitted with a smooth spline to preserve developmental
+trends across sites, 𝛽#,"%& is the linear covariate to capture the
+average male/female difference in feature f, interpreted as the
+mean offset between the sexes following age adjustment,
+𝑆𝑒𝑥! is the predictor (coded 0 for male and 1 for female), 𝛾"#
+is the site additive site effect, or site-specific bias, for the
+mean of feature f, 𝛿"# is the scaling term to model the
+variability of Y caused by site s for feature f, and 𝜀!"# is an
+error term [12].
+     Following ComBat-GAM harmonization, we use
+ANOVA statistical tests to evaluate statistically significant
+differences between each scanner model’s distribution for the
+four metrics and the 67 bundles defined by HBCD [1] and
+follow the tests with false discovery rate (FDR) correction per      Fig. 2. Average gamma and delta coefficients for all bundles
+metric. We compute the absolute value of Cohen’s f effect             for every scanner model and metric combination following
+size [13]. Cohen’s f effect size defines a small effect as f =          ComBat-GAM. Notably, the bias correction needed for
+0.10, a medium effect as f = 0.25, and a large effect as f =         every individual scanner type varied by metric, with no one
+0.40; for this experiment, we define small effect size as f ≤            scanner type consistently inducing the most variance.
+0.1, medium effect size as 0.1 < f ≤ 0.25, and large effect size
+as f > 0.25.
+                                                               visibility. Though bundle effect sizes vary from medium to
+                                                                 large across the brain prior to harmonization, the post-
+                                                                   ComBat-GAM spatial map shows small effect size.
+                                                                                        4. DISCUSSION
+                                                                    Overall, we observe significant site-related effects in
+                                                               multi-shell white matter tensor modeling from the shifting
+                                                               and scalar factors via ComBat-GAM. HBCD sets a strong
+                                                               example for harmonization steps during acquisition, though
+                                                               statistical methods such as ComBat-GAM further minimize
+                                                               scanner-related effects. We encourage future HBCD
+                                                               researchers to consider statistical methods to ensure
+                                                               maximum harmonization. Mitigation of these scanner-
+                                                               related effects will assist future efforts within and beyond
+                                                               the HBCD study to reliably map white matter trajectories
+                                                               throughout the lifespan [16], develop robust, pediatric-
+                                                               specific white matter quantification methods, and study
+                                                               deviations in cases of disease and disorder [11]. However,
+                                                               the work to mitigate scanner-induced site effects does not
+                                                               stop with this study. HBCD does not specify D (diffusion
+                                                               sensitization time) and d (gradient pulse duration) within its
+                                                               scanning protocol, and hardware constraints introduce
+                                                               heterogeneity in these parameters. Further work to identify
+ Fig. 3. Observed median Cohen’s f effect size for all four
+                                                               and mitigate variation within individual sites remains
+metrics across the five HBCD-defined major bundle before
+                                                               necessary to control for possible non-protocol variations,
+and after ComBat-GAM (small effect sizes denoted with a
+                                                               and future harmonization efforts from this cohort should
+ star; successful site variation reduction is indicated with
+                                                               include a longitudinal data as it becomes available.
+deeper blue tones). Median effect size minimizes across the
+ brain, suggesting effective cross-scanner harmonization.
+                                                                           5.   COMPLIANCE WITH ETHICAL
+                                                                                          STANDARDS
+                                                                    This research study was conducted using human subject
+                                                               data made available by HBCD in accordance with all data
+                                                               use agreements therein.
+
+                                                                                 6. ACKNOWLEDGMENTS
+                                                                    Data used in the preparation of this article were
+                                                               obtained from the HEALthy Brain and Child Development
+                                                               (HBCD) Study (https://hbcdstudy.org/), held in the NIH
+                                                               Brain Development Cohorts Data Sharing Platform. This is
+                                                               a multisite, longitudinal study designed to recruit
+                                                               approximately 7,000 families and follow them from
+                                                               pregnancy to early childhood. A full list of participating
+                                                               sites is available at: https://hbcdstudy.org/recruitment-sites/.
+                                                               HBCD Study Consortium investigators designed and
+                                                               implemented the study and/or provided data but did not
+                                                               necessarily participate in the analysis or writing of this
+                                                               report. This manuscript reflects the views of the authors and
+                                                               may not reflect the opinions or views of the NIH or the
+                                                               HBCD Study Consortium investigators. The HBCD Study is
+                                                               supported by the NIH and additional federal partners under
+                                                               award numbers U01DA055352, U01DA055353,
+ Fig. 4. A representation of FA effect size before and after   U01DA055366, U01DA055365, U01DA055362,
+                ComBat-GAM for 5 bundles                       U01DA055342, U01DA055360, U01DA055350,
+            (Association_ArcuateFasciculusL/R,                 U01DA055338, U01DA055355, U01DA055363,
+             Association_CingulumL/R, and the                  U01DA055349, U01DA055361, U01DA055316,
+ Commissure_CorpusCallosum) overlaid on MNI-152 for            U01DA055344, U01DA055322, U01DA055369,
+U01DA055358, U01DA055371, U01DA055359,                          [9]    M. Cieslak et al., “Diffusion MRI Processing in the
+U01DA055354, U01DA055370, U01DA055347,                                 HEALthy Brain and Child Development Study:
+U01DA055357, U01DA055367, U24DA055325, and                             Innovations and Applications,” Nov. 11, 2025. doi:
+U24DA055330. A full list of supporters is available at                 10.1101/2025.11.10.687672.
+https://hbcdstudy.org/federal-partners/. The HBCD data          [10]   M. O. Irfanoglu, A. Nayak, P. Taylor, A. Thai, and
+repository grows and changes over time. The HBCD data                  C. Pierpaoli, “TORTOISEV4: ReImagining the NIH
+used in this report came from DOI 10.82525. DOIs can be                Diffusion MRI Processing Pipeline,” Imaging
+found at https://www.nbdc-datahub.org/hbcd-release-1-1.                Neuroscience, Oct. 2025, doi: 10.1162/imag.a.948.
+     The collaboration for this project was made possible by    [11]   C. Lebel, M. Gee, R. Camicioli, M. Wieler, W.
+the VALIANT REACH program. This work has been                          Martin, and C. Beaulieu, “Diffusion tensor imaging
+funded in part by NIH 5U01DA055347-03, NIH                             of white matter tract evolution over the lifespan,”
+1R01EB017230, U24AG074855, the National Science                        Neuroimage, vol. 60, no. 1, 2012, doi:
+Foundation Graduate Research Fellowship (NSF GRFP),                    10.1016/j.neuroimage.2011.11.094.
+and P50HD103537. This work was supported by the                 [12]   M. E. Kim et al., “Empirical assessment of the
+Alzheimer’s Disease Sequencing Project Phenotype                       assumptions of ComBat with diffusion tensor
+Harmonization Consortium (ADSP-PHC) that is funded by                  imaging,” Journal of Medical Imaging, vol. 11, no.
+NIA (U24 AG074855, U01 AG068057 and R01                                02, Apr. 2024, doi: 10.1117/1.jmi.11.2.024011.
+AG059716). The content is solely the responsibility of the      [13]   J. Cohen, “Statistical Power Analysis for the
+authors and does not necessarily represent the official views          Behavioral Sciences Second Edition.”
+of the NIH.                                                     [14]   F. C. Yeh, “DSI Studio: an integrated tractography
+                                                                       platform and fiber data hub for accelerating brain
+                       7.   REFERENCES                                 research,” Aug. 01, 2025, Nature Research. doi:
+[1]     C. Chambers et al., “HEALthy Brain and Child                   10.1038/s41592-025-02762-8.
+        Development (HBCD) Study - Release 1.1.”                [15]   J. Mazziotta et al., “A probabilistic atlas and
+[2]     N. D. Volkow et al., “The HEALthy Brain and                    reference system for the human brain: International
+        Child Development Study (HBCD): NIH                            Consortium for Brain Mapping (ICBM),” 2001. doi:
+        collaboration to understand the impacts of prenatal            10.1098/rstb.2001.0915.
+        and early life experiences on brain development,”       [16]   M. E. Kim et al., “White matter microstructure and
+        Dev Cogn Neurosci, vol. 69, Oct. 2024, doi:                    macrostructure brain charts across the human
+        10.1016/j.dcn.2024.101423.                                     lifespan,” May 08, 2025. doi:
+[3]     N. Newlin et al., “Comparing voxel- and feature-               10.1101/2025.05.08.652953.
+        wise harmonization of complex graph measures
+        from multiple sites for structural brain network
+        investigation of aging,” 2023. doi:
+        10.1117/12.2653947.
+[4]     J. P. Fortin et al., “Harmonization of cortical
+        thickness measurements across scanners and sites,”
+        Neuroimage, vol. 167, 2018, doi:
+        10.1016/j.neuroimage.2017.11.024.
+[5]     R. Pomponio et al., “Harmonization of large MRI
+        datasets for the analysis of brain imaging patterns
+        throughout the lifespan,” Neuroimage, vol. 208, p.
+        116450, Mar. 2020, doi:
+        10.1016/J.NEUROIMAGE.2019.116450.
+[6]     E. M. McMaster et al., “Sensitivity of quantitative
+        diffusion MRI tractography and microstructure to
+        anisotropic spatial sampling,” Magn Reson Imaging,
+        vol. 124, p. 110539, Dec. 2025, doi:
+        10.1016/J.MRI.2025.110539.
+[7]     E. M. McMaster et al., “Harmonized connectome
+        resampling for variance in voxel sizes,” Magn
+        Reson Imaging, vol. 121, Sep. 2025, doi:
+        10.1016/j.mri.2025.110424.
+[8]     M. Cieslak et al., “QSIRecon: Reconstruction of
+        preprocessed q-space images (dMRI) ,” Aug. 2025,
+        Zenodo. doi: 10.5281/zenodo.16903077.
+
