@@ -13,7 +13,7 @@ tags:
 - dynamical-systems-theory
 title: Van der Pol Oscillator
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-09'
 ---
 
 The Van der Pol oscillator is a classic nonlinear dynamical system that serves as a fundamental model in [[computational-neuroscience]] for understanding neural mass oscillations, collective [[brain-dynamics]], and bifurcations between different oscillatory regimes. Originally derived to describe electrical circuits with nonlinear damping, it has become one of the most extensively studied examples of a system exhibiting limit cycle oscillations with biologically realistic relaxation behavior.
@@ -35,17 +35,17 @@ The parameter $\mu$ controls the relaxation timescale relative to the oscillator
 
 ## Historical Context and Original Applications
 
-The Van der Pol oscillator was originally developed by Dutch engineer Balthasar Van der Pol in the 1920s to model the behavior of vacuum tube circuits [[1]]. The phenomenon of **limit cycles**—isolated closed trajectories in phase space that attract nearby trajectories—was still being formalized at that time, and Van der Pol's work provided important empirical demonstrations of self-sustained oscillations in physical systems. The mathematical analysis of this system contributed significantly to the early development of [[bifurcation-theory]], particularly the identification of what is now called the Hopf bifurcation (though Andronov first characterized it more completely).
+The Van der Pol oscillator was originally developed by Dutch engineer Balthasar Van der Pol in the 1920s to model the behavior of vacuum tube circuits [[gorgolewski16]]. The phenomenon of **limit cycles**—isolated closed trajectories in phase space that attract nearby trajectories—was still being formalized at that time, and Van der Pol's work provided important empirical demonstrations of self-sustained oscillations in physical systems. The mathematical analysis of this system contributed significantly to the early development of [[bifurcation-theory]], particularly the identification of what is now called the Hopf bifurcation (though Andronov first characterized it more completely).
 
-Steven Strogatz's textbook *Nonlinear Dynamics and Chaos* (1994) provides comprehensive coverage of phase plane analysis, nullclines, and bifurcation behavior in the Van der Pol system, establishing it as a pedagogical example throughout the nonlinear dynamics literature [[2]]. This textbook remains foundational for computational neuroscientists working with [[neural-mass-model]]s.
+Steven Strogatz's textbook *Nonlinear Dynamics and Chaos* (1994) provides comprehensive coverage of phase plane analysis, nullclines, and bifurcation behavior in the Van der Pol system, establishing it as a pedagogical example throughout the nonlinear dynamics literature [[brian2]]. This textbook remains foundational for computational neuroscientists working with [[neural-mass-model]]s.
 
 ## Relevance to Whole-Brain Modeling
 
 In [[whole-brain]] modeling, the Van der Pol oscillator serves multiple conceptual and practical roles. First, it provides a mathematically tractable prototype for understanding how individual brain regions can exhibit self-sustained oscillations and how these oscillations interact through [[structural-connectivity]]. The relaxation oscillation behavior captures essential features of neural population dynamics, including timescale separation between fast excitation and slower recovery processes.
 
-Recent work on phase-dependent stimulation response has demonstrated that the brain's [[functional-connectivity]] state critically modulates the effects of external stimulation [[3]]. Computational models incorporating Van der Pol-like dynamics at the regional level show that stimulation effects depend on both the phase of ongoing oscillations and the transient network of functional connectivity at the stimulation time. This finding has implications for understanding [[brain-stimulation]] interventions in epilepsy modeling and other neurological conditions.
+Recent work on phase-dependent stimulation response has demonstrated that the brain's [[functional-connectivity]] state critically modulates the effects of external stimulation [[homer3]]. Computational models incorporating Van der Pol-like dynamics at the regional level show that stimulation effects depend on both the phase of ongoing oscillations and the transient network of functional connectivity at the stimulation time. This finding has implications for understanding [[brain-stimulation]] interventions in epilepsy modeling and other neurological conditions.
 
-The data-driven framework for inferring brain dynamical states from correlation matrices, as described in recent work [[3]], tracks changes in collective dynamics under controlled variations of excitability—directly analogous to varying the $\mu$ parameter in the Van der Pol oscillator to move the system through different dynamical regimes.
+The data-driven framework for inferring brain dynamical states from correlation matrices, as described in recent work [[homer3]], tracks changes in collective dynamics under controlled variations of excitability—directly analogous to varying the $\mu$ parameter in the Van der Pol oscillator to move the system through different dynamical regimes.
 
 ## Relationship to Neural Mass Models
 

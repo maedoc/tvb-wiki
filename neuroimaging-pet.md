@@ -1,7 +1,7 @@
 ---
 title: Neuroimaging PET
 created: 2026-04-20
-updated: 2026-05-08
+updated: 2026-05-09
 type: concept
 tags: [neuroimaging-pet, neuroimaging, functional-connectivity, resting-state, brain-network, metabolic-modeling]
 sources: [raw/papers/friston-1993.md]
@@ -32,6 +32,8 @@ Some large-scale multimodal imaging initiatives have adopted protocols that incl
 Contemporary applications of PET in whole-brain modeling include the construction of personalized brain models that incorporate individual differences in metabolism, the study of network-level alterations in neurological and psychiatric disorders, and the development of therapeutic interventions that modulate large-scale brain dynamics. For example, in epilepsy modeling, PET hypometabolism patterns help identify epileptogenic zones that inform the configuration of computational models of seizure propagation (Kumar et al., 2018).
 
 Several open questions remain at the intersection of PET imaging and computational neuroscience. The relationship between metabolic fluctuations and electrophysiological dynamics remains incompletely understood, making the integration of PET data with neural simulation models an active area of methodological development. Furthermore, the development of faster PET acquisition protocols and novel radiotracers promises to improve the temporal resolution of PET measurements, potentially enabling dynamic connectivity analyses that better complement fMRI-derived resting-state networks (Sander et al., 2013). Finally, the incorporation of PET-derived neurotransmitter binding maps into whole-brain models represents a frontier for relating neurochemistry to network-level dynamics in health and disease (Gillespie et al., 2018).
+
+[[pronto]]
 
 ## References
 

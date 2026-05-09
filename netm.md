@@ -1,7 +1,7 @@
 ---
 title: NETM
 created: 2024-01-15
-updated: 2026-05-08
+updated: 2026-05-09
 type: entity
 tags: [software-neuromorphic, spiking-neural-networks, hardware-acceleration, whole-brain-modeling, multi-scale-modeling, computational-neuroscience]
 sources: [furber2014, indiveri2011, schmitt2017, davies2018, wild2022]

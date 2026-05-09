@@ -1,7 +1,7 @@
 ---
 title: Fractional Anisotropy
 created: 2026-04-20
-updated: 2026-05-07
+updated: 2026-05-09
 type: concept
 tags: [diffusion-imaging, neuroimaging-dti, structural-connectivity, white-matter, connectomics]
 sources: [raw/papers/smith-2013-connectomics.md, raw/papers/friston-1993.md]
@@ -58,7 +58,7 @@ Within the TVB ecosystem, FA-weighted structural connectivity matrices are impor
 ## See Also
 
 - [[diffusion-imaging]] – Overview of diffusion MRI techniques
-- [[diffusion-tensor-imaging]] – DTI methodology and applications
+- [[neuroimaging|diffusion-tensor-imaging]] – DTI methodology and applications
 - [[dti-vs-hardi-vs-noddi]] – Comparison of diffusion modeling approaches
 - [[structural-connectivity]] – Anatomical brain wiring
 - [[tractography]] – White matter tract reconstruction

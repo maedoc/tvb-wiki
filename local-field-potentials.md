@@ -36,7 +36,7 @@ $$\tau_I \frac{\partial I}{\partial t} = -I + S\left( w_{IE} \ast E - w_{II} \as
 
 where $w_{AB}$ denotes the coupling strength from population $B$ to $A$, the convolution kernel $\ast$ captures spatial spread of synaptic interactions, $P(x,t)$ represents external inputs, and $S(z) = 1/(1 + e^{-z})$ is a sigmoidal activation function [2]. The resulting LFP is approximated by the weighted sum of excitatory and inhibitory population activities, potentially augmented with additional filtering to account for volume conduction effects.
 
-More sophisticated approaches employ the [[amari]] neural field equation, which treats neural activity as a continuous field described by [3]:
+More sophisticated approaches employ the amari neural field equation, which treats neural activity as a continuous field described by [3]:
 
 $$\frac{\partial u}{\partial t} = -u + \int_{\Omega} w(x-y) f(u(y,t)) dy + h(x,t)$$
 
@@ -50,7 +50,7 @@ The practical importance of this parameter estimation extends to [[personalized-
 
 ## Relationship to Other Measurements
 
-The LFP occupies a position in the electrophysiological measurement hierarchy between the microscale (single-neuron spikes) and the macroscale (EEG, MEG) [2]. Understanding the relationship between these scales is essential for [[multi-scale-modeling]] and for validating [[whole-brain-modeling]] frameworks that aim to predict macroscale dynamics from mesoscale population models. The [[bold-signal]] measured in [[fmri]] reflects slower hemodynamic responses (seconds) that are indirectly coupled to the faster LFP dynamics (milliseconds), necessitating careful modeling of the [[hemodynamic-response-function]] when integrating [[neuroimaging-fmri]] with electrophysiological data [3].
+The LFP occupies a position in the electrophysiological measurement hierarchy between the microscale (single-neuron spikes) and the macroscale (EEG, MEG) [2]. Understanding the relationship between these scales is essential for [[dynamic-causal-modeling]] and for validating [[whole-brain-modeling]] frameworks that aim to predict macroscale dynamics from mesoscale population models. The [[bold-signal]] measured in [[fmri]] reflects slower hemodynamic responses (seconds) that are indirectly coupled to the faster LFP dynamics (milliseconds), necessitating careful modeling of the [[hemodynamic-response-function]] when integrating [[neuroimaging-fmri]] with electrophysiological data [3].
 
 Contemporary research attempts to construct personalized brain functional networks by integrating LFP-derived dynamics with [[structural-connectivity]] information [1]. This approach acknowledges that brain activity is intrinsically a neural dynamic process constrained by anatomical space, leading to significant variations in spatial distribution patterns and correlation patterns across individuals and experimental conditions.
 

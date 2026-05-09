@@ -13,7 +13,7 @@ tags:
 - computational-neuroscience
 title: NETM
 type: entity
-updated: '2026-05-07'
+updated: '2026-05-09'
 ---
 
 # NETM
@@ -32,7 +32,7 @@ The system typically interfaces with host software through dedicated APIs that m
 
 ## Comparison to Related Approaches
 
-NETM occupies a specific niche in the landscape of neural simulation tools. Unlike general-purpose simulators such as [[brian2]] or [[nest]], which run on conventional processors but benefit from extensive software optimization and GPU acceleration, NETM implements neural dynamics in dedicated hardware that offers superior energy efficiency and real-time capability. Compared to other neuromorphic platforms like [[brainscales]] or [[intel-loihi]], NETM emphasizes flexibility in network architecture and connectivity patterns, supporting custom synaptic delays and various neuron models commonly used in computational neuroscience research.
+NETM occupies a specific niche in the landscape of neural simulation tools. Unlike general-purpose simulators such as [[brian2]] or [[nest]], which run on conventional processors but benefit from extensive software optimization and GPU acceleration, NETM implements neural dynamics in dedicated hardware that offers superior energy efficiency and real-time capability. Compared to other neuromorphic platforms like [[brainscales]] or intel-loihi, NETM emphasizes flexibility in network architecture and connectivity patterns, supporting custom synaptic delays and various neuron models commonly used in computational neuroscience research.
 
 The relationship with [[spiking-neural-networks]] is fundamental—NETM was specifically architected to simulate this class of neural models efficiently. Unlike [[rate-based-neural-networks]] commonly used in deep learning, spiking neural networks encode information in the timing of discrete voltage spikes, making them more biologically realistic but computationally demanding. Hardware acceleration through NETM makes detailed spiking network simulations tractable for studying phenomena like spike synchrony, oscillations, and propagation that depend critically on precise temporal dynamics.
 

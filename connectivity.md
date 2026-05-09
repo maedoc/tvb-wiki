@@ -1,7 +1,7 @@
 ---
 title: Connectivity
 created: 2024-01-15
-updated: 2026-05-08
+updated: 2026-05-09
 type: concept
 tags: [connectomics, structural-connectivity, functional-connectivity, effective-connectivity, network-dynamics, whole-brain-modeling]
 sources: [raw/papers/friston-1993.md]
