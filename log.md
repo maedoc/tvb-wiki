@@ -202,3 +202,5 @@
 ## [2026-05-09 15:45] Librarian: catalog rebuilt, 9547 asymmetric links noted
 
 ## [2026-05-09 15:45] LinkRepair: fixed 15 files (9 wikilink-in-URL, 6 abs-path)
+
+## [2026-05-09 16:14] DeepResearch: 2 papers added via focused research
