@@ -1,0 +1,1320 @@
+        A Pipeline for ADNI Resting-State Functional MRI
+                 Processing and Quality Control
+   Saige Rutherford1, Zeshawn Zahid1, Robert C. Welsh2, Andrea Avena-Koenigsberger3,
+                            Vincent Koppelmans4, Amanda F. Mejia1
+
+               1
+                  Department of Statistics, Indiana University, Bloomington, USA
+    2
+       Psychiatry and Biobehavioral Sciences, University of California, Los Angeles, USA
+   3
+    Center for Neuroimaging, Indiana University School of Medicine, Bloomington, USA
+              4
+               Department of Psychiatry, University of Utah, Salt Lake City, USA
+
+
+                                           Abstract
+        The Alzheimer’s Disease Neuroimaging Initiative (ADNI) provides a comprehensive
+multimodal neuroimaging resource for studying aging and Alzheimer’s disease (AD). Since
+its second wave, which began in 2011, ADNI has increasingly collected resting-state
+functional MRI (rs-fMRI). However, a major barrier to its use is the considerable variability in
+acquisition protocols and data quality, compounded by missing imaging sessions and
+inconsistencies in how functional scans temporally align with clinical assessments. As a
+result, many studies utilize only a small subset of the total ADNI rs-fMRI data, limiting
+statistical power, reproducibility, and the ability to investigate longitudinal functional brain
+changes at scale. Although tools exist to support data conversion, quality assessment, and
+preprocessing, they operate largely as standalone components and do not fully address
+the curation, validation, and failure recovery required for heterogeneous legacy datasets.
+
+       To address these challenges and facilitate the widespread use of ADNI rs-fMRI data,
+we constructed a pipeline that encompasses downloading relevant imaging and clinical
+data, aligning clinical and imaging sessions, preprocessing, and quality control. We
+integrate data curation and preprocessing across all sites and scanner types using a
+combination of open-source software and bespoke tools. Quality metrics are generated for
+each subject and session to facilitate rigorous data screening. Applying this protocol to
+ADNI GO, 2, and 3 yields 2,026 high-quality rs-fMRI sessions from 913 participants,
+providing one of the largest standardized functional MRI datasets available for studying
+aging and AD. The pipeline outputs BIDS-compliant rs-fMRI time series, temporally
+matched to clinical assessments, and establishes a transparent framework for utilizing
+ADNI rs-fMRI data to empower large-scale functional biomarker discovery.
+1 Introduction
+         The Alzheimer’s Disease Neuroimaging Initiative (ADNI) is a large multicenter
+consortium comprising more than 60 academic and clinical sites across the United States
+and Canada. Established to validate, compare, and standardize clinical trial measures and
+biomarkers for Alzheimer’s disease research, ADNI collects longitudinal MRI, PET, clinical,
+cognitive, and biochemical data from healthy older adults, individuals with mild cognitive
+impairment (MCI), and patients with Alzheimer’s disease (AD) (Weiner et al., 2025). The
+primary objectives of ADNI are to develop standards for acquiring longitudinal, multisite
+MRI and PET data, to develop an accessible repository of longitudinal neuroimaging data
+(measuring brain structure, function, and metabolism), clinical, cognitive, and biochemical
+data, and to develop methods to maximize power to determine treatment effects in clinical
+trials (Petersen et al., 2010). ADNI is an ongoing study that began in 2004 and has been
+collecting data continuously across its various phases (Table 1).
+
+Table 1. Overview of the phases of ADNI and the primary goal, timeline/duration, funding,
+and cohort description of each phase. Each cohort after ADNI 1 includes the previous
+cohort(s). This table was recreated from ADNI’s website (“Alzheimer’s Disease
+Neuroimaging Initiative,” n.d.).
+
+              ADNI 1             ADNI GO          ADNI 2               ADNI 3             ADNI 4
+
+
+ Timeline     2004-2010          2009-2011        2011-2016            2016-2022          2022-2027
+ (duration)   (5 years)          (2 years)        (5 years)            (5 years)          (5 years)
+
+
+                                                  Develop              Study the use of
+              To develop
+                                 Examine          biomarkers as        tau PET and
+              biomarkers as                                                               Improve
+ Primary                         biomarkers in    predictors of        functional
+              outcome                                                                     generalizability of
+ Goal                            earlier stages   cognitive decline,   imaging
+              measures for                                                                AD research.
+                                 of disease.      and as outcome       techniques in
+              clinical trials.
+                                                  measures.            clinical trials.
+
+
+              200
+              cognitively                         New: 150 CU, 150
+                                 New: 200 early                        New: 133 CU,       New: 200 CU, 200
+ Cohort       unimpaired                          elderly MCI, 150
+                                 MCI                                   151 MCI, 87 AD     MCI, 100 AD/DEM
+              (CU), 400 MCI,                      late MCI, 150 AD
+              200 AD
+
+
+
+
+       ADNI has been instrumental in advancing understanding of neurodegeneration by
+providing large-scale, longitudinal neuroimaging and biomarker data across the spectrum
+of cognitive aging and dementia (Weiner et al., 2012, 2013, 2015, 2024; Yao et al., 2017).
+There has been broad and sustained use of ADNI data in structural and PET imaging
+studies. A recent report estimated more than 5,500 publications, 30,000 data-use
+agreements, and 405 million image downloads based on ADNI resources (Toga et al.,
+2024). The pace of research continues to accelerate: in 2025 alone, 752 papers were
+published using ADNI data.
+
+        In contrast, relatively few studies have leveraged ADNI resting-state functional MRI
+(rs-fMRI). A targeted PubMed search using the terms “ADNI” OR “Alzheimer’s Disease
+Neuroimaging Initiative” AND “fMRI” OR “functional MRI” OR “rsfMRI” OR “resting state”
+identified only 151 publications using ADNI rs-fMRI as of November 2025 (Figure 1A). This
+represents only 0.3% of all ADNI publications to date, and in 2025 specifically, just 27 of
+the 752 ADNI papers (3.6%) incorporated rs-fMRI data.
+
+       Although rs-fMRI acquisition began five years after structural MRI (ADNI-GO in 2009
+vs. ADNI-1 in 2004), this temporal delay alone does not account for the stark difference in
+usage. Instead, the imbalance likely reflects structural barriers to reuse, rather than a lack
+of scientific interest in functional imaging. Rs-fMRI data are inherently more complex,
+require extensive preprocessing, and are sensitive to acquisition and quality-control
+variability, factors that have historically made the data challenging to prepare and
+harmonize at scale. These barriers are also apparent in the wide variation in sample sizes
+among published rs-fMRI studies, ranging from 18 to 1006 subjects (Figure 1B).
+
+        At the same time, this underutilization highlights a major opportunity: ADNI rs-fMRI
+constitutes a rich, longitudinal, and largely untapped resource for studying functional brain
+changes in aging and Alzheimer’s disease. As preprocessing tools, metadata standards,
+and computational resources continue to advance, the field is poised to unlock far greater
+value from this unique resource.
+Figure 1. A) The number of published papers using ADNI rs-fMRI data per year (2013-Nov
+2025). A full list of these papers is provided in the supplement (Supplemental File 1). B) The
+reported sample sizes in each publication using ADNI rs-fMRI data, per year (2013-Nov
+2025). The average sample size across all publications is 212 subjects (sd=202).
+
+       A unified, openly described fMRI preprocessing protocol for ADNI will accelerate
+large-scale secondary analyses of ADNI fMRI data. Reproducible neuroimaging research
+requires transparent documentation of the procedures used to access, preprocess, and
+quality control the data (Gau et al., 2021; Nichols et al., 2017). In this work, we describe a
+protocol that converts ADNI functional and structural MRI data into the Brain Imaging Data
+Structure (BIDS) format (K. J. Gorgolewski et al., 2016), applies standardized
+preprocessing, performs quality assessment, identifies data requiring troubleshooting, and
+integrates clinical data. The pipeline combines established neuroimaging tools -- Clinica
+(Routier et al., 2021; Samper-González et al., 2018) for DICOM to NIFTI conversions and
+BIDSification, fMRIPrep (Esteban, Markiewicz, et al., 2018) for preprocessing and MRIQC
+(Esteban et al., 2017) for quality evaluation, and bespoke tools within an optional
+reproducible container environment, ensuring consistent outputs across computing
+systems.
+
+       By sharing all configuration files and processing scripts, we provide a complete
+blueprint for reproducing our ADNI fMRI data curation and preprocessing pipeline under
+the constraints of the ADNI data-use agreement. This resource supports transparent data
+preparation for subsequent biomarker discovery in Alzheimer’s disease and related
+neurodegenerative conditions. While the pipeline described below necessarily includes
+technical details, its primary contribution is to enable broad reuse of ADNI rs-fMRI data by
+the neuroscience and Alzheimer’s disease research communities.
+
+2 Methods
+
+        Here, we describe the complete ADNI resting-state fMRI data preparation pipeline,
+organized according to the eight main workflow steps (Figure 2) implemented in the
+accompanying public GitHub repository
+(https://github.com/mandymejia/ADNI_fMRI_protocol). For each step, we specify the data
+inputs, processing operations, software tools and versions, quality-control procedures,
+and known issues specific to ADNI. All scripts, container specifications, configuration
+files, and workflow orchestration tools referenced below are available in the repository.
+This pipeline currently supports ADNI GO, ADNI 2, and ADNI 3 datasets.
+
+
+
+
+Figure 2. Overview of all steps in our ADNI fMRI data curation pipeline. The step numbers
+listed in this figure correspond to the detailed steps in the supplemental file (pipeline
+instructions PDF) and in the GitHub repository
+(https://github.com/mandymejia/ADNI_fMRI_protocol).
+
+2.1 Step 1: Account Setup and Data-Use Agreement
+
+        Raw imaging and clinical data are accessed through the Laboratory of Neuro
+Imaging Image and Data Archive (LONI/IDA) (https://ida.loni.usc.edu/) after account
+registration and approval of ADNI’s Data Use Agreement (DUA)
+(https://ida.loni.usc.edu/collaboration/access/appLicense.jsp). The protocols here
+provide detailed instructions (further detailed instructions are available in
+s1_setup_account/) for users to reproduce the entire workflow independently; however, no
+raw data are shared via our repository, in compliance with ADNI’s DUA. All processing is
+performed within secure institutional or high-performance computing (HPC)
+environments, consistent with ADNI DUA requirements.
+
+2.2 Step 2: Data Selection and Download from LONI
+
+         The second step involves selecting eligible ADNI sessions and downloading the
+associated imaging files, metadata spreadsheets, and study information packages (further
+instructions in s2_download/). Using the “Image Collections” tool in LONI/IDA, users can
+filter for resting-state fMRI sequences and associated structural sequences (T1 & T2)
+across the ADNI-GO, ADNI-2, and ADNI-3 phases. ADNI-1 is excluded because it does not
+include resting-state fMRI, and Clinica does not yet support ADNI-4. The GitHub repository
+for the pipeline includes step-by-step screenshots and instructions for building
+reproducible LONI queries. All downloaded ZIP files, including raw imaging archives
+(DICOM format), metadata spreadsheets (e.g., ADNIMERGE.csv, MPRAGEMETA.csv,
+MRILIST.csv, scanner QC tables), and ADNI study files (clinical/behavioral data, protocol
+descriptions, acquisition parameters), should be stored as defined in the user’s
+configuration file. For the current manuscript, data up to October 1st, 2025, were
+downloaded and used for the development and testing of the pipeline.
+
+2.3 Step 3: DICOM Organization and Integrity Checks
+
+        After download, all ZIP archives are uncompressed, reorganized into a standardized
+directory structure, and subjected to basic data quality checks. Scripts in s3_organize/
+verify the DICOM download (expected number of directories based on image collection)
+and map the heterogeneous DICOM directory names to their corresponding imaging
+modalities (i.e., T1, T2, fMRI (i.e., BOLD)).
+
+2.4 Step 4: Imaging and Clinical Data Conversion Using Clinica
+
+DICOM-to-BIDS Image Conversion
+
+   DICOM files are converted into the Brain Imaging Data Structure (BIDS; v1.10.1) (K. J.
+Gorgolewski et al., 2016) format using Clinica (v0.10.1) (Routier et al., 2021; Samper-
+González et al., 2018). The command-line interface and configuration parameters are
+provided in s4_clinica/. Clinica serves three main functions: i) DICOM to NIfTI conversion
+and metadata extraction (via dcm2niix), ii) automated matching of imaging sessions to
+clinical visits, and iii) organizing data into BIDS format. Clinica cross-references session
+dates using several ADNI spreadsheets (e.g., ADNIMERGE, MPRAGEMETA, and quality-
+control tables) to ensure accurate mapping of T1, T2, and BOLD series to visit codes. After
+conversion, the resulting dataset is validated using the BIDS Validator (v1.14.7). Each
+participant’s BIDS dataset contains both structural (T1 and, if available, T2) and functional
+(BOLD) images, along with all required metadata fields necessary for downstream
+processing with fMRIPrep and MRIQC.
+
+    During the development of this protocol, we identified several issues in the ADNI
+DICOMs that must be addressed. These include items identified by Clinica (interslice
+distance variation and failed image conversion, both documented in
+s4_clinica/known_clinica_DICOM_errors.csv) and several errors we encountered that were
+not reported by Clinica (missing or incorrect PhaseEncodingDirection parameter, missing
+JSON sidecar files for T1 files, and T1 DICOM conversion errors). Our scripts automatically
+flag these issues (s5_post_clinica_qc/analysis/create_report/run_session_heuristics.py &
+main.ipynb). Subjects with unrecoverable errors are excluded at this stage (i.e., failed
+image conversion).
+
+Matching Imaging Sessions to Clinical Data
+
+    Data that do not change over time (e.g., sex, education level, or diagnosis at baseline),
+are pulled from the ADNIMERGE file and put in the participants.tsv file, located at the top of
+the BIDS folder hierarchy. The time-varying data (e.g., the clinical scores) are pulled from
+specific CSV files (e.g., MMSE.csv) and put in participant-id_session-id.tsv files in each
+participant subfolder. The clinical data being converted (i.e., temporally aligned with the
+imaging visits) are defined in a spreadsheet (clinical_specifications_adni.xlsx) that is
+available with the Clinica codebase. It is possible to modify this file if additional clinical
+data should be converted. For a more detailed description of Clinica, including some of the
+decisions about which scan to select (e.g., if there are multiple T1 per session), we refer
+readers to their detailed documentation
+(https://aramislab.paris.inria.fr/clinica/docs/public/dev/Converters/ADNI2BIDS/) and user
+support Google group (https://groups.google.com/g/clinica-user).
+
+2.5 Step 5: Post-Clinica Data Quality Checks
+
+       After DICOM and BIDS conversion, additional QC steps ensure that each session
+meets minimum functional and structural imaging criteria (s5_post_clinica_qc/). Five
+heuristics regarding the scanner parameters are applied (Table 2). These heuristics were
+determined by an expert in MR physics (author RCW) and were chosen to detect errors in
+the data that occurred during collection. All scanner parameters were reviewed across
+sites/scanners to aid in the heuristic threshold choices. A notebook
+(s5_post_clinica_qc/analysis/create_report/main.ipynb) creates per-site and per scanner
+manufacturer (i.e., Siemens, GE, Philips) QC plots as well as the summary tables of
+scanner parameters and inclusion/exclusion sample sizes at each decision point. This
+notebook also summarizes and categorizes Clinica output errors. The final step of this
+notebook is to export a CSV file with the subjects and sessions to be passed on to MRIQC
+and fMRIPrep. This notebook is also available as a Python script
+(s5_post_clinica_qc/analysis/create_report/run_session_heuristics.py) to help with
+reproducibility and automation.
+
+Table 2. Heuristics for excluding subjects/sessions based on scanner parameters.
+ Metric                        Exclusion Rule                   Rationale
+ ScanDepth = dim₃ × pixdim₃    Outside range [155, 180]         Ensures adequate brain coverage
+                               Outside [0.5–1.0] or [2.9–3.1]   Detects mislabeled scans or
+ Repetition Time (TR)
+                               seconds                          protocol inconsistencies
+ Minimum total scan duration   < 300 seconds                    Ensures ≥5 minutes of fMRI data
+ PercentPhaseFOV               < 72                             Indicates spatial under sampling
+ CoilString                    Q-Body or BODY coils             Nonstandard or problematic coils
+
+
+2.6 Step 6: Automated QC Metrics and Outlier Detection with MRIQC
+
+        MRIQC (v23.1.0) (Esteban et al., 2017) is run using scripts in s6_mriqc/. Sixteen
+automated participant-level image quality metrics (IQMs) are generated by MRIQC for each
+individual session, and group-level summaries are used to define quantitative exclusion
+criteria.
+
+Automated IQM Outlier Detection
+
+        There are no established thresholds for these IQMs to our knowledge. To determine
+cutoffs for these IQMs in an automated fashion, we use an outlier-detection method
+developed in our lab (Parlak et al., 2025). For each IQM, the distribution across sessions is
+transformed to approximately follow a Normal distribution using a statistically robust,
+flexible transformation to eliminate skew and heavy or light tails. In the standard Normal
+distribution, values beyond ±4 are extremely unlikely (p<0.000063). Thus, after
+transformation, values above 4 or below -4 (depending on whether higher or lower values of
+the IQM are considered better, see Table 3) are flagged. These cutoffs are translated back
+to the original scale of the data by applying the reverse transformation.
+       We visualize the distribution of the IQMs for structural and functional data in Figures
+3 and 4, along with the thresholds for exclusion. Examples of excluded subjects for each
+metric are shown in the supplemental figures. We also visualize these metrics per site in
+the supplement. An image was classified as failed if any IQM exceeded its threshold. If the
+T1 image was flagged as an outlier, the BOLD image was also excluded because the BOLD
+cannot be successfully preprocessed without a high-quality T1 image from the same
+session. This approach offers a reproducible and interpretable strategy for identifying
+problematic scans in heterogeneous, multicenter datasets. The full list of IQMs is provided
+in Table 3, and the code implementing this procedure (and for visualizations) is included in
+s6_mriqc/outlier_mriqc.R.
+
+Table 3. Automated image quality metrics from MRIQC.
+ Name                             Used   Description                                                   Direction
+                                  for
+ Contrast to Noise Ratio          T1     Extension of the SNR to evaluate how separated the tissue     Higher = better
+ (CNR) (Magnotta et al., 2006)           distributions of GM and WM are.
+ Signal to Noise Ratio (SNR)      T1     The mean intensity within gray matter divided by the          Higher = better
+ (Kaufman et al., 1989)                  standard deviation of the values outside the brain.
+ Tissue probability overlap       T1     Overlap estimated from the CSF image and the                  Higher = better
+ map (TPM) of Cerebrospinal              corresponding maps from the ICBM nonlinear-asymmetric
+ Fluid (CSF)                             2009c template.
+ TPM of Gray Matter (GM)          T1     Overlap estimated from the GM image and the                   Higher = better
+                                         corresponding maps from the ICBM nonlinear-asymmetric
+                                         2009c template.
+ TPM of White Matter (WM)         T1     Overlap estimated from the WM image and the                   Higher = better
+                                         corresponding maps from the ICBM nonlinear-asymmetric
+                                         2009c template.
+ Coefficient of Joint Variation   T1     CJV of GM and WM: objective function for the optimization     Lower = better
+ (CJV) (Ganzetti et al., 2016)           of INU correction algorithms. Higher values are related to
+                                         the presence of heavy head motion and large INU artifacts.
+ Entropy Focus Criterion (EFC)    T1     Uses the Shannon entropy of voxel intensities as an           Lower = better
+ (Atkinson et al., 1997)                 indication of ghosting and blurring induced by head
+                                         motion.
+ Full Width Half Max (FWHM        T1     The FWHM of the spatial distribution of the image intensity   Lower = better
+ (mm)) (Friedman et al., 2008)           values in units of voxels.
+ Signal to Noise Ratio (SNR)      BOLD   The mean intensity within gray matter divided by the          Higher = better
+ (Kaufman et al., 1989)                  standard deviation of the values outside the brain.
+ Temporal Signal to Noise         BOLD   Median value of the tSNR map (average BOLD signal /           Higher = better
+ Ratio (TSNR)                            temporal standard deviation).
+ AFNI’s mean quality index        BOLD   Mean quality index as computed by AFNI’s 3dTqual for          Lower = better
+ (AQI) (Cox, 1996)                       each volume, it is one minus the Speaman’s rank
+                                         correlation of that volume with the median volume.
+ AFNI’s outlier ratio (AOR)       BOLD   Mean fraction of outliers per fMRI volume as given by         Lower = better
+ (Cox, 1996)                             AFNI’s 3dToutcount.
+ Entropy Focus Criterion (EFC)   BOLD   Uses the Shannon entropy of voxel intensities as an           Lower = better
+ (Atkinson et al., 1997)                indication of ghosting and blurring induced by head
+                                        motion.
+ Framewise displacement          BOLD   Expresses instantaneous head-motion. Rotational               Lower = better
+ (meanFD) (Power et al., 2014)          displacements are calculated as the displacement on the
+                                        surface of a sphere of radius 50 mm.
+ Full Width Half Max (FWHM       BOLD   The FWHM of the spatial distribution of the image intensity   Lower = better
+ (mm)) (Friedman et al., 2008)          values in units of voxels.
+ Temporal derivative of RMS      BOLD   Indexes the rate of change of BOLD signal across the          Lower = better
+ variance over voxels (DVARS)           entire brain at each frame of data.
+ (Power et al., 2012)
+
+
+
+
+Figure 3. MRIQC Image Quality Metrics (IQMs) for structural (T1) images. These metrics are
+explained in Table 3. The red line indicates the outlier threshold. A) images below this line are
+excluded, and B) images above this line are excluded. Subjects were excluded if they had an outlier
+on any of these.
+Figure 4. MRIQC Image Quality Metrics (IQMs) for BOLD images. These metrics are explained in
+Table 3. The red line indicates the outlier threshold. A) images below this line are excluded, and B)
+images above this line are excluded. Sessions were excluded if they had an outlier on any of these.
+
+2.7) Step 7: fMRIPrep Preprocessing
+
+        Image preprocessing is performed using containerized execution (Apptainer v1.3.6)
+and fMRIPrep version 25.2.3 (Esteban, Blair, et al., 2018; Esteban, Markiewicz, et al., 2018),
+which is based on Nipype 1.10.0 (K. Gorgolewski et al., 2011; K. J. Gorgolewski et al., 2018).
+Many internal operations of fMRIPrep use Nilearn 0.11.1 (Abraham et al., 2014), mostly
+within the functional processing workflow. For more details of the pipeline, see the section
+corresponding to workflows in fMRIPrep's documentation (https://fmriprep.org/en/stable/)
+and citation boilerplate (https://www.nipreps.org/intro/transparency/#citation-
+boilerplates). The scripts for this step and further instructions are in the directory
+s7_fmriprep/.
+
+ADNI-specific fMRI preprocessing considerations
+
+        During the development of this protocol, we systematically analyzed fMRIPrep
+failures to improve the robustness and automation of the preprocessing workflow. We
+parse fMRIPrep log files (s7_fmriprep/fmriprep_error_report.py) and explore and categorize
+error types in an accompanying notebook (s7_fmriprep/explore_fmriprep_errors.ipynb).
+This analysis informed the design of upstream validation checks and conditional execution
+logic that ensure fMRIPrep jobs are only submitted when required inputs are present and
+preprocessing can complete successfully. Identified error categories include: i) missing
+BOLD files, ii) TemplateFlow cache/bind issues, iii) insufficient memory resources, iv)
+FreeSurfer recon-all failures, and v) fieldmap-less susceptibility distortion correction (syn-
+sdc) failures. For each category, the pipeline was designed to either automatically adapt
+execution parameters or skip processing and notify the user, depending on whether the
+error was recoverable. A more detailed description of these errors can be found in the
+supplement.
+
+2.8 Step 8: Final QC and Derivation of the Analysis Sample
+
+    The last QC stage includes a final pass of quality checking the subjects and sessions
+that successfully completed fMRIPrep (and all previous steps). This includes summarizing
+the quality of the Freesurfer surface reconstruction using the Euler number (a measure of
+the topological complexity of the surface) and checking the functional runs for low motion.
+The Euler number has been shown to correlate highly with manual quality checking ratings
+(Rosen et al., 2018) and is the main metric used in automated QC methods (Klapwijk et al.,
+2019). Sessions with greater than 30% frames censored (with a framewise displacement
+threshold of 0.5 mm), and/or less than 5 minutes of low-motion data (after FD > 0.5 mm
+censoring) are excluded. This threshold can be adjusted by users if desired. A consolidated
+inclusion/exclusion table (with reasons coded per subject-session) is produced in
+s8_final_qc/. The final analysis-ready dataset includes all subjects meeting QC criteria
+across every stage of this protocol (DICOM download, Clinica DICOM to NIfTI conversion
+and BIDS formatting, MRIQC, and fMRIPrep preprocessing). Table 4 in Data Records
+reports the final number of subjects included/excluded at each step.
+
+3 Data Records
+
+        The data records accompanying this protocol consist of (i) machine-readable
+quality-control summaries, (ii) pipeline logs and metadata, and (iii) versioned code and
+configuration files. These together allow any researcher with ADNI access to reproduce the
+dataset described here. The GitHub repository contains scripts, QC tables, and metadata.
+Researchers must obtain their own ADNI credentials to download the raw DICOMs and
+clinical data. All data records are organized according to the eight pipeline steps
+implemented in the GitHub repository and follow a structured flow from raw downloads to
+the final curated imaging dataset. Below, we describe the content and purpose of each
+record type, the associated GitHub folder or file, and the point in the pipeline at which
+each item is generated.
+Overview of Dataset Flow
+
+        Table 4 provides a summary of the number of subjects and sessions at each stage
+of the pipeline, from download to final inclusion, based on our ADNI data download. This
+illustrates the cumulative effects of download issues, metadata inconsistencies, BIDS
+conversion failures, MRIQC-based outlier detection, preprocessing errors, and final quality
+thresholds on the resulting analysis sample.
+
+Table 4. Inclusion and exclusion sample sizes at each step of the protocol. The Dropped
+column reports how many subjects (sub) and sessions (ses) were excluded from the
+previous step (row). The final column reports the sample size after exclusions up to each
+step. The sample consists of data from ADNI-GO, ADNI-2, and ADNI-3, the data releases
+used in our demonstration of the pipeline.
+
+                                                                                           Dropped    Subjects/
+ Pipeline Stage             GitHub Folder         Description
+                                                                                          (Sub/Ses)   Sessions
+ Unzip & organize DICOMs    s3_organize/          Clean directory tree; check integrity        -      1153/2893
+ BIDS-convert via Clinica   s4_clinica/           NIfTI + JSON + sidecars                   37/210    1116/2683
+ Post-Clinica QC            s5_post_clinica_qc/   TR/coverage/duration checks                11/62    1105/2621
+ MRIQC                      s6_mriqc/             All IQMs present                           12/12    1093/2611
+ Post-MRIQC QC              s6_mriqc/             Robust outlier detection                  65/236    1028/2375
+                                                  Volumetric, surface, grayordinates
+ fMRIPrep                   s7_fmriprep/                                                   49/127     979/2248
+                                                  outputs
+                                                  Euler number, motion, ≥5 min usable
+ Final QC passed            s8_final_qc/                                                   66/202     913/2026
+                                                  data
+
+
+Reproducibility and Versioning of Data Records
+
+       All machine-readable outputs are automatically created by the pipeline and tracked
+through version control. The GitHub repository includes a configuration file
+(config/config_adni.yaml - a complete single-source-of-truth describing all paths,
+container versions, QC thresholds, and tool versions) and log files for all steps (Slurm logs,
+processing logs, and crash files). A Zenodo snapshot will archive the full repository with a
+DOI. Together, these records enable full reproduction of the curated dataset from raw
+ADNI data.
+
+4 Technical Validation
+
+       The ADNI resting-state fMRI dataset is highly heterogeneous across scanner
+vendors, field strengths, study phases, and acquisition protocols. Rigorous technical
+validation is therefore essential to ensure data integrity and reproducibility. We conduct
+validation at every stage of the pipeline, closely aligned with the workflow described in the
+Methods section (Figure 1). This validation comprises five major components: metadata
+validation and BIDS compliance, acquisition parameter validation, automated image
+quality evaluation, preprocessing integrity checks, and final inclusion validation.
+
+Metadata Validation and BIDS Compliance (Clinica)
+
+        The first validation layer focuses on ensuring correctness and consistency of the
+converted dataset following DICOM-to-BIDS conversion via Clinica (Section 2.4). Failures
+at this stage, including malformed JSON sidecars, missing metadata fields, or directory
+inconsistencies, are flagged and excluded from downstream analysis. We review Clinica-
+generated outputs to identify conversion failures, mismatched session identifiers, and
+missing clinical metadata. Sessions affected by unrecoverable conversion errors are
+removed before further processing. All conversion decisions and failures are recorded in
+s4_clinica/.
+
+Acquisition Parameter Validation (Post-Clinica QC)
+
+        To assess inter-site consistency and identify protocol anomalies, we summarize
+acquisition parameters across manufacturers, sites, and phases using the automated
+reports generated in s5_post_clinica_qc/analysis/create_report/main.ipynb. Validation at
+this stage explicitly targets ADNI-specific irregularities, including inconsistent repetition
+times (TR), incomplete brain coverage, nonstandard receiver coils, implausible scan
+durations, and under-sampled phase-encoding fields of view. Five scanner heuristics
+(Table 2) are applied uniformly across the dataset, based on expert review by an MR
+physicist (author RCW). Violations are logged and excluded before MRIQC and fMRIPrep.
+Figure 5 illustrates site- and manufacturer-level distributions of scanner parameters, while
+Figure 6 summarizes inclusion and exclusion counts at each QC stage. This validation step
+ensures that downstream quality control metrics reflect meaningful variation rather than
+acquisition parameter errors.
+
+Automated Image Quality Validation (MRIQC)
+
+        Automated quality control is conducted using MRIQC (Section 2.6) for both
+structural (T1) and functional (BOLD) images. Sixteen image quality metrics (IQMs; Table 3)
+are output for every session. Outlier detection employs a robust, data-driven normalization
+framework developed in-house (Parlak et al., 2025). Summary distributions and exclusion
+thresholds are shown in Figures 3 and 4, with per-site and diagnosis-stratified
+visualizations provided in the Supplementary Materials.
+Preprocessing Integrity Checks (fMRIPrep)
+
+       All preprocessing failures are logged, parsed, and categorized using custom scripts
+in s7_fmriprep/. Failure modes of fMRIPrep preprocessing include missing BOLD inputs,
+TemplateFlow binding issues, insufficient memory, FreeSurfer recon-all crashes, and
+susceptibility distortion correction failures. For syn-SDC failures caused by missing
+PhaseEncodingDirection metadata (predominantly in Philips scanners), sessions are
+reprocessed without distortion correction. These cases are explicitly flagged in the final
+dataset to allow stratified analyses or exclusion, if desired.
+
+Final Inclusion Validation
+
+The final dataset includes only sessions that pass all prior QC stages and meet additional
+stability criteria. These include having fewer than 30% censored frames (FD > 0.5 mm), at
+least 5 minutes of low-motion data, and site-specific acceptable Euler numbers. All
+inclusion/exclusion decisions are encoded in included_sessions.tsv and
+excluded_sessions.tsv, with standardized failure labels documenting the reason for
+exclusion. Summary counts across QC stages are reported in Table 4.
+Figure 5. Example tables generated in the post_clinica_qc/main.ipynb notebook for
+inclusion/exclusion criteria based on Clinica/BIDS errors and scanner parameters. A)
+Summary table of criteria for excluding subjects and/or sessions in step 5. The number of
+subjects and sessions included/excluded at each stage is summarized. B) Histograms
+visualizing the number of sessions per subject after initial QC.
+
+5 Usage Notes
+
+        The curated ADNI resting-state fMRI dataset produced by this protocol is intended
+as a high-quality, reproducible starting point for downstream neuroimaging, biomarker,
+and machine-learning analyses. Because ADNI data span multiple sites, scanner
+platforms, and acquisition protocols, careful consideration of QC outputs and metadata is
+essential when designing analyses. The following usage notes describe best practices for
+interpreting, integrating, and extending the dataset.
+
+Interpreting the QC Outputs
+       After running the pipeline, the repository will contain machine-readable QC tables
+covering every stage of processing (Sections 2 and 3). We recommend beginning by
+examining: included_sessions.tsv: the final list of all subjects and sessions that passed all
+QC criteria, ii) excluded_sessions.tsv: sessions removed at any stage, with the specific
+exclusion reason, iii) motion_summary.tsv: mean framewise displacement, DVARS,
+percent scrubbed frames, iv) euler_summary.tsv: structural cortical surface quality (Euler
+number), and v) MRIQC outputs (iqm_merged.tsv, iqm_outliers.tsv): quantitative quality
+metrics for T1 and BOLD images. These tables allow users to evaluate data quality, verify
+reproducibility, adjust QC thresholds if desired, and determine the suitability of specific
+sessions or subgroups for further analysis.
+
+Reproducing the Entire Pipeline
+
+Users with ADNI access can fully reproduce this dataset through the following steps:
+
+   1. Clone the repository
+   2. Edit the configuration & environment files: config/config_adni.yaml &
+      env/environment_adni.yaml
+   3. Ensure container runtimes (Apptainer) are installed
+   4. Download raw DICOMs and metadata via LONI
+   5. Run the scripts associated with each step
+   6. Inspect QC outputs in s5_post_clinica_qc/, s6_mriqc/, and s8_final_qc/
+   7. Use included_sessions.tsv as the analysis-ready dataset
+
+Extending or Modifying the Pipeline
+
+       The modular structure of the workflow enables users to make modifications, for
+example: adjust MRIQC IQM thresholds, change the scanner parameter
+inclusion/exclusion heuristics, use alternative output spaces or fmriprep flags. Each step
+can be run independently, allowing partial re-processing without repeating the entire
+workflow.
+
+Support and Troubleshooting
+
+       A comprehensive troubleshooting guide is provided in TROUBLESHOOTING.md,
+covering common ADNI DICOM issues, Clinica conversion failures, fMRIPrep crashes and
+workarounds, HPC resource recommendations, and log-parsing tools for identifying failed
+subjects. Users are encouraged to submit issues via GitHub for additional support.
+       This workflow provides a transparent, reproducible, multi-level pipeline for
+preparing ADNI resting-state fMRI data. The accompanying QC outputs, configuration files,
+and containerized scripts enable researchers to reliably generate analysis-ready datasets
+that are robust to scanner variation and suitable for a broad range of neuroimaging
+applications.
+
+6 Code Availability
+
+       All code required to reproduce the complete ADNI resting-state fMRI preprocessing
+workflow is openly available in the accompanying GitHub repository
+https://github.com/mandymejia/ADNI_fMRI_protocol. The repository includes:
+
+   •   Workflow orchestration files:
+          o A central configuration file (config/config_adni.yaml) specifying all paths,
+              software versions, QC thresholds, and container locations
+   •   Step-by-step pipeline scripts corresponding to this manuscript’s Methods
+       sections and GitHub folder structure:
+          o s1_setup_account/: instructions for obtaining ADNI access
+          o s2_download/: LONI download guidance
+          o s3_organize/: DICOM organization and initial QC scripts
+          o s4_clinica/: Clinica DICOM to BIDS conversion scripts and logs
+          o s5_post_clinica_qc/: post-conversion QC scripts
+          o s6_mriqc/: MRIQC execution, IQM extraction, and outlier-detection code
+          o s7_fmriprep/: fMRIPrep preprocessing wrappers and log parsers
+          o s8_final_qc/: integrated QC tools and final sample derivation
+   •   Containerized software environments:
+          o Apptainer/Singularity recipes and instructions for running MRIQC (v23.1.0)
+              and fMRIPrep (25.2.3). These containers fully specify all software
+              dependencies, ensuring reproducibility across computing environments and
+              time.
+   •   Quality-control utilities and documentation:
+          o Scripts for motion QC, Euler number QC, MRIQC thresholding, session
+              exclusion, and scanner/parameter summaries
+          o TROUBLESHOOTING.md covering common ADNI-specific issues
+
+
+       All workflows and scripts are version controlled. A static, citable snapshot of the
+repository (including the configuration files, QC code, and documentation) will be archived
+on Zenodo, and a DOI will be provided upon publication. This ensures that any researcher
+with ADNI access can regenerate every derivative, QC table, and processing decision
+described in this manuscript.
+
+7 Limitations and Future Work
+
+       A primary limitation of the current workflow is its reliance on the Clinica framework
+(Routier et al., 2021) for converting ADNI data to BIDS format. Clinica encodes a set of
+predefined rules for selecting structural T1-weighted images within each imaging session.
+These rules are designed to promote cross-study harmonization but are not configurable
+by users in the present form of Clinica. For example, when multiple T1 images are
+available, Clinica prioritizes 1.5 T acquisitions over 3 T acquisitions in ADNI-1/GO/2, and
+retains the image with the lowest series ID (“acquired first”) when multiple processed
+images exist. While these choices may be reasonable for harmonizing earlier ADNI phases,
+they may be suboptimal for multi-phase analyses—particularly those including ADNI-3,
+where 3 T acquisitions dominate and generally offer superior signal-to-noise
+characteristics. A user may therefore wish to prioritize image quality rather than
+homogenization, but the current Clinica framework does not provide a mechanism to do
+so.
+
+         A related limitation involves Clinica’s preference for ADNI-provided preprocessed
+NIfTI files over converting raw DICOMs for ADNI-1, GO, and ADNI-2. Although this choice
+simplifies data handling, these preprocessed files are typically distributed without the
+JSON sidecar metadata required for BIDS compliance and fMRIPrep preprocessing. Our
+pipeline therefore includes additional steps to infer or reconstruct missing metadata.
+While the root cause lies in the metadata format available through ADNI/LONI, the
+constraint is reinforced by Clinica’s fixed preference order, which prevents users from
+choosing raw DICOM conversion instead. Future versions of ADNI would benefit from
+distributing complete JSON sidecars for all NIfTI files, and future versions of Clinica would
+ideally give users explicit control over whether to prefer raw DICOMs or ADNI-provided
+NIfTIs on a per-study or per-phase basis.
+
+       Because structural T1 images selected by Clinica are mandatory inputs for
+downstream preprocessing (e.g., fMRIPrep) and quality control, these selection decisions
+can influence data retention. If the chosen T1 image fails automated quality checks in
+MRIQC or during post-MRIQC filtering, the associated functional data must also be
+excluded, even when rs-fMRI data for that session are of acceptable quality.
+Consequently, otherwise usable functional data may be lost solely due to upstream
+structural-image selection rules that users cannot currently modify.
+       Another consideration is versioning. As Clinica continues to evolve, changes in
+internal decision rules or data-selection heuristics could alter structural image choices,
+metadata handling, or BIDS directory structure, leading to subtle differences in
+downstream fMRIPrep outputs. Because the present pipeline depends on Clinica’s
+behavior, results may differ across Clinica versions, even when all other software remains
+unchanged. Improved version pinning and more fine-grained, user-configurable selection
+options in future releases of Clinica would help stabilize longitudinal workflows and ensure
+reproducibility.
+
+      Finally, when Clinica selects ADNI-provided NIfTI files instead of converting from
+DICOMs, these files often lack explicit BIDS provenance tags indicating whether they
+underwent prior preprocessing steps. This limits transparency regarding acquisition history
+and may complicate downstream interpretation, auditing, or reproducibility assessments.
+
+        Future work will focus on increasing user control and transparency in structural-
+image selection and metadata provenance. This includes developing configurable options
+that allow users to prioritize image quality, magnetic field strength, acquisition
+consistency, or phase-specific preferences, depending on their study design. Additional
+enhancements may include supporting systematic DICOM conversion whenever feasible,
+encouraging ADNI to provide complete JSON metadata for all distributed NIfTI files. Clinica
+does not currently support the conversion of ADNI 4 data, which is why it was not included
+in current pipeline. Addressing these limitations will further improve flexibility,
+interpretability, and long-term sustainability of ADNI fMRI processing workflows.
+
+8 Discussion and Impact
+
+       Resting-state fMRI provides a unique window into large-scale functional brain
+organization and has shown promise for detecting early network-level changes associated
+with cognitive decline and Alzheimer’s disease. Despite this potential, ADNI rs-fMRI data
+have remained substantially underutilized relative to structural and PET imaging, largely
+due to the complexity of data curation, preprocessing, and quality control in a
+heterogeneous, multisite dataset.
+
+        This protocol directly addresses these barriers by providing a transparent, end-to-
+end framework for transforming raw ADNI rs-fMRI data into analysis-ready derivatives with
+fully documented quality-control decisions. By integrating clinical-imaging data alignment,
+standardized preprocessing, and multi-level QC into a single reproducible workflow, we
+lower the technical threshold required to use ADNI functional data at scale.
+       Importantly, this work enables a shift from small, selectively curated rs-fMRI
+samples toward large cohorts suitable for biomarker discovery, longitudinal modeling, and
+machine learning. The resulting dataset makes it feasible to study functional connectivity
+changes across disease stages, evaluate fMRI-based prognostic markers, and integrate
+functional measures with existing structural, PET, and fluid biomarkers already widely
+used in ADNI research.
+
+        More broadly, this protocol serves as a template for curating legacy fMRI datasets
+collected before modern standards such as BIDS and fMRIPrep were widely adopted. Many
+large clinical neuroimaging studies face similar challenges of heterogeneity, missing
+metadata, and inconsistent acquisition protocols. The strategies presented here,
+particularly upstream validation, conditional preprocessing, and transparent QC reporting,
+are broadly applicable beyond ADNI and can accelerate reuse of existing neuroimaging
+resources. By making ADNI rs-fMRI data more accessible, reproducible, and interpretable,
+this work expands the scientific value of a major public resource and opens new
+opportunities for functional biomarker discovery in Alzheimer’s disease and related
+neurodegenerative disorders.
+
+References
+
+Abraham, A., Pedregosa, F., Eickenberg, M., Gervais, P., Mueller, A., Kossaifi, J., Gramfort,
+
+       A., Thirion, B., & Varoquaux, G. (2014). Machine learning for neuroimaging with
+
+       scikit-learn. Frontiers in Neuroinformatics, 8.
+
+       https://doi.org/10.3389/fninf.2014.00014
+
+Alzheimer’s Disease Neuroimaging Initiative. (n.d.). ADNI. Retrieved January 20, 2026, from
+
+       https://adni-lde.loni.usc.edu/
+
+Atkinson, D., Hill, D. L. G., Stoyle, P. N. R., Summers, P. E., & Keevil, S. F. (1997). Automatic
+
+       correction of motion artifacts in magnetic resonance images using an entropy focus
+
+       criterion. IEEE Transactions on Medical Imaging, 16(6), 903–910.
+
+       https://doi.org/10.1109/42.650886
+Avants, B. B., Epstein, C. L., Grossman, M., & Gee, J. C. (2008). Symmetric diffeomorphic
+
+       image registration with cross-correlation: Evaluating automated labeling of elderly
+
+       and neurodegenerative brain. Medical Image Analysis, 12(1), 26–41.
+
+       https://doi.org/10.1016/j.media.2007.06.004
+
+Behzadi, Y., Restom, K., Liau, J., & Liu, T. T. (2007). A component based noise correction
+
+       method (CompCor) for BOLD and perfusion based fMRI. NeuroImage, 37(1), 90–101.
+
+       https://doi.org/10.1016/j.neuroimage.2007.04.042
+
+Ciric, R., Thompson, W. H., Lorenz, R., Goncalves, M., MacNicol, E., Markiewicz, C. J.,
+
+       Halchenko, Y. O., Ghosh, S. S., Gorgolewski, K. J., Poldrack, R. A., & Esteban, O.
+
+       (2022). TemplateFlow: FAIR-sharing of multi-scale, multi-species brain models.
+
+       Nature Methods, 19, 1568–1571. https://doi.org/10.1038/s41592-022-01681-2
+
+Cox, R. W. (1996). AFNI: Software for analysis and visualization of functional magnetic
+
+       resonance neuroimages. Computers and Biomedical Research, 29(3), 162–173.
+
+Dale, A. M., Fischl, B., & Sereno, M. I. (1999). Cortical surface-based analysis. I.
+
+       Segmentation and surface reconstruction. Neuroimage, 9(2), 179–194.
+
+       https://doi.org/10.1006/nimg.1998.0395
+
+Esteban, O., Birman, D., Schaer, M., Koyejo, O. O., Poldrack, R. A., & Gorgolewski, K. J.
+
+       (2017). MRIQC: Advancing the automatic prediction of image quality in MRI from
+
+       unseen sites. PLOS ONE, 12(9), e0184661.
+
+       https://doi.org/10.1371/journal.pone.0184661
+
+Esteban, O., Blair, R., Markiewicz, C. J., Berleant, S. L., Moodie, C., Ma, F., Isik, A. I.,
+
+       Erramuzpe, A., Kent, M., James D. andGoncalves, DuPre, E., Sitek, K. R., Gomez, D.
+       E. P., Lurie, D. J., Ye, Z., Poldrack, R. A., & Gorgolewski, K. J. (2018). fMRIPrep 25.2.3.
+
+       Software. https://doi.org/10.5281/zenodo.852659
+
+Esteban, O., Markiewicz, C. J., Blair, R. W., Moodie, C. A., Isik, A. I., Erramuzpe, A., Kent, J.
+
+       D., Goncalves, M., DuPre, E., Snyder, M., Oya, H., Ghosh, S. S., Wright, J., Durnez, J.,
+
+       Poldrack, R. A., & Gorgolewski, K. J. (2018). fMRIPrep: A robust preprocessing
+
+       pipeline for functional MRI. Nature Methods, 1. https://doi.org/10.1038/s41592-018-
+
+       0235-4
+
+Evans, A., Janke, A., Collins, D., & Baillet, S. (2012). Brain templates and atlases.
+
+       NeuroImage, 62(2), 911–922. https://doi.org/10.1016/j.neuroimage.2012.01.024
+
+Fonov, V., Evans, A., McKinstry, R., Almli, C., & Collins, D. (2009). Unbiased nonlinear
+
+       average age-appropriate brain templates from birth to adulthood. NeuroImage, 47,
+
+       S102. https://doi.org/10.1016/S1053-8119(09)70884-5
+
+Friedman, L., Stern, H., Brown, G. G., Mathalon, D. H., Turner, J., Glover, G. H., Gollub, R. L.,
+
+       Lauriello, J., Lim, K. O., Cannon, T., Greve, D. N., Bockholt, H. J., Belger, A., Mueller,
+
+       B., Doty, M. J., He, J., Wells, W., Smyth, P., Pieper, S., … Potkin, S. G. (2008). Test–
+
+       retest and between-site reliability in a multicenter fMRI study. Human Brain
+
+       Mapping, 29(8), 958–972. https://doi.org/10.1002/hbm.20440
+
+Ganzetti, M., Wenderoth, N., & Mantini, D. (2016). Intensity Inhomogeneity Correction of
+
+       Structural MR Images: A Data-Driven Approach to Define Input Algorithm
+
+       Parameters. Frontiers in Neuroinformatics, 10.
+
+       https://doi.org/10.3389/fninf.2016.00010
+Gau, R., Noble, S., Heuer, K., Bottenhorn, K. L., Bilgin, I. P., Yang, Y.-F., Huntenburg, J. M.,
+
+       Bayer, J. M. M., Bethlehem, R. A. I., Rhoads, S. A., Vogelbacher, C., Borghesani, V.,
+
+       Levitis, E., Wang, H.-T., Van Den Bossche, S., Kobeleva, X., Legarreta, J. H., Guay, S.,
+
+       Atay, S. M., … Zuo, X.-N. (2021). Brainhack: Developing a culture of open, inclusive,
+
+       community-driven neuroscience. Neuron, 109(11), 1769–1775.
+
+       https://doi.org/10.1016/j.neuron.2021.04.001
+
+Glasser, M. F., Sotiropoulos, S. N., Wilson, J. A., Coalson, T. S., Fischl, B., Andersson, J. L.,
+
+       Xu, J., Jbabdi, S., Webster, M., Polimeni, J. R., Van Essen, D. C., & Jenkinson, M.
+
+       (2013). The minimal preprocessing pipelines for the Human Connectome Project.
+
+       NeuroImage, 80, 105–124. https://doi.org/10.1016/j.neuroimage.2013.04.127
+
+Gorgolewski, K., Burns, C. D., Madison, C., Clark, D., Halchenko, Y. O., Waskom, M. L., &
+
+       Ghosh, S. (2011). Nipype: A flexible, lightweight and extensible neuroimaging data
+
+       processing framework in Python. Frontiers in Neuroinformatics, 5, 13.
+
+       https://doi.org/10.3389/fninf.2011.00013
+
+Gorgolewski, K. J., Auer, T., Calhoun, V. D., Craddock, R. C., Das, S., Duff, E. P., Flandin, G.,
+
+       Ghosh, S. S., Glatard, T., Halchenko, Y. O., Handwerker, D. A., Hanke, M., Keator, D.,
+
+       Li, X., Michael, Z., Maumet, C., Nichols, B. N., Nichols, T. E., Pellman, J., … Poldrack,
+
+       R. A. (2016). The brain imaging data structure, a format for organizing and describing
+
+       outputs of neuroimaging experiments. Scientific Data, 3, 160044.
+
+       https://doi.org/10.1038/sdata.2016.44
+
+Gorgolewski, K. J., Esteban, O., Markiewicz, C. J., Ziegler, E., Ellis, D. G., Notter, M. P.,
+
+       Jarecka, D., Johnson, H., Burns, C., Manhães-Savio, A., Hamalainen, C., Yvernault,
+       B., Salo, T., Jordan, K., Goncalves, M., Waskom, M., Clark, D., Wong, J., Loney, F., …
+
+       Ghosh, S. (2018). Nipype. Software. https://doi.org/10.5281/zenodo.596855
+
+Greve, D. N., & Fischl, B. (2009). Accurate and robust brain image alignment using
+
+       boundary-based registration. NeuroImage, 48(1), 63–72.
+
+       https://doi.org/10.1016/j.neuroimage.2009.06.060
+
+Jenkinson, M., Bannister, P., Brady, M., & Smith, S. (2002a). Improved optimization for the
+
+       robust and accurate linear registration and motion correction of brain images.
+
+       NeuroImage, 17(2), 825–841.
+
+Jenkinson, M., Bannister, P., Brady, M., & Smith, S. (2002b). Improved Optimization for the
+
+       Robust and Accurate Linear Registration and Motion Correction of Brain Images.
+
+       NeuroImage, 17(2), 825–841. https://doi.org/10.1006/nimg.2002.1132
+
+Kaufman, L., Kramer, D. M., Crooks, L. E., & Ortendahl, D. A. (1989). Measuring signal-to-
+
+       noise ratios in MR imaging. Radiology, 173(1), 265–267.
+
+       https://doi.org/10.1148/radiology.173.1.2781018
+
+Klapwijk, E. T., van de Kamp, F., van der Meulen, M., Peters, S., & Wierenga, L. M. (2019).
+
+       Qoala-T: A supervised-learning tool for quality control of FreeSurfer segmented MRI
+
+       data. NeuroImage, 189, 116–129. https://doi.org/10.1016/j.neuroimage.2019.01.014
+
+Klein, A., Ghosh, S. S., Bao, F. S., Giard, J., Häme, Y., Stavsky, E., Lee, N., Rossa, B., Reuter,
+
+       M., Neto, E. C., & Keshavan, A. (2017). Mindboggling morphometry of human brains.
+
+       PLOS Computational Biology, 13(2), e1005350.
+
+       https://doi.org/10.1371/journal.pcbi.1005350
+Magnotta, V. A., Friedman, L., & FIRST BIRN. (2006). Measurement of Signal-to-Noise and
+
+       Contrast-to-Noise in the fBIRN Multicenter Imaging Study. Journal of Digital Imaging,
+
+       19(2), 140–147. https://doi.org/10.1007/s10278-006-0264-x
+
+Nichols, T. E., Das, S., Eickhoff, S. B., Evans, A. C., Glatard, T., Hanke, M., Kriegeskorte, N.,
+
+       Milham, M. P., Poldrack, R. A., Poline, J.-B., Proal, E., Thirion, B., Van Essen, D. C.,
+
+       White, T., & Yeo, B. T. T. (2017). Best practices in data analysis and sharing in
+
+       neuroimaging using MRI. Nature Neuroscience, 20(3), 299–303.
+
+       https://doi.org/10.1038/nn.4500
+
+Parlak, F., Saluja, S. S., & Mejia, A. (2025). Robust normality transformation for outlier
+
+       detection in diverse distributions, with application to functional neuroimaging data
+
+       (No. arXiv:2505.11806). arXiv. https://doi.org/10.48550/arXiv.2505.11806
+
+Patriat, R., Reynolds, R. C., & Birn, R. M. (2017). An improved model of motion-related
+
+       signal changes in fMRI. NeuroImage, 144, Part A, 74–82.
+
+       https://doi.org/10.1016/j.neuroimage.2016.08.051
+
+Petersen, R. C., Aisen, P. S., Beckett, L. A., Donohue, M. C., Gamst, A. C., Harvey, D. J., Jack,
+
+       C. R., Jagust, W. J., Shaw, L. M., Toga, A. W., Trojanowski, J. Q., & Weiner, M. W.
+
+       (2010). Alzheimer’s Disease Neuroimaging Initiative (ADNI). Neurology, 74(3), 201–
+
+       209. https://doi.org/10.1212/WNL.0b013e3181cb3e25
+
+Power, J. D., Barnes, K. A., Snyder, A. Z., Schlaggar, B. L., & Petersen, S. E. (2012). Spurious
+
+       but systematic correlations in functional connectivity MRI networks arise from
+
+       subject motion. NeuroImage, 59(3), 2142–2154.
+
+       https://doi.org/10.1016/j.neuroimage.2011.10.018
+Power, J. D., Mitra, A., Laumann, T. O., Snyder, A. Z., Schlaggar, B. L., & Petersen, S. E.
+
+       (2014). Methods to detect, characterize, and remove motion artifact in resting state
+
+       fMRI. NeuroImage, 84(Supplement C), 320–341.
+
+       https://doi.org/10.1016/j.neuroimage.2013.08.048
+
+Rosen, A. F. G., Roalf, D. R., Ruparel, K., Blake, J., Seelaus, K., Villa, L. P., Ciric, R., Cook, P.
+
+       A., Davatzikos, C., Elliott, M. A., de La Garza, A. G., Gennatas, E. D., Quarmley, M.,
+
+       Schmitt, J. E., Shinohara, R. T., Tisdall, M. D., Craddock, R. C., Gur, R. E., Gur, R. C., &
+
+       Satterthwaite, T. D. (2018). Quantitative Assessment of Structural Image Quality.
+
+       NeuroImage, 169, 407–418. https://doi.org/10.1016/j.neuroimage.2017.12.059
+
+Routier, A., Burgos, N., Díaz, M., Bacci, M., Bottani, S., El-Rifai, O., Fontanella, S., Gori, P.,
+
+       Guillon, J., Guyot, A., Hassanaly, R., Jacquemont, T., Lu, P., Marcoux, A., Moreau, T.,
+
+       Samper-González, J., Teichmann, M., Thibeau-Sutre, E., Vaillant, G., … Colliot, O.
+
+       (2021). Clinica: An Open-Source Software Platform for Reproducible Clinical
+
+       Neuroscience Studies. Frontiers in Neuroinformatics, 15.
+
+       https://doi.org/10.3389/fninf.2021.689675
+
+Samper-González, J., Burgos, N., Bottani, S., Fontanella, S., Lu, P., Marcoux, A., Routier, A.,
+
+       Guillon, J., Bacci, M., Wen, J., Bertrand, A., Bertin, H., Habert, M.-O., Durrleman, S.,
+
+       Evgeniou, T., & Colliot, O. (2018). Reproducible evaluation of classification methods
+
+       in Alzheimer’s disease: Framework and application to MRI and PET data.
+
+       NeuroImage, 183, 504–521. https://doi.org/10.1016/j.neuroimage.2018.08.042
+
+Satterthwaite, T. D., Elliott, M. A., Gerraty, R. T., Ruparel, K., Loughead, J., Calkins, M. E.,
+
+       Eickhoff, S. B., Hakonarson, H., Gur, R. C., Gur, R. E., & Wolf, D. H. (2013). An
+       improved framework for confound regression and filtering for control of motion
+
+       artifact in the preprocessing of resting-state functional connectivity data.
+
+       NeuroImage, 64(1), 240–256. https://doi.org/10.1016/j.neuroimage.2012.08.052
+
+Toga, A. W., Neu, S., Sheehan, S. T., Crawford, K., & Initiative, for the A. D. N. (2024). The
+
+       informatics of ADNI. Alzheimer’s & Dementia, 20(10), 7320–7330.
+
+       https://doi.org/10.1002/alz.14099
+
+Tustison, N. J., Avants, B. B., Cook, P. A., Zheng, Y., Egan, A., Yushkevich, P. A., & Gee, J. C.
+
+       (2010). N4ITK: Improved N3 Bias Correction. IEEE Transactions on Medical Imaging,
+
+       29(6), 1310–1320. https://doi.org/10.1109/TMI.2010.2046908
+
+Weiner, M. W., Kanoria, S., Miller, M. J., Aisen, P. S., Beckett, L. A., Conti, C., Diaz, A.,
+
+       Flenniken, D., Green, R. C., Harvey, D. J., Jack, C. R., Jagust, W., Lee, E. B., Morris, J.
+
+       C., Nho, K., Nosheny, R., Okonkwo, O. C., Perrin, R. J., Petersen, R. C., … Veitch, D. P.
+
+       (2024). Overview of Alzheimer’s Disease Neuroimaging Initiative and future clinical
+
+       trials. Alzheimer’s & Dementia, 21(1), e14321. https://doi.org/10.1002/alz.14321
+
+Weiner, M. W., Kanoria, S., Miller, M. J., Aisen, P. S., Beckett, L. A., Conti, C., Diaz, A.,
+
+       Flenniken, D., Green, R. C., Harvey, D. J., Jack Jr., C. R., Jagust, W., Lee, E. B., Morris,
+
+       J. C., Nho, K., Nosheny, R., Okonkwo, O. C., Perrin, R. J., Petersen, R. C., … Initiative,
+
+       for the A. D. N. (2025). Overview of Alzheimer’s Disease Neuroimaging Initiative and
+
+       future clinical trials. Alzheimer’s & Dementia, 21(1), e14321.
+
+       https://doi.org/10.1002/alz.14321
+
+Weiner, M. W., Veitch, D. P., Aisen, P. S., Beckett, L. A., Cairns, N. J., Cedarbaum, J., Green,
+
+       R. C., Harvey, D., Jack, C. R., Jagust, W., Luthman, J., Morris, J. C., Petersen, R. C.,
+       Saykin, A. J., Shaw, L., Shen, L., Schwarz, A., Toga, A. W., Trojanowski, J. Q., &
+
+       Initiative, A. D. N. (2015). 2014 Update of the Alzheimer’s Disease Neuroimaging
+
+       Initiative: A review of papers published since its inception. Alzheimer’s & Dementia,
+
+       11(6), e1–e120. https://doi.org/10.1016/j.jalz.2014.11.001
+
+Weiner, M. W., Veitch, D. P., Aisen, P. S., Beckett, L. A., Cairns, N. J., Green, R. C., Harvey,
+
+       D., Jack, C. R., Jagust, W., Liu, E., Morris, J. C., Petersen, R. C., Saykin, A. J., Schmidt,
+
+       M. E., Shaw, L., Shen, L., Siuciak, J. A., Soares, H., Toga, A. W., … Initiative, A. D. N.
+
+       (2013). The Alzheimer’s Disease Neuroimaging Initiative: A review of papers
+
+       published since its inception. Alzheimer’s & Dementia, 9(5), e111–e194.
+
+       https://doi.org/10.1016/j.jalz.2013.05.1769
+
+Weiner, M. W., Veitch, D. P., Aisen, P. S., Beckett, L. A., Cairns, N. J., Green, R. C., Harvey,
+
+       D., Jack, C. R., Jagust, W., Liu, E., Morris, J. C., Petersen, R. C., Saykin, A. J., Schmidt,
+
+       M. E., Shaw, L., Siuciak, J. A., Soares, H., Toga, A. W., Trojanowski, J. Q., & Initiative,
+
+       A. D. N. (2012). The Alzheimer’s Disease Neuroimaging Initiative: A review of papers
+
+       published since its inception. Alzheimer’s & Dementia, 8(1S), S1–S68.
+
+       https://doi.org/10.1016/j.jalz.2011.09.172
+
+Yao, X., Yan, J., Ginda, M., Börner, K., Saykin, A. J., Shen, L., & Initiative, for the A. D. N.
+
+       (2017). Mapping longitudinal scientific progress, collaboration and impact of the
+
+       Alzheimer’s disease neuroimaging initiative. PLOS ONE, 12(11), e0186095.
+
+       https://doi.org/10.1371/journal.pone.0186095
+Zhang, Y., Brady, M., & Smith, S. (2001). Segmentation of brain MR images through a hidden
+
+      Markov random field model and the expectation-maximization algorithm. IEEE
+
+      Transactions on Medical Imaging, 20(1), 45–57. https://doi.org/10.1109/42.906424
+
+
+
+
+                               Supplemental Figures
+Figure 5. Example of scanner parameters (y-axis) visualized across manufacturers (facets)
+and sites (x-axis). Here we show two example parameters, A) Total scan duration and B)
+CoilString. All other scanner parameters are visualized in the same manner, and these
+plots (and code for generating them) are in the GitHub
+(post_clinica_qc/analysis/create_report/main.ipynb). C) Table summarizing the per-
+scanner manufacturer missing scanner parameters.
+
+
+
+
+                                 Supplemental Text
+
+FMRIPrep preprocessing methods
+
+Anatomical preprocessing
+
+        The T1 image for each subject is corrected for intensity non-uniformity (INU) with
+N4BiasFieldCorrection (Tustison et al., 2010), distributed with ANTs 2.6.2 (Avants et al.,
+2008), and used as T1 reference throughout the workflow. The T1 reference is then skull-
+stripped with a Nipype implementation of the antsBrainExtraction.sh workflow (from ANTs),
+using OASIS30ANTs as target template. Brain tissue segmentation of cerebrospinal fluid
+(CSF), white-matter (WM) and gray-matter (GM) is performed on the brain-extracted T1
+using FSL fast (Zhang et al., 2001). Brain surfaces are reconstructed using recon-all
+(FreeSurfer 7.3.2) (Dale et al., 1999), and the brain mask estimated previously is refined
+with a custom variation of the method to reconcile ANTs-derived and FreeSurfer-derived
+segmentations of the cortical gray-matter of Mindboggle (Klein et al., 2017). A FLAIR image
+is used to improve pial surface refinement. Brain surfaces are reconstructed using recon-
+all (FreeSurfer 7.3.2) (Dale et al., 1999), and the brain mask estimated previously was
+refined with a custom variation of the method to reconcile ANTs-derived and FreeSurfer-
+derived segmentations of the cortical gray-matter of Mindboggle (Klein et al., 2017).
+Volume-based spatial normalization to two standard spaces (MNI152NLin6Asym,
+MNI152NLin2009cAsym) is performed through nonlinear registration with antsRegistration
+(ANTs 2.6.2), using brain-extracted versions of both T1 reference and the T1 template. The
+following templates were selected for spatial normalization and accessed with
+TemplateFlow (Ciric et al., 2022) (25.0.4): FSL's MNI ICBM 152 non-linear 6th Generation
+Asymmetric Average Brain Stereotaxic Registration Model (Evans et al., 2012)
+[TemplateFlow ID: MNI152NLin6Asym], ICBM 152 Nonlinear Asymmetrical template
+version 2009c (Fonov et al., 2009) [TemplateFlow ID: MNI152NLin2009cAsym].
+
+Functional preprocessing
+       First, a BOLD reference volume is generated for use in head motion correction.
+Head-motion parameters with respect to the BOLD reference (transformation matrices,
+and six corresponding rotation and translation parameters) are estimated before
+spatiotemporal filtering using FSL mcflirt (Jenkinson et al., 2002a). The BOLD reference is
+then co-registered to the T1 reference using bbregister (FreeSurfer), which implements
+boundary-based registration (Greve & Fischl, 2009). Co-registration is configured with six
+degrees of freedom.
+
+       Several confounding time series are calculated based on the preprocessed BOLD:
+framewise displacement (FD), DVARS, and three region-wise global signals. FD is
+computed using two formulations: the Power formulation (absolute sum of relative
+motions) (Power et al., 2014) and the Jenkinson formulation (relative root-mean-square
+displacement between affines) (Jenkinson et al., 2002b). FD and DVARS are calculated for
+each functional run, both using their implementations in Nipype (following the definitions
+by Power (Power et al., 2014)). The three global signals are extracted within the CSF, the
+WM, and the whole-brain masks.
+
+        Additionally, a set of physiological regressors are extracted to allow for component-
+based noise correction (CompCor (Behzadi et al., 2007)). Principal components are
+estimated after high-pass filtering the preprocessed BOLD time series (using a discrete
+cosine filter with 128s cut-off) for the two CompCor variants: temporal (tCompCor) and
+anatomical (aCompCor). tCompCor components were calculated from the top 2% variable
+voxels within the brain mask. For aCompCor, three probabilistic masks (CSF, WM and
+combined CSF+WM) are generated in anatomical space. The implementation in fMRIprep
+differs from that of Behzadi et al. (Behzadi et al., 2007) in that, instead of eroding the masks
+by 2 pixels on BOLD space, a mask of pixels that likely contain a volume fraction of GM is
+removed from the WM and CSF masks. This mask is obtained by dilating a GM mask
+extracted from the FreeSurfer's aseg segmentation, and it ensures components are not
+extracted from voxels containing a pre-set minimal fraction of GM. Finally, these masks are
+resampled into BOLD space and binarized by thresholding at 0.99 (as in the original
+implementation). Components are also calculated separately within the WM and CSF
+masks. For each CompCor decomposition, the k components with the largest singular
+values are retained, such that the retained components' time series are sufficient to
+explain 50 percent of the variance across the nuisance mask. The remaining components
+are dropped from consideration.
+
+       The head-motion estimates calculated in the correction step are also placed within
+the corresponding confounds file. The confound time series derived from head motion
+estimates and global signals are expanded with the inclusion of temporal derivatives and
+quadratic terms for each (Satterthwaite et al., 2013). Frames that exceed a threshold of 0.5
+mm FD or 1.5 standardized DVARS are annotated as motion outliers. Additional nuisance
+timeseries are calculated by means of principal components analysis of the signal found
+within a thin band (crown) of voxels around the edge of the brain, as proposed by Patriat et
+al. (Patriat et al., 2017).
+
+       The BOLD time series are resampled onto the following surfaces (Freesurfer
+reconstruction nomenclature): fsnative, fsaverage5, fsLR. The BOLD time series are
+resampled from T1 native (subject-specific) volumetric space into surface native (subject-
+specific) space, and then the surface native mesh is resampled onto the left/right-
+symmetric group-level template "fsLR" using the Connectome Workbench (Glasser et al.,
+2013). Grayordinates files (Glasser et al., 2013) containing 91k cortical and subcortical
+coordinates are also generated with surface data transformed directly to fsLR space and
+subcortical data transformed to 2 mm resolution MNI152NLin6Asym space. All
+resamplings can be performed with a single interpolation step by composing all the
+pertinent transformations (i.e., head-motion transform matrices, susceptibility distortion
+correction when available, and co-registrations to anatomical and output spaces). Gridded
+(volumetric) resamplings are performed using nitransforms, configured with cubic B-spline
+interpolation. Non-gridded (surface) resamplings are performed using mri_vol2surf
+(Freesurfer).
+
+ADNI specific fMRIPrep preprocessing errors
+
+        Missing BOLD file errors occur when subjects have multiple session directories but
+only a subset contain functional data (e.g., ses-M000/, ses-M006/, ses-M012/, ses-M048/,
+ses-M096/, with BOLD present only in later sessions). To prevent fMRIPrep failures in these
+cases, the pipeline explicitly inspects session directories prior to submission and
+dynamically restricts fMRIPrep execution to sessions that contain valid BOLD files. As a
+result, fMRIPrep jobs are only launched for subject–session pairs that meet minimum data
+requirements. This logic is implemented in the s7_fmriprep/fMRIPrep_rerun_array.slurm
+script and is applied uniformly across all subjects.
+
+       TemplateFlow binding and memory-related errors affect only three subjects in our
+data download. These errors are resolved by adjusting resource allocation and ensuring
+that the TemplateFlow directory is correctly mounted inside the container. The provided
+fMRIPrep execution scripts automatically download and bind the TemplateFlow directory,
+allowing these cases to be successfully reprocessed without further intervention.
+
+      FreeSurfer recon-all failures reflect unrecoverable errors in cortical surface
+reconstruction, most likely due to low-quality anatomical data. Subjects with these
+failures are excluded from downstream analyses, as these errors cannot be reliably
+corrected.
+
+        Syn-sdc failures are caused by missing or invalid PhaseEncodingDirection
+metadata in the BOLD JSON files, which is common for certain ADNI acquisitions
+(primarily from Philips scanners). Because PhaseEncodingDirection is required for
+fieldmap-less distortion correction, these runs fail when syn-sdc is enabled. Our error
+classification automatically detects this condition (find_syn_pedir_failures.py) and re-runs
+affected subjects without the –use-syn-sdc flag using
+s7_fmriprep/fMRIPrep_rerun_synflag_array.slurm. Users may choose to exclude these
+subjects due to these differences in preprocessing; however, we retain them in the final
+dataset, as ADNI already contains unavoidable heterogeneity in acquisition parameters
+and available anatomical images (e.g., presence or absence of T2 scans).
+
+Records Produced at Each Step
+
+Steps 1–2: Data Acquisition Records
+
+Folders: s1_setup_account/, s2_download/
+
+These folders contain procedural guides (s1_setup_account/README.md &
+s2_download/README.md) but no data or scripts. Users must follow the instructions to
+setup their account and DUA, then download: i) DICOM ZIP archives, ii) metadata
+spreadsheets (e.g., ADNIMERGE, scanner protocols, QC files), iii) clinical and behavioral
+files, iv) image collection CSV files (describing DICOM directories of your image
+collection).
+
+Step 3: DICOM Organization and Initial QC Records
+
+Folder: s3_organize/
+
+Generated records include:
+
+   •   dicom_dirs.csv: a complete list of downloaded subjects and sessions
+   •   clinica_subs.txt: a subject list to pass onto Clinica.
+
+These records establish the ground truth of the raw imaging dataset and are essential for
+troubleshooting missing sessions or discrepancies between ADNI and local storage.
+
+Step 4: BIDS Records and Clinica Metadata
+Folder: s4_clinica/
+
+Generated records include:
+
+   •   BIDS directory (sub-*/ses-*) with .nii.gz and .json files
+   •   participants.tsv: includes participant_id, sex, education, baseline age, ethnicity,
+       site, baseline diagnosis, and baseline cognitive test scores.
+   •   clinical_data.tsv: subject and session-specific clinical data matched to imaging
+       sessions.
+   •   dataset_description.json: contains the dataset name and BIDS version.
+   •   fmri_paths.tsv, flair_paths.tsv, t1_paths.tsv: contains the mapping between DICOM
+       directories and BIDS NIfTI files, associated metadata extracted from the DICOMS.
+   •   clinica_conversion.logs: full record of conversion steps, including errors.
+
+These records ensure traceability of every conversion decision and document known ADNI
+inconsistencies.
+
+Step 5: Post-Clinica QC Records
+
+Folder: s5_post_clinica_qc/
+
+Generated records include:
+
+   •   anchor_df.csv, anchor_plus_dicom.csv, anchor_plus_dicom_nifti_struct.csv: files
+       providing links between BOLD and T1 DICOMS and NIfTI files, and additional
+       scanner parameters. Image_ID, Series_ID, and Scan_Date are included in these
+       files.
+   •   missing_data.tsv: subjects that are missing NIfTI or JSON files after Clinica
+       conversion.
+   •   missing_T1.tsv: subjects that are missing T1 data but have a BOLD image. These
+       subjects are manually checked (if you wish). Some can be recovered by manually
+       running dcm2niix yourself (not using clinica).
+   •   final_heuristics.tsv: subject list passed on to mriqc. One row per subject and per
+       session.
+   •   fmriprep_subjects.tsv: subject list passed on to fmriprep. Format is one row per
+       subject, and sessions are stored as columns.
+   •   tables and plots generated in main.ipynb: scanner parameters visualized across
+       sites and manufacturers, tables summarizing the reasons subjects/sessions are
+       excluded, and the number of included subjects after each heuristic.
+These files document structural and temporal acquisition differences across ADNI sites
+and serve as the first round of exclusion.
+
+Step 6: MRIQC Records
+
+Folder: s6_mriqc/
+
+Generated records include:
+
+   •   Per-run JSON + TSV IQM files (subjects’ quality metrics)
+   •   Participant-level HTML reports
+   •   Group-level HTML reports (BOLD/T1 summaries)
+   •   Group-level TSV of all subjects’ IQMs (group_bold.tsv, group_t1.tsv)
+   •   T1_IQMs_rainclouds.pdf: visualization of all T1 IQMs, including the outlier threshold
+       (Figure 2).
+   •   BOLD_IQMs_rainclouds.pdf: visualization of all BOLD IQMs, including the outlier
+       threshold (Figure 3).
+   •   All_IQMs_with_QC_flags_clean.tsv: T1 and BOLD IQMs merged into a single file with
+       columns for include/exclude based on outlier thresholds.
+
+Because IQM logic is often opaque to end users, all intermediate tables and scripts are
+included to ensure full transparency.
+
+Step 7: fMRIPrep Records
+
+Folder: s7_fmriprep/
+
+Generated records include:
+
+   •   BIDS-Derivatives compliant preprocessed data
+   •   confounds_timeseries.tsv files
+   •   MNI volumetric space outputs
+   •   Surface outputs (fsnative, fsaverage:den-10k)
+   •   Grayordinates CIFTI files (fsLR:den-91k)
+   •   log_*.err & log_*.out: per-subject output and error logs
+   •   fmriprep_error_report_ALL.csv: automated error summaries
+
+Step 8: Final QC and Curated Dataset Records
+
+Folder: s8_final_qc/
+Generated records include:
+
+   •   included_sessions.tsv: sessions meeting all criteria
+   •   excluded_sessions.tsv: sessions removed with coded reasons
+   •   euler_summary.tsv: sessions left and right hemisphere euler number and average
+       euler number, site column (used to calculate site specific euler exclusion).
+   •   motion_summary.tsv: one row per subject, summary of subject’s motion
+       parameters (meanFD, percent scrubbed, good_time, DVARS)
+   •   motion_timeseries.tsv: one row per volume per session, per subject motion
+       parameters.
+
+These records define the final reproducible sample for downstream analyses.
+
