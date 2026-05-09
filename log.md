@@ -192,3 +192,7 @@
 ## [2026-05-09 11:54] CrosslinkApplier: added 4 wikilinks (4 inline, 0 suggested)
 
 ## [2026-05-09 13:18] FullTextFetcher: fetched 6 new full texts (105 total in corpus)
+
+## [2026-05-09 14:02] DeepResearch: 2 papers added via focused research
+
+## [2026-05-09 14:13] Audit: 776 issues (66 broken links, 27 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 16 opaque-refs, 15 thin, 443 missing-links)
