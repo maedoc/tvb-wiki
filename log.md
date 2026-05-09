@@ -170,3 +170,5 @@
 ## [2026-05-09 04:22] Improve: 1 pages improved (local-field-potentials)
 
 ## [2026-05-09 05:08] FullTextFetcher: fetched 4 new full texts (93 total in corpus)
+
+## [2026-05-09 05:21] DeepResearch: 14 papers added via focused research

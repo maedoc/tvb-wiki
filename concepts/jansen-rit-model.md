@@ -74,7 +74,7 @@ The Jansen-Rit model serves several key applications in computational neuroscien
 
 ## Relationship to Other Neural Mass Models
 
-The Jansen-Rit model extends earlier work by Lopes da Silva and colleagues, who developed thalamic models of EEG generation, by focusing specifically on cortical column dynamics. Unlike more recent neural mass formulations—such as the reduced [[wong-wang|Wong-Wang model]] or the Epileptor—the Jansen-Rit model retains explicit separability into three distinct populations, making it particularly amenable to bifurcation analysis and parameter interpretation.
+The Jansen-Rit model extends earlier work by Lopes da Silva and colleagues, who developed thalamic models of EEG generation, by focusing specifically on cortical column dynamics. Unlike more recent neural mass formulations—such as the reduced [[wong-wang|Wong-Wang model]] or the [[epileptor]]—the Jansen-Rit model retains explicit separability into three distinct populations, making it particularly amenable to bifurcation analysis and parameter interpretation.
 
 ## Related Concepts
 

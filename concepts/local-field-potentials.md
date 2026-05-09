@@ -1,13 +1,22 @@
 ---
-title: Local Field Potentials
 created: 2024-01-15
-updated: 2026-05-09
+sources:
+- raw/papers/arxiv-2512.07842.md
+- raw/papers/arxiv-2510.22022.md
+- raw/papers/arxiv-2603.07524.md
+tags:
+- neuroimaging-eeg
+- neuroimaging-meg
+- electrophysiology
+- neural-field-theory
+- brain-dynamics
+- computational-neuroscience
+title: Local Field Potentials
 type: concept
-tags: [neuroimaging-eeg, neuroimaging-meg, electrophysiology, neural-field-theory, brain-dynamics, computational-neuroscience]
-sources: [raw/papers/arxiv-2512.07842.md, raw/papers/arxiv-2510.22022.md, raw/papers/arxiv-2603.07524.md]
+updated: '2026-05-09'
 ---
 
-A local field potential (LFP) represents the electrical potential measured in the extracellular space surrounding a population of neurons, reflecting the summed postsynaptic activity of local neural ensembles [1]. Unlike single-unit recordings that capture action potentials from individual neurons, the LFP integrates synaptic currents—both excitatory and inhibitory—that flow across neuronal membranes during coordinated population activity [2]. This measurement is typically obtained using intracortical microelectrodes placed within brain tissue, providing a window into the millisecond-scale dynamics of cortical circuits [3]. The LFP is particularly valuable because it captures population-level phenomena that are obscured in single-neuron recordings, including oscillations, traveling waves, and state-dependent changes in excitability.
+A local field potential (LFP) represents the electrical potential measured in the extracellular space surrounding a population of neurons, reflecting the summed postsynaptic activity of local neural ensembles [1]. Unlike single-unit recordings that capture action potentials from individual neurons, the LFP integrates synaptic currents—both excitatory and inhibitory—that flow across neuronal membranes during coordinated population activity [2]. This measurement is typically obtained using intracortical microelectrodes placed within brain tissue, providing a window into the millisecond-scale dynamics of cortical circuits [3]. The LFP is particularly valuable because it captures population-level phenomena that are obscured in single-[[neuron]] recordings, including oscillations, traveling waves, and state-dependent changes in excitability.
 
 ## Motivation and Significance
 
@@ -17,7 +26,7 @@ Recent work has demonstrated the feasibility of using LFP measurements to charac
 
 ## Measurement Considerations: Volume Conduction and Spatial Footprint
 
-The physical mechanisms underlying LFP generation involve complex volume conduction processes that must be carefully considered when interpreting measured signals. The extracellular potential arises from transmembrane currents that flow during synaptic activation, with contributions from both excitatory (primarily AMPA and NMDA receptor-mediated) and inhibitory (GABAergic) postsynaptic currents [2]. These currents flow through the extracellular medium, creating electric fields that can be measured at some distance from their sources.
+The physical mechanisms underlying LFP generation involve complex [[volume-conduction]] processes that must be carefully considered when interpreting measured signals. The extracellular potential arises from transmembrane currents that flow during synaptic activation, with contributions from both excitatory (primarily AMPA and NMDA receptor-mediated) and inhibitory (GABAergic) postsynaptic currents [2]. These currents flow through the extracellular medium, creating electric fields that can be measured at some distance from their sources.
 
 A critical distinction exists between volume conduction models and current source density (CSD) analysis [3]. The CSD approach computes the second spatial derivative of the recorded potential, which better localizes the underlying current sources and reduces artifacts from volume conduction through the skull and scalp. The spatial footprint of an LFP measurement depends on electrode geometry, tissue conductivity, and the density of active neurons; under typical conditions, an LFP electrode samples activity from a cylindrical volume roughly 250–500 μm in radius [2]. This spatial resolution makes LFPs particularly useful for studying local cortical circuits while still capturing population-level dynamics.
 
@@ -29,7 +38,7 @@ Beta bands (12–30 Hz) are associated with motor preparation and execution, wit
 
 ## Mathematical Framework
 
-The [[wilson-cowan-model]] provides a canonical description of neural population dynamics that produce LFP-like signals [2]. In its simplest form, the Wilson-Cowan equations describe the evolution of excitatory and inhibitory population activities $E(x,t)$ and $I(x,t)$ at position $x$ and time $t$:
+The [[wilson-cowan-model]] provides a canonical description of neural population dynamics that produce LFP-like signals [2]. In its simplest form, the [[wilson-cowan]] equations describe the evolution of excitatory and inhibitory population activities $E(x,t)$ and $I(x,t)$ at position $x$ and time $t$:
 
 $$\tau_E \frac{\partial E}{\partial t} = -E + S\left( w_{EE} \ast E - w_{EI} \ast I + P(x,t) \right)$$
 $$\tau_I \frac{\partial I}{\partial t} = -I + S\left( w_{IE} \ast E - w_{II} \ast I \right)$$
@@ -40,11 +49,11 @@ More sophisticated approaches employ the [[amari]] neural field equation, which 
 
 $$\frac{\partial u}{\partial t} = -u + \int_{\Omega} w(x-y) f(u(y,t)) dy + h(x,t)$$
 
-where $u(x,t)$ represents the neural field, $w(x-y)$ is the connectivity kernel specifying synaptic interactions across space, $f$ is the firing rate nonlinearity, and $h(x,t)$ is an external drive. This framework has proven particularly valuable for studying pattern formation in cortical tissue, including cortical waves, bumps, and ripples [3].
+where $u(x,t)$ represents the neural field, $w(x-y)$ is the [[connectivity]] kernel specifying synaptic interactions across space, $f$ is the firing rate nonlinearity, and $h(x,t)$ is an external drive. This framework has proven particularly valuable for studying pattern formation in cortical tissue, including cortical waves, bumps, and ripples [3].
 
 ## Parameter Estimation and State Inference
 
-A significant challenge in using LFPs for model validation lies in inferring the hidden states and parameters that generated the observed signal [1]. The literature addresses this through [[bayesian]] data assimilation methods that perform joint estimation of neural states and model parameters [3]. These approaches treat the LFP as a noisy observation of an underlying dynamical system, employing recursive estimation techniques to track both the current state and fixed parameters such as connectivity weights and time constants.
+A significant challenge in using LFPs for [[model-validation]] lies in inferring the hidden states and parameters that generated the observed signal [1]. The literature addresses this through [[bayesian]] data assimilation methods that perform joint estimation of neural states and model parameters [3]. These approaches treat the LFP as a noisy observation of an underlying dynamical system, employing recursive estimation techniques to track both the current state and fixed parameters such as connectivity weights and time constants.
 
 The practical importance of this parameter estimation extends to [[personalized-brain-modeling]], where individual differences in structural connectivity—measured via [[diffusion-imaging]] and tractography—must be matched to observed functional dynamics [1]. Successful parameter inference from LFP data enables the construction of personalized [[brain-dynamics]] models that can predict individual responses to stimulation or pharmacological perturbations in conditions ranging from epilepsy to depression [2].
 
