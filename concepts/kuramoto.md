@@ -14,10 +14,10 @@ tags:
 - bifurcation-analysis
 title: Kuramoto
 type: concept
-updated: '2026-05-09'
+updated: '2026-05-10'
 ---
 
-The Kuramoto model is a mathematical framework for describing the synchronous behavior of large populations of coupled oscillators. Originally proposed by the Japanese physicist Yoshiki Kuramoto in 1975[^kuramoto-1975], it has become one of the most influential models in [[computational-neuroscience]] for understanding how neural populations transition from disordered, asynchronous activity to coherent oscillations. The model captures the essential physics of synchronization without requiring detailed biophysical specifications of individual neurons, making it particularly useful for whole-brain modeling where the focus is on population-level dynamics rather than single-cell physiology.
+The Kuramoto model is a mathematical framework for describing the synchronous behavior of large populations of coupled oscillators. Originally proposed by the Japanese physicist Yoshiki Kuramoto in 1975[^kuramoto-1975], it has become one of the most influential models in [[computational-neuroscience]] for understanding how neural populations transition from disordered, asynchronous activity to coherent oscillations. The model captures the essential physics of synchronization without requiring detailed biophysical specifications of individual neurons, making it particularly useful for [[whole-brain|whole-brain modeling]] where the focus is on population-level dynamics rather than single-cell physiology.
 
 [^kuramoto-1975]: Kuramoto, Y. (1975). Self-entrainment of a population of coupled non-[[linear]] oscillators. In *International Symposium on Mathematical Problems in Theoretical Physics* (pp. 420–422). Springer.
 
@@ -73,7 +73,7 @@ where $\alpha$ is a phase lag parameter. This lag term can be interpreted as rep
 
 The Kuramoto model occupies a unique position in the hierarchy of [[neural‑mass‑models]]. Unlike biophysically detailed models such as the [[hodgkin‑huxley‑model]] or [[izhikevich‑neuron‑model]], which characterize individual neuron dynamics, the Kuramoto model operates at the population level using only phase variables. This simplification sacrifices mechanistic detail for analytical tractability, allowing exact solutions in certain limits and clear identification of bifurcation parameters.
 
-The [[wilson‑cowan‑model]] and [[jansen‑rit‑model]] represent intermediate approaches that capture population dynamics with more biological detail (excitatory and inhibitory populations, sigmoidal activation functions) while remaining amenable to analysis. The relationship between these models and the Kuramoto model has been explored through phase reduction techniques, showing that under appropriate conditions, neural mass models can be approximated by Kuramoto‑style phase oscillators[^lubenkaemper‑2018].
+The [[wilson‑cowan‑model]] and [[jansen‑rit‑model]] represent intermediate approaches that capture population dynamics with more biological detail (excitatory and inhibitory populations, sigmoidal activation functions) while remaining amenable to analysis. The relationship between these models and the Kuramoto model has been explored through phase reduction techniques, showing that under appropriate conditions, [[neural-mass-models]] can be approximated by Kuramoto‑style phase oscillators[^lubenkaemper‑2018].
 
 [^lubenkaemper‑2018]: Lienkaemper, C., & Ocker, S. Y. (2018). Phase reduction and synchronization of coupled neural mass models. *Physical Review E*, 98(5), 052215.
 

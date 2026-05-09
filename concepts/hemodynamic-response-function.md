@@ -1,13 +1,19 @@
 ---
-title: Hemodynamic Response Function
 created: 2026-04-20
-updated: 2026-05-09
+sources:
+- raw/papers/friston-1993.md
+- raw/papers/smith-2013-connectomics.md
+tags:
+- neuroimaging-fmri
+- neural-mass-models
+- whole-brain-modeling
+- parameter-estimation
+title: Hemodynamic Response Function
 type: concept
-tags: [neuroimaging-fmri, neural-mass-models, whole-brain-modeling, parameter-estimation]
-sources: [raw/papers/friston-1993.md, raw/papers/smith-2013-connectomics.md]
+updated: '2026-05-10'
 ---
 
-The hemodynamic response function (HRF) is a mathematical description of the way in which blood flow and the blood oxygenation level-dependent (BOLD) signal change over time in response to neural activity in the [[brain-map]]. It represents the impulse response of the neurovascular coupling system—the chain of physiological processes that transform brief episodes of neuronal firing into the measurable fMRI signal. Understanding the HRF is fundamental to any analysis of [[functional-connectivity]] derived from fMRI data, as it determines the temporal relationship between underlying neural events and the observed signal.
+The hemodynamic response function (HRF) is a mathematical description of the way in which blood flow and the blood oxygenation level-dependent (BOLD) signal change over time in response to neural activity in the [[brain-map]]. It represents the impulse response of the neurovascular coupling system—the chain of physiological processes that transform brief episodes of neuronal firing into the measurable [[fmri]] signal. Understanding the HRF is fundamental to any analysis of [[functional-connectivity]] derived from fMRI data, as it determines the temporal relationship between underlying neural events and the observed signal.
 
 ## Physiological Basis
 
@@ -19,7 +25,7 @@ The HRF is typically modeled using basis functions that capture its characterist
 
 $$ h(t) = A \left( \frac{t^{\alpha_1-1} \beta_1^{\alpha_1} e^{-\beta_1 t}}{\Gamma(\alpha_1)} - c \frac{t^{\alpha_2-1} \beta_2^{\alpha_2} e^{-\beta_2 t}}{\Gamma(\alpha_2)} \right) $$
 
-where the first term models the main peak (typically with $\alpha_1 \approx 6$ and $\beta_1 \approx 1$) and the second term captures the undershoot (with $\alpha_2 \approx 16$, $\beta_2 \approx 1$, and $c$ controlling its amplitude relative to the peak). Alternative formulations include the canonical HRF with fixed parameters, temporal derivatives to capture peak timing variations, and dispersion derivatives to account for differences in HRF width across [[brain-map]]s or individuals. The Smith et al. 2013 review of connectomics highlights how these parameter choices propagate through to estimates of functional connectivity patterns.
+where the first term models the main peak (typically with $\alpha_1 \approx 6$ and $\beta_1 \approx 1$) and the second term captures the undershoot (with $\alpha_2 \approx 16$, $\beta_2 \approx 1$, and $c$ controlling its amplitude relative to the peak). Alternative formulations include the canonical HRF with fixed parameters, temporal derivatives to capture peak timing variations, and dispersion derivatives to account for differences in HRF width across [[brain-map]]s or individuals. The Smith et al. 2013 review of [[connectomics]] highlights how these parameter choices propagate through to estimates of functional [[connectivity]] patterns.
 
 ## Role in Whole-Brain Modeling
 
@@ -37,6 +43,6 @@ The HRF is closely linked to the [[bold-signal]], which it generates through con
 
 - Aguirre, G. K., Zarahn, E., & D'Esposito, M. (1998). The inferential impact of HRF variability in fMRI. *NeuroImage*, 7(4), S720.
 - Friston, K. J., Fletcher, P., Josephs, O., Holmes, A., Rith, M., & Turner, R. (1998). Event-related fMRI: characterizing differential responses. *NeuroImage*, 7(1), 30–40.
-- Friston, K. J., Holmes, A. P., Worsley, K. J., Poline, J. B., Frith, C. D., & Frackowiak, R. S. J. (1994). Statistical parametric maps in functional imaging: A general linear approach. *Human Brain Mapping*, 2(4), 189–210.
+- Friston, K. J., Holmes, A. P., Worsley, K. J., Poline, J. B., Frith, C. D., & Frackowiak, R. S. J. (1994). Statistical parametric maps in functional imaging: A general [[linear]] approach. *Human Brain Mapping*, 2(4), 189–210.
 - Glover, G. H. (1999). Deconvolution of impulse response in event-related BOLD fMRI. *NeuroImage*, 9(4), 416–429.
 - Smith, S. M., Vidaurre, D., Glasser, M. F., & Van Essen, D. C. (2013). The connectomics of the human brain: mapping structure, function, and dynamics. *NeuroImage*, 80, 1–106.

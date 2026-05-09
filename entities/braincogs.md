@@ -22,7 +22,7 @@ tags:
 - connectomics
 title: BrainCoGS
 type: entity
-updated: '2026-05-09'
+updated: '2026-05-10'
 ---
 
 # BrainCoGS
@@ -59,7 +59,7 @@ The [[brain‑connectivity‑toolbox]] provides complementary graph‑theoretic 
 
 ## Key Papers
 
-The theoretical foundation for BrainCoGS draws on decades of computational neuroscience research on accumulator models of decision‑making, including classic work from the participating Princeton laboratories on the bounds of evidence accumulation and related frameworks that have become standard for fitting behavioral data in [[computational‑neuroscience]]. The Brody lab's foundational papers on rodent decision‑making and evidence accumulation (e.g., Brunton et al., 2013; Erlich et al., 2011) establish the behavioral paradigm that the consortium employs. The Tank lab's work on neural representations of sensory evidence and choice variables in parietal cortex provides key benchmarks for the coding schemes the consortium seeks to characterize across the cortex.
+The theoretical foundation for BrainCoGS draws on decades of [[computational-neuroscience]] research on accumulator models of decision‑making, including classic work from the participating Princeton laboratories on the bounds of evidence accumulation and related frameworks that have become standard for fitting behavioral data in [[computational‑neuroscience]]. The Brody lab's foundational papers on rodent decision‑making and evidence accumulation (e.g., Brunton et al., 2013; Erlich et al., 2011) establish the behavioral paradigm that the consortium employs. The Tank lab's work on neural representations of sensory evidence and choice variables in parietal cortex provides key benchmarks for the coding schemes the consortium seeks to characterize across the cortex.
 
 The Seung laboratory's pioneering applications of [[machine‑learning]] to electron microscopy reconstruction (e.g., Seung & Sompolinsky, 2013) establish the theoretical framework for the circuitomics approach [1]. The Pillow lab's extensive body of work on statistical methods for neural population coding—including spike train decoding, latent variable models, and optimal stimulus estimation (e.g., Pillow et al., 2008; Park et al., 2014)—provides the analytical toolkit for interpreting the consortium's large‑scale recordings. The Goldman lab's studies of prefrontal working memory circuits (e.g., Goldman‑Rakic, 1995; Goldman et al., 2009) provide the conceptual foundation for understanding how persistent activity emerges from recurrent [[network‑dynamics]].
 
@@ -72,8 +72,8 @@ The BrainCoGS ecosystem encompasses several software tools developed specificall
 ## References
 
 1. Micha Burkhardt, Carsten Gießing. (2025). *The Comet Toolbox: Improving robustness in [[netneuroscience|network neuroscience]] through multiverse analysis*. bioRxiv. [DOI](https://doi.org/10.1101/2024.01.21.576546))
-2. Jiangnan Zhang, Chengyuan Qian, Wenli​an Lu, Gustavo Deco, Weiyang Ding, Jianfeng Feng. (2025). *Dark Signals in the Brain: Augment Brain Network Dynamics to the Complex‑valued Field*. [Link](https://arxiv.org/abs/2509.24715))
+2. Jiangnan Zhang, Chengyuan Qian, Wenli​an Lu, Gustavo Deco, Weiyang Ding, Jianfeng Feng. (2025). *Dark Signals in the Brain: Augment Brain [[network-dynamics]] to the Complex‑valued Field*. [Link](https://arxiv.org/abs/2509.24715))
 3. (authors unknown). *[[braph]] 2.0 [[genesis]]: An Open‑Source Toolbox for Brain Connectivity Analysis*.
 4. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.
-5. Xiaoyan Wu, Chuang Liang, J. Bustillo, Peter V. Kochunov, Xuyun Wen, Jing Sui, Rongtao Jiang, Xiao Yang, Zening Fu, Daoqiang Zhang, V. Calhoun, S. Qi. (2025). *The Impact of Atlas [[parcellation]] on Functional Connectivity Analysis Across Six Psychiatric Disorders*. Human Brain Mapping. [DOI](https://doi.org/10.1002/hbm.70206))
+5. Xiaoyan Wu, Chuang Liang, J. Bustillo, Peter V. Kochunov, Xuyun Wen, Jing Sui, Rongtao Jiang, Xiao Yang, Zening Fu, Daoqiang Zhang, V. Calhoun, S. Qi. (2025). *The Impact of Atlas [[parcellation]] on [[functional-connectivity]] Analysis Across Six Psychiatric Disorders*. Human Brain Mapping. [DOI](https://doi.org/10.1002/hbm.70206))
 6. Jui‑To Wang, Ching‑Po Lin, Huei‑Min Liu, Carlo Pierpaoli, C. Lo. (2025). *Beyond [[tractography]] in brain connectivity mapping with dMRI morphometry and functional networks*. Brain Structure and Function. [DOI](https://doi.org/10.1007/s00429-025-03016-1))
