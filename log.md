@@ -184,3 +184,5 @@
 ## [2026-05-09 09:13] FullTextFetcher: fetched 6 new full texts (99 total in corpus)
 
 ## [2026-05-09 09:41] DeepResearch: 1 papers added via focused research
+
+## [2026-05-09 09:45] RefFormatter: formatted references on 2 pages
