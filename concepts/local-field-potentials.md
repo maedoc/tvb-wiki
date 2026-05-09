@@ -68,3 +68,9 @@ Contemporary research attempts to construct personalized brain functional networ
 Several fundamental questions remain open in the study of LFPs. The precise relationship between LFP fluctuations and the underlying spike trains of individual neurons—whether LFP primarily reflects excitatory postsynaptic potentials, inhibitory currents, or some combination—continues to be debated [2]. The spatial footprint of LFPs and how it scales with electrode geometry and tissue properties remains incompletely characterized. Furthermore, the integration of LFP-based inference with [[dynamic-causal-modeling]] frameworks and [[the-virtual-brain]] workflows presents ongoing methodological challenges, particularly regarding parameter identifiability and model validation [3].
 
 Future directions include the development of more sophisticated forward models that account for the detailed geometry of neuronal morphologies, the incorporation of [[stochastic-differential-equations]] to capture variability in neural responses, and the extension of control-theoretic approaches to manipulate LFP dynamics for therapeutic purposes in conditions such as epilepsy [1].
+
+## References
+
+1. Daniele Avitabile, Gabriel J. Lord, Khadija Meddouni. *State and Parameter Estimation for a Neural Model of Local Field Potentials*. [Link](https://arxiv.org/abs/2512.07842)
+2. Cyprien Tamekue, ShiNung Ching. *Control of neural field equations with step-function inputs*. [Link](https://arxiv.org/abs/2510.22022)
+3. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for Personalized Brain Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)
