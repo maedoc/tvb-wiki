@@ -148,3 +148,5 @@
 ## [2026-05-09 02:59] Improve: 1 pages improved (wilson-cowan-model)
 
 ## [2026-05-09 03:16] Improve: 1 pages improved (wilson-cowan-model)
+
+## [2026-05-09 03:36] Improve: 2 pages improved (local-field-potentials, wilson-cowan-model)

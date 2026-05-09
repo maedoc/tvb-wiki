@@ -16,7 +16,7 @@ tags:
 - software-tvb
 title: Schaefer Parcellation
 type: entity
-updated: '2026-05-08'
+updated: '2026-05-09'
 ---
 
 The **Schaefer Parcellation** is a widely-used functional [[brain-parcellation]] derived from resting-state [[fmri]] data collected by the [[human-[[connectome]]-project]]. Developed by Alexander Schaefer and colleagues (2018), it provides a systematic division of the human cerebral cortex into spatially contiguous regions of interest, offering a hierarchical organization that has become one of the standard node definitions for [[whole-brain]] [[connectivity]] analyses and computational modeling.
@@ -52,3 +52,12 @@ Compared to other functional parcellations like the Power atlas (Power et al., 2
 Despite its widespread adoption, the Schaefer parcellation has several limitations. First, it is derived from young adult data (primarily ages 22–35) and may not generalize to pediatric or geriatric populations — developmental or aging studies often require age-appropriate parcellations. Second, the parcellation captures group-averaged connectivity patterns, potentially obscuring individual differences in functional topography that are relevant for personalized brain modeling. Recent work on individual-specific parcellations seeks to address this limitation.
 
 Third, the parcellation is cortical-only; subcortical structures are not included, requiring researchers to combine Schaefer with other atlases (such as the Aseg or hippocampal segmentations from freesurfer) for whole-brain coverage. Finally, the relationship between resting-state connectivity parcels and task-based activation boundaries remains an active area of investigation — parcels defined at rest may not align perfectly with task-evoked activation patterns.
+
+## References
+
+1. V. Kirova, Dzerassa Kadieva, Daniil Vlasenko, Isak B. Blank, Fedor Ratnikov. (2025). *Dynamic Functional Connectivity Features for Brain State Classification: Insights from the Human Connectome Project*. arXiv.org. [DOI](https://doi.org/10.48550/arXiv.2510.05325)
+2. (authors unknown). *Functional Network Organization of the Human Brain*.
+3. (authors unknown). *Resting-State fMRI in the Human Connectome Project*.
+4. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+5. Federica Franza, M. Cirillo, M. Silvestro, F. Trojsi, Antonio Russo, Fabrizio Esposito, M. A. Pirozzi. (2025). *Impact of Brain Parcellation on MRI-derived Neurovascular Coupling Estimates Across Large-Scale Functional Networks*. 2025 IEEE International Conference on Metrology for eXtended Reality, Artificial Intelligence and Neural Engineering (MetroXRAINE). [DOI](https://doi.org/10.1109/MetroXRAINE66377.2025.11340209)
+6. Anticevic et al. (2012). *Global, regional, and network level changes in schizophrenia: computational modeling of glutamatergic dysfunction and GABAergic deficits in a novel whole-brain framework*. Proceedings of the National Academy of Sciences (PNAS). [DOI](https://doi.org/10.1073/pnas.1114858109)
