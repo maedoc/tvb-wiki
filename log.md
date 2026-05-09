@@ -150,3 +150,15 @@
 ## [2026-05-09 03:16] Improve: 1 pages improved (wilson-cowan-model)
 
 ## [2026-05-09 03:36] Improve: 2 pages improved (local-field-potentials, wilson-cowan-model)
+
+## [2026-05-09 03:45] RefFormatter: formatted references on 4 pages
+
+## [2026-05-09 04:15] Improve: 1 pages improved (local-field-potentials)
+- Removed violated ## References section per schema rule 8
+- Updated date to 2026-05-09
+
+## [2026-05-09 XX:XX] Improve: 1 pages improved (wilson-cowan-model)
+- Removed inline citations and ## References section per schema rule 8
+- Added arxiv-2510.22022 to sources
+- Added wikilinks to neural-field-theory, dynamical-systems-theory, stochastic-differential-equations
+- Updated date to 2026-05-09

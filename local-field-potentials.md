@@ -1,7 +1,7 @@
 ---
 title: Local Field Potentials
 created: 2025-01-15
-updated: 2026-05-07
+updated: 2026-05-09
 type: concept
 tags: [electrophysiology, neuroimaging-eeg, neuroimaging-meg, neural-mass-models, neural-field-theory, brain-oscillations, functional-connectivity, forward-model, parameter-estimation]
 sources: [raw/papers/arxiv-2512.07842.md, raw/papers/arxiv-2510.22022.md, raw/papers/arxiv-2603.07524.md]
@@ -43,14 +43,3 @@ Despite significant progress, several open questions remain in LFP research. The
 
 Future directions include the development of more biophysically realistic forward models that account for the detailed morphology of neuronal dendrites, improved regularization techniques for solving the inverse problem, and hybrid approaches that combine LFPs with [[fmri]] signals through [[bold-model]] frameworks for integrated analysis of brain dynamics across spatiotemporal scales.
 
-## References
-
-Avitabile, D., Lord, G. J., & Meddouni, S. (2025). Data assimilation and parameter estimation for neural field equations from local field potential measurements. *arXiv:2512.07842*.
-
-Buzsáki, G., Anastassiou, C. A., & Koch, C. (2012). The origin of extracellular fields and currents: EEG, ECoG, LFP and spikes. *Nature Neuroscience*, 15(11), 1435–1445.
-
-Jiang, H., Tang, Y., & Wang, S. (2026). Neural dynamics-informed pre-trained framework for personalized brain functional network construction. *arXiv:2603.07524*.
-
-Jirsa, V. K., Stacey, W. C., Quilichini, P. P., Ivanov, A. I., & Bernard, C. (2014). On the nature of seizure dynamics. *Brain*, 137(8), 2210–2230.
-
-Tamekue, C., & Ching, S. (2025). Control of neural field equations with step-function inputs. *arXiv:2510.22022*.
