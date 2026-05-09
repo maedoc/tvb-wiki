@@ -142,3 +142,5 @@
 ## [2026-05-08 23:32] Matcher: 2 pages got 6 new sources
 
 ## [2026-05-09 00:59] DeepResearch: 8 papers added via focused research
+
+## [2026-05-09 01:03] FullTextFetcher: fetched 2 new full texts (89 total in corpus)
