@@ -4,6 +4,7 @@ sources:
 - raw/papers/glean-github.md
 - raw/papers/arxiv-2601.03796.md
 - raw/papers/semanticscholar-ab726d866649.md
+- raw/papers/arxiv-2503.23653.md
 tags:
 - software-neuroquery
 - neuroimaging-fmri
@@ -12,7 +13,7 @@ tags:
 - resting-state
 title: NeuroQuery
 type: entity
-updated: '2026-05-07'
+updated: '2026-05-09'
 ---
 
 ## Overview
