@@ -55,7 +55,7 @@ Third, the parcellation is cortical-only; subcortical structures are not include
 
 ## References
 
-1. V. Kirova, Dzerassa Kadieva, Daniil Vlasenko, Isak B. Blank, Fedor Ratnikov. (2025). *Dynamic Functional Connectivity Features for Brain State Classification: Insights from the Human Connectome Project*. arXiv.org. [DOI](https://doi.org/10.48550/arXiv.2510.05325)
+1. V. Kirova, Dzerassa Kadieva, Daniil Vlasenko, Isak B. Blank, Fedor Ratnikov. (2025). *Dynamic Functional Connectivity Features for Brain State Classification: Insights from the [[human-[[connectome]]-project]]*. arXiv.org. [DOI](https://doi.org/10.48550/arXiv.2510.05325)
 2. (authors unknown). *Functional Network Organization of the Human Brain*.
 3. (authors unknown). *Resting-State fMRI in the Human Connectome Project*.
 4. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
