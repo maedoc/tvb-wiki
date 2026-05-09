@@ -216,3 +216,5 @@
 ## [2026-05-09 21:29] FullTextFetcher: fetched 7 new full texts (116 total in corpus)
 
 ## [2026-05-09 23:30] Repair: 57 issues fixed (0 source refs, 26 index, 4 frontmatter, 21 wikilinks, 6 orphans, 0 dup-refs, 0 opaque-refs, 0 crosslinks)
+
+## [2026-05-10 00:17] CrosslinkApplier: added 33 wikilinks (33 inline, 0 suggested)

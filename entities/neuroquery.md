@@ -4,6 +4,9 @@ sources:
 - Dockès et al. 2020 - Primary NeuroQuery paper
 - '[NeuroQuery website](https://neuroquery.org)'
 - '[NeuroQuery GitHub](https://github.com/neuroquery/neuroquery)'
+- raw/papers/glean-github.md
+- raw/papers/arxiv-2503.23653.md
+- raw/papers/arxiv-2511.18325.md
 tags:
 - software-neuroquery
 - neuroimaging-fmri
