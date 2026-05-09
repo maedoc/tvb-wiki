@@ -190,3 +190,5 @@
 ## [2026-05-09 11:51] DeepResearch: 1 papers added via focused research
 
 ## [2026-05-09 11:54] CrosslinkApplier: added 4 wikilinks (4 inline, 0 suggested)
+
+## [2026-05-09 13:18] FullTextFetcher: fetched 6 new full texts (105 total in corpus)
