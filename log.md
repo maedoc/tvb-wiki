@@ -208,3 +208,7 @@
 ## [2026-05-09 16:32] Ingest: 4 new papers, 0 stubs created
 
 ## [2026-05-09 17:23] FullTextFetcher: fetched 4 new full texts (109 total in corpus)
+
+## [2026-05-09 18:06] CrosslinkApplier: added 19 wikilinks (19 inline, 0 suggested)
+
+## [2026-05-09 19:14] Audit: 801 issues (66 broken links, 27 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 16 opaque-refs, 15 thin, 443 missing-links)
