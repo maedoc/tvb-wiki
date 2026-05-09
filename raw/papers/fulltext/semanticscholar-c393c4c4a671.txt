@@ -1,0 +1,768 @@
+                                    Article                                                                                                  https://doi.org/10.1038/s41467-025-59584-7
+
+
+                                    Multi-institutional atlas of brain metastases
+                                    informs spatial modeling for precision
+                                    imaging and personalized therapy
+                                    Received: 29 April 2024                                 Jorge Barrios1,13, Evan Porter1,13, Dante P. I. Capaldi1, Taman Upadhaya1,
+                                                                                            William C. Chen 1, Julian R. Perks2, Aditya Apte3,4, Michalis Aristophanous3,
+                                    Accepted: 29 April 2025
+                                                                                            Eve LoCastro 3,4, Dylan Hsu4, Payton H. Stone2, Javier E. Villanueva-Meyer5,6,
+                                                                                            Gilmer Valdes1,7,8, Fei Jiang7, Michael Maddalena 9,10, Ase Ballangrud 3,
+                                                                                            Kayla Prezelski3, Hui Lin 1,11, Jinger Y. Sun2, Muhtada A. K. Aldin2, Oi Wai Chau1,
+                                       Check for updates                                    Benjamin Ziemer1, Maasa Seaberg 1, Penny K. Sneed1, Jean L. Nakamura1,
+                  1234567890():,;
+1234567890():,;
+
+
+
+
+                                                                                            Lauren C. Boreta1, Shannon E. Fogh1, David R. Raleigh 1,6,12, Jessica Chew1,
+                                                                                            Harish Vasudevan 1,6, Soonmee Cha5, Christopher Hess5, Ruben Fragoso2,
+                                                                                            David B. Shultz10, Luke Pike 3, Shawn L. Hervey-Jumper 6, Derek S. Tsang 9,
+                                                                                            Philip Theodosopoulos6, Daniel Cooke5,6, Stanley H. Benedict2, Ke Sheng 1,
+                                                                                            Jan Seuntjens9,10, Catherine Coolens9,10, Joseph O. Deasy 4, Steve Braunstein1 &
+                                                                                            Olivier Morin 1,11
+
+
+                                                                                            Brain metastases are a frequent and debilitating manifestation of advanced
+                                                                                            cancer. Here, we collect and analyze neuroimaging of 3,065 cancer patients
+                                                                                            with 13,067 brain metastases, representing an extensive collection for
+                                                                                            research. We ﬁnd that metastases predominantly localize to high perfusion
+                                                                                            areas near the grey-white matter junction, but also identify notable differences
+                                                                                            depending on the primary cancer histology as well as brain regions which do
+                                                                                            not conform to this relationship. Lung and breast cancers, in contrast to
+                                                                                            melanoma, frequently metastasize to the cerebellum, hinting at biological
+                                                                                            pathways of spread. Additionally, the deep brain structures are relatively
+                                                                                            spared from metastasis, regardless of primary cancer type. Leveraging this
+                                                                                            data, we propose a probabilistic brain metastasis risk model to enhance the
+                                                                                            therapeutic ratio of whole-brain radiotherapy by targeting high risk areas while
+                                                                                            preserving cortical and subcortical brain regions of functional signiﬁcance and
+                                                                                            low metastasis risk, potentially reducing the cognitive side effects of therapy.
+
+
+                                    An estimated 20% of cancer patients develop brain metastases (BM),              traditional chemotherapies into the central nervous system (CNS),
+                                    and this devastating neurologic complication occurs with an annual              limitations of existing local therapies for BM, such as surgery and
+                                    incidence of over 200,000 new cases in the United States alone1,2. This         radiotherapy, and the debilitating and often irreversible symptoms
+                                    prevalence is expected to rise in the years to come as therapeutic              arising from intracranial progression. At the same time, understanding
+                                    advances continue to improve extra-cranial metastasis control and               of the unique biology and microenvironment of CNS metastases has
+                                    prolong survival, and as detection increases via the widespread use of          lagged that of their systemic counterparts, and our therapeutic
+                                    high-resolution imaging3. Numerous challenges contribute to poorer              resources, while growing, remain limited4. Despite efforts to pool and
+                                    survival among cancer patients with BM, including poor penetration of           leverage large-scale imaging and health data to advance oncologic
+
+
+                                    A full list of afﬁliations appears at the end of the paper.   e-mail: Olivier.Morin@ucsf.edu
+
+
+                                    Nature Communications | (2025)16:4536                                                                                                               1
+Article                                                                                                 https://doi.org/10.1038/s41467-025-59584-7
+
+
+care, even basic data regarding the distribution and morphology of BM              In our investigation, we aim to thoroughly address a fundamental
+across functional or vascular territories in the brain remain scarce.         yet crucial inquiry: where do metastases manifest within the brain? We
+Such information would be useful for multiple reasons: First, biologi-        report on the creation of a scalable data science infrastructure to
+cally, the preference of BM for certain territories of the brain and the      collect and standardize high-resolution magnetic resonance (MR)
+heterogeneity of these preferences across cancer types, may provide           imaging and segmentation across multiple institutions, enabling the
+unique insights into the processes and prerequisites of BM develop-           collection of a large database of BM to power necessary studies. We
+ment. Second, clinically, such information could guide the personali-         report on the spatial and morphological distributions of 13,067 BM
+zation of brain surveillance and CNS-directed therapies, particularly         from 3065 patients treated at four institutions, from which we have
+with respect to the design of function-sparing radiotherapy. Third,           generated a detailed map of metastasis probability across anatomical,
+informatically, large-scale segmentation and quantitative evaluation of       functional, and vascular territories of the brain. By combining ana-
+BM will enable future efforts to detect and longitudinally track these        tomic and perfusion imaging, we demonstrate that the vast majority of
+tumors, allowing the generation of predictive models of BM develop-           BM occur within a narrow subspace deﬁned by moderate to high
+ment, progression, and treatment response.                                    perfusion and close proximity to the gray-white junction, and that the
+     Initial efforts towards mapping the spatial distribution of BM used      deep structures of the brain are relatively spared across all primary
+simpliﬁed anatomical atlases and manual image registration of limited         histologies. Additionally, we identify heterogeneity in the spatial dis-
+patient cohorts and tumor burden5,6. Despite such limitations, these          tribution of BM arising from different primary cancers, as well as in the
+early studies revealed striking non-uniformity in location and pre-           predilection of BM to form in different vascular territories. Leveraging
+dilection towards BM formation at the white-gray matter border as well        this detailed map, we develop a probabilistic framework for the design
+as vascular watershed zones, leading to the hypothesis that BM arise          of function-sparing brain radiotherapy, allowing for risk-based mod-
+via tumor microemboli which seed in regions of reduced blood ﬂow7–9.          ulation of metastasis coverage and avoidance of neuro-cognitive
+Since then, elegant in vivo experiments have conﬁrmed the key role of         structures.
+vascular ﬂow in permitting the arrest and extravasation of circulating
+tumor cells and emboli10. Nevertheless, many questions remain                 Results
+regarding the necessary conditions for BM development, and modern             Data science infrastructure
+efforts to map BM distribution in greater detail across functional and        In order to aggregate multi-institutional BM cases into a shareable
+vascular territories may shed further light on the interplay between          resource, we created an open-source pipeline in the Python pro-
+circulating tumor cells and the unique brain microenvironment.                gramming language and a scalable, robust, and efﬁcient data science
+     An estimated 200,000 BM patients per year in the United States           infrastructure to rapidly ingest (170 studies per second), standardize,
+receive palliative whole-brain radiotherapy (WBRT), which remains a           and process MR imaging data with associated manual segmentations.
+mainstay of therapy despite its well-known impacts on cognition,              A data entry template (provided here https://osf.io/fkqmr/) was shared
+memory, and quality of life11–15. Although advances have been made in         between the participating institutions to standardize clinical data per
+the use of stereotactic radiosurgery (SRS), a focused form of radiation       patient. The integrated processing workﬂow facilitates data curation
+associated with improved neuro-cognitive preservation, this treatment         and ensures compatibility with a comprehensive structured query
+is usually reserved for patients with high-performance status and a           language (SQL) database31, which serves as a repository for subsequent
+limited number of small, well-deﬁned lesions2,3. Novel CNS-penetrant          analysis (Fig. 1). Images are pre-processed, co-registered, and mapped
+systemic therapies have entered clinical use for certain cancers, but         to standardized Montreal Neurological Institute (MNI) anatomical,
+only a minority of BM patients are currently eligible16,17, though this       functional, and vascular brain atlases, allowing for the generation of
+may change in the future. Hippocampal-avoidance WBRT (WBRT-HA)                BM risk maps. The infrastructure, code base, and database comprising
+combined with memantine has recently been demonstrated to provide             13,067 BM across 3065 MRIs from as many unique patients from four
+a modest improvement in cognitive outcomes, but patients still suffer         institutions (Table 1), are intended as a community resource in support
+signiﬁcant neuro-cognitive decline18. It is possible that sparing of          of efforts to enhance auto-segmentation, detection, and quantitative
+additional neuro-cognitive structures could result in further                 analysis of BMs, and is easily extensible to incorporate data from
+improvements, but a more detailed understanding of the risk of BM             additional institutions as well as longitudinal data on existing patients.
+development across functional brain territories is necessary to guide
+these efforts. To this end, large-scale spatial mapping of BM represents      Patient and brain metastasis characteristics
+a critical ﬁrst step towards more radical personalized functional             The cohort reported here includes patients presenting for ﬁrst time
+sparing approaches in radiotherapy design19–23. Associated with treat-        SRS following a new diagnosis of BM at four academic medical centers
+ment, automated methods for tracking these lesions longitudinally will        in the United States and Canada between January 2011 and December
+be necessary.                                                                 2023 (Table 1), comprising of 43.16% lung, 18.69% breast, 13.34% mel-
+     The advent of deep learning has greatly facilitated the automated        anoma, 5.06% gastrointestinal, 2.68% genitourinary and 17.06% other
+detection, segmentation, and longitudinal evaluation of BM. However,          primary cancer patients. Patients had a median of 2 metastases (range
+the segmentation and detection performance of deep learning algo-             1–53) with a median disease volume of 0.23 cc (range 0.002–62.381).
+rithms has recently plateaued below the threshold of clinical utility24–27.   Breast patients had the highest mean = 5/median = 3 lesion count
+To achieve the high performance seen in other medical domains, BM             combination (range 1–53), and gastrointestinal patients had the high-
+databases that are far larger than those previously assembled are             est median disease volume of 0.494 cc (range 0.007–44.776). This
+required28. To reach this scale, cooperative efforts across multiple          study primarily focused on spatial BM risk analysis for lung, breast, and
+institutions using a standardized data collection framework are nee-          melanoma due to the statistical power provided by their natural pre-
+ded, as well as novel methods to increase the effectiveness of limited        valence in the overall cohort.
+training data, such as informed machine learning, a technique that
+leverages prior knowledge of lesion spatial distributions, morphology,        Brain metastasis spatial distribution
+and brain anatomy to constrain the solution space29,30. The develop-          The spatial distribution of BM by anatomical regions was non-
+ment of this infrastructure will enable the future development and            uniform for lung, breast and melanoma primaries (Fig. 2A–C, Sup-
+implementation of predictive models of BM growth and treatment                plemental Fig. 1), and the majority of BMs (~72%) were present within
+response to better personalize clinical management and treatment              5 mm of the white-gray matter interface (Fig. 2D). Additional analysis
+recommendations.                                                              demonstrated that the observed spatial distribution of BMs is
+
+
+Nature Communications | (2025)16:4536                                                                                                                 2
+Article                                                                                                         https://doi.org/10.1038/s41467-025-59584-7
+
+
+signiﬁcantly closer ([with a 10% over-representation, P value < 0.05],                  When normalized by brain volume (Fig. 2C), it was apparent that
+Wilcoxon-signed rank test) to the white-gray matter interface than                 there was a signiﬁcant (2.8-times, 4-times) enrichment of BMs within the
+expected under the null hypothesis of brain “fjords-liked” con-                    cerebellum for lung and breast cancers, respectively, as compared
+voluted morphology. These results indicate that the proximity of                   to melanoma ([Melanoma-Breast P value = 0.0018, Melanoma-Lung
+BMs to the white-gray matter interface reﬂects a meaningful spatial                P value = 0.0001], Welch’s t test). Interestingly, there was also less dra-
+association rather than an artifact of brain morphology (Supple-                   matic but statistically signiﬁcant heterogeneity in BM density within the
+mental Fig. 2). As expected in a dataset of patients undergoing                    temporal lobe for lung and breast cancers as compared to melanoma
+radiosurgery, most lesions had a high sphericity index (>0.75) and a               ([Melanoma-Breast P value = 0.011, Melanoma-Lung P value = 0.036],
+volume smaller than 0.5 cc (Fig. 2E). The broad sphericity range                   Welch’s t test), while no signiﬁcant difference was found between breast
+(0.6–0.9) observed for volumes below 0.4 cc is attributed to the                   cancer and lung cancer (P value = 0.153, Welch’s t test). The regions with
+clinical practice of delineating a “cap” on lesions in the superior-               the lowest absolute risk of BM were mainly comprised of subcortical
+inferior direction. This approach notably reduces sphericity scores,               brain structures such as the brainstem, thalamus, hippocampi, pituitary,
+especially in older scans acquired with larger slice thicknesses.                  ventricles, and amygdala. Collectively, these structures contained just
+Regions of the brain with the greatest cumulative burden of BMs                    ~6–8% of BM. Examining distribution by ﬁner anatomical regions,
+were the frontal and parietal lobes and cerebellum (Fig. 2B, Supple-               additional notable regions were identiﬁed with relatively decreased BM
+mental Figs. 1 and 3, Supplemental Table 1), owing partly to the                   density and a low contribution (<1–2%) to BM burden, including the
+relatively large volume of these regions (35.7%, 18.6%, and 8.6%,                  cingulate (0.25% of metastases, density rank 39 out of 50, Supplemental
+respectively, of brain volume). The relative contribution by region                Table 1), and orbitofrontal cortex (0.33% of metastases, density rank 35
+remained consistent when applying 5- or 10-mm expansions as a                      out of 50). Conversely, certain sub-regions appeared to be preferentially
+sensitivity analysis (Supplemental Fig. 3), indicating that mapping                enriched in BM density, particularly the pre-central/post-central gyri
+misregistration in MNI space and borderline metastases did not have                (4.1% of metastases, density rank 2 out of 50), pre-cuneus/cuneus (2.6%
+an outsized effect on these ﬁndings. Furthermore, there was no sig-                of metastases, density rank 5 out of 50), as well as the caudal middle
+niﬁcant difference in BM distribution by laterality (Supplemental                  frontal lobe (2.2% of metastases, density rank 6 out of 50) and superior
+Fig. 4) of the anatomical regions in the atlas.                                    parietal lobe (2.6% of metastases, density rank 4 out of 50).
+
+
+
+
+Fig. 1 | Multi-institutional methodology for building spatial risk maps of brain   map in MNI space is plotted against four validated atlases: anatomical coarse,
+metastasis. T1-weighted MR post-gadolinium contrast images and a clinical data     anatomical ﬁne, functional, and vascular. The data processing pipeline and transfer
+acquisition template are used at all partner institutions to accumulate the raw    is designed to be updated every 6 months with new data from current and future
+information. Patient images co-registered (rigid + deformable) to the MNI model    participating institutions.
+and brain metastases transferred and accumulated into the MNI space. The BM risk
+
+
+
+Nature Communications | (2025)16:4536                                                                                                                               3
+Article                                                                                               https://doi.org/10.1038/s41467-025-59584-7
+
+
+Table 1 | Demographic, clinical, and brain metastasis characteristics split by the primary cancer for the data accumulated at the
+four partner institutions
+Characteristic              MSKCC (n = 510)         PMH (n = 518)          UCD (n = 488)            UCSF (n = 1549)           Total (n = 3065)
+Lung
+ Patients, n                222                     253                    248                      600                       1323
+ Lesions, n                 664                     1016                   655                      2989                      5324
+ Age, mean (range)          65 (33−93) (n = 201)    66 (33−89) (n = 151)   65 (29−91)               64 (32−91)                65 (29−93) (n = 1200)
+ Sex, n (M/F)               106/116                 114/139                120/128                  274/326                   614/709
+Lesions per patient,        2/2.99 (1−17)           2/4.02 (1−21)          2/2.64 (1−15)            3/4.98 (1−48)             2/4.02 (1−48)
+median/mean (range)
+ Disease volume, mean       1.561 (0.032−25.541)    0.893                  1.831 (0.007−40.484)     1.108 (0.006−53.620)      1.213 (0.006−53.620)
+(range) (cc)                                        (0.009−43.210)
+ Sphericity, mean (range)   0.849 (0.612−0.916)     0.834 (0.545−0.922)    0.831 (0.544−0.912)      0.814 (0.561−0.948)       0.827 (0.544−0.948)
+ Histology top 3, n (%)     Adenocarcinoma 209      N/A                    Adenocarcinoma 138       Adenocarcinoma 473        Adenocarcinoma 980
+                            (94.1)                                         (55.6)                   (78.8)                    (76.6)
+                            Squamous Cell 8 (3.6)                          Other 88 (35.5)          Small Cell 31 (5.2)       Other 91 (8.5)
+                            Other 3 (1.4)                                  Squamous Cell 20 (8.1)   Carcinoma NOS 31 (5.2)    Squamous Cell 59 (5.5)
+Breast
+ Patients, n                87                      64                     74                       348                       573
+ Lesions, n                 382                     309                    267                      2120                      3078
+ Age, mean (range)          54 (30−81) (n = 81)     58 (33−83) (n = 40)    56 (30−87)               53 (0−79)                 54 (30−87) (n = 543)
+ Sex, n (M/F)               0/87                    1/63                   0/74                     5/343                     6/567
+Lesions per patient,        2/4.39 (1−18)           4/4.83 (1−19)          2/3.61 (1−18)            4/6.09 (1−44)             3/5.37 (1−44)
+median/mean (range)
+ Disease volume, mean       1.581 (0.019−62.381)    0.913                  1.259 (0.013−16.343)     1.064 (0.002−48.750)      1.151 (0.002−62.381)
+(range) (cc)                                        (0.008−21.640)
+ Sphericity, mean (range)   0.833 (0.531−0.914)     0.827 (0.529−0.916)    0.816 (0.504−0.899)      0.805 (0.444−0.922)       0.812 (0.444−0.922)
+ Histology top 3, n (%)     Adenocarcinoma 84       N/A                    Other 65 (87.8)          Adenocarcinoma 337        Adenocarcinoma 426
+                            (96.6)                                         Adenocarcinoma 5 (6.8)   (96.8)                    (83.7)
+                            Other 2 (2.3)                                  Unknown 4 (5.4)          Other 8 (2.3)             Other 75 (14.7)
+                            Unknown 1 (1.1)                                                         Bone 1 (0.3)              Unknown 5 (1.0)
+Melanoma
+ Patients, n                62                      56                     55                       236                       409
+ Lesions, n                 249                     287                    148                      1312                      1996
+ Age, mean (range)          63 (20−91) (n = 56)     61 (27−85) (n = 31)    59 (23−81)               61 (29−101)               61 (20−101) (n = 378)
+ Sex, n (M/F)               40/22                   40/16                  37/18                    147/89                    264/145
+Lesions per patient,        2/4.02 (1−21)           3/5.12 (1−27)          2/2.69 (1−12)            3/5.56 (1−51)             3/4.88 (1−51)
+median/mean (range)
+ Disease volume, mean       1.456 (0.030−38.727)    1.362 (0.005−52.918)   2.385 (0.005−14.842)     1.326 (0.004−33.036)      1.493 (0.004−52.918)
+(range) (cc)
+ Sphericity, mean (range)   0.847 (0.683−0.910)     0.837 (0.654−0.906)    0.824 (0.430−0.909)      0.819 (0.502−0.922)       0.825 (0.430−0.922)
+ Histology top 3, n (%)     Melanoma 62 (100)       Melanoma 56 (100)      Melanoma 55 (100)        Melanoma 236 (100)        Melanoma 409 (100)
+Gastrointestinal
+ Patients, n                31                      15                     19                       90                        155
+ Lesions, n                 87                      74                     39                       287                       487
+ Age, mean (range)          62 (34−87) (n = 27)     68 (54−85) (n = 6)     58 (35−77)               58 (24−81)                59 (24−87) (n = 142)
+ Sex, n (M/F)               17/14                   8/7                    12/7                     52/38                     89/66
+Lesions per patient,        1/2.81 (1−13)           3/4.93 (1−14)          1/2.05 (1−7)             2/3.19 (1−14)             2/3.14 (1−14)
+median/mean (range)
+ Disease Volume, mean       2.576 (0.046−16.416)    1.554 (0.007−16.607)   4.922 (0.036−39.471)     2.990 (0.016−44.776)      2.853 (0.007−44.776)
+(range) (cc)
+ Speciﬁcity, mean (range)   0.840 (0.602−0.913)     0.825 (0.577−0.919)    0.831 (0.669−0.897)      0.825 (0.645−0.919)       0.829 (0.577−0.919)
+ Histology top 3, n (%)     Adenocarcinoma          N/A                    Adenocarcinoma 14        Adenocarcinoma 67         Adenocarcinoma 112 (80)
+                            31 (100)                                       (73.7)                   (74.4)                    Other 12 (8.6)
+                                                                           Other 4 (21.1)           Carcinoma NOS 12 (13.3)   Squamous Cell 8 (5.7)
+                                                                           Squamous Cell 1 (5.3)    Squamous Cell 7 (7.8)
+Genitourinary
+ Patients, n                12                      15                     25                       30                        82
+ Lesions, n                 35                      71                     75                       140                       321
+ Age, mean (range)          59 (23−82)              62 (43−82) (n = 11)    62 (21−84)               54 (20−78)                58 (20−84) (n = 78)
+ Sex, n (M/F)               8/4                     4/11                   10/15                    27/3                      49/32
+
+
+
+
+Nature Communications | (2025)16:4536                                                                                                                  4
+Article                                                                                                 https://doi.org/10.1038/s41467-025-59584-7
+
+Table 1 (continued) | Demographic, clinical, and brain metastasis characteristics split by the primary cancer for the data
+accumulated at the four partner institutions
+Characteristic                MSKCC (n = 510)         PMH (n = 518)          UCD (n = 488)            UCSF (n = 1549)            Total (n = 3065)
+Lesions per patient,          2/2.92 (1−10)           3/4.73 (1−14)          2/3.0 (1−11)             2/4.67 (1−26)              2/3.91 (1−26)
+median/mean (range)
+ Disease volume, mean         2.224 (0.109−18.725)    1.407 (0.016−14.684)   2.225 (0.008−23.941)     3.022 (0.016−52.342)       2.401 (0.008−52.342)
+(range) (cc)
+ Sphericity, mean (range)     0.859 (0.756−0.904)     0.827 (0.642−0.907)    0.839 (0.655−0.911)      0.820 (0.614−0.904)        0.833 (0.614−0.911)
+ Histology top 3, n (%)       Adenocarcinoma 9 (75)   N/A                    Other 13 (52)            Carcinoma NOS 12 (40)      Other 20 (29.9)
+                              Other 3 (25)                                   Adenocarcinoma 9 (36)    Germ Cell Tumor 8 (26.7)   Adenocarcinoma 18
+                                                                             Squamous Cell 2 (8)      Other 4 (13.3)             (26.9)
+                                                                                                                                 Carcinoma NOS 12 (17.9)
+Other
+Patients, n                   96                      115                    67                       245                        523
+Lesions, n                    302                     349                    129                      1081                       1861
+Age, mean (range)             61 (19−88) (n = 86)     60 (24−81) (n = 39)    61 (16−90)               58 (4−88)                  59 (4−90) (n = 437)
+Sex, n (M/F)                  43/53                   47/27 (n = 74)         34/33                    132/113                    256/226 (n = 482)
+Lesions per patient, med-     2/3.15 (1−19)           2/3.03 (1−18)          1/1.93 (1−8)             3/4.41 (1−32)              2/3.56 (1−32)
+ian/mean (range)
+Disease volume, mean          1.549 (0.017−36.346)    1.269 (0.010−25.019)   2.213 (0.037−14.708)     1.638 (0.011−58.960)       1.594 (0.010−58.960)
+(range) (cc)
+Sphericity, mean (range)      0.854 (0.676−0.911)     0.835 (0.596−0.911)    0.811 (0.436−0.905)      0.816 (0.544−0.911)        0.825 (0.436−0.911)
+Histology top 3, n (%)        Adenocarcinoma 42       N/A                    Other 32 (47.8)          Renal Cell 69 (28.2)       Renal Cell 115 (28.2)
+                              (43.8)                                         Renal Cell 16 (23.9)     Carcinoma NOS 46 (18.8)    Adenocarcinoma 94
+                              Renal cell 30 (31.2)                           Adenocarcinoma           Adenocarcinoma             (23.0)
+                              Other 20 (20.8)                                12 (17.9)                40 (16.3)                  Other 57 (14.0)
+NOS not otherwise speciﬁed.
+
+
+
+Brain metastasis distribution by functional regions                            relation to vascular perfusion as illustrated in Fig. 4A. We observed
+Next, we sought to examine the distribution of BMs in the context of           variation in BM burden (Fig. 4B) and density (Fig. 4C) by arterial ter-
+previously deﬁned functional regions and networks of the brain. As             ritory. Melanoma metastases were more frequently located in regions
+subcortical structures appeared to be relatively spared from BMs and           supplied by the anterior circulation (74.4%, versus 55.8% in breast and
+therefore an attractive target for functional sparing, we chose to             64.2% in lung). When mapped to a normalized perfusion map of the
+examine four atlases delineating functional connectivity between sub-          brain, we found that the majority of BM volume (~90%) resided within a
+cortical structures related to cognitive function: (1) the Reich 202219        subspace deﬁned by moderate to high perfusion (Fig. 4D, 0.6–0.95
+cognitive decline network atlas examined subcortical networks con-             normalized perfusion), and within 5 mm of the white-gray matter
+nected to regions targeted by deep brain stimulation in patients who           interface (Fig. 4E). The prevalence of high BM density also sharply
+experienced cognitive decline from this treatment; (2) the Tang 201722         decreased below a normalized perfusion of approximately 0.6
+brainstem connectome atlas utilized high-resolution imaging from the           (Fig. 4D). For lung and breast primaries, the inferior portion of the
+Human Connectome Project to delineate key ﬁber tracts within the               cerebellum was found to have statistically more BM compared to the
+brainstem and cerebellum; (3) the He 202020 basal ganglia and thalamus         superior portion (P values < 0.01, Welch’s t test) due to its larger
+atlas utilized functional MRI data to delineate thalamocortical and basal      volume, however the superior portion has a higher BM density (P
+ganglia-thalamic networks; and 4) the Behrens Oxford thalamic con-             values < 0.001, Welch’s t test). When examined by anatomical region,
+nectivity atlas23 is a classic atlas of connections between the thalamus       there was a trend towards increased BM density with increased per-
+and cortical regions (Fig. 3A–B). We found that BM contribution within         fusion (Supplemental Fig. 5, Supplemental Fig. 6). Examination of
+functional networks with greater cortical components (Reich 2022)              these anatomical regions identiﬁed outliers of note: in lung and breast
+largely correlated with the overall volume of the respective functional        cancers, the cerebellar white matter and cerebellar cortex had among
+network and had similar BM density compared to other functional brain          the highest brain metastasis density despite a moderate perfusion
+regions such as primary sensory cortex (Fig. 3C). Interestingly, the pri-      (ratio 2.5–2.75). Conversely, the regions of the cingulate, including the
+mary motor cortex was found to be enriched for BM compared to pri-             caudal anterior, posterior, rostral anterior, and isthmus, had a low BM
+mary sensory cortex for lung cancer primary (P value = 0.0002, Welch’s t       density despite moderate to high perfusion (ratio 0.5–0.75), across all
+test). As a proof of concept, we examined the percent of metastases            three primary cancers.
+captured while sparing/excluding successively greater anatomic or
+functional regions (Fig. 3D), ranging from 100% coverage with tradi-           Function sparing and personalized brain radiotherapy for brain
+tional WBRT, 99.4% coverage with traditional WBRT-HA, to 93.9% cov-            metastases
+erage with sparing of key subcortical structures, which we name WBRT-          Finally, incorporating our observations regarding the relative sparing
+PROTECT (Personalized Radiation Optimization To Eliminate Collateral           of subcortical structures from BMs, we designed representative
+Toxicity), and 83.8% coverage with theoretical sparing of all functional       versions of WBRT reﬂecting various levels of functional sparing and
+regions identiﬁed from the Reich and He atlases.                               expected coverage percentage of undetectable or future disease
+                                                                               (Fig. 5). WBRT-PROTECT was able to reduce the radiation dose
+Brain metastasis distribution by arterial territories and level of             delivered to hippocampi, amygdala, thalamus, basal ganglia, and
+perfusion                                                                      brainstem, by ~66% using photon-based intensity-modulated radio-
+Next, given the non-uniformity of BM distribution, we sought to                therapy, and by ~90% using a proton-based plan (Fig. 5, Supplemental
+examine the occurrence of BMs across arterial territories and in               Fig. 7) while keeping the expected BM coverage at ~94% (Fig. 3D).
+
+
+Nature Communications | (2025)16:4536                                                                                                                      5
+Article                                                                                     https://doi.org/10.1038/s41467-025-59584-7
+
+
+
+
+WBRT-PROTECT would spare cortical and subcortical brain regions      PROTECT (Supplemental Figs. 7 and 8) show signiﬁcant dose spar-
+(~5.5% of the brain volume) of documented and suspected functional   ing could be achieved. Supplemental Fig. 9 shows possible treatment
+signiﬁcance. Complete dose-volume histograms comparisons of the      approaches of WBRT-PROTECT that would differ based on the pri-
+conventional WBRT techniques to the newly proposed WBRT-             mary cancer histology, which demonstrated unique spatial BM risk.
+
+
+
+
+Nature Communications | (2025)16:4536                                                                                                 6
+Article                                                                                                               https://doi.org/10.1038/s41467-025-59584-7
+
+Fig. 2 | Brain metastasis spatial distribution and morphology by coarse ana-            primary cancer. Error bars indicate 95% conﬁdence interval over the four institu-
+tomical regions. A Brain metastasis risk levels (color-coded localized incidence        tions represented in the dataset. The center of the error bars represents the mean
+risk of brain metastases) displayed on axial slices of the MNI model (grayscale) for    percentage contribution normalized by the volume of all four institutions for a
+patients with lung primary (N = 1323 patients, L = 5334 lesions) cancer, ﬁrst diag-     given structure. D Percentage of the brain lesion contribution as a function of the
+nosis of brain lesions prior to stereotactic treatment. B Percentage contribution of    minimum distance of the lesion centroid to the white and gray matter interface.
+BM lesions by coarse anatomical regions for lung (N = 1315 patients, L = 5230           Error bars indicate 95% conﬁdence interval over the four institutions represented in
+lesions), breast (N = 570 patients, L = 3007 lesions), and melanoma (N = 407            the dataset (N = 2113 patients, L = 8176 lesions). The center of the error bars
+patients, L = 1931 lesions) primary cancer. The cumulative lesion contribution of all   represents the mean percentage contribution of all four institutions for a speciﬁc
+brain regions represents 100%. Error bars indicate 95% conﬁdence interval over the      distance to the white-gray matter junction. The white and gray matter volumes are
+four institutions represented in the dataset. The center of the error bars represents   represented by yellow and light blue, respectively. The dark blue represents the
+the mean percentage contribution of all four institutions for a given structure.        edge of the brain’s gray matter. E Lesions sphericity distribution as a function of the
+C Percentage contribution of brain metastasis normalized by the volume by coarse        lesion volume (N = 2001 patients, L = 9302 lesions), where the heatmap represents
+anatomical regions for lung (N = 1315 patients, L = 5230 lesions), breast (N = 570      the magnitude of the count in the plotted joint histogram distribution. Source data
+patients, L = 3007 lesions), and melanoma (N = 407 patients, L = 1931 lesions)          are provided as a Source Data ﬁle.
+
+
+
+Discussion                                                                              potential explanation is that breast cancer metastases may exhibit a
+Here, we report the largest multi-institutional brain metastasis data-                  greater reliance on alternative mechanisms of dissemination and
+base to date, from which we develop a detailed map of BM probability                    colonization beyond perfusion-driven seeding. For example, prior
+across anatomic, functional, and vascular territories of the brain. In line             studies suggest that breast cancer brain metastases have unique
+with prior studies, we ﬁnd striking non-uniformity in the spatial dis-                  interactions with the blood–brain barrier and perivascular niche,
+tribution of BM. Combining anatomic and perfusion imaging, we ﬁnd                       potentially involving distinct adhesion molecules, immune micro-
+that the majority of BM, ~72%, developed within 5 mm of the                             environment factors, or extravasation pathways that differ from
+gray–white matter junction and in regions of moderate to high nor-                      lung cancer and melanoma33. Additionally, breast cancer subtypes
+malized perfusion level, with relative sparing of the deep structures of                (e.g., HER2-positive, triple-negative) may exhibit heterogeneous
+the brain such as the thalami, hippocampi, amygdalae, internal cap-                     perfusion dependencies, which could contribute to the less con-
+sule, and brainstem. Examination of vascular territories and perfusion                  sistent perfusion-BM relationship observed in our analysis34–36. One
+maps identiﬁed a general association between perfusion and BM                           notable ﬁnding we report is a substantial difference in risk of cer-
+density, though some regions, such as the orbitofrontal cortex and                      ebellar metastases among the three most common BM: melanoma
+cingulate cortex, appeared to deviate from this relationship, with                      metastasizes to the cerebellar substantially less frequently than
+relatively fewer metastases despite moderate to high perfusion. These                   lung and breast cancers. One prior single-institution surgical series
+deviations may reﬂect underlying biological differences in tumor cell                   and a second radiographic series have reported similar results37.
+tropism, local vascular architecture, or unique microenvironmental                      Taken together with this prior data, the large, multi-institutional
+factors such as blood–brain barrier integrity, immune response, or                      nature of our dataset makes a statistical anomaly unlikely as an
+neuronal interactions that would need further study. At the same time,                  explanation. The biological reasons underlying this difference
+we identify heterogeneity in the distribution of BM between primary                     remain to be elucidated, but investigation into the microenviron-
+cancer types, ﬁnding the cerebellum to be over-represented as a                         mental differences between the supratentorial brain and cerebellum
+metastasis site for lung and breast cancers, but relatively under-                      may help shed light on targetable adaptive mechanisms by which
+represented for melanomas. Speciﬁcally, melanoma metastases are                         metastases preferentially colonize and grow in different brain com-
+more frequently located in the anterior circulation, whereas lung and                   partments. Intriguingly, prior work has demonstrated differences
+breast cancers demonstrate a higher prevalence in the posterior cir-                    between melanoma and lung cancer cell behavior in an in vivo model
+culation, particularly in the cerebellum. This suggests potential dif-                  of brain metastasis initiation, with melanoma tending to maintain
+ferences in tumor cell dissemination and seeding within vascular                        close contacts to microvessels and to develop perivascular growth
+territories. However, we acknowledge that providing a deﬁnitive                         via vessel cooption, while lung cancer metastases underwent early
+mechanistic explanation for these differences is beyond the cap-                        angiogenesis9.
+abilities of this study. Finally, applying these observations, we develop                    The deep structures of the brain that we demonstrate to be
+a probabilistic framework for the design of function-sparing palliative                 relatively spared from metastases are increasingly appreciated to
+radiotherapy, allowing for titration of metastasis coverage and avoid-                  play critical roles in neurologic function. For example, the thalamus
+ance of anatomical or functional neuro-cognitive structures.                            is a complex and critical brain structure in mediating and orches-
+      Our ﬁndings corroborate historical studies and clinical                           trating cortical, subcortical, and cerebellar networks. Sub-regions
+experience, which have demonstrated the non-uniform distribution                        of the thalamus play key roles in attention ﬁltering, the ability to
+of BM, favoring the gray-white matter junction and vascular                             focus on a target in an environment containing distractors, encod-
+watershed regions. Although regions of moderate to high perfusion                       ing and retrieval of memory, and arousal and awareness38. The
+predominate overall, we identify regions in which this relationship                     internal capsule conveys a concentration of afferent and efferent
+is mismatched, namely, subcortical structures, where metastases                         ﬁbers which connect cortical and subcortical structures, and lesions
+are rare, despite relatively moderate to high perfusion. Differences                    of the internal capsule can result in memory impairment39. Regions
+in the relationship between perfusion and metastasis risk between                       of the cingulate cortex are well-known as hubs of the default mode
+evolutionarily distinct regions of the brain have been postulated                       network40, and play critical roles in information processing,
+before32, and our ﬁndings might suggest differences in vascular and                     directing attention, and in emotion and behavior control41. The
+microvasculature structures in these regions to underly reduced                         orbitofrontal cortex plays an important role in executive control,
+metastasis formation, although other factors such as differences in                     learning and working memory42. The central importance of the
+the blood–brain barrier, tissue architecture, immune and neuronal                       hippocampi in memory has long been known, and radiation is
+microenvironment, remain uninvestigated. The observed differ-                           postulated to impair hippocampal neurogenesis and disrupt the
+ences in the perfusion-BM relationship across cancer types (Sup-                        neuronal microenvironment via microvasculature injury and
+plemental Fig. 6) are intriguing and may reﬂect underlying                              inﬂammation43. WBRT-HA, in which the hippocampi are constrained
+biological and vascular differences between tumor types. One                            to receive a reduced radiation dose, combined with memantine, has
+
+
+Nature Communications | (2025)16:4536                                                                                                                                        7
+Article                                                                                        https://doi.org/10.1038/s41467-025-59584-7
+
+
+
+
+been shown in a randomized Phase III trial, NRG-CC00118, to reduce     structures with known importance to cognition and memory,
+the probability of cognitive decline. However, the magnitude of        informed by the probability of BM formation, could yield even greater
+beneﬁt was modest, and the majority of patients in both arms           sparing of cognitive decline. To this end, our proposed WBRT-
+experienced cognitive decline after radiation.                         PROTECT framework, based upon tailoring function-sparing radio-
+    Given the distributed nature of many cognitive functions such as   therapy to varying degrees of probability of undertreating potential
+memory and attention, it is likely that efforts to spare additional    metastatic disease and weighting radiation dose based upon
+
+
+Nature Communications | (2025)16:4536                                                                                                     8
+Article                                                                                                                 https://doi.org/10.1038/s41467-025-59584-7
+
+Fig. 3 | Brain metastasis spatial distribution by functional regions and tradeoff         of the error bars represents the mean percentage contribution of all four institu-
+of whole-brain RT sparing techniques and expected BM coverage. A Brain                    tions for a given structure. C Percentage contribution of brain metastasis normal-
+metastasis risk levels displayed on representative axial, sagittal, and coronal slices    ized by the volume by MNI functional regions for lung (N = 1315 patients, L = 5230
+of the MNI model for patients with lung primary cancer (N = 1315 patients, L = 5230       lesions), breast (N = 570 patients, L = 3007 lesions), and melanoma (N = 407
+lesions) at ﬁrst diagnosis of brain lesions prior to stereotactic treatment, as well as   patients, L = 1931 lesions) primary cancer. Error bars indicate 95% conﬁdence
+neuro-cognitive, motor, and sensory relevant functional maps. Speciﬁc functional          interval over the four institutions represented in the dataset. The center of the error
+atlases include: the Thalamic Connective atlas (Behrens 2003), the Brainstem              bars represents the mean percentage contribution normalized by the volume of all
+Connectome atlas (Tang 2017), the Basal Ganglia and Thalamus atlas (He 2020), and         four institutions for a given structure. D Examples of functional sparing treatment
+the Cognitive Decline Network atlas (Reich 2022). B Percentage contribution of            volumes and the associated expected BM coverage (N = 2305 patients, L = 10,398
+brain metastasis lesions by MNI population functional maps for lung (N = 1315             lesions). Colored regions indicate spared regions contained within each proposed
+patients, L = 5230 lesions), breast (N = 570 patients, L = 3007 lesions), and mela-       treatment. Coverage reported as the mean between all primaries, except for
+noma (N = 407 patients, L = 1931 lesions) primary cancer. Error bars indicate 95%         “Melanoma PROTECT” which is only coverage of expected Melanoma BM. Source
+conﬁdence interval over the four institutions represented in the dataset. The center      data are provided as a Source Data ﬁle.
+
+
+
+probabilistic maps of sites of metastasis predilection, may provide a                     investigated. This study was approved by the Institutional Review
+basis for greater personalization of this critical therapy for BM                         Board at each of the participating institutions (UCSF: IRB# 20-32526,
+patients. Moreover, the selective sparing of deep and central brain                       UCD: IRB# 2005950, PMH: REB CAPCR # 17-5662 and CAPCR# 18-
+structures is particularly well suited to an application of proton ther-                  5368, and MSKCC: IRB# 16-1307), and written informed consent for
+apy, taking advantage of the abrupt Bragg peak effect resulting in a                      study inclusion was obtained from patients. Data transfer agree-
+lack of exit dose for this radiation modality. In case of future devel-                   ments were created with all participating institutions. As illustrated
+opment of metastases within spared regions, SRS could then be used                        in Fig. 1, each of the participating institutions completed a clinical
+to target new lesions while maximizing preservation of cognitive                          data template that speciﬁed demographic data (e.g., age, gender),
+function.                                                                                 primary tumor location, histology, molecular subtypes, and any
+     However, several limitations must be acknowledged. Firstly, the                      combined immunotherapy at the time of ﬁrst radiosurgery. Patients
+retrospective nature of the study may introduce biases related to                         presenting with leptomeningeal disease were excluded from the
+historical treatment decisions and institutional imaging practices.                       study. The study was limited to patients with comprehensive clinical
+Secondly, the patient population studied was limited to patients pre-                     and demographic data, and suitable pre-radiosurgery T1-weighted
+senting for ﬁrst radiosurgery. These biases could affect the general-                     MR imaging with existing tumor segmentation. Patients who were
+izability of our ﬁndings to current clinical scenarios of re-treatment                    previously treated with radiotherapy (radiosurgery or whole-brain
+and adaptation of CNS-penetrant agents. Comparison with patients                          irradiation) or surgery were excluded. The clinical data template,
+with >10 BM (i.e., more likely candidates for traditional WBRT) is                        tumor characteristics, lesion distance to the MNI white-gray matter
+necessary, particularly for evaluating the feasibility of WBRT-                           junction, and lesion centroid presence in the region-of-interest (ROI)
+PROTECT. This comparison may highlight interesting differences in                         atlases were consolidated into a SQL database for plotting and
+BM distribution between limited/early and diffuse/advanced intracra-                      analysis.
+nial metastatic disease that could lead to a better biologic under-
+standing of BM development. Furthermore, while the data collection                        Code development
+was standardized across institutions, variations in imaging protocols                     A data processing pipeline was developed to sort, assemble, and
+and radiation therapy techniques may introduce heterogeneity that                         analyze DICOM RT ﬁles. The pipeline was designed entirely using
+complicates the interpretation of results. A notable limitation is the                    open-source packages, including SQLite, OpenCV, SimpleITK,
+transformation of image datasets to a standardized space (MNI model)                      NumPy, and Pydicom. Core design principles centered around
+is subject to registration errors. Despite using the most accurate                        robustness, efﬁciency, and scalability. Robustness was ensured by
+registration techniques available to minimize inaccuracies, the inher-                    designing the framework to handle many of the variations in the
+ent variability in brain morphology and the presence of BM can lead to                    DICOM implementation, including the deﬁnition of structures in
+errors that may impact the spatial risk analysis. The ~5 mm accuracy in                   any orientation and structures with both connected and dis-
+lesion centroid mapping, while acceptable, still leaves room for                          connected subspaces. Parallelization of all computationally
+improvement that could potentially alter the risk distribution patterns                   expensive operations ensured rapid ingestion (170 studies/sec-
+observed. It must also be considered that the study does not account                      ond) and conversion from DICOM to NIFTI (1.5 seconds/study). As
+for the dynamic nature of BM. The spatial distribution of BM at the                       implemented, the data processing pipeline can facilitate expan-
+time of initial radiosurgery does not necessarily reﬂect the evolution of                 sion of the cohort at a rate of over a thousand patients per hour
+disease over time or the inﬂuence of systemic therapy. Additionally,                      on pre-existing hardware.
+while our study includes a wide range of primary cancers, the het-                             Upon data ingestion of the anonymized DICOM ﬁles, the
+erogeneity of BM from rarer primaries or those with unique molecular                      pipeline stripped relevant header data ﬁelds and stored them in a
+subtypes may not be fully represented for study at this time. Future                      SQL database. Using the database to optimize conversion, each
+work will focus on collecting and analyzing histopathological and                         ROI was converted to a NIFTI ﬁle. Measures were taken to ensure
+molecular information on patients’ cancers to correlate brain metas-                      robustness for non-square images, and accurate alpha-shape to
+tasis distribution with genetic and histologic variables.                                 polygon conversion. Using these NIFTI ﬁles, a set of statistics
+     The future trajectory of this research will involve rigorous, larger-                were computed upon each individual ROI. These statistics inclu-
+scale prospective validation of the risk maps and a widened scope to                      ded volume, sphericity, Euclidean distance from lesion to the
+encompass a greater array of clinical and BM features, with the ulti-                     white–gray matter interface, and lesion centroid location within
+mate goal of improving the lives of patients with brain metastases.                       each atlas. Results from these calculations were stored in a SQL
+                                                                                          database for streamlined access, parsing, and analysis. After the
+Methods                                                                                   synthesis of composite risk maps, the data processing pipeline
+Study inclusion criteria and datasets                                                     allowed for the creation of DICOM-compliant image or structure
+In this multi-institutional retrospective study, BM patients previously                   set ﬁles, allowing these ﬁles to be transferred for use in other
+treated after initial diagnosis of BM with radiosurgery were                              clinical software.
+
+
+Nature Communications | (2025)16:4536                                                                                                                                          9
+Article                                                                                             https://doi.org/10.1038/s41467-025-59584-7
+
+
+
+
+Image processing, plotting, and analysis                                 radiotherapy post-gadolinium contrast T1-weighted image. Post-
+Pre-radiosurgery images from all institutions were acquired across       gadolinium contrast T1-weighted MR images were used as part of
+multiple vendor MR scanners with varying ﬁeld strengths (either 1.5 or   patients’ standard of care, where individual BM were identiﬁed and
+3.0 Tesla). While MR imaging parameters varied slightly within each      manually contoured by the attending radiation oncologists (UCSF:
+institution as well as across institutions, all patients had a pre-      S.B., P.K.S., J.N., L.B., D.R.R., H.V., J.C., S.F.; UCD: R.F.; P.M.H.: D.B.S.;
+
+
+Nature Communications | (2025)16:4536                                                                                                               10
+Article                                                                                                                   https://doi.org/10.1038/s41467-025-59584-7
+
+Fig. 4 | Brain metastasis spatial distribution by level of perfusion and arterial           the four institutions represented in the dataset. The center of the error bars
+territories. A Left- illustration of brain vascular levels: artery, arteriole, and capil-   represents the mean percentage contribution normalized by the volume of all four
+lary. Center/right—representative arterial spin labeling image on representative            institutions for a given structure. D Brain metastasis volume and count per voxel as
+axial and coronal slices on the MNI model. B Percentage contribution of brain               a function of normalized brain perfusion on the MNI model. Color map indicates
+metastasis lesions by MNI population arterial territories for lung (N = 1316 patients,      total brain volume within the joint histogram bin. E Brain metastasis volume plotted
+L = 5224 lesions), breast (N = 565 patients, L = 2998 lesions), and melanoma (N = 406       with the minimum white–gray matter distance as a function of normalized brain
+patients, L = 1954 lesions) primary cancer. Error bars indicate 95% conﬁdence               perfusion of the MNI model. ACA anterior cerebral artery, MCAF frontal pars of
+interval over the four institutions represented in the dataset. The center of the error     middle cerebral artery, MCAP parietal pars of middle cerebral artery, PCAO occi-
+bars represents the mean percentage contribution of all four institutions for a given       pital pars of posterior cerebral artery, MCAT temporal pars of middle cerebral
+structure. Percentage contribution of brain metastasis in sub-arterial territories          artery, IC inferior cerebellar, LLS lateral lenticulostriate, SC superior cerebellar,
+combined into anterior and posterior arterial territories for lung, breast, and mel-        MCAO occipital pars of middle cerebral artery, PCAT temporal pars of posterior
+anoma primaries. C Percentage contribution of brain metastasis normalized by the            cerebral artery, B basilar, MCAI insular pars of the middle cerebral artery, PCTP
+volume by MNI arterial territories for lung (N = 1316 patients, L = 5224 lesions),          posterior choroidal and thalamoperfurators, ACTP anterior choroidal and thala-
+breast (N = 565 patients, L = 2998 lesions), and melanoma (N = 406 patients,                moperfurators, MLS medial lenticulostriate, LV lateral ventricle. Source data are
+L = 1954 lesions) primary cancer. Error bars indicate 95% conﬁdence interval over           provided as a Source Data ﬁle.
+
+
+
+
+MSKCC: L.P., J.J.N.) as part of the patient’s radiotherapy treatment                        each institution, the BM occurrence and total volume (null histogram)
+planning. MR images as well as their respective radiotherapy contours                       was computed at 0.5 mm intervals from the white-gray matter inter-
+structures were exported from the treatment planning system to a                            face. The BM occurrence and null histogram were compared using the
+local archive, de-identiﬁed (using safe harbor) per the DICOM standard                      Wasserstein distance (Earth mover’s distance) and Wilcoxon-signed
+and imported in a commercially available image processing software                          rank test, with a signiﬁcance of P value < 0.05.
+(MIM Software Inc., Cleveland, OH).
+     MR images were bias corrected44 and normalized in MIM to limit                         Statistical analysis
+variability in signal intensity between images. Each individual MR                          Statistical analysis was performed in Python to establish the sig-
+image and contour structure set was registered to the MNI                                   niﬁcance of observed differences in the BM risk maps (percentage
+standard45,46, ﬁrst using a rigid afﬁne registration, followed by a                         lesion count per ROI of the anatomy, functional, and vascular atlases)
+deformable registration available in MIM. This mapping methodology                          between primaries and other factors. Error bars indicate a 95% con-
+was previously described in multiple studies37,47–49, and shown to                          ﬁdence interval over the four institutions represented in the study. All
+improve image registration accuracy between the stationary and                              P values computation was performed using the two-tailed Welch’s t
+moving images. A review by a medical physicist (O.M.) of 300 ran-                           test and considered signiﬁcant if P value < 0.05.
+domly selected unique patients (~10% of the overall cohort) from the
+database indicated that this mapping of lesion centroids (from patient                      Treatment planning
+coordinate to the MNI model) achieved an accuracy of ~5 mm.                                 The MNI phantom with associated contour atlases (anatomical
+     All registered datasets were exported from MIM and analyzed in                         coarse, anatomical ﬁne, functional, and vascular) was imported
+Python. Mathematically, all BM lesions l from historical patients i were                    into a commercial radiation planning software (RayStation V9.0,
+accumulated on the MNI   model
+                                  voxels v to create a cumulative count                    RaySearch Laboratories, Stockholm, Sweden) used in the clinic
+in the MNI space C MNI ~ x MNI as:                                                          for photon and proton treatment simulations. The external sur-
+                                                                                            face of the MNI phantom was contoured with density and stop-
+                      XN X
+                           L X
+                             V                                                        ping power overridden to water equivalent tissue. Four plans
+          C MNI ~x MNI =         cilv ~
+                                      x i T counts per voxel                         ð1Þ    were generated to represent the different whole-brain RT
+                                                      i
+                            i=1 l =1 v=1
+                                                                                            approaches. The conventional planning techniques included
+                            
+where C MNI 2R 0  C max and C max is the maximum lesion count from                         WBRT delivered with two opposed lateral photon beams per
+all voxelsafter                                                                            standard of care and WBRT-HA planned using volumetric modu-
+                 the accumulation of all patients’ lesions in the MNI
+space. cilv ~x i is the binary classiﬁcation (tumor = 1, no tumor = 0) of all               lated arc therapy (VMAT) delivery to achieve the NRG-CC001
+voxels v in the MNI space as transformed using T i (transform from the                      protocol tolerances to the hippocampi and 5 mm surrounding
+patient space to the MNI space). T i represents two consecutive image                       region. For the treatment proposal, WBRT-PROTECT, plans were
+transformations: (1) rigid body registration, followed by a (2)                             generated for the most commonly used photon linear accelerator
+deformable registration.                                                                    in North America (Varian TrueBeam; Varian Medical Systems, Palo
+                                                        
+     The derived BM count distribution C MNI ~      x MNI on the MNI brain                  Alto, CA) and using proton therapy.
+was investigated as a function of anatomy, functional tracks, and brain                          The beam arrangement used for photon treatment planning
+perfusion. Previously published MNI brain segmentation and                                  was designed to replicate the Varian HyperArc setup with two
+FastSurfer50 for sub-anatomy, yielded 145 ROIs used to derive brain                         coplanar arcs, two 45-degree couch rotations, and a vertex beam.
+metastases count within each ROI. Functionally, the Human Con-                              Treatment plans were generated using the six MV clinical beam
+nectome Project tracks19,20,22,51,52 were used for risk analysis. Addition-                 model for a Varian TrueBeam with the Millennium 120 multi-leaf
+ally, brain perfusion atlases were derived using two distinct                               collimator. Treatment arc control points were limited to every 2
+approaches. The ﬁrst being a previously derived digital 3D brain MRI                        degrees, and the maximum dose rate was limited to 600 MU/
+atrial territories atlas53 and the second a composite of 50 high-quality                    second. An optimization tolerance of 1e-7 was used with an
+3 T 3D MRI arterial spin labeled (ASL) scans from UCSF patients                             intermediate dose calculation performed at 45 iterations, and a
+registered to the MNI brain.                                                                maximum of 85 iterations. After each optimization, a ﬁnal dose
+     Supplemental Fig. 2 was generated to assess if the observed over-                      calculation was performed to a 2 mm3 dose grid using a collapsed
+representation of BMs in proximity to the white-gray matter interface                       cone convolution algorithm. Optimization objectives were selec-
+is due to physiology or an artifact of the convoluted morphology. For                       ted to minimize the mean dose to the PROTECT region while
+
+
+
+
+Nature Communications | (2025)16:4536                                                                                                                                         11
+Article                                                                                      https://doi.org/10.1038/s41467-025-59584-7
+
+
+
+
+maintaining coverage of at least 95% of the WBRT-PROTECT                  For the intensity-modulated proton therapy (IMPT) treat-
+treatment volume at 30 Gy. Dose fall–off was controlled between      ment planning, proton doses were speciﬁed in Gray (Gy(RBE)),
+the prescription dose to 12.5 Gy to within 0.5 cm, with additional   utilizing a consistent relative biological effectiveness (RBE) factor
+control on dose fall–off into the optic structures.                  of 1.1. Inverse treatment planning was performed using a single
+
+
+
+Nature Communications | (2025)16:4536                                                                                                  12
+Article                                                                                                           https://doi.org/10.1038/s41467-025-59584-7
+
+Fig. 5 | Comparison of WBRT techniques, dose distributions, and functional           Bottom—error bars represent the minimum, mean and maximum dose metrics
+sparing potential. Top—treatment plans ordered by progressing dose de-               achieved to compares the target[black] and selected functional structures (hip-
+intensiﬁcation on representative axial, sagittal, and coronal slices. From left to   pocampi [light blue], amygdala [dark blue], brainstem [dark green], putamen
+right: the conventional techniques of WBRT, WBRT-HA, the newly proposed per-         [pink], caudate [light green], pallidus [yellow], thalamus [purple] and ventricles
+sonalized approaches with higher functional sparing PROTECT (Personalized            [dark purple]) for the WBRT[circles], WBRT-HA[squares], WBRT-PROTECT(Pho-
+Radiation Optimization To Eliminate Collateral Toxicity) techniques planned          tons)[diamonds], and WBRT-PROTECT(Protons)[triangles] plans. Source data are
+using photons WBRT-PROTECT(Photons) or protons WBRT-PROTECT(Protons).                provided as a Source Data ﬁle.
+
+
+ﬁeld optimization option with simultaneous spot optimization,                        10.5281/zenodo.15132555: Alternatively, code is available via the
+where the spot position, energy, and number of monitor units                         Open Science Framework (OSF) repository: https://osf.io/fkqmr/.
+(MUs) were determined by treatment planning system incorpor-
+ating constraints for target volumes and critical structures. A                      References
+total of 8 beams (7 coplanar and 1 vertex) were utilized to gen-                     1.    Siegel, R. L., Miller, K. D., Wagle, N. S. & Jemal, A. Cancer statistics,
+erate the WBRT-PROTECT-PROTON plan. During the optimization                                2023. CA Cancer J. Clin. 73, 17–48 (2023).
+process, energy layer spacing and spot spacing were auto-                            2.    Gondi, V. et al. Radiation therapy for brain metastases: an ASTRO
+matically set with a scale of 1.0, and the spot pattern was set to                         clinical practice guideline. Pract. Radiat. Oncol. 12, 265–282 (2022).
+hexagonal. The tolerance was set at 1e−5, allowing for up to 100                     3.    Brenner, A. W. & Patel, A. J. Review of current principles of the
+iterations to reﬁne the treatment plan. The minimum spot                                   diagnosis and management of brain metastases. Front. Oncol. 12,
+meterset was set as 0.01 MU/fraction, while the maximum spot                               857622 (2022).
+meterset was set to the machine default of 15 MU/fraction.                           4.    Srinivasan, E. S., Deshpande, K., Neman, J., Winkler, F. & Khasraw,
+Robustness settings included an isotropic uncertainty of 0.3 cm                            M. The microenvironment of brain metastases from solid tumors.
+in all directions, and the systematic density uncertainty was set at                       Neurooncol. Adv. 3, v121–v132 (2021).
+3.5%. Optimization objectives and constraints were strategically                     5.    Hwang, T. L., Close, T. P., Grego, J. M., Brannon, W. L. & Gonzales, F.
+chosen to ensure the target volume received both the minimum                               Predilection of brain metastasis in gray and white matter junction
+and maximum prescribed doses. The dose fall–off of the pro-                                and vascular border zones. Cancer 77, 1551–1555 (1996).
+tected neuro structure had a high dose level set to the prescrip-                    6.    Delattre, J. Y., Krol, G., Thaler, H. T. & Posner, J. B. Distribution of
+tion dose, with a low dose level of 1000 cGy (RBE) at a distance                           brain metastases. Arch. Neurol. 45, 741–744 (1988).
+of 0.5 cm.                                                                           7.    Guyon, J., Chapouly, C., Andrique, L., Bikfalvi, A. & Daubon, T. The
+     The WBRT-PROTECT target and neuro-protect volume were                                 normal and brain tumor vasculature: morphological and functional
+generated using ROI Boolean operations. The neuroPROTECT volume                            characteristics and therapeutic targeting. Front. Physiol. 12,
+was created from a 3 mm isotropic expansion of the union of the                            622615 (2021).
+hippocampi, amygdala, thalamus, pallidus, caudate, putamen, brain-                   8.    Burn, L., Gutowski, N., Whatmore, J., Giamas, G. & Pranjol, M. Z. I.
+stem, and ventricles. Both WBRT-PROTECT plans used a target volume                         The role of astrocytes in brain metastasis at the interface of circu-
+deﬁned as the whole-brain minus the neuroPROTECT region. All plans                         lating tumour cells and the blood brain barrier. Front. Biosci. 26,
+were prescribed using the standard of care of 30 Gy in 10 fractions to                     590–601 (2021).
+95% coverage of their respective planning target volume. Dose dis-                   9.    Kienast, Y. et al. Real-time imaging reveals the single steps of brain
+tributions with the MNI image and contours were exported from                              metastasis formation. Nat. Med. 16, 116–122 (2010).
+RayStation to Python for plotting of dose-volume histograms and                      10.   Follain, G. et al. Hemodynamic forces tune the arrest, adhesion, and
+extraction of dose metrics of the plans.                                                   extravasation of circulating tumor cells. Dev. Cell 45, 33–52.e12
+                                                                                           (2018).
+Reporting summary                                                                    11.   Sneed, P. K. et al. Adverse radiation effect and freedom from pro-
+Further information on research design is available in the Nature                          gression following repeat stereotactic radiosurgery for brain
+Portfolio Reporting Summary linked to this article.                                        metastases. J. Neurosurg. 138, 104–112 (2023).
+                                                                                     12.   Keek, S. A. et al. Predicting adverse radiation effects in brain tumors
+Data availability                                                                          after stereotactic radiotherapy with deep learning and handcrafted
+The dataset supporting this study includes multi-institutional data                        radiomics. Front. Oncol. 12, 920393 (2022).
+subject to privacy regulations and institutional data use policies. As               13.   Dirven, L. et al. Systematic review on the use of patient-reported
+such, full access is restricted. Researchers may request access to a                       outcome measures in brain tumor studies: part of the Response
+limited, de-identiﬁed subset of the data derived from the University of                    Assessment in Neuro-Oncology Patient-Reported Outcome (RANO-
+California, San Francisco (UCSF) under a controlled-access Material                        PRO) initiative. Neurooncol. Pract. 8, 417–425 (2021).
+Transfer Agreement (MTA). Requests should be directed to the cor-                    14.   Aoyama, H. et al. Neurocognitive function of patients with brain
+responding author. All requests will be reviewed within 30 days. Data                      metastasis who received either whole brain radiotherapy plus ste-
+use is subject to restrictions outlined in the MTA, including limitations                  reotactic radiosurgery or radiosurgery alone. Int. J. Radiat. Oncol.
+on redistribution and requirements for secure storage. To promote                          Biol. Phys. 68, 1388–1395 (2007).
+transparency and reproducibility, a curated test dataset of 500 anon-                15.   Abayomi, O. K. Pathogenesis of irradiation-induced cognitive dys-
+ymized patients, along with analytical code, is publicly available via the                 function. Acta Oncol. 35, 659–663 (1996).
+Open Science Framework (OSF): https://osf.io/fkqmr/. Additionally, we                16.   Haslam, A., Kim, M. S. & Prasad, V. Updated estimates of
+provide open access to the MNI brain model, anatomical, functional,                        eligibility for and response to genome-targeted oncology
+and vascular atlases, brain metastasis risk maps (lung, breast, and                        drugs among US cancer patients, 2006-2020. Ann. Oncol. 32,
+melanoma), and simulated radiation treatment models. Source data                           926–932 (2021).
+are provided with this paper.                                                        17.   Chen, W. C. et al. Efﬁcacy and safety of stereotactic radiosurgery for
+                                                                                           brainstem metastases: a systematic review and meta-analysis.
+Code availability                                                                          JAMA Oncol. 7, 1033–1040 (2021).
+Code is directly available from the following GitHub repository:                     18.   Brown, P. D. et al. Hippocampal avoidance during whole-brain
+https://github.com/medomics/BrainMets_RiskMaps: https://doi.org/                           radiotherapy plus memantine for patients with brain metastases:
+
+
+Nature Communications | (2025)16:4536                                                                                                                                13
+Article                                                                                                    https://doi.org/10.1038/s41467-025-59584-7
+
+
+    phase III trial NRG oncology CC001. J. Clin. Oncol. 38,                    40. Fransson, P. & Marrelec, G. The precuneus/posterior cingulate
+    1019–1029 (2020).                                                              cortex plays a pivotal role in the default mode network: evi-
+19. Reich, M. M. et al. A brain network for deep brain stimulation                 dence from a partial correlation network analysis. Neuroimage
+    induced cognitive decline in Parkinson’s disease. Brain 145,                   42, 1178–1184 (2008).
+    1410–1421 (2022).                                                          41. Rolls, E. T. The cingulate cortex and limbic systems for action,
+20. He, X. et al. Disrupted basal ganglia-thalamocortical loops in focal           emotion, and memory. Handb. Clin. Neurol. 166, 23–37 (2019).
+    to bilateral tonic-clonic seizures. Brain 143, 175–190 (2020).             42. Rolls, E. T., Cheng, W. & Feng, J. The orbitofrontal cortex: reward,
+21. Roux, A. et al. MRI atlas of IDH wild-type supratentorial glio-                emotion and depression. Brain Commun. 2, fcaa196 (2020).
+    blastoma: probabilistic maps of phenotype, management, and                 43. Gondi, V., Tome, W. A. & Mehta, M. P. Why avoid the hippocampus?
+    outcomes. Radiology 293, 633–643 (2019).                                       A comprehensive review. Radiother. Oncol. 97, 370–376 (2010).
+22. Tang, Y., Sun, W., Toga, A. W., Ringman, J. M. & Shi, Y. A probabilistic   44. Juntu, J., Sijbers, J., Van Dyck, D. & Gielen, J. Bias ﬁeld correction for
+    atlas of human brainstem pathways based on connectome imaging                  MRI images. In Computer Recognition Systems (eds. Kurzyński, M.,
+    data. Neuroimage 169, 227–239 (2018).                                          Puchała, E., Woźniak, M. & żołnierek, A.) 543–551 (Springer Berlin
+23. Behrens, T. E. et al. Non-invasive mapping of connections between              Heidelberg, Berlin, Heidelberg, 2005).
+    human thalamus and cortex using diffusion imaging. Nat. Neurosci.          45. Evans, A. C. et al. Anatomical mapping of functional activation in
+    6, 750–757 (2003).                                                             stereotactic coordinate space. Neuroimage 1, 43–53 (1992).
+24. Wang, T. W. et al. Brain metastasis tumor segmentation and                 46. Collins, D. L., Neelin, P., Peters, T. M. & Evans, A. C. Automatic 3D
+    detection using deep learning algorithms: a systematic review and              intersubject registration of MR volumetric data in standardized
+    meta-analysis. Radiother. Oncol. 190, 110007 (2024).                           Talairach space. J. Comput. Assist. Tomogr. 18, 192–205 (1994).
+25. Gong, J. et al. Enhancing brain metastasis prediction in non-small         47. Cardinal, T. et al. Anatomical and topographical variations in the
+    cell lung cancer: a deep learning-based segmentation and CT                    distribution of brain metastases based on primary cancer origin and
+    radiomics-based ensemble learning model. Cancer Imag. 24,                      molecular subtypes: a systematic review. Neurooncol. Adv. 4,
+    1 (2024).                                                                      vdab170 (2022).
+26. Zhou, Z. et al. A multi-task deep learning model for EGFR geno-            48. Shi, W. et al. Brain metastases from small cell lung cancer and non-
+    typing prediction and GTV segmentation of brain metastasis. J.                 small cell lung cancer: comparison of spatial distribution and
+    Transl. Med. 21, 788 (2023).                                                   identiﬁcation of metastatic risk regions. J. Neurooncol. 161,
+27. Huang, Y. et al. Deep learning for brain metastasis detection and              97–105 (2023).
+    segmentation in longitudinal MRI data. Med. Phys. 49,                      49. Yanagihara, T. K. et al. A low percentage of metastases in deep
+    5773–5786 (2022).                                                              brain and temporal lobe structures. Neuro Oncol. 21,
+28. Moawad, A. W. et al. The brain tumor segmentation (BraTS-METS)                 640–647 (2019).
+    challenge 2023: brain metastasis segmentation on pre-treatment             50. Henschel, L. et al. FastSurfer - a fast and accurate deep learning
+    MRI. Preprint at: https://arxiv.org/abs/2306.00838 (2023).                     based neuroimaging pipeline. Neuroimage 219, 117012 (2020).
+29. Rueden, L. V. et al. Informed machine learning—a taxonomy and              51. Elam, J. S. et al. The Human Connectome Project: a retrospective.
+    survey of integrating prior knowledge into learning systems. IEEE              Neuroimage 244, 118543 (2021).
+    Trans. Knowl. Data Eng. 35, 614–633 (2023).                                52. Horn, A. & Blankenburg, F. Toward a standardized structural-
+30. Karpatne, A. et al. Theory-guided data science: a new paradigm for             functional group connectome in MNI space. Neuroimage 124,
+    scientiﬁc discovery from data. IEEE Trans. Knowl. Data Eng. 29,                310–322 (2016).
+    2318–2331 (2017).                                                          53. Liu, C. F. et al. Digital 3D brain MRI arterial territories atlas. Sci. Data
+31. Morin, O. et al. An artiﬁcial intelligence framework integrating               10, 74 (2023).
+    longitudinal electronic health records with real-world data enables
+    continuous pan-cancer prognostication. Nat. Cancer 2,                      Acknowledgements
+    709–722 (2021).                                                            We would like to thank patients who signed the institutional con-
+32. Schneider, T. et al. Inverse perfusion requirements of supra- and          sent form such that their de-identiﬁed care data can one day
+    infratentorial brain metastases formation. Front. Neurol. 9,               beneﬁt others.
+    391 (2018).
+33. Alsabbagh, R., Ahmed, M., Alqudah, M.A.Y., Hamoudi, R. & Harati, R.        Author contributions
+    Insights into the molecular mechanisms mediating extravasation in          Conceived and designed the overall study, methodology, inter-
+    brain metastasis of breast cancer melanoma, and lung cancer.               preted the data, and writing—review and editing: J.B., E.P., D.C.,
+    Cancers 5, 2258 (2023).                                                    T.U., W.C., J.R.P., A.A., A.B., K.P., M.A., E.L., D.H., P.H.S., J.E.V.M.,
+34. Kyeong, S. et al. Subtypes of breast cancer show different spatial         G.V., F.J., O.W.C., B.Z., M.M., H.L., M.S., P.S., J.N., L.B., S.F., D.R.,
+    distributions of brain metastases. PLoS ONE 12, e0188542 (2017).           J.C., H.V., S.C., C.H., R.F., D.B.S., L.P., S.H.J., P.T., J.Y.S., M.A.K.A.,
+35. Schreurs, L. D. et al. The immune landscape in brain metastasis.           D.C., S.H.B., K.S., J.S., C.C., D.S.T., J.D., S.B. and O.M. Obtained
+    Neuro Oncol. 27, 50–62 (2025).                                             data access and IRB approval, and patient selection and data
+36. Fares, J. et al. Rethinking metastatic brain cancer as a CNS disease.      curation: M.A., C.C., J.R.P. and O.M. Creation of the brain mets SQL
+    Lancet Oncol. 26, e111–e121 (2025).                                        database: J.B. and E.P. Funding acquisition and funding sources:
+37. Schroeder, T. et al. Mapping distribution of brain metastases: does        not applicable. Project administration: O.M., C.C., J.D. and S.H.B.
+    the primary tumor matter? J. Neurooncol. 147, 229–235 (2020).              Website maintenance: O.M. Software and designed and con-
+38. Fama, R. & Sullivan, E. V. Thalamic structures and associated cog-         structed the predictive modelling: J.B., E.P., D.C., T.U., W.C. and
+    nitive functions: Relations with age and aging. Neurosci. Biobehav.        O.M. Writing—original draft: J.B., E.P., W.C., D.C., J.E.V.M., S.B
+    Rev. 54, 29–37 (2015).                                                     and O.M.
+39. Zhao, L. et al. Strategic infarct location for post-stroke cognitive
+    impairment: a multivariate lesion-symptom mapping study. J.                Competing interests
+    Cereb. Blood Flow. Metab. 38, 1299–1311 (2018).                            The authors declare no competing interests.
+
+
+
+
+Nature Communications | (2025)16:4536                                                                                                                       14
+Article                                                                                                https://doi.org/10.1038/s41467-025-59584-7
+
+
+Additional information                                                        Open Access This article is licensed under a Creative Commons
+Supplementary information The online version contains                         Attribution 4.0 International License, which permits use, sharing,
+supplementary material available at                                           adaptation, distribution and reproduction in any medium or format, as
+https://doi.org/10.1038/s41467-025-59584-7.                                   long as you give appropriate credit to the original author(s) and the
+                                                                              source, provide a link to the Creative Commons licence, and indicate if
+Correspondence and requests for materials should be addressed to              changes were made. The images or other third party material in this
+Olivier Morin.                                                                article are included in the article’s Creative Commons licence, unless
+                                                                              indicated otherwise in a credit line to the material. If material is not
+Peer review information Nature Communications thanks Matthew Wil-             included in the article’s Creative Commons licence and your intended
+liams, who co-reviewed with Seema DadhaniaBratislav Misic; and Axel           use is not permitted by statutory regulation or exceeds the permitted
+Mosig for their contribution to the peer review of this work. A peer review   use, you will need to obtain permission directly from the copyright
+ﬁle is available.                                                             holder. To view a copy of this licence, visit http://creativecommons.org/
+                                                                              licenses/by/4.0/.
+Reprints and permissions information is available at
+http://www.nature.com/reprints                                                © The Author(s) 2025, corrected publication 2025
+
+Publisher’s note Springer Nature remains neutral with regard to
+jurisdictional claims in published maps and institutional afﬁliations.
+
+
+
+1
+ Department of Radiation Oncology, University of California San Francisco, San Francisco, CA, USA. 2Department of Radiation Oncology, University of
+California Davis Health, Sacramento, CA, USA. 3Department of Radiation Oncology, Memorial Sloan Kettering, New York, NY, USA. 4Department of Medical
+Physics, Memorial Sloan Kettering Cancer Center, New York, NY 10065, USA. 5Department of Radiology and Biomedical Imaging, University of California San
+Francisco, San Francisco, CA, USA. 6Department of Neurological Surgery, University of California San Francisco, San Francisco, CA, USA. 7Department of
+Epidemiology and Biostatistics, University of California San Francisco, San Francisco, CA, USA. 8Mofﬁt Cancer Center, Tampa, Florida, USA. 9Radiation
+Medicine Program, Princess Margaret Cancer Centre, University Health Network, Toronto, ON, Canada. 10Department of Medical Biophysics, University of
+Toronto, Toronto, ON, Canada. 11UCSF/UC Berkeley Graduate Program in Bioengineering, San Francisco, CA, USA. 12Department of Pathology, University of
+California San Francisco, San Francisco, CA, USA. 13These authors contributed equally: Jorge Barrios, Evan Porter.   e-mail: Olivier.Morin@ucsf.edu
+
+
+
+
+Nature Communications | (2025)16:4536                                                                                                               15
+

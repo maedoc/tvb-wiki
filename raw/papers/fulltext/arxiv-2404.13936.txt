@@ -1,0 +1,2326 @@
+                                              A bound preserving cut discontinuous Galerkin method for one
+                                                                  dimensional hyperbolic conservation laws
+                                                                               Pei Fu∗, Gunilla Kreiss†, Sara Zahedi‡
+arXiv:2404.13936v2 [math.NA] 5 Jun 2024
+
+
+
+
+                                                                                                  Abstract
+                                                    In this paper we present a family of high order cut finite element methods with bound preserving
+                                                properties for hyperbolic conservation laws in one space dimension. The methods are based on the
+                                                discontinuous Galerkin framework and use a regular background mesh, where interior boundaries are
+                                                allowed to cut through the mesh arbitrarily. Our methods include ghost penalty stabilization to handle
+                                                small cut elements and a new reconstruction of the approximation on macro-elements, which are local
+                                                patches consisting of cut and un-cut neighboring elements that are connected by stabilization. We
+                                                show that the reconstructed solution retains conservation and order of convergence. Our lowest order
+                                                scheme results in a piecewise constant solution that satisfies a maximum principle for scalar hyperbolic
+                                                conservation laws. When the lowest order scheme is applied to the Euler equations, the scheme is
+                                                positivity preserving in the sense that positivity of pressure and density are retained. For the high order
+                                                schemes, suitable bound preserving limiters are applied to the reconstructed solution on macro-elements.
+                                                In the scalar case, a maximum principle limiter is applied, which ensures that the limited approximation
+                                                satisfies the maximum principle. Correspondingly, we use a positivity preserving limiter for the Euler
+                                                equations, and show that our scheme is positivity preserving. In the presence of shocks additional limiting
+                                                is needed to avoid oscillations, hence we apply a standard TVB limiter to the reconstructed solution.
+                                                The time step restrictions are of the same order as for the corresponding discontinuous Galerkin methods
+                                                on the background mesh. Numerical computations illustrate accuracy, bound preservation, and shock
+                                                capturing capabilities of the proposed schemes.
+
+                                          Keywords: Hyperbolic conservation laws, discontinuous Galerkin method, cut elements, satisfying maxi-
+                                          mum principle, positivity preserving
+
+
+                                          1     Introduction
+                                          In this paper we consider problems in one space dimension, both scalar hyperbolic conservation laws and
+                                          the important hyperbolic system of equations known as the Euler equations of gas dynamics. These are of
+                                          the form                          (
+                                                                               ut + ∂x f (u) = 0, x ∈ Ω, t > 0,
+                                                                                                                                             (1.1)
+                                                                               u(x, 0) = u0 (x), x ∈ Ω,
+                                             ∗ School of Mathematics, Nanjing University of Aeronautics and Astronautics, 211106 Nanjing, China.              E-mail:
+                                          fu.pei@nuaa.edu.cn.
+                                             † Division of Scientific Computing, Department of Information Technology, Uppsala University, SE-75105 Uppsala, Sweden.
+
+                                          E-mail: gunilla.kreiss@it.uu.se.
+                                             ‡ Department of Mathematics,        KTH Royal Institute of Technology, SE-10044 Stockholm, Sweden.               Email:
+                                          sara.zahedi@math.kth.se.
+
+
+
+                                                                                                      1
+with suitable boundary conditions. Here, Ω ⊂ R, u = (u1 , · · · , un )T is a vector of real valued functions,
+which represents conservative variables, and f (u) = (f1 (u), · · · , fn (u))T is the vector valued flux function.
+We assume that the corresponding Jacobian matrix has n real eigenvalues and n complete eigenvectors.
+Solutions of such systems may develop shocks or discontinuities even if the initial data is smooth. It therefore
+becomes necessary to consider weak solutions, and as usual we seek the physical relevant weak solution which
+satisfies an entropy condition.
+    An important property of the entropy solution for a scalar equation of the form (1.1) is the maximum
+principle, which for Cauchy problems means
+
+                                      if u0 (x) ∈ [m, M] then u(x, t) ∈ [m, M].                             (1.2)
+
+The solution of the Euler equations usually does not satisfy the maximum principle, but density and pressure
+should remain positive. With negative density or pressure hyperbolicity is lost and the Euler system becomes
+ill-posed, which causes severe numerical difficulties. For initial boundary-value problems boundary conditions
+must satisfy corresponding restraints for the maximum principle, or positivity, to be valid. It has been noted
+that high order methods without bound preserving properties often suffer from numerical instability or
+nonphysical features when applied to problems with low density or high Mach number, see for example [25].
+     A finite element method (FEM) based on discontinuous piecewise polynomial spaces is commonly called
+a discontinuous Galerkin (DG) method. The DG methodology coupled to explicit Runge-Kutta time dis-
+cretizations and limiters, has successfully been applied to nonlinear time dependent hyperbolic conservation
+laws, see e.g. [13, 12, 14]. For more details on DG methods, we refer to [28, 44]. Most finite element methods
+require the mesh to be aligned to boundaries and material interfaces, and to achieve the optimal accuracy
+the mesh quality needs to be high.
+     For boundaries and material interfaces with complicated shapes one approach is to start with a Cartesian
+background mesh and use agglomeration to create a body fitted mesh of good quality. An alternative
+approach is to allow boundaries and interfaces to cut through the Cartesian background mesh arbitrarily.
+This is the approach we take. In this paper we develop an unfitted discretization for hyperbolic PDEs
+based on standard Cartesian finite elements that preserves important properties. Small cut elements may
+cause problems, including ill-conditioned linear systems and severe time-step restrictions. Various techniques
+have been introduced to handle such difficulties. One approach often used in unfitted methods based on
+DG is cell merging, where new elements, still unfitted but of sufficient size are created by merging small cut
+elements with their neighbours [30, 32, 38, 39, 40, 9, 10]. A common technique in connection with Cut Finite
+Element Methods (CutFEM) is to add ghost penalty stabilization terms in the weak form [4, 5, 36, 42, 24].
+In CutFEM the physical domain is embedded into a computational domain equipped with a quasi-uniform
+mesh. Elements that have an intersection with the domain of interest define the active mesh and associated
+to that is a finite dimensional function space and a weak form, which together define the numerical scheme
+[35, 26, 17, 46]. Interface and boundary conditions are imposed weakly, when the mesh is unfitted.
+     Recently, some methods based on the DG framework with time-step restrictions that are independent
+of the sizes of smallest elements have been developed for time-dependent hyperbolic conservation laws. In
+[16, 37] methods are presented that include stabilization of small elements, designed to restore proper domains
+of dependence. In [21] small elements are stabilized by a redistribution step, which was first introduced in [3].
+In [19] a family of high-order cut discontinuous Galerkin (Cut-DG) methods with ghost penalty stabilization
+for non-linear scalar hyperbolic problems is presented. These methods are proven to be high order accurate
+and L2 -stable under time-step restrictions that are independent of cut sizes. Total variation stability, which
+is important when considering problems with shocks, is also established, but only for the piecewise constant
+
+
+                                                         2
+scheme. In [18] a similar methodology is used, but the focus is on conservation at material interfaces with
+discontinuous fluxes, which cut arbitrarily through elements in one and two space dimensions.
+    In this paper we will develop and analyze a family of high order bound-preserving unfitted discontinuous
+Galerkin (DG) methods for nonlinear hyperbolic conservation laws. We will consider (1.1) with several artifi-
+cial subdomain interfaces, a problem which is equivalent to (1.1) on the original domain. The computational
+mesh, which will be introduced later, is not fitted to these interfaces. We have chosen this model problem
+as a one dimensional model for problems in higher spatial dimension with a physical boundary or a physical
+interface that cuts arbitrarily through the computational mesh and creates increasingly many cut elements
+as the mesh is refined, see Figure 1.
+    The contribution in this paper is a method for applying limiters in connection with unfitted discretizations
+such as in [19] so that bound preservation is achieved for piecewise constant schemes as well as for high order
+schemes. We illustrate with numerical experiments (see Figure 4, 6 in Section 5) that it is not sufficient
+to directly apply limiters on the numerical solution on the unfitted computational mesh. We show that
+the desired properties can be achieved on macro-elements. Macro-elements [33] consist of cut and un-cut
+neighbouring elements in the computational mesh so that each macro-element always has a large intersection
+with the domain of interest. We propose a reconstruction of the approximated solution on macro-elements
+based on polynomial extension that preserves conservation and order of accuracy. If reconstruction is applied
+everywhere the proposed scheme corresponds to cell merging with a particular basis on the macro-element.
+To minimize errors the reconstruction on a macro-element should be applied only when limiting is needed
+on an element belonging to the macro-element. This is possible when the ill-conditioning and time step
+restrictions due to small cut cells are handled by ghost penalty terms.
+    In the piecewise constant case we can show that under a suitable time step restriction the reconstructed
+solutions in the scalar case and for the Euler system, satisfy the maximum principle and the positivity of
+density and pressure, respectively. For the higher order schemes we can show that the average values of the
+reconstructed solutions on the macro-elements satisfy the corresponding bounds. Thus, the bound preserving
+limiters developed by Zhang et. al [52, 53] can be applied to ensure that the discrete approximations satisfy
+the pointwise bounds.
+    The bound preserving limiter is not enough to control oscillations near shocks. There we need additional
+limiting. In our work, we use a TVD/TVB slope limiter commonly applied in combination with DG methods,
+see [13, 12, 11, 14]. Other limiters, such as WENO-limiters [41] are also possible.
+    The paper is organized as follows. In Section 2 we introduce the model problem, the mesh, the finite
+element function spaces, the Cut-DG discretization, the process for reconstructing solutions on macro-
+elements, and some notations. In Section 3 the scheme is presented for scalar hyperbolic conservation laws
+and we show that it satisfies the maximum-principle property when a suitable bound preserving limiter is
+applied during time evolution. In Section 4, we present the corresponding scheme for the Euler equations,
+and analyze the positivity property. In Section 5 numerical computations are presented, which support the
+theoretical results. Finally, a conclusion is given in Section 6.
+
+
+2    A cut discontinuous Galerkin discretization in space
+In this section we present an unfitted spatial discretization for hyperbolic conservation laws on the form
+(1.1). After presenting the model problem we define the mesh, our finite dimensional function spaces, and
+the macro-element partition.
+
+
+
+
+                                                       3
+2.1      A model geometry in one space dimension
+To mimic a problem in higher spatial dimensions with a boundary (or an interface) that cuts arbitrarily
+through a computational mesh, as in Figure 1, we consider a one dimensional problem with several artificial
+interfaces, see Figure 2. In the computations in Section 5 we let the number of cut elements increase with
+mesh refinement. This one dimensional problem is considerably more challenging than if only cut elements
+at the two boundaries are present. For completeness, results with unfitted boundaries and with a physical
+interface are included in subsections 5.4.4 and 5.3.
+
+
+
+
+                       Figure 1: An illustration of a regular mesh and an unfitted interface.
+
+
+
+2.2      Mesh and spaces
+We embed the physical domain Ω = [xL , xR ] into a computational domain Ωh = [xL , xR ], which is discretized
+into N intervals Ij = [xj− 21 , xj+ 21 ], j = 1, · · · , N such that xL = x 21 < x 32 < · · · < xN + 21 = xR , where
+xj+ 12 = xL + jh with h = xRN  −xL
+                                   . Let
+
+      xL                               M ∈ Mh,1                                                                xR
+                                              Γ1                                      Γ2
+      x 21      x 23          xj− 52     xj− 32      xj− 12       xj+ 32     xk− 12        xk+ 12   xN − 12   xN + 21
+                         Ω1                                       Ω2                                Ω3
+
+
+Figure 2: Discretization of the computational domain Ωh = [xL , xR ] into a uniform partition. This back-
+ground mesh is cut by two interfaces at x = Γ1 and x = Γ2 , dividing the computational domain into three
+subdomains. The dotted line at xj− 23 indicates the interior edge in Mh,1 on which stabilization is applied,
+i.e. xj− 23 ∈ Fh,1 .
+
+
+                                         Th = {Ij : Ij ∩ Ω 6= ∅ : j = 1, · · · , N }.                                   (2.1)
+
+
+
+
+                                                              4
+We refer to Th as the background mesh of the domain Ω. The background mesh may be cut by either the
+outer domain boundary ∂Ω and by interior boundaries (interfaces). In this work we let
+                                                               N
+                                                               [
+                                               Ωh = Ω =              Ij ,                                   (2.2)
+                                                               j=1
+
+and hence the generated background mesh Th aligns with the boundary ∂Ω but not with interior interfaces.
+Assume the interior interfaces divide the domain into NΩ non-overlapping subdomains Ωi such that Ω =
+∪N
+ i=1 Ωi . The NΩ − 1 interfaces are positioned at x = Γj , j = 1, · · · , NΩ − 1 and non of them align with the
+   Ω
+
+
+mesh, so we have NΩ − 1 cut elements in the interior of the domain Ω. For an illustration, see Figure 2.
+   Associated with the subdomains Ωi we define active meshes
+
+                              Th,i = {Ij ∈ Th : Ij ∩ Ωi 6= ∅},              i = 1, · · · , NΩ ,             (2.3)
+
+and active finite element spaces
+                                 p
+                                Vh,i = {v ∈ L2 (Ω) : v|Ij ∈ Pp (Ij ), ∀Ij ∈ Th,i },                         (2.4)
+
+where Pp (Ij ) denotes the space of discontinuous piecewise polynomials of degree less or equal to p on Ij .
+   Let Eh,i be the set of interior edges in the active mesh Th,i . The intersections of Ij with Ωi are in the set
+Kh,i
+                                       Kh,i = {K = Ij ∩ Ωi : Ij ∈ Th,i }.                                   (2.5)
+Finally, let
+                                                        NM
+                                                         Ω −1
+
+                                                Vhp =            p
+                                                                Vh,i .                                      (2.6)
+                                                         i=1
+
+
+2.2.1   Macro-elements
+
+We create a macro-element partition Mh,i of the active domain
+                                                      [
+                                            Ωh,i =        Ij                                                (2.7)
+                                                          Ij ∈Th,i
+
+following [33]. The idea is to construct elements with large Ωi -intersections. To do that each interval Ij
+in the active mesh Th,i is first classified as having a large or a small intersection with the domain Ωi . We
+classify Ij ∈ Th,i as having a large Ωi -intersection if
+                                                        |Ij ∩ Ωi |
+                                                 δ≤                .                                        (2.8)
+                                                           |Ij |
+Here 0 < δ ≤ 1 is a constant which is independent of the element and of the mesh size h. We assume that
+h is small enough so that in each subdomain Ωi there is at least one element which is classified as having
+a large intersection with Ωi . To each element with a large intersection a macro-element is associated. The
+macro-element consists of either only this element or this element and adjacent elements (connected via a
+bounded number of internal edges) that are classified as having small intersections with Ωi . In one space
+dimension a macro-element will at most consist of three elements. In higher dimensions, if the geometry
+is smooth and well resolved the macro-element partitioning can be made to avoid macro-elements of very
+different size, please see Algorithm 1 in [33].
+    We define by Fh,i (M ) the set consisting of interior edges of macro-element M ∈ Mh,i . Stabilization
+will be applied at these edges. Note that the set Fh,i (M ) is empty when the macro-element consists of
+
+                                                          5
+only one element Ij (with a large Ωi -intersection). An example is shown in Figure 2, where M ∈ Mh,1
+is a macro-element consisting of more than one element in Ωh,1 and xj− 32 ∈ Fh,1 is the interior edge of
+that macro-element. In the original ghost-penalty approach, stabilization is applied on all interior edges
+(with respect to Ωi ) that also belong to cut elements. This is referred to as full stabilization. Using the
+macro-element partitioning stabilization is applied only on interior edges in each macro-element and never
+between macro-elements, hence conservation properties of the underlying DG-scheme can be inherited to
+macro-elements. In addition, with a macro-element stabilization errors are less sensitive to stabilization
+parameters, see [33]. With smaller choices of δ less elements are connected via the stabilization, resulting
+in a more sparse mass-matrix. However a small value causes a more severe time step restriction, see e.g.
+Theorem 3.1. In the numerical experiments we have used δ = 0.2.
+
+
+2.3     The weak formulation
+As a first step in finding an approximate solution to (1.1), we follow [19, 18] and formulate a semi-discrete
+weak form: For t ∈ [0, T ] find uh (·, t) = (uh,1 (·, t), · · · , uh,NΩ (·, t)) ∈ Vhp such that,
+
+                  ((uh )t , vh )Ω + γ1 J1 (uh,t , vh ) + a(uh , vh ) + γ0 J0 (uh , vh ) = 0,           ∀vh ∈ Vhp ,              (2.9)
+
+where
+                              NΩ
+                              X  X
+                (ut , v)Ω =                ((ui )t , vi )K ,                                                                   (2.10)
+                              i=1 K∈Kh,i
+                              NΩ
+                              X  X                                  NΩ X
+                                                                    X                                NX
+                                                                                                      Ω −1
+
+              a(u, v) = −                  (f (ui ), ∂x (vi ))K −                b
+                                                                                 f (ui )e [vi ]e −           b
+                                                                                                             f (u)Γi [v]Γi ,   (2.11)
+                              i=1 K∈Kh,i                            i=1 e∈Eh,i                        i=1
+                           NΩ
+                           X     X          X        p
+                                                     X                         
+             Js (u, v) =                                  wk h2k+s ∂ k ui e ∂ k vi e .                                         (2.12)
+                           i=1 M∈Mh,i e∈Fh,i (M) k=0
+
+Here
+                                          b                   λ
+                                          f (u)ξ = {f (u)}ξ − [u]ξ                                     (2.13)
+                                                              2
+is the Lax-Friedrichs flux, where λ is an estimate of the largest absolute eigenvalue of the Jacobian matrix
+                                                                                                      +    −
+ ∂f
+∂u in the domain Ω, [w]ξ = w − w
+                                +      −
+                                         represents the jump of the function w at ξ and {w}ξ = (w +w    2
+                                                                                                             )
+
+with w+ = lim+ w(ξ + ǫ), and w− = lim+ w(ξ − ǫ) denoting the limit values of w ∈ Vhp at ξ from right and
+            ǫ→0                             ǫ→0
+                                                                                                                p
+left. Note that at e ∈ Eh,i we have [v]e = vi+ − vi− and at Γi we have [v]Γi = vi+1 |Γi − vi |Γi with vi ∈ Vh,i   .
+In this paper we apply the global Lax-Friedrichs flux, i.e. λ is constant in the entire domain Ω. The local
+Lax-Friedrichs flux [27] and other positivity preserving fluxes like HLL flux [49], HLLC flux [2] can also be
+applied.
+                                                  1
+    In the stabilization term (2.12), ωk = (k!)2 (2k+1) , we refer to [47] for more details about this choice. The
+stabilization parameters γ0 , γ1 are positive constants and need to be chosen sufficiently large to avoid severe
+time step restrictions. In our numerical experiments γ0 = 0.25 and γ1 = 0.75. Assuming time and space
+scaled so that the wave speed is O(1) these values work well. However, we have not optimized these values
+but with the macro-element stabilization our experience is that the results are not sensitive to these precise
+values.
+    The initial condition is given by the stabilized L2 -projection:
+         NΩ
+         X  X                                                        NΩ
+                                                                     X  X
+                      (uh (·, 0), vh )K + γ1 J1 (uh (·, 0), vh ) =                  (u0 , vh )K ,            ∀vh ∈ Vhp .       (2.14)
+         i=1 K∈Kh,i                                                  i=1 K∈Kh,i
+
+
+
+                                                               6
+2.4       A reconstruction on macro-elements
+In general, fully discrete solutions of (2.9) do not automatically satisfy the maximum principle for scalar
+equations (see the left panel in Figure 5), or positivity of density and pressure for the Euler equations.
+To guarantee that the approximate solution to (1.1) has all the desired properties we utilize limiters, but
+we need to apply them properly. We will need a bound preserving limiter and sometimes when shocks or
+discontinuities are present we will also need additional limiters. The numerical examples in Section 5 show
+that it does not suffice to apply a standard limiter directly. Our main idea is to define an approximate
+solution uh,l from uh on the macro-element partition of the subdomains, and apply the appropriate limiters
+on uh,l .
+    We will in next sections show that applying a limiter to the reconstructed solution on macro elements
+will ensure the bound preserving properties.
+
+                                         IM
+                                        K1       K2
+       x 21          x 23      xJ− 23        xJ− 12       xJ+ 12          xk− 32       xk− 12           xk+ 12        xN − 12   xN + 21
+
+                                         M ∈ Mh,i
+
+
+              Figure 3: Illustration of intervals Kj ∈ Kh,i , which constitute part of the macro-element M.
+
+   For each macro-element M ∈ Mh,i , see Figure 3, let
+
+                                         IM = M ∩ Ωi = ∪j∈NM Kj with Kj ∈ Kh,i ,                                                      (2.15)
+
+where NM is an index set for those elements in Kh,i that constitute IM , the part of the macro-element
+M that is in Ωi . Furthermore, we have |IM | ≥ δh with the definition of δ in (2.8). For the macro-
+element M illustrated in Figure 3, NM = {1, 2}. We consider the scalar function on the macro-element
+here and note that we do a reconstruction for each component of uh if uh is a vector-valued function. Let
+                                                 p
+uh (·, t) = (uh,1 , · · · , uh,NΩ ) with uh,i ∈ Vh,i be an approximation of u(·, t). and let ui = u|Ωi .
+    For each macro-element M ∈ Mh,i and each Kj with j ∈ NM define
+                                                                          e
+                                               wh,j = uh,i |Kj ,         wh,j = EM wh,j ,                                             (2.16)
+
+where EM is the polynomial extension operator that extends wh,j to the entire macro-element M , such that
+                                                e
+EM wh,j |Kj = wh,j . At a point x outside Kj , wh,j (x) is simply the evaluation of the polynomial at x.
+   We propose the following reconstruction on each M
+                                       X
+                                uM
+                                 h,i =
+                                                e
+                                           ωj wh,j   + c0 , for each M ∈ Mh,i                            (2.17)
+                                                j∈NM
+
+with
+                                                      P      R                     P              R
+                                                                    wh,j dx                              e
+                                  |Kj |               j∈NM     Kj                  j∈NM ωj         IM
+                                                                                                        wh,j dx
+                             ωj =       , c0 =                                 −                                  .                   (2.18)
+                                  |IM |                     |IM |                               |IM |
+Note that each wh,j is extended to the entire macro-element and evaluated in IM and other choices of
+weights are possible. The constant c0 is chosen so that uM
+                                                         h,i has the same mean value on IM as uh,i . Note
+     P
+that j∈NM ωj = 1, and when M consists of only one element then |Kj | = |IM | and uM  h,i = uh,i |M .
+                                                            M
+   This reconstruction yields a new approximate solution uh,i on the macro-element partition, which is in
+                  p
+the subspace of Vh,i and has the following properties
+
+                                                                     7
+• conservation: we have
+                                 Z                   X Z                        Z
+                                        uM
+                                         h,i dx =                   wh,j dx =          uh,i dx,                                (2.19)
+                                   IM               j∈NM       Kj                IM
+
+
+  which shows that the reconstruction maintains conservation.
+
+• accuracy: let ui = u|Ωi ∈ H p+1 (Ωi ) define the smooth solution of (1.1) and assume uh,i satisfies
+
+                           ||uh,i − πh ui ||2Ωi + J1 (uh,i − πh ui , uh,i − πh ui ) . Ch2p .                                   (2.20)
+                                           p                                p
+  Here πh denotes the L2 projection onto Vh,i and we have πh ui = πh Eui ∈ Vh,i , where E : H p+1 (Ωi ) →
+    p+1
+  H     (R) is a continuous Sobolev extension operator [45]. The estimate (2.20) is the same as in [18,
+  appendix B].
+  To consider the error estimate of the reconstruction, we write
+                           X       X                                                X             X
+                                                  e                                                               e
+        ||ui − uM
+                h,i ||Ωi =      ||      ωj (ui − wh,j ) − c0 ||IM =                         ||          ωj (ui − wh,j )
+                          M∈Mh,i     j∈NM                                        M∈Mh,i          j∈NM
+                               X            Z                           X               Z
+                                  1                              ωj
+                           +             (ui − wh,j )dx +               (we − ui )dx||IM
+                                |IM | Kj                        |IM | IM h,j
+                           j∈NM                            j∈NM
+                            X X                              X X √
+                                                 e
+                        ≤2            ωj ||ui − wh,j ||IM +              ωj ||ui − wh,j ||Kj .                                 (2.21)
+                            M∈Mh,i j∈NM                                 M∈Mh,i j∈NM
+
+                P                                       1
+                                                           R             1
+                                                                             P     R             1
+                                                                                                    P        R
+  We have used j∈NM ωj = 1, added and subtracted |IM      | IM ui dx = |IM |  j∈NM Kj ui dx = |IM |   j∈NM ωj IM ui dx
+  in the second equality in (2.21), and finally we appled Minkowski’s inequality and Hölder’s inequality.
+                                 p
+  Define πhM : ui → πhM Eui ∈ Vh,i to be the L2 projection operator on the macro-element partition such
+  that πhM Eui |M ∈ Pp (M ) for M ∈ Mh,i . For macro-element M we assume Kl ∈ Kh,i is the element
+                                                           e
+  with a large Ωi -intersection. Recall the definition of wh,l from (2.16). We rewrite the first term in
+                                      e        M
+  (2.21) by adding and subtracting wh,l and πh ui to get
+             X      X                                X          X                                                          
+                                     e                                           e             e      e
+                          ωj ||ui − wh,j ||IM ≤                       ωj ||ui − wh,l ||IM + ||wh,l − wh,j ||IM
+           M∈Mh,i j∈NM                              M∈Mh,i j∈NM
+                        X       X                                                                                     
+                                                                            e             e      e
+                   ≤                    ωj ||ui − πhM ui ||IM + ||πhM ui − wh,l ||IM + ||wh,l − wh,j ||IM
+                       M∈Mh,i j∈NM
+                        X       X                                                                      
+                                                                                               e
+                   .                     ||ui − πhM ui ||IM + ||πhM ui − wh,l ||Kl + ||wh,l − wh,j ||Kl .                      (2.22)
+                       M∈Mh,i j∈NM
+
+
+  Here a . b is the notation for a ≤ Cb for some generic constant C, which is independent of h. To
+  arrive at the third inequality in (2.22) we used Lemma 2.3 in [9] to estimate the second and the third
+  term (the constant in the estimate depends on |IM |/|Kl | and p). Using Taylor expansion around the
+  edge xe = Kl ∩ Kj , we have
+
+              X      X                                         X        X        p
+                                                                                 X
+                                        e
+                          ||wh,l (x) − wh,j (x)||2Kl =                      ||         [Dr uh,i ]e · (x − xe )r /r!||2Kl
+            M∈Mh,i j∈NM                                    M∈Mh,i j∈NM           r=0
+
+                        .J1 (uh,i , uh,i ) = J1 (uh,i − Eui , uh,i − Eui )
+                        .J1 (uh,i − πh ui , uh,i − πh ui ) + J1 (πh ui − Eui , πh ui − Eui ).                                  (2.23)
+
+
+
+                                                           8
+       Here we utilized that J1 (Eui , Eui ) = 0 and added and subtracted J1 (πh ui , πh ui ). For the first term in
+       (2.21) we combine the estimate (2.22) and (2.23), for the second term of (2.21) we use that wh,j |Kj =
+       uh,i to get
+                         2                 2                   2                   2
+           ||ui − uM                                    M
+                   h,i ||Ωi .||ui − uh,i ||Ωi + ||ui − πh ui ||Ωi + ||ui − πh ui ||Ωi + J1 (Ei ui − πh ui , Eui − πh ui )
+
+                             + ||πh ui − uh,i ||2Ωi + J1 (uh,i − πh ui , uh,i − πh ui ) ≤ Ch2p .                            (2.24)
+
+       In the last inequality we used (2.20) and that optimal approximation properties hold for the projection
+       operators πh and πhM , see [18, (B.13)-(B.15)]. Thus, we have shown that for smooth problems the
+       reconstructed solution uM h,i , defined in (2.17), has the same order of convergence as uh,i .
+
+       Remark 2.1. In practice the approximate solution uh,l should be constructed only when limiting
+       is necessary. Numerical experiments, where the reconstruction is only done for macro-elements that
+       violate the bound property, show that this works well. See Figure 7 for a scalar example and Figure
+       13 for a system. We remark that it is also possible to use the extension technique in the discretization
+       of the PDE instead of adding stabilization terms, see for example [29, 7, 6].
+
+
+3      Maximum principle preserving DG methods for scalar equations
+In this section, we propose a fully discretized scheme for the scalar hyperbolic conservation laws and study
+the maximum principle property of the proposed scheme. It suffices to consider the forward Euler method.
+In the numerical experiments, we use high order time discretization methods that are linear combinations
+of the forward Euler method. In each time step we include a reconstruction on the macro-element partition
+of the mesh. We will show that our proposed scheme satisfies the maximum principle. The scheme can
+                                                                                                       p
+be summerized as follows: Given the approximate solution unh = (unh,1 , · · · , unh,NΩ ) with unh,i ∈ Vh,i , and
+             n                                        n+1
+satisfying uh,i |Ωi ∈ [m, M] at time tn , we compute uh by the following steps:
+                                                         p                      p
+    1. Find ũn+1
+              h   = (ũn+1     n+1             n+1
+                       h,1 , ũh,2 , · · · , ũh,NΩ ) ∈ Vh such that for ∀vh ∈ Vh
+
+            NΩ
+                                               !                   n+1          
+            X  X           ũn+1    n
+                             h,i − uh                              ũh − unh
+                                        , vh           + γ 1 J1              , vh + a(unh , vh ) + γ0 J0 (unh , vh ) = 0,    (3.1)
+             i=1 K∈Kh,i
+                                ∆t                                    ∆t
+                                                   K
+
+       with the bilinear forms a(·, ·) and Js (·, ·) (s = 0, 1) defined as in (2.11) and (2.12).
+
+    2. From ũn+1
+              h,i , we compute the reconstructed solution following (2.17). For each M ∈ Mh,i , i = 1, · · · , NΩ ,
+                     M,n+1
+       we compute uh,i     from ũn+1
+                                  h,i , which is
+                                                                    P               e,n+1
+                                                M,n+1                   j∈NM |Kj |w̃h,j
+                                               uh,i   |M =                                  + c0 .                           (3.2)
+                                                                             |IM |
+               e,n+1
+       Here, w̃h,j   is defined as in (2.16) but uh,i is replaced by ũn+1
+                                                                       h,i . If needed, bound preserving limiting,
+       which will be described in section 3.3, is applied to the reconstructed solution before the next step.
+
+    3. Finally, for each macro-element M ∈ Mh,i , i = 1, · · · , NΩ set
+                                                                       M,n+1
+                                                            un+1
+                                                             h,i |M = uh,i   |M .                                            (3.3)
+
+At the initial time t0 , given u0 , replace (3.1) by (2.14) and then apply step 2 and 3 to compute uM,0      0
+                                                                                                    h,i and uh,i .
+In practice, the approximate solution uh,M should be constructed only in those M ∈ Mh,i when limiting is
+
+                                                                      9
+needed (see Figure 7 for Burgers’ equation and Figure 13 for the Euler equations). Note that the stabilization
+terms Ji act only on the interior edges in macro-elements. For macro-elements where the reconstruction is
+done, the reconstructed solution unh has no jump across the interior edges and thus on such elements the
+stabilization terms Ji (unh , vh ) vanish. In all other macro-elements the stabilization J0 is needed.
+    In the higher order versions of our scheme the reconstructed solution may not satisfy the maximum
+                                                          M,n+1
+principle automatically at the next time level i.e. uh,i         ∈
+                                                                 / [m, M], i = 1, · · · , NΩ , and this makes limiting
+necessary. The details are found in Algorithm 1.
+
+
+3.1    Piecewise constant approximation
+Let unh ∈ Vhp , p = 0 denote the piecewise constant function that approximates the solution at time tn . Note
+that in this case, we have from the conservation property (2.19) that c0 = 0 and thus
+                                                  P              n
+                                            M,n      j∈NM |Kj |w̃h,j
+                                           uh,i =                    ,                                   (3.4)
+                                                         |IM |
+         n
+where w̃h,j denotes the mean value on the element Kj . Note that the solution uM,n
+                                                                               h,i has no discontinuity at
+interior edges of macro-elements (for example across the edge between K1 and K2 in Figure 3), and with
+p = 0 there is no difference between function values and mean values.
+
+Theorem 3.1. Consider the Cut-DG scheme described by (3.1)-(3.3) with p = 0. If the time step ∆t satisfies
+                                                       ∆t
+                                                          λ ≤ 1,                                                 (3.5)
+                                                       δh
+then unh,i |Ωi ∈ [m, M], i = 1, · · · , NΩ implies un+1
+                                                    h,i |Ωi ∈ [m, M] for i = 1, · · · , NΩ . Here h is the element size
+in the background mesh, and δ is a given constant, which in (2.8) defines when an intersection between an
+element and Ωi is classified as large. λ is the maximum absolute value of the Jacobian ∂f (unh )/∂unh in the
+domain Ω.
+
+Proof. By the reconstruction (3.3), unh is constant in each macro element M ∈ Mh,i , i = 1, · · · , NΩ , and we
+denote the value by uM,n           n         n
+                        h,i . Let uh,l and uh,r denote the values adjacent to the left and right boundary of
+IM , respectively, see IM in (2.15). We assume unh ∈ [m, M ]. Thus, we have uM,n     n      n
+                                                                              h,i , uh,l , uh,r ∈ [m, M]. Further,
+let fbl and fbr denote the numerical fluxes on the left and on the right boundaries of the macro-element IM ,
+respectively. We use the global Lax-Friedrichs flux, defined by (2.13), which is
+                              1                                  λ                         
+                        fbl =    f (unh,l (xl )) + f (uM,n
+                                                       h,i (xl )) −    uM,n            n
+                                                                        h,i (xl ) − uh,l (xl ) ,                 (3.6)
+                              2                                     2
+                              1                                   λ                          
+                       fbr =     f (uM,n                 n
+                                      h,i (xr )) + f (uh,r (xr )) −     unh,r (xr ) − uM,n
+                                                                                       h,i (xr ) .               (3.7)
+                              2                                      2
+Let the test function vh in (3.1) to be vh = 1 on each element of M and vh = 0 otherwise. By noting that
+the stabilization terms Js act only on interior edges in macro-elements and that unh,i has no jump across
+such edges, we get
+                               X                 X
+                                           n+1
+                                    |Kj |w̃h,j =     |Kj |unh,i |Kj − ∆t(fbr − fbl ).
+                                j∈NM                j∈NM
+
+Taking (3.4) into account at t = tn+1 , the above equation can be written as
+                                                                 ∆t  b       
+                                        uM,n+1
+                                         h,i   = uM,n
+                                                  h,i −               fr − fbl .                                 (3.8)
+                                                                |IM |
+
+
+                                                           10
+With the definition of global Lax-Friedrichs flux (3.6)-(3.7) we can rewrite (3.8) as
+                                    λ∆t M,n       ∆t                             ∆t
+               uM,n+1
+                h,i   = uM,n
+                         h,i −            uh,i +        (λunh,r − f (unh,r )) +        (λunh,l + f (unh,l )).     (3.9)
+                                    |IM |        2|IM |                         2|IM |
+With H(a, b, c) defined as
+                                                 
+                                            λ∆t         ∆t                    ∆t
+                     H(a, b, c; λ) :=    1−         b+        (λc − f (c)) +        (λa + f (a)),                (3.10)
+                                            |IM |      2|IM |                2|IM |
+we have
+
+                                           uM,n+1
+                                            h,i   = H(unh,l , uM,n    n
+                                                               h,i , uh,r ; λ).                                  (3.11)
+
+Since |IM | ≥ δh, it follows by (3.5) that
+                                                          ∆t
+                                                     0<        λ ≤ 1,                                            (3.12)
+                                                         |IM |
+                                        ∂H(a, b, c; λ)     ∆t
+                                                       =        (λ + f ′ (a)) ≥ 0,                               (3.13)
+                                            ∂a           2|IM |
+                                        ∂H(a, b, c; λ)         ∆t
+                                                       =1−         λ ≥ 0,                                        (3.14)
+                                            ∂b               |IM |
+                                        ∂H(a, b, c; λ)     ∆t
+                                                       =        (λ − f ′ (c)) ≥ 0.                               (3.15)
+                                            ∂c           2|IM |
+Further,
+                                           
+                                      λ∆t         ∆t                    ∆t
+                  H(z, z, z; λ) = 1 −         z+        (λz − f (z)) +        (λz + f (z)) = z.                  (3.16)
+                                      |IM |      2|IM |                2|IM |
+
+Thus, it follows that uM,n+1
+                       h,i   ∈ [m, M] and hence un+1
+                                                 h   satisfies the maximum principle under the time step
+restriction (3.5).
+
+
+3.2    Mean values of high order approximations
+We now consider higher order schemes in space and time, where the time discretization can be seen as a
+sequence of Euler steps. We therefore consider (3.1) with p ≥ 1 together with the reconstruction (3.2).
+We will show that for sufficiently small time steps the mean values on macro-elements after an Euler step
+satisfy the same maximum principle as in Theorem 3.1 above. We will follow the ideas used to prove the
+corresponding result for the standard DG method [52]. In the proof we will use the q-point Gauss-Lobatto
+quadrature rule on each macro-element, which is exact for polynomials of degree 2q − 3. Let q be the
+smallest integer satisfying 2q − 3 ⩾ p. For each M ∈ Mh,i , we let x̂M            µ denote the µ-th quadrature point,
+with x̂M1  =     x M,l , x̂M
+                           q =    x  M,r . Here  xM,l , xM,r are  the end points of IM , the part of the macro-element,
+which is in the subdomain Ωi . The corresponding weights, normalized to a unit interval, are denoted by
+ŵµ , µ = 1, · · · , q. We note that the weights in the chosen quadrature rules are symmetric, ŵ1 = ŵq . We also
+note that after the reconstruction our approximation is a polynomial of degree p on the entire macro-element,
+which can be integrated exactly by the quadrature rule. The following theorem shows that one Euler step
+preserves the maximum principle for mean values defined by ūnh = (ūnh,1 , · · · , ūnh,NΩ ) with
+                                                Z                     Z
+                                             1                     1
+                             ūnh,i |M =            uM,n  dx =            un dx, ūM,n       n
+                                                                                     h,i = ūh,i |M ,             (3.17)
+                                           |IM | IM h,i          |IM | IM h,i
+for each macro-element M ∈ Mh,i .
+
+                                                            11
+Theorem 3.2. Consider the Cut-DG scheme described by (3.1)-(3.3) with p ≥ 1. If the time step ∆t satisfies
+                                                             ∆t
+                                                                λ ≤ ŵ1 ,                                                (3.18)
+                                                             δh
+                                                          M,n+1
+then unh,i |Ωi ∈ [m, M], i = 1, · · · , NΩ implies that ūh,i   |Ωi ∈ [m, M], i = 1, · · · , NΩ , that is, mean values on all
+macro-elements satisfy the maximum principle. Here h is the element size in the background mesh, and δ
+is a given constant, which in (2.8) defines when an intersection between an element and Ωi is classified as
+large. λ is the maximum absolute value of the Jacobian ∂f (unh )/∂unh in the domain Ω. ŵ1 is the normalized
+weight corresponding to the first interior point for a q-point Gauss-Lobatto rules with 2q − 3 ≥ p.
+
+Proof. As in Section 3.1, we look at a macro-element M as shown in Figure 3, with IM = K1 ∪ K2 . Let unh,l
+and unh,r denote the values adjacent to the left and right end of IM , respectively, and let fbr and fbl be the
+corresponding numerical fluxes defined by (2.13), which is expressed in (3.6)-(3.7) on the macro-element. By
+reconstruction, unh is a single polynomial of degree p in M , and can be exactly integrated over IM by the
+q−point Gauss-Lobatto quadrature rule. Let the test function vh in (3.1) be 1 on each element of M and 0
+otherwise, to obtain
+                                X Z                 X Z
+                                        ũn+1
+                                          h,j dx =           unh,i dx − (fbr − fbl ).                    (3.19)
+                                      j∈NM    Kj               j∈NM    Kj
+
+
+By conservation on macro-elements and the definition (3.2), (3.17), we have
+                                                      ∆t  b       b
+                                                                      
+                                   uM,n+1
+                                    h,i   = u M,n
+                                              h,i  −         f r − f l .                                                 (3.20)
+                                                     |IM |
+Applying a q-point Gauss-Lobatto quadrature rules gives
+                                            Z              Xq
+                                         1
+                                uM,n
+                                 h,i =          u M,n
+                                                      dx =     ŵµ ûM,n
+                                                                     µ   .                                               (3.21)
+                                       |IM | IM h,i        µ=1
+
+Here ûM,n
+       µ    = uM,n     M                                                                        M
+                h,i (x̂µ ) denotes the value of the local polynomial at the quadrature point x̂µ . We now
+follow the idea of the proof of the bound preserving property of the standard DG method for hyperbolic
+conservation laws, see Theorem 2.2 in [52]. But we consider the mean values ūM,n+1
+                                                                              h,i   of the Cut-DG method
+                                                                           n        n
+on each macro-element. Introduce F̂ as the Lax-Friedrichs flux based on ûM,1 and ûM,q , that is
+                                          1                           λ
+                                      Fb = (f (ûM,n ) + f (ûM,n
+                                                              q   )) − (ûM,n − ûM,n ),                                 (3.22)
+                                          2      1
+                                                                      2 q         1
+
+Using the quadrature (3.21), ω̂1 = ω̂q and the definition of H(a, b, c; λ) in (3.10), the equation (3.20) can be
+rewritten as
+                                   ∆t  b       
+                 Xq
+        uM,n+1 =     ŵµ û M,n
+                                −       f r − bl =
+                                              f
+         h,i                µ
+                 µ=1
+                                  |IM |
+                                                                                                               
+                                                           ∆t 
+                      q−1
+                      X                                                                          ∆t
+                  =         ŵµ ûM,n
+                                  µ   + ŵ    M,n
+                                          1 û1   −               F̂ − fˆl )   + ŵq ûM,n
+                                                                                       q   −            (fˆr − F̂ ) =
+                      µ=2
+                                                        ŵ1 |IM |                            ŵqn |IM |
+                      q−1
+                      X
+                  =         ŵµ ûM,n
+                                  µ   + ŵ1 H(ûM,n
+                                                0   , ûM,n
+                                                        1   , ûM,n
+                                                                q   ; λ/ŵ1 ) + ŵq H(ûM,n
+                                                                                        1   , ûM,n
+                                                                                                q   , ûM,n
+                                                                                                        q+1 ; λ/ŵq ).
+                      µ=2
+
+Here ûM,n
+       0    = unh,l (xM,l ) and ûM,n    n
+                                  q+1 = uh,r (xM,r ) are used. We can see that the above expression is a linear
+                                                       Pq−1
+combination of two first order schemes (3.11) and µ=2        ŵµ ûM,n
+                                                                   µ   . As in Theorem 3.1, we can conclude that
+ M,n+1                                 ∆t
+uh,i     ∈ [m, M] under the condition δh λ ≤ ŵ1 .
+
+                                                                  12
+    We note that the time restrictions in (3.5) and (3.18) are of the same order as for the corresponding
+standard DG methods on the background grid. When we set δ = 1, the time-step restrictions are same as
+in the standard un-cut case, but all cut elements are stabilized.
+
+
+3.3    A bound preserving limiter for scalar problems
+In our proposed scheme described in (3.1)-(3.3) and in Theorems 3.1-3.2, we require unh,i |Ωi ∈ [m, M], i =
+1, · · · , ΩN , but the high order reconstructed solution at next time level may not satisfy this requirement. In
+order to guarantee that the solution remains within the bounds at later times, we use a bound preserving
+limiter developed by Zhang and Shu [52] for high order approximations. In the standard DG method, the
+solution uh (x) is modified locally in each element I such that mean values are un-changed, and uh (x) ∈ [m, M]
+for x ∈ SI , where SI is set of the Gauss-Lobatto quadrature points on I. In the unfitted case, a cut element
+I may be such that I ∩ Ωi is very small but IM = M ∩ Ωi is always large. Therefore we propose to apply
+the limiter to the reconstructed solution in each macro-element M . For each macro-element M we define
+                          M,(l)
+the limited solution uh,i (x) by
+                                                                            (                                  )
+               M,(l)                                                            M − ūM
+                                                                                       h,i        m − ūM
+                                                                                                        h,i
+              uh,i (x) = θ     uM           M
+                                h,i (x) − ūh,i       + ūM
+                                                          h,i ,   θ = min                    ,                ,1 .   (3.23)
+                                                                                MM − ūM
+                                                                                       h,i       mM − ūM
+                                                                                                        h,i
+
+
+Here we assume uM
+                h,i is a reconstructed solution on M and
+
+
+                                    MM = max uM
+                                              h,i (x),                 mM = min uM
+                                                                                 h,i (x).                            (3.24)
+                                            x∈IM                             x∈IM
+
+                          M,(l)
+Then, we let uM
+              h,i |M = uh,i (x), which satisfies the maximum principle on Ωi . As for the standard DG
+                       M,(l)
+method, we can use uh,i (x) instead of uM  h,i (x) without destroying the accuracy. We note that the exact
+minimum value and maximum value of the polynomials is needed on the macro-element.
+    By combining the sequence of steps (3.1)-(3.3) with (3.23), we can get a fully discrete, bound preserving
+scheme for scalar problems for any polynomial order. For clarity we have formulated the version based on a
+third order Runge-Kutta discretization (5.2) in time in Algorithm 1.
+
+
+4     A Positivity preserving Cut-DG method for the Euler equations
+In this section, we will show how the positivity property for the Euler equations can be built into our
+proposed Cut-DG method. The Euler equations in one space dimension are
+
+                                       ut + ∂x f (u) = 0, t ≥ 0, x ∈ Ω ⊂ R,                                           (4.1)
+                                                                    
+                                              ρ                   m
+                                                                    
+                                       u = m , f (u) =  ρu2 + p  .                                                (4.2)
+                                             E                (E + p)u
+
+Here ρ is the density, m the momentum, and E the total energy. These quantities are often called the
+conservative variables, and are related to other physical quantities such as the velocity u, the pressure p,
+and the internal energy e through E = 21 ρu2 + ρe, m = ρu, and p = (γ − 1)ρe. Here γ is the specific gas
+constant. Note that the pressure p can be written as a function of the conservative variables,
+                                                                 
+                                                            1 m2
+                                       p(u) = (γ − 1) E −           .                                  (4.3)
+                                                            2 ρ
+
+                                                                  13
+ Algorithm 1: Fully discrete bound preserving Cut-DG method for scalar problem
+   Data: Given initial condition u0 (x) at t = 0
+   Result: Bound preserving approximation at final time T
+                0
+ 1 Initialize ũh by (2.14) and n = 0;
+    0                                  0
+ 2 uh =Reconstruction and limiting(ũh );
+
+ 3 while t ≤ T do
+
+ 4     Compute suitable time-step ∆t based on Theorem 3.1/3.2;
+       /* Runge-Kutta time discretization                                                                      */
+         (1)
+ 5     ũh = Euler-Step (unh , tn , ∆t);                                                            // first stage
+         (1)                               (1)
+ 6     uh = Reconstruction and limiting (ũh );
+           ′
+         (2 )                 (1)
+ 7     uh = Euler-Step(uh , tn + ∆t, ∆t);                                                         // second stage
+              (2)              (2′ )
+ 8     Set: ũh = 43 unh + 14 uh ;
+         (2)                               (2)
+ 9     uh = Reconstruction and limiting (ũh );
+           ′
+         (3 )                 (2)
+10     ũh = Euler-Step(uh , tn + ∆t/2, ∆t);                                                        // third stage
+              (3)              (3′ )
+11     Set: ũh = 31 unh + 23 uh ;
+         (3)                               (3)
+12     uh = Reconstruction and limiting (ũh );
+                      (3)
+13     Set: un+1
+              h   = uh ;
+14     n ← n + 1;
+15     t ← t + ∆t;
+16 end
+ 1 Function Euler-step(uh , t, ∆t)
+
+ 2    Using (3.1) with uh , t, ∆t to get ũh = (ũh,1 , ũh,2 , · · · , ũh,NΩ ) ∈ Vhp ;
+ 3    return ũh = (ũh,1 , ũh,2 , · · · , ũh,NΩ );
+ 1 Function Reconstruction and limiting(ũh )
+ 2   for i = 1 to NΩ do
+ 3       Using (3.2) with ũh to reconstruct uMh,i , i = 1, · · · , NΩ ;
+             M                             M
+ 4       if uh,i |Ωi ∈
+                     / [m, M] then modify uh,i by (3.23);
+ 5       uh,i ← uM  h,i ;
+ 6     end
+ 7     return uh = (uh,1 , uh,2 , · · · , uh,NΩ ) ∈ Vhp ;
+
+
+                                                   p
+Also important is the sound speed, given by c = γp/ρ.
+    In physically relevant solutions, the density and pressure should be positive. Without positivity hyper-
+bolicity is lost, and the mathematical problem is ill-posed. If the solution is initially positive, it can be
+proven that the solution of the compressible Euler equations cannot loose positivity of density and pressure,
+see [22, 15, 8]. Therefore we define the following set
+                                                                                 
+                                           T                             1 m2
+                       G = u = (ρ, m, E) ρ > 0, p(u) = (γ − 1) E −               >0 ,                    (4.4)
+                                                                         2 ρ
+
+as the set of admissible solutions for the compressible Euler equations (4.1). Since −p(u) is convex, we have
+using Jensen’s inequality for any 0 ≤ s ≤ 1, u1 = (ρ1 , m1 , E1 )T ∈ G, and u2 = (ρ2 , m2 , E2 )T ∈ G we have
+
+                      p(su1 + (1 − s)u2 ) ≥ sp(u1 ) + (1 − s)p(u2 ) > 0,           if ρ1 ≥ 0, ρ2 ≥ 0.           (4.5)
+
+                                                              14
+Thus G is a convex set.
+   Numerical methods that do not preserve the positivity property, may cause numerical instability or
+nonphysical features in approximated solutions of problems with low density, or high Mach number [25].
+Preserving positivity of pressure and density is therefore an important property of a numerical method for the
+Euler equations, and it can be seen as a generalization of the maximum principle for scalar conservation laws.
+As for the scalar problems, we will be working with mean values on macro-element M ∈ Mh,i , i = 1, · · · , NΩ .
+For each component of uh , we define the mean M values on the macro-element
+                                                                                  M as in (3.17), and for the
+                     M         M                       1        M 2              M
+pressure we define ph,i := p(uh,i ) = (γ − 1) E h,i − 2 m̄h , i     /ρ̄h,i . By uh,i ∈ G we mean ρM
+                                                                       M
+                                                                                                   h,i > 0 and
+pM
+ h,i > 0.
+
+
+
+4.1    Piecewise constant approximations
+In this subsection, we will study the piecewise constant scheme, (3.1)-(3.3), for the compressible Euler
+equations (4.1). We are particularly interested in the positivity property, which was discussed above. For
+the piecewise constant method we prove the following positivity result.
+
+Theorem 4.1. Consider the piecewise constant Cut-DG scheme described by (3.1)-(3.3) applied to the Euler
+equations (4.1). The reconstruction (3.2) is done component wise. If the time step ∆t satisfies
+                                                        ∆t
+                                                           λ ≤ 1,                                                 (4.6)
+                                                        δh
+then unh,i |Ωi ∈ G, i = 1, · · · , NΩ implies un+1
+                                               h,i |Ωi ∈ G, i = 1, · · · , NΩ . Here h is the element size in the
+background mesh, and δ is a given constant, which in (2.8) defines when an intersection between an element
+                                                                                                           ∂f (un )
+and Ωi is classified as large. λ = maxx∈Ω |u| + c is the largest absolute eigenvalue of Jacobian matrix ∂unh
+                                                                                                                h
+in the entire domain Ω.
+
+Proof. As before we consider each macro-element M ∈ Mh,i , i = 1, · · · , NΩ separately. Let unh,l = (ρnh,l , mnh,l , Eh,l
+                                                                                                                       n
+                                                                                                                           ),
+  n       n     n      n       M,n
+uh,r = (ρh,r , mh,r , Eh,r ), uh,i denote the solution on the left side and right side of IM , and in IM , respec-
+tively. By assumption unh,l , uM,n       n             M,n
+                                  h,i , uh,r ∈ G, and uh,i is constant in IM . Following the same analysis as for
+the scalar conservation law, we get
+
+                                                 uM,n+1
+                                                  h,i       = H(unh,l , uM,n     n
+                                                                         h,i , uh,r ; λ),                         (4.7)
+                                                                         ∆t             
+                                H(unh,l , uM,n
+                                           h,i , u n
+                                                   h,r ; λ) := u M,n
+                                                                 h,i −          f̂r − f̂l .                       (4.8)
+                                                                        |IM |
+
+Here f̂r and f̂l are the numerical fluxes on the right and the left edges of IM , respectively. We use the global
+Lax-Friedrichs flux (2.13) with λ = maxx∈ Ω {|u| + c} , which is the largest absolute value of eigenvalues of
+                        ∂f (un )
+the Jacobian matrix ∂unh . Next, we study the positivity property for the density and pressure of (4.7).
+                             h
+From the definition of the global Lax-Friedrichs flux (2.13) applied to the particular Euler flux (4.2) we have
+                       ∆t                                         ∆t
+      ρM,n+1
+       h,i   = ρM,n
+                h,i −        (mM,n      n       n       M,n
+                                h,i + mh,r − λ(ρh,r − ρh,i )) +        (mM,n + mnh,l − λ(ρM,n    n
+                                                                                          h,i − ρh,l ))
+                      2|IM |                                    2|IM | h,i
+                          
+                     ∆t               ∆t n                   ∆t n
+             = 1−         λ ρM,n
+                              h,i +        ρ (λ − unh,r ) +       ρ (λ + unh,l ).                       (4.9)
+                    |IM |            2|IM | h,r             2|IM | h,l
+
+From λ = maxx∈Ω |u| + c it follows that λ ± u ≥ 0, and since |IM | ≥ δh and
+                                                                             λ∆t
+                                   ρM,n       n         n
+                                    h,i > 0, ρh,l > 0, ρh,r > 0,       1−          > 0,                          (4.10)
+                                                                             |IM |
+
+
+                                                            15
+we conclude from equation (4.9) that ρM,n+1    h,i     > 0 under time step restriction (4.6). To show that uM,n+1
+                                                                                                               h,i   ∈G
+                                                                        M,n+1
+it remains to consider the pressure that corresponds to uh,i                  . Following the analysis in [20], we define
+Va (unh,l ) = f (unh,l )/λ + unh,l and Vb (unh,r ) = unh,r − f (unh,r )/λ, and rewrite (4.8) as
+
+                                                           λ∆t M,n      λ∆t                  λ∆t
+                   H(unh,l , uM,n    n
+                              h,i , uh,r ; λ) = (1 −            )u   +        Va (unh,l ) +        Vb (unh,r ).               (4.11)
+                                                           |IM | h,i   2|IM |               2|IM |
+As in [20] (see Lemma 3.1), we have p(Va ) > 0 and p(Vb ) > 0 if unh,l , unh,r ∈ G. By the convexity of G we
+obtain the desired result. We refer to the corresponding analysis for the DG method on a non-cut mesh in
+[53] and [20] for more details.
+
+
+4.2     Mean values for higher order approximations
+Next we consider high order schemes, where as before the time discretization can be seen as a sequence of
+Euler steps. We therefore consider (3.1) with p ≥ 1 together with the reconstruction in (3.2)-(3.3). Similarly
+to the scalar case we show a sufficient condition for the mean values on each macro-element to satisfy the
+positivity property. We again use the q-point Gauss-Lobatto quadrature rule on each macro element, with
+2q − 3 ⩾ p. We will prove the following theorem.
+
+Theorem 4.2. Consider (3.1)-(3.3) with p ≥ 1 for the Euler equations (4.1), and with the reconstruction
+done component-wise. If the time step ∆t satisfies
+                                                              ∆t
+                                                                 λ ≤ ŵ1 ,                                                    (4.12)
+                                                              δh
+                                                                                                    M,n+1
+then unh,i |Ωi ∈ G, i = 1, · · · , NΩ implies that the mean value on each macro element satisfies ūh,i   |Ωi ∈ G
+for i = 1, · · · , NΩ . Here h is the element size in the background mesh, and δ is a given constant, which in
+(2.8) defines when an intersection between an element and Ωi is classified as large. λ denotes the largest
+absolute value of the Jacobian matrix ∂f (unh )/∂unh in the entire domain Ω. Further ŵ1 is the normalized
+quadrature weight corresponding to the first quadrature point of a q-point Gauss-Lobatto quadrature rule with
+2q − 3 ≥ p.
+
+Proof. Similar to the high order Cut-DG scheme (3.20) for scalar problems, we have for the mean values of
+the reconstructed approximation on IM in (2.15) that
+                                                                           ∆t
+                                                uM,n+1
+                                                 h,i   = uM,n
+                                                          h,i −                 (f̂r − f̂l ).                                 (4.13)
+                                                                          |IM |
+
+We will now show that uM,n+1
+                        h,i    ∈ G. We introduce the Gauss-Lobatto quadrature to decompose the mean
+values on each macro-element, see (3.21), and rewrite (4.13) as
+                          q
+                          X                    ∆t
+             uM,n+1
+              h,i   =           ŵµ ûM,n
+                                      µ   −         (f̂r − f̂l ) =
+                          µ=1
+                                              |IM |
+                          q−1
+                          X                                                     λ                                     λ
+                      =         ŵµ ûM,n
+                                      µ   + ŵ1 H(ûM,n
+                                                    0   , ûM,n
+                                                            1   , ûM,n
+                                                                    q   ;          ) + ŵq H(ûM,n
+                                                                                               1   , ûM,n
+                                                                                                       q   , ûM,n
+                                                                                                               q+1 ;     ).
+                          µ=2
+                                                                               ŵ1                                   ŵq
+
+Here ûM,n
+        0    = unh,l (xM,l ) and ûM,n     n
+                                   q+1 = uh,r (xM,r ) denote the approximations from the left side and right side of
+IM , respectively. With the positivity-property of the piecewise constant scheme (4.7) and time step restriction
+(4.12), it follows that |I∆t M|
+                                λ ≤ ŵ1 implies H(ûM,n
+                                                     0  , ûM,n
+                                                            1   , ûM,n
+                                                                    q   ; ŵλ1 ) ∈ G and H(ûM,n
+                                                                                             1   , ûM,n
+                                                                                                     q   , ûM,n    λ
+                                                                                                             q+1 ; ŵq ) ∈ G.
+Thus, we get uM,n+1
+              h,i   ∈ G since uM,n+1
+                               h,i   is a convex combination of solutions in G.
+
+                                                                     16
+4.3     Positivity preserving limiting for the Euler equations
+As for the standard DG method for the Euler equations on a non-cut mesh, we need to apply a positivity
+preserving limiter to ensure the positivity of density and pressure for p ≥ 1. We will use the limiter developed
+by Zhang ad Shu [53], which is briefly introduced below. It retains conservation everywhere, and accuracy
+in smooth regions. We will apply it to the reconstructed solution in each inner stage of each time step. By
+the previous theorem, we know that mean values on all macro-elements are in G. Let M ∈ Mh,i represent
+a macro-element in Ωi and uM             M   M    M
+                               h = (ρh , mh , Eh ) denote the corresponding solution on the macro-element
+                                  M              M
+M . By the previous theorem ρh > 0 and ph > 0. We assume there exists a small number ε > 0 such
+that ρ̄M            M
+       h ⩾ ε and p̄h ⩾ ε for all macro-elements. In our computation, we take ε = 10
+                                                                                          −8
+                                                                                             . We first limit the
+                                   M,(l)
+density by replacing ρMh (x) by  ρ h     (x)
+                                           M,(l)                         
+                                          ρh       (x) = θ1 ρM         M
+                                                             h (x) − ρ̄h   + ρ̄M
+                                                                               h ,                        (4.14)
+
+where
+                                                           
+                                                 ρ̄M
+                                                   h −ε
+                                                                                    
+                             θ1 = min                     ,1 ,     ρmin = min ρM
+                                                                               h bM
+                                                                                 xµ .                     (4.15)
+                                               ρ̄M
+                                                 h − ρmin
+                                                                            k
+
+                                                  T                   
+                        M,(l)
+          bM
+Then, let qh  (x) =   ρ h     (x), m M
+                                     h (x), Eh
+                                              M
+                                                (x)              bM
+                                                      and denote qh x̂M
+                                                                      µ      bM
+                                                                          by q          bM
+                                                                              µ . Next, qh is limited to enforce
+the positivity of the pressure. Define
+                                                    
+        Gε = u = (ρ, m, E)T | ρ ⩾ ε and p ⩾ ε , ∂Gε = u = (ρ, m, E)T | ρ ⩾ ε and p = ε ,                  (4.16)
+
+and
+                                                              
+                                sµ (t) = (1 − t)uM,n
+                                                 h      bM
+                                                     + tqh bM
+                                                           xµ ,              0 ⩽ t ⩽ 1.                   (4.17)
+                                                                                 
+   Let sµε be solution of p sµ tkε                   bM
+                                          = ε when p qµ   < ε, and sµε = q
+                                                                         bM      bM
+                                                                          µ if p qµ   ∈ Gε . Finally, we modify
+the solution by
+                            M,(l)                         
+                           uh       (x) = θ2 q̂M        M
+                                               h (x) − uh   + uM
+                                                               h ,         θ2 =      min        sµε .     (4.18)
+                                                                                  µ=1,2,...,q
+
+We note that it is hard to find the exact minimum value θ2 on the cut mesh. We use the Gauss-Lobatto
+points on the macro-element and on each element intersection Ωi involved in the macro-element M . Finally,
+                    M,(l)
+we set uM,n
+        h,i |Ωi = uh      (x) on the macro-element M .
+   For clarity, we formulate our proposed positivity preserving Cut-DG method for the Euler equations in
+Algorithm 2 in the Appendix.
+
+
+5     Numerical results
+In this section we present some numerical examples that verify the bound preserving properties of our
+proposed bound preserving Cut-DG scheme, which includes reconstruction on macro-elements and applying
+bound preserving limiters. In all the Cut-DG computations we use a uniform mesh with N elements as the
+background mesh and N ≥ 4. We assume we have N/4 subdomains interfaces, which cut N/4 elements in
+the middle part of the domain. Each interface cuts an element into two pieces with size αk h and 1 − αk h,
+respectively, where α is fixed and
+
+                                    αk = sα, s ∈ [10−6 , 1] is a random number.                            (5.1)
+
+                                                              17
+Thus we have N/4 + 1 subdomains. The parameters in the stabilization (see (2.12)) and in (2.8) are set to
+γ1 = 0.75, γ0 = 0.25, ωk = 1/(k!)2 , and δ = 0.2, respectively.
+   Two different high order strong stability preserving (SSP) methods are as time discretization. To define
+the methods consider ut = L(u), where L(u) is the spatial operator. The first method is the third order
+Runge-Kutta method, which is convex combinations of the forward Euler method
+
+                                    u(1) = un + ∆tL (un )                                                   (5.2)
+                                          3    1       ∆t  (1) 
+                                    u(2) = un + u(1) +   L u      ,                                         (5.3)
+                                          4    4       4
+                                           1    2       2∆t       
+                                    un+1 = un + u(2) +      L u(2) .                                        (5.4)
+                                           3    3        3
+The second scheme is the third order multi-step time discretization [23]
+                                                                             
+                        n+1   16 n              n     11     n−3   12    n−3
+                                                                             
+                      u     =    (u + 3∆tL (u )) +         u     + ∆tL u        .                           (5.5)
+                              27                      27           11
+By the previous analysis each time step and interior stage will be bound preserving if the time step is
+sufficiently restricted. It follows that the proposed strategy, with both time discretizations, will satisfy
+the maximum principle or positivity of density and pressure. In the next section, we compute the two
+time discretization schemes and show that optimal accuracy is obtained with third order multi-step time
+discretizations. We note that we use P p with p = 1, 2, 3 to denote the space of piecewise p-th degree
+polynomials Vhp .
+
+
+5.1     Scalar linear case
+In this subsection, we solve the one dimensional linear advection equation with periodic boundary condition
+
+                                              ut + ux = 0, t > 0,                                           (5.6)
+
+together with smooth and non-smooth initial data, respectively.
+
+5.1.1   Accuracy test with smooth initial data
+
+We first use our proposed bound preserving Cut-DG method (3.1)-(3.3) together with the bound preserving
+limiter in (3.23) to solve (5.6), with smooth initial data u(x, 0) = 1.0 + 0.5 sin(πx) in the domain [0, 2]. The
+exact solution is u(x, t) = 1+0.5 sin(π(x−t)). The problem is solved on a mesh where the elements in interval
+[0.75, 1.25] are cut. In our test, we use α = 0.1 in (5.1) with N = 20, 40, 80, 160, 320, 640. Other alpha values
+have also been tested, with similar results ( and therefore not reported here). We first solve the problem
+using the third order SSP-RK method (5.2) and the time step is taken to be ∆t = Ch for second and third
+order approximations and ∆t = Ch4/3 for fourth order approximations, where C = 0.5(1 − max(αk ))ŵ1 .
+Here h4/3 is used for P 3 approximations to balance the errors caused by time and space discretization,
+and ŵ1 is the weight used in the Gauss-Lobatto quadrature. The results at t = 1 are shown in Figure 4.
+We can observe that the Cut-DG method using the third Runge-Kutta method and the bound preserving
+limiter has accuracy degeneracy. This is also the case for the standard DG method with Runge-Kutta time
+discretization [52]. When the third order multi-step method (5.5) is applied with ∆t = h/24, h4/3/15 for
+P 2 , P 3 approximation, the optimal accuracy is obtained, see the right panel of Figure 4. The results verify
+that the reconstruction of solutions and the bound preserving limiter on macro-elements in our proposed
+method can keep the same high order accuracy as the standard Cut-DG method [19, 18]. The results also
+show that the proposed scheme enforces the maximum principle.
+
+                                                       18
+                10-2
+                                                                         10-4
+                10-4
+                                                                         10-6
+                      -6
+                10
+
+
+
+
+                                                                 error
+        error
+
+
+
+
+                                                                         10-8
+                10-8
+                                  P1,L2      P2,L    h2
+                                                                         10-10
+                                  P1,L       P3,L2   h3                                          P2,L2   P3,L2   h3
+                     -10
+                10                                                                                2       3
+                                   2
+                                  P ,L   2    3
+                                             P ,L    h   4                                       P ,L    P ,L    h4
+                                                                         10-12
+                           10-2                          10-1                             10-2                    10-1
+                                   h                                                               h
+
+
+Figure 4: The errors in the numerical solutions for the advection equation with smooth initial data at t = 1.0.
+Errors are shown in both the L2 -norm (solid lines) and L∞ -norm (dashed lines). Left: time discretization
+using third order Runge-Kutta method. Right: time discretization using third order multi-step discretization
+in (5.5).
+
+
+5.1.2    Non-smooth initial data
+
+Here, we solve the advection problem (5.6) with periodic boundary condition on the domain Ω = [0, 1] and
+non-smooth initial data                        (
+                                                 1 0.1 < x < 0.5,
+                                     u(x, 0) =                                                      (5.7)
+                                                 0 otherwise.
+We use a computational mesh, where the elements in the interval [0.375, 0.625] are cut. In particular we
+note that the discontinuity is initially located on the common edge of one cut element and its neighbour.
+We first solve this problem using the cut DG discretization (2.9) with p = 1, 2, but without reconstruction
+and without any bound preserving limiter. We observe overshoots and undershoots of the solution near the
+discontinuities, see the left panel of Figure 5. In the middle panel of Figure 5, we show the results when the
+bound preserving limiter (3.23) is applied to the solution on each element. A clear overshoot still exists in
+the second order approximations, which will decrease with increasing degree of the polynomials. We point
+out that we still observe overshoots or undershoots during time evolution in the P 2 , P 3 approximations but
+they are quite small and decrease with time. The results from our proposed Cut-DG method with bound
+preserving limiter (3.23) and reconstruction (3.2) on the macro-elements are shown in the right panel of
+Figure 5. We did not observe any overshoots or undershoots up to the final time. We also solved this
+problem on a mesh where the cut elements are randomly located and have different cut sizes, with similar
+results.
+
+
+5.2     Burgers’ equation
+In this subsection, we consider the Burgers’ equation
+                                               2
+                                                u
+                                         ut +         = 0,                       t > 0,                                  (5.8)
+                                                2 x
+
+together with different initial data and suitable boundary conditions.
+
+
+
+
+                                                                19
+          1.2
+
+                                                      1                                                                                  1
+                                                                                                                                                       1
+            1
+                                                                                                                                                  0.99998
+
+
+
+                                                     0.8                                                                                0.8       0.99996
+
+          0.8                                                      1.01
+                                                                                                                                                  0.99994
+
+
+
+                                                                  1.005                                                                           0.99992
+
+
+          0.6                                        0.6                                                                                0.6
+                                                                                                                                                   0.9999
+                                                                                                                                                             0.5
+                                                                     1
+
+
+
+          0.4                                        0.4          0.995
+                                                                          0.5   0.52 0.54 0.56 0.58   0.6                               0.4            0.001
+
+                                                                                                                                                      0.0008
+
+                                             N=40                                                                                                     0.0006
+
+          0.2                                N=320                                                                                                    0.0004
+                                             exact   0.2                                                                    N=40        0.2           0.0002
+                                                                                                                                                                                                               N=40
+                                                                                                                            N=320                           0
+                                                                                                                                                            0.46       0.47    0.48    0.49    0.5
+                                                                                                                                                                                                               N=320
+            0                                                                                                               exact
+                                                                                                                                                                                                               exact
+                                                      0                                                                                  0
+
+          -0.2
+                 0   0.2   0.4       0.6   0.8             0              0.2                 0.4               0.6   0.8           1         0                    0.2                         0.4       0.6   0.8
+                                 x                                                                          x                                                                                        x
+
+          1.2
+
+                                                      1                                                                                  1
+            1
+                                                                1.00001
+                                                                                                                                                        1
+
+
+                                                     0.8              1
+                                                                                                                                        0.8        0.998
+
+          0.8                                                         1                                                                            0.996
+
+                                                                                                                                                   0.994
+                                                                      1
+                                                                                                                                                   0.992
+                                                               0.999998
+          0.6                                        0.6                                                                                0.6                 0.5       0.505 0.51 0.515 0.52
+
+                                                               0.999996
+
+                                                               0.999994
+                                                                          0.5377        0.5378
+
+          0.4                                        0.4                                                                                0.4             4E-06
+
+
+                                             N=40                                                                                                       3E-06
+
+
+
+          0.2                                N=320                                                                                                      2E-06
+
+                                             exact   0.2                                                                                0.2             1E-06
+                                                                                                                       N=40                                    0
+                                                                                                                                                                                                                N=40
+                                                                                                                       N=160                                   0.44     0.45    0.46    0.47
+                                                                                                                                                                                                                N=320
+            0                                                                                                                                                                                                   exact
+                                                                                                                       exact
+                                                      0                                                                                  0
+          -0.2
+                 0   0.2   0.4       0.6   0.8             0              0.2                 0.4               0.6   0.8           1         0                    0.2                         0.4       0.6   0.8      1
+                                 x                                                                          x                                                                                        x
+
+
+
+
+Figure 5: Numerical P 1 (top), P 2 (bottom) solutions for the advection equation with non-smooth initial
+data at t = 1.0. Left: without reconstruction and without limiter. Middle: without reconstruction but
+limiter (3.23) is applied. Right: solution with reconstruction and limiter (3.23) applied on macro-elements.
+
+
+5.2.1   Smooth initial data
+
+We first solve the Burgers’ equation (5.8) with smooth initial data u0 (x) = sin(πx), x ∈ [0, 2] and periodic
+boundary condition. This problem has a known solution, which we use as a reference when computing errors.
+The solution is initially smooth, but at t = π1 a shock forms at x = 1. We compute until time t = 0.2,
+which is before the shock appears. Uniform meshes with N = 20, 40, 80, 160, 320, 640 elements are used as
+background mesh. The cut elements are located in [0.75, 1.25]. The third order multi-step (5.5) is used
+for time discretization. In Figure 6, the L2 - and L∞ -errors are shown from our proposed bound preserving
+Cut-DG scheme. We observe the third and fourth order accuracy for P 2 , P 3 approximations, respectively.
+    Next we solve Burgers’ equation with P 3 approximations until time t = 0.5, when a shock has formed. The
+third order RK method (5.2) is used for the time discretization to save computational cost, since multi-step
+methods need to save more informations on different time levels. Results for h = 1/20, 1/320 (corresponding
+to 10, 160 small cut elements) with the bound preserving limiter are shown in Figure 7. The left panel in
+Figure 7 shows the results from the scheme (3.1) without reconstruction but with bound preserving limiter.
+Note that the numerical solutions do not satisfy maximum principle. The middle panel in Figure 7 shows
+the results from our proposed bound preserving Cut-DG method with reconstruction on all macro-elements,
+which verifies our theoretical analysis. We did not observe any overshoots/undershoots at any time. Note
+that the proposed scheme on the fine mesh can capture the shock quite well, even though we did not apply
+a slope limiter. On the right side of Figure 7, we show the results from the scheme with the reconstruction
+(2.17) applied only on those macro-elements where the solution does not satisfy the maximum principle in
+an element belonging to these macro-elements. We can observe that the numerical solution still satisfies the
+maximum principle, even when the reconstruction is not applied on all macro-elements.
+
+
+
+
+                                                                                                      20
+                                                                               10-2
+
+
+                                                                               10-4
+
+
+                                                                               10-6
+
+                                                                       error
+                                                                               10-8
+
+
+                                                                                                                           P2,L2                                P3,L2      h3
+                                                                               10-10
+                                                                                                                           P2,L                                 P3,L       h4
+
+                                                                                                          10-2                                                             10-1
+                                                                                                                               h
+
+
+Figure 6: Errors in the numerical solution of Burgers’ equation with smooth initial data, before a shock has
+formed. Our proposed Cut-DG method based on piecewise P 2 and P 3 approximations, with reconstruction
+and bound preserving limiter (3.23)was used on macro-elements.
+
+
+
+
+                                                                                                                                        1
+            1                                                                            1                                       0.998                                          1                                               1
+                                                   -0.8                                                                          0.996
+
+                                                                                                                                 0.994                                                                                    0.995
+                                                   -0.9
+                                                                                                                                 0.992
+          0.5                                                                          0.5                                        0.99                                      0.5
+                                                                                                                                            0.9   0.95    1     1.05                                                          0.99 0.9 0.95
+                                                    -1                                                                                                                                                                                          1    1.05
+                                                                                                                                -0.99
+
+                                                                                                                               -0.992                                                                                 -0.99
+                                                            1   1.05     1.1
+                                                                                                                               -0.994
+            0                                                                            0                                                                                      0                                    -0.995
+                                                                                                                               -0.996
+
+                                                                                                                               -0.998
+                                                                                                                                                                                                                         -1
+                                                                                                                                   -1                                                                                    0.95       1   1.05   1.1
+                                                                                                                                    0.95      1    1.05   1.1
+          -0.5
+                                                                                       -0.5                                                                                 -0.5
+                                 N=40                                                                         N=40                                                                                   N=40
+                                 N=640                                                                        N=640                                                                                  N=640
+           -1                    exact                                                                        exact                                                                                  exact
+                                                                                        -1                                                                                      -1
+
+                 0   0.2   0.4    0.6   0.8   1   1.2     1.4   1.6     1.8     2             0   0.2   0.4    0.6   0.8   1      1.2         1.4        1.6     1.8   2             0   0.2   0.4   0.6   0.8   1      1.2         1.4    1.6        1.8   2
+                                              x                                                                            x                                                                                     x
+
+
+
+
+Figure 7: Numerical fourth order solutions for the Burgers’ equation with smooth initial data at t = 0.5. Left:
+Basic scheme without reconstruction but with limiter. Middle: Proposed scheme including reconstruction
+and limiter (3.23) applied on all macro-elements. Right: Proposed scheme including reconstruction and
+limiter (3.23) is applied only on macro-elements, where the numerical solution does not satisfy the maximum
+principle on the involved elements.
+
+
+
+
+                                                                                                                           21
+5.2.2   Riemann problems
+
+Consider Burgers’ equation (5.8) on [−2, 2] with initial data
+                                                  (
+                                                      ul , x ≤ 0,
+                                         u0 (x) =
+                                                      ur , x > 0.
+
+We will use our proposed bound preserving Cut-DG scheme (3.1)-(3.3) with P 1 , P 2 , P 3 approximations
+together with the bound preserving limiter (3.23). All elements in the interval [−0.5, 0.5] are cut. We solve
+with two sets of initial data, ul = −1 < 0 < ur = 1 and ul = 1 > 0 > ur = −0.5, respectively. Figure 8
+shows the numerical solutions from the proposed bound preserving Cut-DG scheme based on P p , p = 1, 2, 3
+approximations, together with third order RK method (5.2) for time discretization. Our proposed scheme can
+simulate these two Riemann problems without violating the maximum principle. We note that violations of
+the maximum principle occur near the shock in the case ul = 1 > 0 > ur = −0.5, when the bound preserving
+limiter is applied to the basic scheme (3.1) without reconstruction.
+
+            1                                                                                             1                                                                                                      1
+
+                                                                                                                1.0005
+                      1
+                                                                                                                                                                                                                            1
+                                                                                                                    1
+                  0.9995                                                                                                                                                                                                 0.998
+          0.5                                                                                           0.5                                                                                                    0.5
+                   0.999
+                                                                                      N=40                      0.9995                                                                       N=40                        0.996                                                                         N=40
+                                                                                      N=640                      0.999
+                                                                                                                                                                                             N=640                       0.994                                                                         N=640
+                  0.9985
+                           0.5     0.55         0.6                                   exact                                                                                                  exact                       0.992                                                                         exact
+                                                                                                                                                                                                                                     0.5   0.55     0.6   0.65
+            0                                                                                             0         0.45       0.5    0.55     0.6   0.65                                                        0
+
+                                                                                                                                                                                                                                                                      -0.99
+                                                      -0.992                                                                                                -0.992
+                                                                                                                                                                                                                                                                     -0.992
+          -0.5                                        -0.994                                            -0.5                                                -0.994                                             -0.5                                                  -0.994
+                                                      -0.996                                                                                                -0.996
+                                                                                                                                                                                                                                                                     -0.996
+                                                      -0.998                                                                                                -0.998
+                                                                                                                                                                                                                                                                     -0.998
+                                                          -1                                                                                                    -1
+                                                                                                                                                                                                                                                                         -1
+           -1                                                  -0.6      -0.55     -0.5
+                                                                                                         -1                                                          -0.65   -0.6    -0.55   -0.5
+                                                                                                                                                                                                                -1
+                                                                                                                                                                                                                                                                              -0.65   -0.6    -0.55     -0.5
+
+
+             -1             -0.5                      0                      0.5                   1       -1                  -0.5                         0                       0.5                    1      -1                 -0.5                        0                        0.5                      1
+                                                      x                                                                                                     x                                                                                                    x
+
+
+            1                                                                                             1                                                                                                      1
+
+                                                                                                                1.0005                                                                                                 1.0005
+                  1.0005
+
+                                                                                                                                                                                                                           1
+                       1                                                                                             1
+                                                                                                                                                                -0.4994
+                                                                                                                                                                                                                       0.9995
+          0.5     0.9995                                                                                0.5     0.9995                                          -0.4996                                        0.5
+                                                                                                                                                                                                                        0.999                                                 -0.4994
+                   0.999                                                                                         0.999                                          -0.4998
+                                                                                                                                                                                                                                                                              -0.4996
+                                                               -0.4996                                                                                                                                                           0                0.1
+                           0              0.1                                                                                                                         -0.5
+                                                                                                                           0                 0.1                                                                                                                              -0.4998
+                                                               -0.4998
+                                                                                                                                                                -0.5002                                                                                                          -0.5
+                                                                                                                                                                             0.1     0.15    0.2    0.25
+            0                                                     -0.5                                    0                                                                                                      0                                                            -0.5002
+                                                                                                                                                                                                                                                                                    0.1      0.15     0.2   0.25
+                                                               -0.5002
+
+                                 N=40                          -0.5004                                                               N=40                                                                                                  N=40
+                                 N=640                                0.05   0.1    0.15   0.2   0.25
+                                                                                                                                     N=640                                                                                                 N=640
+                                 exact                                                                                               exact                                                                                                 exact
+          -0.5                                                                                          -0.5                                                                                                   -0.5
+
+
+             -1             -0.5                      0                      0.5                   1       -1                  -0.5                         0                       0.5                    1      -1                 -0.5                        0                        0.5                      1
+                                                      x                                                                                                     x                                                                                                    x
+
+
+
+
+Figure 8: Numerical solutions of the Riemann problem for Burgers’ equation at t = 0.5 based on polynomial
+degree p(p = 1, 2, 3 from left to right). Reconstruction on macro-elements and bound preserving limiter
+(3.23) are used in the computations. Top: a rarefaction wave. Bottom: a moving shock.
+
+
+
+5.3     Scalar case with discontinuous flux function
+In this subsection, we consider a hyperbolic conservation law with an interface, where the flux function is
+discontinuous. Let
+
+                                                          f (u) = H(x − xΓ )h(u) + (1 − H(x − xΓ ))g(u),                                                                                                          x ∈ [−1, 1],                                                                                         (5.9)
+
+where H(x) is the Heaviside function and g(u) = u2 /2, h(u) = u. In the example, which is taken from
+[1], the transport equation switches to the Burgers’ equation across the interface x = xΓ . Here, we take
+
+
+                                                                                                                                                      22
+xΓ = 2 · 10−5 and use a uniform mesh with N elements and h = |Ω|/N . Thus, there is a small cut cell with
+size αh with α = N · 10−5 in the interior of the domain. The initial condition is taken as
+                                                  
+                                                  0.5 x < −0.5 ,
+                                        u(x, 0) =                                                  (5.10)
+                                                  2     otherwise.
+
+This condition is chosen such that the Rankine-Hugoniot condition at the interface xΓ is [u]Γ = 0 before
+the discontinuity interacts with the interface, and [f (u)]Γ = 0 afterwards. We use our proposed bound-
+preserving CutDG scheme with the Lax-Friedrichs flux on the interior element edges and the upwind flux
+on the interface xΓ . Thus, the conservation is satisfied. For how to guarantee conservation at the interface
+we refer to our previous work [18] (here we choose λ1 = 0, λ2 = −1). This interface treatment means that
+information is passed only from the left region to the right region, and that the flux at the interface is
+fˆΓ = uL , where uL is the solution directly to the left of xΓ . Since the solution of the advection equation
+to the left is independent of the right region, it satisfies a maximum principle with upper M = 2 and lower
+bounds m = 0.5. The first macro element to the right of the interface needs special attention. There the flux
+at the right end point is the Lax-Friedrichs flux based on f (u) = u2 /2, while the left flux is fˆΓ . Analysis
+similar to that in Section3 shows that the value in this element will satisfy the same maximum principle as
+to the left, since m − m2 /2 ≥ 0 and M − M2 /2 ≤ 0. For other m and M values in the left region the interval
+that bounds the solution in the right region may need to be extended. In Figure 9, the results from a
+third order scheme are shown at different time instances. In this case, the discontinuity is transported to
+the right until it reaches the interface. When the discontinuity enters the region where Burgers’ equation
+holds, a rarefaction wave forms. With the proposed scheme, the solution is captured very well. Comparing
+the results (h = 2/64) in [1], our results are more accurate on the coarser mesh (N=40, h = 1/20) and the
+numerical solution is both conservative and satisfies the maximum principle. We also applied second order
+and fourth order schemes to solve this problem and the results are very similar.
+
+       2                                                2                                         2
+
+
+
+
+      1.5                              Initial         1.5                                       1.5
+                                       N=40
+                                       N=320
+                                       exact
+                                       Interface
+
+
+       1                                                1                                         1
+                          2
+                                                                                 Initial                                  Initial
+                         1.5                                                     N=40                                     N=40
+                                                                                 N=320                                    N=320
+                          1
+                                                                                 exact                                    exact
+                         0.5                                                     Interface                                Interface
+                            0   2E-05 4E-05
+      0.5                           x
+                                                       0.5                                       0.5
+         -1   -0.5   0           0.5               1      -1   -0.5   0    0.5               1      -1   -0.5   0   0.5               1
+                     x                                                x                                         x
+
+
+
+Figure 9: A third order approximation of a scalar hyperbolic conservation law with the discontinuous flux
+function (5.9) at different time instances. Left: t = 0.3, middle t = 0.6, right t = 0.9.
+
+
+
+5.4     The Euler equations
+In this subsection, we use our proposed Cut-DG method (3.1)-(3.3) with different piecewise polynomials,
+together with the positivity preserving limiter in Section 4.3 for Euler equations (4.1). Recall that each
+cut element is split into two parts of length αk and 1 − αk , with αk defined in (5.1) and α = 0.01. In the
+examples we consider γ = 1.4, which corresponds to an ideal gas.
+
+
+                                                                      23
+5.4.1   Accuracy test: smooth problem
+
+First, we consider a low density problem in one dimension. We take the initial condition as
+
+                                         ρ0 (x) = 1 + 0.99 sin(x),          u0 = 1, p0 = 1.                     (5.11)
+
+The domain is taken to be [0, 2π]. The exact solution of this problem is
+
+                            ρ0 (x, t) = 1 + 0.99 sin(x − t),               u(x, t) = 1, p(x, t) = 1.            (5.12)
+
+Without the positivity-preserving limiter the numerical scheme may be unstable due to the negative density
+in long time simulation. In Figure 10, we show the L2 - and L∞ -errors from our proposed bound-preserving
+Cut-DG methods at t = 1. We observe the optimal p + 1-th order of accuracy for approximations of
+polynomial order p = 1, 2, 3.
+
+
+
+
+                                         10-5
+                                 error
+
+
+
+
+                                         10-10                     P1,L2       P2,L       h2
+                                                                    1           3     2
+                                                                   P ,L        P ,L       h3
+                                                                   P2,L2       P3,L       h4
+                                                             -2
+                                                        10                                10-1
+                                                                    h
+
+
+Figure 10: The L2 - and L∞ -errors for the numerical solutions of the low density problem in Section 5.3.1
+from our proposed bound-preserving Cut-DG method.
+
+
+
+5.4.2   Riemann problems
+
+In this subsection, we consider two Riemann problems. We use the proposed bound preserving Cut-DG
+method (3.1)-(3.3) with spaces P 2 , P 3 .
+   First, we consider the Sod shock tube problem in the domain [0, 1]. The initial condition is taken as
+
+                  (ρL , uL , pL ) = (1, 0, 1), x < 0.5,           (ρR , uR , pR ) = (0.125, 0, 0.1), x > 0.5.
+
+We solve this problem up to t = 0.2. The exact solution of Sod shock tube problem contains a rarefaction
+wave, a contact discontinuity and a shock discontinuity. Figure 11 shows the approximations of density
+(left), velocity (middle) and pressure (right) from our proposed bound-preserving Cut-DG scheme. In this
+case, TVD limiting is needed to control oscillations. This limiter is applied to the reconstructed solutions on
+macro-elements before the positivity-preserving limiter is applied. We observe that our proposed Cut-DG
+scheme can simulate this Riemann problem well and can capture the rarefaction wave and discontinuities.
+Just as for the standard DG method [12] on a fitted mesh, when the TVD limiter is applied to the variables
+component-wise, we see some numerical artifacts in form of oscillations, which decrease with mesh refinement.
+
+
+
+
+                                                                  24
+             1                                                         1                                                            1
+                                                                                      N=100
+                                              N=100                                                                                                                 N=100
+                                                                                      N=800
+                                              N=800                                                                                                                 N=800
+                                                                      0.8             exact
+            0.8                               exact                                                                                0.8                              exact
+
+
+                                                                      0.6
+
+
+
+
+                                                                                                                        Pressure
+                                                           Velocity
+  Density
+
+
+
+
+            0.6                                                                                                                    0.6
+
+
+                                                                      0.4
+            0.4                                                                                                                    0.4
+
+                                                                      0.2
+            0.2                                                                                                                    0.2
+
+                                                                       0
+                  0    0.2   0.4       0.6   0.8      1                     0   0.2      0.4        0.6   0.8   1                        0   0.2   0.4       0.6   0.8      1
+                                   x                                                           x                                                         x
+
+
+
+             1                                                         1                                                            1
+                                             N=100                                    N=100                                                                        N=100
+                                             N=800                                    N=800                                                                        N=800
+            0.8                              exact                    0.8             exact                                        0.8                             exact
+
+
+            0.6                                                       0.6                                                          0.6
+
+
+
+
+                                                                                                                        Pressure
+                                                           Velocity
+  Density
+
+
+
+
+            0.4                                                       0.4                                                          0.4
+
+
+
+            0.2                                                       0.2                                                          0.2
+
+
+
+             0                                                         0                                                            0
+                  0    0.2   0.4       0.6   0.8      1                     0   0.2      0.4        0.6   0.8   1                        0   0.2   0.4       0.6   0.8      1
+                                   x                                                           x                                                         x
+
+
+
+Figure 11: The numerical solutions from the proposed Cut-DG scheme for Sod shock tube problem on cut
+meshes. Top: P 2 approximations. Bottom: P 3 approximations.
+
+
+   The second Riemann problem is a double rarefaction wave in the domain [−1, 1] as in [34]. The initial
+condition is
+
+                                       (ρL , uL , pL ) = (7, −1, 0.2), x < 0,                       (ρR , uR , pR ) = (7, 1, 0.2), x > 0,
+
+and outflow boundary conditions are used at both boundaries. There is no shock in this problem. Thus,
+only the positivity-preserving limiter is used for this problem. Notice that the exact solution contains almost
+a vacuum. In the middle and right panels of Figure 12 we show the results from our proposed Cut-DG
+method for Euler equations. The termination time is t = 0.6. In the left panel of Figure 12, we give the
+approximations of ρ, u, p from the standard DG method on uniform meshes with 800 elements. We observe
+that the results on cut meshes are practically similar to those on uniform meshes. For this Riemann problem
+computations are unstable without the positivity preserving limiter.
+
+5.4.3                 Sedov blast wave problem
+
+We now test the Sedov blast wave problem, a typical low-density problem with strong shocks. The exact
+solution can be found in [31, 43]. The computational domain is [−2, 2], and we use N = 200, 800 elements
+on the background mesh. We take the initial condition as
+                                             (
+                                               (1, 0, 3.2 · 106 ) x ∈ [0, h],
+                                 (ρ, u, E) =
+                                               (1, 0, 10−12 )     otherwise,
+
+where h = 4/N . The elements in [−0.5, 0.5] are cut with α = 0.01. We simulate this problem up to time
+t = 0.001 with P 2 approximations by our proposed scheme. We apply a TVD limiter to the reconstructed
+
+                                                                                               25
+                   7                                                           7                                                       7
+
+                   6
+                                             N=200                             6
+                                                                                                     N=200                             6
+                                                                                                                                                            N=200
+                                             N=800                                                   N=800                                                  N=800
+                                             exact                                                   exact                                                  exact
+                   5                                                           5                                                       5
+
+                   4                                                           4                                                       4
+  Density
+
+
+
+
+                                                               Density
+
+
+
+
+                                                                                                                       Density
+                   3                                                           3                                                       3
+
+                   2                                                           2                                                       2
+
+                   1                                                           1                                                       1
+
+                   0                                                           0                                                       0
+                    -1      -0.5        0            0.5   1                    -1      -0.5    0            0.5   1                    -1      -0.5    0           0.5   1
+                                        x                                                       x                                                       x
+
+
+
+                   1                                                           1                                                       1
+
+                                     N=200                                                       N=200                                                  N=200
+                                     N=800                                                       N=800                                                  N=800
+             0.5                     exact                                0.5                    exact                            0.5                   exact
+  Velocity
+
+
+
+
+                                                               Velocity
+
+
+
+
+                                                                                                                       Velocity
+                   0                                                           0                                                       0
+
+
+
+
+       -0.5                                                         -0.5                                                    -0.5
+
+
+
+
+              -1                                                           -1                                                      -1
+                    -1      -0.5        0            0.5   1                    -1      -0.5    0            0.5   1                    -1      -0.5    0           0.5   1
+                                        x                                                       x                                                       x
+
+
+
+                   0.2                                                         0.2                                                     0.2
+
+                                            N=200                                                   N=200                                                   N=200
+                                            N=800                                                   N=800                                                   N=800
+             0.15                           exact                         0.15                      exact                         0.15                      exact
+        Pressure
+
+
+
+
+                                                                    Pressure
+
+
+
+
+                                                                                                                            Pressure
+
+
+
+
+                   0.1                                                         0.1                                                     0.1
+
+
+
+
+             0.05                                                         0.05                                                    0.05
+
+
+
+
+                       0                                                           0                                                       0
+                       -1    -0.5        0           0.5   1                       -1    -0.5    0           0.5   1                       -1    -0.5   0           0.5   1
+                                         x                                                       x                                                      x
+
+
+                                   (a) DG, P 2                                           (b) CutDG, P 2                                          (c) CutDG, P 3
+
+
+Figure 12: DG and CutDG approximations for the double rarefaction problem on the uniform mesh (left)
+and cut (middle, right) meshes. Solid line: exact solution. Symbol: approximations.
+
+
+
+
+                                                                                                26
+approximation on the macro-elements and the positivity preserving limiter is applied to modify the limited
+approximation to make sure the solution has positive density and pressure. In the top panel of Figure 13,
+we observe that our proposed Cut-DG method (3.1)-(3.3) together with the positivity preserving limiter in
+Section 4.3 can simulate this blast wave problem very well. To minimize errors and reduce computational
+costs, we also simulated this problem using the scheme (3.1). The TVD limiter was applied to the unre-
+constructed solution on the macro-elements. Then, we reconstructed the solution on those macro-elements
+where the numerical solution had negative density or pressure, and a positivity-preserving limiter was ap-
+plied to the reconstruction on the macro-elements. The results are shown in the bottom panel of Figure 13,
+which demonstrate that the locally applied reconstruction can also simulate this problem effectively.
+
+
+                                                                                            800000
+               6
+                                N=200                            N=200                                          N=200
+                                N=800                            N=800                                          N=800
+               5                                 500
+                                exact                            exact                      600000              exact
+
+               4
+
+
+
+
+                                                                                     Pressure
+                                            Velocity
+     Density
+
+
+
+
+               3                                       0                                    400000
+
+
+               2
+                                                                                            200000
+               1                              -500
+
+
+               0                                                                                 0
+                -2     -1   0      1    2              -2   -1           0   1   2                -2   -1   0           1
+                            x                                            x                                  x
+
+
+                                                                                            800000
+               6
+                                N=200                            N=200                                          N=200
+                                N=800                            N=800                                          N=800
+               5                exact            500             exact                                          exact
+                                                                                            600000
+
+               4
+                                                                                     Pressure
+                                            Velocity
+     Density
+
+
+
+
+               3                                       0                                    400000
+
+
+               2
+                                                                                            200000
+               1                              -500
+
+
+               0                                                                                 0
+                -2     -1   0      1    2              -2   -1           0   1   2                -2   -1   0           1
+                            x                                            x                                  x
+
+
+
+Figure 13: The third order Cut-DG approximation of Sedov blast wave on the cut mesh. The solid line
+is the exact solution and the symbols represent the Cut-DG solutions. Top: reconstruction on all macro-
+elements. Bottom: reconstruction only on macro-elements where the numerical solution has negative density
+or pressure.
+
+
+
+5.4.4              The two blast wave problem
+
+Finally, we consider the two blast wave problem for the Euler Equations with solid wall boundary conditions,
+see [50]. The solution contains strong shocks and rarefactions, which are reflected multiple times at the solid
+boundaries. There are a variety of interactions between shock waves and rarefaction waves, as well as between
+these waves and contact discontinuities. We consider the problem on the physical domain [xl , xr ] = [0, 1],
+which is immersed in a background mesh. In this example there are only cut elements at the boundries. We
+have constructed the mesh to be the same as in [48, 51], where the inverse Lax-Wendroff method is used.
+We take the computational domain as [xL , xR ] with xL = xl − (1 − α)h, xR = xr + (1 − αh) and a uniform
+grid xL = x− 12 < x 21 < · · · < xN − 21 < xN +1/2 = xR . As in [51], two unfitted small cells with size αh appear
+
+
+
+                                                                     27
+at the boundaries. In our computations α = 0.01. The initial data at t = 0 is taken as
+                                          
+                                                   3
+                                          (1, 0, 10 )
+                                                         0 < x < 0.1,
+                                           (ρ, u, p) =                (1, 0, 10−2)     0.1 < x < 0.9,                                   (5.13)
+                                                                  
+                                                                  
+                                                                  
+                                                                      (1, 0, 102 )     0.9 < x < 1.
+
+At the boundaries, we use wall boundary conditions. We solve this problem by our proposed positivity-
+preserving scheme up to t = 0.038. The numerical solution of density is shown in Figure 14. We use the
+solution from the third order standard DG method on uniform mesh with h = 1/3200 as the reference
+solution. We can see that our proposed scheme can capture the structure of the solution well and preserve
+the positivity of density and pressure.
+
+
+               7                                          7                                                     7
+
+                       reference                                           reference                                    reference
+               6       N=400                              6                N=400                                6       N=400
+                       N=800                                               N=800                                        N=800
+               5                                          5                                                     5
+
+
+               4                                          4                                                     4
+     Density
+
+
+
+
+                                                Density
+
+
+
+
+                                                                                                      Density
+               3                                          3                                                     3
+
+
+               2                                          2                                                     2
+
+
+               1                                          1                                                     1
+
+
+               0                                          0                                                     0
+                   0                   1                      0                              1                      0               1
+                                   x                                             x                                            x
+
+
+
+Figure 14: Example 5.3: numerical approximations of density at t = 0.038 for the two blast wave problem.
+Circle: numerical solution from our proposed scheme. Solid: reference solution from the standard DG
+method. P 1 , P 2 , P 3 approximation from left to right.
+
+
+
+6        Conclusion
+In this paper, we present a family of bound preserving Cut-DG methods for hyperbolic conservation laws.
+The methods are based on explicit time-stepping with time-step restrictions on the same order as for the
+corresponding standard DG methods on un-cut meshes. The parameter 0 < δ ≤ 1 in (2.8) regulates when
+cut-elements are stabilized, and influences the time-step restriction. By choosing δ = 1 we get exactly the
+same time-step restriction as in the standard un-cut case, but all cut elements are stabilized.
+    A new reconstruction of the solution on macro-elements is introduced as a post-processing step in each
+inner stage of each time step. It ensures that our proposed piecewise constant scheme satisfies the maximum
+principle for scalar conservation laws and positivity of density and pressure for the system of Euler equations,
+respectively. The higher order versions of our proposed method include bound preserving limiting applied to
+the reconstruction on the macro-elements. To avoid oscillations when discontinuities are present, additional
+limiting is also included. Results from numerical computations demonstrate the good properties of our
+proposed methodology. The test cases include several challenging problems for the Euler equations, such as
+the Sedov blast wave and a double rarefaction problem. These examples include regions of low density and
+strong shocks.
+    Extending the methodology to higher space dimensions is straightforward when no limiting is needed,
+and we have good preliminary results for smooth solutions. We also have good results when including bound
+
+
+                                                                               28
+preserving limiting for elements of polynomial orders zero and one. For polynomial orders higher than one,
+a good strategy for finding minimal/maximal values on irregular domains (which is needed in the bound
+preserving limiter) needs to be developed. We hope to present more complete results for problems in higher
+space dimensions in the future.
+
+
+A     Fully discrete algorithm for the Euler equations
+In this appendix, the fully discrete algorithm for the Euler equations is shown in Algorithm 2.
+
+ Algorithm 2: Fully discrete bound preserving Cut-DG method for the Euler equations
+   Data: Given initial condition u0 (x) at t = 0
+   Result: Bound preserving approximation at final time T
+                0
+ 1 Initialize ũh by (2.14) and n = 0;
+    0                                  0
+ 2 uh = Reconstruction and limiting(ũh );
+
+ 3 while t ≤ T do
+
+ 4     Compute suitable time-step ∆t based on Theorem 4.1/4.2;
+       /* Runge-Kutta time discretization                                                                    */
+         (1)
+ 5     ũh = Euler-Step (unh , tn , ∆t);                                                          // first stage
+         (1)                               (1)
+ 6     uh = Reconstruction and limiting (ũh );
+           ′
+         (2 )                 (1)
+ 7     uh = Euler-Step(uh , tn + ∆t, ∆t);                                                       // second stage
+              (2)              (2′ )
+ 8     Set: ũh = 34 unh + 14 uh ;
+         (2)                               (2)
+ 9     uh = Reconstruction and limiting (ũh );
+           ′
+         (3 )                 (2)
+10     ũh = Euler-Step(uh , tn + ∆t/2, ∆t);                                                      // third stage
+              (3)              (3′ )
+11     Set: ũh = 13 unh + 23 uh ;
+         (3)                               (3)
+12     uh = Reconstruction and limiting (ũh );
+                      (3)
+13     Set: un+1
+              h   = uh ;
+14     n ← n + 1;
+15     t ← t + ∆t;
+16 end
+ 1 Function Euler-step(uh , t, ∆t)
+
+ 2    Using (3.1) with uh , t, ∆t component-wise to get ũh = (ũh,1 , ũh,2 , · · · , ũh,NΩ ) ∈ Vhp ;
+ 3    return ũh = (ũh,1 , ũh,2 , · · · , ũh,NΩ );
+ 1 Function Reconstruction and limiting(ũh )
+ 2   for i = 1 to NΩ do
+ 3       Using (3.2) with ũh component-wise to reconstruct uM h,i , i = 1, · · · , NΩ ;
+ 4       if uM   |
+              h,i Ωi ∈
+                     /   G then modify u M
+                                         h,i by (4.14)-(4.18);
+ 5       uh,i ← uM h,i ;
+ 6     end
+ 7     return uh = (uh,1 , uh,2 , · · · , uh,NΩ ) ∈ Vhp ;
+
+
+
+
+                                                            29
+Reference
+ [1] J. Badwaik and A. M. Ruf. Convergence rates of monotone schemes for conservation laws with discon-
+     tinuous flux. SIAM Journal on Numerical Analysis, 58(1):607–629, 2020.
+
+ [2] P. Batten, N. Clarke, C. Lambert, and D. M. Causon. On the choice of wavespeeds for the HLLC
+     Riemann solver. SIAM Journal on Scientific Computing, 18(6):1553–1570, 1997.
+
+ [3] M. Berger and A. Giuliani. A state redistribution algorithm for finite volume schemes on cut cell meshes.
+     Journal of Computational Physics, 428:109820, 2021.
+
+ [4] E. Burman. Ghost penalty. Comptes Rendus Mathematique, 348(21-22):1217–1220, 2010.
+
+ [5] E. Burman and P. Hansbo. Fictitious domain finite element methods using cut elements: II. A stabilized
+     Nitsche method. Applied Numerical Mathematics, 62(4):328–341, 2012.
+
+ [6] E. Burman, P. Hansbo, and M. G. Larson. CutFEM based on extended finite element spaces. Numerische
+     Mathematik, 152(2):331–369, 2022.
+
+ [7] E. Burman, P. Hansbo, and M. G. Larson. Explicit time stepping for the wave equation using cutf em
+     with discrete extension. SIAM Journal on Scientific Computing, 44(3):A1254–A1289, 2022.
+
+ [8] G. Chen, R. Pan, and S. Zhu. Singularity formation for the compressible Euler equations. SIAM Journal
+     on Mathematical Analysis, 49(4):2591–2614, 2017.
+
+ [9] Z. Chen, K. Li, and X. Xiang. An adaptive high-order unfitted finite element method for elliptic interface
+     problems. Numerische Mathematik, 149(3):507–548, 2021.
+
+[10] Z. Chen and Y. Liu. An arbitrarily high order unfitted finite element method for elliptic interface
+     problems with automatic mesh generation. Journal of Computational Physics, 491:112384, 2023.
+
+[11] B. Cockburn, S. Hou, and C.-W. Shu. The Runge-Kutta local projection discontinuous Galerkin finite
+     element method for conservation laws. IV. The multidimensional case. Mathematics of Computation,
+     54(190):545–581, 1990.
+
+[12] B. Cockburn, S.-Y. Lin, and C.-W. Shu. TVB Runge-Kutta local projection discontinuous Galerkin
+     finite element method for conservation laws III: One-dimensional systems. Journal of Computational
+     Physics, 84(1):90 – 113, 1989.
+
+[13] B. Cockburn and C.-W. Shu. TVB Runge-Kutta local projection discontinuous Galerkin finite element
+     method for conservation laws. II. General framework. Mathematics of computation, 52(186):411–435,
+     1989.
+
+[14] B. Cockburn and C.-W. Shu. The Runge–Kutta discontinuous Galerkin method for conservation laws
+     V: multidimensional systems. Journal of Computational Physics, 141(2):199–224, 1998.
+
+[15] C. M. Dafermos and C. M. Dafermos. Hyperbolic conservation laws in continuum physics, volume 3.
+     Springer, 2005.
+
+[16] C. Engwer, S. May, A. Nüßing, and F. Streitbürger. A stabilized DG cut cell method for discretizing
+     the linear transport equation. SIAM Journal on Scientific Computing, 42(6):A3677–A3703, 2020.
+
+
+
+                                                      30
+[17] T. Frachon and S. Zahedi. A cut finite element method for incompressible two-phase Navier–Stokes
+     flows. Journal of Computational Physics, 384:77–98, 2019.
+
+[18] P. Fu, T. Frachon, G. Kreiss, and S. Zahedi. High order discontinuous cut finite element methods for
+     linear hyperbolic conservation laws with an interface. Journal of Scientific Computing, 90(3):1–39, 2022.
+
+[19] P. Fu and G. Kreiss. High order cut discontinuous Galerkin methods for hyperbolic conservation laws
+     in one space dimension. SIAM Journal on Scientific Computing, 43(4):A2404–A2424, 2021.
+
+[20] P. Fu and Y. Xia. The positivity preserving property on the high order arbitrary Lagrangian-Eulerian
+     discontinuous Galerkin method for Euler equations. Journal of Computational Physics, 470:111600,
+     2022.
+
+[21] A. Giuliani. A two-dimensional stabilized discontinuous Galerkin method on curvilinear embedded
+     boundary grids. SIAM Journal on Scientific Computing, 44(1):A389–A415, 2022.
+
+[22] J. Glimm. Solutions in the large for nonlinear hyperbolic systems of equations. Communications on
+     Pure and Applied Mathematics, 18:697–715, 1965.
+
+[23] S. Gottlieb, C.-W. Shu, and E. Tadmor. Strong stability-preserving high-order time discretization
+     methods. SIAM review, 43(1):89–112, 2001.
+
+[24] C. Gürkan, S. Sticko, and A. Massing. Stabilized cut discontinuous Galerkin methods for advection-
+     reaction problems. SIAM Journal on Scientific Computing, 42(5):A2620–A2654, 2020.
+
+[25] Y. Ha, C. L. Gardner, A. Gelb, and C.-W. Shu. Numerical simulation of high Mach number astrophysical
+     jets with radiative cooling. Journal of Scientific Computing, 24(1):29–44, 2005.
+
+[26] P. Hansbo, M. G. Larson, and S. Zahedi. A cut finite element method for a Stokes interface problem.
+     Applied Numerical Mathematics, 85:90–114, 2014.
+
+[27] J. S. Hesthaven. Numerical Methods for Conservation Laws. Society for Industrial and Applied Math-
+     ematics, Philadelphia, PA, 2018.
+
+[28] J. S. Hesthaven and T. Warburton. Nodal discontinuous Galerkin methods: algorithms, analysis, and applications.
+     Springer Science & Business Media, 2007.
+
+[29] P. Huang, H. Wu, and Y. Xiao. An unfitted interface penalty finite element method for elliptic interface
+     problems. Computer Methods in Applied Mechanics and Engineering, 323:439–460, 2017.
+
+[30] A. Johansson and M. G. Larson. A high order discontinuous Galerkin Nitsche method for elliptic
+     problems with fictitious boundary. Numerische Mathematik, 123(4):607–628, Apr 2013.
+
+[31] V. P. Korobeinikov. Problems of point blast theory. Springer Science & Business Media, 1991.
+
+[32] F. Kummer. Extended discontinuous Galerkin methods for two-phase flows: the spatial discretization.
+     International Journal for Numerical Methods in Engineering, 109(2):259–289, 2017.
+
+[33] M. G. Larson and S. Zahedi. Conservative cut finite element methods using macroelements. Computer
+     Methods in Applied Mechanics and Engineering, 414:116141, 2023.
+
+[34] T. Linde, P. Roe, T. Linde, and P. Roe. Robust Euler codes. In 13th computational fluid dynamics
+     conference, page 2098, 1997.
+
+                                                     31
+[35] A. Massing, M. G. Larson, A. Logg, and M. E. Rognes. A stabilized Nitsche fictitious domain method
+     for the Stokes problem. Journal of Scientific Computing, 61(3):604–628, 2014.
+
+[36] R. Massjung. An unfitted discontinuous Galerkin method applied to elliptic interface problems. SIAM
+     Journal on Numerical Analysis, 50(6):3134–3162, 2012.
+
+[37] S. May and F. Streitbürger. DoD Stabilization for non-linear hyperbolic conservation laws on cut cell
+     meshes in one dimension. Applied Mathematics and Computation, 419:126854, 2022.
+
+[38] J. Modisette and D. Darmofal. Toward a robust, higher-order cut-cell method for viscous flows. In 48th
+     AIAA Aerospace Sciences Meeting Including the New Horizons Forum and Aerospace Exposition, page
+     721, 2010.
+
+[39] B. Müller, S. Krämer-Eis, F. Kummer, and M. Oberlack. A high-order discontinuous Galerkin method
+     for compressible flows with immersed boundaries. International Journal for Numerical Methods in
+     Engineering, 110(1):3–30, 2017.
+
+[40] R. Qin and L. Krivodonova. A discontinuous Galerkin method for solutions of the Euler equations on
+     Cartesian grids with embedded geometries. Journal of Computational Science, 4(1-2):24–35, 2013.
+
+[41] J. Qiu and C.-W. Shu. Runge–Kutta Discontinuous Galerkin Method Using WENO Limiters. SIAM
+     Journal on Scientific Computing, 26(3):907–929, 2005.
+
+[42] S. Schoeder, S. Sticko, G. Kreiss, and M. Kronbichler. High-order cut discontinuous Galerkin methods
+     with local time stepping for acoustics. International Journal for Numerical Methods in Engineering,
+     121(13):2979–3003, 2020.
+
+[43] L. I. Sedov. Similarity and dimensional methods in mechanics. CRC press, 1993.
+
+[44] C.-W. Shu. Discontinuous Galerkin methods: general approach and stability. Numerical solutions of
+     partial differential equations, pages 149–201, 2009.
+
+[45] E. M. Stein. Singular Integrals and Differentiability Properties of Functions (PMS-30), Volume 30.
+     Princeton university press, 2016.
+
+[46] S. Sticko and G. Kreiss. A stabilized Nitsche cut element method for the wave equation. Computer
+     Methods in Applied Mechanics and Engineering, 309:364–387, 2016.
+
+[47] S. Sticko and G. Kreiss. Higher order cut finite elements for the wave equation. Journal of Scientific
+     Computing, 80(3):1867–1887, 2019.
+
+[48] S. Tan and C.-W. Shu. Inverse lax-wendroff procedure for numerical boundary conditions of conservation
+     laws. Journal of Computational Physics, 229(21):8144–8166, 2010.
+
+[49] E. Toro. Riemann Solvers and Numerical Methods for Fluid Dynamics: A Practical Introduction. 01
+     2009.
+
+[50] P. Woodward and P. Colella. The numerical simulation of two-dimensional fluid flow with strong shocks.
+     Journal of computational physics, 54(1):115–173, 1984.
+
+[51] L. Yang, S. Li, Y. Jiang, C.-W. Shu, M. Zhang, and Z.-C. Shi. Inverse lax–wendroff boundary treatment
+     of discontinuous galerkin method for 1d conservation laws.
+
+                                                    32
+[52] X. Zhang and C.-W. Shu. On maximum-principle-satisfying high order schemes for scalar conservation
+     laws. Journal of Computational Physics, 229(9):3091–3120, 2010.
+
+[53] X. Zhang and C.-W. Shu. On positivity-preserving high order discontinuous Galerkin schemes for
+     compressible Euler equations on rectangular meshes. Journal of Computational Physics, 229(23):8918–
+     8934, 2010.
+
+
+
+
+                                                  33
+
