@@ -168,3 +168,5 @@
 ## [2026-05-09 04:10] Audit: 773 issues (64 broken links, 27 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 16 opaque-refs, 15 thin, 442 missing-links)
 
 ## [2026-05-09 04:22] Improve: 1 pages improved (local-field-potentials)
+
+## [2026-05-09 05:08] FullTextFetcher: fetched 4 new full texts (93 total in corpus)
