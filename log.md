@@ -162,3 +162,7 @@
 - Added arxiv-2510.22022 to sources
 - Added wikilinks to neural-field-theory, dynamical-systems-theory, stochastic-differential-equations
 - Updated date to 2026-05-09
+
+## [2026-05-09 03:58] Improve: 2 pages improved (local-field-potentials, wilson-cowan-model)
+
+## [2026-05-09 04:10] Audit: 773 issues (64 broken links, 27 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 16 opaque-refs, 15 thin, 442 missing-links)
