@@ -218,3 +218,7 @@
 ## [2026-05-09 23:30] Repair: 57 issues fixed (0 source refs, 26 index, 4 frontmatter, 21 wikilinks, 6 orphans, 0 dup-refs, 0 opaque-refs, 0 crosslinks)
 
 ## [2026-05-10 00:17] CrosslinkApplier: added 33 wikilinks (33 inline, 0 suggested)
+
+## [2026-05-10 00:17] Matcher: 3 pages got 7 new sources
+
+## [2026-05-10 00:18] Audit: 748 issues (36 broken links, 22 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 17 opaque-refs, 15 thin, 443 missing-links)
