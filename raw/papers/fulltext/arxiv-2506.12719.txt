@@ -1,0 +1,278 @@
+                                            GM-LDM: LATENT DIFFUSION MODEL FOR BRAIN BIOMARKER IDENTIFICATION
+                                                 THROUGH FUNCTIONAL DATA-DRIVEN GRAY MATTER SYNTHESIS
+
+                                                                Xu Hu*1 , Jingling Yang*1 , Sihan Jia2 , Yuda Bi2 , and Vince D Calhoun2
+
+                                                                                   Anhui University, Hefei, China1
+                                                                        TReNDS Center (GSU, Gatech, Emory), Atlanta, GA, USA2
+arXiv:2506.12719v1 [cs.CV] 15 Jun 2025
+
+
+
+
+                                                                 ABSTRACT
+                                             Generative models based on deep learning have shown
+                                         significant potential in medical imaging, particularly for
+                                         modality transformation and multimodal fusion in MRI-based
+                                         brain imaging. This study introduces GM-LDM, a novel
+                                         framework that leverages the latent diffusion model (LDM)
+                                         to enhance the efficiency and precision of MRI generation
+                                         tasks. GM-LDM integrates a 3D autoencoder, pre-trained
+                                         on the large-scale ABCD MRI dataset, achieving statistical       Fig. 1. The overall pipeline of our latent diffusion model
+                                         consistency through KL divergence loss. We employ a Vision       guided with conditions
+                                         Transformer (ViT)-based encoder-decoder as the denoising
+                                         network to optimize generation quality. The framework flexi-
+                                         bly incorporates conditional data, such as functional network    pre-trained on massive 3D MRI datasets, including the Ado-
+                                         connectivity (FNC) data, enabling personalized brain imag-       lescent Brain Cognitive Development (ABCD) study and
+                                         ing, biomarker identification, and functional-to-structural      UK Biobank. This autoencoder serves as a powerful rep-
+                                         information translation for brain diseases like schizophrenia.   resentation learning tool, leveraging large-scale training to
+                                                                                                          efficiently extract GM features and map 3D MRI data to a
+                                             Index Terms— Magnetic resonance imaging, latent dif-         reduced latent space with high fidelity. It acts as a benchmark
+                                         fusion model, vision transformer, generative model               for downstream tasks, with learnable interpolation layers en-
+                                                                                                          hancing its adaptability to diverse medical image shapes and
+                                                              1. INTRODUCTION                             modalities. (2) We introduced a hybrid denoising framework
+                                                                                                          combining convolutional neural networks (CNNs) and a Vi-
+                                         Generative models have transformed medical imaging by            sion Transformer (ViT)-based encoder-decoder [11]. The
+                                         enabling advanced applications in MRI-based neuroimaging         ViT backbone integrates CNN-extracted state features at var-
+                                         [1]. Models such as generative adversarial networks (GANs)       ious stages, significantly improving resolution and modality
+                                         [2] and diffusion models [3] excel in tasks like modality        transformation accuracy. (3) We validated the framework
+                                         fusion (e.g., combining T1- and T2-weighted images) and          by generating subject-specific 3D GM images conditioned
+                                         clinical applications, such as MRI-to-CT conversion, which       on functional network connectivity (FNC) data, confirming
+                                         reduces the need for radiation-based CT scans [4]. Despite       schizophrenia-related biomarkers. These results highlight
+                                         their strengths, GANs face challenges like mode collapse         GM-LDM’s potential for disease diagnosis and target local-
+                                         and unstable training [5], while diffusion models, particu-      ization, offering a robust tool for clinical neuroscience.
+                                         larly latent diffusion models (LDMs) [6], address these issues
+                                         by mapping images to a latent space via pre-trained autoen-
+                                                                                                                            2. RELATED WORKS
+                                         coders. However, in MRI imaging, data scarcity limits the
+                                         pre-training of autoencoders, hindering the full potential of    Jiang et al. [12] introduce a conditioned LDM for multi-
+                                         LDMs [7, 8, 9, 10].                                              modal MRI synthesis, operating in latent space to reduce
+                                             To overcome these challenges, we propose GM-LDM,             memory usage, with structural guidance via brain region
+                                         a framework designed to advance latent diffusion model           masks to maintain anatomical details. Kim et al. [13] propose
+                                         (LDM) applications in medical imaging. Our contributions         an adaptive LDM (ALDM) for 3D MRI translation, enabling
+                                         are threefold: (1) We developed a 3D gray matter (GM) gen-       multi-modal translations from a single source, outperforming
+                                         eration framework using an LDM with a 3D autoencoder             other models. Pan et al. [14] present MRI-to-CT denois-
+                                            *These authors contributed equally                            ing diffusion (MC-DDPM), using a Swin-Vnet-based reverse
+Fig. 2. The architectures of 3D-autoencoder with kl divergence loss and multimodal denoising network via ViT, CNN, and
+cross-attention module.
+
+
+diffusion process to generate high-quality synthetic CT im-
+ages from MRI data. In reviewing recent studies, we find that
+while these models introduce innovative architectures, certain                 pθ (zt−1 |zt , c) = N (zt−1 ; µθ (zt , c,t), Σθ (zt ,t)),
+limitations remain. For example, the lack of a portable au-                with µθ and Σθ as learned mean and variance functions.
+toencoder for large-scale training and the limited exploration          The denoised z0 is decoded via D : Z → X , yielding x̂0 =
+of links between generative models and biomarker discovery              D(z0 ). The process, shown in Fig. 1, is:
+represent areas for further improvement.
+                                                                                     E      diffusion     denoising c     D
+                                                                                 x0 −
+                                                                                    → z0 −−−−−→ zT −−−−−−→ z0 −
+                                                                                                              → x̂0 (c).
+                         3. METHODS                                        This framework enables efficient generation of subject-
+                                                                        specific MRI images conditioned on FNC data, supporting
+3.1. Latent Diffusion Models                                            biomarker identification for brain diseases.
+
+Latent diffusion models (LDMs) generate high-quality im-                3.2. 3D Autoencoder
+ages efficiently, making them well-suited for MRI-based neu-
+roimaging tasks like modality transformation and multimodal             The 3D autoencoder is a core component of the GM-LDM
+fusion. Let x0 ∈ X represent a 3D MRI volume in the data                framework, designed to learn robust representations of 3D
+space X , with latent representation z0 ∈ Z obtained via an             MRI data for efficient mapping to the latent space. Pre-trained
+encoding function E : X → Z . The latent diffusion pro-                 on large-scale 3D MRI datasets, the autoencoder captures GM
+cess adds noise to z0 over steps zt , t = 0, 1, . . . , T , through a   features critical for downstream neuroimaging tasks. Let the
+                                                                                                       ′   ′  ′
+Markov process. The forward diffusion is:                               input be a 3D volume x ∈ RL ×W ×H , where L′ ,W ′ , H ′ denote
+                                                                        the initial spatial dimensions. The input is first processed by
+                                                                                                                   ′   ′    ′
+            q(zt |zt−1 ) = N (zt ;
+                                     p
+                                         1 − βt zt−1 , βt I),           a learnable interpolation layer I1 : RL ×W ×H → RL×W ×H ,
+                                                                        which adapts the input to a standardized shape (L,W, H) to
+    where βt is a variance schedule controlling noise. The re-          accommodate varying MRI resolutions and modalities.
+verse process recovers z0 from zT using a parameterized de-                 The encoder network E transforms the interpolated input
+                                                                                                                L W H
+noising model pθ (zt−1 |zt , c), where c is conditional informa-        into a latent representation z0 ∈ R256× 8 × 8 × 8 . This represen-
+tion, such as FNC data, guiding modality-specific generation:           tation is modeled as a Gaussian distribution N (µE (x), σE (x)),
+where µE (x) and σE (x) are the mean and variance learned by         3.4. Denoising Network
+the encoder. The latent representation is sampled as:
+                                                                     The denoising network is a critical component of the GM-
+                                                                     LDM framework, designed to recover z0 from the noisy latent
+           z0 = µE (x) + σE (x) · ε,      ε ∼ N (0, I).              variable zT by integrating conditional information. It employs
+                                                                     a hybrid architecture combining a Vision Transformer (ViT)-
+    The decoder network D reconstructs the latent representa-
+                                           L W H                     based encoder-decoder with CNNs. The encoder consists of
+tion z0 into a feature map of shape R256× 8 × 8 × 8 . This is
+                                                                     12 transformer layers, each applying self-attention and a feed-
+upsampled to (L,W, H) using an upsampling function U :
+      L W H                                                          forward network to process the noisy latent representation zT .
+R256× 8 × 8 × 8 → RL×W ×H . A second learnable interpolation             The decoder reconstructs z0 by incorporating conditional
+                            ′   ′ ′
+layer I2 : RL×W ×H → RL ×W ×H restores the output to the             information c, representing FNC data, extracted using a CNN.
+original input shape, yielding:                                      The CNN extracts multi-scale features from c, which are
+                                            ′   ′    ′
+                                                                     fused into the ViT decoder via a cross-attention (CA) mecha-
+              x̂ = I2 (U (D(z0 ))) ∈ RL ×W ×H .                      nism. The cross-attention layer is formulated as:
+
+    The interpolation layers I1 and I2 ensure compatibil-
+                                                                                                          QKTcond
+                                                                                                                    
+ity across diverse MRI datasets, enhancing the autoencoder’s                                               √
+                                                                          CA(Q, Kcond , Vcond ) = softmax                Vcond ,
+flexibility for tasks like cross-modality generation.                                                       dk
+                                                                         where Q is derived from the decoder’s input, and Kcond
+3.3. Loss Functions                                                  and Vcond are computed from the CNN-extracted features
+                                                                     of c. This is followed by parallel multi-layer perceptrons
+The 3D autoencoder is trained using a combination of KL
+                                                                     (MLPs) to finalize the reconstruction, inspired by [15].
+divergence and reconstruction losses to ensure statistical con-
+sistency in the latent space and accurate image reconstruc-
+tion. The KL divergence loss (LKL ) measures the difference                     4. EXPERIMENTS AND RESULTS
+between the learned latent distribution q(z0 |x) and the prior
+distribution p(z0 ) = N (0, I), defined as:                          4.1. Datasets
+                                                                     We used the large-scale ABCD dataset (n=11,220) to train
+                                                                   our 3D autoencoder. The ABCD dataset contains compre-
+                                                 q(z0 |x)
+   LKL = DKL (q(z0 |x) ∥ p(z0 )) = Eq(z0 |x) log            .        hensive neuroimaging and cognitive data from adolescents,
+                                                  p(z0 )             providing a rich source for evaluating brain structure and
+                                                                     function through MRI scans. Additionally, we leveraged the
+   For a Gaussian posterior q(z0 |x) = N (µE (x), σE (x)), the       UK Biobank dataset, which includes over 40000 MRI scans,
+KL divergence is computed analytically as:                           offering a diverse and extensive resource for pre-training
+                                                                     our autoencoder to capture robust brain imaging features.
+                                                                     For brain disease analysis, we employed two schizophrenia-
+                1 d
+     LKL = −          1 + log σE2 (xi ) − µE2 (xi ) − σE2 (xi ) ,
+                                                               
+                  ∑                                                  related datasets, combining data from three international stud-
+                2 i=1                                                ies (fBIRN, MPRC, COBRE) and several hospitals in China.
+                                                                     The dataset included 1,642 participants, with 803 healthy
+    where d is the dimensionality of the latent space. This loss     controls and 839 individuals with schizophrenia. Resting-
+regularizes the latent space to align with the prior distribution.   state fMRI data were collected using 3.0 Tesla scanners
+The reconstruction loss (Lrecon ) quantifies the fidelity of the     across multiple sites, with EPI sequences (TR/TE 2000/30
+reconstructed output x̂ compared to the input x:                     ms, voxel sizes from 3 × 3 × 3 mm to 3.75 × 3.75 × 4.5 mm).
+
+                               1 N                                   4.2. Model Design, Training, and Validation
+                   Lrecon =      ∑ (xi − x̂i )2 ,
+                               N i=1
+                                                                     The 3D autoencoder, a cornerstone of the GM-LDM frame-
+    where N is the number of data points. The total loss com-        work, employs an encoder-decoder architecture with eight
+bines these terms, weighted by a hyperparameter α ∈ [0, 1]:          convolutional layers per module, augmented by self-attention
+                                                                     mechanisms to capture long-range dependencies in 3D MRI
+               Ltotal = αLKL + (1 − α)Lrecon .                       data. It was pre-trained and fine-tuned on the ABCD and
+                                                                     UkBiobank dataset to learn robust GM representations, using
+    The hyperparameter α balances the trade-off between              fp16 precision for computational efficiency, a MultiStepLR
+latent space regularization and reconstruction fidelity, tuned       learning rate scheduler, and the AdamW optimizer (learn-
+empirically to optimize performance for MRI data.                    ing rate: 2e-4, batch size: 16). Training was conducted on
+                   Table 1. Model performance details for baselines, comparisons, and our preferred model.
+                    Name            Model      Pre-trained Condition              Pearson Corr SSIM
+                    Baseline-1      Diffusion No                Random-vector 0.78                 0.77
+                    Baseline-2      LDM        No               Random-vector 0.79                 0.79
+                    Comparison-1 LDM           Yes              Random-vector 0.86                 0.84
+                    Comparison-2 LDM           No               FNC               0.83             0.82
+                    GM-LDM          LDM        Yes              FNC               0.89             0.86
+
+
+four NVIDIA H100 GPUs to accelerate convergence. For
+the GM-LDM model, we focused on training the denoising
+network, which integrates a Vision Transformer (ViT)-based
+encoder-decoder with convolutional feature extraction, to
+generate subject-specific GM images conditioned on FNC
+data. The GM-LDM adopted a similar training configuration,
+but with a reduced learning rate of 3e-5 to ensure stable de-
+noising, and utilized four H100 GPUs. To enhance robustness
+and generalization, we applied 5-fold cross-validation during
+training. To evaluate model performance, we conducted base-
+line and comparative experiments, including training the 3D
+autoencoder without ABCD pre-training and using a standard
+diffusion model without latent space mapping. The similarity
+between generated and real GM images was assessed using             Fig. 3. This figure shows GM examples generated from both
+Pearson correlation, chosen for its sensitivity to the structural   random vectors and schizophrenia-related FNC data, empha-
+and grayscale properties of MRI data. Additionally, we com-         sizing differences between the two GMs.
+pared the effectiveness of FNC data as a conditioning factor
+against random noise of equivalent dimensions, confirming
+FNC’s role in guiding accurate image generation.                    associated with schizophrenia. Analysis of these regions
+                                                                    revealed similarities with biomarkers identified in our previ-
+                                                                    ous research [1], where GM served as a conditional input to
+4.3. Basic Results                                                  generate FNC matrices for schizophrenia subjects, and atten-
+Table 1 summarizes the performance of our GM-LDM                    tion weights were applied to create GM saliency maps. These
+model against baselines and comparisons. GM-LDM, condi-             saliency maps emphasized critical brain regions, providing in-
+tioned on schizophrenia-related FNC data with pre-training,         sights into the spatial importance of GM structures contribut-
+achieved the highest Pearson correlation (0.89) and SSIM            ing to FNC patterns in schizophrenia. In this study, we identi-
+(0.86), outperforming models using random-vector condi-             fied a strong link between the cerebellum and schizophrenia,
+tioning or lacking pre-training. Baseline-1 (Diffusion, no          consistent with traditional research demonstrating cerebellar
+pre-training, random-vector) and Baseline-2 (LDM, no pre-           involvement in cognitive dysmetria in schizophrenia [16].
+training, random-vector) scored 0.78/0.77 and 0.79/0.79             Additionally, we observed significant associations between
+(Pearson/SSIM), respectively, showing limited effective-            schizophrenia and specific basal ganglia structures, such as
+ness. Comparison-1 (LDM, pre-trained, random-vector)                the caudate and putamen, which have been implicated in
+reached 0.86/0.84, highlighting pre-training benefits, while        cognition and emotion in prior studies [17]. These findings
+Comparison-2 (LDM, no pre-training, FNC) scored 0.83/0.82,          align with established literature and underscore the robust-
+emphasizing FNC’s role. These results confirm that pre-             ness of our approach. Our model demonstrates potential for
+training on large datasets (e.g., ABCD) and FNC conditioning        broader application in identifying regions of interest (ROIs)
+enhance schizophrenia-related GM generation.                        associated with various brain disorders.
+
+
+4.4. Biomarkers Discovery                                                               5. CONCLUSIONS
+
+By comparing GM generated under the guidance of FNC                 Our model, based on a basic model pre-trained on a large
+data from subjects with schizophrenia to GM generated with          dataset, has achieved strong performance in research focused
+random vector guidance, we observed that certain brain re-          on brain disorders using smaller, disease-specific datasets. In
+gions were more prominent in the FNC-guided GM. Fig.                the future, our model will be widely applied to explore and
+3 illustrates the generated GM and highlights brain regions         validate biomarkers associated with various brain disorders.
+These novel or potential biomarkers hold great promise for         [9] Yuheng Fan, Hanxi Liao, Shiqi Huang, Yimin Luo,
+advancing our understanding of brain disorders and the struc-          Huazhu Fu, and Haikun Qi, “A survey of emerging
+tural characteristics unique to specific individuals, providing        applications of diffusion probabilistic models in mri,”
+valuable insights into the pathology of neurological diseases.         Meta-Radiology, p. 100082, 2024.
+
+                                                                  [10] Hanqun Cao, Cheng Tan, Zhangyang Gao, Yilun Xu,
+                     6. REFERENCES                                     Guangyong Chen, Pheng-Ann Heng, and Stan Z Li, “A
+                                                                       survey on generative diffusion models,” IEEE Transac-
+ [1] Yuda Bi, Anees Abrol, Sihan Jia, Jing Sui, and Vince D.           tions on Knowledge and Data Engineering, 2024.
+     Calhoun, “Gray matters: Vit-gan framework for iden-
+     tifying schizophrenia biomarkers linking structural mri      [11] Alexey Dosovitskiy, “An image is worth 16x16 words:
+     and functional network connectivity,” NeuroImage, vol.            Transformers for image recognition at scale,” arXiv
+     297, pp. 120674, 2024.                                            preprint arXiv:2010.11929, 2020.
+
+ [2] Ian Goodfellow, Jean Pouget-Abadie, Mehdi Mirza,             [12] Lan Jiang, Ye Mao, Xiangfeng Wang, Xi Chen, and
+     Bing Xu, David Warde-Farley, Sherjil Ozair, Aaron                 Chao Li, “Cola-diff: Conditional latent diffusion model
+     Courville, and Yoshua Bengio, “Generative adversar-               for multi-modal mri synthesis,” in International Con-
+     ial nets,” Advances in neural information processing              ference on Medical Image Computing and Computer-
+     systems, vol. 27, 2014.                                           Assisted Intervention. Springer, 2023, pp. 398–408.
+                                                                  [13] Jonghun Kim and Hyunjin Park, “Adaptive latent dif-
+ [3] Jonathan Ho, Ajay Jain, and Pieter Abbeel, “Denoising
+                                                                       fusion model for 3d medical image to image transla-
+     diffusion probabilistic models,” Advances in neural in-
+                                                                       tion: Multi-modal magnetic resonance imaging study,”
+     formation processing systems, vol. 33, pp. 6840–6851,
+                                                                       in Proceedings of the IEEE/CVF Winter Conference on
+     2020.
+                                                                       Applications of Computer Vision, 2024, pp. 7604–7613.
+ [4] Yan Zhuang, Tejas Sudharshan Mathai, Pritam Mukher-          [14] Shaoyan Pan, Elham Abouei, Jacob Wynne, Chih-Wei
+     jee, and Ronald M Summers, “Segmentation of pelvic                Chang, Tonghe Wang, Richard LJ Qiu, Yuheng Li,
+     structures in t2 mri via mr-to-ct synthesis,” Comput-             Junbo Peng, Justin Roper, Pretesh Patel, et al., “Syn-
+     erized Medical Imaging and Graphics, vol. 112, pp.                thetic ct generation from mri using 3d transformer-based
+     102335, 2024.                                                     denoising diffusion model,” Medical Physics, vol. 51,
+                                                                       no. 4, pp. 2538–2548, 2024.
+ [5] André Ferreira, Jianning Li, Kelsey L Pomykala, Jens
+     Kleesiek, Victor Alves, and Jan Egger, “Gan-based            [15] Kwonjoon Lee, Huiwen Chang, Lu Jiang, Han Zhang,
+     generation of realistic 3d volumetric data: A system-             Zhuowen Tu, and Ce Liu, “Vitgan: Training gans with
+     atic review and taxonomy,” Medical image analysis, p.             vision transformers,” arXiv preprint arXiv:2107.04589,
+     103100, 2024.                                                     2021.
+
+ [6] Robin Rombach, Andreas Blattmann, Dominik Lorenz,            [16] Nancy C Andreasen, DANIEL S O’Leary, Ted Cizadlo,
+     Patrick Esser, and Björn Ommer, “High-resolution im-             Stephan Arndt, Karim Rezai, LL Ponto, G Leonard
+     age synthesis with latent diffusion models,” in Proceed-          Watkins, and RICHARD D Hichwa, “Schizophre-
+     ings of the IEEE/CVF conference on computer vision                nia and cognitive dysmetria: a positron-emission to-
+     and pattern recognition, 2022, pp. 10684–10695.                   mography study of dysfunctional prefrontal-thalamic-
+                                                                       cerebellar circuitry.,” Proceedings of the National
+ [7] Juanhua Zhang, Ruodan Yan, Alessandro Perelli,                    Academy of Sciences, vol. 93, no. 18, pp. 9985–9990,
+     Xi Chen, and Chao Li, “Phy-diff: Physics-guided                   1996.
+     hourglass diffusion model for diffusion mri synthesis,”
+     in International Conference on Medical Image Com-            [17] Daniel Mamah, Lei Wang, Deanna Barch, Gabriel A
+     puting and Computer-Assisted Intervention. Springer,              de Erausquin, Mokhtar Gado, and John G Csernansky,
+     2024, pp. 345–355.                                                “Structural analysis of the basal ganglia in schizophre-
+                                                                       nia,” Schizophrenia research, vol. 89, no. 1-3, pp. 59–
+ [8] Walter HL Pinaya, Petru-Daniel Tudosiu, Jessica Daf-              71, 2007.
+     flon, Pedro F Da Costa, Virginia Fernandez, Parashkev
+     Nachev, Sebastien Ourselin, and M Jorge Cardoso,
+     “Brain imaging generation with latent diffusion mod-
+     els,” in MICCAI Workshop on Deep Generative Models.
+     Springer, 2022, pp. 117–126.
+
