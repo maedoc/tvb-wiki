@@ -234,3 +234,7 @@
 ## [2026-05-10 05:19] Audit: 748 issues (36 broken links, 22 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 17 opaque-refs, 15 thin, 443 missing-links)
 
 ## [2026-05-10 05:42] FullTextFetcher: fetched 3 new full texts (126 total in corpus)
+
+## [2026-05-10 09:47] FullTextFetcher: fetched 6 new full texts (132 total in corpus)
+
+## [2026-05-10 10:20] Audit: 748 issues (36 broken links, 22 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 17 opaque-refs, 15 thin, 443 missing-links)
