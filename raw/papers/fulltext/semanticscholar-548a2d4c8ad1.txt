@@ -1,0 +1,1230 @@
+                                                                                                          TYPE Original Research
+                                                                                                          PUBLISHED 27 February 2026
+                                                                                                          DOI 10.3389/fbioe.2026.1692718
+
+
+
+
+                                                Axonal tract-integrated finite
+OPEN ACCESS
+                                                element brain model for
+EDITED BY
+Guang H. Yue,
+                                                predicting mild traumatic brain
+Kessler Foundation, United States
+
+REVIEWED BY
+                                                injury based on axonal strain
+Reuben H. Kraft,
+The Pennsylvania State University (PSU),
+United States                                   Noritoshi Atsumi*, Yuko Nakahira and Masami Iwamoto
+Wenjing Huang,
+Changzhi Medical College, China                 Toyota Central R&D Labs., Inc., Nagakute, Aichi, Japan
+
+*CORRESPONDENCE
+Noritoshi Atsumi,
+ atsumi@mosk.tytlabs.co.jp
+                                                Mild traumatic brain injury (mTBI), or concussion, is a prevalent public health issue
+                                                that imposes a substantial economic and social burden on individuals and
+RECEIVED 26 August 2025
+REVISED 29 January 2026                         healthcare systems. Although mTBI is often attributed to brain deformation
+ACCEPTED 30 January 2026
+PUBLISHED 27 February 2026
+                                                induced by angular acceleration of the head, its precise mechanisms, including
+                                                the relationship between local deformations of the brain parenchyma or axonal
+CITATION
+Atsumi N, Nakahira Y and Iwamoto M              fibers and clinical symptoms, have not yet been elucidated. Finite element (FE)
+(2026) Axonal tract-integrated finite           models of the human brain have been widely used to estimate brain strain in
+element brain model for predicting mild         various impact scenarios associated with mTBI. However, despite the possibility
+traumatic brain injury based on
+axonal strain.                                  that mTBI-related neuropathological changes may involve disruptions of neural
+Front. Bioeng. Biotechnol. 14:1692718.          pathways connecting different brain regions, most existing models do not
+doi: 10.3389/fbioe.2026.1692718                 account for the architecture of axonal fibers at the anatomical tract level. This
+COPYRIGHT                                       study proposes an advanced human brain FE model that explicitly incorporates
+© 2026 Atsumi, Nakahira and Iwamoto.
+                                                axonal fiber tracts derived from a group-averaged tractography atlas. The tracts
+This is an open-access article distributed
+under the terms of the Creative Commons         were embedded as a series of continuous beam elements into the solid elements
+Attribution License (CC BY). The use,           of the brain parenchyma, enabling dynamic evaluation of axonal strain for each
+distribution or reproduction in other
+                                                tract during head impacts. The model was validated against experimental data on
+forums is permitted, provided the original
+author(s) and the copyright owner(s) are        brain deformation from postmortem human subject tests and exhibited
+credited and that the original publication      comparable or superior correlation scores relative to existing models.
+in this journal is cited, in accordance with
+                                                Reconstruction simulations of eight real-world mTBI cases, including both
+accepted academic practice. No use,
+distribution or reproduction is permitted       vehicular- and sports-related impacts, were conducted using the developed
+which does not comply with these terms.         model by comparing two axonal strain-based injury metrics across the cases.
+                                                The results consistently showed higher injury metrics in specific tract, including
+                                                the posterior thalamic radiation, body of the corpus callosum, frontal aslant tract,
+                                                posterior corticostriatal tract, medial lemniscus, parietal corticopontine tract, and
+                                                superior longitudinal fasciculus. Additionally, horizontal head rotation contributed
+                                                more significantly to tract-level injury metrics than coronal or sagittal rotation.
+                                                These findings provide new biomechanical insight into the relationship between
+                                                mTBI and tract-level axonal damage. Furthermore, the proposed brain FE model
+                                                may serve as a foundation for understanding mTBI mechanisms from a structural
+                                                and functional connectome perspective, as a step toward improved mTBI
+                                                prediction.
+
+                                                KEYWORDS
+
+                                                axonal fiber tract, axonal injury, brain finite element (FE) model, concussion, MTBI,
+                                                tractography, traumatic brain injury (TBI)
+
+
+
+
+Frontiers in Bioengineering and Biotechnology                         01                                                   frontiersin.org
+Atsumi et al.                                                                                                                 10.3389/fbioe.2026.1692718
+
+
+
+
+1 Introduction                                                                    (GHBMC) using 1D cable elements. However, because their model
+                                                                                  was validated only for relative displacements of the brain
+     Traumatic brain injury (TBI) is a major public health issue                  parenchyma with respect to the skull (Hardy et al., 2001;
+affecting both individual health and society (Centers for Disease                 Alshareef et al., 2021), its accuracy in predicting brain strain
+Control and Prevention, 2021; Yan et al., 2025). The resulting                    under head impact remains unclear.
+disabilities impose a substantial economic burden on patients,                         Previous studies using brain FE models have typically analyzed
+public health systems, and society (Guan et al., 2023). In the                    the degree of deformation or injury risk based on the anatomical
+United States, approximately 224,000 TBI-related hospitalizations                 region of interest (ROI). For example, Viano et al. (2005) indicated
+and 61,000 deaths were reported in 2017 (Centers for Disease                      that large strains occur in the fornix, midbrain, and corpus callosum,
+Control and Prevention, 2021). Globally in 2019, TBI had                          based on reconstructions of head impacts sustained by athletes in the
+27.16 million new cases, 48.99 million prevalent cases, and                       National Football League using a brain FE model. Reconstruction
+7.08 million years lived with disabilities (Guan et al., 2023). In                simulations of rear-end collisions Atsumi et al. (2020) also showed
+particular, mild TBI (mTBI), also known as concussion, accounts for               higher MPS values in the midbrain than in the corpus callosum.
+approximately 81% of TBI incidents (Dewan et al., 2018). The total                Zimmerman et al. (2022) demonstrated that head impacts leading to
+estimated annual healthcare costs for low-severity TBI in the first               loss of consciousness (LoC) result in higher strain and strain-rates in
+year after injury are substantially higher than those for middle- or              many brain regions, including the brainstem and cerebellum, and
+high-severity TBI (Miller et al., 2021). mTBI can result from various             dystonic posturing is associated with increased deformation in
+causes, including falls, vehicular accidents, and collisions in sports-           cortical regions, including the motor cortex. In addition, the
+related activities associated with angular acceleration of the head               CSDM depends on the cumulative ratio of elements that exceed
+(Smith et al., 2000; Shinoda and Asano, 2013; Narayana, 2017).                    the threshold value of the MPS with respect to the entire cerebrum.
+However, the precise mTBI mechanisms that relate local                            However, several clinical studies based on neuroimaging have
+deformation of brain tissue or axonal fibers induced by head                      demonstrated a relationship between mTBI and the structural/
+rotation with the resulting symptoms remain incompletely                          functional connectome of the brain (Papini et al., 2024; Mitra
+understood. A better understanding of these mechanisms is                         et al., 2016; Rowland et al., 2024; Woodrow et al., 2023; Pandit
+essential for elucidating the pathophysiology of mTBI, developing                 et al., 2013). For example, Pandit et al. (2013) observed that white
+brain injury criteria, and designing effective head-protective devices.           matter microstructural damage following TBI could affect the
+     Finite element (FE) analysis is a potential tool for predicting              functioning of distributed networks underlying cognitive function
+brain tissue deformation related to mTBI during head impacts.                     through the graph theoretical analysis of functional magnetic
+Several FE models of the human brain have been developed and                      resonance imaging data. Woodrow et al. (2023) reported acute
+continually updated in the past decades (Kleiven, 2007; Mao et al.,               thalamic hyperconnectivity in mTBI, as a basis of chronic post-
+2013; Sahoo et al., 2014; Li et al., 2021; Zhao and Ji, 2020; Zhou et al.,        concussive symptoms, despite the absence of structural changes in
+2020; Atsumi et al., 2021; Lyu et al., 2022; Wu et al., 2019). In studies         MRI. A scoping review of altered white matter organization in
+utilizing these brain FE models, maximum principal strain (MPS)                   patients with mTBI conducted by Papini et al. (2024) indicated that
+(Kleiven, 2007; Giordano et al., 2014; Zhou et al., 2019a; 2020;                  brain structures in which diffusion changes are consistently
+Atsumi et al., 2018; 2021; Lyu et al., 2022; Gabler et al., 2019) and             observed include the corpus callosum genu, splenium, and body,
+cumulative strain damage measure (CSDM) (Kleiven, 2007;                           internal capsule, corona radiata, fronto-occipital fasciculus, and
+Takhounts et al., 2008; Atsumi et al., 2016a; 2018; Gabler et al.,                superior longitudinal fasciculus. These studies showed that
+2018) have widely been used as strain-based metrics for TBI                       mTBI-related neuropathological changes may not be limited to
+prediction and development of injury risk functions. However,                     specific anatomical regions but may involve disruptions of neural
+strain in the direction of axonal fibers (axonal strain) is a better              pathways that interconnect distinct brain regions. Therefore, a
+predictor of mTBI than MPS, as reported by (Giordano and Kleiven,                 biomechanical analysis of mTBI that incorporates axonal fiber
+2014b; Zhao et al., 2017; Zhou et al., 2021b). Zhao et al. (2017)                 tracts is essential for predicting mTBI in relation to changes in
+proposed an approach for statically associating the axonal strain,                brain function and clinical symptoms. By integrating the
+which is calculated from the strain tensor of solid elements in the               aforementioned brain FE model incorporating axonal fibers (Wu
+white matter using a brain FE model, with sampling points on                      et al., 2019) with the brain dynamics model based on the Kuramoto
+axonal fibers extracted from tractography. However, their post-                   oscillator (Kuramoto, 1975), Wu et al. (2022a) observed that
+processing approach cannot address dynamic changes in axonal                      injurious head impacts cause significant alterations in the global
+direction because of deformation in the brain parenchyma during                   network topology. Kraft et al. (2012) also proposed an integrative
+head impact, affecting the accuracy of injury prediction (Zhou et al.,            approach based on graph theoretical analysis that relates localized
+2021a). In addition, Zhou et al. (2022) emphasized the importance of              mechanical brain damage, including elevated axonal strain,
+integrating neuroimaging-derived fiber orientation into brain FE                  predicted by FE simulations to degradation of the structural
+models without spatial downsampling, as this may lead to deviations               connectome, thereby capturing the spatiotemporal characteristics
+in the computation of axonal strain. Therefore, modeling axonal                   of trauma. However, the biomechanical mechanisms that contribute
+fibers explicitly within the solid elements of the brain parenchyma               to increased axonal strain in specific neural pathways associated with
+and dynamically evaluating axonal strain can enhance the                          mTBI remain unclear.
+biomechanical prediction of mTBI. Wu et al. (2019) proposed an                         This study aimed to identify axonal fiber tracts that are
+approach for explicitly incorporating white matter axonal fibers into             potentially associated with the occurrence of mTBI under real-
+the brain FE model of the Global Human Body Model Consortium                      world head impacts by quantifying axonal strain at the tract
+
+
+
+Frontiers in Bioengineering and Biotechnology                                02                                                            frontiersin.org
+Atsumi et al.                                                                                                                        10.3389/fbioe.2026.1692718
+
+
+
+
+   FIGURE 1
+   Overview of the brain FE model. (a) Parts of solid elements. (b) ICFD is applied to the parts of the ventricles and cerebral aqueduct shown in blue. (c)
+   Axonal fiber tracts embedded to the solid parts.
+
+
+
+
+level. To this end, we developed a human brain FE model that                              The material properties of each part of the brain FE model were
+integrates axonal fiber tracts, a nonlinear constitutive model of the                derived using a previous model (Atsumi et al., 2021; 2023). A
+brain parenchyma, and intraventricular cerebrospinal fluid                           nonlinear viscoelastic constitutive model (Atsumi et al., 2016a;
+dynamics. Axonal fiber tracts extracted from the group-averaged                      2018) was employed for the brain parenchyma. This model
+tractography atlas (Yeh, 2022) were explicitly implemented in a                      effectively captures the anisotropy in the white matter, strain-rate
+previously developed brain FE model. The developed model was                         dependency over a wide range, and characteristic features of the
+validated against experimental data of postmortem human subjects                     unloading process by formulating a strain energy density function
+(PMHSs) on brain deformation during head impact. Using this                          with internal state variables based on a 3D generalized Maxwell
+model, reconstruction simulations based on real-world mTBI cases,                    model. The anisotropic constitutive model requires the material axes
+including those due to car crashes and collisions in American                        of each solid element of the brain parenchyma to be determined
+football games, were conducted. Then, injury metrics based on                        based on the axonal fiber tracts. This is explained in the
+the axonal strain for each tract were calculated and compared                        following section.
+among the mTBI cases. Further, the effect of the direction of                             To represent the dynamics of the intracranial cerebrospinal fluid
+head rotation on axonal strain-based injury metrics for each tract                   (CSF) and the effects of its perfusion pressure on brain deformation,
+was investigated. Through these analyses, we examined and                            the incompressible fluid dynamics (ICFD) in LS-DYNA (LSTC,
+discussed the possibility of mTBI prediction using a brain FE                        USA) is applied to the ventricular part of the model (Figure 1b)
+model incorporating axonal fiber tracts.                                             (Atsumi et al., 2021). The introduction of ICFD into the
+                                                                                     intraventricular CSF has been demonstrated in our previous
+                                                                                     study to improve the validation accuracy of brain strain during
+2 Materials and methods                                                              head impact (Atsumi et al., 2021). As the boundary of the ventricles
+                                                                                     was modeled using shell elements as a closed space, the fluid volume
+2.1 Baseline human brain FE model                                                    meshes inside the ventricles were automatically generated using the
+                                                                                     ICFD solver in LS-DYNA at the onset of the FE analysis. The
+    In this study, we utilized a previously developed human brain FE                 boundary condition between the fluid and structure was a non-slip
+model (Atsumi et al., 2021; 2023) and extended it by embedding                       condition, and three boundary layer meshes were defined. Based on
+axonal fiber tracts as streamlines of beam elements into the solid                   the experimental settings of the PMHS test performed in Hardy et al.
+element parts of the brain parenchyma. Figure 1 shows an overview                    (2007), an initial pressure of 10.3 kPa was applied to the ICFD part of
+of the proposed model. The model has well-described anatomical                       the model. The fluid–structural interaction was solved in a weak
+structures, including the cerebrum, corpus callosum, thalamus, basal                 coupling, implying that the solid and fluid solvers proceeded
+ganglia, fornix, cerebellum, dura mater, falx, tentorium, midbrain,                  independently with the calculations using individual time steps.
+pons, and medulla oblongata using hexahedral solid elements                          The interpolated displacements and forces at the boundary between
+(Figure 1a). The pia mater and arachnoid were modeled using                          the structure and fluid were transferred to each other (Livermore
+shell elements. The model has 41,000 nodes and comprises                             Software Technology Corporation LSTC, 2014). The time steps for
+approximately 48,000 solid and 13,000 shell elements. The                            solving the ICFD and structure were 2.0e-5 and 8.96e-8 s,
+interface between the brain and dura mater was modeled using a                       respectively.
+layer of solid elements with shared nodes. All simulations in this
+study were performed using LS-DYNA (LSTC, USA) R13.1.1 MPP                           2.2 Implementation of axonal fiber tracts
+in double precision on a workstation equipped with an Intel Xeon
+Platinum 8358 (2.6 GHz, 32 cores) and 1024 GB of RAM, using                            Fiber tracking for mapping axonal pathways requires diffusion
+8 CPU cores in parallel.                                                             MRI data, including diffusion-weighted images (DWIs). In this
+
+
+
+Frontiers in Bioengineering and Biotechnology                                   03                                                                   frontiersin.org
+Atsumi et al.                                                                                                                 10.3389/fbioe.2026.1692718
+
+
+
+
+TABLE 1 List of axonal fiber tracts based on the tractography atlas (Yeh, 2022).
+
+
+
+ Category                                  Abbreviationa                           Name
+ Association                               AF_L/AF_R                               Arcuate fasciculus
+
+                                           C_FPH_L/C_FPH_R                         Cingulum, frontal parahippocampal segment
+
+                                           C_FP_L/C_FP_R                           Cingulum, frontal parietal segment
+
+                                           C_PHP_L/C_PHP_R                         Cingulum, parahippocampal parietal segment
+
+                                           C_PH_L/C_PH_R                           Cingulum, parahippocampal segment
+
+                                           C_PO_L/C_PO_R                           Cingulum, parolfactory segment
+
+                                           EMC_L/EMC_R                             Extreme capsule
+
+                                           FAT_L/FAT_R                             Frontal aslant tract
+
+                                           HA_L/HA_R                               Hippocampus alveus
+
+                                           IFOF_L/IFOF_R                           Inferior fronto occipital fasciculus
+
+                                           ILF_L/ILF_R                             Inferior longitudinal fasciculus
+
+                                           MdLF_L/MdLF_R                           Middle longitudinal fasciculus
+
+                                           TPAT_L/TPAT_R                           Temporo-parietal aslant tract
+
+                                           SLF1_L/SLF1_R                           Superior longitudinal fasciculus I
+
+                                           SLF2_L/SLF2_R                           Superior longitudinal fasciculus II
+
+                                           SLF3_L/SLF3_R                           Superior longitudinal fasciculus III
+
+                                           UF_L/UF_R                               Uncinate fasciculus
+
+                                           VOF_L/VOF_R                             Vertical occipital fasciculus
+
+ Projection                                CS_A_L/CS_A_R                           Corticostriatal tract, anterior segment
+ (Basal ganglia)
+                                           CS_S_L/CS_S_R                           Corticostriatal tract, superior segment
+
+                                           CS_P_L/CS_P_R                           Corticostriatal tract, posterior segment
+
+                                           F_L/F_R                                 Fornix
+
+                                           OR_L/OR_R                               Optic radiation
+
+                                           TR_A_L/TR_A_R                           Thalamic radiation, anterior segment
+
+                                           TR_P_L/TR_P_R                           Thalamic radiation, posterior segment
+
+                                           TR_S_L/TR_S_R                           Thalamic radiation, superior segment
+
+ Projection                                CPT_F_L/CPT_F_R                         Corticopontine tract, frontal segment
+ (Brainstem)
+                                           CPT_P_L/CPT_P_R                         Corticopontine tract, parietal segment
+
+                                           CPT_O_L/CPT_O_R                         Corticopontine tract, occipital segment
+
+                                           CST_L/CST_R                             Corticospinal tract
+
+                                           DRTT_L/DRTT_R                           Dentatorubrothalamic tract
+
+                                           MFB_L/MFB_R                             Medial forebrain bundle
+
+                                           ML_L/ML_R                               Medial lemniscus
+
+                                           NDDT_L/NDDT_R                           Non decussating dentatorubrothalamic tract
+
+                                           RST_L/RST_R                             Reticulospinal tract
+
+                                                                                                                                              (Continued)
+
+
+
+
+Frontiers in Bioengineering and Biotechnology                                04                                                            frontiersin.org
+Atsumi et al.                                                                                                                              10.3389/fbioe.2026.1692718
+
+
+
+
+TABLE 1 Continued
+
+
+
+    Category                                      Abbreviationa                                   Name
+    Commissure                                    AC_F                                            Anterior commissure, frontal segment
+
+                                                  AC_O                                            Anterior commissure, occipital segment
+
+                                                  AC_T                                            Anterior commissure, temporal segment
+
+                                                  CC_B                                            Corpus callosum, body
+
+                                                  CC_FMaj                                         Corpus callosum, forceps major
+
+                                                  CC_FMin                                         Corpus callosum, forceps minor
+
+                                                  CC_T                                            Corpus callosum, tapetum
+
+    Cerebellum                                    CB_L/CB_R                                       Cerebellum
+
+                                                  ICP_L/ICP_R                                     Inferior cerebellar peduncle
+
+                                                  MCP                                             Middle cerebellar peduncle
+
+                                                  SCP                                             Superior cerebellar peduncle
+
+                                                  V                                               Vermis
+a
+The tracts in the left and right hemispheres are marked with _L and _R at the end.
+
+
+
+
+study, we utilized a group-averaged template preprocessed by Yeh                          pathways are excluded from this study because of the limited
+(2022). The template was constructed from DWI dataset                                     number of axonal fibers extracted.
+(N � 1065) of the Human Connectome Project (HCP, https://                                     The classified tracts were converted into a format that could be
+www.humanconnectome.org/) (Van Essen et al., 2012; Glasser                                used as beam elements in LS-DYNA using in-house scripts; that is,
+et al., 2016). In the dataset, a multishell diffusion scheme was                          multiple beam elements were connected to represent a single axonal
+used. The b-values were 1000, 2000, and 3000 s/mm2 ; numbers                              fiber, and these bundles were represented as axonal tracts. A total of
+of diffusion sampling directions were 90, 90, and 90; in-plane                            8,602 axonal fibers, comprising approximately 820,000 beam
+resolution was 1.25 mm; and slice thickness was 1.25 mm.                                  elements, were ultimately extracted. After aligning the beam
+Diffusion data were reconstructed in the MNI space using                                  elements with the outer shape of the solid parts of the baseline
+q-space diffeomorphic reconstruction (Yeh and Tseng, 2011) to                             brain FE model using an affine transformation, manual morphing
+obtain the spin distribution function (SDF) (Yeh et al., 2010). A                         was performed using HyperMesh (Altair, USA) to fit them into the
+diffusion sampling length ratio of 1.7 was used, and the output                           shape of the central region of the brain, including the ventricles. The
+resolution was 1.0 mm.                                                                    axonal fiber tracts aligned with respect to the baseline model are
+    The fiber tracking was performed using DSI Studio (https://                           shown in Figures 1C, 2 for the entire brain and each tract,
+dsi-studio.labsolver.org/). DSI Studio reconstructs diffusion                             respectively. To embed the beam elements into the solid
+information in multiple directions within each voxel based on                             elements of the brain parenchyma for integrated computation
+the SDF. Streamlines are tracked by following the corresponding                           without sharing their nodes, the constraint condition keyword
+orientation peaks across voxels. This allows tractography to pass                         *CONSTRAINED_BEAM_IN_SOLID of LS-DYNA was utilized
+through regions with complex configurations, including crossing                           in this study. According to Zhou et al. (2021a), (2022), the
+fibers in the centrum semiovale, rather than collapsing them into                         material properties of the beam elements were represented using
+a single averaged direction as in conventional tensor-based                               a null model in LS-DYNA, with a mass density and cross-sectional
+approaches. An entire brain tractogram was obtained using                                 area of 1.0e-11 ton/mm3 and 1.0e-11 mm2 , respectively. With this
+the group-averaged template with a random seed count of                                   modeling approach, the beam elements are effectively ignored in
+15,000, maximum length of 300.0 mm, minimum length of 30.                                 structural analysis and are used solely for computing axonal strain in
+0 mm, and step size of 1.0 mm. Then, the tractogram was                                   response to the deformation of the surrounding solid elements. This
+classified into 84 tracts, including association fibers,                                  helps minimize the impact of redundancy in volume or mass
+projections to the basal ganglia and brainstem, commissural                               between the solid and beam elements, identified as a modeling
+fibers, and cerebellar fibers, based on the tractography atlas                            concern in previous studies (Garimella et al., 2019; Martin
+proposed by Yeh (2022) using the “Recognize & Cluster”                                    et al., 2022).
+function in DSI Studio. A list of the classified axonal fiber                                 The material axes of each solid element of the brain parenchyma
+tracts is presented in Table 1. The original tractography atlas                           were determined based on the orientation of the extracted axonal
+(Yeh, 2022) defines neural pathways such as the ansa lenticularis,                        fibers. In this study, the average value of the vectors of the beam
+acoustic radiation, corticobulbar tract, and cranial nerves,                              elements passing through each solid element was set as the material
+including the optic and oculomotor nerves. However, these                                 axis of the solid element using the keyword *ELEMENT_SOLID_
+
+
+
+
+Frontiers in Bioengineering and Biotechnology                                        05                                                                 frontiersin.org
+Atsumi et al.                                                                                                                         10.3389/fbioe.2026.1692718
+
+
+
+
+   FIGURE 2
+   Axonal fiber tracts embedded in the brain FE model in this study based on the tractography atlas proposed by Yeh (2022). Solid elements of the brain
+   parenchyma are displayed as semi-transparent. The nomenclature for each tract is presented in Table 1. (a) Association (left) (b) Projection (left) (c)
+   Commissure (d) Cerebellum.
+
+
+
+
+   FIGURE 3
+   Validation settings for (a) C288-T3, (b) C380-T1, and (c) C380-T2, in which the locations of each cluster (C1 and C2) are indicated (Hardy et al., 2007).
+
+
+
+
+ORTHO in LS-DYNA. The starting and ending sides of the                               vector were unified based on the following equations (Atsumi
+extracted axonal fibers could not be distinguished easily.                           et al., 2023):
+Therefore, although the axial directions of the tracts are similar,
+                                                                                                                     v prod(v) ≥ 0􏼁
+they may cancel each other out when averaged, depending on the                                                v�􏼨                                                (1)
+                                                                                                                     −v prod(v) < 0􏼁
+direction of the vectors. To address this issue, the directions of each
+
+
+
+
+Frontiers in Bioengineering and Biotechnology                                   06                                                                    frontiersin.org
+Atsumi et al.                                                                                                                                      10.3389/fbioe.2026.1692718
+
+
+
+
+TABLE 2 Summary of mTBI cases available from the literature.
+
+
+
+    Id     Situation                 Peak resultant              Peak resultant                End         Acquisition of            Symptoms              Ref.
+                                         linear                      ang.                      time        head accel
+                                       accel. [G]                Accel. [rad/s2 ]              [ms]
+    Case   Rear-end                           22.1                       1039.0                   120      Accident reconstruction   Headache and neck     Krafft et al. (1998);
+    1      collision                                                                                       by simulation             pain (6 months)       Atsumi et al. (2020)
+           (ΔV � 23km/h)
+
+    Case   American football                 106.1                      12,950.0                  70       Mouthpiece                LoC (2 min)           Hernandez
+    2                                                                                                                                                      et al. (2015)
+
+    Case                                      84.2                       6190.0                   70                                 Post-concussive       Hernandez
+    3                                                                                                                                symptoms              et al. (2015); Zhou
+                                                                                                                                                           et al. (2021a)
+
+    Case                                      96.0                       7428.0                   100      Video analysis and        Concussion            Sanchez et al. (2019)
+    4                                                                                                      laboratory
+                                                                                                           reconstruction
+
+    Case   Side                               27.4                       3024.1                   140      Accident reconstruction   LoCa                  Franklyn
+    5      impact                                                                                          by crash test                                   et al. (2005)
+           (ΔV � 27km/h)
+
+    Case   American football                  98.8                       9117.9                   50       Video analysis and        LoC                   Zimmerman
+    6                                                                                                      laboratory                                      et al. (2022)
+                                                                                                           reconstruction
+    Case                                      82.7                       6407.4                   50                                 Dystonic posturing
+    7
+
+    Case                                      62.1                       3434.9                   50                                 No
+    8
+a
+As it was only declared by the passenger, the reported AIS, was 0 (no injury) (Franklyn et al., 2005).
+
+
+
+
+In Equation 1, the symbol v denotes a 3D vector representing the                                  comprising eight tetrahedral elements. First, simulations were
+orientation of a given beam element. The function prod(·) computes                                performed for each case using the proposed model to calculate
+the scalar product of its vector components.                                                      the displacements of the nodes closest to each NDT. Subsequently,
+                                                                                                  the history of the displacements of the nodes was input to the
+2.3 Validation setup                                                                              corresponding NDT in the cluster model. Finally, the cluster strain
+                                                                                                  was calculated by averaging the Green–Lagrange strain of each
+     Simulations were performed to validate the proposed tract-                                   element in the cluster model. The four tetrahedral elements in
+embedded model of brain deformation during head impact. The                                       C2 were not included in the cluster strain calculations for C380-
+validation protocol was similar to that implemented in previous                                   T1 and C380-T2 because of the lack of data for the ninth NDT of C2.
+studies (Atsumi et al., 2021; 2023). PMHS test data on brain                                          The CORrelation and Analysis (CORA) method (Gehre et al.,
+deformation during head impacts originally obtained by Hardy                                      2009; Gehre and Stahlschmidt, 2011) was used to quantitatively
+et al. (2007) and subsequently reanalyzed with respect to the                                     evaluate the validation results of the displacements of NDTs and the
+strain calculation by Zhou et al. (2018), (2019b) were used. Three                                strain of each cluster. This method assesses the degree of correlation
+representative tests were conducted, as shown in Figure 3. C288-T3                                between a pair of time-history curves using two sub-methods:
+is an occipital impact test that results in forward rotation of the head                          corridor and correlation methods. However, the former was not
+with peak linear and angular accelerations of 892 m/s2 and                                        activated, and an optimized setting was used, referring to Giordano
+24.2 krad/s2 , respectively (Figure 3a). C380-T1 is a parietal                                    and Kleiven (2016). The CORA score ranges from 0 to 1, with values
+impact test that results in right lateral flexion with peak linear                                closer to 1 indicating better matches. The sliding scales of CORA are
+and angular accelerations of 824 m/s2 and 5.1 krad/s2 , respectively                              defined as follows: “Unacceptable”: 0.0-0.26, “Marginal”: 0.26-0.44,
+(Figure 3b). C380-T2 is an occipital impact test that results in left                             “Fair”: 0.44-0.65, “Good”: 0.65-0.86, and “Excellent”: 0.86-1.0 (The
+rotation of the head with peak linear and angular accelerations of                                International Organization for Standardization ISO, 1999).
+549 m/s2 and 5.1 krad/s2 , respectively (Figure 3c). In these
+experiments, the displacements of each of the seven neural                                        2.4 Case study
+density targets (NDTs) in the two clusters (C1 and C2)
+embedded in the head of the PMHS with respect to its center of                                        Reconstruction simulations based on mTBI cases, for which the
+gravity (CG) were measured using a high-speed biplanar X-ray                                      input curves of head acceleration were available in the literature,
+system during head impact (Hardy et al., 2007). Cluster strain was                                were performed using the proposed brain FE model. A summary of
+calculated from the relative displacement of the NDTs in each                                     the mTBI cases is presented in Table 2. The head acceleration curves
+cluster. The experiments were simulated using a cluster model                                     for each case are shown in Supplementary Figure S1.
+
+
+
+
+Frontiers in Bioengineering and Biotechnology                                                07                                                                   frontiersin.org
+Atsumi et al.                                                                                                                              10.3389/fbioe.2026.1692718
+
+
+
+
+     Case 1 is based on the traffic accident data of a rear-end collision        TABLE 3 Comparisons of average CORA scores for NDT displacement.
+
+at 23 km/h reported by Krafft et al. (1998). In this case, the driver
+experienced prolonged headache and neck pain for approximately                       Test ID        Current study           ADAPT model (Li et al., 2021)
+6 months following the accident. As the data in Krafft et al. (1998)                 C288-T3        0.516 (fair)            0.588 (fair)
+provided a crash pulse only in the longitudinal direction of the
+                                                                                     C380-T1        0.595 (fair)            0.694 (good)
+vehicle, we used the acceleration curves of the CG of the head
+obtained from the reconstruction simulation of the case using a                      C380-T2        0.522 (fair)            0.549 (fair)
+whole-body human FE model proposed in a previous study (Atsumi
+et al., 2020). As shown in Supplementary Figure S1a, the rotational
+component around the Y-axis is comparatively large, resulting in                 TABLE 4 Comparisons of average CORA scores for cluster strain.
+
+neck extension.
+     Cases 2 and 3 are mTBI incidents from a collegiate American                     Test ID        Current study           ADAPT model (Li et al., 2021)a
+football game reported by Hernandez et al. (2015), where head                        C288-T3        0.766 (good)            0.742 (good)
+accelerations were measured using six-degrees-of-freedom (DOF)
+                                                                                     C380-T1        0.823 (good)            0.877 (excellent)
+accelerometers instrumented in mouthpieces. The player in Case
+2 experienced an LoC of approximately 2 min after collision,                         C380-T2        0.894 (excellent)       0.793 (good)
+whereas the player in Case 3 did not lose consciousness but                      a
+                                                                                 Averaged scores for principal strain and shear strain only from C1.
+reported post-concussive symptoms. Case 2 involved lateral
+bending of the head toward the right due to a relatively large
+rotational component around the X-axis (Supplementary Figure                     2.5 Axonal strain-based injury metrics
+S1b), and Case 3 involved forward flexion and lateral bending to the
+right due to large rotational components around the X- and Y-axes                    The results of the case studies were evaluated using two
+(Supplementary Figure S1c).                                                      brain injury metrics based on axonal strain. The first is the
+     Case 4 is an mTBI case from an American football game, as                   enhanced tract-wise injury susceptibility index φenh    tract proposed
+reported by Sanchez et al. (2019). The six-DOF head acceleration                 by Zhao et al. (2017). The metric φenh
+                                                                                                                     tract is essentially an extension
+curves of the concussed player were derived from laboratory                      of the concept of CSDM, which was initially developed for the
+reconstructions using test dummies, based on estimated relative                  injury evaluation of the entire brain or internal organs modeled
+head impact velocities obtained from the video analysis of the                   using solid elements, to be applied to axonal fiber tracts. φenh tract is
+collision event. Corrections were made based on an analytical                    defined as follows:
+solution of head motion. As shown in Supplementary Figure S1d,                                                           Σw
+the rotational components around the X- and Z-axes were                                     φenh
+                                                                                             tract �                                                 ,             (2)
+                                                                                                       􏼂Number of axonal fibers in the target tract􏼃
+comparatively large, resulting in axial rotation to the right and
+lateral bending to the left.                                                     where w is the weight component corresponding to the damage rate
+     Case 5 is based on traffic accident data of a side impact at 27 km/         of each axonal fiber in the target tract. The weight w in Equation 2 is
+h reported by Franklyn et al. (2005). The head acceleration curves               defined as follows:
+were obtained from a test dummy during the reconstruction of a
+real-world crash in a full-vehicle crash laboratory. In this case, no                     􏼔Number of beam
+                                                                                                        ε
+                                                                                                          elements in which axonal strain exceeded􏼕
+                                                                                                              in a given axonal fiber
+                                                                                                                   thresh
+codeable head injury of the driver in the target vehicle was originally              w�                                                                              .
+                                                                                               􏼂Total number of beam elements in a given axonal fiber􏼃
+recorded, that is, AIS 0. However, the first-seat passenger stated that                                                                                            (3)
+the driver sustained a brief LoC (Franklyn et al., 2005). Thus, in the
+current study, this case was considered as AIS 2, following a study by           The threshold εthresh is set to 0.10, which is an optimal value derived
+Lyu et al. (2022). As shown in Supplementary Figure S1e, the                     by Zhao et al. (2017). This value is also close to the lower bound of
+rotational component around the X-axis was large, resulting in                   the threshold strain for functional impairment established from in
+lateral bending of the head to the left.                                         vivo tensile tests of adult pig optic nerve by Bain and Meaney (2000).
+     Cases 6, 7, and 8 are based on collision event data from                    Zhao et al. (2017) derived axonal strain from the strain tensor of a
+American football reported by Zimmerman et al. (2022). Similar                   solid element by associating a brain FE model with diffusion tensor
+to Case 4, the head acceleration curves in these cases were derived              images (DTIs). This implies that the weight w in Equation 3 was
+using video analysis and laboratory reconstruction with test                     calculated using axonal strain at the corresponding sampling points
+dummies. Case 6 is a case with LoC, in which large rotational                    on DTI. In this study, as the beam elements corresponding to axonal
+components around the X- and Y-axes resulted in posterior flexion                fibers were explicitly embedded into the solid elements of the brain
+and lateral bending of the head to the left (Supplementary Figure                parenchyma, the axial strain of the embedded beams was used as
+S1f). In Case 7, the player exhibited dystonic posture. The relatively           axonal strain to calculate w.
+large rotational components around the X- and Z-axes in Case 7                       We used the peak values of the axonal strain in the beam
+(Supplementary Figure S1g) resulted in lateral bending to the right              elements of each tract as another injury metric. Following
+and axial rotation to the left. No injury was reported in the player in          previous studies (Panzer et al., 2012; Sanchez et al., 2019;
+Case 8, in which a comparatively large rotational component around               Zhou et al., 2021a), the 95th percentile value, termed
+the X-axis (Supplementary Figure S1h) resulted in lateral bending to             AxS95 in this study, was adopted to limit the effect of
+the right.                                                                       numerical instability on the results.
+
+
+
+Frontiers in Bioengineering and Biotechnology                               08                                                                          frontiersin.org
+Atsumi et al.                                                                                                               10.3389/fbioe.2026.1692718
+
+
+
+
+   FIGURE 4                                                                      FIGURE 5
+   Comparisons of φenh                                                           Comparisons of AxS95 for each tract across cases. The
+                      tract for each tract across cases. The
+   nomenclature for each tract is shown in Table 1. The labels of key            nomenclature for each tract is shown in Table 1. The labels of key
+   tracts discussed in the main text (FAT, CS_P, TR_P, CPT_P, CST, ML,           tracts discussed in the main text (FAT, SLF3, TR_P, and CC_B) are
+   and CC_B) are highlighted in bold red.                                        highlighted in bold red.
+
+
+
+
+    For comparison with the tract-level metrics described above, we           3 Results
+also calculated the 95th percentile MPS (MPS95) and CSDM as
+traditional global injury metrics for all solid elements in the whole-        3.1 Validation
+brain (Anderson et al., 2020; Wu et al., 2022a). A threshold of 25%
+MPS was used to derive CSDM (CSDM25), following previous                          Tables 3, 4 present the CORA scores for NDT displacement and
+studies (Wu et al., 2022a; Takhounts et al., 2008; Atsumi                     strain in both clusters, respectively, for each test. Supplementary
+et al., 2016b).                                                               Figures S2–S7 in the Appendix present details on the history of each
+
+
+
+Frontiers in Bioengineering and Biotechnology                            09                                                               frontiersin.org
+Atsumi et al.                                                                                                                       10.3389/fbioe.2026.1692718
+
+
+
+
+NDT and cluster strain. The values listed in Table 3 are the average                    TABLE 5 Comparisons of peak MPS95 and CSDM25 across cases.
+
+scores of displacements in the 14 NDTs of both clusters, and those in
+Table 4 are the average scores of MPS and maximum shear strain in                        Id                       MPS95                  CSDM25 [%]
+both clusters. For comparison, the reported CORA scores for a                            Case 1                      0.149                     0.267
+detailed and personalizable (ADAPT) head model (Li et al., 2021)
+                                                                                         Case 2                      0.275                    14.361
+are provided in these tables. Notably, only the C1 scores of the
+ADAPT model for the cluster strain are presented in Table 4 because                      Case 3                      0.262                    10.817
+the C2 results were not available (Li et al., 2021).                                     Case 4                      0.387                    50.473
+    The CORA scores for NDT displacement were 0.516 for C288-
+T3, 0.595 for C380-T1, and 0.522 for C380-T2, all of which were                          Case 5                      0.226                     3.709
+
+rated as “Fair”. The proposed model exhibited slightly lower results                     Case 6                      0.418                    38.738
+in all three tests than the ADAPT model. The CORA scores for
+                                                                                         Case 7                      0.305                    21.279
+cluster strain were 0.766 for C288-T3 and 0.823 for C380-T1, both of
+which were rated as “Good”. The score for C380-T2 was 0.894,                             Case 8                      0.314                    10.686
+which was rated as “Excellent”. The proposed model yielded lower
+results for C380-T1, but higher results for C288-T3 and C380-T2
+than the ADAPT model.                                                                   longitudinal fasciculus I (SLF1), right FAT, and right CS_S, with
+                                                                                        overall values higher than those in Cases 7 and 8. In Case 7, the
+3.2 Case study                                                                          highest AxS95 values are observed in the right SLF3, left SLF1, left
+                                                                                        TR_S, left SLF3, and left ML. In Case 8, high AxS95 values are
+      Figure 4 compares φenh   tract for each tract across all cases, where the         observed in the temporal anterior commissure (AC_T), CC_B, left
+top five tracts in each case are annotated with numerical values. For                   SLF3, left FAT, and right TR_P.
+Case 1, φenh  tract values are low across nearly all tracts. In Case 2, high                To provide a quantitative summary, we examined the
+φenh
+  tract values      are observed in the following order: right posterior                association between axonal strain-based injury metrics and
+thalamic radiation (TR_P), body of the corpus callosum (CC_B), left                     reported clinical outcomes using rank-based correlation analysis.
+frontal aslant tract (FAT), right posterior corticostriatal tract (CS_                  Here, clinical outcomes were categorized on a three-level ordinal
+P), and right medial lemniscus (ML). In Case 3, the overall values are                  scale based on the symptom descriptions in the original reports.
+lower than those in Case 2, with relatively high φenh     tract values observed         Specifically, we defined an ordinal outcome category as follows: 0 =
+in the right TR_P, right FAT, right parietal corticopontine tract                       no clinical symptoms reported (Case 8); 1 = prolonged/post-
+(CPT_P), CC_B, and left ML. Case 4 exhibits the highest values                          concussive symptoms without acute neurological signs (Cases
+among all cases, particularly in the forceps minor of the corpus                        1 and 3); and 2 = concussion and/or acute neurological signs
+callosum (CC_FMin), right TR_P, frontal anterior commissure                             such as LoC or dystonic posturing (Cases 2, 4, 5, 6, and 7). We
+(AC_F), right CS_P, and left temporo-parietal aslant tract                              then assessed rank correlations between the ordinal outcome
+(TPAT). In Case 5, a tendency toward high φenh                   tract values is        category and each injury metric. For each case, we used the
+observed in the following order: right FAT, CC_B, left FAT, left                        mean of the top five tract values across tracts as a representative
+superior longitudinal fasciculus III (SLF3), and right ML. In Case 6,                   value for each metric. Spearman’s rank correlation coefficients
+higher φenh  tract values are observed in the right FAT, right anterior                 between the ordinal outcome category and these representative
+corticostriatal tract (CS_A), left FAT, CC_B, and right frontal                         values were ρ � 0.784 (p � 0.021) for φenh         tract and ρ � 0.550
+corticopontine tract (CPT_F). In Case 7, the left TR_P, left CS_                        (p � 0.158) for AxS95. Kendall’s τ showed consistent directions
+P, right CPT_P, left corticospinal tract (CST), and CC_B exhibit                        (τ � 0.596 for φenhtract and τ � 0.413 for AxS95).
+high φenh                                             enh
+         tract values. In Case 8, relatively high φtract values are observed                Table 5 compares the peak MPS95 and CSDM25 across all cases.
+for the CC_B, left FAT, left anterior thalamic radiation (TR_A), left                   Case 1 shows the lowest values among all cases for both MPS95 and
+superior thalamic radiation (TR_S), and right TPAT; however, the                        CSDM25. Case 5 exhibits the second lowest MPS95 and
+overall values are lower than those in Cases 6 and 7. Cerebellar tracts                 CSDM25 values, next to Case 1. Among all cases, MPS95 is
+did not exhibit high φenh    tract values in all cases.                                 highest in Case 6, whereas CSDM25 is highest in Case 4. In
+      Figure 5 compares the AxS95 values for each tract in all cases. In                addition, the MPS95 in Case 8 is higher than those in Cases
+Case 1, the AxS95 values are the lowest overall, with a maximum of                      2 and 3, whereas CSDM25 is only slightly lower than in these
+0.089 observed in the right uncinate fasciculus (UF). In Case 2, the                    two cases.
+highest AxS95 values are observed in the left SLF3, right TR_P,                             Furthermore, the effects of the head rotation direction on the
+tapetum of the corpus callosum (CC_T), right SLF3, and CC_B. In                         injury metrics for each tract were investigated. Figure 6 compares
+Case 3, the left SLF3 exhibits the highest AxS95 value, followed by                     the contributions of the angular accelerations of the head around
+the right hippocampus alveus (HA), right FAT, right TR_P, and                           each axis to φenh
+                                                                                                       tract and AxS95 across the cases. These are the relative
+right CST. Case 4 exhibits the highest AxS95 values among all cases,                    contributions derived by correlating the peak values of the head
+particularly in the right SLF3, CC_FMin, left SLF3, right FAT, and                      angular acceleration around the X-, Y-, and Z-axes inputted among
+right arcuate fasciculus (AF). In Case 5, the AxS95 values tend to                      cases with injury metrics for each tract (Figures 4, 5). The values in
+increase in the following order: left SLF3, CC_B, left FAT, right                       Figure 6 are normalized such that the sum of each axis is 1.0. The
+SLF3, and right superior corticostriatal tract (CS_S). Case 6 exhibits                  bars representing the correlation with φenh  tract in the right inferior
+high AxS95 values in the right CS_A, right CPT_F, right superior                        cerebellar peduncle (ICP) are blanked in the upper part of Figure 6.
+
+
+
+Frontiers in Bioengineering and Biotechnology                                      10                                                             frontiersin.org
+Atsumi et al.                                                                                                                     10.3389/fbioe.2026.1692718
+
+
+
+
+   FIGURE 6
+   Comparisons of relative contribution of angular accelerations around each axis to injury metrics: φenh
+                                                                                                      tract (upper) and AxS95 (lower). The nomenclature
+   for each tract is presented in Table 1.
+
+
+
+
+This is because the values of φenh
+                                tract for the right ICP were zero in all           constitutive model of the brain parenchyma, which
+cases in this study, and correlation coefficients could not be                     comprehensively describes the anisotropy in the white matter,
+calculated. Figure 6 shows that the contributions of angular                       strain-rate dependency over a wide range of strain rates, and
+acceleration around the Y-axis are comparatively small for both                    characteristics in the unloading process (Atsumi et al., 2016a).
+φtra ctenh and AxS95, whereas those around the Z-axis are relatively               Furthermore, axonal fibers extracted from tractography based on
+large across most tracts. At the individual tract level, the                       SDF (Yeh et al., 2010; Yeh and Tseng, 2011) were embedded as a
+contributions of angular acceleration around the X-axis to φenh     tract          series of continuous beam elements into the solid elements of the
+were more considerable than those around the Z-axis in the                         brain parenchyma. Therefore, the developed model can dynamically
+parahippocampal cingulum (C_PH) and FAT, right (TR_P), left                        estimate axonal strain in response to directional changes in axons
+dentatorubrothalamic tract, non-decussating dentatorubrothalamic                   caused by brain deformation during head impact. Few existing brain
+tract, and CC_B. Similarly, compared with those around the Z-axis,                 FE models employ both a nonlinear constitutive model of the brain
+the contributions of the angular acceleration around the X-axis were               parenchyma and axonal fiber tracts obtained using tractography.
+significant for AxS95 in the right C_PH, right TR_P, left CPT_F, left              This integrated modeling approach contributes to the accurate
+DRRT, and CC_T.                                                                    prediction of tract-specific injury risks in the mTBI cases with
+                                                                                   various impact levels reconstructed in this study. As a result, we
+                                                                                   identified axonal tracts that consistently exhibited elevated injury
+4 Discussion                                                                       risk across multiple mTBI cases (see Section 4.4 for further details).
+                                                                                   This finding represents a key step toward understanding the
+4.1 Significance of study                                                          mechanisms of mTBI from the perspective of alterations in both
+                                                                                   the structural (Papini et al., 2024; Mitra et al., 2016) and functional
+     In this study, we investigated tract-specific mechanisms in real-             connectome (Rowland et al., 2024; Woodrow et al., 2023; Pandit
+world mTBI cases by evaluating axonal strain-based injury metrics                  et al., 2013). The widespread and progressive disruption of sodium
+for each tract using an advanced human brain FE model that                         channels and nodes of Ranvier on axons could be an important
+explicitly incorporates axonal fiber tracts. The baseline model                    substrate underlying brain network dysfunction after concussion
+utilized in this study included a nonlinear viscoelastic                           (Song et al., 2022). Therefore, mTBI mechanisms should be further
+
+
+
+Frontiers in Bioengineering and Biotechnology                                 11                                                                 frontiersin.org
+Atsumi et al.                                                                                                                10.3389/fbioe.2026.1692718
+
+
+
+
+investigated at the level of mechanical deformation level in axonal            parenchyma used in this study has been validated against multiple
+fibers and in terms of subsequent alterations in axonal excitability           sets of material test data using specimens acquired from the corona
+and neural signaling.                                                          radiata and cerebral cortex over a wide range of strain rates (Atsumi
+                                                                               et al., 2018). In addition, the material property of the pia-arachnoid
+4.2 Comparison with existing brain                                             complex (PAC) layer, which effectively contributes to the relative
+FE models                                                                      motion between the brain and skull, has been calibrated against
+                                                                               shear test data at different strain rates (Atsumi et al., 2021).
+     Several studies have proposed brain FE models for mTBI                    Therefore, although it remains challenging to directly validate
+prediction, accounting for the arrangement of axonal fibers.                   strain distributions in other regions, including superficial cortex,
+Zhou et al. (2022) adopted a method of constraining multiple                   during head impact, the proposed model provides reasonable
+beam elements representing axonal fiber orientations obtained                  confidence that it can reproduce brain deformations under
+from DTI to solid elements of the brain parenchyma. However,                   injurious loading conditions. Regarding NDT displacements, the
+because they used discretized beam elements corresponding to each              CORA values were slightly lower than those of the ADAPT model
+DTI voxel, their association with the tractography atlas may not have          (Li et al., 2021) in all tests (Table 3). However, the results were within
+been considered. Additionally, DTI specifies a single principal fiber          the “Fair” evaluation range and thus considered to be generally
+direction per voxel, implying that it cannot address regions with              acceptable. This difference between the CORA scores for cluster
+complex fiber orientations, such as crossing fibers (Yeh et al., 2010).        strain and NDT displacements reflects the modeling strategy
+By contrast, tractography based on SDF (Yeh et al., 2010; Yeh and              adopted in this study, in which the material model was carefully
+Tseng, 2011) employed in the current study enables the                         calibrated to reproduce local brain deformations rather than to
+reconstruction of such intricate axonal fiber configurations,                  personalize the global head and brain geometry to each PMHS, as in
+thereby enabling more accurate modeling of axonal pathways.                    the ADAPT model (Li et al., 2021). As the ADAPT model (Li et al.,
+     More comparable modeling approaches can be found in Wu                    2021) was developed as a personalizable model that could match the
+et al. (2019), (2022a). Wu et al. (2019) implemented axonal fibers as a        shape of the head and brain of an individual, the model was validated
+series of beam elements into the brain FE model of GHBMC using                 against the PMHS tests on brain deformation after scaling to match
+the keyword *CONSTRAINED_BEAM_IN_SOLID in LS-DYNA,                             the dimensions of the model to those of PMHS in each test. This
+similar to that used in this study, attempting integration with                could be attributed to the differences in CORA values for NDT
+functional networks of the brain (Wu et al., 2022a). The group-                displacements between the developed model in this study and the
+averaged tractography atlas used in their study was based on a                 ADAPT model.
+previous generation of datasets from HCP (Glasser et al., 2013; Yeh
+et al., 2018). In addition, the total number of embedded axonal fibers         4.4 Tract-specific analysis in case studies
+was 3,446, comprising 104,866 beam elements, which was less than
+half of that of the model developed in this study. Although their                   Comparisons of axonal strain-based injury metrics among all
+study included a viscoelastic constitutive modeling of axonal fibers           cases indicated that higher values of both φenh    tract and AxS95 were
+as beam elements (Wu et al., 2019), the validation of the model was            observed in Cases 2, 4, and 6, in which the subjects suffered mTBI, as
+limited to the relative displacements of the brain parenchyma with             shown in Figures 4, 5. In particular, Case 4 exhibited the highest
+respect to the skull (Hardy et al., 2001; Alshareef et al., 2021).             overall values. As presented in Table 2, the head acceleration level in
+Therefore, the sufficiency of the prediction accuracy of brain strain          Case 4 was lower than those in Cases 2 and 6. This aligns with the
+in their models was yet to be verified.                                        commonly accepted concept that the risk of mTBI cannot be
+                                                                               evaluated only based on the magnitude of the head acceleration
+4.3 Validation performance                                                     (Ji et al., 2022). In addition, the acceleration waveforms in Case
+                                                                               4 exhibited a longer phenomenon duration than those in Cases 2 and
+    As presented in Table 4, the developed brain FE model exceeded             6, with multiple peaks in the angular accelerations (Supplementary
+the CORA evaluation value reported in the previous study (Li et al.,           Figure S1b, d, f). Our previous study (Atsumi et al., 2016b) also
+2021) in two PMHS tests for cluster strain, demonstrating sufficient           showed that the duration of head impact affects the value of CSDM.
+validation accuracy. The higher CORA scores for cluster strain can             Thus, the increased values of φenh tract and AxS95 in Case 4 could have
+mainly be attributed to the improved accuracy in representing local            been caused by the sustained and complex input curves of
+deformations in deep brain regions by using a calibrated constitutive          acceleration. However, Case 1, which is an injury case in a rear-
+model of brain parenchyma and ICFD within the ventricles.                      end collision, exhibited the lowest values of φenh
+                                                                                                                                tract and AxS95 among
+Although numerous brain FE models have been proposed in the                    all cases (Figures 4, 5). The reported symptoms, including headache
+past decades and are considered a basis for strain-based mTBI                  and neck pain, of the driver in Case 1 could have been caused by
+prediction, few models have been validated against brain strain                neck injuries, such as whiplash, rather than mTBI. Case 5 involved a
+during head impact. Considering that the clusters in the three PMHS            vehicle accident in which the driver experienced a brief LoC.
+tests simulated in this study were located in the central part of the          However, the values of the injury metrics in Case 5 were lower
+brain, the validation results indicated that the developed model               than those in Case 8, despite the latter having no reported mTBI-
+could accurately predict strain in this region. To the best of our             related symptoms. Although direct comparisons would be
+knowledge, there are no cadaveric experimental datasets available              challenging because of the differences in the measurement
+for validating brain strain outside the deep brain region during               methods of head acceleration and the duration of the
+injurious head impact. In fact, the constitutive model of the brain            phenomenon, the higher φenh    tract values in the CC_B and FAT in
+
+
+
+
+Frontiers in Bioengineering and Biotechnology                             12                                                               frontiersin.org
+Atsumi et al.                                                                                                                  10.3389/fbioe.2026.1692718
+
+
+
+
+   FIGURE 7
+   Distributions of axonal strain in the right TR_P, CS_P, ML, and CPT_P at 24 ms in case 2. TR_P, posterior thalamic radiation; CS_P, posterior
+   corticostriatal tract; ML, medial lemniscus; CPT_P, parietal corticopontine tract.
+
+
+
+
+   FIGURE 8
+   Distributions of axonal strain in CC_B at (a) 52 ms and (b) 84 ms in Case 5. CC_B, body of corpus callosum.
+
+
+
+
+Case 5 show that the localized damage in these tracts could have                 LoC, exhibits an MPS95 value lower than that in Case 8, in which no
+contributed to the occurrence of LoC.                                            clinical symptoms were reported. In addition, the differences in
+    Comparisons of traditional global metrics, including MPS95 and               CSDM25 values among Cases 2, 3 (post-concussive symptoms), and
+CSDM25 (Table 5), indicate that relatively higher values are                     8 are relatively small. These findings suggest that conventional global
+observed in Cases 4 and 6, in line with the axonal strain-based                  injury metrics may not fully capture the differences in symptoms
+injury metrics. By contrast, Case 2, despite the observation of a brief          observed in these cases. The axonal strain-based injury metrics used
+
+
+
+Frontiers in Bioengineering and Biotechnology                               13                                                               frontiersin.org
+Atsumi et al.                                                                                                                      10.3389/fbioe.2026.1692718
+
+
+
+
+   FIGURE 9
+   Distributions of axonal strain in the left and right FAT at (a) 22 ms and (b) 36 ms in Case 6. FAT, frontal aslant tract.
+
+
+
+
+in this study provide a means to investigate the vulnerabilities                    right FATs at (a) 22 and (b) 36 ms in Case 6, respectively. In contrast
+specific to particular tracts and their relationships with clinical                 to TR_P or CS_P, as shown in Figure 7, a higher axonal strain was
+symptoms that cannot be captured by global metrics.                                 observed in FAT near the cerebral cortex than around the ventricles.
+      As shown in Figure 4, comparatively higher values of φenh  tract are          These regions close to the cerebral cortex are distant from the CG of
+predicted in tracts, including posterior thalamic radiation (TR_P),                 the head and are therefore susceptible to shear forces caused by head
+body of the corpus callosum (CC_B), frontal aslant tract (FAT),                     rotation. This could account for the increased φenh
+                                                                                                                                     tract values of FAT on
+posterior corticostriatal tract (CS_P), medial lemniscus (ML), and                  both sides.
+parietal corticopontine tract (CPT_P), in Cases 2–7, in which mTBI                       For AxS95, high values were observed in TR_P, the corpus
+or related symptoms are observed. Figure 7 shows the distributions                  callosum, including CC_B and CC_FMin, and FAT, except in Case 1
+of the axonal strains of the right TR_P, CS_P, ML, and CPT_P at                     (Figure 5). Furthermore, the left and right superior longitudinal
+24 ms in Case 2. These axonal fiber tracts project to the cerebral                  fasciculus (SLF), particularly SLF3, exhibited high AxS95 values. The
+cortex of the parietal lobe from the central part of the brain or                   SLF is a tract of association fibers connecting the cerebral cortex in
+brainstem, passing near the lateral ventricles. As shown in Figure 7, a             the anterior–posterior direction in each hemisphere and is classified
+higher axonal strain is observed around the ventricles. The higher                  as SLF1, SLF2, and SLF3 from the dorsal to the ventral region of the
+φenh
+  tract values in TR_P, CS_P, ML, and CPT_P can be attributed to the                cerebrum. Figure 10 shows the axonal strain distributions in the SLF
+increased axonal strain in these regions, which is caused by the                    of both hemispheres at (a) 20 and (b) 64 ms in Case 4. Figure 10
+perfusion pressure represented by ICFD in the ventricles.                           shows that the axonal strain in SLF3 is higher in regions closer to the
+      Figure 8 shows the distributions of the axonal strains of the body            cerebral cortex than in the central part of the brain. This could be
+of the corpus callosum (CC_B) at (a) 52 and (b) 84 ms for Case 5. A                 attributed to their susceptibility to shear forces, similar to FAT.
+higher axonal strain is observed in the region connecting both                      Using a brain FE model, Zhao et al. (2017) indicated that the most
+hemispheres over the lateral ventricles and close to the medial                     vulnerable tracts include SLF, anterior limb of the internal capsule,
+surface of the cerebral hemispheres. Furthermore, the angular                       and corpus callosum. Considering that the internal capsule includes
+acceleration curves of the head (Supplementary Figure S1E) show                     the thalamic radiation and corticopontine tract, our findings on the
+that the axonal strain increased on both sides at approximately                     estimated injury metrics for each tract are generally consistent with
+52 and 84 ms, corresponding to the negative and positive peaks of                   those of previous studies.
+the angular accelerations at 40 and 65 ms, respectively. Thus,                           In Case 7, the struck player exhibited dystonic posturing
+widespread increments in axonal strain could cause a higher                         (Zimmerman et al., 2022). A characteristic of the calculated
+value of φenh   tract in CC_B. Such temporally and regionally                       injury metrics in Case 7 is the relatively higher value of φenh   tract in
+modulated strain responses in CC_B may be effectively captured                      corticospinal tract (CST) than those of the other cases. The CST,
+by the nonlinear viscoelastic constitutive model employed in this                   which is a descending tract from the cerebral cortex to the spinal
+study (Atsumi et al., 2016a), accounting for the characteristic                     cord, contributes to the control of voluntary movements. Thus,
+features of the brain parenchyma during the unloading process.                      axonal damage to this tract may induce a dystonic posture.
+Based on statistical analysis of neuroimages of patients with TBI                   Zimmerman et al. (2022) observed that players who exhibited a
+(Asano et al., 2012; Nakayama et al., 2006) and the reports of existing             dystonic posture after collision had significantly high MPS values in
+brain FE models (Viano et al., 2005; Zhao et al., 2017; Atsumi et al.,              motor regions including the cortical motor area and left CST. This
+2018), the corpus callosum has been identified as a vulnerable                      finding is consistent with the results in this study.
+region. These results are consistent with those of the present study.                    The rank-correlation analysis showed a moderate-to-strong
+      The frontal aslant tract (FAT) is a tract of association fibers               association between axonal strain-based injury metrics and the
+connecting the superior to the inferior frontal gyrus in the frontal                ordinal clinical outcome category (Spearman’s ρ � 0.784 for φenh       tract
+lobe. Figure 9 shows the axonal strain distributions in the left and                and ρ � 0.550 for AxS95). However, these findings should currently
+
+
+
+Frontiers in Bioengineering and Biotechnology                                  14                                                                frontiersin.org
+Atsumi et al.                                                                                                                   10.3389/fbioe.2026.1692718
+
+
+
+
+   FIGURE 10
+   Distributions of axonal strain in the SLF of both hemispheres at (a) 20 ms and (b) 64 ms in Case 4. SLF, superior longitudinal fasciculus.
+
+
+
+
+be interpreted as exploratory. The present dataset of mTBI cases is               within each solid element, the density distribution of the axonal
+small, and only one case has no reported symptoms. In addition, the               fibers was not considered. Constitutive models of the brain
+reported clinical outcomes vary in type and level of detail across                parenchyma in previous studies (Sahoo et al., 2014; Giordano
+publications, making it difficult to convert them into a standardized             and Kleiven, 2014a; Zhou et al., 2022) have incorporated
+severity scale. For example, Case 4 was described as concussion                   parameters reflecting fractional anisotropy (FA) values derived
+without explicit reporting of LoC. When Case 4 was alternatively                  from DTI, enabling the spatial representation of anisotropy
+classified as level 1 rather than level 2, Spearman’s ρ decreased to              strength in the white matter. If such fiber density distributions or
+0.443 for φenh
+            tract and 0.209 for AxS95, suggesting uncertainty in effect           FA-weighted anisotropy were incorporated, the material properties
+size estimates and the need for larger datasets with standardized                 in regions with lower fiber density or with crossing or branching
+clinical outcome measures.                                                        fibers would become more isotropic. This would imply a reduction
+                                                                                  in stiffness along the primary axonal fiber direction. Consequently,
+4.5 Effect of head rotational direction                                           axonal strain would be expected to become relatively higher in these
+                                                                                  regions. This could lead to greater variability in axonal strain within
+    The effect of head rotational direction on the injury metrics                 each tract and more localized strain concentrations than those
+varies depending on the axonal fiber tracts, as shown in Figure 6.                obtained in this study using a constitutive model with a uniform
+However, the overall trend indicated that sagittal rotation around                strength of anisotropy (Figures 7–10). As the constitutive model of
+the Y-axis had the least contribution to φenh
+                                           tract and AxS95, whereas               the brain parenchyma used in this study was validated against
+horizontal rotation around the Z-axis had the highest contribution.               multiple material tests on anisotropy and strain-rate dependency
+Wu et al. (2022a), Wu et al. (2022b) investigated the effects of head             (Atsumi et al., 2016a; 2018), the prediction accuracy of the current
+size and rotational direction on brain functional impairment by                   model is comparable to that of previous studies. The introduction of
+integrating a brain FE model with a Kuramoto oscillator model                     parameters for computing the strength anisotropy is expected to
+(Kuramoto, 1975), associating the structural and functional                       further improve the brain FE model, particularly in the development
+networks of the brain. They estimated a higher risk of injury due                 of subject-specific models associated with individual neuroimaging
+to rotation in the horizontal plane than in the coronal or sagittal               data. Furthermore, Reiter et al. (2025) revealed that the alignment of
+plane. Similarly, Carlsen et al. (2021) demonstrated, through                     axons, glial cells, and blood vessels varies across brain regions,
+comprehensive analyses using a 2D brain FE model, that                            contributing to regional differences in the mechanical properties
+horizontal head rotations induce the largest brain tissue strain                  of the brain parenchyma. Therefore, future models should
+and strain-rate, followed by coronal and then sagittal rotations.                 incorporate region-specific mechanical properties based on these
+Moreover, Smith et al. (2000) found that immediate and persistent                 microstructural components.
+coma related to diffusion axonal injury in miniature swine is                         Second, the classification of axonal fiber tracts used in this study
+consistently produced by axial-plane rotation of the head, rather                 was based on an anatomically identified group-averaged atlas (Yeh,
+than by coronal-plane rotation. The findings of the present study are             2022). Considering the relationships between clinical symptoms in
+consistent with those of previous studies.                                        mTBI and changes in the functional connectivity of the brain
+                                                                                  (Pandit et al., 2013; Woodrow et al., 2023), linking structural
+4.6 Limitations and future directions                                             damage in specific tracts to disruptions in functional networks
+                                                                                  may provide deeper insights into the mechanisms underlying the
+    This study had the following limitations. First, although the                 occurrence of symptoms, including LoC, of mTBI, as well as its
+developed brain FE model included the principal direction of                      outcomes. This can be achieved by associating the axonal fiber tracts
+anisotropy of the white matter based on the beam elements                         obtained from tractography with a connectivity atlas, such as the
+
+
+
+Frontiers in Bioengineering and Biotechnology                                15                                                                 frontiersin.org
+Atsumi et al.                                                                                                          10.3389/fbioe.2026.1692718
+
+
+
+
+HCP multimodal parcellation (HCP-MMP) (Glasser et al., 2016).                individual material properties of these microstructural components
+However, because the HCP-MMP atlas defines 360 ROIs in the left              remains challenging, as discussed above.
+and right cerebral cortices, numerous axonal fibers would be                      Fourth, the current model limits its representation of the lower
+required to sufficiently describe their connectivity. Although our           brainstem to the level of the medulla oblongata, excluding the spinal
+proposed brain FE model includes 8,602 axonal fibers, the                    cord that continues below it. It remains challenging to accurately
+sufficiency of this number is yet to be determined. Moreover,                represent CSF flow in the spinal canal and to validate the associated
+replacing the current group-averaged atlas with subject-specific             ICFD boundary conditions at the foramen magnum. In addition,
+tractography is expected to introduce variability in local fiber             diffusion MRI-based tractography is known to face technical
+density and orientation dispersion. As discussed above,                      challenges in reliably reconstructing fiber tracts in the lower
+incorporating such spatial heterogeneity could make the effective            brainstem and upper cervical spinal cord, due to limited spatial
+anisotropy distribution less uniform. This may result in greater             resolution and pronounced susceptibility- and motion-related
+variability of axonal strain across tracts and more focal strain             artifacts (Zhang and Furst, 2022). Therefore, extending the
+concentrations compared to the present implementation. In                    current model to include a more detailed representation of the
+addition to inter-subject variability in axonal fiber distributions,         lower brainstem and the contiguous spinal cord will require both
+individual differences in brain and ventricular geometry may also            anatomical modeling efforts and tractography protocols optimized
+influence axonal strain by altering the inertial loading of the brain        for this region.
+during head rotation. For example, the locations and magnitudes of                Finally, validation and analysis of many brain FE models,
+periventricular strain concentrations could change depending on              including the model proposed in this study, have so far been
+individual ventricular shapes.                                               limited to retrospective approaches, and advanced validation
+    Third, embedding axonal fibers using *CONSTRAINED_                       against clinical or neuroimaging outcomes associated with real-
+BEAM_IN_SOLID in this study led to an approximately six- to                  world mTBI data remains challenging. To the best of our knowledge,
+eight-fold increase in computational time. In practice, the                  such a comprehensive mTBI research framework is still largely
+minimum and maximum wall-clock times were approximately                      lacking. Key future steps toward prospective validation would
+18 h (case 8, end time 50 ms) and 61 h (case 5, end time                     include constructing a pre-registered subject database,
+140 ms), respectively. This fact indicates that the proposed                 establishing a subject-specific modeling pipeline that accounts for
+model is practically feasible for detailed analyses of a limited             individual head geometry and tractography, recording and
+number of mTBI cases, whereas its straightforward application                reconstructing head kinematics in real-world mTBI events, and
+to large cohort studies would require further optimization of the            conducting long-term patient follow-up including structural and
+model and computational resources. To address the increased                  diffusion MRI and neurocognitive assessments. As mentioned
+computational cost, implementing beam elements only for tracts               above, it will also be important to relate physical damage in
+with higher injury risk could be an effective and practical                  specific axonal tracts to both acute and chronic post-TBI
+countermeasure. By contrast, the effectiveness of mass scaling, a            symptoms.       This,    in    turn,     will   require     advanced
+technique that increases the mass density of elements within the             neurophysiological or network-based models capable of
+range that does not affect the result and thereby allows for larger          comparing neural activity dynamics before and after injury.
+time step sizes and reducing actual computational time, is expected
+to be limited. This is because that the increase in computational
+cost was mainly caused by the large number of constraints between            5 Conclusion
+beam and solid elements rather than by a reduction in the time step
+size due to small element dimensions. Therefore, the trade-off                    This study developed a brain FE model that explicitly
+between the computational cost and modeling fidelity should be               incorporates axonal fiber tracts obtained from group-averaged
+carefully considered when applying the proposed model to large               tractography data to elucidate the mechanism of mTBI. The
+cohort studies. Since the embedded beam elements are modeled                 validation accuracy of the developed model for brain strain
+with negligible mass and stiffness in this study, axonal strain could        during head impact was quantitatively evaluated using CORA
+in principle be computed in post-processing. However, such an                and was found to be better than that of a previous study in two
+approach would require, for each beam element and each time step,            PMHS tests. The model was applied to the reconstruction
+identifying the host solid element, determining its local                    simulations of eight real-world mTBI cases available in the
+coordinates, interpolating the strain tensor at that position, and           literature, and the values of injury metrics based on axonal strain
+then projecting it onto the beam axis. Given that the present model          were compared for each tract. As a result, in multiple cases where
+contains more than 800,000 beam elements, we prioritized an                  concussion or post-concussion symptoms were reported, higher
+intuitive implementation in which axonal strain is obtained                  values of injury metrics were consistently observed at TR_P, CC_B,
+directly during the simulation by specifying a constraint                    FAT, CS_P, ML, CPT_P, and SLF. These increases in tract-specific
+keyword in LS-DYNA, rather than relying on heavy post-                       injury metrics can be attributed to the enhanced biofidelity of the
+processing. Furthermore, the current embedding approach                      brain FE model due to the nonlinear constitutive formulations and
+provides a basis for future model extensions, e.g., individual               ICFD, which facilitated a more precise characterization of axonal
+constitutive modeling of axons, glial cells, and their surrounding           strain distribution. In addition, comparisons of the effect of head
+matrix and the corresponding damage evolution laws, which could              rotation direction on injury measures for each tract indicated that
+allow mechanical interactions between axons and the host tissue to           sagittal rotation contributed the least, whereas horizontal rotation
+be represented. At present, however, rigorous validation of the              had the greatest contribution. The proposed brain FE model may
+
+
+
+Frontiers in Bioengineering and Biotechnology                           16                                                          frontiersin.org
+Atsumi et al.                                                                                                                                             10.3389/fbioe.2026.1692718
+
+
+
+
+serve as a foundation for understanding mTBI mechanisms from the                                    Conflict of interest
+perspective of alterations in structural and functional connectomes,
+as a step toward better mTBI prediction. Future studies will include                                  Authors NA, YN, and MI were employed by Toyota Central
+the following aspects: (1) consideration of microstructures, such as                                R&D Labs., Inc.
+blood vessels, and (2) association of structural damage in specific
+tracts with disruptions in functional brain networks.
+                                                                                                    Generative AI statement
+Data availability statement                                                                             The author(s) declared that generative AI was not used in the
+                                                                                                    creation of this manuscript.
+   The raw data supporting the conclusions of this article will be                                      Any alternative text (alt text) provided alongside figures in this
+made available by the authors, without undue reservation.                                           article has been generated by Frontiers with the support of artificial
+                                                                                                    intelligence and reasonable efforts have been made to ensure
+                                                                                                    accuracy, including review by the authors wherever possible. If
+Author contributions                                                                                you identify any issues, please contact us.
+
+    NA: Validation, Methodology, Conceptualization, Software,
+Visualization, Writing – original draft. YN: Writing – review and                                   Publisher’s note
+editing, Methodology, Software. MI: Writing – review and editing,
+Conceptualization, Supervision.                                                                         All claims expressed in this article are solely those of the authors
+                                                                                                    and do not necessarily represent those of their affiliated
+                                                                                                    organizations, or those of the publisher, the editors and the
+Funding                                                                                             reviewers. Any product that may be evaluated in this article, or
+                                                                                                    claim that may be made by its manufacturer, is not guaranteed or
+    The author(s) declared that financial support was not received                                  endorsed by the publisher.
+for this work and/or its publication.
+
+                                                                                                    Supplementary material
+Acknowledgements
+                                                                                                         The Supplementary Material for this article can be found online
+    We    thank             Editage         (www.editage.jp)            for      English            at: https://www.frontiersin.org/articles/10.3389/fbioe.2026.1692718/
+language editing.                                                                                   full#supplementary-material
+
+
+
+References
+Alshareef, A., Wu, T., Giudice, J. S., and Panzer, M. B. (2021). Toward subject-specific            Atsumi, N., Nakahira, Y., and Iwamoto, M. (2023). “Investigation on effective
+evaluation: methods of evaluating finite element brain models using experimental high-              approaches of brain FE modeling to improve its validation performance on brain
+rate rotational brain motion. Biomechanics Model. Mechanobiol. 20, 2301–2317. doi:10.               deformation during head impact,” in Proceedings of the 27th ESV, 23–0094.
+1007/s10237-021-01508-7
+                                                                                                    Bain, A. C., and Meaney, D. F. (2000). Tissue-level thresholds for axonal damage in an
+Anderson, E. D., Giudice, J. S., Wu, T., Panzer, M. B., and Meaney, D. F. (2020).                   experimental model of central nervous system white matter injury. J. Biomechanical Eng.
+Predicting concussion outcome by integrating finite element modeling and network                    122, 615–622. doi:10.1115/1.1324667
+analysis. Front. Bioeng. Biotechnol. 8, 309. doi:10.3389/fbioe.2020.00309
+                                                                                                    Carlsen, R. W., Fawzi, A. L., Wan, Y., Kesari, H., and Franck, C. (2021). A quantitative
+Asano, Y., Shinoda, J., Okumura, A., Aki, T., Takenaka, S., Miwa, K., et al. (2012). Utility        relationship between rotational head kinematics and brain tissue strain from a 2-D
+of fractional anisotropy imaging analyzed by statistical parametric mapping for                     parametric finite element analysis. Brain Multiphysics 2, 100024. doi:10.1016/j.brain.
+detecting minute brain lesions in chronic-stage patients who had mild or moderate                   2021.100024
+traumatic brain injury. Neurol. Medico-Chirurgica 52, 31–40. doi:10.2176/nmc.52.31
+                                                                                                    Centers for Disease Control and Prevention (2021). “Surveillance report of traumatic
+Atsumi, N., Nakahira, Y., Iwamoto, M., Hirabayashi, S., and Tanaka, E. (2016a).                     brain injury-related hospitalizations and deaths by age group, sex, and mechanism of
+Constitutive modeling of brain parenchyma taking account of strain rate                             injury—united states, 2016 and 2017,”. Centers for Disease Control and Prevention, U.S.
+dependency with anisotropy and application to brain injury analyses. SAE Tech.                      Department of Health and Human Services.
+Pap. 2016-April 1. doi:10.4271/2016-01-1485
+                                                                                                    Dewan, M. C., Rattani, A., Gupta, S., Baticulon, R. E., Hung, Y.-C., Punchak, M., et al.
+Atsumi, N., Nakahira, Y., Iwamoto, M., Hirabayashi, S., and Tanaka, E. (2016b).                     (2018). Estimating the global incidence of traumatic brain injury. J. Neurosurg. 130,
+Investigation of effect of peaks and durations in head angular acceleration curves on               1080–1097. doi:10.3171/2017.10.JNS17352
+strains in brain. Trans. Soc. Automot. Eng. Jpn. 47, 20165109. doi:10.11351/jsaeronbun.
+                                                                                                    Franklyn, M., Fildes, B., Zhang, L., Yang, K., and Sparke, L. (2005). Analysis of finite
+47.1393
+                                                                                                    element models for head injury investigation: reconstruction of four real-world impacts.
+Atsumi, N., Nakahira, Y., Tanaka, E., and Iwamoto, M. (2018). Human brain modeling                  Stapp Car Crash J. 49, 1–32. doi:10.4271/2005-22-0001
+with its anatomical structure and realistic material properties for brain injury prediction.
+                                                                                                    Gabler, L. F., Crandall, J. R., and Panzer, M. B. (2018). Development of a metric for
+Ann. Biomed. Eng. 46, 736–748. doi:10.1007/s10439-018-1988-8
+                                                                                                    predicting brain strain responses using head kinematics. Ann. Biomed. Eng. 46, 972–985.
+Atsumi, N., Iwamoto, M., Nakahira, Y., Asano, Y., and Shinoda, J. (2020). Investigation             doi:10.1007/s10439-018-2015-9
+of dynamic deformation of the midbrain in rear-end collision using human brain FE
+                                                                                                    Gabler, L. F., Crandall, J. R., and Panzer, M. B. (2019). Development of a second-order
+model. Comput. Methods Biomechanics Biomed. Eng. 23, 1236–1246. doi:10.1080/
+                                                                                                    system for rapid estimation of maximum brain strain. Ann. Biomed. Eng. 47, 1971–1981.
+10255842.2020.1795142
+                                                                                                    doi:10.1007/s10439-018-02179-9
+Atsumi, N., Nakahira, Y., and Iwamoto, M. (2021). Human brain FE modeling including
+                                                                                                    Garimella, H. T., Menghani, R. R., Gerber, J. I., Sridhar, S., and Kraft, R. H. (2019).
+incompressible fluid dynamics of intraventricular cerebrospinal fluid. Brain
+                                                                                                    Embedded finite elements for modeling axonal injury. Ann. Biomed. Eng. 47, 1889–1907.
+Multiphysics 2, 100037. doi:10.1016/J.BRAIN.2021.100037
+                                                                                                    doi:10.1007/s10439-018-02166-0
+
+
+
+
+Frontiers in Bioengineering and Biotechnology                                                  17                                                                          frontiersin.org
+Atsumi et al.                                                                                                                                                    10.3389/fbioe.2026.1692718
+
+
+
+
+Gehre, C., and Stahlschmidt, S. (2011). “Assessment of dummy models by using                           macroscopic lesions. J. Neurology, Neurosurg. Psychiatry 77, 850–855. doi:10.1136/jnnp.
+objective rating methods,” in Proceedings of the 22th ESV, 11–0216.                                    2005.077875
+Gehre, C., Gades, H., and Wernicke, P. (2009). “Objective rating of signals using test and             Narayana, P. A. (2017). White matter changes in patients with mild traumatic brain
+simulation responses,” in Proceedings of the 21th ESV, 09–0407.                                        injury: MRI perspective. Concussion 2, CNC35. doi:10.2217/cnc-2016-0028
+Giordano, C., and Kleiven, S. (2014a). Connecting fractional anisotropy from medical                   Pandit, A. S., Expert, P., Lambiotte, R., Bonnelle, V., Leech, R., Turkheimer, F. E., et al.
+images with mechanical anisotropy of a hyperviscoelastic fibre-reinforced constitutive                 (2013). Traumatic brain injury impairs small-world topology. Neurology 80, 1826–1833.
+model for brain tissue. J. R. Soc. Interface 11, 20130914. doi:10.1098/rsif.2013.0914                  doi:10.1212/WNL.0b013e3182929f38
+Giordano, C., and Kleiven, S. (2014b). Evaluation of axonal strain as a predictor for mild             Panzer, M. B., Myers, B. S., Capehart, B. P., and Bass, C. R. (2012). Development of a
+traumatic brain injuries using finite element modeling. Stapp Car Crash J. 58, 29–61.                  finite element model for blast brain injury and the effects of CSF cavitation. Ann.
+doi:10.4271/2014-22-0002                                                                               Biomed. Eng. 40, 1530–1544. doi:10.1007/s10439-012-0519-2
+Giordano, C., and Kleiven, S. (2016). Development of an unbiased validation protocol to                Papini, M. G., Avila, A. N., Fitzgerald, M., and Hellewell, S. C. (2024). Evidence for
+assess the biofidelity of finite element head models used in prediction of traumatic brain             altered white matter organization after mild traumatic brain injury: a scoping review on
+injury. Stapp Car Crash J. 60, 363–471. doi:10.4271/2016-22-0013                                       the use of diffusion magnetic resonance imaging and blood-based biomarkers to
+                                                                                                       investigate acute pathology and relationship to persistent post-concussion symptoms.
+Giordano, C., Cloots, R. J. H., Dommelen, J. A. W. V., and Kleiven, S. (2014). The
+                                                                                                       J. Neurotrauma 42, 640–667. doi:10.1089/neu.2024.0039
+influence of anisotropy on brain injury prediction. J. Biomechanics 47, 1052–1059.
+doi:10.1016/j.jbiomech.2013.12.036                                                                     Reiter, N., Auer, S., Hoffmann, L., Bräuer, L., Paulsen, F., and Budday, S. (2025).
+                                                                                                       Do human brain white matter and brain stem structures show direction-
+Glasser, M. F., Sotiropoulos, S. N., Wilson, J. A., Coalson, T. S., Fischl, B., Andersson,
+                                                                                                       dependent mechanical behavior? Acta Biomater. 199, 230–251. doi:10.1016/j.
+J. L., et al. (2013). The minimal preprocessing pipelines for the human connectome
+                                                                                                       actbio.2025.04.004
+project. NeuroImage 80, 105–124. doi:10.1016/j.neuroimage.2013.04.127
+                                                                                                       Rowland, J. A., Stapleton-Kotloski, J. R., Godwin, D. W., Hamilton, C. A., and
+Glasser, M. F., Coalson, T. S., Robinson, E. C., Hacker, C. D., Harwell, J., Yacoub, E., et al.
+                                                                                                       Martindale, S. L. (2024). The functional connectome and long-term symptom
+(2016). A multi-modal parcellation of human cerebral cortex. Nature 536, 171–178.
+                                                                                                       presentation associated with mild traumatic brain injury and blast exposure in
+doi:10.1038/nature18933
+                                                                                                       combat veterans. J. Neurotrauma 41, 2513–2527. doi:10.1089/neu.2023.0315
+Guan, B., Anderson, D. B., Chen, L., Feng, S., and Zhou, H. (2023). Global, regional and
+                                                                                                       Sahoo, D., Deck, C., and Willinger, R. (2014). Development and validation of an
+national burden of traumatic brain injury and spinal cord injury, 1990–2019: a
+                                                                                                       advanced anisotropic visco-hyperelastic human brain FE model. J. Mech. Behav. Biomed.
+systematic analysis for the global burden of disease study 2019. BMJ Open 13,
+                                                                                                       Mater. 33, 24–42. doi:10.1016/j.jmbbm.2013.08.022
+e075049. doi:10.1136/bmjopen-2023-075049
+                                                                                                       Sanchez, E. J., Gabler, L. F., Good, A. B., Funk, J. R., Crandall, J. R., and Panzer, M. B.
+Hardy, W. N., Foster, C. D., Mason, M. J., Yang, K. H., King, A., and Tashman, S. (2001).
+                                                                                                       (2019). A reanalysis of football impact reconstructions for head kinematics and finite
+Investigation of head injury mechanisms using neutral density technology and high-
+                                                                                                       element modeling. Clin. Biomech. 64, 82–89. doi:10.1016/j.clinbiomech.2018.02.019
+speed biplanar X-Ray. Stapp Car Crash J. 45, 337–368. doi:10.4271/2001-22-0016
+                                                                                                       Shinoda, J., and Asano, Y. (2013). Neuroimaging of patients with impairments of
+Hardy, W. N., Mason, M. J., Foster, C. D., Shah, C. S., Kopacz, J. M., Yang, K. H., et al.
+                                                                                                       executive brain function due to traumatic brain injury. Jpn. J. Neurosurg. 22, 842–848.
+(2007). A study of the response of the human cadaver head to impact. Stapp Car Crash J.
+                                                                                                       doi:10.7887/jcns.22.842
+51, 17–80. doi:10.4271/2007-22-0002
+                                                                                                       Smith, D. H., Nonaka, M., Miller, R., Leoni, M., Chen, X.-H., Alsop, D., et al. (2000).
+Hernandez, F., Wu, L. C., Yip, M. C., Laksari, K., Hoffman, A. R., Lopez, J. R., et al.
+                                                                                                       Immediate coma following inertial brain injury dependent on axonal damage in the
+(2015). Six degree-of-freedom measurements of human mild traumatic brain injury.
+                                                                                                       brainstem. J. Neurosurg. 93, 315–322. doi:10.3171/jns.2000.93.2.0315
+Ann. Biomed. Eng. 43, 1918–1934. doi:10.1007/s10439-014-1212-4
+                                                                                                       Song, H., McEwan, P. P., Ameen-Ali, K. E., Tomasevich, A., Kennedy-Dietrich, C.,
+Ji, S., Ghajari, M., Mao, H., Kraft, H., Hajiaghamemar, M., Panzer, M. B., et al. (2022).
+                                                                                                       Palma, A., et al. (2022). Concussion leads to widespread axonal sodium channel loss and
+Use of brain biomechanical models for monitoring impact exposure in contact sports.
+                                                                                                       disruption of the node of ranvier. Acta Neuropathol. 144, 967–985. doi:10.1007/s00401-
+Ann. Biomed. Eng. 50, 1389–1408. doi:10.1007/s10439-022-02999-w
+                                                                                                       022-02498-1
+Kleiven, S. (2007). Predictors for traumatic brain injuries evaluated through accident
+                                                                                                       Takhounts, E. G., Ridella, S. A., Hasija, V., Tannous, R. E., Campbell, J. Q., Malone, D.,
+reconstructions. Stapp Car Crash J. 51, 81–114. doi:10.4271/2007-22-0003
+                                                                                                       et al. (2008). Investigation of traumatic brain injuries using the next generation of
+Krafft, M., Kullgren, A., and Tingvall, C. (1998). “Crash pulse recorders in rear impacts-             simulated injury monitor (SIMon) finite element head model. Stapp Car Crash J. 52,
+real life data,” in Proceedings of the 16th ESV, 98–S6–O–10.                                           1–31. doi:10.4271/2008-22-0001
+Kraft, R. H., Mckee, P. J., Dagro, A. M., and Grafton, S. T. (2012). Combining the finite              The International Organization for Standardization (ISO) (1999). Road vehicles
+element method with structural connectome-based analysis for modeling neurotrauma:                     — anthropomorphic side impact dummy — lateral impact response requirements to
+connectome neurotrauma mechanics. PLoS Comput. Biol. 8, e1002619. doi:10.1371/                         assess the biofidelity of the dummy. ISO/TR 9790:1999
+journal.pcbi.1002619
+                                                                                                       Van Essen, D. C., Ugurbil, K., Auerbach, E., Barch, D., Behrens, T. E. J., Bucholz, R., et al.
+Kuramoto, Y. (1975). “Self-entrainment of a population of coupled non-linear                           (2012). The human connectome project: a data acquisition perspective. NeuroImage 62,
+oscillators,” in International symposium on mathematical problems in theoretical                       2222–2231. doi:10.1016/j.neuroimage.2012.02.018
+physics. Editor H. Araki (Berlin, Heidelberg: Springer), 420–422. doi:10.1007/
+                                                                                                       Viano, D. C., Casson, I. R., Pellman, E. J., Zhang, L., King, A. I., and Yang, K. H. (2005).
+BFb0013365
+                                                                                                       Concussion in professional football: brain responses by finite element analysis: part 9.
+Li, X., Zhou, Z., and Kleiven, S. (2021). An anatomically detailed and personalizable head             Neurosurgery 57, 891–916. doi:10.1227/01.neu.0000186950.54075.3b
+injury model: significance of brain and white matter tract morphological variability on
+                                                                                                       Woodrow, R. E., Winzeck, S., Luppi, A. I., Kelleher-Unger, I. R., Spindler, L. R. B.,
+strain. Biomechanics Model. Mechanobiol. 20, 403–431. doi:10.1007/s10237-020-
+                                                                                                       Wilson, J. T. L., et al. (2023). Acute thalamic connectivity precedes chronic post-
+01391-8
+                                                                                                       concussive symptoms in mild traumatic brain injury. Brain 146, 3484–3499. doi:10.
+Livermore Software Technology Corporation (LSTC) (2014). ICFD theory manual:                           1093/brain/awad056
+incompressible fluid solver in LS-DYNA
+                                                                                                       Wu, T., Alshareef, A., Giudice, J. S., and Panzer, M. B. (2019). Explicit modeling of white
+Lyu, D., Zhou, R., Lin, C.-h., Prasad, P., and Zhang, L. (2022). Development and                       matter axonal fiber tracts in a finite element brain model. Ann. Biomed. Eng. 47,
+validation of a new anisotropic visco-hyperelastic human head finite element model                     1908–1922. doi:10.1007/s10439-019-02239-8
+capable of predicting multiple brain injuries. Front. Bioeng. Biotechnol. 10, 831595.
+                                                                                                       Wu, T., Rifkin, J. A., Rayfield, A., Panzer, M. B., and Meaney, D. F. (2022a). An
+doi:10.3389/fbioe.2022.831595
+                                                                                                       interdisciplinary computational model for predicting traumatic brain injury: linking
+Mao, H., Zhang, L., Jiang, B., Genthikatti, V. V., Jin, X., Zhu, F., et al. (2013).                    biomechanics and functional neural networks. NeuroImage 251, 119002. doi:10.1016/j.
+Development of a finite element human head model partially validated with thirty                       neuroimage.2022.119002
+five experimental cases. J. Biomechanical Eng. 135, 111002. doi:10.1115/1.4025101
+                                                                                                       Wu, T., Rifkin, J. A., Rayfield, A. C., Anderson, E. D., Panzer, M. B., and Meaney, D. F.
+Martin, V. A., Kraft, R. H., Hannah, T. H., and Ellis, S. (2022). An energy-based study of             (2022b). Concussion prone scenarios: a multi-dimensional exploration in impact
+the embedded element method for explicit dynamics. Adv. Model. Simul. Eng. Sci. 9, 12.                 directions, brain morphology, and network architectures using computational
+doi:10.1186/s40323-022-00223-x                                                                         models. Ann. Biomed. Eng. 50, 1423–1436. doi:10.1007/s10439-022-03085-x
+Miller, G. F., DePadilla, L., and Xu, L. (2021). Costs of nonfatal traumatic brain injury in           Yan, J., Wang, C., and Sun, B. (2025). Global, regional, and national burdens of
+the United States, 2016. Med. Care 59, 451–455. doi:10.1097/MLR.0000000000001511                       traumatic brain injury from 1990 to 2021. Front. Public Health 13, 1556147. doi:10.
+                                                                                                       3389/fpubh.2025.1556147
+Mitra, J., kai Shen, K., Ghose, S., Bourgeat, P., Fripp, J., Salvado, O., et al. (2016).
+Statistical machine learning to identify traumatic brain injury (TBI) from structural                  Yeh, F.-C. (2022). Population-based tract-to-region connectome of the human brain and
+disconnections of white matter networks. NeuroImage 129, 247–259. doi:10.1016/j.                       its hierarchical topology. Nat. Commun. 13, 4933. doi:10.1038/s41467-022-32595-4
+neuroimage.2016.01.056
+                                                                                                       Yeh, F.-C., and Tseng, W.-Y. I. (2011). NTU-90: a high angular resolution brain atlas
+Nakayama, N., Okumura, A., Shinoda, J., Yasokawa, Y. T., Miwa, K., Yoshimura, S. I.,                   constructed by q-space diffeomorphic reconstruction. NeuroImage 58, 91–99. doi:10.
+et al. (2006). Evidence for white matter disruption in traumatic brain injury without                  1016/j.neuroimage.2011.06.021
+
+
+
+
+Frontiers in Bioengineering and Biotechnology                                                     18                                                                               frontiersin.org
+Atsumi et al.                                                                                                                                                10.3389/fbioe.2026.1692718
+
+
+
+
+Yeh, F.-C., Wedeen, V. J., and Tseng, W.-Y. I. (2010). Generalized q-Sampling                       Zhou, Z., Li, X., and Kleiven, S. (2019a). Fluid–structure interaction simulation of the
+imaging. IEEE Trans. Med. Imaging 9, 1626–1635. doi:10.1109/TMI.2010.                               brain–skull interface for acute subdural haematoma prediction. Biomechanics Model.
+2045126                                                                                             Mechanobiol. 18, 155–173. doi:10.1007/s10237-018-1074-z
+Yeh, F.-C., Panesar, S., Fernandes, D., Meola, A., Yoshino, M., Fernandez-Miranda, J. C.,           Zhou, Z., Li, X., Kleiven, S., and Hardy, W. N. (2019b). Brain strain from motion of
+et al. (2018). Population-averaged atlas of the macroscale human structural connectome              sparse markers. Stapp Car Crash J. 63, 1–27. doi:10.4271/2019-22-0001
+and its network topology. NeuroImage 178, 57–68. doi:10.1016/j.neuroimage.2018.
+                                                                                                    Zhou, Z., Li, X., and Kleiven, S. (2020). Biomechanics of periventricular injury.
+05.027
+                                                                                                    J. Neurotrauma 37, 1074–1090. doi:10.1089/neu.2019.6634
+Zhang, Y., and Furst, A. J. (2022). Brainstem diffusion tensor tractography and
+                                                                                                    Zhou, Z., Domel, A. G., Li, X., Grant, G., Kleiven, S., Camarillo, D., et al. (2021a). White
+clinical applications in pain. Front. Pain Res. 3, 840328. doi:10.3389/fpain.2022.
+                                                                                                    matter tract-oriented deformation is dependent on real-time axonal fiber orientation.
+840328
+                                                                                                    J. Neurotrauma 38, 1730–1745. doi:10.1089/neu.2020.7412
+Zhao, W., and Ji, S. (2020). Displacement- and strain-based discrimination of head
+                                                                                                    Zhou, Z., Li, X., Liu, Y., Fahlstedt, M., Georgiadis, M., Zhan, X., et al. (2021b). Toward a
+injury models across a wide range of blunt conditions. Ann. Biomed. Eng. 48, 1661–1677.
+                                                                                                    comprehensive delineation of white matter tract-related deformation. J. Neurotrauma
+doi:10.1007/s10439-020-02496-y
+                                                                                                    38, 3260–3278. doi:10.1089/neu.2021.0195
+Zhao, W., Cai, Y., Li, Z., and Ji, S. (2017). Injury prediction and vulnerability assessment
+                                                                                                    Zhou, Z., Wang, T., Jörgens, D., and Li, X. (2022). Fiber orientation downsampling
+using strain and susceptibility measures of the deep white matter. Biomechanics Model.
+                                                                                                    compromises the computation of white matter tract-related deformation. J. Mech.
+Mechanobiol. 16, 1709–1727. doi:10.1007/s10237-017-0915-5
+                                                                                                    Behav. Biomed. Mater. 132, 105294. doi:10.1016/j.jmbbm.2022.105294
+Zhou, Z., Li, X., Kleiven, S., Shah, C. S., and Hardy, W. N. (2018). A reanalysis of
+                                                                                                    Zimmerman, K. A., Cournoyer, J., Lai, H., Snider, S. B., Fischer, D., Kemp, S., et al.
+experimental brain strain data: implication for finite element head model validation.
+                                                                                                    (2022). The biomechanical signature of loss of consciousness: computational modelling
+Stapp Car Crash J. 62, 293–318. doi:10.4271/2018-22-0007
+                                                                                                    of elite athlete head injuries. Brain 146, 3063–3078. doi:10.1093/brain/awac485
+
+
+
+
+Frontiers in Bioengineering and Biotechnology                                                  19                                                                             frontiersin.org
+

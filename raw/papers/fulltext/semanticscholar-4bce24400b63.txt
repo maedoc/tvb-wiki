@@ -1,0 +1,1159 @@
+    Combining spatial wavelets and sparse Bayesian learning for
+             extended brain sources reconstruction
+          Samy Mokhtari, Jean-Michel Badier, Christian G. Bénar, Bruno Torrésani
+
+
+
+      To cite this version:
+     Samy Mokhtari, Jean-Michel Badier, Christian G. Bénar, Bruno Torrésani. Combining spatial wavelets and
+     sparse Bayesian learning for extended brain sources reconstruction. 2024. ⟨hal-04558288v1⟩
+
+
+
+
+                                        HAL Id: hal-04558288
+                          https://amu.hal.science/hal-04558288v1
+                     Preprint submitted on 24 Apr 2024 (v1), last revised 7 Nov 2025 (v3)
+
+
+
+
+    HAL is a multi-disciplinary open access archive             L’archive ouverte pluridisciplinaire HAL, est des-
+for the deposit and dissemination of scientific re-        tinée au dépôt et à la diffusion de documents scien-
+search documents, whether they are published or not.       tifiques de niveau recherche, publiés ou non, émanant
+The documents may come from teaching and research          des établissements d’enseignement et de recherche
+institutions in France or abroad, or from public or pri-   français ou étrangers, des laboratoires publics ou
+vate research centers.                                     privés.
+
+
+           Distributed under a Creative Commons CC BY 4.0 - Attribution - International License
+                                                                                                                                             1
+
+
+
+
+    Combining spatial wavelets and sparse Bayesian
+   learning for extended brain sources reconstruction
+                         Samy Mokhtari, Jean-Michel Badier, Christian G. Bénar, Bruno Torrésani
+
+
+
+
+   Abstract—Objective: the accurate reconstruction of extended               brain cortical surface, with ∼ 104 unknown cortical sources
+cortical activity from M/EEG data is a difficult, ill-conditioned            with known and fixed locations. While inherently leading to
+problem. This work proposes to model unknown sources as                      very under-determined inverse problems, distributed methods
+expansions on a wavelet system defined on the cortical surface,
+and addresses resulting numerical optimization problems. The                 can be expected to be better suited to large cortical activities.
+objective is to obtain accurate source localization, together with           However, results tend to depend strongly on prior information,
+quantitatively relevant amplitude and time course.                           which is injected into the chosen approach through regulariza-
+   Approach: Unknown sources are expanded on a system of                     tion (in variational methods) or prior (in Bayesian approaches).
+spectral graph wavelets (SGW) defined on the cortical surface.                  The goal of this paper is to introduce and study variational
+Unknown wavelet coefficients are estimated using either vari-
+ational or Bayesian formulations, involving priors that favor                and Bayesian approaches which rely on a spatial transforma-
+extended source through sparsity in the wavelet domain: sparsity-            tion, and aim at promoting extended solutions compressed
+inducing regularization, or sparse Bayesian learning (SBL). These            in a relevant transformed domain. We particularly focus on
+approaches are tested and compared with concurrent approaches                a spatial wavelet transform which, combined with sparsity-
+on numerical simulations. The quality of reconstructions is                  promoting regularizations/priors is indeed able to produce
+assessed using a set of complementary metrics.
+   Results: SGW-based approaches are able to identify accurately             extended solutions. While variational approaches suffer, as
+extended sources. The combination with SBL is particularly                   often, from the difficulty of choosing appropriate values for
+attractive, as it doesn’t involve hyperparameter tuning. It yields           hyperparameters, we show that the integration of wavelet-
+accurate and robust results with respect to all considered metrics,          based regularization into the sparse Bayesian learning (SBL)
+and performs remarkably well in terms of depth bias.                         paradigm yields more robust solutions. Wavelet-based solu-
+   Conclusion: This paper demonstrates the usefulness of cortical
+wavelets for reconstructing cortical activity from M/EEG data,               tions had already been studied in [4], where spherical wavelet
+and the impact of sparse Bayesian learning in this context.                  bases were used in the framework of variational approaches.
+   Significance: Being able to identify localization, depth and time         We rather rely here on spectral graph wavelets [5], which
+course of brain activity from M/EEG data is important in clinical            provide expansions on an overcomplete spatial wavelet family,
+applications such as epilepsy, as it can improve the detection of            and investigate corresponding variational and SBL solutions.
+potential sources of seizures.
+                                                                             These solutions are compared with reference solutions using
+  Index Terms—M/EEG inverse problem, extended sources,                       extensive numerical simulations designed to mimic real evoked
+spectral graph wavelets, Sparse Bayesian Learning.                           potentials. Performance assessment is done through a set of
+                                                                             metrics, which include standard ones (implemented in special-
+                         I. I NTRODUCTION                                    ized computer packages such as MNE-Python [6], which we
+   Magneto- and Electro-encephalography (M/EEG) are the                      therefore use) as well as new ones, which we found convenient
+main (non-invasive) imagery modalities which allow, thanks                   in the context of sparse solutions.
+to their high temporal resolution, physicians and clinicians                    Besides methodological contributions (in particular the use
+to detect and localize cortical activities. From a given set                 of cortical wavelet frames and additional comparison metrics),
+of sensors and measurements (which contain cortical activity,                the main outcome of this paper is the fact that the combination
+brain background activity and sensor noise), the aim is to                   of cortical wavelet expansions for the brain activity with the
+reconstruct the sources activity. This is done by solving the                sparse Bayesian learning framework, provides relevant and
+M/EEG inverse problem [1], [2], [3]. To address this challenge,              robust source estimates in the case of extended activity, which
+multiple methods have been designed, generally classified                    do not rely on difficult parameter choices, and outperform
+in parametric versus imaging/distributed methods. While the                  significantly concurrent approaches of the same family (vari-
+former considers a few equivalent current dipoles of unknown                 ational and Bayesian, in distributed source models).
+locations, the latter considers a fine spatial discretization of the            The paper is organized as follows. After the current in-
+                                                                             troduction, Section II presents reference solution that will
+   S. Mokhtari and B. Torrésani are with Aix Marseille Univ, CNRS, I2M,      be used in this paper. The construction of wavelets and
+Marseille, France. email: samy.mokhtari@univ-amu.fr, bruno.torresani@univ-   the corresponding solvers are described in Section III, and
+amu.fr
+   J.M. Badier and C. Bénar are with Aix Marseille Univ, Inserm, INS,        evaluation metrics are discussed in Section IV. Section V
+Institut de Neurosciences des Systèmes, Marseille, France. email: jean-      presents the simulation protocol, and discusses and compares
+michel.badier@univ-amu.fr, christian.benar@univ-amu.fr                       results obtained using various solvers. Finally, Section VI is
+   This work has benefited from support from the French government through
+the BMWs project (ANR-20-CE45-0018), and the Institut Convergence ILCB       devoted to discussion and conclusions. Preliminary results of
+(ANR-16-CONV-0002).                                                          this work were presented in the conference paper [7].
+                                                                                                                                    2
+
+
+
+    II. S TATE OF THE ART AND REFERENCE SOLUTIONS                      While closed form solutions are very convenient, MNE and
+   Suppose M/EEG data are measured at J0 sensors during L           wMNE are however known to overestimate the spatial extent
+time steps, and the cortical surface is discretized on N source     of sources S, and underestimate corresponding amplitudes.
+points. The M/EEG inverse problem starts with the observation       In addition, the parameter λ, linked to the source spatial
+equation connecting cortical sources to measurements :              covariance matrix Γ = D−2 , is an extra parameter whose
+                                                                    fine tuning is not obvious. In many situations, the interest is
+                      Z0 = G0 S + B0 ,                       (1)    more focused on the spatial extent, namely source localization.
+                                                                    A number of post-processings are used to yield more accurate
+where Z0 ∈ RJ0 ×L denotes space-time measurements, S ∈              support estimates. dSPM [16] and s-LORETA [17] are among
+RN ×L the unknown sources activity, B0 ∈ RJ0 ×L the space-          the most popular.
+time matrix of both observation noise and background brain
+activity (zero-mean, with known covariance matrix ΣB0 ),            B. Sparse solutions through non-differentiable penalizations
+and G0 ∈ RJ0 ×N is the leadfield matrix which encodes                  To reduce the blurring effect, other penalizations f have
+electromagnetic propagation from cortex to sensors.                 been proposed in literature, often promoting some form of
+   Given G0 and ΣB0 (and some additional assumptions),              sparsity. There is now a vast literature on the subject, we refer
+M/EEG inverse problem aims to estimate sources S from               to [18] for a review and a comparison of some recent con-
+observations Z0 . Before explicitly addressing observation          tributions in the context of M/EEG inverse problem. In these
+equation (1), data are often pre-processed to correct for noise     approaches, no closed form solution exists as the penalization
+correlations between sensors; this can be done with a whiten-       is no longer differentiable, and the optimization problem (2)
+ing and dimension reduction of the noise covariance matrix.         has to be solved numerically. One may first think of the
+The resulting matrix B = ΥB0 ∈ RJ×L (where Υ ∈ RJ×J0                MCE (minimal current estimate) solution [19], [20], where
+denotes the whitener) is thus white with zero mean and unit         f (S) = λkSk1 tends to yield very "spiky" source estimates,
+variance. For the sake of simplicity, we will hereafter consider    with quite irregular time courses. One may also cite the VB-
+whitened noise B, leadfield G and data Z matrices.                  SCCD approach [21], where f (S) = λkSkTV = λk∇Sk1 .
+   Several approaches are routinely used in literature to tackle    The latter is based on total variation (TV), where ∇ is a
+observation equation (1), which include among others dipole         discrete gradient operator which has to be properly defined on
+localization [8], [9] or various forms of beamformers [10],         the surface mesh. TV-based solutions tend to enforce sparsity
+[11]. This article will be mainly concerned with variational and    in a transformed domain, here the gradient. A slightly modified
+Bayesian approaches for distributed source models (see [1]).        and sparser version, called sVB-SCCD [21], [22] is based upon
+Most variational methods boil down to the following generic         a combined ℓ1 -TV penalization f (S) = λ (αkSk1 + kSkT V ).
+optimization problem (2), which involves a quadratic data           Hereafter, we shall rather consider the following form:
+fidelity term and a penalty term f (S) :
+                                                                         f (S) = λ (γkSk1 + (1 − γ)kSkTV ) , γ ∈ [0, 1]        (5)
+                             1           2
+            S∗ = arg min       kZ − GSkF + f (S) ,            (2)   In [22], α ∈ [0.01, 1], and α = 0.67 is advocated as a
+                  S∈RN ×L 2
+                                                                    reasonable choice for the tested scenarios. For both MCE
+where k · kF stands for the Frobenius norm, i.e. the square         and sVB-SCCD, numerical algorithms have to be carefully
+root of the sum of squared matrix coefficients.                     chosen, [22] advocates for ADMM. Regularization (5) allows
+   A wide variety of penalizations/regularizations can be found     for an easier interpretation of the hyperparameters, where λ
+in literature. While the current paper does not aim to provide a    plays the same role as for the MCE solver, while γ drives the
+comprehensive review, we nevertheless recall the penalizations      convex combination of ℓ1 and TV-penalizations. Generalized
+that will be of most interest for the present study.                TV penalization have been studied in [23].
+                                                                      Lastly, mixed norms (MxNE) combining sparsity in space
+A. Closed-form solutions with quadratic regularizations             with persistence in time were proposed and studied in [24],
+  The most commonly used penalization is quadratic :                  P The regularization term is of the form f (S) = λkSk21 =
+                                                                    [25].
+                                                                    λ k kS[:, k]k2 . Mixed norms were also used in combination
+                       f (S) = kDSk2F ,                      (3)    with time-frequency dictionaries [26], and combined with TV
+                                                                    spatial regularization [22].
+for some symmetric, generally diagonal, invertible matrix D.
+With the above penalization, the solution of the optimization       C. Bayesian point of view
+problem (2) admits a closed-form expression:                          A major weakness of the above mentioned approaches is
+                                          −1                       the difficulty of tuning the hyperparameters involved in the
+           S∗ = D−2 GT IJ +GD−2 GT             Z.         (4)
+                                                                    formulations (e.g. regularization parameter λ). In simple sit-
+Special cases of (3)√
+                    include the MNE (minimal norm estimate)         uations, Bayesian interpretations yield a relationship between
+solution [12] (D = λIN ), and the wMNE (weighted minimal            these parameters and quantities such as signal to noise ratio
+norm estimate) solution [13], [14], where D is a weight matrix      (SNR), which can be guessed or measured from sensor signals.
+intended to correct MNE depth bias. In e-LORETA [15], an            For instance, wMNE may be interpreted in terms of a Maxi-
+iterative algorithm yields a data driven estimate for D and         mum A Posteriori (MAP) estimation, modeling columns of B
+therefore a corresponding source estimate.                          (baseline) as iid samples from a normal distribution N (0, I),
+                                                                                                                                     3
+
+
+
+and columns of S as iid samples from a normal distribution          too sparse. In such situations, it is wise to search for solutions
+N (0, Γ), with Γ = λ−1 IN in the case of MNE. The posterior         that are sparse in a transformed domain. As an example, VB-
+distribution of sources p (s(l)|z(l)) is multivariate normal,       SCCD [18] optimizes the sparsity of a spatial gradient of the
+with covariance matrix                                              solution. Similar approaches based on Laplacian and spherical
+                                          −1                       wavelet transform have been considered in [4], where authors
+           ΣS = Γ − ΓGT ΣB + GΓGT             GΓ .        (6)
+                                                                    report improved results for localizing extended activity.
+In the MCE case, modeling columns of S as iid samples from
+                                                                    A. Problem formulation
+a product of 1D Laplacian distributions with parameter λ−1 ,
+the sources covariance matrix is given by Γ = 2λ−2 IN . For            Bases or redundant systems of waveforms have often been
+both MNE and MCE solutions, heuristics can be derived to            used to describe time dependence and perform dimension
+connect the regularization parameter λ to the square signal to      reduction in the time domain. Examples include wavelets [32],
+noise ratio ρ2 = Tr (ΣZ0 ) /Tr (ΣB0 ) (signal and noise levels      [33], time-frequency systems, or waveforms estimated from
+in the sensor domain are defined by the traces of the covariance    data. Such approaches do not seem to have been considered for
+matrices ΣZ0 and ΣB0 ) :                                            the spatial dependence of sources (except [4], and approaches
+                                                                    based upon cortex parcellation [32]), due to the lack of such
+                    kG0 k2F                      p
+      λMNE =                     ;     λMCE =     2λMNE      (7)    simple waveform families. In this section, we introduce and
+               (ρ2 − 1)Tr (ΣB0 )                                    use spatial wavelets for the M/EEG inverse problem.
+Such heuristics are more difficult to obtain for penalization          We define wavelets as functions w k ∈ RN on the cortex,
+terms f (S) that involve TV or mixed norms, and even worse          labelled by a vertex and a scale index. Concatenating
+                                                                                                                   T       these
+for combinations of norms that involve several parameters.          vectors into a matrix W = w 1 . . . w Nw           ∈ RNw ×N ,
+   Remark 1: The above heuristics differ slightly from expres-      the family of wavelets forms a frame for functions on the
+sions routinely used in reference softwares, which perform          surface if W is left invertible (in other words the family
+similar calculations from whitened observations Z instead of        of wavelets is a complete set in RN ). The construction of
+original ones Z0 as we do. We believe the expressions we use        such a frame will be detailed in the next section. W is the
+are more relevant when interpreted in a Bayesian context.           analysis operator of the wavelet frame. A space-time matrix
+                                                                    S ∈ RN ×L can be written as S = WT A, in terms of
+D. Sparse Bayesian Learning                                         a wavelet-time coefficient matrix A ∈ RNw ×L . Putting the
+   Beside MAP approaches, Sparse Bayesian Learning (SBL,            focus on the matrix A is called a synthesis-based approach,
+see for example [27], [28]) allows estimating simultaneously        as opposed to the analysis-based approach which rests on the
+the sources amplitudes and their covariance matrices, assumed       matrix WS ∈ RNw ×L . In this synthesis-based setting, the
+to be diagonal Γ = diag(γ1 , . . . , γN ). SBL-based inverse        generic inverse problem (2) may be written as
+problems have recently been put into a unifying context [29],                                                          
+                                                                                                1             2
+for which most algorithms fall into the class of Majorization-               A∗ = arg min         kZ − GW AkF + g(A)           (9)
+                                                                                   A∈RNw ×L 2
+Minimization algorithms (MM, see [30] for a review). They
+essentially boil down to solving the following non-convex           with GW = GWT the transformed leadfield matrix. This
+optimization problem, with respect to the source variances          formulation is very close to the usual one, the difference
+                               N
+γ = (γ1 , . . . , γN ) ∈ (R+ )                                      being that the optimization is done in the synthesis coefficients
+                                                                  domain. Notice that when solving (9), the waveform system
+                         1      T −1
+                                     
+    γ∗ = arg min           Tr Z ΣZ Z + ln det(ΣZ ) ,       (8)      is used only twice, for the computation of the transformed
+          γ∈(R+ )N L                                                leadfield matrix GW and for the synthesis of the solution S∗ .
+                                                                   All reference solvers for the M/EEG inverse problem can be
+where ΣZ = IJ +GΓGT is the posterior covariance matrix.
+                                                                    transposed mutatis mutandis to this new setting. We stress that
+Once Γ has been estimated, its value can be plugged in the
+                                                                    the dimension of the transformed space (Nw × L) may be
+(wMNE closed-form) expression of S.
+                                                                    significantly larger than the one of the original space (N × L),
+   For the record, let us mention the alternative Bayesian
+                                                                    as the number Nw of waveform atoms used to decompose the
+approach, based on the MEM (maximum entropy on the mean)
+                                                                    solution may be, in the case of a redundant wavelet family,
+principle [31], [32], [33]. Remarkably, the MEM approach
+                                                                    several times larger (depending on the number of wavelet
+leads to a smooth optimization problem in the domain of
+                                                                    scales considered) than the number of sources N .
+sensors (instead of sources), hence of much lower complexity,
+and for which simple and faster differentiable optimization         B. Signals, Fourier transform and wavelets on graphs
+tools can be used. The wavelet techniques to be explained
+                                                                       We now detail the construction of the wavelet frame W
+below would easily be included in this approach.
+                                                                    for the graph describing cortical sources. In the present work,
+                                                                    we decided to follow the spectral graph wavelets (SGW)
+      III. U SE OF A FAMILY OF CORTICAL WAVELETS                    framework developed in [5].
+   Approaches that exploit sparsity in the spatial domain, such        Consider the cortical mesh graph (V, E, ω) (with vertex set
+as dipole models or MCE/MxNE are well adapted to identify           V, edge set E and weight function ω, the latter allowing to
+focal activity. However, when the activity of interest has a        define the graph adjacency matrix A). The graph Laplacian
+significant spatial extent, they produce estimates that are often   is given by L = D − A, where D is the diagonal degree
+                                                                                                                                      4
+
+
+
+matrix, whose diagonal elements di equal the number of                  2) Sparse Bayesian Learning approaches: The wavelet
+edges connected to edge i. L is a real symmetric matrix (for          version of SBL is also a simple transposition of classical SBL
+undirected graphs), and therefore possesses a complete set            approach, and yields the non convex problem
+of orthonormal eigenvectors {χ1 , . . . , χN }, associated to real,                                                         
+                                                                        γA ∗= arg min Tr CZ ΣZ (γA )−1 +ln det(ΣZ (γA )) (14)
+non-negative and increasing eigenvalues {λ1 , . . . , λN }. The              γA ∈(R+ )Nw
+minimal eigenvalue λ1 equals zero, with a multiplicity equal to
+the number of connected components of the graph. The linear           where ΓA = diag(γA ) is the prior covariance matrix of
+transform F : X ∈ RN 7−→ {F [X](n) = hχn , Xi}1≤n≤N                   wavelet synthesis coefficients, ΣZ (γA ) = IJ + GW ΓA GTW
+may be interpreted as the graph analogue of the Fourier trans-        is the posterior covariance matrix of observations, and CZ =
+                                                                       1    T                                            ∗
+form. The orthonormality of the basis {χ1 , . . . χN } gives the      L ZZ is the sample covariance matrix. Once γA has been
+                                                                N     obtained, estimated sources are obtained via
+                           PN transform: for any X ∈ R ,
+Parseval formula and the inverse
+                                                                                                 −1
+kF [X]k = kXk and X = n=1 F [X](n)χn .                                   A∗ = Γ∗A GTW ΣZ (γA ∗ )      Z,      S∗ = WT A∗ . (15)
+   Following [5], a graph analogue of the wavelet transform
+can be derived from the above graph Fourier transform. Given          This approach will be called sgw-SBL or w-SBL.
+a dilation parameter s > 0 and a vertex n, the graph wavelet
+transform of a signal X ∈ RN may be defined as follows :                         IV. A NALYSIS OF EVALUATION METRICS
+                                                                         To assess, qualitatively and quantitatively, the performances
+                  W[X](s, n) = hΨs,n , Xi ,                   (10)    of any inverse problem model for the distributed sources
+                                                                      framework, evaluation metrics are mandatory. Given a sim-
+with Ψs,n the wavelet atom associated to the vertex n and             ulation case where the ground truth is known, one may try to
+dilation parameter s. In [5], these atoms Ψs,n are generated in       encapsulate, with well-chosen metrics :
+the spectral domain, as the graph Fourier transforms of Dirac         • purely-distance based information (spatial extent of
+functions centered on each vertex, multiplied by a band-pass             true/estimated sources, spatial deviation or discrepancy be-
+positive kernel g : for any l ∈ {1, . . . , N } :                        tween these two sets...);
+                                                                      • information related to the number of true/estimated active
+                 F [Ψs,n ] (l) = g (sλl ) hχl , δn i          (11)
+                                                                         sources, the number of true positives/negatives and false
+   As outlined in [5], such a construction may lead to an ill-           positives/negatives ;
+                                                                      • amplitude-based information ;
+conditioned matrix for the synthesis operator (frame vectors
+                                                                      • or a mix of these features.
+associated to small scales s may become numerically parallel).
+To bypass this difficulty, [5] suggests to encapsulate the low-          Beside these various choices and associated metrics, one
+frequency component of signals through an ad hoc "scaling             shall first state which physical value will be studied under
+function" Φn (labelled by a vertex index), defined indepen-           these scopes. Indeed, one could study straightforwardly the
+dently, in the spectral domain, via a low-pass kernel h :             sources time-dependent amplitudes, their time-dependent ab-
+                                                                      solute or squared value, or rather a time-average of these
+                  F [Φn ] (l) = h(λl ) hχl , δn i             (12)    amplitudes on a given time segment of interest. One may also
+                                                                      consider either normalized amplitudes or not. In the following,
+For the specific design of both low-pass h and band-pass g            to facilitate interpretation and comparisons among all consid-
+kernels, we refer the reader to [5].                                  ered inverse problem solvers, all chosen metrics/scopes will be
+                                                                      applied on time-averaged values, as hereafter detailed : given a
+C. Wavelet-sparse solutions                                           space-time matrix S∗ ∈ RN ×L gathering the amplitude maps
+                                                                      for all time snapshots, a time-average hS2∗ i is computed on a
+  We now consider the inverse problem formulated in the               prescribed time segment of interest denoted by soi, thus leading
+wavelet domain, using the synthesis point of view. This               to an amplitude map A ∈ RN describing the amount of energy
+requires computing the transform-domain leadfield matrix              contained in the segment of interest :
+GW = GWT . This is the most costly part of the approach.                                             p
+  1) Variational formulations: Denote by A = [AΨ , AΦ ] the                                      A = hS2∗ isoi                    (16)
+vector of multiscale (wavelet+scaling) synthesis coefficients:        In this section, we lay down and describe the several evaluation
+                                                                      metrics that will be used to assess the models performances.
+               S = WT A = ΨT AΨ + ΦT AΦ .                             To this end, let us first detail some notations.
+In addition to classical regularizations in the sources or gra-       Notations: from now on,
+dient domains, the wavelet domain optimization problem (9)            • I denotes the index set of true active sources; its cardinality
+
+will hereafter be solved using two different penalizations :            is denoted by ♯I.
+                                                                      • Ibα denotes the index set of estimated active sources, defined
+   gMNE (A) = kDAk2F ,            gMCE (A) = λMCE kAk1        (13)      with respect to a threshold parameter α > 0 ;
+                                                                      • |esi | = PN 1 |s | |si | denotes the normalized (positive, sum
+                                                                                        k
+The first one will be coupled with a wavelet-SBL approach                          k=1
+                                                                        to 1) sources amplitudes;
+to estimate the weight matrix D, while the second aims at             • k · k denotes the 3D Euclidean norm;
+promoting sparsity in the wavelet coefficient domain.                 • ri denotes the 3D vector position of source # i.
+                                                                                                                                        5
+
+
+
+A. Region Localization Error : purely distance-based metrics        •  an SD error SDik |I c computed by only taking into account
+   We start with the classical Region Localization Error (RLE).        false positives sources i ∈
+                                                                                                 / I.
+Given a thresholding parameter α > 0 (by default a percentage          The weight β in (20) takes into account the relative popula-
+of the maximum value), and assuming I ∩ Ibα 6= ∅ and Ibα 6≡ I,      tion of "false positives" (N − ♯I), and their average amplitude
+the RLE metrics is computed as follows :                            (relatively to the global average). We stress that, unlike the
+                            X                                       RLE metrics, SD is blind to the position of false negatives, as
+                     1                                              their zero-amplitude do not affect the SD error value.
+      RLE(α) =                       min krk − rl k
+                   2 ♯I              l∈Ibα                             To derive a global metric from the local SD value, we shall
+                         k∈I\(I∩Iα )
+                                 b
+                                X                                   hereafter consider the maximum difference :
+                        1
+                   +                       min krk − rl k  (17)
+                      2 ♯Ibα b             k∈I                                      δSD = max |SDiest − SDiref |                    (21)
+                            l∈Iα \(I∩Ibα )                                                       i
+
+RLE combines equi-balanced information related to, on the
+one hand, the average smallest distance between
+                                                    theset of
+unexplained true sources/false negatives I \ I ∩ Ibα        (and    C. Depth metrics and distance between centers of mass
+its relative population) and the estimated sources Ibα , and on        To investigate the possible depth bias phenomenon, well-
+the other hand, the average smallest distancebetween
+                                                     the   set   known for the MNE solution, one may compare the local
+                                               b
+of "false" estimated sources/false positives Iα \ I ∩ Iα   b        orthogonal distance to the inner-skull for both estimated and
+(and its relative population) and the true sources.                 reference sources centers of mass, assuming that the brain
+   Notice that RLE does not measure any "distance" between          curvature has a minimal impact on these measurements.
+true and estimated sources amplitudes, and is of course sensi-         We stress that these centers of mass may either be restricted
+tive to the amplitude thresholding parameter α.                     or not to the graph describing cortical sources, thus affecting
+                                                                    the interpretation of the depth bias. In addition to depth,
+B. Spatial Deviation (SD) error                                     it is also interesting to keep track of the 3D Euclidean
+   Spatial Deviation (SD) is another distance-based metrics,        distance between estimated and reference centers of mass,
+which interestingly involves an amplitude-weighting. Given a        as a large distance may affect the interpretation of the depth
+true active source in ri , SDi measures the spatial spread of       metrics. Notice that, even if these metrics take into account
+the estimated sources around ri , following                         the respective estimated and reference amplitudes to compute
+                                                                    centers of mass, they do not measure any "distance" between
+                          N
+                          X                                         the two amplitudes.
+                  SDi =          sp | krp − ri k2 ,
+                                |e                          (18)
+                          p=1
+                                                                    D. Entropy, number of active sources, and spatial extent
+Despite amplitude-weighting, SD is, like RLE, blind to a possi-
+ble discrepancy between reference and estimated amplitudes.            Shannon entropy has been used in signal processing lit-
+   In the case of a single true source, this metrics reaches        erature as a measure of dispersion. Unlike SD, entropy
+its optimal value (zero, without any thresholding) when the         does not measure dispersion away from a reference loca-
+estimated sources are concentrated in the true location ri .        tion, and rather focuses on spreading/concentration. It is
+   In the case of spatially-extended sources, the optimal value     well suited to deal with a discrete set of sources am-
+of the SD metrics is no longer zero. Indeed, for all true point     plitudes and possibly not-connected active cortical regions.
+sources ik ∈ I (♯I ≥ 2), one has, for an optimal reconstruction     Indeed,
+                                                                            let us consider
+                                                                                              the discrete set of probabilities
+(with respect to localization) :                                      P X ∆ ≡ sourcei = |e si | 1≤i≤N . Its entropy is given by:
+                            X
+                 SDiopt
+                     k
+                         =       sp | krp − rik k2
+                                |e                         (19)                                      N
+                                                                                                     X
+                              p∈I                                                        HX ∆ = −           |e
+                                                                                                             si | ln |e
+                                                                                                                      si |          (22)
+                                                                                                      i=1
+One may derive lower andP   upper bounds for this optimal value
+SDiopt
+    k
+        from  the term   1
+                        ♯I
+                                            2       ref
+                             p∈I krp − rik k = SDik , which         and its link with the number of active sources N can be made
+corresponds to the SD error for spatially-extended sources          explicit (using the normalized amplitudes sei ) as:
+with identical amplitude. For a sub-optimal reconstruction with                                  N
+respect to localization, one may show that :                                               1 X
+                                                                        HX ∆ = ln(N )+              [Save ln (Save )−|si | ln |si |] (23)
+                                                                                         N Save i=1
+             SDik = (1 − β)SDiopt
+                               k
+                                  + β SDik |I c             (20)
+             (N −♯I)S     c
+                      ave|I
+                                                                      Thus, Shannon entropy mixes information related to the
+where β =        N Save     , and Save|I c refers to the average    number N of considered active sources, their average ampli-
+absolute amplitude on the complementary index set I c . Thus,       tude value Save , and the deviation of each amplitude term
+the SD metrics for each point source ik ∈ I of a spatially-         |si | ln |si | from its average value. Shannon entropy may then
+extended activity is the convex combination of :                    be compared to its "reference" counterpart, where Nref active
+                              opt
+• an optimal SD error SDi , where only true sources loca-           sources are for instance known to share the same amplitude.
+                               k
+                                                                                                                ref
+  tions are reconstructed by the model (i.e. no false positives);   Indeed, in such a case, one has (with HX      ∆ = ln (Nref )):
+                                                                                                                                                        6
+
+
+                                   
+              ref             N                                       with the reference one µa . This minimum cost is given by the
+     H X ∆ = HX ∆ + ln
+                             Nref                                     following optimization problem. Given p ∈ [1, +∞[, set
+                             N                            
+                  ln (Save ) X          |si | ln (|si |)                                                                      p1
+              +                     1−                         (24)                                    X
+                     N                 Save ln (Save )                                                                     p
+                            i=1                                           Wp (d; a, b) =    min            γi,j d (xi , yj )      (28)
+                                                                                              N ×N
+                                                                                         γ∈R           i,j
+For connected active cortical regions, to link the Shannon
+entropy to an estimate of the sources spatial extent, one             under the constraints that γ.1RN = a and γ T .1RN = b; γ ≥ 0.
+may consider the previous discrete set of probabilities as            The solution of the above optimization problem (28) results in
+sorted with respect to the increasing Euclidean distance to           the Wasserstein distance Wp (d; a, b). In the above definition,
+the sources center of mass. Then, considering that the spatial        γ refers to any transportation map from RN to RN which
+discretization steps ∆xi between two consecutive sources are          preserves mass between the distributions µa and µb . The
+uniform, denote by dN = N ∆x the distance of the furthest             "distance" between estimated and reference amplitudes is thus
+estimated active source with respect to the center of mass.           encapsulated within the constraints on γ, while the geometrical
+Thus, one may re-write equation (24) as follows :                     distance between estimated and reference sources is tracked
+                              
+               ref         dN                                         by d. No thresholding is required in the definition of the
+    HX ∆ = H X   ∆ + ln                                               Wasserstein distance, only a normalization of reference and
+                          dref
+                              N                                     estimated amplitudes. In the following numerical experiments,
+               ∆x ln (Save ) X         |si | ln (|si |)               the 1-Wasserstein distance W1 is used, with respect to the
+             +                   1−                       (25)
+                    dN       i=1
+                                     Save ln (Save )                  Euclidean distance, to assess the model performances in terms
+                                                                      of both amplitude and localization.
+Shannon entropy thus encapsulates both population-based
+(or distance-based) and amplitude-based information. Notice,
+however, that it does not measure any "distance" between Save                              V. N UMERICAL EXPERIMENTS
+                                ref                                   A. Wavelet Frame design
+and its reference counterpart Save  , which does not take part
+     ref
+in HX ∆ computation for identical sources.                               For the current paper and the following performance eval-
+                                                                      uation section, we hereafter consider up to 3 wavelet scales,
+E. Binary classifier metrics : Precision, Recall, F1 score            in addition to the low-frequency component recovered by the
+   The models performances may also be assessed using bina-           scaling function. Following [5], wavelets resulting from the
+rization of amplitude maps, through classical scores such as:         band-pass kernel g are defined in a piecewise manner : cubic
+the precision score, which measures the ability of a classifier       spline within the bandwidth, and 2nd degree polynomial in-
+not to label as false positive (FP) a sample that is truly negative   crease and decrease outside. This results in a common quality
+(TN); the recall, which measures the ability of the classifier        factor (Q ≈ 1.38), and rather close frame bounds 0.71 and
+to find all the positive samples :                                    1.41. As can be seen on Fig. 1, the finest wavelet is designed
+                                                                      to that its bandwidth catches the largest eigenvalue λmax .
+                         TP                          TP               All frequencies below the green bandwidth are then either
+         Precision =           ,        Recall =               (26)
+                       TP + FP                     TP + FN            encapsulated with the low-frequency component, or taken
+Precision and Recall range between 0 and 1. The F1 score              into account with additional wavelet scales, whose dilation
+is the harmonic mean of Precision and Recall, and thus                parameters s are spread along a logarithmic scale.
+deteriorates as soon as one of them decreases :
+                                                                                 1.4
+                         Precision × Recall
+             F1 = 2 ×                       ∈ [0, 1]           (27)              1.2
+                         Precision + Recall
+                                                                                 1.0
+   These scores are known to be more robust to unbalanced
+                                                                         Amplitude
+
+
+
+
+                                                                                                                           scaling function λ ≤ 1.089
+                                                                                 0.8                                       wavelet λ = 1.566
+sets than Receiver Operator Curves (and their associated Area                    0.6
+                                                                                                                           wavelet λ = 3.132
+                                                                                                                           wavelet λ = 6.264
+Under the Curve).                                                                0.4
+                                                                                 0.2
+                                                                                 0.0
+F. Wasserstein distance : an Optimal Transport metrics mea-                            0      2          4            6               8
+suring a distance between estimated and reference amplitudes                                            eigenvalues
+
+  To take into account a "distance" between estimated and ref-        Fig. 1. Distribution of spectral graph wavelets along the graph Laplacian
+erence sources amplitudes, one may turn towards an Optimal            spectrum - vertical lines indicate the bandwidth
+Transport metrics, such as Wasserstein
+                                  PN distance [34]. Given :
+• a reference distribution µa =     i=1 ai δxi , with weights ai
+  (positive, sum to 1) associated with                                B. Experimental setup
+                                   PNtrue sources amplitudes;
+• an estimated distribution µb =      i=1 bi δyi with weights bi         In the current paper, we focus on simulated data, and for the
+  (positive, sum to 1) associated with estimated amplitudes;          sake of reproducibility and future comparisons, we decided to
+one may compute the minimum cost (with respect to a distance          stick as much as possible to datasets and resources included
+d) to move the estimated distribution µb such that it coincides       in the MNE-Python software package [6].
+                                                                                                                                                                                                                                        7
+
+
+
+    1) Simulation protocol: Brain geometry, leadfield and base-
+line covariance matrices were imported from the "audiovisual"
+dataset, which contains EEG/MEG evoked data from one
+subject performing an audiovisual experiment. MNE-Python
+was also used to simulate a uniform brain activity over patches
+of two different sizes, generated using parcels from Destrieux
+atlas (74 × 2 parcels). Examples are given in Fig. 3. Time
+courses for source activity (see Fig. 2) were given an evoked
+response shape, still using MNE-python resources. A real                                                                                                      SNR values boxplot
+spatial covariance matrix was imported from the MNE-python
+                                                                                                                                 12
+database to simulate baseline data, and added to simulated
+evoked sensor data. To reproduce the classical 1/f behavior                                                                      10
+
+
+
+
+                                                                                                                148 observed values
+of the noisy signal Power Spectral Density, an AR model was
+fitted on raw experimental data, and simulated evoked time                                                                            8
+
+series were filtered using the corresponding IIR filter. For each
+                                                                                                                                      6
+case, 320 epochs were simulated, and the trial average was
+used for the inverse problem.
+                                                                                                                                      4
+    2) Compared solutions: In the results section below, we
+compared a number of solutions described in Section II                                                                                2
+together with wavelet based solutions proposed in this paper.
+                                                                                                                                                     extent 10 mm                                 extent 20 mm
+The variational reference solutions include MNE (quadratic
+penalization f (S) = λMNE kSk2F , closed form solution), MCE                 Fig. 3. Reference cortical activity # 1 (over 148) simulated from Destrieux’s
+                                                                             brain parcellation - extent 10 mm (upper left) and 20 mm (upper right) and
+(f (S) = λMCE kSk1 , solved using the FISTA algorithm),                      SNR values boxplot (lower)
+sVB-SCCD (f (S) = λMCE (γkSk1 + (1 − γ)kSkT V ), solved
+using the ADMM algorithm), with γ = 0.40 (L1-TV1) and                                                                                                        extent 10 mm
+                                                                                                                                          RLE                                                                         RLE
+γ = 0.60 (L1-TV2). These are compared with (sg)w-MCE 3                                    0.06                                                   MNE (q = 50%)                 0.06                  MCE (q = 50%)
+                                                                                                                                                 w-SBL 1 (q = 50%)                                   L1-TV1 (q = 50%)
+(g(A) = λMCE kAk1 , 3 wavelet scales, solved using FISTA)                                 0.05                                                   w-SBL 2 (q = 50%)             0.05                  L1-TV2 (q = 50%)
+                                                                                                                                                 w-SBL 3 (q = 50%)                                   w-MCE 3 (q = 50%)
+and (sg)w-SBL 1/2/3 (see equations (14-15)), using 1 to 3
+                                                                                          0.04                                                                                 0.04
+wavelet scales and Champagne algorithm (100 iteration steps).
+                                                                             Score
+
+
+
+
+                                                                                                                                                                      Score
+                                                                                          0.03                                                                                 0.03
+    Remark 2 (Regularization of the noise spatial covariance
+matrix): despite a whitening and dimension reduction process                              0.02                                                                                 0.02
+
+on the noise spatial covariance matrix, most inverse problem                              0.01                                                                                 0.01
+
+solvers require a regularization step of the covariance matrix                            0.00                                                                                 0.00
+                                                                                                  0        20                40                 60       80     100                           0        20        40         60   80   100
+before solving the inverse problem ; interestingly, that is                                                                       Threshold                                                                       Threshold
+
+                                                                                                                                                REF (q = 50%)
+not the case for solvers using Sparse Bayesian Learning                                   8
+                                                                                                                                                MNE (q = 50%)
+                                                                                                                                                                                      8
+
+                                                                                          7                                                     w-SBL 1 (q = 50%)                     7
+(SBL) approaches, in which the cortical source variances are                                                                                    w-SBL 2 (q = 50%)
+                                                                                          6                                                     w-SBL 3 (q = 50%)                     6
+"learned" through an optimization algorithm.
+                                                                            Shannon entropy
+
+
+
+
+                                                                                                                                                                        Shannon entropy
+
+
+
+
+                                                                                          5                                                                                           5
+
+                                                                                          4                                                                                           4
+                       1e−9
+                                                                                          3                                                                                           3
+
+                   6                                                                      2                                                                                           2
+                                                                                                                                                                                                    MCE (q = 50%)
+                                                                                                                                                                                                    L1-TV1 (q = 50%)
+                                                                                          1                                                                                           1             L1-TV2 (q = 50%)
+                                                                                                                                                                                                    w-MCE 3 (q = 50%)
+                   4                                                                      0                                                                                           0
+                                                                                              0       20             40       60                        80     100                        0            20        40       60     80   100
+                                                                                                                      Threshold                                                                                   Threshold
+
+                   2
+       Amplitude
+
+
+
+
+                                                                             Fig. 4. RLE (upper) and entropy (lower) for the 10 mm case - quartiles q1
+                                                                             (dashed), q2 and q3 (dashed) are represented for each solver
+                   0
+
+               −2
+                                                                             for each of the 148 cortical regions of Destrieux’s brain
+               −4                                                            parcellation, with rather similar SNR, as displayed on Fig. 3.
+                                                                                Given this simulation protocol, all the considered solvers
+                       −0.2   −0.1   0.0   0.1      0.2   0.3   0.4   0.5
+                                            Times (s)                        were compared and challenged with respect to the previously
+Fig. 2. Time course signal designed to mimick an evoked response
+                                                                             detailed metrics. To facilitate interpretation and comparison,
+                                                                             let us start with all threshold-based metrics.
+   For the following model performance evaluation, all EEG                                    Threshold-based metrics (without binarisation)
+and MEG channels were considered as input data for the                          For all threshold-based metrics (RLE, Shannon entropy,
+inverse problem. Given two specific spatial extents (10 and                  nb. active sources and spatial extent), (sg)w-SBL outperforms
+20 mm from each parcel center, see Fig. 3) for the simulated                 significantly the other solvers, from low threshold values, as
+activity, noisy evoked-like response activities were generated               can be seen on Fig. 4 and 5 for the 10 mm case : (sg)w-SBL
+                                                                                                                                                                                                                                                                                                                                                                 8
+
+
+
+
+                       160
+                                                                           extent 10160mm                                                                                                                                                                extent 20 mm
+                                                                  REF (q = 50%)                                                  MCE (q = 50%)                                                       175                                         REF (q = 50%)                                             175
+                       140                                        MNE (q = 50%)                                140               L1-TV1 (q = 50%)                                                                                                MNE (q = 50%)
+                                                                  w-SBL 1 (q = 50%)                                              L1-TV2 (q = 50%)                                                    150                                         w-SBL 1 (q = 50%)                                         150
+                       120                                        w-SBL 2 (q = 50%)                            120               w-MCE 3 (q = 50%)                                                                                               w-SBL 2 (q = 50%)
+ Number of active sources
+
+
+
+
+                                                                                         Number of active sources
+
+
+
+
+                                                                                                                                                                               Number of active sources
+
+
+
+
+                                                                                                                                                                                                                                                                                     Number of active sources
+                                                                  w-SBL 3 (q = 50%)                                                                                                                                                              w-SBL 3 (q = 50%)
+                                                                                                                                                                                                     125                                                                                                   125
+                       100                                                                                     100
+                                                                                                                                                                                                                                                                                                                                             MCE (q = 50%)
+                            80                                                                                      80                                                                               100                                                                                                   100                               L1-TV1 (q = 50%)
+                                                                                                                                                                                                                                                                                                                                             L1-TV2 (q = 50%)
+                            60                                                                                      60                                                                                    75                                                                                                    75                           w-MCE 3 (q = 50%)
+                            40                                                                                      40                                                                                    50                                                                                                    50
+                            20                                                                                      20
+                                                                                                                                                                                                          25                                                                                                    25
+                            0                                                                                        0
+                                     0    20        40         60         80       100                                   0          20      40         60        80      100
+                                                     Threshold                                                                               Threshold                                                     0                                                                                                    0
+                                                                                                                                                                                                                 0        20        40       60         80       100                                                 0   20     40       60         80      100
+                                                                                                                                                                                                                                     Threshold                                                                                   Threshold
+                                                                    REF (q = 50%)                                                           MCE (q = 50%)
+                       0.05                                         MNE (q = 50%)                            0.05                           L1-TV1 (q = 50%)                                                                                      REF (q = 50%)                                                                              MCE (q = 50%)
+                                                                    w-SBL 1 (q = 50%)                                                       L1-TV2 (q = 50%)                                         0.05                                         MNE (q = 50%)                                          0.05                                L1-TV1 (q = 50%)
+                                                                    w-SBL 2 (q = 50%)                                                       w-MCE 3 (q = 50%)                                                                                     w-SBL 1 (q = 50%)                                                                          L1-TV2 (q = 50%)
+                       0.04                                         w-SBL 3 (q = 50%)                        0.04                                                                                                                                 w-SBL 2 (q = 50%)                                                                          w-MCE 3 (q = 50%)
+   Spatial extent (m)
+
+
+
+
+                                                                                         Spatial extent (m)
+
+
+                                                                                                                                                                                                     0.04                                         w-SBL 3 (q = 50%)                                      0.04
+
+
+
+
+                                                                                                                                                                                  Spatial extent (m)
+
+
+
+
+                                                                                                                                                                                                                                                                                     Spatial extent (m)
+                       0.03                                                                                  0.03
+                                                                                                                                                                                                     0.03                                                                                                0.03
+                       0.02                                                                                  0.02
+                                                                                                                                                                                                     0.02                                                                                                0.02
+                       0.01                                                                                  0.01
+
+                                                                                                                                                                                                     0.01                                                                                                0.01
+                       0.00                                                                                  0.00
+                                     0        20    40       60            80      100                                       0      20      40       60          80      100
+                                                     Threshold                                                                               Threshold
+                                                                                                                                                                                                     0.00                                                                                                0.00
+                                                                                                                                                                                                                 0        20        40       60          80      100                                                 0   20     40       60         80      100
+                                                                                                                                                                                                                                     Threshold                                                                                   Threshold
+Fig. 5. Nb. active sources (upper) and spatial extent (lower) - quartiles q1
+(dashed), q2 and q3 (dashed) are represented for each solver                                                                                                                        Fig. 7. Nb. active sources (upper) and spatial extent (lower) - quartiles q1
+                                                                                                                                                                                    (dashed), q2 and q3 (dashed) are represented for each solver
+
+                                                         RLE
+                                                                           extent 20 mm                                                          RLE
+
+                       0.05                                         MNE (q = 50%)                            0.05                                         MCE (q = 50%)                                                        max |SD - SD_ref| boxplot
+                                                                                                                                                                                                                                                         extent 20 mm                                                     max |SD - SD_ref| boxplot
+                                                                    w-SBL 1 (q = 50%)                                                                     L1-TV1 (q = 50%)
+                                                                    w-SBL 2 (q = 50%)                                                                     L1-TV2 (q = 50%)                                0.010                                                                                   0.010
+                       0.04                                         w-SBL 3 (q = 50%)                        0.04                                         w-MCE 3 (q = 50%)
+
+
+                       0.03                                                                                  0.03                                                                                         0.008                                                                                   0.008
+      Score
+
+
+
+
+                                                                                            Score
+
+
+
+
+                                                                                                                                                                               148 observed values
+
+
+
+
+                                                                                                                                                                                                                                                                          81 observed values
+                       0.02                                                                                  0.02
+                                                                                                                                                                                                          0.006                                                                                   0.006
+
+                       0.01                                                                                  0.01
+                                                                                                                                                                                                          0.004                                                                                   0.004
+                       0.00                                                                                  0.00
+                                     0        20    40         60          80      100                                       0      20      40         60        80      100
+                                                      Threshold                                                                               Threshold
+
+                                                               REF (q = 50%)                                                                                                                              0.002                                                                                   0.002
+                       8                                                                                            8
+                                                               MNE (q = 50%)
+                       7                                       w-SBL 1 (q = 50%)                                    7
+                                                               w-SBL 2 (q = 50%)                                                                                                                          0.000                                                                                   0.000
+                       6                                       w-SBL 3 (q = 50%)                                    6                                                                                                 MNE w-SBL1 w-SBL2 w-SBL3 L1-TV1 L1-TV2                                                              MCE                   w-MCE 3
+    Shannon entropy
+
+
+
+
+                                                                                                   Shannon entropy
+
+
+
+
+                       5                                                                                            5
+                                                                                                                                                                                                            Distance (m) between 3D centers of mass boxplot                                                Distance (m) between 3D centers of mass boxplot
+                                                                                                                                                                                                          0.08                                                                              0.08
+                       4                                                                                            4
+
+                       3                                                                                            3
+                                                                                                                                                                                                          0.07                                                                              0.07
+                                                                                                                                 MCE (q = 50%)
+                                                                                                                                                                               148 observed values (m)
+
+
+
+
+                       2                                                                                            2                                                                                     0.06                                                                              0.06
+                                                                                                                                                                                                                                                                       81 observed values (m)
+
+
+
+
+                                                                                                                                 L1-TV1 (q = 50%)
+                       1                                                                                            1            L1-TV2 (q = 50%)
+                                                                                                                                 w-MCE 3 (q = 50%)                                                        0.05                                                                              0.05
+                       0                                                                                            0
+                                 0       20        40       60           80       100                                    0         20       40       60          80      100
+                                                    Threshold                                                                                Threshold                                                    0.04                                                                              0.04
+
+Fig. 6. RLE (upper) and entropy (lower) - quartiles q1 (dashed), q2 and q3                                                                                                                                0.03                                                                              0.03
+(dashed) are represented for each solver
+                                                                                                                                                                                                          0.02                                                                              0.02
+
+                                                                                                                                                                                                          0.01                                                                              0.01
+
+                                                                                                                                                                                                          0.00                                                                              0.00
+minimizes (with its tight q1 , q2 , q3 quartiles) the RLE metrics,                                                                                                                                                   MNE w-SBL1 w-SBL2 w-SBL3 L1-TV1 L1-TV2                                                              MCE                  w-MCE 3
+
+and reaches the fastest the reference value for the other                                                                                                                           Fig. 8. Boxplots for geometrical metrics with amplitude-weighting : δSD
+metrics. Notice, however, that (sg)w-SBL 1 deviates from the                                                                                                                        (upper) and distance between 3D centers of mass (lower)
+reference solution when amplitude thresholding exceeds 40%.
+Similar results are obtained for the 20 mm case (see Fig. 6-
+                                                                                                                                                                                    Furthermore, given the small distance between centers of mass
+7), where (sg)w-SBL reaches the reference extended solution
+                                                                                                                                                                                    obtained with (sg)w-SBL, the depth metrics is less affected by
+even quicker. As for w-MCE 3, which promotes sparsity in the
+                                                                                                                                                                                    the skull curvature. w-MCE 3 solver comes in second position
+synthesis wavelet coefficients domain, its outperforms L1-TV
+                                                                                                                                                                                    behind (sg)w-SBL, improving a bit MCE results.
+solvers with respect to RLE and spatial extent, and MCE with
+respect to the number of active sources.                                                                                                                                               Fig. 9 focuses on the depth metrics for the estimated
+                                                                                                                                                                                    centers of mass (here restricted to the cortex graph). Again,
+                   Geometrical metrics with amplitude weighting                                                                                                                     (sg)w-SBL exhibits the best performances, in both cases.
+  Fig. 8 displays, for the 20 mm case, the boxplots obtained                                                                                                                        Note that one retrieves the classical MNE depth bias towards
+for two geometrical metrics with amplitude weighting : the                                                                                                                          superficial solutions. L1-TV (1 and 2) solvers also exhibit very
+maximum difference between reference and estimated SD                                                                                                                               unsatisfactory results, with an even stronger bias.
+vectors (δSD ) and Euclidean distance between 3D centers                                                                                                                               Fig. 10 displays the evolution of the difference between
+of mass. Again (sg)w-SBL clearly minimizes these metrics.                                                                                                                           reference and estimated depth (for a c.o.m. restricted to the
+                                                                                                                                                                                                                                                                                                                     9
+
+
+
+                                                                                       extent 20 mm Depth of centers of mass boxplot
+                                                             Depth of centers of mass boxplot                                                                                                        Precision
+                                                                                                                                                                                                                        extent 20 mm                                              Precision
+                                                                                                                                                                                1.0                                                                         1.0                                 MCE (q = 50%)
+                     0.05                                                                                               0.05                                                                                                                                                                    L1-TV1 (q = 50%)
+                                                                                                                                                                                                                                                                                                L1-TV2 (q = 50%)
+                                                                                                                                                                                0.8                                                                         0.8
+                                                                                                                                                                                                                                                                                                w-MCE 3 (q = 50%)
+
+                     0.04                                                                                               0.04
+148 observed values (m)
+
+
+
+
+                                                                                                                                                                                                                  MNE (q = 50%)
+
+
+
+
+                                                                                                    81 observed values (m)
+                                                                                                                                                                                0.6                                                                         0.6
+                                                                                                                                                                                                                  w-SBL 1 (q = 50%)
+
+
+
+
+                                                                                                                                                                            Score
+
+
+
+
+                                                                                                                                                                                                                                               Score
+                                                                                                                                                                                                                  w-SBL 2 (q = 50%)
+                                                                                                                                                                                0.4                               w-SBL 3 (q = 50%)                         0.4
+                     0.03                                                                                               0.03
+
+                                                                                                                                                                                0.2                                                                         0.2
+
+                     0.02                                                                                               0.02
+                                                                                                                                                                                0.0                                                                         0.0
+                                                                                                                                                                                      0     20     40            60      80      100                              0   20         40            60      80      100
+                                                                                                                                                                                                    Threshold                                                                     Threshold
+                     0.01                                                                                               0.01                                                                            Recall                                                                        Recall
+                                                                                                                                                                                1.0                               MNE (q = 50%)                             1.0                                 MCE (q = 50%)
+                                                                                                                                                                                                                  w-SBL 1 (q = 50%)                                                             L1-TV1 (q = 50%)
+                                                                                                                                                                                                                  w-SBL 2 (q = 50%)                                                             L1-TV2 (q = 50%)
+                     0.00                                                                                               0.00                                                    0.8                                                                         0.8
+                                                      REF     MNE w-SBL1w-SBL2w-SBL3L1-TV1 L1-TV2                                   MCE        w-MCE 3                                                            w-SBL 3 (q = 50%)                                                             w-MCE 3 (q = 50%)
+
+     Fig. 9. Boxplots for geometrical metrics with amplitude-weighting : depth                                                                                                  0.6                                                                         0.6
+
+
+
+
+                                                                                                                                                                           Score
+
+
+
+
+                                                                                                                                                                                                                                              Score
+     of centers of mass (restricted to the graph)
+                                                                                                                                                                                0.4                                                                         0.4
+
+
+                                                                                                                                                                                0.2                                                                         0.2
+                                                                                       extent 20 mm
+                                                      0.05          MNE                                                                                                         0.0                                                                         0.0
+                                                                    w-SBL 1                                                                                                           0     20     40       60           80      100                              0   20         40       60           80      100
+                                                      0.04          w-SBL 2                                                                                                                         Threshold                                                                     Threshold
+                                                                    w-SBL 3                                                                                                                          F1 score                                                                     F1 score
+                          Depth_ref - Depth_est (m)
+
+
+
+
+                                                      0.03          L1-TV1                                                                                                                                        MNE (q = 50%)                                                                 MCE (q = 50%)
+                                                                                                                                                                                0.7                               w-SBL 1 (q = 50%)                         0.7                                 L1-TV1 (q = 50%)
+                                                                    L1-TV2                                                                                                                                        w-SBL 2 (q = 50%)                                                             L1-TV2 (q = 50%)
+                                                      0.02                                                                                                                      0.6
+                                                                                                                                                                                                                  w-SBL 3 (q = 50%)                         0.6
+                                                                                                                                                                                                                                                                                                w-MCE 3 (q = 50%)
+                                                                                                                                                                                0.5                                                                         0.5
+                                                      0.01
+                                                                                                                                                                                0.4                                                                         0.4
+
+
+
+
+                                                                                                                                                                            Score
+
+
+
+
+                                                                                                                                                                                                                                               Score
+                                                      0.00
+                                                                                                                                                                                0.3                                                                         0.3
+
+                                                 −0.01                                                                                                                          0.2                                                                         0.2
+
+                                                                                                                                                                                0.1                                                                         0.1
+                                                 −0.02
+                                                             0.00             0.01        0.02                               0.03     0.04   0.05                               0.0                                                                         0.0
+                                                                                      Reference depth (m) of centers of mass
+                                                                                                                                                                                      0     20     40            60      80      100                              0   20         40            60      80      100
+                                                                                                                                                                                                    Threshold                                                                     Threshold
+     Fig. 10. Depths of centers of mass (restricted to the graph) with respect to
+     reference depth                                                                                                                                     Fig. 11. Statistical scores with respect to threshold
+
+                                                                                                                                                                                          1-wasserstein distance boxplot                                              1-wasserstein distance boxplot
+
+     graph) with respect to the reference depth. While MNE and                                                                                                              0.08                                                                        0.08
+
+     L1-TV solvers clearly exhibit a linearly evolving bias with the                                                                                                        0.07                                                                        0.07
+
+     reference depth, (sg)w-SBL shows very good and stationary
+                                                                                                                                                          148 observed values
+
+
+
+
+                                                                                                                                                                            0.06                                                                        0.06
+
+
+                                                                                                                                                                                                                                       81 observed values
+     performances throughout all the tested samples and depths.                                                                                                             0.05                                                                        0.05
+
+     For clarity, MCE and w-MCE 3, which did not exhibit good                                                                                                               0.04                                                                        0.04
+
+     results in Fig. 9, were not included in Fig. 10.                                                                                                                       0.03                                                                        0.03
+
+                                                                                                                                                                            0.02                                                                        0.02
+                          Binary classifier metrics
+                                                                                                                                                                            0.01                                                                        0.01
+        Now considering binary statistical maps built from reference
+                                                                                                                                                                            0.00                                                                        0.00
+                                                                                                                                                                                      MNE w-SBL1 w-SBL2 w-SBL3 L1-TV1 L1-TV2                                               MCE                       w-MCE 3
+     and estimated energy maps, Fig. 11 displays the Precision,
+     Recall and F1 score of the multiple tested solvers. (sg)w-SBL                                                                                       Fig. 12. 1-Wasserstein distance boxplot - extent 20 mm
+     clearly exhibits, by far, and from low threshold values, the best
+     performances with respect to Precision and F1 score. Both
+     scores are rapidly increasing with the threshold value. The                                                                                         Similarly to the Wasserstein metrics, (sg)w-SBL (especially
+     recall decay is also more contained with (sg)w-SBL.                                                                                                 with 3 wavelet scales) again outperforms the other solvers,
+                          1-Wasserstein distance between amplitudes maps                                                                                 with tight q1 , q2 , q3 quartiles very close to the ideal unit value.
+        To assess solvers performances with respect to amplitude re-                                                                                     w-MCE 3 then yields the second best results after (sg)w-SBL
+     construction, Fig. 12 displays, for the 20 mm case, boxplots for                                                                                    with respect to this purely amplitude-based metrics.
+     the 1-Wasserstein distance between normalized reference and                                                                                                      The impact of SNR on L1-TV solvers and hyperparameters
+     estimated amplitudes maps. Once again, (sg)w-SBL minimizes                                                                                             Finally, in order to better comprehend the surprisingly
+     by far this amplitude and geometry-based metrics. Note that                                                                                         unsatisfactory results obtained with L1-TV solvers, one may
+     L1-TV best results with respect to the 1-Wasserstein distance                                                                                       investigate the impact of SNR on the solvers performances.
+     are better than (sg)w-SBL, but once again the huge results                                                                                          Fig. 14 displays SNR impact on the 1-Wasserstein distance
+     dispersion undermines the robustness of this solver.                                                                                                between normalized amplitudes maps. Thus, given the con-
+                          l2 -norm conservation between amplitudes maps                                                                                  sidered heuristics for the hyperparameters involved in L1-TV
+        To further evaluate solvers quantitative performance with                                                                                        solvers, higher SNR values (≥ 4) appear necessary to see
+     respect to amplitude, Fig. 13 displays the ratio of l2 norms                                                                                        results improve from the MNE solution, while (sg)w-SBL
+     between (un-normalized) reference and estimated amplitudes                                                                                          performances take the lead from low SNR values.
+                                                        p
+     maps averaged on a time segment of interest A = hS2∗ isoi .                                                                                                      Visualization of a reconstructed activity
+                                                                                                                                                                                                                     10
+
+
+
+                                                   L2 norm ratio boxplot                                    L2 norm ratio boxplot
+                                     8                                                             8
+
+                                     7                                                             7
+
+                                     6                                                             6
+                   148 observed values
+
+
+
+
+                                                                                  81 observed values
+                                     5                                                             5
+
+                                     4                                                             4
+
+                                     3                                                             3
+
+                                     2                                                             2
+
+                                     1                                                             1
+
+                                     0                                                             0
+                                         MNE w-SBL1 w-SBL2 w-SBL3 L1-TV1 L1-TV2                            MCE               w-MCE 3
+
+                                                   p
+  Fig. 13. l2 -norm ratio boxplot on amplitudes A = hS2∗ isoi - extent 20 mm
+
+
+                                                                                                                                    MNE
+                     0.08                                                                                                           w-SBL 1
+                                                                                                                                    w-SBL 2
+                                                                                                                                    w-SBL 3
+1-wasserstein distance
+
+
+
+
+                     0.06
+                                                                                                                                    L1-TV1
+                                                                                                                                    L1-TV2
+
+                     0.04
+
+
+
+                     0.02
+
+
+
+                     0.00
+                                               2                4            6                         8            10              12
+                                                                                  SNR
+
+
+  Fig. 14. 1-Wasserstein distance with respect to SNR - extent 20 mm
+                                                                                                                                              Fig. 15. Reference (upper) and reconstructed (lower : w-SBL 3 then L1-TV2)
+                                                                                                                                              activity - patch 128 - parietal and medial views - extent 20 mm
+
+     Finally, Fig. 15 displays the visualization of a reference and
+  reconstructed activity (time-dependent absolute amplitude),                                                                                 the art for most evaluation metrics tested here. It however
+  for patch #128 (SNR = 4.14, 20 mm extent case), which                                                                                       requires choosing an hyperparameter value, for which the
+  corresponds to the first quartile for the w-SBL 3 solver with                                                                               heuristics derived in this paper seems relevant. The sparse
+  respect to the 1-Wasserstein distance. For snapshots taken                                                                                  Bayesian learning (sgw-SBL) approach, which provides an
+  at peak-amplitude time, (sg)w-SBL recovers the true source                                                                                  estimate for the wavelet covariance matrix together with
+  location, with a good spatial extent and a time course close to                                                                             wavelet coefficients, turns out to outperform consistently and
+  the reference one. L1-TV solution deviates notably from the                                                                                 significantly other approaches, with respect to a set of metrics
+  true location (from medial to parietal view), and is not able                                                                               designed to capture various aspects and possible artifacts.
+  to reproduce the reference time course.                                                                                                     Quite remarkably, the sgw-SBL approach tends to perform
+                                                                                                                                              quite well in terms of depth bias, which is a major difficulty
+  C. Discussion                                                                                                                               in the M/EEG inverse problem.
+                                                                                                                                                 We also plan to study similar approaches that use (or-
+     From these extensive simulations of extended (non-focal)
+                                                                                                                                              thonormal) wavelet bases on the cortical surface, instead of
+  sources, one may note that, as expected, (w)MNE tends to
+                                                                                                                                              overcomplete wavelet frames as we do here. In the sgw case,
+  produce source estimates that are too diffuse, and require
+                                                                                                                                              scaling coefficients (low spatial frequencies) turn out to be
+  post-processing (not addressed here) to yield fairly reliable
+                                                                                                                                              almost systematically set to zero or very small values by the
+  source localization. MCE produces source estimates that are
+                                                                                                                                              solvers (sgw-MCE or sgw-SBL). While relevant in practice,
+  extremely focal, and is therefore not suitable for extended
+                                                                                                                                              we conjecture that this could be a side effect of the redundancy
+  sources. Surprizingly enough, L1-TV approaches such as sVB-
+                                                                                                                                              of the wavelet frame, which we would like to confirm. We
+  SCCD turn out to be extremely unstable, and often yield
+                                                                                                                                              also plan to study the problem of hyperparameters tuning, in
+  source estimates that are too extended and superficial. The
+                                                                                                                                              particular for L1-TV models.
+  simulation protocol was expected to favor these approaches.
+  Our interpretation is that the two hyper-parameters involved
+  there are difficult to tune, and the heuristics used in this work                                                                                                   VI. C ONCLUSIONS
+  is not sufficient (to our knowledge, no systematic approach                                                                                    This paper proposed a new approach for the M/EEG inverse
+  has been proposed in the literature). Wavelet-based solvers are                                                                             problem, in the framework of the distributed sources model,
+  indeed able to reconstruct such sources, more accurately and                                                                                which exploits sparsity in the spectral graph wavelet (spa-
+  robustly than the other tested approaches. More specifically,                                                                               tial) domain. Such wavelets forming an overcomplete system,
+  (sg)w-MCE (ℓ1 penalization on wavelet coefficients) yields                                                                                  wavelet expansion of the solution is not unique. We have
+  fairly good estimates, that compare favourably to the state of                                                                              chosen to focus on the so-called synthesis approach, where
+                                                                                                                                                                  11
+
+
+
+optimization is performed with respect to wavelet coefficients.                    [13] M. Fuchs et al., “Linear and nonlinear current density reconstructions,”
+In variational approaches, the unknown (solutions, or wavelet                           Journal of clinical Neurophysiology, vol. 16, no. 3, pp. 267–295, 1999.
+                                                                                   [14] F.-H. Lin et al., “Assessing and improving the spatial accuracy in
+coefficients) are obtained as solutions of an optimization                              MEG source localization by depth-weighted minimum-norm estimates,”
+problem, for which hyperparameters have to be chosen. The                               NeuroImage, vol. 31, no. 1, pp. 160 – 171, 2006. [Online]. Available:
+sparse Bayesian learning paradigm was adapted to the con-                               http://www.sciencedirect.com/science/article/pii/S1053811905024973
+                                                                                   [15] R. D. Pascual-Marqui, “Discrete, 3d distributed, linear imaging methods
+sidered wavelet setting, leading to an optimization problem                             of electric neuronal activity. part 1: exact, zero error localization,” 2007.
+where hyperparameters are also optimized. These approaches                         [16] A. M. Dale et al., “Dynamic statistical parametric mapping: Combining
+were compared with standard ones using numerical simula-                                fmri and meg for high-resolution imaging of cortical activity,”
+                                                                                        Neuron, vol. 26, no. 1, pp. 55–67, 2000. [Online]. Available:
+tions of joint EEG/MEG data provided by the MNE-python                                  https://www.sciencedirect.com/science/article/pii/S0896627300811381
+software. These extensive simulations and the numerous and                         [17] R. Pascual-Marqui, “Standardized low resolution brain electromagnetic
+discussed evaluation metrics show that the combination of                               tomography (SLORETA): Technical details,” Methods and findings in
+                                                                                        experimental and clinical pharmacology, vol. 24 Suppl D, pp. 5–12,
+spatial wavelets with sparse Bayesian learning brings a real                            2002.
+improvement for extended brain sources reconstruction, both                        [18] H. Becker et al., “A performance study of various brain source imaging
+in terms of localization and quantitative estimation.                                   approaches,” in IEEE International Conference on Acoustics, Speech
+                                                                                        and Signal Processing (ICASSP), 2014, pp. 5869–5873.
+   In a forthcoming paper, we will exploit the proposed so-                        [19] K. Matsuura and Y. Okabe, “Selective minimum-norm solution of
+lutions on real data for specific applications, and investigate                         the biomagnetic inverse problem,” IEEE Transactions on Biomedical
+evaluation of M/EEG source localization using companion                                 Engineering, vol. 42, no. 6, pp. 608–615, June 1995.
+                                                                                   [20] K. Uutela, M. Hämäläinen, and E. Somersalo, “Visualization of mag-
+intracerebral data.                                                                     netoencephalographic data using minimum current estimates,” NeuroIm-
+   Being able to identify localization, depth and time course                           age, vol. 10, no. 2, pp. 173–180, 1999.
+of brain activity is important in clinical applications for all                    [21] L. Ding, “Reconstructing cortical current density by exploring
+                                                                                        sparseness in the transform domain,” Physics in Medicine and Biology,
+diseases that require source localization from MEG or EEG                               vol. 54, no. 9, pp. 2683–2697, apr 2009. [Online]. Available:
+measurements. Our results show that the proposed approach                               https://doi.org/10.1088/0031-9155/54/9/006
+improves significantly the state of the art for the reconstruction                 [22] H. Becker et al., “Fast, variation-based methods for the analysis of ex-
+                                                                                        tended brain sources,” in 22nd European Signal Processing Conference
+of extended brain sources.                                                              (EUSIPCO), 2014, pp. 41–45.
+                                                                                   [23] Y. Li et al., “s-smooth: Sparsity and smoothness enhanced EEG brain
+                                                                                        tomography,” Frontiers in Neuroscience, vol. 10, p. 543, 2016. [Online].
+                               R EFERENCES                                              Available: https://www.frontiersin.org/article/10.3389/fnins.2016.00543
+                                                                                   [24] W. Ou, M. S. Hämäläinen, and P. Golland, “A distributed
+ [1] S. Baillet, J. C. Mosher, and R. M. Leahy, “Electromagnetic brain                  spatio-temporal EEG/MEG inverse solver,” NeuroImage, vol. 44,
+     mapping,” IEEE Signal Processing Magazine, vol. 18, no. 6, pp. 14–                 no.     3,    pp.    932      –   946,     2009.     [Online].     Available:
+     30, 2001.                                                                          http://www.sciencedirect.com/science/article/pii/S1053811908007155
+ [2] S. Baillet, Encyclopedia of Computational Neuroscience. New York,             [25] A. Gramfort, M. Kowalski, and M. Hämäläinen, “Mixed-norm estimates
+     NY: Springer New York, 2014, ch. Forward and Inverse Problems of                   for the M/EEG inverse problem using accelerated gradient methods,”
+     MEG/EEG, pp. 1–8. [Online]. Available: https://doi.org/10.1007/978-1-              Physics in Medicine and Biology, vol. 57, no. 7, pp. 1937–1961, mar
+     4614-7320-6_529-1                                                                  2012. [Online]. Available: https://doi.org/10.1088/0031-9155/57/7/1937
+ [3] A.     Sorrentino     and    M.     Piana,    “Inverse    modeling      for   [26] A. Gramfort et al., “Time-frequency mixed-norm estimates:
+     MEG/EEG          data,”    bioRxiv,     2017.     [Online].     Available:         Sparse M/EEG imaging with non-stationary source activations,”
+     https://www.biorxiv.org/content/early/2017/05/08/135269                            NeuroImage, vol. 70, pp. 410 – 422, 2013. [Online]. Available:
+ [4] W.-T. Chang          et   al.,   “Spatially    sparse    source     cluster        http://www.sciencedirect.com/science/article/pii/S1053811912012372
+     modeling by compressive neuromagnetic tomography,” NeuroImage,                [27] D. Wipf and S. Nagarajan, “A unified bayesian framework
+     vol. 53, no. 1, pp. 146–160, 2010. [Online]. Available:                            for     MEG/EEG         source    imaging,”      NeuroImage,       vol.   44,
+     https://www.sciencedirect.com/science/article/pii/S1053811910007196                no.     3,    pp.    947–966,      Feb.    2009.     [Online].     Available:
+ [5] D. K. Hammond, P. Vandergheynst, and R. Gribonval, “Wavelets on                    https://pubmed.ncbi.nlm.nih.gov/18602278
+     graphs via spectral graph theory,” Applied and Computational Harmonic         [28] D. P. Wipf, B. D. Rao, and S. Nagarajan, “Latent variable
+     Analysis, vol. 30, no. 2, pp. 129 – 150, 2011. [Online]. Available:                bayesian models for promoting sparsity,” IEEE Trans. Inf. Theor.,
+     http://www.sciencedirect.com/science/article/pii/S1063520310000552                 vol. 57, no. 9, p. 6236–6255, sep 2011. [Online]. Available:
+ [6] A. Gramfort et al., “MEG and EEG data analysis with MNE-Python,”                   https://doi.org/10.1109/TIT.2011.2162174
+     Frontiers in Neuroscience, vol. 7, p. 267, 2013. [Online]. Available:         [29] A.     Hashemi       et    al.,   “Unification     of     sparse     bayesian
+     https://www.frontiersin.org/article/10.3389/fnins.2013.00267                       learning      algorithms      for    electromagnetic       brain     imaging
+ [7] S. Mokhtari et al., “Sparse wavelet-based solutions for the                        with the majorization minimization framework,” NeuroIm-
+     M/EEG inverse problem,” in SampTA, International Conference                        age, vol. 239, p. 118309, 2021. [Online].                          Available:
+     on Sampling Theory and Applications, 2023. [Online]. Available:                    https://www.sciencedirect.com/science/article/pii/S1053811921005851
+     https://arxiv.org/abs/2306.15262                                              [30] D. R. Hunter and K. Lange, “A tutorial on MM algorithms,” The
+ [8] J. Mosher, P. Lewis, and R. Leahy, “Multiple dipole modeling and                   American Statistician, vol. 58, no. 1, pp. 30–37, 2004. [Online].
+     localization from spatio-temporal MEG data,” IEEE Transactions on                  Available: https://doi.org/10.1198/0003130042836
+     Biomedical Engineering, vol. 39, no. 6, pp. 541–557, June 1992.               [31] C. Amblard, E. Lapalme, and J.-M. Lina, “Biomagnetic source detection
+ [9] K. Jerbi et al., “Localization of realistic cortical activity                      by maximum entropy and graphical models,” IEEE Transactions on
+     in MEG using current multipoles,” NeuroImage, vol. 22,                             Biomedical Engineering, vol. 51, no. 3, pp. 427–442, March 2004.
+     no.     2,    pp.    779    –    793,    2004.     [Online].    Available:    [32] J.-M. Lina et al., “Wavelet-based localization of oscillatory sources
+     http://www.sciencedirect.com/science/article/pii/S1053811904001028                 from magnetoencephalography data,” IEEE Transactions on Biomedical
+[10] B. Van Veen et al., “Localization of brain electrical activity via linearly        Engineering, vol. 61, no. 8, pp. 2350–2364, 2014.
+     constrained minimum variance spatial filtering,” IEEE Transactions on         [33] M.-C. Roubaud et al., “Space-Time Extension of the MEM Approach
+     Biomedical Engineering, vol. 44, no. 9, pp. 867–880, 1997.                         for Electromagnetic Neuroimaging,” in IEEE International Workshop
+[11] K. Sekihara and S. S. Nagarajan, Adaptive Spatial Filters for Electro-             on Machine Learning for Signal Processing, Aalborg, Denmark, Sep.
+     magnetic Brain Imaging, ser. Series in Biomedical Engineering, J. H.               2018. [Online]. Available: https://hal.archives-ouvertes.fr/hal-01843557
+     Nagel, Ed. Springer-Verlag Berlin Heidelberg, 2008.                           [34] S. Kolouri et al., “Optimal mass transport: Signal processing and
+[12] M. S. Hämäläinen and R. J. Ilmoniemi, “Interpreting magnetic fields of             machine-learning applications,” IEEE Signal Processing Magazine,
+     the brain: minimum norm estimates,” Medical and Biological Engineer-               vol. 34, no. 4, pp. 43–59, 2017.
+     ing & Computing, vol. 32, no. 1, pp. 35–42, 1994.
+
