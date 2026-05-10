@@ -256,3 +256,5 @@
 ## [2026-05-10 15:45] LinkRepair: fixed 11 files (9 wikilink-in-URL, 2 abs-path)
 
 ## [2026-05-10 16:06] DeepResearch: 1 papers added via focused research
+
+## [2026-05-10 16:36] Ingest: 1 new papers, 0 stubs created

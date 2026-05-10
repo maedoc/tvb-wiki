@@ -1,0 +1,1279 @@
+                                             Data-driven inference of brain dynamical states from the r-spectrum of correlation
+                                                                                 matrices
+                                                        Christopher Gabaldon,1, 2 Adrià Mulero,3 Rong Wang,4 Daniel A. Martin,1, 5 Sabrina
+                                                      Camargo,1, 5 Qian-Yuan Tang,6 Ignacio Cifre,3 Changsong Zhou,6 and Dante R. Chialvo1, 5, 6
+                                                                                1
+                                                                                 Instituto de Ciencias Fı́sicas (ICIFI-CONICET),
+                                                                          Center for Complex Systems and Brain Sciences (CEMSC3),
+                                                                 Escuela de Ciencia y Tecnologı́a, Universidad Nacional de Gral. San Martı́n,
+                                                                             Campus Miguelete, San Martı́n, Buenos Aires, Argentina
+                                                                      2
+                                                                        Departamento de Fı́sica, Facultad de Ciencias Exactas y Naturales,
+                                                                          Universidad de Buenos Aires, Buenos Aires 1428, Argentina
+                                                                          3
+                                                                            Facultat de Psicologia, Ciències de l’Educació i de l’Esport,
+                                                                             Blanquerna, Universitat Ramon Llull, Barcelona, Spain.
+                                                                  4
+                                                                    State Key Laboratory for Strength and Vibration of Mechanical Structures,
+                                                               School of Aerospace Engineering, Xi’an Jiaotong University, Xi’an 710049, China
+arXiv:2601.03796v1 [q-bio.NC] 7 Jan 2026
+
+
+
+
+                                                       5
+                                                         Consejo Nacional de Investigaciones Cientı́fcas y Técnicas (CONICET), Buenos Aires, Argentina
+                                                      6
+                                                        Department of Physics, Faculty of Science, Hong Kong Baptist University, Hong Kong SAR, China
+                                                                                             (Dated: January 8, 2026)
+                                                          We present a data-driven framework to characterize large-scale brain dynamical states directly
+                                                       from correlation matrices at the single-subject level. By treating correlation thresholding as a
+                                                       percolation-like probe of connectivity, the approach tracks multiple cluster- and network-level ob-
+                                                       servables and identifies a characteristic percolation threshold, rc , at which these signatures converge.
+                                                       We use rc as an operational and physically interpretable descriptor of large-scale brain dynamical
+                                                       state. Applied to resting-state fMRI data from a large cohort of healthy individuals (N = 996), the
+                                                       method yields stable, subject-specific estimates that covary systematically with established dynam-
+                                                       ical indicators such as temporal autocorrelations. Numerical simulations of a whole-brain model
+                                                       with a known critical regime further show that rc tracks changes in collective dynamics under con-
+                                                       trolled variations of excitability. By replacing arbitrary threshold selection with a criterion intrinsic
+                                                       to correlation structure, the r-spectra provides a physically grounded approach for comparing brain
+                                                       dynamical states across individuals.
+
+
+                                              The advent of magnetic resonance imaging, and in               sis rather than a technical nuisance. Instead of fixing
+                                           particular functional MRI (fMRI), has enabled the                 a single threshold, we treat it as a control-like param-
+                                           non-invasive investigation of large-scale brain dynam-            eter whose variation probes collective changes in net-
+                                           ics by providing time-resolved measurements of dis-               work organization. This perspective directly connects
+                                           tributed neural activity. This progress has motivated             correlation-based brain networks to order–disorder tran-
+                                           the widespread use of graph-theoretical descriptions, in          sitions, in which tuning a control parameter reveals shifts
+                                           which the brain is represented as a network whose nodes           between fragmented and globally coordinated collective
+                                           correspond to brain regions and whose edges encode func-          states [5–7]. Within this framework, we introduce the
+                                           tional or structural interactions. Within this framework,         r-spectrum, which tracks multiple independent proper-
+                                           large-scale correlation matrices and their derived graphs         ties of the correlation network as a function of threshold.
+                                           are routinely compared across groups of subjects and ex-          Their convergence at a characteristic value, denoted rc ,
+                                           perimental conditions to study how distributed neural             provides a physically grounded descriptor of large-scale
+                                           circuits support cognition and behavior [1–4].                    brain dynamical state at the single-subject level. We then
+                                                                                                             apply this framework to resting-state fMRI data and to
+                                              Despite its success, this approach commonly relies
+                                                                                                             a simple neuronal model to assess its empirical relevance
+                                           on fixed or heuristically chosen correlation thresholds.
+                                                                                                             and mechanistic interpretation.
+                                           Thresholding compresses continuous correlation struc-
+                                           ture into a single discrete representation, reducing in-
+                                                                                                               Conceptual framework: Fig. 1 illustrates the workflow
+                                           formation about how connectivity emerges from collec-
+                                                                                                             for constructing functional brain networks from resting-
+                                           tive interactions to a single scale and obscuring the
+                                                                                                             state fMRI data. Blood-oxygen-level-dependent (BOLD)
+                                           balance between fragmented and coordinated configura-
+                                                                                                             time series are aggregated into regions of interest (ROIs;
+                                           tions. This compression weakens the link between corre-
+                                                                                                             Fig. 1A), from which a correlation matrix is computed
+                                           lation structure and underlying brain dynamical state,
+                                                                                                             (Fig. 1B). An undirected binary graph is then obtained
+                                           particularly at the single-subject level, where a single
+                                                                                                             by connecting ROI pairs whose correlation exceeds a
+                                           connectivity snapshot cannot fully capture dynamical
+                                                                                                             threshold r. While standard analyses compare network
+                                           regime differences.
+                                                                                                             properties at fixed thresholds across groups, this work
+                                             Here we address this limitation by reframing thresh-            exploits the full threshold dependence of the correlation
+                                           olding as a physically meaningful dimension of analy-             matrix. Rather than selecting a single r, we analyze
+                                                                                                                        2
+
+how network structure varies with threshold and identify,          These results support our central hypothesis that
+for each subject, a characteristic percolation point sepa-      rc is a measure of the brain’s dynamic degree of
+rating fragmented configurations from ordered, system-          order/disorder, in the precise sense that it marks
+spanning connectivity. As illustrated in Fig. 1C, high          the threshold separating fragmented (disordered) and
+r values yield sparse or disconnected networks, whereas         system-spanning (ordered) correlation structures, aver-
+decreasing r leads to the emergence of a giant connected        aged over time. However, for this to hold, rc must
+component, providing an operational marker of large-            correlate also with established benchmarks of neural or-
+scale dynamical organization.                                   der/disorder, such as segregation-integration [10, 11] or
+   At least three key observables (see also additional ap-      temporal and spatial correlations [12, 13]. Thus, we chal-
+proaches [8] and alternative definitions based on degree        lenged this conjecture on a large repository of resting-
+variability and cluster-size distributions in the Supple-       state brain imaging data previously studied [10]. The
+mentary Material, SM) can be used to identify the crit-         results strongly support this hypothesis: as shown in
+ical point, hereafter denoted rc (Fig. 1D). First, within       Fig. 2, rc covaries with the first autocorrelation coef-
+percolation theory, the transition separating disordered        ficient, AC(1) [14], of the mean BOLD signal. In in-
+and ordered phases is expected to coincide with the max-        dividuals with low/high rc , the brain’s mean field ac-
+imum of the second-largest cluster size S2 . Second, the        tivity shows markedly weaker/stronger autocorrelations
+variability of the order parameter reaches a maximum at         (Fig. 2E). We remark that temporal correlations quan-
+the transition, reflecting maximal competition between          tified by AC(1) are a classical manifestation of critical
+ordered and disordered configurations. In finite systems,       slowing down, and they have been repeatedly shown to
+S1 serves as a proxy for the percolation order parameter,       be robust markers of proximity to a critical point in both
+and its susceptibility, quantified by the variance under        models and empirical data [14–18].
+small perturbations, peaks at the transition. In practice,         This relationship is further confirmed across the full
+this is approximated by the peak of the variance of the         dataset (N = 996), revealing a clear population-wide
+largest cluster size, σS1 , obtained under small pertur-        trend in Fig. 3A. Estimates of rc obtained from graph-
+bations of the control parameter r. Third, from graph           theoretical (L(G)) and percolation-based (S2 ) measures
+theory, the critical point is marked by a peak in the net-      are highly consistent. Results based on σS1 show the
+work characteristic path length L(G). Together, these           same behavior and are omitted for clarity; see SM for re-
+three observables, dubbed the “r-spectra”, consistently         sults across all four recording sessions. Consistent with
+identify the same characteristic threshold rc , reflecting      percolation theory, inter-subject variability in S1 peaks
+the concurrent appearance of multiple independent sig-          at rc (see SM). Grouping subjects by age further reveals
+natures associated with critical points in percolation the-     a systematic decrease of rc with age (panel B), indicat-
+ory. Although the networks considered here are finite and       ing weakened inter-areal correlations, consistent with re-
+modular, rather than infinite lattices where percolation        duced functional connectivity in aging (discussed below).
+theory is exact, finite-size scaling theory predicts that          Model results: We next contrast results from human
+these signatures remain well defined, with peak locations       brain data with those from a simple dynamical model
+providing reliable estimates of the transition point. The       [19] implemented on an empirical neuroanatomical con-
+connection between rc and standard percolation theory is        nectome [20]. This model, previously shown to repro-
+further explored in the SM, where a clear anticorrelation       duce key features of spontaneous brain activity, consists
+between rc and analytical estimates of the critical bond        of a coarse-grained structural network of brain regions
+density pc is observed.                                         and dynamical rules governing their activity. The con-
+   Experimental results: We analyzed human fMRI rest-           nectivity matrix in the Haimovici model [19] is derived
+ing state and diffusion tensor imaging (DTI) recordings         from neuroanatomical connectivity, describing the aver-
+from 996 healthy subjects (ages 22-36) belonging to WU-         age fiber tract density between pairs of brain areas as
+Minn HCP Young Adult dataset [9]. For rs-fMRI data,             estimated from diffusion-weighted and diffusion tensor
+the recording on each subject was repeated four times           imaging (DWI/DTI). For the simulations presented here,
+using high resolution 3T scanners, with time samples            we use the normalized average DTI connectivity matrix
+T R = 0.72s, for 1200 time steps.                               obtained from N = 996 subjects in the HCP dataset (see
+   As illustrated in Fig. 1 for a typical single subject, the   Methods for details).
+three “r-spectrum” observables exhibit maxima at ap-               For simplicity, the dynamics of each node follow
+proximately the same threshold r. Typically, S2 peaks at        discrete-state excitable dynamics based on the Green-
+∼10–20% of system size, coinciding with a rapid increase        berg–Hastings model [21]. Thus, each node is assigned
+in S1 (both normalized by system size: 0 ≤ S2 ≤ S1 ≤ 1).        one of three states: quiescent Q, excited E, or refractory
+The variability σS1 , computed over many realizations           R, and the transition rules are: 1) Q → E with a small
+with stochastic perturbations of r, peaks where S1 has its      probability p1 (∼ 10−3 ), or if the sum of the connection
+steepest increase, which coincides with the S2 maximum.         weights wij with thePactive neighbors (j) is higher than
+These cluster-size changes are reflected in graph metrics       a threshold T , i.e.,    wij > T and Q → Q otherwise;
+such as the characteristic path length L(G), which also         2) E → R always; 3) R → Q with a small probability
+reaches a maximum at the percolation threshold.                 p2 (∼ 10−1 ) delaying the transition from the R to the Q
+                                                                                                                                                                 3
+
+
+
+
+             A                                                         B
+
+
+
+
+                                                                                                                     .9
+                                                                              N
+                 N
+
+                       …
+
+
+
+                                   …
+
+
+
+
+                                                        …
+
+
+
+
+                                                                                                                     r
+                                                                              ROI
+                 ROI
+
+
+
+
+                                                                                                                     -.2
+                 1
+
+
+
+
+                                                                              1
+                                     Time                                           1          ROI               N
+
+
+             D                                                         C
+                                                                                    Binary graphs (for a range of r)
+                                                                                low r            …              high r
+
+
+
+
+                                                                                                                           unperturbed
+       S1
+       S2
+
+
+
+
+                                                                                                                           stochastic perturbation (r +/- Δ r)
+      σ S1
+       L(G)
+
+
+
+
+                                     Threshold r
+
+FIG. 1. Typical workflow schematic to compute the r-spectra for a single subject brain data. From the BOLD time series in
+Panel A the correlation matrix is obtained (Panel B). The cartoon of Panel C shows the two types of binary graphs computed
+for a range of correlation thresholds r. One is calculated from the unperturbed thresholds r (top graphs), and the others
+(bottom graphs) are stochastic realizations computed for small random variations around the thresholds (r ∓ ∆r). Panel D
+shows, for a typical subject, the “r-spectra”: it plots, as a function of r, the order parameter S1 (top), and the three observables
+used to identify the graph percolation threshold, which correspond to the values of r (arrow) for the maximum values (circles)
+of S2 , σS1 and L(G). Results from the first session of subject code #100206 of the WU-Minn rs-fMRI dataset [9].
+                                                                                                                                                                                  4
+
+state for some time steps. We fixed p1 and p2 , which set                                A                                                         B
+                                                                                             L(G)
+the time scales of self-excitation and recovery, and var-                                    S2
+                                                                                 0.8
+ied T , the control parameter of the node dynamics (see                                                                                     0.66
+Methods). Note that T is an intrinsic excitability thresh-
+
+
+
+
+                                                                                                                                       rc
+                                                                            rc
+old and is distinct from the correlation threshold r used                        0.6
+to construct functional networks.                                                                                                           0.64
+
+   To compare with the experimental results, we simulate                                                                                                   S2
+various degrees of proximity to criticality, mimicking a                         0.4
+variety of dynamical conditions which hypothetically are                           0.2          0.4                     0.6      0.8
+                                                                                                                                            0.62
+                                                                                                                                                   22-25          26-30     31+
+                                                                                                                AC(1)                                           Age group
+equivalent to those observed in the human subjects. For
+that we first run the model for a relatively wide range of
+                                                                            FIG. 3. Panel A: The brain dynamical states evaluated by
+T and locate precisely the critical point Tc (simulations
+                                                                            the percolation thresholds rc strongly correlate in each of 996
+lasted 10.000 steps for each T value, discarding the tran-                  individuals with the AC(1) values computed from the global
+sient first 1000 steps). We track the AC(1) of the time                     brain BOLD activity. Panel B: On average, the percolation
+series of the fraction of active nodes (Fa ) as a function of               threshold rc decreases with age. Age groups composition: 22-
+T and identify its maximum (vertical red dashed line in                     25 years (218 subjects), 26-30 years (429 subjects) and 31+
+Fig. 4). Then we run the model for several values of T                      years (349 subjects, 340 subjects of age 31-35 and 9 subjects
+near Tc collecting for each one relatively long time series                 of age 36+). Bars represent within-group standard errors.
+of the model’ nodes activity, and proceed to compute the
+respective pair wise correlations matrices. These matri-                                                         0.6
+ces are comparable to those collected from the human                                                                                                             A
+brains fMRI. Finally, following the same workflow used
+
+
+
+
+                                                                                                       < Fa >
+for the human brains (Fig. 1C and D), we proceed to                                                              0.3
+construct the binary graphs and calculate the rc values
+                                                                                                                                            Tc
+for each of the conditions. We expect to find that rc co-                                                          0
+varies with the model’ T under which the matrices were                                                             1
+generated as well as with the correlation properties of the                                                                                                      B
+order parameter (i.e., Fa ).                                                                        < AC(1) >
+                                                                                                                0.95
+   The results presented in Fig. 5 show a remarkable
+agreement with the hypothesis: different degrees of prox-
+imity to criticality are consistently accompanied by a                                                           0.9
+monotonic shift in rc computed from the correlation ma-                                                          20
+trices (see Fig. 5A). Each symbol corresponds to a sin-                                                                                                          C
+gle simulation run under a specific dynamical condition,
+                                                                                                          λ1
+
+
+
+
+that is, a given value of T . These results can be directly
+compared with Figs. 2E and 3A, where each symbol rep-                                                            10
+resents a single human subject. We emphasize that the
+model is used as a proof of principle to provide a mecha-                                                          0.1              0.15          0.2
+                                                                                                                              Control Parameter T
+nistic interpretation of the observed trends, rather than
+                                                                            FIG. 4. Identification of the model’ critical point Tc (vertical
+               1
+                                                                            dashed line) by the maximum in the autocorrelation of the
+                   A                            E                           order parameter fluctuations as well as the largest eigenvalue
+   S1
+
+
+
+
+         0.5
+                                          0.8                               (λ1 ) of the correlation matrix. Panels A-B show the aver-
+               0
+                   B                                                        age activation fraction Fa serving as the order parameter and
+   S2
+
+
+
+
+          0.1
+                                                                            AC(1) as a function of the control parameter T . The box in
+                                         rc
+
+
+
+
+               0
+                   C                                                        A denotes the range of T explored in the results of Fig. 5.
+σ S1
+
+
+
+
+       0.005                              0.6
+               0
+               5 D                                                   S2
+        L(G)
+
+
+
+
+                                                                     σ S1
+               3                                                     L(G)
+               1                          0.4                               to quantitatively match empirical values.
+                 0         0.5       1              0.4        0.6
+                       Threshold r                        AC(1)                The analysis of the model’ results reproduces the ex-
+                                                                            perimental observations in fMRI data (shown in Figs.
+FIG. 2. Across subjects rc covaries with the temporal cor-                  2E and 3A) demonstrating that rc covaries with AC(1)
+relation of the average brain BOLD activity AC(1). Panels                   (Fig.5B). For completeness, we illustrate also a related
+A-D show, for a subset of ten typical subjects, the order pa-               correlation index, the average pair wise correlation, which
+rameter S1 (top), S2 , σS1 and L(G) as a function of r. Panel               is known to covary with AC(1) (see [22] and SM) and
+E shows for 64 subjects the value of AC(1) versus the val-                  consequently with rc as seen in Fig.5C.
+ues of rc derived from the maximum values of the observables                   Discussion: This work shows that principles from per-
+S2 , σS1 and L(G).                                                          colation theory provide a natural framework for charac-
+                                                                                                                             5
+
+           0.4                                                    ity, the r-spectrum framework provides convergent ob-
+                                                                  servables (S2 , σS1 , L(G)) that jointly characterize dy-
+      rc                                                          namical state and help distinguish genuine organization
+           0.2                S2                                  from thresholding artifacts. The strong covariation be-
+                              σ S1                                tween rc and temporal autocorrelations AC(1) (Fig. 3A)
+                  Tc          L(G)                                reflects an underlying dynamical mechanism: critical
+                                                       A          slowing down increases temporal persistence of activ-
+            0
+                           0.18             0.2                   ity fluctuations, which in turn enhances spatial corre-
+                          Control Parameter T                     lations across brain regions over finite observation win-
+                                                                  dows. This temporal-to-spatial translation manifests as
+           0.4                                                    elevated rc , providing a structural signature of proximity
+                                                                  to criticality. Importantly, this relationship emerges from
+                                                                  the concurrent behavior of multiple independent mea-
+      rc
+
+
+
+
+                                                                  sures rather than a single statistic, indicating collective
+           0.2                                                    reorganization of correlation structure.
+                                                       B             The changes in rc observed across subjects closely mir-
+                 0.96              0.97                           ror those obtained in numerical simulations under differ-
+                               < AC(1) >                          ent levels of excitability (Fig. 5), supporting a common
+                                                                  mechanistic interpretation: shifts in excitability move the
+           0.4                                                    system relative to a dynamical critical point, thereby al-
+                                                                  tering correlation structure and the associated percola-
+                                                                  tion threshold. Structural connectivity differences may
+                                                                  also contribute to this variability. Consistent with this
+      rc
+
+
+
+
+           0.2                                                    interpretation, the negative correlation between rc and
+                                                                  age indicates a gradual shift toward more subcritical dy-
+                                                       C          namics across the lifespan, in agreement with recent work
+                        0.04                    0.08              using graph neural networks to characterize neurodevel-
+                           < Pair Correlation >                   opmental differences [25].
+                                                                     The r-spectrum framework also connects naturally
+FIG. 5. The model dynamical state can be successfully esti-       to spectral measures of brain organization. In a re-
+mated from the percolation thresholds rc (panel A), which in
+                                                                  cent study of the same dataset [26], subjects with In-
+turn strongly correlates with the AC(1) (panel B) and pair
+wise correlation (panel C) values computed from the time se-      tegrated activity (characterized by a dominant leading
+ries of the mean field activity Fa . The red dashed vertical      eigenvalue λ1 ) showed higher General Cognitive Abil-
+line in panel A indicates the value of the model critical point   ity, while those with Segregated activity (greater weight
+Tc . Continuous lines show mean ± standard deviation for          in higher-order eigenvalues) showed higher Crystallized
+all points on a window of of size ∆T = 0.0025 (Panel A),          Intelligence and Processing Speed. Within the present
+∆AC(1) = 0.002 (Panel B) or ∆C = 0.01 (Panel C).                  framework, larger λ1 corresponds to stronger global cor-
+                                                                  relations and higher rc , consistent with enhanced large-
+                                                                  scale coordination. Conversely, stronger segregation is
+terizing individual differences in large-scale brain dynam-       associated with weaker global correlations and lower rc .
+ics. Even within apparently homogeneous groups, indi-             Thus, rc provides a complementary descriptor linking
+vidual subjects exhibit distinct dynamical set points of          spectral measures of integration–segregation to dynami-
+functional connectivity, variability that has often been ig-      cal organization near criticality. While the present anal-
+nored or averaged out despite being noted in prior studies        ysis focuses on resting-state fMRI data, the r-spectrum
+[10, 11, 23, 24]. The r-spectrum approach addresses this          framework is in principle applicable to any system ex-
+by identifying, for each subject, a characteristic perco-         hibiting critical behavior. This generality is illustrated in
+lation threshold rc at which multiple independent signa-          the SM through applications to the two-dimensional Ising
+tures converge. The physiological interpretation is direct:       model and the Greenberg–Hastings model on synthetic
+rc estimates proximity to a percolation transition asso-          Watts–Strogatz [27] networks, which yield consistent re-
+ciated with efficient information exchange across scales.         sults. Additional analyses of cluster-size distributions at
+In conventional functional connectivity terms, lower or           rc are also presented in the SM.
+higher rc values correspond to weaker or stronger average            In summary, we introduce a data-driven framework to
+connectivity, respectively (Fig. 5C). Analysis of resting-        infer large-scale brain dynamical state from correlation
+state network participation reveals that cortical networks        structure alone, grounded in principles from percolation
+display maximal fluctuations in cluster membership near           and graph theory. Rather than fixing an arbitrary corre-
+rc , whereas subcortical regions remain comparatively sta-        lation threshold, the approach exploits threshold depen-
+ble (see SM).                                                     dence to extract a characteristic scale rc that serves as
+    Beyond simple correspondence with average connectiv-          an operational descriptor of dynamical regime, reflecting
+                                                                                                                           6
+
+both proximity to optimal large-scale coordination and        ical simulations of the Haimovici model on a network
+subject-specific organizational features.                     described by the structural connectivity matrix of the
+   Methods:                                                   human subjects [19, 38–41]. Given the well known sub-
+   Datasets and data processing: The fMRI data process-       sampling of the inter-hemispheric tracks the numerical
+ing steps follow exactly those in a previous study [10],      simulation reported in the main text were conducted on
+including the resting state fMRI (rs-fMRI) and diffusion      the right hemisphere, consisting on 180 ROIS (see SM
+tensor imaging (DTI) recordings from 996 healthy sub-         for similar results on the left hemisphere). GH model
+jects (ages 22-36) belonging to WU-Minn HCP dataset.          is a simple cellular automaton model where each ele-
+For rs-fMRI data, each subject was registered 4 times         ment i = 1, .., 180 represents a region or a group of neu-
+using high resolution 3T scanners, with time windows          rons which is able to transition between 3 states: qui-
+T R = 0.72s, for 1200 time steps (864s for each registra-     escent (Si (t) = Q), excited (Si (t) = E) or refractory
+tion) [9]. We consider each recording separately.             (Si (t) = R). At time t + 1 a quiescent node can become
+   Functional connectivity: We used the MRI data pre-         active due to an external input with a small probability
+processed by the HCP through the Minimal Processing           p1 , or if the contribution of all P
+                                                                                                 active connections at time
+Pipeline (MPP), which performs several processing steps,      t is larger than a threshold T ( j wij δSj (t),E > T , where
+including spatial artifact/distortion removal, surface gen-   wij is the SC matrix with i,j running from 1 to 180, and
+eration, cross-modal registration, and alignment to stan-     δi,j = 1 if i = j and 0 otherwise); an active node will
+dard space [28].                                              became refractory always, and a refractory node will be-
+   The preprocessed resting-state fMRI data were con-         come quiescent with probability p2 (following [19, 38, 39]
+verted to surface space (“CIFTI” format), which consists      we have used p1 = 10−3 and p2 = 0.2 throughout the
+of 91282 cortical and subcortical gray matter coordinates     text). For the purposes of this work the network ex-
+with a resolution of 2 mm [9]. The global whole-brain         citability (i.e., the interaction strength between nodes) is
+signal was not removed in this analysis [29].                 described by theP   normalized structural connectivity ma-
+   The brain was parcellated into 360 regions according       trix wij → wij / j wij [40, 41]. The activation fraction
+                                                                                       P
+to the multimodal parcellation (MMP) atlas [30] so that       is defined as Fa (t) = i δSi (t),E .
+blood-oxygen level dependent (BOLD) time series for              Previous work [14, 19, 38–41] shows that the model
+each region could be obtained by averaging voxel sig-         exhibits a subcritical regime with low activity for high
+nals located within regions. Data was band-pass filtered      values of T , a supercritical regime with high activity at
+on the range 0.01-0.1Hz [11, 31–33]. Preprocessing was        low values of T , and a critical regime for intermediate
+completed separately for each session.                        values of T . The critical regime can be readily identified
+   Structural Connectivity: The matrices of structural        from the value of T that maximizes the first autocorre-
+connectivity extracted from DTI were used for numer-          lation coefficient, AC(1) of the activation fraction time-
+ical simulations of brain activity. Probabilistic trac-       series, Fa (t). [14, 39] (See Fig. 4). Results for the same
+tography was performed on the DTI data to trace               model, for arbitrarily large Watts-Strogatz matrices with
+the white matter fibers bridging brain regions with           connection weights mimicking experimental distributions
+the default settings in the FSL software (version 5.0.9,      are shown in SM.
+http://www.fmrib.ox.ac.uk/fsl/) [30, 34, 35].                    Detailed description of the workflow to compute the
+   First, the 360 MMP regions defined in the standard         r-spectra: The r-spectra describes the changes of the
+space were projected into individual cortical surfaces        correlation matrix properties as a function of a cutoff
+in the diffusion space by using the Connectome Work-          parameter r. The aim is to identify relatively abrupt
+bench [9]. Probabilistic tractography was then performed      changes which may be straightforward indicatives of a
+among pairs of brain regions with the FSL software            phase transition in the network connectivity. To com-
+[36, 37]. During pair-wise fiber tracing, one region was      pute it, for each subject session or for each numerical
+defined as the seed area to start the tracing and the other   simulation run, we analyzed time series consisting of 360
+as the target, and vice versa. Each voxel of the seed re-     or 180 signals lasting 1200 or 105 -106 samples respec-
+gion will send out a total of 5000 streamlines. Stream-       tively. For each session/run, we computed the Functional
+line propagation were performed with a step length of 0.5     Connectivity (FC) matrix as the Pearson correlation co-
+mm and a maximum step of 2000. After fiber tracing,           efficients of each pair of signals. Then, we proceed to
+the directional connective probability pij from a seed re-    binarize the FC matrix, specifically, for each value of r
+gion i to a target region j can be calculated as the ratio    in the range 0 < r < 1 (with steps ∆r = 0.001), we com-
+between the number of streamlines that reached the tar-                                           r
+                                                              puted the adjacency matrix Mij        , which is 1 if F Cij > r
+get region and the total number of streamlines initiated      and 0 otherwise. After that, we extracted the size and
+from the seed region [36]. Based on the calculated di-        identities of all clusters from each matrix M r using the
+rectional connective probability, we further defined the      reverse Cuthill-McKee algorithm [42] implemented by the
+structural connectivity weight wij , by calculating the       adj2cluster.m Matlab routine [43]. We extracted the size
+reciprocal averages of the connective probabilities (i.e.     of the largest S1 and the second largest S2 cluster for each
+wij = (pij + pji )/2).                                        session/run. In addition, for each r value we computed
+   Numerical simulation details: We computed numer-           the characteristic path length L(G), defined as the aver-
+                                                                                                                                   7
+
+age shortest-path distance between nodes in the largest             path length of the graph using routines written in Mat-
+cluster. In bond percolation, this behavior is well under-          lab based on the functions graph.m and distance.m.
+stood: when p ≪ pc , clusters are small and path lengths              Data and Code Availability: fMRI, DTI, and be-
+are short. As p → p−   c , clusters become large and ram-           havioral measures can be accessed from the WU-
+ified, with very long shortest paths even between spa-              Minn HCP https://balsa.wustl.edu/.          The codes
+tially proximate nodes. At pc , an infinite cluster first           used in this study are available in GitHub at
+appears and the system becomes scale-invariant (frac-               https://github.com/DanielAlejandroMartin/r-spectra
+tal), with path lengths diverging in the thermodynamic
+limit. While brain graphs differ from bond percolation
+on lattices, the characteristic behavior of L(G) near the
+transition remains qualitatively similar.
+                                                                                   ACKNOWLEDGEMENTS
+   To identify the threshold rc we use three approaches
+(see alternatives in SM): In the first one, for each ses-
+sion/run we extract rc as the value of r that maximizes               DRC thanks Hong Kong Baptist University for fund-
+S2 . In the second one, for each session/run we computed            ing his Distinguished Professorship of Science during
+several realizations with each matrix M r adding in each            these studies. This research was supported by Natu-
+one a small stochastic perturbations (∼ 10−3 ) of the con-          ral Science Foundation of China (Nos. 12305052, and
+trol parameter r and computed the variance of the largest           12272292), Research Grants Council of Hong Kong (Nos.
+cluster’s size σS1 . For this approach rc is defined by the         22302723, 12202124, and SRFS2324-2S05), Guangdong
+r value that correspond to the largest σS1 . In the third           and Hong Kong Universities “1+1+1” Joint Research
+approach, from graph theory, rc is marked by a peak in              Collaboration Scheme (2025A0505000011), and Hong
+the largest cluster average path length L(G). For each              Kong Baptist University’s funding support (RC-FNRA-
+session/run we computed for each value of r the mean                IG/22-23/SCI/03, and RC-SFCRG/23-24/SCI/06).
+
+
+
+
+[1] Eguiluz VM, Chialvo DR, Cecchi GA, Baliki M, Apkarian           [13] Grigera TS, Correlation functions as a tool to study col-
+    AV, Scale-free brain functional networks. Phys. Rev. Lett.          lective behaviour phenomena in biological systems. Jour-
+    94 (1), 018102 (2005).                                              nal of Physics: Complexity 2 (4), 045016 (2021).
+[2] Rubinov M, and Sporns O, Complex network measures of            [14] Chialvo DR, Cannas SA, Grigera TS, Martin DA, Plenz
+    brain connectivity: uses and interpretations. NeuroImage            D, Controlling a complex system near its critical point via
+    52, 1059–1069. (2010).                                              temporal correlations, Scientific Reports 10 12145 (2020).
+[3] Masuda N, Boyd ZM, Garlaschelli D, Mucha PJ, Introduc-          [15] Marconi M, Alfaro-Bittner K, Sarrazin L, Giudici M,
+    tion to correlation networks: Interdisciplinary approaches          Tredicce J, Critical slowing down in a real physical sys-
+    beyond thresholding. Physics Reports 1136, 1–39 (2025).             tem. Chaos Solitons & Fractals. 186 115218 (2024).
+[4] Sporns O, Networks of the Brain (MIT Press, 2010).              [16] Scheffer M, Bascompte J, Brock WA, Brovkin V, Carpen-
+[5] Chialvo DR, Emergent complex neural dynamics, Nature                ter SR, Dakos V et al., Early-warning signals for critical
+    Physics 6 (10), 744-750 (2010).                                     transitions. Nature 461, 53–59 (2009).
+[6] Stanley HE (1971). Introduction to Phase Transitions and        [17] Meisel C, Klaus A, Kuehn C, Plenz D, Critical slowing
+    Critical Phenomena. Oxford: Oxford University Press.                down governs the transition to neuron spiking. PLoS Com-
+[7] Lesne A & Lagues M, (2012) Scale Invariance. From                   put Biol 11(2): e1004097 (2015).
+    Phase Transitions to Turbulence, Translated by Rhoda J.         [18] Tagliazucchi E, Chialvo DR, Siniatchkin M, Amico E,
+    Hawkins, Springer-Verlag, Berlin Heidelberg.                        Brichant J-F, Bonhomme V, Noirhomme Q, Laufs H, Lau-
+[8] Radicchi F, Predicting percolation thresholds in networks           reys S, Large-scale signatures of unconsciousness are con-
+    Phys. Rev. E 91, 010801(R) (2015).                                  sistent with a departure from critical dynamics J. R. Soc.
+[9] Van Essen DC et al., The WU-Minn human connectome                   Interface 13 20151027 (2016).
+    project: An overview. Neuroimage 80, 62–79 (2013).              [19] Haimovici A, Tagliazucchi E, Balenzuela P, Chialvo DR,
+[10] Wang R, Liu M, Cheng X, Wu Y, Hildebrandt A, Zhou C,               Brain organization into resting state networks emerges at
+    Segregation, integration, and balance of large-scale resting        criticality on a model of the human Connectome, Phys.
+    brain networks configure different cognitive abilities, Proc.       Rev. Lett. 110, 178101 (2012).
+    Natl. Acad. Sci. U.S.A. 118 (23) (2021).                        [20] Hagmann P, Cammoun L, Gigandet X, Meuli R, Honey
+[11] Wang R, Lin P, Liu M, Wu Y, Zhou T, Zhou C, Hierarchi-             CJ, Wedeen VJ, Sporns O, PLoS Biol. 6, e159 (2008).
+    cal connectome modes and critical state jointly maximize        [21] Greenberg JM & Hastings SP, SIAM (Soc. Ind. Appl.
+    human brain functional diversity. Phys. Rev. Lett. 123,             Math.) J. Appl. Math. 34, 515, (1978).
+    038301 (2019).                                                  [22] Ochab JK, Tarnowski W, Nowak MA, Chialvo DR, On
+[12] Camargo S, Martin DA, Aguilar Trejo EJ, de Florian A,              the pros and cons of using temporal derivatives to assess
+    Nowak MA, Cannas SA, Grigera TS, Chialvo DR, Scale-                 brain functional connectivity. NeuroImage 184, 577–585
+    free correlations in the dynamics of a small (N∼10000)              (2019).
+    cortical network, Phys. Rev. E 108, 034302, (2023).             [23] Gallos LK, Makse HA, Sigman M, A small-world of
+                                                                        weak ties provides optimal global integration of self-similar
+                                                                                                                             8
+
+    modules in functional brain networks. PNAS 109, 2825             [41] Rocha RP, Koçillari L, Suweis S, De Filippo De Grazia M,
+    (2012).                                                              Thiebaut de Schotten M, Zorzi M, Corbetta M, Recovery
+[24] Gallos LK, Sigman M, Makse H, The conundrum of func-                of neural dynamics criticality in personalized whole-brain
+    tional brain networks: small-world efficiency or fractal             models of stroke. Nat Commun 13, 3683 (2022).
+    modularity. Front. Physiol. 3, 123 (2012).                       [42] E Cuthill & J McKee, Reducing the bandwidth of sparse
+[25] Cabral-Carvalho RM, Pinaya WHL, Sato JR, A graph                    symmetric matrices. Proc. 24th Nat. Conf. ACM, 157–172,
+    neural network approach to investigate brain critical                (1969). https://doi.org/10.1145/800195.805928
+    states over neurodevelopment. Netw. Neurosci. 9(2):761-          [43] Candelier     R,    Adjacency     matrix     to   clusters
+    776 (2025).                                                          (https://la.mathworks.com/matlabcentral/fileexchange/60676-
+[26] Wang R, Liu M, Cheng X, Wu Y, Hildebrandt A, Zhou C,                adjacency-matrix-to-clusters), MATLAB Central File
+    Segregation, integration, and balance of large-scale rest-           Exchange. Accessed november 7, 2025.
+    ing brain networks configure different cognitive abilities.
+    PNAS 118 (23):e2022288118 (2021).
+[27] Watts DJ, Strogatz S, Collective dynamics of ‘small-
+    world’ networks. Nature 393 (6684): 440–442 (1998).
+[28] Glasser MF, Sotiropoulos SN, Wilson JA, Coalson TS,
+    Fischl B, Andersson JL, Xu J, Jbabdi S, Webster M, Poli-
+    meni JR, Van Essen DC, Jenkinson M, WU-Minn HCP
+    Consortium The minimal preprocessing pipelines for the
+    human connectome project. Neuroimage 80, 105–12481
+    (2013).
+[29] Schölvinck ML, Maier A, Frank QY, Duyn JH, Leopold
+    DA, Neural basis of global resting-state fMRI activity.
+    Proc. Natl.Acad. Sci. 107, 10238–10243 (2010).
+[30] Glasser MF, et al., A multi-modal parcellation of human
+    cerebral cortex. Nature 536, 171 (2016).
+[31] Shine JM, Aburn MJ, Breakspear M, Poldrack RA, The
+    modulation of neural gain facilitates a transition between
+    functional segregation and integration in the brain. Elife
+    7, e31130 (2018).
+[32] Sobczak F, He Y, Sejnowski TS, Yu X, Predicting the
+    fMRI signal fluctuation with recurrent neural networks
+    trained on vascular network dynamics. Cereb. Cortex 31,
+    826–844 (2021).
+[33] Whittaker JR, Driver ID, Venzi M, Bright MG, Murphy
+    K, Cerebral autoregulation evidenced by synchronized low
+    frequency oscillations in blood pressure and resting-state
+    fmri. Front. Neurosci. 13, 433 (2019).
+[34] Liu X, Hildebrandt A, Meyer K, Sommer W, Zhou C,
+    Patterns of individual differences in fiber tract integrity of
+    the face processing brain network support neurofunctional
+    models. Neuroimage 204, 116229 (2020).
+[35] Liu M, Liu X, Hildebrandt A, Zhou C, Individual cortical
+    entropy profile: Test-retest reliability, predictive power for
+    cognitive ability, and neuroanatomical foundation. Cereb.
+    Cortex Commun 1(1):tgaa015 (2020).
+[36] Behrens TE, Berg HJ, Jbabdi S, Rushworth MF, Wool-
+    rich MW, Probabilistic diffusion tractography with mul-
+    tiple fibre orientations: What can we gain? Neuroimage
+    34, 144–155 (2007).
+[37] Behrens TE, et al., Characterization and propagation of
+    uncertainty in diffusion-weighted MR imaging. Magn. Re-
+    son. Med. 50, 1077–1088 (2003).
+[38] Zarepour M, Perotti JI, Billoni OV, Chialvo DR, Cannas
+    SA, Phys. Rev. E 100, 052138 (2019).
+[39] Sánchez Dı́az MM, Aguilar Trejo EJ, Martin DA, Can-
+    nas SA, Grigera TS, Chialvo DR, Similar local neuronal
+    dynamics may lead to different collective behavior, Phys.
+    Rev. E, 104, 064309, (2021).
+[40] Rocha RP, Kocillari L, Suweis S, Corbetta M, Maritan A,
+    Homeostatic plasticity and emergence of functional net-
+    works in a whole-brain model at criticality. Sci. Rep. 8,
+    15682 (2018).
+                                                                                                                       1
+
+                              Supplemental Material for
+  Data-driven inference of brain dynamical states from the r-spectrum of correlation
+                                      matrices
+                                  by Gabaldon et al.
+
+
+
+    We include Supplemental data supporting the main manuscript. First, in Section S1 we reproduce results from
+Figures 2 and 3 of main text considering all sessions of each subject from HCP dataset. We also include numerical
+simulation results of GH model on the left hemisphere structural network, analogous to those presented in Fig. 5 of
+main text for the right hemisphere. In Section S2 we apply the r-spectra method on two simple numerical models:
+the 2D Ising model describing paramagnetic-ferromagnetic transitions, and the GH model (the same as in main text),
+now using synthetic (Watts-Strogatz [1]) networks. We also propose alternative definitions of rc . In Section S3,
+we show further insights on the relation among r-spectra and percolation. We show the relation among rc and the
+estimated critical density on bonds, pc . We also show the variability maximization of the largest cluster size about
+rc , as expected about percolation. In Sec. S4 we relate temporal and spatial (Pearson) correlations under simple
+assumptions (for vector autorregressive models), as mentioned in main text. Finally in Sec. S5 we study the behavior
+of the resting state networks about rc .
+
+
+                                       S1.   COMPLEMENTARY FIGURES
+
+                             A.   r-spectra results for all sessions in the HCP dataset
+
+   Figures 2 and 3 from main text were computed from the first session of all 996 considered subjects from WU-Minn
+Young Adult dataset [3]. In Fig. S1 we reproduce the results using all 4 sessions for each subject. To avoid introducing
+spurious correlations, we concatenated the timeseries of each subject after subtracting from each ROI its mean value.
+In each figure panel we have used the same subjects as in the related figure in main text (now considering all sessions).
+Results in Fig. S1, panels A-F show striking similarities with their main text counterparts. Notice that in panel F we
+show rc estimated from σS1 (omitted in Fig. 3 of main text). Notice also that the results are very similar to those
+from S2 and L(G). Results in panel G (rc as a function of age) are very similar to results in Fig 3B. In particular,
+the negative relation among Age group and rc is clearly observed.
+
+
+                             B.   Numerical simulation results for the left hemisphere
+
+   In main text Fig. 5, the numerical simulation results for the GH model [4] on the average structural connectome
+from WU-Minn DTI data considered only the 180 nodes of the right hemisphere. In Fig. S2 we show the same results
+for the left hemisphere. Computations were performed exactly as described in main text for the right hemisphere:
+The representative structural connectome was computed from the average of DTI connectivity matrices from the 996
+subjects in the WU-Minn dataset. Then the 180 × 180 matrix corresponding to the left hemisphere (ROIs 181 to
+360) was considered, and normalized as described in Rocha et al. [5, 6] (i.e., the sum of the weights of in-connections
+of each ROI is normalized to 1). The numerical simulation of GH model was run on that network using the same
+parameters (p1 = 0.001, p2 = 0.2 T = 0.16 − 0.21 with ∆T steps of 0.0005) and duration (10000 steps for each T
+value, first 1000 steps not considered). Results in Fig. S2 are very similar to those presented in Fig. 5 of main text
+(for the other hemisphere).
+                                                                                                                            2
+
+                                                   S2.   GENERALITY OF THE RESULTS
+
+                            A.             Replication of the r-spectra on simple numerical models
+
+   The inference method proposed in the main text, r-spectra, should be applicable in principle on any system
+presenting critical behavior. We show results on two well understood numerical models.
+   We first run simulations of the GH model on a Watts-Strogatz (WS) network [1]. While synthetic networks may
+not fully reproduce the properties of human connectome, they allow us to study the dynamics for arbitrary sizes. For
+this model and topology, a number of results showing critical dynamics at a given critical value, Tc , have already been
+described [2].
+   Following previous results for this model and topology, we consider networks of N = 5000 nodes with average degree
+⟨k⟩ = 10 and rewiring probability π = 0.6. The weights of connected nodes are symmetric (wij = wji ) and are taken
+from an exponential distribution (p(wij = w) ∝ e−λω , with λ = 12.5). We consider p1 = 10−3 and p2 = 0.2 (as in
+main text). The model shows a continuous transition at TC ≃ 0.172, from high activity in the supercritical (T < Tc )
+regime, to low activity in the subcritical regime. Tc can be identified, for instance, as the value of T at which the first
+autocorrelation coefficient AC(1) is maximum. Here, to be consistent with results in main text, we considered that a
+neuron is active if it is either in the excited or quiescent state, and p2 = 0.2. This differs from the results in previous
+articles for this model and topology (such as [2, 7]), nevertheless, this choice does not qualitatively change the results.
+   For each value of T in T = 0.1 − 0.22, with ∆T = 0.01, we run 5 realizations of 50000 timesteps each. We discard
+the first 10% time points of each timeseries and compute the Pearson correlation matrix with the remaining time
+points. We later compute rc for each realization as described in main text.
+   In Fig. S3 we show simulation results. In Panel A we show the activity as a function of T . In Panel B we show the
+first autocorrelation coefficient, AC(1) as a function of T . AC(1) has a peak at the transition point, Tc ≃ 0.172. In
+
+                                       1
+                                               A                                     E
+                           S1
+
+
+
+
+                                  0.5
+                                                                                         S2
+                                                                               0.8       σ S1
+                                       0
+                                               B                                         L(G)
+                            S2
+
+
+
+
+                                   0.1
+                                                                         rc
+
+
+
+
+                                    0
+                                0.006          C
+                         σ S1
+
+
+
+
+                                                                               0.6
+                                0.003
+                                       0
+                                       6       D
+                                L(G)
+
+
+
+
+                                       3
+                                       0                                       0.4
+                                           0            0.5         1                    0.4             0.6
+                                                    Threshold r                                  AC(1)
+
+
+                                               F                                     G
+                                 0.8                                          0.65
+
+
+
+                                 0.6
+                          rc
+
+
+
+
+                                                                         rc
+
+
+
+
+                                 0.4                                           0.6
+
+                                           0.2       0.4     0.6   0.8               22-25       26-30    31+
+                                                       AC(1)                                    Age group
+
+FIG. S1. Reproduction of Figures 2 and 3 from from main text, considering concatenated brain BOLD activity
+of all 4 sessions for each subject in the HCP dataset. Panels A-D reproduce Fig. 2 panels A-D, using the same color
+scheme for each subject (Panel A: S1 as a function of r for 10 subjects; Panel B: S2 ; Panel C: σ S1 ; Panel D: L(G)). Panel
+E reproduces Fig 2 Panel E (rc as a function of AC(1) for 64 subjects, considering 3 ways to compute rc ). Panels F and G
+reproduce Fig. 3 panels A and B respectively. In Panel E, results for rc as a function of AC(1) for all subjects and 3 ways to
+compute rc are shown. In Panel G rc (estimated from the peak of S2 ) is shown for 4 subjects groups, organized by age.
+                                                                                                                                3
+
+                                           0.4
+
+
+
+
+                                      rc
+                                           0.2               S2
+                                                             σ S1
+                                                 Tc          L(G)                    A
+                                            0
+                                                         0.18            0.2
+                                                        Control Parameter T
+
+
+                                           0.4
+
+
+                                      rc
+                                           0.2
+                                                                                     B
+                                            0.95          0.96        0.97           0.98
+                                                              < AC(1) >
+
+
+                                           0.4
+                                      rc
+
+
+
+
+                                           0.2
+                                                                                     C
+                                            0.02      0.04      0.06      0.08           0.1
+                                                        < Pair Correlation >
+
+FIG. S2. GH Model simulation results from brain left hemisphere. Panel A: rc estimated as the peak of S2 , as the peak
+of σ S1 and as the peak of the characteristic path length L(G) can be successfully estimated from the percolation thresholds
+rc . Panel B: rc estimates as a function of the first autocorrelation coefficient, AC(1). Panel C: rc as a function of the average
+pair wise correlation among ROI timeseries. The red dashed vertical line in panel A indicates the value of the model critical
+point Tc . Results computed on a representative structural network (averaged over all subjects, as in Fig. 5 from main text).
+We now restricted the conectome to connections in the left hemisphere. Computation details as in Fig 5 of main text.
+
+
+
+panel C we show rc computed in several ways, as a function of T . We find that the different alternative computations
+of rc have a peak about Tc , being lower at the supercritical and subcritical regimes. We also find larger error bars
+compatible with higher variability about Tc . The inset of the figure shows rc variability among realizations, which is
+maximum about rc . In panel D we plot rc as a function of AC(1). We find that rc grows as AC(1) grows, but the
+relation is different for subcritical (T > Tc ) and supercritical (T < Tc ) regimes.
+   We also consider the 2D Ising model, a paradigmatic example of equilibrium continuous transition. The model
+describes a continuous paramagnetic-ferromagnetic transition at a temperature Tc ≃ 2.27. Notice that we have used
+the same letter, T , for the control parameter of GH and Ising models, however, here T represents temperature instead
+of a Threshold. We have run numerical simulations using the metropolis Monte Carlo algorithm, on a square lattice
+of N = L × L, spins with periodic boundary conditions. For each T value, we run 5 realizations of 50.000 timesteps
+each. To avoid transients, the first 10% steps are discarded, and the remaining steps are considered for computing the
+magnetization M (t) (the sum of the values of each spin at time t), the first coefficient of the autocorrelation of the
+magnetization timeseries, AC(1), and the Pearson Correlation matrix. To reduce memory computational demands, we
+only save one configuration every 5 time steps (i.e., the Pearson correlation matrix is computed from 45.000/5 = 9.000
+configurations). This choice does not significantly change the results, while it reduces the required computer memory
+and also the computational time required.
+  For each realization and T value, and compute rc as described in main text. In Fig. S4 we plot rc as a function of
+T on systems of size L = 64 (i.e., there are N = 642 = 4096 spin timeseries). We find that rc is maximum at Tc , and
+decays both in the supercritical (T > Tc ) regime, and the subcritical regimes, although the relation among AC(1)
+and rc is different for T > Tc and T < Tc .
+                                                                                                                               4
+
+                                                                                          1
+                                                                            A                 B
+                               0.6
+
+
+                                                                                        0.9
+
+
+
+
+                                                                                AC(1)
+                          Fa
+                               0.3
+
+                                                                                        0.8
+
+                                0
+                                     0.1                  0.15        0.2                     0.1          0.15      0.2
+                                                             T                                                T
+
+                                      0.2                                               0.3 D
+                               0.4                                          C
+                                                                       S2                                 T<Tc
+                                      σ (rc )
+
+                                                                       σ S1
+                                                                       L(G)                               T>Tc
+                               0.3       0
+                                                0.1   T   0.2
+                                                                                        0.2
+                          rc
+
+
+
+
+                                                                                rc
+                               0.2
+
+                                                                                        0.1
+                               0.1
+
+                                     0.1                  0.15        0.2                           0.8        0.9
+                                                             T                                             AC(1)
+
+
+FIG. S3. Replication of the r-spectra framework for GH simulations on a WS network Panel A: Activity fraction
+as a function of threshold T . Panel B: First autocorrelation function as a function of T . Panel C: rc computed from three
+methods as a function of T . Inset: standard deviation σ of rc as a function of T. Panel D: rc computed from the peak of S2 as a
+function of AC(1). In the first 3 panels, a vertical red dashed line shows the critical values of the control parameter, computed
+as the value that maximizes the first autocorrelation coefficient, AC(1). Results computed on a WS network of N = 5000
+nodes, with average degree ⟨k⟩ = 10 and rewiring probability π = 0.6. Simulations are run for 50 000 MC steps, deleting the
+first 10% steps. Results averaged from 10 different networks. Error bars omitted when their size is similar to point size.
+
+
+                                                           B.    Alternative definitions of rc
+
+   In main text we considered 3 ways to compute rc . Nevertheless, a percolation transition can be characterized in
+several ways, potentially allowing alternative definitions of rc . Here we show two alternatives.
+   We first consider the degree (i.e., the number of links of each node) distribution, {ki }i=1,..,N in the graph obtained
+from the binarized matrix. Close to the percolation point, a broad distribution of degrees is expected, and consequently
+a large variability in the degree should be present. In Fig. S5 we show the standard deviation of the degree as a
+function of r from the correlation matrix of 10 subjects in the HCP dataset. We observe that the curves are smooth,
+and show a broad peak. We propose this peak as an alternative definition of rc . In Panel B we observe that this
+definition correlates well with the already proposed definitions, although its value is smaller.
+   We may also define rc as the peak of coefficient of variation: the ratio among the standard deviation of the degree,
+σ[k] and its mean, ⟨k⟩ (see Panels C and D). This definition is still smoother than those used in main text, and shows
+quantitative values similar to those considered in main text. Notice that both definitions, computed from degree
+distribution, do not require cluster computation and are consequently numerically more efficient.
+   Another possible definition of rc is related to cluster size distribution. At the percolation point, a scale-free
+distribution of cluster sizes is expected, while fast decaying distributions are expected for subcritical regimes, and
+giant clusters, including a large proportion of nodes, are expected for the supercritical regime. As a consequence,
+the skewness of the cluster size distribution should be maximum near the percolation point. Using this property we
+define an alternative definition of rc : the maximum of the skewness of the cluster size distribution as a function of r.
+Importantly, a large number of ROIs is required for this definition to be useful (since a reliable cluster size distribution
+needs to be computed). Also, clusters of size 1 (i.e., isolated ROIs) are excluded. Results for Ising model are shown
+in Fig. S6. We find that the values of rc computed with this definition coincide with the estimate from the peaks of
+S2 (see panel F).
+                                                                                                                                5
+
+                                  1                                           1
+                                                              A                   B
+
+
+
+
+                                                                    AC(1)
+                          |M|
+                                0.5
+
+
+
+                                                                            0.5
+
+                                 0
+                                         2              3                              2                  3
+                                               T                                             T
+
+
+                                                              C                   D
+                                0.6                                         0.6         T<Tc
+                                                                                        T>Tc
+                         rc
+
+
+
+
+                                                                   rc
+                                0.3                                         0.3
+                                                         S2
+                                                         σ S1
+                                                         L(G)
+                                 0                                           0
+                                         2              3                    0.4      0.6           0.8       1
+                                               T                                            AC(1)
+
+
+FIG. S4. Replication of the r-spectra framework on the 2D Ising model Panel A: Magnetization as a function of
+temperature T . Panel B: First autocorrelation function as a function of T . Panel C: rc computed from three methods as a
+function of T . Panel D: rc computed from the peak of S2 as a function of AC(1). In the first 3 panels, a vertical red dashed line
+shows the critical values of the control parameter, computed as the value that maximizes the first autocorrelation coefficient,
+AC(1). Results computed on a 2D lattice of 64 × 64 spins with periodic boundary conditions. Simulations are run for 50 000
+MC steps, deleting the first 10% steps. In all plots, error bars are omitted since their size is similar to point size.
+
+
+                                             S3.     PERCOLATION RESULTS
+
+                                          A.       Relation to standard percolation
+
+   In main text we focused on networks derived from the thresholding of the correlation matrix, which showed behavior
+compatible with a percolation transition as the threshold value r is varied. Percolation phenomena is most frequently
+studied as a function of the density of preserved links p. The relation among p and r is studied next.
+   Analytical approximations predicting the critical pc value from an adjacency matrix A are known [9]. One of
+                            (sp)
+such approximations is pc        = 1/λ1 , being λ1 the largest eigenvalue of A. Another approximation is given by
+ (k)       ⟨k⟩                                                                                              (sp)
+pc = ⟨k2 ⟩−⟨k⟩ , where ki is the degree of the i − th node of the (unweighted) network. We computed pc using the
+                                         (k)                                                      P
+correlation matrix instead of A, and pc replacing ki with the strength of each node, Si = j Cij . These estimated
+critical densities show a clear (inverse) correlation with the respective rc , suggesting a connection among the proposed
+method and standard percolation on graphs, see Fig. S7.
+
+
+                                                   B.   Cluster size variability
+
+   In this section we show further evidence on the existence of a percolation transition as the threshold of correlation
+matrix, r, is varied. We compute the variability among subjects of the largest cluster size and the number of clusters
+from the r-spectrum of the subjects in the HCP dataset.
+   In Fig. S8-A we show S1 as a function of r/rc for 10 representative subjects (the same subjects and color code as
+in Fig. 2). For each subject we used the rc estimate from L(G). We observe that, for 9 out of the 10 subjects, S1 as
+a function of r/rc seems to collapse. We have tried different alternative definitions of rc (such as rc from the peak of
+S2 or σS1 ). None of them can collapse the S1 curve for all subjects. We have also investigated ways to reduce sources
+of variability in the data. We were unable to improve the collapse. These results suggest that the differences in the
+S1 v.s. r curves may be due to true dynamical differences among subjects.
+                                                                                                                             6
+
+                                 100
+                                                                           A                  B
+
+                                                                                    0.8
+
+
+
+
+                          σ[k]
+
+
+
+
+                                                                                   rc
+                                        50
+                                                                                    0.6
+                                                                                                                    S2
+                                                                                                                    σ S1
+                                                                                                                    L(G)
+                                            0                                       0.4
+                                                0       0.5                    1          0              0.2          0.4
+                                                    Threshold r                                         rc [σ[k]]
+                                            2
+                                                                           C                  D
+                                                                                    0.8
+                                 σ[k]/<k>
+
+
+
+
+                                                                                   rc
+                                            1
+                                                                                    0.6
+
+
+
+
+                                            0                                       0.4
+                                                0       0.5                    1      0.4               0.6         0.8
+                                                    Threshold r                                       rc [σ[k]/<k>]
+
+FIG. S5. Network degree variability peaks at the percolation threshold. Panel A: standard deviation of the degree,
+σ[k] as a function of r. Panel B: rc as a function of rc estimated from the peak of σ[k]. Panels C and D: same as A and B for
+σ[k]/⟨k⟩. Data from the first session of the HCP dataset, considering the same 10 (panels A and C) and 64 (panels B and D)
+subjects and the same colors for each one, as in Figs. 2 and 3 on main text.
+
+
+  In panel B we show the among-subject variability of S1 and the number of clusters as a function of r/rc . We
+observe that both curves present a peak about r = rc . Similar results hold for the number of clusters and its
+variability (provided we exclude clusters of size 1, which represent isolated ROIs).
+
+
+      S4.   RELATION BETWEEN PEARSON CORRELATION AND TIME AUTOCORRELATION.
+
+  Higher time autocorrelation is expected for the sum of signals that show high Pearson correlation among them.
+This relation between Pearson correlation and autocorrelation is predicted, for instance, in the context of continuous
+phase transitions, where dynamic scaling is assumed.
+  Analytical results can be found in simpler cases, such as VAR(1) models studied in [8].
+  Consider n timeseries xi (t), where i = 1, .., n, whose dynamics is given by
+
+                                                                  X
+                                                      xi (t) =        Aij xj (t − 1) + ξi,t ,                               (1)
+                                                                  j
+
+where ξi are zero mean, uncorrelated random variables, and it is assumed that the module of the eigenvalues of A are
+smaller than one. It can be found that [8]
+
+
+                                                              C(1) = C × AT ,
+
+where Cij = ⟨xi (t)xj (t)⟩, Cij (1) = ⟨xi (t)xj (t+1)⟩ and ⟨...⟩ stands for time average. The first autocorrelation coefficient
+can be written as
+
+                                                                                              2
+                                                                      P
+                                                                       ij Cij (1) − ⟨S⟩
+                                                       AC(1) =                                    ,
+                                                                           var(S)
+                                                                                                                                                                                 7
+
+                                                           T=1.4                                                   T=2.3                                          T=3
+                                                                  r~<rc       A                                                  B                                           C
+                                          -1                      r<rc                              -1                                          -1
+                                    10                            r>rc                             10                                      10
+                                         -2                                                         -2                                          -2
+                                  10                                                           10                                          10
+
+
+
+
+                         s
+
+
+
+
+                                                                                      s
+
+
+
+
+                                                                                                                                     s
+                                         -3                                                         -3                                          -3
+                                  10                                                           10                                          10
+                                         -4                                                         -4                                          -4
+                                  10                                                           10                                          10
+                                                       1     2            3                                1         2       3                                1    2     3
+                                                   10      10       10                                   10        10       10                               10   10    10
+                                                            s                                                       s                                              s
+
+                                         20
+                                                   D                 T=1.4                                                       E                       F
+                                                                     T=2.3                         0.6                                         0.6
+                          skewness (s)
+
+
+
+
+                                                                     T=3
+
+
+
+
+                                                                                      rc [skew.]
+
+
+
+
+                                                                                                                                     rc [S2]
+                                                                                                   0.4                                         0.4
+
+                                         10
+                                                                                                   0.2                                         0.2
+
+
+                                                                                                    0                                           0
+                                              0             0.5                   1                            2             3                       0        0.2 0.4 0.6
+                                                             r                                                      T                                           rc [skew.]
+
+
+FIG. S6. Alternative estimation of rc from the cluster size skewness, demonstrated in the Ising model. Panel A:
+Cluster size distribution P (s) from the percolation of the correlation matrix of Ising model dynamics for T = 1.4, for 3 values
+of r. Panels B and C: same as Panel A for T = 2.3 and T = 3. Panel D: Skewness of P (s) for the 3 temperatures, as a function
+of r. Panel E: rc estimated as the peak of the Skewness, as a function of T . Panel F: rc computed from S2 as a function of
+rc computed from the skewness of P (s). Each point represents the average over 5 realizations of the same T value. In panels
+A-C, to increase statistics, for each r value, we average over all cluster sizes computed from r − 0.005 to r + 0.005. Further
+numerical details as in Fig.S4.
+
+                                         0.09
+                                                                                                                             0.1
+
+
+
+
+                                         0.06
+                                                                                                                            0.01
+                         pC
+
+
+
+
+                                                                                                                                                                             1
+
+
+                                         0.03                                                                                                                           sp
+                                                                                                                                                                        k
+
+
+
+
+                                               0
+                                                                 0.4                                                                           0.8
+                                                                                                                   rc [S2]
+
+                                                                                                                     (sp)            (k)
+FIG. S7. Relation among rc and pc for HCP subjects. pc                  and pc computed from the correlation matrix of each
+subject, as a function of rc . The inset shows the same data in logarithmic scale. The first session of all 996 HCP subjects was
+considered.
+
+               P
+where S(t) =     i xi (t). Similarly, the Pearson correlation matrix P has elements
+
+
+
+                                                                                                         Cij − ⟨xi ⟩⟨xj ⟩
+                                                                                           Pij =
+                                                                                                              σi σj
+                                                                                                                              8
+
+                                                   1
+                                                                                           A
+
+
+
+
+                                         S1
+                                                 0.5
+
+
+
+
+                                                  0
+                                                       0         0.5                  1        1.5
+                                                                        r/rC [L(G)]
+
+
+                                                                                           B
+
+                                       σ (S1)    0.1
+
+
+
+                                                0.05
+
+
+
+                                                  0
+                                                       0         0.5                  1        1.5
+                                                                        r/rC [L(G)]
+
+
+FIG. S8. Largest cluster size variability at percolation. Panel A: Largest cluster size, S1 as a function of r/rc for 10
+representative subjects (colors). A dashed black line shows the average over all 996 subjects. Panel B: Standard deviation of
+S1 among subjects, for the same value of r/rc . A red vertical line shows r = rc . Results computed from the percolation of the
+correlation matrix of the fMRI activity of the first session of the HCP dataset. The same 10 representative subjects of Fig. 2
+were used in panel A, following the same color scheme.
+
+
+  Multiplying the former equation by the transpose of A, assuming that all signals have a similar mean ⟨xi ⟩ ≃ m
+and standard deviation, σi ≃ σ, and that var(S) ≃ nσ 2 , we find that
+
+                                                                     1X
+                                                           AC(1) ≃         [P × AT ]ij .                                    (2)
+                                                                     n i,j
+
+Numerical simulations of Eq. 1 show that Eq. 2 holds, and also, that for positive average matrices A, simulations
+with higher Pearson correlation show higher AC(1).
+
+
+                S5.    CLUSTER LOCALIZATION NEAR THE PERCOLATION THRESHOLD
+
+   Since rc estimates the percolation threshold it is expected that at that r value the brain must exhibit the largest
+fluctuations (and dynamical flexibility). To evaluate which brain regions fluctuate in and out of the largest clusters
+(i.e., S1 and S2 ) we compute the probability to belong to each cluster for each resting-state network as a function of
+r. Results in Fig. S5 show the hierarchy in which RSNs participate (i.e., have a large number of ROIs leaving the
+largest cluster near the value of rc ). Notice that while all cortical RSNs fluctuate near rc , subcortical regions only
+exhibit changes for very low values of r.
+
+
+
+
+[1] Watts DJ, Strogatz S, Collective dynamics of ‘small-world’ networks. Nature 393 (6684): 440–442 (1998).
+[2] Zarepour M, Perotti JI, Billoni OV, Chialvo DR, Cannas SA, Phys. Rev. E 100, 052138 (2019).
+[3] Van Essen DC et al., The WU-Minn human connectome project: An overview. Neuroimage 80, 62–79 (2013).
+[4] Haimovici A, Tagliazucchi E, Balenzuela P, Chialvo DR, Brain organization into resting state networks emerges at criticality
+    on a model of the human Connectome, Phys. Rev. Lett. 110 17, 178101 (2012).
+[5] Rocha RP, Kocillari L, Suweis S, Corbetta M, Maritan A, Homeostatic plasticity and emergence of functional networks in
+    a whole-brain model at criticality. Sci. Rep. 8, 15682 (2018).
+                                                                                                                          9
+
+                                            1
+                                                                                   A
+
+
+
+
+                                     S1
+                                          0.5
+
+
+
+
+                                           0
+                                                0          0.5                 1       1.5
+                                                                 r/rC [L(G)]
+
+                                          0.2
+                                                    AT                             B
+                                                    CER
+                                                    DMN
+                                                    SM
+                                                    SUBC
+                                     S2
+
+
+                                          0.1       V
+
+
+
+
+                                           0
+                                                0          0.5                 1       1.5
+                                                                 r/rC [L(G)]
+
+
+FIG. S9. RSN participation probability as a function of r. Fraction of nodes from each RSN belonging to the first
+(Panel A) or second (Panel B) largest cluster, averaged over all 996 HCP subjects. Gray lines show the same results for each
+ROI. All details as in previous figures. The number of ROIs per RSN are: AT (Attention) 81, CER (Cerebellum) 16, DMN
+(Default mode network) 91, SM (Somatomotor) 95, SUBC (Subcortical) 18, and V (Visual) 58.
+
+
+[6] Rocha RP, Koçillari L, Suweis S, De Filippo De Grazia M, Thiebaut de Schotten M, Zorzi M, Corbetta M, Recovery of
+    neural dynamics criticality in personalized whole-brain models of stroke. Nat Commun 13, 3683 (2022).
+[7] Sánchez Dı́az MM, Aguilar Trejo EJ, Martin DA, Cannas SA, Grigera TS, Chialvo DR, Similar local neuronal dynamics
+    may lead to different collective behavior, Phys. Rev. E, 104, 064309, (2021).
+[8] Ochab JK, Tarnowski W, Nowak MA, Chialvo DR, On the pros and cons of using temporal derivatives to assess brain
+    functional connectivity. NeuroImage 184, 577–585 (2019).
+[9] Radicci F, Predicting percolation thresholds in networks Phys. Rev. E 91, 010801(R) (2015).
+

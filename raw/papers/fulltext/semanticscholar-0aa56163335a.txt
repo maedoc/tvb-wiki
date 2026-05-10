@@ -1,0 +1,756 @@
+                        International Journal on Advanced Electrical and Computer Engineering
+
+
+
+
+                                         Archives available at          journals.mriindia.com
+                                  International Journal on Advanced Electrical and Computer
+                                                         Engineering
+                                                               ISSN: 2349-9338
+                                                          Volume 15 Issue 01s, 2026
+
+
+A Comprehensive Review of Deep Convolutional Neural Networks for
+Brain Tumor Detection and Classification
+1Yugashree Ramesh Bhadane, 2Dr. Ganapati A. Patil
+1 Ph.D Scholar, Department of Computer Science and Engineering, JSPM University Pune, Assistant Professor,
+
+School of Computational Sciences, JSPM University Pune
+2 Professor, School f Computational Sciences, JSPM University Pune
+
+Email: 1yugashreebhadane@gmail.com 2gap.scos@jspmuni.ac.in
+
+Peer Review Information                                              Abstract
+                                   Brain tumours are a major health burden worldwide, and the early and
+Submission: 05 Dec 2025
+                                   accurate detection of them is vital to improve treatment radiation dos-
+Revision: 25 Dec 2025              es and overall patient survival. The development of deep learning, in
+                                   particular CNN, has drastically changed medical image analysis by au-
+Acceptance: 10 Jan 2026            tomating the process of feature extraction and diagnosis. In high-
+                                   quality medical images, MICs can also cause erroneous detections. In
+Keywords                           this review paper, we comprehensively investigate the deep learning
+                                   technologies for brain tumour detection and classification on MR and
+Brain tumor detection and          CT images in the state of the art. This paper demonstrates that the CNN
+classification, when aided by      model has superiority over traditional manual diagnosis, effectively
+these sophisticated algo-          learns the hierarchical features of images, and reduces misdiagnosed
+rithms, can lead to earlier        cases. It addresses essential model designs, benchmarks, and issues
+interventions and more per-        related to integrating these models into clinical workflows. Further-
+sonalized treatment strategies     more, the survey investigates the ability of CNN-based systems to pro-
+                                   vide robust and efficient telemedicine-based and high-quality neuro-
+                                   oncological diagnostics utilizing high-dimensional imaging whilst accu-
+                                   rately segmenting tumorous regions. The inclusion of AI in medical
+                                   imaging drives not only an increase in workflow efficiency but also the
+                                   prospect of personalized treatment planning. This paper highlights the
+                                   breakthrough applications of CNNs in neuroimaging and future re-
+                                   search directions, which include further enhancing the model generali-
+                                   zation on various datasets and real-world clinical applications that can
+                                   help radiologists achieve better patient care.
+
+
+1 Introduction                                               they are diagnosed at a late stage. Due to the
+Brain tumours are unique in their clinical                   extreme morbidity and mortality caused by
+presentation. They originate from the abnormal               brain tumours, an early and accurate diagnosis
+growth of cells within the brain or its                      is very important to the outcome prognosis and
+surrounding structures and present one of the                survival time of the patients. There is a further
+massive public health challenges worldwide                   urgent need for great accuracy of a diagnosis
+because of their aggressive, invasive nature,                given the delicate structure of the brain and the
+complex pathology and impact on cognitive                    difficult differentiation between tumours and
+functions and motor. These tumours can be                    healthy tissue, as well as between oedema and
+either benign or malignant and generally have a              necrosis.
+poor prognosis, especially in patients in whom
+
+
+
+© 2026 The Authors. Published by MRI INDIA.
+This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+A Comprehensive Review of Deep Convolutional Neural Networks for Brain Tumor Detection and Classification
+
+
+
+                                                             DCNNs have enjoyed much success in an array of
+                                                             tasks, such as image classification, object detec-
+                                                             tion and semantic segmentation, and especially
+                                                             in medical diagnostics. In the field of neuro-
+                                                             oncology, they have demonstrated large clinical-
+                                                             ly relevant gains in the segmentation, detection
+                                                             and classification of brain tumours when com-
+                                                             pared to conventional methods. The combina-
+Figure. 1. Brain Tumor in Human Brain Anatomy                tion of DCNNs with clinical practice can provide
+                      [1]                                    radiologists with decision-support tools that
+                                                             offer rapid, consistent, and accurate interpreta-
+In order to address these limitations, medical               tions of imaging data to support patient care.
+imaging modalities, such as Magnetic Resonance               The increasing attention to AI-based methods
+Imaging (MRI), Computed Tomography (CT),                     has also recently given rise to computer-aided
+and Positron Emission Tomography (PET) play                  diagnosis (CAD) of DTCs, which deliver objective
+pivotal roles as diagnostic and reference tools              and reproducible analysis, aiding in clinical deci-
+for clinicians. These “no-cut” practices can offer           sion-making. Such tools are more important as
+valuable information on the size, localization,              the amount of workload on radiologists has be-
+invasion and morphologic features of the tu-                 come more and enormous image data are gener-
+mour, thus aiding in the diagnosis of, planning of           ated every day. Furthermore, reducing the diag-
+the surgery for and follow-up after the therapy              nostic process times and lessening the possibil-
+for the tumour. Of these, MRI is especially popu-            ity of human error, helped by CAD systems, has
+lar owing to its high soft-tissue contrast, aiding           ultimately led to better healthcare[2].
+the visualization of normal and abnormal brain               This review provides insight into the ongoing
+tissue. Certain sequences, such as T1- and T2-               and potential application scenarios of DCNN on
+weighted images, are essential in delineating the            brain tumour detection and categorization. It
+borders and internal composition of the tumour               gives a detailed analysis of different network
+in terms of tissue relaxation times[1].                      structures, pre-processing methods and perfor-
+However, even with all these improvements,                   mance measures used. It also covers the chal-
+classical procedures for tumour diagnosis and                lenges of deploying these models in real clinical
+classification tend to be time-consuming, have a             settings, such as data distribution shifts, model
+subjective component and are highly susceptible              interpretability, and regulatory issues. This re-
+to intra- and inter-observer variability. Such               view attempts to fill the intermediary space be-
+variability may result in delays with respect to             tween advances in theory in deep learning and
+diagnoses and treatment, which is unacceptable               the applications in neuro-oncologic diagnostics
+in the case of rapidly growing cancers. In addi-             by consolidating the observations from recent
+tion, the morphological complexity of brain tu-              studies, which are of great help to not only re-
+mours, as well as their nonuniform shapes and                searchers but also clinicians.
+global appearance profiles, makes manual seg-
+mentation especially difficult. This has empha-                          2 LITERATURE REVIEW
+sized the requirement for automated, reproduc-               Deep learning, especially deep convolutional
+ible approaches for rapid and accurate pro-                  neural networks (DCNNs), revolutionized
+cessing of large quantities of imaging data.                 medical image analysis and reshaped the new
+In this regard, AI, especially deep learning (DL),           era of diagnostic computational tools for brain
+has appeared as a driving force for medical im-              tumour detection and classification. This section
+age analysis. From different DL family architec-             provides an aggregated view of the current
+tures, deep convolutional neural networks                    literature, describing how DCNN architectures
+(DCNNs) have gained much attention due to                    have evolved, how they are combined with state-
+their capability to capture hierarchical features            of-the-art models such as transformers and how
+from raw pixel data. This capability makes it                it matters to neuro-oncology[3].
+possible for them to automatically detect com-               DCNNs have become fundamental in brain
+plex patterns and deviations from these patterns             tumour analysis, as they can learn in an
+in medical images, which might not even be no-               automated manner hierarchical and more
+ticeable to humans. In contrast to conventional              abstract representations from raw imaging data.
+machine learning models with manually defined                This eliminates the reliance on human-in-the-
+features, DCNNs automatically learn high-level               loop, who has been historically responsible for
+features via numerous convolutional layers and               engineering features in basic machine learning
+result in enhanced diagnostic accuracy.                      systems. The early DCNN structures (e.g.,
+                                                             AlexNet, VGGNet, ResNet) were the cornerstones
+
+
+                                                       315
+                     International Journal on Advanced Electrical and Computer Engineering
+
+
+
+of this process; they showed their effectiveness           capture as they are less efficient in utilizing the
+on large-scale image classification problems,              global context, which is crucial in understanding
+paving the way for the use of DCNNs in medical             diffused tumour growth or infiltrative lesions
+tasks. They also performed well                in          that spread over most parts of the brain. To
+neuroimaging, including modalities such as MRI             address this, the subject has been the increasing
+and CT, in which precise delineation of tumour             interest in the topic of 3D deep learning models,
+area plays an important role. Such networks are            or, in other words, 3D Convolutional Neural
+usually composed of a set of convolutions with             Networks (3D CNN), which are an extension of
+the pooling and normalization layers while                 the concept of 2D convolutions to volumetric
+extracting low- to high-level features. This               data. Compared with 2D CNNs working on single
+architecture emulates the visual cortex and                slices, 3D CNNs deal with the complete image
+provides a means to progressively abstract the             volumes, maintaining spatial consistency and
+features of interest, which is essential when              benefit from inter-slice correlation. This is
+trying to characterize complex tumour                      particularly important in brain tumour imaging,
+morphologies[4].                                           where the “context” of information across slices
+The traditional CNNs are very effective for local          is often important for a correct diagnosis[6].
+patterns (edges, textures, contours). However,             Transformer-based        models     have      found
+they suffer when modelling long-range                      increased attention in computer vision because
+dependencies between spatially distant regions             of their capability to model long-range
+in medical images. This limitation becomes more            dependencies by self-attention mechanisms. The
+apparent in the context of neuroimaging, where             Vision Transformers (ViTs) encode each image
+precise knowledge of the space occupied by                 of the model as a sequence of patches instead of
+tumours and local tissues is mandatory for                 a grid of pixels. This approach empowers ViTs to
+medical visualization and treatment planning. In           learn global representations as well as
+order to deal with this shortcoming, the                   contextual relations over a whole image and
+researchers have already started combining new             thus is highly favourable for medical image
+structures, such as ConvMixer, with hybrid                 analysis. In contrast to CNNs that exhibit a hard
+models combining the power of CNNs and                     spatial inductive bias, ViTs are more flexible in
+transformer networks.                                      that they can capture feature interactions over
+One of the interesting developments has been               larger spatial regions. However, this freedom
+the use of the Recurrent Neural Networks                   has the drawback of low computational
+(RNNs) and Autoencoders in medical image                   efficiency and high training data consumption
+analysis applications. CNNs are not good at                [7].
+capturing        long-range       spatiotemporal           The major drawback of ViTs in medical imaging
+dependencies in medical imaging datasets,                  is their quadratic computational complexity w.r.t
+which is where RNNs can help, mainly in                    input, which is particularly problematic in high-
+dynamic contrast-enhanced imaging and multi-               res 3D medical data. Moreover, as they have no
+slice input cases. Autoencoders, instead, are              built-in locality, ViTs need a big size of labelled
+used for unsupervised representation learning              examples to reach the same level of performance
+and have been relevant in the context of                   as CNN, which is particularly challenging for
+anomaly detection in brain MRI by                          medical imaging problems for which there are
+reconstructing normal tissue patterns and                  few labels available. Despite these difficulties,
+thereby detecting deviations express¬sive of               ViTs have achieved comparable performance to
+pathologies[5].                                            that of CNNs in classification tasks and have
+The growing complexity of DCNN architectures               been advocated as an excellent substitute for
+is reflected in their ability to be scaled and             CNNs for global context learning.
+applied to various imaging modalities such as              To reconcile the trade-offs of CNNs and ViTs,
+MRI, CT and PET. These models main strengths               some hybrid models were proposed to integrate
+are the amount of adjustable parameters inside             the local feature extraction power of CNNs and
+their convolutional filters, which are tuned               the global modelling capacity of transformers.
+during the training with backpropagation and               Common architecture often places transformer
+gradient descent. They are capable of handling             blocks in the later layers of CNNs, which are
+massive high-dimensional data so as to extract             more sensitive to semantic information and the
+deep semantic features that are very useful for            importance of context. For example, the hybrid
+tasks like tumour segmentation and volumetric              architecture of Hyneter integrates the CNN-
+classification.                                            based feature maps and the transformer-based
+However, even though the standard CNN                      global representations, which improves the
+architectures are very powerful, they have                 accuracy of object detection and segmentation in
+limitations in what local features they can                challenging medical imaging tasks.
+
+
+                                                     316
+A Comprehensive Review of Deep Convolutional Neural Networks for Brain Tumor Detection and Classification
+
+
+
+                                                             Interpretable and explainable are both urgent
+Another category of work in this area includes               issues in using deep learning in clinical
+utilizing custom pooling mechanisms and multi-               practices. Such black-box models, though
+scale feature fusion for enhancing the receptive             accurate, may not have the transparency
+field of CNNs with limited additional                        necessary for regulatory acceptance and
+computational overhead. Atrous convolution,                  clinician confidence. Techniques like Grad-CAM
+spatial pyramid pooling, and attention gates                 and both SHAP and integrated gradients are
+have been used to improve the context                        being investigated to give visual and numerical
+understanding of CNNs to make them more apt                  explanations to model predictions, improving
+for segmenting tumours with varying sizes and                their reliability and acceptance in clinical
+shapes [8].                                                  workflows[9].
+It also indicates promising applications of these            The table 1. Comparative Analysis of Deep
+DL techniques outside of brain imaging. For                  Learning Models for Brain Tumor Analysis pro-
+instance, CNNs have been extensively used in                 vides a graphical comparison of 2D CNN, 3D
+mammography, histopathology, and breast                      CNN, Hybrid CNN, Vision Transformer, and CNN
+cancer diagnosis and have usually demonstrated               + Transformer models with respect to important
+a superior capacity in image processing, such as             parameters for brain tumour detection. The ta-
+the detection of microcalcifications and the                 ble presents a comparative estimation of CNN-,
+classification of tumours. These cross-domain                hybrid-, and transformer-based models across
+applications highlight the utility and generality            key performance and deployment metrics, in-
+of DCNNs in healthcare. However, imaging                     cluding accuracy, training time, data require-
+prediction of brain tumours is challenging due to            ment, and interpretability. It highlights the in-
+the need to perform high-resolution volumetric               trinsic trade-offs between model complexity,
+analysis, segment tumour subregions (e.g.,                   diagnostic performance, and practical feasibility
+enhancing tumour, necrotic core, oedema)                     in clinical applications.
+accurately, and combine with clinical data for
+prognostic modelling.
+
+Table 1. Comparative Analysis of Deep Learning Models for Brain Tumor Analysis
+                                            Training
+                              Accuracy                    Relative Data   Interpreta-
+           Model                            Time
+                              (%)                         Requirement     bility Score
+                                            (hrs)
+           2D CNN             ~85           ~5                    3              3
+           3D CNN             ~88           ~8                    4              3
+           Hybrid CNN         ~90           ~10                   4              2
+           Vision
+                              ~92           ~15                   6              2
+           Transformer
+           CNN + Trans-
+                              ~91           ~12                   5              2
+           former
+
+Accuracy increased incrementally from 2D CNN                 (2/5), raising questions of trust and deployment
+(85%) to CNN + Transformer (94%), suggesting                 in a clinical setting.
+hybrid/modelling spatial and contextual fea-                 CNN + Transformer models achieve the best
+tures. Time to train also scales with complexity:            accuracy but compromise on interpretability,
+Vision Transformers are the slowest to train (15             data efficiency, and training-time efficiency. This
+hours) on account of their global attention                  underscores the importance of a trade-off be-
+mechanism, and 2D CNNs are the fastest to train              tween diagnostic accuracy and the practical re-
+(5 hours). Data requirement behaves similarly,               quirements when selecting a model for deploy-
+where Vision Transformers require the largest                ment in a clinical environment [10].
+amount of data for learning, which again is a
+setback in resource‐constrained medical con‐                 3 Methods In Deep Cnns For Brain Tumor
+texts.                                                       Detection And Classification
+In terms of interpretability, simpler models,                The rise of deep learning, and particularly
+such as 2D and 3D CNNs, are better (3/5) as they             DCNNs, has greatly improved the detection and
+are more clear and come with visualization tools             classification of brain tumours, allowing for
+established (e.g., Grad-CAM). On the other hand,             automatic, accurate, and fast analysis of medical
+hybrid and transformer-based approaches,                     images. In the past 10 years, a range of DCNN
+which are more accurate, are less interpretable              methods has been developed by exploiting
+                                                             architectural    innovations     and     learning
+
+
+                                                       317
+                      International Journal on Advanced Electrical and Computer Engineering
+
+
+
+paradigms in order to cope with the complex                 literature – 2D and 3D CNNs, U-Net-based
+spatial and textural characteristics of brain               segmentation model systems, hybrid CNN-
+tumours, and in particular, those being present             transformer models, and transformer-powered
+in MRI data. In this Section, we cover some of the          networks like Swin Transformers.
+following methodologies broadly discussed in
+
+
+
+
+                                      Figure. 2. DCNN Methodologies
+
+3.1 2D CNN-BASED METHODOLOGIES                              3.3 U-NET AND ITS VARIANTS
+      The initial DL-based studies in brain                 U-Net has emerged as a default architecture for
+tumour analysis adopted 2D CNNs using                       biomedical image segmentations because of the
+individual slices from the MRI scans 22. These              encoder-decoder     architecture   with    skip
+models, which are traditional architectures like            connections for detailed localization. For
+AlexNet, VGG16, and ResNet, concentrate on                  example, in brain tumour segmentations, U-Net-
+learning spatial characteristics via convolutional          based architectures, including U-Net++ [20],
+layers with pooling, batch normalization, and               Attention U-Net [21] and Residual U-Net [22],
+fully connected layers. These networks were                 have demonstrated significantly improved
+able to capture local patterns, such as edges,              performance in tumour boundary delineation,
+intensity difference and texture, which is very             including heterogeneously shaped tumours such
+important for tumour detection.                             as gliomas.
+      Despite their success, 2D CNNs have a                 U-Net++ presents nested and dense skip
+fundamental limitation; they process each image             connections to improve multi-scale feature
+slice independently and ignore the inter-slice              concatenation between the encoder and
+context, which is important for understanding               decoder.
+3D structures such as tumours. However, their
+computationally inexpensive nature and ease of                    Attention U-Net leverages attention gates
+application resulted in their widespread use in             to emphasize salient parts of the tumour and
+early studies[11].                                          inhibit irrelevant portions.
+
+3.2 3D CNN ARCHITECTURES                                    The Residual U-Net introduces residual blocks to
+      To overcome the limitation of missing                 help the gradient flow and facilitate the training
+volumetric information in 2D CNNs, 3D CNNs                  convergence.
+were proposed. These models use 3D
+convolutions with 3D filters over the MRI                        These modifications enable U-Net-like
+volumes, exploiting spatial coherence across                models to be very successful in semantic
+slices. The well-known 3D CNN models are 3D U-              segmentation problems, identifying tumour sub-
+Net, VoxResNet and 3D ResNet. The utilization of            regions as enhancing core, non-enhancing core
+the volumetric information present in MRI                   and peritumoral oedema[13].
+provides better tumour localization or
+segmentation accuracy compared to the 2D-                   3.4 TRANSFER LEARNING-BASED CNNS
+based approaches.                                                 Due to the paucity of labelled medical
+3D CNNs are especially powerful for                         datasets, transfer learning has attracted wide
+differentiating the similar intensity patterns              researchers' attention. Pre-trained models such
+between tissues and learning spatial and                    as VGG16, ResNet50, and InceptionV3, pre-
+contextual dependencies. However, they are                  trained on large-scale classification benchmarks
+more computationally expensive and have the                 such as ImageNet, are adapted to brain tumour
+risk of overfitting, particularly when used to              MRI data. This training-boosting technique
+train in small medical data[12].                            generally leads to faster training and better
+                                                            generalization, particularly when the number of
+                                                            samples is small.
+
+
+
+                                                      318
+A Comprehensive Review of Deep Convolutional Neural Networks for Brain Tumor Detection and Classification
+
+
+
+                                                             3.7 SWIN TRANSFORMER ARCHITECTURES
+The transfer learning models are mainly applied                    Swin Transformers are an important
+for classification problems, including tumour                advance in model architecture based on
+type (e.g., glioma vs meningioma) and tumour                 transformers with hierarchical representations
+grade prediction. They are frequently used in                learning and efficient computation. They work
+conjunction with data augmentation and                       on non-overlapping windows and utilize shifted
+modality-specific pre-processing steps (such as              window attention, which allows local-global
+skull stripping and histogram equalization) to               information to pass at a low overhead of global
+achieve better performance[14].                              self-attention.
+
+3.5 HYBRID CNN-TRANSFORMER MODELS                                  Architectures such as Swin-Unet and
+     To address the weaknesses of CNNs in                    SwinMR verify the effectiveness of Swin
+capturing long-distance dependencies, the                    Transformers in brain tumour detection, image
+hybrid models of CNN and transformer block are               synthesis, and segmentation. They show stability
+proposed. Such models keep the local feature                 in producing clinically meaningful outputs even
+extraction capabilities of CNNs intact and, at the           given scarce or noisy input; they outperform
+same time, utilize the global context modelling              CNN and regular transformers in several
+capabilities of transformers.                                measures.
+
+An example of this is SwinUNETR, which adopts                       Further, Swin Transformers have been
+Swin     Transformer      blocks    instead     of           effectively applied in the GAN field, such as fast
+conventional self-attention in U-Net. It possesses           MRI reconstruction (e.g., SwinMR), automatic
+a hierarchical structure and the shifted window              haemorrhage detection, multi-modal fusion, etc.
+attention for effective modelling of multi-scale             Due to their flexibility and accuracy, there is
+features. Similarly, SWTR-UNet fuses the ResNet              much promise in employing them for medical
+encoder, Transformer blocks and U-Net decoder,               image analysis [17].
+thus finding the trade-off between context
+awareness and spatial information.                           3.8 GENERATIVE AND SELF-SUPERVISED
+      These are a combination of convolutional               MODELS
+operations and transformers, which have                            Another promising direction is employing
+demonstrated promising performance in tumour                 generative models such as VAEs and GANs for
+segmentation, multi-modal fusion and outcome                 brain tumour synthesis and augmentation. Such
+prediction, providing superior precision with                models aid in alleviating data limitations by
+reasonable computational cost in comparison to               synthesizing realistic tumour images for DCNN
+the pure transformer models[15].                             training.
+
+3.6 VISION TRANSFORMER (VIT)-BASED                           Likewise, self-supervised learning techniques
+MODELS                                                       are also being used to pre-train CNNs from
+     The pure transformer architectures (e.g.,               unlabeled brain scans through proxy tasks (e.g.,
+ViT) utilize the sequence-to-sequence paradigm               rotation prediction, contrastive learning). Such
+to partition images into sequences of patches                models are adapted using a small set of labelled
+and process them using self-attention                        samples and have proven to achieve better
+operations. While ViTs have demonstrated SOTA                results in classification and segmentation.
+performance in natural image classification, they
+have limited utility in medical imaging, largely             4 Categorization
+due to increasing data requirements and the                  Deep Convolutional Neural Networks (DCNNs)
+absence of spatial inductive biases.                         are the cornerstone of the recent advancements
+                                                             in medical image analysis, including brain
+       To alleviate these problems, ViTs are                 tumour detection and classification. These
+frequently employed with CNN-based pre-                      models surpass classical machine learning
+trained feature extractors or positional                     methods as there is no requirement for manual
+embeddings tailored to medical images. Their                 feature engineering, and it is feasible to extract
+advantage is that they can model global                      automatic hierarchical features from raw
+relationships, which is advantageous when                    neuroimaging data. The literature generally
+encountering irregularly shaped boundaries and               classifies the methodologies into classification
+texture patterns found in complex tumour                     approaches, detectors, DCNN architectures, and
+regions [16].                                                non-DCNN-based ones.
+
+
+
+
+                                                       319
+                      International Journal on Advanced Electrical and Computer Engineering
+
+
+
+4.1 CLASSIFICATION METHODS                                  and discrimination tasks and have shown better
+      CNN architectures have been widely used               performance than radiologists for consistency
+for classification tasks owing to their strong              and speed. What’s more, recent hybrid models
+spatial feature extraction ability. Architectures           with attention mechanisms (e.g., Swin
+such as U-Net, MultiResUNet, and hybrid CNNs                Transformer and CNN-Transformer fusions)
+extract high-level semantic as well as low-level            attempt to solve the limitations in standard
+spatial features for the accurate localization and          CNNs by capturing long-range spatial
+identification of tumours. Transfer learning                relationships essential in modelling complex
+techniques are especially prevalent when there              brain structures [20].
+is only little data to work with, and pre-trained
+models such as VGG16, ResNet50, and                         4.4 BRAIN TUMOR METHODS WITHOUT
+EfficientNet have been extensively used. These              DCNN
+architectures can be generalized among datasets                   Although DCNNs prevail in recent
+such as BraTS, Figshare and The Cancer Imaging              literature, some of the classical and symbolic AI
+Archive (TCIA). Performance metrics such as                 methods are still employed in niche situations.
+accuracy, precision, recall and F1 score will               For sparse or less computational resources,
+further justify the supremacy of CNN-based                  other methods like SVM, Random Forests, and k-
+techniques in medical image classification[18].             nearest Neighbors (k-NN) take place. However,
+4.2 DETECTION METHODS                                       these methods depend heavily on hand-crafted
+      Tumor       detection   has     also    been          features for image representation and are less
+revolutionized by deep learning. Detection is the           extensive for multiple imaging modalities. 2.
+process of identifying the tumour region in an              Symbols & Explainable AI: Symbolic approaches
+image and distinguishing it from normal tissue              are being investigated to increase model
+surroundings. 3D CNNs provide volume-based                  interpretability and clinician trust [21].
+processing for MRI scans, hence providing better
+contextual information than 2D CNNs. The use of             4.5 PERFORMANCE               METRICS         AND
+such methods has greatly diminished the                     OUTCOMES
+requirement for invasive procedures such as                       There is consistent evidence of the
+biopsies,      which     provide     non-invasive,          favorability of the performance of DCNN models
+convenient diagnostic options. Models like                  in diagnostic accuracy and reduction in inter-
+Faster R-CNN, YOLO, and RetinaNet customized                observer variations and processing time. The
+for medical data help to localize the tumours in a          ability of these models to classify tumour types,
+fast and accurate manner.                                   grades, and prognostic features supports their
+4.3 DCNN-BASED APPROACHES                                   use in assisting in planning treatment and
+      The power of DCNNs lies in their                      predicting outcomes. Hybrid methods such as
+architectural depth used for learning complex               SwinUNETR incorporate more hierarchical
+patterns, textures, and contextual features from            transformer blocks by coupling them with CNN-
+high-dimensional inputs. These models, e.g.,                based local detail capture, demonstrating the
+DenseNet, ResNet, and InceptionNet, have since              trend in the field of capturing global context and
+been transferred to brain tumour segmentation               regional detail.
+
+Table 2. Contribution in field
+                                 Model/
+                 Application             Imaging
+      Authors                     Archi-                        Task          Key Contributions
+                 Area                    Modality
+                                 tecture
+                 Brain Tu-                                  Classifica-   Emphasized future AI inte-
+                                 Deep
+      [1]        mor Detec-                MRI              tion & Seg-   gration in neuro-oncology
+                                 CNN
+                 tion                                       mentation     workflows
+                 Breast Can-                                              Showcased diagnostic preci-
+                                           Mammogra-
+      [2]        cer Detec-  CNN                            Diagnosis     sion improvements with
+                                           phy
+                 tion                                                     CNNs
+                                                                          Assessed performance in
+                 Oncology        Deep                       Classifica-
+      [3]                                 CT, MRI                         cross-modality tumor analy-
+                 Imaging         Learning                   tion
+                                                                          sis
+                             Swin                                         Solved missing view issues;
+                 Breast Can-                                Multiview
+      [4]                    Trans-        Mammogram                      enhanced test-time robust-
+                 cer Imaging                                Analysis
+                             former                                       ness
+
+
+
+                                                      320
+A Comprehensive Review of Deep Convolutional Neural Networks for Brain Tumor Detection and Classification
+
+
+
+
+                                 Model/
+                  Application            Imaging
+      Authors                     Archi-                         Task          Key Contributions
+                  Area                   Modality
+                                 tecture
+                                Hybrid
+
+
+                  General       CNN &                        Interpreta-
+                                                                           Reviewed data needs and
+      [5]         Medical       Trans-     CT, MRI           tion &
+                                                                           interpretability issues
+                  Imaging       former                       Workflow
+                  Tumor Biol-                                Tumor Be-
+                              Deep                                         Linked image features to
+      [6]         ogy Assess-          MRI, CT               havior Pre-
+                              Learning                                     biological tumor behavior
+                  ment                                       diction
+                                                                          Focused on early diagnosis
+                  Cancer Di-               Ultrasound,       Early Detec-
+      [7]                       CNN                                       through advanced pattern
+                  agnosis                  CT                tion
+                                                                          recognition
+                                                                           Offered insights into AI-
+                  Neuro-        Deep
+      [8]                                MRI                 Review        powered brain imaging solu-
+                  Oncology      Learning
+                                                                           tions
+                  Medical                                    Prepro-
+                                Deep     General Im-                       Covered fundamentals of DL
+      [9]         Image Pro-                                 cessing &
+                                Learning aging                             models for preprocessing
+                  cessing                                    Analysis
+                                                             Segmenta-
+                  Multi-modal CNN                                         Compared CNN model per-
+      [10]                             MRI, CT, US           tion & Clas-
+                  Imaging     Variants                                    formances across modalities
+                                                             sification
+                  Breast Can-
+                                           Histopathol- Tumor Clas- Advanced histological tumor
+      [11]        cer Diagno- CNN
+                                           ogy          sification  image classification
+                  sis
+                  Medical AI    DL Archi-                    Pattern     Evaluated CNNs in complex
+      [12]                                MRI
+                  Systems       tectures                     Recognition pattern extraction
+                  Image       Deep                           Feature       Highlighted hierarchical
+      [13]                             CT, PET
+                  Recognition Learning                       Learning      learning ability of CNNs
+                             Hybrid
+                  Multimodal                                 Diagnosis & Showed DL’s role in enhanc‐
+      [14]                   DL Mod- MRI, CT
+                  Imaging                                    Prognosis   ing diagnostic confidence
+                             els
+                  White Blood Opti-                                        High accuracy using deform-
+                                           Microscopic       Classifica-
+      [15]        Cell Classifi- mized                                     able CNN for cellular mor-
+                                           Images            tion
+                  cation         CNN                                       phology
+                  Breast Can-
+                                           Histopathol- Biomarker          Automatic feature represen-
+      [16]        cer & WBC CNN
+                                           ogy          Detection          tation from raw medical data
+                  Analysis
+                  Cervi-
+                                           Colposcopy,       Classifica-   Applied CNNs to diverse
+      [17]        cal/Breast    CNN
+                                           Histology         tion          image modalities
+                  Cancer
+                  Medical       Light-
+                                                             Classifica-   Proved CNN efficiency with
+      [18]        Imaging       weight     MRI
+                                                             tion          low-data constraints
+                  Efficiency    CNN
+                                                                           Introduced symbolic repre-
+                  Explainable Symbolic                       Interpreta-
+      [19]                             MRI, CT                             sentations to increase trans-
+                  Medical AI DL                              bility
+                                                                           parency
+                                                                         Emphasized CNN scalability
+                  Diagnostic               General Im-       Image Clas-
+      [20]                      CNN                                      and accuracy in high-
+                  Imaging                  aging             sification
+                                                                         resolution imaging
+
+
+
+                                                       321
+                      International Journal on Advanced Electrical and Computer Engineering
+
+
+
+
+                                Model/
+                 Application            Imaging
+      Authors                    Archi-                          Task          Key Contributions
+                 Area                   Modality
+                                tecture
+                 Brain MRI                                                Validated CNNs for precise,
+                                                              Tumor Clas-
+      [21]       Classifica-   CNN         MRI                            automatic brain tumor de-
+                                                              sification
+                 tion                                                     tection
+                 Deep Learn-                                  Computer     Reviewed CNN architecture
+                                           General Im-
+      [22]       ing for Vi- CNN                              Vision Ap-   adaptability to medical use
+                                           aging
+                 sion                                         plications   cases
+
+
+
+
+               Figure. 3. Comparative Analysis different model for Brain Tumor Classification
+
+Figure. 3 Comparison chart of the values of differ-       To address these restrictions, hybrid CNN and
+ent classifiers based on accuracy, precision, recall,    ViT models (which join local and global feature
+F1-score and time in seconds on brain tumour clas-       extraction) have been proposed. Nevertheless,
+sification. Classical CNNs provide the worst per-        these models commonly lead to higher
+formance for all measures, and 3D CNNs and trans-        architectural complexity, increased resource
+fer learning show slight improvement. The best           requirements and decreased interpretability,
+performance is obtained by hybrid models combin-         which limits their application in real-time and
+ing CNNs' spatial feature learning and ViTs' global      clinical adoption. Moreover, transformers adopt a
+context modelling. Only Pure Vision Transformer          patch-based tokenization that may suffer from the
+ones fall short compared to the hybrid approach,         limited spatial resolution and computation burden,
+probably because of their need for more data and         especially when applied to high-resolution medical
+their low spatial resolution. In conclusion, hybrid      imaging tasks, e.g., 3D MRI analysis.
+models show better diagnostic accuracy and stabil-        The      absence       of    benchmarks     with
+ity in medical image analysis applications.              standardization on the datasets, annotations and
+                                                         evaluation protocols leads to inconsistent
+5 RESEARCH GAPS AND LIMITATIONS                          benchmarking and generalization problems.
+ Despite the notable successes in brain tumour          Accordingly, future studies should address the
+detection and classification, there are still a          development of lightweight, interpretable, and
+number of research objectives and limitations.           clinically applicable models, as well as
+Even though traditional CNNs are powerful in             standardized datasets and evaluation protocols for
+emulating local structures, they are inherently          independent validation.
+limited because of their small receptive fields and
+are thus unable to accommodate long-range                6 FUTURE DIRECTIONS
+dependencies. This frequently leads to deeper or               Building upon the identified limitations
+wider architectures, which are computationally           related to model complexity, interpretability, data
+expensive and suffer vanishing gradients. Vision         dependency, and clinical deployment, future
+Transformers (ViTs), on the other hand, use global       research should focus on developing robust,
+self-attention to obtain better global context           explainable, and resource-efficient AI frameworks
+representation; however, they are computationally        for brain tumour diagnosis.
+expensive and difficult to interpret, making them         Future brain tumour detection and classification
+less suitable for clinical deployment.                   research should invest effort in the construction of
+
+
+
+                                                        322
+A Comprehensive Review of Deep Convolutional Neural Networks for Brain Tumor Detection and Classification
+
+
+
+explainable AI models to increase confidence and                former and efficient attention. arXiv preprint
+transparency       in    clinical    decision-making.           arXiv:2506.15562 (2025).
+Physicians can use attention mechanisms and               [2]   Bayatmakou, F., Taleei, R., Toutounchian, M.A.,
+saliency mapping to interpret model predictions.                Mohammadi, A.: Integrating AI for human-
+There is also an increasing requirement for                     centric breast cancer diagnostics: A multi-
+multimodal data integration (e.g., MR, CT or PET,               scale and multi-view Swin Transformer
+together with genomics and clinical data) to                    framework. arXiv preprint arXiv:2503.13309
+develop all-encompassing diagnostic end-points                  (2025).
+[8].                                                      [3]   Chen, H., Martel, A.L.: Enhancing breast cancer
+ Another promising avenue is the deployment of                 detection on screening mammogram using
+computer vision models in lightweight formats for               self-supervised learning and a hybrid deep
+edge computing. This approach facilitates real-                 model of Swin Transformer and convolutional
+time, low-resource diagnostics, especially in rural             neural        network.         arXiv          preprint
+or resource-constrained clinical environments.                  arXiv:2504.19888 (2025).
+Advances in model compression and hardware-               [4]   Deng, X., Huo, H., Ai, L., Xu, D., Li, C.: A novel 3D
+aware neural architecture search (NAS) can further              approach with a CNN and Swin Transformer
+accelerate this shift toward real-world deployment.             for decoding EEG-based motor imagery classi-
+ Future studies should also explore 3D-aware                   fication. Sensors 25(9), 2922 (2025).
+transformer architectures and hybrid volumetric           [5]   Disci, R., Gürcan, F., Soylu, A.: Advanced brain
+learning strategies to overcome the limitations of              tumor classification in MR images using trans-
+patch-based tokenization in high-resolution MRI                 fer learning and pre-trained deep CNN mod-
+analysis.                                                       els. Cancers 17(1), 121 (2025).
+ To ensure robust model generalization,                  [6]   Hassan, B.A.R., Mohammed, A.H., Hallit, S.,
+researchers should build large and diverse datasets             Malaeb, D., Hosseini, H.: Exploring the role of
+(ideally multi-centre) that encompass various                   artificial intelligence in chemotherapy devel-
+tumor subtypes, imaging modalities, and patient                 opment, cancer diagnosis, and treatment: Pre-
+demographics, with detailed and standardized                    sent achievements and future outlook. Fron-
+annotations. Such datasets enable the training of               tiers in Oncology 15, 1475893 (2025).
+deep learning networks that are resilient to              [7]   Ilani, M.A., Shi, D., Banad, Y.M.: T1-weighted
+variability across populations and imaging devices.             MRI-based brain tumor classification using
+ Moreover, the increasing awareness around data                hybrid deep learning models. Scientific Re-
+privacy and security necessitates the adoption of               ports 15(1), 92020 (2025).
+privacy-preserving techniques such as federated           [8]   Kim, T., Chinthaginjala, R., Srinivasulu, A.,
+learning and differential privacy. These strategies             Tera, S.P., Rab, S.O.: COVID-19 health data
+allow multiple institutions to collaboratively train            prediction: A critical evaluation of CNN-based
+models without exchanging raw patient data, thus                approaches. Scientific Reports 15(1), 92464
+protecting patient confidentiality while enhancing              (2025).
+dataset diversity.                                        [9]   Djoumessi, K., Mensah, S.O., Berens, P.: A hy-
+ It is equally vital to address the interpretability,          brid fully convolutional CNN-transformer
+fairness, and ethical governance of AI systems in               model for inherently interpretable medical
+clinical settings. Bias detection, model validation             image       classification.      arXiv        preprint
+across underrepresented groups, and regulatory                  arXiv:2504.08481 (2025).
+compliance are crucial for ensuring equitable            [10]   Zheng, Z., et al.: Multimodal MRI image fusion
+healthcare outcomes.                                            for early automatic staging of endometrial
+ In the future, research should not only aim to                cancer. Sensors 25(9), 2932 (2025).
+enhance diagnostic accuracy but also prioritize          [11]   Tiwari, A., Mishra, S.N., Kuo, T.: Current AI
+usability, interoperability with existing clinical              technologies in cancer diagnostics and treat-
+workflows, scalability across institutions, and the             ment. Molecular Cancer 24(1), 2369 (2025).
+broader clinical acceptance of AI-assisted brain         [12]   Pang, H., Guo, W., Ye, C.: Multi-modal brain
+tumour       diagnosis      systems.    Collaborative           MRI synthesis based on SwinUNETR. arXiv
+frameworks involving clinicians, AI researchers,                preprint arXiv:2506.02467 (2025).
+radiologists, and policymakers will be essential to      [13]   Abdusalomov, A., et al.: Enhancing automated
+translate AI models from the lab to the bedside.                brain tumor detection accuracy using artificial
+                                                                intelligence approaches for healthcare envi-
+References                                                      ronments. Bioengineering 11(6), 627 (2024).
+[1] Ali, S.H., Ahmad, A., Ali, M., Khan, A., Shahban, [14]      Carriero, A., et al.: Deep learning in breast can-
+    M., Shaukat, N.: Automated MRI tumor seg-                   cer imaging: State of the art and recent ad-
+    mentation using hybrid U-Net with trans-                    vancements in early 2024. Diagnostics 14(8),
+                                                                848 (2024).
+
+
+                                                         323
+                      International Journal on Advanced Electrical and Computer Engineering
+
+
+
+[15] Chen, S., et al.: A novel method of Swin Trans- [28] Min, S., Lee, B., Yoon, S.: Deep learning in bio-
+     former with time-frequency characteristics           informatics. arXiv preprint arXiv:1603.06430
+     for ECG-based arrhythmia detection. Frontiers        (2016).
+     in Cardiovascular Medicine 11, 1401143
+     (2024).
+[16] Liu, T., Bai, Q., Torigian, D.A., Tong, Y., Udupa,
+     J.K.: VSmTrans: A hybrid paradigm integrating
+     self-attention and convolution for 3D medical
+     image segmentation. Medical Image Analysis
+     98, 103295 (2024).
+[17] Sharma, A., Lysenko, A., Jia, S., Boroevich, K.A.,
+     Tsunoda, T.: Advances in AI and machine
+     learning for predictive medicine. Journal of
+     Human Genetics 69(10), 487 (2024).
+[18] Sun, Y., Wang, C.: Brain tumor detection based
+     on a novel and high-quality prediction of the
+     tumor pixel distributions. Computers in Biolo-
+     gy and Medicine 172, 108196 (2024).
+[19] Zhu, Z., Sun, Y., Asli, B.H.S.: Early breast cancer
+     detection using artificial intelligence tech-
+     niques based on advanced image processing
+     tools. Electronics 13(17), 3575 (2024).
+[20] Cai, Y., et al.: Swin UNet3D: A three-
+     dimensional medical image segmentation
+     network combining vision transformer and
+     convolution. BMC Medical Informatics and De-
+     cision Making 23(1), 129 (2023).
+[21] Ahmed, H.S., Mahadevappa, V.: Advancing
+     glaucoma detection with convolutional neural
+     networks: A paradigm shift in ophthalmology.
+     Romanian Journal of Ophthalmology 67(3),
+     189–195 (2023).
+[22] Ali, N.G., Sheref, F.K.E., Khouly, M.M.E.: A hy-
+     brid model for COVID-19 detection using CT-
+     scans. International Journal of Advanced Com-
+     puter Science and Applications 14(3), 284–290
+     (2023).
+[23] Babayomi, M., Olagbaju, O.A., Kadiri, A.A.: Con-
+     volutional XGBoost (C-XGBOOST) model for
+     brain tumor detection. arXiv preprint
+     arXiv:2301.02317 (2023).
+[24] Anwar, S.M., et al.: Medical image analysis us-
+     ing convolutional neural networks: A review.
+     Journal of Medical Systems 42(11), 226 (2018).
+[25] Arbabshirani, M.R., et al.: Advanced machine
+     learning in action: Identification of intracrani-
+     al hemorrhage on computed tomography
+     scans of the head with clinical workflow inte-
+     gration. NPJ Digital Medicine 1(1), 9 (2018).
+[26] Acquarelli, J., et al.: Convolutional neural net-
+     works for vibrational spectroscopic data anal-
+     ysis. Analytica Chimica Acta 954, 22–31
+     (2016).
+[27] Mittal, M., et al.: Deep learning-based en-
+     hanced tumor segmentation approach for MR
+     brain images. Applied Soft Computing 78, 346–
+     354 (2019).
+
+
+
+
+                                                      324
+
