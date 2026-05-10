@@ -244,3 +244,7 @@
 ## [2026-05-10 12:39] Matcher: 1 pages got 3 new sources
 
 ## [2026-05-10 13:52] FullTextFetcher: fetched 8 new full texts (140 total in corpus)
+
+## [2026-05-10 13:57] DeepResearch: 2 papers added via focused research
+
+## [2026-05-10 15:21] Audit: 748 issues (36 broken links, 22 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 17 opaque-refs, 15 thin, 443 missing-links)
