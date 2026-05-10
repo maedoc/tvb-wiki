@@ -252,3 +252,5 @@
 ## [2026-05-10 15:45] Linter: 36 broken links, 22 orphans, 1 stale, 0 empty
 
 ## [2026-05-10 15:45] Librarian: catalog rebuilt, 9532 asymmetric links noted
+
+## [2026-05-10 15:45] LinkRepair: fixed 11 files (9 wikilink-in-URL, 2 abs-path)
