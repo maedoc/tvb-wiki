@@ -14,7 +14,7 @@ tags:
 - software-spm
 title: SUIT
 type: software
-updated: '2026-05-09'
+updated: '2026-05-10'
 ---
 
 # SUIT (Spatial Unbiased Infratentorial Template)
@@ -42,7 +42,7 @@ SUIT is relevant to [[the-virtual-brain]] (TVB) in several important respects. F
 - [[the-virtual-brain]] — whole-brain simulator that uses anatomical parcellations
 - [[dipy]] — diffusion imaging toolbox for [[tractography]]
 - [thecerebellum.com](](http://www.thecerebellum.com/)) — alternative cerebellar tools and atlases
-- [CBS Tools](](https://www.nitrc.org/projects/cbs_tools/)) — complementary cerebellar segmentation in CBSTools/Itk Snap
+- [CBS Tools](](https://www.[[nitrc]].org/projects/cbs_tools/)) — complementary cerebellar segmentation in CBSTools/Itk Snap
 
 ## Key Papers
 
