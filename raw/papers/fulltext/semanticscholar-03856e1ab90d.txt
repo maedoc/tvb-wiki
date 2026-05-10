@@ -1,0 +1,650 @@
+                                                                                                                         TYPE Original Research
+                                                                                                                         PUBLISHED 28 October 2025
+                                                                                                                         DOI 10.3389/fnagi.2025.1698600
+
+
+
+
+                                                     Directed brain connectivity
+OPEN ACCESS                                          biomarkers of healthy aging and
+                                                     Parkinson’s disease staging
+EDITED BY
+K. Ray Chaudhuri,
+King’s College Hospital, Dubai,
+United Arab Emirates
+
+REVIEWED BY                                          Tauqeer Anjum 1, Ali Seyfizadeh 1, Hao Ding 1, Tahir Mahmood 2,
+Raniki Kumari,                                       Rüdiger Pryss 3,4, Jens Volkmann 1, Dumitru Ciolac 5 and
+Johns Hopkins University, United States
+Ömer Akgüller,                                       Muthuraman Muthuraman 1,6*
+Muğla Sıtkı Koçman University, Türkiye
+                                                     1
+                                                      Department of Neurology, University Hospital Würzburg, Würzburg, Germany, 2 School of Natural
+*CORRESPONDENCE
+                                                     Sciences (SNS), National University of Sciences & Technology (NUST), Islamabad, Pakistan, 3 Institute
+Muthuraman Muthuraman                                of Clinical Epidemiology and Biometry, University of Würzburg, Würzburg, Germany, 4 Institute of
+ muthuraman_m@ukw.de;                                Medical Data Science, University Hospital Würzburg, Würzburg, Germany, 5 Nicolae Testemitanu State
+ muthuraman.muthuraman@uni-a.de                      University of Medicine and Pharmacy, Chisinau, Moldova, 6 Institute of Computer Science, University
+RECEIVED 03 September 2025                           of Augsburg, Augsburg, Germany
+ACCEPTED 13 October 2025
+PUBLISHED 28 October 2025
+
+CITATION
+Anjum T, Seyfizadeh A, Ding H, Mahmood T,            Introduction: The propagation of neural signals across various brain regions
+Pryss R, Volkmann J, Ciolac D and
+Muthuraman M (2025) Directed brain                   requires us to understand directional connectivity in functional magnetic
+connectivity biomarkers of healthy aging and         resonance imaging (fMRI) data. We employ temporal partial directed coherence
+Parkinson’s disease staging.                         (TPDC), a data driven method to explore directional connectivity in young and
+Front. Aging Neurosci. 17:1698600.
+doi: 10.3389/fnagi.2025.1698600                      old healthy individuals, manifest PD and prodromal PD patients. TPDC provides
+                                                     comprehensive analysis of neural signal propagation compared to traditional
+COPYRIGHT
+© 2025 Anjum, Seyfizadeh, Ding, Mahmood,             methods like Dynamic Causal Modeling, Granger Causality and Transfer Entropy.
+Pryss, Volkmann, Ciolac and Muthuraman.              Methods: We analyzed preprocessed fMRI data from the young and old groups
+This is an open-access article distributed
+                                                     of healthy individuals and PD patients at different disease stages. Time series
+under the terms of the Creative Commons
+Attribution License (CC BY). The use,                were extracted by reducing the voxel data (by averaging) into 7 networks of
+distribution or reproduction in other forums is      the Yeo-atlas. TPDC was applied in the frequency range of 0.009–0.08 Hz.
+permitted, provided the original author(s) and
+                                                     Statistical significance of connections was determined via bootstrapping,
+the copyright owner(s) are credited and that
+the original publication in this journal is cited,   followed by thresholding using permutation testing. Finally, machine learning
+in accordance with accepted academic                 classifiers were trained to distinguish prodromal PD from PD patients.
+practice. No use, distribution or reproduction
+                                                     Results: In young healthy individuals, the somatomotor network regulates control
+is permitted which does not comply with
+these terms.                                         and attention systems, indicating cognitive and motor flexibility. Older healthy
+                                                     controls show lack of significant connections from control to somatomotor
+                                                     networks, suggesting a cognitive decline related to age. The somatomotor
+                                                     network becomes secluded in the prodromal PD patients. A compensatory
+                                                     mechanism is visible in groups of PD patients. Additionally, machine learning
+                                                     classifiers achieved high accuracy in distinguishing between prodromal and PD
+                                                     groups based on directed connectivity patterns.
+                                                     Conclusion: The study highlights the gradual loss of the significant directed
+                                                     causal connections between the control and motor networks in different
+                                                     stages of PD. The governing influence of control network over the motor and
+                                                     attentional networks diminishes, leading to the isolation of the somatomotor
+                                                     network. The ability of TPDC-derived features to distinguish prodromal from
+                                                     Parkinson’s patients underscores its value for identifying potential biomarkers of
+                                                     disease onset and progression.
+
+                                                     KEYWORDS
+
+                                                     fMRI, directed connectivity, Parkinson’s disease, prodromal PD, temporal partial
+                                                     directed coherence
+
+
+
+
+Frontiers in Aging Neuroscience                                            01                                                               frontiersin.org
+Anjum et al.                                                                                                                         10.3389/fnagi.2025.1698600
+
+
+
+
+Introduction                                                                              between the time series (Schreiber, 2000). Temporal partial directed
+                                                                                          coherence (TPDC) analysis is purely a data-driven analysis and an
+     Parkinson’s disease (PD) is a progressive neurodegenerative                          extension of the partial directed coherence, a technique designed to
+disorder affecting motor and non-motor (cognitive, autonomic,                             analyze multivariate time series data and infer causal relationships
+affective, behavioral) functions in part due to pathological disruption                   between various brain regions. Temporal partial directed coherence
+of fine-tuned neural networks. Patients with PD exhibit an intricate                      focuses on both time and frequency domains, allowing for a
+pattern of functional connectivity alterations within the major brain                     comprehensive characterization of connectivity patterns at all time
+networks as evidenced by electroencephalography and neuroimaging                          points and frequency bands (Baccalá and Sameshima, 2001). One of
+studies (Leviashvili et al., 2022). Particularly, reduced connectivity                    the major advantages of TPDC analysis is its ability to uncover the
+within the central executive and dorsal attention networks, as well as                    dynamic patterns of brain connectivity that engage different
+increased connectivity within the ventral attention network were                          functional brain networks.
+observed (Leviashvili et al., 2022). Moreover, disruptions in                                 By employing the TPDC analysis, we aimed to establish the
+interhemispheric connectivity may substantially interfere with the                        existing patterns of directed connectivity in three different cohorts -
+execution of complex movements in patients with PD (Bange et al.,                         healthy individuals, patients with manifest PD and patients with
+2022). Depicting connectivity patterns in different stages of PD might                    prodromal PD. Connectivity patterns emergent from this study
+provide additional insights into the pathophysiology of the disease                       might be used as open-source reference patterns in future works
+and refine the existing treatment approaches for these patients.                          studying connectivity alterations in different patient populations to
+Therapeutic interventions targeting abnormal oscillatory activity                         disentangle healthy aging from disease-specific connectomes in
+within brain networks, e.g., deep brain stimulation, were shown to                        neurodegenerative disorders.
+modulate the deficient connectivity patterns and provide clinical
+benefits (Muthuraman et al., 2018).
+     Functional connectivity is characterized by statistical dependence                   Materials and methods
+of activation patterns across different brain regions, resulting from
+both indirect and direct neural interactions (Firston, 2011). One                         Subjects
+previous research laid the foundational work by assessing functional
+connectivity in the human brain using functional magnetic resonance                           This study included the preprocessed fMRI data from 1,000 young
+imaging (fMRI) data (Rogers et al., 2007). More recently, resting-state                   healthy participants (male to female ratio 1:1), publicly available at
+fMRI data was used to infer regional functional connections                               Harvard Dataverse as “GSP1000 Preprocessed Connectome” (Cohen
+(Mansour et al., 2023). A multivariate measure, total correlation was                     et al., 2020). For each subject, the average blood oxygen level-
+utilized to explore functional brain connectivity (Li et al., 2022). The                  dependent (BOLD) time series from brain networks (Yeo et al., 2011),
+human functional connectome across the lifespan using both the                            were extracted using a custom Python script that utilizes “nilearn”
+structural and functional MRI data has previously been explored                           python library.1 This study also included data collected for a group of
+(Sun et al., 2023). While the functional connectivity captures the                        manifest PD patients (n = 435), prodromal PD patients (n = 325) and
+statistical dependencies between different brain regions, it lacks                        old healthy controls (n = 29) from the openly available PPMI
+information about the direction of these interactions. Our study                          (Parkinson’s Progression Markers Initiative) dataset.2 Clinical scores
+focuses on directional connectivity, which we believe would                               like behavioral inhibition score, Barratt impulsivity score and
+be particularly useful for patients’ classification.                                      conscientiousness score were collected for young healthy controls,
+     Directed connectivity based on fMRI data is traditionally                            whereas sum of motor exam score (NP3 Total) and Hoehn and Yahr
+assessed using methods like dynamic causal modeling (DCM) (Bajaj                          (H&Y) stage values were collected for the prodromal PD and manifest
+et al., 2016), granger causality (GC) (Kaminski et al., 2001) and                         PD patients from PPMI. Demographical and clinical details of the
+transfer entropy (TE) (Duan et al., 2013). These methods provide                          subject and patient groups are given in Table 1.
+insights into the neural signal propagation across different brain                            The NP3 total is a detailed measure of motor symptoms in PD. It
+regions, thereby granting a non-invasive access in deciphering the                        includes scores from multiple individual motor tests such as tremor,
+intricate interactions across brain networks. Dynamic causal                              rigidity etc. conducted during a clinical motor exam. A higher NP3
+modeling is a hypothesis-driven method that models causal                                 score indicates more severe motor impairment. Hoehn and Yahr
+interactions between different brain regions taking into account                          (H&Y) scale classifies the overall severity of PD. BIS is the behavioral
+hemodynamic and neuronal responses (Friston et al., 2003). On the                         inhibition score on the behavioral inhibition and behavioral activation
+other hand, TE is a data-driven approach that offers a thorough                           (BISBAS) scale. Barratt impulsivity score is the total score on the
+analysis of neural data in the time domain by capturing nonlinear                         Barratt impulsivity scale (Patton et al., 1995). The conscientiousness
+interactions and measuring the directed exchange of information                           score signifies the NEO five-factor model of personality.
+                                                                                              The PPMI data was preprocessed using a preprocessing pipeline
+                                                                                          that included realignment and coregistration followed by smoothing
+Abbreviations: DCM, Dynamic causal modeling; fMRI, Functional magnetic                    using an 8 mm kernel. The preprocessing of these fMRI images was
+resonance imaging; GC, Granger causality; GSP, Genomics Superstruct Project;
+TE, Transfer Entropy; TPDC, Temporal partial directed coherence; PPMI, Parkinson’s
+Progression Markers Initiative; ROIs, Regions of interest; Ventral Attn, Ventral
+Attention Network; Dorsal Attn, Dorsal Attention Network; Limbic, Limbic Network;         1 https://nilearn.github.io/stable/
+Control, Frontoparietal Control Network; SomMotor, Somatomotor Network.                   2 https://www.ppmi-info.org/access-data-specimens/download-data
+
+
+
+Frontiers in Aging Neuroscience                                                      02                                                             frontiersin.org
+Anjum et al.                                                                                                                                              10.3389/fnagi.2025.1698600
+
+
+
+
+TABLE 1 Demographical and clinical characteristics of patients and healthy controls.
+
+                                                Prodromal PD                      PD patients, PPMI                    Young healthy                            Old healthy
+                                                patients, PPMI                                                       controls, GSP1000                         controls, PPMI
+ N                                                       325                                    435                              1,000                                29
+
+ Male/female                                           185/140                              299/136                             500/500                              22/7
+
+ Age, mean ± SD                                       66.7 ± 6.5                           63.4 ± 9.7                         21.4 ± 2.87                          61.8 ± 5.1
+
+ NP3 total, mean ± SD                                 3.56 ± 5.68                        22.16 ± 10.47                              –                                  –
+
+ H&Y scale median (range)                              0 (0–3)                              2 (1–4)                                 –                                  –
+
+ Behavioral inhibition score (BIS)                         –                                    –                              21 (7–28)                               –
+ median (range)
+
+ Barratt Impulsivity score median                          –                                    –                            62 (30–120)                               –
+ (range)
+
+ Conscientiousness score median                            –                                    –                              32 (0–48)                               –
+ (range)
+GSP, Genomics Superstruct Project; H&Y, Hoehn and Yahr scale; NP3 total, sum of motor exam scores; PPMI, Parkinson’s Progression Markers Initiative; SD, standard deviation.
+
+
+
+
+performed using the SPM-12 Matlab toolbox.3 Then, the time series                               E ( t ) is the residual noise. The model order was fixed at p = 1. TPDC
+were extracted for the Yeo-7 network parcellation atlas, which includes                         is computed as:
+the following networks: visual, somatomotor, ventral attention (or
+salience), dorsal attention, frontoparietal control, limbic, and default                                                                    Aij ( f ,t )
+                                                                                                                           π ij =
+mode networks. The python library “nilearn”4 was used to extract the                                                                    N
+                                                                                                                                                           2
+time series from the Yeo-7 networks (Yeo et al., 2011), based on the                                                                    ∑ Akj ( f ,t )
+                                                                                                                                        k =1
+custom python script with a spatial resolution of 1 mm. Afterwards,
+these time series were utilized for the TPDC analysis. Eventually,
+thresholding was performed to obtain significant connections for each                                 Where Aij ( f ,t ) is the Fourier transform of MVAR coefficients,
+group of subjects from the study. The detail of the applied methodology                         π ij ( f ,t ) quantifies the normalized directed influence from region j to
+is shown in Figure 1.                                                                           i at frequency f and time t. Normalization is performed to reduce the
+                                                                                                confounding effect of the indirect connections. We focused on the
+                                                                                                frequency band in range from 0.009 Hz - 0.08 Hz as it corresponds to
+TPDC analysis                                                                                   the range believed to reflect brain physiology and metabolism
+                                                                                                (Logothetis and Wandell, 2004; Deco et al., 2011). The TPDC matrix
+    In order to determine the causality between the time series,                                (e.g., 7*7 matrix) was then obtained by averaging all the frequency
+we used the time-dependent multivariate coefficients. Dual extended                             bins in the frequency band of interest. To determine the model
+Kalman filters can be used as a foundation for the causality estimation                         parameters and the system states at any given moment, the two
+(Haykin, 2001; Wan and Nelson, 2001). This functions as TPDC                                    Kalman filters were run in parallel. The states were estimated by one
+method’s estimation strategy for the time-dependent auto-regressive                             extended Kalman filter, which then feeds the data to another extended
+coefficients. To find the partial directed coherence at each time point,                        Kalman filter, which estimates the model parameters.
+time-dependent multivariate auto-regressive coefficients were                                         The significance level of the estimated TPDC values was
+computed. TPDC as an extension of partial directed coherence,                                   determined using a bootstrapping technique (Kaminski et al., 2001).
+captures both time and frequency resolved directional interaction in                            The original time series were divided into smaller, non-overlapping
+a multivariate time series given a multivariate autoregressive (MVAR)                           windows, and the order of these windows was randomly changed to
+model of order p.                                                                               create the new time series. Next, using the updated time series as a
+                                                                                                basis, the TPDC matrix was computed. The shuffling operation was
+                                p
+                                                                                                carried out 100 times to calculate the threshold, after which the 99th
+                X (t )
+                =              ∑Ak (t ) X (t − k ) + E (t )                                     percentile was determined. The autoregressive coefficients were
+                               k =1
+                                                                                                estimated from the spatially filtered source signals using the open-
+                                                                                                source MATLAB ARFIT toolbox (Neumaier and Schneider, 2001;
+     Where X ( t ) is the vector of fMRI time series across regions,                            Schneider and Neumaier, 2001).
+Ak ( t ) are the time varying autoregressive coefficient matrices and
+
+                                                                                                Directed connectivity analysis
+
+                                                                                                    Significant values that were above the significance threshold were
+3 https://www.fil.ion.ucl.ac.uk/spm/software/spm12/                                             replaced by 1’s and those below the significance threshold were
+4 https://nilearn.github.io/stable/index.html                                                   replaced by 0’s. In this manner, the causal relationships between any
+
+
+Frontiers in Aging Neuroscience                                                            03                                                                           frontiersin.org
+Anjum et al.                                                                                                                  10.3389/fnagi.2025.1698600
+
+
+
+
+    FIGURE 1
+    Workflow diagram of the fMRI data analysis. First, fMRI images were preprocessed and time series extracted. Then, TPDC analysis was performed to
+    assess the directed connectivity between Yeo-7 networks. Afterwards, significant directed connections were detected by applying the random
+    permutation testing approach. At the end, random forest machine learning algorithm was used to classify the patients based on their individual
+    connectivity values.
+
+
+
+
+two regions were represented in a significance matrix of ones and                Classification analysis
+zeros. We then employed permutation testing to assess the statistical
+significance of the observed connectivity matrices. To generate the                  We also used machine learning algorithm able of classifying
+null distributions for each connection, we performed 1,000 random                individual patients as either prodromal PD or manifest PD patients
+permutations. In each permutation, the matrices were flattened and               based on their individual directed connections. The individual
+randomly shuffled, only preserving the marginal totals. The shuffled             directed connectivity matrices (7*7) for the patient groups were
+data were then reshaped and aggregated across subjects, to form a                therefore flattened into a one-dimensional feature vector for each
+frequency matrix. The 99th percentile of the resulting null distribution         subject. The python library “scikit-learn” was used for the classification
+was used as a significance threshold. Connection values above this               analysis. A random forest classifier with 100 decision trees was trained
+threshold were considered statistically significant, indicating a                using the features matrix to distinguish between the two patient
+significant directed connection and the values below the threshold               groups.5 The data was split into training and testing sets (70:30
+were considered insignificant, implying in the absence of significant            stratifies ratio) to maintain class distribution. Performance of the
+directional connectivity.                                                        model was evaluated using metrics such as accuracy, precision, recall
+     Afterwards, the obtained individual connectivity matrices were              and the F1-score. To further ensure robustness and assess potential
+used to find group level directed connections. A data-driven, Moran’s            overfitting, we additionally performed a stratified 10-fold cross-
+permutation testing approach was applied to evaluate the spatial                 validation. The average accuracy and standard deviation across the
+autocorrelation and identify the statistically significant inter-network         folds were computed to eliminate the risks of overfitting
+connections (Moran, 1950; Zelesky et al., 2010). This method allows              (Supplementary Table S1).
+to compare the identified connectivity patterns to a null model derived
+from the permuted datasets, offering data-driven statistically
+significant directed connections. In more detail, the algorithm runs in          Statistical analysis
+following steps. For each inter-network pair, the observed connections’
+frequency across the groups is computed by summing up the values                      We conducted an analysis of variance (ANOVA) test to examine the
+into a three-dimensional binary connectivity matrix. To generate the             differences in age across the four groups in our study, using MS EXCEL’s
+null distribution for each connection, 1,000 permutations of the                 (Microsoft 365) built-in ANOVA: Single Factor tool available in the
+individual matrices were performed. Each individual matrix was                   Data Analysis Toolpak. To account for multiple comparisons, post hoc
+flattened and shuffled randomly. The permuted matrices were then                 tests were performed using Bonferroni correction. The differences in
+reshaped and aggregated to generate a permuted frequency matrix.                 TPDC values for causal connections among the sample of groups of
+For each connection, 99th percentile value from its null distribution
+was used as a significance threshold. Connections with the values
+exceeding that threshold were represented as a significant directed
+connection, while the values below the threshold were regarded as                5 https://scikitlearn.org/stable/modules/generated/sklearn.ensemble.
+lacking significant directed connectivity.                                       RandomForestClassifier.html
+
+
+
+Frontiers in Aging Neuroscience                                             04                                                               frontiersin.org
+Anjum et al.                                                                                                              10.3389/fnagi.2025.1698600
+
+
+
+
+controls and patients were tested using a non-parametric Friedman test        and patient groups which is absent in the young healthy individuals.
+(n = 29, p = 0.05). To examine the gender (male/female) distribution          The details of all the connections are available in Figure 2.
+between the four groups, we performed Chi-square test of independence.             By using ordinary least square regression through the t-test (p-
+    Associations between the TPDC values and clinical scores in old           values) and coefficient of determination (r2), significant differences in
+healthy controls, patients with prodromal PD and manifest PD                  TPDC values across the four groups were observed. When comparing
+patients were found. In contrast, associations between the TPDC               young healthy controls and prodromal PD patients, significant
+values and the behavioral scores like behavioral inhibition score,            differences in TPDC values were found for a sample of connections
+conscientiousness score, barratt impulsivity score, were assessed for         (n = 29), between the dorsal attention network and the limbic network
+young healthy controls. Spearman’s rank correlation was used for H&Y          (p = 0.047, r2 = 0.138). While comparing young healthy controls and
+stage, while Pearson’s correlation was used for continuous normally           manifest PD patients, significant differences in TPDC values for the
+distributed variables, using custom Python script (scipy pearsonr,            connections between the visual network and the somatomotor
+spearmanr). The differences in the TPDC values were evaluated using           network (p = 0.027, r2 = 0.167), between the somatomotor network
+linear regression analysis with a significance level of 0.05.                 and the limbic network (p = 0.046, r2 = 0.14), between the ventral
+                                                                              attention network and the dorsal attention network (p = 0.011,
+                                                                              r2 = 0.215) and between the ventral attention network and the
+Results                                                                       frontoparietal control network (p = 0.003, r2 = 0.28) were detected.
+                                                                                   When comparing the TPDC values between the old healthy
+Subject characteristics                                                       controls and prodromal PD patients, significant differences in the
+                                                                              connections between the visual network and the limbic network
+     The age of subjects differed between the groups                          (p = 0.002, r2 = 0.302) and between the dorsal attention network and
+(F(3,1785) = 7732.19, p < 0.001). Particularly, prodromal PD patients         the frontoparietal control network (p = 0.048, r2 = 0.138) were
+were older compared to manifest PD patients and old healthy controls          identified. When comparing old healthy controls to age-matched
+(post-hoc p < 0.001). However, no significant differences were found          manifest PD patients, significant TPDC differences were observed for
+between manifest PD patients and old healthy controls (post-hoc               the connections between the dorsal attention network and the ventral
+p = 0.392). A Chi-square test of independence showed a significant            attention network (p = 0.019, r2 = 0.187), between both the dorsal and
+difference in gender distribution across the groups (χ2(3) = 48.02,           ventral attention networks and the limbic network (p = 0.036,
+p < 0.0001) - balanced gender distribution in the young healthy               r2 = 0.153 and p = 0.019, r2 = 0.187, respectively), and between the
+control group, while the older healthy and patient groups have a              frontoparietal control network and the visual network (p = 0.016,
+higher proportion of male participants, which aligns with the known           r2 = 0.196). No significant differences in TPDC values were found
+male predominance in Parkinson’s disease prevalence.                          either between young and old healthy control groups, or between
+                                                                              prodromal PD and manifest PD patient groups for any connections.
+
+Directed network connectivity
+                                                                              Patient classification
+     By applying the TPDC analysis followed by Moran’s permutation
+testing approach, we examined the significant directed connections                 The random forest classifier showed high performance in
+among the following seven major brain networks of the Yeo-7 atlas,            distinguishing between the two PD patient groups. Our model achieved
+namely the ventral attention (VAN), dorsal attention (DAN), limbic            an overall accuracy of 93.24% with precision of 0.95, recall of 0.88, F1
+(LIN), frontoparietal control (FPN), somatomotor (SMN), visual                score of 0.92 in classifying the prodromal PD patients, and a precision
+(VIN), and default mode (DMN) networks. These connections are                 of 0.92, recall of 0.97 and F1-score of 0.94 for classifying manifest PD
+represented in the adjacency matrices, where ‘1’ denotes a directed           patients (Figure 3). To further validate the classification performance,
+edge connecting any two brain networks. For each group, we obtained           stratified 10-fold cross-validation was performed, yielding a mean
+separate connectivity matrices, representing significant directed             accuracy of 94.0% ± 2.5%, consistent with the initial train–test split
+causal connections.                                                           results (Supplementary Table S1). These results indicate that our model
+     In young healthy subjects, significant bidirectional connections         can accurately identify these patients based on their individual directed
+between the frontoparietal control and somatomotor networks were              connectivity patterns and can distinguish between prodromal PD and
+observed. These connections were absent in old healthy controls and           manifest PD patients. In addition to that, feature importance analysis
+both PD patient groups. However, compensatory connections between             was also performed to identify top 5 important features to classify PD
+the dorsal and ventral attention networks and the frontoparietal              staging (Supplementary Table S2). These findings also suggest that the
+control network were detectable in old healthy controls, prodromal            directed connectivity patterns combined with machine learning
+PD and manifest PD patients. The attention networks (Dorsal and               methods, can accurately classify PD at different stages.
+ventral) have directed connections to the somatomotor network in
+prodromal and manifest PD patients which are absent in case of young
+healthy individuals. The older healthy controls have directed                 Clinical correlations
+connections from ventral attention and limbic networks to the
+somatomotor network, which are absent in the young healthy                       The TPDC values of the connections identified in young healthy
+individuals. In addition to that, there is a directed connection from         controls displayed significant correlations with the clinical scores.
+control network to the default network in older healthy individuals           Specifically, positive (Pearson’s) correlations between the TPDC
+
+
+Frontiers in Aging Neuroscience                                          05                                                             frontiersin.org
+Anjum et al.                                                                                                                       10.3389/fnagi.2025.1698600
+
+
+
+
+    FIGURE 2
+    Directed connectivity matrices. Each connectivity matrix displays significant directed connections between the seven major brain networks according
+    to the Yeo-7 atlas in young healthy controls from the GSP-1000 dataset (a), old healthy controls from the PPMI dataset (b), prodromal PD patients
+    from the PPMI dataset (c), and manifest PD patients from the PPMI dataset (d).
+
+
+
+
+    FIGURE 3
+    Classification of PD patients. (a) Receiver operating characteristic (ROC) curve for the random forest classifier distinguishing between prodromal PD
+    and manifest PD patients based on individual directional connectivity features. (b) Training and testing accuracy as a function of the number of trees in
+    the Random Forest model.
+
+
+
+
+Frontiers in Aging Neuroscience                                                06                                                                  frontiersin.org
+Anjum et al.                                                                                                                      10.3389/fnagi.2025.1698600
+
+
+
+
+values for the connections between the somatomotor network and                      increased directed connectivity with the progression of motor
+the frontoparietal control network and the behavioral inhibition scale              impairment as seen in Figure 4.
+score [r (1000) = 0.094, p = 0.019], Barrat impulsivity score [r                        Although correlations between some TPDC values and clinical
+(1000) = −0.0823, p = 0.042] and the conscientiousness score [r                     scores are statistically significant, the effect sizes are very small (all <
+(1000) = 0.105, p = 0.009] were detected (Figure 4). Prodromal PD                   0.02). After applying Bonferroni correction to account for multiple
+patients showed positive correlations between the TPDC values of the                comparisons, correlations in manifest PD and prodromal PD patients
+connections between the default mode and frontoparietal control                     remain significant, however, for young healthy controls they do not
+network and the sum of motor exam scores (NP3 total) [r                             remain statistically significant, which is consistent with their small
+(325) = 0.015, p = 0.032]. In manifest PD patients, there was a                     effect sizes. Hence, the correlations in the healthy and patient groups
+positive correlation between the TPDC values for the connections                    explained only a negligible proportion of variance, showing that
+from the limbic to the somatomotor network and the sum of motor                     associations likely reflect subtle rather than robust relationships
+exam scores (NP3 total) [r (435) = 0.013, p = 0.0176], indicating                   between connectivity and clinical measures.
+
+
+
+
+    FIGURE 4
+    Correlation between the TPDC values and clinical scores. In young healthy controls, TPDC values from the somatomotor to frontoparietal control
+    networks correlated with behavioral inhibition score (BIS) (a), Barrat impulsivity scale (b) and conscientiousness score on the NEO five factor model of
+    personality (c). In prodromal PD patients, TPDC value from the default mode to frontoparietal control network correlated with sum of motor exam
+    scores (NP3 total) (d). In manifest PD patients, TPDC values from limbic to somatomotor networks correlated with sum of motor exam scores (NP3
+    total) (e).
+
+
+
+
+Frontiers in Aging Neuroscience                                                07                                                                 frontiersin.org
+Anjum et al.                                                                                                                10.3389/fnagi.2025.1698600
+
+
+
+
+Discussion                                                                      networks, indicating the motor deficits normally seen in PD. The
+                                                                                loss of causal connection from the frontoparietal control network
+    In this study, we investigated how the directed causal connectivity         to the somatomotor network indicates a disruption in the influence
+patterns change across the lifespan and during the progression of PD,           of motor control, which is a clear sign of motor symptoms in PD
+especially focusing on the transition of prodromal PD to manifest PD            and may require increased reliance on the attention-based control
+stage. We have identified age and disease related alterations in the            (Azulay et al., 2006). We observed this in our study, where dorsal
+directed interactions among important brain networks. In addition to            and ventral attention networks are highly active and showed
+that, we showed that these connectivity values correlate with the               significant directed causal connections to the somatomotor and
+clinical and motor scores. Our findings would be helpful in providing           control networks, exhibiting some compensatory attention
+important insights into the neural basis and early diagnosis of PD.             processes, partly observed in the prodromal PD patients. However,
+                                                                                these efforts may not be enough to suppress the disease-related
+                                                                                network disruptions.
+Directed network connectivity                                                       In addition, we found causal directed connections from the
+                                                                                somatomotor network to the visual network, which were present
+    The young healthy controls presented a pattern of significant               only in PD patients, suggesting the reliance on sensory inputs
+directed connectivity. Directed connections from the frontoparietal             from the visual system for the guidance of movements. This aligns
+control network to the somatomotor network and from the default                 well with the clinical observations in PD patients, which show
+mode network to the frontoparietal control network, showed strong               increased dependence on the visual cues during gait and balance
+top-down regulatory influences, which are essential for healthy brain           tasks (Zhang et al., 2023).
+functioning in young adults. The directed connectivity from the
+frontoparietal control network to the somatomotor network suggests
+that these regions play an active role in mediating movement,                   Age-related network alterations
+attention, and cognition (Leisman et al., 2016) in a consistent manner
+as with the cognitive flexibility and motor control normally observed                Young healthy controls showed directed connectivity between the
+in young individuals.                                                           somatomotor and control networks reflecting the intricate integration
+    Old healthy controls showed a reduction in directed causal                  of higher-order functions and motor planning. This significant
+connections between different networks. For example, the                        directed connectivity was absent in the older individuals (older
+frontoparietal control network did not exhibit significant connections          healthy controls, prodromal PD and PD patients), pointing to possible
+with the somatomotor network, which was prominent in young                      age-related effects on the control and motor functions (Marek et al.,
+healthy individuals, likely due to age-related changes. The                     2015; Jockwitz and Caspers, 2021).
+somatomotor network had fewer efferent connections that may                          In older individuals and patients, there is a notable absence of
+indicate an age-related motor decline such as balance and gait deficits,        significant directed connectivity from the attention networks
+control/coordination deficits and slowing of movements (Seidler et al.,         (both ventral and dorsal) to the limbic network, which is
+2010). There was a lack of directed connectivity from other networks            responsible for memory processing and emotional regulations,
+to the dorsal and ventral attention networks, similar to the lack of            and it tends to deteriorate with advanced age (Gunbey et al.,
+structural and functional connectivity decline normally observed with           2014). However, a compensatory mechanism might come into
+the attention networks in older individuals (Zhang et al., 2024)                play in the shape of increased connectivity to other networks.
+suggesting a decline in the attention mechanisms related to normal              Such connections from the attention networks to the control
+aging brain.                                                                    network in older individuals and PD patients my indicate an
+                                                                                increased role of attention networks in the aging brain (Ferreira
+                                                                                and Busatto, 2013; Watanabe et al., 2021).
+Prodromal PD patients                                                                Age-related directed connectivity patterns from the limbic
+                                                                                network to the somatomotor network were observed in older healthy
+     The prodromal PD group showed early signs of connectivity                  controls and PD patients, which were absent in the young healthy
+disruption, primarily in the somatomotor network. The absence of                controls. This significant connection might show some compensatory
+strong outgoing directed connections from the somatomotor network               adaptation to support the motor function as limbic-motor interface is
+may be related to motor deficits and could possibly lead to                     potentially involved in the modulation of complex functions such as
+PD. Connections from the ventral attention network to the                       spatial awareness and motor coordination (Rizzo et al., 2018). This
+somatomotor and frontoparietal control networks in prodromal PD                 connection would highlight the role of the limbic network in
+patients could reflect some compensatory mechanisms (Passaretti                 mediating motor and cognitive tasks in the aging process.
+et al., 2024), where the attentional network may try to take over some               The relatively small sample size of the old healthy control group
+of the motor and cognitive tasks.                                               (n = 29) compared to the other cohorts is a limitation and may reduce
+                                                                                the robustness of age-related comparisons. While the present analysis
+                                                                                provides valuable preliminary insights, future studies should include
+Parkinson’s disease patients                                                    larger age-matched control cohorts to strengthen generalizability. In
+                                                                                addition to that, sensitivity analyses or weighted statistical approaches
+   The PD patient group showed a breakdown in connections                       could be employed to mitigate potential biases arising from group
+especially within the frontoparietal control and somatomotor                    size imbalances.
+
+
+Frontiers in Aging Neuroscience                                            08                                                             frontiersin.org
+Anjum et al.                                                                                                               10.3389/fnagi.2025.1698600
+
+
+
+
+Disease-related network alterations                                             full-blown expression of PD. The control network loses the governing
+                                                                                influence over the motor network, leading to the isolation of the highly
+     In prodromal PD and manifest PD patients, we observed directed             important somatomotor network. These disruptions are quite different
+connections from the control network to the dorsal attention network,           from the effects of normal aging as seen in the PPMI-healthy older
+which were absent in the young and older healthy controls, suggesting           individuals, where the loss of these connections has less influence. The
+some compensatory mechanisms as attention is controlled by                      study also highlights the potential biomarkers for early diagnosis and
+frontoparietal control network in PD patients (Seeley et al., 2007;             intervention. Some observed connectivity patterns could possibly
+Tessitore et al., 2012). This adaptation might be an attempt by the             be of compensatory mechanisms; however, these inferences are
+brain to counter the decline of the motor system with attentional               correlational, and alternative explanations, such as network
+network taking over to maintain the functional movement.                        reorganization or disease heterogeneity, cannot be excluded. This
+     In the prodromal stage we see that the somatomotor network is              study aims to contribute to the understanding of directed connectivity
+secluded with no outgoing connections, signaling the early disruption           patterns in neurodegenerative diseases such as Parkinson’s disease,
+in the integration of motor system, which is a hallmark of PD                   highlighting the differences in directed connectivity patterns between
+pathophysiology (Abbruzzese and Berardelli, 2003), however with the             healthy individuals and Parkinson’s patients.
+progression of the disease we see a significant directed connectivity to
+visual and default networks in case of PD patients suggesting an
+adaptation mechanism where disease takes over and reconfigures itself           Limitations
+against the motor decline (De Schipper et al., 2018; Thomas et al.,
+2023). However, this adaptation might not be enough to compensate                   The relatively small sample size of the old healthy control group
+for the loss of motor functions, highlighting the need for therapeutic          (n = 29) compared to the other cohorts is a limitation and may reduce
+interventions such as deep brain stimulation or cognitive training.             the robustness of age-related comparisons. External validation in
+                                                                                independent cohorts in future work is required to confirm the
+                                                                                generalizability and clinical relevance of these findings.
+Disease stage classification
+
+    Our study shows that the directed connectivity patterns derived             Data availability statement
+from the resting state fMRI data, using the TPDC analysis, can
+effectively and accurately distinguish between the prodromal PD and                  The original contributions presented in the study are included in
+Parkinson’s disease patients. The high accuracy, strong performance             the article/Supplementary material, further inquiries can be directed
+metrics across both patient group and the ability of our model to               to the corresponding author.
+classify individual patients based on unique directed connectivity
+patterns, shows the relevance of this approach which can be particularly
+useful in the diagnosis of Parkinson’s disease at an early stage. Our           Ethics statement
+findings suggest that changes in the brain network connectivity
+patterns can help in tracking disease progression over time.                        The studies involving humans were approved by and available on
+                                                                                Harvard’s Metaverse as GSP100 data for young healthy individuals.
+                                                                                The other part of the study includes data from PPMI publicly available
+Clinical significance                                                           source. All the data has been approved by respective ethics committies.
+                                                                                The studies were conducted in accordance with the local legislation
+    We can suggest that the loss of causal connections between the              and institutional requirements. The participants provided their written
+control and somatomotor networks could serve as an early biomarker              informed consent to participate in this study.
+for PD diagnosis and disease progression. The use of these directed
+causal connectivity patterns into a machine learning framework
+resulted into highly accurate classification of PD patients at different        Author contributions
+stages. Our findings suggest that combining directed connectivity with
+clinical scores enhances our understanding of PD pathophysiology                    TA: Methodology, Formal analysis, Conceptualization,
+and holds great potential for early diagnosis and intervention. In light        Visualization, Investigation, Software, Writing – review & editing,
+of previous research, our results point to therapeutic strategies like          Data curation, Writing – original draft. AS: Data curation,
+deep brain stimulation or cognitive training, which might help restore          Methodology, Writing – original draft, Conceptualization. HD:
+this causal connectivity relation and preserve motor control and                Methodology, Writing – review & editing, Software, Formal analysis.
+cognitive function at the early onset of PD.                                    TM: Writing – review & editing, Methodology, Software. RP:
+                                                                                Investigation, Conceptualization, Resources, Writing – review &
+                                                                                editing. JV: Supervision, Writing – review & editing,
+Conclusion                                                                      Conceptualization, Resources, Funding acquisition, Project
+                                                                                administration. DC: Data curation, Validation, Methodology,
+    The study highlights the gradual loss of the directed causal                Conceptualization, Writing – review & editing, Investigation. MM:
+connections between the control and motor networks, as a significant            Supervision, Writing – review & editing, Conceptualization,
+feature of PD, starting in the prodromal stage and capping at the               Methodology, Resources, Funding acquisition, Writing – original draft.
+
+
+Frontiers in Aging Neuroscience                                            09                                                             frontiersin.org
+Anjum et al.                                                                                                                                             10.3389/fnagi.2025.1698600
+
+
+
+
+Funding                                                                                            Generative AI statement
+    The author(s) declare that financial support was received for the                                  The authors declare that Gen AI was used in the creation of this
+research and/or publication of this article. This work was funded by                               manuscript. Generative AI was used only in a minor capacity to assist
+Deutsche Forschungsgemeinschaft (DFG, German Research                                              with language polishing and improving readability during the revision
+Foundation) – Project-ID 424778381 – TRR 295.                                                      process. No part of the study design, data analysis, results
+                                                                                                   interpretation, or scientific conclusions relied on generative AI.
+                                                                                                       Any alternative text (alt text) provided alongside figures in this
+Acknowledgments                                                                                    article has been generated by Frontiers with the support of artificial
+                                                                                                   intelligence and reasonable efforts have been made to ensure accuracy,
+    Data were provided in part by the Brain Genomics Superstruct                                   including review by the authors wherever possible. If you identify any
+Project of Harvard University and the Massachusetts General Hospital                               issues, please contact us.
+(Principal investigator: randy Buckner, Joshua Roffman, and Jordan
+Smoller), with support from the Center for Brain Science
+Neuroinformatics Research Group, the Athinoula A. Martinos Center                                  Publisher’s note
+for Biomedical Imaging, and the Center for Human Genetic Research.
+20 individual investigators at Harvard and MGH generously                                              All claims expressed in this article are solely those of the authors
+contributed data to the overall project.                                                           and do not necessarily represent those of their affiliated organizations,
+                                                                                                   or those of the publisher, the editors and the reviewers. Any product
+                                                                                                   that may be evaluated in this article, or claim that may be made by its
+Conflict of interest                                                                               manufacturer, is not guaranteed or endorsed by the publisher.
+
+    The authors declare that the research was conducted in the
+absence of any commercial or financial relationships that could                                    Supplementary material
+be construed as a potential conflict of interest.
+    The author(s) declared that they were an editorial board member                                     The Supplementary material for this article can be found online
+of Frontiers, at the time of submission. This had no impact on the peer                            at: https://www.frontiersin.org/articles/10.3389/fnagi.2025.1698600/
+review process and the final decision.                                                             full#supplementary-material
+
+
+
+References
+  Abbruzzese, G., and Berardelli, A. (2003). Sensorimotor integration in movement                    Gunbey, H. P., Ercan, K., Fındıkoglu, A. S., Bulut, H. T., Karaoglanoglu, M., and
+disorders. Mov. Disord. 18, 231–240. doi: 10.1002/mds.10327                                        Arslan, H. (2014). The limbic degradation of aging brain: a quantitative analysis with
+                                                                                                   diffusion tensor imaging. Sci. World J. 2014:196513. doi: 10.1155/2014/196513
+  Azulay, J. P., Mesure, S., and Blin, O. (2006). Influence of visual cues on gait in
+Parkinson's disease: contribution to attention or sensory dependence? J. Neurol. Sci. 248,           Haykin, S. (2001). Kalman filtering and neural networks. Ontario, Canada: John Wiley
+192–195. doi: 10.1016/j.jns.2006.05.008                                                            & Sons. doi: 10.1002/0471221546
+  Baccalá, L., and Sameshima, K. (2001). Partial directed coherence: a new concept in                Jockwitz, C., and Caspers, S. (2021). Resting-state networks in the course of aging—
+neural structure determination. Biol. Cybern. 84, 463–474. doi: 10.1007/PL00007990                 differential insights from studies across the lifespan vs. amongst the old. Pflügers Arch
+                                                                                                   473, 793–803. doi: 10.1007/s00424-021-02520-7
+  Bajaj, S., Adhikari, B. M., Friston, K. J., and Dhamala, M. (2016). Bridging the gap:
+dynamic causal modeling and granger causality analysis of resting state functional                   Kaminski, M., Ding, M., Truccolo, W. A., and Bressler, S. L. (2001). Evaluating
+magnetic resonance imaging. Brain Connect. 6, 652–661. doi: 10.1089/brain.2016.0422                causal relations in neural systems: granger causality, directed transfer function and
+                                                                                                   statistical assessment of significance. Biol. Cybern. 85, 145–157. doi:
+   Bange, M., Gonzalez-Escamilla, G., Marquardt, T., Radetz, A., Dresel, C., Herz, D.,             10.1007/s004220000235
+et al. (2022). Deficient interhemispheric connectivity underlies movement irregularities
+in Parkinson’s disease. J. Parkinsons Dis. 12, 381–395. doi: 10.3233/JPD-212840                      Leisman, G., Moustafa, A. A., and Shafir, T. (2016). Thinking, walking, talking:
+                                                                                                   integratory motor and cognitive brain function. Front. Public Health 4:94. doi:
+  Cohen, A., Soussand, L., Mcmanus, P., and Fox, M. (2020). "GSP1000 preprocessed                  10.3389/fpubh.2016.00094
+connectome. Harvard Dataverse" Boston, USA: CohenLab Dataverse. doi: 10.7910/
+DVN/ILXIKS                                                                                           Leviashvili, S., Ezra, Y., Droby, A., Ding, H., Groppa, S., Mirelman, A., et al. (2022).
+                                                                                                   EEG-based mapping of resting-state functional brain networks in patients with
+  De Schipper, L. J., Hafkemeijer, A., Van Der Grond, J., Marinus, J., Henselmans, J. M.,          Parkinson’s disease. Biomimetics 7:231. doi: 10.3390/biomimetics7040231
+and Van Hilten, J. J. (2018). Altered whole-brain and network-based functional
+connectivity in Parkinson's disease. Front. Neurol. 9:419. doi: 10.3389/fneur.2018.00419             Li, Q., Steeg, G. V., Yu, S., and Malo, J. (2022). Functional connectome of the human
+                                                                                                   brain with total correlation. Entropy 24:1725. doi: 10.3390/e24121725
+  Deco, G., Jirsa, V. K., and Mcintosh, A. R. (2011). Emerging concepts for the
+dynamical organization of resting-state activity in the brain. Nat. Rev. Neurosci. 12,               Logothetis, N. K., and Wandell, B. A. (2004). Interpreting the BOLD signal. Annu. Rev.
+43–56. doi: 10.1038/nrn2961                                                                        Physiol. 66, 735–769. doi: 10.1146/annurev.physiol.66.082602.092845
+
+  Duan, P., Yang, F., Chen, T., and Shah, S. L. (2013). Direct causality detection via the           Mansour, L. S., Di Biase, M. A., Smith, R. E., Zalesky, A., and Seguin, C. (2023).
+transfer entropy approach. IEEE Trans. Control Syst. Technol. 21, 2052–2066. doi:                  Connectomes for 40,000 UK biobank participants: a multi-modal, multi-scale brain
+10.1109/TCST.2012.2233476                                                                          network resource. NeuroImage 283:120407. doi: 10.1016/j.neuroimage.2023.120407
+
+  Ferreira, L. K., and Busatto, G. F. (2013). Resting-state functional connectivity in               Marek, S., Hwang, K., Foran, W., Hallquist, M. N., and Luna, B. (2015). The
+normal brain aging. Neurosci. Biobehav. Rev. 37, 384–400. doi:                                     contribution of network organization and integration to the development of cognitive
+10.1016/j.neubiorev.2013.01.017                                                                    control. PLoS Biol. 13:e1002328. doi: 10.1371/journal.pbio.1002328
+  Firston, K. J. (2011). Functional and effective connectivity: a review. Brain Connect. 1,          Moran, P. A. (1950). Notes on continuous stochastic phenomena. Biometrika 37,
+13–36. doi: 10.1089/brain.2011.0008                                                                17–23. doi: 10.1093/biomet/37.1-2.17
+ Friston, K. J., Harrison, L., and Penny, W. (2003). Dynamic causal modelling.                       Muthuraman, M., Koirala, N., Ciolac, D., Pintea, B., Glaser, M., Groppa, S., et al.
+NeuroImage 19, 1273–1302.                                                                          (2018). Deep brain stimulation and L-DOPA therapy: concepts of action and clinical
+
+
+
+
+Frontiers in Aging Neuroscience                                                               10                                                                           frontiersin.org
+Anjum et al.                                                                                                                                                       10.3389/fnagi.2025.1698600
+
+
+
+
+applications   in   Parkinson's             disease.     Front.      Neurol.      9:711.      doi:           Sun, L., Zhao, T., Liang, X., Xia, M., Li, Q., Liao, X., et al. (2023). Functional
+10.3389/fneur.2018.00711                                                                                   connectome through the human life span. BioRxiv. doi: 10.1101/2023.09.12.557193
+  Neumaier, A., and Schneider, T. (2001). Estimation of parameters and eigenmodes of                         Tessitore, A., Amboni, M., Esposito, F., Russo, A., Picillo, M., Marcuccio, L., et al.
+multivariate autoregressive models. ACM Trans. Math. Softw. 27, 27–57. doi:                                (2012). Resting-state brain connectivity in patients with Parkinson's disease and
+10.1145/382043.382304                                                                                      freezing of gait. Parkinsonism Relat. Disord. 18, 781–787. doi:
+   Passaretti, M., Cilia, R., Rinaldo, S., Rossi Sebastiano, D., Orunesu, E., Devigili, G.,                10.1016/j.parkreldis.2012.03.018
+et al. (2024). Neurophysiological markers of motor compensatory mechanisms in early                          Thomas, G. E., Zeidman, P., Sultana, T., Zarkali, A., Razi, A., and Weil, R. S. (2023).
+Parkinson’s disease. Brain 147, 3714–3726. doi: 10.1093/brain/awae210                                      Changes in both top-down and bottom-up effective connectivity drive visual
+  Patton, J. H., Stanford, M. S., and Barratt, E. S. (1995). Factor structure of the Barratt               hallucinations in Parkinson’s disease. Brain Commun. 5:fcac329. doi:
+impulsiveness        scale.     J.     Clin.      Psychol.      51,      768–774.       doi:               10.1093/braincomms/fcac329
+10.1002/1097-4679(199511)51:6<768::AID-JCLP2270510607>3.0.CO;2-1                                              Wan, E. A., and Nelson, A. T. (2001). Dual extended Kalman filter methods. Kalman
+  Rizzo, G., Milardi, D., Bertino, S., Basile, G. A., Di Mauro, D., Calamuneri, A., et al.                 filtering and neural networks, 123–173.
+(2018). The limbic and sensorimotor pathways of the human amygdala: a structural                             Watanabe, H., Bagarinao, E., Maesawa, S., Hara, K., Kawabata, K., Ogura, A., et al.
+connectivity study. Neuroscience 385, 166–180. doi: 10.1016/j.neuroscience.2018.05.051                     (2021). Characteristics of neural network changes in normal aging and early dementia.
+  Rogers, B. P., Morgan, V. L., Newton, A. T., and Gore, J. C. (2007). Assessing functional                Front. Aging Neurosci. 13:747359. doi: 10.3389/fnagi.2021.747359
+connectivity in the human brain by fMRI. Magn. Reson. Imaging 25, 1347–1357. doi:                            Yeo, B. T., Krienen, F. M., Sepulcre, J., Sabuncu, M. R., Lashkari, D.,
+10.1016/j.mri.2007.03.007                                                                                  Hollinshead, M., et al. (2011). The organization of the human cerebral cortex
+  Schneider, T., and Neumaier, A. (2001). Algorithm 808: ARfit—a matlab package for                        estimated by intrinsic functional connectivity. J. Neurophysiol. 106, 1125–1165. doi:
+the estimation of parameters and eigenmodes of multivariate autoregressive models.                         10.1152/jn.00338.2011
+ACM Trans. Math. Softw. 27, 58–65. doi: 10.1145/382043.382316                                                Zelesky, A., Fornito, a., and Bullmore, E. (2010). Network-based statistic: identifying
+  Schreiber, T. (2000). Measuring information transfer. Phys. Rev. Lett. 85:461. doi:                      differences     in   brain      networks.     NeuroImage     53,   1197–1207.        doi:
+10.1103/PhysRevLett.85.461                                                                                 10.1016/j.neuroimage.2010.06.041
+  Seeley, W. W., Menon, V., Schatzberg, A. F., Keller, J., Glover, G. H., Kenna, H., et al.                  Zhang, H., Cao, P., Mak, H. K., and Hui, E. S. (2024). The structural–functional-
+(2007). Dissociable intrinsic connectivity networks for salience processing and executive                  connectivity coupling of the aging brain. Geroscience 46, 3875–3887. doi:
+control. J. Neurosci. 27, 2349–2356. doi: 10.1523/JNEUROSCI.5587-06.2007                                   10.1007/s11357-024-01106-2
+  Seidler, R. D., Bernard, J. A., Burutolu, T. B., Fling, B. W., Gordon, M. T., Gwin, J. T., et al.          Zhang, W., Han, Y., Shi, Y., Yan, S., Song, W., Cui, G., et al. (2023). Effects of wearable
+(2010). Motor control and aging: links to age-related brain structural, functional, and                    visual cueing on gait pattern and stability in patients with Parkinson’s disease. Front.
+biochemical effects. Neurosci. Biobehav. Rev. 34, 721–733. doi: 10.1016/j.neubiorev.2009.10.005            Neurol. 14:1077871. doi: 10.3389/fneur.2023.1077871
+
+
+
+
+Frontiers in Aging Neuroscience                                                                       11                                                                              frontiersin.org
+

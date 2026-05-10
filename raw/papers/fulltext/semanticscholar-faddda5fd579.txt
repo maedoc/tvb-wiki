@@ -1,0 +1,1167 @@
+                                    npj | systems biology and applications                                                                                                           Article
+                                    Published in partnership with the Systems Biology Institute
+
+
+
+
+                                                                                                                                                  https://doi.org/10.1038/s41540-025-00527-9
+
+
+                                    A Python toolbox for neural circuit
+                                    parameter inference
+                                                                                                                                                                              Check for updates
+
+                                    Alejandro Orozco Valero1,9, Víctor Rodríguez-González2,3, Noemi Montobbio4, Miguel A. Casal5,
+                                    Alejandro Tlaie6, Francisco Pelayo1,7, Christian Morillas1,7, Jesús Poza2,3,8, Carlos Gómez2,3 &
+                                    Pablo Martínez-Cañada1,7,9
+
+
+                                    Computational research tools have reached a level of maturity that enables efﬁcient simulation of
+                                    neural activity across diverse scales. Concurrently, experimental neuroscience is experiencing an
+                                    unprecedented scale of data generation. Despite these advancements, our understanding of the
+                  1234567890():,;
+1234567890():,;
+
+
+
+
+                                    precise mechanistic relationship between neural recordings and key aspects of neural activity remains
+                                    insufﬁcient, including which speciﬁc features of electrophysiological population dynamics (i.e.,
+                                    putative biomarkers) best reﬂect properties of the underlying microcircuit conﬁguration. We present
+                                    ncpi, an open-source Python toolbox that serves as an all-in-one solution, effectively integrating well-
+                                    established methods for both forward and inverse modeling of extracellular signals based on single-
+                                    neuron network model simulations. Our tool serves as a benchmarking resource for model-driven
+                                    interpretation of electrophysiological data and the evaluation of candidate biomarkers that plausibly
+                                    index changes in neural circuit parameters. Using mouse LFP data and human EEG recordings, we
+                                    demonstrate the potential of ncpi to uncover imbalances in neural circuit parameters during brain
+                                    development and in Alzheimer’s Disease.
+
+
+                                    In the last few decades, numerous research initiatives have focused on            and experimentally accessible in vivo features, using tools such as electro-
+                                    developing the research infrastructures and computational engines required        physiology and ﬂuorescent calcium imaging. Single-cell network models
+                                    for the effective simulation of brain activity at multiple levels, ranging from   have limitations, including higher computational demands and a potentially
+                                    individual neuron activity to large-scale brain signals1–3. Network models        large number of parameters that need to be tuned. Additionally, a key
+                                    composed of single neurons, based on leaky integrate-and-ﬁre (LIF) spiking        drawback of LIF neuron models is their representation as a single com-
+                                    neurons and multicompartment neurons, have been employed to address               partment, which prevents them from capturing the spatial distribution of
+                                    fundamental questions about neural dynamics, cortical oscillations, sensory       transmembrane currents necessary for generating extracellular potentials22.
+                                    processing, working memory, behavior, cortical connectivity, and neuro-           However, progress made in recent years has enabled the accurate approx-
+                                    logical diseases4–14. Moreover, the recent surge in both the quantity and         imation of extracellular signals by leveraging variables directly measured
+                                    quality of available data, coupled with rapid advancements in computational       from LIF network simulations23–27. By using an appropriate forward head
+                                    power, has enabled the development of spatially extended data-driven              model, such as the New York head model28, these network models can
+                                    cortical networks composed of LIF and multicompartment neuron                     generate realistic representations of large-scale ﬁeld potentials, such as
+                                    models15–21. Compared to more abstract, idealized models, the beneﬁts of          electroencephalogram (EEG) and magnetoencephalography (MEG) sig-
+                                    using single-neuron models are: (i) a more realistic accounting of the bio-       nals, paving the way for applying single-cell network models in clinical
+                                    physics of neurons and their interrelationships in the cortical circuit,          settings.
+                                    including, for example, their spiking activity and non-linear synaptic                  Multicompartment and spiking neural network models have been
+                                    interactions; and (ii) a more precise comparison between model parameters         applied to explore the links between electrophysiological population
+
+
+                                    1
+                                      Research Center for Information and Communication Technologies (CITIC), University of Granada, Granada, Spain. 2Biomedical Engineering Group, University of
+                                    Valladolid, Valladolid, Spain. 3Centro de Investigación Biomédica en Red de Bioingeniería, Biomateriales y Nanomedicina (CIBER-BBN), Valladolid, Spain.
+                                    4
+                                      Department of Health Sciences (DISSAL), University of Genoa, Genoa, Italy. 5Research Center for Information and Communication Technologies (CITIC),
+                                    University of A Coruña, A Coruña, Spain. 6Ernst Strüngmann Institute for Neuroscience, Frankfurt am Main, Germany. 7Department of Computer Engineering,
+                                    Automation and Robotics, University of Granada, Granada, Spain. 8IMUVA, Instituto de Investigación en Matemáticas, University of Valladolid, Valladolid, Spain.
+                                    9
+                                      These authors contributed equally: Alejandro Orozco Valero, Pablo Martínez-Cañada.      e-mail: pablomc@ugr.es
+
+
+                                    npj Systems Biology and Applications | (2025)11:45                                                                                                           1
+https://doi.org/10.1038/s41540-025-00527-9                                                                                                                Article
+
+dynamics and the underlying microscopic biophysics-based understanding              signals from this data. We used the simulation data to analyze the rela-
+of neuron dynamics10,13,17,26,29,30. Recently, single-neuron network models         tionships between key cortical circuit parameters (e.g., E/I ratio) and ﬁeld
+have been utilized to elucidate potential disruptions in cortical circuit           potential features (i.e., candidate biomarkers). We then trained a series of
+mechanisms that lead to atypical patterns in neuroimaging recordings                regression-based inverse surrogate models (i.e., MLP and Ridge), and SBI
+measured in patients with neurological disorders5,31,32. Speciﬁcally, these         models, and assessed the predictive power of these approaches trained on
+studies have investigated the causal relationship between speciﬁc bio-              individual features and their combinations. Finally, we explored ncpi’s
+markers, such as the aperiodic component of neural power spectrum, often            capabilities in revealing mechanistic imbalances in circuit parameters using
+referred to in the literature as the 1/f slope33, and imbalances of the excita-     real data, employing a bottom-up approach based on LFP and EEG
+tion/inhibition (E/I) ratio in clinical populations. There is a growing body of     recordings, starting with mice and extending to humans. We show that our
+evidence indicating that E/I imbalances in a variety of medical conditions          approach has the potential to: (i) reveal the relationship between local circuit
+are mirrored by changes in certain neuroimaging biomarkers5,31,32,34–37,            properties and population-level brain dynamics using ﬁeld potential
+suggesting that these readouts could serve as indirect indicators of the            recordings, (ii) be applied across different spatial scales, and (iii) track the
+underlying neural circuit dysregulation. These markers have also been               pathological progression and variability of circuit parameters in clinical
+correlated with changes in cortical circuit activity associated with brain          populations.
+development and healthy ageing38–40. Unfortunately, we currently lack
+validated noninvasive methods to evaluate the effectiveness of each marker          Results
+in measuring the E/I ratio and other circuit parameters34,41. Before these          The results are organized as follows: ﬁrst, we introduce the ncpi software
+markers can be reliably used in clinical practice, further efforts are needed to    platform and its features; next, we analyze the characteristics of the simu-
+reﬁne them and thoroughly investigate their potential as indicators of circuit      lation data generated for this study and the predictive power of various
+parameter imbalances.                                                               learning algorithms and biomarker conﬁgurations; ﬁnally, we apply our
+      A critical challenge to achieve this is the absence of standardized           approach to two distinct experimental datasets and present the resulting
+methods and tools for systematically assessing the markers’ effectiveness in        inferences.
+tracking speciﬁc attributes of the neural circuit conﬁguration. For example,
+previous modeling approaches have primarily focused on the forward                  Overview of the ncpi toolbox
+modeling of the brain signal stemming from simulated activity of cortical           We begin by describing the developed toolkit and key techniques integrated
+circuit models, manually exploring a limited set of parameter combinations          in the software platform. Figure 1 shows the structure of ncpi, illustrating the
+and evaluating their effects on electrophysiological patterns17,26,31,32. They do   toolbox’s approach for providing an all-in-one computational framework
+not exploit the enormous potential of machine learning to improve auto-             that uniﬁes methods for both forward and inverse modeling of population
+matic discovery of relationships between model parameters and neural data,          neural signals (referred to here as ﬁeld potentials). The Python classes
+effectively addressing the inverse modeling problem. A successful approach          included in ncpi are designed to encompass the entire workﬂow for simu-
+for integrating mechanistic modeling with machine learning methods is the           lating brain models (Simulation), computing extracellular signals (Field-
+use of a machine-learning-assisted simulation framework, also known as              Potential), extracting features (Features), training inverse surrogate models,
+surrogate modeling42–44. This methodology has been widely used across               and utilizing them to compute predictions on real data (Inference), and
+diverse ﬁelds, from engineering and environmental sciences to ﬁnance and            analyzing results (Analysis). These classes integrate a broad spectrum of
+medicine, to approximate complex, computationally expensive                         state-of-the-art methods based on established software toolkits, e.g., NEST57,
+simulations42–46. The learning model can be trained on simulation data as an        NEURON58, LFPy59, scikit-learn (sklearn)60 and SBI61, enabling users to
+inverse surrogate to infer model parameters from empirical data47,48. Inverse       easily derive model-based inferences of circuit parameters with minimal
+surrogate models are often built using well-established regression algo-            coding. Additionally, all classes are designed to support parallel computing,
+rithms, e.g., a multilayer perceptron (MLP) or Ridge regression models,             allowing for faster execution by leveraging all available computational
+which provide individual estimates of model parameters. On the other hand,          resources, whether natively provided by the software tool (such as NEST) or
+simulation-based inference (SBI) offers a powerful alternative to traditional       integrated into the ncpi toolbox using the pathos framework62.
+model inversion by leveraging deep neural density estimators to learn a                    Brieﬂy, the Simulation class provides methods for constructing a net-
+probabilistic Bayesian mapping between observed data and model para-                work model of individual neurons, simulating its behavior, and collecting
+meters. Unlike conventional methods, SBI techniques are capable of iden-            simulation outputs such as spike times, synaptic currents, or membrane
+tifying the full landscape of parameter distributions that are consistent with      potentials. As an example, we provide the code to simulate, using NEST, a
+the observed phenomena49–52. This enables a thorough exploration of the             two-population network (excitatory, E, and inhibitory, I) of LIF neuron
+parameter space, capturing intricate and nonlinear relationships between            models (iaf_psc_exp neuron model) recurrently connected with current-
+model parameters. SBI methods are particularly advantageous in inference            based synapses. The network parameters (e.g., J IE , the synaptic weight
+scenarios where the likelihood function is analytically intractable or com-         between presynaptic population E and postsynaptic population I, or N E and
+putationally prohibitive, such as in the case of neural mass modeling at            N I , the population sizes) correspond to the best ﬁt provided in a recent
+whole-brain level53–55. Yet, the use of deep learning density estimators in         modeling study23. Outputs recorded from the cortical circuit model simu-
+biophysically detailed single-cell network models is challenging, and tech-         lation are utilized by methods of the FieldPotential class. Extracellular sig-
+niques for doing so have only recently started to be developed56.                   nals are derived for LIF network models by convolving population spike
+      Various approaches from brain research and artiﬁcial intelligence have        rates with spatiotemporal ﬁlter kernels. These kernels are previously
+studied the relationship between features from neural data and cortical             obtained using a hybrid modeling framework23,27 built on NEURON mul-
+circuit properties, yet key aspects remain unclear. We introduce the neural         ticompartment neuron simulations (Fig. 1 and Methods). Alternatively, we
+circuit parameter inference (ncpi) toolbox, an all-in-one platform integrating      can approximate the extracellular signals by combining variables directly
+state-of-the-art methods from both disciplines to advance research in               measured from network simulations through proxies (i.e., estimates of the
+inverse modeling. Our toolbox serves as a model-driven testbench for                signal), such as the average ﬁring rate or the average sum of AMPA and/or
+evaluating candidate biomarkers in population-level electrophysiological            GABA currents. The kernel method can be employed to calculate LFP
+data, enabling rapid, interpretable, and systematic comparisons of circuit          signals across different recording sites or to estimate the current dipole
+parameter predictions for individual biomarkers (or a combination of                moment (CDM). The CDM deﬁnes EEG and MEG signals, both of which
+biomarkers) on a given dataset. To demonstrate the applicability of the ncpi        can be calculated using a suitable forward head model, such as the New York
+toolbox, we created a dataset of 2 million simulated samples generated from         head model28. Although the FieldPotential methods were initially designed
+a LIF network model and computed local ﬁeld potentials (LFPs) and EEG               for computing model-based inferences with point-neuron models, they can
+
+
+npj Systems Biology and Applications | (2025)11:45                                                                                                                2
+https://doi.org/10.1038/s41540-025-00527-9                                                                                                                        Article
+
+
+
+
+Fig. 1 | Outline of the ncpi toolbox. The diagram shows the Python classes, their       of ﬁeld potentials, feature extraction, training of regression models, predictions
+primary methods, and the included software libraries, and provides a representation     computed on real data, and analysis and visualization of results. For further infor-
+of the processing ﬂow. From left to right: simulation of neural activity, computation   mation, please refer to Methods.
+
+
+also be used with multicompartment models, leveraging the packages                      simulated data are incorporated into the Inference class and used for
+available from the LFPy workspace59,63 for computing extracellular poten-               training inverse surrogate models, accessible through two prominent
+tials from multicompartment neuron networks.                                            machine learning libraries integrated into the toolbox: sklearn and
+      Next, features from ﬁeld potentials (i.e., putative biomarkers) are               SBI. By employing the RepeatedKFold method, available in Inference,
+computed using well-established scientiﬁc time-series analysis tech-                    the user can evaluate the model’s stability and generalization across
+niques included in the Features class. Two time-series feature                          multiple training and testing splits. Once the inverse surrogate model
+libraries are included: hctsa64 and catch2265, which provide a com-                     is trained on simulation data, it can be applied to real-world data to
+prehensive set of data-driven feature-based representations. These                      predict the neural parameters associated with each dataset. Finally,
+feature sets have demonstrated success in solving a broad spectrum of                   the Analysis class provides methods for automatically performing
+time-series problems across diverse applications in the life sciences,                  statistical analyses on features and predictions, e.g., using linear
+particularly in neuroscience, e.g., for investigating neurophysiological                mixed-effects (LME) models, as well as for creating appealing and
+signatures related to cortical micro-architecture66 or exploring mul-                   informative statistical graphics.
+tiple representations of cortical connectivity67. We have also inte-                          Figure 2 presents a Python code example leveraging all ncpi’s classes,
+grated two additional well-known feature extraction methods shown                       demonstrating the toolbox’s full potential to create in-silico brain models,
+to effectively assess changes in the E/I balance: the specparam library                 simulate neural activity, extract features, train an inverse model, and make
+for power spectrum parametrization68, which separates power spectra                     predictions on real data, all with just a few lines of code. This example
+into aperiodic and periodic components, and the functional E/I ratio                    showcases how ncpi can streamline complex workﬂows, providing an easy-
+(fE/I), a ﬂuctuation-based metric that was developed to infer the state                 to-use and intuitive platform for testing hypotheses about the neural origins
+of dynamics concerning the critical point36. Features extracted from                    of electrophysiological data.
+
+
+npj Systems Biology and Applications | (2025)11:45                                                                                                                        3
+https://doi.org/10.1038/s41540-025-00527-9                                                                                                                              Article
+
+                                                                                         model8,10,11,14,30,69,70. A key property of excitatory-inhibitory recurrent net-
+                                                                                         works is that increasing the strength of the external input leads to an increase
+                                                                                         in spiking output and enhancement of synchrony (Fig. 3A). This phe-
+                                                                                         nomenon is also observed in the CDM: at a low external input level
+                                                                                            syn ¼ 28nA), the network remains in an asynchronous irregular state,
+                                                                                         (J ext
+                                                                                         characterized by weak and strongly damped oscillations. In contrast,
+                                                                                         increasing the external input leads to more synchronized oscillatory activity.
+                                                                                         This increase in synchronized oscillatory activity is clearly reﬂected in the
+                                                                                         power spectrum (Fig. 3B), which shows how increasing external input
+                                                                                         values from a low level (J ext syn ¼ 28nA), a state predominantly characterized
+                                                                                         by 1/f dynamics, lead to an entrainment of gamma oscillations. With an
+                                                                                         increase in external input, gamma-band oscillation frequencies are also
+                                                                                         elevated.
+                                                                                                Next, using the tools provided in the Features class, we extracted fea-
+                                                                                         tures from the simulated CDMs by applying the aperiodic 1/f slope and the
+                                                                                         catch22 library. We chose these feature sets because we believe that com-
+                                                                                         paring these two methods offers a valuable opportunity to contrast a
+                                                                                         general-purpose time-series feature extraction library with a speciﬁc mar-
+                                                                                         ker, the 1/f slope, that has been shown to reliably track circuit parameter
+                                                                                         imbalances. Clearly, both the 1/f slope and the three representative features
+                                                                                         selected from the catch22 set show marked changes in response to altera-
+                                                                                         tions in the external input (Fig. 3C). These initial ﬁndings indicate that
+                                                                                         alterations in speciﬁc network model parameters are strongly mirrored in
+                                                                                         the extracellular signal and could potentially be extracted from its readout.
+                                                                                         However, extrapolating these ﬁndings to more complex contexts, such as the
+                                                                                         joint effects of various parameters in the signal, may not be straightforward,
+                                                                                         as demonstrated below.
+
+                                                                                         Characterization of features in the simulation dataset
+                                                                                         The spiking network model introduced above was used to develop a com-
+                                                                                         prehensive training dataset containing two million individual simulation
+                                                                                         samples. To create this dataset, we systematically explored key parameters
+                                                                                         that deﬁne recurrent and external synaptic connectivity (J synEE , J synIE , J synEI ,
+                                                                                         J synII , τ exc
+                                                                                                     syn , τ syn , and J syn ), generating simulation data that fully characterize
+                                                                                                             inh         ext
+
+                                                                                         how the model’s synaptic mechanisms contribute to cortical circuit activity
+                                                                                         and, ultimately, the resulting extracellular signals (for more details, refer to
+                                                                                         the Methods section). We chose to focus on the synaptic parameters of the
+                                                                                         model, maintaining the others unchanged, because of their relevance to
+                                                                                         brain development and ageing38–40, and their vital role in neurodegenerative
+                                                                                         and neurodevelopmental diseases71–74. Once we generated the simulated
+                                                                                         spiking activity for the dataset, we calculated the corresponding extracellular
+                                                                                         signals and computed features using the 1/f slope method and the catch22
+Fig. 2 | Python code snippet illustrating the use of the ncpi library and its classes.   library (Fig. 4).
+This code snippet makes a few assumptions, such as the presence of ‘network.py’ and               Distributions of features extracted from the simulation dataset are
+‘simulation.py’ as ﬁles for creating and simulating the LIF network model, which are     presented as a function of the parameters of the spiking network model used
+included in the ncpi library as examples, the availability of simulated ﬁring rates as   to generate them (Fig. 4). It is important to note that in each plot for a
+LIF_spike_rates, or the preprocessing of empirical data.                                 speciﬁc parameter, the other synaptic parameters were permitted to vary
+                                                                                         without constraints. This data visualization was intentionally selected to
+                                                                                         illustrate the challenge of distinguishing changes in parameters from feature
+Simulation of neural activity and extracellular potentials using a                       variations when all parameters simultaneously impact the model’s output
+LIF network model                                                                        and may lead to similar and/or conﬂicting shifts in the features. Indeed, the
+We next describe the characteristics of the neural dynamics produced by the              analysis of features revealed small effect sizes across most features (η2,
+network model of spiking neurons used in our study, along with the gen-                  ANOVA test). This challenge is exempliﬁed by the pair dfa and τ exc            syn , which
+eration of extracellular signals and the computation of relevant features. In            displays diverse trends based on the interval of τ exc                   syn considered,
+brief, the model is a generic current-based cortical network model consisting            complicating the interpretation of the feature-parameter relationship.
+of recurrently connected populations of excitatory and inhibitory LIF point              In this case, if we consider dfa as the only measured feature, it would
+neurons (8192 and 1024 neurons, respectively), driven by external Poisson                be very difﬁcult to accurately deduce the value of τ exc           syn . However, other
+processes with ﬁxed rates, as described previously23 (see Methods for further            features like high ﬂuctuation, which provides a clearer and more
+details). In addition to simulating the spiking output, we computed the                  distinguishable trend, could help resolve the ambiguities associated
+CDM by convolving population ﬁring rates (υX ) with spatiotemporal ker-                  with dfa and offer more accurate estimates of τ exc                  syn . Nevertheless,
+nels obtained using the methods of the FieldPotential class. Here, for the sake          although some feature-parameter pairs appear to exhibit a clearer
+of simplicity, we present changes in the behavior of the network in response             (even quasi-linear) trend, it is evident that, in general, estimating the
+to a varying external input current (Fig. 3). Effects of changes in the external         different intervals of the parameter distribution based on a single
+input are well-documented in the literature and illustrate how the model’s               feature in isolation is challenging when multiple circuit parameters
+parameters modulate the output of a recurrent spiking network                            vary together.
+
+
+npj Systems Biology and Applications | (2025)11:45                                                                                                                               4
+https://doi.org/10.1038/s41540-025-00527-9                                                                                                                         Article
+
+
+
+
+Fig. 3 | Representative simulations illustrating the dynamics of the LIF network          trials using the specparam library (1/f slope) and catch22 (dfa, rs range, and high
+model in response to different external input values. A Spike raster plots of the         ﬂuctuation). For illustration, we focus on these three features from the catch22
+excitatory (E) and inhibitory (I) populations spanning 100 ms of spontaneous              subset, although we noted that most of the catch22 features exhibited marked trends
+activity (top), spike counts in bins of width Δt (middle) and current dipole moment       in response to variations of the external input. A comprehensive description of the
+along the z-axis (Pz, bottom) for one of the six separate trials that were computed for   various catch22 features and their properties can be found in the associated
+this example. B Trial-averaged normalized power spectra of CDMs for the different         publication65.
+values of external synaptic currents. C Features extracted from the CDMs across
+
+
+
+Inverse model predictions using single vs. combined features                              around lower values than those from single-feature models. To further
+Using the dataset of simulated features, we developed inverse surrogate                   investigate the differences in errors across various feature combinations, we
+models to recover circuit parameters. As an initial analysis, our goal was to             computed the Hellinger distance between the corresponding distributions
+assess the performance of inverse models trained on individual features                   (where 0 indicates that the two distributions are identical, and 1 indicates
+versus their combinations to determine whether combining features                         that they are completely dissimilar). Our ﬁrst observation is that the distance
+enhances inference accuracy or if certain features are redundant. To do so,               between models trained with catch22 and those with catch22 + slope (DH,1)
+we trained a range of neural network regression models varying the feature                is minimal, indicating that including the slope in the catch22 feature set does
+sets used for training. For each combination, we then compared the pre-                   not signiﬁcantly improve predictive accuracy. The distance between all
+dicted and actual parameter values on a held-out subset (Fig. 5A). The                    models trained on a single feature (DH,2) is slightly larger, though still small,
+predicted parameters from multi-feature models, such as catch22 or                        which may suggest that no single-feature method clearly outperforms the
+catch22 + 1/f slope, showed a linear or quasi-linear trend when compared to               others. Finally, the distance between catch22 and the models trained on a
+the actual values, with the distributions of predicted values closely matching            single feature (DH,3) is the largest, indicating that multi-feature models and
+the actual ones. Single-feature model predictions, on the other hand,                     single-feature models produce the most distinct error distributions. We also
+struggled more to accurately capture actual parameters. However, in most                  trained linear regression models and repeated the same analysis, drawing
+cases, the predicted vs. actual value distributions for single-feature models             similar conclusions (Supplementary Fig. 1). However, in this case, the dis-
+showed a monotonically increasing trend. Inverse models can be used to                    tances between single- and multi-feature models were smaller, suggesting
+compare clinical groups in empirical data or across different experimental                that linear models may not capture all the non-linear relationships among
+conditions. In such cases, this suggests that single-feature models may have              multiple features. Finally, we trained an SBI model, i.e., a Neural Posterior
+the potential to correctly track increases or decreases in a parameter, even if           Estimation (NPE) model, on the different feature conﬁgurations and eval-
+the actual parameter value is not accurately decoded.                                     uated the posterior ﬁt of each method by comparing the posterior z-score
+      The differences between single- and multi-feature models in capturing               and posterior shrinkage (Supplementary Fig. 2). Posterior estimates for all
+the real circuit parameters are reﬂected in the distributions of absolute errors          approaches were concentrated toward large shrinkages, indicating that the
+(Fig. 5B). Error distributions from multi-feature models tend to cluster more             posteriors in the inversion are quite informative. Additionally, the small
+
+
+npj Systems Biology and Applications | (2025)11:45                                                                                                                         5
+https://doi.org/10.1038/s41540-025-00527-9                                                                                                                                 Article
+
+
+
+
+Fig. 4 | Comparison of features extracted from simulated signals. Distributions of             values were within the limits of the bin, while the other synaptic parameters were free
+features computed on simulation data are shown as a function of synaptic para-                 to vary without restriction. Each panel includes η2 as a measure of effect size
+meters of the LIF network model (E/I, τ excsyn , τ syn and J syn ). Values of the parameters
+                                                   inh       ext
+                                                                                               (ANOVA model).
+were binned into equal size intervals. In each bin, for a speciﬁc parameter, parameter
+
+
+
+z-scores suggest that the true values are accurately captured within the                             The analysis of the prediction results obtained using the catch22 subset
+posteriors. However, the multi-feature models provided the best Bayesian                       (Fig. 6A) revealed a moderate reduction in the E/I ratio during the ﬁrst
+inversions, as they exhibited lower z-scores and larger posterior shrinkages                   postnatal days. Notably, the greatest number of signiﬁcant pairwise differ-
+across all parameter components.                                                               ences was observed for τ inh syn , J syn and ﬁring rates (LME and linear models,
+                                                                                                                                    ext
+
+     To apply inverse models to empirical data, we opted to compare a                          Holm-Bonferroni test). Changes in these parameters during early devel-
+multi-feature model with a single-feature model. Based on previous results,                    opment were primarily characterized by a shortening of τ inh    syn accompanied
+catch22 has been shown to perform well without the need for additional                                     syn values and increased ﬁring rates. Following this, we examined
+                                                                                               by higher J ext
+features, so we chose it as the multi-feature model. For the single-feature                    the prediction results using the 1/f slope (Fig. 6B). Nearly all pairwise dif-
+model, we selected the 1/f slope, a well-established feature that has been                     ferences for all parameters were statistically signiﬁcant, excluding J ext   syn .
+widely studied in recent years for analyzing E/I34. We believe these two                       Compared to the results observed using the catch22 feature set, the esti-
+                                                                                               mated parameters (τ exc syn , τ syn and ﬁring rates) exhibited opposite trends
+                                                                                                                               inh
+conﬁgurations illustrate the contrast between single- and multi-feature
+models, enabling a clear comparison of their differences.                                      except for the E/I ratio. We also trained Ridge and NPE models, applying
+                                                                                               them to the LFP dataset (Supplementary Figs. 4 and 5). The prediction
+Estimated shifts in cortical circuit parameters during early                                   results were largely consistent with those shown in Fig. 6, particularly for the
+postnatal development                                                                          NPE model. However, some results from the Ridge regression model
+The applicability of the toolbox to real-world scenarios was ﬁrst assessed                     exhibited different or less signiﬁcant trends, such as those observed for the E/
+using a dataset of resting-state LFP recordings obtained in vivo from the                      I ratio and ﬁring rates using the catch22 feature set.
+prefrontal cortex (PFC) of unanesthetized mice during their early postnatal
+days38. Using the same feature extraction methods applied to the simulation                    Predictions of the spatiotemporal progression of circuit para-
+data, we began by computing features from the empirical data. Our analysis                     meter alterations in Alzheimer’s Disease
+of LFP data features revealed consistent trends across features (except                        Finally, we tested the applicability of our toolbox on a larger-scale type of
+rs range) within the ﬁrst two weeks after birth (Supplementary Fig.                            ﬁeld potential recording, i.e., EEG data. To this end, we selected a com-
+3). Essentially, we found that the 1/f slope and high ﬂuctuation                               prehensive EEG dataset that includes both healthy controls (HCs) and
+exhibited a clear upward trend during the ﬁrst postnatal days, while                           patients clinically diagnosed with dementia due to Alzheimer’s Disease
+dfa showed a decrease. Indeed, the increasing trend of 1/f slope with                          (AD) at various stages of the disease (i.e., mild AD patients, ADMIL;
+respect to postnatal days aligns with ﬁndings from earlier studies38.                          moderate AD patients, ADMOD; and severe AD patients, ADSEV)75. Eyes-
+Upon completing feature extraction, we trained two neural network                              closed resting-state EEG recordings were acquired from 19 electrodes
+regression models using repeated 10-fold cross-validation: one                                 according to the International 10-20 system75. We employed a morpholo-
+incorporating the full set of catch22 features and the other relying                           gically realistic forward model, the New York head model28, to simulate EEG
+exclusively on the 1/f slope. We then used the trained models, serving                         signals for comparison with empirical measurements. We assumed that the
+as inverse models, on features derived from the LFP data to obtain                             signal from each EEG electrode originated from an independent, single local
+parameter predictions (Fig. 6).                                                                cortical circuit model (i.e., the LIF network model). Simulated EEG data
+
+
+npj Systems Biology and Applications | (2025)11:45                                                                                                                                  6
+https://doi.org/10.1038/s41540-025-00527-9                                                                                                                                    Article
+
+
+
+
+Fig. 5 | Predicted parameters generated from simulation data with various fea-          distance between all the models trained on a single feature. DH,3 represents the
+ture settings. A Predicted versus actual values. B Probability functions of absolute    distance between catch22 and the models trained on a single feature. All prediction
+errors. DH,1 represents the Hellinger distance between the probability distributions    results shown here were computed on a held-out test dataset representing 10% of the
+of models trained with catch22 and catch22 + 1/f slope. DH,2 represents the Hellinger   whole simulation dataset.
+
+
+were used to train the inverse surrogate models through repeated 10-fold                the human brain76–78. A key challenge in neuroscience is identifying the
+cross-validation.                                                                       neural circuit conﬁgurations that generate the spatial, spectral, and temporal
+      As shown in Fig. 7, the prediction results were calculated using the              features of brain signals associated with relevant neural processes in both the
+same feature sets as those applied to the LFP data presented above. Initially,          healthy and diseased brain. Various inﬂuential strategies have been applied
+focusing on the predictions of E/I imbalances, we observed that the 1/f slope-          to interpret electrophysiological signals in terms of their biophysical sub-
+based predictions revealed a signiﬁcant shift towards inhibition in many                strate, yet substantial challenges continue to impede further progress. The
+electrode positions of AD patients, while catch22 showed only minimal                   computational framework presented here has been created to effectively
+changes (LME and linear models, Holm-Bonferroni test). Conversely,                      integrate advancements from the different disciplines, tackling these chal-
+predictions related to changes in the external input J ext syn were more evident        lenges and advancing existing techniques for exploring the inverse modeling
+for catch22, indicating a decline in J ext
+                                       syn  starting with ADMOD       patients and      of electrical and magnetic brain signals. In this work, we present the results
+spreading into the later stages of the disease. Finally, the 1/f slope and catch22      of a ﬁrst study using ncpi, highlighting its ability to simulate realistic in-silico
+generated predictions of synaptic time constants that conﬂicted with each               ﬁeld potential data from a LIF network model, extract key neurophysiolo-
+other, much like the results from the LFP data. Interestingly, catch22-based            gical features, train different inverse model approaches and, ultimately,
+predictions revealed an increase in τ exc
+                                        syn , which was more prominent during           compare how different features (or set of features) inﬂuence parameter
+the later stages of the disease (i.e., ADSEV group), while τ inh     syn showed a       predictions in both simulated and real data. Below, we discuss our ﬁndings
+decrease. Opposing directional trends were observed for the 1/f slope pre-              and their signiﬁcance.
+dictions of synaptic time constants, though the affected areas did not align                   Our initial simulation results using the ncpi toolbox (Fig. 3) reveal that
+with predictions of catch22.                                                            variations in individual network parameters have a signiﬁcant impact on the
+                                                                                        extracellular signal, which supports the hypothesis that changes in neural
+Discussion                                                                              parameters could potentially be estimated from the signal’s readout. Fol-
+Electrophysiology approaches for recording neural population activity,                  lowing this, we assessed a more realistic case where all synaptic parameters
+extending from LFP to MEG and EEG, are tremendously valuable for                        (J synEE , J synIE , J synEI , J synII , τ exc
+                                                                                                                                   syn , τ syn , and J syn ) were allowed to vary together
+                                                                                                                                           inh         ext
+
+examining neuronal activity and offer enormous opportunities for treating               (Fig. 4). A key insight was that accurately inferring parameter changes from
+
+
+npj Systems Biology and Applications | (2025)11:45                                                                                                                                      7
+https://doi.org/10.1038/s41540-025-00527-9                                                                                                                                Article
+
+
+
+
+Fig. 6 | Predictions of changes in cortical circuit parameters derived from                   follows: a p-value between 0.01 and 0.05 is denoted by one asterisk (*), between 0.001
+developmental LFP data. Fits of parameters of the LIF network model (E/I, τ exc syn , τ syn
+                                                                                        inh
+                                                                                              and 0.01 by two asterisks (**), between 0.0001 and 0.001 by three asterisks (***), less
+and J ext
+      syn ) were estimated using a MLP  regressor  based on the complete set of catch22       than 0.0001 by four asterisks (****), and p-values of 0.05 or greater are considered
+features (A) or the 1/f slope alone (B). The last column shows estimated normalized           not signiﬁcant (n.s.). To compute ﬁring rates, 50 samples were drawn from each
+ﬁring rates. Asterisks indicate signiﬁcant differences between ages based on p-values         parameter prediction within the ﬁrst and third quartiles of each age, and the ﬁring
+obtained using the Holm-Bonferroni method with the LME and linear models                      rates were then normalized by the maximum ﬁring rate of all samples.
+deﬁned in Eqs. 2 and 3 (see Methods). The signiﬁcance levels are categorized as
+
+
+
+a single feature is challenging when multiple parameters simultaneously                       accurately decode the actual value. Furthermore, we discovered that adding
+inﬂuence the model’s output, as their effects can overlap or counteract,                      the slope to the catch22 feature set does not enhance predictive accuracy,
+leading to confounding shifts in the features. Since different features capture               implying that the catch22 subset is already sufﬁciently informative to
+distinct aspects of the signal, these ﬁndings suggest that a combination of                   accurately predict all cortical circuit parameters. Finally, our evaluation
+features could provide a more comprehensive representation of the                             revealed that models trained on individual features exhibited comparable
+underlying neural processes. Moreover, many features are known to be                          predictive performance, suggesting that no single-feature approach con-
+intercorrelated, as demonstrated in our study, suggesting they may reﬂect                     sistently outperformed the others.
+redundant or overlapping aspects of the same phenomenon34,66. Thus,                                 The toolbox has been validated using two distinct experimental data-
+examining multiple biomarkers simultaneously may provide a richer and                         sets containing electrophysiological recordings captured at different spatial
+more detailed understanding of brain dynamics. Our results show that ncpi                     scales and in different species. We began by calculating predictions of neural
+is perfectly tailored for these objectives, facilitating quick and efﬁcient                   parameters from a dataset of in vivo LFP recordings taken from the PFC of
+investigation of all possible links between circuit parameters and individual                 unanesthetized mice during the ﬁrst days after birth38. As the brain develops,
+biomarkers or combined conﬁgurations of biomarkers.                                           the parameters that deﬁne neural activity change progressively, with
+      To further investigate the relationship between features and model                      alterations in inhibitory neurons primarily driving changes in the excitatory
+parameters in the simulation dataset, we trained various inverse models on                    and inhibitory balance during prefrontal cortex development38,79,80. More-
+individual features and their combinations (Fig. 5). This approach helped us                  over, E/I dysregulation during brain development has been linked to the
+assess whether combining features improves inference accuracy or if multi-                    pathophysiology of neurodevelopmental disorders74. Given the well-
+feature models offer no added value. A few important ﬁndings were revealed                    established role of excitatory and inhibitory processes and their sig-
+through this analysis. First, we observed that multi-feature models out-                      niﬁcance in neurodevelopment, this dataset is essential for evaluating
+perform single-feature models in capturing the real values of all parameters.                 whether our methods can reveal how these neural parameters evolve during
+However, single-feature models exhibited a monotonically increasing trend                     development.
+in the predicted vs. actual value distributions. Inverse models may be                              Using all catch22 features, we found a reduction in the E/I ratio during
+designed to compare clinical groups or experimental conditions. In such                       the ﬁrst postnatal days (Fig. 6A), a result which is consistent with previous
+cases, this result suggests that single-feature models may still be able to                   ﬁndings suggesting a concomitant shift in the synaptic and functional
+identify whether a parameter is increasing or decreasing, even if they fail to                excitation-inhibition balance favoring inhibition38,80. In contrast, τ exc  syn
+
+
+
+npj Systems Biology and Applications | (2025)11:45                                                                                                                                 8
+https://doi.org/10.1038/s41540-025-00527-9                                                                                                                           Article
+
+
+
+
+Fig. 7 | Predicted circuit parameter imbalances in AD based on EEG data.                   between groups were assessed using the Holm-Bonferroni method, applying the
+Topographic representation of group differences in parameter ﬁts based on the              LME and linear models as deﬁned in Eqs. 4–7. Only z-ratio values with an associated
+complete set of catch22 features (A) or the 1/f slope alone (B). The groups are            p-value ≤ 0.01 are plotted. The color range for the z-ratio values was selected such
+classiﬁed as healthy controls (HCs), mild AD patients (ADMIL), moderate AD                 that positive differences relative to the control group were represented by shades of
+patients (ADMOD), and severe AD patients (ADSEV). Signiﬁcant differences                   red, while negative differences were indicated by shades of blue.
+
+
+
+exhibited a signiﬁcant upward trend after the tenth postnatal day, which                   evaluate potential predictions regarding the progression and variability of
+might align with electrophysiological reports of increasing spontaneous                    circuit parameters based on diverse biomarkers across the course of the
+excitatory postsynaptic current (sEPSC) time constants as measured in                      pathology. A key ﬁnding in this study was that predictions based on catch22
+pyramidal neurons during the ﬁrst postnatal weeks of age81. Remarkably, the                features indicated a signiﬁcant reduction in the external input of AD
+empirical literature consistently aligns with our tool’s predictions regarding             patients progressing at later stages of the disease (Fig. 7A), while the 1/f slope
+the directional changes in τ inh syn , J syn and ﬁring rates throughout postnatal
+                                         ext
+                                                                                           results (Fig. 7B) exhibited a signiﬁcant shift of E/I towards inhibition. Pre-
+development, i.e., a shortening in τ inh   syn
+                                               81,82
+                                                     coupled with higher ﬁring rates38.    dictions derived from these two distinct feature metrics may index neuronal
+                                       ext
+Though empirical measures of J syn are more difﬁcult to obtain, we expect                  and neurodegenerative mechanisms mediated by the tau protein, albeit
+this parameter to correlate with predicted ﬁring rates and reﬂect the increase             from different perspectives: one indicating a decrease in E/I71–73,84 and the
+in ﬁring inputs from other neurons in the network.                                         other reﬂecting the accelerated breakdown of synaptic connectivity asso-
+       We next computed results using the 1/f slope alone (Fig. 6B). While the             ciated with the widespread of this protein in advanced stages of the
+E/I predictions aligned well with the hypothesis of reduced E/I during early               disease71,73,85,86. Although both tau and amyloid-β (Aβ) exhibit synaptotoxic
+development, the predictions for other parameters conﬂicted with prior                     effects85,87, recent studies suggest that tau burden is more strongly associated
+empirical evidence. Notably, the slowing in GABA kinetics (i.e., higher τ inh      syn )   with synaptic loss, independent of Aβ plaques88,89. As tau spreads
+and the decrease in ﬁring rates are largely inconsistent with prior assump-                throughout the cortex, particularly in later disease stages, it may functionally
+tions. Our predictions based solely on the 1/f slope indicate that, although               manifest as a reduction in net E/I balance at the network level, overcoming
+this marker is effective in reﬂecting changes in E/I imbalances, as previously             the excitatory effects of amyloid-β, and as a signiﬁcant deterioration in
+documented5,31–35,37,38, it may struggle to predict other parameters accurately            external input at the synaptic connectivity level. Another important result
+when those predictions might contradict the neuronal effects they generate                 here, derived from the analysis of predicted time constants, is the progressive
+(e.g., a shift in E/I favoring inhibition combined with a rise in ﬁring rates). In         increase of τ excsyn revealed by catch22, suggesting a loss of efﬁcacy in the
+these contexts, predictions developed using a combination of features (such                excitatory synapses. This result aligns with earlier modeling work that ﬁtted
+as catch22) may incorporate complementary insights from diverse features,                  mass model parameters to MEG data and suggested that this increase in τ exc     syn
+producing more accurate estimates for the whole set of parameters.                         may be tied to tau-mediated neuronal effects90. In fact, this change in τ exc   syn
+       The second dataset that we analyzed consists of EEG resting-state                   was more prominent in the later stages of the disease, matching well with the
+recordings from healthy controls and clinical AD patients at various severity              timeline of tau protein dissemination73. This previous work also revealed a
+stages83. This diversity in disease stages presents a unique opportunity to                mild decrease in τ inh syn in some frontal and parietal areas, consistent with our
+
+
+
+npj Systems Biology and Applications | (2025)11:45                                                                                                                            9
+https://doi.org/10.1038/s41540-025-00527-9                                                                                                                                           Article
+
+predictions using catch22; however, no signiﬁcant correlation with the PET                  Table 1 | Default parameters of the LIF network model
+images of amyloid beta or tau was identiﬁed90.
+     At present, there is no systematic methodology to assess the accuracy,                 Symbol            Value/deﬁnition                                       Description
+
+reproducibility, reliability, and utility of electrophysiological data bio-                 X                 {E, I}                                                Population names
+markers, particularly in terms of the mechanistic link between each marker                  NX ∈ {NE, NI}     {8192, 1024}                                          Population sizes
+and the cortical circuit attribute under investigation. Importantly, there is a             CYX               0.2 for all X, Y                                      Connection probability
+need for noninvasive and robust metrics that can detect circuit imbalances                                                                                          (pairwise Bernoulli, no
+in a variety of neurodevelopmental, neurodegenerative, and psychiatric                                                                                              autapses)
+conditions. Our computational framework makes a signiﬁcant contribution                     CmX               {289.1, 110.7} pF                                     Membrane capacitance
+to the development of software tools that integrate all stages of the model-                τm                10 ms for all X                                       Membrane time
+based inference pipeline, from the forward modeling of ﬁeld potentials to                                                                                           constant
+parameter estimation, serving as a benchmarking resource for evaluating                     RmX               τm/CmX                                                Membrane resistance
+candidate biomarkers of neural circuit parameters. Our model-driven
+                                                                                            EL                -65 mV for all X                                      Leak reversal potential
+approach has proven effective in capturing local changes in cortical
+                                                                                            Vθ                -55 mV for all X                                      Spike threshold
+dynamics during brain development and identifying pathological altera-
+tions in circuit parameters within clinical populations in AD. The ncpi                     Vr                EL for all X                                          Spike reset potential
+toolbox has been tested on a spiking microcircuit model of recurrent exci-                  τr                2 ms for all X                                        Refractory period
+tatory and inhibitory neuronal populations, which approximates key circuit                                            
+                                                                                            thkui             ifVhmui thkui  Vθ                                    Spike emission times;
+phenomena at the local scale. However, this approach does not account for                                                                                           〈u〉 is the neuron index
+macroscopic network dynamics, such as long-range cortico-cortical inter-                                                                                       
+                                                                                                                                           = thkui ; thkui þ τr
+                                                                                                              Vhmui þ RmX Iu ðtÞ if 8k; t 2
+                                                                                                       h ui
+                                                                                            τm dVdtm                                                                Sub-threshold
+actions, which are known to play a critical role in modulating low-frequency                                                                                        dynamics; Iu(t) is the
+cortical oscillations91. These dynamics are explicitly incorporated in other                                                                                        synaptic activation
+modeling frameworks, such as mean-ﬁeld or neural mass models53,54,92–94. To                                                                                         current
+                                                                                                                                          
+partially address this, we included an external input representing inputs                   Vhmui ðtÞ         Vr if t 2 thkui ; thkui þ τr                          Reset and
+from cortico-cortical connections, allowing us to approximate macroscopic                                                                                           refractoriness
+                                                                                                              8
+inﬂuences on local predictions, while also managing the complexity of the                   
+                                                                                            J                 > 1:589nA forX ¼ E; Y ¼ E                             Mean of the normal
+                                                                                              synYX           >
+                                                                                                              <
+learning model to avoid overﬁtting. Future investigations may focus on                                          2:020nA forX ¼ E; Y ¼ I                             distribution that deﬁnes
+                                                                                                              >
+                                                                                                              > 23:84nA forX ¼ I; Y ¼ E                            the maximum synaptic
+larger-scale single-cell network models, for instance, integrating con-                                       :
+                                                                                                                8:441nA forX ¼ I; Y ¼ I                            current of recurrent
+nectivity among different brain areas19,95, to offer a more comprehensive                                                                                           connections
+understanding of global processes that inﬂuence predictions of local                                                     
+                                                                                            σ(JsynYX)         0:1JsynYX                                          Standard deviation of
+dynamics. Moreover, time-series feature libraries such as catch22 and hctsa,                                                                                        the maximum synaptic
+and spectral measures like the 1/f slope, provide interpretable features of                                                                                         current
+neural activity that have consistently been linked to underlying cortical                   τexc
+                                                                                             syn , τsyn
+                                                                                                    inh       0.5 ms                                                Exp. syn. decay time
+mechanisms66,67,96. However, achieving a more comprehensive under-                                                                                                  constant
+                                                                                                              8
+standing of circuit parameter imbalances will likely require assessing bio-                  YX
+                                                                                            Δ                 > 2:520ms forX ¼ E; Y ¼ E                             Mean of the normal
+                                                                                                              >
+                                                                                                              <
+marker interactions and further exploring how these measures relate to one                                      1:714ms forX ¼ E; Y ¼ I                             distribution that deﬁnes
+another and reﬂect different properties of the data. The ncpi toolbox pro-                                    > 1:585ms forX ¼ I; Y ¼ E
+                                                                                                              >                                                     conduction delays of
+                                                                                                              :
+                                                                                                                 1:149ms forX ¼ I; Y ¼ I                            recurrent connections
+vides a powerful platform for exploring different hypotheses about neural
+                                                                                            σ(ΔYX)                YX
+                                                                                                              0:5Δ
+circuit biomarkers, offering opportunities to reassess past ﬁndings and                                                                                             Standard deviation of
+                                                                                                                                                                    conduction delays
+identify new avenues for future research.
+                                                                                            Jext
+                                                                                             syn
+                                                                                                              29.89 nA                                              Max. synaptic current of
+                                                                                                                                                                    ext. input
+Methods
+Modeling and simulation of single-neuron network models                                     kext
+                                                                                             Y
+                                                                                                              {465, 160}                                            Ext. synapses per
+                                                                                                                                                                    neuron
+Given the variety of simulation tools available for creating neural network                           
+models and the vast range of possible network conﬁgurations and modeling                        υext          40 s-1 (Poisson statistics)                           Ext. syn. activation rate
+parameters, it is challenging to deﬁne a class with ﬁxed, parameterized
+methods for setting up network simulations. Instead, the Simulation class
+includes methods to conﬁgure and simulate the network model by loading                      generating a dataset of about 2 million distinct simulations. These para-
+custom external scripts and parameter ﬁles, adhering to the workﬂow                         meters fully characterize how synaptic mechanisms of the model contribute
+typically used in brain modeling projects, which includes distinct code                     to cortical circuit activity and, ultimately, the resulting macroscopic brain
+segments for network setup, simulation, and analysis19,95. We provide                       signals. Furthermore, since synaptic alterations play a crucial role in neu-
+example scripts within the library that are speciﬁcally designed to simulate a              rodegenerative and neurodevelopmental diseases71–74, key clinical targets of
+current-based cortical network model composed of recurrently connected                      our toolbox, we chose to focus on studying these parameters while keeping
+populations of excitatory and inhibitory LIF point neurons (8192 and 1024                   the others unchanged. Table 2 details the parameter ranges chosen to ensure
+neurons, respectively) driven by external ﬁxed-rate Poisson processes.                      that the network does not enter either an inactive or an excessively high
+Network parameters correspond to the best-ﬁt parameters as described in                     activity state, and resulting simulation output values are biologically plau-
+the associated publication23 (Table 1). We deﬁned a 12,000 ms simulation                    sible. This extensive dataset of simulation data has been made publicly
+with a 0.0625 ms time step, discarding the ﬁrst 2000 ms as transient time in                available (see Data and code availability), allowing researchers to explore the
+the analysis. Model simulation is conﬁgured for execution in NEST, utilizing                intricate relationships between synaptic parameters of a cortical model and
+its multithreading capabilities97. Throughout the simulation, variables like                ﬁeld potential features without the lengthy wait associated with months of
+spike times, synaptic currents, and membrane potentials are recorded by                     simulations. Importantly, the parameter search encompasses all possible
+multimeters and stored for later computation of ﬁeld potentials.                            combinations within the speciﬁed ranges for each parameter, providing rich
+     Additionally, we conducted extensive simulations of this model, sys-                   insights into their interrelations. For example, one could compare the
+tematically varying key parameters that deﬁne recurrent and external                        combined effects of modifying recurrent and external synaptic connection
+synaptic connectivity (J synEE , J synIE , J synEI , J synII , τ exc
+                                                                 syn , τ syn and J syn ),
+                                                                         inh       ext
+                                                                                            parameters on network activity to determine whether they are
+
+
+npj Systems Biology and Applications | (2025)11:45                                                                                                                                           10
+https://doi.org/10.1038/s41540-025-00527-9                                                                                                                      Article
+
+Table 2 | Parameter bounds explored in the simulations of the LIF network model
+
+Symbol                                     Description                                                                                           Lower/Upper bounds
+JsynEE                                     Max. synaptic current of recurrent connections for X = E, Y = E                                       [0.5, 4] nA
+JsynIE                                     Max. synaptic current of recurrent connections for X = E, Y = I                                       [0.5, 4] nA
+JsynEI                                     Max. synaptic current of recurrent connections for X = I, Y = E                                       [−40, −1] nA
+JsynII                                     Max. synaptic current of recurrent connections for X = I, Y = I                                       [−40, −1] nA
+τexc
+ syn                                       Exp. syn. decay time constant of postsynaptic excitatory synapses                                     [0.1, 2] ms
+
+τinh
+ syn
+                                           Exp. syn. decay time constant of postsynaptic inhibitory synapses                                     [0.1, 8] ms
+
+Jext
+ syn
+                                           Max. synaptic current of external input                                                               [10, 50] nA
+
+
+
+
+Table 3 | Multicompartment network model parameters                                    computed via the sum over linear convolutions:
+
+Symbol           Value/deﬁnition                         Description
+                                                                                                                           X X             
+                                                                                                             ψ ðR; t Þ ¼           υX  H YX ðR; tÞ                 ð1Þ
+X                {E, I}                                  Population names                                                  X   Y
+NX ∈ {NE, NI}    {8192, 1024}                            Population sizes
+rX max ðx; yÞ    150 μm                                  Maximum radial position              To compute the kernels H YX ðR; τÞ, a hybrid scheme can be used, which
+                                                         of somas in the XY plane      simulates ‘ground-truth’ multicompartment neuron populations and
+rX max ðzÞ      0 μm                                    Mean of the normal            computes the responses to synchronous activation of all neurons in each
+                                                         distribution that deﬁnes      population27. The recent kernel computation method introduced in LFPy-
+                                                         the position of somas in      kernels replaces the simulation of multicompartment neuron populations
+                                                         the z-axis
+            
+                                                                                       with the simulation of a single linearized multicompartment neuron
+σ rX max ðzÞ     75 μm                                   Standard deviation of the     representing each population, while accounting for the known spatial dis-
+                                                         normal distribution that
+                                                                                       tributions of cells and synapses in space, recurrent connectivity parameters,
+                                                         deﬁnes the position of
+                                                         somas in the z-axis           and biophysical membrane properties23. The example multicompartment
+                                                                                       network description provided in ncpi for computing the kernels is based on
+S                {soma, apic, basal}                     Morphology sections
+                                                                                      the reference network of simpliﬁed ball-and-stick neurons provided in
+LS                 f30; 1000; 200gμm for X ¼ E           Section lengths
+                                                                                       Hagen et al23. Tables 3 and 4 include information on the parameters of
+                   f30; 200; 200gμm for X ¼ I
+                                                                                      individual neurons, network conﬁguration, and synaptic connectivity of the
+dS                 f30; 3; 2gμm for X ¼ E                Section diameter              multicompartment network model. Additional details on the multi-
+                   f15; 2; 2gμmfor X ¼ I
+                 
+                                                                                       compartment neuron model speciﬁcations, including speciﬁc ionic current
+nS
+ seg               f1; 21; 5gfor X ¼ E                   Number of segments per        dynamics, are available in the corresponding papers23,98.
+                   f1; 5; 5gfor X ¼ I                    section
+                                                                                              A kernel can be used to generate two types of signals, namely the LFP
+cm               1 μF cm-2                               Membrane capacitance          signals across recording sites, or the CDM, using the GaussCylinderPotential
+Ra               100 Ω cm                                Axial resistivity             and KernelApproxCurrentDipoleMoment methods from LFPykernels23,
+                                                                                       which assume radial symmetry of the cell population around the z-axis. We
+gS
+ L
+                 {0.0000338, 0.0000589,                  Passive leak
+                 0.0000589} S cm−2                       conductance                   have used the CDM to approximate the summed signal of extracellular
+EL               −90 mV                                  Passive leak reversal
+                                                                                       potentials across depths (i.e., the LFP signal). Based on the kernel method,
+                                                         potential                     we computed a CDM for each of the two million simulation samples in the
+                 {2.04, 0.0213, 0.0213} S cm−2
+                                                                                       dataset and stored them along with the simulation parameters. The CDM
+S
+g Nat
+                                                         Nat conductance
+                                                                                       can then be used to derive the EEG and MEG signals using an appropriate
+ENa              50 mV                                   Na+ reversal potential        forward head model, such as the New York head model28. This head model
+S
+g Kv3:1
+                 {0.693, 0.000261, 0.000261} S cm   −2
+                                                         Kv3.1 conductance             enabled us to generate simulated EEG signals conﬁgured according to the
+                                                                                       10-20 system using the NYHeadModel class from the LFPy suite59,63. Spe-
+EK               −85 mV                                  K+ reversal potential
+                                                                                       ciﬁcally, we positioned a CDM beneath each electrode in the 10–20 system
+                                            −2
+S
+g Ih
+                 {0.0002, 0.002, 0.002} S cm             Ih current conductance        and, at each instance, calculated the resulting EEG signal at each electrode
+                                                                                       site, assuming independent contributions from the simulated activity of the
+                                                                                       local cortical model. EEG signals for each simulation were stored alongside
+distinguishable or whether speciﬁc features can reveal the independent                 the corresponding CDMs in the dataset.
+contribution of each parameter.                                                               An alternative approach offered by ncpi for approximating extra-
+                                                                                       cellular signals is based on the use of proxies, directly combining variables
+Computation of ﬁeld potentials                                                         measured from simulations of point-neuron networks69. We have incor-
+Extracellular signal predictions can be obtained by convolving                         porated most of the ad-hoc and optimized proxies proposed in the literature
+population spike rates with appropriate spatiotemporal causal ﬁlters                   to estimate ﬁeld potentials across the different recording scales (Table 5 and
+or by using predeﬁned proxies. In the case of kernel-based methods,                    Fig. 1). Ad-hoc proxies, such as the sum of membrane potentials or the
+ncpi integrates the LFPykernels package23, which incorporates efﬁ-                     population spike rate, approximate the ﬁeld potential by summing (or,
+cient forward-model calculations of causal spike-signal impulse                        optionally, averaging) the corresponding simulation variable across
+response functions for ﬁnite-sized neuronal network models. Let                        all cells in the population. Proxies such as LRWS, ERWS1, and
+υX ðtÞ and H YX ðR; τÞ describe the presynaptic population spike rates                 ERWS2 account for both causal and non-causal relationships
+in units of spikes/dt and the predicted spike-signal kernels for the                   between measured extracellular potentials and synaptic currents24,25.
+connections between presynaptic populations X and postsynaptic                         Based on a weighted sum of time-shifted synaptic currents, these
+populations Y. The full extracellular signal, ψ ðR; t Þ, may then be                   proxies were optimized using a hybrid modeling scheme27 to capture
+
+
+npj Systems Biology and Applications | (2025)11:45                                                                                                                  11
+https://doi.org/10.1038/s41540-025-00527-9                                                                                                                              Article
+
+
+Table 4 | Synaptic connectivity of the multicompartment network model
+
+Symbol       Value/deﬁnition                                                   Description
+             8
+
+G            > 0:15nS forX ¼ E; Y ¼ E                                          Mean of the normal distribution that deﬁnes the maximum synaptic conductance of recurrent
+  synYX      >
+             <
+               0:125nS forX ¼ E; Y ¼ I                                         connections
+             >
+             > 4:5nS forX ¼ I; Y ¼ E
+             :
+               2:0nS forX ¼ I; Y ¼ I
+σ(GsynYX)       
+             0:1G                                                              Standard deviation of the maximum synaptic conductance
+                  synYX
+
+CYX          0.05 for all X, Y                                                 Connection probability (pairwise Bernoulli, no autapses)
+EsynX        0 mV for X = E, -80 mV for X = I                                  Synaptic reversal potential
+fYX (t)          eðtts Þ=τ1 eðtts Þ=τ2
+                  τ      =τ    τ      =τ    where τpeak ¼ ττ2τ
+                                                                τ1
+                                                                     log ττ2   Synaptic temporal kernel
+                 e peak 1 e peak 2                          2     1       1
+
+
+τ1           0.2 ms for X = E, 0.1 ms for X = I                                Synaptic rise time constant
+τ2           1.8 ms for X = E, 9.0 ms for X = I                                Synaptic decay time constant
+             8
+ YX
+Δ            > 1:5ms for X ¼ E; Y ¼ E                                          Mean of the truncated normal distribution that deﬁnes the conduction delay (truncated at 0.3 ms)
+             >
+             <
+               1:4ms for X ¼ E; Y ¼ I
+             >
+             > 1:3ms for X ¼ I; Y ¼ E
+             :
+               1:2ms for X ¼ I; Y ¼ I
+             8
+σ(ΔYX)       >
+             > 0:3ms     for X ¼ E; Y ¼ E                                      Standard deviation of conduction delays
+             <
+                0:4ms for X ¼ E; Y ¼ I
+             >
+             >  0:5ms for X ¼ I; Y ¼ E
+             :
+                0:6ms for X ¼ I; Y ¼ I
+             8
+                N ð0;100Þ
+LYX (z)      >
+             >            þN ð500; 100Þ; for X ¼ E; Y ¼ E; S fsomag            Normal distributions that deﬁne synaptic density in the z-axis
+             >
+             >      2
+             <
+               N ð50; 100Þfor X ¼ E; Y ¼ I; S fsomag
+             >
+             >
+             >
+             > N ð50; 100Þfor X ¼ I; Y ¼ E
+             :
+               N ð100; 100Þfor X ¼ I; Y ¼ I
+
+G            0.2 nS                                                            External synapse conductance
+  synYext
+
+Eext         0 mV                                                              Ext. synapse rev. potential
+fYext (t)    fYX (t)                                                           Ext. synapse temporal kernel
+τ1           0.2 ms                                                            Ext. synapse rise time constant
+τ2           1.8 ms                                                            Ext. synapse decay time constant
+kYext        {465, 160}                                                        Number of ext. synapses per neuron
+                   −1
+ υext        40 s         (Poisson statistics)                                 Ext. syn. activation rate
+ Yext
+Δ            δ(t)                                                              Ext. syn. conduction delay
+LYext        1                                                                 Ext. syn. depth dependence
+
+
+
+
+Table 5 | Proxies available in ncpi for generating extracellular signals
+
+Symbol                  Value/deﬁnition                                                                                              Description
+ﬁring rate              υX ðtÞ                                                                                                       Population spike rate
+                        P hui
+                           u IAMPA ðtÞ for u ∈ [1, NE]
+AMPA                                                                                                                                 Sum of AMPA currents
+                        P       hui
+                           u IGABA ðtÞ for u ∈ [1, NE]
+GABA                                                                                                                                 Sum of GABA currents
+                        P hui
+                           u Vm ðtÞ for u ∈ [1, NE]
+Vm                                                                                                                                   Sum of membrane potentials
+                        P hui
+∑I                                        hui
+                           u IAMPA ðtÞ þ IGABA ðtÞ for u ∈ [1, NE]
+                                                                                                                                     Sum of synaptic currents
+                        P  hui         hui
+                                        
+                                                    
+                                                    
+∑ |I|                      u IAMPA ðtÞ þ IGABA ðtÞ for u ∈ [1, NE]
+                                                                                                                                     Sum of their absolute values
+                        P hui                           hui
+LRWS                       u IAMPA ðt  6msÞ  1:65 IGABA ðtÞ for u ∈ [1, NE]
+                                                                                                                                     LFP reference weighted sum25
+                        P hui                            hui
+ERWS1                      u IAMPA ðt þ 0:9msÞ  0:3 IGABA ðt  2:3msÞ for u ∈ [1, NE]
+                                                                                                                                     EEG reference weighted sum 1 (non-causal)24
+                        P hui                                                  hui
+ERWS2                                         0:1                      1:7              0:6
+                           u IAMPA t þ 0:6υext ms þ 0:4ms  1:4 υext þ 0:2 IGABA ðt þ 1:9υext ms  3msÞ for u ∈ [1, NE]
+                                                                                                                                     EEG reference weighted sum 2 (non-causal)24
+
+
+
+
+a broad range of multicompartment network conﬁgurations,                                         the signal for new network models that differ signiﬁcantly from the
+including variations in cell morphologies, distributions of presynaptic                          conﬁguration of the network used during optimization.
+inputs, positions of recording electrodes, and the spatial extent of the
+network. Unlike kernel methods, these proxies have already been                                  Feature extraction
+optimized for multiple conﬁgurations of a generic recurrent multi-                               We have integrated methods for computing features (i.e., putative bio-
+compartment network, eliminating the need for new, cumbersome                                    markers) from population-level neural signals that are either derived from
+simulations. However, they may yield less accurate approximations of                             toolboxes for time-series feature extraction or based on well-known markers
+
+
+npj Systems Biology and Applications | (2025)11:45                                                                                                                                12
+https://doi.org/10.1038/s41540-025-00527-9                                                                                                                                        Article
+
+Table 6 | Parameters used to compute the 1/f slope                                               Table 7 | Parameters of the machine-learning regression
+                                                                                                 models used for training
+ Parameter                      Simulation data           LFP data           EEG data
+ fmin                           5 Hz                      5 Hz               5 Hz                 Model                 Parameter                                   Value
+
+ fmax                           200 Hz                    45 Hz              45 Hz                MLPRegressor          hidden_layer_sizes                          from (25, 25) to (50,
+                                                                                                                                                                    50) for catch22, from
+ aperiodic_mode                 ﬁxed                      ﬁxed               ﬁxed                                                                                   (2, 2) to (4, 4) for 1/
+                                                                                                                                                                    f slope
+ peak_threshold                 1 (std. of the            1 (std. of the     1 (std. of the
+                                pow. spec.)               pow. spec.)        pow. spec.)                                max_iter                                    100
+ min_peak_height                0 (units of the           0 (units of the    0 (units of the                            tol                                         0.1
+                                pow. spec.)               pow. spec.)        pow. spec.)
+                                                                                                                        n_iter_no_change                            5
+ max_n_peaks                    5                         5                  5
+                                                                                                  Ridge                 alpha                                       [0.01, 0.1, 1, 10, 100]
+ peak_width_limits              (10, 50) Hz               (10, 50) Hz        (10, 50) Hz
+                                                                                                  NPE                   density_estimator         hidden_features   10 for catch22, 2 for 1/
+ r_squared_th                   0.9                       0.9                0.9                                                                                    f slope
+The maximum frequency range (fmax) for data simulated from the LIF network was extended to                                                        model             maf
+200 Hz to capture network conﬁgurations that produce high-frequency gamma peaks. For empirical
+data, we selected fmax to leverage most of the effective frequency range available in the pre-                                                    num_transforms    2
+processed datasets and avoid the inﬂuence of the powerline interference for EEG data.            All other parameters were kept at their default settings.
+
+
+
+
+of circuit parameters. The two time-series feature libraries that have been                      Inference of neural circuit parameters
+incorporated are hctsa64 and its condensed version, catch2265. The hctsa                         The ncpi library facilitates inverse surrogate model creation by enabling the
+library, developed following a data-driven approach, provides a vast library                     training of models via two popular libraries: sklearn60 and SBI61. The user can
+of over 7000 features, enabling extensive analysis of time-series data across                    import any regression model from sklearn, e.g., a multi-layer perceptron
+various domains. This includes statistical, temporal, and spectral features                      regressor (MLPRegressor) or a Ridge regression model, deﬁne its hyper-
+that capture different aspects of the data, e.g., distribution of values in the                  parameters, and train it using features derived from simulation data. Once
+time series, their linear and non-linear autocorrelation, measures derived                       trained, the machine learning model can be used to predict neural circuit
+from power spectral densities, temporal statistics, scaling of ﬂuctuations,                      parameters on real-world data. Additionally, we have included the SBI
+and others64. This library has found successful applications across multiple                     library61 to provide access to robust simulation-based inference approaches
+areas of life sciences, particularly in neuroscience, e.g., for investigating                    for computing the inverse model. Given that our focus is on training an
+neurophysiological signatures related to cortical micro-architecture66 or                        inverse model applicable to any new dataset, we support neural density
+exploring multiple representations of cortical connectivity67. As we could                       estimators that enable amortized inference, such as NPE51, allowing us to
+only ﬁnd its MATLAB version, we have integrated hctsa into the ncpi                              evaluate the posterior probability for different observations without the need
+toolbox by leveraging the MATLAB engine API for Python. The other time-                          to re-run the inference process. SBI models can be tailored to user pre-
+series feature extraction library implemented is catch2265 (its Python ver-                      ferences, allowing for the deﬁnition of prior distributions (i.e., initial con-
+sion), which was designed to provide a robust summary of the 22 top-                             straints on model parameters), the choice of density estimator (e.g., masked
+performing features from the hctsa library while offering signiﬁcantly faster                    autoregressive ﬂow or neural spline ﬂow), and the conﬁguration of hyper-
+computation.                                                                                     parameters for the neural network, such as the number of hidden units and
+       We have also integrated well-established neuroimaging biomarkers                          transformation layers. We assessed the quality of the posterior ﬁts provided
+that have been shown to serve as indirect indicators of neural circuit                           by NPE by comparing the posterior z-score and posterior shrinkage, deﬁned
+abnormalities in clinical conditions, e.g., using the 1/f slope5,31,32,37, and have              as follows99:
+also been correlated with changes in cortical circuit activity associated with                                                                      
+brain development and healthy ageing38–40. The ﬁrst method we included,                                                                     θ  θ 
+                                                                                                                                                    
+the specparam toolbox, is a widely used approach for parameterizing neural                                                                z¼                                           ð2Þ
+                                                                                                                                             σ post 
+power spectra into periodic and aperiodic components68. It conceptualizes
+the power spectrum as a combination of two distinct functional processes:
+an aperiodic component, characterized by 1/f-like properties, and a variable                                                                          σ 2post
+                                                                                                                                          s¼1                                           ð3Þ
+number of periodic components, representing putative oscillations as peaks                                                                            σ 2prior
+above the aperiodic background. In this model, peaks in the power spectrum
+are deﬁned by their center frequency, power, and bandwidth, enabling                             where θ and θ represent the estimated mean of the posterior and the
+analysis without setting predeﬁned frequency bands, while adjusting for the                      ground-truth of the estimated parameter, respectively, and σ 2prior and σ 2post
+aperiodic component. The model also outputs a metric for the aperiodic                           denote the variances (uncertainties) of the prior and posterior, respectively.
+component, often represented as the exponent of the aperiodic ﬁt or 1/f                               Our library offers two options for training the model: (i) the user can
+slope. The other marker featured in the library is the functional E/I ratio (fE/                 either ﬁt the model using the entire dataset, or (ii) conduct a grid search
+I). It integrates two key properties of neuronal network activity, oscillation                   using the RepeatedKFold cross-validation method from sklearn to identify
+amplitude and long-range temporal correlations, characterized by the                             the optimal hyperparameters, assess stability and generalization of machine
+normalized ﬂuctuation function nF(t) (Fig. 1), to provide an estimate of the                     learning models, and reduce overﬁtting. The grid search is informed by the
+E/I ratio36. For networks near the critical state, the fE/I metric has been                      mean squared error computed from the regression model’s predictions (in
+shown to accurately categorize their activity as inhibition-dominated,                           the case of sklearn) or from the mean values derived from the posteriors (in
+excitation-dominated, or balanced36.                                                             the case of SBI). For repeated cross-validation, once the optimal hyper-
+       For this study, we used the catch22 library to extract features from the                  parameters are identiﬁed and a single model has been trained for each data
+empirical datasets and to train the machine learning algorithms. Together                        partition, predictions are generated for each fold and repetition, and the
+with the catch22 features, we also focused on analyzing prediction results                       results are averaged.
+using the 1/f slope, employing the parameters outlined in Table 6 to con-                             For the examples presented here, we employed a grid-search cross-
+ﬁgure the specparam algorithm.                                                                   validation approach to train an MLPRegressor, Ridge, and NPE model using
+
+
+npj Systems Biology and Applications | (2025)11:45                                                                                                                                       13
+https://doi.org/10.1038/s41540-025-00527-9                                                                                                                Article
+
+the parameter conﬁgurations listed in Table 7. To ensure stable results, we                For ‘AD-EEG’ analysis, we incorporated electrode differences in the
+set up RepeatedKFold cross-validation with 20 repeats and 10 splits,                 statistical test. For each inferred parameter, different models were ﬁtted to
+resulting in a total of 200 folds. The cortical circuit model used in our study is   examine the ﬁxed effects of group and electrode, and their interaction,
+a ‘general-purpose’ model that captures some important properties of                 taking into account patient-speciﬁc ﬂuctuations. The BIC was calculated for
+cortical dynamics, such as asynchronous-irregular spiking activity23, but it is      two LME models: with (Eq. 6) and without patient random effect (Eq. 7).
+not intended to reproduce all properties of the neural circuit. For this reason,     The group variable values were HC, ADMIL, ADMOD, and ADSEV.
+it is necessary to train the neural network in a manner that prevents over-                                                                 
+ﬁtting of the simulation data, but such that it can still learn the general trends                  parameter  group × electrode þ 1patient                   ð6Þ
+of the simulated cortical activity. To achieve this, we constrained the
+hyperparameter search to explore values within a narrow range (e.g.,                                        parameter  group × electrode                       ð7Þ
+number of hidden layers ≤ 2 and number of neurons per layer ≤ 50 for the
+MLPRegressor), which would return regression models characterized by low                   After choosing the best-performing model according to the BIC value,
+complexity. After the training process was ﬁnished, we deﬁned the metric E/          a likelihood-ratio test (LRT) was conducted between it and the respective
+I = (JEE/JEI)/(JIE/JII) as the ratio between the predicted E/I of excitatory and     model excluding the interaction between electrode and group, i.e., Eq. 8 was
+inhibitory populations, respectively. This summary measure quantiﬁes the             compared with Eqs. 6 and 9 with Eq. 7.
+net effect of excitatory and inhibitory processes in the circuit model and may                                                              
+be seen as a global E/I ratio from model simulations.                                               parameter  group þ electrode þ 1patient                   ð8Þ
+
+Empirical data                                                                                             parameter  group þ electrode                        ð9Þ
+We did not generate new data for this study; instead, the data were obtained
+from previous studies38,83. All methods and experiments involving live                     The resulting optimal model was used for post-hoc analyses. Speciﬁ-
+vertebrates were conducted in accordance with relevant ethical guidelines            cally, we statistically compared marginal means of parameter values esti-
+and regulations, as detailed in the cited publication. Please refer to the           mated from the model using the emmeans package. All p-values were Holm-
+corresponding publications for further details.                                      Bonferroni adjusted for the number of comparisons made.
+      Details of the dataset on developmental activity in mice are as described            We employed ANOVA models to analyze the distribution of features
+in ref. 38. Brieﬂy, experiments were carried out on C57BL/6J mice of both            computed from the simulated data, aiming to test for statistical differences
+sexes. In vivo extracellular recordings were performed from the prelimbic            across parameter bins. Effect sizes for the ANOVA models were quantiﬁed
+subdivision of the PFC in over 100 non-anesthetized mice of ages from 2nd to         using η2. We computed the Hellinger distance (DH) between the parameter
+12th postnatal days. We selected mice of age ≥ 4 postnatal days, as the neural       error distributions of multi-feature and single-feature models to assess their
+activity of younger mice was so sparse that it was insufﬁcient to compute an         similarity.
+accurate estimate of parameter predictions. Extracellular signals were
+acquired and digitized at a 32 kHz sampling rate and band-pass ﬁltered               Computational resources and processing time
+(0.1–9000 Hz) using an extracellular ampliﬁer (Digital Lynx SX; Neuralynx,           Simulations of neural activity and ﬁeld potentials, feature extraction
+Bozeman, MO, Cheetah, Neuralynx, Bozeman, MO). To obtain the LFP                     methods, training of machine-learning algorithms, and circuit parameter
+data, the extracellular signals recorded during baseline activity were               predictions were parallelized on: (i) a high-performance computing server
+downsampled to 100 Hz, summed across channels, and segmented into                    equipped with a 64-core CPU and 256 GB of RAM, (ii) a high-performance
+5-second epochs. Epochs were z-score normalized.                                     cluster consisting of 6 nodes, with each node equipped with 24 cores and 64
+      The EEG dataset consists of 201 eyes-closed resting-state recordings of        GB of RAM, and (iii) the supercomputer Albaicin (Huawei FusionServer Pro
+human neural activity acquired with a 19-channel EEG system (Nihon                   series) of University of Granada. Simulation time varied depending on the
+Kohden Neurofax JE-921A) using a sampling rate of 500 Hz83. The EEG                  model parameters and the computing system. On average, each multi-
+recordings were acquired from 51 healthy controls (HCs), 50 AD patients at           threaded simulation of the LIF network model, including ﬁeld potential
+a mild severity stage (ADMIL), 50 moderate AD patients (ADMOD), and                  computations, took approximately 10 seconds. Distributing these simula-
+50 AD patients at a severe stage (ADSEV). AD patients were diagnosed                 tions across multiple computing resources reduced the total computation
+according to the criteria of the NIA-AA (National Institute on Aging and             time to about three months. Other computationally intensive tasks included
+Alzheimer’s Association)100. Signals were preprocessed to reduce the pre-            feature extraction and training the learning models. For instance, processing
+sence of noise and segmented into 5-second epochs; deeper insights on the            2 million samples, each with 10,000 sampling points, using 64 threads on the
+preprocessing pipeline can be found in ref. 83. Epochs were z-score                  64-core CPU took around 2 hours. Additionally, training the MLP model on
+normalized.                                                                          all samples, with a single RepeatedKFold cross-validation round (20 repeats,
+                                                                                     10 splits), took approximately 30 minutes using the 64-core CPU.
+Statistical tests
+We used LME models to test whether the inferred parameters from                      Data availability
+the empirical databases were statistically different between groups, by              Code of the ncpi library, as well as code supporting the ﬁndings of this study,
+also considering inter-subject variability. LME models were imple-                   can be found at https://github.com/necolab-ugr/ncpi. The simulation
+mented using the lme4 package from R. For the ‘mice-LFP’ data, we                    datasets generated with the LIF network model and the trained machine
+ﬁtted an LME model with the inferred parameter as a dependent                        learning models are publicly available in a Zenodo repository: https://doi.
+variable, the group variable (i.e., age) as a ﬁxed effect, and the mouse             org/10.5281/zenodo.15351117. The LFP dataset is available for download
+identiﬁer as a random effect. To verify the signiﬁcance of the mouse’s               from the following repository: https://gin.g-node.org/mchini/
+random effect, the Bayesian Information Criterion (BIC) was com-                     development_EI_decorrelation. EEG data will be made available by the
+pared between the LME model including this variable (Eq. 4) and the                  authors upon reasonable request.
+model without it (Eq. 5), and the best ﬁt was selected.
+                                                                                     Code availability
+                      parameter  group þ ð1jmouseÞ                           ð4Þ    Code of the ncpi library, as well as code supporting the ﬁndings of this study,
+                                                                                     can be found at https://github.com/necolab-ugr/ncpi. The simulation
+                                                                                     datasets generated with the LIF network model and the trained machine
+                             parameter  group                                ð5Þ    learning models will be made available in Zenodo repositories. The LFP
+
+
+npj Systems Biology and Applications | (2025)11:45                                                                                                               14
+https://doi.org/10.1038/s41540-025-00527-9                                                                                                           Article
+
+dataset is available for download from the following repository: https://gin.    19.   Schmidt, M. et al. A multi-scale layer-resolved spiking network
+g-node.org/mchini/development_EI_decorrelation. EEG data will be made                  model of resting-state dynamics in macaque visual cortical areas.
+available by the authors upon reasonable request.                                      PLoS Comput. Biol. 14, e1006359 (2018).
+                                                                                 20.   Markram, H. et al. Reconstruction and simulation of neocortical
+Received: 8 January 2025; Accepted: 29 April 2025;                                     microcircuitry. Cell 163, 456–492 (2015).
+                                                                                 21.   Potjans, T. C. & Diesmann, M. The cell-type speciﬁc cortical
+                                                                                       microcircuit: relating structure and activity in a full-scale spiking
+References                                                                             network model. Cereb. Cortex 24, 785–806 (2014).
+1.    D’Angelo, E. & Jirsa, V. The quest for multiscale brain modeling.          22.   Einevoll, G. T., Kayser, C., Logothetis, N. K. & Panzeri, S. Modelling
+      Trends Neurosci. 45, 777–790 (2022).                                             and analysis of local ﬁeld potentials for studying the function of
+2.    Einevoll, G. T. et al. The scientiﬁc case for brain simulations. Neuron          cortical circuits. Nat. Rev. Neurosci. 14, 770–785 (2013).
+      102, 735–744 (2019).                                                       23.   Hagen, E. et al. Brain signal predictions from multi-scale networks
+3.    Amunts, K. et al. The Human Brain Project-Synergy between                        using a linearized framework. PLoS Comput. Biol. 18, e1010353
+      neuroscience, computing, informatics, and brain-inspired                         (2022).
+      technologies. PLoS Biol. 17, e3000344 (2019).                              24.   Martínez-Cañada, P., Ness, T. V., Einevoll, G. T., Fellin, T. & Panzeri,
+4.    Madadi Asl, M., Valizadeh, A. & Tass, P. A. Decoupling of interacting            S. Computation of the electroencephalogram (EEG) from network
+      neuronal populations by time-shifted stimulation through spike-                  models of point neurons. PLoS Comput. Biol. 17, e1008893 (2021).
+      timing-dependent plasticity. PLoS Comput. Biol. 19, e1010853               25.   Mazzoni, A. et al. Computing the Local Field Potential (LFP) from
+      (2023).                                                                          Integrate-and-Fire Network Models. PLoS Comput. Biol. 11,
+5.    Martínez-Cañada, P. et al. Combining aperiodic 1/f slopes and brain              e1004584 (2015).
+      simulation: An EEG/MEG proxy marker of excitation/inhibition               26.   Næss, S. et al. Biophysically detailed forward modeling of the neural
+      imbalance in Alzheimer’s disease. Alzheimer’s. Dement. Diagn.                    origin of EEG and MEG signals. Neuroimage 225, 117467 (2021).
+      Assess. Dis. Monit. 15, e12477 (2023).                                     27.   Hagen, E. et al. Hybrid scheme for modeling local ﬁeld potentials
+6.    Sanzeni, A., Histed, M. H. & Brunel, N. Emergence of irregular activity          from point-neuron networks. Cereb. Cortex 26, 4461–4496 (2016).
+      in networks of strongly coupled conductance-based neurons. Phys            28.   Huang, Y., Parra, L. C. & Haufe, S. The New York Head-A precise
+      Rev. X 12, 011044 (2022).                                                        standardized volume conductor model for EEG source localization
+7.    Zerlaut, Y., Zucca, S., Panzeri, S. & Fellin, T. The spectrum of                 and tES targeting. Neuroimage 140, 150–162 (2016).
+      asynchronous dynamics in spiking networks as a model for the               29.   Mazzoni, A., Whittingstall, K., Brunel, N., Logothetis, N. K. & Panzeri,
+      diversity of non-rhythmic waking states in the Neocortex. Cell Rep.              S. Understanding the relationships between spike rate and delta/
+      27, 1119–1132.e1117 (2019).                                                      gamma frequency bands of LFPs and EEGs using a local cortical
+8.    Cavallari, S., Panzeri, S. & Mazzoni, A. Comparison of the dynamics              network model. Neuroimage 52, 956–972 (2010).
+      of neural interactions between current-based and conductance-              30.   Mazzoni, A., Panzeri, S., Logothetis, N. K. & Brunel, N. Encoding of
+      based integrate-and-ﬁre recurrent networks. Front. Neural Circuits               naturalistic stimuli by local ﬁeld potential spectra in networks of
+      8, 12 (2014).                                                                    excitatory and inhibitory neurons. PLoS Comput. Biol. 4, e1000239
+9.    Ostojic, S. Two types of asynchronous activity in networks of                    (2008).
+      excitatory and inhibitory spiking neurons. Nat. Neurosci. 17,              31.   Bertelsen, N. et al. Electrophysiologically-deﬁned excitation-
+      594–600 (2014).                                                                  inhibition autism neurosubtypes. medRxiv, 1–41 (2024).
+10.   Mazzoni, A., Brunel, N., Cavallari, S., Logothetis, N. K. & Panzeri, S.    32.   Trakoshis, S. et al. Intrinsic excitation-inhibition imbalance affects
+      Cortical dynamics during naturalistic sensory stimulations:                      medial prefrontal cortex differently in autistic men versus women.
+      experiments and models. J. Physiol. Paris 105, 2–15 (2011).                      Elife 9, e55684 (2020).
+11.   Ostojic, S., Brunel, N. & Hakim, V. Synchronization properties of          33.   Gao, R., Peterson, E. J. & Voytek, B. Inferring synaptic excitation/
+      networks of electrically coupled neurons in the presence of                      inhibition balance from ﬁeld potentials. Neuroimage 158, 70–78
+      noise and heterogeneities. J. Comput. Neurosci. 26, 369–392                      (2017).
+      (2009).                                                                    34.   Ahmad, J. et al. From mechanisms to markers: novel noninvasive
+12.   Hill, S. & Tononi, G. Modeling sleep and wakefulness in the                      EEG proxy markers of the neural excitation and inhibition system in
+      thalamocortical system. J. Neurophysiol. 93, 1671–1698 (2005).                   humans. Transl. Psychiatry 12, 467 (2022).
+13.   Compte, A., Sanchez-Vives, M. V., McCormick, D. A. & Wang, X. J.           35.   Karalunas, S. L. et al. Electroencephalogram aperiodic power
+      Cellular and network mechanisms of slow oscillatory activity (<1 Hz)             spectral slope can be reliably measured and predicts ADHD risk in
+      and wave propagations in a cortical network model. J. Neurophysiol.              early development. Dev. Psychobiol. 64, e22228 (2022).
+      89, 2707–2725 (2003).                                                      36.   Bruining, H. et al. Measurement of excitation-inhibition ratio in
+14.   Brunel, N. & Wang, X. J. What determines the frequency of fast                   autism spectrum disorder using critical brain dynamics. Sci. Rep. 10,
+      network oscillations with irregular neural discharges? I. Synaptic               9195 (2020).
+      dynamics and excitation-inhibition balance. J. Neurophysiol. 90,           37.   Molina, J. L. et al. Memantine effects on electroencephalographic
+      415–430 (2003).                                                                  measures of putative excitatory/inhibitory balance in Schizophrenia.
+15.   Pronold, J. et al. Multi-scale spiking network model of human                    Biol. Psychiatry Cogn. Neurosci. Neuroimag. 5, 562–568 (2020).
+      cerebral cortex. Cereb. Cortex 34, bhae409 (2024).                         38.   Chini, M., Pfeffer, T. & Hanganu-Opatz, I. An increase of inhibition
+16.   Hauﬂer, D., Ito, S., Koch, C. & Arkhipov, A. Simulations of cortical             drives the developmental decorrelation of neural activity. Elife 11,
+      networks using spatially extended conductance-based neuronal                     e78811 (2022).
+      models. J. Physiol. 601, 3123–3139 (2023).                                 39.   Schaworonkow, N. & Voytek, B. Longitudinal changes in aperiodic
+17.   Rimehaug, A. E. et al. Uncovering circuit mechanisms of current                  and periodic activity in electrophysiological recordings in the ﬁrst
+      sinks and sources with biophysical simulations of primary visual                 seven months of life. Dev. Cogn. Neurosci. 47, 100895 (2021).
+      cortex. Elife 12, e87169 (2023).                                           40.   Voytek, B. et al. Age-related changes in 1/f neural
+18.   Billeh, Y. N. et al. Systematic integration of structural and functional         electrophysiological noise. J. Neurosci. 35, 13257–13265 (2015).
+      data into multi-scale models of Mouse Primary Visual Cortex.               41.   Montobbio, N., Maffulli, R., Abrol, A. & Martínez-Cañada, P. Editorial:
+      Neuron 106, 388–403.e318 (2020).                                                 Computational modeling and machine learning methods in
+
+
+npj Systems Biology and Applications | (2025)11:45                                                                                                          15
+https://doi.org/10.1038/s41540-025-00527-9                                                                                                          Article
+
+      neurodevelopment and neurodegeneration: from basic research to                    Python in Science Conference (ed. van der Walt, S. & Millman, J.),
+      clinical applications. Front Comput. Neurosci. 18, 1514220 (2024).                76–86 (2011).
+42.   Peng, G. C. Y. et al. Multiscale modeling meets machine learning:           63.   Hagen, E. LFPy workspace (https://github.com/LFPy) (2025).
+      What can we learn? Arch. Comput. Methods Eng. 28, 1017–1037                 64.   Fulcher, B. D. & Jones, N. S. hctsa: A computational framework for
+      (2021).                                                                           automated time-series phenotyping using massive feature
+43.   von Rueden, L., Mayer, S., Sifa, R., Bauckhage, C. & Garcke, J.                   extraction. Cell Syst. 5, 527–531.e523 (2017).
+      Combining Machine Learning and Simulation to a Hybrid Modelling             65.   Lubba, C. H. et al. catch22: Canonical time-series characteristics.
+      Approach: Current and Future Directions. in Advances in Intelligent               Data Min. Knowl. Discov. 33, 1821–1852 (2019).
+      Data Analysis XVIII (ed. M. R. Berthold, A. Feelders & G. Krempl)           66.   Shaﬁei, G. et al. Neurophysiological signatures of cortical micro-
+      548–560 (Springer International Publishing, Cham, 2020).                          architecture. Nat. Commun. 14, 6000 (2023).
+44.   Baker, R. E., Peña, J. M., Jayamohan, J. & Jérusalem, A. Mechanistic        67.   Hansen, J. Y. et al. Integrating multimodal and multiscale
+      models versus machine learning, a ﬁght worth ﬁghting for the                      connectivity blueprints of the human cerebral cortex in health and
+      biological community? Biol. Lett. 14, 20170660 (2018).                            disease. PLoS Biol. 21, e3002314 (2023).
+45.   Procopio, A. et al. Combined mechanistic modeling and machine-              68.   Donoghue, T. et al. Parameterizing neural power spectra into
+      learning approaches in systems biology - A systematic literature                  periodic and aperiodic components. Nat. Neurosci. 23, 1655–1665
+      review. Comput. Methods Prog. Biomed. 240, 107681 (2023).                         (2020).
+46.   Willard, J., Jia, X., Xu, S., Steinbach, M. & Kumar, V. Integrating         69.   Martínez-Cañada, P., Noei, S. & Panzeri, S. Methods for inferring
+      scientiﬁc knowledge with machine learning for engineering and                     neural circuit interactions and neuromodulation from local ﬁeld
+      environmental systems. ACM Comput. Surv. 55, 1–37 (2022).                         potential and electroencephalogram measures. Brain Inform. 8, 27
+47.   García, J. M. et al. A hybrid machine learning and mechanistic                    (2021).
+      modelling approach for probing potential biomarkers of excitation/          70.   Martínez-Cañada, P. & Panzeri, S. Spectral Properties of Local Field
+      inhibition imbalance in cortical circuits in dementia. Available at               Potentials and Electroencephalograms as Indices for Changes in
+      SSRN https://doi.org/10.2139/ssrn.4977918 (2024).                                 Neural Circuit Parameters. in Brain Informatics (ed. M. Mahmud, M.
+48.   Haghighat, E., Raissi, M., Moure, A., Gomez, H. & Juanes, R. A                    S. Kaiser, S. Vassanelli, Q. Dai & N. Zhong) 115-123 (Springer
+      physics-informed deep learning framework for inversion and                        International Publishing, Cham, 2021).
+      surrogate modeling in solid mechanics. Comput. Methods Appl.                71.   Maestú, F., de Haan, W., Busche, M. A. & DeFelipe, J. Neuronal
+      Mech. Eng. 379, 113741 (2021).                                                    excitation/inhibition imbalance: core element of a translational
+49.   Boelts, J., Lueckmann, J. M., Gao, R. & Macke, J. H. Flexible and                 perspective on Alzheimer pathophysiology. Ageing Res. Rev. 69,
+      efﬁcient simulation-based inference for models of decision-making.                101372 (2021).
+      Elife 11, e77220 (2022).                                                    72.   Harris, S. S., Wolf, F., De Strooper, B. & Busche, M. A. Tipping the
+50.   Beck, J., Deistler, M., Bernaerts, Y., Macke, J. H. & Berens, P.                  scales: peptide-dependent dysregulation of neural circuit dynamics
+      Efﬁcient identiﬁcation of informative features in simulation-based                in Alzheimer’s Disease. Neuron 107, 417–435 (2020).
+      inference. Adv. Neural Inf. Process. Syst. 35, 19260–19273 (2022).          73.   Busche, M. A. & Hyman, B. T. Synergy between amyloid-β and tau in
+51.   Gonçalves, P. J. et al. Training deep neural density estimators to                Alzheimer’s disease. Nat. Neurosci. 23, 1183–1193 (2020).
+      identify mechanistic models of neural dynamics. Elife 9, e56261             74.   Sohal, V. S. & Rubenstein, J. L. R. Excitation-inhibition balance as a
+      (2020).                                                                           framework for investigating mechanisms in neuropsychiatric
+52.   Cranmer, K., Brehmer, J. & Louppe, G. The frontier of simulation-                 disorders. Mol. Psychiatry 24, 1248–1257 (2019).
+      based inference. Proc. Natl. Acad. Sci. USA 117, 30055–30062                75.   Rodríguez-González, V. et al. Connectivity-based Meta-Bands: A
+      (2020).                                                                           new approach for automatic frequency band identiﬁcation in
+53.   Ziaeemehr, A. et al. Virtual Brain Inference (VBI): A ﬂexible and                 connectivity analyses. Neuroimage 280, 120332 (2023).
+      integrative toolkit for efﬁcient probabilistic inference on virtual brain   76.   Pesaran, B. et al. Investigating large-scale brain dynamics using ﬁeld
+      models. bioRxiv, 2025.01.21.633922 (2025).                                        potential recordings: analysis and interpretation. Nat. Neurosci. 21,
+54.   Hashemi, M. et al. Simulation-based inference on virtual brain                    903–919 (2018).
+      models of disorders. Mach. Learn.: Sci. Technol. 5, 035019 (2024).          77.   Cohen, M. X. Where does EEG come from and what does it mean?
+55.   Hashemi, M. et al. Amortized Bayesian inference on generative                     Trends Neurosci. 40, 208–218 (2017).
+      dynamical network models of epilepsy using deep neural density              78.   Lopes da Silva, F. EEG and MEG: relevance to neuroscience. Neuron
+      estimators. Neural Netw. 163, 178–194 (2023).                                     80, 1112–1128 (2013).
+56.   Tolley, N., Rodrigues, P. L. C., Gramfort, A. & Jones, S. R. Methods        79.   Chini, M. & Hanganu-Opatz, I. L. Prefrontal cortex development in
+      and considerations for estimating parameters in biophysically                     health and disease: lessons from rodents and humans. Trends
+      detailed neural models with simulation based inference. PLoS                      Neurosci. 44, 227–240 (2021).
+      Comput Biol. 20, e1011108 (2024).                                           80.   Zhang, Z., Jiao, Y. Y. & Sun, Q. Q. Developmental maturation of
+57.   Gewaltig, M.-O. & Diesmann, M. Nest (neural simulation tool).                     excitation and inhibition balance in principal neurons across four
+      Scholarpedia 2, 1430 (2007).                                                      layers of somatosensory cortex. Neuroscience 174, 10–25 (2011).
+58.   Carnevale, N. T. & Hines, M. L. The NEURON book (Cambridge                  81.   Kroon, T., van Hugte, E., van Linge, L., Mansvelder, H. D. & Meredith,
+      University Press, 2006).                                                          R. M. Early postnatal development of pyramidal neurons across
+59.   Hagen, E., Næss, S., Ness, T. V. & Einevoll, G. T. Multimodal                     layers of the mouse medial prefrontal cortex. Sci. Rep. 9, 5037
+      Modeling of Neural Network Activity: Computing LFP, ECoG, EEG,                    (2019).
+      and MEG Signals With LFPy 2.0. Front Neuroinform 12, 92 (2018).             82.   Okaty, B. W., Miller, M. N., Sugino, K., Hempel, C. M. & Nelson, S. B.
+60.   Pedregosa, F. et al. Scikit-learn: Machine learning in Python. J.                 Transcriptional and electrophysiological maturation of neocortical
+      Mach. Learn. Res. 12, 2825–2830 (2011).                                           fast-spiking GABAergic interneurons. J. Neurosci. 29, 7040–7052
+61.   Boelts, J. et al. sbi reloaded: a toolkit for simulation-based inference          (2009).
+      workﬂows. J. Open Source Softw. 10, 7754 (2025).                            83.   Rodríguez-González, V. et al. Consistency of local activation
+62.   McKerns, M. M., Strand, L., Sullivan, T., Fang, A. & Aivazis, M. A. G.            parameters at sensor- and source-level in neural signals. J. Neural
+      Building a framework for predictive science. in Proceedings of the 10th           Eng. 17, 056020 (2020).
+
+
+
+npj Systems Biology and Applications | (2025)11:45                                                                                                         16
+https://doi.org/10.1038/s41540-025-00527-9                                                                                                            Article
+
+84.  Busche, M. A. et al. Tau impairs neural circuits, dominating amyloid-β    de Andalucía” - Postdoctoral Fellowship Program PAIDI 2021; and by
+     effects, in Alzheimer models in vivo. Nat. Neurosci. 22, 57–64 (2019).    “CIBER en Bioingeniería, Biomateriales y Nanomedicina (CIBER-BBN),
+85. Grifﬁths, J. & Grant, S. G. N. Synapse pathology in Alzheimer’s            Spain” through “Instituto de Salud Carlos III” co-funded with ERDF funds.
+     disease. Semin Cell Dev. Biol. 139, 13–23 (2023).                         We would like to thank Roberto Maffulli and Mariangela Panniello for their
+86. Delbeuck, X., Van der Linden, M. & Collette, F. Alzheimer’disease as       useful feedback on this work.
+     a disconnection syndrome? Neuropsychol. Rev. 13, 79–92 (2003).
+87. Forner, S., Baglietto-Vargas, D., Martini, A. C., Trujillo-Estrada, L. &   Author contributions
+     LaFerla, F. M. Synaptic impairment in Alzheimer’s disease: a              Conceptualization: P.M.C.Data Curation: A.O.V., V.R.G., J.P., C.G. &
+     dysregulated symphony. Trends Neurosci. 40, 347–357 (2017).               P.M.C.Formal Analysis: A.O.V., V.R.G, J.P., C.G., N.M., F.P., C.M. &
+88. Wang, J. et al. Tau pathology is associated with synaptic density and      P.M.C.Funding Acquisition: C.M., J.P., C.G. & P.M.C.Investigation: A.O.V. &
+     longitudinal synaptic loss in Alzheimer’s disease. Mol. Psychiatry 29,    P.M.C.Methodology: All authors. Resources: V.R.G., J.P., C.G., C.M. &
+     2799–2809 (2024).                                                         P.M.C.Software: A.O.V. & P.M.C.Supervision: P.M.C.Validation: A.O.V. &
+89. Lan, G. et al. Association of presynaptic loss with Alzheimer’s            P.M.C.Visualization: A.O.V. & P.M.C.Writing – Original Draft Preparation:
+     disease and cognitive decline. Ann. Neurol. 92, 1001–1015 (2022).         P.M.C.Writing – Review & Editing: All authors.
+90. Ranasinghe, K. G. et al. Altered excitatory and inhibitory neuronal
+     subpopulation parameters are distinctly associated with tau and           Competing interests
+     amyloid in Alzheimer’s disease. Elife 11, e77850 (2022).                  The authors declare no competing interests.
+91. Donner, T. H. & Siegel, M. A framework for local cortical oscillation
+     patterns. Trends Cogn. Sci. 15, 191–199 (2011).                           Additional information
+92. Sanz-Leon, P., Knock, S. A., Spiegler, A. & Jirsa, V. K. Mathematical      Supplementary information The online version contains
+     framework for large-scale brain network modeling in The Virtual           supplementary material available at
+     Brain. Neuroimage 111, 385–430 (2015).                                    https://doi.org/10.1038/s41540-025-00527-9.
+93. Sanz Leon, P. et al. The Virtual Brain: a simulator of primate brain
+     network dynamics. Front Neuroinform. 7, 10 (2013).                        Correspondence and requests for materials should be addressed to
+94. Deco, G., Senden, M. & Jirsa, V. How anatomy shapes dynamics: a            Pablo Martínez-Cañada.
+     semi-analytical study of the brain at rest by a simple spin model.
+     Front. Comput. Neurosci. 6, 68 (2012).                                    Reprints and permissions information is available at
+95. Pronold, J. et al. Multi-Scale Spiking Network Model of Human              http://www.nature.com/reprints
+     Cerebral Cortex. Cerebral Cortex 34, bhae409 (2024).
+96. Donoghue, T. et al. Evaluating and Comparing Measures of                   Publisher’s note Springer Nature remains neutral with regard to
+     Aperiodic Neural Activity. bioRxiv 2024.09.15.613114 (2024).              jurisdictional claims in published maps and institutional afﬁliations.
+97. Plesser, H. E., Eppler, J. M., Morrison, A., Diesmann, M. & Gewaltig,
+     M.-O. Efﬁcient parallel simulation of large-scale neuronal networks       Open Access This article is licensed under a Creative Commons
+     on clusters of multiprocessor computers. 672–681 (Springer).              Attribution-NonCommercial-NoDerivatives 4.0 International License,
+98. Hay, E., Hill, S., Schürmann, F., Markram, H. & Segev, I. Models of        which permits any non-commercial use, sharing, distribution and
+     neocortical layer 5b pyramidal cells capturing a wide range of            reproduction in any medium or format, as long as you give appropriate
+     dendritic and perisomatic active properties. PLoS Comput Biol. 7,         credit to the original author(s) and the source, provide a link to the Creative
+     e1002107 (2011).                                                          Commons licence, and indicate if you modiﬁed the licensed material. You
+99. Betancourt, M. Calibrating model-based inferences and decisions.           do not have permission under this licence to share adapted material
+     arXiv preprint arXiv:1803.08393 (2018).                                   derived from this article or parts of it. The images or other third party
+100. McKhann, G. M. et al. The diagnosis of dementia due to Alzheimer’s        material in this article are included in the article’s Creative Commons
+     disease: recommendations from the National Institute on Aging-            licence, unless indicated otherwise in a credit line to the material. If material
+     Alzheimer’s Association workgroups on diagnostic guidelines for           is not included in the article’s Creative Commons licence and your intended
+     Alzheimer’s disease. Alzheimers Dement 7, 263–269 (2011).                 use is not permitted by statutory regulation or exceeds the permitted use,
+                                                                               you will need to obtain permission directly from the copyright holder. To
+Acknowledgements                                                               view a copy of this licence, visit http://creativecommons.org/licenses/by-
+This study was supported by grants PID2022-139055OA-I00, PID2022-              nc-nd/4.0/.
+137461NB-C31, and PID2022-138286NB-I00, funded by MCIN/AEI/
+10.13039/501100011033 and by “ERDF A way of making Europe”; by “Junta          © The Author(s) 2025
+
+
+
+
+npj Systems Biology and Applications | (2025)11:45                                                                                                           17
+

@@ -1,0 +1,763 @@
+                                         Classification of Epileptic iEEG using Topological
+                                                          Machine Learning
+
+                                           Sunia Tanweer1, 4 , Narayan Puthanmadam Subramaniyam2, 3 ,
+                                                               Firas A. Khasawneh4*
+                                          1
+                                             Department of Mechanical Engineering, Michigan State University,
+                                                               East Lansing, 48823, MI, USA.
+arXiv:2604.11971v1 [cs.LG] 13 Apr 2026
+
+
+
+
+                                             2
+                                               Faculty of Medicine and Health Technology, Tampere University,
+                                                                     Tampere, Finland.
+                                            3
+                                              A.I.Virtanen Insttute of Molecular Sciences, University of Eastern
+                                                                 Finland, Kuopio, Finland.
+                                         4
+                                           Department of Computational Mathematics, Science and Engineering,
+                                                 Michigan State University, East Lansing, 48823, MI, USA.
+
+
+                                                *Corresponding author(s). E-mail(s): khasawn3@msu.edu;
+
+
+                                                                              Abstract
+                                           Epileptic seizure detection from EEG signals remains challenging due to the
+                                           high dimensionality and nonlinear, potentially stochastic, dynamics of neural
+                                           activity. In this work, we investigate whether features derived from topological
+                                           data analysis (TDA) can improve the classification of brain states in preictal,
+                                           ictal and interictal iEEG recordings from epilepsy patients using multichannel
+                                           data. We analyze data from 55 patients, significantly larger than many previ-
+                                           ous studies that rely on patient-specific models. Persistence diagrams derived
+                                           from iEEG signals are vectorized using several TDA representations, including
+                                           Carlsson coordinates, persistence images, and template functions. To under-
+                                           stand how topological representations interact with modern machine learning
+                                           pipelines, we conduct a large-scale ablation study across multiple iEEG frequency
+                                           bands, dimensionality reduction techniques, feature representations, and clas-
+                                           sifier architectures. Our experiments show that dimension-reduced topological
+                                           representations achieve up to 80% balanced accuracy for three-class classifica-
+                                           tion. Interestingly, classical machine learning models perform comparably to
+                                           deep learning models, achieving up to 79.17% balanced accuracy, suggesting that
+                                           carefully designed topological features can substantially reduce model complex-
+                                           ity requirements. In contrast, pipelines preserving the full multichannel feature
+                                           structure exhibit severe overfitting due to the high-dimensional feature space.
+
+
+                                                                                  1
+     These findings highlight the importance of structure-preserving dimensionality
+     reduction when applying topology-based representations to multichannel neural
+     data.
+
+     Keywords: epilepsy, classification, seizure, topological data analysis, machine learning
+
+
+
+
+1 Introduction
+Epilepsy is a chronic neurological disorder characterized by recurrent seizures, which
+are sudden and unpredictable disruptions of normal brain activity. Electroencephalog-
+raphy (EEG) remains the primary tool for diagnosing and monitoring epileptic patients
+due to its ability to directly record brain activity with millisecond temporal resolution.
+    Traditionally, neurologists identify epileptic seizures based on specific patterns in
+the EEG waveforms, including spikes, sharp waves, and rhythmic activity. However,
+manual analysis of EEG recordings is time-consuming, subjective, and increasingly
+impractical given the increasing availability of long-duration EEG recordings. This
+has created a need for automated methods that can assist clinicians in detecting and
+characterizing seizure-related activity.
+    Distinguishing between interictal (between seizures), preictal (before a seizure),
+and ictal activity (seizure) is important for developing an automated classification sys-
+tem that will considerably reduce the burden of manual annotation [1]. Furthermore,
+identification of preictal state is crucial for designing seizure prediction systems, that
+will enable timely intervention. Although scalp EEG is non-invasive and widely used,
+it is limited by low signal-to-noise ratio (SNR) [2] and has poor spatial resolution.
+Intracranial EEG (iEEG) recordings, obtained by placing electrode grid directly on the
+cortex (electrocorticography - ECoG) or by using depth electrodes (stereo-EEG), has
+higher SNR and spatial specificity, making it well suited for epileptic EEG analysis.
+    In recent years, machine learning approaches have increasingly been employed to
+assist in the automatic classification of epileptic states [3, 4, 5]. These methods aim
+to improve diagnostic accuracy and efficiency by learning from labelled EEG data,
+distinguishing between ictal , preictal and interictal states. Machine learning and,
+more recently, deep learning have become a cornerstone of modern EEG analysis [6,
+7, 8, 9, 10, 11, 12, 13, 14]. Traditional methods for EEG classification include support
+vector machines (SVMs), random forests, and neural networks [6, 7, 15, 16], which
+are trained on features such as frequency bands [17], wavelet coefficients [18], and
+statistical measures [19, 20] of EEG data. However, capturing the non-linear and high-
+dimensional dynamics of EEG signals remains challenging, particularly in the case of
+multi-channel recordings.
+    Topological Data Analysis (TDA) has recently emerged as a promising framework
+for analyzing complex signals such as EEG recordings. TDA provides tools for extract-
+ing structural information from data by analyzing the shape of signals across multiple
+scales. Persistent homology, one of the central techniques in TDA, summarizes the evo-
+lution of topological features through persistence diagrams, which record the birth and
+death of features as a filtration parameter varies. These diagrams can then be converted
+
+
+                                                2
+into vector representations suitable for machine learning models. The combination of
+TDA and machine learning has been particularly successful in single-channel EEG
+datasets. TDA-based features, such as barcodes and persistence diagrams, have been
+introduced as a new form of input for classifiers. These features capture the shape and
+topology of the EEG signal, offering an alternative to conventional feature extraction
+methods. Early work applying TDA to EEG data primarily focused on single-channel
+recordings. In these cases, topological features derived from persistence diagrams were
+used as inputs to machine learning classifiers, achieving promising results in terms
+of accuracy [3, 4]. Many non-TDA features have also been used and have resulted in
+high accuracies. Some of these features are Permutation Entropy, Hjorth parameters,
+Fractal Dimension, Approximate Entropy, Hurst Exponent, Correlation Dimension,
+Lyapunov Exponents, Zero Crossing Rate etc. [21, 22, 23].
+    However, the transition from single-channel to multi-channel EEG classification
+introduces additional complexity, as multiple interacting signals need to be analyzed
+simultaneously. Multi-channel EEG data provides a richer source of information but
+also presents significant challenges due to the increase in dimensionality and the com-
+plexity of interactions between channels. Combining data from multiple channels for
+classification purposes requires advanced techniques of feature fusion, data fusion or
+dimensionality reduction. Traditional methods struggle to efficiently aggregate infor-
+mation across channels without losing important temporal and spatial dependencies.
+Even then, several studies have demonstrated the effectiveness of TDA and conven-
+tional signal processing in capturing the dynamics of epileptic seizures. For instance,
+Wang et al. [15] used persistent homology with GoogleNet (a deep-learning frame-
+work) to detect seizure transitions and found that TDA-based features provide robust
+representations of EEG signals that can be used for classification. Recent work by Hu
+et al. [24] reached a very high accuracy of 91% with an iterative gated graph con-
+volution network. However, what is common among all the available multi-channel
+methods is the use of deep learning for classification. Although deep learning can result
+in high accuracy, it is a highly time-consuming approach, requiring large datasets and
+substantial computational resources for training.
+    In this work, we investigate whether topological features derived from iEEG signals
+can provide effective representations for seizure state classification across a relatively
+large cohort of patients. We analyze iEEG recordings from 55 epilepsy patients and
+classify signal segments into interictal, preictal, and ictal states using machine learning
+pipelines built on topological features. Several vectorization techniques for persistence
+diagrams are considered, including Carlsson coordinates [25], persistence images [26],
+and template functions [27].
+    To better understand how topological features interact with modern machine
+learning pipelines, we conduct a comprehensive ablation study across multiple com-
+ponents of the classification pipeline. These components include iEEG frequency
+bands, dimensionality reduction methods, topological feature representations, and
+classifier architectures. Both classical machine learning models and deep learning
+models are evaluated in order to assess the extent to which classifier complexity
+influences performance when using topology-based features. The results demonstrate
+that topology-based features combined with dimensionality reduction can achieve
+
+
+
+                                            3
+strong classification performance across multiple seizure states. In addition, the study
+highlights the importance of dimensionality reduction when applying topology-based
+representations to multichannel neural data, as extremely high-dimensional feature
+spaces can lead to severe overfitting. These findings provide insights into how topolog-
+ical representations can be effectively integrated into machine learning pipelines for
+iEEG analysis.
+
+2 Mathematical Background
+2.1 Sublevel Persistence on 1D signals
+Given a function f : [0, T ] →    − R and a real number r ∈ R, the sublevel set for r is
+defined as f −1 (−∞, r]. As the parameter r (also called filtration paramater) increases,
+the sublevel sets may grow but remain the same until we reach a local extrema. If
+the extrema reached is a local minimum, a new set is born at rB . If the extrema is
+a local maximum, two previously existing sets are combined into one. If the two sets
+               ′                        ′
+were rB and rB   , such that rB ≤ rB      , with the maximum reached at rD , it is said that
+                               ′                                            ′
+the component born at rB dies going into rD . Hence, the pair (rB             , rD ) is called a
+                             ′
+persistence pair, with rB being the location of birth and rD the location of death. As
+r is varied between −∞ and ∞, the persistence diagram is the collection of all n such
+pairs, D(f ) = {(bi , di )}ni=1 . For each of these pairs, the value di − bi is termed the life
+of that component. See Fig. 1 for an example.
+
+
+
+
+                       Fig. 1: Sublevel Persistence on 1D signals.
+
+
+    In the context of EEG signals, persistent homology provides a way to capture
+structural patterns in the signal beyond traditional spectral or statistical descriptors,
+allowing the identification of stable geometric features in the temporal dynamics.
+
+2.2 Featurization with Persistence Diagrams
+A key challenge in TDA is converting topological information—usually in the form of
+persistence diagrams—into a format that can be effectively used by machine learning
+algorithms. Several methods have been proposed for vectorizing persistence diagrams
+
+
+                                               4
+while preserving their essential topological features. Below, we outline some of the
+prominent techniques: Carlsson coordinates, persistence images, and template func-
+tions (tent and polynomial functions). These vectorization techniques allow persistence
+diagrams to be incorporated into standard machine learning pipelines while preserving
+the stability properties of persistent homology representations.
+
+2.2.1 Carlsson Coordinates
+Carlsson coordinates [25] are a set of five functions f : R2 →
+                                                             − R defined for a persistence
+diagram. For a persistence diagram with n points (bi , di ), the functions are defined as
+follows:
+                                          Xn
+                                   f1 =       bi (di − bi )                            (1)
+                                            i=1
+                                     n
+                                     X
+                              f2 =         (dmax − di )(di − bi )                     (2)
+                                     i=1
+                                           n
+                                           X
+                                    f3 =          b2i (di − bi )4                     (3)
+                                            i=1
+                                    n
+                                    X
+                             f4 =         (dmax − di )2 (di − bi )4                   (4)
+                                    i=1
+                                     f5 = max(di − bi )                               (5)
+
+2.2.2 Persistence Images
+Persistence images [26] are a widely used method for transforming persistence diagrams
+into feature vectors that are compatible with machine learning models. This approach
+involves assigning a Gaussian distribution to each persistence point, creating a smooth
+image from the persistence diagram. The image is then discretized into a fixed-size grid,
+enabling direct input into algorithms such as support vector machines or deep neural
+networks. Persistence images are particularly advantageous because they provide a
+stable and continuous representation of topological features, which can be effectively
+used in EEG classification tasks to capture neural dynamics over time.
+    Mathematically, the persistence diagram D = {(bi , di )}ni=1 is mapped into birth-
+death coordinates, and each point (bi , di ) contributes to the image by placing a
+Gaussian distribution centered at (bi , di ). The weighted sum of these Gaussians
+forms the persistence image, which can be adjusted through parameter tuning of the
+Gaussian kernel.
+
+2.2.3 Template Functions (Tent and Polynomial Functions)
+Template functions [27] offer a flexible way to vectorize persistence diagrams by apply-
+ing functions that map birth-death pairs into scalar values. Two common template
+functions are tent functions and polynomial functions, each offering a different way to
+emphasize certain parts of the persistence diagram.
+
+
+
+                                                  5
+• Tent Functions: These are triangular-shaped functions defined over the plane of
+  the persistence diagram. For each birth-death pair (bi , di ), the function takes the
+  value of the persistence (i.e., di − bi ) within a certain region and decreases linearly
+  towards the boundary of that region. Tent functions emphasize localized information
+  in the diagrams.
+• Polynomial Functions: Polynomial functions map each persistence point (bi , di )
+  to a polynomial of their birth and death times. Higher-order polynomial functions
+  allow the user to emphasize global information in the diagrams.
+    Template functions offer a computationally simple and interpretable way to vec-
+torize topological features, making them effective for EEG classification tasks, where
+capturing specific birth and death events can reflect brain activity transitions.
+
+3 Methods
+In this work, we evaluated two ML-classification pipelines from multichannel iEEG
+recordings. Figure 2a shows the first pipeline which applies dimensionality reduction
+prior to classification and henceforth we will refer to it as the dimension-reduced
+pipeline. The second pipeline shown in Fig. 2b preserves channel-wise topological
+structure as long as possible and we will refer to it as the multichannel pipeline.
+
+
+
+
+Fig. 2: Overview of the two classification pipelines considered in this study: (a)
+Dimension-reduced and (b) Multichannel preserving channel-wise features.
+
+
+
+
+3.1 Dataset and classification task
+The experiments were conducted on multichannel iEEG recordings from 55 epilepsy
+patients, taken from HUP dataset [28]. The dataset has samples assigned to one of
+three classes: interictal, preictal, or ictal. The goal of the classification task was there-
+fore a three-class prediction problem based on topological representations of the iEEG
+signals.
+
+
+
+                                             6
+    The iEEG recordings contain multiple channels representing electrical activity
+measured across different regions of the brain. Since seizure-related information may be
+distributed across channels and frequency ranges, both reduced and channel-preserving
+representations were considered.
+
+3.2 Preprocessing
+Prior to feature extraction, iEEG recordings were filtered into commonly used fre-
+quency bands in order to isolate physiologically meaningful components. The following
+bands were considered: Delta (0.5–4 Hz), Theta (4–8 Hz), Alpha (8–13 Hz), Beta (13–
+30 Hz), Low Gamma (30–50 Hz), High Gamma (50–100 Hz). In addition to the filtered
+signals, the raw broadband iEEG signal was also evaluated. Each filtered version of
+the signal was passed independently through the subsequent feature extraction and
+classification stages.
+
+3.3 Feature Extraction
+For each iEEG segment, persistence diagrams were computed using sublevel set per-
+sistence on one-dimensional signal representations. These persistence diagrams encode
+the birth and death of topological features in the signal as the filtration parameter
+varies. To incorporate persistence diagrams into machine learning models, the dia-
+grams were vectorized using several topological feature representations. The feature
+sets considered in this work were Carlsson coordinates, Persistence images, Tem-
+plate functions (Tent) and Template Functions (Polynomial). For baseline comparison,
+entropy-based features of complexity entropy, Renyi entropy, Tsallis entropy, and
+weighted permutation entropy were used.
+
+3.4 Pipeline I: Dimension-Reduced Classification
+In the dimension-reduced pipeline, the multichannel iEEG signal was transformed
+into a one-dimensional representation before featurization. After filtering into a spec-
+ified frequency band, dimensionality reduction was applied, followed by extraction of
+features and supervised classification.
+    A broad range of dimensionality reduction methods was evaluated, including linear
+and nonlinear. The tested methods included principal component analysis (PCA),
+linear discriminant analysis (LDA), non-negative matrix factorization (NMF), factor
+analysis (FA), truncated singular value decomposition (TSVD), Isomap, locally linear
+embedding (LLE), multidimensional scaling (MDS), and t-SNE.
+    The resulting lower-dimensional representations were then featurized and passed
+to a classifier.
+
+3.5 Pipeline II: Multichannel Classification
+In the multichannel pipeline, channel-wise information was preserved by computing
+features separately for each iEEG channel. The resulting features were then concate-
+nated into a single multichannel feature vector prior to classification. This strategy
+retains more data and structural information than the dimension-reduced pipeline,
+
+
+                                           7
+but it also leads to a much larger feature space. Depending on the chosen feature
+representation, the dimensionality of the resulting multichannel feature vector ranged
+from several hundred to several thousand features.
+    Because the number and identity of iEEG channels varied across recordings in the
+dataset, it was necessary to ensure a consistent channel set across all samples used
+in the multichannel pipeline. To achieve this, we selected a subset of recordings shar-
+ing a common set of channels while maximizing both the number of available samples
+and the number of retained channels. As a result, the multichannel experiments were
+conducted using a slightly reduced subset of the full dataset in order to maintain con-
+sistent channel alignment across all samples. Then, to mitigate the resulting curse of
+dimensionality, feature selection and strong regularization were applied. In particular,
+SelectKBest was used to retain at most 500 features prior to classification. Even with
+this reduction, the multichannel feature space remained high-dimensional relative to
+the number of available training samples.
+
+3.6 Machine Learning Models
+Both classical machine learning models and deep learning models were evaluated
+in order to assess the role of classifier complexity when combined with topological
+features. The classical machine learning models included Logistic Regression, Ridge
+Classifier, Linear SVC, SVC with RBF kernel, Random Forest, Gradient Boosting,
+Gaussian Naive Bayes, Linear Discriminant Analysis, and Multi-layer Perceptron. The
+deep learning models included several fully connected and convolution-based architec-
+tures, including DeepMLP variants, ResNet-based models, attention-based multilayer
+perceptrons, and Conv1DMLP models. For the multichannel pipeline, regularized deep
+learning architectures were considered in order to reduce overfitting. Details are found
+in Appendix A.
+    Model performance was evaluated using balanced accuracy as the primary metric.
+For both pipelines, the dataset was divided into training and test sets using an 80/20
+split. Performance on the held-out test set was used for final evaluation. In addition to
+test performance, the gap between training and test balanced accuracy was monitored
+in order to assess overfitting; any model with more than 10% difference was dropped
+from the summary results.
+
+4 Results
+4.1 Overall Performance
+Two primary modeling strategies were evaluated: a dimension-reduced pipeline and
+a multichannel pipeline preserving spatial channel structure. The dimension-reduced
+pipeline achieved substantially higher performance, with a maximum balanced accu-
+racy of 80%. Table 1 summarizes the top 10 performing configurations in the
+dimension-reduced pipeline. In contrast to dimension-reduced pipeline, the multichan-
+nel pipeline achieved a maximum balanced accuracy of 59.5%. These results indicate
+that high-dimensional multichannel feature spaces introduce significant challenges for
+model generalization.
+
+
+                                           8
+   Table 1: Top 10 performing configurations in the dimension-reduced pipeline.
+   Rank   Accuracy       Band       Dim Red           Feature              Classifier
+    1      80.00%     Low Gamma        FA             Carlsson          Conv1DMLP
+    2      79.17%        Beta          FA             Carlsson        Logistic Regression
+    3      77.78%        Delta        LLE             Carlsson        Logistic Regression
+    4      77.78%        Delta        LLE             Carlsson            LinearSVC
+    5      77.08%        Beta          FA             Carlsson            LinearSVC
+    6      73.67%        Alpha        NMF       Polynomial Template     MLP (sklearn)
+    7      73.33%     Low Gamma        FA          Tent Template        MLP (sklearn)
+    8      72.92%        Beta          FA             Carlsson               LDA
+    9      72.92%        Beta          FA       Polynomial Template   DeepMLP (Large)
+    10     72.12%        Delta       t-SNE         Tent Template        Conv1DMLP
+
+
+
+
+4.2 Deep Learning vs Classical Machine Learning
+Both classical machine learning models and deep learning architectures were evaluated.
+The best-performing deep learning configuration achieved 80% balanced accuracy
+using low gamma band signals and factor analysis for dimensionality reduction, with
+Carlsson coordinate features, and a Conv1D MLP classifier. Interestingly, classical
+machine learning models achieved comparable performance. The best classical model,
+logistic regression combined with Carlsson coordinates and factor analysis, achieved
+79.17% balanced accuracy. These results suggest that carefully constructed topolog-
+ical feature representations can enable simple classifiers to perform competitively
+with more complex neural network architectures. Figure 3 compares the performance
+of deep learning models and classical machine learning models across all configura-
+tions. While deep learning models achieved slightly higher maximum performance, the
+overall performance distributions of the two model classes were similar. This result
+suggests that well-constructed topological feature representations can allow relatively
+simple models to achieve performance comparable to more complex neural network
+architectures. This observation is particularly relevant for practical clinical pipelines,
+where simpler models may offer lower computational cost, easier tuning, and greater
+interpretability without substantial loss in predictive performance.
+
+4.3 Frequency Band Analysis
+Performance varied across frequency bands. The delta band achieved the highest
+mean balanced accuracy (50.20%), indicating that low-frequency oscillations con-
+tain useful information for seizure classification. However, the best single-performing
+configuration was obtained using the low gamma band (30-50 Hz), suggesting that
+higher frequency activity may capture seizure-related dynamics under certain model
+configurations.
+    The relationship between frequency band and classification performance is illus-
+trated in Fig. 4.
+
+
+
+
+                                            9
+Fig. 3: Comparison of balanced accuracy between classical machine learning models
+and deep learning models across all configurations.
+
+
+
+
+Fig. 4: Comparison of balanced accuracy between frequency bands across all config-
+urations.
+
+
+4.4 Dimensionality Reduction Methods
+Dimensionality reduction played a critical role in classification performance. Nonlinear
+manifold learning techniques such as t-SNE achieved the highest mean performance
+across configurations, while Factor Analysis produced the best single-performing
+pipeline when combined with deep learning models. Linear methods such as PCA and
+LDA also provided stable performance across configurations, indicating that relatively
+simple dimensionality reduction methods can effectively compress topological feature
+representations.
+   Figure 5 compares the maximum balanced accuracy obtained using different
+dimensionality reduction techniques.
+
+
+
+                                          10
+Fig. 5: Comparison of balanced accuracy between dimensionality reduction techniques
+across all configurations.
+
+
+4.5 Topological Feature Comparison
+Among the evaluated topological features, polynomial template functions achieved the
+highest mean performance, while Carlsson coordinates achieved the best individual
+result. Overall, topology-based features consistently outperformed the entropy-based
+baseline features, indicating that persistent homology captures structural properties
+of iEEG signals that are relevant for seizure classification.
+
+
+
+
+Fig. 6: Comparison of balanced accuracy between various feature sets across all con-
+figurations.
+
+
+
+
+4.6 Multichannel Pipeline Performance
+The multichannel pipeline preserved the spatial structure of iEEG channels by com-
+puting topological features for each channel independently. However, this approach
+
+
+
+                                         11
+resulted in extremely high-dimensional feature spaces. Even after aggressive dimen-
+sionality reduction and regularization, models trained on the multichannel feature
+representation exhibited severe overfitting. The best-performing model, without over-
+fitting, achieved 59.5% balanced accuracy using a regularized deep multilayer percep-
+tron classifier. These results suggest that the number of samples available in the dataset
+is insufficient for reliable learning in such high-dimensional spaces—highlighting the
+curse of dimensionality in high-dimensional data.
+
+5 Discussion
+The results demonstrate that topological features extracted from iEEG signals provide
+effective representations for seizure state classification, particularly when combined
+with dimensionality reduction. While prior work has established the promise of topo-
+logical data analysis (TDA) for EEG classification, our findings clarify how these
+representations behave in multichannel, multi-patient settings.
+     Previous studies have reported strong performance of TDA-based features for
+epileptic EEG analysis, particularly in single-channel or patient-specific settings. For
+example, Tuncer et al. [3] and Ryu et al. [4] demonstrated that persistence-based fea-
+tures can successfully distinguish seizure states when applied to individual channels.
+More recent approaches have incorporated persistent homology into deep learning
+pipelines or graph-based neural networks to handle multichannel data, often achieving
+high accuracy on benchmark datasets [15, 24]. However, these studies typically rely
+on relatively small datasets, patient-specific models, or controlled benchmark settings,
+which may limit their generalizability. In contrast, this work considers a cohort of 55
+patients in a three-class classification setting, making the problem substantially more
+challenging and clinically relevant. The achieved performance of up to 80% balanced
+accuracy is therefore competitive in a patient-independent, multichannel context.
+     A key contribution of this work is the explicit identification of feature dimen-
+sionality as a primary bottleneck in multichannel TDA pipelines. While prior work
+has demonstrated the effectiveness of persistent homology representations, relatively
+little attention has been paid to how these features scale with increasing numbers
+of channels. The results show that naive concatenation of channel-wise topological
+features leads to extremely high-dimensional feature spaces, resulting in severe over-
+fitting even with regularization. This observation provides a possible explanation for
+the widespread reliance on deep learning in multichannel EEG studies: deep archi-
+tectures implicitly perform feature compression through hierarchical representations.
+In contrast, the present results demonstrate that explicit dimensionality reduction
+techniques, such as factor analysis and manifold learning, can effectively compress
+topological features while preserving discriminative structure. This suggests that lim-
+itations observed in prior multichannel TDA approaches may stem less from the
+representational capacity of topology and more from challenges associated with feature
+scaling.
+     Another important finding is that classical machine learning models perform
+comparably to deep learning architectures when trained on appropriately reduced
+topological features. This contrasts with much of the recent EEG literature, where
+
+
+
+                                           12
+deep learning is often assumed to be necessary for high performance [29]. The results
+suggest that the quality of the feature representation plays a more critical role than
+classifier complexity. Topological features encode structural properties of the signal
+that are invariant to certain transformations and robust to noise, which may reduce
+the need for highly expressive models. From a practical perspective, this has impor-
+tant implications for clinical deployment, where simpler models offer advantages in
+interpretability, computational efficiency, and reliability. From a signal analysis per-
+spective, the results supp ort the view that persistent homology captures structural
+properties of EEG signals beyond conventional spectral or entropy-based features. This
+is consistent with earlier work using persistence landscapes and related summaries to
+characterize seizure dynamics [30], but extends these ideas to a multichannel, machine
+learning setting.
+    Despite these promising results, several limitations remain. The multichannel
+feature space remains high-dimensional relative to the available data, and spatial
+dependencies between channels are not explicitly modeled. Future work may address
+these issues through graph-based or simplicial representations of inter-channel relation-
+ships, as well as extensions toward seizure prediction using preictal dynamics. Overall,
+this study demonstrates that TDA-based features provide a robust and interpretable
+framework for EEG classification, while emphasizing the critical role of dimensionality
+reduction in enabling their effective use in multichannel settings.
+
+6 Conclusion
+We investigated the use of topological data analysis features for classification of seizure
+states in multichannel iEEG recordings from 55 epilepsy patients. A comprehensive
+ablation study was conducted across frequency bands, dimensionality reduction tech-
+niques, topological feature representations, and classifier architectures. The results
+demonstrate that topology-based features combined with dimensionality reduction can
+achieve balanced accuracies of up to 80% in three-class seizure classification. Classi-
+cal machine learning models were found to perform competitively with deep learning
+architectures when trained on appropriately reduced feature representations.
+    In contrast, pipelines preserving the full multichannel feature structure exhibited
+severe overfitting due to the extremely high dimensionality of the resulting feature
+space—even with feature selection and heavy regularization. These findings highlight
+the importance of dimensionality reduction when applying topological representations
+to high-dimensional neural data. Overall, this study provides evidence that topological
+representations offer a promising framework for analyzing iEEG signals and can form
+the basis for robust machine learning pipelines for seizure detection and classification.
+
+A Custom Model Architectures
+This appendix describes the custom neural network architectures and training proce-
+dures used in both the single-channel and multichannel iEEG experiments. All models
+take a feature vector x ∈ Rd and output class logits f (x) ∈ RC .
+
+
+
+
+                                            13
+A.1 Deep Multilayer Perceptrons
+Several multilayer perceptron (MLP) architectures were evaluated for classifica-
+tion of the extracted feature representations. Each hidden layer applies a linear
+transformation followed by batch normalization, a ReLU activation, and dropout:
+
+                 hl+1 = Dropout(ReLU(BatchNorm(Wl hl + bl ))).
+   Three configurations were tested in the single-channel experiments: (1) Small
+(128 → 64), (2) Medium (256 → 128 → 64), and (3) Large (512 → 256 → 128 → 64).
+For the multichannel experiments, a strongly regularized variant was used with hidden
+dimensions 256 → 128 → 64 and dropout rate 0.5.
+
+A.2 Residual Network
+To allow deeper nonlinear transformations while maintaining stable training, a fully
+connected residual network was implemented. The input features are first projected
+to a hidden representation:
+
+                        h0 = ReLU(BatchNorm(W0 x + b0 )).
+   Each residual block computes
+
+                              hl+1 = ReLU(hl + F (hl )),
+    where F (·) consists of two fully connected layers with batch normalization and
+dropout. The single-channel experiments evaluated networks with four and eight resid-
+ual blocks. The multichannel experiments used a regularized variant with four residual
+blocks and dropout applied within each block.
+
+A.3 Attention-Based MLP
+To model interactions between feature dimensions, an attention-based architecture was
+implemented. The input features are first projected into a latent representation (dh =
+256). A multi-head self-attention layer with eight heads is then applied, followed by
+a feed-forward network with dimensions 256 → 512 → 256. Residual connections and
+layer normalization are used around both the attention module and the feed-forward
+network. The resulting representation is passed to a linear output layer.
+
+A.4 Wide & Deep Network
+A Wide & Deep architecture was used to capture both linear and nonlinear feature
+relationships. The wide component is a linear model
+
+                              fwide (x) = Ww x + bw ,
+   while the deep component is an MLP with hidden dimensions
+
+                                 256 → 128 → 64.
+   The final prediction is obtained by summing the outputs of the wide and deep
+components.
+
+
+                                         14
+A.5 1D Convolutional Feature Network
+To capture local dependencies between neighboring features, the input vector is
+reshaped into a one-dimensional sequence and processed by a small convolutional net-
+work. Two convolutional layers (32 and 64 channels with kernel size 3) are applied,
+each followed by batch normalization and ReLU activation. Global average pooling
+aggregates the feature maps, after which a fully connected layer with 128 hidden units
+produces the final logits.
+
+A.6 Feature Selection for High-Dimensional Representations
+For multichannel feature representations, dimensionality reduction was optionally
+applied after feature standardization to mitigate overfitting. The feature selection
+methods SelectKBest and PCA were used; no reduction for d < 1000, SelectKBest for
+moderate dimensionality, and PCA for very high-dimensional representations. Early
+stopping with a patience of 10-15 epochs was also applied to prevent overfitting.
+
+Acknowledgements
+This material is based upon work supported by the Air Force Office of Scientific
+Research under award number FA9550-22-1-0007, the Army Research Lab under
+award number W911NF-26-1-A003 and NSF funded-Frontera Computational Science
+Fellowship.
+
+CRediT
+ST—Conceptualization, Data Curation, Formal Analysis, Funding Acquisition, Inves-
+tigation, Methodology, Project Administration, Software, Validation, Visualization,
+Writing - Original Draft, Writing - Review & Editing. NPS—Conceptualization, Data
+Curation, Software, Writing - Review & Editing. FAK—Conceptualization, Fund-
+ing Acquisition, Project Administration, Resources, Supervision, Writing - Review &
+Editing.
+
+Data and Supplementary Materials
+The dataset used can be found here [28]: https://doi.org/10.18112/openneuro.ds004100.v1.1.3
+
+References
+ [1] S. Roy et al. Evaluation of artificial intelligence systems for assisting diagnosis of
+     epilepsy. EBioMedicine, 69:103443, 2021.
+ [2] Maria Tito, Mercedes Cabrerizo, Melvin Ayala, Armando Barreto, Ian Miller,
+     Prasanna Jayakar, and Malek Adjouadi. Classification of electroencephalographic
+     seizure recordings into ictal and interictal files using correlation sum. Computers
+     in Biology and Medicine, 39(7):604–614, July 2009.
+ [3] Erdem Tuncer and Emine Doğru Bolat. Channel based epilepsy seizure type
+     detection from electroencephalography (eeg) signals with machine learning tech-
+     niques. Biocybernetics and Biomedical Engineering, 42(2):575–595, April 2022.
+
+
+
+                                            15
+ [4] Seungjun Ryu, Seunghyeok Back, Seongju Lee, Hyeon Seo, Chanki Park, Kyoobin
+     Lee, and Dong-Seok Kim. Pilot study of a single-channel eeg seizure detection
+     algorithm using machine learning. Child’s Nervous System, May 2021.
+ [5] Gabriella Panuccio, Narayan P Subramaniyam, Angel Canal-Alonso, Juan M
+     Corchado, and Carlo Ierna. Using ai to steer brain regeneration: The enhanced
+     regenerative medicine paradigm. Big Data Analysis and Artificial Intelligence for
+     Medical Sciences, pages 273–307, 2024.
+ [6] G. Yogarajan, Najah Alsubaie, G. Rajasekaran, T. Revathi, Mohammed S. Alqah-
+     tani, Mohamed Abbas, Madshush M. Alshahrani, and Ben Othman Soufiene.
+     Eeg-based epileptic seizure detection using binary dragonfly algorithm and deep
+     neural network. Scientific Reports, 13(1), October 2023.
+ [7] Garima Chandel, Sandeep Kumar Saini, and Ashish Sharma. Epileptic eeg sig-
+     nal classification using machine learning based model. In 2023 International
+     Conference on Disruptive Technologies (ICDT), pages 733–739. IEEE, 2023.
+ [8] Jeff Craley, Emily Johnson, Christophe Jouny, and Archana Venkataraman.
+     Automated inter-patient seizure detection using multichannel convolutional and
+     recurrent neural networks. Biomedical Signal Processing and Control, 64:102360,
+     February 2021.
+ [9] Amir H. Ansari, Perumpillichira J. Cherian, Alexander Caicedo, Gunnar
+     Naulaers, Maarten De Vos, and Sabine Van Huffel. Neonatal seizure detec-
+     tion using deep convolutional neural networks. International Journal of Neural
+     Systems, 29(04):1850011, May 2019.
+[10] Yang Li, Yang Yang, Qinghe Zheng, Yunxia Liu, Hongjun Wang, Shangling Song,
+     and Penghui Zhao. Dynamical graph neural network with attention mechanism
+     for epilepsy detection using single channel eeg. Medical & Biological Engineering
+     & Computing, 62(1):307–326, October 2023.
+[11] Mingkan Shen, Fuwen Yang, Peng Wen, Bo Song, and Yan Li. A real-time epilepsy
+     seizure detection approach based on eeg using short-time fourier transform and
+     google-net convolutional neural network. Heliyon, 10(11):e31827, June 2024.
+[12] Yang Li, Zuyi Yu, Yang Chen, Chunfeng Yang, Yue Li, X. Allen Li, and
+     Baosheng Li. Automatic seizure detection using fully convolutional nested lstm.
+     International Journal of Neural Systems, 30(04):2050019, March 2020.
+[13] Guoyang Liu, Weidong Zhou, and Minxing Geng. Automatic seizure detec-
+     tion based on s-transform and deep convolutional neural network. International
+     Journal of Neural Systems, 30(04):1950024, September 2019.
+[14] Wenna Chen, Yixing Wang, Yuhao Ren, Hongwei Jiang, Ganqin Du, Jincan
+     Zhang, and Jinghua Li. An automated detection of epileptic seizures eeg using cnn
+     classifier based on feature fusion with high accuracy. BMC Medical Informatics
+     and Decision Making, 23(1), May 2023.
+[15] Xiashuang Wang, Yinglei Wang, Dunwei Liu, Ying Wang, and Zhengjun Wang.
+     Automated recognition of epilepsy from eeg signals using a combining space–time
+     algorithm of cnn-lstm. Scientific Reports, 13(1), 9 2023.
+[16] Ziyu Wang, Feifei Liu, Shuhua Shi, Shengxiang Xia, Fulai Peng, Lin Wang, Sen
+     Ai, and Zheng Xu. Automatic epileptic seizure detection based on persistent
+     homology. Frontiers in Physiology, 14, 12 2023.
+
+
+
+                                         16
+[17] Ziwei Wang and Paolo Mengoni. Seizure classification with selected frequency
+     bands and eeg montages: a natural language processing approach. Brain
+     Informatics, 9(1), May 2022.
+[18] Rohan Akut. Wavelet based deep learning approach for epilepsy detection. Health
+     Information Science and Systems, 7(1), April 2019.
+[19] Md. Mamun or Rashid and Mohiuddin Ahmad. Epileptic seizure classification
+     using statistical features of eeg signal. In 2017 International Conference on
+     Electrical, Computer and Communication Engineering (ECCE), pages 308–312.
+     IEEE, 2017.
+[20] Khaled M. Alalayah, Ebrahim Mohammed Senan, Hany F. Atlam,
+     Ibrahim Abdulrab Ahmed, and Hamzeh Salameh Ahmad Shatnawi. Effective
+     early detection of epileptic seizures through eeg signals using classification
+     algorithms based on t-distributed stochastic neighbor embedding and k-means.
+     Diagnostics, 13(11):1957, June 2023.
+[21] Milind Natu, Mrinal Bachute, Shilpa Gite, Ketan Kotecha, and Ankit Vid-
+     yarthi. Review on epileptic seizure prediction: Machine learning and deep learning
+     approaches. Computational and Mathematical Methods in Medicine, 2022:1–17,
+     January 2022.
+[22] Y. Yacoob and L.S. Davis. Recognizing human facial expressions from long
+     image sequences using optical flow. IEEE Transactions on Pattern Analysis and
+     Machine Intelligence, 18(6):636–642, June 1996.
+[23] M. Winterhalder, T. Maiwald, H.U. Voss, R. Aschenbrenner-Scheibe, J. Timmer,
+     and A. Schulze-Bonhage. The seizure prediction characteristic: a general frame-
+     work to assess and compare seizure prediction methods. Epilepsy & Behavior,
+     4(3):318–325, 2003.
+[24] Yue Hu, Jian Liu, Rencheng Sun, Yongqiang Yu, and Yi Sui. Classification of
+     epileptic seizures in eeg data based on iterative gated graph convolution network.
+     Frontiers in Computational Neuroscience, 18, August 2024.
+[25] Gunnar Carlsson. Topology and data. Bulletin of the American Mathematical
+     Society, 46(2):255–308, 2009.
+[26] Henry Adams, Tamal Emerson, Michael Kirby, Rachel Neville, Chris Peterson,
+     Patrick Shipman, and Sophia Chepushtanova. Persistence images: A stable vector
+     representation of persistent homology. Journal of Machine Learning Research,
+     18(8):1–35, 2017.
+[27] Sarah Tymochko, Elizabeth Munch, and Firas A. Khasawneh. Adaptive partition-
+     ing for template functions on persistence diagrams. 2019 18th IEEE International
+     Conference On Machine Learning And Applications (ICMLA), page 1227–1234,
+     December 2019.
+[28] John M. Bernabei, Adam Li, Andrew Y. Revell, Rachel J. Smith, Kristin M.
+     Gunnarsdottir, Ian Z. Ong, Kathryn A. Davis, Nishant Sinha, Sridevi Sarma, and
+     Brian Litt. Hup ieeg epilepsy dataset. 2023.
+[29] C. Wang et al. Artificial intelligence in electroencephalography analysis for
+     epilepsy: A review. Frontiers in Neurology, 2025.
+[30] Yuan Wang, Hernando Ombao, and Moo K. Chung. Topological data analysis
+     of single-trial electroencephalographic signals. The Annals of Applied Statistics,
+
+
+
+                                          17
+12(3), September 2018.
+
+
+
+
+                         18
+
