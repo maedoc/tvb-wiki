@@ -1,0 +1,980 @@
+                                                                                                                       TYPE Original Research
+                                                                                                                       PUBLISHED 12 December 2025
+                                                                                                                       DOI 10.3389/fnins.2025.1716204
+
+
+
+
+                                                    A hybrid Spiking Neural
+OPEN ACCESS                                         Network–Transformer
+                                                    architecture for motor imagery
+EDITED BY
+Lei Deng,
+Tsinghua University, China
+
+REVIEWED BY
+Siying Liu,
+                                                    and sleep apnea detection
+Tsinghua University, China
+Jingyue Zhao,
+Qiyuan Lab, China                                   Duc Thien Pham*, Maryam Khoshkhooy Titkanlou and
+*CORRESPONDENCE                                     Roman Mouc̆ek
+Duc Thien Pham
+  ducthien@kiv.zcu.cz                               Department of Computer Science and Engineering, Faculty of Applied Sciences, University of West
+                                                    Bohemia in Pilsen, Pilsen, Czechia
+RECEIVED 30 September 2025
+REVISED 18 November 2025
+ACCEPTED 24 November 2025
+PUBLISHED 12 December 2025                          Introduction: Motor imagery (MI) classiﬁcation and sleep apnea (SA) detection
+CITATION                                            are two critical tasks in brain-computer interface (BCI) and biomedical signal
+Pham DT, Titkanlou MK and Mouc̆ek R (2025)          analysis. Traditional deep learning models have shown promise in these domains,
+A hybrid Spiking Neural Network–Transformer
+architecture for motor imagery and sleep            but often struggle with temporal sparsity and energy efficiency, especially in
+apnea detection. Front. Neurosci. 19:1716204.       real-time or embedded applications.
+doi: 10.3389/fnins.2025.1716204                     Methods: In this study, we propose SpiTranNet, a novel architecture that deeply
+COPYRIGHT                                           integrates Spiking Neural Networks (SNNs) with Transformers through Spiking
+© 2025 Pham, Titkanlou and Mouc̆ek. This is
+                                                    Multi-Head Attention (SMHA), where spiking neurons replace standard activation
+an open-access article distributed under the
+terms of the Creative Commons Attribution           functions within the attention mechanism. This integration enables biologically
+License (CC BY). The use, distribution or           plausible temporal processing and energy-efficient computations while
+reproduction in other forums is permitted,
+                                                    maintaining global contextual modeling capabilities. The model is evaluated
+provided the original author(s) and the
+copyright owner(s) are credited and that the        across three physiological datasets, including one electroencephalography
+original publication in this journal is cited, in   (EEG) dataset for MI classiﬁcation and two electrocardiography (ECG) datasets
+accordance with accepted academic practice.
+                                                    for SA detection.
+No use, distribution or reproduction is
+permitted which does not comply with these          Results: Experimental results demonstrate that the hybrid SNN-Transformer
+terms.                                              model achieves competitive accuracy compared to conventional machine
+                                                    learning and deep learning models.
+                                                    Discussion: This work highlights the potential of neuromorphic-inspired
+                                                    architectures for robust and efficient biomedical signal processing across diverse
+                                                    physiological tasks.
+
+                                                    KEYWORDS
+
+                                                    motor imagery, brain-computer interface, sleep apnea, EEG, ECG, spiking neural
+                                                    network, Transformer
+
+
+
+                                                    1 Introduction
+                                                        Sleep apnea (SA) is a common sleep disorder marked by recurrent pauses in breathing
+                                                    during sleep. These pauses, known as apneas, can happen repeatedly throughout the night,
+                                                    resulting in disrupted sleep and potentially serious health issues if not properly managed.
+                                                    There are two main types of SA: obstructive sleep apnea (OSA) and central sleep apnea
+                                                    (CSA). OSA, the more prevalent type, is usually caused by the relaxation of throat muscles,
+                                                    whereas CSA is due to the brain’s failure to send appropriate signals to the muscles that
+                                                    control breathing (Benjaﬁeld et al., 2019; Kapur et al., 2017). SA is typically diagnosed by
+                                                    measuring the number of apnea and hypopnea events during sleep, averaged per hour
+                                                    to calculate indices like the Apnea-Hypopnea Index (AHI) or Respiratory Disturbance
+                                                    Index (RDI). These indices help determine the severity of the disorder. While direct
+                                                    measurements of airﬂow and respiratory eﬀort, such as those obtained using an esophageal
+                                                    balloon, oﬀer accuracy, they are invasive and are rarely used. Instead, polysomnography, a
+
+
+Frontiers in Neuroscience                                                 01                                                            frontiersin.org
+Pham et al.                                                                                                               10.3389/fnins.2025.1716204
+
+
+
+
+less intrusive and widely accepted method, is commonly preferred                layers, processing temporal dynamics and sparse, energy-eﬃcient
+(American Academy of Sleep Medicine, 1999).                                     computations. By integrating both components, SpiTranNet
+     Electrocardiography (ECG) has gained attention as a valuable               aims to enhance classiﬁcation performance while maintaining
+method for SA detection due to its non-invasive nature and broad                computational eﬃciency, making it a promising approach for real-
+accessibility. The key principle behind ECG-based SA detection is               time and resource-constrained biomedical applications. The main
+that apnea events cause alterations in heart rate variability (HRV),            contributions of this study are as follows:
+which can be captured using a single-lead ECG (Faust et al.,
+2021; Yang et al., 2022). These events disrupt airﬂow and blood                   • To develop a novel hybrid neural network model named
+oxygen levels, triggering compensatory cardiovascular responses.                    SpiTranNet for sleep apnea detection using single-lead ECG
+To detect SA, researchers extract informative features, such as                     signals and motor imagery classiﬁcation using multi-channel
+RR intervals and statistical HRV measures from ECG signals                          EEG data.
+and feed them into machine learning (ML) or deep learning                         • To evaluate SpiTranNet’s performance against existing
+(DL) models, including convolutional neural networks (CNNs).                        methods and demonstrate its ability to achieve state-of-the-art
+Although ECG oﬀers a practical and aﬀordable approach, it faces                     accuracy across both tasks.
+challenges like interference from coexisting cardiac conditions and               • To design an eﬃcient architecture that balances model
+the need for validation across diverse populations (Wang et al.,                    complexity and computational cost, ensuring suitability for
+2019). Furthermore, balancing model accuracy with computational                     real-time and resource-constrained healthcare applications.
+eﬃciency remains a critical hurdle, particularly for real-time or
+home-based healthcare applications.                                                 The rest of the paper is organized as follows. Section 2 reviews
+     Brain–computer interfaces (BCIs) are artiﬁcial systems that                related work. Section 3 describes the proposed model, the dataset,
+capture, process, and convert neural activity into control signals              data preprocessing, and evaluation methodology. Section 4 presents
+for external devices, facilitating direct connection between the                the experimental results in both tasks, while Section 5 provides the
+brain and machines independent of the peripheral nervous                        discussion. Finally, Section 6 concludes the paper.
+system (Schirrmeister et al., 2017). These systems have important
+applications in assistive technology, neurorehabilitation, and
+helping people with motor disabilities regain their sensory-motor               2 Related work
+abilities. Electroencephalography (EEG) is the most widely used
+brain acquisition method in BCI research, as it is non-invasive,                2.1 Sleep apnea
+portable, oﬀers high temporal resolution, and is aﬀordable (Saha
+et al., 2021). Speciﬁc protocols and paradigms must be selected to                  SA detection has primarily been studied using two public
+implement an EEG-based BCI system for a particular application.                 datasets: PhysioNet Apnea-ECG and UCDDB, with performance
+The motor imagery (MI) paradigm enables users to control systems                typically evaluated at both the per-segment and per-recording
+by imagining the movements of their limbs without actually                      levels. Currently, models for detecting SA using single-lead ECG
+executing them (Altaheri et al., 2023).                                         signals are being developed using both ML and DL approaches.
+     MI is a signiﬁcant paradigm in BCI applications, as it enables             Sharma et al. (2018) introduced a method utilizing a biorthogonal
+precise intention identiﬁcation when brain–computer interface                   antisymmetric wavelet ﬁlter bank (BAWFB) combined with a
+(BCI) technology is used to analyze MI signals. The development                 support vector machine (SVM) for OSA classiﬁcation. Their
+of BCI devices to help people with movement disabilities (Scherer               approach achieved average classiﬁcation metrics of 90.11%
+et al., 2015), assist stroke patients in their rehabilitation (Pichiorri        accuracy, 90.87% sensitivity, 88.88% speciﬁcity, and an F-score of
+et al., 2015), and improve motor abilities (Moran et al., 2012)                 0.92 on the PhysioNet Apnea-ECG dataset. Hassan and Haque
+depends signiﬁcantly on the classiﬁcation of MI signals. Deep                   (2017) applied the tunable-Q factor wavelet transform (TQWT)
+learning networks with a neuroscience focus have recently gained                to extract features from single-lead ECG signals and utilized the
+popularity in brain-inspired intelligence due to their remarkable               random under-sampling boosting (RUSBoost) algorithm for SA
+biological ﬁdelity compared to conventional machine learning                    classiﬁcation. Their method achieved an accuracy of 88.88%, a
+methods for MI-BCI classiﬁcation.                                               sensitivity of 87.58%, and a speciﬁcity of 91.49% on the PhysioNet
+     Although signiﬁcant progress has been made in automated                    Apnea-ECG dataset. When evaluated on the UCDDB dataset,
+detection of SA and MI classiﬁcation, existing models often face                the performance improved, yielding 91.94% accuracy, 90.35%
+challenges in eﬀectively capturing both ﬁne-grained temporal                    sensitivity, and 92.67% speciﬁcity.
+dynamics and long-range dependencies in physiological signals. In                   Li et al. (2018) proposed a SA detection method combining
+this study, we propose SpiTranNet, a Spiking-Transformer network                a sparse autoencoder for unsupervised ECG feature learning
+designed for two key tasks: the automatic detection of SA using                 with SVM classiﬁcation, followed by a hidden Markov model
+single-lead ECG signals and MI classiﬁcation using multi-channel                (HMM) for sequence modeling. The approach achieved 85%
+EEG data. The SpiTranNet integrates SNNs and Transformers                       accuracy for per-segment and 100% for per-recording detection
+through Spiking Multi-Head Attention (SMHA). The Transformer                    on the PhysioNet Apnea-ECG dataset. Chen et al. (2022)
+component provides global contextual modeling through multi-                    proposed an end-to-end spatio-temporal model for SA detection,
+head self-attention, capturing long-range dependencies across                   composed of repeated blocks combining CNN, max-pooling, and
+physiological signals. The SNN component enhances this through                  bidirectional GRU (BiGRU) layers. This architecture eﬀectively
+biologically plausible spiking mechanisms within the attention                  captures both spatial morphology and temporal dynamics from
+
+
+
+Frontiers in Neuroscience                                                  02                                                         frontiersin.org
+Pham et al.                                                                                                           10.3389/fnins.2025.1716204
+
+
+
+
+ECG signals. Their CNN-BiGRU model achieved 91.22% accuracy                 classiﬁcation methods due to its well-deﬁned multi-class MI EEG
+for per-minute and 97.10% for per-recording classiﬁcation on                recordings. This section highlights recent studies that classiﬁed
+the PhysioNet Apnea-ECG dataset, as well as 91.24% accuracy                 this dataset using DL techniques, highlighting the advancements
+on the UCDDB dataset. In other work, Tyagi and Agrawal                      in architectures and performance trends in this area. CNNs
+(2023) introduced a ﬁne-tuned enhanced Deep Belief Network                  have drawn much attention due to the remarkable advances in
+(FT-EDBN) for SA classiﬁcation using single-lead ECG signals.               computer hardware technology, and they have made it easier to
+The model learns discriminative features from training data to              apply deep learning to the classiﬁcation of motor imaging signals
+distinguish between apnea and normal episodes. On the PhysioNet             (Altaheri et al., 2023). Amin et al. (2021) present an attention-
+Apnea-ECG dataset, FT-EDBN achieved 89.11% accuracy for per-                guided Inception CNN and LSTM for the classiﬁcation of EEG
+segment detection, with 92.28% speciﬁcity, 83.89% sensitivity, and          MI in rehabilitation applications. The model maintains a low
+an F1-score of 0.913. For per-recording detection, it reached 97.17%        computational cost while capturing temporal interdependence
+accuracy and a correlation coeﬃcient of 0.938.                              and multi-scale spatial features. It outperformed several modern
+     Recently, Zhao Y. et al. (2024) proposed a dual-multiscale             methods (Fadel et al., 2020; Lawhern et al., 2018; Sakhavi et al.,
+interactive attention-based CNN (DM-IACNN) for automatic SA                 2015) with an accuracy of 82.8% on the BCI Competition IV-2a
+detection using single-lead ECG signals. The model incorporates             dataset. Altaheri et al. (2022) oﬀer ATCNet, a physics-informed
+an interactive multiscale extraction (IMSE) module to capture               attention-based Temporal Convolutional Network for EEG MI
+intra-segment features, followed by a temporal-wise attention               classiﬁcation. The model eﬃciently captures spatial and temporal
+module to enhance temporal representation. It also utilizes                 EEG patterns by combining CNN feature encoding, multi-head
+three adjacent ECG segments of varying lengths as multiscale                self-attention, and TCN layers. ATCNet outperformed various
+inputs, fused via a scale-wise attention module to capture                  state-of-the-art techniques (Ingolfsson et al., 2020) with an average
+transition patterns across segments. Evaluated on the PhysioNet             accuracy of 85.38% when implemented on the BCI Competition
+Apnea-ECG dataset, DM-IACNN achieved 91.02% accuracy for                    IV-2a dataset. Due to their strong feature extraction capabilities,
+per-segment and 100% for per-recording classiﬁcation. Gayen                 CNN-based deep learning models have dominated EEG decoding;
+et al. (2025) proposed SmartMatch, a semi-supervised learning               although they have low energy eﬃciency, redundant computation,
+(SSL) framework that reduces dependence on annotated data                   and limited biological interpretability. SNNs, on the other hand,
+by eﬀectively leveraging unlabeled ECG signals. Inspired by                 are a desirable substitute for next-generation BCIs because they
+hierarchical leader-follower dynamics, the framework combines               process data using discrete spike events, which naturally capture
+deep metric learning with adaptive batch hard mining, pseudo-               temporal information in EEG while enabling energy-eﬃcient
+labeling, and temporal ensembling to enhance feature quality                neuromorphic deployment.
+and learning stability. On the PhysioNet Apnea-ECG dataset,                      SNNs have been considered the third-generation neural
+SmartMatch achieved per-segment results with 91.99% accuracy,               network model in recent years (Maass, 1997), and they function
+91.98% precision, 91.99% recall, and a 91.97% F1-score. Ullah               more like biological neurons in the brain than artiﬁcial neural
+et al. (2025) proposed a DL model, CSAC-Net (Convolutional Self-            networks (ANNs). Its unique coding processes and rich
+Attention with Adaptive Channel-Attention Network), to tackle               neurodynamic features in the spatiotemporal domain have
+key challenges in SA detection. The model addresses the ﬁrst                drawn considerable interest from academics. In the ﬁeld of
+challenge by incorporating a convolutional self-attention module            pattern recognition, SNNs are currently the subject of numerous
+within a multi-scale projection framework, enabling the capture             applications, including data processing (Rasteh et al., 2022) and
+of long-range dependencies through diverse feature fusion. CSAC-            image recognition (Fang et al., 2021). SCNet, a spiking neural
+Net was evaluated on two public datasets, PhysioNet Apnea-                  network model, was introduced by Liao et al. (2023). It combines
+ECG and national sleep research resource best apnea interventions           the biological interpretability of SNNs with the feature extraction
+in research (NSRR-BestAIR), achieving accuracies of 93.4% and               capabilities of CNNs. The model employs adaptive, learnable
+76.1%, respectively. However, most existing approaches still rely           coding to minimize information loss, improve classiﬁcation
+on CNN–RNN or CNN–attention architectures that struggle to                  accuracy, and closely replicate neural dynamics. By using surrogate
+fully capture both long-range temporal dependencies and temporal            gradient learning to address SNN training issues, it achieved
+dynamics in apnea-related ECG patterns. Their computational                 88.2% accuracy on BCI IV-2a. The SNN model improved local
+cost also limits deployment on embedded medical devices. In                 feature extraction but has limited ability to capture global temporal
+contrast, our SpiTranNet model oﬀers a promising direction by               dependencies between EEG channels due to their convolutional
+deeply integrating Spiking Neural Networks and Transformers                 structure. Lately, Li et al. (2024) present HR-SNN, a robust SNN
+through SMHA, combining energy-eﬃcient temporal processing                  that uses a hybrid response spiking module to improve frequency
+with global contextual modeling to address key gaps in current SA           perception and enhances spike encoding with parameter-wise
+detection research.                                                         gradient descent. The SNN output consumption is optimized
+                                                                            using a diﬀ-potential spiking decoder. HR-SNN attains an average
+                                                                            accuracy of 77.58% on BCI Competition IV 2a, 74.95% with
+                                                                            subject-speciﬁc transfer learning, and 67.24% on PhysioNet
+2.2 Motor imagery                                                           with global training. Despite these advancements, HR-SNN
+                                                                            lacked attention-based procedures to capture global contextual
+   The BCI Competition IV 2a dataset is one of the most                     interactions across channels and time segments and continued
+popular benchmark datasets for evaluating and comparing BCI                 to use locally connected spiking modules. On the other hand,
+
+
+
+Frontiers in Neuroscience                                              03                                                          frontiersin.org
+Pham et al.                                                                                                           10.3389/fnins.2025.1716204
+
+
+
+
+our proposed SpiTranNet integrates the attention mechanism                                                       1
+                                                                             S(t) ≈ σ (V(t)) =                                               (1)
+of Transformers with the energy-eﬃcient temporal processing                                      1 + exp −temp · (V(t) − threshold)
+of SNNs through SMHA, allowing the model to jointly learn
+long-range and local temporal correlations from EEG signals.              where σ (V(t)) is the smoothed ﬁring probability, temp is a
+                                                                          temperature parameter controlling the sharpness of the sigmoid,
+                                                                          V(t) is the membrane potential at time step t.
+                                                                              To enable smooth gradient ﬂow during backpropagation, the
+3 Materials and method                                                    gradient of the spike output with respect to the membrane potential
+                                                                          is approximated using a sigmoid function:
+    Conventionally, ECG and EEG signals are time series
+characterized by strong long-term temporal dependencies. Our
+proposed SpiTranNet architecture deeply integrates SNN and                ∂S(V(t))
+                                                                                   = σ (V(t) − threshold) · (1 − σ (V(t) − threshold)) · temp
+Transformer components through SMHA to eﬀectively capture                  ∂V(t)
+these dependencies while leveraging the distinct advantages of                                                                             (2)
+each approach. SNNs provide biologically plausible temporal               where σ (x) = 1+e1 −x : Sigmoid function, temp: Temperature
+processing and energy-eﬃcient computations, while Transformers            parameter controlling the steepness of the sigmoid.
+excel at learning complex, long-range temporal patterns through
+global contextual modeling. By integrating these complementary
+strengths, our model enhances classiﬁcation performance                   3.1.2 Spiking multi-head attention
+and computational eﬃciency across diverse datasets. This                      In this section, we propose the SMHA mechanism, which
+hybrid framework demonstrates versatility in handling various             extends traditional self-attention by integrating spiking activations.
+physiological signals, showing strong potential for both SA               This allows attention outputs to exhibit discrete, event-driven
+detection from ECG and MI classiﬁcation from EEG data.                    behavior analogous to biological neurons, potentially improving
+                                                                          energy eﬃciency and temporal pattern recognition.
+                                                                              In SMHA, the input tensors (query Q, key K, and value V) are
+                                                                          linearly transformed and used to compute attention scores. The
+3.1 SpiTranNet method                                                     core operation involves the scaled dot-product of the queries and
+                                                                          key, followed by a softmax function to generate attention weights.
+    We introduce SpiTranNet, a Spiking-Transformer network                The ﬁnal output is a weighted sum of V, emphasizing features
+for SA and MI classiﬁcation. The model begins with a three-               relevant to the query:
+layer CNN using ﬁlter sizes of 32, 64, and 64 with a kernel
+size of 17, which extracts local temporal features and reduces                                                                 
+                                                                                                                    QK T
+input dimensionality through max pooling. This design captures                         Attention(Q, K, V) = softmax                V          (3)
+meaningful patterns while lowering computational cost. The CNN                                                       dk
+output is then processed by a Spiking-Transformer that integrates
+                                                                          where QK T is the dot product between the query and key matrices,
+SMHA to model temporal dependencies in EEG/ECG signals. The
+                                                                          dk is the dimensionality of the key vectors, softmax is applied to
+overall framework is illustrated in Figure 1.
+                                                                          each row of QK T to produce a set of attention scores.
+    The Transformer Encoder (Vaswan et al., 2017) applies layer
+                                                                              The output of the SMHA mechanism is then passed through a
+normalization and positional encoding, then uses SMHA to
+                                                                          Spiking Neuron layer.
+capture temporal patterns with spiking dynamics. The attention
+output is normalized and processed through a feed-forward
+network that includes spiking neuron cells, enabling energy-
+                                                                                            SMHA = S(Attention(Q, K, V))                       (4)
+eﬃcient computation through sparse activations. The Transformer
+Decoder follows a similar structure, with SMHA and an additional
+attention layer to incorporate encoder outputs. Dropout is applied
+to prevent overﬁtting, creating a cohesive spiking-transformer
+                                                                          3.2 Dataset
+architecture for temporal sequence processing.
+                                                                              In this study, we used three public datasets:
+
+
+
+3.1.1 Spiking neuron                                                      3.2.1 PhysioNet Apnea-ECG dataset
+    The Spiking Neuron Layer mimics the behavior of biological                The PhysioNet Apnea-ECG dataset, provided by Philipps
+neurons by using threshold-based activation, generating discrete          University (Penzel et al., 2000; Goldberger et al., 2000), is a publicly
+spikes when the input surpasses a certain threshold. To enable            available resource used to evaluate our proposed method against
+backpropagation despite the non-diﬀerentiability of spike                 existing approaches. It consists of 70 single-lead ECG recordings
+generation, a surrogate gradient method is employed for                   sampled at 100 Hz, each lasting between 401 and 578 min. The
+approximating the gradient. The spiking neuron algorithm is               dataset is split into a released set (35 recordings) for model
+outlined as follows (Eshraghian et al., 2023):                            training and parameter tuning, and a withheld set (35 recordings)
+    The output spike S(t) can be approximated as:                         for testing. According to American Academy of Sleep Medicine
+
+
+
+Frontiers in Neuroscience                                            04                                                             frontiersin.org
+Pham et al.                                                                                                         10.3389/fnins.2025.1716204
+
+
+
+
+   FIGURE 1
+   The architecture of the SpiTranNet model.
+
+
+
+
+(AASM) standards, the withheld set includes 23 recordings from             Each session had 288 trials, with 72 trials per class. With breaks,
+SA subjects and 12 from normal subjects.                                   the average time to ﬁnish a trial was about 8 seconds, with each
+    Each one-minute segment was annotated by an expert:                    trial lasting roughly 6 seconds from the moment a ﬁxed cross
+segments with apnea events were labeled SA, and those without              appeared until it vanished, as shown in Figure 2. The signals were
+as normal. The annotations do not diﬀerentiate between hypopnea            recorded at 250 Hz and bandpass ﬁltered between 0.5 and 100
+and apnea and exclude CSA events. The released and withheld sets           Hz. A 50 Hz notch ﬁlter was used to reduce line noise, and the
+contain 17,125 (6,514 SA; 10,611 normal) and 17,303 (6,552 SA;             ampliﬁer’s sensitivity was adjusted to 100 μV (Tangermann et al.,
+10,751 normal) labeled segments, respectively.                             2012).
+
+
+
+3.2.2 UCD St. Vincent’s University Hospital’s sleep                        3.3 Data preprocessing
+apnea database
+    The UCDDB dataset consists of polysomnography (PSG)                    3.3.1 Sleep apnea
+recordings from 25 subjects (21 males and 4 females) (Goldberger               For the PhysioNet Apnea-ECG dataset, we used the Hamilton
+et al., 2000). For this study, we extracted ECG signals sampled            algorithm (Hamilton, 2002) to detect R peaks, from which R-R
+at 128 Hz, using expert-labeled annotations to classify each sleep         intervals (RRI) and R peak amplitudes were derived. ECG signals
+segment as apnea or non-apnea. To mitigate class imbalance, we             were normalized and ﬁltered using a FIR bandpass ﬁlter. A median
+applied oversampling to increase the representation of apnea events        ﬁlter, as suggested by Chen et al. (2015), was applied to remove
+in the training and validation sets. Subjects without any recorded         spikes without distorting RRI trends. Cubic interpolation was used
+apnea events (ucddb008, ucddb011, ucddb013, and ucddb018) were             to detect false R peaks by comparing adjacent RRIs to a robust
+excluded from the analysis.                                                estimate (Almutairi et al., 2021). From each 5-min segment, 900
+                                                                           RRI and 900 R amplitude points were extracted (Wang et al., 2019).
+                                                                           After removing 774 faulty segments, 33,654 segments remained:
+3.2.3 BCI Competition IV 2a                                                16,709 (6,473 SA, 10,236 normal) in the released set and 16,945
+     The BCI Competition IV 2a (BCI-IV-2a) dataset (Brunner                (6,490 SA, 10,455 normal) in the withheld set.
+et al., 2008) includes recordings from nine subjects using 22                  For the UCDDB dataset, following prior studies (John et al.,
+EEG channels and 3 monopolar Electrooculography (EOG)                      2021) that use second-by-second detection, we ﬁxed the window
+channels. This dataset is available for download at https://bbci.          size at 11 seconds, since an apnea event is deﬁned as at least 10
+de/competition/iv/download/. During the experiment, subjects               seconds of breathing cessation. To eﬀectively capture these events,
+were instructed to imagine four types of movements: right hand,            overlapping 11-second windows were created with a 10-second
+left hand, both feet simultaneously, and tongue movements. On              overlap. Each window was labeled as apnea or non-apnea based on
+separate dates, two recording sessions (T and E) were conducted.           the state of the 2nd second within the window.
+
+
+
+
+Frontiers in Neuroscience                                             05                                                         frontiersin.org
+Pham et al.                                                                                                                   10.3389/fnins.2025.1716204
+
+
+
+
+   FIGURE 2
+   Processes within the motor imagery paradigm (Brunner et al., 2008).
+
+
+
+
+3.3.2 Motor imagery                                                                 studies systematically analyze the impact of individual components
+     First, the spatial ﬁltering is applied to the dataset. EEG                     on overall model performance under diﬀerent conditions. In our
+recordings measure the electrical potential diﬀerence between each                  experiments, we compared three models (SNN, Transformer, and
+electrode and the reference electrode. Any noise present in the                     SpiTranNet) by selectively removing or altering speciﬁc parts. This
+reference electrode would aﬀect each electrode. We used Common                      approach enabled us to quantify the eﬀect of each component on
+Average Referencing (CAR) to increase the signal’s signal-to-noise                  performance and gain a deeper understanding of how combining
+ratio (SNR). The new reference in CAR is the average of the                         spiking neurons with a Transformer architecture enhances SA and
+electrical activity recorded across all channels. Only the exclusive                MI classiﬁcation.
+activity of each EEG signal in each channel remains after the
+CAR ﬁlter eliminates common internal and external noise sources
+(Michelmann et al., 2018). The following formula can be used to                     3.5 Training
+determine each electrode’s potential following CAR application (Yu
+et al., 2014):                                                                           The model was optimized using the Adam optimizer,
+                                                                                    employing the binary cross-entropy loss function for SA
+                                           1
+                                             C                                      classiﬁcation and the categorical cross-entropy loss function for
+                    xiCAR (t) = xi (t) −      xj (t)                     (5)        MI classiﬁcation. Based on empirical tuning, the initial learning
+                                           C
+                                             j=1
+                                                                                    rate was set to 0.001. We applied the ReduceLROnPlateau strategy
+where C is the total number of electrodes, xiCAR (t) is the spatially               to automatically decrease the learning rate when validation
+ﬁltered output of electrode ith, and xj (t) is the electrical potential             performance plateaued. To prevent overﬁtting, early stopping was
+diﬀerence between the jth electrode and the reference.                              used, terminating training if the validation loss did not improve
+    Then we applied frequency ﬁltering. When a movement                             over 30 consecutive epochs. For performance evaluation, we used
+is prepared and executed unimanually, the amplitude of the                          ﬁve-fold cross-validation on the PhysioNet Apnea-ECG dataset.
+contralateral sensorimotor cortex EEG signals in the mu band (8–                    In contrast, for the UCDDB dataset, we employed a hold-out
+13 Hz) and beta band (13–30 Hz) decreases. A decrease in the                        validation strategy by dividing the data into training, validation,
+amplitude of the active cortical EEG signals is referred to as event-               and testing sets in an 8:1:1 ratio. For the BCI-IV-2a dataset, data
+related desynchronization (ERD). Event-related synchronization                      were divided into training and test sets for assessment, and the
+(ERS), which signiﬁes an increase in the amplitude of the                           evaluation session was then re-split into 80% training and 20%
+corresponding cortical signals in the resting state, occurs                         testing. It is worth mentioning that batch size was 16 and number
+simultaneously with an increase in the amplitude of the ipsilateral                 of epochs were 100.
+sensorimotor cortical EEG signals in the alpha and beta frequency
+bands. We used a band-pass ﬁlter to extract the mu and beta bands
+to fully achieve ERD and ERS (Tayeb et al., 2019). In many studies,                 3.6 Performance metrics
+the frequency band ranges of Mu and Beta diﬀer. For the Mu band
+and Beta band, respectively, [8–14 Hz] and [15–30 Hz] are typically                     For SA classiﬁcation, we used accuracy (Acc), sensitivity (Sen),
+taken into consideration (Tayeb et al., 2019).                                      speciﬁcity (Spe), precision (Pre), F1-score, the area under the
+                                                                                    receiver operating characteristic curve (AUC), and Cohen’s kappa
+                                                                                    (k) as the evaluation metrics for per-segment SA detection. With
+3.4 Ablation study                                                                  per-recording evaluation, the performance metrics include Acc,
+                                                                                    Sen, Spe, AUC, and the Pearson correlation coeﬃcient (Corr). In
+   To evaluate the contribution of each component in the                            accordance with AASM guidelines, a recording is classiﬁed as SA
+proposed model, we performed ablation experiments. Ablation                         if the Apnea-Hypopnea Index (AHI) exceeds 5; otherwise, it is
+
+Frontiers in Neuroscience                                                      06                                                         frontiersin.org
+Pham et al.                                                                                                             10.3389/fnins.2025.1716204
+
+
+
+
+labeled as normal (Berry et al., 2012). The AHI for each recording is        its superior performance compared to other models. As shown in
+calculated from the per-segment SA detection results and is deﬁned           Table 4, SpiTranNet demonstrates better performance than existing
+as follows:                                                                  approaches, achieving an accuracy, sensitivity, speciﬁcity, F1-score,
+                                                                             AUC, and k of 99.4%, 97.6%, 99.5%, 0.899, 0.999, and 0.896,
+                                    60                                       respectively. Figure 5 shows the training and validation accuracy
+                            AHI =      ×N                        (6)         and loss curves on the UCDDB dataset.
+                                    T
+where T denotes the total number of 1-min ECG segment signals,
+and N is the number of corresponding one-minute-long SA
+segments.                                                                    4.2 Motor imagery
+   The Pearson correlation coeﬃcient is used to evaluate the
+eﬀectiveness of the proposed method in per-recording SA detection                 Table 5 summarizes binary MI classiﬁcation (right-hand/left-
+by quantifying the correlation between the predicted and actual              hand) performance metrics of our proposed method on the BCI-
+AHI values. This metric provides a reliable measure of agreement             IV-2a dataset, where the model achieved an accuracy of 88.4%,
+between estimated and true AHI values (Sharma and Sharma,                    precision of 88.5%, recall of 89.5%, F1-score of 0.865, speciﬁcity of
+2016). It is deﬁned as:                                                      83.0%, kappa of 0.750, and an AUC of 0.948. These results indicate
+                                                                             consistent eﬀectiveness across all evaluation measures, including
+                                                                            accuracy, precision, recall, F1-score, and speciﬁcity, with accuracy
+                               (X − X̄)(Y − Ȳ)
+                 Corr =                                        (7)         exceeding 90% for most subjects. This demonstrates the model’s
+                              (X − X̄)2 (Y − Ȳ)2                            robustness and potential applicability to the classiﬁcation task, as
+                                                                             well as its potential use in real-life scenarios.
+where X is the list of actual AHI values, Y is the list of estimated
+                                                                                  Table 6 compares our approach with representative state-of-
+AHI values, X̄ and Ȳ are mean values of X and Y, respectively.
+                                                                             the-art methods, demonstrating better accuracy and robustness
+    For MI classiﬁcation, the performance of our suggested model
+                                                                             compared to most existing state-of-the-art models. These results
+was assessed using several common metrics, which provide a
+                                                                             contribute to the creation of reliable, understandable, and
+thorough evaluation of the model’s performance across various
+                                                                             implementable BCI systems. Additionally, the confusion matrix for
+classiﬁcation-related ﬁelds, including accuracy, precision, recall,
+                                                                             all subjects is provided in Figure 6, illustrating the total counts of
+F1-score, speciﬁcity, and k.
+                                                                             true positives, true negatives, false positives, and false negatives.
+
+4 Results
+                                                                             5 Discussion
+4.1 Sleep apnea
+                                                                                 In this study, we introduced the SpiTranNet model for
+4.1.1 Results on the Physionet Apnea-ECG                                     classifying SA using single-lead ECG signals from the PhysioNet
+dataset                                                                      Apnea-ECG and UCDDB datasets, as well as for MI classiﬁcation
+    Table 1 summarizes the classiﬁcation performance of three                using multi-channel EEG signals from the BCI Competition
+models for both per-segment and per-recording analysis on the                IV 2a dataset. The model leverages the complementary
+Physionet Apnea-ECG dataset. Among them, SpiTranNet achieves                 strengths of its components: SNNs enable biologically plausible
+the highest per-segment accuracy (95.0%), sensitivity (93.3%),               temporal processing and energy-eﬃcient computations, whereas
+speciﬁcity (96.0%), F1-score (0.935), AUC (0.988), and k (0.894). In         Transformers capture complex, long-range temporal patterns
+the per-recording evaluation, SpiTranNet continues to outperform             through global contextual modeling. By combining these
+the others, attaining perfect scores in accuracy (100%), sensitivity         capabilities, SpiTranNet enhances workﬂow eﬃciency and
+(100%), speciﬁcity (100%), AUC (1.0), and Corr (0.999), further              improves generalizability across diﬀerent datasets. This hybrid
+validating its robustness and generalization ability. The SpiTranNet         approach demonstrates ﬂexibility in handling a variety of
+model has correctly classiﬁed 23 apnea subjects and 12 normal                physiological signals and classiﬁcation tasks, making it a strong
+subjects on the dataset.                                                     model for both SA and MI detection. We also compared its
+    As shown in Tables 2, 3, the per-segment and per-recording               performance against existing state-of-the-art methods.
+performance comparisons on the Physionet Apnea-ECG dataset
+indicate that the SpiTranNet model achieves the highest accuracy
+among state-of-the-art methods. Figure 3 presents the training and           5.1 Sleep apnea
+validation accuracy and loss curves, where the model demonstrates
+stable performance between epochs 10 and 45, with early stopping                 Table 1 compares per-segment and per-recording classiﬁcation
+triggered at epoch 45. The confusion matrix in Figure 4 provides             results on the PhysioNet Apnea-ECG dataset. The proposed
+the per-segment and per-recording classiﬁcation outcomes.                    SpiTranNet consistently outperforms both SNN and Transformer
+                                                                             models, achieving 95.0% per-segment accuracy and perfect per-
+                                                                             recording performance (100% accuracy, sensitivity, and speciﬁcity).
+4.1.2 Results on the UCDDB dataset                                           While the SNN only model demonstrates the fastest training
+    Based on the results in Table 1, the SpiTranNet model was                time (1 s/epoch) and lowest GPU memory usage (20%), its
+selected for evaluation on the UCDDB dataset, primarily due to               performance is limited (78.2% accuracy), highlighting the challenge
+
+
+
+Frontiers in Neuroscience                                               07                                                           frontiersin.org
+Pham et al.                                                                                                                        10.3389/fnins.2025.1716204
+
+
+
+
+TABLE 1 Per-segment and per-recording classiﬁcation results on the Physionet Apnea-ECG dataset.
+
+
+  Model                        Params       Memory                 Time        Acc            Sen           Spe     F1-score    AUC           k            Corr
+                                              (%)               (s/epoch)      (%)            (%)           (%)
+  Per-segment classiﬁcation
+  SNN                             231K            20                 1          78.2          62.0          88.4       0.687     0.814       0.523            -
+
+  Transformer                     3.8M            32                 23         85.7          81.0          88.7       0.813     0.928       0.697            -
+
+  SpiTranNet                      189K            24                 5          95.0          93.3          96.0       0.935     0.988       0.894            -
+
+  Per-recording classiﬁcation
+  SNN                               -             -                  -          97.1           100          95.7            -    0.960         -            0.868
+
+  Transformer                       -             -                  -          94.3          91.7          95.7            -    0.992         -            0.936
+
+  SpiTranNet                        -             -                  -          100           100           100             -     1            -           0.999
+The bold values indicate better results.
+
+TABLE 2 Comparison of the SpiTranNet model with existing methods for per-segment classiﬁcation on the PhysioNet Apnea-ECG dataset.
+
+
+  References                               Year        Methods              Acc (%)            Sen (%)             Spe (%)      F1-score       AUC           k
+  Sharma and Sharma (2016)                 2016        LS-SVM                 83.8                   79.5            88.4             -        0.834         -
+
+  Li et al. (2018)                         2018        DNN-HMM                84.7                   88.9            82.1         0.869        0.869         -
+
+  Wang et al. (2019)                       2019        LeNet-5 CNN            87.6                   83.1            90.3             -        0.950         -
+
+  Almutairi et al. (2021)                  2021        CNN-LSTM               90.9                   91.2            90.4         0.928             -        -
+
+  Chen et al. (2022)                       2022        CNN-BiGRU              91.2                   86.5            94.2         0.883             -        -
+
+  Yeo et al. (2022)                        2022        ResNet18               86.0                   89.0            85.0             -        0.940       0.710
+
+  Chen et al. (2023)                       2023        RAFNet                 91.4                   88.8            93.1             -             -        -
+
+  Tyagi and Agrawal (2023)                 2023        FT-EDBN                89.1                   83.9            92.3         0.913        0.960         -
+
+  Srivastava et al. (2023)                 2023        ALexNet + LSTM         90.9                   95.5            83.4             -             -        -
+
+  Abasi et al. (2023)                      2023        MHBA+LeNet-5           91.3                   90.1            93.6             -        0.975         -
+
+  Zhao Y. et al. (2024)                    2024        DM-IACNN               91.0                   84.3            95.1         0.876             -        -
+
+  Nguyen et al. (2024)                     2024        MPCNN                  92.1                   87.7            94.8             -             -        -
+
+  Pham and Mouc̆ek (2025)                  2025        CNN-Transformer        91.4                   90.6            91.9         0.890        0.969         -
+
+  Ullah et al. (2025)                      2025        CSAC-Net               93.4                   91.4            94.7         0.914        0.980         -
+
+  Gayen et al. (2025)                      2025        SmartMatch             92.0                   92.0            92.0         0.920             -        -
+
+  Zhao Y. et al. (2025)                    2025        SE-MSResNet            91.7                   89.4            93.2         0.892        0.972         -
+
+  Cai et al. (2025)                        2025        TP-CL                  91.4                   90.2            92.1             -        0.963         -
+
+                                                       SpiTranNet             95.0                   93.3            96.0         0.935        0.988       0.894
+The bold values indicate better results.
+
+
+
+of capturing complex temporal patterns with spiking mechanisms                            traditional methods such as LS-SVM (Sharma and Sharma, 2016),
+alone. However, when integrated into SpiTranNet through                                   DNN-HMM (Li et al., 2018), and LeNet-5 CNN (Wang et al., 2019),
+SMHA, the SNN component provides crucial beneﬁts: it enables                              as well as recent deep learning approaches including DM-IACNN
+biologically plausible temporal processing while maintaining                              (Zhao Y. et al., 2024), MPCNN (Nguyen et al., 2024), TP-CL (Cai
+computational eﬃciency. SpiTranNet demonstrates remarkable                                et al., 2025), and CSAC-Net (Ullah et al., 2025). For per-recording
+eﬃciency, requiring only 189K parameters (18% fewer than SNN                              classiﬁcation, SpiTranNet achieves 100% accuracy, sensitivity,
+only and 20× fewer than Transformer) while achieving training                             speciﬁcity, and an AUC of 1.0, with the highest correlation (0.999)
+times of 5 seconds per epoch, substantially faster than Transformer                       between predicted and true apnea indices, demonstrating robust
+and using only 24% GPU memory.                                                            performance at the patient level where consistent detection across
+    Tables 2, 3 further demonstrate that SpiTranNet achieves the                          overnight recordings is crucial.
+high metrics across nearly all evaluation measures, including                                 Table 4 highlights SpiTranNet’s better performance on the
+accuracy (95.0%), sensitivity (93.3%), speciﬁcity (96.0%), F1-                            UCDDB dataset, achieving 99.4% accuracy, 97.6% sensitivity,
+score (0.935), AUC (0.988), and k (0.894), outperforming                                  99.5% speciﬁcity, F1-score of 0.899, AUC of 0.999, and kappa of
+
+
+
+Frontiers in Neuroscience                                                            08                                                            frontiersin.org
+Pham et al.                                                                                                                10.3389/fnins.2025.1716204
+
+
+
+
+TABLE 3 Comparison of the SpiTranNet model with existing methods for per-recording classiﬁcation on the PhysioNet Apnea-ECG dataset.
+
+
+  References                               Year   Methods           Acc (%)            Sen (%)         Spe (%)            AUC             Corr
+  Sharma and Sharma (2016)                 2016   LS-SVM              97.1               95.8             100             0.978            0.841
+
+  Li et al. (2018)                         2018   DNN-HMM             100                 100             100               -                -
+
+  Wang et al. (2019)                       2019   LeNet-5 CNN         97.1                100             91.7              -              0.943
+
+  Chen et al. (2022)                       2022   CNN-BiGRU           97.1               95.7             100               -              0.984
+
+  Yeo et al. (2022)                        2022   ResNet18            97.0               98.0             96.0             0.99              -
+
+  Chen et al. (2023)                       2023   RAFNet              100                 100             100               -              0.985
+
+  Tyagi and Agrawal (2023)                 2023   FT-EDBN             97.1                100             91.7              -              0.938
+
+  Srivastava et al. (2023)                 2023   ALexNet + LSTM      97.1                 -               -                -                -
+
+  Zhao Y. et al. (2024)                    2024   DM-IACNN            100                 100             100               -                -
+
+  Nguyen et al. (2024)                     2024   MPCNN               100                 100             100               -              0.989
+
+  Pham and Mouc̆ek (2025)                  2025   CNN-Transformer     100                 100             100               1              0.984
+
+  Zhao Y. et al. (2025)                    2025   SE-MSResNet         100                 100             100               -                -
+
+  Cai et al. (2025)                        2025   TP-CL               100                 100             100               -                -
+
+                                                  SpiTranNet          100                 100             100               1             0.999
+The bold values indicate better results.
+
+
+
+
+    FIGURE 3
+    The accuracy and loss of training and validation sets on the PhysioNet Apnea-ECG dataset.
+
+
+
+
+0.896. Compared to earlier models, including LeNet-5 CNN (Wang                    across two SA datasets (PhysioNet and UCDDB) highlights its
+et al., 2019), SCNN (Mashrur et al., 2021), ResNet18 (Yeo et al.,                 robustness and suitability for practical, real-world applications
+2022), SE-MSResNet (Zhao Y. et al., 2025), TP-CL (Cai et al., 2025),              in SA screening. Despite these encouraging results, the current
+CNN-LSTM (Zarei et al., 2022), and CNN-BiGRU (Chen et al.,                        validation is limited to publicly available datasets and oﬄine
+2022), SpiTranNet demonstrates superior sensitivity and overall                   evaluation, and occasional per-segment misclassiﬁcations remain,
+balanced performance, which is essential for minimizing missed                    which may aﬀect diagnostic reliability.
+apnea events in clinical diagnostics. These results emphasize the
+eﬀectiveness of integrating SNNs and Transformers, providing a
+model that is both accurate and computationally eﬃcient, with                     5.2 Motor imagery
+robust generalization across multiple datasets.
+    Overall, SpiTranNet’s excellent balance between sensitivity                      Through the exploration and optimization of deep learning
+and speciﬁcity, along with its high AUC and kappa scores,                         models across the benchmark dataset, speciﬁcally the BCI
+indicates both precise and reliable SA detection. Its generalization              competition IV-2a, this study aimed to improve the classiﬁcation of
+
+
+
+Frontiers in Neuroscience                                                    09                                                         frontiersin.org
+Pham et al.                                                                                                       10.3389/fnins.2025.1716204
+
+
+
+
+    FIGURE 4
+    The confusion matrix of (a) Per-segment and (b) Per-recording on the PhysioNet Apnea-ECG dataset.
+
+
+
+TABLE 4 Comparison of the SpiTranNet model with existing methods on the UCDDB dataset.
+
+
+  References                        Year   Methods              Acc (%)           Sen (%)           Spe (%)    F1-score      AUC        k
+  Wang et al. (2019)                2019   LeNet-5 CNN             71.8             26.6                86.9       -            -       -
+
+  Mashrur et al. (2021)             2021   SCNN                    81.9             71.6                86.1     0.696          -       -
+
+  Zarei et al. (2022)               2022   CNN-LSTM                93.7             90.7                95.8       -            -       -
+
+  Chen et al. (2022)                2022   CNN-BiGRU               92.3             70.5                93.9     0.760          -       -
+
+  Yeo et al. (2022)                 2022   ResNet18                78.0             60.0                84.0       -          0.820   0.440
+
+  Nguyen et al. (2024)              2024   MPCNN                   81.3             40.3                87.7       -            -       -
+
+  Zhao Y. et al. (2025)             2025   SE-MSResNet             84.2             88.3                81.1       -            -       -
+
+  Cai et al. (2025)                 2025   TP-CL                   82.7             77.9                84.9       -          0.873     -
+
+                                           SpiTranNet              99.4             97.6                99.5     0.899        0.999   0.896
+The bold values indicate better results.
+
+
+
+
+    FIGURE 5
+    The accuracy and loss of training and validation sets on the UCDDB dataset.
+
+
+
+
+Frontiers in Neuroscience                                                   10                                                frontiersin.org
+Pham et al.                                                                                                                        10.3389/fnins.2025.1716204
+
+
+
+
+TABLE 5 All subjects’ classiﬁcation results on the BCI-IV-2a dataset.
+
+
+  Subject              Accuracy            Precision            Recall           F1-score             Speciﬁcity               Kappa                 AUC
+  1                        0.965              0.966              0.966                0.966                0.964                 0.930                0.982
+
+  2                        0.860              0.889              0.828                0.857                0.893                 0.720                0.901
+
+  3                        0.982              1.000              0.966                0.982                1.000                 0.965                0.996
+
+  4                        0.912              0.929              0.897                0.912                0.929                 0.825                0.946
+
+  5                        0.772              0.727              0.857                0.787                0.690                 0.545                0.764
+
+  6                        0.807              0.821              0.793                0.807                0.821                 0.614                0.810
+
+  7                        0.965              0.964              0.964                0.964                0.966                 0.930                0.984
+
+  8                        0.912              0.897              0.929                0.912                0.897                 0.825                0.945
+
+  9                        1.000              1.000              1.000                1.000                1.000                 1.000                1.000
+
+  Average                  0.884              0.885              0.895                0.865                0.830                 0.750               0.948
+The bold values indicate better results.
+
+
+TABLE 6 Performance comparison with state-of-the-art methods on the
+BCI-IV-2a dataset.
+
+
+  References                        Year   Methods                 Acc (%)
+  Wei and Wei (2016)                2016   BSA-FT CSP                    76.0
+
+  Amin et al. (2021)                2021   Attention-based               82.8
+                                           Inception + BiLSTM
+
+  Altaheri et al. (2022)            2022   ATCNet                        85.4
+
+  Liao et al. (2023)                2023   SCNet                         88.2
+
+  Chowdhury et al. (2023)           2023   EEGNet fusion                 74.3
+
+  Zhao W. et al. (2024)             2024   CTNet                         82.5
+
+  Gu et al. (2025)                  2025   CLTNet                        83.0
+
+  Zhao W. et al. (2025)             2025   MSCFormer                     83.0
+
+  Otarbay and Kyzyrkanov            2025   SVM-self attention            83.3
+  (2025)
+
+  Liao et al. (2025)                2025   CIACNet                       85.2
+                                                                                        FIGURE 6
+                                           SpiTranNet                    88.4           The confusion matrix plot for all subjects on the BCI-IV-2a dataset.
+The bold values indicate better results.
+
+
+
+
+                                                                                     variability and computational eﬃciency (the number of parameters
+MI EEG signals. Table 5 summarizes the classiﬁcation performance                     was around 2M). Enhancing model generalization, extending to
+metrics of our proposed method on the BCI-IV-2a dataset. The                         multi-class environments, and optimizing for real-time usage
+best accuracy is achieved by subject 9 (100%); however, the                          in resource-constrained scenarios should be the main goals of
+average accuracy and precision for all subjects are 88.4% and                        future work.
+88.5%, respectively.
+    Table 6 compares the accuracy of our proposed method with
+that of state-of-the-art methods. Our method achieves the best                       6 Conclusion
+classiﬁcation accuracy (88.4%).
+    The development of MI-BCI systems can utilize the model                              In this study, we introduced SpiTranNet, a hybrid Spiking
+suggested in this study. MI-BCI systems can perform very                             Neural Network–Transformer architecture designed for
+accurately if they are properly connected or combined with                           physiological signal classiﬁcation tasks, with a focus on SA
+external devices (like sensors, feedback systems, or assistive                       detection using single-lead ECG and MI classiﬁcation using multi-
+technologies). In other words, by integrating with the right                         channel EEG. By integrating the biologically plausible temporal
+hardware or tools, these systems can more eﬀectively interpret                       processing and energy-eﬃcient computations of SNNs with the
+brain signals and enhance their performance. Although our                            powerful long-range dependency modeling of Transformers
+proposed model has demonstrated superior performance in MI-                          through SMHA, SpiTranNet outperformed both standalone SNN
+EEG decoding, it still faces certain limitations, such as inter-subject              and Transformer models across multiple benchmarks.
+
+
+
+Frontiers in Neuroscience                                                       11                                                                frontiersin.org
+Pham et al.                                                                                                                                       10.3389/fnins.2025.1716204
+
+
+
+
+    For SA detection, SpiTranNet achieved 95.0% per-segment                                  Investigation, Visualization, Writing – original draft, Writing
+accuracy and 100% per-recording accuracy on the PhysioNet                                    – review & editing. RM: Investigation, Supervision, Writing –
+Apnea-ECG dataset, along with perfect sensitivity, speciﬁcity, AUC,                          review & editing.
+and k. On the UCDDB dataset, it attained 99.4% accuracy, with
+an AUC of 0.999. These results represent signiﬁcant improvements
+over state-of-the-art models, highlighting SpiTranNet’s robustness                           Funding
+and indicating a promising direction for clinical applications.
+For MI classiﬁcation, SpiTranNet achieved an average accuracy                                    The author(s) declare that ﬁnancial support was received for the
+of 88.4% on the BCI Competition IV 2a dataset, with subject-                                 research and/or publication of this article. This work was supported
+level performance ranging up to 100% accuracy. This competitive                              by the University speciﬁc research project SGS-2025-022 New Data
+performance further demonstrates its ability to generalize across                            Processing Methods in Current Areas of Computer Science (project
+diﬀerent physiological modalities.                                                           SGS-2025-022).
+    Future work will focus on extending SpiTranNet for
+real-time and embedded deployment, improving subject-
+independent generalization across larger and more diverse                                    Conﬂict of interest
+datasets, and incorporating adaptive learning strategies such
+as transfer learning to minimize retraining eﬀorts. Further                                      The authors declare that the research was conducted in the
+exploration of multimodal integration (e.g., ECG, EEG, EMG,                                  absence of any commercial or ﬁnancial relationships that could be
+SpO2 , respiration) and hardware-eﬃcient implementations on                                  construed as a potential conﬂict of interest.
+neuromorphic or low-power devices will also be critical steps
+toward translating SpiTranNet into practical, real-world medical
+and BCI applications.                                                                        Generative AI statement
+    Taken together, these ﬁndings demonstrate that SpiTranNet is
+a ﬂexible, eﬃcient, and highly accurate model that can generalize                                The author(s) declare that no Gen AI was used in the creation
+across multiple biomedical domains. Its ability to process both                              of this manuscript.
+cardiac rhythms (ECG) and complex brain activity patterns (EEG)                                  Any alternative text (alt text) provided alongside ﬁgures
+suggests its potential as a uniﬁed framework for diverse healthcare                          in this article has been generated by Frontiers with the
+applications, ranging from sleep disorder screening to BCI systems.                          support of artiﬁcial intelligence and reasonable eﬀorts have
+                                                                                             been made to ensure accuracy, including review by the authors
+                                                                                             wherever possible. If you identify any issues, please contact
+Data availability statement                                                                  us.
+
+    The original contributions presented in the study are included
+in the article/supplementary material, further inquiries can be
+directed to the corresponding author.                                                        Publisher’s note
+                                                                                                 All claims expressed in this article are solely those of the
+Author contributions                                                                         authors and do not necessarily represent those of their aﬃliated
+                                                                                             organizations, or those of the publisher, the editors and the
+   DP: Data curation, Formal analysis, Investigation,                                        reviewers. Any product that may be evaluated in this article, or
+Methodology, Visualization, Writing – original draft, Writing                                claim that may be made by its manufacturer, is not guaranteed or
+– review & editing. MT: Data curation, Formal analysis,                                      endorsed by the publisher.
+
+
+
+
+References
+   Abasi, A. K., Aloqaily, M., and Guizani, M. (2023). Optimization of CNN using             (EEG) motor imagery (MI) signals: a review. Neural Comput. Applic. 35, 14681–14722.
+modiﬁed honey badger algorithm for sleep apnea detection. Expert Syst. Appl.                 doi: 10.1007/s00521-021-06352-5
+229:120484. doi: 10.1016/j.eswa.2023.120484
+                                                                                                 American Academy of Sleep Medicine (1999). Sleep-related breathing disorders
+    Almutairi, H., Hassan, G. M., and Datta, A. (2021). Classiﬁcation of obstructive         in adults: recommendations for syndrome deﬁnition and measurement techniques in
+sleep apnoea from single-lead ECG signals using convolutional neural and                     clinical research. The Report of an American Academy of Sleep Medicine Task Force.
+long short term memory networks. Biomed. Signal Process. Control 69:102906.                  Sleep 22, 667–689. doi: 10.1093/sleep/22.5.667
+doi: 10.1016/j.bspc.2021.102906                                                                 Amin, S. U., Altaheri, H., Muhammad, G., Abdul, W., and Alsulaiman, M. (2021).
+                                                                                             Attention-inception and long-short-term memory-based electroencephalography
+    Altaheri, H., Muhammad, G., and Alsulaiman, M. (2022). Physics-informed                  classiﬁcation for motor imagery tasks in rehabilitation. IEEE Trans. Ind. Inform. 18,
+attention temporal convolutional network for EEG-based motor imagery                         5412–5421. doi: 10.1109/TII.2021.3132340
+classiﬁcation. IEEE Trans. Ind. Inform. 19, 2249–2258. doi: 10.1109/TII.2022.31
+97419                                                                                           Benjaﬁeld, A. V., Ayas, N. T., Eastwood, P. R., Heinzer, R., Ip, M. S. M.,
+                                                                                             Morrell, M. J., et al. (2019). Estimation of the global prevalence and burden of
+  Altaheri, H., Muhammad, G., Alsulaiman, M., Amin, S. U., Altuwaijri, G. A., Abdul,         obstructive sleep apnoea: a literature-based analysis. Lancet Respir. Med. 7, 687–698.
+W., et al. (2023). Deep learning techniques for classiﬁcation of electroencephalogram        doi: 10.1016/S2213-2600(19)30198-5
+
+
+
+
+Frontiers in Neuroscience                                                               12                                                                        frontiersin.org
+Pham et al.                                                                                                                                                  10.3389/fnins.2025.1716204
+
+
+
+
+   Berry, R. B., Budhiraja, R., Gottlieb, D. J., Gozal, D., Iber, C., Kapur, V. K.,                    Liao, W., Miao, Z., Liang, S., Zhang, L., and Li, C. (2025). A composite improved
+et al. (2012). Rules for scoring respiratory events in sleep: update of the 2007 aasm              attention convolutional network for motor imagery EEG classiﬁcation. Front. Neurosci.
+manual for the scoring of sleep and associated events: deliberations of the sleep apnea            19:1543508. doi: 10.3389/fnins.2025.1543508
+deﬁnitions task force of the American academy of sleep medicine. J. Clin. Sleep Med. 8,
+                                                                                                      Liao, X., Wu, Y., Wang, Z., Wang, D., and Zhang, H. (2023). A convolutional spiking
+597–619. doi: 10.5664/jcsm.2172
+                                                                                                   neural network with adaptive coding for motor imagery classiﬁcation. Neurocomputing
+  Brunner, C., Leeb, R., Müller-Putz, G., Schlögl, A., and Pfurtscheller, G. (2008).               549:126470. doi: 10.1016/j.neucom.2023.126470
+BCI competition 2008-graz data set A. Instit. Knowl. Disc. 16:34. https://www.bbci.de/
+                                                                                                      Maass, W. (1997). Networks of spiking neurons: the third generation of neural
+competition/iv/desc_2a.pdf (Accessed August 1, 2025).
+                                                                                                   network models. Neural Netw. 10, 1659–1671. doi: 10.1016/S0893-6080(97)00011-7
+   Cai, F., Siddiquee, M. M. R., Wu, T., Lubecke, V. M., and Borić-Lubecke, O. (2025).
+                                                                                                      Mashrur, F. R., Islam, M. S., Saha, D. K., Islam, S. R., and Moni, M. A. (2021).
+TP-CL: a novel temporal proximity contrastive learning approach for obstructive sleep
+                                                                                                   SCNN: Scalogram-based convolutional neural network to detect obstructive sleep
+apnea detection using single-lead electrocardiograms. Biomed. Signal Process. Control
+                                                                                                   apnea using single-lead electrocardiogram signals. Comput. Biol. Med. 134:104532.
+100:106993. doi: 10.1016/j.bspc.2024.106993
+                                                                                                   doi: 10.1016/j.compbiomed.2021.104532
+   Chen, J., Shen, M., Ma, W., and Zheng, W. (2022). A spatio-temporal learning-
+                                                                                                      Michelmann, S., Treder, M. S., Griﬃths, B., Kerrén, C., Roux, F., Wimber,
+based model for sleep apnea detection using single-lead ECG signals. Front. Neurosci.
+                                                                                                   M., et al. (2018). Data-driven re-referencing of intracranial EEG based on
+16:972581. doi: 10.3389/fnins.2022.972581
+                                                                                                   independent component analysis (ICA). J. Neurosci. Methods 307, 125–137.
+   Chen, L., Zhang, X., and Song, C. (2015). An automatic screening approach for                   doi: 10.1016/j.jneumeth.2018.06.021
+obstructive sleep apnea diagnosis based on single-lead electrocardiogram. IEEE Trans.
+                                                                                                      Moran, A., Guillot, A., MacIntyre, T., and Collet, C. (2012). Re-imagining motor
+Autom. Sci. Eng. 12, 106–115. doi: 10.1109/TASE.2014.2345667
+                                                                                                   imagery: Building bridges between cognitive neuroscience and sport psychology. Br. J.
+    Chen, Y., Yue, H., Zou, R., Lei, W., Ma, W., and Fan, X. (2023). Rafnet: restricted            Psychol. 103, 224–247. doi: 10.1111/j.2044-8295.2011.02068.x
+attention fusion network for sleep apnea detection. Neural Netw. 162, 571–580.
+                                                                                                      Nguyen, H. X., Nguyen, D. V., Pham, H. H., and Do, C. D. (2024).
+doi: 10.1016/j.neunet.2023.03.019
+                                                                                                   MpCNN: a novel matrix proﬁle approach for CNN-based single lead sleep
+   Chowdhury, R. R., Muhammad, Y., and Adeel, U. (2023). Enhancing cross-subject                   apnea in classiﬁcation problem. IEEE J. Biomed. Health Inform. 28, 4878–4890.
+motor imagery classiﬁcation in EEG-based brain-computer interfaces by using multi-                 doi: 10.1109/JBHI.2024.3397653
+branch CNN. Sensors 23:7908. doi: 10.3390/s23187908
+                                                                                                      Otarbay, Z., and Kyzyrkanov, A. (2025). Svm-enhanced attention mechanisms
+   Eshraghian, J. K., Ward, M., Neftci, E. O., Wang, X., Lenz, G., Dwivedi, G., et al.             for motor imagery EEG classiﬁcation in brain-computer interfaces. Front. Neurosci.
+(2023). Training spiking neural networks using lessons from deep learning. Proc. IEEE              19:1622847. doi: 10.3389/fnins.2025.1622847
+111, 1016–1054. doi: 10.1109/JPROC.2023.3308088
+                                                                                                      Penzel, T., Moody, G., Mark, R., Goldberger, A., and Peter, J. (2000).
+   Fadel, W., Kollod, C., Wahdow, M., Ibrahim, Y., and Ulbert, I. (2020). “Multi-                  “The apnea-ECG database,” in Computers in Cardiology (IEEE), 255–258.
+class classiﬁcation of motor imagery EEG signals using image-based deep recurrent                  doi: 10.1109/CIC.2000.898505
+convolutional neural network,” in 2020 8th International Winter Conference on Brain-
+                                                                                                      Pham, D. T., and Mouc̆ek, R. (2025). “Sleep apnea detection from single-lead
+Computer Interface (BCI) (IEEE), 1–4. doi: 10.1109/BCI48061.2020.9061622
+                                                                                                   ECG signal using hybrid deep CNN,” in International Conference on Brain Informatics
+   Fang, W., Yu, Z., Chen, Y., Huang, T., Masquelier, T., and Tian, Y. (2021). “Deep               (Springer), 110–120. doi: 10.1007/978-981-96-3294-7_9
+residual learning in spiking neural networks,” in Advances in Neural Information
+                                                                                                      Pichiorri, F., Morone, G., Petti, M., Toppi, J., Pisotta, I., Molinari, M., et al. (2015).
+Processing Systems, 21056–21069.
+                                                                                                   Brain-computer interface boosts motor imagery practice during stroke recovery. Ann.
+   Faust, O., Barika, R., Shenﬁeld, A., Ciaccio, E. J., and Acharya, U. R. (2021). Accurate        Neurol. 77, 851–865. doi: 10.1002/ana.24390
+detection of sleep apnea with long short-term memory network based on RR interval
+                                                                                                      Rasteh, A., Delpech, F., Aguilar-Melchor, C., Zimmer, R., Shouraki,
+signals. Knowl.-Based Syst. 212:106591. doi: 10.1016/j.knosys.2020.106591
+                                                                                                   S. B., and Masquelier, T. (2022). Encrypted internet traﬃc classiﬁcation
+   Gayen, S., Sahu, D. K., Sivaraman, J., Pal, K., Vasamsetti, S., Neelapu, B. C.,                 using a supervised spiking neural network. Neurocomputing 503, 272–282.
+et al. (2025). Smartmatch: a semi-supervised framework for obstructive sleep apnea                 doi: 10.1016/j.neucom.2022.06.055
+classiﬁcation using single-lead electrocardiogram signals with limited annotations. Eng.
+                                                                                                      Saha, S., Mamun, K. A., Ahmed, K., Mostafa, R., Naik, G. R., Darvishi, S., et al.
+Appl. Artif. Intell. 157:111226. doi: 10.1016/j.engappai.2025.111226
+                                                                                                   (2021). Progress in brain computer interface: challenges and opportunities. Front. Syst.
+   Goldberger, A. L., Amaral, L. A., Glass, L., Hausdorﬀ, J. M., Ivanov, P. C., Mark,              Neurosci. 15:578875. doi: 10.3389/fnsys.2021.578875
+R. G., et al. (2000). Physiobank, physiotoolkit, and physionet: components of a
+                                                                                                      Sakhavi, S., Guan, C., and Yan, S. (2015). “Parallel convolutional-linear
+new research resource for complex physiologic signals. Circulation 101, E215–E220.
+                                                                                                   neural network for motor imagery classiﬁcation,” in 2015 23rd European signal
+doi: 10.1161/01.CIR.101.23.e215
+                                                                                                   processing conference (EUSIPCO) (IEEE), 2736–2740. doi: 10.1109/EUSIPCO.2015.73
+   Gu, H., Chen, T., Ma, X., Zhang, M., Sun, Y., and Zhao, J. (2025). Cltnet:                      62882
+a hybrid deep learning model for motor imagery classiﬁcation. Brain Sci. 15:124.
+                                                                                                      Scherer, R., Faller, J., Friedrich, E. V., Opisso, E., Costa, U., Kübler, A., et al. (2015).
+doi: 10.3390/brainsci15020124
+                                                                                                   Individually adapted imagery improves brain-computer interface performance in
+   Hamilton, P. (2002). “Open source ECG analysis,” in Computers in Cardiology                     end-users with disability. PLoS ONE 10:e0123727. doi: 10.1371/journal.pone.0123727
+(IEEE), 101–104.
+                                                                                                      Schirrmeister, R. T., Springenberg, J. T., Fiederer, L. D. J., Glasstetter, M.,
+   Hassan, A. R., and Haque, M. A. (2017). An expert system for automated                          Eggensperger, K., Tangermann, M., et al. (2017). Deep learning with convolutional
+identiﬁcation of obstructive sleep apnea from single-lead ECG using random under                   neural networks for EEG decoding and visualization. Hum. Brain Mapp. 38, 5391–5420.
+sampling boosting. Neurocomputing 235, 122–130. doi: 10.1016/j.neucom.2016.12.062                  doi: 10.1002/hbm.23730
+   Ingolfsson, T. M., Hersche, M., Wang, X., Kobayashi, N., Cavigelli, L., and                        Sharma, H., and Sharma, K. K. (2016). An algorithm for sleep apnea detection
+Benini, L. (2020). “EEG-tcnet: an accurate temporal convolutional network for                      from single-lead ECG using hermite basis functions. Comput. Biol. Med. 77, 116–124.
+embedded motor-imagery brain-machine interfaces,” in 2020 IEEE International                       doi: 10.1016/j.compbiomed.2016.08.012
+Conference on Systems, Man, and Cybernetics (SMC) (IEEE), 2958–2965.
+doi: 10.1109/SMC42975.2020.9283028                                                                     Sharma, M., Agarwal, S., and Acharya, U. R. (2018). Application of an optimal class
+                                                                                                   of antisymmetric wavelet ﬁlter banks for obstructive sleep apnea diagnosis using ECG
+   John, A., Cardiﬀ, B., and John, D. (2021). “A 1d-CNN based deep learning technique              signals. Comput. Biol. Med. 100, 100–113. doi: 10.1016/j.compbiomed.2018.06.011
+for sleep apnea detection in iot sensors,” in 2021 IEEE International Symposium on
+Circuits and Systems (ISCAS), 1–5. doi: 10.1109/ISCAS51556.2021.9401300                               Srivastava, G., Chauhan, A., Kargeti, N., Pradhan, N., and Dhaka, V. S. (2023).
+                                                                                                   Apneanet: a hybrid 1dCNN-lstm architecture for detection of obstructive sleep
+    Kapur, V. K., Auckley, D. H., Chowdhuri, S., Kuhlmann, D. C., Mehra, R., Ramar,                apnea using digitized ECG signals. Biomed. Signal Process. Control 84:104754.
+K., et al. (2017). Clinical practice guideline for diagnostic testing for adult obstructive        doi: 10.1016/j.bspc.2023.104754
+sleep apnea: an american academy of sleep medicine clinical practice guideline. J. Clin.
+Sleep Med. 13, 479–504. doi: 10.5664/jcsm.6506                                                        Tangermann, M., Müller, K.-R., Aertsen, A., Birbaumer, N., Braun, C., Brunner,
+                                                                                                   C., et al. (2012). Review of the BCI competition IV. Front. Neurosci. 6:55.
+   Lawhern, V. J., Solon, A. J., Waytowich, N. R., Gordon, S. M., Hung, C. P., and                 doi: 10.3389/fnins.2012.00055
+Lance, B. J. (2018). EEGnet: a compact convolutional neural network for EEG-based
+brain-computer interfaces. J. Neural Eng. 15:056013. doi: 10.1088/1741-2552/aace8c                    Tayeb, Z., Fedjaev, J., Ghaboosi, N., Richter, C., Everding, L., Qu, X., et al. (2019).
+                                                                                                   Validating deep neural networks for online decoding of motor imagery movements
+   Li, K., Pan, W., Li, Y., Jiang, Q., and Liu, G. (2018). A method to detect sleep apnea
+                                                                                                   from EEG signals. Sensors 19:210. doi: 10.3390/s19010210
+based on deep neural network and hidden markov model using single-lead ECG signal.
+Neurocomputing 294, 94–101. doi: 10.1016/j.neucom.2018.03.011                                         Tyagi, P. K., and Agrawal, D. (2023). Automatic detection of sleep apnea from
+                                                                                                   single-lead ECG signal using enhanced-deep belief network model. Biomed. Signal
+   Li, Y., Fan, L., Shen, H., and Hu, D. (2024). HR-SNN: an end-to-end
+                                                                                                   Process. Control 80:104401. doi: 10.1016/j.bspc.2022.104401
+spiking neural network for four-class classiﬁcation motor imagery brain-computer
+interface. IEEE Trans. Cogn. Dev. Syst. 16, 1955–1968. doi: 10.1109/TCDS.2024.3                      Ullah, N., Sultan, H., Hong, J. S., Kim, S. G., Akram, R., and Park, K. R. (2025).
+395443                                                                                             Convolutional self-attention with adaptive channel-attention network for obstructive
+
+
+
+
+Frontiers in Neuroscience                                                                     13                                                                               frontiersin.org
+Pham et al.                                                                                                                                           10.3389/fnins.2025.1716204
+
+
+
+
+sleep apnea detection using limited training data. Eng. Appl. Artif. Intell. 156:111154.           Yu, X., Chum, P., and Sim, K.-B. (2014). Analysis the eﬀect of pca for feature
+doi: 10.1016/j.engappai.2025.111154                                                             reduction in non-stationary EEG based motor imagery of bci system. Optik 125,
+                                                                                                1498–1502. doi: 10.1016/j.ijleo.2013.09.013
+   Vaswan, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., et al.
+(2017). “Attention is all you need,” in Advances in Neural Information Processing                  Zarei, A., Beheshti, H., and Asl, B. M. (2022). Detection of sleep apnea using
+Systems.                                                                                        deep neural networks and single-lead ECG signals. Biomed. Signal Process. Control
+                                                                                                71:103125. doi: 10.1016/j.bspc.2021.103125
+   Wang, T., Lu, C., Shen, G., and Hong, F. (2019). Sleep apnea detection from a
+single-lead ECG signal with automatic feature-extraction through a modiﬁed lenet-5                 Zhao, W., Jiang, X., Zhang, B., Xiao, S., and Weng, S. (2024). Ctnet: a convolutional
+convolutional neural network. PeerJ 7:e7731. doi: 10.7717/peerj.7731                            transformer network for EEG-based motor imagery classiﬁcation. Sci. Rep. 14:20237.
+                                                                                                doi: 10.1038/s41598-024-71118-7
+   Wei, Z., and Wei, Q. (2016). The backtracking search optimization algorithm for
+frequency band and time segment selection in motor imagery-based brain-computer                    Zhao, W., Zhang, B., Zhou, H., Wei, D., Huang, C., and Lan, Q. (2025). Multi-scale
+interfaces. J. Integr. Neurosci. 15, 347–364. doi: 10.1142/S0219635216500229                    convolutional transformer network for motor imagery brain-computer interface. Sci.
+                                                                                                Rep. 15:12935. doi: 10.1038/s41598-025-96611-5
+   Yang, Q., Zou, L., Wei, K., and Liu, G. (2022). Obstructive sleep apnea
+detection from single-lead electrocardiogram signals using one-dimensional                          Zhao, Y., He, H., Gao, W., Xu, K., and Ren, J. (2024). Dm-iaCNN: A dual-multiscale
+squeeze-and-excitation residual group network. Comput. Biol. Med. 140:105124.                   interactive attention-based convolution neural network for automated detection of
+doi: 10.1016/j.compbiomed.2021.105124                                                           sleep apnea. IEEE Trans. Instrum. Meas. 73, 1–10. doi: 10.1109/TIM.2024.3420355
+   Yeo, M., Byun, H., Lee, J., Byun, J., Rhee, H.-Y., Shin, W., et al. (2022). Robust               Zhao, Y., He, H., Wang, Q., Yu, L., and Ren, J. (2025). Se-msresnet: A
+method for screening sleep apnea with single-lead ECG using deep residual network:              lightweight squeeze-and-excitation multi-scaled resnet with domain generalization
+evaluation with open database and patch-type wearable device data. IEEE J. Biomed.              for sleep apnea detection. Neurocomputing 620:129201. doi: 10.1016/j.neucom.2024.1
+Health Inform. 26, 5428–5438. doi: 10.1109/JBHI.2022.3203560                                    29201
+
+
+
+
+Frontiers in Neuroscience                                                                  14                                                                          frontiersin.org
+
