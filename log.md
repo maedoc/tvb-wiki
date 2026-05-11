@@ -1,5 +1,8 @@
 # Wiki Activity Log
 
+## 2026-05-11
+- Improved [[lfpykit]] page: replaced placeholder content with comprehensive description of LFPykit library, added technical details on forward models (point source, line source, four-sphere head model), included relationship to TVB for multi-scale modeling, added references to linden-2014 and hagen-2018 papers
+
 ## 2026-05-08
 - Improved [[aging-brain]] page: removed 4 invalid citations (finn2015, tasker2006, bennett2010, nyberg2012) not in sources, kept only properly sourced claims, expanded functional connectivity section with King et al. findings on dementia spectrum, added more detail on brain maintenance
 - Verified [[michael-fox]] page meets schema requirements (15 wikilinks, valid taxonomy tags, complete content)
@@ -284,3 +287,5 @@
 ## [2026-05-11 07:20] CrosslinkApplier: added 17 wikilinks (17 inline, 0 suggested)
 
 ## [2026-05-11 07:24] Improve: 2 pages improved (co-simulation, brain-connectivity-toolkit)
+
+## [2026-05-11 07:58] Improve: 2 pages improved (genn, spynnaker)

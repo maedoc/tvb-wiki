@@ -15,7 +15,7 @@ tags:
 - tractography
 title: DTI
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 # DTI
@@ -44,7 +44,7 @@ DTI serves as the primary source of [[structural-connectivity]] data for [[whole
 
 ## Limitations and Methodological Challenges
 
-Despite its widespread adoption, DTI suffers from several fundamental limitations that researchers must consider when interpreting results and constructing models. The single-tensor model assumes that each voxel contains fibers oriented in a single dominant direction, yet many brain regions contain crossing fibers where multiple white matter pathways intersect within a single voxel. In such cases, the diffusion tensor provides an inadequate average that can misrepresent the true fiber architecture and lead to erroneous tractography results. Additionally, tractography remains an indirect inference about [[connectivity]]—streamline continuity does not guarantee actual synaptic communication between regions, and the relationship between streamline count and connection strength remains poorly validated. The spatial resolution of typical DTI acquisitions (2-3 mm isotropic) limits the anatomical precision of connectivity estimates, particularly for thin or heavily interleaved fiber pathways.
+Despite its widespread adoption, DTI suffers from several fundamental limitations that researchers must consider when interpreting results and constructing models. The single-tensor model assumes that each voxel contains fibers oriented in a single dominant direction, yet many brain regions contain crossing fibers where multiple white matter pathways intersect within a single voxel. In such cases, the diffusion tensor provides an inadequate average that can misrepresent the true fiber architecture and lead to erroneous tractography results. Additionally, tractography remains an indirect inference about [[connectivity]]—streamline continuity does not guarantee actual synaptic communication between regions, and the relationship between streamline count and connection strength remains poorly validated. The spatial resolution of typical DTI acquisitions (2-3 mm isotropic) limits the anatomical precision that can be achieved, particularly for thin or heavily interleaved fiber pathways.
 
 Recent methodological advances have partially addressed these limitations. **Constrained Spherical Deconvolution (CSD)**, introduced by Tournier and colleagues, resolves multiple fiber orientations within a single voxel by estimating the fiber orientation distribution function, significantly improving tractography accuracy in regions of crossing fibers. **High Angular Resolution [[diffusion-imaging]] (HARDI)** acquires diffusion-weighted images along many more gradient directions (typically >50) than conventional DTI, providing improved angular resolution for resolving complex fiber configurations. **Multi-shell diffusion imaging** acquires data at multiple b-values (diffusion weightings), enabling separate estimation of compartments representing внутриcellular and extracellular water, providing more specific markers of axonal and myelin integrity. These advances are implemented in software packages including [[mrtrix3]], [[dipy]], and [[dsi-studio]], which provide modern tractography capabilities for constructing high-quality structural connectivity matrices.
 
@@ -62,6 +62,8 @@ DTI occupies a complementary role alongside other neuroimaging techniques in the
 - [[brain-network]] – Networks of brain regions connected by white matter pathways
 - [[connectomics]] – The study of complete neural wiring diagrams
 - [[fmri]] – Functional imaging often combined with DTI for multi-modal analysis
+
+[[ Allen SDK]]
 
 ## References
 

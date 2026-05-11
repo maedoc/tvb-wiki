@@ -20,7 +20,7 @@ tags:
 - neuroimaging-meg
 title: Functional Connectivity
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 # Functional Connectivity
@@ -79,6 +79,7 @@ Models generate synthetic time series from which FC is computed and compared to 
 - sc-fc-relationship – Structure-function relationship
 - [[connectomics]] – Field of connectivity research
 - [[connectome]] – Complete connectivity
+- [[pronto]]
 
 ## Historical Development
 
@@ -124,7 +125,7 @@ updated: '2026-04-29'
 
 # Nancy Andrews-Hanna (Jessica R. Andrews-Hanna)
 
-Cognitive neuroscientist specializing in the default
+Cognitive neuroscientist specializing
 
 ## References
 

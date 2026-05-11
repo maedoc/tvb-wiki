@@ -18,7 +18,7 @@ tags:
 - neuroimaging-eeg
 title: NIfTI
 type: concept
-updated: '2026-05-07'
+updated: '2026-05-11'
 ---
 
 NIfTI ([[neuroimaging]] Informatics Technology Initiative) is a file format standard for storing neuroimaging data, particularly volumetric magnetic resonance imaging data such as functional magnetic resonance imaging ([[fmri]]), diffusion tensor imaging (DTI), and structural MRI. The format was developed to address limitations in the earlier Analyze format and has become the de facto standard for sharing neuroimaging data across software platforms, databases, and research laboratories worldwide.
@@ -47,7 +47,7 @@ The [[mrtrix3-connectome]] and similar large-scale datasets distribute their ima
 
 NIfTI shares conceptual territory with several other neuroimaging data formats. The [[cifti]] format, developed by the [[human-connectome-project]] to address the needs of surface-based neuroimaging, extends NIfTI capabilities to dense timeseries on cortical surfaces, complementing the volumetric representation of traditional NIfTI data [see @hcp-reference, 2013]. The [[bids]] (Brain Imaging Data Structure) standard provides a recommended directory organization scheme for neuroimaging data and frequently stores primary data in NIfTI format within a standardized hierarchy.
 
-The Python library [[nibabel]] provides programmatic access to NIfTI files, allowing researchers to read, write, and manipulate neuroimaging data in Python scripts and pipelines. This library is a dependency of many preprocessing workflows and is directly compatible with TVB's data handling routines. Similarly, [[nipype]] provides a workflow framework that operates on NIfTI data, enabling standardized preprocessing pipelines that produce TVB-ready outputs. These Python libraries have become essential tools in the neuroimaging ecosystem, facilitating reproducible analysis pipelines across laboratories.
+The Python library [[nibabel]] provides programmatic access to NIfTI files, allowing researchers to read, write, and manipulate neuroimaging data in Python scripts and pipelines. This library is a dependency of many preprocessing workflows and is directly compatible with TVB's data handling routines. Similarly, [[nipype]] provides a workflow framework that operates on NIfTI data, enabling standardized preprocessing pipelines that produce TVB-ready outputs. The SDCflows pipeline also processes NIfTI files for diffusion distortion correction. These Python libraries have become essential tools in the neuroimaging ecosystem, facilitating reproducible analysis pipelines across laboratories.
 
 ## Current Status and Open Questions
 

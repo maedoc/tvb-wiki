@@ -66,6 +66,7 @@ FreeSurfer implements several standard parcellations:
 - [[ants]] — alternative registration
 - [[brain-map]] — MEG/EEG source analysis using FreeSurfer surfaces
 - [[tvb]] — imports FreeSurfer surfaces and parcellations directly
+- [[spinal-cord-toolbox]]
 
 ## References
 

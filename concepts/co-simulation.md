@@ -23,7 +23,7 @@ Time synchronization represents a critical technical challenge in co-simulation.
 
 ## Implementation in The Virtual Brain
 
-[[the-virtual-brain]] implements co-simulation through specialized adapters that interface its macroscale neural mass models with external spiking simulators. The TVB-NEST interface provides bidirectional coupling between TVB and the Neural Simulation Tool (NEST), allowing whole-brain models to incorporate detailed microcircuit simulations from NEST in specified brain regions while retaining tractable neural mass dynamics across the remainder of the connectome [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. Similar interfaces exist for Brian2 and NEURON, providing flexibility in modeling choices.
+[[the-virtual-brain]] implements co-simulation through specialized adapters that interface its macroscale neural mass models with external spiking simulators. The TVB-NEST interface provides bidirectional coupling between TVB and the Neural Simulation Tool (NEST), allowing whole-brain models to incorporate detailed microcircuit simulations from NEST in specified brain regions while retaining tractable neural mass dynamics across the remainder of the connectome [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. Similar interfaces exist for Brian2, NEURON, [[spice]], and also [[simbrain]], providing flexibility in modeling choices.
 
 This architecture enables several important use cases. First, researchers can investigate how specific cortical microcircuit configurations (such as alterations in [[excitation-inhibition-balance]]) propagate through the large-scale brain network to produce observable changes in [[functional-connectivity]] patterns. Second, computational studies of [[epilepsy-modeling]] can embed detailed epileptor-like spiking dynamics in specific regions while observing how these seizures spread through the white-matter [[structural-connectivity]] backbone [[raw/papers/ritter-2013.md|Ritter et al. (2013)]].
 
@@ -36,3 +36,24 @@ Beyond clinical applications, co-simulation provides a principled framework for 
 ## Relationship to Related Concepts
 
 Co-simulation is distinct from but related to several other multi-scale modeling approaches. [[neural-mass-model]]s themselves can be derived as moment closures from spiking network equations under specific assumptions, creating a mathematical link between the two levels. However, co-simulation differs from this analytical approach by maintaining explicit coupling between separate simulation engines rather than collapsing one level into the other. Similarly, [[dynamic-causal-modeling]] provides a framework for inferring effective connectivity from neuroimaging data, but typically operates at a single scale; co-simulation offers a complementary forward-modeling approach where hypothesized mechanisms can be instantiated and their predictions compared against empirical observations.
+
+## ORPHAN PAGE CONTEXT (simbrain)
+---
+created: 2024-01-15
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+tags:
+- software-neuroscience
+- neural-network
+- spiking-neural-networks
+- computational-neuroscience
+- visualization
+- network-dynamics
+title: SimBrain
+type: entity
+updated: '2026-05-06'
+---
+
+SimBrain (Simulations of Neural Networks in Java) is an open-source neural network simulator designed for building, visualizing, and simulating neural network models

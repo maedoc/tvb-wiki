@@ -18,7 +18,7 @@ tags:
 - epilepsy-modeling
 title: Neural Mass Models
 type: concept
-updated: '2026-05-07'
+updated: '2026-05-11'
 ---
 
 ## Definition
@@ -29,7 +29,7 @@ Neural mass models (NMMs) are mathematical models that represent the collective 
 
 In the context of [[whole-brain]] modeling, neural mass models serve as the fundamental dynamical unit that is embedded in a network defined by [[structural-connectivity]] matrices derived from diffusion imaging and tractography. Each brain region is represented by a neural mass model whose state evolves over time according to its intrinsic dynamics and the inputs it receives from other regions via the connectome. The resulting simulations produce synthetic [[functional-connectivity]] patterns that can be compared with empirically observed [[resting-state]] networks measured via [[fmri]] [[hrf]], [[eeg]], [[meg]], or the [[meg-eeg-toolbox]].
 
-The appeal of neural mass models for whole-brain simulations lies in their computational efficiency. A single neural mass model typically requires only 3–8 state variables and can be integrated in real-time or faster on modest hardware. When coupled across 68–360 brain regions (depending on the [[parcellation]] used), whole-brain simulations using neural mass models can complete in minutes rather than the hours or days required by [[spiking-neural-networks]] (for which the [[lfpykern]] library offers LFP computation tools) that simulate individual neurons. This efficiency enables parameter sweeps, [[bifurcation-analysis]], and clinical applications such as [[personalized-brain-modeling]] for epilepsy Surgical planning.
+The appeal of neural mass models for whole-brain simulations lies in its computational efficiency. A single neural mass model typically requires only 3–8 state variables and can be integrated in real-time or faster on modest hardware. When coupled across 68–360 brain regions (depending on the [[parcellation]] used), whole-brain simulations using neural mass models can complete in minutes rather than the hours or days required by [[spiking-neural-networks]] (for which the [[lfpykern]] library offers LFP computation tools), such as [[sinabs]], that simulate individual neurons. This efficiency enables parameter sweeps, [[bifurcation-analysis]], and clinical applications such as [[personalized-brain-modeling]] for epilepsy Surgical planning.
 
 ## Mathematical Framework
 
@@ -49,7 +49,7 @@ More sophisticated neural mass models incorporate multiple state variables to ca
 
 ### Jansen‑Rit Model
 
-The [[jansen-rit]] model, developed in 1995, is the most widely used neural mass model in [[dynamic-causal-modeling]] (DCM) and [[tvb]] simulations. It consists of three coupled populations (pyramidal cells, excitatory interneurons, and inhibitory interneurons) that generate realistic EEG rhythms in the alpha (8–12 Hz) and beta (13–30 Hz) bands. The model's popularity stems from its relative simplicity and its ability to produce biologically plausible oscillations without extensive parameter tuning. Fooof
+The [[jansen-rit]] model, developed in 1995, is the most widely used neural mass model in [[dynamic-causal-modeling]] (DCM) and [[tvb]] simulations. It consists of three coupled populations (pyramidal cells, excitatory interneurons, and inhibitory interneurons) that generate realistic EEG rhythms in the alpha (8–12 Hz) and beta (13–30 Hz) bands. The model's popularity stems from its relative simplicity and its ability to produce biologically plausible oscillations without extensive parameter tuning. Fooft
 
 ### Wilson‑Cowan Model
 
@@ -61,7 +61,7 @@ The [[wong-wang]] model (also known as the [[wong-wang-exc-inh]] model) extends 
 
 ### Epileptor Model
 
-The [[epileptor]] model was developed specifically for [[epilepsy-modeling]] and features a set of five coupled differential equations that can exhibit seizure‑like discharges. It represents a neural mass model designed to capture the transition from normal [[brain-dynamics]] to pathological epileptiform activity, making it a key tool for predicting seizure onset and evaluating surgical interventions.
+The [[epileptor]] model was developed specifically for [[epilepsy-modeling]] and feature a set of five coupled differential equations that can exhibit seizure‑like discharges. It represents a neural mass model designed to capture the transition from normal [[brain-dynamics]] to pathological epileptiform activity, making it a key tool for predicting seizure onset and evaluating surgical interventions.
 
 ## Relationship to Other Approaches
 
@@ -73,7 +73,7 @@ The relationship between neural mass models and [[dynamic-causal-modeling]] is p
 
 ## Parameter Estimation and Calibration
 
-A critical challenge in applying neural mass models is estimating the free parameters (synaptic gains, time constants, connection strengths) from empirical data. Traditional approaches include Bayesian inversion via DCM (which uses [[variational-bayes]] to approximate the posterior distribution over parameters) and optimization‑based fitting to match simulated and observed [[functional-connectivity]] patterns. More recently, machine learning approaches have been applied to accelerate [[parameter-estimation]], enabling personalized brain models to be calibrated to individual subjects within practical time constraints.
+A critical challenge in applying neural mass models is estimating the free parameters (synaptic gains, time constants, connection strengths) from empirical data. Traditional approaches include Bayesian inversion via DCM (which uses [[variational-bayes]] to approximate the posterior distribution over parameters) and optimization‑based fitting to match simulated and observed [[functional-connectivity]] patterns. More recently, machine learning approaches such as [[pymc]] have been applied to accelerate [[parameter-estimation]], enabling personalized brain models to be calibrated to individual subjects within practical time constraints.
 
 ## Open Questions and Limitations
 
@@ -84,7 +84,7 @@ Despite their widespread use, neural mass models face several open questions. Th
 1. Raul de Palma Aristides, Pau Clusella, R. Sanchez-Todo, G. Ruffini, Jordi García-Ojalvo. (2026). *Emergence of multifrequency activity in a laminar neural mass model*. PLoS Computational Biology. [DOI](](https://doi.org/10.1371/journal.pcbi.1014022))
 2. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using Wilson-Cowan Dynamics*. [Link](](https://arxiv.org/abs/2506.22951))
 3. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
-4. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](](https://arxiv.org/abs/2512.03907))
+4. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](https://arxiv.org/abs/2512.03907))
 5. (authors unknown). *[[nonlinear-dynamics]] and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
 
 ## ORPHAN PAGE CONTEXT (hrf)

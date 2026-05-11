@@ -1,7 +1,7 @@
 ---
 title: Connectivity
 created: 2024-01-15
-updated: 2026-05-09
+updated: 2026-05-11
 type: concept
 tags: [connectomics, structural-connectivity, functional-connectivity, effective-connectivity, network-dynamics, whole-brain-modeling]
 sources: [raw/papers/friston-1993.md]
@@ -26,6 +26,8 @@ Connectivity sits at the intersection of several major research programs in comp
 ## Open Questions
 
 The field continues to grapple with fundamental questions about the relationship between structural and functional connectivity, the optimal resolution at which to characterize connectomes, and how to integrate connectivity data across multiple imaging modalities. Advances in [[parameter-estimation]] techniques and [[variational-bayes]] methods offer promising approaches for inferring effective connectivity from empirical observations, but these methods remain computationally intensive and require careful validation.
+
+See also [[popeye]] for related software tools.
 
 ---
 
