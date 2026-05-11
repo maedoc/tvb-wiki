@@ -68,9 +68,9 @@ sources:
 - raw/papers/semanticscholar-01d1a635e589.md
 - raw/papers/ritter-2013.md
 tags:
-- connectomics
+- [[connectomics]]
 - network-dynamics
-- computational-neuroscience
+- [[computational-neuroscience]]
 - statistical-inference
 title: NBS
 type: concept

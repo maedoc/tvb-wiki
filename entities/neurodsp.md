@@ -1,6 +1,7 @@
 ---
 created: 2026-05-11
-sources: []
+sources:
+- raw/papers/gramfort-2013.md
 tags:
 - software-visualization
 - neuroimaging-eeg
@@ -40,3 +41,7 @@ The integration between TVB and NeuroDSP is particularly valuable in the context
 ## Related Software
 
 NeuroDSP shares conceptual and practical overlap with several other neurophysiology analysis packages. [[MNE-Python]] provides a comprehensive framework for electrophysiological data preprocessing, source estimation, and visualization, with some overlapping functionality for connectivity and spectral analysis. [[EEGLAB]] offers a graphical environment for EEG/MEG processing with both MATLAB and Python implementations. [[yasa]] is a complementary library specifically optimized for sleep stage classification that builds upon NeuroDSP's base functionality. [[Nitime]] provides time-series analysis tools for neuroscience but takes a more general approach less optimized for the specific statistical properties of neural oscillations. The combination of these tools—with NeuroDSP providing oscillatory-specific analysis—enables comprehensive analysis pipelines from raw data preprocessing through advanced connectivity and coupling characterization.
+
+## References
+
+1. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fnins.2013.00010)

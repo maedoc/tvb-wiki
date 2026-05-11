@@ -1,6 +1,7 @@
 ---
 created: 2025-01-15
-sources: []
+sources:
+- raw/papers/deistler-2025-jaxley.md
 tags:
 - software-neural-simulation
 - spiking-neural-networks
@@ -44,3 +45,7 @@ The gradient-based parameter estimation capabilities of Jaxley address a key cha
 Jaxley occupies a specific niche in the neural simulation ecosystem, with several related tools addressing different aspects of the simulation and optimization workflow. [[brian2|Brian2]] provides the primary conceptual inspiration for Jaxley's API design, offering a widely-adopted Python-based neural simulator that prioritizes ease of use and flexibility. The underlying [[jax|JAX] framework provides the automatic differentiation and compilation infrastructure that enables Jaxley's gradient-based optimization capabilities.
 
 For parameter estimation in the context of whole-brain modeling, Jaxley's approach complements the Bayesian optimization methods implemented in TVB's parameter estimation framework. Other neural simulators in this space include [[nest|NEST]], which focuses on large-scale spiking network simulations, and [[brian2genn|GeNN]], which provides GPU acceleration for Brian2-compatible models through code generation. The [[neural-mass-models]] field that TVB operates in represents a different modeling abstraction level, where populations of neurons are represented by aggregate variables rather than explicit spike trains.
+
+## References
+
+1. Deistler, Michael and Kadhim, Kyra L and Pals, Matthijs and Beck, Jonas and Huang, Ziwei and Gloeckler, Manuel and Lappalainen, Janne K and Schröder, Cornelius and Berens, Philipp and Goncalves, Pedro J and Macke, Jakob H. *Jaxley: differentiable simulation enables large-scale training of detailed biophysical models of neural dynamics*. Nature Methods. [DOI](https://doi.org/10.1038/s41592-025-02895-w)

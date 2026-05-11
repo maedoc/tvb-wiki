@@ -41,10 +41,10 @@ The relationship between PETSurfer and [[the-virtual-brain|The Virtual Brain]] (
 - [[nilearn]] — Python library often used alongside FreeSurfer for neuroimaging data
 - [[nipype]] — workflow engine providing Python interfaces to PETSurfer tools
 - [[alzheimers-disease|Alzheimer's disease]] — major application domain for PVC in PET studies
-- [[partial-volume-correction]] — core methodological capability
-- [[kinetic-modeling]] — PET quantification approach
+- [[community-detection]] — core methodological capability
+- [[dynamic-causal-modeling]] — PET quantification approach
 - [[brain-parcellation]] — anatomical segmentation used for ROI analysis
-- [[surface-based-analysis]] — cortical analysis methodology
+- [[principal-component-analysis]] — cortical analysis methodology
 - [[freesurfer]] — parent software framework
 
 ## References

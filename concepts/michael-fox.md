@@ -2,6 +2,9 @@
 created: 2026-04-20
 sources:
 - raw/papers/fox-raichle-2007.md
+- raw/papers/raichle-2001.md
+- raw/papers/semanticscholar-7dcd55ff92e4.md
+- raw/papers/semanticscholar-d70e1661858c.md
 tags:
 - people-researcher
 - brain-stimulation

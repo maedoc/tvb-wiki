@@ -83,11 +83,11 @@ sources:
 - raw/papers/semanticscholar-eb704b6f5462.md
 - raw/papers/semanticscholar-9afbfd2d37be.md
 tags:
-- model-validation
+- [[model-validation]]
 - computational-neuroscience
 - neural-network
 - benchmark
-- machine-learning
+- [[machine-learning]]
 title: Brain-Score
 type: entity
 updated: '2026-05-11'

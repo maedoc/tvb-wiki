@@ -1,0 +1,1341 @@
+                                                                                                                                                              METHODS
+                                                                                                                                                  published: 14 July 2017
+                                                                                                                                           doi: 10.3389/fninf.2017.00048
+
+
+
+
+                                             Automated Functional Analysis of
+                                             Astrocytes from Chronic Time-Lapse
+                                             Calcium Imaging Data
+                                             Yinxue Wang 1 † , Guilai Shi 2 † , David J. Miller 3 , Yizhi Wang 1 , Congchao Wang 1 ,
+                                             Gerard Broussard 2 , Yue Wang 1 , Lin Tian 2* and Guoqiang Yu 1*
+                                             1
+                                              Bradley Department of Electrical and Computer Engineering, Virginia Polytechnic Institute and State University, Arlington,
+                                             VA, United States, 2 Department of Biochemistry and Molecular Medicine, University of California Davis School of Medicine,
+                                             Davis, CA, United States, 3 Department of Electrical Engineering, School of Electrical Engineering and Computer Science,
+                                             Pennsylvania State University, University Park, PA, United States
+
+
+
+                                             Recent discoveries that astrocytes exert proactive regulatory effects on neural information
+                                             processing and that they are deeply involved in normal brain development and disease
+                                             pathology have stimulated broad interest in understanding astrocyte functional roles in
+                                             brain circuit. Measuring astrocyte functional status is now technically feasible, due to
+                                             recent advances in modern microscopy and ultrasensitive cell-type specific genetically
+                                             encoded Ca2+ indicators for chronic imaging. However, there is a big gap between
+                                             the capability of generating large dataset via calcium imaging and the availability of
+                             Edited by:
+                                             sophisticated analytical tools for decoding the astrocyte function. Current practice is
+                       Hanchuan Peng,        essentially manual, which not only limits analysis throughput but also risks introducing
+      Allen Institute for Brain Science,
+                                             bias and missing important information latent in complex, dynamic big data. Here, we
+                           United States
+                                             report a suite of computational tools, called Functional AStrocyte Phenotyping (FASP),
+                         Reviewed by:
+                               Bing Ye,      for automatically quantifying the functional status of astrocytes. Considering the complex
+ University of Michigan, United States       nature of Ca2+ signaling in astrocytes and low signal to noise ratio, FASP is designed
+                     Chung-Chuan Lo,
+ National Tsing Hua University, Taiwan
+                                             with data-driven and probabilistic principles, to flexibly account for various patterns and to
+                          Peter Bajcsy,      perform robustly with noisy data. In particular, FASP explicitly models signal propagation,
+   National Institute of Standards and
+                                             which rules out the applicability of tools designed for other types of data. We demonstrate
+            Technology, United States
+                                             the effectiveness of FASP using extensive synthetic and real data sets. The findings by
+                  *Correspondence:
+                              Lin Tian       FASP were verified by manual inspection. FASP also detected signals that were missed
+                  lintian@ucdavis.edu        by purely manual analysis but could be confirmed by more careful manual examination
+                          Guoqiang Yu
+                           yug@vt.edu
+                                             under the guidance of automatic analysis. All algorithms and the analysis pipeline are
+                      †
+                          Co-first author.
+                                             packaged into a plugin for Fiji (ImageJ), with the source code freely available online at
+                                             https://github.com/VTcbil/FASP.
+             Received: 17 April 2017
+                                             Keywords: astrocyte, astrocyte activity, functional phenotype, calcium dynamics, time-lapse calcium image,
+            Accepted: 30 June 2017
+                                             signal propagation
+            Published: 14 July 2017
+
+                             Citation:
+   Wang Y, Shi G, Miller DJ, Wang Y,
+Wang C, Broussard G, Wang Y, Tian L
+                                             INTRODUCTION
+         and Yu G (2017) Automated
+Functional Analysis of Astrocytes from
+                                             Astrocytes, which constitute nearly half the volume of the adult human brain, have long
+Chronic Time-Lapse Calcium Imaging           been considered to play only passive roles in the central nervous system, such as supplying
+     Data. Front. Neuroinform. 11:48.        trophic factors, maintaining ion homeostasis, and serving as an inert scaffold. In recent
+       doi: 10.3389/fninf.2017.00048         years, active roles in regulating various aspects of neuronal function have been identified
+
+
+Frontiers in Neuroinformatics | www.frontiersin.org                                 1                                                   July 2017 | Volume 11 | Article 48
+Wang et al.                                                                                                Automated Functional Analysis of Astrocytes
+
+
+
+(Agulhon et al., 2008; Khakh and Sofroniew, 2015; Bazargani and             of view (Mukamel et al., 2009). Third, the morphological features
+Attwell, 2016). Neuron-astrocyte communication at synapses                  of FIUs, such as size and shape, are irregular and heterogeneous,
+regulates synaptic transmission and plasticity, breathing,                  so morphology cannot be used for detection. Last but not least,
+memory formation, motor function, and sleep, and is implicated              heterogeneous expression of protein indicators and other factors
+in many neuropsychiatric disorders (Haydon, 2001; Volterra and              give rise to a wide range of signal to noise ratios (SNRs) in
+Meldolesi, 2005; Halassa and Haydon, 2010; Clarke and Barres,               the same field of view (Knöpfel and Boyden, 2012); and in a
+2013). Astrocytes interact with synapses through release of                 considerable proportion of FIUs, the Ca2+ signals have low SNR,
+soluble factors driven by intracellular Ca2+ elevations (Agulhon            due to the fundamental limitations of living Ca2+ imaging such
+et al., 2008; Haustein et al., 2014) and, as a result, the Ca2+             as the existence of auto-fluorescence and imperfect selectivity
+dynamics are the best established correlates of the excitatory              of the calcium indicator (Myers, 2012). The low SNR demands
+state and functional readout of astrocytes. With the convergence            sophisticated modeling to maximize information extraction and
+of recent advances in both modern microscopy and ultrasensitive             a rigorous statistical framework to accurately control the false
+cell-type specific genetic encoded calcium indicators (GECI;                positive rate. These challenges significantly increase the difficulty
+Knöpfel and Boyden, 2012; Broussard et al., 2014), it is now                in repurposing existing methods designed for other dynamic
+possible to conduct chronic optical imaging to record activities            imaging data, such as neuronal Ca2+ data, and necessitate
+of a large number of astrocytes with high spatial and temporal              development of new approaches.
+resolution (Srinivasan et al., 2015), resulting in overwhelmingly               Since complete astrocyte Ca2+ data is new, there are very
+large data sets and making manual analysis prohibitive. Note                few analytical tools specifically designed for astrocytes. The only
+that the term “chronic imaging” used in this paper is essentially           two scripts to our knowledge are GECIquant (Srinivasan et al.,
+equivalent to “long-term imaging” which is also widely used                 2015) and CaSCaDe (Agarwal et al., 2017). However, both scripts
+in literature. However, effective automatic computational tools             are “semi-automated,” involving significant manual effort which
+for analyzing functional astrocyte data have lagged far behind              is prone to operator bias and variation. GECIquant requires
+the capability of generating large-volume Ca2+ imaging data.                manually setting multiple parameters, adjusting thresholds, and
+Quantifying the functional status of astrocytes here relies on              drawing polygons, while CaSCaDe needs manually labeling
+three core analytical tasks: (1) identifying astrocytic functionally        thousands of ROIs for training. In contrast, the large-scale
+independent units (FIUs), (2) estimating the characteristic                 data we are modeling requires a fully automated algorithm.
+curves of Ca2+ dynamics, and (3) extracting functional features             In addition, to identify FIUs, GECIquant projects a raw image
+of astrocytes or astrocytic FIUs. The detailed definition of FIU            stack into a single map of pixel-wise temporally maximum
+and characteristic curve is referred to Section Problem Statement           intensity and then binarizes it using a user-given threshold, losing
+and Formulation.                                                            the rich information of temporal patterns and confounding
+    Analyzing functional astrocyte data is challenging due to               active units with silent cells that have high baseline intensity.
+the complex nature of astrocyte Ca2+ signaling. First, one                  Similarly, CaSCaDe projects the image stack into a map by
+single astrocyte may contain multiple FIUs due to calcium                   summing up all the intensities and uses a threshold to binarize
+compartmentalization, varying from large areas in soma to small             the map. Most critically, even though both were designed for
+and local microdomains in processes, which have different Ca2+              astrocyte data, signal propagation were neither modeled nor
+activity patterns. Thus, it is infeasible to use cellular information       quantified.
+such as nucleus to identify FIUs. Second, Ca2+ elevations do not                More broadly, from a technical point of view, our problem
+occur simultaneously in an FIU, but propagate as a Ca2+ wave                falls under the general category of time-lapse Ca2+ image
+within an astrocyte or between astrocytes with complex speed                analysis. To date, a handful of algorithms have been developed
+and direction patterns (Fiacco and McCarthy, 2006). Examples                for analyzing neuronal Ca2+ imaging data (Reidl et al., 2007;
+are shown in Figures 1B,C. The time delay between two parts                 Mukamel et al., 2009; Smith and Häusser, 2010; Valmianski
+in the same FIU can be larger than the duration of an event                 et al., 2010; Andilla and Hamprecht, 2013; Diego et al., 2013;
+(Figure 1C; Fiacco and McCarthy, 2006), so it is impossible                 Pachitariu et al., 2013; Kaifosh et al., 2014; Maruyama et al., 2014;
+to eliminate time lags within an FIU by downsampling. As an                 Soelter et al., 2014; Pnevmatikakis et al., 2016). However, none of
+intrinsic property of astrocyte Ca2+ signaling, signal propagation          them can be applied to astrocytic Ca2+ data due to the specific
+is quite prevalent (Fiacco and McCarthy, 2004, 2006; Matyash                challenges mentioned above. For more detailed discussion, see
+and Kettenmann, 2010). In our real data of in vitro human                   Section Necessity of Specific Tools for Analyzing Time-Lapse
+astrocyte induced pluripotent stem cells (hiPSCs), we found                 Astrocyte Ca2+ Imaging Data.
+>90% astrocytic FIUs having discernable propagation. Thus, any                  Here, we formulate a statistical model for astrocyte Ca2+
+modeling effort must explicitly take into account the propagation.          dynamics imaging data, and propose an integrated suite of
+As a similar but relatively better studied type of cellular                 algorithms, Functional AStrocyte Phenotyping (FASP), to
+excitation indicator, neuronal Ca2+ spikes also propagate, but the          simultaneously identify astrocytic FIUs, extract their functional
+propagation is generally so fast that the signal can be regarded as         features, and further characterize the functional status. The
+synchronized, that is to say, any time lag between Ca2+ elevations          flowchart of FASP is shown in Figure 2. FASP possesses several
+in two parts of a cell is shorter than the temporal resolution of           unique features. First, recognizing that the core tasks—the
+imaging. Consequently, the neuronal Ca2+ signal pattern can be              identification of FIUs, the extraction of the corresponding
+considered as homogeneous in a cell from an image analysis point            characteristic curves and the estimation of propagation
+
+
+Frontiers in Neuroinformatics | www.frontiersin.org                     2                                            July 2017 | Volume 11 | Article 48
+Wang et al.                                                                                                                   Automated Functional Analysis of Astrocytes
+
+
+
+
+ FIGURE 1 | Overview of the analytical tasks and challenges in quantifying the functional dynamics of astrocytes from time-lapse astrocyte Ca2+ imaging data. (A) The
+ problem in this study is to automatically quantify astrocyte functional dynamics from the input data, a time-lapse astrocyte Ca2+ image stack. It can be divided into
+ three core analytical tasks: (1) identifying astrocytic functionally independent units (FIUs), (2) estimating the characteristic curves of FIUs’ Ca2+ dynamics, and (3)
+ extracting descriptive features of the astrocytic functional status. (B) A real example of astrocytes derived from human induced pluripotent stem cells (hiPSCs) shows
+ the complex nature of astrocyte Ca2+ signaling which makes the computational analysis challenging. Astrocytic FIUs have heterogeneous and irregular morphological
+ patterns; Ca2+ transients propagate within an astrocyte with complex speed and direction patterns; signal to noise ratio (SNR) is heterogeneous and varies in a wide
+ range even in the same field of view. The red rectangle on the left image highlights the area shown on the right. (C) Illustrative example of slow propagation in another
+ FIU, where the time lag between two ends of the FIU is in the same scale as the duration of a Ca2+ elevation event. This means we cannot eliminate effect of
+ propagation by down-sampling, otherwise the signaling events will be removed, too.
+
+
+
+
+patterns—are mutually dependent, FASP addresses them in                                 tuning parameters with probabilistic meaning, greatly facilitating
+a unified way by building an integrated probabilistic model.                            usability of parameter setting.
+Second, FASP is data-driven, learning model parameters using                               We evaluated FASP on both synthetic data simulating
+machine learning techniques without constraints on the form                             Ca2+ signaling and real data of in vitro human astrocyte
+of the characteristic signals, the morphological patterns of FIUs,                      induced pluripotent stem cells (hiPSCs). The quantitative
+the spatial distribution/sparsity of FIUs, or the total number                          evaluation demonstrated FASP’s effectiveness, flexibility, and
+of FIUs. Thus, it can flexibly account for various Ca2+ events                          robustness. Compared to a manual ROI drawing, FASP
+including waves and microdomain fluctuations, heterogeneous                             generated more accurate contour and detected quite a few
+morphology, a large range of unit sizes and spatial intensities                         otherwise missed activities. The experimental comparison
+of FIUs, and, critically, it does not require a pre-assumed                             between FASP and a representative of neuron-targeted methods
+total number of FIUs. Third, FASP models Ca2+ propagation                               that assume in-FIU synchronization (Mukamel et al., 2009)
+explicitly, dealing with cases with or without intracellular                            validated the necessity of developing methods specifically
+propagation phenomena. This explicit modeling not only                                  modeling intracellular propagation, and also showed the superior
+contributes to faithfully identify FIU, but also enables extracting                     performance of FASP for this task. To further validate our
+characteristic features related to propagation patterns. Fourth,                        method, we applied FASP to study agonist-induced Ca2+
+FASP takes full advantage of spatial structural information to                          activities in in vitro rat astrocytes. FASP successfully detected the
+facilitate learning and enhance performance. Lastly but very                            induced FIUs responding to three known agonists for astrotytic
+importantly, it is deeply probabilistically principled. By judicious                    Ca2+ signaling: ATP, glutamate and 3,5-dihydroxyphenylglycine
+application of various statistical theories, FASP accurately                            (3,5-DHPG). Many quantitative features and patterns of the
+distinguishes signals from noises and controls false positive rate,                     astrocytic activities revealed by FASP are consistent with what
+which is essential for analyzing noisy data. FASP also confers                          have been reported in the literature.
+
+
+
+
+Frontiers in Neuroinformatics | www.frontiersin.org                                 3                                                    July 2017 | Volume 11 | Article 48
+Wang et al.                                                                                                             Automated Functional Analysis of Astrocytes
+
+
+
+
+ FIGURE 2 | Flowchart of the proposed FASP algorithm. FASP addresses the problem using three modules. The blue pipeline on the left shows the major structure of
+ FASP, including the relationship among the three modules. More detailed procedures are depicted in the expanded blocks of the modules. The output of each step or
+ procedure is given right under the procedure description.
+
+
+
+
+Frontiers in Neuroinformatics | www.frontiersin.org                             4                                                  July 2017 | Volume 11 | Article 48
+Wang et al.                                                                                                        Automated Functional Analysis of Astrocytes
+
+
+
+METHODS                                                                            an important part of learning, and that accurate estimation of τij′ s
+                                                                                   is necessary for the correct estimation of Xm . Put
+                                                                                                                                        simply, the
+Problem Statement and Formulation                                                  problem is to learn all parameters,  β    i, j , β   i, j , Xm [t], τij
+                                                                                                                          0          m
+For convenience of discussion, we consider time-lapse 2D                                                                 
+imaging data, which can be easily extended to the 3D imaging                       and M from the observed data Y i, j, t . This is a mathematically
+case. We formulate the astrocyte Ca2+ data as a 3-dimensional                      challenging problem, because the number of parameters is huge
+array Y[i, j, t], where i ∈ {1, 2, . . . , Dh } is the horizontal spatial          and all parameters interact in a highly non-linear way to give
+index, j ∈ {1, 2, . . . , Dv } is the vertical spatial index, and t ∈              rise to the observed data. In the following, we will discuss
+{1, 2, . . . , Dt } the temporal index. Define an astrocytic FIU as                how a bunch of advanced probabilistic and machine learning
+a group of spatially connected pixels sharing a characteristic                     techniques are integrated as FASP to solve the problem.
+Ca2+ temporal pattern with possibly different temporal phases
+and noises. Define the characteristic curve of an astrocytic FIU                   Overview and Design Principles of FASP
+as the core time series of fluorescence intensity F shared by                      Our method, FASP, addresses the problem using three major
+pixels in the FIU, from which the Ca2+ dynamics quantified                         modules (Figure 2). First, it distinguishes “active regions” from
+as1F/F0 = (F − F0 ) /F0 can be obtained, where F0 is the                           inactive background. In this paper, we call a pixel an “active
+baseline fluorescence. We model the fluorescence microscopy                        pixel” if it has a non-zero βm [i, j] for some m in model
+imaging data of astrocyte Ca2+ dynamics Y[i, j, t] consisting of                   (1), and call a region an “active region” if it contains only
+M FIUs as                                                                          active pixels and all its neighboring pixels are “inactive,” or,
+                       XM                                                  not active pixels. Second, given each active region, FASP
+      Y i, j, t = β0 i, j +             βm i, j Xm t − τij + ε[i, j, t], (1)       sequentially identifies distinct FIUs within the active region one
+                                   m=1
+                                                                                   by one and estimates the corresponding characteristic curves.
+            
+            kXP
+                m k2 = 1, E [X
+                   M
+                                 ] = 0, for m = 1, 2, . . . , M
+                               m
+                                                                                   It also automatically determines the number of FIUs. Finally,
+                                      
+                       I βm i, j 6= 0 ≤ 1, for i = 1, 2, . . . , Dh ,
+            
+      s. t.        m=1
+            
+                                j = 1, 2, . . . , Dv                              it performs quality control by automatic post processing and
+                c (G (βm )) ≤ 1, for m = 1, 2, . . . , M                           proofreading, and computes various quantitative features to
+            
+
+                                                                               characterize the functional status of astrocytes.
+where
+     β0 i, j is a constant associated with each pixel i, j ;                        Learning model (1), or jointly estimating βm , Xm , and τij with
+βm i, j is the coefficient for the mth FIU; Xm is the characteristic             multiple indices m, on the entire field of view simultaneously
+curve of the mth FIU; τij is the time lag of i, j ’s time-intensity                will be very time-consuming and may be prone to severe
+curve with respect to the characteristic     curve, as a result of               overfitting. As a critical part to make the whole strategy feasible,
+calcium signal propagation; and ε i, j, t is an independent                      we designed two schemes to combat this problem. Firstly, we
+Gaussian noise which, given      any
+                                    pixel i, j , has zero mean                    designed a special map of neighborhood correlation so that
+and a common variance σ02 i, j across different time points t.                     FASP can, in its first module, detect active regions, without
+Note that image noise is often non-Gaussian with intensity-                        needing to explicitly specify the unknown m for any pixel.
+dependent variance, but we can apply variance stabilization                        As outputs of the first module, we obtain a set of active
+technique to the data to satisfy the assumption of Gaussian                        regions. Secondly, in a given     active region, different pixels
+noise with common variance (Starck et al., 1998; Foi et al.,                       may have non-zero βm i, j for different m: multiple FIUs may
+2008). The constraint kXm k2 = 1 removes the model non-                            be spatially connected and hence pixels of them may be in
+identifiability arising from multiplying Xm by a factor and                        the same active region, which constantly occurs in astrocyte
+dividing βm byP  the same factor.
+                               I (·)is an indicator function and                Ca2+ data. So we resort to a sequential approach to identify
+the constraint M  m=1 I βm i, j 6= 0 ≤ 1 ensures that each pixel                   the FIUs in the same region one by one. In this multi-
+will be associated with at most one FIU. c (G (βm )) is the number                 step framework, by constraining the model learning problem
+of connected
+             components in the graph induced by the non-zero                     to active regions only and using sequential identification,
+βm i, j with the edges derived from the pixel neighborhood                         the parameter search space becomes much smaller than the
+structure. The constraint c (G (βm )) ≤ 1 ensures all pixels                       original space. In this way, FASP successfully mitigates the
+associated with the same FIU are connected. Model (1) assumes                      computational burden and relieves the potential overfitting
+no cell migration or deformation, or that the data is preprocessed                 problem.
+by migrating cell tracking and registration techniques.                               In addition, there are other two critical principles
+   We primarily concentrate upon three core tasks in analyzing                     for modeling astrocytic FIUs. First, fully utilizing spatial
+astrocyte Ca2+ data, especially the first two: (1) the identification              neighborhood information could effectively assist the model
+of FIUs and (2) the estimation of the corresponding characteristic                 learning. According to the definition of FIUs, the spatial
+curves; and (3) the extraction of biologically interesting                         distribution of an FIU’s pixels is localized, that is, pixels
+quantitative features of astrocyte functional status. Based on                     belonging to the same FIU must be spatially connected.
+model (1), the first two  tasks can be addressed by learning                     Besides, neighboring pixels in an FIU should be similar
+the parameters βm i, j and Xm [t] , for m = 1, 2 . . . , M.                        in terms of signal pattern. We expect that incorporating
+The mth FIU is the collection of all pixels with non-zero βm ;                     neighborhood information will lead to higher statistical power
+the corresponding characteristic curve can be obtained directly                    to detect active regions and FIUs, compared with inspecting
+from Xm . Hence, in this report we focus on the model learning.                    each pixel individually. Second, due to the nature of Ca2+
+Note that automatically determining the number of FIUs, M, is                      imaging, large noises (small signal-to-noise ratio) are typically
+
+
+Frontiers in Neuroinformatics | www.frontiersin.org                            5                                             July 2017 | Volume 11 | Article 48
+Wang et al.                                                                                                 Automated Functional Analysis of Astrocytes
+
+
+
+observed and challenging the performance of analysis. In                   cumulative information in spatial neighborhoods is fully utilized
+such cases, probabilistic principles are needed to enable                  to enhance confidence in decisions. We develop a region growing
+information extraction under great uncertainty. We embrace the             algorithm, starting from a singleton containing only one pixel,
+probabilistic principles in all steps of algorithm development.            known as “seed,” and iteratively growing the region, or pixel
+A set of statistical tools are exploited—maximum likelihood                set, until it reaches the greatest statistical significance. These
+estimation for characteristic curve learning, Bayesian decision            procedures are repeatedly conducted till all qualified seed pixel
+theory for distinguishing adjacent but different FIUs, Fisher’s            singletons are labeled as searched. The main difficulty and a key
+transformation and order statistics theory for hypotheses                  technique here lies in how to assess the statistical significance
+testing and error control. This principle is also crucial for              of a region, since the operations that FASP does to enlarge the
+practical use, as it allows end users to determine the number              region in each iteration introduce some dependency structure
+of FIUs and to anticipate the false positive rate. The statistical         among the pixels. Realizing that such a structure can be modeled
+framework also helps to endow parameters with either physical              using order statistics, we design a region-level hypothesis test
+or probabilistic meaning, which makes parameter tuning more                based on the theory of order statistics, which is one of the
+objective.                                                                 major innovations of our work. We will introduce this region
+                                                                           growing method in detail in Section Active Region Detection
+Module 1: Detecting Active Regions                                         on Z-Score Map by Order-Statistics Guided Hypothesis Testing,
+In order to constrain the parameter search space and thus                  and compare it with three other popular segmentation methods
+facilitate the model learning, we first detect active regions.             in Section The Binarization Method Based on Order-Statistics
+From a different point of view, in this module, FASP identifies            Theory is Effective.
+all background or inactive pixels, and estimates their βm s to
+be zero for all m, with βm s of active pixels and Xm s kept                Building a Map of Correlation between Neighboring
+unknown. This is feasible owing to the fact that any two active            Pixels
+pixels sharing the same characteristic curve Xm are expected               We define the neighborhood correlation at pixel [i, j] as
+to have higher correlation than those which do not, so the
+correlation between neighboring pixels alone is sufficient for                                                                     
+                                                                                             
+inferring active regions. Therefore, in this module, we first                            rsc i, j = cor Y[i, j, :], Ȳ nb [i, j, :]                  (2)
+build a map of neighborhood correlation in which the value
+at each pixel is basically the correlation between this pixel’s
+intensity time series with its neighboring pixels’. The formulation        where cor (, ) is the Pearson correlation coefficient between
+of neighborhood correlation score is given in Section Building             two curves; Y nb [i, j, :] is the average curve of the eight direct-
+a Map of Correlation between Neighboring Pixels. Then the                  neighbor pixels of [i, j]. Inspection of real data confirmed that the
+problem of detecting active regions is translated into a problem           neighborhood correlation at pixel [i, j] indicates how active this
+of binarizing this neighborhood correlation map, distinguishing            pixel is. For example, comparing Figures 3A,B, we can see that
+true correlation between signals from random correlation due to            pixels in FIUs have much higher neighborhood correlation than
+noises.                                                                    the pixels out of FIUs.
+    In applications with low-SNR, probabilistic models and                    One may notice that we intentionally ignore the time shifts
+statistical approaches often play positive roles in suppressing            between neighboring pixels. Although, for two arbitrary pixels
+the impact of large noises. Besides, significance assessment is            in the same FIU the time shifts can be quite different due to
+often critically important for biomedical applications, as we care         propagation, we expect that the time shifts between neighboring
+much about false positives, but no existing image segmentation             pixels are minor and can be ignored in computing the average
+method to our knowledge gives significance assessment. Thus,               curve and the correlation coefficient. For cases where SNR is
+we aim to build a probabilistically principled strategy for                high while propagations are very slow (time shifts between
+detecting active regions, or, segmenting the neighborhood                  neighboring pixels are large), we also designed an alternative
+correlation map. To this end, we construct a z-score map                   neighborhood correlation score to explicitly model time shifts
+from the correlation map (see Section Constructing a Z-Score               and thus better deal with the Ca2+ propagation phenomena,
+Map of Neighborhood Correlation), endowing the correlation                 with a price of losing some power to suppress noises. More
+scores explicit probabilistic meaning. Any background pixel                discussion and comparison of the two definitions are given in
+should have a correlation z-score following a standard Gaussian            Section Alternative Design of Neighborhood Correlation Score.
+distribution (the null distribution), while active pixels are
+expected to have statistically significantly large positive z-score.       Constructing a Z-Score Map of Neighborhood
+This transformation also stabilizes the variance, which means              Correlation
+to make the variance of score independent from its magnitude,              We make a monotonic transformation to each pixel in the
+assuring that all pixels will be treated equally in the following          neighborhood correlation map:
+analysis.
+    Having got the correlation z-score map, rather than testing                                              √                  !
+each pixel in isolation (e.g., do thresholding to the z-score),                                             N−3    1 + rsc i, j
+                                                                               zpx i, j = F rsc i, j =               ln          ,                 (3)
+FASP evaluates a set of connected pixels as a whole so that the                                                   2     1 − rsc i, j
+
+
+Frontiers in Neuroinformatics | www.frontiersin.org                    6                                               July 2017 | Volume 11 | Article 48
+Wang et al.                                                                                                            Automated Functional Analysis of Astrocytes
+
+
+
+
+ FIGURE 3 | Properties of astrocyte time-lapse Ca2+ imaging data that served as inspirations or constraints in the development of FASP. (A) A time-lapse imaging
+ data sample of hiPSCs-derived astrocytes contains 7 FIUs with different Ca2+ dynamics, among which FIU1, 2, and 3 are spatially connected. (B) The neighborhood
+ correlation (rsc ) map of the sample shown in (A). Pixels within FIUs shows obviously higher neighborhood correlation than those in the non-FIU regions.
+ (C) The characteristic curves of FIU1, 2, and 3 in (A). With slight time shifts, each pair of curves among the three have coincident peaks, suggesting non-zero
+ correlation between the curves.
+
+
+
+
+where F (·) denotes the normalized Fisher transformation                            pixels that have not been labeled as “searched.” Then the region
+(Fisher, 1915, 1921), and N is the total number of time                             (pixel set) iteratively grows. In each iteration, from the set of
+points.                                                                             directly neighboring pixels of the current region we select a subset
+    According
+               to the properties of the Fisher transformation,                    and attach it to this region, such that the resulting new region’s
+zpx i, j asymptotically follows a standard Gaussian distribution                    statistical significance (given by a hypothesis test defined in the
+under the null  hypothesis
+                               that the pixel [i, j] has zero βm for             following paragraphs) is increased from the current region as
+all m, that is, i, j is not associated with any FIU. If the
+                                                           pixel
+                                                                 i, j              much as possible. The growing stops if the termination criterion
+belongs to one FIU, the time curve at the pixel i, j will be                        is reached, that is, the region’s statistical significance no longer
+correlated with the ones at its neighboring pixels because of the                 increases as this region continues to grow. It can be expected
+spatial localization property of FIU. As a consequence, rsc i, j                    that, being expanded from a seed pixel, the most statistically
+is expected to be positive. Due to the monotonicity of the                        significant region does not contain silent background pixels,
+normalized Fisher transformation, zpx i, j is thus expected to be                   because inclusion of silent pixels moves the test statistics toward
+larger than 0. Note that the normalized Fisher transformed score                    the null. Once a round of region growing process is finished,
+always follows Gaussian distributions with constant variance of 1,                  another round is started as long as any pixel remained not labeled
+regardless of the expected value of the score, or in other words, no                as “searched.” Finally the union of all found regions forms the
+matter in the background or in FIUs. The chosen transformation                      map of active regions.
+facilitates subsequent probabilistic analysis owing to its effect                       Both the selection of neighboring pixels and the termination
+of variance stabilization and the good properties of Gaussian                       criterion rely on the assessment of statistical significance of
+distributions.                                                                      regions. Given a set of pixels, the null hypothesis here states that
+                                                                                    all pixels in this set are inactive pixels, in other words, their zpx s
+Active Region Detection on Z-Score Map by                                           all approximately follow a standard Gaussian distribution. Thus,
+Order-Statistics Guided Hypothesis Testing                                          the alternative hypothesis is that some pixels in this region are
+Having obtained a score map zpx computed as in Equation (3),                        active pixels and their zpx s tend to be positive. Note that a pixel
+FASP binarizes the map into foreground (active regions) and                         set containing both active and inactive pixels is expected to have
+background (inactive regions) using a region growing strategy.                      lower significance than its subsets containing active pixels only.
+Each round of region growing process starts from a singleton{a0 },                  As a consequence, the procedure of always finding the maximum
+where the seed pixel a0 has the largest zpx among the remaining                     significance rules out such cases.
+
+
+
+Frontiers in Neuroinformatics | www.frontiersin.org                             7                                                July 2017 | Volume 11 | Article 48
+Wang et al.                                                                                                 Automated Functional Analysis of Astrocytes
+
+
+
+     Under the null hypothesis, the pixel-level z-scores zpx of all       Module 2: Identifying FIUs and Extracting
+pixels in a region can be considered as independently standard-           Characteristic Curves
+Gaussian distributed. However, the average zpx in each candidate          As shown in Figure 3 and Supplementary Video 1, it was
+region in the region growing process does not follow the                  repeatedly observed that spatially-connected FIUs can have
+Gaussian distribution suggested by the central limit theorem,             different signal patterns, indicating that one active region can
+because these pixels are conditioned on the operation of region           contain multiple FIUs. Identifying FIUs from an active region
+growing and thus not independent anymore. The conditioning                requires estimating all Xm s that have non-zero βm s in this
+causes biases in both mean and variance of the average zpx .              active region and assigning each pixel to the most likely Xm .
+Indeed, if these pixels are still approximately treated as                Learning all FIUs’ parameters in parallel without knowing the
+independent standard Gaussian noises under the null hypothesis,           number of FIUs in this active region is very time consuming,
+the significance assessment can be quite straightforward using            algorithmically complex, and prone to overfitting. A feasible
+the central limit theorem. For comparison, we also experimented           alternative way is to resort to a sequential approach: in each
+with the same region growing procedure but assessed significance          round we seek for one Xm with non-zero βm at some pixels
+using the central limit theorem, but it resulted in an endlessly          in the active region, and then determine the spatial area of
+expanding web of thin strings in simulation studies when no               the mth FIU by finding pixels whose curves are well-explained
+active regions were embedded.                                             by Xm . Once an FIU is detected, we inspect its statistical
+     Hence, a more sophisticated approach is needed to assess             significance: if its p-value is smaller than a given threshold, all
+the statistical significance for each candidate active region. One        pixels in this FIU are removed from the active region, and in the
+critical innovation in the proposed framework is the realization          remaining region FASP continues to search for more FIUs until
+that the biases and dependency structure come from the ranking            no significant FIU can be found. It is worth noting that, through
+and selection operation in the region growing procedure and               this sequential strategy, the number of FIUs is determined by
+the significance can thus be modeled by order-statistics theory           setting threshold for the statistical significance, which is easy and
+(David
+             and Nagaraja, 2003). Denote the current region A =          intuitive. We leave the significance threshold as a parameter for
+   a1 , a2 , . . . , anA and the surrounding set of pixels B =            users to specify. Consequently, users can control the number of
+                                                                ′
+   b1 , . . . , bnB . A candidate region C has the form C = A ∪ B ,       FIUs by setting different significance thresholds for claiming a
+where         ′
+            B is a subset of B. We have a score for the region C =
+                                                                         significant FIU.
+   c1 , c2 , . . . , ck , . . . , cnC as,                                     Thus, the three main components in this module respectively
+                                                                          aim to: (1) learn an Xm and its corresponding parameters βm , τ ,
+                                                                          and σ02 at each pixel in the remaining part of the active
+                               1 XnC                                      region (Section Learning Model Parameters βm , Xm , τ ,
+                      s (C) = √        zpx [ck ]               (4)
+                                nC k=1
+                                                                          and σ 2 Associated with the mth FIU); (2) create a z-
+                                                                          score map assessing how each pixel is likely to belong to
+                                                                          the mth FIU (Section Constructing a Pixel-level Z-Score
+where zpx [ck ] is the z-score of neighborhood correlation of
+                                                                          Map Associated with the mth FIU); (3) identify the mth
+pixel ck . Let us sort increasingly all pixels from A ∪ B by
+                                                                          FIU’s pixel set on the z-score map. The third task can be
+their zpx scores and record the ascending orders of elements            accomplished by re-applying the order statistics guided region
+of C as J. Thus, J k denotes the ascending order of pixel ck
+                                                                          growing strategy as discussed previously in Section Active
+in A ∪ B regarding zpx . Based on the asymptotic distribution
+                                                                          Region Detection on Z-Score Map by Order-Statistics Guided
+of linear combination of order statistics, known in the order-
+                                                                          Hypothesis Testing, so here we focus on the former two in this
+statistics theory (David and Nagaraja, 2003), the score s (C) can
+                                                                          module.
+be approximated by a normal distribution with the following
+mean E [S (C)] and variance Var (S (C)) ,
+                                                                          Learning Model Parameters βm , Xm , τ , and σ 2
+                             1 XnC                                        Associated with the mth FIU
+                E [S (C)] = √            Φ −1 (vk ),           (5)        FASP employs a sequential strategy to alleviate the burden and
+                              nC     k=1
+                                                                          drawbacks of simultaneously estimating all FIUs’ parameters.
+                                  2        XnC XnC
+              Var (S (C)) =                                               However, even within one round of sequential model learning,
+                            nC (nA + nB )    k1 =1   k2 =k1
+                                                                          where we only deal with one FIU, model learning is still a non-
+                                                
+                                    vk2 1 − vk1                           trivial problem because the parameters, Xm , βm , τ , and σ02 , are
+                                                       ,     (6)
+                                                                          all unknown and we have to estimate them at the same time.
+                                        
+                            φ Φ  −1  vk1 φ Φ −1 vk2
+                                                                          To tackle this problem, we developed an iterative, alternating
+                                                                       approach reminiscent of the expectation-maximization (EM)
+where vk = J k + 0.5 /(nA + nB ), φ (·) is the standard                   algorithm (Dempster et al., 1977; Little and Rubin, 2014) to learn
+Gaussian PDF and Φ −1 (·) is the standard inverse Gaussian CDF.           the model parameters. An Xm is initialized as the time-intensity
+The essential idea behind (5) and (6) is that a linear combination        curve of the pixel
+                                                                                           with   the
+                                                                                                       largest
+                                                                                                                   zpx in the region. Denote this
+of ordered variables is asymptotically normally distributed as the        initial pixel as i0 , j0 . τ i0 , j0 is initialized as 0. In each iteration,
+number of variables increases.                                            given a current estimate of Xm , for each pixel [i, j] we update the
+
+
+Frontiers in Neuroinformatics | www.frontiersin.org                   8                                                July 2017 | Volume 11 | Article 48
+Wang et al.                                                                                                                    Automated Functional Analysis of Astrocytes
+
+
+                                                                                                 ′        
+other parameters as follows:                                                                      m 6= m , which is characterized by Xm′ , can also be correlated
+                                                                                                with Xm due to moderate but non-negligible correlation
+    τ̂ ∗ i, j = τ̂ inb , jnb + argmax1t∈[Uτ ,Uτ ]
+                         
+                                                                                                between Xm and Xm′ . In such a case, by simply assessing goodness
+                 n                                       o
+                                                   
+                  cor Y i, j, : + τ̂ inb , jnb + t , X̂m                (7)                     of fit to Xm , it is difficult to well-distinguish pixels in FIU m
+                         h                 i                                                    from pixels in FIU m′ . In Section Neighborhood Correlation in
+      ∗            T               ∗ 
+                                                                                                Residual Signals Enables a Sequential FIU Identification, we have
+                                         
+   β̂m i, j = X̂m     Y i, j, : + τ̂ i, j                               (8)
+                                                                                                more detailed discussion on this problem. To solve it, here we
+       ∗          1  X   T      h           ∗
+                                                   i     ∗
+                                                                   2
+  σ̂02 i, j =                                                                                   propose a method to evaluate the confounding effects of other
+                                                          
+                               Y i, j, t + τ̂ i, j − β̂m i, j X̂m       (9)
+                  T      t=1
+                                                                                                (latent) FIUs without knowing their characteristic curves, which
+                                                                                          is another important innovation in our work. By combining the
+    Y i, j, : + τ i, j means the curve Y i, j, : shifted
+where                                                                 by                      measure of goodness of fit to Xm and this measure of confounding
+τ i, j ; τ̂ inb , jnb  is the estimated time shift of pixel i, j ’s
+                                                                                                effects of other FIUs, FASP can well tell apart FIU m and
+neighbor inb , jnb . In Equation (7), FASP basically searches
+                                                                                                others.
+for the best τ i, j that gives the highest correlation between
+                                                                                                From the model learning procedure proposed in Section
+Y i, j, : + τ i, j and X̂m . Thanks to the spatial continuity                                   Learning Model Parameters βm , Xm , τ , and σ 2 Associated
+of Ca2+ propagation, the candidate range of τ̂ [i, j] can be                                    with the mth FIU, we have obtained X̂m and corresponding
+narrowed to a small window            of size 2Uτ around the time                             β̂m , τ̂ at each pixel. We realized that, if a pixel is actually
+shift of the neighbor inb , jnb , thus we actually search for the                                          ′                                                     
+                                                                                                in FIU m m 6= m′ , the residual Y [t] − β̂0 − β̂m X̂m t − τ̂
+                                                                                                                                                           
+    1t ∈ [−U
+best             τ , Uτ] that leads
+                                      to the highest correlation between
+                                                                                                contains not only noise ε but also some true signal that cannot be
+Y i, j, : + τ̂ inb , jnb + 1t and X̂m . After scanning all pixels in
+                                                                    ∗ , τ̂ ∗                    explained by Xm but can be explained by Xm′ . We further realized
+the region and having their β̂m , τ̂ and σ̂02 all updated to β̂m                                                                                          ′      
+          2∗
+and σ̂0 , we update Xm as a weighted summary of all n pixels                                    that residuals of any two pixels in the same FIU m′ m 6= m
+within the region:                                                                              should be correlated as a result of their common correlation
+                                                                                                to Xm′ , while residuals of pixels in FIU m are independent.
+                               ∗                                                                This key observation directly leads to the conclusion that the
+              ′   Xn        β̂m [ik , jk ] h                  ∗       i                       neighborhood correlation in residuals can be used as a measure
+         X̂m =                2 ∗         Y ik , jk , : + τ̂ ik , jk               (10)
+                       k=1 σ̂
+                              0 ik , jk                                                         of confounding effects of other FIUs. More discussion can be
+                                                       ∗        X̂m
+                                                                     ′                          found in Section Neighborhood Correlation in Residual Signals
+                                                      X̂ m =                 .       (11)       Enables a Sequential FIU Identification. Accordingly we designed
+                                                                 ′
+                                                               X̂m                              a special pixel-level score, inspired by Bayesian decision theory
+                                                                         2
+                                                                                                and indicating the competition between FIU m and other FIUs,
+The parameter updating is iterated until convergence is reached.                                as follows:
+Here we decide the convergence whenthe relative change
+                                                       ofX̂m
+                                                       ∗                         ∗
+between two iterations, defined as sd X̂ m − X̂m /sd X̂ m , is                                            (fit)    1
+                                                                                                         zpx i, j = √ Φ −1 Φ 2Uτ F rfit i, j
+                                                                                                                                        
+                                                                                                                                              −
+less than a given threshold (sd (·) means the standard deviation                                                      2
+                     ∗                                                                                               1
+over time points, X̂ m is the estimate in current iteration, and                                                             
+                                                                                                                    √ F rres i, j                                    (12)
+X̂m is the estimate in last iteration). The learning algorithm                                                        2
+proposed here is experimentally observed to converge robustly.
+Indeed, in our experiments, we have found that the updating                                                                                                     
+                                                                                                where rfit i, j is the correlation coefficient between pixel i, j ’s
+often converges in a dozen or fewer iterations.                                                                                                                 
+                                                                                                observed curve and the characteristic curve       Xm ; rres i, j is
+Constructing a Pixel-Level Z-Score Map Associated                                               the correlation coefficient between pixel i, j ’s residual signal
+with themth FIU                                                                                 and the average residual signal of its eight direct neighboring
+Given the estimated parameters associated with the mth FIU,                                     pixels; Φ (·) and Φ −1 (·) respectively represent the standard
+we construct a z-score map within the active region under                                       Gaussian CDF and its inverse; F (·) denotes the normalized
+inspection, where the z-score value at any active pixel indicates                               Fisher transformation [the same as in Equation (3); (Fisher, 1915,
+how likely this pixel belongs to the mth FIU rather than other                                  1921)]; and Uτ > 0 is the half window
+                                                                                                                                           size of the candidate pool
+FIUs. The goal is to design a feature (score) differentially                                    of τ at each pixel. Because rfit i, j is obtained by searching for the
+                                                                                                            
+distributed at pixels in FIU m and at pixels of other FIUs. We                                  optimal τ i, j from the candidate pool, based on the properties
+expect that pixels in FIU m should have activities that are highly                              of multiple tests, we introduce the transformation in the first term
+                                                                                                                (fit)  
+correlated with Xm . Hence, this correlation, or equivalently the                               to ensure that zpx i, j follows a standard Gaussian distribution.
+value of βm , can be used to determine which pixels belong to                                       We then apply the region growing as in Section
+FIU m. However, the characteristic curves from different FIUs                                   Active Region Detection on Z-Score Map by Order-
+are often not mathematically orthogonal to each other, suggested                                Statistics Guided Hypothesis Testing to identify pixels
+by observations from real data (Figure 3C). Consequently, the                                   associated with the FIU and assess its statistical significance
+curve of a pixel belonging to another currently unknown FIU m′                                  simultaneously.
+
+
+Frontiers in Neuroinformatics | www.frontiersin.org                                         9                                            July 2017 | Volume 11 | Article 48
+Wang et al.                                                                                                   Automated Functional Analysis of Astrocytes
+
+
+
+Refining Characteristic Curves                                                 where only one or very few events occur during observation,
+We need to refine Xm ∗ to remove the imposed constraint of unit L2             just like what we often see in time-lapse Ca2+ imaging data of
+norm and to reflect that only pixels in the FIU should contribute              astrocytes.
+to the calculation of the characteristic curve. Hence, denoting the
+region mask for FIU m as Km we have the final characteristic                   The half time (T0.5 )
+curve:                                                                         T0.5 of a Ca2+ event is calculated using linear interpolation as the
+                                                                               time from peak to half amplitude of an event.
+                         βm∗ [i , j ]   h               ∗      i
+                                k k
+              X
+       Cm =               2 ∗        Y ik , jk , : + τ ik , jk . (13)        Area of FIUs
+                  k∈Km σ
+                          0 ik , jk
+                                                                               Area of each FIU is represented in both pixels and µm2 .
+Module 3: Quality Control and Quantitative                                     Average spatial propagation velocity of Ca2+ transients in an
+Characterization of Astrocyte Functional                                       FIU
+Status                                                                         Based on the estimated time shift of each pixel’s observed curve
+The accompanying software package provides users opportunity                   from the characteristic curve, we can locate all the wavefronts
+to proof-read and edit the results. A number of informative                    of Ca2+ transients in an FIU. Then the intracellular propagation
+summary statistics are computed and presented to users for                     velocity of Ca2+ transients is obtained by estimating the average
+further analysis.                                                              distance between wavefronts.
+Quality Control: Post-processing and Proofreading
+In principle, the proposed algorithm has the power to detect                   EXPERIMENTS AND RESULTS
+any significant Ca2+ activity, regardless of what pattern it                   Real Astrocyte Calcium Imaging Data
+has. However, not all signals are biologically interesting. Prior              To validate FASP’s effectiveness in analyzing real data, we derived
+knowledge guided post-processing helps users control the                       astrocytes in vitro from dissociated primary rat culture and
+quality of results, by expert proofreading or computation-                     human astrocyte induced pluripotent stem cells (hiPSCs). Cells
+based screening of detected FIUs. The automatic screening                      were infected with lentivirus expressing EF1a-GCaMP6, and
+filters out a candidate FIU if it does not meet some pre-                      imaged under a confocal microscope 3 days after infection.
+defined requirements regarding its features obtained from the                  Before imaging, the culture medium was removed, and cells were
+quantitative analysis illustrated in Quantitative Characterization             washed with HBSS (Life Tech, with 2 mM Ca2+ /Mg2+ ) three
+of Astrocyte Functional Status, such as smoothness of the time-                times. The cells were incubated with HBSS, and imaged using the
+intensity curve, number of peaks or the area of the region.                    time series mode (968 ms per image, 2 s interval, for 200 images).
+                                                                               Several agonists known to trigger astrocytic Ca2+ signaling (Kim
+Quantitative Characterization of Astrocyte Functional
+                                                                               et al., 1994; Pasti et al., 1997; Bowser and Khakh, 2004; Fiacco and
+Status
+                                                                               McCarthy, 2004; Jourdain et al., 2007; Hamilton et al., 2008) were
+On the basis of the learned model of a time-lapse Ca2+
+                                                                               then respectively added to the cells, including ATP, glutamate
+imaging data sample, various quantitative analyses can be
+                                                                               and metabotropic glutamate receptors (mGluRs). Agonists were
+conducted to extract features of astrocytic FIUs, which we expect
+                                                                               added during the first several frames, and incubated for the
+would provide direct and interesting information for biological
+                                                                               remaining imaging process.
+researches. FASP, by itself, summarizes several basic features as
+listed below.                                                                  Synthetic Data
+                                                                               For the purpose of comprehensively and reliably assessing the
+Ca2+ signal curves
+                                                                               performance of FASP, we also generated synthetic data sets
+The raw time-intensity curves F (t) = Cm (t) (Equation 13) are
+                                                                               that simulate Ca2+ dynamics in astrocytes but allow for large
+firstly transformed into the description of Ca2+ signals: signal-
+                                                                               flexibility of parameter setting (see Figure 4 and Supplementary
+to-baseline ratio of fluorescence (1F/F0 = (F − F0 ) /F0 ), where
+                                                                               Video 2 for examples). A synthetic sample was constructed
+the baseline fluorescence F0 is estimated as the 10th percentile of
+                                                                               by simulating a spatial distribution of FIUs and Ca2+ inactive
+the fluorescence levels (intensities) at all the time points during
+                                                                               cells/units, a map of baseline brightness level, characteristic
+measurement.
+                                                                               temporal dynamics, intracellular Ca2+ propagation patterns of
+Amplitudes of Ca2+ events                                                      different FIUs, a map of noise level (variance), and a map of
+The amplitude of a Ca2+ event is calculated as the                             non-zero coefficients βm in each FIU.
+maximum 1F/F0 during the transient. Ca2+ events are                                The centroids of FIUs and inactive units were all uniformly
+recognized by detecting peaks in the smoothed 1F/F0 curves.                    distributed in the field of view. We set the proportion of FIUs
+                                                                               among the overall units as 1/4 to simulate the spontaneously
+Frequency of Ca2+ fluctuations                                                 active cell distribution in in vitro Down’s syndrome astrocyte iPS
+We define the frequency of Ca2+ fluctuations as the inverse of                 cells (Figure 1B). Given the irregular morphology of astrocyte
+the average duration between two contiguous events. Compared                   Ca2+ FIUs, as well as the complex baseline brightness patterns
+with counting events in a given time period, this definition of                and weak edges of astrocytes, basic geometric shapes, and
+frequency ensures more reliable estimation especially in cases                 artificial baseline distributions do not reflect reality. Thus, we
+
+
+Frontiers in Neuroinformatics | www.frontiersin.org                       10                                            July 2017 | Volume 11 | Article 48
+Wang et al.                                                                                                                    Automated Functional Analysis of Astrocytes
+
+
+
+
+ FIGURE 4 | Synthetic data and qualitative test on it. (A) One example of synthetic data mimicking time-lapse astrocyte Ca2+ imaging data. The images contain only
+ one channel and are represented in green pseudo color. When generating simulated data, critical properties of astrocyte Ca2+ time-lapse imaging data are carefully
+ taken into account, including time course pattern, Ca2+ propagation pattern, spatial distribution and morphology of FIUs, weak edges of cells, and the gradually
+ fading activities at the boundaries of FIUs. (A1) The first frame on which 5 ground-truth FIUs are highlighted using different colors. (A2) The ground-truth characteristic
+ curves of the 5 FIUs in (A1), illustrated with corresponding colors. (A3) Two image series show examples of Ca2+ propagation patterns in the simulated data.
+ (B) FASP successfully detected the FIUs. For each detected FIU, the area is highlighted by red color on the neighborhood correlation map for this sample (left), and
+ the corresponding estimated signal pattern is presented using a colored curve, with the ground-truth curve is given in gray for reference (right).
+
+
+
+
+extracted more than four thousand FIU shape and baseline                                  pixels at a constant velocity, the time delay of the source pixel
+intensity templates from real-world astrocyte imaging data, and,                          was set to be 0 while the other pixels’ delays were set proportional
+when generating specific simulated datasets, randomly selected                            to their distances from the source pixel. The map of the noise
+from these templates and resized them randomly. Taking diverse                            level was set according to the characteristic curve and the average
+potential applications into consideration, we did not impose a                            SNR of each FIU. Following the traditional definition in imaging,
+prior assumption on the number and density of FIUs in the                                 signal-to-noise ratio (SNR) is here defined as the ratio of the
+field of view, but rather tested different combinations in our                            signal magnitude (maximum intensity change) to the standard
+simulation experiments.                                                                   deviation of the noise, and then measured in decibels (dB) using
+    To generate astrocytic FIU characteristic signal curves, we first                     the industry standard 20 log rule. The average SNR can either be
+randomly chose a series of onset times of Ca2+ transient events,                          different from FIU to FIU or kept the same across all FIUs in an
+             (on)                                                                         imaging sample, depending on different experimental objectives.
+denoted as ti , i = 1, 2 . . . nevt . Then the temporal dynamics
+were modeled by Mukamel et al. (2009):                                                    And the map of non-zero βm is designed to reflect the gradually
+                                                                                          fading strength of activities at the boundaries of FIUs, a critical
+                    Xnevt      (on)
+                                      −t−t(on) /η                                      impact factor for the binarization of z-score maps, which makes
+                                            i
+       XM [t] =            t − ti     e              · It>t(on)               (14)        the decision of FIU boundaries challenging.
+                         i=1                                         i
+                                                                                             In our simulation experiments, the overall imaging duration
+where It>t(on) is an indicator function with value 1 for                                  was 200 s, with a between-frame time interval of 2 s. Gaussian
+         n i          o                                                                   noises were subsequently added in, in accordance with the given
+                 (on)
+the set t| t > ti       ; η regulates the duration of transients                          map of noise level.
+and varies from FIU to FIU. Then XM [t] was rescaled      
+such that the maximum fluorescence signal max 1F        F0    =                           Performance Metrics
+ [max (XM (t)) − min (XM (t))] / min (XM (t)) is in the range                             In our experiments, the following metrics were employed to
+from 0.5 to 4, which is commonly seen in real astrocyte Ca2+                              assess the performance of FASP:
+imaging data.
+   Propagation patterns were modeled by setting a distribution                            Recall
+on the time delay τ . In each FIU, assuming the Ca2+ elevation                            Recall is defined as the fraction of ground-truth FIUs that are
+wave starts from a random pixel and expands to the surrounding                            detected. We say a ground-truth FIU is detected, if there exists
+
+
+Frontiers in Neuroinformatics | www.frontiersin.org                                  11                                                    July 2017 | Volume 11 | Article 48
+Wang et al.                                                                                                                   Automated Functional Analysis of Astrocytes
+
+
+
+one output FIU reported by an algorithm covering more than                               FASP Can Handle Datasets of
+50% area of the ground-truth FIU.                                                        Heterogeneous and Low SNR Values
+                                                                                         The performance of FASP was evaluated as a function of SNR
+Precision                                                                                using simulated data (Figure 5A). For each SNR value, 25 videos
+Precision is defined as the fraction of reported FIUs that are true                      were generated with 40 FIUs per video. Ca2+ dynamics were
+FIUs. A reported FIU is thought of as true if it covers more than                        randomly simulated using Equation (14), and the propagation
+50% area of one ground-truth FIU and does not cover more than                            speed was also uniformly sampled from the interval [1, 30]
+10% area of any other ground-truth FIUs. If any ground-truth                             pixels per frame. Since FIUs were independently created, we
+FIU is falsely divided into two or more parts (reported FIUs), this                      evaluated detection performance averaging over all FIUs which
+definition ensures that only one reported FIU will be treated as a                       were considered as individual detection events.
+correct detection.                                                                          As one would expect, performance improves with increasing
+                                                                                         SNR. But it is notable that the algorithm works quite well even
+Fidelity
+                                                                                         when the SNR is 5 dB, getting an overall recall (in terms of all
+As a measure of signal estimation quality, the fidelity of a
+                                                                                         FIUs) of 0.941, an overall precision of 0.982, and a mean fidelity of
+learned characteristic curve is defined as the Pearson’s correlation
+                                                                                         0.928 with more than 90% of learned characteristic curves having
+coefficient between the learned curve and the ground-truth
+                                                                                         fidelities >0.9. When the SNR is higher than 5 dB, all the three
+characteristic curve.
+                                                                                         performance scores tend asymptotically to 1. A side note is that
+Area Accuracy                                                                            on the real data, the typical SNR is between 3 and 10 dB.
+Any reported FIU considered as true uniquely indicates one
+ground-truth FIU. The detection accuracy of the reported FIU is                          FASP Is Robust to Various FIU Spatial
+further evaluated by area accuracy, defined as the fraction of the                       Patterns and Temporal Activity Patterns
+corresponding ground-truth FIU that is covered by this reported                          Astrocyte Ca2+ signaling has very complex spatial and temporal
+FIU.                                                                                     patterns. Firstly, the morphological heterogeneity of astrocytes
+
+
+
+
+ FIGURE 5 | Quantitative performance evaluation under different parameter settings. (A) FASP’s performance under situations with different SNR values. (B) The
+ influence of density of FIUs. (C) Evaluate the robustness regarding spatial sizes of FIUs. (D) Robustness regarding temporal pattern of characteristic curves, reflected
+ by the temporal frequency of transients.
+
+
+
+
+Frontiers in Neuroinformatics | www.frontiersin.org                                 12                                                   July 2017 | Volume 11 | Article 48
+Wang et al.                                                                                                 Automated Functional Analysis of Astrocytes
+
+
+
+are commonly observed in studies (Oberheim et al., 2012). And                field of view, fixed SNR, random FIU size (≥10 pixels) and
+since an FIU is usually only a part of an astrocyte, astrocytic              random propagation speed. Samples of different image sizes
+FIUs could be even more irregular in terms of shape or size                  were generated such that they contained 25, 100, 400, and 1,600
+(Figure 1 and Supplementary Video 1). Secondly, though some                  FIUs. The blue lines in Figure 6A show the very promising
+typical astrocytic Ca2+ transient models have been built, the                performance of FASP on data with a large number of FIUs. No
+characteristic curves still heavily differ from each other in overall        matter the SNR is 5 or 10 dB, good performance is preserved as
+pattern, especially in different experiments.                                the total amount of FIUs dramatically increases.
+   FASP makes no assumption about FIUs’ morphology,
+propagation speed, or any parametric model for the characteristic
+time courses. The morphology of FIUs and curves’ patterns
+                                                                             Well Modeling the Propagation of Ca2+
+are learned from the data. These properties endow FASP with                  Transients Endows FASP with Good
+excellent flexibility and stability with these complex impact                Performance
+factors. As the synthetic data were generated using shape                    One of the key challenges in astrocyte Ca2+ activity analysis is the
+templates from real data, good overall performance shown                     pervasive phenomena of slow signal propagations of intracellular
+in Section FASP Can Handle Datasets of Heterogeneous and                     Ca2+ transients. Figures 1B,C give two real-world examples of
+Low SNR Values already demonstrates that FASP can work                       this phenomenon. Figure 6B shows time lags between pixels in a
+with various morphology patterns of FIUs. In addition, with                  real astrocyte functional unit, as a result of the slow propagation.
+image size, SNR, and number of FIUs fixed, and with all other                All these examples demonstrate the special nature of astrocyte
+impact factors randomly sampled from given distributions, we                 Ca2+ time-lapse imaging data, which, we anticipate, rules out
+investigated FASP’s performance as response to size of FIU and               algorithms without specific design for the complex phenomena.
+frequency of Ca2+ transients. Figure 5C suggest the impact of                On the contrary, by explicitly modeling the propagation, we
+FIU size is not substantial as long as an FIU covers more than               expect that FASP gains the power to effectively eliminate the ill
+∼ 10 pixels. And Figure 5D shows that the frequency has almost               effects of it and to correctly capture the actual astrocyte Ca2+
+no impact on the algorithm’s performance.                                    dynamic signals.
+                                                                                 To the best of our knowledge, designed for astrocyte or any
+                                                                             other cell types, no existing method of time-lapse Ca2+ image
+FASP Is Robust to Various FIU Density and                                    analysis has so far made any effort to tackle the problems caused
+Total Number in the Field of View                                            by the propagation phenomena. To validate the necessity of
+Due to different experimental conditions and different                       explicitly modeling the propagation phenomena, we compared
+requirements from applications, fluorescence imaging data                    FASP with “CellSort” (Mukamel et al., 2009), one of the most
+of astrocyte Ca2+ signaling could exhibit considerable variation             popular Ca2+ dynamic detection algorithms that work quite
+in FIU population density and the total number of FIUs in                    well on neuronal Ca2+ imaging data. Ignoring the effect of
+the field of view. Generally speaking, the more FIUs one has,                propagation, CellSort makes a basic assumption of within-FIU
+the more difficult the analysis is. However, it is a fundamental             synchronization, which approximately holds true for neuronal
+requirement for automatic analysis of large-volume datasets                  Ca2+ data. The violation of this basic assumption in astrocyte
+to simultaneously and accurately detect hundreds or even                     time-lapse Ca2+ image data constitutes fundamental problems
+more FIUs without prior knowledge of the number of FIUs.                     for CellSort in detecting astrocytic FIUs. On the one hand,
+Quantitative assessment on simulation datasets shows that FASP               as the possible time lags between observed signals in different
+has flexibility with number and density of FIUs in the field of              parts of an FIU are neglected, only pixels with almost the
+view and can thus successfully meet this demand.                             same phase of signal are going to be clustered together. Put
+   In simulations with fixed image size, fixed SNR, random                   differently, pixels in one ground-truth FIU (Figure 6C1) could
+FIU size (≥10 pixels) and random propagation speed, samples                  be falsely detected as several FIUs, as shown in Figure 6C3.
+consisting of different numbers of FIUs were tested. The impact              In contrast, FASP successfully detected the FIU as a whole
+factor of interest here is the population density of FIUs. As                (Figure 6C2). On the other hand, under the assumption of
+shown in Figure 5B, our algorithm’s recall mildly drops as                   within-FIU synchronization, the learned characteristic curve
+the population density of FIUs increases, but still retains good             is essentially a weighted average over all pixels’ signal curves
+performance (mean fidelity of 0.891, recall of 0.861, and precision          without considering the time lags between pixels, leading
+of 0.994) even with more than 200 FIUs in a 128∗ 128-pixel video             to distortion of the characteristic curve (Figure 6B), which
+and SNR of 5 dB. Most errors were caused by adjacent FIUs                    makes the subsequent analysis misleading. The characteristic
+whose ground truth characteristic signals are intrinsically similar          curve estimated by FASP, however, well matches the ground
+to each other and hence difficult for algorithms or even humans              truth (Figure 6B). For comparison between FASP and CellSort
+to distinguish. The denser the FIUs are in the field of view, the            regarding average performance, we tested them on both real
+more likely FIUs connect spatially to each other, and hence the              data and synthetic data. Figure 6D and Supplementary Videos
+more difficult it is to distinguish them.                                    1, 3 together give a comparison on real data, supporting our
+   The second set of simulation experiments targeted the                     conclusion that CellSort would often falsely split one FIU into
+influence of the total number of FIUs given the FIU population               several, due to the impact of pervasive propagation phenomena.
+density. We did simulations with fixed FIU intensity in the                  Because of the lack of ground-truth for real data, we decide
+
+
+Frontiers in Neuroinformatics | www.frontiersin.org                     13                                            July 2017 | Volume 11 | Article 48
+Wang et al.                                                                                                                    Automated Functional Analysis of Astrocytes
+
+
+
+
+ FIGURE 6 | Well modeling the propagation of intracellular Ca2+ transients endows FASP with good performance. (A) Quantitative performance comparison between
+ FASP and CellSort (Mukamel et al., 2009), a popular algorithm that works well on data with no propagation phenomena. FASP outperforms CellSort significantly,
+ suggesting the importance of modeling propagation phenomena in the analysis of astrocytes. (B) FASP resolves the negative impact of propagation phenomena on
+ the estimation of Ca2+ dynamic curves. The first three curves are the observed time courses at pixels in the same FIU, showing time lags due to propagation. The red
+ curve is the average of observed curves at all pixels in this region without considering the time lags, and hence the curve is distorted from the observed ones, with
+ much longer rise time and decay time of Ca2+ transients. The blue curve is the fitted signal curve given by FASP. (C1) Selected frames from a time-lapse data sample
+ show apparent propagation of Ca2+ elevation. (C2) The results produced by FASP, including the spatial map of one FIU and the corresponding time curve. (C3) The
+ sorting results produced by CellSort, related to the FIU highlighted in (C2). The connected domain was falsely split and identified as three differently functioning ROIs.
+ Their fitted curves are actually just the same one, if time lags are taken into account. (D) Comparison between FASP and CellSort on a real data sample of astrocytes
+ derived from human induced pluripotent stem cells (hiPSCs). (D1) FIUs identified by FASP highlighted by carmine boundary lines on the first frame of the original
+                                                                                                                                                                (Continued)
+
+
+
+
+Frontiers in Neuroinformatics | www.frontiersin.org                                 14                                                    July 2017 | Volume 11 | Article 48
+Wang et al.                                                                                                                 Automated Functional Analysis of Astrocytes
+
+
+
+
+ FIGURE 6 | Continued
+ image stack. To better check whether the detection is correct, please see Supplementary Video 1. (D2) Regions of Interest (ROIs) identified by CellSort highlighted by
+ boundary lines on the first frame. Different ROIs were labeled using different colors to clearly show the overlap between ROIs. Please refer to Supplementary Video 3
+ to check the performance of CellSort. Many FIUs were falsely separated into parts by CellSort, due to the violation of within-ROI synchronization of Ca2+ elevations.
+ Some FIUs were detected multiple times, as a consequence of blind decomposition of signal matrix by CellSort. (E) The impact of propagation velocity on FASP’s
+ performance.
+
+
+
+
+one FIU should not be separated into parts if we see the                               and Car, 2002), including mGluR1 and mGluR5, can evoke
+same temporal Ca2+ fluctuation pattern in all parts of this                            astrocyte Ca2+ elevations in the astrocyte soma and fine processes
+FIU, without propagation or only with spatially continuous and                         (Zur Nieden and Deitmer, 2006). We thus monitored the
+smooth propagation (see Supplementary Videos 1, 3). Differently                        calcium dynamics in response to ATP, glutamate, and DHPG on
+from CellSort, FASP correctly detected the FIUs. Quantitative                          cultured rat astrocytes, respectively, followed by FASP analysis
+comparison was done by testing CellSort on the same synthetic                          to detect the evoked Ca2+ activities. For each sample, the
+dataset generated in Section FASP is Robust to Various FIU                             astrocytes were imaged twice, before and after the agonist was
+Density and Total Number in the Field of View, with a common                           added in.
+and fixed FIU density in the field of view but different image                            To assess the accuracy of automatic analysis, we first
+sizes. Figure 6A clearly shows that our algorithm is superior                          manually labeled FIUs in all the control/case samples, and
+to CellSort. CellSort reported a lot of redundant units because                        compared them with the outputs of FASP. It turned out
+it allows for totally or partially overlapping FIUs and it falsely                     that the FIUs automatically detected by FASP were very
+separates real FIUs into sub-regions. The false separations also                       consistent to those manually labeled, but had more complex
+give rise to a smaller area accuracy. Besides, the fidelity of curves                  and accurate contours. FASP was able to successfully detect
+estimated by CellSort is lower. In cases with SNR of 5 dB,                             some FIUs that have low basal fluorescence and therefore
+CellSort missed a lot of FIUs, while our method still found around                     were neglected by manual labeling. We confirmed those
+88% ground-truth FIUs, suggesting a much better robustness to                          neglected FIUs by double-checking those areas by purposefully
+large noises. All these results emphasize the importance of well-                      applying transformations which facilitate human vision. The
+modeling the propagation phenomena in astrocyte Ca2+ image                             detected FIUs included whole somas, long processes, and
+analysis.                                                                              smaller sub-regions within cells (probably microdomains;
+    Then we did quantitative analysis to assess the robustness                         Figures 7A–C,E). Connected FIUs were successfully detected as
+of FASP to the severity of propagation phenomena. FASP’s                               separate units.
+performance was evaluated as a function of Ca2+ propagation                               The control samples for all the three agonists showed almost
+velocity. With other parameters randomly sampled from a                                no spontaneous activity before the application of the agonists,
+given distribution, we generated synthetic data using different                        but a large number of FIUs were activated with the agonists
+propagation velocities. The performance is shown in Figure 6E.                         applied separately (Figures 7A–C). One hundred and twenty-
+When the intracellular calcium transients propagate at a                               nine induced FIUs were detected after glutamate was applied,
+velocity of 1 pixel per frame or faster, the velocity generally                        covering 28.45% of the area of all astrocytes (active/silent) in the
+has little impact on the performance. A natural corollary                              sample, while ATP alone induced 88 FIUs that covered 57.27%
+of this observation is that our algorithm is compatible with                           of the area. These observations suggest strong effects of these
+fast-propagation applications such as neuronal Ca2+ dynamic                            agonists. DHPG showed a relatively milder effect, activating
+detection. When the propagation velocity is slower than 1 pixel                        33 FIUs, 18.50% of the area of overall astrocytes. Agonist-
+per frame, the precision drops a little, perhaps because the                           evoked Ca2+ was well-captured by the algorithm. The agonists
+differences between adjacent pixels are larger and hence the pixel-                    were added in during the first several frames of imaging, and
+wise neighborhood correlations are smaller, although we did not                        an obvious burst of Ca2+ elevations can be seen in all the
+observe such slow propagation in real data.                                            three samples with agonists. Accordingly, characteristic curves
+                                                                                       reported by FASP show a common Ca2+ increase shared by
+Case Study: Analyzing Agonist-Induced                                                  the majority of FIUs at about the 6th frame (Figures 7A–C).
+Ca2+ Signaling in Rat Astrocytes                                                       The estimated half-rise time ranges 1–6 s and half-decay time
+We applied FASP to analyse the calcium dynamics of rat                                 ranges 4–10 s, which is consistent with what was previously
+hippocampal astrocytes in response to agonist treatment                                reported about Ca2+ dynamics in response to ATP stimuli (De
+(Figure 7). When ground truth is absent for validation, data of                        Pitta et al., 2012). The response to ATP is asynchronous. From
+stimuli-triggered activities present an alternative way to test data                   the curves of induced Ca2+ signals (Figure 7D), we can recognize
+analysis methods. Astrocytic Ca2+ signaling can be triggered by                        FIUs that responded only once right after the agonist was added,
+the excitatory neurotransmitter including ATP and glutamate                            FIUs with evoked oscillations of generally constant frequency
+through P2Y1 receptors and metabotropic glutamate receptors                            and constant amplitude, and FIUs with evoked oscillations of
+(mGluRs) respectively (Kim et al., 1994; Pasti et al., 1997;                           decreasing frequency or decreasing amplitude. Similar patterns
+Bowser and Khakh, 2004; Fiacco and McCarthy, 2004; Jourdain                            were also observed in other studies, suggesting that ATP is a
+et al., 2007; Hamilton et al., 2008). 3,5-dihydroxyphenylglycine                       modulator for both frequency and amplitude (Cornell-Bell et al.,
+(3,5-DHPG), a potent agonist of group I mGluRs (Wisniewski                             1990).
+
+Frontiers in Neuroinformatics | www.frontiersin.org                               15                                                   July 2017 | Volume 11 | Article 48
+Wang et al.                                                                                                                 Automated Functional Analysis of Astrocytes
+
+
+
+
+ FIGURE 7 | Case study: analyzing agonist-induced Ca2+ signaling in in vitro rat astrocytes. (A) 129 FIUs with glutamate-evoked Ca2+ signals, identified by FASP.
+ Left: the FIUs’ spatial positions were highlighted with carmine edges. Right: the learned characteristic signal curves of the FIUs shown on the left. Each curve in the
+ control group is the average time course over pixels in the corresponding glutamate-induced FIU detected in the case sample. (B) 33 FIUs with DHPG-evoked Ca2+
+ signals identified by FASP. (C) 88 FIUs with ATP-evoked Ca2+ signals identified by FASP. (D) The ATP-evoked Ca2+ signals in (C) listed individually in (D), from which
+ different patterns can be recognized: (D1) FIUs that responded only once after the agonist was added, (D2) FIUs with evoked oscillations of decreasing frequency or
+ decreasing amplitude, and (D3) FIUs with evoked oscillations of generally constant frequency and constant amplitude. (E) FASP captured the correlation between ATP
+ dose and the number of responding FIUs. The FIUs detected by FASP are highlighted using carmine contours on each sample. (F) The relationship between ATP dose
+ and the histogram of Ca2+ activity amplitudes (maximum 1F/F0 ).
+
+
+
+    We next test the accuracy of FASP’s outputs in detecting dose                       (maximum 1F/F0 ; Figure 7F). The higher the dose is, the higher
+response to agonists. When ATP of different doses is added, the                         the histogram is (because more FIUs responded), and the more
+number of FIUs responding to the agonist stimuli is supposed                            large-amplitude activities are observed. These results suggest that
+to increase as the dose increases. Figure 7E and Supplementary                          FASP successfully captured the association between the strength
+Videos 4–7 gives a comparison among the detected responses to                           of stimulated activities and agonist dose.
+no ATP (control), 1, 10, and 100 uM ATP. The control sample
+only contained one FIU with spontaneous activity; 1 uM ATP                              The Binarization Method Based on
+induced 9 FIUs; 10 uM stimulated 136 FIUs; while the field                              Order-Statistics Theory Is Effective
+of view was full of responding FIUs (182 FIUs) after 100 uM                             The z-score maps generated from astrocyte Ca2+ time-
+ATP was applied. The peak response to different doses is also                           lapse images usually possess the following characteristics
+reflected in the histogram of estimated Ca2+ activity amplitude                         which make the binarization task difficult: (1) large noises
+
+
+Frontiers in Neuroinformatics | www.frontiersin.org                                16                                                   July 2017 | Volume 11 | Article 48
+Wang et al.                                                                                                                                  Automated Functional Analysis of Astrocytes
+
+
+
+and small foreground/background contrast due to low-SNR                                            thresholding and Al-Kofahi’s, the difference is quite small
+in input image stack data; (2) weak and blurred edges of                                           (<0.015) and their recall scores are much lower than ours
+foreground areas; and (3) uneven intensity distributions                                           (>0.160). Figure 8A further reveals that our method shows
+across different foreground regions. Taking advantage of the                                       strength and superiority mainly in low-SNR cases. The missing
+statistical nature of z-score maps, we based our method for                                        pixel rates of the other three methods increase tremendously as
+binarizing z-score maps on order-statistics guided hypothesis                                      SNR decreases from 5 to 0 dB.
+testing (Section Active Region Detection on Z-Score Map                                               One key design in our method that makes a critical
+by Order-Statistics Guided Hypothesis Testing). It was                                             contribution to this promising performance is the utilization
+demonstrated by experiments that our method has strong                                             of neighborhood pixels’ relationships in hypothesis testing.
+power to binarize z-score maps and outperforms many other                                          Specifically, instead of testing each pixel in isolation, we designed
+binarization techniques especially in low-SNR cases (Table 1 and                                   a region-level z-score (Equation 4) and tested one candidate
+Figure 8A).                                                                                        region as a whole. In this way the statistical power of test is much
+   Literature shows several methods that are most often applied                                    enhanced, since information from connected pixels can confirm
+to binarize grayscale microscopy images of cells (Meijering,                                       each other and thus jointly provide us with higher confidence
+2012): thresholding, watershed transformation, active contour                                      in decisions. On both real data (Figure 8B) and synthetic data
+methods, and graph cuts based algorithms. Unfortunately,                                           (Figure 8C), we compared two hypothesis testing based methods
+due to the special characteristics and difficulties of our                                         for binarization: (1) a right-tailed test on each pixel using
+data, some key assumptions explicitly or implicitly required                                       the pixel-level z-score; (2) a right-tailed test on any possible
+by these methods are not satisfied, such as assumptions                                            connected domain using the region-wide z-score (accelerated by
+of separable foreground/background intensity distributions,                                        our heuristic region search process without loss of information).
+intensity homogeneity within foreground/background regions,                                        In both methods, pixels (groups of pixels) of interest were
+and sharp intensity change at the boundaries between foreground                                    claimed positives using a significance level of 0.05. Commonly
+and background. Experimental results on synthetic data                                             seen in bioimaging data, the z-score is not homogeneous even
+confirmed the concern that the violation of these strong                                           within a single FIU. Pixel-level tests discard low scoring pixels,
+assumptions makes existing methods intrinsically problematic                                       resulting in a coarse and incomplete map, while region-level tests
+to solve our problem. Watershed approach typically relies on                                       retain these pixels because of their neighbors. More importantly,
+predefined markers of foreground and background areas which                                        because of low expression level of fluorescence protein, it is
+are unavailable in our problem. For the other three categories of                                  common that some FIUs’ signals are too weak that in-FIU pixels
+techniques, we selected one representative automatic algorithm                                     can hardly be distinguished from random noise pixels in terms of
+from each of them and quantitatively evaluate their performance:                                   intensity. But weak signals in a group of connected pixels together
+Kittler-Illingworth thresholding (Kittler and Illingworth, 1986),                                  reveal the non-randomness, which allows region-wide tests to
+the best among 40 thresholding methods according to a survey                                       detect them.
+given by Sezgin (Sezgin, 2004); Distance Regularized Level
+Set Evolution (DRLSE) (Li et al., 2010), which has been                                            Neighborhood Correlation in Residual
+applied to cell segmentation problems (Dzyubachyk et al.,
+2010); and Al-Kofahi’s method (Al-Kofahi et al., 2010), a
+                                                                                                   Signals Enables a Sequential FIU
+well-accepted graph cuts based algorithm with fully automatic                                      Identification
+initialization. Parameters were tuned by experiments, with the                                     In the sequential process of identifying FIUs in an active
+best performance achievable reported here. According to the                                        region, as discussed in Section Module 2: Identifying FIUs and
+experimental results (Table 1 and Figure 8A), our hypothesis                                       Extracting Characteristic Curves, at each step only one FIU m
+testing based region growing method (“FASP-bin”) has the best                                      (with characteristic curve Xm ) is modeled and all the remaining
+overall binarization performance among the four, in terms of                                                                                    (fit)
+                                                                                                   FIUs are “hidden.” We designed a score zpx (Equation 12),
+both misclassification rate and F-measure. Though the precision                                    aiming to distinguish pixels in FIU m from pixels in other FIUs.
+of our method is slightly lower than that of Kittler-Illingworth                                   One important innovation in our framework is the realization
+
+
+TABLE 1 | Comparison of binarization methods on the z-score map.
+
+                                                    Misclassification rate                             Recall                             Precision                            F-measure
+
+FASP-bin                                                0.0291 ± 0.0096                          0.8257 ± 0.0487                      0.9847 ± 0.0061                       0.8976 ± 0.0306
+Kittler-Illingworth thresholding                        0.0551 ± 0.0163                          0.6480 ± 0.1053                      0.9879 ± 0.0052                       0.7779 ± 0.0821
+Al-Kofahi’s (Graph Cuts based)                          0.0517 ± 0.0146                          0.6652 ± 0.0943                      0.9963 ± 0.0028                       0.7940 ± 0.0705
+DRLSE (Level Sets based)                                0.1233 ± 0.0579                          0.5390 ± 0.1272                      0.7212 ± 0.2255                       0.5853 ± 0.1013
+
+Each pixel is classified/labeled as either a foreground pixel or background pixel, and the four metrics are based on the proportion of correctly classified pixels or misclassified pixels in an
+image. The evaluation scores in the table are presented in the format “average ± SD,” where SD is the standard deviation calculated over multiple runs of simulation. Bold fonts indicate
+the best result in terms of each performance measure. FASP-bin is the method developed in this study. The synthetic data here were generated with all parameters randomly sampled
+from given distributions that reflect typical parameter values in real data. All methods were tested on the same datasets.
+
+
+
+
+Frontiers in Neuroinformatics | www.frontiersin.org                                           17                                                          July 2017 | Volume 11 | Article 48
+Wang et al.                                                                                                                 Automated Functional Analysis of Astrocytes
+
+
+
+
+ FIGURE 8 | Effectiveness of z-score map binarization method based on order-statistics guided hypothesis testing. (A) Comparison of missing pixel rate, as a function
+ of SNR, among peer binarization algorithms. Except for SNR, all parameters were randomly sampled to generate the simulated data. Our method has strong power to
+ binarize z-score maps and outperforms others especially in low-SNR cases. (B) A real data sample of in vitro astrocytes shows that accumulated information in a
+ region helps to enhance the statistical power of tests and, consequently, the performance of identifying FIUs. Two hypothesis testing based binarization methods were
+ compared: (1) a right-tailed test on each pixel using the pixel-level z-score; (2) a right-tailed test on any possible connected domain using the region-level z-score
+ (accelerated by our heuristic region search process without loss of information). Colored circles highlight a portion of weak regions which are completely neglected by
+ the pixel-level tests but well-identified by the region-level method. (C) An example of the same comparing experiments on synthetic data. Data samples were
+ generated with SNR being 5 or10 dB, respectively, and the two binarization methods were compared in both cases. The region-level tests gave much better detection
+ performance. Panels (B,C) provide one explanation for the good performance of our z-score map binarizatoin method.
+
+
+that correlation between neighboring pixels’ residual signals                                                                                 (fit)
+                                                                                        which is linearly related to the first term of zpx and does
+can be used as a measure of signals that cannot be explained                            not include the information about residual signals. Figure 9
+by Xm and thus an indicator of the existence of other FIUs.                             provides an indicative example comparing the two scores. Given
+Neglecting this information may lead to inaccurate boundaries                           two simulated FIUs whose characteristic curves are different
+between FIUs, or even to total failure in separating different                          but correlated (correlation coefficient = 0.4), the ground truth
+FIUs.                                                                                   characteristic curve of one FIU is used to calculate the scores at all
+   We verify the important role that neighborhood correlation                                                                              (fit)
+                                                                                        pixels. The results support our expectation that zpx yields better
+of residual signals plays by inspecting the difference between                                          (fit)∗
+Equation (12) and the following fitness definition:                                     contrast than zpx . After applying our z-score map binarization
+                                                                                        method to both maps, the FIU of interest was correctly identified
+                                                                                                (fit)
+                                                                                        from zpx map but falsely merged with the confounding FIU
+               (fit)∗                                                                         (fit)∗
+                       i, j = Φ −1 Φ 2Uτ F rfit i, j                                    using zpx map. Generally, the lower the correlation between
+                                                
+              zpx                                     ,                     (15)
+
+
+Frontiers in Neuroinformatics | www.frontiersin.org                                18                                                   July 2017 | Volume 11 | Article 48
+Wang et al.                                                                                                                Automated Functional Analysis of Astrocytes
+
+
+
+
+                                                                                            (fit)
+ FIGURE 9 | Investigate the role of neighborhood correlation of residual signals in score zpx . (A) The ground-truth FIU map of a synthetic data sample. (B) Given SNR
+                                                                                                                                  (fit)
+ = 5 dB and correlation coefficient between two FIUs’ characteristic curves as 0.4, the color map shows the spatial distribution of zpx (Equation 12—with penalty term
+                                                 (fit)*                                                                        (fit)    (fit)*        (fit)
+ for neighborhood correlation in residuals) and zpx (Equation 15—without the penalty term). (C) The normalized histograms of zpx and zpx , where zpx shows a
+                                                                                                          (fit)   (fit)*                                 (fit)*
+ better contrast between the FIU of interest and the confounding FIU. (D) The results of binarization on zpx and zpx maps. In the up-subfigure of (D), zpx , ignoring
+ the neighborhood correlation in residual signals, leads to false merging of two distinct FIUs.
+
+
+
+                                                             (fit)                        the neighborhood correlation. Considering that the correlation
+the two curves, the better the contrast. But in all cases, zpx
+                                         (fit)                                            map was obtained by taking the maximum value among four
+performs better. The specific design of zpx (Equation 12) is one
+                                                                                          directions, we make a transformation
+of the keys to the good performance of FASP.
+                                                                                                        zpx i, j = 8−1 84 F rsc i, j
+                                                                                                                              
+Alternative Design of Neighborhood                                                                                                    ,                               (17)
+Correlation Score                                                                         where 8 (·) denotes the standard Gaussian CDF and F (·) is
+When calculating the neighborhood correlation score using
+                                                                                          the normalized Fisher transformation defined in Equation (3).
+Equation (2), we focused more on controlling the damaging
+                                                                                          Based on the properties of the Fisher transformation          and of
+effects of noises in low-SNR cases and ignored the potential                                                                                     
+                                                                                          extreme order statistics, it can be shown that zpx i, j defined in
+time lags between adjacent pixels. To examine the impact of
+                                                                                          Equation (17) also follows a standard Gaussian under the null
+this ignorance and investigate FASP’s applicability to various
+                                                                                          hypothesis that the pixel [i, j] has zero βm for all m. This design is
+situations, we have also considered an alternative neighborhood
+                                                                                          expected to be better to cope with propagation but less powerful
+correlation score, taking propagation phenomena into account.
+                                                                                          to suppress noises, as a result of not taking full use of the eight
+Based on the fact that the signals are always synchronized along
+                                                                                          neighboring pixels but only utilizing two of them in calculating
+the surface orthogonal to the propagation direction, we calculate
+                                                                                          the correlation.
+the neighborhood correlation at pixel [i, j] as
+                                                                                             Simulation experiments were conducted to compare
+                                                                                        Equations (2) and (16) under different ground-truth SNR
+         rsc i, j = maxd=1,2,3,4 cor                                                      settings (Figure 10B). Propagation velocities were randomly
+                                                                     
+                                  Y[id1 , jd1 , :] + Y[id2 , jd2 , :]                     sampled from a wide range, mimicking real data. The results
+                      Y[i, j, :],                                       , (16)
+                                                   2                                      show that, when SNR is high, Equation (16) leads to better
+                                                                                          contrast between active and silent pixels than Equations (2) and
+where cor (, ) is the Pearson correlation coefficient, d1 and                             (3) (p < 2.2 × 10−16 by Wilcoxon signed rank test). This suggests
+d2 are the first and second pixels along the direction d. For                             that the special design in Equation (16) successfully works to
+each pixel, there are four directions to search as shown in                               suppress the effect of Ca2+ propagation. On the other hand,
+Figure 10A. Though we do not know the propagation direction                               when the SNR is low, the opposite is observed: Equations (2)
+a priori, the maximum value among the four approximately                                  and (3) assign larger zpx to active pixels than Equations (16) and
+represents the correlation between the pixel and its synchronized                         (17) do (p < 2.2 × 10−16 by Wilcoxon signed rank test). This
+neighbors. Accordingly we adjust the definition of the z score of                         supports the notion that, in low-SNR cases, though Equation
+
+
+Frontiers in Neuroinformatics | www.frontiersin.org                                  19                                                   July 2017 | Volume 11 | Article 48
+Wang et al.                                                                                                                    Automated Functional Analysis of Astrocytes
+
+
+
+
+ FIGURE 10 | Discussion on the design of neighborhood correlation z-score. (A) The four directions used to calculate the alternative neighborhood correlation at a
+ pixel (Equation 16). (B) The comparison between two definitions of neighborhood correlation score, showing the histograms of z-scores at active pixels. Since our
+ design guarantees that both scores follows standard Gaussian distribution at silent pixels, the higher a z-score is at active pixels, the better the contrast between
+ active/silent (foreground/background) pixels, and the better the score definition is. “8 neighbors_average” in the legend indicates definition given by Equations 2, 3;
+ while “4 directions_max” corresponds to Equation (16), (17). These results demonstrate that when the SNR is large, “max” is better, while when the SNR is low,
+ “averaging” is better.
+
+
+
+
+(16) still models the propagation better, the benefit of restraining                     sparse dictionary learning (Diego et al., 2013), multilevel sparse
+noises dominates. Since astrocyte Ca2+ imaging data typically                            matrix factorization (Andilla and Hamprecht, 2013), non-
+has low SNR, we decided to adopt Equation (2). In applications                           negative matrix factorization (Maruyama et al., 2014; Soelter
+where SNR is basically high while the propagations are extremely                         et al., 2014), and constrained non-negative matrix factorization
+slow, Equation (16) can be applied instead.                                              (Pnevmatikakis et al., 2016). However, just like CellSort, all these
+                                                                                         neuron-targeted algorithms make either an explicit or implicit
+                                                                                         assumption that pixels in an FIU are synchronized under the
+DISCUSSION                                                                               given imaging resolution. The violation of this assumption in
+Necessity of Specific Tools for Analyzing                                                astrocyte data leads both to false splits of a single FIU and
+Time-Lapse Astrocyte Ca2+ Imaging Data                                                   to inaccurate estimates of characteristic curves of FIUs. Being
+To the best of our knowledge, no tool has been developed                                 blind source separation strategies, they also have difficulties
+for fully automatic analysis of astrocytic signaling from time-                          in pre-determining the number of sources and in interpreting
+lapse Ca2+ images. However, many analytical tools have been                              resultant overlapped components. Additionally, many of these
+proposed to analyse similar imaging data of other types of                               methods make assumptions of spatial sparsity, temporal sparsity
+cells, especially neurons. Is it necessary to design new analytical                      or mutual independence of Ca2+ signals, which are often
+tools specifically for astrocytes? In addition to the discussion                         not satisfied by astrocyte data. Last but not the least, matrix
+about CellSort in Section Well Modeling the Propagation of                               decomposition methods basically treat pixels as independent,
+Ca2+ Transients Endows FASP with Good Performance, our                                   leaving out the information embedded in spatial relationships
+survey also shows that neuron-targeted algorithms can hardly                             among neighboring pixels.
+be directly generalized to work on astrocyte Ca2+ imaging data,
+demonstrating the needs for new designs.                                                 General Applicability and Limitations
+   The earliest and most elementary types of neuron-targeted                             Though designed for time-lapse imaging data of astrocytic Ca2+
+methods are manual (Dombeck et al., 2007; Göbel et al., 2007)                            dynamics, FASP is also potentially applicable to many other
+and semi-automated approaches (Junek et al., 2009; Peters et al.,                        types of imaging data that have similar properties, which can be
+2014) that cannot be applied to large-scale data sets and which                          captured by the proposed model (1). Many of FASP’s advantages
+are also biased by subjective judgments. Another group of early                          still hold in such cases, including flexibility, outstanding
+stage methods is based on detecting a region of interest (ROI)                           performance on large-scale data, and probabilistically controlled
+on temporally averaged intensity images without considering the                          parameter tuning.
+time course information (Pachitariu et al., 2013; Kaifosh et al.,                            Particularly, it is interesting to see how FASP can be applied to
+2014), and thus can neither distinguish functionally active cells                        model neuronal Ca2+ dynamics (Mukamel et al., 2009). Recent
+from silent ones nor separate spatially connected but functionally                       advances in high-throughput time-lapse Ca2+ imaging of large
+different units. Some methods rely on priors about morphological                         populations of neurons (Ahrens et al., 2013; Prevedel et al.,
+properties such as size and shape patterns (Valmianski et al.,                           2014) have generated a tremendous amount of data and hold
+2010), and thus are very likely to fail for the astrocyte problem                        the potential to understand the neuronal ensemble activities
+due to the irregular and heterogeneous morphologies of FIUs.                             and coding. There are two possible routes to apply FASP to
+The most well-accepted set of sophisticated tools is grounded                            neuronal data. (1) When the Ca2+ imaging is focused on soma
+on matrix decomposition techniques such as independent                                   and hence the analysis is of cellular level, the somatic intracellular
+component analysis (Reidl et al., 2007; Mukamel et al., 2009),                           propagation of Ca2+ transients is so fast that the signals can be
+
+
+Frontiers in Neuroinformatics | www.frontiersin.org                                 20                                                    July 2017 | Volume 11 | Article 48
+Wang et al.                                                                                                                          Automated Functional Analysis of Astrocytes
+
+
+
+regarded as synchronized among pixels in a single neuron. So,                                   CONCLUSIONS
+we do not need to explicitly model the signal propagation within
+cell. However, the simplified version of FASP with an intracellular                             We developed a data-driven and probabilistically principled
+synchronization assumption can still help us to automate the                                    algorithm to automatically quantify the functional status
+analysis, ease the parameter setting and reduce false positive                                  of astrocytes from astrocyte time-lapse Ca2+ imaging
+discoveries, due to the machine-learning and probabilistic nature                               data. Integrated with a series of statistical machine learning
+of the FASP framework. (2) When the Ca2+ imaging is focused                                     techniques, FASP was demonstrated to be able to successfully
+on dendrites, the neuronal Ca2+ signals look more like the ones                                 decode complex spatiotemporal patterns of calcium signaling
+in astrocytes than the somatic signals, because of the existence                                and control the false positive rate. We expect that broad
+of calcium compartmentalization and signal propagation in                                       applications of this tool would greatly facilitate analyzing
+dendrites (Yuste et al., 2000; Higley and Sabatini, 2008). In this                              astrocyte function to uncover its complicated roles in neuronal
+case, we expect the application of FASP will be especially useful                               circuits.
+to extract information that is otherwise missed, because of its
+data-driven and unbiased nature. However, caution needs to be                                   ETHICS STATEMENT
+exercised. Dendritic calcium signaling may be very different from
+astrocytic calcium signaling, such as the frequency of events, the                              This study was carried out in allegiance with active biological
+size and the density of regions of interest, and the signal-to-noise                            use authorization and animal protocols. The protocols were
+ratio.                                                                                          approved by institutional animal care and use committee at
+   More broadly, although FASP was motivated by a specific                                      University of California, Davis.
+biological problem, some of the technical innovations that we
+developed during the process are quite generic and can be                                       AUTHOR CONTRIBUTIONS
+applied to other problems. For example, the order-statistics-
+based binarization is one of the key innovations in this paper.                                 GY and LT conceived, designed, and coordinated the study.
+Due to the prevalence of segmentation problem in imaging                                        YXW and GY designed the mathematical modeling and executed
+analysis, we expect this new segmentation method may find                                       the programming. YXW performed all the computational
+broad applications, especially when the pixel values can be                                     experiments. GS performed all the wet-lab experiments. YZW
+assigned statistical meaning.                                                                   and CW helped with the algorithm design and computational
+   One possible limitation of FASP arises from its assumption                                   experiments. YXW and GY wrote the manuscript with critical
+of fixed spatial positions of FIUs. Cells sometimes migrate in                                  inputs from DM, GB, YW and LT.
+the field of view, and their shapes sometimes change as well.
+This problem can be entirely or partially solved by either                                      ACKNOWLEDGMENTS
+pre-processing, which registers cells, or post-processing, which
+eliminates abnormal output FIUs.                                                                Research reported in this publication was partly supported by
+   Another concern may be about the assumption that a single                                    the Hartwell foundation (LT), NIH DP2 MH107059 (LT), NIH
+pixel is associated with at most one FIU. Due to limited resolution                             R21NS095325 (LT) and NIH R01MH110504 (GY). An early
+along the z-axis or other reasons, the signals at some pixels are                               abbreviated version of this work has been published in 2016 IEEE
+actually mixtures of multiple biological signals. However, without                              13th International Symposium on Biomedical Imaging (ISBI
+ground truth, results of blind decomposition are often difficult                                2016) (Wang et al., 2016).
+to explain, or turn out to be wrong in simulation experiments.
+Instead, FASP does not make an attempt to decompose the                                         SUPPLEMENTARY MATERIAL
+mixed underlying biological signals but sticks to the objective
+presentation of observed signal patterns. On the basis of FASP’s                                The Supplementary Material for this article can be found
+outputs, downstream analysis can still be performed to unmix the                                online at: http://journal.frontiersin.org/article/10.3389/fninf.
+true sources.                                                                                   2017.00048/full#supplementary-material
+
+
+
+REFERENCES                                                                                      Al-Kofahi, Y., Lassoued, W., Lee, W., and Roysam, B. (2010). Improved
+                                                                                                   automatic detection and segmentation of cell nuclei in histopathology
+Agarwal, A., Wu, P. H., Hughes, E. G., Fukaya, M., Tischfield, M. A., Langseth, A.                 images. IEEE Trans. Biomed. Eng. 57, 841–852. doi: 10.1109/TBME.2009.20
+  J., et al. (2017). Transient opening of the mitochondrial permeability transition                35102
+  pore induces microdomain calcium transients in astrocyte processes. Neuron                    Andilla, F. D., and Hamprecht, F. A. (2013). “Learning multi-level sparse
+  93, 587–605. doi: 10.1016/j.neuron.2016.12.034                                                   representations,” in Advances in Neural Information Processing Systems
+Agulhon, C., Petravicz, J., McMullen, A. B., Sweger, E. J., Minton, S. K., Taves, S. R.,           (Douglas, NV), 818–826.
+  et al. (2008). What is the role of astrocyte calcium in neurophysiology? Neuron               Bazargani, N., and Attwell, D. (2016). Astrocyte calcium signaling: the third wave.
+  59, 932–946. doi: 10.1016/j.neuron.2008.09.004                                                   Nat. Neurosci. 19, 182–189. doi: 10.1038/nn.4201
+Ahrens, M. B., Orger, M. B., Robson, D. N., Li, J. M., and Keller, P. J. (2013). Whole-         Bowser, D. N., and Khakh, B. S. (2004). ATP excites interneurons and astrocytes to
+  brain functional imaging at cellular resolution using light-sheet microscopy.                    increase synaptic inhibition in neuronal networks. J. Neurosci. 24, 8606–8620.
+  Nat. Methods 10, 413–420. doi: 10.1038/nmeth.2434                                                doi: 10.1523/JNEUROSCI.2660-04.2004
+
+
+
+
+Frontiers in Neuroinformatics | www.frontiersin.org                                        21                                                    July 2017 | Volume 11 | Article 48
+Wang et al.                                                                                                                           Automated Functional Analysis of Astrocytes
+
+
+
+Broussard, G. J., Liang, R., and Tian, L. (2014). Monitoring activity in neural                Kaifosh, P., Zaremba, J. D., Danielson, N. B., and Losonczy, A. (2014). SIMA:
+   circuits with genetically encoded indicators. Front. Mol. Neurosci. 7:97.                       python software for analysis of dynamic fluorescence imaging data. Front.
+   doi: 10.3389/fnmol.2014.00097                                                                   Neuroinformatics 8:80. doi: 10.3389/fninf.2014.00080
+Clarke, L. E., and Barres, B. A. (2013). Emerging roles of astrocytes in neural circuit        Khakh, B. S., and Sofroniew, M. V. (2015). Diversity of astrocyte functions and
+   development. Nat. Rev. Neurosci. 14, 311–321. doi: 10.1038/nrn3484                              phenotypes in neural circuits. Nat. Neurosci. 18, 942–952. doi: 10.1038/nn.4043
+Cornell-Bell, A. H., Finkbeiner, S. M., Cooper, M. S., and Smith, S. J. (1990).                Kim, W. T., Rioult, M. G., and Cornell-Bell, A. H. (1994). Glutamate-induced
+   Glutamate induces calcium waves in cultured astrocytes: long-range glial                        calcium signaling in astrocytes. Glia 11, 173–184. doi: 10.1002/glia.440110211
+   signaling. Science 247, 470. doi: 10.1126/science.1967852                                   Kittler, J., and Illingworth, J. (1986). Minimum error thresholding. Pattern Recogn.
+David, H. A., and Nagaraja, H. N. (2003). Order Statistics, 3rd Edn. New York, NY:                 19, 41–47. doi: 10.1016/0031-3203(86)90030-0
+   Wiley-Interscience.                                                                         Knöpfel, T., and Boyden, E. (2012). Neural activity imaging with
+De Pitta, M., Volman, V., Berry, H., Parpura, V., Volterra, A., and Ben-                           genetically       encoded      calcium      indicators.     Optogenetics   196:79.
+   Jacob, E. (2012). Computational quest for understanding the role of astrocyte                   doi: 10.1016/B978-0-444-59426-6.00005-7
+   signaling in synaptic transmission and plasticity. Front. Comput. Neurosci. 6:98.           Li, C., Xu, C., Gui, C., and Fox, M. D. (2010). Distance regularized level set
+   doi: 10.3389/fncom.2012.00098                                                                   evolution and its application to image segmentation. IEEE Trans. Image Process.
+Dempster, A. P., Laird, N. M., and Rubin, D. B. (1977). Maximum likelihood from                    19, 3243–3254. doi: 10.1109/TIP.2010.2069690
+   incomplete data via the EM algorithm. J. R. Stat. Soc. Ser. B 39, 1–38.                     Little, R. J., and Rubin, D. B. (2014). Statistical Analysis with Missing Data.
+Diego, F., Reichinnek, S., Both, M., and Hamprecht, F. A. (2013). “Automated                       Hoboken, NJ: John Wiley & Sons.
+   identification of neuronal activity from calcium imaging by sparse dictionary               Maruyama, R., Maeda, K., Moroda, H., Kato, I., Inoue, M., Miyakawa, H., et al.
+   learning,” in 2013 IEEE 10th International Symposium on Biomedical Imaging                      (2014). Detecting cells using non-negative matrix factorization on calcium
+   (San Francisco, CA), 1058–1061.                                                                 imaging data. Neural Netw. 55, 11–19. doi: 10.1016/j.neunet.2014.03.007
+Dombeck, D. A., Khabbaz, A. N., Collman, F., Adelman, T. L., and Tank, D. W.                   Matyash, V., and Kettenmann, H. (2010). Heterogeneity in astrocyte morphology
+   (2007). Imaging large-scale neural activity with cellular resolution in awake,                  and physiology. Brain Res. Rev. 63, 2–10. doi: 10.1016/j.brainresrev.2009.12.001
+   mobile mice. Neuron 56, 43–57. doi: 10.1016/j.neuron.2007.08.003                            Meijering, E. (2012). Cell segmentation: 50 years down the road [life sciences].
+Dzyubachyk, O., van Cappellen, W. A., Essers, J., Niessen, W. J., and                              IEEE Signal Process. Mag. 29, 140–145. doi: 10.1109/MSP.2012.2204190
+   Meijering, E. (2010). Advanced level-set-based cell tracking in time-                       Mukamel, E. A., Nimmerjahn, A., and Schnitzer, M. J. (2009). Automated analysis
+   lapse fluorescence microscopy. IEEE Trans. Med. Imaging 29, 852–867.                            of cellular signals from large-scale calcium imaging data. Neuron 63, 747–760.
+   doi: 10.1109/TMI.2009.2038693                                                                   doi: 10.1016/j.neuron.2009.08.009
+Fiacco, T. A., and McCarthy, K. D. (2004). Intracellular astrocyte                             Myers, G. (2012). Why bioimage informatics matters. Nat. Methods 9, 659–660.
+   calcium waves in situ increase the frequency of spontaneous AMPA                                doi: 10.1038/nmeth.2024
+   receptor currents in CA1 pyramidal neurons. J. Neurosci. 24, 722–732.                       Oberheim, N. A., Goldman, S. A., and Nedergaard, M. (2012). Heterogeneity
+   doi: 10.1523/JNEUROSCI.2859-03.2004                                                             of astrocytic form and function. Methods Mol. Biol. 814, 23–45.
+Fiacco, T. A., and McCarthy, K. D. (2006). Astrocyte calcium elevations:                           doi: 10.1007/978-1-61779-452-0_3
+   properties, propagation, and effects on brain signaling. Glia 54, 676–690.                  Pachitariu, M., Packer, A. M., Pettit, N., Dalgleish, H., Hausser, M., and
+   doi: 10.1002/glia.20396                                                                         Sahani, M. (2013). “Extracting regions of interest from biological images
+Fisher, R. A. (1915). Frequency distribution of the values of the correlation                      with convolutional sparse block coding,” in Advances in Neural Information
+   coefficient in samples from an indefinitely large population. Biometrika 10,                    Processing Systems (Douglas, NV), 1745–1753.
+   507–521. doi: 10.2307/2331838                                                               Pasti, L., Volterra, A., Pozzan, T., and Carmignoto, G. (1997). Intracellular calcium
+Fisher, R. A. (1921). On the probable error of a coefficient of correlation deduced                oscillations in astrocytes: a highly plastic, bidirectional form of communication
+   from a small sample. Metron 1, 3–32.                                                            between neurons and astrocytes in situ. J. Neurosci. 17, 7817–7830.
+Foi, A., Trimeche, M., Katkovnik, V., and Egiazarian, K. (2008). Practical                     Peters, A. J., Chen, S. X., and Komiyama, T. (2014). Emergence of reproducible
+   Poissonian-Gaussian noise modeling and fitting for single-image raw-                            spatiotemporal activity during motor learning. Nature 510, 263–267.
+   data. IEEE Trans. Image Process. 17, 1737–1754. doi: 10.1109/TIP.2008.20                        doi: 10.1038/nature13235
+   01399                                                                                       Pnevmatikakis, E. A., Soudry, D., Gao, Y., Machado, T. A., Merel, J., Pfau,
+Göbel, W., Kampa, B. M., and Helmchen, F. (2007). Imaging cellular network                         D., et al. (2016). Simultaneous denoising, deconvolution, and demixing
+   dynamics in three dimensions using fast 3D laser scanning. Nat. Methods 4,                      of calcium imaging data. Neuron 89, 285–299. doi: 10.1016/j.neuron.2015.
+   73–79. doi: 10.1038/nmeth989                                                                    11.037
+Halassa, M. M., and Haydon, P. G. (2010). Integrated brain circuits: astrocytic                Prevedel, R., Yoon, Y. G., Hoffmann, M., Pak, N., Wetzstein, G., Kato, S., et al.
+   networks modulate neuronal activity and behavior. Annu. Rev. Physiol. 72, 335.                  (2014). Simultaneous whole-animal 3D imaging of neuronal activity using
+   doi: 10.1146/annurev-physiol-021909-135843                                                      light-field microscopy. Nat. Methods 11, 727–730. doi: 10.1038/nmeth.2964
+Hamilton, N., Vayro, S., Kirchhoff, F., Verkhratsky, A., Robbins, J., Gorecki, D. C.,          Reidl, J., Starke, J., Omer, D. B., Grinvald, A., and Spors, H. (2007).
+   et al. (2008). Mechanisms of ATP-and glutamate-mediated calcium signaling in                    Independent component analysis of high-resolution imaging data
+   white matter astrocytes. Glia 56, 734–749. doi: 10.1002/glia.20649                              identifies distinct functional domains. Neuroimage 34, 94–108.
+Haustein, M. D., Kracun, S., Lu, X. H., Shih, T., Jackson-Weaver, O.,                              doi: 10.1016/j.neuroimage.2006.08.031
+   Tong, X., et al. (2014). Conditions and constraints for astrocyte calcium                   Sezgin, M. (2004). Survey over image thresholding techniques and
+   signaling in the hippocampal mossy fiber pathway. Neuron 82, 413–429.                           quantitative performance evaluation. J. Electron. Imaging 13, 146–168.
+   doi: 10.1016/j.neuron.2014.02.041                                                               doi: 10.1117/1.1631315
+Haydon, P. G. (2001). GLIA: listening and talking to the synapse. Nat. Rev.                    Smith, S. L., and Häusser, M. (2010). Parallel processing of visual space by
+   Neurosci. 2, 185–193. doi: 10.1038/35058528                                                     neighboring neurons in mouse visual cortex. Nat. Neurosci. 13, 1144–1149.
+Higley, M. J., and Sabatini, B. L. (2008). Calcium signaling in dendrites                          doi: 10.1038/nn.2620
+   and spines: practical and functional considerations. Neuron 59, 902–913.                    Soelter, J., Schumacher, J., Spors, H., and Schmuker, M. (2014). Automatic
+   doi: 10.1016/j.neuron.2008.08.020                                                               segmentation of odor maps in the mouse olfactory bulb using
+Jourdain, P., Bergersen, L. H., Bhaukaurally, K., Bezzi, P., Santello, M., Domercq,                regularized non-negative matrix factorization. Neuroimage 98, 279–288.
+   M., et al. (2007). Glutamate exocytosis from astrocytes controls synaptic                       doi: 10.1016/j.neuroimage.2014.04.041
+   strength. Nat. Neurosci. 10, 331–339. doi: 10.1038/nn1849                                   Srinivasan, R., Huang, B. S., Venugopal, S., Johnston, A. D., Chai, H., Zeng,
+Junek, S., Chen, T. W., Alevra, M., and Schild, D. (2009). Activity correlation                    H., et al. (2015). Ca2+ signaling in astrocytes from Ip3r2-/-mice in brain
+   imaging: visualizing function and structure of neuronal populations. Biophys.                   slices and during startle responses in vivo. Nat. Neurosci. 18, 708–717.
+   J. 96, 3801–3809. doi: 10.1016/j.bpj.2008.12.3962                                               doi: 10.1038/nn.4001
+
+
+
+
+Frontiers in Neuroinformatics | www.frontiersin.org                                       22                                                     July 2017 | Volume 11 | Article 48
+Wang et al.                                                                                                                  Automated Functional Analysis of Astrocytes
+
+
+
+Starck, J. L., Murtagh, F. D., and Bijaoui, A. (1998). Image Processing and Data        Yuste, R., Majewska, A., and Holthoff, K. (2000). From form to function:
+   Analysis: The Multiscale Approach. Cambridge, UK: Cambridge University                  calcium compartmentalization in dendritic spines. Nat. Neurosci. 3, 653–659.
+   Press.                                                                                  doi: 10.1038/76609
+Valmianski, I., Shih, A. Y., Driscoll, J. D., Matthews, D. W., Freund, Y.,              Zur Nieden, R., and Deitmer, J. W. (2006). The role of metabotropic glutamate
+   and Kleinfeld, D. (2010). Automatic identification of fluorescently labeled             receptors for the generation of calcium oscillations in rat hippocampal
+   brain cells for rapid functional imaging. J. Neurophysiol. 104, 1803–1811.              astrocytes in situ. Cereb. Cortex 16, 676–687. doi: 10.1093/cercor/bhj013
+   doi: 10.1152/jn.00484.2010
+Volterra, A., and Meldolesi, J. (2005). Astrocytes, from brain glue to                  Conflict of Interest Statement: The authors declare that the research was
+   communication elements: the revolution continues. Nat. Rev. Neurosci. 6,             conducted in the absence of any commercial or financial relationships that could
+   626–640. doi: 10.1038/nrn1722                                                        be construed as a potential conflict of interest.
+Wang, Y., Shi, G., Miller, D. J., Wang, Y., Broussard, G., Wang, Y., et al.
+   (2016). “FASP: A machine learning approach to functional astrocyte                   Copyright © 2017 Wang, Shi, Miller, Wang, Wang, Broussard, Wang, Tian and Yu.
+   phenotyping from time-lapse calcium imaging data,” in 2016 IEEE                      This is an open-access article distributed under the terms of the Creative Commons
+   13th International Symposium on Biomedical Imaging (ISBI) (Prague),                  Attribution License (CC BY). The use, distribution or reproduction in other forums
+   351–354.                                                                             is permitted, provided the original author(s) or licensor are credited and that the
+Wisniewski, K., and Car, H. (2002). (S)-3, 5-DHPG: a review.                            original publication in this journal is cited, in accordance with accepted academic
+   CNS Drug Rev. 8, 101–116. doi: 10.1111/j.1527-3458.2002.tb                           practice. No use, distribution or reproduction is permitted which does not comply
+   00218.x                                                                              with these terms.
+
+
+
+
+Frontiers in Neuroinformatics | www.frontiersin.org                                23                                                    July 2017 | Volume 11 | Article 48
+
