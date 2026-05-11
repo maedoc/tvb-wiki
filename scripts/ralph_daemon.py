@@ -507,6 +507,7 @@ def main_loop_with_agents(agents, poll_interval: int = 60):
                 executor = _agent_executors.setdefault(agent_name, concurrent.futures.ThreadPoolExecutor(max_workers=n_workers))
                 future = executor.submit(runner)
                 _agent_futures[agent_name] = future
+                _agent_start_times[agent_name] = datetime.datetime.now()
                 log.info("── %s launched (%d workers) ──", agent_name, n_workers)
                 any_launched = True
 
