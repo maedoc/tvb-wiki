@@ -77,7 +77,7 @@ PUSH_INTERVAL = 1800  # seconds
 LAST_PUSH_FILE = os.path.join(META_DIR, "last_push.txt")
 
 # ── Error handling ─────────────────────────────────────────────────────
-PI_TIMEOUT = 180               # 3 min per pi subprocess
+PI_TIMEOUT = 120               # 2 min per pi subprocess (was 180)
 MAX_RETRIES = 3
 RETRY_BACKOFF = [10, 30, 90]   # seconds between retries
 CIRCUIT_BREAKER_THRESHOLD = 3  # consecutive failures to disable agent
