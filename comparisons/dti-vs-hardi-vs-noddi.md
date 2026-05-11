@@ -3,6 +3,7 @@ created: 2026-05-06
 sources:
 - raw/papers/arxiv-2603.20348.md
 - raw/papers/basser-1994.md
+- raw/papers/semanticscholar-dc81089b4fd5.md
 tags:
 - neuroimaging-dti
 - diffusion-mri
@@ -11,7 +12,7 @@ tags:
 - comparison
 title: DTI vs HARDI vs NODDI
 type: comparison
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 # DTI vs. HARDI vs. NODDI

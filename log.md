@@ -301,3 +301,5 @@
 ## [2026-05-11 09:34] DeepResearch: 6 papers added via focused research
 
 ## [2026-05-11 09:57] Linter: 44 broken links, 19 orphans, 5 stale, 0 empty
+
+## [2026-05-11 10:03] Audit: 763 issues (44 broken links, 19 orphans, 0 placeholders, 0 dup-refs, 4 bad-meta, 98 citation-verify, 18 opaque-refs, 14 thin, 447 missing-links)

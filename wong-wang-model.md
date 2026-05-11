@@ -41,7 +41,7 @@ The model exhibits rich dynamics including stable fixed points corresponding to 
 
 ## Relationship to Other Models and TVB
 
-The Wong-Wang model represents one of several neural mass implementations available in TVB. In the TVB framework, regional Wong-Wang dynamics are coupled through a [[structural-connectivity]] matrix derived from diffusion tensor imaging, allowing researchers to simulate how local excitatory-inhibitory balance interacts with the anatomical connectivity structure to produce [[functional-connectivity]] patterns resembling those observed in empirical [[resting-state]] fMRI[^deco-et-al-2014].
+The Wong-Wang model represents one of several neural mass implementations available in TVB, alongside other frameworks such as [[spice]]. In the TVB framework, regional Wong-Wang dynamics are coupled through a [[structural-connectivity]] matrix derived from diffusion tensor imaging, allowing researchers to simulate how local excitatory-inhibitory balance interacts with the anatomical connectivity structure to produce [[functional-connectivity]] patterns resembling those observed in empirical [[resting-state]] fMRI[^deco-et-al-2014].
 
 The model connects to broader concepts in [[dynamical-systems-theory]], where the transition between qualitatively different dynamical regimes—fixed points, oscillations, and chaotic attractors—provides a mathematical framework for understanding brain state transitions. The [[excitation-inhibition-balance]] is also central to many clinical applications: altered E/I balance has been implicated in [[schizophrenia-models]] and [[epilepsy-modeling]], and the Wong-Wang model provides a tool for exploring how pathological changes in synaptic parameters propagate through large-scale networks[^wong-wang-2006].
 

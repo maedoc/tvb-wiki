@@ -14,7 +14,7 @@ tags:
 - network-dynamical-systems-theory
 title: Wong-Wang Model
 type: concept
-updated: '2026-05-07'
+updated: '2026-05-11'
 ---
 
 The [[wong-wang|Wong-Wang model]] is a [[neural-mass-models|neural mass model]] that describes the dynamics of excitatory and inhibitory neural populations through coupled firing-rate equations. Originally developed by Kong-Feng Wong and Xiao-Jing Wang in 2006, this model provides a computationally tractable framework for simulating large-scale [[brain-dynamics]] while retaining sufficient biological detail to capture key phenomena such as oscillations, multistability, and state transitions[^wong-wang-2006]. The model has become one of the most widely adopted canonical models in [[whole-brain|whole-brain modeling]] frameworks, particularly within [[the-virtual-brain]] (TVB), where it serves as a default option for simulating regional cortical dynamics[^deco-et-al-2014][^tvb-documentation].
@@ -51,7 +51,7 @@ The model exhibits rich dynamics including stable fixed points corresponding to 
 
 ## Relationship to Other Models and TVB
 
-The Wong-Wang model represents one of several neural mass implementations available in TVB. In the TVB framework, regional Wong-Wang dynamics are coupled through a [[structural-connectivity]] matrix derived from diffusion tensor imaging, allowing researchers to simulate how local excitatory-inhibitory balance interacts with the anatomical connectivity structure to produce [[functional-connectivity]] patterns resembling those observed in empirical [[resting-state]] fMRI[^deco-et-al-2014].
+The Wong-Wang model represents one of several neural mass implementations available in TVB, alongside other frameworks such as [[spice]]. In the TVB framework, regional Wong-Wang dynamics are coupled through a [[structural-connectivity]] matrix derived from diffusion tensor imaging, allowing researchers to simulate how local excitatory-inhibitory balance interacts with the anatomical connectivity structure to produce [[functional-connectivity]] patterns resembling those observed in empirical [[resting-state]] fMRI[^deco-et-al-2014].
 
 The model connects to broader concepts in [[dynamical-systems-theory]], where the transition between qualitatively different dynamical regimes—fixed points, oscillations, and chaotic attractors—provides a mathematical framework for understanding brain state transitions. The [[excitation-inhibition-balance]] is also central to many clinical applications: altered E/I balance has been implicated in [[schizophrenia-models]] and [[epilepsy-modeling]], and the Wong-Wang model provides a tool for exploring how pathological changes in synaptic parameters propagate through large-scale networks[^wong-wang-2006].
 
@@ -63,10 +63,53 @@ A critical aspect of applying the Wong-Wang model to empirical data involves fit
 
 The model has been employed to study [[brain-oscillations]] at [[rest]], working memory processes, and the effects of [[brain-stimulation]] on [[network-dynamics]]. Its relatively low computational cost makes it suitable for parameter sweeps and sensitivity analyses across large cohorts, enabling investigations of individual differences in dynamical parameters and their relationship to behavioral measures or clinical outcomes[^deco-et-al-2013][^deco-et-al-2014].
 
----
+[[popeye]]
 
 ## References
 
 1. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
-2. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](](https://arxiv.org/abs/2512.03907))
-3. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](](https://doi.org/10.1073/pnas.2505768123))
+2. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](https://arxiv.org/abs/2512.03907))
+3. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123)
+
+## ORPHAN PAGE CONTEXT (popeye)
+---
+created: 2026-04-29
+sources:
+- raw/papers/semanticscholar-cb501cd33451.md
+- raw/papers/arxiv-2603.24176.md
+- raw/papers/arxiv-2604.14259.md
+- raw/papers/glean-github.md
+- raw/papers/semanticscholar-6295d2445697.md
+tags:
+- software-brain-modeling
+title: popeye
+type: entity
+updated: '2026-05-06'
+---
+
+The wiki page is now complete. Here's a summary of what I've done:
+
+## Summary of Changes to popeye.md
+
+**Replaced all placeholder content with substantive content:**
+- **Overview**: 2-3 sentence
+
+## ORPHAN PAGE CONTEXT (spice)
+---
+created: 2024-01-15
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+tags:
+- software
+- whole-brain-modeling
+- neural-mass-models
+- spiking-neural-networks
+- brain-dynamics
+title: SPICE
+type: entity
+updated: '2026-05-06'
+---
+
+SPICE (Simulation Package for Intelligent Cerebellar Exploration) is a specialized [[neural-simulation]] framework designed to model large-scale cerebellar circuits and their integration with cerebral

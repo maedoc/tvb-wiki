@@ -3,6 +3,7 @@ created: 2026-04-20
 sources:
 - raw/papers/arxiv-2512.08756.md
 - raw/papers/semanticscholar-bb75bdb90ada.md
+- raw/papers/semanticscholar-fe094deb2ddc.md
 tags:
 - alzheimers-modeling
 - aging-brain
@@ -11,7 +12,7 @@ tags:
 - cognitive-reserve
 title: APOE
 type: concept
-updated: '2026-05-07'
+updated: '2026-05-11'
 ---
 
 Apolipoprotein E (APOE) is a polymorphic glycoprotein encoded by the APOE gene on chromosome 19 that plays a critical role in lipid transport and neuronal maintenance in the central nervous system. In the context of [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]], APOE represents a key biological factor that modulates brain [[network-dynamics]], structural [[connectivity]] integrity, and the progression of age-related neurodegenerative diseases. The protein is synthesized primarily by astrocytes in the brain, where it facilitates the redistribution of lipids between neurons and glial cells, supporting synaptic maintenance, membrane reconstruction, and myelin sheath stability. Three common alleles—APOE ε2, ε3, and ε4—produce proteins with distinct functional properties that have been extensively studied in relation to cognitive decline, Alzheimer's disease risk, and [[brain-network]] organization.

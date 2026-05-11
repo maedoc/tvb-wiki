@@ -16,14 +16,14 @@ tags:
 - code-generation
 title: Brian2GeNN
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 Brian2GeNN is a software bridge that connects the Brian2 spiking [[neural-network]] simulator with the GeNN (GPU-enhanced Neuronal Networks) code generation framework, enabling high-performance GPU-accelerated simulations of spiking neural networks. The tool was developed to address the computational bottleneck inherent in large-scale [[spiking-neural-networks]] simulations, which often require millions of neurons and synapses to achieve biologically realistic [[network-dynamics]]. By automatically converting Brian2 model definitions into optimized CUDA code via GeNN, Brian2GeNN allows neuroscientists to write network models in Brian2's intuitive Python-based syntax while transparently benefiting from the massive parallelism of graphics processing units.
 
 ## History and Development
 
-Brian2GeNN was developed by Marcel Stimberg, Dan F. M. Goodman, and Thomas Nowotny, with the initial public release in 2019. The project emerged from the intersection of two established software efforts in computational neuroscience: [[brian2]], a Python-based spiking neural network simulator developed by Romain Brette and Goodman at the École Normale Supérieure in Paris, and GeNN, a GPU code generation framework originally created by Nowotny and colleagues at the University of Sussex. The motivation for Brian2GeNN was to enable neuroscientists to access the performance benefits of GPU acceleration without abandoning Brian2's accessible Python modeling paradigm.
+Brian2GeNN was developed by Marcel Stimberg, Dan F. M. Goodman, and Thomas Nowotny, with the initial public release in 2019. The project emerged from the intersection of two established software efforts in computational neuroscience: [[brian2]], a Python-based spiking neural network simulator developed by Romain Brette and Goodman at the École Normale Supérieure in Paris, and [[genn]], a GPU code generation framework originally created by Nowotny and colleagues at the University of Sussex. The motivation for Brian2GeNN was to enable neuroscientists to access the performance benefits of GPU acceleration without abandoning Brian2's accessible Python modeling paradigm.
 
 The first major version (Brian2GeNN 1.0) was released alongside the publication of the primary reference paper in Frontiers in Neuroinformatics, demonstrating the tool's capability to accelerate Brian2 simulations by orders of magnitude [[brian2genn]]. Subsequent releases have expanded model compatibility and improved integration with newer versions of both Brian2 and GeNN.
 

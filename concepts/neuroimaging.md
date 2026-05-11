@@ -18,10 +18,11 @@ tags:
 - connectomics
 title: Neuroimaging
 type: concept
-updated: '2026-05-09'
+updated: '2026-05-11'
 ---
 
-Neuroimaging encompasses the suite of techniques used to directly or indirectly image the structure, function, or pharmacology of the nervous system. Large-scale datasets such as [[aomic]] provide rich resources for these studies. In the context of [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]], neuroimaging provides the essential empirical data that constrains [[connectome]]-based models, enables validation of simulated dynamics, and bridges the gap between mathematical abstraction and biological reality. Tools like [[nipal]] leverage neuroimaging data for whole‑brain simulations.
+Neuroimaging encompasses the suite of techniques used to directly or indirectly image the structure, function, or pharmacology of the nervous system. Large-scale datasets such as [[aomic]] provide rich resources for these studies. In the context of [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]], neuroimaging provides the essential empirical data that constrains [[connectome]]-based models, enables validation of simulated dynamics, and bridges the gap between mathematical abstraction and biological reality. Tools like [[nipal]] leverage neuroimaging data for whole‑brain simulations. The [[Allen SDK]] also offers programmatic access to such datasets. For spinal cord MRI analysis, the [[spinal-cord-toolbox]] provides specialized processing tools.
+[[simbrain]]
 
 ## Historical Context and Motivation
 
@@ -37,9 +38,9 @@ Each modality captures different aspects of brain organization, and the integrat
 
 ## Relationship to Whole‑Brain Modeling
 
-In connectome‑based whole‑brain modeling, neuroimaging serves as the primary source of empirical constraint. The [[structural-connectivity]] matrix derived from dMRI tractography provides the anatomical topology—the set of nodes (brain regions) and edges (white matter tracts) that define the network. Functional MRI and EEG/MEG provide the empirical dynamics against which model simulations are validated. A central challenge in the field is the mismatch between the spatial scale of individual neurons (microns) and the spatial resolution of non‑invasive neuroimaging (millimeters), requiring [[mean-field-theory|mean‑field]] approximations that aggregate population‑level activity.
+In connectome‑based whole‑brain modeling, neuroimaging serves as the primary source of empirical constraint. the [[structural-connectivity]] matrix derived from dMRI tractography provides the anatomical topology—the set of nodes (brain regions) and edges (white matter tracts) that define the network. Functional MRI and EEG/MEG provide the empirical dynamics against which model simulations are validated. a central challenge in the field is the mismatch between the spatial scale of individual neurons (microns) and the spatial resolution of non‑invasive neuroimaging (millimeters), requiring [[mean-field-theory|mean‑field]] approximations that aggregate population‑level activity.
 
-The relationship between empirical neuroimaging data and computational models is inherently bidirectional. Models make predictions about [[network-dynamics]] that can be tested against empirical recordings, while neuroimaging provides boundary conditions and initial states for simulations. [[parameter-estimation]] in whole‑brain models often involves fitting simulated [[functional-connectivity]] patterns to empirically observed patterns from fMRI or MEG.
+The relationship between empirical neuroimaging data and computational models is inherently bidirectional. Models make predictions about [[network-dynamics]] that can be tested against empirical recordings, while neuroimaging provides boundary conditions and initial states for simulations. [[parameter-estimation]] [[pymc]] in whole‑brain models often involves fitting simulated [[functional-connectivity]] patterns to empirically observed patterns from fMRI or MEG.
 
 ## Key Concepts
 
@@ -178,7 +179,7 @@ updated: '2026-05‑07'
 ---
 created: 2025-01-15
 sources:
-- raw/papers/huntenburg-2018.md
+- raw/papers/huntenberg-2018.md
 - raw/papers/arxiv-2512.17472.md
 - raw/papers/semanticscholar-d6e43299345d.md
 tags:

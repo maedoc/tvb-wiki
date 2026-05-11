@@ -1,0 +1,15 @@
+# Conditioned Graph Reconstruction of Brain Functional Network Connectivity Reveals Interpretable Latent Axes of Sex and Fluid Intelligence
+
+**Source**: semantic-scholar
+**ID**: 93f6eb94ecfdb6859682d1a55d8ffc49665aba63
+**DOI**: 10.64898/2026.02.20.707025
+**URL**: https://www.semanticscholar.org/paper/93f6eb94ecfdb6859682d1a55d8ffc49665aba63
+**Date**: 2026-02-20
+**Year**: 2026
+**Authors**: Ishaan Batta, Meenu Ajith, V. Calhoun
+**Venue**: bioRxiv
+**Citations**: 0
+
+## Abstract
+
+In studying the brain’s functional connectivity and its associations with clinically observed assessments, novel learning frameworks modeling its network properties in conjunction with assessment variables are crucial to uncover variable-specific patterns via meaningful encoding and reconstruction. We present a generative framework for modeling human brain functional connectivity features while retaining key network metrics and differences associated with demographic and cognitive variables. A conditional graph variational autoencoder is employed to encode static functional network connectivity (sFNC) features into a latent representation, which is then utilized for the dual purpose of reconstructing sFNC data conditioned on variables such as biological sex or fluid intelligence, and identifying discriminative connectivity features associated with the conditioning variables in the latent space. Using over 20,000 subjects from the UK Biobank, our model demonstrates high-fidelity reconstructions that preserve condition-specific network patterns, while the latent space captures interpretable patterns associated with these variables. The group differences in latent space are highlighted by one-hot probing of the latent dimensions and forward mapping to connectivity patterns. This approach provides a scalable, network-informed framework for studying brain functional connectivity and its associations with individual differences, offering potential applications in characterizing functional signatures for mental health conditions via clinically observed assessment variables. AUTHOR SUMMARY To enable the modeling of the brain functional connectivity network for encoding and reconstructing assessment-specific differences, we propose a conditional graph-based generative framework for modeling human brain functional connectivity while accounting for demographic and cognitive differences. Using a conditional graph variational autoencoder, our approach learns interpretable latent representations of functional connectivity networks derived from fMRI data. Evaluated on over 20,000 UK Biobank subjects, the model accurately reconstructs connectivity patterns outperforming baseline architectures and preserves differences associated with biological sex and fluid intelligence. By probing the latent space and mapping latent dimensions back to brain networks, we identify condition-specific connectivity features in an interpretable manner. This work provides a scalable, network-informed approach for studying individual differences in functional brain organization.

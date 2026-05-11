@@ -1,7 +1,7 @@
 ---
 title: Default Mode Network (DMN)
 created: 2026-04-20
-updated: 2026-05-09
+updated: 2026-05-11
 type: concept
 tags: [default-mode-network, resting-state, functional-connectivity, brain-oscillations, neuroimaging-fmri, network-hubs, aging, neurodevelopment, schizophrenia-models, epilepsy-modeling]
 sources: [raw/papers/raichle-2001.md, raw/papers/buckner-andrews-hanna-schacter-2008.md, raw/papers/greicius-2003.md]

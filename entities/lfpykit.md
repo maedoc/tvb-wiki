@@ -1,13 +1,23 @@
 ---
-title: LFPykit
 created: 2025-01-15
-updated: 2026-05-11
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+tags:
+- software-neuroscience
+- lfp
+- forward-model
+- volume-conduction
+- computational-neuroscience
+- neural-simulation
+- software-python
+title: LFPykit
 type: entity
-tags: [software-neuroscience, lfp, forward-model, volume-conduction, computational-neuroscience, neural-simulation, software-python]
-sources: []
+updated: '2026-05-11'
 ---
 
-LFPykit is a Python toolkit for computing local field potentials (LFP) from spiking neural network simulations. It provides a modular framework of volume conductor models and point source dipole implementations that can be combined with various neuron simulators to calculate extracellular potentials in realistic brain tissue. The library serves as the computational backbone for the related LFPy package, offering optimized building blocks for forward modeling of electrophysiological signals.
+LFPykit is a Python toolkit for computing [[local-field-potentials]] (LFP) from [[spiking-neural-networks|spiking neural network]] simulations. It provides a modular framework of volume conductor models and point source dipole implementations that can be combined with various neuron simulators to calculate extracellular potentials in realistic brain tissue. The library serves as the computational backbone for the related [[lfp-lib|LFPy]] package, offering optimized building blocks for forward modeling of electrophysiological signals.
 
 ## Overview
 
@@ -21,13 +31,13 @@ LFPykit implements several volume conductor models of increasing biophysical rea
 
 The source computation in LFPykit leverages the point dipole approximation, where each segment of a neuronal morphology is treated as a current dipole. The toolkit provides functions to compute the contribution of each segment to the potential at arbitrary electrode positions, then sums these contributions to yield the total LFP signal. This approach scales efficiently to large populations of neurons because the computation can be parallelized across electrode positions and neuronal sources. The library includes optimized implementations using NumPy vectorization and supports both CPU and GPU backends for large-scale simulations.
 
-A distinctive feature of LFPykit is its emphasis on reproducibility and validation. The toolkit includes reference implementations of analytical solutions for simple geometries, against which more complex models can be tested. This validation framework helps ensure that simulations produce physiologically plausible LFP signals and supports method comparison studies.
+A distinctive feature of LFPykit is its emphasis on [[reproducibility]] and validation. The toolkit includes reference implementations of analytical solutions for simple geometries, against which more complex models can be tested. This validation framework helps ensure that simulations produce physiologically plausible LFP signals and supports method comparison studies.
 
 ## Relationship to TVB
 
-While [[The Virtual Brain]] (TVB) primarily operates at the level of neural mass models and mean-field approximations, the two frameworks can be integrated for multi-scale modeling. TVB's whole-brain simulations often produce macroscale activity that could be refined with biophysically detailed LFP calculations using LFPykit, though such integration remains an active research direction. More directly, LFPykit shares conceptual foundations with TVB's approach to forward modeling—the problem of relating neural activity to measurable signals is central to both platforms, albeit at different spatial scales. TVB's [[forward-model]] capabilities primarily address hemodynamic responses for fMRI, whereas LFPykit tackles the complementary electromagnetic forward problem for electrophysiology.
+While [[The Virtual Brain]] (TVB) primarily operates at the level of [[neural-mass-models]] and [[mean-field-theory|mean-field]] approximations, the two frameworks can be integrated for multi-scale modeling. TVB's [[whole-brain]] simulations often produce macroscale activity that could be refined with biophysically detailed LFP calculations using LFPykit, though such integration remains an active research direction. More directly, LFPykit shares conceptual foundations with TVB's approach to forward modeling—the problem of relating neural activity to measurable signals is central to both platforms, albeit at different spatial scales. TVB's [[forward-model]] capabilities primarily address hemodynamic responses for [[fmri]], whereas LFPykit tackles the complementary electromagnetic forward problem for electrophysiology.
 
-The two software ecosystems also share a common philosophy of modular design. TVB allows researchers to swap different neural mass models (such as the [[Jansen-Rit]] or [[Wong-Wang]] models) while maintaining the same simulation infrastructure. LFPykit similarly enables swapping different volume conductor models without changing the neural simulation backend. This architectural similarity facilitates potential future integration where TVB could leverage LFPykit for EEG/MEG source modeling in personalized brain models.
+The two software ecosystems also share a common philosophy of modular design. TVB allows researchers to swap different neural mass models (such as the [[Jansen-Rit]] or [[Wong-Wang]] models) while maintaining the same simulation infrastructure. LFPykit similarly enables swapping different volume conductor models without changing the [[neural-simulation]] backend. This architectural similarity facilitates potential future integration where TVB could leverage LFPykit for EEG/MEG source modeling in [[personalized-brain-modeling|personalized brain]] models.
 
 ## Related Software
 

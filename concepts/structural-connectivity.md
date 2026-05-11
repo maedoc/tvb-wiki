@@ -19,7 +19,7 @@ tags:
 - whole-brain-modeling
 title: Structural Connectivity
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 **Structural [[connectivity]]** (SC) refers to the anatomical connections between brain regions, typically represented as white matter fiber tracts that enable direct communication between neuronal populations. Unlike [[functional-connectivity]]—which captures statistical dependencies in activity patterns—structural connectivity reflects the physical "wiring diagram" of the brain, comprising axonal fiber bundles that provide the substrate for information transmission across distributed neural circuits. This distinction is fundamental: while functional connectivity can reveal coordinated activity between brain areas even in the absence of direct anatomical links, structural connectivity constrains the possible pathways through which neural signals can propagate.
@@ -34,7 +34,8 @@ In the context of whole-brain modeling, structural connectivity serves as the pr
 
 ### In Vivo (Human)
 
-The primary method for measuring structural connectivity in living humans is **diffusion tensor imaging** (DTI), which exploits the anisotropic diffusion of water molecules along myelinated fiber tracts. Water diffuses more freely parallel to axonal fibers than perpendicular to them, and this directional dependence of diffusion provides information about fiber orientation at each voxel. The diffusion tensor—a 3×3 symmetric matrix—characterizes this anisotropy and enables estimation of principal fiber directions.
+The primary method for measuring structural connectivity in living humans is **diffusion tensor imaging** (DTI), which exploits the anisotropic diffusion of water molecules along myelinated fiber tracts. Water diffuses more freely parallel to axonal fibers than perpendicular to them, and this directional dependence of diffusion provides information about fiber orientation at each voxel.  
+Preprocessing steps such as susceptibility distortion correction (e.g., using the [[sdcflows]] toolkit) are commonly applied to improve data quality before tractography.
 
 **Tractography** algorithms use these directional estimates to reconstruct putative fiber pathways through space. Streamline tractography integrates the principal diffusion direction to trace continuous paths from seed regions to target regions, with the assumption that these paths correspond to actual axonal bundles. However, as Jones (2010) extensively documented, tractography faces significant challenges: crossing fibers (where multiple fiber populations occupy the same voxel) cannot be resolved with standard DTI, the method provides no direct information about connection strength or directionality, and track counts correlate only weakly with actual fiber counts [@jones-2010].
 
@@ -54,26 +55,26 @@ The process of constructing a structural connectivity matrix from diffusion MRI 
 
 **Weighting** assigns values to each connection reflecting its anatomical strength. Common metrics include streamline count (the number of reconstructed fibers), [[fractional-anisotropy]] (FA) averaged along tracts, and quantitative anisotropy. Each weighting scheme captures different aspects of connectivity—streamline count reflects anatomical presence, while FA reports microstructural properties.
 
-The final product is an N×N connectivity matrix where element (i,j) represents the structural connection from region i to region j. Due to the bidirectional nature of tractography reconstruction, such matrices are typically symmetric. However, this symmetry is a limitation—actual anatomical connections may be unidirectional, a fact onlycapturable through invasive tracer methods.
+The final product is an N×N connectivity matrix where element (i,j) represents the structural connection from region i to region j. Due to the bidirectional nature of tractography reconstruction, such matrices are typically symmetric. However, this symmetry is a limitation—actual anatomical connections may be unidirectional, a fact only capturable through invasive tracer methods.
 
 ## Role in Whole-Brain Modeling
 
 Structural connectivity provides the anatomical skeleton upon which whole-brain dynamics unfold. In [[whole-brain]] models such as those implemented in [[tvb|The Virtual Brain]], SC matrices determine:
 
 1. **Coupling strength**: Connection weights establish the magnitude of interregional interactions, directly modulating the extent to which activity in one region influences its targets.
-2. **Network topology**: The graph-theoretic properties of SC networks—including [[small-world-networks|small-world]] organization, [[rich-club|rich-club]] architecture, and [[modularity]]—shape emergent dynamics. Hub regions with high degree exert disproportionate influence on network behavior.
+2. **Network topology**: The graph‑theoretic properties of SC networks—including [[small-world-networks|small-world]] organization, [[rich-club|rich-club]] architecture, and [[modularity]]—shape emergent dynamics. Hub regions with high degree exert disproportionate influence on network behavior.
 3. **Signal transmission delays**: Fiber length estimates derived from tractography enable calculation of conduction delays, which become critical for accurate simulation of temporal dynamics, particularly for EEG/MEG forward modeling.
-4. **Individual variability**: Subject-specific SC matrices enable [[personalized-brain-modeling|personalized brain models]], allowing researchers to investigate how anatomical differences contribute to individual differences in brain function and clinical phenotypes.
+4. **Individual variability**: Subject‑specific SC matrices enable [[personalized-brain-modeling|personalized brain models]], allowing researchers to investigate how anatomical differences contribute to individual differences in brain function and clinical phenotypes.
 
 ## Key Network Properties
 
-Empirical characterization of structural connectomes has revealed several canonical topological properties. The human brain connectome exhibits **sparsity**—only approximately 20-30% of possible pairwise connections exist—reflecting efficient, specialized wiring. The network displays **small-world** organization, combining high clustering among nearby regions with short path lengths enabling global integration. A **rich-club** phenomenon emerges wherein highly connected hub regions are densely interconnected among themselves, forming a backbone for global communication. Community structure or **[[modularity]]** reflects functional segregation, with distinct subnetworks supporting sensory, motor, and association functions.
+Empirical characterization of structural connectomes has revealed several canonical topological properties. The human brain connectome exhibits **sparsity**—only approximately 20‑30 % of possible pairwise connections exist—reflecting efficient, specialized wiring. The network displays **small‑world** organization, combining high clustering among nearby regions with short path lengths enabling global integration. A **rich‑club** phenomenon emerges wherein highly connected hub regions are densely interconnected among themselves, forming a backbone for global communication. Community structure or **[[modularity]]** reflects functional segregation, with distinct subnetworks supporting sensory, motor, and association functions.
 
 These properties emerge from the interaction of developmental mechanisms and evolutionary optimization, and they constrain the dynamical possibilities accessible to brain networks.
 
 ## Limitations and Open Questions
 
-Despite its centrality to connectomics, structural connectivity estimation faces persistent challenges. Tractography's inability to resolve directionality or precise connection strength limits its utility for certain modeling applications. Validation studies comparing tractography-derived connectivity with ground truth from tracer experiments reveal systematic biases, particularly for weak Connections [@jones-2010]. The field continues to grapple with fundamental questions about how best to weight connections, how to account for inter-subject variability, and how to integrate structural data with functional measurements.
+Despite its centrality to connectomics, structural connectivity estimation faces persistent challenges. Tractography's inability to resolve directionality or precise connection strength limits its utility for certain modeling applications. Validation studies comparing tractography‑derived connectivity with ground truth from tracer experiments reveal systematic biases, particularly for weak connections [@jones-2010]. The field continues to grapple with fundamental questions about how best to weight connections, how to account for inter‑subject variability, and how to integrate structural data with functional measurements.
 
 ## Related Concepts
 
@@ -89,7 +90,7 @@ Despite its centrality to connectomics, structural connectivity estimation faces
 - [[rich-club]] – Hub region connectivity
 - [[personalized-brain-modeling]] – Individualized modeling approaches
 - [[connectivity-types]] – Taxonomy of connectivity types
-- [[whole-brain]] – Whole-brain modeling framework
+- [[whole-brain]] – Whole‑brain modeling framework
 - [[connectome-mapper-3]] – Connectivity pipeline software
 - [[brain-connectivity-toolbox]] – Network analysis software
 - [[mrtrix3-connectome|Mrtrix3 Connectome]]
@@ -99,8 +100,24 @@ Despite its centrality to connectomics, structural connectivity estimation faces
 1. (authors unknown). *MR diffusion tensor spectroscopy and imaging*.
 2. (authors unknown). *Three-dimensional tracking of axonal projections in the brain by magnetic resonance imaging*.
 3. (authors unknown). *Challenges and limitations of quantifying brain connectivity in vivo with diffusion MRI*.
-4. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A [[bayesian]] Framework for Quantifying Association Between Functional and Structural Data in [[neuroimaging]]*. [Link](](https://arxiv.org/abs/2603.21067))
-5. Caitlin Lienkaemper, G. Ocker. (2025). *Diverse [[mean-field-theory|mean-field]] dynamics of clustered, inhibition-stabilized Hawkes networks via combinatorial threshold-[[linear]] networks*. [Link](](https://www.semanticscholar.org/paper/fbd6e0d74d7094beee2f373371f61ee03edaa40d))
-6. (authors unknown). *Functional Connectomics from [[resting-state|Resting-State fMRI]]*.
-7. (authors unknown). *Predicting Human Resting-State Functional Connectivity from Structural Connectivity*.
-8. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for Personalized Brain Functional Network Construction*. [Link](](https://arxiv.org/abs/2603.07524))
+4. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A [[bayesian]] Framework for Quantifying Association Between Functional and Structural Data in [[neuroimaging]]*. [Link](https://arxiv.org/abs/2603.21067))
+5. Caitlin Lienkaemper, G. Ocker. (2025). *Diverse [[mean-field-theory|mean-field]] dynamics of clustered, inhibition‑stabilized Hawkes networks via combinatorial threshold-[[linear]] networks*. [Link](https://www.semanticscholar.org/paper/fbd6e0d74d7094beee2f373371f61ee03edaa40d))
+6. (authors unknown). *Functional Connectomics from [[resting-state|Resting‑State fMRI]]*.
+7. (authors unknown). *Predicting Human Resting‑State Functional Connectivity from Structural Connectivity*.
+8. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics‑Informed Pre‑trained Framework for Personalized Brain Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524))
+
+## ORPHAN PAGE CONTEXT (sdcflows)
+---
+created: 2026-04-30
+sources:
+- raw/papers/schirner-2018.md
+- raw/papers/semanticscholar-b9acfa0a7c80.md
+- raw/papers/semanticscholar-60ca593f7e0c.md
+tags:
+- software-brain-modeling
+title: SDCflows
+type: entity
+updated: '2026-05-06'
+---
+
+SDCflows (Susceptibility Distortion Correction flows) is a Python-based software package designed to correct geometric distortions in diffusion-weighted MRI (DWI) data caused by magnetic susceptibility differences between tissues, particularly at air‑tissue interfaces. The package implements a flexible, modular pipeline that integrates widely‑used tools such as FSL’s TOPUP and EDDY, ANTs, and DIPY, allowing users to customize preprocessing steps for their specific acquisition protocols. By correcting these distortions early in the preprocessing workflow, SDCflows improves the fidelity of downstream tractography and connectome reconstruction, ultimately leading to more accurate structural connectivity estimates.

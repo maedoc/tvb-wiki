@@ -30,7 +30,7 @@ The mathematical formulation typically involves the **ball-and-stick model**, wh
 
 Probabilistic tractography output from Camino serves as a critical input for structural connectivity [[structural-connectivity]] matrices used in computational neuroscience and whole-brain modeling [[whole-brain-modeling]] frameworks like The Virtual Brain [[the-virtual-brain]]. The probability maps can be thresholded to define connection weights between cortical and subcortical regions defined by a [[parcellation]], yielding a weighted adjacency matrix that encodes both the presence and the strength of anatomical links. These matrices are frequently combined with dynamics from neural mass models [[neural-mass-models]] such as the Jansen-Rit model [[jansen-rit-model]] to simulate emergent brain-wide activity patterns, including resting-state networks and seizure dynamics in epilepsy modeling [[epilepsy-modeling]].
 
-Several alternative software packages implement related approaches, including [MRTRIX3](](mrtrix3)) (which uses probabilistic constrained spherical deconvolution), [FSL](](Software-Fsl)) (with its PROBTRACKX module), and DSI Studio [[dsi-studio]]. Each employs different reconstruction models and sampling strategies, leading to variability in the resulting tractograms—a phenomenon that has motivated comparative studies and efforts to harmonize tractography pipelines across platforms.
+Several alternative software packages implement related approaches, including [MRTRIX3](]([[mrtrix3]])) (which uses probabilistic constrained spherical deconvolution), [FSL](](Software-Fsl)) (with its PROBTRACKX module), and DSI Studio [[dsi-studio]]. Each employs different reconstruction models and sampling strategies, leading to variability in the resulting tractograms—a phenomenon that has motivated comparative studies and efforts to harmonize tractography pipelines across platforms.
 
 ## Key Features
 
@@ -42,7 +42,7 @@ Camino's probabilistic tractography is distinguished by its open-source implemen
 - [MRTRIX3](](Mrtrix3)) — advanced tractography with spherical deconvolution
 - DSI Studio [[dsi-studio]] — deterministic and probabilistic fiber tracking
 - [FSL](](Software-Fsl)) — includes PROBTRACKX for probabilistic tractography
-- [Dipy](](dipy)) — Python-based [[diffusion-imaging]] analysis
+- [Dipy](]([[dipy]])) — Python-based [[diffusion-imaging]] analysis
 - AFQ [[afq]] — automated fiber quantification pipeline
 - [[tvb|The Virtual Brain]] [[the-virtual-brain]] — [[whole-brain]] simulator using structural connectivity from tractography
 
