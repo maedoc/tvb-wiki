@@ -544,7 +544,26 @@ def find_candidates(top_n: int = TOP_CANDIDATES,
     log.info("Similarity matrix computed in %.1fs", time.time() - start)
 
     # For each wiki page, aggregate sentence-level matches into paper scores
+    log.info("Precomputing per-paper sentence-max vectors (%d papers)...", len(paper_idx))
+    pre_start = time.time()
+    
+    # Precompute: for each paper, max similarity per wiki sentence
+    paper_max_vecs = {}  # p_slug -> np.array of length n_wiki_sents
+    for pentry in paper_idx:
+        p_off = pentry["offset"]
+        p_cnt = pentry["count"]
+        p_slug = pentry["slug"]
+        if p_cnt == 0:
+            paper_max_vecs[p_slug] = np.zeros(sims.shape[0], dtype=np.float32)
+        else:
+            paper_max_vecs[p_slug] = sims[:, p_off:p_off + p_cnt].max(axis=1)
+    
+    log.info("Precomputed %d paper vectors in %.1fs", len(paper_max_vecs), time.time() - pre_start)
+    
+    # Now per-page scoring using precomputed vectors
     results = {}
+    score_start = time.time()
+    pages_done = 0
 
     for entry in wiki_idx:
         slug = entry["slug"]
@@ -554,25 +573,16 @@ def find_candidates(top_n: int = TOP_CANDIDATES,
         if w_cnt == 0:
             continue
 
-        # Get similarity slice for this page's sentences
-        page_sims = sims[w_off:w_off + w_cnt]  # (n_page_sents, n_paper_sents)
-
-        # For each paper, compute aggregated score
         paper_scores = {}
+        w_slice = slice(w_off, w_off + w_cnt)
 
         for pentry in paper_idx:
-            p_off = pentry["offset"]
-            p_cnt = pentry["count"]
             p_slug = pentry["slug"]
-
-            if p_cnt == 0:
+            if pentry["count"] == 0:
                 continue
 
-            # Slice the similarity sub-matrix for this paper
-            sub_sims = page_sims[:, p_off:p_off + p_cnt]  # (n_page_sents, n_paper_sents)
-
-            # Count how many wiki sentences have at least one good match in this paper
-            max_per_wiki = sub_sims.max(axis=1)  # best match per wiki sentence
+            # Slice precomputed paper vector for this page's sentences
+            max_per_wiki = paper_max_vecs[p_slug][w_slice]
             matching = int((max_per_wiki >= sim_threshold).sum())
 
             if matching == 0:
@@ -590,9 +600,14 @@ def find_candidates(top_n: int = TOP_CANDIDATES,
             }
 
         if paper_scores:
-            # Sort by score descending, take top N
             ranked = sorted(paper_scores.values(), key=lambda x: x["score"], reverse=True)
             results[slug] = ranked[:top_n]
+
+        pages_done += 1
+        if pages_done % 100 == 0:
+            log.info("Scored %d/%d pages in %.1fs", pages_done, len(wiki_idx), time.time() - score_start)
+
+    log.info("Scored all %d pages in %.1fs", len(wiki_idx), time.time() - score_start)
 
     # Save raw results
     with open(MATCH_RESULTS_FILE, 'w') as f:
