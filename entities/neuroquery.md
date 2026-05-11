@@ -46,7 +46,7 @@ The resulting brain maps are predictions of the spatial distribution of neural o
 
 ## Availability
 
-NeuroQuery is available as a freely accessible web tool at [neuroquery.org](https://neuroquery.org). The source code is published as an open‑source Python package on GitHub at [github.com/neuroquery/neuroquery](https://github.com/neuroquery/neuroquery). The training data, including vocabulary lists, document frequencies, and extracted peak coordinates, is separately available at [github.com/neuroquery/neuroquery_data](https://github.com/neuroquery/neuroquery_data).
+NeuroQuery is available as a freely accessible web tool at [neuroquery.org](](https://neuroquery.org)). The source code is published as an open‑source Python package on GitHub at [github.com/neuroquery/neuroquery](](https://github.com/neuroquery/neuroquery)). The training data, including vocabulary lists, document frequencies, and extracted peak coordinates, is separately available at [github.com/neuroquery/neuroquery_data](](https://github.com/neuroquery/neuroquery_data)).
 
 ## Relationship to TVB
 
@@ -64,3 +64,9 @@ The seminal publication describing NeuroQuery (Dockès et al., 2020) introduced 
 - [[nilearn]] — Python library for neuroimaging data analysis and visualization
 - [[brain-[[connectivity]]-toolbox]] — graph‑theoretical analysis of brain networks
 - [[brain-map]] — ontology of cognitive terms linked to brain regions
+
+## References
+
+1. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.
+2. Kisung You, Hae-Jeong Park. (2025). *Scalable geometric learning with correlation-based functional brain networks*. Scientific Reports. [DOI](https://doi.org/10.1038/s41598-025-07703-1)
+3. S. Yap, Fuad M. Noman, J. Loo, D. Stoliker, Moein Khajehnejad, R. Phan, D. Dowe, Adeel Razi, Chee-Ming Ting. (2025). *Brain-MGF: Multimodal Graph Fusion Network for EEG-fMRI Brain Connectivity Analysis Under Psilocybin*. arXiv.org. [DOI](https://doi.org/10.48550/arXiv.2511.18325)
