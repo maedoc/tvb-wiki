@@ -413,7 +413,8 @@ AGENT_MAX_WORKERS = {
 
 _agent_executors = {}  # agent_name -> ThreadPoolExecutor
 _agent_futures = {}     # agent_name -> Future
-_agent_futures = {}     # agent_name -> Future
+_agent_start_times = {}  # agent_name -> datetime of last launch
+FUTURE_TIMEOUT = 1800  # 30 min max per agent run before force-cancel
 
 def _run_agent_async(agent_name: str, runner) -> bool:
     """Run an agent in a background thread. Returns immediately.
@@ -424,6 +425,14 @@ def _run_agent_async(agent_name: str, runner) -> bool:
     # Check if already running
     future = _agent_futures.get(agent_name)
     if future and not future.done():
+        # Check timeout — force-cancel if agent ran too long
+        start_time = _agent_start_times.get(agent_name)
+        if start_time and (datetime.datetime.now() - start_time).total_seconds() > FUTURE_TIMEOUT:
+            log.warn("%s timed out after %.0fs — force-cancelling", agent_name, FUTURE_TIMEOUT)
+            future.cancel()
+            del _agent_futures[agent_name]
+            _agent_start_times.pop(agent_name, None)
+            return False  # Allow re-launch
         log.info("%s still running from last cycle — skipping", agent_name)
         return True  # Don't mark as failed, just not ready yet
     
@@ -441,6 +450,7 @@ def _run_agent_async(agent_name: str, runner) -> bool:
     n_workers = AGENT_MAX_WORKERS.get(agent_name, 1)
     executor = _agent_executors.setdefault(agent_name, concurrent.futures.ThreadPoolExecutor(max_workers=n_workers))
     _agent_futures[agent_name] = executor.submit(runner)
+    _agent_start_times[agent_name] = datetime.datetime.now()
     log.info("── %s launched in background (%d workers) ──", agent_name, n_workers)
     return True
 
@@ -471,8 +481,16 @@ def main_loop_with_agents(agents, poll_interval: int = 60):
                 # Check if already running
                 future = _agent_futures.get(agent_name)
                 if future and not future.done():
-                    log.info("%s still running — not starting new cycle", agent_name)
-                    continue
+                    start_time = _agent_start_times.get(agent_name)
+                    if start_time and (datetime.datetime.now() - start_time).total_seconds() > FUTURE_TIMEOUT:
+                        log.warn("%s timed out after %.0fs — force-cancelling in main loop", agent_name, FUTURE_TIMEOUT)
+                        future.cancel()
+                        del _agent_futures[agent_name]
+                        _agent_start_times.pop(agent_name, None)
+                        # Re-launch below
+                    else:
+                        log.info("%s still running — not starting new cycle", agent_name)
+                        continue
                     
                 # Clean up done futures
                 if future and future.done():
@@ -521,6 +539,14 @@ def main_loop_with_agents(agents, poll_interval: int = 60):
                 
             # Check for completed futures during sleep and process results
             for agent_name, future in list(_agent_futures.items()):
+                if not future.done():
+                    start_time = _agent_start_times.get(agent_name)
+                    if start_time and (datetime.datetime.now() - start_time).total_seconds() > FUTURE_TIMEOUT:
+                        log.warn("%s timed out during sleep — force-cancelling", agent_name)
+                        future.cancel()
+                        del _agent_futures[agent_name]
+                        _agent_start_times.pop(agent_name, None)
+                    continue
                 if future.done():
                     try:
                         result = future.result(timeout=0)
@@ -535,6 +561,14 @@ def main_loop_with_agents(agents, poll_interval: int = 60):
             
             # Process any completed futures
             for agent_name, future in list(_agent_futures.items()):
+                if not future.done():
+                    start_time = _agent_start_times.get(agent_name)
+                    if start_time and (datetime.datetime.now() - start_time).total_seconds() > FUTURE_TIMEOUT:
+                        log.warn("%s timed out — force-cancelling", agent_name)
+                        future.cancel()
+                        del _agent_futures[agent_name]
+                        _agent_start_times.pop(agent_name, None)
+                    continue
                 if future.done():
                     try:
                         result = future.result(timeout=0)
