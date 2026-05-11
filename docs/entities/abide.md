@@ -62,4 +62,4 @@ Beyond its role in TVB workflows, ABIDE complements other major neuroimaging dat
 
 ## References
 
-1. (authors unknown). *ABIDE Dataset*. [Link](](http://fcon_1000.projects.[[nitrc]].org/indi/abide/))
+1. (authors unknown). *ABIDE Dataset*. [Link](](http://fcon_1000.projects.nitrc.org/indi/abide/))
