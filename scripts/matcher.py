@@ -59,11 +59,11 @@ MAX_CONFIRMED = 5    # max sources to attach per page
 SIM_THRESHOLD = 0.25  # minimum cosine similarity for sentence-level match (lowered to reclaim more refs)
 
 # Auto-confirm thresholds: skip LLM if the top match is this strong
-AUTO_CONFIRM_SIM = 0.55  # top similarity score
-AUTO_CONFIRM_MATCHING = 4 # matching sentences
+AUTO_CONFIRM_SIM = 0.65  # top similarity score (was 0.55 — raise to reduce LLM load)
+AUTO_CONFIRM_MATCHING = 3 # matching sentences (was 4 — lower to catch more high-sim matches)
 
 # Batch evaluation: evaluate this many pages per LLM call
-EVAL_BATCH_SIZE = 8
+EVAL_BATCH_SIZE = 12  # (was 8 — increase to fill context window better)
 
 
 # ── Sentence extraction ────────────────────────────────────────────────
@@ -406,35 +406,90 @@ def build_all_indexes(force_rebuild: bool = False):
 
     # ── Rebuild paper index if changed ──
     if paper_changed:
-        paper_sentences = []
-        paper_entries = []
-        offset = 0
+        # Load existing data for incremental append
+        existing_paper_emb = None
+        existing_paper_idx = []
+        if os.path.exists(PAPER_EMBED_FILE) and os.path.exists(PAPER_INDEX_FILE):
+            try:
+                existing_paper_emb = np.load(PAPER_EMBED_FILE)
+                with open(PAPER_INDEX_FILE, 'r') as f:
+                    existing_paper_idx = json.load(f)
+            except Exception:
+                pass
+
+        existing_slugs = {e['slug'] for e in existing_paper_idx}
+        new_files = []
 
         if os.path.isdir(RAW_PAPERS_DIR):
             files = sorted(f for f in os.listdir(RAW_PAPERS_DIR) if f.endswith('.md'))
-            for fn in files:
+            new_files = [fn for fn in files if fn[:-3] not in existing_slugs]
+
+        if new_files and existing_paper_emb is not None:
+            # Incremental: only embed new files and append
+            log.info("Papers: %d existing, %d new — incremental build", len(existing_slugs), len(new_files))
+
+            offset = sum(e['count'] for e in existing_paper_idx)
+            new_sentences = []
+            new_entries = []
+
+            for fn in new_files:
                 filepath = os.path.join(RAW_PAPERS_DIR, fn)
                 with open(filepath, 'r', encoding='utf-8') as f:
                     text = f.read()
                 sents = extract_sentences(text)
-                paper_entries.append({
+                new_entries.append({
                     "file": fn,
                     "slug": fn[:-3],
                     "offset": offset,
                     "count": len(sents),
                 })
-                paper_sentences.extend(sents)
+                new_sentences.extend(sents)
                 offset += len(sents)
 
-        log.info("Papers: %d files, %d sentences", len(paper_entries), len(paper_sentences))
+            log.info("Embedding %d new sentences from %d papers", len(new_sentences), len(new_files))
+            new_emb = embed_texts(new_sentences) if new_sentences else np.zeros((0, EMBED_DIM), dtype=np.float32)
 
-        if paper_sentences:
-            paper_emb = embed_texts(paper_sentences)
-            np.save(PAPER_EMBED_FILE, paper_emb)
+            # Concatenate
+            combined_emb = np.vstack([existing_paper_emb, new_emb])
+            combined_idx = existing_paper_idx + new_entries
+
+            np.save(PAPER_EMBED_FILE, combined_emb)
             with open(PAPER_INDEX_FILE, 'w') as f:
-                json.dump(paper_entries, f, indent=2)
-            log.info("Paper embeddings saved: %s (%.1f MB)",
-                     PAPER_EMBED_FILE, paper_emb.nbytes / 1024 / 1024)
+                json.dump(combined_idx, f, indent=2)
+            log.info("Paper embeddings updated: %s (%.1f MB, %d papers)",
+                     PAPER_EMBED_FILE, combined_emb.nbytes / 1024 / 1024, len(combined_idx))
+
+        else:
+            # Full rebuild (first run or major drift)
+            paper_sentences = []
+            paper_entries = []
+            offset = 0
+
+            if os.path.isdir(RAW_PAPERS_DIR):
+                files = sorted(f for f in os.listdir(RAW_PAPERS_DIR) if f.endswith('.md'))
+                for fn in files:
+                    filepath = os.path.join(RAW_PAPERS_DIR, fn)
+                    with open(filepath, 'r', encoding='utf-8') as f:
+                        text = f.read()
+                    sents = extract_sentences(text)
+                    paper_entries.append({
+                        "file": fn,
+                        "slug": fn[:-3],
+                        "offset": offset,
+                        "count": len(sents),
+                    })
+                    paper_sentences.extend(sents)
+                    offset += len(sents)
+
+            log.info("Papers: %d files, %d sentences", len(paper_entries), len(paper_sentences))
+
+            if paper_sentences:
+                paper_emb = embed_texts(paper_sentences)
+                np.save(PAPER_EMBED_FILE, paper_emb)
+                with open(PAPER_INDEX_FILE, 'w') as f:
+                    json.dump(paper_entries, f, indent=2)
+                log.info("Paper embeddings saved: %s (%.1f MB)",
+                         PAPER_EMBED_FILE, paper_emb.nbytes / 1024 / 1024)
     else:
         log.info("Papers unchanged, reusing existing embeddings")
 
