@@ -10,7 +10,7 @@ A knowledge base for whole-brain simulation, neural mass models, and neuroimagin
     
     New to whole-brain modeling? Start with the fundamentals of TVB and connectome-based simulation.
     
-    [:octicons-arrow-right-24: Learn the basics](entities/tvb.md)
+    [:octicons-arrow-right-24: Learn the basics](](entities/tvb.md))
 
 -   :fontawesome-solid-book-open: **Browse Topics**
     
@@ -18,7 +18,7 @@ A knowledge base for whole-brain simulation, neural mass models, and neuroimagin
     
     Explore concepts, methods, and tools organized by research area.
     
-    [:octicons-arrow-right-24: Explore topics](concepts/index.md)
+    [:octicons-arrow-right-24: Explore topics](](concepts/index.md))
 
 -   :fontawesome-solid-magnifying-glass: **Full Index**
     
@@ -26,7 +26,7 @@ A knowledge base for whole-brain simulation, neural mass models, and neuroimagin
     
     Search the complete catalog of 183 pages across all categories.
     
-    [:octicons-arrow-right-24: View catalog](catalog.md)
+    [:octicons-arrow-right-24: View catalog](](catalog.md))
 
 </div>
 
@@ -44,11 +44,11 @@ A knowledge base for whole-brain simulation, neural mass models, and neuroimagin
     
     **Start with:**
     
-    - [What is TVB?](entities/tvb.md) — Platform overview
-    - [The Connectome](concepts/connectome.md) — Brain connectivity fundamentals
-    - [Neural Mass Models](concepts/neural-mass-model.md) — Population-level dynamics
+    - [What is TVB?](](entities/tvb.md)) — Platform overview
+    - [The Connectome](](concepts/connectome.md)) — Brain connectivity fundamentals
+    - [Neural Mass Models](](concepts/neural-mass-model.md)) — Population-level dynamics
     
-    [:octicons-arrow-right-24: Explore](entities/tvb.md)
+    [:octicons-arrow-right-24: Explore](](entities/tvb.md))
 
 -   :fontawesome-solid-brain: **Neural Models**
     
@@ -58,11 +58,11 @@ A knowledge base for whole-brain simulation, neural mass models, and neuroimagin
     
     **Key models:**
     
-    - [Jansen-Rit](concepts/jansen-rit.md) — EEG/MEG simulation
-    - [Wilson-Cowan](concepts/wilson-cowan.md) — Classic firing-rate model
-    - [Epileptor](concepts/epileptor.md) — Seizure dynamics
+    - [Jansen-Rit](](concepts/jansen-rit.md)) — EEG/MEG simulation
+    - [Wilson-Cowan](](concepts/wilson-cowan.md)) — Classic firing-rate model
+    - [Epileptor](](concepts/epileptor.md)) — Seizure dynamics
     
-    [:octicons-arrow-right-24: Explore](concepts/neural-mass-model.md)
+    [:octicons-arrow-right-24: Explore](](concepts/neural-mass-model.md))
 
 -   :fontawesome-solid-scale-balanced: **Compare Tools**
     
@@ -72,11 +72,11 @@ A knowledge base for whole-brain simulation, neural mass models, and neuroimagin
     
     **Comparisons:**
     
-    - [TVB vs NEST vs NEURON](comparisons/tvb-vs-nest-vs-neuron.md) — Platform comparison
-    - [Neural Mass Models](comparisons/neural-mass-models-comparison.md) — Model comparison
-    - [fMRI vs EEG](comparisons/fmri-vs-eeg.md) — Modality comparison
+    - [TVB vs NEST vs NEURON](](comparisons/tvb-vs-nest-vs-neuron.md)) — Platform comparison
+    - [Neural Mass Models](](comparisons/neural-mass-models-comparison.md)) — Model comparison
+    - [fMRI vs EEG](](comparisons/fmri-vs-eeg.md)) — Modality comparison
     
-    [:octicons-arrow-right-24: Compare](comparisons/tvb-vs-nest-vs-neuron.md)
+    [:octicons-arrow-right-24: Compare](](comparisons/tvb-vs-nest-vs-neuron.md))
 
 </div>
 
@@ -88,25 +88,25 @@ A knowledge base for whole-brain simulation, neural mass models, and neuroimagin
 
 The complete guide to population-level brain modeling—from the foundational Wilson-Cowan model to modern TVB implementations. Includes a full model library with 14+ neural mass models.
 
-[:octicons-arrow-right-24: Read article](concepts/neural-mass-model.md)
+[:octicons-arrow-right-24: Read article](](concepts/neural-mass-model.md))
 
 ### :material-compare: TVB vs NEST vs NEURON: Which Simulator?
 
 A detailed comparison of three major platforms for computational neuroscience research. Understand the trade-offs between population-level, spiking, and compartmental modeling approaches.
 
-[:octicons-arrow-right-24: Read article](comparisons/tvb-vs-nest-vs-neuron.md)
+[:octicons-arrow-right-24: Read article](](comparisons/tvb-vs-nest-vs-neuron.md))
 
 ### :material-graph: Understanding the Connectome
 
 The structural foundation of whole-brain modeling. Learn how brain connectivity is measured, analyzed, and used to constrain computational models.
 
-[:octicons-arrow-right-24: Read article](concepts/connectome.md)
+[:octicons-arrow-right-24: Read article](](concepts/connectome.md))
 
 ### :material-brain: The Jansen-Rit Model
 
 The standard model for EEG and MEG signal generation. Understand the three-population cortical column model that powers many TVB simulations.
 
-[:octicons-arrow-right-24: Read article](concepts/jansen-rit.md)
+[:octicons-arrow-right-24: Read article](](concepts/jansen-rit.md))
 
 ---
 
@@ -135,10 +135,10 @@ The standard model for EEG and MEG signal generation. Understand the three-popul
 
 ## Browse by Type
 
-- [**All Concepts**](concepts/index.md) — Methods, models, and theoretical foundations
-- [**All Entities**](entities/index.md) — Software, people, datasets, and organizations
-- [**All Comparisons**](comparisons/index.md) — Side-by-side analyses
-- [**Full Catalog**](catalog.md) — Complete alphabetical listing
+- [**All Concepts**](](concepts/index.md)) — Methods, models, and theoretical foundations
+- [**All Entities**](](entities/index.md)) — Software, people, datasets, and organizations
+- [**All Comparisons**](](comparisons/index.md)) — Side-by-side analyses
+- [**Full Catalog**](](catalog.md)) — Complete alphabetical listing
 
 ---
 

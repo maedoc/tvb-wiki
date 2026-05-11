@@ -264,3 +264,5 @@
 ## [2026-05-10 18:14] DeepResearch: 2 papers added via focused research
 
 ## [2026-05-10 18:48] CrosslinkApplier: added 17 wikilinks (17 inline, 0 suggested)
+
+## [2026-05-11 07:09] Linter: 36 broken links, 22 orphans, 1 stale, 0 empty
