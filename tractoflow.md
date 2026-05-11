@@ -1,7 +1,7 @@
 ---
 title: TractoFlow
 created: 2025-01-15
-updated: 2026-05-09
+updated: 2026-05-11
 type: entity
 tags: [software-brain-modeling, diffusion-imaging, tractography, diffusion-mri, structural-connectivity]
 sources: [raw/papers/arxiv-1905.05846.md]

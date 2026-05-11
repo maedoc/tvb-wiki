@@ -62,6 +62,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [Pydra](pydra.md) — Lightweight dataflow engine for scientific workflow construction and execution
 - [DDE-Biftool](dde-biftool.md) — MATLAB toolbox for bifurcation analysis of delay differential equations, used for neural mass models
 - [LabStreamingLayer](labstreaminglayer.md) — Real-time data acquisition and synchronization framework for multimodal neuroimaging
+- [LFPykit](lfpykit.md) — Python toolkit for computing extracellular potentials (LFP) from spiking neural network simulations
 - [LEMS](lems.md) — Low-level Entity Meta-Schema for neural model specification and simulator interoperability
 - [LORIS](loris.md) — Web-based data management and processing platform for large-scale neuroimaging datasets
 - [COINS](coins.md) — Collaborative Informatics and Neuroimaging Suite, web-based platform for multi-site neuroimaging data management and sharing

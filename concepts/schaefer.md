@@ -16,16 +16,16 @@ tags:
 - software-tvb
 title: Schaefer Parcellation
 type: entity
-updated: '2026-05-09'
+updated: '2026-05-11'
 ---
 
-The **Schaefer Parcellation** is a widely-used functional [[brain-parcellation]] derived from resting-state [[fmri]] data collected by the [[human-[[connectome]]-project]]. Developed by Alexander Schaefer and colleagues (2018), it provides a systematic division of the human cerebral cortex into spatially contiguous regions of interest, offering a hierarchical organization that has become one of the standard node definitions for [[whole-brain]] [[connectivity]] analyses and computational modeling.
+The **Schaefer Parcellation** is a widely-used functional [[brain-parcellation]] derived from resting-state [[fmri]] data collected by the [[mrtrix3-connectome]]. Developed by Alexander Schaefer and colleagues (2018), it provides a systematic division of the human cerebral cortex into spatially contiguous regions of interest, offering a hierarchical organization that has become one of the standard node definitions for [[whole-brain]] [[connectivity]] analyses and computational modeling.
 
 ## Motivation and Context
 
 Prior to the Schaefer parcellation, [[brain-parcellations]] were often derived from anatomical landmarks (such as the Desikan-Killiany atlas) or from meta-analytic activations. While anatomical parcellations have clear neuroanatomical grounding, they do not necessarily reflect functional boundaries — the cortex is functionally organized in ways that transect cytoarchitectural borders. The Schaefer parcellation addressed this limitation by using intrinsic [[functional-connectivity]] patterns from large-scale [[resting-state]] fMRI data to define parcels that respect functional networks rather than purely anatomical divisions.
 
-The [[human-[[connectome]]-project]]'s resting-state fMRI dataset was instrumental to this approach. As documented in the HCP resting-state studies (Smith et al., 2013), the HCP protocol acquired high-quality, multi-band fMRI data at 1.2mm resolution across over 200 subjects, enabling identification of functional networks at unprecedented spatial resolution. The Schaefer parcellation leveraged this data to create parcels that correspond to functionally coherent brain regions — areas that show strong temporal correlation in their blood-oxygen-level-dependent ([[bold-signal|BOLD]]) signal during [[rest]].
+The [[human-[[connectome]]-mrtrix3-connectome]]'s resting-state fMRI dataset was instrumental to this approach. As documented in the HCP resting-state studies (Smith et al., 2013), the HCP protocol acquired high-quality, multi-band fMRI data at 1.2mm resolution across over 200 subjects, enabling identification of functional networks at unprecedented spatial resolution. The Schaefer parcellation leveraged this data to create parcels that correspond to functionally coherent brain regions — areas that show strong temporal correlation in their blood-oxygen-level-dependent ([[bold-signal|BOLD]]) signal during [[rest]].
 
 ## Technical Details
 
@@ -55,9 +55,9 @@ Third, the parcellation is cortical-only; subcortical structures are not include
 
 ## References
 
-1. V. Kirova, Dzerassa Kadieva, Daniil Vlasenko, Isak B. Blank, Fedor Ratnikov. (2025). *Dynamic Functional Connectivity Features for Brain State Classification: Insights from the [[human-[[connectome]]-project]]*. arXiv.org. [DOI](](https://doi.org/10.48550/arXiv.2510.05325))
+1. V. Kirova, Dzerassa Kadieva, Daniil Vlasenko, Isak B. Blank, Fedor Ratnikov. (2025). *Dynamic Functional Connectivity Features for Brain State Classification: Insights from the [[mrtrix3-connectome]]*. arXiv.org. [DOI](](https://doi.org/10.48550/arXiv.2510.05325))
 2. (authors unknown). *Functional Network Organization of the Human Brain*.
-3. (authors unknown). *Resting-State fMRI in the [[human-[[connectome]]-project]]*.
+3. (authors unknown). *Resting-State fMRI in the [[mrtrix3-connectome]]*.
 4. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
 5. Federica Franza, M. Cirillo, M. Silvestro, F. Trojsi, Antonio Russo, Fabrizio Esposito, M. A. Pirozzi. (2025). *Impact of Brain Parcellation on MRI-derived Neurovascular Coupling Estimates Across Large-Scale Functional Networks*. 2025 IEEE International Conference on Metrology for eXtended Reality, Artificial Intelligence and Neural Engineering (MetroXRAINE). [DOI](](https://doi.org/10.1109/MetroXRAINE66377.2025.11340209))
 6. Anticevic et al. (2012). *Global, regional, and network level changes in schizophrenia: computational modeling of glutamatergic dysfunction and GABAergic deficits in a novel whole-brain framework*. Proceedings of the National Academy of Sciences (PNAS). [DOI](](https://doi.org/10.1073/pnas.1114858109))

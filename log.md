@@ -282,3 +282,5 @@
 ## [2026-05-11 07:18] SoftwareMapper: 3 pages created
 
 ## [2026-05-11 07:20] CrosslinkApplier: added 17 wikilinks (17 inline, 0 suggested)
+
+## [2026-05-11 07:24] Improve: 2 pages improved (co-simulation, brain-connectivity-toolkit)
