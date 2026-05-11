@@ -2,10 +2,15 @@
 created: '2026-05-01'
 sources:
 - raw/papers/semanticscholar-9afbfd2d37be.md
+- raw/papers/semanticscholar-faddda5fd579.md
+- raw/papers/claudi-2020-brainglobe-atlas-api.md
+- raw/papers/breakspear-2006.md
+- raw/papers/doi-10.3389-fncom.2026.1762692.md
+- raw/papers/arxiv-2512.07842.md
 tags: []
 title: Neo
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-11'
 ---
 
 # Neo  

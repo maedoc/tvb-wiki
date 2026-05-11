@@ -2,10 +2,15 @@
 created: '2026-05-03'
 sources:
 - raw/papers/semanticscholar-66f887e82e89.md
+- raw/papers/schirner-2018.md
+- raw/papers/semanticscholar-0f134e817e53.md
+- raw/papers/semanticscholar-935896317fd2.md
+- raw/papers/claudi-2020-brainglobe-atlas-api.md
+- raw/papers/wang-etal-2015-gretna.md
 tags: []
 title: Desikan Killiany Atlas
 type: entity
-updated: '2026-05-07'
+updated: '2026-05-11'
 ---
 
 The Desikan-Killiany Atlas is a widely used cortical [[parcellation]] scheme that divides the human cerebral cortex into anatomically defined regions based on magnetic resonance imaging (MRI). Developed by Rahul Desikan, Robert Killiany, and colleagues, this atlas provides a standardized framework for quantifying regional brain structure and function in both healthy and clinical populations [[desikan-killiany-atlas]]. The atlas is characterized by its use of easily identifiable anatomical landmarks—primarily sulcal patterns—that allow for reasonably consistent manual delineation across brains, making it particularly suitable for automated segmentation pipelines that require robust anatomical priors.

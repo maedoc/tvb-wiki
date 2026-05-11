@@ -2,11 +2,16 @@
 created: 2026-04-29
 sources:
 - raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2601.13935.md
+- raw/papers/semanticscholar-63826766eb8e.md
+- raw/papers/arxiv-2508.04568.md
+- raw/papers/schirner-2018.md
+- raw/papers/arxiv-2503.02481.md
 tags:
 - software-brain-modeling
 title: XTRACT
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 XTRACT (Cross-species [[tractography]] Analysis) is a standardized, fully automated tractography pipeline developed within the [FSL](](/fsl)) (FMRIB Software Library) framework for extracting major [[white-matter]] tracts from [[diffusion-mri]] data[^1]. The tool implements a protocol-based approach in which user-defined inclusion and exclusion criteria—defined in both diffusion and anatomical spaces—steer probabilistic streamline tractography to isolate specific fiber bundles with high [[reproducibility]] across subjects and scanner platforms[^2]. XTRACT was designed to address a long-standing challenge in [[connectomics]]: the lack of standardized, reproducible methods for delineating white matter anatomy, which has historically relied on labor-intensive manual dissection by expert neuroanatomists[^3].

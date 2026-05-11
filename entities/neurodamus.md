@@ -2,6 +2,10 @@
 created: 2024-01-15
 sources:
 - raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/breakspear-2017.md
+- raw/papers/stefanescu-jirsa-2008.md
+- raw/papers/gewaltig-diesmann-2007.md
 tags:
 - software-tvb
 - spiking-neural-networks
@@ -9,7 +13,7 @@ tags:
 - neural-mass-models
 title: Neurodamus
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 Neurodamus is a neural simulation interface developed within the [[tvb-nest]] ecosystem that connects [[the-virtual-brain]] (TVB) to detailed spiking [[neural-network]] simulators. It serves as a bridge between macroscopic [[brain-network]] modeling and microscopic neural simulations, enabling researchers to run [[whole-brain]] simulations using biologically detailed neuron models while maintaining the large-scale [[connectivity]] structure provided by TVB.

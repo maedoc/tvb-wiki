@@ -2,6 +2,10 @@
 created: 2026-04-20
 sources:
 - raw/papers/semanticscholar-23faea8464f1.md
+- raw/papers/gewaltig-diesmann-2007.md
+- raw/papers/semanticscholar-fe739f19fd10.md
+- raw/papers/semanticscholar-a70008a0bdd4.md
+- raw/papers/semanticscholar-1bc88b4ebfe1.md
 tags:
 - spiking-neural-networks
 - computational-neuroscience
@@ -14,7 +18,7 @@ tags:
 - excitation-inhibition-balance
 title: Neuromorphic Computing
 type: concept
-updated: '2026-05-07'
+updated: '2026-05-11'
 ---
 
 Neuromorphic computing refers to a class of computer architectures and hardware systems designed to mimic the anatomical structure and dynamical behavior of biological neural networks. Unlike traditional von Neumann computing architectures, which separate processing and memory, neuromorphic systems integrate computation and storage in ways that more closely parallel the operating principles of biological brains. These systems typically implement spiking [[neuron]] models, [[synaptic-plasticity]] mechanisms, and event-driven communication protocols directly in hardware, enabling massively parallel, low-power computation that scales in a biologically plausible manner.

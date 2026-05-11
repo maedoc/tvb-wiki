@@ -2,6 +2,11 @@
 created: 2026-01-15
 sources:
 - raw/papers/arxiv-2603.29843.md
+- raw/papers/semanticscholar-929b90566fc8.md
+- raw/papers/arxiv-2512.00063.md
+- raw/papers/breakspear-2017.md
+- raw/papers/anticevic-2012.md
+- raw/papers/sanz-leon-2013.md
 tags:
 - network-dynamics
 - whole-brain-modeling
@@ -10,7 +15,7 @@ tags:
 - dynamical-systems-theory
 title: Compensation
 type: concept
-updated: '2026-05-07'
+updated: '2026-05-11'
 ---
 
 Compensation denotes the capacity of [[brain-network]]s to maintain functional performance despite structural damage, pathway disruption, or pathological changes. In the framework of [[whole-brain modeling]], compensation is not merely a passive failure tolerance but an active reconfiguration of [[network-dynamics]] wherein remaining pathways reorganize to preserve information processing and cognitive function. This concept emerges at the intersection of [[computational-neuroscience]], [[structural-connectivity]], and [[functional-connectivity]] analysis, providing a quantitative lens for understanding how the brain responds to insult, aging, or disease progression.

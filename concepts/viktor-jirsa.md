@@ -3,6 +3,11 @@ created: 2026-04-20
 sources:
 - raw/papers/deco-2013.md
 - raw/papers/semanticscholar-7c3337c880fd.md
+- raw/papers/breakspear-2017.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/anticevic-2012.md
+- raw/papers/arxiv-2506.22951.md
+- raw/papers/rit-2013.md
 tags:
 - people-researcher
 - whole-brain-modeling
@@ -13,7 +18,7 @@ tags:
 - connectivity
 title: Viktor Jirsa
 type: entity
-updated: '2026-05-07'
+updated: '2026-05-11'
 ---
 
 Viktor Jirsa is a computational neuroscientist and professor at Aix-Marseille Université in France, where he leads the Systems Neuroscience group at the Institut de Neurosciences des Systèmes. His research focuses on large-scale brain modeling, neural mass models, and the development of [[whole-brain]] simulation frameworks. He is best known for co-founding [[the-virtual-brain]], a software platform for personalized brain modeling, and for developing the Epileptor model—a seminal computational model of epileptic seizures that has become a cornerstone of computational epilepsy research.

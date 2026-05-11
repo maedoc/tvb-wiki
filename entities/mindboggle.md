@@ -2,6 +2,10 @@
 created: 2025-01-15
 sources:
 - raw/papers/klein-2017-mindboggling-morphometry.md
+- raw/papers/semanticscholar-deecd9987645.md
+- raw/papers/semanticscholar-f45e6044c92f.md
+- raw/papers/semanticscholar-a324c47ea982.md
+- raw/papers/huntenburg-2018.md
 tags:
 - software-visualization
 - software-brain-modeling
@@ -12,7 +16,7 @@ tags:
 - open-source-brain
 title: Mindboggle
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 ## Overview

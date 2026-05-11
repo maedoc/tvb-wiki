@@ -2,6 +2,10 @@
 created: 2026-04-20
 sources:
 - raw/papers/sanz-leon-2013.md
+- raw/papers/breakspear-2017.md
+- raw/papers/anticevic-2012.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/zavaglia-2006.md
 tags:
 - software-neural-simulation
 - software-tvb
@@ -11,7 +15,7 @@ tags:
 - computational-neuroscience
 title: NIPAL
 type: entity
-updated: '2026-05-07'
+updated: '2026-05-11'
 ---
 
 **NIPAL** (Neural Integration Platform for Anatomical Levels) is a Python-based [[neural-simulation]] framework designed for large-scale [[brain-network]] modeling. It provides the computational backend for simulating neural mass dynamics at the regional level, forming an integral component of the [[the-virtual-brain]] ecosystem for [[whole-brain modeling]].

@@ -2,11 +2,16 @@
 created: 2026-04-30
 sources:
 - raw/papers/van-essen-2012.md
+- raw/papers/glasser-2013.md
+- raw/papers/semanticscholar-f45e6044c92f.md
+- raw/papers/semanticscholar-a324c47ea982.md
+- raw/papers/huntenburg-2018.md
+- raw/papers/barch-2013.md
 tags:
 - software-brain-modeling
 title: ciftify
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 # ciftify

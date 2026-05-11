@@ -2,6 +2,10 @@
 created: 2025-01-15
 sources:
 - raw/papers/huntenburg-2018.md
+- raw/papers/cbs-tools.md
+- raw/papers/arxiv-2512.24901.md
+- raw/papers/semanticscholar-43bbaa2fe6e4.md
+- raw/papers/semanticscholar-ab726d866649.md
 tags:
 - software-neuroimaging
 - neuroimaging-mri
@@ -13,7 +17,7 @@ tags:
 - software-ants
 title: Nighres
 type: software
-updated: '2026-05-07'
+updated: '2026-05-11'
 ---
 
 ## Overview

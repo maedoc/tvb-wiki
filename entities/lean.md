@@ -2,6 +2,10 @@
 created: 2026-04-29
 sources:
 - raw/papers/glean-github.md
+- raw/papers/anticevic-2012.md
+- raw/papers/semanticscholar-994aeddc5de6.md
+- raw/papers/arxiv-2512.24901.md
+- raw/papers/semanticscholar-448446c2e8c4.md
 tags:
 - software-brain-modeling
 - neuroimaging-eeg
@@ -11,7 +15,7 @@ tags:
 - network-dynamics
 title: GLEAN
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-11'
 ---
 
 # GLEAN

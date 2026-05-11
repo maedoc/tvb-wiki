@@ -2,6 +2,11 @@
 created: 2026-05-06
 sources:
 - raw/papers/semanticscholar-182202db91fa.md
+- raw/papers/cbs-tools.md
+- raw/papers/huntenburg-2018.md
+- raw/papers/schirner-2018.md
+- raw/papers/wang-etal-2015-gretna.md
+- raw/papers/semanticscholar-0f134e817e53.md
 tags:
 - software-freesurfer
 - neuroimaging-fmri
@@ -10,7 +15,7 @@ tags:
 - cortical-surface
 title: FreeSurfer
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 # FreeSurfer
