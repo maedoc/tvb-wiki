@@ -4,6 +4,7 @@ sources:
 - raw/papers/arxiv-2512.08756.md
 - raw/papers/semanticscholar-bb75bdb90ada.md
 - raw/papers/semanticscholar-fe094deb2ddc.md
+- raw/papers/semanticscholar-e1eab66571ac.md
 tags:
 - alzheimers-modeling
 - aging-brain

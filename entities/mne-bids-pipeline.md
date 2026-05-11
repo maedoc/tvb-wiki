@@ -41,7 +41,7 @@ For source localization, the pipeline interfaces with [[freesurfer]] for cortica
 
 The pipeline offers several features that make it particularly useful for [[computational-neuroscience]] research. First, it implements automated bad channel detection using statistical criteria, reducing the need for manual preprocessing. Second, it provides multiple artifact rejection strategies, including Independent Component Analysis (ICA) and Signal Space Projection (SSP), with options for manual review of identified components. Third, the pipeline supports parallel processing via joblib, enabling efficient handling of large datasets on multi-core workstations or HPC clusters.
 
-Critically, MNE-BIDS-Pipeline generates outputs that conform to the BIDS-derivatives specification, including preprocessed sensor data, epoched trials, source estimates, and connectivity matrices in standard file formats (such as FIFF and NITimes). This ensures compatibility with downstream analysis tools including visualization packages like Pycortex and connectivity analysis tools like [[mne-connectivity]].
+Critically, MNE-BIDS-Pipeline generates outputs that conform to the BIDS-derivatives specification, including preprocessed sensor data, epoched trials, source estimates, and connectivity matrices in standard file formats (such as FIFF and NITimes). This ensures compatibility with downstream analysis tools including visualization packages like [[pycortex]] and connectivity analysis tools like [[mne-connectivity]].
 
 ## Relationship to TVB
 

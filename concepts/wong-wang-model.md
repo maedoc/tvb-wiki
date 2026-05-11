@@ -4,6 +4,7 @@ sources:
 - raw/papers/wilson-cowan-1972.md
 - raw/papers/arxiv-2512.03907.md
 - raw/papers/semanticscholar-ce89e593c89e.md
+- raw/papers/anticevic-2012.md
 tags:
 - neural-mass-model
 - whole-brain-modeling
@@ -78,7 +79,7 @@ sources:
 - raw/papers/semanticscholar-cb501cd33451.md
 - raw/papers/arxiv-2603.24176.md
 - raw/papers/arxiv-2604.14259.md
-- raw/papers/glean-github.md
+- raw/papers/[[lean|glean]]-github.md
 - raw/papers/semanticscholar-6295d2445697.md
 tags:
 - software-brain-modeling
@@ -103,9 +104,9 @@ sources:
 - raw/papers/semanticscholar-eb704b6f5462.md
 tags:
 - software
-- whole-brain-modeling
+- [[whole-brain-modeling]]
 - neural-mass-models
-- spiking-neural-networks
+- [[spiking-neural-networks]]
 - brain-dynamics
 title: SPICE
 type: entity

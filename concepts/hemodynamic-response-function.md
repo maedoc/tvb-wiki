@@ -1,13 +1,22 @@
 ---
-title: Hemodynamic Response Function
 created: 2026-04-20
-updated: 2026-05-11
+sources:
+- raw/papers/friston-1993.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/semanticscholar-a6fa6ab4802f.md
+- raw/papers/anticevic-2012.md
+- raw/papers/semanticscholar-eadc34d87ac8.md
+tags:
+- neuroimaging-fmri
+- neural-mass-models
+- whole-brain-modeling
+- parameter-estimation
+title: Hemodynamic Response Function
 type: concept
-tags: [neuroimaging-fmri, neural-mass-models, whole-brain-modeling, parameter-estimation]
-sources: [raw/papers/friston-1993.md, raw/papers/smith-2013-connectomics.md]
+updated: '2026-05-11'
 ---
 
-The hemodynamic response function (HRF) is a mathematical description of the way in which blood flow and the blood oxygenation level-dependent (BOLD) signal change over time in response to neural activity in the [[brain-map]]. It represents the impulse response of the neurovascular coupling system—the chain of physiological processes that transform brief episodes of neuronal firing into the measurable fMRI signal. Understanding the HRF is fundamental to any analysis of [[functional-connectivity]] derived from fMRI data, as it determines the temporal relationship between underlying neural events and the observed signal.
+The hemodynamic response function (HRF) is a mathematical description of the way in which blood flow and the blood oxygenation level-dependent (BOLD) signal change over time in response to neural activity in the [[brain-map]]. It represents the impulse response of the neurovascular coupling system—the chain of physiological processes that transform brief episodes of neuronal firing into the measurable [[fmri]] signal. Understanding the HRF is fundamental to any analysis of [[functional-connectivity]] derived from fMRI data, as it determines the temporal relationship between underlying neural events and the observed signal.
 
 ## Physiological Basis
 
@@ -15,19 +24,19 @@ The HRF emerges from a complex cascade of neurovascular events. When neurons fir
 
 ## Mathematical Characterization
 
-The HRF is typically modeled using basis functions that capture its characteristic shape. The most common parameterization is the double-gamma function, originally proposed by [[source-separation|Glover 1999]], which sums two gamma functions to represent the positive peak and the subsequent undershoot:
+The HRF is typically modeled using basis functions that capture its characteristic shape. The most common parameterization is the double-gamma function, originally proposed by [[source-separation]], which sums two gamma functions to represent the positive peak and the subsequent undershoot:
 
 $$ h(t) = A \left( \frac{t^{\alpha_1-1} \beta_1^{\alpha_1} e^{-\beta_1 t}}{\Gamma(\alpha_1)} - c \frac{t^{\alpha_2-1} \beta_2^{\alpha_2} e^{-\beta_2 t}}{\Gamma(\alpha_2)} \right) $$
 
-where the first term models the main peak (typically with $\alpha_1 \approx 6$ and $\beta_1 \approx 1$) and the second term captures the undershoot (with $\alpha_2 \approx 16$, $\beta_2 \approx 1$, and $c$ controlling its amplitude relative to the peak). Alternative formulations include the canonical HRF with fixed parameters, temporal derivatives to capture peak timing variations, and dispersion derivatives to account for differences in HRF width across [[brain-map]]s or individuals. The Smith et al. 2013 review of connectomics highlights how these parameter choices propagate through to estimates of functional connectivity patterns.
+where the first term models the main peak (typically with $\alpha_1 \approx 6$ and $\beta_1 \approx 1$) and the second term captures the undershoot (with $\alpha_2 \approx 16$, $\beta_2 \approx 1$, and $c$ controlling its amplitude relative to the peak). Alternative formulations include the canonical HRF with fixed parameters, temporal derivatives to capture peak timing variations, and dispersion derivatives to account for differences in HRF width across [[brain-map]]s or individuals. The Smith et al. 2013 review of [[connectomics]] highlights how these parameter choices propagate through to estimates of functional [[connectivity]] patterns.
 
 ## Role in Whole-Brain Modeling
 
-In [[whole-brain-modeling|whole-brain modeling]] frameworks such as [[the-virtual-brain]], the HRF plays an essential role in bridging the gap between models of neural dynamics and the empirical [[bold-signal]] measured by fMRI. [[Neural-mass-models]] that simulate the collective activity of neuronal populations produce output on timescales of milliseconds, while fMRI measures vascular responses on timescales of seconds. The HRF acts as a convolution kernel that transforms the simulated neural time series into predicted BOLD signals, enabling direct comparison between model predictions and empirical data. This is particularly important for parameter estimation algorithms that optimize model parameters by minimizing the mismatch between simulated and observed resting-state functional connectivity patterns, as discussed in Smith et al. 2013.
+In [[whole-brain-modeling|whole-brain modeling]] frameworks such as [[the-virtual-brain]], the HRF plays an essential role in bridging the gap between models of neural dynamics and the empirical [[bold-signal]] measured by fMRI. [[Neural-mass-models]] that simulate the collective activity of neuronal populations produce output on timescales of milliseconds, while fMRI measures vascular responses on timescales of seconds. the HRF acts as a convolution kernel that transforms the simulated neural time series into predicted BOLD signals, enabling direct comparison between model predictions and empirical data. This is particularly important for parameter estimation algorithms that optimize model parameters by minimizing the mismatch between simulated and observed resting-state functional connectivity patterns, as discussed in Smith et al. 2013.
 
 ## Modeling Considerations and Individual Variability
 
-The canonical HRF represents an average response, but substantial variability exists across individuals, brain regions, and physiological states. Age-related changes in vascular compliance alter the HRF shape, as do variations in baseline blood pressure and the density of vasopressive receptors. Research on individual differences in neurovascular coupling, including work by [[source-separation|Aguirre et al. 1998]], has demonstrated that the standard HRF parameters may not be appropriate for all subjects. In populations with altered neurovascular coupling—such as elderly individuals or patients with vascular disease—the standard HRF may be an inappropriate assumption. These considerations have motivated the development of individualized HRF estimation methods, which either fit basis functions to each subject's task data or use model-based approaches that jointly estimate neural dynamics and HRF parameters. Such individualization is especially important in clinical applications where group-level HRF assumptions may obscure subject-specific deviations.
+The canonical HRF represents an average response, but substantial variability exists across individuals, brain regions, and physiological states. Age-related changes in vascular compliance alter the HRF shape, as do variations in baseline blood pressure and the density of vasopressive receptors. Research on individual differences in neurovascular coupling, including work by [[source-separation]], has demonstrated that the standard HRF parameters may not be appropriate for all subjects. In populations with altered neurovascular coupling—such as elderly individuals or patients with vascular disease—the standard HRF may be an inappropriate assumption. These considerations have motivated the development of individualized HRF estimation methods, which either fit basis functions to each subject's task data or use model-based approaches that jointly estimate neural dynamics and HRF parameters. such individualization is especially important in clinical applications where group-level HRF assumptions may obscure subject-specific deviations.
 
 ## Relationship to Other Concepts
 
@@ -37,6 +46,6 @@ The HRF is closely linked to the [[bold-signal]], which it generates through con
 
 - Aguirre, G. K., Zarahn, E., & D'Esposito, M. (1998). The inferential impact of HRF variability in fMRI. *NeuroImage*, 7(4), S720.
 - Friston, K. J., Fletcher, P., Josephs, O., Holmes, A., Rith, M., & Turner, R. (1998). Event-related fMRI: characterizing differential responses. *NeuroImage*, 7(1), 30–40.
-- Friston, K. J., Holmes, A. P., Worsley, K. J., Poline, J. B., Frith, C. D., & Frackowiak, R. S. J. (1994). Statistical parametric maps in functional imaging: A general linear approach. *Human Brain Mapping*, 2(4), 189–210.
+- Friston, K. J., Holmes, A. P., Worsley, K. J., Poline, J. B., Frith, C. D., & Frackowiak, R. S. J. (1994). Statistical parametric maps in functional imaging: A general [[linear]] approach. *Human Brain Mapping*, 2(4), 189–210.
 - Glover, G. H. (1999). Deconvolution of impulse response in event-related BOLD fMRI. *NeuroImage*, 9(4), 416–429.
 - Smith, S. M., Vidaurre, D., Glasser, M. F., & Van Essen, D. C. (2013). The connectomics of the human brain: mapping structure, function, and dynamics. *NeuroImage*, 80, 1–106.

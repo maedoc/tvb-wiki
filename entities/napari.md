@@ -12,7 +12,7 @@ tags:
 - python
 title: Napari
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 ## Overview
@@ -60,7 +60,7 @@ The napari ecosystem includes several plugins particularly relevant to [[computa
 - Fsl
 - Itk Snap
 - Brainrender
-- Pycortex
+- [[pycortex]]
 - Dipy
 - Mrtrix3
 - [[connectome-workbench]]

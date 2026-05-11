@@ -19,7 +19,7 @@ tags:
 - parameter-estimation
 title: Forward Model
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 A **Forward Model** in computational neuroscience is a mathematical framework that predicts observable electrophysiological or hemodynamic signals from underlying neural dynamics. It constitutes the generative component of brain modeling: given a specification of neural states (such as firing rates of [[neural-mass-models|neural mass]] populations or spiking activity of [[spiking-neural-networks|detailed neuron models]]), the forward model produces synthetic measurements that would be captured by neuroimaging modalities such as [[eeg|EEG]], [[meg|MEG]], or [[fmri|fMRI]]. In this sense, forward models answer the question: "What would the brain look like from the outside if these particular neural dynamics were occurring?"
@@ -64,7 +64,7 @@ Despite substantial progress, forward modeling in neuroimaging faces several ope
 
 ## Related Concepts
 
-Forward models connect to several other key concepts in the wiki. They are the generative counterpart to [[source-localization|source localization]] algorithms, which attempt to solve the inverse problem. They provide the observation model for [[dynamic-causal-modeling|DCM]] and for related [[parameter-estimation|parameter estimation]] frameworks. The [[hemodynamic-response-function]] is itself a forward model component for fMRI. Forward models are used extensively in [[the-virtual-brain|The Virtual Brain]] and related [[whole-brain-simulators|whole-brain simulators]] to produce virtual neuroimaging data from large-scale network dynamics.
+Forward models connect to several other key concepts in the wiki. They are the generative counterpart to [[source-localization|source localization]] algorithms, which attempt to solve the inverse problem. They provide the observation model for [[dynamic-causal-modeling|DCM]] and for related [[parameter-estimation|parameter estimation]] frameworks. The [[hemodynamic-response-function]] is itself a forward model component for fMRI. Forward models are used extensively in [[the-virtual-brain|The Virtual Brain]] and related [[whole-brain-simulators|whole-brain simulators]] to produce virtual neuroimaging data from large-scale network dynamics. Software implementations such as [[popeye]] also provide forward modeling capabilities.
 
 ## References
 

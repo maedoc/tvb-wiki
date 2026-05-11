@@ -12,7 +12,7 @@ tags:
 - resting-state
 title: Nilearn
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 **Nilearn** is a Python library for fast and easy statistical learning on [[neuroimaging]] data. It provides tools for decoding, predictive modeling, [[connectivity]] analysis, and visualization of functional MRI data, making it a bridge between the broader [[machine-learning]] ecosystem and the specific data structures used in neuroscience research.
@@ -23,7 +23,7 @@ Nilearn provides a comprehensive suite of functionalities designed to make advan
 
 ## Motivation and Context
 
-The proliferation of large-scale neuroimaging datasets—particularly those from the [[human-connectome-project]], [[abide]], and [[uk-biobank]]—created a need for tools that could apply modern machine learning methods to brain imaging data at scale. Traditional neuroimaging analysis packages like [[spm]] and [[fsl]] focused primarily on mass univariate statistics ( voxel-wise General Linear Models), leaving a gap for multivariate and pattern analysis approaches that had proven powerful in computer vision and cognitive neuroscience. Nilearn emerged to fill this gap by providing declarative interfaces for common neuroimaging operations while leveraging the robust implementations in [[nibabel]] for file I/O and [[nipype]] for pipeline construction. The library's design philosophy emphasizes accessibility: researchers can perform complex analyses with minimal code while maintaining the flexibility to customize every aspect of the workflow.
+The proliferation of large-scale neuroimaging datasets—particularly those from the [[human-connectome-project]], [[abide]], and [[uk-biobank]]—created a need for tools that could apply modern machine learning methods to brain imaging data at scale. Traditional neuroimaging analysis packages like [[spm]] and [[fsl]] focused primarily on mass univariate statistics ( voxel-wise General Linear Models), leaving a gap for multivariate and pattern analysis approaches that had proven powerful in computer vision and cognitive neuroscience. Nilearn emerged to fill this gap by providing declarative interfaces for common neuroimaging operations while leveraging the robust implementations in [[nibabel]] for file I/O and [[nipype]] for pipeline construction. It can also be combined with other neuroimaging toolkits such as [[suit]] for specialized cerebellar analyses. The library's design philosophy emphasizes accessibility: researchers can perform complex analyses with minimal code while maintaining the flexibility to customize every aspect of the workflow.
 
 ## Key Features
 
@@ -38,3 +38,28 @@ Nilearn complements [[the-virtual-brain]] in several important ways in the [[who
 1. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.
 2. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f))
 3. Woodman et al. (2014). *[[graphvar]]: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](](https://doi.org/10.1016/j.jneumeth.2014.07.015))
+
+## ORPHAN PAGE CONTEXT (suit)
+---
+created: 2024-01-15
+sources:
+- raw/papers/semanticscholar-913068805e7f.md
+- raw/papers/power-2011.md
+- raw/papers/semanticscholar-1a3ed92b9f5a.md
+tags:
+- software-neuroimaging
+- neuroimaging-fmri
+- cerebellum
+- brainstem
+- spatial-normalization
+- toolkit
+- software-spm
+title: SUIT
+type: software
+updated: '2026-05-11'
+---
+
+# SUIT (Spatial Unbiased Infratentorial Template)
+
+## Overview
+SUIT (Spatial Unbiased Infratentorial Template) is a specialized [[neuroimaging]] software tool developed by

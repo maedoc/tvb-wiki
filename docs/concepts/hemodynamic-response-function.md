@@ -13,18 +13,18 @@ tags:
 - parameter-estimation
 title: Hemodynamic Response Function
 type: concept
-updated: '2026-05-10'
+updated: '2026-05-11'
 ---
 
 The hemodynamic response function (HRF) is a mathematical description of the way in which blood flow and the blood oxygenation level-dependent (BOLD) signal change over time in response to neural activity in the [[brain-map]]. It represents the impulse response of the neurovascular coupling system—the chain of physiological processes that transform brief episodes of neuronal firing into the measurable [[fmri]] signal. Understanding the HRF is fundamental to any analysis of [[functional-connectivity]] derived from fMRI data, as it determines the temporal relationship between underlying neural events and the observed signal.
 
 ## Physiological Basis
 
-The HRF emerges from a complex cascade of neurovascular events. When neurons fire, they consume oxygen and release vasoactive substances that cause local blood vessels to dilate. This leads to an increase in cerebral blood flow (CBF) and cerebral blood volume (CBV) that substantially exceeds the metabolic demand—a phenomenon known as hyperemia. The net result is an over-supply of oxygenated hemoglobin relative to the baseline state. Since the BOLD [[bold-signal]] depends on the magnetic properties of deoxyhemoglobin, this increased ratio of oxy- to deoxyhemoglobin produces the positive BOLD response observed in fMRI. The classic HRF rises to a peak approximately 4–6 seconds after the neural event and then undershoots below the baseline before returning to equilibrium over 10–20 seconds, as characterized in the foundational work of [[sources:raw/papers/friston-1993|Friston et al. 1994]]. This temporal lag and shape are critical factors in the design and interpretation of [[resting-state|resting-state]] and task-based fMRI experiments.
+The HRF emerges from a complex cascade of neurovascular events. When neurons fire, they consume oxygen and release vasoactive substances that cause local blood vessels to dilate. This leads to an increase in cerebral blood flow (CBF) and cerebral blood volume (CBV) that substantially exceeds the metabolic demand—a phenomenon known as hyperemia. The net result is an over-supply of oxygenated hemoglobin relative to the baseline state. Since the BOLD [[bold-signal]] depends on the magnetic properties of deoxyhemoglobin, this increased ratio of oxy- to deoxyhemoglobin produces the positive BOLD response observed in fMRI. The classic HRF rises to a peak approximately 4–6 seconds after the neural event and then undershoots below the baseline before returning to equilibrium over 10–20 seconds, as characterized in the foundational work of [[source-separation]]. This temporal lag and shape are critical factors in the design and interpretation of [[resting-state|resting-state]] and task-based fMRI experiments.
 
 ## Mathematical Characterization
 
-The HRF is typically modeled using basis functions that capture its characteristic shape. The most common parameterization is the double-gamma function, originally proposed by [[sources:raw/papers/friston-1993|Glover 1999]], which sums two gamma functions to represent the positive peak and the subsequent undershoot:
+The HRF is typically modeled using basis functions that capture its characteristic shape. The most common parameterization is the double-gamma function, originally proposed by [[source-separation]], which sums two gamma functions to represent the positive peak and the subsequent undershoot:
 
 $$ h(t) = A \left( \frac{t^{\alpha_1-1} \beta_1^{\alpha_1} e^{-\beta_1 t}}{\Gamma(\alpha_1)} - c \frac{t^{\alpha_2-1} \beta_2^{\alpha_2} e^{-\beta_2 t}}{\Gamma(\alpha_2)} \right) $$
 
@@ -36,7 +36,7 @@ In [[whole-brain-modeling|whole-brain modeling]] frameworks such as [[the-virtua
 
 ## Modeling Considerations and Individual Variability
 
-The canonical HRF represents an average response, but substantial variability exists across individuals, brain regions, and physiological states. Age-related changes in vascular compliance alter the HRF shape, as do variations in baseline blood pressure and the density of vasopressive receptors. Research on individual differences in neurovascular coupling, including work by [[sources:raw/papers/friston-1993|Aguirre et al. 1998]], has demonstrated that the standard HRF parameters may not be appropriate for all subjects. In populations with altered neurovascular coupling—such as elderly individuals or patients with vascular disease—the standard HRF may be an inappropriate assumption. These considerations have motivated the development of individualized HRF estimation methods, which either fit basis functions to each subject's task data or use model-based approaches that jointly estimate neural dynamics and HRF parameters. Such individualization is especially important in clinical applications where group-level HRF assumptions may obscure subject-specific deviations.
+The canonical HRF represents an average response, but substantial variability exists across individuals, brain regions, and physiological states. Age-related changes in vascular compliance alter the HRF shape, as do variations in baseline blood pressure and the density of vasopressive receptors. Research on individual differences in neurovascular coupling, including work by [[source-separation]], has demonstrated that the standard HRF parameters may not be appropriate for all subjects. In populations with altered neurovascular coupling—such as elderly individuals or patients with vascular disease—the standard HRF may be an inappropriate assumption. These considerations have motivated the development of individualized HRF estimation methods, which either fit basis functions to each subject's task data or use model-based approaches that jointly estimate neural dynamics and HRF parameters. Such individualization is especially important in clinical applications where group-level HRF assumptions may obscure subject-specific deviations.
 
 ## Relationship to Other Concepts
 

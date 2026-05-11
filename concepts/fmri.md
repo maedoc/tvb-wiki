@@ -81,12 +81,12 @@ sources:
 - raw/papers/semanticscholar-24420855b2da.md
 - raw/papers/semanticscholar-fb4cf47c4f31.md
 - raw/papers/semanticscholar-109de470e443.md
-- raw/papers/glean-github.md
+- raw/papers/[[lean|glean]]-github.md
 tags:
 - software-brain-modeling
-- neuroimaging-fmri
+- [[neuroimaging-fmri]]
 - functional-connectivity
-- whole-brain-modeling
+- [[whole-brain-modeling]]
 title: PRoNTo
 type: entity
 updated: '2026-05-05'

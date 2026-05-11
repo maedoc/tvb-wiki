@@ -1,0 +1,1432 @@
+                                              A Bayesian Integrative Mixed Modeling
+                                           Framework for Analysis of the Adolescent Brain
+                                                and Cognitive Development Study
+
+                                            Aidan Neher∗, Apostolos Stamenos, Mark Fiecas, Sandra E. Safo, Thierry Chekouo†
+                                                    Biostatistics and Health Data Science, University of Minnesota
+arXiv:2501.17705v1 [stat.ME] 29 Jan 2025
+
+
+
+
+                                                                                       January 30, 2025
+
+
+
+                                                                                             Abstract
+
+                                                       Integrating high-dimensional, heterogeneous data from multi-site cohort studies with
+                                                   complex hierarchical structures poses significant feature selection and prediction challenges.
+                                                   We extend the Bayesian Integrative Analysis and Prediction (BIP) framework to enable
+                                                   simultaneous feature selection and outcome modeling in data of nested hierarchical structure.
+                                                   We apply the proposed Bayesian Integrative Mixed Modeling (BIPmixed) framework to
+                                                   the Adolescent Brain Cognitive Development (ABCD) Study, leveraging multi-view data,
+                                                   including structural and functional MRI and early life adversity (ELA) metrics, to identify
+                                                   relevant features and predict the behavioral outcome. BIPmixed incorporates 2-level nested
+                                                   random effects, to enhance interpretability and make predictions in hierarchical data settings.
+                                                   Simulation studies illustrate BIPmixed’s robustness in distinct random effect settings, high-
+                                                   lighting its use for complex study designs. Our findings suggest that BIPmixed effectively
+                                                   integrates multi-view data while accounting for nested sampling, making it a valuable tool for
+                                                   analyzing large-scale studies with hierarchical data.
+
+                                           Keywords: Neuroimaging; Early Life Adversity; Latent Variables; Predictive Modeling; Multi-view
+                                           Integration; Hierarchical Bayesian Factor Models
+
+
+
+
+                                             ∗
+                                                 Correspondence concerning this article should be addressed to Aidan Neher at neher015@umn.edu
+                                             †
+                                                 or Thierry Chekouo at tchekouo@umn.edu.
+
+
+                                                                                                  1
+1    Introduction
+
+ur objective in this paper is to use data from the Adolescent Brain and Cognitive Development
+
+(ABCD) Study, a multi-site cohort study that is the largest brain development study, to understand
+
+the role of biological and environmental influences on externalizing problems and behaviors. The
+
+ABCD Study has a hierarchically nested design, specifically, individuals are nested within families,
+
+which in turn are nested within a study site. In addition, the ABCD Study contains high-dimensional
+
+data from heterogeneous views or data types (e.g., brain imaging, mental health & substance use
+
+screenings, physical health measurements) on up to 90K features, excluding SNP data, on each of
+
+the 11,878 subjects (Saragosa-Harris et al. 2022). The ABCD Study has been used to understand
+
+diverse phenomena, including Early Life Adversity (ELA): The experience of negative events early
+
+in life that can impact a youth’s developmental trajectory (Orendain et al. 2023, Brieant et al.
+
+2023). High-dimensional heterogeneous views make manual identification of relevant features
+
+labor-intensive and prone to differential curation. This is especially true for analyses of ELA since
+
+its broad definition means that it can be defined by a large collection of variables (Orendain et al.
+
+2023, Brieant et al. 2023). In this paper we will integrate multiple brain imaging data types with
+
+ELA measures and identify the relevant features predictive of externalizing problems. To this
+
+end, we develop a Bayesian mixed modeling framework (BIPmixed) that accounts for the ABCD
+
+Study’s nested sampling design while performing feature selection and outcome modeling.
+
+BIPmixed is a form of Bayesian multi-view learning, where multiple views are integrated into
+
+one analysis. A naive form of multi-view learning is to concatenate views and use the larger
+
+matrix to predict some outcome vector y. An alternative, though also naive, approach is to fit
+
+predictive models from each view to the outcome y and in a second step combine the resulting
+
+predictions ŷ by taking the mean for example. The former is “early fusion” and the latter “late
+
+fusion”. These approaches are naive in that they do not account for the underlying structure
+
+and relationships between views in modeling the outcome. In contrast to early and late fusion,
+
+“cooperative learning” aims to simultaneously estimate shared latent structure in views and model
+
+
+                                                 2
+the outcome of interest, and BIPmixed can be considered a cooperative learning method (Ding et al.
+
+2022). 2-step multi-view learning algorithms are an alternative to the aforementioned approaches.
+
+These methods primarily focus in the first step on dimension reduction of multiple views into only
+
+shared (i.e., joint) structure, e.g., Argelaguet et al. (2018, 2020), or both shared and view-specific
+
+structure, e.g., Lock et al. (2013), Shen et al. (2009, 2013). This can be thought of as an integrative
+
+or multi-view factor analysis. In the second step, outputs from multi-view factor analyses are
+
+usable in an outcome model. This approach has similar issues to early and late fusion in that the
+
+outcome y is not included in latent structure estimation and feature selection, so results from this
+
+approach cannot be interpreted in direct connection to an outcome. Thus, we focus on cooperative
+
+learning.
+
+Cooperative learning methods have been developed to simultaneously integrate multiple views and,
+
+typically, associate a dimension reduced form of these views with an outcome y. For example,
+
+canonical correlation analysis-based approaches have been proposed but are limited to at most 2
+
+views (Luo et al. 2016). DIABLO, another multi-view method, can integrate more than 2 views but
+
+can only be used for discrete y classification (Singh et al. 2019). Frequentist multi-view methods
+
+have been developed for the integration of 2 or more views, while allowing for classification or
+
+continuous outcome prediction: JACA (Zhang & Gaynanova 2018), deep IDA (Wang & Safo 2024)
+
+and SIDA (Safo et al. 2022). Several Bayesian integrative and outcome modeling methods are
+
+also available for joint feature selection and prediction (Klami et al. 2013, 2015, Yuan et al. 2011,
+
+Wang et al. 2013, Chekouo et al. 2017, Mo et al. 2018, Chekouo & Safo 2021); however, these
+
+methods generally do not account for the hierarchically nested data typical of large cohort studies.
+
+If observations from the same node of a hierarchy (e.g., subjects from a family in the same research
+
+site) are correlated but are treated as independent units, we limit our inferential capacity.
+
+We extend Bayesian Integrative analysis and Prediction (BIP) (Chekouo & Safo 2021), which
+
+is a cooperative learning framework that allows for simultaneous view integration and outcome
+
+modeling. Furthermore, BIP allows for feature selection that is interpretable and incorporation of
+
+
+                                                  3
+prior knowledge. Our extension, BIPmixed, builds on the strengths of BIP but also accounts for
+
+the hierarchically nested data that characterizes the ABCD Study and is typical of large cohort
+
+studies. Also, in BIPmixed, (clinical) covariates (e.g., sex, age, BMI, etc.) are included in the
+
+outcome model, rather than as a separate view, which can be useful when covariates are strongly
+
+predictive of the outcome (Cheng et al. 2016). In Section 2, we describe BIP and our proposed
+
+extension, BIPmixed. In Section 3, we show BIPmixed’s performance, using simulations and the
+
+analysis of data from the ABCD Study. We discuss strengths and limitations in Section 4.
+
+
+
+2     Methods
+
+2.1    Multi-view Factor Analysis Framework
+
+In Figure 1, we describe the Bayesian factor analysis framework in which observed data are
+
+divided into M + 1 views. We integrate information across views X (m) , m = 0, 1, 2, . . . , M , by
+
+decomposition into a latent factor U , view-specific loadings A(m) , and Gaussian noise. Each
+
+view is X (m) = U A(m) + E (m) , where X (m) ∈ Rn×pm is the observed matrix for view m, n is
+
+the number of observations, and pm is the number of features in data type m. U ∈ Rn×r is the
+
+factor matrix shared across views, and U ∼ N (0, Inr ) where Inr is the identity matrix and r
+
+is the number of components the latent factor consists of. We use l to denote the latent factor
+                                                     (m)
+component index, l = 1, . . . , r. A(m) = (alj ) ∈ Rr×pm encodes loadings specific to each view m.
+
+E (m) is a noise matrix, specific to each view, that is normally distributed E (m) ∼ N (0, Ψ(m) ).
+                                             
+                  2(m)      2(m)                                2(m)
+Ψ(m) = Diag σ1           , σ2      , . . . , σp2(m)
+                                                m
+                                                    ⊗ In where σj      is the variance for the jth feature in the
+
+mth view. Outcome y is incorporated as a view, y = X (0) , after being adjusted for covariates and
+
+random effects.
+
+
+
+
+                                                            4
+Figure 1: Graphical representation of the proposed probabilistic model that connects the M + 1
+
+views. This method integrates M + 1 data views comprised of the outcome of interest y and
+
+other views (e.g. imaging, or multi-omics data). The correlation between different views is
+
+modeled through the shared matrix U , and individual sources of variation are modeled through the
+
+individual loading matrices A(m) for m ∈ {0, 1, . . . , M }. Binary vectors and matrices γ (m) , H (m)
+
+are incorporated for feature and latent component selection. In addition to the feature/component
+
+selection indicators, the outcome view X (0) also incorporates fixed effects β as well as hierarchically
+
+nested random effects θ and ξ
+
+
+
+                         qγ(0) = qη(0)                               qγ(1)                     ...     qγ(M )
+
+                                                                                                          
+          µ, σξ2                                                     γ (1)                     ...     γ (M )
+
+
+                                                                                               qη(1)                         qη(M )
+
+                                                                                    |                            {
+ σθ          ξ        γ (0) = H (0) = η                              H (1)                     ...     H (M )
+
+
+                                                          Ψ(0)                                 Ψ(1)                          Ψ(M )
+
+                                                   w                                   |                            {
+ β          θ            A      (0)
+                                                  =α                 A   (1)
+                                                                                               ...     A   (M )
+
+
+
+                           '*                                                                               
+                                X (0) l                              X (1)c                    ...     X: (M )
+
+
+                                                                                                U
+
+
+
+
+                                                                 5
+2.2      Stochastic Search Feature and Latent Component Selection
+
+We aim to identify a set of features that are associated across views and biologically interpretable.
+                                                                                                                                                     (m)
+As in BIP (Chekouo & Safo 2021), we introduce then binary indicator variables: ηlj                                                                         is a
+                                                                   (m)
+binary feature selection indicator, and γl                                  is a latent factor component selection indicator. For
+                                  (0)             (0)                         (m)
+outcome view X (0) , ηl1 = γl . Prior for ηlj                                         is a mixture between a point mass at 0, δ0
+                                                                                                                                      (m)
+(indicating feature j excluded in lth latent component) and Bernoulli qη , and γl                                                              is Bernoulli
+                                       
+       (m)   (m)                 (m)                    (m)                                                                   (m)
+qγ : ηlj |γl       ∼ 1 − γl                 δ0 + γl           Bernoulli(qη ). Factor loading prior for alj                          depends on both
+ (m)           (m)
+γl     and ηlj . The prior is a mixture of δ0 and a normal distribution where τlj2 is a shrinkage
+                                                                                                                   
+                   (m)   (m)      (m)                         (m) (m)               (m) (m)                 2(m)
+parameter: alj |γl             , ηlj        ∼ 1 − γl             ηlj        δ0 + γl    ηlj N       0, τlj2 σj             . If, for example, the lth
+                                              (m)                                                                                                      (m)
+latent component indicator γl                           or the indicator for the jth feature in the lth component ηlj                                        is
+
+equal to 0, then the loading for the jth feature in the lth component is set to 0 with probability 1.
+                                                                                                                                    2(m)
+Otherwise, we have normal loadings that have variance dependent on τlj2 and σj                                                             .
+
+
+
+2.3      Mixed Outcome Model
+
+In the outcome model, fixed effects β correspond to the design matrix W , and the random effects
+
+θ are included by the design matrix Z. At the individual observation level, for individual i in
+
+family f within site s, the mixed outcome model is defined as
+
+
+                         yi = yif s = Wi β + Zi θ + Ui α + εi = Wi β + θf :s + Ui α + εi ,
+
+
+where Ui is the ith row of the latent factor. We drop feature index j = 1 and m = 0 in the
+
+outcome view from the following notation. The outcome view’s loadings α follow a spike and
+
+slab prior distribution: al | γl ∼ (1 − γl ) δ0 + γl N (0, τl2 σ 2 ). Wi is the ith row from the fixed effect
+
+design matrix of dimension pβ , the number of covariates. β is the fixed effects coefficient vector of
+                                                                                                                                               iid
+length pβ , θf :s is the contribution of family f in site s to the intercept, and εi = εif s |σ 2 ∼ N (0, σ 2 ).
+
+Priors for the fixed and random effects are specified as follows: β ∼ N (0, σβ2 Ipβ ) ; µ ∼ N (0, σµ2 );
+             iid                                         iid                                                    iid
+ξs | µ, σξ2 ∼ N (µ, σξ2 ) ; θf :s | ξs , σθ2s ∼ N (ξs , σθ2s ) ; σξ2 ∼ IG(aξ , bξ ) ; σθ2s ∼ IG(aθ , bθ ) ; σ 2 ∼ IG(aσ , bσ )
+
+
+                                                                               6
+where IG(a, b) is inverse gamma with the shape parameter a and scale b. We can interpret µ as
+
+the grand mean or intercept and ξs as the site s effect, which centers the θf :s family in site effects.
+
+Variance parameters σβ2 , σµ2 , σξ2 , and σθ2s represent the fixed effect variability, that in the grand mean,
+                                                                                                                   
+the site effects, and family in site effects respectively. Notationally, we let σθ2 = σθ21 , . . . , σθ2s as
+
+the vector of site-specific variances. Section 2.6 details hyperparameter specification.
+
+
+
+2.4     Posterior Inference
+
+By Markov Chain Monte Carlo (MCMC) sampling, we jointly estimate feature selection indicators
+            (m)                                                                 (m)
+H (m) = (ηlj )l∈{1,...,r},j∈{1,...,pm } , latent factor indicators γ (m) = (γl        )l∈{1,...,r} , shared latent factor
+
+U , loadings A(m) , fixed and random effects β, ξ and θ. We sample all feature and component
+                                                                                                         (m)
+indicators ηlj and γl using Metropolis-Hasting steps, after integrating the loadings A(η) out of the
+                               (m)
+data model X (m) = U A(η) + E (m) . Then, all other parameters are sampled by Gibbs steps. Note,
+                      (m)
+subscript (η) in A(η) indicates the submatrix of A where ηlj = 1.
+
+                   2(m)
+   1. Initialize σj         = 1 for all m ∈ {0, 1, . . . , M } and j ∈ {1, . . . , pm }, σξ2 = 1, σθ2s = 0.5 for all
+
+      s ∈ {1, . . . , NS }, µ = ỹ¯, β = (W T W )−1 W ỹ, and the rest from their priors,
+
+                                                        (m)                                              (m)
+   2. After integrating out the loadings A(η) from the data model X (m) = U A(η) + E (m) , a
+
+      Metropolis-Hastings step is used for each of latent component and feature selection indicators
+
+      γ, H, as described Chekouo & Safo (2021)’s supplementary materials,
+
+                                                  (m)     2(m)
+   3. Gibbs steps are used to sample A(η) , σj                    , U from their full conditionals in Chekouo &
+
+      Safo (2021),
+
+   4. Residualize outcome view on current iteration’s U α, and Gibbs step outcome model parame-
+
+      ters, in order, β (if covariates are available), θ, ξ, σθ2 , σξ2 , µ. Section 2.4.1 below are details
+
+      about sampling parameters specific to the outcome view.
+
+
+
+
+                                                              7
+2.4.1       Outcome Model-Specific Parameter Sampling
+                                                                                                       
+Since the site-level random effects follow ξ|µ, σξ2 ∼ N µ1, σξ2 INS , then the full conditional
+                                                                                                                                              −1
+distribution of the grand mean µ is as µ|ξ, σξ2 ∼ N (mµ , Σµ ), where Σµ = 1/σµ2 + NS /σξ2
+
+and mµ = Σµ (                       s=1 ξs /σξ ).   The full conditional distribution of the fixed effect vector β is
+                                PNS          2
+
+                                                                                                                                              −1
+a multivariate normal distribution β|rest ∼ N (µβ , Σβ ) where Σβ =                                                   σβ−2 W⊤ W + σ −2 In            ,
+                                                          
+µβ = Σβ W⊤ (y − Zθ − U α)/σ 2 , and "rest" indicates conditioning on all other parameters.
+
+For site-level random effect vector ξ = (ξ1 , . . . , ξNS )T , for each site s, from families in that site,
+                                                                                                                                    
+the full conditional of ξs is ξs |rest ∼ N (µξs , Vξs ) with µξs = Vξs                                       1
+                                                                                                                                         and Vξs =
+                                                                                                                      P
+                                                                                                            σθ2        f ∈Fs θf :s
+                                                                                                              s
+                −1
+     1
+    σξ2
+        + σn2s          where Fs is the set of families in site. The full conditional distribution of the family-
+            θs
+
+level random effects θ is also a multivariate normal distribution θf :s |rest ∼ N (µθf :s , Σθf :s ) with
+                                   −1                                                
+                                                                              + σf2:s ỹ¯sf + where nf :s is the number of observations
+                            n                                                   n
+Σθf :s =          1
+                 σθ2
+                       + σf2:s            and µθf :s = Σθf :s            ξs
+                                                                        σθ2
+                   s                                                      s
+
+in family f at site s, and ỹ¯sf + is the sample mean of the residualized outcome ỹ = y − W β −
+
+U α over the family f at site s. Full conditionals of site-level Variance (σξ2 ) and site-specific
+                                                                                                                                
+family-level variances (σθ2s ) are defined as: σξ2 |rest ∼ IG aξ + N2S , bξ + 12                                       s=1 ξs and σθs |rest ∼
+                                                                                                                  PNs       2      2
+
+                                                               
+IG aθ + n2s , bθ + 12                    f ∈Fs (θf :s − ξs )
+                                                            2
+                                                              with NS number of study sites and ns number of families in
+                                     P
+
+                                                                                                                                                
+site s. The full conditional of the outcome error variance σ 2 is σ 2 |rest ∼ IG aσ + N2 , bσ + 12 ỹ T Σ−1
+                                                                                                         σ ỹ
+                                                                                           −1
+where ỹ = y − W β − Zθ and Σ−1
+                             σ = U(γ=1) U(γ=1) + In
+                                         T
+                                                                                                  .
+
+
+
+2.5        Prediction
+
+We predict for a new set of individuals that belong to a known site s with Xnew
+                                                                            (m)
+                                                                                , m = 1, . . . , M
+
+observed. Given a model {γ (m) , H (m) : m = 0, 1, . . . , M } which consists of the set of latent compo-
+
+nent selection indicator vectors and feature selection matrices, respectively, we estimate loadings as
+                               T
+                                                    −1     T
+    (m)          2(m)                                               (m)                                                   2(m)
+â.j(η) = σ̂j               U (γ) U (γ) + Inγ             U (γ) x.j , where posterior mean estimates σ̂j                         and U are used,
+
+and subscripts (γ) and (η) indicate elements were γl = 1 or ηlj = 1. For the outcome model loadings,
+            (0)                                                                                                                          (0)
+we let x.j = y − W β̂ − Z θ̂ where β̂ and θ̂ are posterior mean estimates for obtaining â.j(η) = α̂(γ) .
+
+We use ξ̂ as an estimate for θ̂ since the family effect in the test set has not been observed. From
+
+
+                                                                                    8
+                                                                   
+            (1)        (M )
+Â(η) = â.j(η) , . . . , â.j(η) and Xnew = Xnew
+                                              (1)    (2)
+                                                  , Xnew            (M )
+                                                         , . . . , Xnew  , both column-wise concatenated
+
+matrices, and D(σ̂ −2 ), a diagonal matrix with posterior means σˆj 2(m) , m = 1, . . . , M, j = 1, . . . , pm
+                                                                    −1
+as elements, we estimate Ûnew,(γ) = Â(η) D(σ̂ −2 )ÂT(η) + Ir            Â(η) D(σ̂ −2 )Xnew . With Wnew
+
+and Znew for new individuals’ fixed and random effect design matrices, we have, for 1 model,
+
+ŷnew = Ûnew,(γ) α(γ) + Wnew β̂ + Znew θ̂. From Bayesian model averaging over a maximum number
+
+of models, which are selected as the models with largest posterior probability, the prediction of
+                                                                                                         
+new subjects is estimated as: ŷnew = Wnew β̂ + Znew θ̂ +                                    γ, η|U (γ) , X .
+                                                               P
+                                                                  η,γ Ûnew,(γ) α(γ) p
+
+
+
+
+2.6     Hyperparameter Specification
+
+We choose minimally a latent component number r equal to the number of views, including the
+
+outcome view, M + 1, to be analyzed such that every component can be associated with only one
+
+view. For example, if gene expression and SNP data are included as 2 views in modeling outcome
+
+y, let rmin = 3. To get a preliminary understanding of the data’s latent structure, we concatenate
+
+the non-outcome views and y column-wise, standardize, and then calculate the sample covariance
+
+matrix and its associated eigenvalues. After scree plot inspection, we choose r where eigenvalues
+
+stabilize. Additionally, the loadings shrinkage parameter τlj2 is fixed to 1. Its properties are explored
+
+more in Chekouo et al. (2017). The maximum number of models in Bayesian Model Averaging
+
+(BMA) prediction is 50, since more models give similar results. Non-outcome view feature selection
+
+prior parameter qη set to 0.05 by the assumption of sparse feature importance. Fixed effect vector
+
+β has an uninformative normal prior with uncorrelated fixed effects, the same variance σβ2 fixed at
+
+a large value of 100 and prior mean 0. Other priors’ hyperparameters are set uninformatively, and
+
+particular values are available as default arguments in the BIPmixed implementation available
+
+from Section 8.
+
+
+
+
+                                                      9
+2.7    ABCD Study Data Processing
+
+The ABCD Study is the largest study of brain development. We performed a cross-sectional
+
+analysis using baseline (n=11,878) from the 5.1 data release. To study Early Life Adversity (ELA),
+
+we used the union of features from Brieant et al. (2023) and Orendain et al. (2023). We filtered
+
+features similar to Brieant et al. (2023) and Orendain et al. (2023) by excluding ELA features
+
+with > 50% missingness and < 0.05% endorsement. Endorsement filtering resulted in dropping 1
+
+feature from Orendain et al. 2023. These decisions led to an ELA view of 88 features. We included
+
+structural MRI (sMRI) metrics as 2 different views: cortical surface area (sMRI_SA) and cortical
+
+thickness (sMRI_CT), parcellated by the Destrieux Atlas, which has 74 regions of interest (ROIs).
+
+With 74 ROIs across 2 hemispheres, we had 148 features in sMRI_CT and sMRI_SA respectively.
+
+Resting-state functional MRI (fMRI) connectivity between ROIs from the Gordon Network is
+
+the 4th view. Connectivity measures included pairwise and self-correlations between 13 networks,
+
+resulting in 132 = 169 features. Outcome y is Externalizing Problems (R-Score) obtained from the
+
+Child Behavior Checklist (Achenbach & Ruffle 2000).
+
+We describe the covariates of the selected sample in Table 1, and explore the impact of covariate
+
+inclusion on prediction by performing the analysis with and without covariates included in the
+
+modeling and subsequently evaluate the Mean Square Prediction Error (MSE).
+
+Subjects are excluded for missing data in any view, covariates, and Externalizing Problems, leading
+
+to n=7,370 (Figure 2). The ABCD Study is hierarchically nested in that subjects are nested in
+
+families in 22 study sites across the United States, including, for example, Children’s Hospital Los
+
+Angeles, Florida International University, and the Laureate Institute for Brain Research (LIBR).
+
+Finally, for the data analysis, to choose r - the number of latent factors - we compute the covariance
+
+matrix by first concatenating the 4 views, the outcome externalizing problems, and the covariates
+
+column-wise. We standardize the resulting data and calculate the covariance matrix, and its
+
+associated eigenvalues to choose hyperparameter r = 6 where the eigenvalues level off (Figure 3).
+
+
+
+                                                 10
+Figure 2: Flowchart of sample selection from the ABCD Study at baseline (n=11,878). Subjects
+
+excluded for missing any data in each view, Early Life Adversity (ELA), structural MRI Surface Area
+
+(sMRI SA), structural MRI Cortical Thickness (sMRI CT), functional MRI correlations between
+
+Gordon Atlas Regions of Interest (fMRI Corr), covariates, and outcomes feature Externalizing
+
+Problems. Resulting sample size n=7,370. On stratifying by study site, data is repeatedly split
+
+into 20 train and test sets with 80:20 ratio respectively, which results in train Navg = 5885.5 and
+
+test Navg = 1484.5.
+
+
+
+
+                                                11
+Figure 3: Scree plot of eigenvalues associated with column-wise concatenated ABCD Study train
+
+views’ covariance matrix latent components, including Externalizing Behaviors (R-Score) as the
+
+outcome. The plots suggest r = 6 is a sufficient number of latent components to include in each
+
+model, as eigenvalues beyond the 6th component stabilize.
+
+
+              50
+
+
+              40
+
+
+              30
+
+
+              20
+
+
+              10
+
+
+                                5               10             15             20
+                                    Number of Latent Components, r
+
+
+2.8    Competing Methods
+
+We compare BIPmixed against the original BIP framework, which does not account for random
+
+effects, in both the ABCD Study data analysis and the simulation studies (Chekouo & Safo 2021).
+
+We also evaluate performance in simulations against Cooperative Learning Lasso with hyper-
+
+parameter ρ = 0.5, i.e. halfway between early and late fusion, using 10-fold cross-validation (CV)
+
+on the training set to choose the penalty parameter (Ding et al. 2022). Furthermore, we include a
+
+2-step method: PCA2Step, which does not account for multiview data structure. PCA2Step starts
+
+with Principal Components Analysis of concatenated train set views, and then, in the second step,
+
+the top r = 4 principal components are used in a frequentist linear mixed model.
+
+
+
+2.9    Simulation Scenarios
+
+For each scenario described in the proceeding section, we simulate S = 20 training and test
+
+datasets. We use a method for generating views used in high-dimensional data integration studies
+
+                                                12
+                                                                                                        
+(Luo et al. 2016, Chekouo & Safo 2021). We assume 4 views X = X (1) , X (2) , X (3) , X (4) where
+
+X (m) ∈ ℜn=800×p=500 . In each X (m) , the first 100 features form groups where there are 10 main
+
+features each connected to 9 supporting features. As a consequence,
+                                                                
+                                                                     in each view, there are
+                                                              Ψ100×100         0 
+p − 100 singletons. Intra-view correlation is Ψ(m) = 
+                                                     
+                                                                                    . Ψ100×100 is block diagonal
+                                                                                    
+                                                        0     Ip−100
+with block size 10, between-block correlation 0, within block 9 × 9 compound symmetry in the
+
+supporting features with elements equal to 0.72 , and correlation between a main feature and a
+
+supporting feature is 0.7. We assume feature groups contribute to correlation between views by
+                                               
+the loadings: A = A(1) , A(2) , A(3) , A(4) . The first 100 columns A(m) ∈ ℜr=4×p corresponding to
+
+the loading for the first 100 features aforementioned are sampled from independent and identically
+
+distributed (i.i.d.) uniform distribution on [−0.5, −0.3] ∪ [0.3, 0.5], and the main features’ loadings
+
+are multiplied by 2. The remaining p − 100 features are set to 0. Each element of latent factor
+
+U ∈ ℜn×r is generated from i.i.d. standard normal. The outcome y in view m = 0 is generated
+
+with A(0) = α = (1, 1, 1, 0), i.e., 3 latent components predictive of y. For both the train and test
+
+sets, we set n = 800 by letting the number of study sites ns = 20, the number of families per site
+
+nf :s = 20, and the number of individuals per family to ni:f :s = 2. Study sites are shared across
+
+train and test, and families are unique to train and test. Grand µ = 1 and random effects ξ and
+                                       iid                                iid
+θf :s are generated from ξs | µ, σξ2 ∼ N (µ, σξ2 ) and θf :s | ξs , σθ2s ∼ N (ξs , σθ2s ).
+
+For all features, including the outcome y in view m = 0, residual variance σ 2 = 1. Parameters σξ2
+
+and σθ2s are different in each simulation scenario. We fix three scenarios describing within-site (i.e.,
+
+family:site) variance σθ2s and between-site variance σξ2 , where, for a given scenario, σθ2s is fixed to
+
+a specific value across all study sites. In Scenario 1, no random effects are included, with both
+
+random effect variances set to 0. Scenario 2 assumes the within-site variance is greater than the
+
+between-site variance, with σθ2s = 1 and σξ2 = 0.5. Conversely, Scenario 3 assumes the within-site
+
+variance is smaller than the between-site variance, with σθ2s = 0.5 and σξ2 = 1. From U , α, θf :s ,
+
+and εi ∼ N (0, σ 2 ), we generate the outcome y from yi = Ui α + θf :s + εi .
+
+
+
+
+                                                         13
+2.10     Evaluation Criteria
+
+Across the S datasets, we evaluate feature selection and prediction performance. Using a Marginal
+
+Posterior Probability (MPP) threshold of 0.5, we calculate the false positive rate (FPR) and false
+
+negative rate (FNR). Additionally, to evaluate feature selection in a threshold-independent way, we
+
+estimate the AUC of feature classification as important or not. AUC of feature selection probabilities
+
+is not available for methods that only support binary feature selection, e.g. Cooperative Learning.
+
+Prediction metrics are mean square error (MSE) and Var(ŷ) and are computed for all the methods.
+
+
+
+3      Results
+
+3.1    Data Analysis Results
+
+Figure 4 presents results from applying BIPmixed to the ABCD Study dataset with externalizing
+
+problems as the outcome. Each of the four views contributed differently across latent factor com-
+
+ponents, with contribution defined as the number of features with marginal posterior probabilities
+
+(MPPs) greater than 0.5. Figure 4A shows the proportion of important features selected across
+
+different views. sMRI_SA demonstrated notable contributions across all latent components and
+
+ELA represented the least across components. Important components associated with the outcome,
+                                              (0)
+as defined by a posterior mean estimate for γl      are emphasized with red dashed boxes, specifically
+
+for components l = 3, 5. Figure 4B visualizes the mapping of important features from view to
+
+latent factor component using a Sankey plot, again indicating components 3 and 5 as associated
+
+with the outcome Externalizing Problems, and showing that while sMRI_SA is represented well
+
+across all latent factor components, views sMRI_CT and fMRI especially co-occur in components
+
+3-6. Figure 4C depicts the within and between study site variances (σθ2s and σξ2 respectively) as a
+
+forest plot with credible intervals across study sites. The dashed line in Panel C indicates where
+
+within-site and between-site variances are equivalent. While credible intervals cover the equivalence
+
+point, all posterior mean estimates for σθ2s are greater than σξ2 , suggesting a greater within site
+
+
+                                                    14
+variance than between variance in the externalizing outcome while controlling for covariates and
+
+views represented in the latent factor. Posterior estimates for residual variance and between-site
+
+variance are 1.255 (1.187, 1.326) and 0.345 (0.118, 1.283), respectively.
+
+                                                                                       (0)
+Latent factors 3 and 5 are considered important to externalizing problems since γ̂3 > 0.5 and
+ (0)
+γ̂5 > 0.5. We describe the top features, i.e. those with the largest MPP η̂ in each component.
+
+Each component consists of features across views. For component 3, from the fMRI view, important
+
+features include functional connections from the auditory network to the following: auditory
+
+network (self-correlation), cingulo-opercular network, default network, non-Gordon network voxels,
+
+and salience network. For the ELA view, top features were measures of neighborhood safety
+
+protocols, parental awareness of the child’s location, avoidant personality problems, and reports of
+
+bullying. The sMRI_CT view included cortical thickness in the superior precentral sulcus and
+
+middle-anterior cingulate gyrus and sulcus. Additionally, from the sMRI_SA view, top features
+
+included cortical area in the superior occipital gyrus, and the occipital pole. For component 5, from
+
+the fMRI view, important features included a bidirectional connection between the retrosplenial
+
+temporal network and auditory network, retrosplenial temporal network (self-connectivity), salience
+
+network (self-connectivity), and a connection from the cingulo-opercular network to the ventral
+
+attention network. Top features from the ELA view were parent-reported measures of neighborhood
+
+safety protocols, self-reported neighborhood safety from crime, how often the child and parents eat
+
+dinner together, antisocial personality problems, and witnessing violence between adults in the
+
+home. The sMRI_CT view included structural features like cortical thickness in the left hemisphere
+
+calcarine sulcus, right hemisphere cuneus, and right hemisphere occipital pole). Finally, from the
+
+sMRI_SA view, top features were the cortical area in the left hemisphere marginal branch of the
+
+cingulate sulcus, the left hemisphere medial occipito-temporal sulcus and lingual sulcus, and the
+
+left hemisphere orbital sulci.
+
+In analyzing the impact of covariate inclusion in the Bayesian Integrative Mixed Model (BIP)
+
+and its mixed variant (BIPmixed) on prediction, we observed a slightly improved performance
+
+
+                                                 15
+Figure 4: BIPmixed analysis of the ABCD Study dataset with outcome y raw externalizing
+
+problems. Panel A. View contributions to latent factor components where a contribution is
+
+defined as the number of important features, those with marginal posterior probabilities > 0.5.
+
+Views: Early Life Adversity (ELA), functional MRI (fMRI) functional connectivity, and 2 from
+
+the structural MRI (sMRI) modality, Cortical Thickness (CT) and Surface Area (SA). Latent
+
+factor components 3 and 5 identified as important to the externalizing problems outcome (MPP
+
+> 0.5) are highlighted with a red dashed box. Panel B. Sankey plot important feature mapping
+
+from views to latent components with a red dashed box around important components. Panel
+
+C. Within study site variances σθ2s to between study site variance σξ2 credible intervals, with the
+
+dashed line indicating within and between site variance equivalence. Posterior mean (credible
+
+interval) for outcome model residual variance σ 2(0) is 1.255 (1.187, 1.326), and for between study
+
+site variance σξ2 is 0.345 (0.118, 1.283).
+
+
+
+
+                                                16
+for BIPmixed when covariates were incorporated directly into the outcome model compared to
+
+BIP, where covariates were included as a separate view. Specifically, for the outcome Externalizing
+
+Problems R-Score, the Mean (SD) of MSE with covariates was 26.3 (2.66) for BIPmixed compared to
+
+27.4 (3.01) for BIP. Without covariates, MSE was comparable between the methods, with BIPmixed
+
+yielding 27.8 (3.36) and BIP yielding 27.8 (2.41). The inclusion of covariates in BIPmixed also
+
+appeared to reduce variability in prediction performance, as evidenced by lower standard deviations.
+
+
+
+3.2    Simulation Results
+
+Results include the performance of 4 methods: BIP, BIPmixed, Cooperative Learning, and
+
+PCA2Step, a non-integrative comparator, across 3 scenarios that vary in random effects. Prediction
+
+performance metrics include Mean Square Error (MSE) and variance of predictions (Var(ŷ)), and
+
+feature selection performance metrics are False Positive Rate (FPR), False Negative Rate (FNR),
+
+and Area Under the Curve (AUC).
+
+In Scenario 1, BIP achieves the lowest MSE (1.760), closely followed by BIPmixed (1.816) and
+
+Cooperative Learning (1.826). PCA2Step (2.054) performs comparably but with a higher variance
+
+(Var(ŷ) = 4.091). Cooperative Learning shows the lowest prediction variance (1.511), suggesting
+
+more precise predictions. AUC values for BIP and BIPmixed remain at 1.000, demonstrating
+
+perfect feature discriminative ability.
+
+In Scenario 2 where the within-site variance is greater than the between-site variance, BIPmixed
+
+delivers the best predictive accuracy with the lowest MSE (2.320) and moderate variance (3.040).
+
+PCA2Step (2.822) provides the second-best MSE but exhibits the highest variance (5.265), indicating
+
+overfitting to specific views. BIP, while showing higher MSE (3.242), maintains a low FPR (0.138)
+
+and a perfect AUC (1.000). Cooperative Learning continues to excel in variance control (1.338)
+
+but suffers from an elevated FNR (0.924).
+
+In Scenario 3 where within-site variance is less than between-site, BIPmixed maintains its superiority
+
+with the lowest MSE (2.830) and moderate variance (2.596). BIP follows with an MSE of 3.213,
+
+                                                 17
+outperforming PCA2Step (3.628) and Cooperative Learning (3.363). Variance patterns align with
+
+earlier scenarios, where Cooperative Learning retains the lowest variance (1.321).
+
+Overall, BIPmixed demonstrates superior predictive accuracy in more complex scenarios (2 and 3),
+
+while BIP shows competitive performance in a simpler setting (Scenario 1). PCA2Step serves as a
+
+non-integrative alternative but suffers from high variance, indicating less stability in its predictions.
+
+Cooperative Learning excels in variance control but struggles with feature selection in Scenarios
+
+2 and 3, as reflected by its high FNR. These findings emphasize BIPmixed’s ability to capture
+
+hierarchically nested variability, achieving better prediction in such contexts. Consistently high
+
+AUC confirms strong feature selection, making it the most reliable method for multiview data
+
+similar to that studied.
+
+
+
+4     Discussion
+
+Simulations reveal performance differences in 4 methods—BIP, BIPmixed, Cooperative Learning,
+
+and PCA2Step—across scenarios that vary in random effects. When random effects are negligible
+
+(Scenario 1), BIP excels. BIPmixed and Cooperative Learning offer a comparable prediction,
+
+demonstrating flexibility even without a strong hierarchical signal. PCA2Step performs well but
+
+exhibits high V ar(ŷ), indicating potential overfitting when not accounting for multiview structure.
+
+In nested scenarios (2 and 3) BIPmixed is the top performer in prediction and feature selection.
+
+BIP delivers reliable feature selection, with low false positive rates and perfect discrimination.
+
+Cooperative Learning has low prediction variance but sacrifices feature selection accuracy, as
+
+indicated by high FNR.
+
+From the ABCD Study data analysis, we found a combination of imaging and ELA features
+
+associated with externalizing problems. The selected ELA factors are consistent with findings
+
+from studies on borderline personality disorder and post-traumatic stress disorder, two trauma-
+
+based mental health conditions that may exhibit externalization of behaviors (Jowett et al. 2020),
+
+
+
+                                                   18
+Figure 5: Scatter and density plots of true y in red vs. predicted ŷ for three scenarios, colored by
+
+method: BIP, BIPmixed Cooperative Learning (Cooperative), and PCA 2-step (PCA2Step) from 1
+
+replicate of each scenario. Red dashed line represents perfect calibration (slope = 1, intercept = 0)
+
+in scatter plots. In Scenarios 2 and 3, BIP and Cooperative depart from the 45-degree line, which
+
+is attributable to not accounting for random effect induced variance. BIPmixed, in contrast, is
+
+better calibrated in Scenarios 2 and 3, though PCA2Step reflects y’s variance.
+
+
+
+
+                                                 19
+demonstrating the merits of BIPmixed. Furthermore, the superior prediction performance of
+
+BIPmixed when incorporating covariates directly into the outcome model highlights two plausible
+
+advantages. First, covariates may carry predictive information that is masked or diluted when
+
+treated as a separate view in the latent factor estimation process, aligning with principles seen in
+
+wide & deep architectures (Cheng et al. 2016). Analogous to the “wide” portion of such models,
+
+fixed and random effects in the outcome model leverage highly predictive covariates to enhance
+
+performance, complementing the “deep" component of latent factor estimation. Second, the
+
+inclusion of covariates as fixed effects may yield efficiency gains in parameter estimation, reducing
+
+prediction variance. This aligns with the concept of efficiency augmentation described in recent
+
+literature, which suggests that explicitly modeling covariates improves the precision of latent factor
+
+estimates (Huling & Yu 2018). These findings underscore the benefits of integrating covariates
+
+into the outcome model to mitigate added variance from parameter estimation, emphasizing their
+
+critical role in enhancing prediction accuracy and stability.
+
+These findings suggest that the accommodation of random effects can support prediction per-
+
+formance in large cohort study settings (and others involving hierarchical observations), though
+
+exploration to the extent that these random effects are not accounted for or muddled by already
+
+observed data is worth pursuing. Regardless, feature selected by BIPmixed can be interpreted in
+
+alignment with a priori known relationships between and within nested observations. Also, the
+
+inclusion of covariates in BIPmixed’s outcome model can be helpful in situations where there are
+
+strongly predictive covariates available, though this has not been thoroughly investigated in this
+
+study and is likely of less utility in behavioral outcome prediction where signal-to-noise tends to be
+
+less than, for example, propensity to download mobile apps in the app store (Cheng et al. 2016).
+
+Another benefit of BIPmixed in results not shown here is that accounting for random effects can
+
+result in better prediction at the tails of the random effect distribution relative to BIP, allowing
+
+especially for improvement of outcome predictions for sites or families that are far from the grand
+
+mean. In other words, families that are substantially dissimilar from the average outcome, i.e.
+
+
+
+                                                 20
+are in the tails of the random effect distribution, experience less bias in prediction by BIPmixed,
+
+our method that accounts for family-wise heterogeneity. This helps combat a general limitation
+
+of machine learning methods, which is that they are usually optimized for the central tendency,
+
+resulting in predictions that perform less well for certain groups (Malik 2020).
+
+Limitations include that in simpler situations or ones in which the random effects are not explicitly
+
+connected to the outcome y, BIPmixed has added variance in its predictions, which can reduce
+
+prediction performance. Furthermore, a general limitation of the BIP or BIPmixed framework
+
+is that the outcome is treated like just another view, which challenges its representation in less
+
+signal to noise rich settings (e.g. behavioral outcomes) or in more high-dimensional ones. Moreover,
+
+although BIPmixed can incorporate longitudinal data as an additional level in the hierarchical
+
+structure (i.e. multiple observations over time nested in an individual), temporal correlation may
+
+be distinct from the implied exchangeable correlation. BIPmixed has not been evaluated in the
+
+analysis and prediction of simulated or real longitudinal data, which is worth exploring. Given the
+
+importance of large-scale cohort data like that of the ABCD Study, addressing the aforementioned
+
+limitations will improve the benefits of multi-view analyses methods like BIPmixed.
+
+
+
+5    Conclusion
+
+In conclusion, our study demonstrates the strengths and limitations of 4 multiview learning
+
+methods—BIP, BIPmixed, Cooperative Learning, and PCA2Step—across varied scenarios. BIP
+
+excels in settings with negligible random effects, while BIPmixed stands out in nested hierarchical
+
+contexts for both prediction accuracy and feature selection, leveraging covariates effectively in its
+
+outcome model. This highlights the importance of integrating covariates directly into the outcome
+
+model to reduce variance and enhance predictive performance, especially for data with hierarchical
+
+structures, as seen in the ABCD Study. However, BIPmixed’s benefits diminish in simpler or low
+
+signal-to-noise settings, and its reliance on exchangeable correlation structures limits its utility
+
+for longitudinal data. Additionally, its treatment of the outcome as another view can challenge
+
+                                                 21
+its effectiveness in high-dimensional or less informative settings. These findings underscore the
+
+need to refine methods like BIPmixed to address limitations, particularly for complex, large-scale
+
+cohort data, to further enhance prediction accuracy, feature interpretability, and adaptability
+
+across diverse data structures.
+
+
+
+6    Disclosure
+
+Authors declare they have no conflicts of interest to disclose. ChatGPT 4o was used for language
+
+improvement and coding assistance with rigorous revision and rearrangement.
+
+
+
+7    Data Availability
+
+Data used in the preparation of this article were obtained from the Adolescent Brain Cognitive
+
+Development (ABCD) Study (), held in the NIMH Data Archive (NDA). This is a multisite,
+
+longitudinal study designed to recruit more than 10,000 children age 9–10 and follow them over 10
+
+years into early adulthood. The ABCD Study® is supported by the National Institutes of Health and
+
+additional federal partners under award numbers U01DA041048, U01DA050989, U01DA051016,
+
+U01DA041022, U01DA051018, U01DA051037, U01DA050987, U01DA041174, U01DA041106,
+
+U01DA041117, U01DA041028, U01DA041134, U01DA050988, U01DA051039, U01DA041156,
+
+U01DA041025, U01DA041120, U01DA051038, U01DA041148, U01DA041093, U01DA041089,
+
+U24DA041123, U24DA041147. A full list of supporters is available at https://abcdstudy.org/federal-
+
+partners.html. A listing of participating sites and a complete listing of the study investigators
+
+can be found at . ABCD consortium investigators designed and implemented the study and/or
+
+provided data but did not necessarily participate in the analysis or writing of this report. This
+
+manuscript reflects the views of the authors and may not reflect the opinions or views of the NIH
+
+or ABCD consortium investigators. The ABCD data repository grows and changes over time. The
+
+ABCD data used in this report came from Data Release Version 5.1.
+
+
+
+                                               22
+8      Code Availability
+
+Scripts for processing ABCD Study data and performing the data analysis and simulation studies
+
+in this manuscript are available at: github.com/XXX
+
+
+
+References
+Achenbach, T. M. & Ruffle, T. M. (2000), ‘The Child Behavior Checklist and related forms for
+
+    assessing behavioral/emotional problems and competencies’, Pediatrics in Review 21(8), 265–271.
+
+Argelaguet, R., Arnol, D., Bredikhin, D., Deloro, Y., Velten, B., Marioni, J. C. & Stegle, O. (2020),
+
+    ‘MOFA+: a statistical framework for comprehensive integration of multi-modal single-cell data’,
+
+    Genome Biology 21(1), 111.
+
+    URL: https://doi.org/10.1186/s13059-020-02015-1
+
+Argelaguet, R., Velten, B., Arnol, D., Dietrich, S., Zenz, T., Marioni, J. C., Buettner, F., Huber,
+
+    W. & Stegle, O. (2018), ‘Multi-Omics Factor Analysis—a framework for unsupervised integration
+
+    of multi-omics data sets’, Molecular Systems Biology 14(6), e8124. Publisher: John Wiley &
+
+    Sons, Ltd.
+
+    URL: https://www.embopress.org/doi/full/10.15252/msb.20178124
+
+Brieant, A., Vannucci, A., Nakua, H., Harris, J., Lovell, J., Brundavanam, D., Tottenham, N.
+
+    & Gee, D. G. (2023), ‘Characterizing the dimensional structure of early-life adversity in the
+
+    Adolescent Brain Cognitive Development (ABCD) Study’, Developmental Cognitive Neuroscience
+
+    61, 101256.
+
+    URL: https://www.sciencedirect.com/science/article/pii/S1878929323000610
+
+Chekouo, T. & Safo, S. E. (2021), ‘Bayesian integrative analysis and prediction with application to
+
+    atherosclerosis cardiovascular disease’, Biostatistics (Oxford, England) 24(1), 124–139.
+
+Chekouo, T., Stingo, F. C., Doecke, J. D. & Do, K.-A. (2017), ‘A Bayesian Integrative Approach
+
+
+
+                                                 23
+  for Multi-Platform Genomic Data: A Kidney Cancer Case Study’, Biometrics 73(2), 615–624.
+
+  URL: https://academic.oup.com/biometrics/article/73/2/615-624/7537638
+
+Cheng, H.-T., Koc, L., Harmsen, J., Shaked, T., Chandra, T., Aradhye, H., Anderson, G., Corrado,
+
+  G., Chai, W., Ispir, M., Anil, R., Haque, Z., Hong, L., Jain, V., Liu, X. & Shah, H. (2016),
+
+ ‘Wide & Deep Learning for Recommender Systems’. arXiv:1606.07792 [cs, stat].
+
+  URL: http://arxiv.org/abs/1606.07792
+
+Ding, D. Y., Li, S., Narasimhan, B. & Tibshirani, R. (2022), ‘Cooperative learning for multiview
+
+  analysis’, Proceedings of the National Academy of Sciences 119(38), e2202113119. Publisher:
+
+  Proceedings of the National Academy of Sciences.
+
+  URL: https://www.pnas.org/doi/full/10.1073/pnas.2202113119
+
+Huling, J. D. & Yu, M. (2018), ‘Subgroup Identification Using the personalized Package’.
+
+  arXiv:1809.07905 [stat].
+
+  URL: http://arxiv.org/abs/1809.07905
+
+Jowett, S., Karatzias, T. & Albert, I. (2020), ‘Multiple and interpersonal trauma are risk
+
+  factors for both post-traumatic stress disorder and borderline personality disorder: A sys-
+
+  tematic review on the traumatic backgrounds and clinical characteristics of comorbid post-
+
+  traumatic stress disorder/borderline personality disorder groups versus single-disorder groups’,
+
+  Psychology and Psychotherapy: Theory, Research and Practice 93(3), 621–638.            _eprint:
+
+  https://onlinelibrary.wiley.com/doi/pdf/10.1111/papt.12248.
+
+  URL: https://onlinelibrary.wiley.com/doi/abs/10.1111/papt.12248
+
+Klami, A., Virtanen, S. & Kaski, S. (2013), ‘Bayesian Canonical Correlation Analysis’, Journal of
+
+  Machine Learning Research 14((30)), 965–1003.
+
+Klami, A., Virtanen, S., Leppäaho, E. & Kaski, S. (2015), ‘Group Factor Analysis’, IEEE
+
+ Transactions on Neural Networks and Learning Systems 26(9), 2136–2147. Conference Name:
+
+
+
+
+                                               24
+  IEEE Transactions on Neural Networks and Learning Systems.
+
+  URL: https://ieeexplore.ieee.org/document/6985615
+
+Lock, E. F., Hoadley, K. A., Marron, J. & Nobel, A. B. (2013), ‘Joint and individual variation
+
+  explained (JIVE) for integrated analysis of multiple data types’, The annals of applied statistics
+
+  7(1), 523–542.
+
+  URL: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3671601/
+
+Luo, C., Liu, J., Dey, D. K. & Chen, K. (2016), ‘Canonical variate regression’, Biostatistics (Oxford,
+
+  England) 17(3), 468–483.
+
+Malik, M. M. (2020), ‘A Hierarchy of Limitations in Machine Learning’. arXiv:2002.05193 [cs, econ,
+
+  math, stat].
+
+  URL: http://arxiv.org/abs/2002.05193
+
+Mo, Q., Shen, R., Guo, C., Vannucci, M., Chan, K. S. & Hilsenbeck, S. G. (2018), ‘A fully Bayesian
+
+  latent variable model for integrative clustering analysis of multi-type omics data’, Biostatistics
+
+  (Oxford, England) 19(1), 71–86.
+
+Orendain, N., Anderson, A., Galván, A., Bookheimer, S. & Chung, P. J. (2023), ‘A data-driven
+
+  approach to categorizing early life adversity exposure in the ABCD Study’, BMC Medical
+
+  Research Methodology 23(1), 164.
+
+  URL: https://doi.org/10.1186/s12874-023-01983-9
+
+Safo, S. E., Min, E. J. & Haine, L. (2022), ‘Sparse Linear Discriminant Analysis for Multiview
+
+  Structured Data’, Biometrics 78(2), 612–623.
+
+  URL: https://doi.org/10.1111/biom.13458
+
+Saragosa-Harris, N. M., Chaku, N., MacSweeney, N., Guazzelli Williamson, V., Scheuplein, M.,
+
+  Feola, B., Cardenas-Iniguez, C., Demir-Lira, E., McNeilly, E. A., Huffman, L. G., Whitmore,
+
+  L., Michalska, K. J., Damme, K. S., Rakesh, D. & Mills, K. L. (2022), ‘A practical guide
+
+  for researchers and reviewers using the ABCD Study and other large longitudinal datasets’,
+
+                                                 25
+  Developmental Cognitive Neuroscience 55, 101115.
+
+  URL: https://www.sciencedirect.com/science/article/pii/S1878929322000585
+
+Shen, R., Olshen, A. B. & Ladanyi, M. (2009), ‘Integrative clustering of multiple genomic data
+
+  types using a joint latent variable model with application to breast and lung cancer subtype
+
+  analysis’, Bioinformatics 25(22), 2906–2912.
+
+  URL: https://doi.org/10.1093/bioinformatics/btp543
+
+Shen, R., Wang, S. & Mo, Q. (2013), ‘Sparse integrative clustering of multiple omics data sets’,
+
+ The Annals of Applied Statistics 7(1), 269–294. Publisher: Institute of Mathematical Statistics.
+
+  URL: https://projecteuclid.org/journals/annals-of-applied-statistics/volume-7/issue-1/Sparse-
+
+  integrative-clustering-of-multiple-omics-data-sets/10.1214/12-AOAS578.full
+
+Singh, A., Shannon, C. P., Gautier, B., Rohart, F., Vacher, M., Tebbutt, S. J. & Lê Cao, K.-A.
+
+ (2019), ‘DIABLO: an integrative approach for identifying key molecular drivers from multi-omics
+
+  assays’, Bioinformatics 35(17), 3055–3062.
+
+  URL: https://doi.org/10.1093/bioinformatics/bty1054
+
+Wang, J. & Safo, S. E. (2024), ‘Deep IDA: a deep learning approach for integrative discriminant
+
+  analysis of multi-omics data with feature ranking—an application to COVID-19’, Bioinformatics
+
+  Advances 4(1), vbae060.
+
+  URL: https://doi.org/10.1093/bioadv/vbae060
+
+Wang, W., Baladandayuthapani, V., Morris, J. S., Broom, B. M., Manyam, G. & Do, K.-A.
+
+ (2013), ‘iBAG: integrative Bayesian analysis of high-dimensional multiplatform genomics data’,
+
+  Bioinformatics 29(2), 149–159.
+
+  URL: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3546799/
+
+Yuan, Y., Savage, R. S. & Markowetz, F. (2011), ‘Patient-Specific Data Fusion Defines Prognostic
+
+  Cancer Subtypes’, PLOS Computational Biology 7(10), e1002227. Publisher: Public Library of
+
+
+
+
+                                                 26
+  Science.
+
+  URL: https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1002227
+
+Zhang, Y. & Gaynanova, I. (2018), ‘Joint association and classification analysis of multi-view data’.
+
+  URL: https://arxiv.org/abs/1811.08511v2
+
+
+
+
+                                                 27
+Table 1: Externalizing (R-scores) mean (SD) 4.03 (5.44), sex, baseline age, parent marital status,
+
+and race/ethnicity as Native American, Asian, Black, Hispanic/Latinx, Pacific Islander, White, or
+
+Other Race Count (%), which can add to more than 100% since endorsement of more than 1 is
+
+allowed. Ordinal categorical features family income in the past 12 months 7.44 (2.31) and parental
+
+highest education 17.37 (2.47) are treated as continuous.
+
+
+   Variable                                                 Level                 Value
+
+   n                                                                              7370
+
+   Externalizing Problems (Raw) (mean (SD))                                       4.03 (5.44)
+
+   Sex (At Birth) (%)                                       Male                  3861 (52.4)
+
+                                                            Female                3509 (47.6)
+
+   Age (Months) (mean (SD))                                                       119.07 (7.49)
+
+   Race/Ethnicity Count (%)                                 Native American       5860 (79.5)
+
+                                                            Asian                 1247 (16.9)
+
+                                                            Black                 225 (3.1)
+
+                                                            Hispanic/Latinx       47 (0.6)
+
+                                                            Pacific Islander      475 (6.4)
+
+                                                            Other Race            439 (6.0)
+
+                                                            White                 1364 (18.5)
+
+   Total Family Income (Past 12 Months) (mean (SD))                               7.44 (2.31)
+
+   Highest Parent Education Completed (mean (SD))                                 17.37 (2.47)
+
+   Parent Marital Status (%)                                Married               5446 (73.9)
+
+                                                            Widowed               43 (0.6)
+
+                                                            Divorced              576 (7.8)
+
+                                                            Separated             217 (2.9)
+
+                                                            Never married         708 (9.6)
+
+                                                            Living with partner   380 (5.2)
+
+
+                                               28
+Table 2: Performance metrics by Simulation Scenario (S.1, 2, 3) and Method (BIP, BIPmixed,
+
+Cooperative): Prediction metrics Mean Square Prediction Error (MSE), variance of predictions
+
+Var(ŷ), and feature selection metrics by Marginal Posterior Probability (MPP) averaged across
+
+views False Positive Rate (FPR), False Negative Rate (FNR; threshold = 0.5), and Area Under
+
+the Curve (AUC). MSE indicates prediction accuracy, Var(ŷ) reflects variability in predictions,
+
+and AUC measures discriminative ability by feature selection probability. For BIP and BIPmixed,
+
+AUC had a mean (SD) of 1.000 (0.000) across all scenarios. Feature selection metrics FPR, FNR,
+
+and AUC are not applicable (NA) to PCA2Step, and AUC to Cooperative. BIPmixed shows a
+
+lower MSE compared to all other methods in Scenario 2 (2.320) and Scenario 3 (2.830), indicating
+
+more accurate predictions in these cases. Second best MSE in Scenario 2: PCA2Step (2.822), and
+
+Scenario 3: BIP (3.213). Bold text indicates better performance for a given metric
+
+
+       Scenario - Method MSE                Variance        FPR            FNR
+
+       1 - PCA2Step          2.054 (0.084) 4.091 (0.281)    NA             NA
+
+       1 - BIP               1.760 (0.075) 2.133 (0.225)    0.125 (0.176) 0.000 (0.000)
+
+       1 - BIPmixed          1.816 (0.087) 2.163 (0.234)    0.131 (0.173) 0.000 (0.000)
+
+       1 - Cooperative       1.826 (0.095) 1.511 (0.201) 0.000 (0.000) 0.898 (0.021)
+
+       2 - PCA2Step          2.822 (0.196) 5.265 (0.539)    NA             NA
+
+       2 - BIP               3.242 (0.236) 2.161 (0.271)    0.138 (0.179) 0.000 (0.000)
+
+       2 - BIPmixed          2.320 (0.131) 3.040 (0.402)    0.125 (0.157) 0.000 (0.000)
+
+       2 - Cooperative       3.369 (0.289) 1.338 (0.235) 0.000 (0.000) 0.924 (0.012)
+
+       3 - PCA2Step          3.628 (0.204) 5.210 (0.498)    NA             NA
+
+       3 - BIP               3.213 (0.198) 2.202 (0.286)    0.122 (0.165) 0.000 (0.000)
+
+       3 - BIPmixed          2.830 (0.141) 2.596 (0.319)    0.144 (0.193) 0.000 (0.000)
+
+       3 - Cooperative       3.363 (0.221) 1.321 (0.193) 0.000 (0.001) 0.922 (0.024)
+
+
+
+
+                                              29
+

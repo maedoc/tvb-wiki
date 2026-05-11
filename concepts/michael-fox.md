@@ -5,6 +5,7 @@ sources:
 - raw/papers/raichle-2001.md
 - raw/papers/semanticscholar-d70e1661858c.md
 - raw/papers/semanticscholar-f05f8cbafb78.md
+- raw/papers/smith-2009.md
 tags:
 - people-researcher
 - brain-stimulation

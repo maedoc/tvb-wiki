@@ -39,8 +39,6 @@ The parcellation is surface-based, originally defined on [[freesurfer]]'s fsaver
 
 The Schaefer parcellation is one of the most common [[parcellation]] choices for [[the-virtual-brain]] (TVB) workflows. In TVB, the brain is modeled as a network of coupled [[neural-mass-models]], where each node represents a brain region. The [[schaefer-atlas]] provides ready-made node definitions at multiple resolutions, with 400 and 1000 regions being particularly popular choices for TVB simulations.
 
-The Yeo network assignments associated with each Schaefer parcel complement TVB modeling nicely: researchers can compare model dynamics across Yeo-defined functional systems, examining whether simulated brain activity shows network-specific alterations in epilepsy, schizophrenia, or other disease states. Furthermore, structural and functional connectivity matrices can be directly computed between Schaefer parcels using streamline tractography from diffusion imaging or temporal correlations from fMRI, respectively, producing connectivity matrices that serve as the coupling architecture in TVB network models.
-
 ## Comparison to Related Parcellations
 
 The Schaefer parcellation sits within a broader ecosystem of functional parcellations. It differs from purely anatomical atlases like the Desikan-Killiany or Destrieux atlases in that it is data-driven rather than landmark-derived. Compared to the Glasser parcellation (Glasser et al., 2016), which was derived from multi-model (structural, functional, and myelin) MRI data, Schaefer relies purely on intrinsic functional connectivity. The [[glasser-atlas]] provides 360 parcels with potentially finer-grained cytoarchitectural correspondence, while Schaefer offers flexible resolution scaling.
@@ -55,9 +53,9 @@ Third, the parcellation is cortical-only; subcortical structures are not include
 
 ## References
 
-1. V. Kirova, Dzerassa Kadieva, Daniil Vlasenko, Isak B. Blank, Fedor Ratnikov. (2025). *Dynamic Functional Connectivity Features for Brain State Classification: Insights from the [[mrtrix3-connectome]]*. arXiv.org. [DOI](](https://doi.org/10.48550/arXiv.2510.05325))
+1. V. Kirova, Dzerassa Kadieva, Daniil Vlasenko, Isak B. Blank, F. Ratnikov. (2025). *Dynamic Functional Connectivity Features for Brain State Classification: Insights from the [[mrtrix3-connectome]]*. arXiv.org. [DOI](https://doi.org/10.48550/arXiv.2510.05325))
 2. (authors unknown). *Functional Network Organization of the Human Brain*.
 3. (authors unknown). *Resting-State fMRI in the [[mrtrix3-connectome]]*.
-4. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
-5. Federica Franza, M. Cirillo, M. Silvestro, F. Trojsi, Antonio Russo, Fabrizio Esposito, M. A. Pirozzi. (2025). *Impact of Brain Parcellation on MRI-derived Neurovascular Coupling Estimates Across Large-Scale Functional Networks*. 2025 IEEE International Conference on Metrology for eXtended Reality, Artificial Intelligence and Neural Engineering (MetroXRAINE). [DOI](](https://doi.org/10.1109/MetroXRAINE66377.2025.11340209))
-6. Anticevic et al. (2012). *Global, regional, and network level changes in schizophrenia: computational modeling of glutamatergic dysfunction and GABAergic deficits in a novel whole-brain framework*. Proceedings of the National Academy of Sciences (PNAS). [DOI](](https://doi.org/10.1073/pnas.1114858109))
+4. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010))
+5. Federica Franza, M. Cirillo, M. Silvestro, F. Trojsi, A. Russo, F. Esposito, M. A. Pirozzi. (2025). *Impact of Brain Parcellation on MRI-derived Neurovascular Coupling Estimates Across Large-Scale Functional Networks*. 2025 IEEE International Conference on Metrology for eXtended Reality, Artificial Intelligence and Neural Engineering (MetroXRAINE). [DOI](https://doi.org/10.1109/MetroXRAINE66377.2025.11340209))
+6. Anticevic et al. (2012). *Global, regional, and network level changes in schizophrenia: computational modeling of glutamatergic dysfunction and GABAergic deficits in a novel whole-brain framework*. Proceedings of the National Academy of Sciences (PNAS). [DOI](https://doi.org/10.1073/pnas.1114858109))

@@ -1,10 +1,17 @@
 ---
-title: NBS
 created: 2024-01-15
-updated: 2026-05-11
+sources:
+- raw/papers/semanticscholar-0b1a696a39c5.md
+- raw/papers/semanticscholar-01d1a635e589.md
+- raw/papers/ritter-2013.md
+tags:
+- connectomics
+- network-dynamics
+- computational-neuroscience
+- statistical-inference
+title: NBS
 type: concept
-tags: [connectomics, network-dynamics, computational-neuroscience, statistical-inference]
-sources: []
+updated: '2026-05-11'
 ---
 
 # NBS (Network Based Statistics)
@@ -15,7 +22,7 @@ NBS (Network Based Statistics) is a method for performing mass-univariate statis
 
 ## Motivation and Context
 
-Traditional voxel-based or region-based statistical analyses in neuroimaging treat each measurement element independently, applying correction for multiple comparisons to control the family-wise error rate. However, brain connectivity analyses involve thousands of edges (connections between brain regions), making naive multiple comparisons correction extremely conservative and likely to miss genuine effects. The intuition behind NBS is that true biological effects in brain networks tend to manifest as connected clusters of edges rather than isolated, distributed anomalies. By identifying these connected components, NBS gains statistical power while still providing rigorous control over false positives.
+Traditional voxel-based or region-based statistical analyses in [[neuroimaging]] treat each measurement element independently, applying correction for multiple comparisons to control the family-wise error rate. However, brain [[connectivity]] analyses involve thousands of edges (connections between brain regions), making naive multiple comparisons correction extremely conservative and likely to miss genuine effects. The intuition behind NBS is that true biological effects in brain networks tend to manifest as connected clusters of edges rather than isolated, distributed anomalies. By identifying these connected components, NBS gains statistical power while still providing rigorous control over false positives.
 
 The method was introduced by Zalesky et al. (2010) to address the specific challenges of [[resting-state]] fMRI connectivity analysis, though it has since been applied to [[EEG]], [[MEG]], [[diffusion-imaging]] tractography data, and combined multimodal datasets [@garrison2015; @colizzon2017]. NBS fills a crucial gap in the [[computational-neuroscience]] toolkit, providing a principled way to detect network-level differences in clinical populations (e.g., [[schizophrenia-models]], [[alzheimers-disease]]) or experimental groups without requiring a priori specification of regions or edges of interest [@forbush2017; @zhao2022].
 
@@ -39,7 +46,7 @@ The primary advantage of NBS is its ability to detect distributed network effect
 
 ## Limitations and Considerations
 
-NBS requires careful specification of the primary threshold, which influences both power and the granularity of detected effects. Too permissive a threshold yields large, diffuse components that lack anatomical specificity; too conservative a threshold may miss real effects. The method assumes that true effects form topologically connected clusters, which may not hold for all biological scenarios. NBS does not directly provide edge-specific p-values—instead, it provides component-level inference and identifies the set of suprathreshold edges within significant components. For applications requiring edge-level inference, alternatives such as false discovery rate (FDR) correction or Bayesian approaches may be more appropriate. The method is also sensitive to the choice of network nodes (brain parcellation), and different [[brain-parcellation]] schemes can yield different NBS results.
+NBS requires careful specification of the primary threshold, which influences both power and the granularity of detected effects. Too permissive a threshold yields large, diffuse components that lack anatomical specificity; too conservative a threshold may miss real effects. The method assumes that true effects form topologically connected clusters, which may not hold for all biological scenarios. NBS does not directly provide edge-specific p-values—instead, it provides component-level inference and identifies the set of suprathreshold edges within significant components. For applications requiring edge-level inference, alternatives such as false discovery rate (FDR) correction or [[bayesian]] approaches may be more appropriate. The method is also sensitive to the choice of network nodes (brain [[parcellation]]), and different [[brain-parcellation]] schemes can yield different NBS results.
 
 ## Related Concepts
 
@@ -47,4 +54,10 @@ The NBS method relates to several other approaches in network-based analysis. It
 
 ## Key Papers
 
-The foundational paper for NBS is Zalesky et al. (2010), which introduced the method and demonstrated its application to resting-state fMRI connectivity analysis. This paper established the four-step procedure and demonstrated superior power compared to Bonferroni-corrected edge-wise testing. Smith and Nichols (2009) introduced Threshold-Free Cluster Enhancement (TFCE), a related approach that removes the need for arbitrary primary threshold selection and has been applied to connectivity analyses. The Brain Connectivity Toolbox (BCT) by Rubinov and Sporns (2010) provides a widely used implementation of NBS along with comprehensive graph-theoretic analysis tools.
+The foundational paper for NBS is Zalesky et al. (2010), which introduced the method and demonstrated its application to resting-state [[fmri]] connectivity analysis. This paper established the four-step procedure and demonstrated superior power compared to Bonferroni-corrected edge-wise testing. Smith and Nichols (2009) introduced Threshold-Free Cluster Enhancement (TFCE), a related approach that removes the need for arbitrary primary threshold selection and has been applied to connectivity analyses. The [[brain-connectivity-toolkit|Brain Connectivity Toolbox]] (BCT) by Rubinov and Sporns (2010) provides a widely used implementation of NBS along with comprehensive graph-theoretic analysis tools.
+
+## References
+
+1. Fariba Karimi, Melanie Steiner, Taylor H. Newton, B. Lloyd, A. Cassarà, Paul de Fontenay, S. Farcito, Jan Paul Triebkorn, E. Beanato, Huifang E. Wang, Elisabetta Iavarone, F. Hummel, Niels Kuster, V. Jirsa, Esra Neufeld. (2025). *Precision non-invasive brain stimulation: an in silico pipeline for personalized control of brain dynamics*. Journal of Neural Engineering. [DOI](https://doi.org/10.1088/1741-2552/adb88f)
+2. Kunpeng Cheng, Rui Qin, Xin Wang, Wei Wang, Huan Li, Li Xiang, Liangping Ni, Dai Zhang, Jun Zhang, Long Wang. (2026). *Resting-State Functional Connectivity Alterations in Individuals With White Matter Hyperintensities: A Network-Based-Statistics Study.*. Journal of Integrative Neuroscience. [DOI](https://doi.org/10.31083/JIN46727)
+3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)

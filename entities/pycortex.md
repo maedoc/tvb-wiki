@@ -1,13 +1,20 @@
 ---
-title: PyCortex
 created: 2024-01-15
-updated: 2026-05-11
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+- raw/papers/woodman-2014.md
+tags:
+- software-visualization
+- neuroimaging-fmri
+- brain-parcellation
+- neuroimaging
+title: PyCortex
 type: entity
-tags: [software-visualization, neuroimaging-fmri, brain-parcellation, neuroimaging]
-sources: []
+updated: '2026-05-11'
 ---
 
-PyCortex is a Python library specialized in the visualization and manipulation of neuroimaging data represented on the cortical surface. Originally developed to support work with CIFTI file format (a container format for grayordinate data that combines cortical surface vertices with subcortical voxels), PyCortex provides high-quality interactive visualizations of statistical maps, time series, and parcellated data on inflated or flattened cortical meshes. The library is particularly valued in the human connectomics community for its ability to render group-level statistical results in a spatially interpretable manner, allowing researchers to visualize activation patterns, connectivity estimates, and derived metrics directly on the cortical sheet.
+PyCortex is a Python library specialized in the visualization and manipulation of [[neuroimaging]] data represented on the cortical surface. Originally developed to support work with [[cifti]] file format (a container format for grayordinate data that combines cortical surface vertices with subcortical voxels), PyCortex provides high-quality interactive visualizations of statistical maps, time series, and parcellated data on inflated or flattened cortical meshes. The library is particularly valued in the human [[connectomics]] community for its ability to render group-level statistical results in a spatially interpretable manner, allowing researchers to visualize activation patterns, [[connectivity]] estimates, and derived metrics directly on the cortical sheet.
 
 The motivation for PyCortex arose from the limitations of传统的 volume-based neuroimaging viewers when handling the increasingly common CIFTI format introduced as part of the Human Connectome Project. Volume-based tools such as [[fsl]] or [[freesurfer]] display data in voxel space, which requires resampling cortical data onto a volumetric grid—a process that introduces interpolation artifacts and obscures the topological relationships between adjacent cortical regions. PyCortex instead maintains data in its native surface representation, enabling pixel-precise visualization on highly tessellated meshes (typically ~32,000 vertices per hemisphere) without information loss. This approach is essential for displaying high-resolution resting-state [[functional-connectivity]] patterns, fine-grained [[brain-parcellation]] schemes such as the [[glasser-atlas]], and statistical contrasts derived from task-based [[fmri]] experiments.
 
@@ -15,7 +22,7 @@ Technically, PyCortex operates by loading CIFTI files via [[nibabel]] and mappin
 
 The relationship between PyCortex and [[the-virtual-brain]] is primarily through the visualization layer. TVB generates simulation outputs—including [[bold-signal]] predictions, [[effective-connectivity]] matrices, and regional time series—that can be mapped onto cortical surfaces for hypothesis exploration and results communication. While TVB's own [[tvb-webui]] provides internal surface visualization capabilities, some researchers prefer to export TVB outputs as CIFTI files and visualize them in PyCortex for its superior handling of multiple parcellation schemes and its integration with the wider HCP ecosystem. Additionally, PyCortex can be used to visualize structural connectivity matrices derived from [[diffusion-imaging]] pipelines (using tools like [[mrtrix3]] or [[dipy]]) as overlay maps on cortical anatomy, providing anatomical context for TVB [[whole-brain-modeling]] exercises.
 
-Among PyCortex's notable features is its support for the "workbench" color scheme conventions established by the Human Connectome Project, ensuring visual consistency with published HCP figures. The library handles both volumetric CIFTI files (containing subcortical voxels) and metric CIFTI files (cortical surface only), applying appropriate rendering strategies for each. It также provides utility functions for mapping between different surface resolutions (e.g., from fsaverage to fsLR tessellations), enabling cross-study comparability. The interactive web viewer built on WebGL allows users to rotate, zoom, and click on regions to inspect underlying data values—a capability particularly useful during exploratory analysis phases of [[whole-brain-modeling]] workflows.
+Among PyCortex's notable features is its support for the "workbench" color scheme conventions established by the Human [[connectome]] Project, ensuring visual consistency with published HCP figures. The library handles both volumetric CIFTI files (containing subcortical voxels) and metric CIFTI files (cortical surface only), applying appropriate rendering strategies for each. It также provides utility functions for mapping between different surface resolutions (e.g., from fsaverage to fsLR tessellations), enabling cross-study comparability. The interactive web viewer built on WebGL allows users to rotate, zoom, and click on regions to inspect underlying data values—a capability particularly useful during exploratory analysis phases of [[whole-brain-modeling]] workflows.
 
 PyCortex complements rather than replaces other visualization ecosystem components. For pure volume-based viewing, [[fsleyes]] remains the standard; for vertex-level surface exploration, [[pysurfer]] offers similar capabilities but with different design philosophy; for atlas-based region inspection, [[brainspace]] provides advanced dimensionality reduction and clustering visualization. PyCortex excels when working with CIFTI-native data and when publication-quality static figures are required, filling a specific niche in the neuroimaging visualization landscape that aligns well with the input/output expectations of modern large-scale consortium projects like HCP and UK Biobank.
 
@@ -27,5 +34,5 @@ PyCortex complements rather than replaces other visualization ecosystem componen
 - [[nilearn]] — Statistical learning for neuroimage data, often used alongside PyCortex for preprocessing
 - [[human-connectome-project]] — Consortium whose CIFTI format PyCortex was designed to support
 - [[connectome-workbench]] — The HCP's official visualization tool for CIFTI data
-- [[brain-parcellation]] — Parcellation schemes (e.g., Glasser, Schaefer) that PyCortex can display
+- [[brain-parcellation]] — [[parcellation]] schemes (e.g., Glasser, [[schaefer]]) that PyCortex can display
 - [[glasser-atlas]] — High-resolution multimodal parcellation commonly visualized with PyCortex

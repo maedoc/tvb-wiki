@@ -1,0 +1,972 @@
+                                         AUTOREGRESSIVE DEEP LEARNING FOR REAL - TIME SIMULATION
+                                             OF SOFT TISSUE DYNAMICS DURING VIRTUAL NEUROSURGERY
+
+
+
+                                                             Fabian Greifeneder                                        Wolfgang Fenz
+                                                      Research Unit Medical Informatics                       Research Unit Medical Informatics
+                                                   RISC Software GmbH, Hagenberg, Austria                  RISC Software GmbH, Hagenberg, Austria
+arXiv:2601.13676v1 [cs.LG] 20 Jan 2026
+
+
+
+
+                                                                                            Benedikt Alkin
+                                                                                    Emmi AI GmbH, Linz Austria
+                                                                  ELLIS Unit Linz, Institute for Machine Learning, JKU Linz, Austria
+
+                                                                                       Johannes Brandstetter
+                                                                                    Emmi AI GmbH, Linz Austria
+                                                                  ELLIS Unit Linz, Institute for Machine Learning, JKU Linz, Austria
+
+                                                            Michael Giretzlehner                                        Philipp Moser
+                                                      Research Unit Medical Informatics                       Research Unit Medical Informatics
+                                                   RISC Software GmbH, Hagenberg, Austria                  RISC Software GmbH, Hagenberg, Austria
+                                                                                                                philipp.moser@risc-software.at
+
+
+                                                                                            January 21, 2026
+
+                                                                                              A BSTRACT
+                                                  Accurate simulation of brain deformation is a key component for developing realistic, interactive
+                                                  neurosurgical simulators, as complex nonlinear deformations must be captured to ensure realistic
+                                                  tool–tissue interactions. However, traditional numerical solvers often fall short in meeting real-time
+                                                  performance requirements. To overcome this, we introduce a deep learning-based surrogate model
+                                                  that efficiently simulates transient brain deformation caused by continuous interactions between
+                                                  surgical instruments and the virtual brain geometry. Building on Universal Physics Transformers, our
+                                                  approach operates directly on large-scale mesh data and is trained on an extensive dataset generated
+                                                  from nonlinear finite element simulations, covering a broad spectrum of temporal instrument-tissue
+                                                  interaction scenarios. To reduce the accumulation of errors in autoregressive inference, we propose a
+                                                  stochastic teacher forcing strategy applied during model training. Specifically, training consists of
+                                                  short stochastic rollouts in which the proportion of ground truth inputs is gradually decreased in favor
+                                                  of model-generated predictions. Our results show that the proposed surrogate model achieves accurate
+                                                  and efficient predictions across a range of transient brain deformation scenarios, scaling to meshes
+                                                  with up to 150,000 nodes. The introduced stochastic teacher forcing technique substantially improves
+                                                  long-term rollout stability, reducing the maximum prediction error from 6.7 mm to 3.5 mm. We
+                                                  further integrate the trained surrogate model into an interactive neurosurgical simulation environment,
+                                                  achieving runtimes below 10 ms per simulation step on consumer-grade inference hardware. Our
+                                                  proposed deep learning framework enables rapid, smooth and accurate biomechanical simulations of
+                                                  dynamic brain tissue deformation, laying the foundation for realistic surgical training environments.
+
+                                         1    Introduction
+                                         Surgical simulators are designed to offer safe, controlled, and anatomically realistic environments for surgical training,
+                                         preoperative planning, and intraoperative guidance. These systems have demonstrated significant potential in enhancing
+                                                                                      A PREPRINT - JANUARY 21, 2026
+
+
+both the technical skills and clinical reasoning of medical trainees, while also addressing key challenges such as
+variability in clinical training experiences and concerns about patient safety [1, 2]. Surgical simulators are applied
+across a broad spectrum of clinical procedures, supporting tasks from endoscopic sinus surgery to hip arthroscopy [3, 4].
+In high-risk interventions (particularly those involving potential neurological damage or hemorrhage) virtual training
+environments are especially valuable, for example in neurosurgical contexts such as brain tumor resections and aneurysm
+clipping interventions [5, 6, 7].
+A core requirement for neurosurgical simulators is the realistic simulation of soft tissue deformation [8], which is
+essential for accurately capturing the biomechanical behavior of soft tissues under surgical manipulation [9]. These
+deformation processes are typically modeled using nonlinear elasticity theory, resulting in systems of partial differential
+equations (PDEs) that describe the tissue’s dynamic response to applied forces. Achieving fast and high-fidelity
+solutions to these equations remains a significant challenge [10]. Real-time interactivity, however, is crucial for
+delivering immediate visual feedback, enabling haptic responses, and allowing dynamic adjustments to surgical plans
+based on user-controlled tool-tissue interactions.
+Classical methods for solving systems of PDEs commonly rely on the finite element method (FEM) [11]. Achieving
+physiologically accurate simulations often requires nonlinear material formulations and the conversion of patient-
+specific geometries into high-resolution meshes, both of which demand computationally expensive iterative solvers.
+Moreover, the brain’s biomechanical properties (e.g., viscoelasticity, heterogeneity, and sensitivity to small-scale forces)
+make high-fidelity modeling particularly challenging. These factors necessitate high spatial and temporal resolution
+to realistically simulate responses to surgical actions. The complexity is further compounded by the introduction of
+surgical tool interactions, which constitute dynamic boundary conditions and contact mechanics [12]. These factors
+collectively result in significant computational overhead. Although explicit methods like Total Lagrange Explicit
+Dynamics (TLED) [13] offer performance benefits in certain scenarios, a trade-off exists between precision and
+computational efficiency, particularly for highly detailed simulations of complex tissue interactions. As a result,
+conventional numerical methods can be impractical for real-time applications in complex neurosurgical simulators,
+highlighting the need for alternative approaches.
+In recent years, deep neural network (DNN)-based surrogate models have emerged as computationally efficient
+complements or alternatives to traditional numerical PDE solvers. Such surrogate models have demonstrated significant
+potential in capturing complex physical phenomena across various domains of science and engineering [14, 15]. Notable
+applications include fluid dynamics [16, 17], solid mechanics [18], and weather forecasting [19, 20, 21]. Once trained
+on data pre-computed with numerical solvers, these surrogate models allow for highly accurate and fast predictions
+of simulation outcomes. These benefits make surrogate models an ideal candidate to be be integrated into surgical
+simulation pipelines, replacing the computationally intensive numerical solver components.
+Common surrogate models often build upon convolution-based architectures such as U-Nets [22] or ResNets [23].
+These methods typically operate on regular grids and require projecting mesh-based data onto grids [24]. This projection
+step can lead to a loss of geometric detail, and imposes additional memory and computational burdens when dealing
+with complex geometries. As a result, convolution-based architectures can be cumbersome and inefficient when working
+directly with mesh-based simulation data.
+Many recent surrogate models rely on neural operators [25, 26, 27, 28, 29, 30], which are a class of machine learning
+models designed to learn mappings between function spaces, such as those arising in PDEs. Instead of approximating
+specific solutions at fixed input points, neural operators aim to learn the entire solution operator, i.e., a function that
+maps input functions (e.g., initial or boundary conditions) to output functions (e.g., solution field). Such capabilities
+make neural operators particularly well-suited for capturing the fine-grained, spatially continuous deformations.
+We chose Universal Physics Transformers (UPT) [27] as a backbone architecture due to their flexible encoder-
+approximator-decoder blocks and demonstrated applicability to multi-physics [31] and computational fluid [32]
+dynamics. While other backbones such as OFormer [33], Transolver [34], MeshGraphNet [35], or DoMINO [36] could
+in principle be used, recent results [32] suggest that UPT offer superior performance and scalability compared to these
+alternatives.
+In this work, we develop a UPT-based surrogate model, tailored for predicting transient soft tissue deformation caused
+by continuous interactions of surgical instruments with the virtual brain mesh. While there has already been prior
+work on deep learning-accelerated simulation of soft tissue deformation [37, 38, 39, 40, 41], these reports often rely
+on convolutional, cellular, or graph-based architectures, which can be computationally demanding and less scalable
+when applied to high-resolution meshes. To the best of our knowledge, no prior work has demonstrated autoregressive
+inference, which is a critical component for modeling transient tissue dynamics enabling a tightly coupled interaction
+loop between the surgical instrument and the virtual brain mesh. Our high-fidelity approach constitutes a promising
+
+
+
+
+                                                             2
+                                                                                     A PREPRINT - JANUARY 21, 2026
+
+
+
+
+Figure 1: Overview of our framework for autoregressive prediction of brain tissue deformation. At each time step, the
+model receives the previously predicted displacement and the current collision field as input. The overlaid arrows on
+the collision fields indicate the surgical instrument’s pushing direction.
+
+
+path for future neurosurgical simulations, providing surgeons with a realistic training environment to practice and refine
+complex surgical interventions.
+
+2     Methods
+2.1     Overview of the autoregressive framework
+
+At the core of our methodology is an autoregressive prediction framework (Figure 1), in which the deep learning-based
+surrogate model iteratively predicts brain deformation, with each step taking the output of the previous prediction as
+input. These predictions depend on dynamic interactions between a virtual surgical instrument and brain tissue. As the
+surgeon manipulates the instrument within the simulator (applying varying forces, changing directions, or engaging
+with different anatomical regions) contact points and interaction forces evolve continuously.
+An initial three-dimensional displacement field u0 ∈ RK×3 is given at time step t = 0 (typically the rest position, i.e.,
+the undeformed brain mesh), where K denotes the number of mesh nodes. Given a temporal sequence of positions
+corresponding to the motion of a pushing or releasing surgical instrument, our goal is to stepwise predict the resulting
+brain deformation in an autoregressive fashion:
+                                                            M
+                                                   (ut , ct ) −−→ ut+∆t .                                               (1)
+Specifically, we want to learn a function, i.e., a neural surrogate model M, that maps the current displacement field ut
+to the subsequent one ut+∆t , depending on the current collision state ct between the instrument and the brain model.
+
+2.2     Surrogate model and training strategy
+
+2.2.1    Deep learning architecture
+Our surrogate model builds on the Universal Physics Transformer (UPT) framework [27], a highly efficient and scalable
+paradigm for learning physical dynamics. Here, the model M encodes the displacement field ut ∈ RK×3 at K mesh
+nodes at time t into a compact latent representation z t ∈ Rdlatent . This latent signal is propagated forward in time by a
+stack of transformer blocks and subsequently decoded back onto the full brain mesh to predict the displacement field
+ut+∆t ∈ RK×3 at the next time step.
+To preserve spatial context, the collision field ct ∈ RK×3 is defined on all mesh nodes of the brain model but contains
+nonzero values only at nodes in contact with the surgical instrument, where it encodes the displacement induced
+by the current instrument position. As illustrated in Figure 2, the displacement field ut is concatenated with the
+corresponding collision field ct in the encoder E, resulting in a combined tensor of shape K × 6, which is then projected
+into a hidden space of dimension K × dembed . Spatial information is preserved employing positional encoding on
+the mesh coordinates [42]. This resulting representation is processed by a message passing (MP) layer [43], which
+aggregates local features at a set of nS ≪ K randomly sampled supernodes. These supernode features are then
+
+
+                                                             3
+                                                                                        A PREPRINT - JANUARY 21, 2026
+
+
+
+
+Figure 2: Prediction of the displacement field at the next time step. The current displacement field is concatenated
+with the respective collision field. Spatial context is incorporated through positional encodings after passing through
+a learned embedding layer. The input is then mapped into latent space via a message passing layer, that aggregates
+information at randomly selected supernodes. This latent signal is propagated forward through a stack of transformer
+blocks and evaluated at the mesh coordinates using perceiver-style cross-attention.
+
+
+processed by transformer blocks [42], and subsequently mapped into a latent space Rdlatent via perceiver-style iterative
+cross-attention [44] with a learnable latent array. The latent representation z t is then compact enough to be propagated
+efficiently through the temporal transformer stack, referred to as the approximator A. Finally, a perceiver-style decoder
+D maps the latent state z t+∆t back to the original mesh using cross-attention, where positional encodings of the mesh
+nodes serve as queries and the latent features provide keys and values.
+In summary, the surrogate model M predicts the next displacement field ût+∆t from the current state ut via the
+following sequence of operations:
+                                                 concatenate with ct        embed
+                              M : ut ∈ RK×3 −−−−−−−−−−−→ RK×6 −−−−→ RK×dembed
+                              MP                transformer              perceiver
+                             −−→ RnS ×dembed −−−−−−→ RnS ×dembed −−−−−→ z t ∈ Rdlatent                                 (2)
+                                        A                          D
+                                       −−→ z t+∆t ∈ Rdlatent −−→ ût+∆t ∈ RK×3 .
+
+2.2.2   Stochastic teacher forcing
+While numerical ground truth displacement fields are available during training, only the brain’s initial rest position
+is known at inference time. All subsequent deformations must then be predicted purely in an autoregressive manner,
+guided by the surgeon’s instrument movements. To account for this discrepancy, we distinguish between two types of
+predictions depending on the model’s input: teacher-forced and autoregressive. In teacher-forced predictions, the model
+receives the numerically precomputed ground truth displacement field ut as input and predicts the displacement at the
+next time step ût+∆t . In contrast, autoregressive predictions simulate forward dynamics by recursively feeding the
+model’s previous outputs as subsequent inputs. Starting from the ground truth displacement ut0 , the model is applied
+repeatedly, using each predicted displacement as input for the next step:
+                                            M         M            M    M
+                                       ut0 −−→ ût1 −−→ ût2 −−→ . . . −−→ ûtSAuto ,                                  (3)
+where ti = ti−1 + ∆t and SAuto ≥ 2 denotes the number of autoregressive steps.
+Relying exclusively on teacher-forced training (i.e., using precomputed ground truth displacements as inputs) would
+result in a distribution shift at inference [45, 46]. The model would learn to operate under ideal conditions with perfect
+inputs, but would be expected to perform under autoregressive conditions during deployment, leading to compounding
+errors. Conversely, training the model with long autoregressive sequences from the outset could destabilize learning, as
+it would be exposed to highly inaccurate predictions as inputs early in training.
+
+
+                                                               4
+                                                                                       A PREPRINT - JANUARY 21, 2026
+
+
+
+
+Figure 3: Stochastic teacher forcing step for a rollout with window size SSTF = 3. At each prediction step the
+input is sampled as either the numerically precomputed ground truth uti (teacher-forced) or the predicted value ûti
+(autoregressive), according to the probability p. The first prediction is excluded for the loss computation. Collision
+fields are omitted for clarity.
+
+
+Hence, to balance training and inference stability, we introduce stochastic teacher forcing, which combines the benefits
+of both teacher-forced and autoregressive training strategies. Similar to fully autoregressive rollouts, the model is
+applied repeatedly over a rollout window, i.e., a subsequence, of SSTF ≥ 2 successive time steps. As visualized for
+SSTF = 3 in Figure 3, at each time step ti , the input xti is selected according to a teacher forcing probability p ∈ [0, 1]:
+with probability p, the model receives the ground truth displacement uti ; with probability 1 − p, it uses its own previous
+prediction ûti . Setting the teacher forcing probability to p = 0 yields a fully autoregressive regime, while using p = 1
+and a rollout window size of SSTF = 2 recovers the teacher-forced setup.
+Although any value of p ∈ [0, 1] is theoretically valid, we found it beneficial to start training with a teacher forcing
+probability close to 1 and gradually decrease it throughout the training process. This scheduling strategy stabilizes
+learning in the early phases while progressively exposing the model to autoregressive conditions, helping it adapt
+effectively for fully autoregressive rollouts at inference time.
+During training, gradients can either be propagated through the entire sequence of autoregressive steps or restricted to
+the current prediction only. Backpropagating through time enables better temporal credit assignment and improved
+long-term consistency but may increase the risk of exploding or vanishing gradients. Blocking gradients avoids this
+risk but can limit the model’s ability to correct early-step errors. In our case, we chose to backpropagate through time
+and found the risk to be manageable in practice, as gradient norms remained stable throughout training. Importantly,
+due to the stochastic teacher forcing schedule, gradients are initially blocked more often (when teacher-forced inputs
+dominate) and are propagated through longer sequences as training progresses, since teacher-forced inputs inherently
+act as gradient blockers.
+
+2.3     Data generation
+
+We performed extensive finite element simulations to generate a large dataset of realistic brain deformations resulting
+from transient interactions between surgical instruments and brain tissue. This data generation process captured key
+aspects of instrument-tissue interaction by randomly sampling varying contact locations, pushing directions, and
+displacement profiles over time, while calculating the corresponding biomechanical tissue response.
+
+2.3.1    Brain model and collision site selection
+The brain model used throughout this study was derived from the Allen Human-Brain Reference Atlas [47] and is
+shown in Figure 4. It consisted of K = 21,670 mesh nodes, providing a detailed representation of the brain anatomy.
+We defined a collision domain, i.e., a specific region of the brain where various instrument-tissue interactions may occur:
+As shown in green in Figure 4, this domain was centered around the Sylvian fissure, a critical anatomical landmark in
+aneurysm clipping procedures where brain tissue is carefully displaced or separated during surgery.
+
+
+                                                             5
+                                                                                    A PREPRINT - JANUARY 21, 2026
+
+
+
+
+Figure 4: Visualization of the predefined collision domain (green) around the Sylvian fissure, with an example of a
+sampled collision site and direction (blue) and a superimposed surgical instrument (spatula) demonstrating a typical
+interaction scenario.
+
+
+
+
+Figure 5: Example trajectory of a time-dependent push factor, with selected displacement fields overlaid at corresponding
+time steps to illustrate the resulting deformation progression.
+
+
+A deformation sequence was initiated by randomly selecting a single triangular mesh face (with an edge length of 2.5
+mm) from the domain. From this seed, the collision site was expanded iteratively, face by face, until it spanned up to
+100 mesh faces. The resulting site was centered around the initial face and remained entirely within the predefined
+collision domain. An example of such a collision site is illustrated in blue in Figure 4.
+
+2.3.2   Transient deformation and simulation schemes
+
+The pressing, holding, and releasing phases of the instrument-tissue interaction were simulated by scaling the normalized
+collision vector with a time-dependent push factor and a constant magnitude factor. This produced realistic deformation
+scenarios, with maximum displacements reaching up to 15 mm. Figure 5 illustrates the effect of the push factor on
+deformation, overlaying an example push-factor trajectory with the corresponding sequence of displacement fields at
+certain points in time.
+The initial direction of instrument-tissue interaction was defined by the normalized surface normal vector of the seed
+triangle. To enhance the realism of instrument behavior, we introduced angular variability by gradually deviating this
+normalized collision vector using a time-dependent angle ϕ, and then rotating it around its original axis by a second
+time-dependent angle θ. Both angle trajectories were modeled as continuous functions of time, ensuring smooth and
+natural directional changes.
+
+
+                                                           6
+                                                                                     A PREPRINT - JANUARY 21, 2026
+
+
+                           Scheme 1           Scheme 2            Scheme 3            Scheme 4            Scheme 5
+
+
+          𝑛𝑓𝑎𝑐𝑒𝑠             100                  80                  25                 75                  80
+
+        𝑢𝑚𝑎𝑥 [𝑚𝑚]             10                  12                  13                 15                  11
+
+    Push factor 𝑓
+
+
+
+
+    Spread 𝜙 [𝑟𝑎𝑑]
+
+
+
+
+   Rotation θ [𝑟𝑎𝑑]
+
+
+
+
+                                Figure 6: Simulation schemes used for data generation.
+
+
+
+For our training dataset, we defined five distinct deformation scenarios by combining different pairs of angle and
+push-factor trajectories. Each of these five simulation schemes) was further characterized by a fixed maximum
+displacement between 10 and 15 mm and a fixed number of collision faces ranging from 25 to 100. The corresponding
+hyperparameters for each scheme are summarized in Figure 6. Both the angle and push-factor trajectories were
+continuous, time-dependent functions defined over the full simulation interval [0, T ].
+As an example, simulation scheme 3 generated pushing scenarios in which the instrument’s push vector was offset by
+an angle ϕ = π8 from the normal vector of the collision surface, and was continuously rotated around this normal vector
+to complete a full circular sweep. The push factor gradually increased until a maximum displacement of 13 mm was
+reached. At t = 6.5 s the instrument was released from the brain tissue, meaning the boundary condition enforcing
+fixed displacement at the collision site was lifted—visualized by an abrupt drop of the push factor to zero. While these
+hyperparameters remained consistent across all simulations within simulation scheme 3, the collision site was randomly
+sampled for each individual simulation, introducing sufficient variability.
+
+
+2.3.3    Numerical simulation
+
+At each time step, the displacements at the mesh nodes belonging to the collision site were set to the current collision
+vector, representing the first boundary condition. As a second boundary condition, nodes at the corpus callosum, which
+structurally connects the two brain hemispheres, were kept fixed. Given these boundary conditions, the deformation of
+the remaining mesh nodes was computed numerically using a nonlinear Neo-Hookean elasticity model with an explicit
+finite-element algorithm (TLED [13]) implemented in our in-house simulation framework [48]. Tissue properties were
+set according to established values in the literature, with a Young’s modulus of 3000 Pa and a Poisson’s ratio of 0.49 [6].
+The time step used for the simulations was 0.1 ms, displacement fields were output every 500 steps, thus resulting in an
+effective time step of ∆t = 50 ms.
+For each simulation scheme in Figure 10, we generated 210 simulations (totaling, 1050 simulations), each spanning
+T = 8 s at a temporal resolution of 20 steps per second. This resulted in deformation trajectories consisting of 160
+displacement fields per simulation. At each time step t, the displacement field ut ∈ RK×3 contained displacement
+vectors for all K = 21,679 mesh nodes. The numerical computation of the next displacement ut → ut+∆t , with
+∆t = 50 ms, took approximately 1.68 s.
+
+
+                                                            7
+                                                                                              A PREPRINT - JANUARY 21, 2026
+
+
+3     Experimental setup
+3.1   Model training and configuration
+
+As data preparation, displacement fields were normalized independently in the x-, y-, and z-directions, with mean and
+standard deviation computed over the entire training set. Additionally, the mesh coordinates were scaled and shifted to
+lie within [0, 200]3 to ensure compatibility with the positional encoding mechanism, which assumes positive coordinate
+values [42].
+We first conducted a hyperparameter optimization to determine the most effective training strategy for robust autoregres-
+sive inference. The surrogate models used in these sections were trained on NTrain = 200 simulations, and evaluated on
+NTest = 10, both from from simulation scheme 2.
+Using these optimized hyperparameters, we then trained a final surrogate model on NTrain = 800 simulations equally
+sampled from simulations schemes 1-4. For in-distribution performance evaluation, a test set of NTest = 40 simulations
+(10 simulations per scheme 1-4) was used. To evaluate cross-scheme generalization, we tested the model on NTest = 10
+simulations from simulation scheme 5, which was entirely excluded during training.
+We used a UPT-based model comprising 3.4 million trainable parameters. Specifically, the architecture included
+nS = 2048 supernodes, an embedding dimension of dembed = 128, a latent dimension of dlatent = 256 × 256, and a
+depth of 4 blocks for both the transformer and perceiver sub-modules. The model was trained using the stochastic
+teacher forcing MSE loss LSTF defined in Eq. 9, applied over rollouts of SSTF time steps, where SSTF ∈ {3, 4, 5, 6, 7, 8}.
+The teacher forcing probability p decreased linearly over the course of training, i.e., p = 1 − NnSTF , where n denotes the
+current epoch.
+Training was conducted on consumer-grade hardware (NVIDIA GeForce RTX 3080 Ti GPU with 12 GB of VRAM),
+for NSTF = 45 epochs using stochastic teacher forcing. To further refine inference performance, the final model was
+trained for an additional NAuto = 15 fully autoregressive epochs. Model parameters were optimized using the Lion
+optimizer [49] with an initial learning rate of 1.5 × 10−5 , a 10-epoch constant warm-up phase and a subsequent cosine
+decay schedule. To improve generalization, stochastic regularization via drop path [50] with probability pdrop = 0.15
+was applied across all training runs. Additionally, early stopping was employed, retaining the model with the lowest
+autoregressive MSE across 50 simulations from the test set. To accommodate memory constraints, gradients were
+accumulated across multiple steps until an effective batch size of 4 is reached. At test-time, evaluations were performed
+using all 160 time steps, i.e. a full-sequence autoregressive rollout.
+
+3.2   Evaluation metrics
+
+The Mean Squared Error (MSE) between the predicted displacement ût+∆t := M(ut ) and the ground truth ut+∆t is
+used to assess the performance of the surrogate model:
+
+                                                                    K
+                                                              1 X              2
+                                           MSE(u, û) :=            ∥ui − ûi ∥ ,                                       (4)
+                                                              K i=1
+where ui ∈ R3 denotes the displacement vector at mesh node i, K is the total number of nodes and || · || denotes the
+Euclidean norm.
+To further evaluate spatial accuracy, we computed the Hausdorff Distance between the predicted and ground truth mesh
+node positions. This metric was evaluated within a local radius of r = 50 units around the collision site to reduce
+computational cost. For point sets A and B, the Hausdorff Distance is defined as:
+                                                                                    
+                               dH (A, B) := max sup inf ∥a − b∥, sup inf ∥b − a∥ .                               (5)
+                                                        a∈A b∈B            b∈B a∈A
+
+We complement our evaluation with a medically relevant measure by computing the maximum prediction error over all
+mesh nodes and spatial dimensions:
+                                    Errmax (u, û) :=          max              |ui,j − ûi,j |.                        (6)
+                                                        i∈{1,...,K},j∈{1,2,3}
+
+
+The MSE was employed as the default loss function L in both teacher-forced and autoregressive training regimes. The
+teacher-forced loss at a single time step was given by:
+                                            Ltf (M; ut ) = L(ut+∆t , M(ut )).                                           (7)
+
+
+                                                                8
+                                                                                                                 A PREPRINT - JANUARY 21, 2026
+
+
+
+
+                                                         Stochastic teacher forcing - SSTF = 5
+                                            15.0         Full teacher forcing
+                                            12.5
+
+
+
+
+                                 MSE [mm]
+                                            10.0
+
+                                             7.5
+
+                                             5.0
+
+                                             2.5
+
+                                             0.0
+                                                   0         1         2    3          4      5    6    7    8
+                                                                           Time step t [sec]
+
+Figure 7: Full teacher forcing vs. stochastic teacher forcing: Mean autoregressive MSE over 10 test simulations (drawn
+from simulation scheme 2) surrounded by a shaded area bounded by the respective minimum and maximum MSE
+values.
+
+The autoregressive loss over a rollout with window size SAuto was:
+                                                                                    S
+                                                                                    XAuto
+                                                                  t1
+                                                                                            L uti , M(ûti−1 ) ,
+                                                                                                              
+                                        LAuto (M; u , SAuto ) =                                                                            (8)
+                                                                                    i=2
+
+where the sum was scaled by SAuto1 −1 to normalize the loss and the first prediction was excluded, as it is based on a
+ground truth input. If the maximum prediction error was chosen as the loss function L, the corresponding autoregressive
+loss LMax
+      Auto was computed as the maximum error over all time steps rather than the normalized sum.
+The stochastic teacher forcing loss was given by:
+
+                                                                                       SSTF
+                                                                                       X
+                                                                 t1
+                                                                                              L uti , M(x̂ti−1 ) ,
+                                                                                                                
+                                      LSTF (M; u , SAuto , p) =                                                                            (9)
+                                                                                       i=2
+where the model input at each step was sampled as:
+                                                             t
+                                                        ti   û i ,          with probability 1 − p
+                                                       x̂ =                                                                               (10)
+                                                             uti ,           with probability p
+
+As with the autoregressive loss LAuto , the first prediction was excluded from the loss computation, and the total loss is
+scaled by SSTF1−1 during training.
+
+4     Results
+4.1   Impact of stochastic teacher forcing
+
+To mitigate error accumulation caused by the input distribution shift between training (using ground truth inputs) and
+inference (using the model’s own predictions), we propose a stochastic teacher forcing strategy during training. Figure 7
+compares MSE curves over time for 10 autoregressive rollouts of test set simulations: One model was trained solely
+with teacher forcing (orange), while the other was trained using stochastic teacher forcing (blue) with rollout window
+size SSTF = 5 and a linearly decaying teacher forcing probability. The purely teacher-forced model exhibited instability
+during longer rollouts, reflected in an autoregressive test loss of LMSE
+                                                                     Auto = 1.90, whereas the stochastically trained model,
+with a significantly lower test loss of LMSE
+                                         Auto = 0.35, adapted  to the changing input distribution and maintains stability by
+mitigating error accumulation. Moreover, the average maximum prediction error LMax       Auto was significantly reduced by
+48% from 6.68 mm to 3.50 mm using stochastic teacher forcing.
+
+4.2   Impact of rollout window size
+
+To ensure a smooth transition from teacher-forced numerical inputs to autoregressive inputs during stochastic teacher
+forcing, training begins with a teacher forcing probability of p = 1, which is linearly decreased over time. We found this
+
+
+                                                                                   9
+                                                                                           A PREPRINT - JANUARY 21, 2026
+
+
+
+
+                                    1.8                                                      9.5
+                                    1.6                                                      9.0
+                                                                                             8.5
+                                    1.4
+
+
+
+
+                                                                                               Auto (Max-Error)
+                                                                                             8.0
+                       Auto (MSE)
+                                    1.2                                                      7.5
+                                    1.0                                                      7.0
+                                    0.8                                                      6.5
+                                                                                             6.0
+                                    0.6
+                                                                                             5.5
+                                          2 (tf)   3     4     5        6          7   8
+                                                         Window size SSTF
+Figure 8: Autoregressive MSE and Maximum-Error over 10 test simulations (drawn from simulation scheme 2) as a
+function of the training-time rollout window size. For the first loss value (window size=2) the model was trained fully
+teacher-forced, for all other values the model was trained to minimize a stochastic teacher forcing loss LSTF for the
+respective rollout window size.
+
+
+scheduling strategy to stabilize gradients and improve training dynamics. However, the choice of the rollout window
+size SSTF used during stochastic teacher forcing was equally critical.
+In Figure 8, we report results from training surrogates with different rollout window sizes. All model and training
+hyperparameters were kept constant across runs, with the only variation being the window size SSTF used for stochastic
+teacher forcing. The plot shows the resulting autoregressive test error LAuto measured over 10 test simulations, as a
+function of the training-time window size.
+Intermediate rollout window sizes (4 and 5) yield the lowest test error, with window size 5 achieving the best
+autoregressive test MSE overall, i.e., LMSEAuto = 0.51, suggesting an optimal trade-off between training stability and
+robustness to autoregressive inputs. In contrast, shorter windows (2–3), including fully teacher-forced training at
+window size 2, do not sufficiently expose the model to its own prediction errors, limiting its ability to learn effective
+correction strategies. Longer rollout windows (≥ 6), while potentially helpful to learn long-term dependencies, tend to
+destabilize gradients and training by introducing compounding errors too early, before the model has learned to generate
+reliable predictions. This was also reflected in higher maximum gradient norms observed for larger window sizes (e.g.,
+about twice as large for window size 8 compared to 5).
+
+4.3     Hyperparameter-optimized surrogate
+
+The final surrogate model was trained using stochastic teacher forcing, employing the optimal rollout window size of
+SSTF = 5 as identified in the previous experiment, along with a linearly decaying teacher forcing probability.
+
+4.3.1    Performance on test set
+To assess the performance of this hyperparameter-optimized surrogate model, we conducted autoregressive rollouts on
+40 simulations from the in-distribution test set. Across these rollouts, the autoregressive error metrics varied in the
+following ranges: MSE from 0.02 to 0.31, Hausdorff Distance from 0.97 mm to 3.76 mm, and maximum prediction
+error from 1.35 mm to 4.73 mm, where the maximum error was computed over all time steps, mesh nodes, and spatial
+directions. Averaged over all 40 rollouts, the final surrogate model achieved the following test metrics (mean ± standard
+deviation):
+                                                   LMSE
+                                                      Auto = 0.09 ± 0.07,
+
+                                                       LHausdorff
+                                                        Auto      = 1.81 ± 0.52,
+                                                        LMax
+                                                         Auto = 2.37 ± 0.77.
+
+
+                                                                  10
+                                                                                    A PREPRINT - JANUARY 21, 2026
+
+
+
+
+                    t=0            t = 1.5         t=3           t = 4.5         t=6            t = 7.5
+
+
+    Ground
+     truth
+
+
+
+
+   Prediction
+
+
+
+
+   Difference
+
+
+
+
+Figure 9: Example rollout on a test set deformation from simulation scheme 1, with an autoregressive MSE of
+LMSE
+ Auto = 0.03.
+
+
+
+The model’s inference time was approximately 18 ms per step, supporting real-time model deployment with over 55
+frames per second. Compared to the numerical simulations used for training, this corresponds to a speed up of over 90×,
+demonstrating the surrogate model’s significant computational efficiency. As a qualitative reference, Figure 9 shows
+an example rollout of the final surrogate on a test simulation, showcasing a high degree of visual similarity between
+the ground truth and the predicted brain deformations. Additional rollout examples from the test set are provided
+in Supplementary Figure S1 and Supplementary Figure S2. Further, we also provide an exemplary rollout video as
+Supplementary Material.
+
+4.3.2   Generalization across schemes
+The model’s ability to generalize across different instrument dynamics was evaluated on 10 test simulations from
+simulation scheme 5, which was not included in the training data. Averaging over all 10 autoregressive rollouts yielded:
+
+                                                 LMSE
+                                                  Auto = 0.09 ± 0.04,
+
+
+                                               LHausdorff
+                                                Auto      = 1.99 ± 0.27,
+
+                                                 LMax
+                                                  Auto = 1.94 ± 0.53.
+
+These results are comparable to those observed on the in-distribution test set. As a qualitative example, Figure 10 shows
+a rollout on a cross-scheme test simulation, with an MSE of LMSE  Auto = 0.08. An additional cross-scheme example is
+available in Supplementary Figure S3.
+
+4.3.3   Scalability with increased mesh complexity
+We evaluated the scalability of the surrogate model on a high-resolution brain mesh of the same subject, containing
+approximately 7 times more nodes (K = 151,201). Using this refined mesh, we performed autoregressive rollouts with
+10 simulations from scheme 1. Predictive accuracy remained high and comparable to the lower-resolution mesh:
+
+                                                 LMSE
+                                                  Auto = 0.09 ± 0.04,
+
+
+                                               LHausdorff
+                                                Auto      = 2.03 ± 0.30,
+
+                                                 LMax
+                                                  Auto = 3.63 ± 0.51.
+
+An example rollout is shown in Supplementary Figure S4, illustrating strong visual agreement between the predicted
+and ground-truth dynamics. Despite the substantial increase in mesh size, the model remained computationally tractable
+for real-time use, with an inference time of 43 ms corresponding to 23 frames per second.
+
+
+                                                           11
+                                                                                    A PREPRINT - JANUARY 21, 2026
+
+
+
+
+                    t=0            t = 1.5         t=3           t = 4.5         t=6            t = 7.5
+
+
+     Ground
+      truth
+
+
+
+
+    Prediction
+
+
+
+
+    Difference
+
+
+
+
+Figure 10: Example rollout on a cross-scheme test set deformation from simulation scheme 5, with an autoregressive
+MSE of LMSE
+          Auto = 0.08.
+
+
+
+4.3.4   Integration into interactive environment
+Finally, we successfully integrated the trained surrogate model into a neurosurgical training simulator environment, as
+shown in Figure 11 and described in [51]. Since the simulator is built using Unity and C++, it was essential to ensure
+efficient deployment of the Python-trained surrogate model within this framework. To achieve this, we exported the
+PyTorch-based model using the Open Neural Network Exchange (ONNX) format [52] and developed a C++ class that
+loads the model and performs inference based on the current configuration, i.e., the brain mesh displacement and the
+collision field resulting from interactions between surgical instruments and the brain. Due to limitations in ONNX, the
+message accumulation step of the message passing module could not be included directly in the exported model. We
+addressed this by splitting the inference process into two stages and performing the message passing step in between
+using the torchscatter library [53].
+We evaluated the mean inference times on an NVIDIA RTX 3080 Ti GPU across various ONNX execution providers:
+TensorRT-RTX [54], a dedicated backend for high-performance AI inference, delivered the best performance, with a
+mean inference time of 8 ms, which translates to a rendering speed of 125 frames per second. This was followed by
+CUDA (49 ms), TensorRT (59 ms), and CPU (414 ms).
+This preliminary integration enables users to interact dynamically with the virtual brain mesh using optically tracked
+instruments. Initial feedback from neurosurgeons testing the system has been highly positive, praising both the realism
+and responsiveness of the simulation.
+
+5    Discussion
+In this work, we introduced an autoregressive deep learning-based surrogate model for real-time prediction of soft tissue
+dynamics as they occur within neurosurgical simulators. While prior work has explored deep learning-enhanced soft
+tissue deformation modeling [37, 38, 39, 40, 41], our approach extends this line of research by employing a mesh-based
+yet highly scalable surrogate architecture and by explicitly addressing transient, dynamic simulation scenarios—–an
+aspect not previously demonstrated.
+We opted for UPTs as the backbone of our deep learning framework due to their architectural flexibility and scalability,
+particularly in handling large meshes where convolution-based methods often struggle to preserve geometric detail [43].
+However, since transformer attention operations scale quadratically with the number of input tokens [42], applying them
+directly at the full node level becomes computationally prohibitive for complex meshes with up to 151,000 nodes. UPTs
+address this challenge by combining efficient graph-based feature aggregation at the supernode level, cross-attention-
+based down-projection, latent-space transformers, and a continuous field decoder. The supernode representation enables
+the efficient use of transformers at both the supernode and latent levels, which allow the model to capture long-range
+spatial dependencies, as already demonstrated in sequence modeling and computer vision [55, 56, 57]. Although
+UPTs allow incorporating additional information as model input (e.g., nodal velocity or acceleration), we found that
+this approach did not significantly improve model accuracy but only increased inference time. Overall, the described
+architectural design allows us to achieve inference times under 10 ms (a more than 200× speed-up over numerical
+
+
+                                                           12
+                                                                                   A PREPRINT - JANUARY 21, 2026
+
+
+
+
+Figure 11: The neurosurgical training simulator [51] allows users to practice and refine complex clipping procedures of
+middle cerebral artery (MCA) aneurysms in a risk-free environment. The simulator consists of both a virtual simulation
+accessible through virtual reality glasses and a haptic interface. Deploying our trained surrogate model enables medical
+professionals to dynamically interact with the virtual brain and experience real-time deformations in response to their
+instrument movements (tracked via optical cameras).
+
+
+
+simulations) without compromising accuracy or temporal stability. This substantial reduction in computation time is a
+key enabler for real-time applications, opening the door to fully interactive neurosurgical simulations.
+We generated a large and diverse dataset of transient deformation scenarios, closely reflecting realistic surgical
+behaviors. Specifically, we designed five medically motivated simulation schemes that capture a broad spectrum of
+brain deformation scenarios. These schemes varied not only in the location of instrument contact but also in the size
+of affected mesh regions, as well as in the direction of applied force. This variability was intended to expose the
+model to diverse instrument–tissue interaction patterns during training, as they can differ substantially across cases
+and subjects during inference. Our evaluation demonstrated strong generalization to unseen simulations (including
+an entirely withheld simulation scheme) highlighting the robustness of the model in capturing complex, previously
+unobserved tissue responses. Future work may further enhance generalizability by incorporating an even wider spectrum
+of deformation scenarios.
+Switching from teacher-forced inputs during training to autoregressive inputs during inference causes a distribution
+shift, often leading to error accumulation, especially in longer rollouts. This challenge has been reported in various
+domains, including message passing surrogates for fluid simulations [45] and sequence modeling [46]. To address the
+distribution shift problem, we introduced stochastic teacher forcing, a training strategy that gradually increases the
+reliance on the model’s own previous predictions. This helped the model adapt to its own output, significantly reducing
+error accumulation and enabling reliable multi-step rollouts. The ability to perform stable and accurate autoregressive
+predictions constitutes a key strength and innovation of our approach.
+However, our findings also indicated that the naive inclusion of fully autoregressive inputs during training can
+destabilize gradient computation and hinder surrogate model optimization, due to error accumulation and the complexity
+of backpropagation through multiple time steps. To address this, we carefully tuned the rollout window size of the
+stochastic teacher forcing schedule. Our experiments showed that intermediate rollout window sizes of 4–5 steps
+provided the best balance between robustness to autoregressive inputs and training stability, outperforming both shorter
+and longer alternatives.
+
+
+                                                          13
+                                                                                    A PREPRINT - JANUARY 21, 2026
+
+
+5.1   Limitations
+
+We intentionally focused on a single brain geometry, selected to match the 3D-printed head in our neurosurgical
+simulator (see Figure 11). While the surrogate model and its scalability were also assessed on a high-resolution
+mesh variant, the architectural flexibility of the deep learning framework is not confined to this geometry; re-training
+or fine-tuning for different subjects can be performed with minimal adaptation. As the primary objective of this
+proof-of-concept study was to develop and deploy an accurate, real-time-capable surrogate model for the neurosurgical
+simulator, the exploration of cross-subject generalizability is deferred to future work.
+All instrument collision sites were sampled within a predefined region surrounding the Sylvian fissure. No interaction
+data was generated in other cortical areas. Although this limitation would impact the generalizability of the model
+for broader brain deformation tasks, it does not compromise the aim of our work, as the Sylvian fissure is of most
+importance during clippings of middle cerebral artery (MCA) aneurysms. Notably, the craniotomy in both the surgical
+simulator and the operating room is performed exclusively over this region of the scalp, further justifying our localized
+data sampling strategy. In future work, we plan to expand the simulation to include other parts of the brain beyond the
+MCA region, so it can support more types of neurosurgical procedures and become more flexible overall.
+
+6     Conclusion
+
+Surgical simulators have become an essential tool in modern medicine, significantly enhancing surgical training,
+preoperative planning, and overall procedural safety. This work addressed a critical requirement for such realistic
+simulator environments: the ability to simulate transient tissue-instrument interactions and the resulting deformation in
+real-time. Our proposed deep learning-based surrogate model effectively simulates brain tissue deformation dynamics
+autoregressively, achieving both high speed and accuracy. A central challenge was the transition from ground truth
+inputs during training to autoregressive inputs at inference time. To address this, we introduced a stochastic teacher
+forcing strategy that enables the surrogate model to better adapt to inference conditions and mitigates long-term error
+accumulation. Overall, our findings demonstrate that transformer-based surrogates offer both computational speed and
+simulation accuracy, paving the way for physically accurate and interactive surgical training environments.
+
+Declaration of competing interests
+
+The authors declare that they have no known competing financial interests or personal relationships that could have
+appeared to influence the work reported in this paper.
+
+Acknowledgments
+
+This project is financed by research subsidies granted by the government of Upper Austria within the research projects
+MIMAS.ai and MEDUSA (FFG grant no. 872604). RISC Software GmbH is a member of UAR (Upper Austrian
+Research) Innovation Network.
+
+References
+
+ [1] Aidin Shahrezaei, Maryam Sohani, Soroush Taherkhani, and Seyed Yahya Zarghami. The impact of surgical
+     simulation and training technologies on general surgery education. BMC Medical Education, 24(1):1297,
+     November 2024.
+ [2] Christian Rifbjerg Larsen, Jeanett Oestergaard, Bent S. Ottesen, and Jette Led Soerensen. The efficacy of
+     virtual reality simulation training in laparoscopy: a systematic review of randomized trials. Acta Obstetricia et
+     Gynecologica Scandinavica, 91(9):1015–1028, 2012.
+ [3] Rickul Varshney, Saul Frenkiel, Lily HP Nguyen, Meredith Young, Rolando Del Maestro, Anthony Zeitouni,
+     Elias Saad, W. Robert J. Funnell, Marc A. Tewfik, and National Research Council Canada. The McGill simulator
+     for endoscopic sinus surgery (MSESS): a validation study. Journal of Otolaryngology - Head & Neck Surgery,
+     43(1):40, October 2014.
+ [4] David E. Bauer, Karl Wieser, Alexander Aichmair, Patrick O. Zingg, Claudio Dora, and Stefan Rahm. Validation
+     of a Virtual Reality–Based Hip Arthroscopy Simulator. Arthroscopy: The Journal of Arthroscopic & Related
+     Surgery, 35(3):789–795, March 2019.
+
+
+                                                           14
+                                                                                   A PREPRINT - JANUARY 21, 2026
+
+
+ [5] Hamed Azarnoush, Gmaan Alzhrani, Alexander Winkler-Schwartz, Fahad Alotaibi, Nicholas Gelinas-Phaneuf,
+     Valérie Pazos, Nusrat Choudhury, Jawad Fares, Robert DiRaddo, and Rolando F. Del Maestro. Neurosurgical
+     virtual reality simulation metrics to assess psychomotor skills during brain tumor resection. International Journal
+     of Computer Assisted Radiology and Surgery, 10(5):603–618, May 2015.
+ [6] Matthias Gmeiner, Johannes Dirnberger, Wolfgang Fenz, Maria Gollwitzer, Gabriele Wurm, Johannes Trenkler,
+     and Andreas Gruber. Virtual Cerebral Aneurysm Clipping with Real-Time Haptic Force Feedback in Neurosurgical
+     Education. World Neurosurgery, 112:e313–e323, April 2018.
+ [7] Fredrick Johnson Joseph, Stefan Weber, Andreas Raabe, and David Bervini. Neurosurgical simulator for training
+     aneurysm microsurgery—a user suitability study involving neurosurgeons and residents. Acta Neurochirurgica,
+     162(10):2313–2321, October 2020.
+ [8] U. Meier, O. López, C. Monserrat, M. C. Juan, and M. Alcañiz. Real-time deformable models for surgery
+     simulation: a survey. Computer Methods and Programs in Biomedicine, 77(3):183–197, March 2005.
+ [9] Jinao Zhang, Yongmin Zhong, and Chengfan Gu. Deformable Models for Surgical Simulation: A Survey. IEEE
+     Reviews in Biomedical Engineering, 11:143–164, 2018.
+[10] Tan-Nhu Nguyen, Marie-Christine Ho Ba Tho, and Tien-Tuan Dao. A Systematic Review of Real-Time Medical
+     Simulations with Soft-Tissue Deformation: Computational Approaches, Interaction Devices, System Architectures,
+     and Clinical Validations. Applied Bionics and Biomechanics, 2020(1):5039329, 2020.
+[11] Susanne C. Brenner and L. Ridgway Scott. The Mathematical Theory of Finite Element Methods, volume 15 of
+     Texts in Applied Mathematics. Springer, New York, NY, 2008.
+[12] Sarthak Misra, K. T. Ramesh, and Allison M. Okamura. Modeling of Tool-Tissue Interactions for Computer-Based
+     Surgical Simulation: A Literature Review. Presence: Teleoperators and Virtual Environments, 17(5):463–491,
+     October 2008.
+[13] Karol Miller, Grand Joldes, Dane Lance, and Adam Wittek. Total Lagrangian explicit dynamics finite element
+     algorithm for computing soft tissue deformation. Communications in Numerical Methods in Engineering,
+     23(2):121–134, 2007.
+[14] Xuan Zhang, Limei Wang, Jacob Helwig, Youzhi Luo, Cong Fu, Yaochen Xie, Meng Liu, Yuchao Lin, Zhao
+     Xu, Keqiang Yan, Keir Adams, Maurice Weiler, Xiner Li, Tianfan Fu, Yucheng Wang, Alex Strasser, Haiyang
+     Yu, YuQing Xie, Xiang Fu, Shenglong Xu, Yi Liu, Yuanqi Du, Alexandra Saxton, Hongyi Ling, Hannah
+     Lawrence, Hannes Stärk, Shurui Gui, Carl Edwards, Nicholas Gao, Adriana Ladera, Tailin Wu, Elyssa F. Hofgard,
+     Aria Mansouri Tehrani, Rui Wang, Ameya Daigavane, Montgomery Bohde, Jerry Kurtin, Qian Huang, Tuong
+     Phung, Minkai Xu, Chaitanya K. Joshi, Simon V. Mathis, Kamyar Azizzadenesheli, Ada Fang, Alán Aspuru-Guzik,
+     Erik Bekkers, Michael Bronstein, Marinka Zitnik, Anima Anandkumar, Stefano Ermon, Pietro Liò, Rose Yu,
+     Stephan Günnemann, Jure Leskovec, Heng Ji, Jimeng Sun, Regina Barzilay, Tommi Jaakkola, Connor W. Coley,
+     Xiaoning Qian, Xiaofeng Qian, Tess Smidt, and Shuiwang Ji. Artificial Intelligence for Science in Quantum,
+     Atomistic, and Continuum Systems, June 2025.
+[15] N. Thuerey, B. Holzschuh, P. Holl, G. Kohl, M. Lino, Q. Liu, P. Schnell, and F. Trost. Physics-based Deep
+     Learning, March 2025.
+[16] M. Raissi, P. Perdikaris, and G. E. Karniadakis. Physics-informed neural networks: A deep learning framework for
+     solving forward and inverse problems involving nonlinear partial differential equations. Journal of Computational
+     Physics, 378:686–707, February 2019.
+[17] Ricardo Vinuesa and Steven L. Brunton. Enhancing computational fluid dynamics with machine learning. Nature
+     Computational Science, 2(6):358–366, June 2022.
+[18] Saurabh Deshpande, Raúl I. Sosa, Stéphane P. A. Bordas, and Jakub Lengiewicz. Convolution, aggregation and
+     attention based deep neural networks for accelerating simulations in mechanics. Frontiers in Materials, 10, March
+     2023.
+[19] Cristian Bodnar, Wessel P. Bruinsma, Ana Lucic, Megan Stanley, Anna Allen, Johannes Brandstetter, Patrick
+     Garvan, Maik Riechert, Jonathan A. Weyn, Haiyu Dong, Jayesh K. Gupta, Kit Thambiratnam, Alexander T.
+     Archibald, Chun-Chieh Wu, Elizabeth Heider, Max Welling, Richard E. Turner, and Paris Perdikaris. A foundation
+     model for the Earth system. Nature, 641(8065):1180–1187, May 2025.
+[20] Kaifeng Bi, Lingxi Xie, Hengheng Zhang, Xin Chen, Xiaotao Gu, and Qi Tian. Pangu-weather: A 3d high-
+     resolution model for fast and accurate global weather forecast, 2022.
+[21] Remi Lam, Alvaro Sanchez-Gonzalez, Matthew Willson, Peter Wirnsberger, Meire Fortunato, Ferran Alet, Suman
+     Ravuri, Timo Ewalds, Zach Eaton-Rosen, Weihua Hu, Alexander Merose, Stephan Hoyer, George Holland, Oriol
+
+
+                                                          15
+                                                                                A PREPRINT - JANUARY 21, 2026
+
+
+     Vinyals, Jacklynn Stott, Alexander Pritzel, Shakir Mohamed, and Peter Battaglia. Graphcast: Learning skillful
+     medium-range global weather forecasting, 2023.
+[22] Jayesh K. Gupta and Johannes Brandstetter. Towards Multi-spatiotemporal-scale Generalized PDE Modeling,
+     November 2022.
+[23] Wilson G. Gregory, David W. Hogg, Ben Blum-Smith, Maria Teresa Arias, Kaze W. K. Wong, and Soledad Villar.
+     Equivariant geometric convolutions for emulation of dynamical systems, November 2024.
+[24] Andrea Mendizabal, Pablo Márquez-Neila, and Stéphane Cotin. Simulation of hyperelastic materials in real-time
+     using deep learning. Medical Image Analysis, 59:101569, January 2020.
+[25] Zongyi Li, Nikola Kovachki, Kamyar Azizzadenesheli, Burigede Liu, Kaushik Bhattacharya, Andrew Stuart, and
+     Anima Anandkumar. Neural Operator: Graph Kernel Network for Partial Differential Equations, March 2020.
+[26] Nikola Kovachki, Zongyi Li, Burigede Liu, Kamyar Azizzadenesheli, Kaushik Bhattacharya, Andrew Stuart, and
+     Anima Anandkumar. Neural Operator: Learning Maps Between Function Spaces, May 2024.
+[27] Benedikt Alkin, Andreas Fürst, Simon Schmid, Lukas Gruber, Markus Holzleitner, and Johannes Brandstetter.
+     Universal Physics Transformers: A Framework For Efficiently Scaling Neural Operators, October 2024.
+[28] Zongyi Li, Nikola Kovachki, Kamyar Azizzadenesheli, Burigede Liu, Kaushik Bhattacharya, Andrew Stuart, and
+     Anima Anandkumar. Fourier Neural Operator for Parametric Partial Differential Equations, May 2021.
+[29] Sifan Wang, Jacob H. Seidman, Shyam Sankaran, Hanwen Wang, George J. Pappas, and Paris Perdikaris. Bridging
+     Operator Learning and Conditioned Neural Fields: A Unifying Perspective, January 2024.
+[30] Zongyi Li, Nikola Borislavov Kovachki, Chris Choy, Boyi Li, Jean Kossaifi, Shourya Prakash Otta, Moham-
+     mad Amin Nabian, Maximilian Stadler, Christian Hundt, Kamyar Azizzadenesheli, and Anima Anandkumar.
+     Geometry-Informed Neural Operator for Large-Scale 3D PDEs, September 2023.
+[31] Benedikt Alkin, Tobias Kronlachner, Samuele Papa, Stefan Pirker, Thomas Lichtenegger, and Johannes Brandstet-
+     ter. NeuralDEM – Real-time Simulation of Industrial Particulate Flows, February 2025.
+[32] Benedikt Alkin, Maurits Bleeker, Richard Kurle, Tobias Kronlachner, Reinhard Sonnleitner, Matthias Dorfer, and
+     Johannes Brandstetter. AB-UPT: Scaling Neural CFD Surrogates for High-Fidelity Automotive Aerodynamics
+     Simulations via Anchored-Branched Universal Physics Transformers, June 2025.
+[33] Zijie Li, Kazem Meidani, and Amir Barati Farimani. Transformer for Partial Differential Equations’ Operator
+     Learning, April 2023.
+[34] Haixu Wu, Huakun Luo, Haowen Wang, Jianmin Wang, and Mingsheng Long. Transolver: A Fast Transformer
+     Solver for PDEs on General Geometries, June 2024.
+[35] Tobias Pfaff, Meire Fortunato, Alvaro Sanchez-Gonzalez, and Peter W. Battaglia. Learning Mesh-Based Simulation
+     with Graph Networks, June 2021.
+[36] Rishikesh Ranade, Mohammad Amin Nabian, Kaustubh Tangsali, Alexey Kamenev, Oliver Hennigh, Ram
+     Cherukuri, and Sanjay Choudhry. DoMINO: A Decomposable Multi-scale Iterative Neural Operator for Modeling
+     Large Scale Engineering Simulations, January 2025.
+[37] Ashkan Shahbazi, Kyvia Pereira, Jon S. Heiselman, Elaheh Akbari, Annie C. Benson, Sepehr Seifi, Xinyuan Liu,
+     Garrison L. Johnston, Erwin Terpstra, Anne Draaisma, Jan-Jaap Severes, Jie Ying Wu, Nabil Simaan, Michael L.
+     Miga, and Soheil Kolouri. Neural-Augmented Kelvinlet: Real-Time Soft Tissue Deformation with Multiple
+     Graspers, June 2025.
+[38] Yasmin Salehi and Dennis Giannacopoulos. PhysGNN: A Physics-Driven Graph Neural Network Based Model
+     for Predicting Soft Tissue Deformation in Image-Guided Neurosurgery, October 2022. arXiv:2109.04352 [eess].
+[39] Haolin Liu, Ye Han, Daniel Emerson, Houriyeh Majditehran, Qi Wang, Yoed Rabin, and Levent Burak Kara. Real-
+     time Prediction of Soft Tissue Deformations Using Data-driven Nonlinear Presurgical Simulations, November
+     2020.
+[40] Mohammad Karami, Hervé Lombaert, and David Rivest-Hénault. Real-time simulation of viscoelastic tissue
+     behavior with physics-guided deep learning. Computerized Medical Imaging and Graphics, 104, March 2023.
+[41] Jinao Zhang, Yongmin Zhong, and Chengfan Gu. Neural network modelling of soft tissue deformation for surgical
+     simulation. Artificial Intelligence in Medicine, 97:61–70, June 2019.
+[42] Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, and
+     Illia Polosukhin. Attention Is All You Need, June 2017.
+[43] Michael M. Bronstein, Joan Bruna, Taco Cohen, and Petar Veličković. Geometric Deep Learning: Grids, Groups,
+     Graphs, Geodesics, and Gauges, May 2021.
+
+
+                                                       16
+                                                                                A PREPRINT - JANUARY 21, 2026
+
+
+[44] Andrew Jaegle, Felix Gimeno, Andrew Brock, Andrew Zisserman, Oriol Vinyals, and Joao Carreira. Perceiver:
+     General Perception with Iterative Attention, June 2021.
+[45] Johannes Brandstetter, Daniel Worrall, and Max Welling. Message Passing Neural PDE Solvers, March 2023.
+[46] Samy Bengio, Oriol Vinyals, Navdeep Jaitly, and Noam Shazeer. Scheduled Sampling for Sequence Prediction
+     with Recurrent Neural Networks, September 2015.
+[47] Song-Lin Ding, Joshua J. Royall, Susan M. Sunkin, Lydia Ng, Benjamin A.C. Facer, Phil Lesnar, Angie Guillozet-
+     Bongaarts, Bergen McMurray, Aaron Szafer, Tim A. Dolbeare, Allison Stevens, Lee Tirrell, Thomas Benner,
+     Shiella Caldejon, Rachel A. Dalley, Nick Dee, Christopher Lau, Julie Nyhus, Melissa Reding, Zackery L. Riley,
+     David Sandman, Elaine Shen, Andre van der Kouwe, Ani Varjabedian, Michelle Write, Lilla Zollei, Chinh
+     Dang, James A. Knowles, Christof Koch, John W. Phillips, Nenad Sestan, Paul Wohnoutka, H. Ronald Zielke,
+     John G. Hohmann, Allan R. Jones, Amy Bernard, Michael J. Hawrylycz, Patrick R. Hof, Bruce Fischl, and Ed S.
+     Lein. Comprehensive cellular-resolution atlas of the adult human brain. Journal of Comparative Neurology,
+     524(16):3127–3481, 2016.
+[48] Wolfgang Fenz, Johannes Dirnberger, and Ivan Georgiev. Blood flow simulations with application to cerebral
+     aneurysms. In Proceedings of the Modeling and Simulation in Medicine Symposium, MSM ’16, San Diego, CA,
+     USA, 2016. Society for Computer Simulation International.
+[49] Xiangning Chen, Chen Liang, Da Huang, Esteban Real, Kaiyuan Wang, Yao Liu, Hieu Pham, Xuanyi Dong,
+     Thang Luong, Cho-Jui Hsieh, Yifeng Lu, and Quoc V. Le. Symbolic Discovery of Optimization Algorithms, May
+     2023.
+[50] Gao Huang, Yu Sun, Zhuang Liu, Daniel Sedra, and Kilian Weinberger. Deep Networks with Stochastic Depth,
+     July 2016.
+[51] MEDUSA. Medusa project page, 2024. Accessed: 2024-06-21.
+[52] ONNX. Open Neural Network Exchange. https://onnx.ai/, 2019. Accessed: 2025-06-10.
+[53] Torch-Scatter. https://github.com/rusty1s/pytorch_scatter, 2018. Accessed: 2025-06-10.
+[54] NVIDIA. TensorRT for RTX. https://github.com/NVIDIA/TensorRT-RTX, 2025. Accessed: 2025-06-30.
+[55] John Jumper, Richard Evans, Alexander Pritzel, Tim Green, Michael Figurnov, Olaf Ronneberger, Kathryn
+     Tunyasuvunakool, Russ Bates, Augustin Žídek, Anna Potapenko, et al. Highly accurate protein structure
+     prediction with alphafold. Nature, 596(7873):583–589, 2021.
+[56] Hugo Dalla-Torre, Liam Gonzalez, Javier Mendoza-Revilla, Nicolas Lopez Carranza, Adam Henryk
+     Grzywaczewski, Francesco Oteri, Christian Dallago, Evan Trop, Bernardo P. de Almeida, Hassan Sirelkhatim,
+     Guillaume Richard, Marcin Skwark, Karim Beguir, Marie Lopez, and Thomas Pierrot. Nucleotide Transformer:
+     building and evaluating robust foundation models for human genomics. Nature Methods, 22(2):287–297, February
+     2025.
+[57] Alexey Dosovitskiy, Lucas Beyer, Alexander Kolesnikov, Dirk Weissenborn, Xiaohua Zhai, Thomas Unterthiner,
+     Mostafa Dehghani, Matthias Minderer, Georg Heigold, Sylvain Gelly, Jakob Uszkoreit, and Neil Houlsby. An
+     Image is Worth 16x16 Words: Transformers for Image Recognition at Scale, June 2021.
+
+
+
+
+                                                       17
+

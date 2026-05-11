@@ -11,7 +11,7 @@ tags:
 - gradient-analysis
 title: BrainSpace
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-11'
 ---
 
 ## Overview
@@ -40,7 +40,7 @@ Statistical validation of gradient results requires appropriate null models that
 
 ### Visualization
 
-The toolbox provides integrated visualization capabilities for gradient maps, including surface-based rendering using Pycortex and [[connectome-workbench]] formats. Researchers can visualize individual gradient maps, group-averaged patterns, or overlay gradient information on standard cortical surfaces. The visualization suite supports both publication-quality static figures and interactive exploration of three-dimensional gradient patterns.
+The toolbox provides integrated visualization capabilities for gradient maps, including surface-based rendering using [[pycortex]] and [[connectome-workbench]] formats. Researchers can visualize individual gradient maps, group-averaged patterns, or overlay gradient information on standard cortical surfaces. The visualization suite supports both publication-quality static figures and interactive exploration of three-dimensional gradient patterns.
 
 ## Relationship to The Virtual Brain
 

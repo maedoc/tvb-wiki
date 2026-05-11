@@ -1,13 +1,13 @@
 ---
 title: Izhikevich
 created: 2026-04-20
-updated: 2026-05-06
+updated: 2026-05-11
 type: concept
 tags: [spiking-neural-networks, neural-mass-models, computational-neuroscience, whole-brain-modeling, bifurcation-analysis, nonlinear-dynamics, brain-oscillations, dynamical-systems-theory]
 sources: [raw/papers/izhikevich-2007.md, raw/papers/strogatz-1994.md, raw/papers/semanticscholar-ce89e593c89e.md, raw/papers/doedel-oldeman-2009.md]
 ---
 
-The Izhikevich model refers to a class of simplified mathematical descriptions of spiking neurons that achieve a remarkable balance between biological realism and computational tractability. Developed by computational neuroscientist Eugene Izhikevich in the early 2000s, this model has become one of the most widely adopted neuron models in large-scale brain simulations because it can reproduce essentially all known types of cortical neuron firing behavior—including tonic spiking, bursting, and various forms of adaptation—while requiring only simple arithmetic operations to simulate. The model's significance extends beyond single-neuron dynamics; it serves as a fundamental building block in [[spiking neural networks]] and [[whole-brain modeling]] frameworks where computational efficiency is paramount.
+The Izhikevich model refers to a class of simplified mathematical descriptions of spiking neurons that achieve a remarkable balance between biological realism and computational tractability. Developed by computational neuroscientist Eugene Izhikevich in the early 2000s, this model has become one of the most widely adopted neuron models in large-scale brain simulations because it can reproduce essentially all known types of cortical neuron firing behavior—including tonic spiking, bursting, and various forms of adaptation—while requiring only simple arithmetic operations to simulate. The model's significance extends beyond single-neuron dynamics; it serves as a fundamental building block in [[spiking neural networks]] and [[whole-brain modeling]] frameworks where computational efficiency is paramount, e.g., using the GPU-accelerated library [[genn]].
 
 ## Mathematical Formulation
 

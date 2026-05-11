@@ -1,9 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- NeuroQuery, comprehensive meta-analysis of human brain mapping (Dockès et al., 2020)
-- Large-scale automated synthesis of human functional neuroimaging data (Yarkoni et
-  al., 2011)
 - raw/papers/glean-github.md
 - raw/papers/arxiv-2503.23653.md
 - raw/papers/arxiv-2511.18325.md
@@ -67,6 +64,6 @@ The seminal publication describing NeuroQuery (Dockès et al., 2020) introduced 
 
 ## References
 
-1. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.
-2. Kisung You, Hae-Jeong Park. (2025). *Scalable geometric learning with correlation-based functional brain networks*. Scientific Reports. [DOI](https://doi.org/10.1038/s41598-025-07703-1)
-3. S. Yap, Fuad M. Noman, J. Loo, D. Stoliker, Moein Khajehnejad, R. Phan, D. Dowe, Adeel Razi, Chee-Ming Ting. (2025). *Brain-MGF: Multimodal Graph Fusion Network for EEG-fMRI Brain Connectivity Analysis Under Psilocybin*. arXiv.org. [DOI](https://doi.org/10.48550/arXiv.2511.18325)
+1. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.
+2. Kisung You, Hae-Jeong Park. (2025). *Scalable geometric learning with correlation-based functional brain networks*. Scientific Reports. [DOI](](https://doi.org/10.1038/s41598-025-07703-1))
+3. S. Yap, Fuad M. Noman, J. Loo, D. Stoliker, Moein Khajehnejad, R. Phan, D. Dowe, Adeel Razi, Chee-Ming Ting. (2025). *Brain-MGF: Multimodal Graph Fusion Network for EEG-fMRI Brain [[connectivity]] Analysis Under Psilocybin*. arXiv.org. [DOI](](https://doi.org/10.48550/arXiv.2511.18325))

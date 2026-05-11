@@ -12,7 +12,7 @@ tags:
 - preprocessing
 title: AutoReject
 type: software
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 AutoReject is a Python library that provides automated rejection and repair of bad trials and bad sensors in magneto-/electroencephalography (M/EEG) data. Developed primarily by Mainak Jas, Denis Engemann, and colleagues [1], AutoReject addresses a persistent challenge in [[electrophysiology]] preprocessing: the need for manual, time-consuming inspection of [[eeg]] or [[meg]] data to identify and remove artifacts. The library employs machine learning and cross-validation techniques to automatically determine optimal thresholds for epoch rejection, significantly accelerating preprocessing workflows while maintaining data quality comparable to expert manual curation [1].
@@ -54,7 +54,7 @@ AutoReject is part of a broader ecosystem of [[neuromorpho‑toolkit]] preproces
 - [[eeglab]]: A comprehensive MATLAB toolbox for [[eeg]] preprocessing with extensive plugin ecosystem
 - Fieldtrip: An open‑source MATLAB toolbox for [[meg]] and [[eeg]] analysis from the Donders Institute
 - [[mne‑bids]]: Pipeline tools for converting [[eeg]]/[[meg]] data to BIDS format
-- Pycortex: Visualization toolkit for surface‑based neuroimaging data
+- [[pycortex]]: Visualization toolkit for surface‑based neuroimaging data
 - [[nilearn]]: Python library for fast and easy statistical learning on neuroimaging data
 
 These tools collectively enable fully automated preprocessing pipelines that minimize manual intervention while maximizing data quality and [[reproducibility]].

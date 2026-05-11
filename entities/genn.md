@@ -47,6 +47,6 @@ The Virtual Brain (TVB) primarily uses [[neural-mass-models]] and [[mean-field-t
 
 ## References
 
-1. James C. Knight, Johanna Senk, Thomas Nowotny. (2025). *A flexible framework for structural plasticity in GPU-accelerated sparse spiking neural networks*. Neuromorphic Computing and Engineering. [DOI](https://doi.org/10.1088/2634-4386/ae4535)
-2. Nawman Baig. (2025). *BrainSim-X v4.2.7: An advanced high-dimensional neural network simulation platform*. World Journal of Advanced Research and Reviews. [DOI](https://doi.org/10.30574/wjarr.2025.27.2.3021)
-3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+1. James C. Knight, Johanna Senk, Thomas Nowotny. (2025). *A flexible framework for structural plasticity in GPU-accelerated sparse spiking neural networks*. [[neuromorphic-computing]] and Engineering. [DOI](](https://doi.org/10.1088/2634-4386/ae4535))
+2. Nawman Baig. (2025). *BrainSim-X v4.2.7: An advanced high-dimensional neural network simulation platform*. World Journal of Advanced Research and Reviews. [DOI](](https://doi.org/10.30574/wjarr.2025.27.2.3021))
+3. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))

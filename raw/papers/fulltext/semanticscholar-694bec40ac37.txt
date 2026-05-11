@@ -1,0 +1,3668 @@
+Scientific Reports                                                                                      https://doi.org/10.1038/s41598-026-42663-0
+
+
+Article in Press
+
+Nonlinear dynamics of seizure suppression via
+optogenetic modulation of neuron-astrocyte
+interaction
+
+Received: 20 December 2025                           Mozhdeh Maboodi, Abazar Arabameri & Fariba Bahrami
+Accepted: 26 February 2026
+                                                     We are providing an unedited version of this manuscript to give early access to its
+
+
+                                                                                                              S
+                                                     findings. Before final publication, the manuscript will undergo further editing. Please
+Cite this article as: Maboodi M.,
+
+                                                                                                            S
+                                                     note there may be errors present which affect the content, and all legal disclaimers
+Arabameri A. & Bahrami F. Nonlinear
+
+                                                                                                E
+                                                     apply.
+dynamics of seizure suppression
+via optogenetic modulation of
+neuron-astrocyte interaction. Sci
+Rep (2026). https://doi.org/10.1038/                                                        P R
+                                                       If this paper is publishing under a Transparent Peer Review model then Peer
+                                                     Review reports will publish with the final article.
+
+
+
+                                                                               IN
+s41598-026-42663-0
+
+
+
+
+                                                             L E
+                                                 I         C
+                                             R T
+                                       A
+
+
+
+
+© The Author(s) 2026. Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International
+License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit
+to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do
+not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this
+article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the
+article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain
+permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
+                              ACCEPTED
+                                ARTICLEMANUSCRIPT
+                                        IN PRESS
+
+
+
+
+Nonlinear Dynamics of Seizure
+Suppression via Optogenetic
+Modulation of Neuron-Astrocyte
+Interaction
+Mozhdeh Maboodi Department of Electrical Engineering, University of Zanjan, Zanjan, Iran
+Abazar Arabameri * Department of Electrical Engineering, University of Zanjan, Zanjan, Iran
+arabameri@znu.ac.ir
+Fariba Bahrami School of Electrical and Computer Engineering, College of Engineering, University
+of Tehran, Tehran, Iran
+fbahrami@ut.ac.ir
+
+Abstract
+Epilepsy, characterized by abnormal neuronal hyperexcitability and disrupted
+
+                                                            S
+ion homeostasis, increasingly appears to involve complex neuron–glia
+                                                          S
+                                                         E
+interactions. This study develops a three-compartment computational model
+
+                                                       R
+encompassing neurons, astrocytes, and the extracellular space to investigate
+
+                                                      P
+the effects of optogenetic stimulation (OS) of astrocytes expressing
+
+
+                                               IN
+channelrhodopsin-2 (ChR2) and optogenetic inhibition (OI) of neurons
+expressing Archaerhodopsin-T (ArchT). The model integrates dynamic sodium,
+
+                               L E
+potassium, and calcium concentrations with explicit Na⁺/K⁺-ATPase and Kir4.1
+
+                             C
+channel mechanisms to simulate ionic regulation under normal and epileptic
+
+                          T I
+conditions. Simulations reveal that astrocytic OS markedly reduces seizure
+
+
+                       A R
+severity by enhancing Na⁺ influx and activating the Na⁺/K⁺-ATPase, thereby
+accelerating extracellular K⁺ clearance and dampening neuronal excitability.
+The anticonvulsant effect persists even when astrocytic calcium signaling or
+Kir4.1 channel function is impaired, underscoring the dominant role of Na⁺/K⁺-
+ATPase activity. Combined astrocytic stimulation and neuronal inhibition
+further decrease extracellular potassium and neuronal spiking, indicating a
+synergistic effect. Pre-seizure astrocyte activation proves substantially more
+effective than post-onset stimulation. These findings highlight astrocytes as
+active modulators of brain excitability and identify Na⁺/K⁺-ATPase–driven ion
+regulation as a key mechanism underlying seizure control, offering a
+mechanistic basis for glia-targeted optogenetic therapies in drug-resistant
+epilepsy.
+Keywords: Epilepsy, Optogenetics, Channel Rhodopsin-2, Sodium-Potassium
+Pump, Mathematical Modeling of Neurons and Astrocytes
+                        ACCEPTED
+                          ARTICLEMANUSCRIPT
+                                  IN PRESS
+
+
+
+1 Introduction
+Recent advances in optogenetics have transformed our ability to manipulate
+and study neural circuits with high temporal and cell-type specificity [1].
+Initially developed as a tool for precise control of neuronal activity,
+optogenetics has rapidly expanded to include non-neuronal cells, most
+notably astrocytes, whose contributions to neural computation and
+dysfunction are increasingly recognized [2]. This shift is especially relevant
+in the context of epilepsy, a disorder traditionally viewed through a neuron-
+centric lens but now understood to involve complex neuron-glia interactions
+[3]. The ability to stimulate channelrhodopsin-2 (ChR2)-expressing astrocytes
+with blue light and inhibit Archaerhodopsin-T (ArchT)-expressing neurons
+using yellow light, not only provides insight into astrocytic and neuronal
+functions but also opens up new therapeutic avenues for seizure control [4-
+6]. Further investigation of the effects of astrocytic optogenetic stimulation
+(OS) via ChR2 and neuronal optogenetic inhibition (OI) via ArchT is essential
+to elucidate their combined potential in modulating seizure dynamics through
+
+                                                 S
+ionic regulation [2, 5, 6].
+
+
+                                              ES
+Unlike pharmacological treatments or electrical neuromodulation techniques
+
+
+                                           PR
+such as vagus nerve stimulation (VNS) or deep brain stimulation (DBS),
+optogenetics offers cell-type-specific, reversible, and spatially precise
+
+                                     IN
+modulation of brain activity [6]. When applied to astrocytes, OS avoids direct
+excitation of neurons, thereby minimizing the risk of triggering seizures—a
+
+                          L E
+major concern in neuronal optogenetic paradigms [2]. Instead, astrocytic
+
+                       IC
+stimulation induces slower, sustained regulatory effects on the local neural
+
+
+                    RT
+environment by enhancing mechanisms such as ion buffering,
+gliotransmission, and Na⁺/K⁺-ATPase activity [5-7]. These functions are
+                  A
+essential for network stability and make astrocytic OS an attractive strategy
+for modulating excitability without exacerbating hyperactivity.
+There is an urgent need for improved interventions in drug-resistant epilepsy,
+which accounts for approximately 30% of cases and is often refractory to
+current treatment modalities [3]. Conventional antiepileptic drugs target ion
+channels or synaptic transmission, typically aiming to reduce excitability or
+enhance inhibition. However, they lack spatial precision and often affect
+multiple cell types, leading to adverse cognitive and systemic side effects.
+Electrical stimulation therapies face similar issues, with limited spatial
+resolution and potential interference with normal brain function [5, 6]. In
+contrast, OS of astrocytes operates through indirect but potent mechanisms
+that confer longer-lasting and more stable control of neural networks,
+without perturbing normal signaling patterns [2].
+Epileptic seizures arise from pathological synchronization of neural
+populations and are driven by disruptions in ion homeostasis, particularly
+                         ACCEPTED
+                           ARTICLEMANUSCRIPT
+                                   IN PRESS
+
+
+
+involving potassium (K⁺), sodium (Na⁺), and calcium (Ca²⁺) [7]. Traditionally,
+the role of astrocytes in epilepsy has been underappreciated. Yet, growing
+evidence suggests that these glial cells are not passive bystanders but active
+modulators of extracellular ion concentrations and neurotransmitter
+clearance [2]. Astrocytes buffer excess K⁺, take up glutamate, and maintain
+resting membrane potentials through their control of the sodium-potassium
+pump (Na⁺/K⁺-ATPase). During seizures, the ability of astrocytes to clear
+extracellular K⁺ and restore ionic gradients becomes crucial. If this pump
+function is impaired, positive feedback loops of hyperexcitability can develop,
+exacerbating seizure activity [7, 8].
+Specifically, the Na⁺/K⁺-ATPase pump exchanges three intracellular Na⁺ ions
+for two extracellular K⁺ ions, a process essential not only for maintaining
+electrochemical gradients but also for counteracting the depolarizing effects
+of K⁺ accumulation during intense neural activity [9]. Dysfunction in this
+mechanism—whether due to genetic mutation, metabolic stress, or
+insufficient astrocytic activation—can result in elevated extracellular K⁺,
+
+
+                                                 S S
+intracellular Na⁺ buildup, and increased neuronal excitability, all of which
+promote seizure propagation. Recent studies demonstrate that OS of
+
+                                              R E
+astrocytes enhances Na⁺/K⁺-ATPase activity, improving K⁺ uptake and
+
+                                             P
+rebalancing ionic homeostasis even in the absence of Ca²⁺ signaling pathways
+
+
+                                       IN
+[6].
+
+
+                             E
+In this context, ChR2-mediated OS offers a valuable intervention point. By
+
+                           L
+activating light-sensitive ion channels in astrocytes, it is possible to trigger
+                         C
+                        I
+membrane depolarization and stimulate downstream ionic transport
+
+
+                     RT
+mechanisms. Unlike neuronal OI, which leads to millisecond-scale
+depolarization and action potential firing, astrocytic OS produces slower,
+                   A
+cumulative effects over seconds to minutes—timescales more compatible
+with homeostatic regulation than rapid signaling. This temporal dynamic
+makes astrocytic OS particularly suited for suppressing seizures, where
+sustained ion regulation is more critical than transient excitation or inhibition
+[2].
+Despite the increasing number of experimental studies demonstrating the
+therapeutic potential of astrocytic OS, translating this potential into effective
+protocols is hampered by the system's complexity. The slow, homeostatic
+timescales of astrocytic effects interact non-linearly with fast neuronal
+dynamics during seizures, making it difficult to empirically predict optimal
+stimulation parameters. Consequently, computational models have yet to
+fully incorporate these findings, and the field lacks mechanistic mathematical
+frameworks that simulate how OS of astrocytes or OI of neurons impacts ion
+dynamics and seizure susceptibility. Mathematical modeling plays a crucial
+role in neuroengineering by enabling in silico exploration of dynamic,
+                         ACCEPTED
+                           ARTICLEMANUSCRIPT
+                                   IN PRESS
+
+
+
+nonlinear systems that are difficult to manipulate experimentally. Through
+simulation, it becomes possible to isolate parameters, test hypotheses, and
+predict outcomes of experimental interventions—all critical for the rational
+design of neuromodulation therapies.
+Several earlier models have contributed foundational insights into neuron-
+astrocyte interactions. Nadkarni and Jung introduced a simple network
+featuring a pyramidal neuron, interneuron, and astrocyte, showing that
+astrocytic glutamate release can enhance neuronal excitability and promote
+seizure-like activity when inhibitory tone is saturated [10]. Cressman et al.
+developed a single-compartment neuron model that integrated dynamic
+extracellular K⁺ and intracellular Na⁺ levels, revealing how small
+perturbations in ion concentration can lead to seizure onset [11]. Sibille et al.
+expanded these models to include astroglial Kir4.1 channels, emphasizing
+their role in rapid K⁺ clearance and the importance of astrocyte function in
+maintaining excitability thresholds [12].
+More recently, Li et al. incorporated stochastic intracellular Ca²⁺ signaling
+
+                                                 S S
+into astrocytic models, showing that variability in IP₃-mediated pathways can
+
+
+                                              R E
+lead to depolarization block and seizure discharges [13]. Du et al. explored
+how temperature-sensitive dysfunction of Kir4.1 channels contributes to
+                                             P
+febrile seizures, underscoring the vulnerability of astrocytic ion transport to
+
+                                       IN
+environmental stressors [14]. Rui et al. developed a neuron-astrocyte model
+
+                             E
+showing that low Kir4.1 channel conductance in astrocytes induces
+
+                           L
+spontaneous periodic epileptic activity (SPEA), while higher conductance
+                         C
+                        I
+causes bursting and tonic discharges; abnormal voltage-gated calcium
+
+
+                     RT
+channel also triggers SPEA and spontaneous periodic bursting event.
+Changes in extracellular potassium levels influence seizure-like discharge
+                   A
+transitions, offering insights into seizure mechanisms [15]. These studies
+collectively highlight the multifactorial role of astrocytes in epileptic
+dynamics—but none to date have explicitly modeled the effects of OS on these
+regulatory pathways.
+Despite remarkable advances, several knowledge gaps persist in the field.
+There remains limited computational exploration of the effects of astrocyte
+stimulation and neuronal inhibition via optogenetics in seizure control
+scenarios. The timing and synchronization of optogenetic interventions have
+not been systematically investigated in a model encompassing simultaneous
+ionic, membrane, and pump-level variables. Many existing mathematical
+models rely on oversimplified representations of ionic fluxes or ignore
+essential cross-talk between neuron and astrocyte compartments.
+Addressing these gaps, the present work develops a comprehensive
+mathematical model of neuron–astrocyte interactions that tracks intra- and
+                        ACCEPTED
+                          ARTICLEMANUSCRIPT
+                                  IN PRESS
+
+
+
+extracellular concentrations of sodium, potassium, and calcium ions,
+explicitly models membrane voltages and pump dynamics, and incorporates
+mechanistically accurate optogenetic interventions using ChR2 (for astrocyte
+stimulation) and ArchT (for neuronal inhibition). The model is designed to:
+   Simulate normal and epileptic states by tuning physiological and
+    pathophysiological parameter sets.
+   Validate system behavior and output patterns against published
+    experimental data.
+   Systematically investigate the role of key astrocytic ion transport
+    mechanisms and membrane pumps under basal and epileptic
+    conditions.
+   Assess the impact of temporal OS strategies on seizure reduction.
+   Evaluate the relative importance of all parameters by global sensitivity
+    analysis, facilitating targeted experimental and translational research.
+
+
+                                               S S
+By integrating cutting-edge biological insights with mathematically robust
+
+                                              E
+modeling, this study aims to advance understanding of seizure dynamics and
+                                            R
+                                           P
+provide a framework for rational development and testing of novel glia-
+targeted epilepsy therapies.
+
+                                     IN
+2 Results
+                          L E
+                        C
+2.1 Simulation of normal and epileptic states
+                       I
+In our computational framework, the induction of epileptiform states is
+                     T
+                    R
+mediated by the astrocyte-to-neuron excitatory current (Iastro ), which is
+
+                  A
+governed by the intracellular calcium concentration within astrocytes. This
+current models the calcium-dependent release of excitatory gliotransmitters,
+such as glutamate. Increasing the magnitude of Iastro elevates neuronal
+excitability, leading to the emergence of seizure-like dynamical patterns,
+including synchronized population oscillations and paroxysmal bursting
+discharges.
+To incorporate the intrinsic variability and pathological fluctuations
+characteristic of epileptic networks, we introduced stochastic noise into the
+neuronal dynamics. Following established methodologies [13], a Gaussian
+white noise term with tunable amplitude was added to Equation (13) via the
+dimensionless parameter DS. As the noise amplitude increases, the system
+undergoes a transition from baseline physiological activity to sustained
+epileptiform states, thereby simulating the role of dysregulated astrocytic
+calcium signaling in ictogenesis [16, 17].
+                                                      ACCEPTED
+                                                        ARTICLEMANUSCRIPT
+                                                                IN PRESS
+
+
+
+While epilepsy is a network-level phenomenon, it is underpinned by
+consistent cellular-level electrophysiological signatures during ictal events:
+      High-frequency bursting (>10–50 Hz) and sustained tonic firing (30–
+       100+ Hz).
+      Pathological accumulation of extracellular potassium ([K⁺]ₑ), which
+       creates a positive feedback loop driving further neuronal
+       depolarization.
+      Post-ictal hyperpolarization, mediated                               by   pump   activation   and
+       potassium clearance mechanisms.
+To calibrate the DS parameter such that the model's output reflects
+experimentally observed ictal activity, we conducted a literature survey of
+neuronal firing rates during seizures. These rates are phase-dependent,
+ranging from pre-ictal bursting (10–50 Hz) to tonic-phase sustained firing
+(30–100+ Hz) and clonic-phase rhythmic bursts (5–20 Hz). Reported values
+
+                                                                            S
+include ~20 Hz [10], 30–50 Hz [15], 20–150 Hz [18], and ~12 Hz [19].
+
+
+                                                                         E
+Our parameter sweep (Figure 1) confirmed that a DS value of 1.4 produces a
+                                                                          S
+                                                                       R
+mean neuronal firing frequency of approximately 30 Hz, concomitant with an
+
+                                                                      P
+elevated extracellular [K⁺] concentration (Figure 4), consistent with the tonic
+
+
+                                                                 IN
+phase of a seizure. Therefore, we set DS = 1.4 to simulate the epileptic
+condition and DS = 0 to represent the baseline, non-epileptic state in all
+subsequent simulations.
+                                                        L E
+                                                     IC
+                                                   T
+                                           70
+            Dominate Frequency ofN V(Hz)
+
+
+
+
+                                           60
+
+                                           50   A R
+                                           40
+
+                                           30
+
+                                           20
+
+                                           10
+
+                                           0
+                                                0.5    1   1.5   2    2.5    3    3.5    4
+                                                                 DS
+
+    Figure 1: Model Determination of the DS parameter. Effect of DS on neuronal output
+  frequency, showing that DS = 1.4 reproduces the 30 Hz oscillation characteristic of the
+                                      epileptic state.
+
+All of the simulations were performed in MATLAB R2024a and the fourth-
+order Runge-Kutta method was used to numerically solve the equations. For
+the greater convenience of the reader, the protocol for all simulations
+                             ACCEPTED
+                               ARTICLEMANUSCRIPT
+                                       IN PRESS
+
+
+
+performed in this article is presented in Table 1, and where necessary,
+references to this table have been made in the figure captions.
+  Table 1: Summary of simulation protocols used in this study for different neuronal and
+                                 astrocytic conditions.
+
+ Scenari    Sim.          DS value          ChR2 Stim.    ArchT Stim.        Figure
+    o       Dur.
+   A1       80 s
+                     {1.4,
+                       0,       t < 10 s
+                                 t ≥ 10 s
+                                                -              -            Figure 2a
+                                                                           (Epileptic)
+                                                                            Figure 3a
+                                                                            Figure 4
+                                                                            Figure 5a
+                                                                           (Epileptic)
+   A2       80 s
+                     {1.4,
+                       0,        t < 10 s
+                                  t ≥ 10 s
+                                            t > 10 s           -        Figure 2a (ChR2)
+                                                                        Figure 5a (ChR2)
+   A3       80 s
+                     {1.4,
+                       0,        t < 10 s
+                                  t ≥ 10 s
+                                                -          t > 10 s     Figure 2a (ArchT)
+
+   B1       80 s             1.4          10 ≤ t ≤ 40 s        -            Figure 2b
+   B2       80 s             1.4                -           10 ≤ t          Figure 2c
+                                                            ≤ 40 s
+   C1       80 s
+                     {1.4,
+                       0,       t < 10 s 20 ≤ t ≤ 50 s
+                                 t ≥ 10 s
+                                                        S S    -            Figure 3b
+
+
+                     {1.4,                             E
+   C2       80 s       0,       t < 10 s         -          20 ≤ t          Figure 3c
+
+                                                     R
+                                 t ≥ 10 s                   ≤ 50 s
+   D1       80 s
+
+                     {
+                              0                  -
+                                                    P          -            Figure 4
+
+
+                                             IN
+   E1       80 s          0,    t < 10 s 10 ≤ t ≤ 50 s         -            Figure 5b
+                         1.4,    t ≥ 10 s
+   F1       100 s
+                     {                                         -            Figure 6
+
+                              E
+                          0,    t < 10 s 10 ≤ t ≤ 50 s
+
+                            L
+                         1.4,    t ≥ 10 s                                   Figure 14
+   F2       100 s
+                     {    C
+                          0,    t < 10 s    t ≥ 10 s           -            Figure 7
+
+   G1       40 s
+                     { T I
+                         1.4,
+                          0,
+                                 t ≥ 10 s
+                                t < 20 s      t ≥ ts           -            Figure 8
+
+                      R
+                         1.4,    t ≥ 20 s    where
+
+   H1       40 s    A{    0,
+                         1.4,
+                                t < 10 s
+                                 t ≥ 10 s
+                                         ts ∈ 20 ± 3 s
+                                            t ≥ 10 s           -            Figure 9
+
+   I1       40 s
+                     {    0,
+                         1.4,
+                                t < 10 s
+                                 t ≥ 10 s
+                                            t ≥ 10 s           -            Figure 10
+
+   I2       40 s
+                     {    0,
+                         1.4,
+                                t < 10 s
+                                 t ≥ 10 s
+                                                 -         t ≥ 10 s         Figure 10
+
+   I3       40 s
+                     {    0,
+                         1.4,
+                                t < 10 s
+                                 t ≥ 10 s
+                                            t ≥ 10 s       t ≥ 10 s         Figure 10
+
+   J1       80 s
+                     {    0,
+                         1.4,
+                                t < 10 s
+                                 t ≥ 10 s
+                                            t ≥ 10 s           -            Figure 11
+
+   J2       80 s
+                     {    0,
+                         1.4,
+                                t < 10 s
+                                 t ≥ 10 s
+                                                 -          ≥ 10 s          Figure 11
+
+
+
+2.2 Assessing the model's behavior
+We begin by evaluating the consistency of the model's behavior with
+established animal models. Figure 2a presents a comparison of the model
+outputs with experimental data from [6]. The results demonstrate a
+satisfactory agreement between the model outputs and the empirical data,
+                         ACCEPTED
+                           ARTICLEMANUSCRIPT
+                                   IN PRESS
+
+
+
+indicating that the model successfully replicates the behavior of the biological
+system to a great extent.
+Also, to investigate whether astrocytic calcium signaling is required for the
+anticonvulsant effects of OS of astrocytes, a simulation was conducted in
+which astrocytic calcium signaling was blocked during OS (IChr2Ca was set
+to zero). Zhao, Sun et al. [6] used a pharmacological blocker to inhibit
+astrocytic calcium signaling during OS. They concluded that while such
+signaling is involved in seizure onset, it is not required for the anticonvulsant
+effects resulting from OS of astrocytes. Our computational model aligns with
+this conclusion, as the results in Figure 2a demonstrate that the presence or
+absence of calcium only marginally alters the outcome.
+Figure 2b-c examines the model's behavior over time following the
+application of either astrocyte stimulation via ChR2 or neuronal inhibition via
+ArchT. As can be seen, with ChR2 stimulation of the astrocyte, the seizure
+intensity (ASE80-400 index) is drastically reduced, and the neuron exhibits
+
+                                                   S
+normal behavior. Furthermore, even after the stimulation is terminated at t
+
+
+                                                ES
+= 40 s, it remains in a regular sparse spiking state and does not return to the
+epileptic seizure state. In contrast, when the neuron is inhibited by ArchT, its
+
+                                             PR
+spiking activity decreases but is not completely suppressed. Moreover, upon
+the cessation of the ArchT optical stimulation, the neuron returns to the
+epileptic seizure state.
+                                       IN
+                           L E
+                        IC
+                     RT
+                   A
+                                                               ACCEPTED
+                                                                 ARTICLEMANUSCRIPT
+                                                                         IN PRESS
+
+
+
+                                                                                  (a)
+
+                                                                                                 ,       ,         → Experimental
+                                                0.6                                              ,       ,         → Simulation
+
+
+
+
+                                            )
+                                       80-400
+                                                0.5
+
+
+                   Seizure severity (ASE        0.4                         Simulation with blocked astrocytic
+                                                                            calcium signaling upon OS
+                                                0.3
+
+                                                0.2
+
+                                                0.1
+
+                                                    0
+                                                                Epileptic           Chr2                         ArchT
+
+                                                                                  (b)
+
+                                                1
+              ASE 80-400
+
+
+
+
+                                   0.5
+
+                                                                                                 S S
+                                                                                              R E
+                                                0
+                                                 0        10      20        30       40
+                                                                                             P 50        60         70       80
+
+
+
+                                                                                   IN
+                                                                                  Time (s)
+                                                                                  (c)
+                                    0.8
+
+                                                                L E
+                                    0.6
+
+                                                             IC
+              ASE 80-400
+
+
+
+
+                                    0.4
+
+                                                          RT
+                                    0.2
+
+                                                0
+                                                 0
+                                                        A 10      20        30       40        50        60         70       80
+                                                                                  Time (s)
+      Figure 2: Validation of the model and effects of OS. (a) Model validation against key
+  experimental findings from [6]. The computational seizure severity metric (ASE80-400) is
+  compared to the trends in behavioral seizure scores reported in Fig. 1g and 3e of [6]. The
+model reproduces the experimental finding that astrocytic ChR2 stimulation reduces seizure
+severity and shows minimal impact from blocking astrocytic calcium signaling (Scenarios A1,
+A2, and A3 in Table 1). For comparison, all values (experimental and model outputs for each
+   group) were normalized to the experimental value of the Epileptic group. The simulation
+    results are presented as the mean of 10 runs ± the standard deviation. (b–c) Temporal
+     dynamics of neuronal activity (ASE80-400 index) under astrocytic ChR2 stimulation and
+    neuronal ArchT inhibition, demonstrating seizure suppression with ChR2 activation and
+  seizure recurrence after ArchT stimulation (Scenario B1 and B2 in Table 1). The timing of
+  optogenetic stimulation is indicated by colored regions: the blue region for ChR2 and the
+                                    yellow region for ArchT.
+
+To examine the temporal behavior of different scenarios, Figure 3 shows the
+neuron's voltage in three states. In panel a, where no OS is applied, the
+                                              ACCEPTED
+                                                ARTICLEMANUSCRIPT
+                                                        IN PRESS
+
+
+
+neuron is in a seizure-like state, and a large number of spikes are observed
+over a short period (Figure 3a, right panel). With the application of ChR2
+stimulation to the astrocyte (Figure 3b), the number of spikes decreases
+compared to the no-stimulation state, and eventually, the neuron reaches a
+spike-free state. In Figure 3c, it can be seen that during the application of
+ArchT inhibition, the number of spikes decreases significantly. However, it is
+observed that after the ArchT stimulation is terminated, the number of spikes
+increases again and returns to epileptic state. This indicates that, consistent
+with experimental studies [6], the model predicts that astrocyte stimulation
+is more effective than neuronal inhibition in suppressing seizures.
+                                                                     (a)
+                   40
+
+                   20                                                                 50
+                    0
+        VN (mV)
+
+
+
+
+                                                                           VN (mV)
+                   -20                                                                 0
+
+                   -40
+
+                   -60                                                                -50
+
+                   -80
+
+
+
+
+                                                                                           S
+                  -100                                                               -100
+
+
+
+
+                                                                                         S
+                      0   1   2    3      4        5   6   7     8                          4.02   4.025   4.03    4.035      4.04   4.045   4.05
+                                       time (ms)               104                                                time (ms)                         104
+
+                                                                     (b)
+
+                                                                                      R E
+                                                                                     P
+                  100
+
+                   50                                                                 50
+
+
+
+
+                                                                     IN
+                    0
+        VN (mV)
+
+
+
+
+                                                                           VN (mV)
+
+
+
+
+                                                                                       0
+                   -50
+
+
+
+
+                                                           LE
+                  -100
+                                                                                      -50
+                  -150
+
+                  -200
+                      0   1   2    3
+
+
+                                       IC 4        5   6   7     8
+                                                                                     -100
+                                                                                            4.02   4.025   4.03    4.035      4.04   4.045   4.05
+
+
+
+
+                                     T
+                                       time (ms)               104                                                time (ms)                         104
+
+                                                                     (c)
+                  100
+
+
+                   50             A R                                                 50
+        VN (mV)
+
+
+
+
+                                                                           VN (mV)
+
+
+
+
+                                                                                       0
+                    0
+
+
+                   -50                                                                -50
+
+
+
+                  -100                                                               -100
+                      0   1   2    3      4        5   6   7     8                          4.02   4.025   4.03    4.035      4.04   4.045   4.05
+                                       time (ms)               104                                                time (ms)                         104
+
+ Figure 3: Neuronal voltage dynamics under different stimulation conditions. (a) Seizure-like
+ spiking without OS (Scenario A1 in Table 1). (b) Reduced and eventually suppressed spiking
+    during astrocytic ChR2 activation (Scenario C1 in Table 1). Light stimulation period is
+    indicated by the thick blue line (c) Transient spike suppression during neuronal ArchT
+inhibition, followed by reemergence of seizure activity after stimulation ends (Scenario C2 in
+             Table 1). Light stimulation period is indicated by the thick yellow line.
+
+Figure 4 shows the key changes in our model during normal and epileptic
+states. Many behaviors reported in experimental studies are observed in this
+figure. As expected, epileptic tissue has higher extracellular K⁺ levels (KO ).
+This makes neurons fire more easily and keeps seizures going [20]. The high
+KO comes from neurons losing K⁺ (KN ) during fast, repeated bursts, plus
+                                                     ACCEPTED
+                                                       ARTICLEMANUSCRIPT
+                                                               IN PRESS
+
+
+
+astrocytes failing to clear it away. Studies show that inside neurons, [K⁺] (KN )
+can drop to 115–125 mM during strong seizures or synced brain activity. This
+drop happens because K⁺ leaks out too fast through channels, while the pump
+cannot bring it back in time [19].
+During seizure-like activity, [Na⁺] inside neurons (NaN ) rises [21]. At the same
+time, [Na⁺] outside neurons (NaO ) falls a little (by 4–7 mM) [21]. In epileptic
+brains, astrocytes have less Kir4.1 channels, so they cannot buffer K⁺ well
+[22]. To fix the high Na⁺ inside, neuronal Na⁺/K⁺ pumps work much harder
+during seizures [23]. In response, astrocytes enhance their pump activity to
+regulate the elevated extracellular K⁺ concentration. But in long-term
+epilepsy, these pumps weaken, making K⁺ clearance worse and seizures
+stronger.
+
+
+                   Experimental Protocol Schematic
+                                                                   50
+                                                                                                                      -76           Epileptic
+                                                     VN (mV)
+
+
+
+
+                                                                                                            VA (mV)
+                                                                                                                                    Normal
+
+
+
+                                                                                                          S
+                                DS = 0,                            0
+
+
+
+
+                                                                                                        S
+                                                                                                                      -78
+                    DS = 0,     DS = 1.4                        -50
+
+
+
+                                                                                                       E
+                                                                                                                      -80
+
+
+
+                                                                                                     R
+                                                               -100
+               0         2       4         6     8                 0            2      4        6      8                 0          2           4   6     8
+
+
+
+                                                                                                    P
+                              Time (ms)        104                                  Time (ms)        104                                Time (ms)       104
+
+
+
+
+                                                                                      IN
+           120
+                                                                   32
+NaO (mM)
+
+
+
+
+                                                        NaN (mM)
+
+
+
+
+                                                                                                             NaA (mM)
+
+
+                                                                                                                        20
+           110
+
+
+
+                                                     E
+                                                                   30
+
+
+
+                                                   L
+                                                                                                                        15
+           100                                                     28
+
+
+
+                                                 C
+                                                                                                                        10
+
+
+
+                                                I
+           90                                                      26
+
+
+
+                                              T
+             0           2       4         6     8                   0          2      4        6      8                 0          2           4   6     8
+                              Time (ms)        104                                  Time (ms)        104                                Time (ms)       104
+
+               6
+
+
+                                           A R                  105                                                  170
+     KO (mM)
+
+
+
+
+                                                      KN (mM)
+
+
+
+
+                                                                                                           KA (mM)
+
+
+
+
+               4                                                100
+                                                                                                                     165
+               2                                                   95
+                                                                                                                     160
+               0                                                   90
+                0        2       4         6     8                   0          2      4        6      8                 0          2           4   6     8
+                              Time (ms)        104                                  Time (ms)        104                                Time (ms)       104
+                                                                         10-4                                                10-4
+               0                                                                                                        4
+                                                                   2
+                                                                                                               ipumpA
+                                                          ipumpN
+
+
+
+
+            -2
+   IkirA
+
+
+
+
+                                                                   1                                                    2
+
+            -4
+                                                                   0                                                    0
+               0         2       4         6     8                  0           2      4        6      8                 0          2           4   6     8
+                              Time (ms)        104                                  Time (ms)        104                                Time (ms)       104
+
+
+        Figure 4: Key ionic and electrical changes in the model. Comparison of intra- and
+    extracellular ion concentrations, pump activity, and membrane voltage of the neuron and
+      astrocyte under epileptic (Scenario A1 in Table 1) and normal (Scenario D1; Table 1)
+                                             conditions.
+                        ACCEPTED
+                          ARTICLEMANUSCRIPT
+                                  IN PRESS
+
+
+
+2.3 Investigating the role of sodium-potassium pumps
+
+When ChR2 is activated by light, it depolarizes astrocytic membrane and
+raises intracellular sodium levels, which then triggers the astrocytic Na⁺/K⁺-
+ATPase pump. Blocking this pump with drugs like ouabain completely stops
+the seizure suppression caused by astrocytic OS, proving the pump's key role
+[6].
+
+To test this in our model, we removed the pump current entirely (Figure 5a).
+As shown, even with OS in astrocytes, seizure intensity stays high without the
+pump. This confirms that sodium-potassium pumps are essential in our model
+for reducing seizures via ChR2 stimulation in astrocytes. The figure also
+compares our model results to experimental data of [6], showing that the
+model accurately matches real-world behavior.
+
+For a closer look, Figure 5b tracks the ASE80-400 index over time during
+astrocytic ChR2 stimulation under pump-present and pump-free conditions.
+Clearly, without the pump, ChR2 stimulation in astrocytes has almost no
+effect on stopping seizures.
+                                                S S
+                                             R E
+To elucidate the mechanism by which pump activity mitigates seizures, we
+
+                                            P
+analyzed model variables (Figure 6) under three distinct conditions: (1)
+
+
+                                      IN
+epileptic state without astrocyte OS, (2) epileptic state with ChR2-mediated
+astrocyte stimulation and full (100%) Na+/K+-pump activity, and (3) epileptic
+
+                          L E
+state with ChR2-mediated stimulation but severely reduced (10%) pump
+
+                        C
+activity. With ChR2-activated astrocytes and full pump function, there is a
+                       I
+                     T
+marked hyperpolarization during and after the stimulation period, restoring
+
+
+                  A R
+membrane voltage closer to physiological baseline. When pump activity is
+reduced to 10%, depolarization is more pronounced and sustained, failing to
+fully repolarize post-stimulation.
+ The analysis reveals that severely compromised pump function (10%)
+renders astrocyte stimulation largely ineffective in normalizing neuronal
+activity. This ineffectiveness is linked to the dynamics of extracellular
+potassium (Kₒ). Impaired pumping leads to a persistent elevation of Kₒ from
+the simulation's onset, which directly promotes neuronal hyperexcitability.
+While astrocyte stimulation achieves a partial reduction in Kₒ, this modulation
+is too weak to abate the seizure. Notably, the neuronal pump demonstrates
+increased activity in this 10% condition, a compensatory response that is
+contingent upon the high concentrations of its substrates, Kₒ and NaN.
+Astrocytic NaA increases during stimulation, more for reduced pump
+reflecting greater Na+ influx from ChR2 and poor clearance.
+In summary, the dependence of seizure attenuation on Na+/K+-ATPase
+corroborates biophysical models and experimental data showing that
+                                                    ACCEPTED
+                                                      ARTICLEMANUSCRIPT
+                                                              IN PRESS
+
+
+
+astrocytic K+ and Na+ homeostasis is pump-dependent, and that OS of ChR2
+fails to prevent extracellular K+ accumulation without sufficient pump
+activity [5, 6, 24].
+
+
+
+                                                                     (a)
+                                         0.8
+                                                                                    ,         ,        → Experimental
+                                         0.7                                        ,         ,        → Simulation
+                                     )
+                                80-400
+
+
+
+
+                                         0.6
+            Seizure severity (ASE
+
+
+
+
+                                         0.5
+
+                                         0.4
+
+                                         0.3
+
+                                         0.2
+
+                                         0.1
+
+
+
+                                                                                      S
+                                          0
+
+
+                                                                                    S
+                                                    Epileptic    With Astrocytic        Without Astrocytic
+
+
+                                                                                   E
+                                                                 Na+-K+-ATPase          Na+-K+-ATPase
+                                                                     (b)
+                                          1
+                                                                                PR
+                                                                     IN
+                                                                                                   + +
+                                                                                   With Astrocytic Na
+                                                                                                    -K -ATPase
+                                         0.8                                                          + +
+
+
+                                                         E
+                                                                                   Without Astrocytic Na
+                                                                                                       -K -ATPase
+
+                                         0.6
+
+                                                     C L
+        ASE 80-400
+
+
+
+
+                                         0.4
+                                                  T I
+                                         0.2
+                                               A R
+                                          0
+
+                                    -0.2
+                                        0      10      20       30         40           50        60         70         80
+                                               Time (s)
+    Figure 5: Role of astrocytic Na⁺/K⁺-ATPase in seizure suppression during optogenetic
+                                          stimulation.
+   (a) Model simulation (Scenarios A1, A2; Table 1) showing that the antiseizure effect of
+ astrocytic ChR2 activation is abolished when the astrocytic Na⁺/K⁺-ATPase is inhibited. This
+outcome, measured by the ASE80-400 metric, aligns with the experimental observation from
+ Fig. 5d of [6], where the therapeutic effect was lost upon pump inhibition. For comparison,
+       all values (experimental and model outputs for each group) were normalized to
+the experimental value of the Epileptic group. (b) Time course of ASE80-400 index under ChR2
+ stimulation with and without the astrocytic pump, demonstrating that seizure suppression
+depends on active Na⁺/K⁺-ATPase function (Scenario E1; Table 1). Light stimulation period is
+    indicated by the blue region. The results are presented as the mean of 10 runs ± the
+                                      standard deviation.
+                                                  ACCEPTED
+                                                    ARTICLEMANUSCRIPT
+                                                            IN PRESS
+
+
+
+                     Experimental Protocol Schematic
+                                                                                                                          50
+                                                                    0
+
+
+
+
+                                                      VN (mV)
+
+
+
+
+                                                                                                            VA (mV)
+                     DS = 0,   DS = 1.4                                                                                   0               Epileptic
+                                                                 -50
+                                                                                                                                          10% of pumpA
+                                                                                                                                                  i
+                                                                -100                                                   -50                100% of pumpA
+                                                                                                                                                  i
+
+                                                                -150                                                  -100
+                0        2      4     6     8    10                 0            2   4     6      8    10                 0           2      4       6    8    10
+                               Time (ms)        104                                  Time (ms)        104                                   Time (ms)         104
+
+                                                                    40                                                    60
+            100
+ NaO (mM)
+
+
+
+
+                                                         NaN (mM)
+
+
+
+
+                                                                                                               NaA (mM)
+                                                                    35                                                    40
+
+            50
+                                                                    30                                                    20
+
+                0                                                   25                                                    0
+                 0       2      4     6     8    10                   0          2   4     6      8    10                  0          2      4       6    8    10
+                               Time (ms)        104                                  Time (ms)        104                                   Time (ms)         104
+
+                6                                                100
+                                                                                                                       170
+      KO (mM)
+
+
+
+
+                                                       KN (mM)
+
+
+
+
+                                                                                                             KA (mM)
+                4
+                                                                    95
+                                                                                                                       165
+                2
+                                                                    90
+                0                                                                                                      160
+                 0       2      4     6     8    10                  0           2   4     6      8    10                 0           2      4       6    8    10
+                               Time (ms)        104                                  Time (ms)        104                                   Time (ms)         104
+
+
+
+                                                                                                       S
+                                                                          10-4                                                 10-4
+                0                                                                                                         4
+
+
+
+                                                                                                     S
+                                                                    2
+
+
+
+
+                                                                                                    E
+             -2
+
+
+
+
+                                                                                                                 ipumpA
+                                                           ipumpN
+    IkirA
+
+
+
+
+                                                                                                  R
+                                                                    1                                                     2
+             -4
+
+             -6                                                     0
+                                                                                                 P                        0
+
+
+
+
+                                                                                     IN
+               0         2      4     6     8    10                  0           2   4     6      8    10                  0          2      4       6    8    10
+                               Time (ms)        104                                  Time (ms)        104                                   Time (ms)         104
+
+
+
+
+                                                   L E
+   Figure 6: Effect of astrocytic Na⁺/K⁺-ATPase activity on seizure modulation during ChR2
+
+                                                 C
+ stimulation. Model simulations under three conditions: epileptic baseline without astrocyte
+
+
+                                              T I
+  stimulation (black), ChR2 stimulation with full pump activity (blue), and ChR2 stimulation
+                   with 10% pump activity (red) (Scenarios A1, F1; Table 1).
+
+
+                                           A R
+Figure 7 compares seizure severity (ASE₈₀–₄₀₀) under different conditions
+where the astrocytic Na⁺/K⁺-ATPase effect on specific ionic pathways was
+selectively removed. Under the baseline "Full Pump Effect" condition, which
+serves as the optimal benchmark with moderate seizure severity (~0.32),
+astrocytic ChR2 activation works in concert with a fully functional Na⁺/K⁺-
+ATPase to stabilize extracellular ion levels. Disrupting specific pump
+pathways reveals their distinct roles: seizure severity increases markedly
+(~0.41) when the pump's regulation of astrocytic intracellular K⁺ (KA) is
+blocked,     impairing    extracellular   K⁺   buffering    and     promoting
+hyperexcitability. Conversely, severity decreases somewhat (~0.18) when
+direct pump influence on extracellular K⁺ (KO) is removed, indicating this
+pathway is secondary to intracellular K⁺ regulation. Given that this result
+appears to contradict established assumptions from experimental studies, an
+additional simulation was conducted to further investigate. The behavior of
+various model variables was compared in two scenarios: one with the pump's
+effect on Ko applied, and one without, as shown in the Figure 14 (in Appendix
+                                                                ACCEPTED
+                                                                  ARTICLEMANUSCRIPT
+                                                                          IN PRESS
+
+
+
+section). As observed, although the number of spikes decreases in the no-Ko
+case, the neuronal voltage remains depolarized. More importantly, the Ko
+level is substantially higher than in the with-Ko case, leading to sustained
+neuronal hyperexcitability in the long term (evident from the resurgence of
+spikes toward the end of the simulation).
+Severity nearly vanishes (~0.02) when the pump's effect on astrocytic
+intracellular Na⁺ (NaA) is blocked. Figure 14 (in Appendix section) shows that
+in this scenario, intracellular sodium in the astrocyte increases due to the
+removal of the pump's effect, which in turn enhances astrocyte pump activity,
+reduces extracellular potassium, and leads to a rapid cessation of spikes.
+Blocking the effect on extracellular Na⁺ (NaO) returns severity to a high level
+(~0.41) by disrupting the Na⁺ gradient needed for glutamate uptake and K⁺
+clearance, showing its minimal contribution. Finally, combined blockade of
+K⁺ regulation results in intermediate severity (~0.15–0.2) through partial
+compensation, and blocking combined Na⁺ regulation confirms its weak
+individual role with similarly low severity (~0.05).
+
+
+                                                                                                         S S
+                                                                                                        E
+                                    0.5
+
+
+
+                                    0.4
+                                                                                                     PR
+                                                                                          IN
+                                )
+                           80-400
+       Seizure severity (ASE
+
+
+
+
+                                                               E
+                                    0.3
+
+
+
+
+                                                           C L
+                                                          I
+                                    0.2
+
+
+
+                                    0.1
+
+                                                       RT
+                                      0              A
+                                    -0.1
+                                                       ct
+
+
+
+
+                                                                      ct
+
+
+
+
+                                                                                     ct
+
+
+
+
+                                                                                                    ct
+
+
+
+
+                                                                                                                   ct
+
+
+
+
+                                                                                                                                  ct
+
+
+
+
+                                                                                                                                                 ct
+                                                     fe
+
+
+
+
+                                                                      fe
+
+
+
+
+                                                                                     fe
+
+
+
+
+                                                                                                    fe
+
+
+
+
+                                                                                                                   fe
+
+
+
+
+                                                                                                                                  fe
+
+
+
+
+                                                                                                                                                 fe
+                                                     Ef
+
+
+
+
+                                                                  Ef
+
+
+
+
+                                                                                 Ef
+
+
+
+
+                                                                                                Ef
+
+
+
+
+                                                                                                               Ef
+
+
+
+
+                                                                                                                              Ef
+
+
+
+
+                                                                                                                                             Ef
+                                                 p
+
+
+
+
+                                                               K mp
+
+
+
+
+                                                                              K mp
+
+
+
+
+                                                                                             N mp
+
+
+
+
+                                                                                                            N mp
+
+
+
+
+                                                                                                                           K mp
+
+
+
+
+                                                                                                                                          N mp
+                                                 m
+                                            Pu
+
+
+
+
+                                                            on Pu
+
+
+
+
+                                                                           on Pu
+
+
+
+
+                                                                                          on Pu
+
+
+
+
+                                                                                                         on Pu
+
+
+
+
+                                                                                                                        on Pu
+
+
+
+
+                                                                                                                                       on Pu
+                                                                                               a
+
+
+
+
+                                                                                                              a
+
+
+
+
+                                                                                                                                            a
+                                                                                                               O
+                                                                                                A
+                                            ll
+
+
+
+
+                                                                o
+
+
+
+
+                                                                               o
+
+
+
+
+                                                                                              o
+
+
+
+
+                                                                                                             o
+
+
+
+
+                                                                                                                            o
+
+
+
+
+                                                                                                                                           o
+                                                                                O
+                                                                 A
+                                           Fu
+
+
+
+
+                                                              N
+
+
+
+
+                                                                             N
+
+
+
+
+                                                                                            N
+
+
+
+
+                                                                                                           N
+
+
+
+
+                                                                                                                          N
+
+
+
+
+                                                                                                                                         N
+
+
+
+
+Figure 7: Contribution of specific astrocytic Na⁺/K⁺-ATPase pathways to seizure modulation.
+ Comparison of seizure severity (ASE₈₀–₄₀₀) across conditions with selective removal of the
+    pump’s effects on individual ionic pathways (Scenario F2 in Table 1). The results are
+                presented as the mean of 10 runs ± the standard deviation.
+
+2.4 The Effect of OS Timing on Seizure Control
+The timing of OS aimed at astrocytes plays a crucial role in the therapeutic
+control of epileptic seizures. Due to the rapid and reversible nature of
+optogenetic tools, especially ChR2, researchers can precisely manipulate
+astrocytic and neuronal signaling on a timescale that matches the fast
+                         ACCEPTED
+                           ARTICLEMANUSCRIPT
+                                   IN PRESS
+
+
+
+dynamics of seizure initiation and propagation. Delivering OS before an
+epileptic event may stabilize the extracellular ionic environment, potentially
+preventing the occurrence of seizure activity or reducing its severity.
+Conversely, activating astrocytes after seizure onset provides an opportunity
+for acute seizure interruption, effectively testing closed-loop interventions—
+a clinically relevant paradigm analogous to responsive neurostimulation
+devices in use for human epilepsy [25].
+Recent studies suggest that the efficacy and outcome of optogenetic
+interventions depend heavily on whether the stimulation is applied
+prophylactically (before) or reactively (after) relative to the epileptic event.
+This temporal specificity is not merely a technical advantage, but is essential
+to optimizing neuroprotective effects, minimizing network disruptions, and
+tailoring treatments to individual seizure profiles. Consequently,
+investigating how the timing of OS influences seizure reduction in
+mathematical and experimental models is foundational for translating these
+methods into precise, patient-responsive therapies [26].
+
+
+                                                 S S
+As seen in Figure 8a, OS before the system becomes epileptic suppresses the
+
+
+                                              R E
+seizure, whereas stimulation after the system becomes epileptic has no effect
+on seizure suppression. To investigate this further, Figure 8b shows the
+                                             P
+system variables under two conditions: in one, the stimulation occurs 5
+
+                                      IN
+seconds before the system becomes epileptic, and in the other, the
+
+                             E
+stimulation occurs 5 seconds after the system becomes epileptic.
+
+
+                         C L
+In early OS, astrocyte depolarization (VA ) begins before neuron hyperactivity
+
+                      T I
+(VN spike trains), maintaining stable neuronal voltage oscillations. In late OS,
+
+                     R
+astrocytes depolarize after seizure onset, failing to stabilize VN rapidly—
+
+                   A
+neuronal voltage remains elevated for longer. Early OS maintains
+extracellular potassium (KO ) near baseline through active uptake by
+astrocytes. Late OS shows large KO increase during seizure activity before
+recovery, indicating transient ionic dysregulation. The astrocytic intracellular
+potassium (KA ) rises sooner in early OS, reflecting prompt Kir-mediated
+uptake.
+                                                           ACCEPTED
+                                                             ARTICLEMANUSCRIPT
+                                                                     IN PRESS
+
+
+
+                                                                                               (a)
+                                     1
+
+
+                       ASE 80-400
+                                    0.5
+
+
+
+                                     0
+                                                 -3000      -2000                  -1000          0         1000           2000               3000
+                                                                               OS time - Seizure time (ms)
+                                                                                               (b)
+                                                                                           OS time = 25 s
+             Experimental Protocol Schematic                                               OS time = 15 s
+
+                                                                                                                                      0
+                                                                               0
+                                                                VN (mV)
+
+
+
+
+                                                                                                                       VA (mV)
+                             DS = 0,             DS = 1.4
+                                                                          -100                                                     -50
+
+
+                                                                          -200                                                   -100
+                  0                  1       2        3     4                 0            1      2         3      4                 0            1      2        3     4
+                                          Time (ms)       104                                  Time (ms)        104                                   Time (ms)       104
+
+                                                                              20
+
+
+                                                                                                                S S                  30
+  NaO (mM)
+
+
+
+
+                                                                   NaN (mM)
+
+
+
+
+                                                                                                                          NaA (mM)
+             140
+
+
+                                                                              15
+
+                                                                                                             R E                     20
+
+
+
+                                                                                                            P
+             120
+                                                                                                                                     10
+
+
+
+                                                                                               IN
+                  0                  1       2        3     4                  0           1      2         3      4                   0          1      2        3     4
+                                          Time (ms)       104                                  Time (ms)        104                                   Time (ms)       104
+
+                  4
+
+
+                                                         L E                125
+                                                                                                                                   145
+       K O (mM)
+
+
+
+
+                                                       C
+                                                                 K N (mM)
+
+
+
+
+                                                                                                                        K A (mM)
+
+
+
+
+                                                      I
+                  2                                                                                                                140
+
+
+                                                    T
+                                                                            120
+
+                  0
+                   0                 1       2
+
+                                                 A
+                                          Time (ms)
+                                                   R  3     4
+                                                          104
+                                                                               0           1      2
+                                                                                               Time (ms)
+                                                                                                            3
+                                                                                                                104
+                                                                                                                   4
+                                                                                                                                   135
+                                                                                                                                      0           1      2
+                                                                                                                                                      Time (ms)
+                                                                                                                                                                  3     4
+                                                                                                                                                                      104
+                                                                                    10-4                                                   10-4
+                  0
+                                                                               1                                                      5
+                                                                      ipumpN
+
+
+
+
+                                                                                                                             ipumpA
+     IkirA
+
+
+
+
+              -5
+                                                                               0                                                      0
+                  0                  1       2        3     4                   0          1      2         3      4                   0          1      2        3     4
+                                          Time (ms)       104                                  Time (ms)        104                                   Time (ms)       104
+
+   Figure 8: Timing-dependent effects of astrocytic OS on seizure suppression. (a) Model
+comparison showing that early OS (before seizure onset) prevents seizure activity, whereas
+late stimulation (after onset) fails to reduce it. (b) Time courses of key variables under early
+ and late OS conditions, illustrating that pre-seizure stimulation stabilizes neuronal voltage
+        and extracellular potassium, while post-seizure stimulation allows prolonged
+            hyperexcitability and delayed ionic recovery (Scenario G1; Table 1).
+
+2.5 What is the role of Kir4.1 channel?
+Figure 9 compares simulations of model under two conditions: full (100%)
+versus halved (50%) Kir4.1 channel activity. At 50% Kir4.1 activity, KO rises
+                                               ACCEPTED
+                                                 ARTICLEMANUSCRIPT
+                                                         IN PRESS
+
+
+
+less and clears faster following seizure initiation than with 100% Kir4.1
+activity. At 100% Kir4.1 activity, KO remains elevated for longer and stabilizes
+at a higher post-seizure value than in the reduced Kir4.1 case. This is
+counterintuitive but aligns with some computational and experimental
+findings: excessive K⁺ uptake by astrocytes (via high Kir4.1) can “trap”
+potassium intracellularly, resulting in reduced extracellular clearance via
+other pathways (e.g., spatial buffering, Na+/K+-ATPase (NKA), or vascular
+removal), and slower recovery to baseline [12, 27].
+With 50% Kir4.1 activity, VN is less depolarized and recovers closer to
+baseline after the seizure event. With 100% Kir4.1 activity, the neuron
+depolarizes more extensively and remains depolarized longer. This suggests
+that maximal Kir4.1 activity paradoxically sustains depolarizing influences,
+perhaps by elevating or retaining excess intracellular K⁺ (in astrocytes),
+thereby affecting ionic driving forces and membrane currents [15].
+               Experimental Protocol Schematic
+                                                                                                                       50
+
+
+                                                                                                 S
+                                                     VN (mV)
+
+
+
+
+                                                                                                         VA (mV)
+                                                                   0
+                         DS = 0,       DS = 1.4                                                                         0
+
+
+                                                                                               S
+                                                                                                                                               100% of Kir
+                                                                                                                                                       I
+                                                               -100
+
+
+                                                                                              E
+                                                                                                                     -50
+                                                                                                                                               50% of Kir
+                                                                                                                                                      I
+
+
+
+                                                                                            R
+                                                               -200                                                -100
+                    0      1       2       3     4                 0           1      2        3     4                 0            1      2        3        4
+                               Time (ms)       104
+                                                                                           P
+                                                                                   Time (ms)       104                                  Time (ms)       104
+
+
+
+
+                                                                                   IN
+               150                                                 20                                                  40
+    NaO (mM)
+
+
+
+
+                                                        NaN (mM)
+
+
+
+
+                                                                                                            NaA (mM)
+
+
+
+
+                                                                    LE
+                                                                                                                       30
+                                                                   15
+                                                                                                                       20
+
+
+                                             C
+               100
+
+
+
+                                            I
+                    0      1       2       3     4                  0          1      2        3     4                  0           1      2        3        4
+
+
+                                          T    104                                                 104                                                  104
+                               Time (ms)                                           Time (ms)                                            Time (ms)
+
+
+
+                                       A R                       125
+                                                                                                                     145
+         K O (mM)
+
+
+
+
+                                                      K N (mM)
+
+
+
+
+                                                                                                          K A (mM)
+
+
+
+
+                    2
+                                                                                                                     140
+                    1
+                                                                 120
+                    0                                                                                                135
+                     0     1       2       3     4                  0          1      2        3     4                  0           1      2        3        4
+                               Time (ms)       104                                 Time (ms)       104                                  Time (ms)       104
+                                                                        10-4                                                 10-4
+                    0                                              1
+                                                                                                                        5
+                                                       ipumpN
+
+
+
+
+                                                                                                               ipumpA
+
+
+
+
+                -2
+       IkirA
+
+
+
+
+                                                                 0.5
+                -4
+                                                                   0                                                    0
+                    0      1       2       3     4                  0          1      2        3     4                   0          1      2        3        4
+                               Time (ms)       104                                 Time (ms)       104                                  Time (ms)       104
+
+
+   Figure 9: Impact of Kir4.1 channel activity on seizure recovery. Comparison of model
+  simulations with full (100%) versus halved (50%) Kir4.1 activity (Scenario H1; Table 1).
+                                                          ACCEPTED
+                                                            ARTICLEMANUSCRIPT
+                                                                    IN PRESS
+
+
+
+2.6 The effect of simultaneous stimulation of astrocytes and inhibition
+    of neurons on seizure reduction
+Figure 10 presents simulation results for the separate and combined OS of
+astrocytes (ChR2) and inhibition of neurons (ArchT). The combined
+ChR2+ArchT stimulation caused a sharp decrease in the KO variable,
+indicating a potential reduction in neuronal excitability. In this combined
+paradigm, astrocyte state variables resembled the ChR2-only condition, while
+neuronal state variables were near to the ArchT-only condition.
+Consequently, the ChR2+ArchT simulation appears to harness the
+advantages of both individual approaches.
+This is supported by a magnified view of the neuronal voltage trace (VN) in
+Figure 10, which shows significantly fewer spikes under the combined
+condition. Quantitatively, the ASE80-400 values for the ChR2, ArchT, and
+ChR2+ArchT simulations were 0.2911, 0.398, and 0.2487, respectively. This
+confirms the superior performance of the combined stimulation strategy.
+
+                      Experimental Protocol Schematic
+
+                                                                                                            S S
+                                                                                                           E
+                                                                         100
+                                                                                                                                   50
+
+
+
+
+                                                                                                         R
+                                                             VN (mV)
+
+
+
+
+                                                                                                                     VA (mV)
+                       DS = 0,           DS = 1.4                          0                                                        0                      Chr2 + Arch
+
+
+
+
+                                                                                                        P
+                                                                                                                                                           Arch
+                                                                       -100                                                      -50                       Chr2
+
+
+
+
+                                                                                            IN
+                                                                       -200                                                    -100
+                 0        1         2        3           4                 0            1      2        3        4                 0            1      2         3         4
+                                 Time (ms)          104                                     Time (ms)       104                                     Time (ms)            104
+
+
+
+
+                                                       E
+                                                                                                                                   30
+
+
+
+
+                                                     L
+                                                                           20
+            140
+ NaO (mM)
+
+
+
+
+                                                                NaN (mM)
+
+
+
+
+                                                                                                                        NaA (mM)
+
+
+
+
+                                                   C
+                                                                                                                                   20
+
+
+
+                                                  I
+            120                                                            15
+
+
+
+
+                                                T
+            100                                                            10                                                      10
+
+
+
+
+                                               R
+               0          1         2        3           4                   0          1      2        3        4                   0          1      2         3         4
+                                                      4                                                       4
+                                 Time (ms)                                                  Time (ms)                                               Time (ms)            104
+
+
+
+                                             A
+                                                    10                                                      10
+
+                 3                                                       125                                                     145
+      K O (mM)
+
+
+
+
+                                                              K N (mM)
+
+
+
+
+                                                                                                                      K A (mM)
+
+
+
+
+                 2
+                                                                         120                                                     140
+                 1
+
+                 0                                                       115                                                     135
+                  0       1         2        3           4                  0           1      2        3        4                  0           1      2         3         4
+                                 Time (ms)          104                                     Time (ms)       104                                     Time (ms)            104
+                                                                                 10-4                                                    10-4
+                 0                                                                                                                  6
+                                                                           1
+                                                               ipumpN
+
+
+
+
+                                                                                                                                    4
+                                                                                                                           ipumpA
+    IkirA
+
+
+
+
+             -2
+                                                                         0.5
+                                                                                                                                    2
+
+             -4
+                                                                           0                                                        0
+                 0        1         2        3           4                  0           1      2        3        4                   0          1      2         3         4
+                                                      4                                                       4
+                                 Time (ms)          10                                      Time (ms)       10                                      Time (ms)            104
+
+
+
+   Figure 10: Combined astrocyte (ChR2) and neuron (ArchT) OS enhances seizure control
+                              (Scenarios I1, I2, I3; Table 1).
+
+2.7 Global sensitivity analysis
+Next, using the method described in [28], a sensitivity analysis of the model
+was performed. The primary outcome of interest for the sensitivity analysis
+                         ACCEPTED
+                           ARTICLEMANUSCRIPT
+                                   IN PRESS
+
+
+
+is ASE80-400, and 500 simulations with different sets of parameter values were
+run. The parameter values were randomly chosen from 0.8 to 1.2 of the values
+in Table 2. Since there are two distinct pathways for stimulating astrocytes
+(ChR2) and neurons (ArchT), the analysis has been performed once with
+ChR2 stimulation in astrocytes and once with ArchT inhibition in neurons
+(Figure 11). It can be observed that the parameters c0, d1, v3, and v1 are
+present among the top 10 most important parameters in both panels. Looking
+at the model equations, it is evident that all of these parameters are in some
+way related to intracellular astrocyte calcium. This is an expected result,
+since the induction of the epileptic state in our model is carried out by Iastro,
+which itself depends on intracellular astrocyte calcium. Several other non-
+shared parameters between the two panels (such as d5, a2, and k3) are also
+related to astrocyte calcium.
+Also, increasing sodium channel conductance (gNA) increases the likelihood
+of neurons firing in response to stimuli, effectively lowering the threshold for
+initiating action potentials. This increases the risk of synchronous bursting—
+the activity characteristic of seizures [29].
+
+                                                 S S
+                                              R E
+                                             P
+                                       IN
+                           L E
+                        IC
+                     RT
+                   A
+                                                      ACCEPTED
+                                                        ARTICLEMANUSCRIPT
+                                                                IN PRESS
+
+
+
+                                                                                       ChR2
+                                                                          Quantity of Interest: 80-400
+                                                                                                ASE
+         0.8
+                                                                                                                                                                                                        PRCC
+         0.6                                                                                                                                                                                            (p<0.05)
+
+
+         0.4
+
+
+         0.2
+  PRCC
+
+
+
+
+           0
+
+
+         -0.2
+
+
+         -0.4
+
+
+         -0.6
+
+
+         -0.8
+                 c0 d5 d1       v3 aN    v1   k 3 d 2 K m d 3 g Ca   v2   gk          p    a   r IP3 hR2 g Na      a 2 Vo           lA     c 1 lue n P3*   CA   n    k     lN      ch              3
+                                                                                                                                                                                                       V A1 C N
+                                  VC                                            ro
+                                                                                   -ga K N
+                                                                                                   gC                             Vo          g      I                   Vo     g Ar             IP
+                                                                               t
+                                                                          g as
+
+                                                                                       ArchT
+                                                                          Quantity of Interest: 80-400
+                                                                                                ASE
+          0.8
+                                                                                                                                                                                                        PRCC
+          0.6                                                                                                                                                                                           (p<0.05)
+
+
+
+
+                                                                                                                   S
+          0.4
+
+          0.2
+
+
+                                                                                                                ES
+                                                                                                              R
+           0
+
+
+
+                                                                                                             P
+  PRCC
+
+
+
+
+         -0.2
+
+
+
+
+                                                                                          IN
+         -0.4
+
+         -0.6
+
+         -0.8
+
+
+                                                 L E
+                                               C
+           -1
+
+         -1.2
+
+
+                                            T I
+                         c 0 g Na d 1 C N v 1 V A1 a 2 v 3 Vo                                                       k        3*                   c 1 ol N v 2 C A   n        lA              ue n Ca N hR2
+
+
+                                           R
+                    ch                                          d 2 k 3 K Na K m d 3                ap g k r IP3                       d 5 g Ca                                          3
+                g Ar                                                                           ro
+                                                                                                  -g                    IP                           V                   Vo            IP
+                                                                                                                                                                                            gl   V gC
+                                                                                              t
+                                                                                         g as
+
+
+                                         A
+                             Figure 11: Model sensitivity analysis (Scenarios J1, J2; Table 1).
+
+3 Discussion
+In this study, a three-compartment model was developed that describes the
+dynamics of ions between neurons, astrocytes, and the extracellular space.
+Also, the application of OS to astrocytes and OI to neurons was simulated
+according to in vitro studies, and the role of astrocytes and sodium-potassium
+pumps was investigated.
+This study employs a reductionist, single neuron-astrocyte modeling
+approach to investigate cellular ion homeostasis during the ictal state, a well-
+established methodology in epilepsy biophysics (e.g., [11, 15, 30-32]). The
+model does not simulate seizure generation (ictogenesis) at the network level.
+Instead, it uses seizure-like electrophysiological input as a controlled,
+phenomenological proxy to analyze the biophysical consequences of
+sustained depolarization, high-frequency firing, and pathological ion shifts on
+                         ACCEPTED
+                           ARTICLEMANUSCRIPT
+                                   IN PRESS
+
+
+
+channel, pump, and astrocyte function. This design allows for isolation of the
+core ion regulatory mechanisms that individual cells experience during a
+seizure, complementing population-level studies of epilepsy.
+The results show that OS of astrocytes expressing ChR2 can effectively
+reduce the severity of neocortical seizures. This anticonvulsant effect is
+related to the astrocyte Na⁺/K⁺-ATPase, which prevents firing in pyramidal
+neurons during seizures. OS of astrocytes also leads to sodium influx through
+ChR2, which activates astrocyte Na⁺/K⁺-ATPase. This increased activity helps
+to remove excess extracellular potassium and reduces neuronal excitability.
+Therefore, changes in astrocyte sodium and potassium concentrations are a
+key therapeutic mechanism of OS of astrocyte.
+Stimulation of astrocytes via ChR2 significantly reduced seizures (Figure 2b,
+Figure 3b). This result suggests that astrocytes not only play a supporting
+role in the brain environment, but also can act as active regulators in
+response to neuronal activity. This finding could help develop new therapies
+for epilepsy and other neurological disorders based on astrocyte stimulation.
+
+                                                 S S
+The role of astrocytes in modulating neuronal activity has attracted
+
+
+                                              R E
+increasing attention in recent years. For example, the study [33] showed that
+OS of astrocytes can be used to modulate neuronal activity.
+                                             P
+                                       IN
+Stimulation of astrocytes is more effective in reducing seizures than
+inhibition of pyramidal neurons (Figure 2, Figure 3). This finding helps to
+
+                           L E
+better understand the interactions between neurons and astrocytes and to
+
+                         C
+clarify the role of astrocytes in regulating the electrical activity of the brain
+
+                      T I
+as a key factor in the control of seizures. Studies [34], [35] suggest that
+
+                     R
+targeting astrocyte functions could provide a therapeutic strategy for the
+
+                   A
+treatment of epilepsy. While inhibition of pyramidal neurons can reduce
+seizure activity, it may not be as effective as stimulation of astrocytes.
+Astrocytic calcium signaling is not essential for the anticonvulsant effects of
+astrocyte stimulation (Figure 2a). This suggests that astrocytes use other
+mechanisms to regulate neuronal activity and reduce seizures. This could
+help future research to identify these mechanisms and how they work. Shah
+et al. [36] have shown that changes in calcium dynamics can contribute to
+neuroinflammatory processes and neuronal excitability, but do not directly
+affect seizure control mechanisms. Studies have also shown that astrocyte
+activation can enhance seizure activity through calcium-mediated glial
+glutamate release [37], [38].
+The results of this study point to the importance of the astrocytic sodium-
+potassium pump in OS (Figure 5). This pump directly plays a role in
+controlling the electrical activity of the brain by maintaining ion balance and
+regulating the membrane potential of astrocytes. This finding suggests that
+                         ACCEPTED
+                           ARTICLEMANUSCRIPT
+                                   IN PRESS
+
+
+
+the sodium-potassium pump is effective not only in regulating the ion balance
+in astrocytes but also in reducing seizure activity. As a result, targeting this
+pump could be considered as a new therapeutic strategy for controlling
+seizures. Studies [39], [40] show that activation of the sodium-potassium
+pump leads to a decrease in extracellular potassium, which subsequently
+prevents the firing of pyramidal neurons during seizures.
+In addition, Figure 7 compares seizure severity (ASE₈₀–₄₀₀) under different
+conditions where the astrocytic Na⁺/K⁺-ATPase effect on specific ionic
+pathways was selectively removed. The results of this figure align closely with
+established neurophysiology:
+      The Na⁺/K⁺-ATPase activity in astrocytes is vital for maintaining low
+       extracellular K⁺ during neuronal activity, ensuring neuronal
+       repolarization and preventing hyperexcitability.
+      When astrocytic K⁺ uptake via the pump is compromised, extracellular
+       [K⁺] rises, leading to sustained depolarization and seizure-like
+
+
+                                                 S S
+       discharges [41, 42]. Similarly, extracellular Na⁺ regulation supports
+       the Na⁺ gradient required for astrocytic glutamate transporters, which
+
+                                              R E
+       limit excitatory neurotransmission [43, 44]. Therefore, the model’s
+
+                                             P
+       heightened seizure severity upon removing pump effects on Ko or NaA
+
+
+                                      IN
+       matches experimental and computational findings demonstrating that
+       astrocytic pump dysfunction exacerbates epileptiform activity [45].
+
+                           L E
+The results of this study also showed that OS of astrocytes before the onset
+
+                        IC
+of a seizure is much more effective than applying stimulation after the seizure
+
+
+                     RT
+begins. These patterns align with established neurobiological behavior. If
+astrocytes are depolarized in advance, they preemptively increase metabolic
+                   A
+readiness (via Na⁺/K⁺-ATPase priming and elevated transporter activity),
+mitigating ionic accumulation and desynchronizing hyperexcitatory waves
+[46]. Once seizures begin, massive Na⁺/K+ dysregulation and glutamate
+buildup reduce the capacity of astrocytes to restore homeostasis, consistent
+with the delayed stabilization in the model [47].
+The simulation results in Figure 9 show that reduced function of Kir4.1
+channels enhances the inhibitory effect of astrocyte OS on reducing seizures.
+Conflicting evidence exists regarding the contribution of astrocytic Kir4.1
+channels versus Na⁺/K⁺-ATPase to seizure suppression, especially when
+astrocytes are optogenetically stimulated. Some studies and computational
+models report that both a reduction and an increase in Kir4.1 activity can
+trigger seizure-like activity, but with distinct dynamics. Specifically, one
+modeling study found that increasing Kir4.1 conductance leads to high-
+frequency neuronal firing, while decreasing Kir4.1 induces abnormal firing at
+                        ACCEPTED
+                          ARTICLEMANUSCRIPT
+                                  IN PRESS
+
+
+
+lower frequency, highlighting a nonlinear, dose-sensitive relationship
+between Kir4.1 and excitability [15].
+Conversely, recent experimental evidence suggests that the seizure-
+attenuating effects of optogenetic astrocyte stimulation are critically
+dependent on astrocytic Na⁺/K⁺-ATPase activity, with Kir4.1 playing only a
+permissive or secondary role. For example, the authors of [6] showed that
+optogenetically activating astrocytic ChR2 suppressed cortical seizures
+through upregulating the Na⁺-K⁺ pump, and that genetic or pharmacological
+interference with Kir4.1 did not abolish the protective effect. This supports a
+paradigm in which astrocytic K⁺ uptake and redistribution (traditionally
+attributed to Kir4.1) is auxiliary to the robust, activity-driven pumping
+capacity of Na⁺/K⁺-ATPase for controlling hyperexcitability during seizures.
+Importantly, loss-of-function mutations or knockdown of Kir4.1 channels are
+well-established to facilitate epileptogenesis, both in human syndromes and
+rodent models. However, the anti-seizure potential of OS appears to persist
+even when Kir4.1 is impaired, as long as NKA function is intact [48, 49].
+
+
+                                                S S
+Our results in Figure 10 indicate that the combined stimulation of astrocytes
+
+
+                                             R E
+(via ChR2) and inhibition of neurons (via ArchT) is more effective than
+individual application. Ledri et al. demonstrated that optogenetic activation
+                                            P
+of specific neuronal populations reduces seizure-like events and that
+
+                                      IN
+astrocytic modulation via ChR2 influences extracellular K+ dynamics, directly
+
+                            E
+affecting excitability and seizure propagation [50]. Similarly, studies have
+
+                          L
+shown that ArchT-mediated neuronal inhibition decreases neuronal spiking
+                        C
+                       I
+and network excitability during seizures, while ChR2 stimulation in
+
+
+                    RT
+astrocytes facilitates K+ clearance [51], consistent with our model’s
+observation of decreased extracellular potassium (Ko) and reduced neuron
+                  A
+spiking under the combined stimulation condition.
+Similar studies emphasize the role of astrocytes in modulating neuronal
+activity. For example, research has shown that optogenetic manipulation of
+astrocytes can affect seizure dynamics and neuronal excitability through
+various mechanisms. A study by Meyer [52] has shown that astrocytic calcium
+signaling can affect neuronal excitability and synaptic transmission.
+However, the findings of this paper suggest that sodium-potassium pump
+activity may play a more important role in this context. The strengths of this
+paper lie in its innovative approach to investigating astrocyte functions and
+the use of optogenetics to precisely temporally control cellular activity. This
+approach provides a clearer understanding of the dynamic interactions
+between glial cells and neurons during pathological states such as seizures.
+Nonetheless, a potential drawback is the narrow emphasis on particular
+signaling pathways. Investigating additional mechanisms might offer a more
+thorough understanding of the roles of astrocytes in neuronal excitability.
+                         ACCEPTED
+                           ARTICLEMANUSCRIPT
+                                   IN PRESS
+
+
+
+This study has inherent limitations. The model is not designed to simulate
+ictogenesis—the network-level processes of seizure initiation and
+propagation. It cannot address the roles of population dynamics, inhibitory
+interneuron dysfunction, or spatial spread in epilepsy. Its findings are
+explicitly contextualized within the cellular-scale phenomena of the ictal state
+and do not explain emergent network-level seizure dynamics.
+In this study, we focused on the interaction between a neuron and an
+astrocyte while excluding the effects of chemical synaptic connections in
+neurons and gap junction channels in astrocytes. Subsequently, a model that
+includes N pairs of neuron-astrocyte circuits along with random connections
+among neurons, as well as connections among astrocytes can be presented.
+This approach is necessary because epileptic seizures are a population
+phenomenon that cannot be accurately simulated using a two-cell model.
+This model ignored GABAergic interneurons, which are critically important
+in epilepsy. Furthermore, the pyramidal neuron was represented as a single
+compartment; future iterations could model the soma and dendrites
+
+                                                 S S
+separately, incorporate detailed ionic currents, and add interneurons.
+
+
+                                              R E
+The geometric structure of dendritic and axonal structures, the spatial
+
+                                             P
+distribution of channels and transmitters, and the presence of immobilized
+
+
+                                      IN
+anions that are critically needed to maintain electrical and osmotic balance
+were ignored. Also, the astrocyte in this model includes calcium, IP3, sodium,
+
+                           L E
+potassium, and the sodium-potassium pump; while nitric oxide can also affect
+
+                         C
+astrocytes and, consequently, epilepsy.
+
+                      T I
+Taken together, this study suggests that astrocytes play a critical role in
+
+                   A R
+regulating neuronal activity and controlling seizures. The findings of this
+study can serve as a basis for future research in the development of novel
+and targeted therapies (such as optogenetics) in neurological disorders,
+especially epilepsy, and deepen our understanding of the complex
+interactions between neurons and astrocytes.
+
+4 Methods
+4.1 Model construction
+                            ACCEPTED
+                              ARTICLEMANUSCRIPT
+                                      IN PRESS
+
+
+
+
+                                                      S S
+                                                   R E
+            Figure 12: Schematic of the neuron-astrocyte model in this study.
+                                                  P
+                                          IN
+Modeling ArchT in neuron
+
+
+                               E
+Figure 12 shows the schematic of the neuron-astrocyte model in this study.
+
+                             L
+Applying yellow light to neurons expressing ArchT causes a hyperpolarization
+                           C
+                          I
+of the neuron, effectively inhibiting its activity. The optogenetic inhibition of
+
+
+                       RT
+neurons via the light-driven proton pump ArchT is modeled using a two-
+equation system that captures the resulting hyperpolarizing current and its
+                     A
+activation kinetics. Total inhibitory current (IArch ) generated by ArchT
+activation is given by equation (1):
+
+    IArch = kArch .gArch (VN - Vhyper )                                         (1)
+
+where IArch is the outward hyperpolarizing current, kArch is a dimensionless
+gating variable (ranging from 0 to 1) that represents the fraction of open
+channels. It is governed by the kinetic equation (2). gArch is the maximum
+membrane conductance when all ArchT channels are open. VN is the neuron's
+membrane potential (mV). Vhyper is the reversal potential for the ArchT-
+mediated current (mV). For a proton pump like ArchT, Vhyper is typically more
+negative than the resting potential, providing a strong driving force for
+hyperpolarization. The term (VN - Vhyper ) ensures the current is outward
+(hyperpolarizing) at typical sub-threshold and action potential membrane
+potentials. kArch is described by the following first order differential equation
+(2):
+                             ACCEPTED
+                               ARTICLEMANUSCRIPT
+                                       IN PRESS
+
+
+
+   dkArch                                                                 (2)
+          = 0.25SArch (1 - kArch ) - 0.075(1 - SArch )kArch
+     dt
+where SArch represents the light stimulus, a binary variable where SArch
+ = 1 during light delivery and SArch = 0 otherwise. The activation
+Term 0.25 ⋅ SArch (1 - kArch ) dominates when light is ON (SArch = 1),
+driving kArch towards 1 with a time constant of τrise ≈ 1/0.25 = 4 ms. The
+deactivation Term: -0.075 ⋅ (1 - SArch )kArch . dominates when light is OFF (
+SArch = 0), driving kArch back towards 0 with a time constant of τdecay ≈ 1/
+0.075 ≈ 13.3 ms [53]. Figure 13a compares the experimental data and model
+output during ArchT stimulation. The experimental photocurrent trace (IArch
+(t)), sourced from Figure 3B of [53], was used to derive the effective
+conductance gating variable, kArch (t), by inverting the channel current
+equation. The kinetics of kArch (t) were then captured by Equation (2).
+Modeling neuronal activity
+
+
+                                                   S S
+The model proposed by Sibille et al. [12] is used for the electrical function of
+
+
+                                                R E
+neurons and astrocytes (Equations (3) to (19)). The model schematic is shown
+in Figure 12. The equation for the flow of ions and the gate variables m, n, h
+is as follows (3):
+                                               P
+   INa = gNa m 3 h(VN - VNaN )
+                                         IN
+   IK = gK n 4 (VN - VKN )
+                             L E
+                          IC
+                        T
+   dn
+
+                       R
+      = αn (1 - n) - βn n
+   dt
+   dm                A
+      = αm (1 - m) - βm m
+   dt
+   dh                                                                      (3)
+      = αh (1 - h) - βh h
+   dt
+where gNa and gK are the conductance of the sodium and potassium channels
+of the neuron, Vrest is the resting membrane potential of the neuron, and the
+rate equations are defined as (4):
+                    0.01(VN + 10)
+    αn (VN ) =
+                 exp(0.1(VN + 10)) - 1
+
+    βn (VN ) = 0.125 exp(VN /80)
+                              ACCEPTED
+                                ARTICLEMANUSCRIPT
+                                        IN PRESS
+
+
+
+                      0.1(VN + 25)
+    αm (VN ) =
+                 exp(0.1(VN + 25)) - 1
+
+    βm (VN ) = 4 exp(VN /18)
+
+    αh (VN ) = 0.07 exp(VN /20)
+                              1                                         (4)
+    βh (VN ) =
+                 exp(0.1(VN + 30)) + 1
+
+VNaN and VKN in (3) are the equilibrium potentials of sodium and potassium,
+given by the Nernst equations:
+
+   VNaN =
+              RT
+               F    ( )
+                    NaO
+                 ln Na
+                      N
+
+
+   VKN =
+            RT
+             F
+               ln K( )
+                  KO
+                   N
+                                                                         (5)
+
+
+                                                     S S
+                                                  R E
+where NaO and NaN are the extracellular and intracellular sodium
+
+                                               F P
+concentrations, respectively, KO and N are the extracellular and intracellular
+                                             K
+
+
+                                             IN
+potassium concentrations, respectively,    is the Faraday constant, R is the
+gas constant, and T is the temperature. The leak current is given by:
+
+   IlN = glN (VN - VlN )
+                             L E                                         (6)
+
+                          IC
+                        T
+which stabilizes the membrane potential at its resting value, where glN is the
+
+
+                      AR
+                                V
+neuron's leak conductance and lN is the neuron's leak potential. The
+equation for the neuronal membrane potential is:
+        dVN                                                              (7)
+   CN       = - INa - IK - IlN - ICaneuron - Iastro - IArch
+         dt
+where CN is the neuronal membrane capacitance.
+Modeling astrocytic potassium uptake by Kir4.1 channels
+To account for the potassium dynamics in astrocytes, the total current IKir is
+approximated by equation (8):
+
+
+
+                                     (                            )
+                                                                        (8)
+                                            KO
+     IKir = GKir (VA - VKA - VA1 )
+                                   1 + exp      (
+                                           VA - VKA - VA2
+                                                VA3           )
+                             ACCEPTED
+                               ARTICLEMANUSCRIPT
+                                       IN PRESS
+
+
+
+where GKir is the conductance of the astrocyte Kir channel, VKA is the astrocyte
+potassium Nernst potential, and VA1, VA2, and VA3 are constants. The
+astrocyte leak current ILA and membrane potential VA are obtained from (9):
+
+     IlA = glA (VA - VlA )
+          dVA                                                             (9)
+     CA       = -(IKir + IlA + IChr2K + IChr2Na + IChr2Ca )
+           dt
+where glA is the astrocyte leak conductance, VlA is the astrocyte leak
+potential, and CA is the astrocyte capacitance.
+Modeling ChR2 in astrocytes
+The total ChR2-mediated current is composed of three separate ionic
+currents (10):
+   IChR2K = kChR2 .gChR2 .fK (VA - VKA )
+
+   IChR2Na = kChR2 .gChR2 .fNa (VA - VNaA )
+
+                                                  S S
+                                                 E
+   IChR2Ca = kChR2 .gChR2 .fCa (VA - VCaA )
+
+                                               R
+                                                                           (1
+
+                                              P                            0)
+
+
+                                        IN
+where IChR2K , IChR2Na and IChR2Ca are The ChR2-mediated currents for
+
+
+                             L E
+potassium, sodium, and calcium, respectively. gChR2 is the maximum
+membrane conductance when all ChR2 channels are open. fK = 0.2,fNa = 0.7,
+
+                          IC
+fCa = 0.01 are the relative permeability (or fractional conductance) of the
+
+                       RT
+ChR2 channel to K⁺, Na⁺, and Ca²⁺, respectively. VA is the astrocyte's
+
+                     A
+membrane potential (mV). VKA ,VNaA , and VCaA are the reversal potentials (mV)
+for potassium, sodium, and calcium, calculated using the Nernst equation
+based on intra- and extracellular ionic concentrations.
+kChR2 is a dimensionless gating variable (0 to 1) representing the fraction of
+open channels, governed by the kinetic equation (11):
+   dkChR2                                                                 (11
+          = 0.5 ⋅ SChR2 ⋅ (1 - kChR2 ) - 0.00012 ⋅ kChR2                  )
+     dt
+The activation Term 0.5 ⋅ SChR2 ⋅ (1 - kChR2 ), when light is ON (SChR2 = 1),
+drives kChR2 towards 1 with a rapid activation time constant of τrise ≈ 1/
+0.5 = 2 ms. The deactivation Term: -0.00012 ⋅ kChR2 , when light is OFF,
+drives kChR2 back to 0 with a slow deactivation time constant of τdecay ≈ 1/
+0.00012 ≈ 8333 ms, capturing the characteristic slow closure of ChR2.
+
+The light stimulus (SChR2 ) is defined as a square pulse:
+                                                                ACCEPTED
+                                                                  ARTICLEMANUSCRIPT
+                                                                          IN PRESS
+
+
+
+                                            1    if OS is applied                                                                                                       (12
+                                   SChR2 = {0       otherwise                                                                                                           )
+SChR2 and SArch represent separate light stimuli because they target distinct
+light-sensitive proteins. The study by Octeau et al. [54] investigates the
+effects of OS on extracellular potassium ion concentrations. By applying blue
+light to cells expressing ChR2, they observed significant transient increases
+in extracellular potassium levels. Figure 13b compares the change in
+potassium concentration in our model and the experimental data of [54].
+                                                  (a)                                                                                         (b)
+                                                                                                                                 0.6
+
+
+
+
+                                                                                             Change in potassium concentration
+                                                           The El-Gaby study data
+                                    1                                                                                                               The Octeau study data
+                                                           The equation fitted to the data
+                   (Hconductance
+
+
+
+
+                                                                                                                                                    The equation fitted to the data
+                                                                                                                                 0.5
+                                   0.8
+                                                                                                                                 0.4
+  Change in proton ⁺)
+
+
+
+
+                                   0.6
+                                                                                                                                 0.3
+
+
+
+                                                                                                                                       S
+                                   0.4
+
+
+
+                                                                                                                                     S
+                                                                                                                                 0.2
+
+                                   0.2
+
+
+                                                                                                                                  R
+                                                                                                                                 0.1E
+                                                                                                                                 P
+                                                                                        IN
+                                    0
+                                        0   50   100            150      200          250                                         0
+                                                                                                                                      0   1         2             3             4
+                                                       t (ms)
+                                                                                                                                                t (ms)                       104
+
+
+
+                                                          L E
+Figure 13: Validation of optogenetic module equations against experimental data. (a) Effect
+  of neuronal inhibition by ArchT. The blue graph shows data from Figure 3B of the El-Gaby
+
+                                                       IC
+study, and the red graph represents the equation fitted to the data. Light stimulation period
+
+                                                     T
+ is indicated by the yellow line (b) Effect of OS of ChR2 on potassium ion concentration. The
+
+                                                    R
+  blue graph shows data from the Octeau study, and the red graph represents the equation
+
+                                                  A
+fitted to the data. Light stimulation is a single 25 ms flash at t = 0 (not shown in the figure).
+
+Balance of ionic fluxes
+Various neuronal and astrocytic channel currents are converted into ion
+fluxes. The corresponding change in extracellular concentration is given by
+I/(qNA VolO ), where q is the charge of an electron, NA is Avogadro number,
+and VolO is the extracellular volume [12].
+Calcium and IP3 concentrations in astrocytes
+For astrocyte calcium and IP3 concentrations, the equations of the Li model
+[13] for an astrocyte is considered (equations (13) and (14)).
+                              ACCEPTED
+                                ARTICLEMANUSCRIPT
+                                        IN PRESS
+
+
+
+     d[Ca 2+ ]
+               = c1 ν1 p3  3 3
+                        ∞ n∞ q ([Ca
+                                    2+
+                                       ]ER - [Ca 2+ ])
+        dt
+                              2+           2+
+                                                   ν3 [Ca 2+ ]2
+                  + c1 ν2 ([Ca ]ER - [Ca ]) -                     - Jleak - IChr2Ca
+                                                  [Ca 2+ ]2 + k23
+
+     dq
+        = αq (1 - q) + βq q + DSξ(t)
+     dt
+     [Ca 2+ ]ER = (c0 - [Ca 2+ ])/c1
+
+     Jleak = kleak [Ca 2+ ]
+
+             [IP3 ]            [Ca 2+ ]
+     p∞ =             , n∞ =
+          [IP3 ] + d1        [Ca 2+ ] + d5
+                  [IP3 ] + d1                                                     (13)
+     αq = a2 d2               , βq = a2 [Ca 2+ ]
+                  [IP3 ] + d3
+
+                                                         S
+where [Ca2+]ER is the equilibrium calcium concentration in the endoplasmic
+                                                       S
+                                                      E
+reticulum, Jleak is the membrane leak current, kleak is the leak rate, and the
+
+
+                                                   PR
+term ξ(t) represents standard Gaussian noise (N(0,1)), generated in our
+simulations using the MATLAB function randn. The parameter DS scales this
+
+                                          IN
+noise, defining its standard deviation.
+
+
+                              E
+ ξ(t) is a standard Gaussian noise (N(0,1)), implemented with function ‘randn’
+                            L
+                          C
+in MATLAB, and DS determines the standard deviation of the noise.
+
+                       T I
+Tang et al. [16] presented a neuron-astrocyte model and added the effect of
+
+
+                    A R
+noise to astrocyte calcium and investigated the effect of noise in astrocytes
+on neuronal transmission. This study showed that this noise can change the
+firing patterns of neurons during neuronal information transmission and
+facilitate neuronal firing.
+Astrocytes play a key role in regulating the homeostasis of extracellular ions,
+which affects neuronal activity. Calcium dynamics in astrocytes can
+participate in neuronal transmission. Calcium changes due to input from
+other astrocytes, which are modeled as noise, may be transmitted to neurons
+and significantly affect synaptic transmission.
+As a result, this study introduces noise into the astrocyte calcium
+compartment, which induces an epileptic state by altering astrocyte calcium
+signaling and subsequently increasing neuronal activity, akin to the approach
+taken in the Li model [13].
+                              ACCEPTED
+                                ARTICLEMANUSCRIPT
+                                        IN PRESS
+
+
+
+   d[IP3 ]   ([IP3 ]* - [IP3 ])           ([glu]neuron )n                          (14
+           =                    + rip3                       + gastro-gap ( - (1   )
+     dt            τip3                ([glu]neuron )n + k n
+                 + tanh⁡((|IP3 | - 0.3)/0.05)) - (1 + tanh⁡((|IP3 | - 0.3)/0.05)))
+
+where [IP3 ]* is the equilibrium concentration of IP3, τip3 is the decay time
+constant of IP3, rip3 is the binding intensity, [glu]neuron is the glutamate
+concentration, and gastro_gap is the astrocyte gap junction conductance.
+Calcium concentrations in neurons
+To model the neuronal calcium concentration and astrocyte current, the
+model in [10] is used (equations (15) and (16)).
+
+     ICaneuron = gCan s 2 (VN - VCan )
+
+     ds
+        = αs (1 - s) - βs s
+     dt
+
+
+                                                          S
+                         1.6
+     αs =
+            1 + exp⁡( - 0.072(VN - 65))
+                                                       ES
+     βs =
+              0.02(VN - 51.1)
+            exp⁡((VN - 51.1)/5) - 1                 PR
+     d[Caneuron ]                            IN                                 (15)
+         dt
+                            L E
+                  = -0.13ICa - 0.075[Caneuron ]
+
+
+                         IC
+     Iastro = 2.11Η(ln⁡([Ca    2+
+                                    ] - 196.69))ln⁡([Ca 2+ ] - 196.69)          (16)
+
+                      RT
+where gCan is the calcium channel conductance in neuron and VCan is the
+                    A
+calcium channel potential of neuron. For simplicity, we assume that the total
+calcium of neuron, astrocyte, and the extracellular space remains constant.
+Consequently, the level of extracellular calcium will be (17):
+
+     [Ca]o = 2.5 - ([Caneuron ] + [Ca 2+ ])                                     (17)
+
+Ion fluxes
+The equations for the concentration of extracellular sodium and potassium,
+as well as neuronal sodium, potassium, and calcium, and astrocytic sodium,
+potassium, and calcium are presented in (18):
+    dKO
+        = iK - 2ipump,N - 2ipump,A + iKir + IChr2K
+     dt
+    dKN                       VolO
+        = ( - iK + 2ipump,N )
+     dt                       VolN
+                          ACCEPTED
+                            ARTICLEMANUSCRIPT
+                                    IN PRESS
+
+
+
+    dKA                                  VolO
+        = ( - iKir + 2ipump,A - IChr2K )
+     dt                                  VolA
+    dNaO
+         = iNa + iNal,N + 3ipump,N + 3ipump,A + iNal,A + IChr2Na
+     dt
+    dNaN                                 VolO
+         = ( - iNa - 3ipump,N - iNal,N )
+     dt                                  VolN
+    dNaA                                     VolO                            (18)
+         = ( - iNal,A - 3ipump,A - IChr2Na )
+     dt                                      VolA
+       Vol                                                         Vol
+where VolO is the extracellular space volume/neuron volume, VolO is the
+             N                                                           A
+
+extracellular space volume/astrocyte volume, iNal,N is the neuronal sodium
+leak rate, and iNal,A is the astrocyte sodium leak rate. The sodium-potassium
+pump exchanges 2 potassium ions for 3 sodium ions, resulting in a coefficient
+of 3 for the pump in the sodium equations and a coefficient of 2 for the pump
+
+                                                      S
+in the potassium equations. The ChR2 pores have a relative permeability of
+
+in the above equations.
+                                                   ES
+0.4 for potassium relative to sodium [54]. Therefore, this ratio was included
+
+
+                                                PR
+Astrocytes play an important role in maintaining ionic homeostasis,
+
+                                         IN
+particularly through the function of the sodium-potassium pump in the
+central nervous system. This pump is essential for regulating the membrane
+
+                           L E
+potential of astrocytes and neurons, thereby affecting neuronal excitability
+
+                         C
+and overall brain homeostasis. Blocking the pump, as investigated in the
+                        I
+                      T
+study by Zhao [6], partially reversed the anticonvulsant effects of OS of
+
+
+                   A
+follow equation (19):R
+astrocytes. The pump currents ipump,k (k = N for neuron, k = A for astrocyte)
+
+
+
+                     (        )
+                       Km -2      KNa -3                                     (19)
+            =
+     ipump,k imaxk 1 + K     (1 +     ) ,           k = N,A
+                        O         Nak
+where imaxA is the rate of the astrocyte sodium-potassium pump and imaxN is
+the rate of the neuronal sodium-potassium pump.
+
+4.2 Experimental data and model parameters Model Setup,
+     Implementation
+In [6], the effect of OS of astrocytes via ChR2, as well as neuronal inhibition
+via ArchT, on the seizure stage in rodent models was investigated.
+Additionally, the contribution of calcium channels and sodium-potassium
+pumps to these observations was analyzed. In our model, the parameters of
+previous models were derived from relevant studies and other parameters
+were tuned through a trial-and-error approach to ensure the model’s
+behavior aligns with experimental observations (particularly the seizure
+                          ACCEPTED
+                            ARTICLEMANUSCRIPT
+                                    IN PRESS
+
+
+
+stage reported in Fig. 1g, 3e, 5d of [6]). The model parameters are given in
+Table 2.
+                              Table 2: Model parameters
+
+  Parameter              Description                         Value                   Reference
+    gArch         ArchT channel conductance               1.1 mS/m 2                 Trial and
+                                                                                       error
+    gChr2         ChR2 channel conductance                17 mS/m 2                  Trial and
+                                                                                       error
+    Vhyper     Neuron's membrane potential for              20 mV                    Trial and
+                       ArchT activation                                                error
+     Km       Michaelis constant for extracellular          3 mM                     Trial and
+                 K + binding to Na+/K+ pump                                            error
+     KNa      Michaelis constant for extracellular         12 mM                      Trial and
+                 Na + binding to Na+/K+ pump                                            error
+     gNa          Neuronal sodium channel                 110 mS/m 2                [11]
+                         conductance
+     gK          Neuronal potassium channel               30 mS/m 2                 [11]
+                         conductance
+
+                                                       S S
+                                                      E
+    Vrest        Neuronal resting membrane                 -60 mV                   [12]
+
+
+                                                    R
+                           potential
+     NA               Avogadro Number
+                                                   P    6.02 × 10 23                [12]
+
+
+                                          IN
+     qe       Net charge of single monovalent ion      1.62 × 10    -19 C           [12]
+      F                Faraday Constant              9.64 × 10   -4 C.
+                                                                         mol   -1   [12]
+
+
+                                  LE
+      R                  Gas constant                 8.314 J.mol   -1 . -1
+                                                                          K         [12]
+
+
+                         C
+      T                 Temperature                          308 K                  [12]
+     glN
+                      T I
+                 Neuronal leak conductance                    0.5                   [11]
+
+
+                     R
+     VlN           Neuronal leak potential                -1.2793 mV                [12]
+
+                   A
+     CN        Neuronal membrane capacitance               1 μF/cm 2                [11]
+     GKir        Astrocytic single channel Kir               60 pS                  [12]
+                          conductance
+     VA1        Kir current potential constant 1        -14.83 mV                   [12]
+     VA2        Kir current potential constant 2          34 mV                     [12]
+     VA3        Kir current potential constant 3         19.23 mV                   [12]
+     CA              Astrocytic capacitance                76.9                     [12]
+     VlA          Astrocytic leaking potential             6 mV                     [12]
+     glA         Astrocytic leak conductance               0.73                     [12]
+    imaxA        Astrocytic Na+/K+ pump rate          0.018 mM.ms -1                Trial and
+                                                                                    error
+    imaxN        Neuronal Na+/K+ pump rate             0.002 μM.ms -1               Trial and
+                                                                                    error
+    VolO          Extracellular space volume/                0.5                    [12]
+    VolN               neuronal volume
+    VolO              Extracellular space                    0.5                    [12]
+    VolA           volume/astrocytic volume
+                             ACCEPTED
+                               ARTICLEMANUSCRIPT
+                                       IN PRESS
+
+
+
+     iNalN           Neuronal sodium leak rate        -7.03                         [12]
+                                                                                -5 mM.
+                                                                         × 10         ms -1
+     iNalA           Astrocytic sodium leak rate      -9.87                         [12]
+                                                                       × 10 -4 mM.ms -1
+      c0                      constant                          2 μM            [10]
+      c1                      constant                          0.185           [13]
+      v1                      constant                          6 s -1          [13]
+      v2                      constant                         0.11 s -1            [13]
+      v3                      constant                        0.9 μM.s   -1         [13]
+      a2                      constant                        0.2 μM.s   -1         [13]
+      d1                     constant                        0.13 μM                [13]
+      d2                     constant                       1.049 μM                [13]
+      d3                     constant                      0.9434 μM                [13]
+      d5                     constant                     0.08234 μM                [13]
+      k3                     constant                          0.1                  [55]
+     gCan           Neuronal calcium channel              10 mS/cm 2                [13]
+                           conductance
+
+                                                          S
+     VCan        Neuron calcium channel potential              140 mV               [13]
+    [IP3 ]   *   Equilibrium concentration of IP3
+
+                                                       ES      0.16 μM              [13]
+
+
+                                                     R
+     τip3            decay time constant of IP3                 7.14 s              [13]
+
+
+                                                    P
+     rip3                 Binding intensity              0.062 nM.ms -1             [10]
+
+
+
+                                              IN
+       n                      constant                           0.3                [10]
+       k                      constant                         0.785                [13]
+  [glu]neuron
+   gastro-gap
+                            L E
+                      Glutamate concentration
+                 Astrocyte gap junction conductance
+                                                                200
+                                                              2 μM.s -1
+                                                                                    [10]
+                                                                                    [13]
+
+                         IC
+                   R  T Severity
+4.3 An index for Seizure
+                 A
+Experimental studies typically assess seizure severity through behavioral
+scoring. In our model, severity is quantified using the average power spectral
+density (PSD) of VN in the 80–400 Hz band (denoted as ASE80-400), a validated
+metric for seizure detection when behavioral data are unavailable [56, 57].
+High-frequency power (gamma to fast ripples) correlates strongly with ictal
+states and severity, including status epilepticus [58]. This band captures
+pathophysiological markers (ripples: 80–250 Hz; fast ripples: >250 Hz) linked
+to seizure onset and progression. PSD-based methods are widely adopted in
+both experimental and computational epilepsy research.
+
+5 FUNDING
+This work is based upon research funded by Iran National Science
+Foundation (INSF) and University of Zanjan under Project No. 4036174.
+                                                         ACCEPTED
+                                                           ARTICLEMANUSCRIPT
+                                                                   IN PRESS
+
+
+
+6 Code availability
+The MATLAB code pertaining to Scenarios I1, I2, and I3 in Table 1 is available
+on GitHub at:
+https://github.com/ameriabazar/Computational-Modeling-of-Dual-
+Optogenetic-Seizure-Control-in-Neuron-Astrocyte-Networks
+
+7 Appendix
+            Additional Figures
+
+
+                       Experimental Protocol Schematic
+                                                                                                                         100
+                                                                        0
+                                                          VN (mV)
+
+
+
+
+                                                                                                              VA (mV)
+                     DS = 0, DS = 1.4
+                                                                     -50
+                                                                                                                            0              Full pump effect
+                                                                    -100                                                                   No pump effect onOK
+                                                                                                                                           No pump effect on Na
+                                                                                                                                                             A
+                                                                    -150                                                -100
+             0            2       4      6    8     10                  0           2   4      6    8    10                 0          2       4         6        8    10
+
+
+
+
+                                                                                                          S
+                                  Time (ms)        104                                  Time (ms)       104                                     Time (ms)             104
+
+
+
+
+                                                                                                        S
+                                                                        60
+                                                                                                                            60
+
+
+
+
+                                                                                                       E
+           100
+NaO (mM)
+
+
+
+
+                                                             NaN (mM)
+
+
+
+
+                                                                                                                 NaA (mM)
+                                                                        50
+                                                                                                                            40
+
+
+
+
+                                                                                                     R
+            50
+                                                                        40
+
+
+
+
+                                                                                                    P
+                                                                                                                            20
+
+            0                                                           30                                                  0
+             0            2       4      6    8     10                    0         2   4      6    8    10                  0         2       4         6        8    10
+
+
+
+
+                                                                                        IN
+                                  Time (ms)        104                                  Time (ms)       104                                     Time (ms)             104
+
+                                                                     100                                                 220
+            60
+
+
+
+
+                                                        E
+                 4
+  KO (mM)
+
+
+
+
+                                                           KN (mM)
+
+
+
+
+                                                                                                               KA (mM)
+
+
+
+                                                                                                                         200
+
+
+
+
+                                                      L
+            40 2                                                        95
+                     2000400060008000
+
+
+
+
+                                                    C
+            20                                                                                                           180
+                                                                        90
+
+
+
+
+                                                   I
+            0                                                                                                            160
+
+
+
+
+                                                 T
+             0            2       4      6    8     10                   0          2   4      6    8    10                 0          2       4         6        8    10
+                                  Time (ms)        104                                  Time (ms)       104                                     Time (ms)             104
+
+
+
+
+                                                R
+                                                                               -4                                                 -4
+                                                                              10                                                 10
+            20
+
+
+
+
+                                              A
+                                                                        3
+                                                                                                                            6
+                                                                                                                   ipumpA
+                                                               ipumpN
+
+
+
+
+                                                                        2
+                                                                                                                            4
+ IkirA
+
+
+
+
+            0
+                                                                        1                                                   2
+           -20
+                                                                        0                                                   0
+             0            2       4      6    8     10                   0          2   4      6    8    10                  0         2       4         6        8    10
+                                  Time (ms)        104                                  Time (ms)       104                                     Time (ms)             104
+
+
+
+            Figure 14: Comparison of model dynamics in three cases: full pump effect, without the
+              pump's effect on Ko , and without the pump's effect on NaA (Scenario F1; Table 1).
+
+8 References
+[1]                    R. C. Wykes, D. M. Kullmann, I. Pavlov, and V. Magloire, "Optogenetic
+                       approaches to treat epilepsy," Journal of neuroscience methods, vol. 260, pp.
+                       215-220, 2016.
+[2]                    S. Hyung, J.-H. Park, and K. Jung, "Application of optogenetic glial cells to
+                       neuron–glial communication," Frontiers in Cellular Neuroscience, vol. 17, p.
+                       1249043, 2023.
+[3]                    N. Jette, E. Beghi, D. Hesdorffer, S. L. Moshé, S. M. Zuberi, M. T. Medina, et
+                       al., "ICD coding for epilepsy: past, present, and future—a report by the
+                            ACCEPTED
+                              ARTICLEMANUSCRIPT
+                                      IN PRESS
+
+
+
+       International League Against Epilepsy Task Force on ICD codes in epilepsy,"
+       Epilepsia, vol. 56, pp. 348-355, 2015.
+[4]    P. Selvaraj, Optogenetic stimulation, and control or promotion of epileptiform
+       activity, in a mean field model of the human cortex: University of California,
+       Berkeley, 2015.
+[5]    J. Sun, Y. Zheng, Z. Chen, and Y. Wang, "The role of Na+‐K+‐ATPase in the
+       epileptic brain," CNS Neuroscience & Therapeutics, vol. 28, pp. 1294-1302,
+       2022.
+[6]    J. Zhao, J. Sun, Y. Zheng, Y. Zheng, Y. Shao, Y. Li, et al., "Activated astrocytes
+       attenuate neocortical seizures in rodent models through driving Na+-K+-
+       ATPase," Nature Communications, vol. 13, p. 7136, 2022.
+[7]    H. Sontheimer, E. Fernandez-Marques, N. Ullrich, C. Pappas, and S. Waxman,
+       "Astrocyte Na+ channels are required for maintenance of Na+/K (+)-ATPase
+       activity," Journal of Neuroscience, vol. 14, pp. 2464-2475, 1994.
+[8]    S. Huang, W. Dong, X. Lin, and J. Bian, "Na+/K+-ATPase: ion pump, signal
+       transducer, or cytoprotective protein, and novel biological functions," Neural
+       Regeneration Research, vol. 19, pp. 2684-2697, 2024.
+[9]    G. Lees, "Inhibition of sodium-potassium-ATPase: a potentially ubiquitous
+       mechanism contributing to central nervous system neuropathology," Brain
+       Research Reviews, vol. 16, pp. 283-300, 1991.
+[10]
+                                                      S S
+       S. Nadkarni and P. Jung, "Synaptic inhibition and pathologic hyperexcitability
+
+                                                     E
+       through enhanced neuron-astrocyte interaction: a modeling study," Journal of
+
+                                                   R
+       Integrative Neuroscience, vol. 4, pp. 207-226, 2005.
+[11]
+                                                  P
+       J. R. Cressman, G. Ullah, J. Ziburkus, S. J. Schiff, and E. Barreto, "The influence
+
+
+                                           IN
+       of sodium and potassium dynamics on excitability, seizures, and the stability
+       of persistent states: I. Single neuron dynamics," Journal of computational
+
+                               E
+       neuroscience, vol. 26, pp. 159-170, 2009.
+[12]
+                             L
+       J. Sibille, K. Dao Duc, D. Holcman, and N. Rouach, "The neuroglial potassium
+
+                           C
+       cycle during neurotransmission: role of Kir4. 1 channels," PLoS computational
+
+                        T I
+       biology, vol. 11, p. e1004137, 2015.
+
+                       R
+[13]   J. Li, P. Feng, L. Zhao, J. Chen, M. Du, J. Song, et al., "Transition behavior of
+
+                     A
+       the seizure dynamics modulated by the astrocyte inositol triphosphate noise,"
+       Chaos: An Interdisciplinary Journal of Nonlinear Science, vol. 32, 2022.
+[14]   M. Du, J. Li, W. Ying, and Y. Yu, "A dynamics model of neuron-astrocyte
+       network accounting for febrile seizures," Cognitive Neurodynamics, pp. 1-13,
+       2022.
+[15]   Y. Rui, S. Liu, and S. Liu, "Kir4. 1 channel and voltage-gated calcium channel
+       of astrocyte account for the transition dynamics of seizures," Journal of
+       Theoretical Biology, vol. 604, p. 112082, 2025.
+[16]   J. Tang, T.-B. Liu, J. Ma, J.-M. Luo, and X.-Q. Yang, "Effect of calcium channel
+       noise in astrocytes on neuronal transmission," Communications in Nonlinear
+       Science and Numerical Simulation, vol. 32, pp. 262-272, 2016.
+[17]   J. Tang, J. Zhang, J. Ma, G. Zhang, and X. Yang, "Astrocyte calcium wave
+       induces seizure-like behavior in neuron network," Science China
+       Technological Sciences, vol. 60, pp. 1011-1018, 2017.
+[18]   M. Du, J. Li, L. Chen, Y. Yu, and Y. Wu, "Astrocytic Kir4. 1 channels and gap
+       junctions account for spontaneous epileptic seizure," PLoS Computational
+       Biology, vol. 14, p. e1005877, 2018.
+                            ACCEPTED
+                              ARTICLEMANUSCRIPT
+                                      IN PRESS
+
+
+
+[19]   G. P. Krishnan and M. Bazhenov, "Ionic dynamics mediate spontaneous
+       termination of seizures and postictal depression state," J Neurosci, vol. 31,
+       pp. 8870-82, Jun 15 2011.
+[20]   T. Ying, D. B. Grayden, A. N. Burkitt, and T. Kameneva, An increase in the
+       extracellular potassium concentration can cause seizures: BMC Neurosci.
+       2015 Dec 18;16(Suppl 1):P113. doi: 10.1186/1471-2202-16-S1-P113.
+       eCollection 2015.
+[21]   J. V. Raimondo, R. J. Burman, A. A. Katz, and C. J. Akerman, "Ion dynamics
+       during seizures," Frontiers in cellular neuroscience, vol. 9, p. 419, 2015.
+[22]   R. Köhling and J. Wolfart, "Potassium Channels in Epilepsy," Cold Spring Harb
+       Perspect Med, vol. 6, May 2 2016.
+[23]   G. P. Krishnan, G. Filatov, A. Shilnikov, and M. Bazhenov, "Electrogenic
+       properties of the Na⁺/K⁺ ATPase control transitions between normal and
+       pathological brain states," J Neurophysiol, vol. 113, pp. 3356-74, May 1 2015.
+[24]   F. Wang, X. Qi, J. Zhang, and J. H. Huang, "Astrocytic modulation of potassium
+       under seizures," Neural Regen Res, vol. 15, pp. 980-987, Jun 2020.
+[25]   Z. Christenson Wick and E. Krook-Magnuson, "Specificity, versatility, and
+       continual development: the power of optogenetics for epilepsy research,"
+       Frontiers in cellular neuroscience, vol. 12, p. 151, 2018.
+
+                                                        S
+[26]   C. C. Chiang, T. P. Ladas, L. E. Gonzalez-Reyes, and D. M. Durand, "Seizure
+
+                                                      S
+       suppression by high frequency optogenetic stimulation using in vitro and in
+
+                                                     E
+       vivo animal models of epilepsy," Brain Stimul, vol. 7, pp. 890-9, Nov-Dec
+
+                                                   R
+       2014.
+[27]
+                                                  P
+       A. Witthoft, J. A. Filosa, and G. E. Karniadakis, "Potassium buffering in the
+       neurovascular unit: models and sensitivity analysis," Biophys J, vol. 105, pp.
+       2046-54, Nov 5 2013.
+                                           IN
+                               E
+[28]   S. Marino, I. B. Hogue, C. J. Ray, and D. E. Kirschner, "A methodology for
+
+
+                           C L
+       performing global uncertainty and sensitivity analysis in systems biology,"
+       Journal of theoretical biology, vol. 254, pp. 178-196, 2008.
+[29]
+                        T I
+       C. E. Stafstrom, "Persistent sodium current and its role in epilepsy," Epilepsy
+
+                       R
+       currents, vol. 7, pp. 15-22, 2007.
+
+                     A
+[30]   H. Kager, W. J. Wadman, and G. G. Somjen, "Simulated seizures and
+       spreading depression in a neuron model incorporating interstitial space and
+       ion concentrations," Journal of neurophysiology, vol. 84, pp. 495-512, 2000.
+[31]   E. Barreto and J. R. Cressman, "Ion concentration dynamics as a mechanism
+       for neuronal bursting," Journal of biological physics, vol. 37, pp. 361-373,
+       2011.
+[32]   Y. Wei, G. Ullah, and S. J. Schiff, "Unification of neuronal spikes, seizures, and
+       spreading depression," Journal of Neuroscience, vol. 34, pp. 11733-11743,
+       2014.
+[33]   E. Gerasimov, A. Erofeev, A. Borodinova, A. Bolshakova, P. Balaban, I.
+       Bezprozvanny, et al., "Optogenetic activation of astrocytes—effects on
+       neuronal network function," International journal of molecular sciences, vol.
+       22, p. 9613, 2021.
+[34]   N. Çarçak, F. Onat, and E. Sitnikova, "Astrocytes as a target for therapeutic
+       strategies in epilepsy: current insights," Frontiers in molecular neuroscience,
+       vol. 16, p. 1183775, 2023.
+[35]   F. Díaz, F. Aguilar, M. Wellmann, A. Martorell, C. González-Arancibia, L.
+       Chacana-Véliz, et al., "Enhanced Astrocyte Activity and Excitatory Synaptic
+                            ACCEPTED
+                              ARTICLEMANUSCRIPT
+                                      IN PRESS
+
+
+
+       Function in the Hippocampus of Pentylenetetrazole Kindling Model of
+       Epilepsy," International Journal of Molecular Sciences, vol. 24, p. 14506, 2023.
+[36]   D. Shah, W. Gsell, J. Wahis, E. S. Luckett, T. Jamoulle, B. Vermaercke, et al.,
+       "Astrocyte calcium dysfunction causes early network hyperactivity in
+       Alzheimer’s disease," Cell reports, vol. 40, 2022.
+[37]   G.-F. Tian, H. Azmi, T. Takano, Q. Xu, W. Peng, J. Lin, et al., "An astrocytic
+       basis of epilepsy," Nature medicine, vol. 11, pp. 973-981, 2005.
+[38]   M. Gómez-Gonzalo, G. Losi, A. Chiavegato, M. Zonta, M. Cammarota, M.
+       Brondi, et al., "An excitatory loop with astrocytes contributes to drive neurons
+       to seizure threshold," PLoS biology, vol. 8, p. e1000352, 2010.
+[39]   L. Hertz, D. Song, J. Xu, L. Peng, and M. E. Gibbs, "Role of the astrocytic Na+,
+       K+-ATPase in K+ homeostasis in brain: K+ uptake, signaling pathways and
+       substrate utilization," Neurochemical Research, vol. 40, pp. 2505-2516, 2015.
+[40]   L. Felix, A. Delekate, G. C. Petzold, and C. R. Rose, "Sodium fluctuations in
+       astroglia and their potential impact on astrocyte function," Frontiers in
+       physiology, vol. 11, p. 871, 2020.
+[41]   L. Hertz, L. Peng, and G. A. Dienel, "Energy metabolism in astrocytes: high
+       rate of oxidative metabolism and spatiotemporal dependence on
+       glycolysis/glycogenolysis," Journal of Cerebral Blood Flow & Metabolism, vol.
+
+                                                        S
+       27, pp. 219-249, 2007.
+
+                                                      S
+[42]   W. Walz, "Role of astrocytes in the clearance of excess extracellular
+
+                                                     E
+       potassium," Neurochemistry international, vol. 36, pp. 291-300, 2000.
+
+                                                   R
+[43]   C. R. Rose and C. Karus, "Two sides of the same coin: sodium homeostasis
+
+                                                  P
+       and signaling in astrocytes under physiological and pathophysiological
+       conditions," Glia, vol. 61, pp. 1191-1205, 2013.
+[44]
+                                           IN
+       J. Sibille, U. Pannasch, and N. Rouach, "Astroglial potassium clearance
+
+                               E
+       contributes to short‐term plasticity of synaptically evoked currents at the
+
+[45]
+                           C L
+       tripartite synapse," The Journal of physiology, vol. 592, pp. 87-102, 2014.
+       L. Øyehaug, I. Østby, C. M. Lloyd, S. W. Omholt, and G. T. Einevoll,
+
+                        T I
+       "Dependence of spontaneous neuronal firing and depolarisation block on
+
+                       R
+       astroglial membrane transport mechanisms," Journal of computational
+
+                     A
+       neuroscience, vol. 32, pp. 147-165, 2012.
+[46]   G. Perea, M. Navarrete, and A. Araque, "Tripartite synapses: astrocytes
+       process and control synaptic information," Trends in neurosciences, vol. 32,
+       pp. 421-431, 2009.
+[47]   D. K. Binder and C. Steinhäuser, "Functional changes in astroglial cells in
+       epilepsy," Glia, vol. 54, pp. 358-368, 2006.
+[48]   K. Heuser, T. Eid, F. Lauritzen, A. E. Thoren, G. F. Vindedal, E. Taubøll, et al.,
+       "Loss of Perivascular Kir4.1 Potassium Channels in the Sclerotic Hippocampus
+       of Patients With Mesial Temporal Lobe Epilepsy," Journal of Neuropathology &
+       Experimental Neurology, vol. 71, pp. 814-825, 2012.
+[49]   Y. Aoki, S. Hanai, S. Sukigara, T. Otsuki, T. Saito, E. Nakagawa, et al., "Altered
+       expression of astrocyte-related receptors and channels correlates with
+       epileptogenesis in hippocampal sclerosis," Pediatric and Developmental
+       Pathology, vol. 22, pp. 532-539, 2019.
+[50]   M. Ledri, M. Andersson, J. Wickham, and M. Kokaia, "Optogenetics for
+       controlling seizure circuits for translational approaches," Neurobiology of
+       Disease, vol. 184, p. 106234, 2023/08/01/ 2023.
+[51]   J. K. Tung, K. Berglund, and R. E. Gross, "Optogenetic Approaches for
+       Controlling Seizure Activity," Brain Stimul, vol. 9, pp. 801-810, Nov-Dec 2016.
+                           ACCEPTED
+                             ARTICLEMANUSCRIPT
+                                     IN PRESS
+
+
+
+[52]   F. B. Meyer, "Calcium, neuronal hyperexcitability and ischemic injury," Brain
+       Research Reviews, vol. 14, pp. 227-243, 1989.
+[53]   M. El-Gaby, Y. Zhang, K. Wolf, C. J. Schwiening, O. Paulsen, and O. A. Shipton,
+       "Archaerhodopsin selectively and reversibly silences synaptic transmission
+       through altered pH," Cell reports, vol. 16, pp. 2259-2268, 2016.
+[54]   J. C. Octeau, M. R. Gangwani, S. L. Allam, D. Tran, S. Huang, T. M. Hoang-
+       Trong, et al., "Transient, consequential increases in extracellular potassium
+       ions accompany channelrhodopsin2 excitation," Cell reports, vol. 27, pp.
+       2249-2261. e7, 2019.
+[55]   Y.-X. Li and J. Rinzel, "Equations for InsP3 receptor-mediated [Ca2+] i
+       oscillations derived from a detailed kinetic model: a Hodgkin-Huxley like
+       formalism," Journal of theoretical Biology, vol. 166, pp. 461-473, 1994.
+[56]   R. Tutuk and R. Zengin, "Epileptic seizure detection combining power spectral
+       density and high-frequency oscillations," International Journal of Applied
+       Mathematics Electronics and Computers, vol. 11, pp. 117-127, 2023.
+[57]   M. Chakraborty and D. Mitra, "A computationally efficient automated seizure
+       detection method based on the novel idea of multiscale spectral features,"
+       Biomedical Signal Processing and Control, vol. 70, p. 102990, 2021.
+[58]   J. Chen, X. Zhou, L. Jin, Q. Lu, H. Sun, Q. Liu, et al., "Can spectral power be
+
+                                                      S
+       used as a candidate seizure marker of the periodic discharges pattern?,"
+
+                                                    S
+       Frontiers in Neurology, vol. 12, p. 642669, 2021.
+
+
+                                                 R E
+                                                P
+                                         IN
+                            L E
+                         IC
+                      RT
+                    A
+

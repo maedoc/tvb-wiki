@@ -13,7 +13,7 @@ tags:
 - scientific-computing
 title: Mayavi
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 ## Overview
@@ -42,7 +42,7 @@ In practice, Mayavi is employed across several common workflows in computational
 
 - [[the-virtual-brain]] — [[whole-brain]] simulation platform that may use Mayavi for custom visualizations
 - [[brainnet-viewer]] — specialized connectome visualization tool
-- Pycortex — cortical surface rendering library
+- [[pycortex]] — cortical surface rendering library
 - [[paraview]] — general-purpose scientific visualization (VTK-based)
 - [[nilearn]] — neuroimaging Python library with visualization utilities
 - [[dipy]] — [[diffusion-mri]] processing with visualization capabilities

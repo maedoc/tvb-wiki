@@ -44,6 +44,12 @@ The [[spiking-neural-networks]] simulated by sPyNNaker provide a mechanistic sub
 
 ## Related Software
 
-sPyNNaker is part of a broader ecosystem of neural simulators and neuromorphic platforms. As a PyNN-compatible simulator, it shares the API with [[brian]] and [[brian2]] (software which, unlike sPyNNaker, runs on conventional hardware), as well as [[nest]] and [[neuron]]. The SpiNNaker toolchain can also integrate with [[nengo]] for building deep learning architectures on neuromorphic hardware. For comparison with GPU-based simulators, see [[brian2genn]] and [[open-cortex]].
+sPyNNaker is part of a broader ecosystem of neural simulators and neuromorphic platforms. As a PyNN-compatible simulator, it shares the API with [[brian]] and [[brian2]] (software which, unlike sPyNNaker, runs on conventional hardware), as well as [[nest]] and [[neuron]]. The SpiNNaker toolchain can also integrate with [[nengo]] for building deep learning architectures on neuromorphic hardware. For comparison with GPU-based simulators, see [[brian2genn]] and [[open-source-brain]].
 
 sPyNNaker represents one approach to [[neuromorphic-computing]], complementing other platforms like [[brainscales]] (which uses analog neuromorphic chips) and Intel's Loihi. Unlike those alternatives, SpiNNaker uses digital ARM cores, making it more programmable at the cost of some energy efficiency compared to analog implementations.
+
+## References
+
+1. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale [[co-simulation]] Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](](https://doi.org/10.3389/fncom.2025.1731161))
+3. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate [[brain-network]] dynamics*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
