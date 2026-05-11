@@ -391,7 +391,28 @@ def print_banner():
 # ── Concurrent agent execution ─────────────────────────────────────────
 import concurrent.futures
 
+# Agent-specific parallelism: how many concurrent workers per agent
+# Total concurrent workers = sum of these values.  Keep ≤ 10 for the
+# subscription plan.
+AGENT_MAX_WORKERS = {
+    'Improver':       3,   # 3 pages in parallel (writer→reviewer chains)
+    'FullTextFetcher': 2, # fetch + extract can overlap
+    'CrosslinkApplier': 2, # CPU-heavy, embarrassingly parallel
+    'DeepResearch':  2,   # independent gap analyses
+    'Matcher':       1,   # embedding cache is single-threaded
+    'Auditor':       1,   # full scan; parallel would thrash disk
+    'Repairer':      1,   # in-place edits; conflict risk
+    'RefFormatter':  1,   # in-place edits; conflict risk
+    'Ingestor':      1,   # sequential downloads
+    'Librarian':     1,   # fast catalog rebuild
+    'Linter':        1,   # fast
+    'SoftwareMapper': 1, # weekly, fast
+    'OrphanLinker':  1,   # weekly, fast
+    'LinkRepair':    1,   # in-place edits
+}
+
 _agent_executors = {}  # agent_name -> ThreadPoolExecutor
+_agent_futures = {}     # agent_name -> Future
 _agent_futures = {}     # agent_name -> Future
 
 def _run_agent_async(agent_name: str, runner) -> bool:
@@ -417,9 +438,10 @@ def _run_agent_async(agent_name: str, runner) -> bool:
         del _agent_futures[agent_name]
     
     # Launch new thread
-    executor = _agent_executors.setdefault(agent_name, concurrent.futures.ThreadPoolExecutor(max_workers=1))
+    n_workers = AGENT_MAX_WORKERS.get(agent_name, 1)
+    executor = _agent_executors.setdefault(agent_name, concurrent.futures.ThreadPoolExecutor(max_workers=n_workers))
     _agent_futures[agent_name] = executor.submit(runner)
-    log.info("── %s launched in background ──", agent_name)
+    log.info("── %s launched in background (%d workers) ──", agent_name, n_workers)
     return True
 
 
@@ -463,10 +485,11 @@ def main_loop_with_agents(agents, poll_interval: int = 60):
                     del _agent_futures[agent_name]
                 
                 # Launch
-                executor = _agent_executors.setdefault(agent_name, concurrent.futures.ThreadPoolExecutor(max_workers=1))
+                n_workers = AGENT_MAX_WORKERS.get(agent_name, 1)
+                executor = _agent_executors.setdefault(agent_name, concurrent.futures.ThreadPoolExecutor(max_workers=n_workers))
                 future = executor.submit(runner)
                 _agent_futures[agent_name] = future
-                log.info("── %s launched ──", agent_name)
+                log.info("── %s launched (%d workers) ──", agent_name, n_workers)
                 any_launched = True
 
         # Check if all agents disabled

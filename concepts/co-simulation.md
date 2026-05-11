@@ -1,10 +1,20 @@
 ---
-title: Co-Simulation
 created: 2026-04-20
-updated: 2026-05-11
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/breakspear-2017.md
+- raw/papers/ritter-2013.md
+tags:
+- whole-brain-modeling
+- neural-mass-models
+- computational-neuroscience
+- software-tvb
+- software-nest
+- software-brian
+- software-neuron
+title: Co-Simulation
 type: concept
-tags: [whole-brain-modeling, neural-mass-models, computational-neuroscience, software-tvb, software-nest, software-brian, software-neuron]
-sources: [raw/papers/sanz-leon-2013.md, raw/papers/breakspear-2017.md, raw/papers/ritter-2013.md]
+updated: '2026-05-11'
 ---
 
 **Co-simulation** is a computational strategy that couples multiple simulation engines to model phenomena across different spatial and temporal scales simultaneously. In [[computational-neuroscience]], co-simulation bridges the gap between detailed cellular-level [[spiking-neural-networks]] and population-level [[neural-mass-models]], enabling researchers to investigate how microscale neuronal dynamics give rise to meso- and macroscale brain activity observable in [[neuroimaging]] modalities such as [[eeg]], [[meg]], and [[fmri]].
@@ -57,3 +67,9 @@ updated: '2026-05-06'
 ---
 
 SimBrain (Simulations of Neural Networks in Java) is an open-source neural network simulator designed for building, visualizing, and simulating neural network models
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)

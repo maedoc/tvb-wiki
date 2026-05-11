@@ -2,7 +2,6 @@
 created: 2026-04-20
 sources:
 - raw/papers/arxiv-2512.08756.md
-- raw/papers/doi-10.64898-2026.04.20.719736.md
 - raw/papers/semanticscholar-bb75bdb90ada.md
 tags:
 - alzheimers-modeling

@@ -10,6 +10,7 @@ import json
 import datetime
 import logging
 import subprocess
+import threading
 import frontmatter
 from pathlib import Path
 
@@ -32,6 +33,19 @@ RALPH_LOG = os.path.join(SCRIPTS_DIR, "ralph.log")
 LAST_UPDATE_FILE = os.path.join(META_DIR, "last_update.txt")
 ENTITY_COUNTS_FILE = os.path.join(META_DIR, "entity_counts.json")
 AUDIT_REPORT_FILE = os.path.join(META_DIR, "audit_report.json")
+
+# ── Concurrency locks ──────────────────────────────────────────────────
+# Global lock for git commit/push to prevent race conditions when multiple
+# agents edit simultaneously.
+GIT_LOCK = threading.Lock()
+
+# Per-page file locks (lazy-created) to prevent two agents editing the same
+# markdown file at the same time.
+PAGE_LOCKS: dict[str, threading.Lock] = {}
+
+def get_page_lock(page_path: str) -> threading.Lock:
+    """Return (and create if needed) a threading.Lock for a given page path."""
+    return PAGE_LOCKS.setdefault(page_path, threading.Lock())
 
 # ── Models ─────────────────────────────────────────────────────────────
 WRITER_MODEL = "ollama/minimax-m2.5:cloud"
@@ -132,16 +146,18 @@ def git_commit(message: str, cwd: str = None) -> bool:
     if not result.stdout.strip():
         return False
 
-    subprocess.run(["git", "add", "."], cwd=cwd, capture_output=True)
-    result = subprocess.run(
-        ["git", "commit", "-m", message],
-        cwd=cwd, capture_output=True, text=True
-    )
-    if result.returncode != 0:
-        return False
+    # ── commit under global lock ─────────────────────────────────────
+    with GIT_LOCK:
+        subprocess.run(["git", "add", "."], cwd=cwd, capture_output=True)
+        result = subprocess.run(
+            ["git", "commit", "-m", message],
+            cwd=cwd, capture_output=True, text=True
+        )
+        if result.returncode != 0:
+            return False
 
-    # --- optional push -----------------------------------------------------
-    _maybe_git_push(cwd)
+        # --- optional push -------------------------------------------------
+        _maybe_git_push(cwd)
     return True
 
 def _maybe_git_push(cwd: str):
@@ -149,24 +165,25 @@ def _maybe_git_push(cwd: str):
     The timestamp of the last successful push is stored in LAST_PUSH_FILE as an
     ISO‑8601 datetime string.
     """
-    try:
-        now = datetime.datetime.now()
-        # read last push time if present
-        last_push = None
-        if os.path.exists(LAST_PUSH_FILE):
-            with open(LAST_PUSH_FILE, "r", encoding="utf-8") as f:
-                txt = f.read().strip()
-                if txt:
-                    last_push = datetime.datetime.fromisoformat(txt)
-        if last_push is None or (now - last_push).total_seconds() >= PUSH_INTERVAL:
-            push_res = subprocess.run(["git", "push"], cwd=cwd, capture_output=True, text=True)
-            if push_res.returncode == 0:
-                with open(LAST_PUSH_FILE, "w", encoding="utf-8") as f:
-                    f.write(now.isoformat())
-            else:
-                print(f"⚠️ Git push failed: {push_res.stderr.strip()}")
-    except Exception as e:
-        print(f"⚠️ Exception during git push: {e}")
+    with GIT_LOCK:
+        try:
+            now = datetime.datetime.now()
+            # read last push time if present
+            last_push = None
+            if os.path.exists(LAST_PUSH_FILE):
+                with open(LAST_PUSH_FILE, "r", encoding="utf-8") as f:
+                    txt = f.read().strip()
+                    if txt:
+                        last_push = datetime.datetime.fromisoformat(txt)
+            if last_push is None or (now - last_push).total_seconds() >= PUSH_INTERVAL:
+                push_res = subprocess.run(["git", "push"], cwd=cwd, capture_output=True, text=True)
+                if push_res.returncode == 0:
+                    with open(LAST_PUSH_FILE, "w", encoding="utf-8") as f:
+                        f.write(now.isoformat())
+                else:
+                    print(f"⚠️ Git push failed: {push_res.stderr.strip()}")
+        except Exception as e:
+            print(f"⚠️ Exception during git push: {e}")
 
 
 def append_log(message: str):

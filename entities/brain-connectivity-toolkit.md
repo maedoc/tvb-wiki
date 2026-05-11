@@ -11,8 +11,9 @@ tags:
 - network-science
 title: Brain Connectivity Toolbox
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
+
 # Brain Connectivity Toolbox
 
 The **Brain [[connectivity]] Toolbox (BCT)** is a comprehensive MATLAB package for graph-theoretic analysis of structural and functional brain networks. It provides hundreds of graph metrics for neuroscientific analysis.
@@ -40,10 +41,16 @@ The Brain Connectivity Toolbox (BCT) was introduced alongside the landmark revie
 
 For users preferring Python, the [[bctpy]] package provides a native Python port of the core BCT functionality, enabling integration with the broader Python neuroimaging ecosystem including [[nilearn]] and [[networkx]]. BCT data formats have also been adopted as de facto standards in the field, with tools like [[graphvar]] and [[braph]] offering compatible interfaces for users who prefer graphical workflows [[raw/papers/woodman-2014|Woodman et al. (2014)]]. GraphVar extends BCT's functionality by adding a MATLAB GUI and statistical group comparison tools, making network analysis accessible to researchers without programming expertise. Similarly, BRAPH provides a MATLAB pipeline specifically designed for multimodal brain connectivity analysis supporting [[neuroimaging-fmri|fMRI]], [[neuroimaging-eeg|EEG]], and PET data [[raw/papers/mijalkov-2017-braph|Mijalkov et al. (2017)]].
 
-The BCT software is publicly available from the CONNECTOME lab website at [https://sites.google.com/site/bctnet/](https://sites.google.com/site/bctnet/) [[raw/papers/rubinov-sporns-2010|Rubinov & Sporns (2010)]] and has been continuously maintained, with periodic updates improving compatibility with newer MATLAB versions and expanding the metric repertoire [[raw/papers/woodman-2014|Woodman et al. (2014)]]. The toolkit's design emphasizes reproducibility by providing well-documented, consistent implementations of network measures that have been validated across numerous applications in both clinical and cognitive neuroscience research [[raw/papers/mijalkov-2017-braph|Mijalkov et al. (2017)]].
+The BCT software is publicly available from the CONNECTOME lab website at [https://sites.google.com/site/bctnet/](](https://sites.google.com/site/bctnet/)) [[raw/papers/rubinov-sporns-2010|Rubinov & Sporns (2010)]] and has been continuously maintained, with periodic updates improving compatibility with newer MATLAB versions and expanding the metric repertoire [[raw/papers/woodman-2014|Woodman et al. (2014)]]. The toolkit's design emphasizes reproducibility by providing well-documented, consistent implementations of network measures that have been validated across numerous applications in both clinical and cognitive neuroscience research [[raw/papers/mijalkov-2017-braph|Mijalkov et al. (2017)]].
 
 ## Related
 
 - [[connectome]] — structural [[brain-network]] definitions
 - [[graph-theory]] — mathematical foundations
 - [[the-virtual-brain]] — simulation framework that generates networks for BCT analysis
+
+## References
+
+1. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](](https://doi.org/10.1016/j.jneumeth.2014.07.015))
+2. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+3. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.

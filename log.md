@@ -297,3 +297,7 @@
 ## [2026-05-11 08:58] Improve: 1 pages improved (neuroimaging-meg)
 
 ## [2026-05-11 09:21] Improve: 1 pages improved (neuroimaging-meg)
+
+## [2026-05-11 09:34] DeepResearch: 6 papers added via focused research
+
+## [2026-05-11 09:57] Linter: 44 broken links, 19 orphans, 5 stale, 0 empty

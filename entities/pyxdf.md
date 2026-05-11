@@ -1,7 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- raw/papers/carcagno-2024.md
 - raw/papers/bein-2018.md
 - raw/papers/gramfort-2013.md
 tags:
