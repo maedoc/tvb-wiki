@@ -280,3 +280,5 @@
 ## [2026-05-11 07:17] DeepResearch: 12 papers added via focused research
 
 ## [2026-05-11 07:18] SoftwareMapper: 3 pages created
+
+## [2026-05-11 07:20] CrosslinkApplier: added 17 wikilinks (17 inline, 0 suggested)

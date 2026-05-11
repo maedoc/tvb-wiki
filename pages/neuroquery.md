@@ -1,7 +1,7 @@
 ---
 title: NeuroQuery
 created: 2025-01-15
-updated: 2026-05-09
+updated: 2026-05-11
 type: entity
 tags: [software-neuroquery, neuroimaging-fmri, meta-analysis, functional-connectivity, resting-state]
 sources:
@@ -22,7 +22,7 @@ The statistical framework underlying NeuroQuery extends classical coordinate-bas
 
 ## Relationship to TVB
 
-NeuroQuery and [[The Virtual Brain]] serve complementary but distinct roles in the computational neuroscience ecosystem. Whereas [[TVB]] provides a forward-modeling framework for simulating whole-brain dynamics based on [[structural connectivity]] matrices derived from [[diffusion imaging]] and neural mass models, NeuroQuery provides an empirically-grounded mapping from cognitive concepts to brain activation patterns without requiring biophysical simulation. In practice, researchers may use NeuroQuery to generate target activation patterns that constrain or validate [[TVB]] simulations: given a cognitive task of interest, NeuroQuery can provide region-specific activation targets that the [[whole-brain model]] should reproduce during simulation. Conversely, [[TVB]] simulations of pathological states (e.g., [[epilepsy-modeling]] or [[schizophrenia-models]]) might be compared against NeuroQuery's predictions for cognitive domains known to be affected in these conditions, providing validation against the empirical literature. The two tools thus occupy different positions in the research pipeline: NeuroQuery bridges cognitive theory and empirical neuroimaging findings, while [[TVB]] bridges biophysical mechanism and dynamics.
+NeuroQuery and [[The Virtual Brain]] serve complementary but distinct roles in the computational neuroscience ecosystem. Whereas [[TVB]] provides a forward-modeling framework for simulating whole-brain dynamics based on [[structural connectivity]] matrices derived from [[diffusion imaging]] and neural mass models, NeuroQuery provides an empirically-grounded mapping from cognitive concepts to brain activation patterns without requiring biophysical simulation. In practice, researchers may use NeuroQuery to generate target activation patterns that constrain or validate [[TVB]] simulations: given a cognitive task of interest, NeuroQuery can provide region-specific activation targets that the [[bold-model]] should reproduce during simulation. Conversely, [[TVB]] simulations of pathological states (e.g., [[epilepsy-modeling]] or [[schizophrenia-models]]) might be compared against NeuroQuery's predictions for cognitive domains known to be affected in these conditions, providing validation against the empirical literature. The two tools thus occupy different positions in the research pipeline: NeuroQuery bridges cognitive theory and empirical neuroimaging findings, while [[TVB]] bridges biophysical mechanism and dynamics.
 
 ## Key Papers
 
