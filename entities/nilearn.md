@@ -48,7 +48,7 @@ sources:
 - raw/papers/semanticscholar-1a3ed92b9f5a.md
 tags:
 - software-neuroimaging
-- neuroimaging-fmri
+- [[neuroimaging-fmri]]
 - cerebellum
 - brainstem
 - spatial-normalization

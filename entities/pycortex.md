@@ -36,3 +36,9 @@ PyCortex complements rather than replaces other visualization ecosystem componen
 - [[connectome-workbench]] — The HCP's official visualization tool for CIFTI data
 - [[brain-parcellation]] — [[parcellation]] schemes (e.g., Glasser, [[schaefer]]) that PyCortex can display
 - [[glasser-atlas]] — High-resolution multimodal parcellation commonly visualized with PyCortex
+
+## References
+
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
+2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](](https://doi.org/10.1089/brain.2012.0120))
+3. Woodman et al. (2014). *[[graphvar]]: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](](https://doi.org/10.1016/j.jneumeth.2014.07.015))

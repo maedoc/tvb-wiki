@@ -1,10 +1,20 @@
 ---
-title: SCIRun
 created: 2025-01-15
-updated: 2026-05-11
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/mijalkov-2017-braph.md
+- raw/papers/arxiv-2505.16861.md
+tags:
+- software-visualization
+- software-brain-modeling
+- neuroimaging-eeg
+- neuroimaging-meg
+- forward-model
+- source-localization
+- volume-conduction
+title: SCIRun
 type: entity
-tags: [software-visualization, software-brain-modeling, neuroimaging-eeg, neuroimaging-meg, forward-model, source-localization, volume-conduction]
-sources: []
+updated: '2026-05-11'
 ---
 
 SCIRun (Scientific Computing and Imaging Institute Run) is a problem-solving environment for scientific computing and visualization developed at the University of Utah's Scientific Computing and Imaging Institute (SCI). Originally released in the late 1990s, SCIRun provides an interactive, visual programming framework that allows researchers to construct, manipulate, and solve complex computational workflows without extensive programming knowledge. The system is particularly renowned for its applications in computational neuroscience, where it has become a standard tool for forward modeling of [[eeg]] and [[meg]] data, as well as for [[source-localization]] problems in neuroimaging research.
@@ -21,13 +31,13 @@ The software includes a comprehensive library of computational modules spanning 
 
 SCIRun implements several numerical algorithms critical for neuroimaging forward modeling. The boundary element method implementations allow computation of the lead field matrix relating neural current sources to scalp potential distributions, accounting for tissue conductivity inhomogeneities in the head volume conductor. When combined with realistic head models segmented from [[mri]] data, these forward solutions provide the physical basis for source localization algorithms used in [[eeg]] and [[meg]] analysis.
 
-The software supports integration with various neuroimaging data formats and atlas-based parcellation schemes, enabling researchers to work with data from different acquisition modalities. Forward solutions can be computed for different head models ranging from simple spherical geometries to realistic boundary element meshes derived from individual [[structural-connectivity]] imaging. This flexibility makes SCIRun suitable for both method development studies using simplified models and applied research requiring patient-specific modeling.
+The software supports integration with various [[neuroimaging]] data formats and atlas-based [[parcellation]] schemes, enabling researchers to work with data from different acquisition modalities. Forward solutions can be computed for different head models ranging from simple spherical geometries to realistic boundary element meshes derived from individual [[structural-connectivity]] imaging. This flexibility makes SCIRun suitable for both method development studies using simplified models and applied research requiring patient-specific modeling.
 
 ## Relationship to TVB
 
 SCIRun occupies a complementary role in the [[whole-brain-modeling]] ecosystem alongside [[the-virtual-brain]] (TVB). While TVB focuses on large-scale [[neural-mass-models]] and [[network-dynamics]] simulations with connectome-based coupling, SCIRun provides the biophysical forward modeling capabilities needed to translate neural activity into measurable electromagnetic signals. Researchers using TVB for whole-brain simulation often employ SCIRun to compute the forward solution that maps the simulated neural activity onto the scalp, enabling direct comparison with empirical [[eeg]] or [[meg]] recordings.
 
-The two platforms can be integrated in workstreams where TVB generates the simulated neural dynamics and SCIRun performs the transformation to sensor space. This combination is particularly valuable for studies investigating the relationship between large-scale brain network dynamics and their electrophysiological signatures, such as investigations of [[brain-oscillations]] or seizure propagation in [[epilepsy-modeling]]. SCIRun's mature forward solvers provide a validated biophysical bridge between the population-level dynamics simulated in TVB and the sensor-level observations collected in neuroimaging experiments.
+The two platforms can be integrated in workstreams where TVB generates the simulated neural dynamics and SCIRun performs the transformation to sensor space. This combination is particularly valuable for studies investigating the relationship between large-scale [[brain-network]] dynamics and their electrophysiological signatures, such as investigations of [[brain-oscillations]] or seizure propagation in [[epilepsy-modeling]]. SCIRun's mature forward solvers provide a validated biophysical bridge between the population-level dynamics simulated in TVB and the sensor-level observations collected in neuroimaging experiments.
 
 ## Related Software
 

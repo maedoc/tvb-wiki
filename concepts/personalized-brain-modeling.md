@@ -125,7 +125,7 @@ tags:
 - software-dti
 - software-tractography
 - structural-connectivity
-- diffusion-imaging
+- [[diffusion-imaging]]
 - software-visualization
 title: TractoR
 type: entity

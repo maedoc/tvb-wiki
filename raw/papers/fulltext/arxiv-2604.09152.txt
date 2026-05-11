@@ -1,0 +1,1336 @@
+                                               Machine Learning as a Transformative Tool for
+                                               (Exo-)Planetary Science
+
+                                               Jeanne Davoult [0000−0002−6177−2085] , Valentin T. Bickel [0000−0002−7914−2516] ,
+                                               Caroline Haslebacher [0000−0003−0674−1216] , Yann Alibert [0000−0002−4644−8818] ,
+                                               Daniel Angerhausen [0000−0001−6138−8633] , Carles Cantero [0000−0003−2073−782𝑋] , Jo
+                                               Ann Egger [0000−0003−1628−4231] , Romain Eltschinger [0009−0001−7351−3232] , Yannick
+arXiv:2604.09152v1 [astro-ph.EP] 10 Apr 2026
+
+
+
+
+                                               Eyholzer [0009−0004−3041−2249] , Emily O. Garvin [0000−0003−2530−9330] , Salome
+                                               Gruchola [0000−0002−9757−1402] , Adrien Leleu [0000−0003−2051−7974] , Sara
+                                               Marques [0009−0007−3825−7791] , and Yinan Zhao [0000−0002−5009−4645]
+
+
+                                               Jeanne Davoult
+                                               Institut of Space Research, German Aerospace Center (DLR), Rutherfordstrasse 2, 12489 Berlin,
+                                               Germany,
+                                               Division of Space Research and Planetary Sciences, Physics Institute, University of Bern, Sidler-
+                                               strasse 5, 3012 Bern, Switzerland, e-mail: jeanne.davoult@dlr.de
+                                               Valentin T. Bickel
+                                               Center for Space and Habitability, University of Bern, Gesellschaftsstrasse 6, 3012 Bern, Switzer-
+                                               land, e-mail: valentin.bickel@unibe.ch
+                                               Caroline Haslebacher
+                                               Division of Space Research and Planetary Sciences, Physics Institute, University of Bern, Sidler-
+                                               strasse 5, 3012 Bern, Switzerland,
+                                               and Southwest Research Institute, 1301 Walnut St Suite 400, 80302 Boulder, CO, USA, e-mail:
+                                               caroline.haslebacher@contractor.swri.org
+                                               Yann Alibert
+                                               Center for Space and Habitability, University of Bern, Gesellschaftsstrasse 6, 3012 Bern, Switzer-
+                                               land, e-mail: yann.alibert@unibe.ch
+                                               Daniel Angerhausen
+                                               ETH Zurich, Institute for Particle Physics and Astrophysics Wolfgang-Pauli-Str. 27, 8093 Zurich,
+                                               Switzerland,
+                                               Blue Marble Space Institute of Science, Seattle, WA, USA, SETI Institute, 189 N. Bernado Ave,
+                                               Mountain View, CA 94043, USA, e-mail: dangerhau@phys.ethz.ch
+                                               Carles Cantero
+                                               Observatoire de Genève, Chemin Pegasi 51, 1290 Versoix, Switzerland, e-mail: car-
+                                               les.canteromitjans@unige.ch
+                                               Jo Ann Egger
+                                               Division of Space Research and Planetary Sciences, Physics Institute, University of Bern, Sidler-
+                                               strasse 5, 3012 Bern, Switzerland, e-mail: jo-ann.egger@unibe.ch
+                                               Romain Eltschinger
+                                               Center for Space and Habitability, University of Bern, Gesellschaftsstrasse 6, 3012 Bern, Switzer-
+                                               land,
+                                               Division of Space Research and Planetary Sciences, Physics Institute, University of Bern,
+                                               Gesellschaftsstrasse 6, 3012 Bern, Switzerland, e-mail: romain.eltschinger@unibe.ch
+                                               Yannick Eyholzer
+                                               Observatoire de Genève, Université de Genève, Chemin Pegasi, 51, 1290 Versoix, Switzerland,
+
+
+                                                                                                                                               1
+2                                                                                      Davoult et al.
+
+Abstract The exploration of planetary bodies in our Solar system and beyond re-
+lies on the processing and interpretation of large, spatio-temporally inconsistent,
+and heterogeneous datasets. Recent advances in machine learning (ML) provide un-
+precedented opportunities to address many fundamental challenges posed by these
+heterogeneous and hyper-dimensional datasets. This review chapter highlights inno-
+vative ML methodologies that were developed and used by NCCR PlanetS members
+to address three overarching challenges in (exo)planetary science. The first challenge
+is sequence modelling, which encompasses the intricate analysis of one-dimensional
+data such as time series of radial velocities and light curves, among other examples.
+Secondly, there is pattern recognition that involves studying correlations, leveraging
+convolutional neural networks for feature extraction, mapping and cross correlation
+among other examples., anomaly detection through variational autoencoders, and un-
+supervised clustering of mass spectrometric data. Lastly, there are generative models
+and emulation-based Bayesian analysis, which encompass the development of pre-
+dictive models for planetary interior structure, employing Deep Neural Networks
+to understand planet formation mechanisms. These innovative ML methodologies
+herald a paradigm shift in the processing of data and numerical models that repre-
+sent inherent challenges in planetary and exoplanetary science, paving the way for
+revolutionary discoveries and ideas in this field.
+
+
+
+1 Introduction
+
+Planetary sciences have evolved over the centuries, transitioning from purely as-
+tronomical observations to a multidisciplinary field including physics, chemistry,
+geology, and computer science. The advent of space exploration marked a major
+turning point, with missions such as Mariner [1960s-70s; 1, 2, 3] opening the path
+
+
+e-mail: Yannick.Eyholzer@unige.ch
+Emily O. Garvin
+Institute for Particle Physics and Astrophysics, ETH Zürich, Wolfang-Pauli-Strasse 27, 8093 Zürich,
+Switzerland, e-mail: egarvin@phys.ethz.ch
+Salome Gruchola
+Division of Space Research and Planetary Sciences, Physics Institute, University of Bern, Sidler-
+strasse 5, 3012 Bern, Switzerland, e-mail: salome.gruchola@unibe.ch
+Adrien Leleu
+Observatoire de Genève, Université de Genève, Chemin Pegasi, 51, 1290 Versoix, Switzerland,
+e-mail: adrien.leleu@unige.ch
+Sara Marques
+Center for Space and Habitability, University of Bern, Gesellschaftsstrasse 6, 3012 Bern, Switzer-
+land, e-mail: sara.marques@unibe.ch
+Yinan Zhao
+Department of Astronomy, University of Texas at Austin, 2515 Speedway, Austin, TX 78712, USA,
+e-mail: yinan.zhao@austin.utexas.edu
+Machine Learning as a Transformative Tool for (Exo-)Planetary Science              3
+
+to the exploration of Mars, Venus, and Mercury, followed by Voyager 1 and 2 [1977;
+4, 5], which provided unprecedented insights into the outer planets. More recently,
+exoplanet-focused missions like Kepler [2009; 6] and the Transiting Exoplanet Sur-
+vey Satellite [TESS, 2018; 7] have largely expanded our catalog of known worlds
+with thousands of new detections, while missions such as Juno [2011; 8] and the
+James Webb Space Telescope [JWST, 2021; 9] have deepened our understanding
+of planetary and exoplanetary environments, and formation processes. In parallel,
+asteroid exploration missions like Origins Spectral Interpretation Resource Identifi-
+cation Security – Regolith Explorer [OSIRIS-REx, 2016; 10] and Double Asteroid
+Redirection Test [DART, 2021; 11] have provided invaluable data on small bodies.
+Alongside observational breakthroughs, theoretical models have also advanced sig-
+nificantly, refining our understanding of planetary formation and evolution. Models
+such as the Grand Tack [12] and the Nice Model [13, 14, 15] have reshaped our com-
+prehension of the Solar System’s dynamical history, while 3-D atmospheric simula-
+tions using general circulation models [GCMs; 16, 17, 18] provide detailed insights
+into planetary climates. Currently, exoplanetary studies rely on time-consuming
+computational techniques such as Smoothed Particle Hydrodynamics (SPH) for
+simulating giant impacts for example [e.g., 19, 20] or Magneto-Hydrodynamics
+(MHD) simulations for modelling protoplanetary disks [e.g., 21].
+Thus, planetary sciences now face two major challenges: the exponential growth of
+data and the increasing complexity of models and datasets. Missions like the Lu-
+nar and Mars Reconnaissance Orbiters [MRO, 2005; e.g., 22], Gaia [23], JWST
+and in the near future Europa Clipper [2024; 24] and JUpiter ICy moons Ex-
+plorer [JUICE, 2023; 25], the PLAnetary Transits and Oscillations of stars mission
+[PLATO; 26, 27] or the Atmospheric Remote-sensing Infrared Exoplanet Large-
+survey mission [ARIEL; 28], generate or will generate vast amounts of data, making
+manual analysis increasingly unfeasible. Meanwhile, the computational cost of so-
+phisticated physical models continues to rise, limiting their efficiency.
+Machine Learning (ML) and, more specifically, Deep Learning (DL) provide pow-
+erful solutions to these challenges. ML enables computers to learn from data and
+make decisions, in a similar way to how humans think. Unlike regular astrophysics
+programming that follows set physical rules, ML finds patterns, makes predictions,
+and gets better by processing data. It works in two main ways: classification and
+regression. Classification groups data into distinct classes, corresponding to dis-
+crete values, while regression seeks to approximate a function linking continuous
+variables, in order to highlight the underlying mechanism. By automating data anal-
+ysis, accelerating simulations, and detecting patterns that traditional methods might
+overlook, the integration of AI-driven methodologies into planetary sciences offer
+new opportunities to interpret complex datasets and improve predictive modeling. In
+this chapter, we define machine learning (ML) as models that do not rely on neural
+network architectures, for example ensemble methods such as random forests or
+boosting, clustering algorithms, or support vector machines (SVM). These models
+are usually less complex and often depend on manual data preparation. Deep learn-
+ing (DL), by contrast, refers to models based on neural networks, which are typically
+more complex and can automatically extract structure from data. It is important to
+4                                                                          Davoult et al.
+
+specify that these definitions are used to name these two concepts in this chapter, but
+that in general DL is a sub-ensemble of ML. Finally, ML and DL are distinguished
+between ”supervised2 methods, where models train on labelled data in order to solve
+classification or regression tasks, and ”unsupervised” methods, where models learn
+to identify structures or groupings in unlabelled data, as in the case of clustering or
+dimension reduction.
+The use of machine learning in space science began in the 1990s but grew signifi-
+cantly in the 2000s with increased computing power and large astronomical surveys.
+One of the first key applications was the use of neural networks to classify galax-
+ies from Sloan Digital Sky Survey [SDSS, 2000 29] images [30, 31]. In planetary
+sciences, the first machine learning models were adopted in early 2000s to map the
+martian surface [32, 33, 34, 35] through support vector machines (SVMs), super-
+vised and unsupervised methods and to automate Mars rovers in the recognition of
+minerals in spectra [36, 37, 38] with neural networks (NNs). Since then, models
+such as random forests, SVMs, and especially deep neural networks (DNNs) have
+transformed planetary science data analysis. Today, these methods are more and
+more used for exoplanet detection and characterization, studying planetary surfaces,
+or modeling planetary atmospheres. In particular, deep learning, with convolutional
+neural networks (CNNs) and variational autoencoders (VAEs), has become essential
+for processing the vast amounts of data from space missions.
+The NCCR PlanetS has played a significant role in encouraging the adoption of
+ML and DL in planetary sciences. By leveraging interdisciplinary expertise, PlanetS
+has facilitated major advances in exoplanet detection and characterization, planetary
+system dynamics, atmospheric modeling, and the study of small bodies such as as-
+teroids and comets. Since its start in 2014—coinciding more or less with the rise
+of ML in astronomy—PlanetS has contributed to the democratization of ML and
+DL techniques, promoting their application in astrophysical data analysis, planetary
+structure modeling, and beyond.
+This chapter provides a review of the main contributions of PlanetS members and
+associates in the application of ML and DL in planetary sciences, illustrating how
+these techniques are revolutionizing the field and shaping the future of planetary
+research. In Section 2, we explore research on sequence modeling, followed by an
+examination of pattern recognition in Section 3. Section 4 introduces two studies
+that facilitate the emulation of internal structural models. Finally, we discuss the new
+challenges and limitations that the use of ML and DL in planetary science brings
+and conclude in Section 5.
+
+
+
+2 Sequence modelling
+
+In planetary science, sequence modeling is used to analyze and predict temporal,
+spatial, spectral or event-based sequences. Temporal sequence analysis includes
+studying radial velocity and stellar light curves to detect and characterize exoplanets,
+model observational noise, and track planetary atmospheric changes due to sea-
+Machine Learning as a Transformative Tool for (Exo-)Planetary Science                 5
+
+sonal and weather variations. Spatial sequence analysis examines temperature and
+pressure profiles in atmospheres and the internal structure of planets, exoplanets,
+and moons. Spectral sequence analysis involves exoplanetary atmospheric absorp-
+tion spectroscopy and the mineralogical composition of planetary surfaces. Event
+sequence analysis includes volcanic eruptions on Io per instance, or the frequency
+of asteroid impacts on the Moon. In addition, sequence modelling can be used to
+emulate results of theoretical models (surrogate models), as long as their predictions
+can be represented as sequences of any kind. An example developed in the NCCR
+PlanetS is presented at the end of this section.
+Members of NCCR PlanetS have contributed to incorporate ML techniques in se-
+quence modeling studies in various ways, as described in the following sections:
+noise modeling in stellar radial velocity time series (Sect. 2.1), transit timing varia-
+tion (TTV) detection (Sect. 2.2), development of surrogate model for global models
+of planetary system formation (Sect. 2.3) and detection of exoplanets in high-contrast
+imaging using angular differential imaging (Sect. 2.4).
+
+
+
+2.1 Improving Earth-like planet detection in radial velocity using deep
+    learning
+
+The detection of low-mass planets using the radial velocity (RV) technique remains
+extremely challenging in the presence of stellar activity. Many novel methods have
+been proposed to mitigate stellar activity for exoplanet detection as the presence of
+stellar activity in RV measurements is the current major limitation. Both the template
+matching algorithm and the cross-correlation function (CCF) algorithm extract the
+average RV information contained in a spectrum. Key variations at the spectral
+level related to stellar activity may be lost when performing the dimensionality
+reduction imposed by the RV extraction algorithms. In [39], the authors present a
+novel convolutional neural network (CNN)-based algorithm that efficiently models
+stellar activity signals at the spectral level, enhancing the detection of Earth-like
+planets.
+A CNN is trained to build the correlation between the spectral line profile change
+and the corresponding RV, full width at half maximum (FWHM) and bisector span
+(BIS) values derived from the classical cross-correlation function. The RV signals
+only due to the doppler effect can be obtained by subtracting the RV time series
+predicted from the trained NN (due to stellar activity) from the raw RV time series.
+The residuals is mainly due to the presence of planets.
+In the context of this work, the main challenge lies in the amount of data that can
+be used to train CNNs for different types of stars. The number of spectra available
+for most of RV observations of different stars is less than 1000. Hence the limitation
+of the available data for different stars is therefore the main obstacle. In order to
+efficiently train the NN, the authors use cross-validation as a resampling method. In
+detail, the spectral shells are randomly divided into 10 groups. For each iteration,
+one group is designated as the test set, while the remaining groups are used to train
+6                                                                                      Davoult et al.
+
+a model. The final results is the summary of the evaluations conducted on the test
+sets across all iterations.
+In [39], the authors aim to build a NN that can predict the RV induced by stellar
+activity from spectral shape shells in the 𝑑𝑑𝑣𝑓0 , 𝑓0 space. Once the NN is well trained
+and insensitive to planetary signals, then simply removing the predicted RVs from
+the raw RVs should enhance the significance of planet signals embedded into stellar
+signals. This algorithm has been tested on three intensively observed stars: Alpha
+Centauri B (HD 128621), Tau ceti (HD 10700), and the Sun. By injecting simulated
+planetary signals at the spectral level, the authors of [39] demonstrate that their
+machine learning algorithm can achieve, for HD 128621 and HD 10700, a detection
+threshold of 0.5 m/s in semi-amplitude for planets with periods ranging from 10
+to 300 days. This threshold would correspond to the detection of a ∼ 4 𝑀⊕ in the
+habitable zone of those stars. As an example, the framework used 380 spectra for
+HD 10700. On the HARPS-N solar dataset, thanks to significantly more data, their
+algorithm is even more efficient at mitigating stellar activity signals and can reach
+a threshold of 0.2 m/s, which would correspond to a 2.2 𝑀⊕ planet on the orbit of
+the Earth as shown in Fig. 1. To the best of our knowledge, it is the first time that
+such low detection thresholds are reported for the Sun, but also for other stars, and
+therefore this highlights the efficiency of this CNN-based algorithm at mitigating
+stellar activity in RV measurements.
+
+
+
+
+Fig. 1 Exoplanet detection limits from the neural network framework in the case of HARPS-N
+solar spectra. Left: Detection limit map in the period-amplitude domain. The red dots indicate
+the successful detection by the trained NN with a false alarm probability (FAP) > 0.1%. Middle:
+Amplitude comparison between the injected and recovered signals in the period-amplitude domain.
+The amplitude difference for most of the recovered signals are < 20%. The large difference at
+low amplitude (0.1 m/s) is likely due to noise in the data. Right: Phase comparison between the
+injected and recovered signals in the period-amplitude domain. The phase difference for most of the
+recovered planets is < 0.04. The large differences at long periods is likely due to a poorer sampling
+of the phase for long-period planetary signals. Figure adapted from [39].
+Machine Learning as a Transformative Tool for (Exo-)Planetary Science                    7
+
+2.2 Alleviating the transit timing variation bias in transit surveys
+
+The transit method has proven to be the most successful method for the discovery
+of exoplanets so far. By continuously monitoring the stellar flux over an extended
+duration, it is possible to detect periodic dips in the star brightness, indicative of
+a planet transiting across the star along the observer’s line of sight. These dips of
+flux allow the measurement of the relative size of the planet to the host star. When
+a single planet orbits a single star, its orbit is periodic, which implies that the transit
+happens at a fixed time interval.
+However, in multi-planetary systems the assumption of strictly Keplerian orbits
+no longer holds, as mutual gravitational interactions between the planets induce
+perturbations [40]. The magnitude of these perturbations depends on the system’s
+configuration, and is significantly amplified for (near)-resonant systems as the per-
+turbative effects accumulate over time [41, 42, 43]. This often leads to quasi-periodic
+orbits, deviating from the Keplerian periodicity. Observationally, these deviations
+manifest as transit timing variations (TTVs). Standard algorithms rely on the pe-
+riodicity of the signal and typically fail in this situation and suffer strong biases.
+This is unfortunate as TTVs offer a wealth of information; they encode gravitational
+interractions, allowing the retrieve the masses of the planets [see e.g.; 44],and they
+allow to infer the presence of a non-transiting planet [45, 46]. More importantly,
+systems in resonance often kept a pristine configuration after their formation, thus
+detecting them offer a way to explore system formation histories.
+In this context, RIVERS.deep [47] is an approach within the broader RIVERS frame-
+work (Eyholzer et al. in prep) that aims to tackle the challenge of TTVs. Specifically,
+RIVERS.deep is designed to identify planetary transit signals in 2D representation
+of light curves, known as river diagrams or river plots [48], using computer vision
+through machine learning.
+The RIVERS.deep model is a fully convolutional neural network based on the
+”Tiramisu” architecture [49], a denser and more complex variant of the classical
+”U-net” [50]. The model is trained to recognize the vertical tracks within river di-
+agrams and produces a mask highlighting the transit signal from the background
+noise. This enables the identification of individual transit times without assuming
+strict periodicity.
+RIVERS.deep has enabled the detection of exoplanets missed by traditional meth-
+ods, such as Kepler-1705 b and c [47], and Kepler-1972 b and c [51]—both resonant
+pairs affected by TTVs. It also improved the characterization of known systems, like
+Kepler-404, revealing resonant dynamics and clarifying a false positive as part of
+a TTV-affected signal (Eyholzer et al. in prep).Additionally, RIVERS.deep refined
+mass estimates for 34 sub-Neptunes [52], showing that resonant planets tend to be
+less dense, highlighting the importance of accurate TTV modeling [53].
+8                                                                          Davoult et al.
+
+2.3 Surrogate models: using transformers to predict planetary systems
+    architectures
+
+Sophisticated planetary system formation models have been developed in the NCCR
+PlanetS (see chapter Kessler et al. on the Bern model) in order to compute, in
+an end-to-end approach, the result of planet formation. Such a model essentially
+solves differential equations to predict, from the properties of a protoplanetary disk,
+populations of planetary systems in which all planetary properties (e.g. mass, orbital
+elements, composition, etc...) are computed in a self-consistent way. These results
+can then be used to interpret observations [e.g. by predicting which planets are
+likely to exist in a system where only a few planets have been discovered, 54,
+55], and to constrain physical processes at work during planet formation [e.g. by
+comparing model results with observations, 56]. As multi-planetary systems contain,
+by definition, more than one planet, one key ingredient in the Bern model is the
+inclusion of a N-body code to compute the interactions between planets forming in
+the same system [57]. Combined with the fact that planets in a given system can
+have vastly different orbital period (which constrains the integration timescale to
+be small), the computation of a population of planetary systems requires massive
+computer resources. As an example, the NGPPS main population [considering only
+1000 systems with 100 forming planets each, 58] took one million CPU hours to
+compute.
+On the other hand, a planetary system can be considered either as a set of objects,
+or as a sequence of objects (provided an ordering scheme—e.g. based on the orbital
+period of planets—is fixed).Such a sequence prediction model can, in turn, be used
+to emulate the results of the Bern model, thus accelerating largely the computation
+of planetary system architectures.
+In a recent paper, Alibert, Davoult and Marques (2025, in review) have used this
+approach to train a transformer-based model that can be used to emulate some
+results of the Bern model. In this paper, the authors only considered the formation
+of planetary systems orbiting solar-type stars, and trained their model on a set of
+∼25000 planetary systems computed with the Bern model, with 20 forming planets
+per system. In this paper, planets were characterized only by two features: their
+mass and semi-major axis.The model is based on the transformer architecture [59]
+that has become extremely popular thanks to the development of large language
+models (LLMs). In short, a transformer uses the so-called attention mechanism
+in order to model the probability distribution of the n-th element of a sequence,
+knowing the previous elements in the same sequence. Using terms appropriate for
+planetary systems, this means computing the probability distribution of the mass and
+semi-major axis a planet 𝑛 in a sequence (the planets being ordered by increasing
+semi-major axis), knowing the mass and semi-major axis of all planets 0 to 𝑛 − 1 in
+the same system. Such a model, once trained, can be used to produce large number of
+sequences. All new sequences are always produced in an inside-out process, starting
+with the innermost planet and extending until the outer parts of the system. These
+sequence can then be used, for example, to predict what are the other planets that
+Machine Learning as a Transformative Tool for (Exo-)Planetary Science                  9
+
+could reside, according to the Bern model, in the same system as some already
+discovered planets.
+
+
+
+2.4 Machine learning for exoplanet detection in high-contrast imaging
+    with angular differential imaging strategy
+
+The direct imaging of exoplanets using 10-meter-class ground-based telescopes has
+become a reality in modern astrophysics due to advancements in high-contrast imag-
+ing (HCI). Techniques such as extreme adaptive optics (AO) are used to correct
+atmospheric distortions, and state-of-the-art HCI instruments attached to the tele-
+scope employ coronagraphs [60] to block starlight and manage the high brightness
+contrast between stars and their exoplanets.
+Despite these advanced technologies, exoplanet detection in high-contrast images
+remains challenging due to various noise sources. These include photon noise from
+residual stellar light and thermal background emission, as well as speckle noise
+arising from atmospheric turbulence and optical aberrations. Quasi-static speckles,
+which appear as scattered starlight artifacts, can closely resemble exoplanet signals
+in both shape and brightness, making it difficult to reliably distinguish true planetary
+signals from noise.
+To overcome this, observing strategies like angular differential imaging [ADI; 61]
+combined with powerful image post-processing algorithms are employed. ADI in-
+volves capturing a sequence of images in pupil-stabilized mode, where the telescope’s
+pupil remains fixed while the image field rotates due to Earth’s motion. As a result,
+astrophysical signals rotate relative to quasi-static speckles, enabling to differentiate
+true exoplanets.
+   In [62], the authors present NA-SODINN, a supervised deep learning classifier
+based on convolutional neural networks, specifically designed for robust exoplanet
+detection in ADI-PCA (PCA stands for principal component analysis) processed
+frames. Extensive evaluation, including performance assessments across diverse
+datasets from multiple instruments and participation in the Exoplanet Imaging Data
+Challenge [EIDC 63], demonstrated that NA-SODINN consistently outperforms the
+most advanced detection algorithms. In Cantero et al. (in prep,a), the authors apply
+the NA-SODINN detector to reprocess the F150 sample from the SPHERE Infrared
+survey for Exoplanets [SHINE; 64]. This sample comprises 150 targets observed
+with VLT/SPHERE using H2/H3 narrowband filters and angular differential imag-
+ing. By leveraging the enhanced detection capabilities of NA-SODINN, they aim
+to identify new planetary candidates within this dataset, advancing the search for
+exoplanets. The NA-SODINN detector improves detection limits in post-processed
+HCI data, allowing for the identification of a larger number of planetary candidates.
+This contribution is particularly important for filling the observational gap between
+RV and HCI surveys, providing crucial data for understanding exoplanet populations
+across a broader range of orbital separations.
+In another paper, Cantero et al. (in prep, b), the authors present a novel speckle
+10                                                                         Davoult et al.
+
+subtraction algorithm. Over the past decade, PCA has become the industry standard
+for speckle subtraction in HCI and is now widely integrated into most HCI software
+packages, including VIP [65]. Its widespread adoption is largely due to its simplicity
+and computational efficiency. However, PCA has two notable limitations: the loss of
+the planet signal [66] and the inability to account for non-linear correlations.
+Cantero et al. (in prep., b) present an algorithm that addresses these challenges
+while achieving higher contrast levels. To this end, the authors are designing a
+deep learning-based denoiser model that learns the speckle noise distribution and
+significantly enhances subtraction performance. This approach combines several
+state-of-the-art deep learning technologies, including variational autoencoders and
+latent diffusion models, and leverages conditional learning for optimal results. The
+proposed model will be optimized for SPHERE and SPHERE+ data, as the next gen-
+eration of instruments promises to significantly extend the reach of HCI observations.
+
+
+
+
+3 Pattern recognition
+
+Pattern recognition has been one of the earliest applications of ML in planetary sci-
+ence, in early 2000s. Pattern recognition is the process of identifying and classifying
+regularities or structures in data, such as shapes, sequences, or trends. It involves
+training models to automatically detect these patterns and make predictions or deci-
+sions based on new, unseen data. It was first used for surface mapping, particularly
+on Mars, where ML techniques helped automate the classification of terrains or the
+recognition of craters using orbital imagery from missions like Mars Global Sur-
+veyor or Mars Express [32, 33, 34, 35], or helped the identification of minerals in
+spectra [36, 37, 38]. Since then, pattern recognition has been widely applied across
+different domains. Techniques such as neural networks, SVMs, clustering algorithms
+or ensemble learning methods have enabled the analyze of large datasets efficiently,
+uncovering patterns that would be difficult to identify manually.
+PlanetS members have contributed to the use of ML techniques in pattern recog-
+nition with different topics: unveiling correlations between planets’ properties in
+planetary systems (Sect. 3.1), characterizing and mapping planetary surfaces (Sect.
+3.2), detection of exoplanets in high-contrast spectroscopy (Sect. 3.3), and analyses
+of mass spectra (Sect. 3.4).
+
+
+
+
+3.1 Unveiling correlations in planetary systems
+
+The study of correlations between data is essential in science, as it enables trends
+to be identified and complex phenomena to be better understood. In the science
+of exoplanets, these analyses are crucial for gaining a better understanding of the
+Machine Learning as a Transformative Tool for (Exo-)Planetary Science                 11
+
+formation and evolution of planetary systems, as well as refining the search for po-
+tentially habitable worlds. In recent years, several correlations have been identified
+among the growing population of exoplanets discovered by the CoRoT [67], Kepler,
+and more recently, TESS missions. One of the most well-established correlations is
+the increase in the frequency of giant planets with stellar metallicity [e.g., 68, 69].
+This relationship is explained by the greater availability of heavy elements, which
+enhances accretion and facilitates the rapid formation of bodies reaching the criti-
+cal mass [e.g., 70]. Another correlation links the metallicity of the host star to the
+eccentricity of giant planets [e.g., 71]. Additionally, the frequency of giant planets
+depends not only on stellar metallicity but also on stellar mass: it increases with
+stellar mass, which is assumed to be proportional to that of the protoplanetary disk
+[e.g., 72, 73] (see chapter Kessler et al., this collection). It has also been shown that
+stars hosting exoplanets exhibit a C/O abundance ratio that is 0.01 to 0.05 higher
+than that of stars without planets [74] and tend to be refractory-depleted [75]. Thus,
+it is clear that the properties of exoplanets are closely linked to the environment
+in which they form, including the host star, the protoplanetary disk, and planetary
+interactions. Studies based on synthetic populations of planetary systems generated
+by the Bern model [76, 77] have successfully connected the final architecture of ex-
+oplanetary systems to their formation pathways (see chapter Kessler et al. in prep on
+the Bern model). Furthermore, [54] identified correlations between the presence of
+an undetected Earth-like planet (ELP) in a system and various parameters, including
+the host star’s mass, the observable system architecture, and the mass, radius, and
+orbital period of the innermost detected planet.
+Building on this study, in [55] we trained a Random Forest model on three synthetic
+populations of planetary systems from the Bern model to identify and classify sys-
+tems most likely to host an ELP. Random Forest is an ensemble learning method
+composed of multiple decision trees. Each tree (or local classifier) is trained on a
+random subset of the data, and the global classifier makes decisions based on major-
+ity voting among local classifiers. If most trees classify a system as ‘True’ (hosting
+an ELP), the final classification is ‘True’; otherwise, it is ‘False’. The Random Forest
+model used in this study consists of 500 decision trees. This approach balances vari-
+ance reduction via ensemble learning while maintaining reasonable training time.
+Each tree is trained on a minimum of 100 instances, increasing diversity among trees
+and improving generalization. Additionally, tree depth is limited to five, meaning
+the model can make at most five sequential splits from root to leaf. This constraint
+reduces complexity, prevents overfitting, and ensures the model focuses on capturing
+the most general and meaningful trends in the data.
+This approach demonstrated strong performance in model testing, achieving a pre-
+cision score of up to 0.99, indicating that 99% of positively classified instances
+were true positives. This result confirms that the Random Forest model accurately
+identifies systems hosting an undetected ELP within the synthetic populations of the
+Bern model.
+We then applied this model to 1567 observed planetary systems with at least one
+known planet to identify the most likely ELP-hosting candidates. Among these, the
+model classified 44 systems with a voting rate ≥ 90%, suggesting a high probabil-
+12                                                                         Davoult et al.
+
+ity of hosting an ELP. Further details and a complete list of identified systems are
+available in [55].
+
+
+
+3.2 Features extraction
+
+3.2.1 Characterizing the spatio-temporal evolution of planetary surfaces with
+      Deep Learning
+
+Since the beginning of space exploration, the identification and morphometric char-
+acterization of atmospheric and surface features on bodies across the solar system
+has largely relied on human-driven, manual review of orbital image data. Faced with
+exponentially increasing data downlink rates and image archives with millions of
+individual images, the human-driven review of image data becomes increasingly
+tedious and ineffective, effectively reducing the scientific return of current and up-
+coming missions. Deep learning-driven search routines are a powerful tool to address
+the limitations of manual image review, representing the only viable way of enabling
+the processing and analysis of the vast data to be returned by future exploration
+missions. Since 2018, a range of studies has been exploring the application of deep
+learning tools to planetary surface and atmospheric mapping, underlining its signif-
+icant potential.
+The authors of [78, 79] demonstrated how off-the-shelf supervised CNN-driven
+object detection architectures (specifically RetinaNet – TensorFlow and YOLO –
+PyTorch) can be re-purposed and re-trained to identify rockfalls in orbital images
+of the Moon and Mars, i.e., small geologic expressions of weathering, erosion, and
+planetary surface evolution.[80] deployed these CNNs at scale, scanning the entire
+lunar and martian surfaces (processing hundreds of thousands of orbital images) and
+identifying more than 130 000 rockfalls, marking the first application of CNNs to
+create a global-scale catalog of geologic features on the Moon and Mars (or any
+planetary body). Using the spatial distribution of rockfalls, [80, 81, 82] inferred the
+geologic processes driving rockfall occurrence on the Moon and Mars, most notably
+meteoroid impacts, insolation, and quakes.
+The same authors developed follow-up CNN detectors to create global catalogs of
+other geologic expressions of surface evolution on the Moon, specifically granu-
+lar flows [i.e, small landslides; 83] and fractured boulders [84, 85]. These studies
+demonstrated the decisive role of host terrain age and surface composition in control-
+ling the nature and magnitude of planetary surface evolution. Currently, the authors
+are supporting an effort to use CNNs to catalog every single boulder on the lunar
+surface [86].
+On Mars, [87] and [88] developed CNN detectors to identify geomorphic, geologic,
+and mineralogic expressions of past (near-)surface water on Mars, specifically pitted
+cones and chloride salt deposits. These studies revealed that pitted cone formation on
+Mars is most likely driven by mud rather than igneous volcanism and uncovered new
+evidence of transient bodies of near-surface brines that were widespread in Mars’
+Machine Learning as a Transformative Tool for (Exo-)Planetary Science                13
+
+northern hemisphere, with significant implications for our understanding of Mars’
+past climate. Additionally, [89, 90, 91] mapped hundreds of new impact events and
+correlated their spatiotemporal occurrence with seismic data from NASA’s InSight
+mission. These studies identified the largest impacts found near InSight, which were
+missed by earlier year-long manual surveys, increased the number of potential seis-
+mic–impact event matches by a factor of ∼8, and revealed that Mars’ present-day
+impact rate is approximately twice as high as previously estimated. Further, [92]
+systematically catalogued atmospheric phenomena such as dust devils in several
+decades’ worth of orbital image data, offering unprecedented insights into the dy-
+namics of the lowermost martian atmosphere and the sourcing and global distribution
+of atmospheric dust.
+On Mercury, [93] employed CNN-driven detectors to create the first consistent,
+global reference catalog of Mercury’s enigmatic ‘hollow’ features.This study, along
+with [94], provided several independent lines of evidence for the processes that form
+and shape hollows over time: subsurface volatile exposure through micrometeoroid
+bombardment and insolation-driven outgassing of subsurface volatiles.
+The author of [95, 96] experimented with and demonstrated the significant potential
+of multi-domain learning—leveraging data from multiple planetary bodies—to en-
+able the re-utilization of existing labels and reduce the need for the tedious creation
+of new batches of training and testing labels when studying similar features across
+different planetary bodies. In addition, [97] demonstrated the value of unsupervised
+detection methods, such as VAEs, which utilize all available data in a dataset without
+requiring training labels.
+
+
+3.2.2 Mapping linear surface features on planetary bodies with deep learning
+
+The automated detection and segmentation of linear surface features on planetary
+bodies can pose different challenges than previously mentioned objects (e.g. boul-
+ders, pitted cones, dust devils). First, a linear feature can encompass a large bounding
+box in which only few pixels belong to the linear feature (imagine it is diagonal to the
+image borders). Second, if the linear feature is only a few pixels (≤ 5 px) in width,
+a small inaccuracy of the model segmentation can lead to a very small intersection-
+over-union (IoU; the IoU denotes the number of pixels in the intersection divided
+by the number of pixels of the union of predicted mask (or box) and ground truth
+mask (or box)). In the particular case of linear surface features on Jupiter’s icy
+moon Europa (lineaments), an intricate network of lineaments at a regional scale
+(200 m/px) poses a challenging problem to disentangle. In some geologic areas, the
+ridged plains, the network of lineaments is so dense that one image displaying an
+area of ca. 580 km2 can contain a large number of lineament instances (see Fig. 2).
+    Hitherto, mapping of lineaments was a manual task [e.g., 100, 101, 102, 103,
+104, 105]. This limits the amount of data that can be analysed and therefore limits the
+global scale of the drawn conclusions of a given lineament study. Partially, the extent
+is, as of today, limited by the available imagery from previous space missions (Galileo
+and Voyager). However, in the next decade, approximately 500 times more imaging
+14                                                                                   Davoult et al.
+
+
+
+
+Fig. 2 An example of a 112x112 pixel input image of Europa’s surface at a regional scale of
+215 m/px. The input image shows a dense network of linear surface features. The four colours
+represent four different categories. The output of LineaMapper v1.0 [98] served as a guideline for
+generating more training data to train v1.1 (Mask R-CNN) and v2.0 (SAM) [99]. The ground truth
+is closest to the output of LineaMapper v1.1, although not all of the >15 features were identified.
+Figure adapted from [99].
+
+
+
+data will be available for a global lineament analysis [106, 107, 98]. Therefore,
+preparation for an automated analysis can help to gain near-instantaneous insights
+and potentially adapt mission planning. [98] introduces a supervised deep learning
+network based on the reliable Mask R-CNN architecture [108] that demonstrates the
+ability of deep learning models to tackle lineament analysis on Europa. Eventually,
+the automated mapping of lineaments can inform formation mechanisms of geologic
+units on a global scale, as shown in [99] for a selected semi-automatically mapped
+area.
+[99] also concluded that for this specific task, the performance of a fine-tuned deep
+learning model is dominated by the dataset, not the architecture, agreeing with
+observations made by [95, 96]. [109] applies the model of [98] without fine-tuning
+to other planetary bodies (Venus, Ganymede, Enceladus) to showcase the usability
+and transferability of linear surface feature detection on planetary bodies.
+[110] introduces an automated extraction algorithm of a linear feature’s direction,
+and length, width, number of segments (used in [99]). To conclude, future planetary
+data from upcoming missions request a more efficient way of extracting information
+from the data, without eliminating the human from the loop.
+
+
+
+3.3 Machine learning for exoplanet detection in high-contrast
+    spectroscopy
+
+Spectroscopic observations of substellar companions are essential for unveiling the
+structure and composition of exoplanetary atmospheres [e.g., 111, 112]. Such insights
+are pivotal in understanding the formation history of exoplanets [e.g., 113, 114]. In
+this regard, cross-correlation spectroscopy (CCS) has emerged as a well-established
+technique for molecular detection and atmospheric characterisation.
+This method involves cross-correlating a molecular template or full atmospheric
+model with an observed planetary spectrum across a range of radial velocities (RVs),
+with a detection indicated by a statistically significant correlation peak at the planet’s
+Machine Learning as a Transformative Tool for (Exo-)Planetary Science                15
+
+RV. CCS is recognised as a well established method for detecting molecular species
+and isotopologues within atmospheres [e.g., 115, 116, 117]. In this case, CCS is
+particularly useful when the planet’s continuum is lost during data reduction [e.g.,
+115, 118, 119], for example in absence of angular differential imaging [ADI, 61].
+While CCS and molecular mapping have demonstrated robust performance in iden-
+tifying molecular species, the statistical significance of these detections often relies
+on the signal-to-noise (S/N) ratio of the cross-correlation peak. However, this metric
+typically assumes Gaussian, independent, and identically distributed (i.i.d.) noise,
+which is often not the case due to systematic and random effects from instrumenta-
+tion, observation conditions, and stellar or molecular residuals [119]. Such violations
+of noise assumptions can lead to unreliable detection confidence when using tradi-
+tional S/N metrics [120]. In addition, it is not possible to automatise the S/N scoring
+of a high number of spectra from multiple datasets or planets, as the application
+of this S/N metric relies on prior knowledge of the expected location of the cross-
+correlation peak.
+Such challenges were recently discussed and addressed by [121] using ML tech-
+niques in the spectral dimension and [122] in the spatio-temporal regime. They
+show together that learning relevant features from cross-correlated spectral data can
+enhance detection capabilities compared to the use of traditional S/N-based metrics.
+In particular, [121] introduced the ML for cross-correlation spectroscopy (MLCCS)
+approach, integrating ML with CCS to enhance the sensitivity to faint molecular
+signals. Using one dimensional CNNs, this method analyses the full RV dimension
+to detect deterministic patterns from individual molecular features, especially in
+non-Gaussian and non-i.i.d. noise environments. In addition, the method was proven
+to be invariant to shifts in RV and is this applicable to multiple planets and spec-
+tral instances at a time. The MLCCS method offers enhanced detection sensitivity
+and reliability for detection of individual molecules, and conspicuity in molecular
+maps. This method is expected to be particularly useful with IFS instruments like
+JWST/MIRI [123, 119], VLT/ERIS[124], and the upcoming ELT/HARMONI [e.g.,
+125, 126, 127] but its one-dimensional framework is designed to be adaptable to
+slit spectroscopy [e.g., with Keck/OSIRIS and CRIRES+ 128, 129, 130] as well as
+individual spectra. This method’s agnosticism towards specific atmospheric models
+and its robustness to complex noise conditions could lead to a paradigm shift in
+how molecular detections are validated, potentially optimizing telescope time and
+improving the efficiency of spectroscopic surveys [121].
+
+
+
+3.4 Unsupervised techniques for in situ mass spectrometry
+
+Raw scientific data are, in most cases, unlabeled, and the generation of labels often
+involves labor-intensive manual work. In cases where labeled data are scarce, difficult
+to obtain, or impractical to generate—such as in space research—unsupervised ML
+becomes particularly useful. As unsupervised ML only requires the data themselves
+as input, without pre-existing labels, it is a powerful tool for identifying hidden
+16                                                                                     Davoult et al.
+
+patterns and structures within datasets and understanding their distribution in high-
+dimensional space. The most prominently used unsupervised techniques include
+dimensionality reduction, density estimation, and clustering, which allow to extract
+meaningful insights from raw, high-dimensional data.
+Dimensionality reduction simplifies complex data sets by transforming them into
+a lower dimensional space while preserving essential information. This transfor-
+mation can exploit correlations or similarity between features (based on a chosen
+metric). By reducing the number of features, dimensionality reduction helps visualize
+high-dimensional data and reduces the computational requirements for subsequent
+analyses, such as clustering. Clustering groups data points on the basis of common
+characteristics, allowing the homogeneity of a data set to be examined effectively.
+While clustering of high-dimensional data is possible, removing or reducing features
+that carry little or no information generally improves the quality of the clustering
+analysis, hence, these algorithms often benefit from being applied to dimensionally
+reduced data.
+Both dimensionality reduction and clustering techniques can be applied to a wide
+range of data. In mass spectrometry, [131] uses dimensionality reduction and clus-
+tering to separate collected mass spectra into distinct groups based on their chemical
+composition. These techniques have been applied to data collected from microfos-
+sils in ancient geological samples from Earth [132] using a space-prototype laser
+ablation and ionization mass spectrometer (LIMS) developed at the University of
+Bern [133]. Data preprocessing, including noise reduction and normalization, has
+been shown to be critical to ensure effective data handling and to reduce the in-
+fluence of noise on the results [131]. Such applications highlight the potential of
+unsupervised ML to identify biosignatures and mineralogical features in extrater-
+restrial materials. In the context of space exploration, unsupervised ML still plays a
+minor role compared to supervised approaches. So far, it has mainly been applied
+to space-acquired data, but in-situ applications are becoming more popular. These
+include data analysis, anomaly detection, and resource optimization [134, 135, 136].
+These techniques can support data prioritization, allowing spacecraft to optimize the
+selection of high-value or interesting data for transmission to Earth, as visualized in
+Figure 3.
+
+ Data collection   Pre-processing    Embedding         Clustering      Histogramming
+                                                                                            Mineral 1
+                                                                                            Mineral 2
+                                                                                            Mineral 3
+     LMS
+
+
+
+
+                                                                                            Mineral 4
+
+
+
+
+Fig. 3 Unsupervised analysis pipeline for on-board data clustering. The collected and pre-processed
+data can be dimensionality reduced and clustered to find the groups of spectra containing information
+of interest, for example, signatures of certain minerals or trace elements. Reproduced and adapted
+from [131].
+Machine Learning as a Transformative Tool for (Exo-)Planetary Science               17
+
+4 Model emulation with deep learning
+
+In recent years, the continuous improvement of numerical models in planetary sci-
+ences has led to increasingly complex and computationally expensive simulations.
+These models, while more accurate, often require significant time and resources to
+run. To address this challenge, deep learning techniques are being employed to learn
+from the outputs of these time-consuming models and predict results without the
+need to rerun the full numerical model. This approach, often referred to as surro-
+gate modeling or emulation, is becoming more common, particularly in domains
+where large parameter exploration or real-time predictions are needed. Using neu-
+ral network to approximate the behavior of complex models can drastically reduce
+computation times, allowing the growth of numerical simulations.
+PlanetS members have used model emulation to predict architecture of planetary
+systems as seen in Sect. 2.3, but also to predict planetary radii from internal struc-
+ture model (Sect. 4.1) and planetary mass from planetary formation model (Sect. 4.2).
+
+
+
+
+4.1 plaNETic: a predictive model for planetary interior structure
+
+A central question in exoplanet research is what the interiors of exoplanets look
+like. On the one hand, this is because the detected exoplanet population exhibits
+a remarkable diversity in mass and radius, with many of the discovered planets
+not having analogues in the solar system. On the other, exoplanet interiors are
+shaped by the properties of the protoplanetary discs in which they formed, as well
+as their formation locations, orbital migration, and evolution histories. As a result,
+studying the composition of exoplanets can give us insights into planet formation
+and evolution processes, although the exact connection remains complex. One of the
+main challenges when trying to study exoplanet interiors is the inherent degeneracy
+in determining a planet’s internal composition from observations. Generally, our
+knowledge of the properties of exoplanets from observations is sparse; in most cases,
+we will be limited to knowing a planet’s radius and mass, giving us an estimate of its
+main density, and its orbital period, informing us of its temperature. While this gives
+us a general idea of what the planet could look like, there is a very large number
+of interior compositions that would be compatible with these observed quantities
+[e.g. 137, 138]. Without additional observations, we cannot break this degeneracy,
+no matter how precisely the mass and radius values in question are known. We can,
+however, try to reduce it by excluding structures that are unphysical and using any
+additional information available, such as the composition of the planet’s host star
+[e.g. 139].
+To this end, a wide variety of planetary structure models have been developed over the
+last two decades to describe mass–radius relations of various types of planets [e.g.,
+140, 137, 141, 142, 139, 143, 144, 145, 146, 147, 148, 149]. Traditionally, Bayesian
+inference algorithms, such as Markov Chain Monte Carlo (MCMC) methods, have
+18                                                                        Davoult et al.
+
+been used in combination with these forward models to infer the internal structures
+of observed exoplanets [e.g., 139, 143, 146, 149]. However, MCMC-based inference
+schemes require significant computational resources, often taking hours or days to
+converge.
+More recently, also ML approaches have been used to infer the internal structure of
+observed exoplanets. [150] provided proof-of-concept for using a mixture density
+network to predict the parameter space of compatible interior structures, with their
+newer work presenting a more physically elaborate model [151]. Similarly, [152] train
+a conditional invertible neural network with the same purpose. The main advantage
+of these methods over traditional inference schemes is that the inference can be
+completed within seconds [151] or minutes [152]. While these previous works use
+ML to replace the full inverse scheme, the open-source plaNETic framework1 [153]
+instead replaces the forward model with a neural network (NN).
+plaNETic is based on the planetary structure model of the BICEPS code [149],
+which was used generate a large database of 15 million planetary structure models
+as training data for a conventional feed-forward NN with multiple hidden layers.
+Once trained, this NN is then used as a computationally efficient surrogate model
+for the planetary structure model in a full-grid accept-reject sampling scheme. The
+trained NN can predict planetary radii up to 50 000 times faster than direct numerical
+solutions of the planetary structure equations. A proof-of-concept of the method was
+introduced and applied to a system of observed planets for the first time in [154],
+while the updated version of the framework, featuring the full physical complexity
+of the BICEPS planetary structure model, was presented in [153], along with its
+first application to an observed planetary system. Both versions of the framework
+together have been applied to infer the interiors of exoplanets in various systems,
+presented in more than 30 publications [e.g., 155, 156, 157, 158, 159, 160]. Some
+of these results are summarised in more detail in the chapter by Leleu et al. from the
+same collection.
+Compared to the hours or days that are needed for the inference process with MCMC,
+with plaNETic it takes less than 30 minutes to infer the interior structure of an
+observed planet.
+
+
+
+4.2 Accelerating planetary system formation models with DNNs
+
+Computing the formation of planetary systems in the Bern model relies on different
+modules (see chapter by Kessler et al., this collection): the structure and evolution
+of the protoplanetary disk, the accretion of solids and gas, or the planet-planet
+interaction among others. One of these modules is the determination of the gas
+accretion of forming planets. Gas accretion result from two effects: 1- a planet
+accreting solids (planetesimals and pebbles) shows an increase gravitational potential
+well, which tends to contract the planetary envelope, while 2- the outer edge of the
+
+1 https://github.com/joannegger/plaNETic
+Machine Learning as a Transformative Tool for (Exo-)Planetary Science                            19
+
+planet (which depends on the planetary Roche and/or Bondi radius) increases with
+the planetary mass. Computing gas accretion of a given planet therefore requires
+determining the total planetary mass such as the outer planetary radius matches its
+outer radius (Roche radius or Bondi radius). This boils down to computing, as a
+function of several parameters, the total planetary mass that fulfils all the boundary
+conditions (core mass, core luminosity, disk temperature and pressure at the planet
+location, planet location itself). Such computation is done by solving the differential
+equations describing the internal structure of a planet (similar to the ones used in the
+previous section - but with different boundary conditions) using an iterative scheme.
+The planetary mass is the value that allows matching all boundary conditions2 . The
+other approach often used in the litterature is to use scaling lows (e.g. [162]), but
+these laws turn out to be rather imprecise.
+When computing the formation of a planetary system, the internal structure of
+planetary systems is computed millions of times (for all planets at each timestep),
+with boundary conditions that are not extremely different from one case to another.
+In order to accelerate this computation, members of the NCCR PlanetS have trained a
+DNN that predicts the mass of a planet as a function of the accretion rate of solids, the
+core mass, and the disk properties at the location of the planet. The approach followed
+is similar to the ones presented in the previous section, with 1- the computation of
+a large database of models, and 2- the training of a DNN (see [163]). Using this
+approach, the authors demonstrated very good performances compared to scaling
+laws, speeding up the internal structure calculations by orders of magnitude [see
+e.g., 164].
+
+
+
+5 Discussion and conclusion
+
+Machine Learning is fundamentally changing scientific research, including (exo)plane-
+tary sciences, by enabling the processing and analysis of vast datasets at unprece-
+dented speeds and scales. Machine learning helps automate tedious, time-consuming
+tasks, like the identification of small geologic features in planetary image datasets,
+and significantly lowers the computing costs of complex models. Over the past
+few decades, ML has changed how we analyze data by making it easier to handle
+complex, heterogeneous, multi- and hyper-dimensional information and recognize
+patterns that might be, or a highly likely to be, missed by humans. More specifi-
+cally, ML provides new approaches for analyzing atmospheric compositions [e.g.,
+165, 166, 167, 168, 169] or helping prioritize targets for follow-up observations
+[e.g., 167, 55] Compared to traditional statistical methods, ML models show gener-
+ally stronger predictive capabilities and can handle larger, more heterogeneous, and
+more complex datasets. On the other hand, traditional statistical methods provide
+clear insights and straightforward explainability about what the model has learned
+and offer better interpretability and theoretical understanding, while ML models can
+
+2 Note that there are in general more than one values that allow matching all conditions - see [161]
+20                                                                         Davoult et al.
+
+behave like ‘black boxes’. This underlines how the use of data-driven approaches has
+to remain a trade-off between model complexity and scientific interpretability.
+Many challenges in using ML for (exo)planetary science remain, especially due to
+the limited amount and quality of available data. In many areas of (exo)planetary
+science, there are not enough data for training models—whether it is the number of
+known exoplanets, labeled images of planetary surfaces, asteroid observations, or
+atmospheric spectra. On top of that, data often come with noise, vary in quality, and
+suffer from other instrument-related limitations. Because of this, scientists increas-
+ingly rely on synthetic data to fill the gaps, but that might lead to training on data
+that are not exactly like reality and a difficulty to verify hypothesis due to lack of
+actual ground-truth data [see e.g., 55]. Finally, models also risk overfitting, meaning
+they work well on the training data but fail when applied to new situations or larger
+datasets.
+To move forward, we need ML models that are easier to interpret, and more and
+better data, which may come from upcoming space missions like PLATO, ARIEL,
+Europa Clipper, and BepiColombo [170], or new ground-based telescopes like the
+ELT
+As ML changes (exo)planetary science, it also raises ethical issues. We need trans-
+parency in how ML methods and results are shared, and human insight and intuition
+should remain central in scientific work. There are also risks, like hidden biases in
+training data or incorrect results that could mislead research. It is also important
+to mention that most ML and DL algorithms currently offer limited mechanisms
+for incorporating uncertainties or propagating errors. This limitation is particularly
+relevant in scientific contexts, where quantifying uncertainty is often as critical as
+producing accurate predictions. Bridging this gap remains an important work for
+future ML and DL research and development.
+Even with these challenges, ML and DL are reshaping how we explore space and plan
+missions. New algorithms help create better target lists for missions like JWST, the
+Habitable Worlds Observatory [HWO; 171, 172], and the Trace Gas Orbiter [TGO,
+2016; 173], making better use of valuable telescope time [e.g., 121, 174, 55],
+supporting real-time decisions during missions [recently e.g., 131, 175, 176], and
+improving how we design observations [e.g., 177].
+This chapter presents twelve different areas in which PlanetS members have con-
+tributed by incorporating ML models to their work. It encompasses projects using
+sequence modeling such as the modeling of stellar activity in RV time-series, the
+detection of TTVs in stellar light-curves, the detection of exoplanets in high-contrast
+imaging using ADI, and the modeling of planetary systems as a 2D-sequence. We
+also gathered projects using pattern recognition such as unveiling correlations in
+planetary systems, mapping planetary surfaces, the search for patterns linked to
+molecular signatures in cross correlation in high-contrast spectroscopy, and cluster-
+ing techniques for mass spectra. Finally, we present works using neural networks
+for model emulation to predict planetary radius from internal structure models and
+planetary mass from planetary formation models.
+Despite new challenges arising with the increasing use of ML and DL models, those
+techniques can help reach goals precedently unreachable. For example, the improve-
+Machine Learning as a Transformative Tool for (Exo-)Planetary Science             21
+
+ment of Earth-like planet detection [e.g., 178, 39, 179, 180, 174] can ultimately
+allow us to detect an exoplanet favourable to host life. Another example is the scan-
+ning of complete datasets of planetary surfaces orders of magnitude faster than a
+human.
+
+   Machine learning is changing the way we analyze planetary data and expanding
+the kinds of questions we can ask about the origins and future of the solar system
+and others. As our tools become more advanced, so does our ability to explore and
+understand planetary bodies.
+
+
+
+References
+
+  [1] P.H. Abelson, Science 149(3689), 1179 (1965).                        DOI
+      10.1126/science.149.3689.1179
+  [2] J.A. Dunne, E. Burgess, The voyage of Mariner 10 : mission to Venus and Mer-
+      cury, vol. 424 (Washington : Scientific and Technical Information Division,
+      National Aeronautics and Space Administration, 1978)
+  [3] J. Bailey, arXiv e-prints arXiv:1302.3675 (2013).                    DOI
+      10.48550/arXiv.1302.3675
+  [4] P.H. Abelson, Science 197(4308), 1039 (1977).                        DOI
+      10.1126/science.197.4308.1039
+  [5] C.E. Kohlhase, P.A. Penzo, Space Science Reviews21(2), 77 (1977). DOI
+      10.1007/BF00200846
+  [6] W.J. Borucki, D. Koch, G. Basri, et al., Science 327(5968), 977 (2010). DOI
+      10.1126/science.1185402
+  [7] G.R. Ricker, J.N. Winn, R. Vanderspek, et al., Journal of Astronom-
+      ical Telescopes, Instruments, and Systems 1, 014003 (2015). DOI
+      10.1117/1.JATIS.1.1.014003
+  [8] S.J. Bolton, J. Lunine, D. Stevenson, et al., Space Science Reviews213(1-4),
+      5 (2017). DOI 10.1007/s11214-017-0429-6
+  [9] J.P. Gardner, J.C. Mather, M. Clampin, et al., Space Science Reviews123(4),
+      485 (2006). DOI 10.1007/s11214-006-8315-7
+ [10] D.S. Lauretta, S.S. Balram-Knutson, E. Beshore, et al., Space Science Re-
+      views212(1-2), 925 (2017). DOI 10.1007/s11214-017-0405-1
+ [11] A.F. Cheng, A.S. Rivkin, P. Michel, et al., Planetary and Space Science157,
+      104 (2018). DOI 10.1016/j.pss.2018.02.015
+ [12] K.J. Walsh, A. Morbidelli, S.N. Raymond, et al., Meteoritics & Planetary
+      Science47(12), 1941 (2012). DOI 10.1111/j.1945-5100.2012.01418.x
+ [13] R. Gomes, H.F. Levison, K. Tsiganis, A. Morbidelli, Nature435(7041), 466
+      (2005). DOI 10.1038/nature03676
+ [14] K. Tsiganis, R. Gomes, A. Morbidelli, H.F. Levison, Nature435(7041), 459
+      (2005). DOI 10.1038/nature03539
+22                                                                       Davoult et al.
+
+ [15] A. Morbidelli, H.F. Levison, K. Tsiganis, R. Gomes, Nature435(7041), 462
+      (2005). DOI 10.1038/nature03540
+ [16] A. Adcroft, J.M. Campin, C. Hill, J. Marshall, Monthly Weather Review
+      132(12), 2845 (2004). DOI 10.1175/MWR2823.1
+ [17] M.I. Richardson, A.D. Toigo, C.E. Newman, Journal of Geophysical Research
+      (Planets) 112(E9), E09001 (2007). DOI 10.1029/2006JE002825
+ [18] G. Gilli, S. Lebonnois, F. González-Galindo, et al., Icarus281, 55 (2017). DOI
+      10.1016/j.icarus.2016.09.016
+ [19] M. Timpe, C. Reinhardt, T. Meier, et al., The Astrophysical Journal959(1),
+      38 (2023). DOI 10.3847/1538-4357/acfc40
+ [20] T. Meier, C. Reinhardt, M. Timpe, et al., The Astrophysical Journal978(1),
+      11 (2025). DOI 10.3847/1538-4357/ad9248
+ [21] J. Weder, C. Mordasini, A. Emsenhuber, Astronomy & Astrophysics674,
+      A165 (2023). DOI 10.1051/0004-6361/202243453
+ [22] A.S. McEwen, E.M. Eliason, J.W. Bergstrom, et al., Journal of Geophysical
+      Research (Planets) 112(E5), E05S02 (2007). DOI 10.1029/2005JE002605
+ [23] Gaia Collaboration, T. Prusti, J.H.J. de Bruijne, et al., Astronomy & Astro-
+      physics595, A1 (2016). DOI 10.1051/0004-6361/201629272
+ [24] S.M. Howell, R.T. Pappalardo, Nature Communications 11, 1311 (2020). DOI
+      10.1038/s41467-020-15160-9
+ [25] O. Grasset, M.K. Dougherty, A. Coustenis, et al., Planetary and Space Sci-
+      ence78, 1 (2013). DOI 10.1016/j.pss.2012.12.002
+ [26] H. Rauer, C. Catala, C. Aerts, et al., Experimental Astronomy 38(1-2), 249
+      (2014). DOI 10.1007/s10686-014-9383-4
+ [27] H. Rauer, C. Aerts, J. Cabrera, PLATO Team, Astronomische Nachrichten
+      337(8-9), 961 (2016). DOI 10.1002/asna.201612408
+ [28] G. Tinetti, P. Eccleston, T. Lueftinger, et al., in European Planetary Science
+      Congress (2022), pp. EPSC2022–1114. DOI 10.5194/epsc2022-1114
+ [29] D.G. York, J. Adelman, J.E. Anderson, Jr., et al., The Astronomical Jour-
+      nal120(3), 1579 (2000). DOI 10.1086/301513
+ [30] R.K. Gulati, L. Altamirano, Astrophysics and Space Science273, 73 (2000).
+      DOI 10.1023/A:1002699908879
+ [31] G. Li, Z. Lu, J. Wang, Z. Wang, arXiv e-prints arXiv:2502.15300 (2025). DOI
+      10.48550/arXiv.2502.15300
+ [32] B.D. Bue, T.F. Stepinski, Computers and Geosciences 32(5), 604 (2006). DOI
+      10.1016/j.cageo.2005.09.004
+ [33] T.F. Stepinski, S. Ghosh, R. Vilalta, in Discovery Science, ed. by L. Todor-
+      ovski, N. Lavrač, K.P. Jantke (Springer Berlin Heidelberg, Berlin, Heidelberg,
+      2006), pp. 255–266
+ [34] T. Stepinski, R. Vilalta, S. Ghosh, IEEE Intelligent Systems 22(6), 100 (2007).
+      DOI 10.1109/MIS.2007.114
+ [35] T.F. Stepinski, M.P. Mendenhall, B.D. Bue, Icarus203(1), 77 (2009). DOI
+      10.1016/j.icarus.2009.04.026
+ [36] M.S. Gilmore, R. Castaño, T. Mann, et al., Journal of Geophysical Re-
+      search105(E12), 29223 (2000). DOI 10.1029/2000JE001275
+Machine Learning as a Transformative Tool for (Exo-)Planetary Science            23
+
+ [37] B. Bornstein, R. Castano, M. Gilmore, et al., in 2005 IEEE Aerospace Con-
+      ference (2005), pp. 378–384. DOI 10.1109/AERO.2005.1559330
+ [38] M.S. Gilmore, B. Bornstein, M.D. Merrill, et al., Icarus 195(1),
+      169 (2008).       DOI https://doi.org/10.1016/j.icarus.2007.11.025.       URL
+      https://www.sciencedirect.com/science/article/pii/S0019103507005982
+ [39] Y. Zhao, X. Dumusque, M. Cretignier, et al., Astronomy & Astrophysics687,
+      A281 (2024). DOI 10.1051/0004-6361/202450022
+ [40] E. Agol, J. Steffen, R. Sari, W. Clarkson, Monthly Notices of the Royal Astro-
+      nomical Society359(2), 567 (2005). DOI 10.1111/j.1365-2966.2005.08922.x
+ [41] Y. Lithwick, J. Xie, Y. Wu, The Astrophysical Journal761(2), 122 (2012).
+      DOI 10.1088/0004-637X/761/2/122
+ [42] D. Nesvorný, D. Vokrouhlický, The Astrophysical Journal790(1), 58 (2014).
+      DOI 10.1088/0004-637X/790/1/58
+ [43] E. Agol, K. Deck, The Astrophysical Journal818(2), 177 (2016). DOI
+      10.3847/0004-637X/818/2/177
+ [44] D. Nesvorný, D. Kipping, D. Terrell, et al., The Astrophysical Journal777(1),
+      3 (2013). DOI 10.1088/0004-637X/777/1/3
+ [45] J.W. Xie, Y. Wu, Y. Lithwick, The Astrophysical Journal789(2), 165 (2014).
+      DOI 10.1088/0004-637X/789/2/165
+ [46] W. Zhu, C. Petrovich, Y. Wu, et al., The Astrophysical Journal860(2), 101
+      (2018). DOI 10.3847/1538-4357/aac6d5
+ [47] A. Leleu, G. Chatel, S. Udry, et al., Astronomy & Astrophysics655, A66
+      (2021). DOI 10.1051/0004-6361/202141471
+ [48] J.A. Carter, E. Agol, W.J. Chaplin, et al., Science 337(6094), 556 (2012). DOI
+      10.1126/science.1223269
+ [49] S. Jégou, M. Drozdzal, D. Vazquez, et al., arXiv e-prints arXiv:1611.09326
+      (2016). DOI 10.48550/arXiv.1611.09326
+ [50] O. Ronneberger, P. Fischer, T. Brox, arXiv e-prints arXiv:1505.04597 (2015).
+      DOI 10.48550/arXiv.1505.04597
+ [51] A. Leleu, J.B. Delisle, R. Mardling, et al., Astronomy & Astrophysics661,
+      A141 (2022). DOI 10.1051/0004-6361/202142822
+ [52] A. Leleu, J.B. Delisle, S. Udry, et al., Astronomy & Astrophysics669, A117
+      (2023). DOI 10.1051/0004-6361/202244132
+ [53] A. Leleu, J.B. Delisle, R. Burn, et al., Astronomy & Astrophysics687, L1
+      (2024). DOI 10.1051/0004-6361/202450587
+ [54] J. Davoult, Y. Alibert, L. Mishra, Astronomy & Astrophysics689, A309
+      (2024). DOI 10.1051/0004-6361/202449330
+ [55] J. Davoult, R. Eltschinger, Y. Alibert, Astronomy & Astrophysics696, A94
+      (2025). DOI 10.1051/0004-6361/202452434
+ [56] A. Emsenhuber, C. Mordasini, M. Mayor, et al., Astronomy & Astro-
+      physics701, A64 (2025). DOI 10.1051/0004-6361/202452485
+ [57] Y. Alibert, F. Carron, A. Fortier, et al., Astronomy & Astrophysics558, A109
+      (2013). DOI 10.1051/0004-6361/201321690
+ [58] A. Emsenhuber, C. Mordasini, R. Burn, et al., Astronomy & Astrophysics656,
+      A69 (2021). DOI 10.1051/0004-6361/202038553
+24                                                               Davoult et al.
+
+ [59] A. Vaswani, N. Shazeer, N. Parmar, et al., arXiv e-prints arXiv:1706.03762
+      (2017). DOI 10.48550/arXiv.1706.03762
+ [60] R. Soummer, Astrophysical Journal Letters618, 161 (2005).              DOI
+      10.1086/427923. URL https://doi.org/10.1086/427923
+ [61] C. Marois, D. Lafreniere, R. Doyon, et al., ApJ 641(1), 556 (2006)
+ [62] C. Cantero, O. Absil, C.H. Dahlqvist, M. Van Droogenbroeck, Astronomy &
+      Astrophysics680, A86 (2023). DOI 10.1051/0004-6361/202346085. URL
+      http://dx.doi.org/10.1051/0004-6361/202346085
+ [63] F. Cantalloube, C. Gomez-Gonzalez, O. Absil, et al., in Adaptive Optics
+      Systems VII, ed. by D. Schmidt, L. Schreiber, E. Vernet (SPIE, 2020), p. 321.
+      DOI 10.1117/12.2574803. URL http://dx.doi.org/10.1117/12.2574803
+ [64] S. Desidera, G. Chauvin, M. Bonavita, et al., Astronomy & Astro-
+      physics651, A70 (2021). DOI 10.1051/0004-6361/202038806. URL
+      http://dx.doi.org/10.1051/0004-6361/202038806
+ [65] V. Christiaens, C.A.G. Gonzalez, R. Farkas, et al., Journal of Open
+      Source Software 8(81), 1 (2023). DOI 10.21105/joss.04774. URL
+      https://doi.org/10.21105/joss.04774
+ [66] M.J. Bonse, T.D. Gebhard, F.A. Dannert, et al., The Astronomical Jour-
+      nal169(4), 194 (2025). DOI 10.3847/1538-3881/adab79
+ [67] M. Auvergne, P. Bodin, L. Boisnard, et al., Astronomy & Astrophysics506(1),
+      411 (2009). DOI 10.1051/0004-6361/200810860
+ [68] G. Gonzalez, Monthly Notices of the Royal Astronomical Society285(2), 403
+      (1997). DOI 10.1093/mnras/285.2.403
+ [69] N.C. Santos, G. Israelian, M. Mayor, arXiv e-prints astro-ph/0109018 (2001).
+      DOI 10.48550/arXiv.astro-ph/0109018
+ [70] J.B. Pollack, O. Hubickyj, P. Bodenheimer, et al., Icarus
+      124(1), 62 (1996).             DOI 10.1006/ICAR.1996.0190.              URL
+      https://www.sciencedirect.com/science/article/pii/S0019103596901906?via%3Dihub
+ [71] R.I. Dawson, R.A. Murray-Clay, Astrophysical Journal Letters767(2), L24
+      (2013). DOI 10.1088/2041-8205/767/2/L24
+ [72] J.A. Johnson, K.M. Aller, A.W. Howard, J.R. Crepp, Publications of the As-
+      tronomical Society of the Pacific122(894), 905 (2010). DOI 10.1086/655775
+ [73] X. Bonfils, X. Delfosse, S. Udry, et al., Astronomy & Astrophysics549, A109
+      (2013). DOI 10.1051/0004-6361/201014704
+ [74] E. Melo, D. Souto, K. Cunha, et al., The Astrophysical Journal973(2), 90
+      (2024). DOI 10.3847/1538-4357/ad5004
+ [75] S. Yun, Y.S. Lee, Y.K. Kim, et al., The Astrophysical Journal971(1), 35
+      (2024). DOI 10.3847/1538-4357/ad5722
+ [76] L. Mishra, Y. Alibert, S. Udry, C. Mordasini, Astronomy & Astrophysics670,
+      A69 (2023). DOI 10.1051/0004-6361/202244705
+ [77] A. Emsenhuber, C. Mordasini, R. Burn, European Physical Journal Plus
+      138(2), 181 (2023). DOI 10.1140/epjp/s13360-023-03784-x
+ [78] V.T. Bickel, C. Lanaras, A. Manconi, et al., IEEE Transactions on Geoscience
+      and Remote Sensing 57(6), 3501 (2019). DOI 10.1109/TGRS.2018.2885280
+Machine Learning as a Transformative Tool for (Exo-)Planetary Science             25
+
+ [79] V.T. Bickel, S.J. Conway, P.A. Tesson, et al., IEEE Journal of Selected Topics
+      in Applied Earth Observations and Remote Sensing 13, 2831 (2020). DOI
+      10.1109/JSTARS.2020.2991588
+ [80] V.T. Bickel, J. Aaron, A. Manconi, et al., Nature Communications 11, 2862
+      (2020). DOI 10.1038/s41467-020-16653-3
+ [81] V.T. Bickel, J. Aaron, A. Manconi, S. Loew, Journal of Geophysical Research
+      (Planets) 126(10), e06824 (2021). DOI 10.1029/2021JE006824
+ [82] V.T. Bickel, I.J. Daubar, A.J. Sokolowska, et al., Geophysical Research Let-
+      ters51(24), 2024GL110674 (2024). DOI 10.1029/2024GL110674
+ [83] V.T. Bickel, S. Loew, J. Aaron, N. Goedhart, Geophysical Research Let-
+      ters49(12), e98812 (2022). DOI 10.1029/2022GL098812
+ [84] O. Rüsch, V.T. Bickel, The Planetary Science Journal4(7), 126 (2023). DOI
+      10.3847/PSJ/acd1ef
+ [85] O. Rüsch, M. Hess, C. Wöhler, et al., Journal of Geophysical Research (Plan-
+      ets) 129(1), e2023JE007910 (2024). DOI 10.1029/2023JE007910
+ [86] B. Aussel, O. Rüsch, B. Gundlach, et al., in European Planetary Science
+      Congress (2024), pp. EPSC2024–998. DOI 10.5194/epsc2024-998
+ [87] M.M. Mills, V.T. Bickel, A.S. McEwen, A. Valantinas, Icarus418, 116145
+      (2024). DOI 10.1016/j.icarus.2024.116145
+ [88] V.T. Bickel, N. Thomas, A. Pommerol, et al., Nature Scientific Data 11, 845
+      (2024)
+ [89] K.L. Wagstaff, I.J. Daubar, G. Doran, et al., Icarus386, 115146 (2022). DOI
+      10.1016/j.icarus.2022.115146
+ [90] V.T. Bickel, I.J. Daubar, G. Zenhäusern, et al., Geophysical Research Letters
+      52, 3 (2025)
+ [91] C.      Charalambous,      W.T.       Pike,     B.     Fernando,     et    al.,
+      Geophysical         Research       Letters        52(3),      e2024GL110159
+      (2025).          DOI https://doi.org/10.1029/2024GL110159.               URL
+      https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2024GL110159.
+      E2024GL110159 2024GL110159
+ [92] S. Conway, V.T. Bickel, M. Patel, et al., Planetary and Space Science ((in
+      review))
+ [93] V.T. Bickel, A.N. Deutsch, D.T. Blewett, Journal of Geophysical Re-
+      search Machine Learning and Computation 2(1), 431 (2025). DOI
+      10.1029/2024JH000431
+ [94] A.N. Deutsch, V.T. Bickel, D.T. Blewett, Journal of Geophysical Research
+      (Planets) 130(2), 2024JE008747 (2025). DOI 10.1029/2024JE008747
+ [95] V.T. Bickel, L. Mandrake, G. Doran, ISPRS Journal of Photogrammetry and
+      Remote Sensing 182, 1 (2021). DOI 10.1016/j.isprsjprs.2021.09.018
+ [96] V.T. Bickel, L. Mandrake, G. Doran, Frontiers in Remote Sensing 2, 640034
+      (2021). DOI 10.3389/frsen.2021.640034
+ [97] A. Lesnikowski, V.T. Bickel, D. Angerhausen, IEEE Journal of Selected Top-
+      ics in Applied Earth Observations and Remote Sensing 17, 6589 (2024). DOI
+      10.1109/JSTARS.2024.3369101
+26                                                                     Davoult et al.
+
+ [98] C. Haslebacher, N. Thomas, V.T. Bickel, Icarus 410(115722)
+      (2024).        DOI https://doi.org/10.1016/j.icarus.2023.115722.        URL
+      https://www.sciencedirect.com/science/article/pii/S0019103523002993
+ [99] C. Haslebacher, J. Gamazo Tejero, L.M. Prockter, et al., PSJ under review
+      (2025)
+[100] P.H. Figueredo, R. Greeley, Icarus 167(2), 287 (2004).                 DOI
+      10.1016/J.ICARUS.2003.09.016
+[101] A.R. Sarid, R. Greenberg, G.V. Hoppa, et al., Icarus 168(1), 144 (2004). DOI
+      10.1016/j.icarus.2003.11.021
+[102] S.A. Kattenhorn, Icarus 157(2), 490 (2002)
+[103] G.W. Patterson, J.W. Head, R.T. Pappalardo, Journal of Structural Geology
+      28(12), 2237 (2006). DOI 10.1016/J.JSG.2006.03.032
+[104] A.R. Rhoden, T.A. Hurford, Icarus 226(1), 841 (2013).                  DOI
+      10.1016/J.ICARUS.2013.06.029
+[105] G.C. Collins, G.W. Patterson, C.E. Detelich, et al., JGR: Planets 127(11)
+      (2022). DOI 10.1029/2022JE007492
+[106] E. Turtle, A. McEwen, G. Patterson, et al., Space Science Reviews, Col-
+      lection ” Europa Clipper: A Mission to Explore Ocean World Habitabil-
+      ity” 220 (2024). DOI https://doi.org/10.1007/s11214-024-01115-9. URL
+      https://orcid.org/0000-0003-1423-5751
+[107] I.J. Daubar, A.G. Hayes, G.C. Collins, et al., SSR 220(1),
+      1 (2024).          DOI 10.1007/S11214-023-01036-Z/METRICS.              URL
+      https://link.springer.com/article/10.1007/s11214-023-01036-z
+[108] K. He, G. Gkioxari, P. Dollár, R. Girshick, arXiv (2018).              URL
+      https://github.com/
+[109] C. Haslebacher, N. Thomas, C. Rossi, et al., in Atlas of Geological Planetary
+      Mapping, ed. by L. Marinangeli, M. Pantaloni (2025), chap. (under review)
+[110] C. Haslebacher, L. Dümbgen, A.R. Rhoden, et al., (in prep.) (2025)
+[111] M.R. Line, K.B. Stevenson, J. Bean, et al., AJ 152(6), 203 (2016)
+[112] M. Brogi, M.R. Line, AJ 157(3), 114 (2019)
+[113] M. Nowak, S. Lacour, P. Mollière, et al., A&A 633, A110 (2020)
+[114] P. Mollière, T. Molyarova, B. Bitsch, et al., ApJ 934(1), 74 (2022).
+      DOI 10.3847/1538-4357/ac6a56. URL https://dx.doi.org/10.3847/1538-
+      4357/ac6a56
+[115] Q.M. Konopacky, T.S. Barman, B.A. Macintosh, C. Marois, Science
+      339(6126), 1398 (2013)
+[116] R.J. de Kok, M. Brogi, I.A. Snellen, et al., A&A 554, A82 (2013)
+[117] P. Mollière, I. Snellen, Astronomy & Astrophysics 622, A139 (2019)
+[118] G. Cugno, P. Patapis, T. Stolker, et al., A&A 653, A12 (2021)
+[119] M. Mâlin, A. Boccaletti, B. Charnay, et al., A&A 671, A109 (2023)
+[120] M.J. Bonse, E.O. Garvin, T.D. Gebhard, et al., AJ 166(2), 71 (2023).
+      DOI 10.3847/1538-3881/acc93c. URL https://dx.doi.org/10.3847/1538-
+      3881/acc93c
+[121] E.O. Garvin, M.J. Bonse, J. Hayoz, et al., A & A 689, A143 (2024)
+Machine Learning as a Transformative Tool for (Exo-)Planetary Science              27
+
+[122] R. Nath-Ranga, O. Absil, V. Christiaens, E.O. Garvin, Astronomy & Astro-
+      physics 689, A142 (2024)
+[123] P. Patapis, E. Nasedkin, G. Cugno, et al., A&A 658, A72 (2022)
+[124] J. Hayoz, M.J. Bonse, F. Dannert, et al., arXiv preprint arXiv:2502.19961
+      (2025)
+[125] M. Houllé, A. Vigan, A. Carlotti, et al., A&A 652, A67 (2021)
+[126] A. Bidot, D. Mouillet, A. Carlotti, A&A 682, A10 (2024)
+[127] S.R. Vaughan, J.L. Birkby, N. Thatte, et al., MNRAS 528(2), 3509 (2024)
+[128] R.J. de Kok, J. Birkby, M. Brogi, et al., A&A 561, A150 (2014)
+[129] D. Petit dit de la Roche, H. Hoeijmakers, I. Snellen, A&A 616, A146 (2018)
+[130] L. Boldt-Christmas, F. Lesjak, A. Wehrhahn, et al., A&A 683, A244 (2024)
+[131] S. Gruchola, P.K. Schmidt, M. Tulej, et al., The Planetary Science Jour-
+      nal5(12), 280 (2024). DOI 10.3847/PSJ/ad90b6
+[132] R.A. Lukmanov, A. Riedo, D. Wacey, et al., Frontiers in Ar-
+      tificial Intelligence 4 (2021).              DOI 10.3389/frai.2021.668163.
+      URL                             https://www.frontiersin.org/journals/artificial-
+      intelligence/articles/10.3389/frai.2021.668163
+[133] A. Riedo, A. Bieler, M. Neuland, et al., Journal of Mass Spectrometry 48(1),
+      i (2013). DOI 10.1002/jms.3157
+[134] G. Labrèche, D. Evans, D. Marszk, et al., in 2022 IEEE Aerospace Conference
+      (AERO) (2022), pp. 1–17. DOI 10.1109/AERO53065.2022.9843402
+[135] J. Murphy, J.E. Ward, B. Mac Namee, in 2023 European Data Han-
+      dling & Data Processing Conference (EDHPC) (2023), pp. 1–6. DOI
+      10.23919/EDHPC59100.2023.10396403
+[136] V. Ružička, A. Vaughan, D. De Martini, et al., Scientific Reports 12, 16939
+      (2022). DOI 10.1038/s41598-022-19437-5
+[137] S. Seager, M. Kuchner, C.A. Hier-Majumder, B. Militzer, The Astrophysical
+      Journal669(2), 1279 (2007). DOI 10.1086/521346
+[138] L.A. Rogers, S. Seager, The Astrophysical Journal712(2), 974 (2010). DOI
+      10.1088/0004-637X/712/2/974
+[139] C. Dorn, A. Khan, K. Heng, et al., Astronomy & Astrophysics577, A83 (2015).
+      DOI 10.1051/0004-6361/201424915
+[140] D. Valencia, R.J. O’Connell, D. Sasselov, Icarus181(2), 545 (2006). DOI
+      10.1016/j.icarus.2005.11.021
+[141] C. Sotin, O. Grasset, A. Mocquet, Icarus191(1), 337 (2007). DOI
+      10.1016/j.icarus.2007.04.006
+[142] J.J. Fortney, M.S. Marley, J.W. Barnes, The Astrophysical Journal659(2),
+      1661 (2007). DOI 10.1086/512120
+[143] C. Dorn, J. Venturini, A. Khan, et al., Astronomy & Astrophysics597, A37
+      (2017). DOI 10.1051/0004-6361/201628708
+[144] L. Zeng, D.D. Sasselov, S.B. Jacobsen, The Astrophysical Journal819(2), 127
+      (2016). DOI 10.3847/0004-637X/819/2/127
+[145] B. Brugger, O. Mousis, M. Deleuil, F. Deschamps, The Astrophysical Jour-
+      nal850(1), 93 (2017). DOI 10.3847/1538-4357/aa965a
+28                                                                    Davoult et al.
+
+[146] L. Acuña, M. Deleuil, O. Mousis, et al., Astronomy & Astrophysics647, A53
+      (2021). DOI 10.1051/0004-6361/202039885
+[147] A. Aguichine, O. Mousis, M. Deleuil, E. Marcq, The Astrophysical Jour-
+      nal914(2), 84 (2021). DOI 10.3847/1538-4357/abfa99
+[148] C. Dorn, T. Lichtenberg, Astrophysical Journal Letters922(1), L4 (2021). DOI
+      10.3847/2041-8213/ac33af
+[149] J. Haldemann, C. Dorn, J. Venturini, et al., Astronomy & Astrophysics681,
+      A96 (2024). DOI 10.1051/0004-6361/202346965
+[150] P. Baumeister, S. Padovan, N. Tosi, et al., The Astrophysical Journal889(1),
+      42 (2020). DOI 10.3847/1538-4357/ab5d32
+[151] P. Baumeister, N. Tosi, Astronomy & Astrophysics676, A106 (2023). DOI
+      10.1051/0004-6361/202346216
+[152] J. Haldemann, V. Ksoll, D. Walter, et al., Astronomy & Astrophysics672,
+      A180 (2023). DOI 10.1051/0004-6361/202243230
+[153] J.A. Egger, H.P. Osborn, D. Kubyshkina, et al., Astronomy & Astro-
+      physics688, A223 (2024). DOI 10.1051/0004-6361/202450472
+[154] A. Leleu, Y. Alibert, N.C. Hara, et al., Astronomy & Astrophysics649, A26
+      (2021). DOI 10.1051/0004-6361/202039767
+[155] A. Bonfanti, D. Gandolfi, J.A. Egger, et al., Astronomy & Astrophysics671,
+      L8 (2023). DOI 10.1051/0004-6361/202245607
+[156] J.A. Patel, J.A. Egger, T.G. Wilson, et al., Astronomy & Astrophysics679,
+      A92 (2023). DOI 10.1051/0004-6361/202244946
+[157] R. Luque, H.P. Osborn, A. Leleu, et al., Nature623(7989), 932 (2023). DOI
+      10.1038/s41586-023-06692-3
+[158] A. Bonfanti, I. Amateis, D. Gandolfi, et al., Astronomy & Astrophysics693,
+      A90 (2025). DOI 10.1051/0004-6361/202451300
+[159] M. Stalport, A. Mortier, M. Cretignier, et al., Astronomy & Astrophysics696,
+      A86 (2025). DOI 10.1051/0004-6361/202452969
+[160] T. Zingales, L. Malavolta, L. Borsato, et al., Astronomy & Astrophysics695,
+      A273 (2025). DOI 10.1051/0004-6361/202451180
+[161] J. Venturini, Y. Alibert, W. Benz, M. Ikoma, Astronomy & Astrophysics576,
+      A114 (2015). DOI 10.1051/0004-6361/201424008
+[162] B. Bitsch, M. Lambrechts, A. Johansen, Astronomy & Astrophysics582, A112
+      (2015). DOI 10.1051/0004-6361/201526463
+[163] Y. Alibert, J. Venturini, Astronomy & Astrophysics626, A21 (2019). DOI
+      10.1051/0004-6361/201834942
+[164] J. Venturini, O.M. Guilera, J. Haldemann, et al., Astronomy & Astro-
+      physics643, L1 (2020). DOI 10.1051/0004-6361/202039141
+[165] F. Giobergia, A. Koudounas, E. Baralis, arXiv e-prints arXiv:2310.01227
+      (2023). DOI 10.48550/arXiv.2310.01227
+[166] R.T. Forestano, K.T. Matchev, K. Matcheva, E.B. Unlu, The Astrophysical
+      Journal958(2), 106 (2023). DOI 10.3847/1538-4357/ad0047
+[167] D.S. Duque-Castaño, J.I. Zuluaga, L. Flor-Torres, Monthly Notices of the
+      Royal Astronomical Society539(2), 1528 (2025). DOI 10.1093/mnras/staf563
+Machine Learning as a Transformative Tool for (Exo-)Planetary Science            29
+
+[168] D. Dahlbüdding, K. Molaverdikhani, B. Ercolano, T. Grassi, Monthly
+      Notices of the Royal Astronomical Society533(3), 3475 (2024). DOI
+      10.1093/mnras/stae1872
+[169] T.D. Gebhard, J. Wildberger, M. Dax, et al., Astronomy & Astrophysics693,
+      A42 (2025). DOI 10.1051/0004-6361/202451861
+[170] J. Benkhoff, J. van Casteren, H. Hayakawa, et al., Planetary and Space Sci-
+      ence58(1-2), 2 (2010). DOI 10.1016/j.pss.2009.09.020
+[171] C.K. Harada, C.D. Dressing, S.R. Kane, B.A. Ardestani, The Astrophys-
+      ical Journal Supplement Series272(2), 30 (2024). DOI 10.3847/1538-
+      4365/ad3e81
+[172] C.C. Stark, B. Mennesson, S. Bryson, et al., arXiv e-prints arXiv:2405.19418
+      (2024). DOI 10.48550/arXiv.2405.19418
+[173] J. Vago, O. Witasse, H. Svedhem, et al., Solar System Research 49(7), 518
+      (2015). DOI 10.1134/S0038094615070199
+[174] A.R. Torres-Quijano, N.R. Hinkel, C.H. Wheeler, III, et al., arXiv e-prints
+      arXiv:2502.17563 (2025). DOI 10.48550/arXiv.2502.17563
+[175] C. McDonnell, M. Arana-Catania, S. Upadhyay, arXiv e-prints
+      arXiv:2403.00470 (2024). DOI 10.48550/arXiv.2403.00470
+[176] L. Cao, P. Jia, J. Li, et al., The Astronomical Journal169(4), 215 (2025). DOI
+      10.3847/1538-3881/adb842
+[177] Y.Y. Li, Y. Bai, C. Wang, et al., Intelligent Computing
+      4, 0110 (2025).                  DOI 10.34133/icomputing.0110.            URL
+      https://spj.science.org/doi/abs/10.34133/icomputing.0110
+[178] D.J. Armstrong, J. Gamper, T. Damoulas, Monthly Notices of the Royal
+      Astronomical Society504(4), 5327 (2021). DOI 10.1093/mnras/staa2498
+[179] J. Roche, The Open Journal of Astrophysics 7, 62 (2024). DOI
+      10.33232/001c.121826
+[180] B.M.S. Hansen, Monthly Notices of the Royal Astronomical Society467(2),
+      1531 (2017). DOI 10.1093/mnras/stx182
+

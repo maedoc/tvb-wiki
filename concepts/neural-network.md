@@ -8,6 +8,7 @@ sources:
 - raw/papers/jansen-rit-1995.md
 - raw/papers/anticevic-2012.md
 - raw/papers/arxiv-2512.03907.md
+- raw/papers/arxiv-2506.22951.md
 tags:
 - neural-mass-models
 - network-dynamics
@@ -75,10 +76,10 @@ sources:
 - raw/papers/semanticscholar-eb704b6f5462.md
 - raw/papers/sanz-leon-2013.md
 tags:
-- software-neuromorphic-computing
+- software-[[neuromorphic-computing]]
 - software-spinnaker
 - spiking-neural-networks
-- neural-simulation
+- [[neural-simulation]]
 title: sPyNNaker
 type: entity
 updated: '2026-05-11'
