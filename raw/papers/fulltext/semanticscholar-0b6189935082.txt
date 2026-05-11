@@ -1,0 +1,555 @@
+medRxiv preprint doi: https://doi.org/10.1101/2025.03.19.25324269; this version posted March 20, 2025. The copyright holder for this preprint
+  (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                       It is made available under a CC-BY-ND 4.0 International license .
+
+
+
+
+        1      Title
+        2      Precise perivascular space segmentation on magnetic resonance imaging from Human
+        3      Connectome Project-Aging
+        4
+        5      Authors
+        6      Yaqiong Chai1, Hedong Zhang1, Carlos Robles1,2, Andrew Shinho Kim1,3, Nada Janhanshad1,
+        7      Paul M Thompson1, Ysbrand van der Werf4, Eva M. van Heese4, Jiyoung Kim1,5 , Eun Yeon
+        8      Joo1,6, Leon Aksman1, Kyung-Wook Kang1,7, Jung-Won Shin1,6, Abigail Trang1,8, Jongmok Ha1,6,
+        9      Emily Lee9, Yeonsil Moon10, Hosung Kim1
+       10
+       11      Affiliations
+       12      1. Mark and Mary Stevens Neuroimaging and Informatics Institute, Keck School of Medicine,
+       13      University of Southern California, Los Angeles, CA, USA
+       14      2. Scripps College, Claremont, CA, USA
+       15      3. Health Promotion and Disease Prevention Studies, Keck School of Medicine, University of
+       16      Southern California, Los Angeles, CA, USA
+       17      4. Department of Anatomy and Neurosciences, Amsterdam UMC, Vrije Universiteit
+       18      Amsterdam, The Netherlands
+       19      5. Pusan National University School of Medicine, Busan, South Korea
+       20      6. Department of Neurology, Samsung Medical Center, Sungkyunkwan University School of
+       21      Medicine, Seoul, Korea
+       22      7. Department of Neurology, Chonnam National University Medical School and Hospital,
+       23      Gwangju, South Korea
+       24
+       25      8. Department of Biological Sciences, University of Southern California, Los Angeles, CA, USA
+       26      9. Department of Neuroscience, University of California, Los Angeles, CA, USA
+       27      10. Department of Neurology, Konkuk University Medical Center, Konkuk University School
+       28      of Medicine, Seoul, South Korea
+       29      corresponding author(s): Hosung Kim (hosung.kim@loni.usc.edu)
+       30
+       31      Abstract
+       32      Perivascular spaces (PVS) are cerebrospinal fluid-filled tunnels around brain blood vessels,
+       33      crucial for the functions of the glymphatic system. Changes in PVS have been linked to
+       34      vascular diseases and aging, necessitating accurate segmentation for further study. PVS
+       35      segmentation poses challenges due to their small size, varying MRI appearances, and the
+       36      scarcity of annotated data. We present a finely segmented PVS dataset from T2-weighted
+       37      MRI scans, sourced from the Human Connectome Project Aging (HCP-Aging), encompassing
+       38      200 subjects aged 30 to 100. Our approach utilizes a combination of unsupervised and deep
+       39      learning techniques with manual corrections to ensure high accuracy. This dataset aims to
+       40      facilitate research on PVS dynamics across different ages and to explore their link to
+       41      cognitive decline. It also supports the development of advanced image segmentation
+       42      algorithms, contributing to improved medical imaging automation and the early detection of
+       43      neurodegenerative diseases.
+       44
+       45      Background & Summary
+       46      Perivascular spaces (PVS) are annular cerebrospinal fluid (CSF)-filled tunnels around blood
+       47      vessels in the brain1. As conduits of the central nervous system (CNS) to the lymphatic
+       48      drainage in the brain, PVS play a substantial role in the clearance function of the glymphatic
+       49      (glial-lymphatic) system2-4.
+
+
+
+
+                                                                                                                                   1
+       NOTE: This preprint reports new research that has not been certified by peer review and should not be used to guide clinical practice.
+medRxiv preprint doi: https://doi.org/10.1101/2025.03.19.25324269; this version posted March 20, 2025. The copyright holder for this preprint
+  (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                       It is made available under a CC-BY-ND 4.0 International license .
+
+
+
+
+       50      Morphological changes in PVS have clinical implications, as enlarged PVS (ePVS) are linked to
+       51      cerebrovascular diseases, including cerebral small vessel disease, cerebral amyloid
+       52      angiopathy, hypertension, and stroke3,5-8. ePVS are associated with aging and cardiovascular
+       53      risks in healthy adults as well as neurodegenerative diseases9-11. ePVS distribute throughout
+       54      the white matter, basal ganglia, and hippocampus and are visualized using high-resolution
+       55      Magnetic Resonance Imaging (MRI). Therefore, accurately identifying and segmenting ePVS
+       56      on MRI is crucial for understanding their role in normal aging and brain diseases.
+
+       57      ePVS have the same intensity characteristics as cerebrospinal fluid (CSF) on MRI, which is
+       58      hypointense (dark) on T1-weighted (T1w) and hyperintense (bright) on T2-weighted (T2w)
+       59      MRI images. Yet, they are varying in size from sub-millimeter to 3mm, and appear as
+       60      thousands of thin, tubular structures. Further, ePVS are often confused with white matter
+       61      hyperintensity and lacunar infarcts12, requiring high-level expertise that identifies ePVS in
+       62      different shapes as round, ovoid, or tubular depending on the slice orientation of MRI13.
+       63      These challenges make annotation difficult, resulting in limited datasets with ePVS labels.
+
+       64      Efforts have been made to explore various computational methods to segment ePVS, yet
+       65      significant challenges remain. Earlier, Frangi filter-based method was adopted as it can
+       66      detect ePVS without dependency on labeled data14-16. However, this results in low specificity,
+       67      resulting in numerous false positives. More recently, supervised automated methods have
+       68      demonstrated improved performance17 but often generate fraction of labeled ePVS,
+       69      resulting in false negatives. This is partly due to the limited data available for training
+       70      supervised models, preventing machine learning models from achieving accuracy for clinical
+       71      utility. These limitations underscore the need for high-quality, comprehensive ePVS label
+       72      datasets to improve the accuracy and reliability of segmentation methods for new subjects.
+
+       73      Here, we present a dataset of ePVS that has been finely segmented on T2w MRI. This dataset
+       74      includes 200 subjects sampled from the Human Connectome Project Aging (HCP-Aging)18,
+       75      ensuring a wide representation of ages and a uniform distribution across age groups ranging
+       76      from 36 to 100 years old. We employ a combination of semi-supervised deep learning19, and
+       77      iterative manual correction methods to label ePVS precisely. The release of this dataset aims
+       78      to provide a reliable foundation for researchers to further study the dynamic changes of
+       79      ePVS at a wide age range and investigate their potential link to various risk factors of
+       80      cerebrovascular and neurodegenerative diseases, as well as cognitive decline. Additionally, it
+       81      can be used to develop, train, and validate new image segmentation algorithms, thereby
+       82      advancing the automation of medical imaging processing.
+
+       83      Methods
+       84      Subjects.        This study leveraged data from the HCP-Aging Lifespan Release 2.0. At the
+       85      time of recruitment, subjects were in good health, without a diagnosed history of neurologic
+       86      or major psychiatric disorder, symptomatic stroke or Alzheimer’s disease. The dataset also
+       87      includes the self-reported Pittsburgh Sleep Quality Index (PSQI) questionnaire20. Participants
+       88      with Montreal Cognitive Assessment (MoCA) scores below 19 were excluded from the HCP-
+       89      Aging21, but those with a MoCA with 20 or higher were included. However, it is noted that a
+       90      MoCA score within the range of 18-25 is generally classified as mild cognitive impairment
+       91      (MCI)21.
+
+       92      Clinical characteristics.           The patient selection workflow for the study dataset is
+       93      illustrated in Fig. 1. Initially, there were 765 subjects with neuroimaging data available in
+       94      HCP-Aging. First, we selected 217 subjects while considering as much as uniform distribution
+       95      of age and sex. After visually confirming the image quality of T2w MRI, 17 were excluded due
+       96      to image motion artifacts (n=11) or very large lacunar infarcts (n=6), resulting in 200 subjects
+                                                                                                                            2
+medRxiv preprint doi: https://doi.org/10.1101/2025.03.19.25324269; this version posted March 20, 2025. The copyright holder for this preprint
+  (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                       It is made available under a CC-BY-ND 4.0 International license .
+
+
+
+
+       97      in the following segmentation process (age: mean±SD=56.36±10.61 years, range=30-100
+       98      years).
+
+       99      As the vascular risk factors are associated with ePVS, we present the distribution of study
+      100      cohort’s body mass index (BMI), blood pressure, and comprehensive metabolic panel in Fig.
+      101      2. BMI was calculated from height (cm) and weight (kg) measurements collected during
+      102      subject’s interviews using the formula weight (kg)/height (m)2. According to the Centers for
+      103      Disease Control and Prevention (CDC)22, individuals with a BMI of 30 or higher are classified
+      104      as obese. Systolic and diastolic blood pressure were measured with subjects in a seated
+      105      position. According to the guidelines from the American College of Cardiology (ACC) and the
+      106      American Heart Association (AHA)23, hypertension is defined as: a systolic blood pressure of
+      107      130 mmHg or higher, or a diastolic blood pressure of 80 mmHg or higher. High density
+      108      lipoprotein (HDL), hemoglobin A1c (HbA1c), plasma glucose, triglycerides, vitamin D, and
+      109      total cholesterol levels were tested from fasting blood samples. Diabetes is diagnosed using
+      110      HbA1c and fasting glucose. According to the American Diabetes Association (ADA)24, diabetes
+      111      is indicated by an A1c level of 6.5% or higher, or an fasting plasma glucose level of 126 mg/dL
+      112      (7.0 mmol/L) or higher. The detailed measures and the diagnosis are shown in Table 1.
+
+      113      Imaging parameters. Subjects were scanned using Siemens 3T Prisma scanner with an 80
+      114      mT/m gradient coil and a 32-channel Siemens receive head coil, at Washington University in
+      115      St. Louis, Missouri. T1 multi-echo MP-RAGE scans were acquired with the following
+      116      acquisition parameters: repitition time (TR) = 2500ms, time of inversion (TI) = 1000ms, time
+      117      to echo (TE) = 1.8/3.6/5.4/7.2 ms, 4 echoes per line of k-space, voxel size = 0.8 mm isotropic,
+      118      FOV=256 x 240 x 166 mm, matrix = 320 x 300 x 208 slices, flip angle =8°. T2 turbo-spin echo
+      119      (TSE) scans were acquired with TR/TE = 3200/564 ms, turbo factor = 314, and same voxel
+      120      size, FOV and matrix with T1 images.
+
+      121      Image processing.        T1 images were preprocessed using Montreal Neurological Institute
+      122      (MNI)-CIVET pipeline25, including brain-extraction and bias correction. Both T1 and T2 images
+      123      were linearly co-registered together, to eliminate the slight slice misalignment during image
+      124      acquisition. Binary brain mask, excluding the dura matter, cerebellum, and brainstem,
+      125      produced by CIVET pipeline were applied to T2w images25. Then histogram equalization was
+      126      performed on T2w images, making ePVS more discernible26. Non-local mean denoising was
+      127      employed to remove noise from T2w images27.
+
+      128      Initial weakly auto-segmentation of ePVS.        We performed auto-segmentation using the
+      129      Frangi filter. The parameters for the Frangi filter were empirically selected to accentuate
+      130      tubular shapes across a range of diameters, using sigma values of [0.01, 0.05, 0.1, 0.25, 0.5,
+      131      0.75, 1.0]. Given that ePVS typically span only 1-2 voxels in diameter, these sigma values
+      132      were chosen to be smaller than those typically used for vascular segmentation, aiming to
+      133      detect finer tubular shapes. The smaller sigma values are more noise-sensitive, highlighting
+      134      the necessity of prior denoising. The MNI-CIVET pipeline was utilized to apply a white matter
+      135      (WM) mask, effectively isolating ePVS within the WM by removing false positives outside
+      136      WM25.
+
+      137      Manual refinement for 40 subjects. After applying the Frangi filter, the initial
+      138      segmentation underwent manual refinement, which was performed using ITK-snap28. To
+      139      ensure the training samples for the upcoming semi-supervised learning, 40 subjects were
+      140      selected out of the initial 200 subjects, by selecting four to five subjects from each decade of
+      141      life. Two neuroanatomists manually refined them, aiming to correct and complete the PVS
+      142      segmentation flagged by the Frangi filter and eliminate mis-labeled PVS.
+
+
+                                                                                                                            3
+medRxiv preprint doi: https://doi.org/10.1101/2025.03.19.25324269; this version posted March 20, 2025. The copyright holder for this preprint
+  (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                       It is made available under a CC-BY-ND 4.0 International license .
+
+
+
+
+      143      Given the widespread distribution of ePVS throughout the brain, the white matter including
+      144      the centrum semiovale (CS) and the deep gray matter including the basal ganglia (BG) and
+      145      hippocampus are known to exhibit the highest PVS burden7,29. In this study, we focus
+      146      specifically on ePVS located within the white matter. Consequently, our neuroanatomists did
+      147      not include ePVS in the deep gray matter region.
+
+      148      When correcting ePVS and adding new ePVS for completeness, the primary criterion used
+      149      was the appearance across the 3 orthogonal slices (i.e. axial, coronal, and sagittal). In one
+      150      slice, most ePVS appeared as long tubular structures, whereas on the other views, they
+      151      appeared as small ovoid shapes, ranging from submillimeter (one voxel thick on HCP-A T2w
+      152      images) to 3 mm in diameter30. To evaluate the tubular shape of ePVS more specifically on
+      153      T2w MRI with 0.8mm isotropic resolution, we examined whether hyperintense voxels
+      154      consisting of an ovoid shape were present on at least three consecutive slices in one view
+      155      and linearity in voxels appearing on 1-2 slices in other views. However, some ePVS that were
+      156      located obliquely to all the 3 orthogonal planes appeared with a shorter tubular shape in all
+      157      3 views13. The neuroanatomists confirmed these structures by simultaneously examining the
+      158      3 orthogonal slices to differentiate them from lacunes, exhibiting a hyperintense “donut”
+      159      shape, and white matter hyperintensities (WMH), exhibiting oval shape in all the 3
+      160      orthogonal views. These features are often confused with or connected to ePVS when
+      161      evaluated solely on a single view31.
+
+      162      Automated segmentation generated by Frangi filter often misidentified WMH and lacunes as
+      163      ePVS, particularly when these lesions are adjacent or connected to ePVS29,31. To address this
+      164      issue, neuroanatomists manually excised voxels corresponding to WMH and lacunes by
+      165      applying an imaginary boundary considering the tubular shape of ePVS.
+
+      166      Semi-supervised deep learning segmentation.              The manually refined labels from
+      167      the 40 selected subjects above were used to train and validate a U-Net model for supervised
+      168      learning. The U-Net model was designed with a five-layer encoder-decoder structure; each
+      169      encoder layer consists of two sets of 3x3 convolutional layers and Leaky ReLU layers,
+      170      followed by a MaxPooling layer19. The loss function combined Dice loss and binary cross-
+      171      entropy loss to address the issue of class imbalance present in the dataset, where ePVS
+      172      occupy a significantly smaller proportion of the images. This choice of loss function improved
+      173      model accuracy in imbalanced samples. Unlabeled images (n=40 randomly chosen from 160
+      174      data) were augmented by enhancing contrast and adding noise32, aiming to enable the
+      175      model to capture various curved and subtle ePVS with intensity levels closer to the
+      176      surrounding white matter. These augmented data were included in the final step for semi-
+      177      supervised learning process. Dice discrepancies between the model's predictions for
+      178      augmented images and their original counterparts were used to calculate consistency loss,
+      179      thus informing model updates. This strategy ensured that the model was exposed to both
+      180      labeled and unlabeled dataset, accommodating the variability in ePVS appearances. After
+      181      training, the model predicted ePVS segmentation across the left 160 dataset (aside 40 from
+      182      initial 200).
+
+      183      Quality assurance and final refinement.           Manual refinement of the deep learning-
+      184      generated ePVS labels was performed by the aforementioned two neuroradiologists and one
+      185      medical student trained by them, following the same protocol described earlier. To ensure
+      186      consistency and accuracy, the three members convened weekly to reach a consensus on any
+      187      uncertain cases. Fig. 3-5 present the final refined ePVS annotations on T2w MRI, along with
+      188      3D renderings of the PVS burden for three subjects representing ages in 30’s, 50’s and 70’s.
+
+
+
+                                                                                                                            4
+medRxiv preprint doi: https://doi.org/10.1101/2025.03.19.25324269; this version posted March 20, 2025. The copyright holder for this preprint
+  (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                       It is made available under a CC-BY-ND 4.0 International license .
+
+
+
+
+      189      Data Records
+      190      All HCP-A imaging data could be downloaded at NIMH DATA ARCHIVE (NDA). Data were
+      191      provided [in part] by the Human Connectome Project, WU-Minn Consortium (Principal
+      192      Investigators: David Van Essen and Kamil Ugurbil; 1U54MH091657) funded by the 16 NIH
+      193      Institutes and Centers that support the NIH Blueprint for Neuroscience Research; and by the
+      194      McDonnell Center for Systems Neuroscience at Washington University. Metabolic panels,
+      195      vitals including BMI and blood pressure, PSQI, and MoCA are available as text files. The
+      196      clinical characteristics are available as a single Microsoft Excel spreadsheet. T2w images are
+      197      provided in de-identified NIFTI format, and PVS segmentations are binarized masks for each
+      198      subject.
+      199
+      200      Technical Validation
+      201      To validate the consistency and accuracy of the segmentation results, we randomly chose 10
+      202      cases, and evaluated the reproducibility across three raters. We used Fleiss Kappa statistics
+      203      to calculate the inter-rater reliability among the three raters33. As an additional agreement
+      204      metric, we computed the DICE agreement coefficient between all pairs of experts. The Kappa
+      205      statistics and DICE similarities are presented in Table 2.
+
+      206      Code Availability
+      207      Following NIMH Data Archive (NDA)’s derived data sharing policies, the 200 subjects’ raw
+      208      T2w      MRI    images     ePVS   labels   were      shared    in    BALSA    database:
+      209      https://balsa.wustl.edu/study/x9Z66               as                well               as
+      210      https://openneuro.org/datasets/ds005595/versions/1.0.0
+      211      CIVET was used to pre-process T1w images (https://github.com/aces/CIVET_Full_Project).
+      212      The pre-segmentation code using Frangi filter and semi-supervised learning codes can be
+      213      found on our Github website (https://github.com/Yaqiongchai/PVS_segmentation). The
+      214      refinement were generated using ITK-SNAP version 3.8.0.
+      215
+      216      Acknowledgements
+      217      This work was supported by the following grants: National Institute on Aging (P30-
+      218      AG066530-03), the Foundation of the ASNR Grants (AWD-00008862), NIA/California Institute
+      219      for Research and Education-(NCIRE)/UCSF, WEI2990-18 (#U01 AG024904), and Micheal J Fox
+      220      Foundation -The Parkinson’s Progression Markers Initiative (#MJFF-023385). Dataset used in
+      221      this publication was supported by the National Institute on Aging of the National Institutes of
+      222      Health under Award Number U01AG052564. Research reported in this publication was
+      223      supported by the Office Of The Director, National Institutes Of Health of the National
+      224      Institutes of Health under Award Number S10OD032285. The content is solely the
+      225      responsibility of the authors and does not necessarily represent the official views of the
+      226      National Institutes of Health.
+      227
+      228      Author contributions
+      229      Study design, Y. C. and H.K.; statistical analysis, H. Z., C.R, and A.S.K.; manual refinement,
+      230      A.S.K., K.W.K, and J.K.; and manuscript drafting or manuscript revision for important
+      231      intellectual content, all authors.
+      232
+      233      Competing interests
+      234      There are no competing interests.
+      235
+      236
+
+                                                                                                                            5
+medRxiv preprint doi: https://doi.org/10.1101/2025.03.19.25324269; this version posted March 20, 2025. The copyright holder for this preprint
+  (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                       It is made available under a CC-BY-ND 4.0 International license .
+
+
+
+
+      237      Figure Legends
+      238      Figure 1. Work flow of generating high-quality PVS masks from Human Connectome Project
+      239      Aging (HCP-Aging) dataset. M2SS: multi-scale semi-supervised PVS segmentation.
+      240
+      241      Figure 2. Demographic and clinical characteristics of the study subjects. HDL: high-density
+      242      lipoprotein; HbA1c: hemoglobin A1c; MoCA: Montreal Cognitive Assessment; PSQI: Pittsburg
+      243      sleep quality index.
+      244
+      245      Figure 3. T2 MRI with PVS (red) of a 36-yr old male subject, in coronal view (a), axial view (b),
+      246      and sagittal view (c). Panel (d) shows the rendered 3D PVS map.
+      247
+      248      Figure 4. T2 MRI with PVS (red) of a 56-yr old male subject, in coronal view (a), axial view (b),
+      249      and sagittal view (c). Panel (d) shows the rendered 3D PVS map.
+      250
+      251      Figure 5. T2 MRI with PVS (red) of a 76-yr old male subject, in coronal view (a), axial view (b),
+      252      and sagittal view (c). Panel (d) shows the rendered 3D PVS map.
+      253
+      254      Figures
+      255      Figure 1.
+
+
+
+
+      256
+      257
+      258      Figure 2.
+medRxiv preprint doi: https://doi.org/10.1101/2025.03.19.25324269; this version posted March 20, 2025. The copyright holder for this preprint
+  (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                       It is made available under a CC-BY-ND 4.0 International license .
+
+
+
+
+      259
+      260
+      261      Figure 3.
+      262
+
+
+
+
+      263
+      264      Figure 4.
+      265
+
+
+
+
+      266
+      267      Figure 5.
+      268
+medRxiv preprint doi: https://doi.org/10.1101/2025.03.19.25324269; this version posted March 20, 2025. The copyright holder for this preprint
+  (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                       It is made available under a CC-BY-ND 4.0 International license .
+
+
+
+
+      269
+      270
+      271
+      272      Tables
+      273      Table 1. Summary of the demographic, clinic, cognitive, and sleep quality measures of the
+      274      patient population (n=200). Data are expressed as MEAN±SD unless otherwise specified.
+                                                             Value
+
+
+               Age [years (range)]                           61.3 (36-100)
+
+
+               Male sex [n (%)]                              87 (44)
+
+
+               Body mass index [kg/m2 ]                      26.6±5.2
+
+
+               High-Density Lipoprotein                      60.9±17.2
+
+
+               Hemoglobin A1c                                5.4±0.6
+
+
+               Total cholesterol                             196.1±37.6
+
+
+               Triglycerides                                 108.1±68.7
+
+
+               Glucose                                       102.7±16.6
+
+
+               25-vitamin D                                  34.2±15.3
+
+
+               Systolic                                      130.4±15.6
+
+
+               Diastolic                                     79.2±9.6
+
+
+               Obesity [n (%)]                               42 (21)
+
+
+               Hypertension [n (%)]                          128 (64)
+
+
+               Diabetes [n (%)]                              9 (5)
+
+
+               Montreal Cognitive Assessment                 26.2±2.6
+
+
+               Pittsburgh Sleep Quality Index                4.5±2.4
+
+      275
+      276
+medRxiv preprint doi: https://doi.org/10.1101/2025.03.19.25324269; this version posted March 20, 2025. The copyright holder for this preprint
+  (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                       It is made available under a CC-BY-ND 4.0 International license .
+
+
+
+
+      277      Table 2. Summary of Kappa and DICE similarity index among three raters. R1, R2 and R3
+      278      indicates three independent raters.
+               Metrics          Kappa     DICE (R1R2) DICE (R1R3) DICE (R2R3)
+               Values           0.95±0.02 0.97±0.04 0.94±0.05 0.95±0.04
+      279
+      280
+
+
+
+
+                                                                                                                            9
+medRxiv preprint doi: https://doi.org/10.1101/2025.03.19.25324269; this version posted March 20, 2025. The copyright holder for this preprint
+  (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                       It is made available under a CC-BY-ND 4.0 International license .
+
+
+
+
+      281      References
+      282
+      283      1        Hladky, S. B. & Barrand, M. A. Mechanisms of fluid movement into, through and out
+      284               of the brain: evaluation of the evidence. Fluids and Barriers of the CNS 11, 1-32
+      285               (2014).
+      286      2        Louveau, A. et al. CNS lymphatic drainage and neuroinflammation are regulated by
+      287               meningeal lymphatic vasculature. Nature neuroscience 21, 1380-1391 (2018).
+      288      3        Iliff, J. J. et al. A paravascular pathway facilitates CSF flow through the brain
+      289               parenchyma and the clearance of interstitial solutes, including amyloid β. Science
+      290               translational medicine 4, 147ra111-147ra111 (2012).
+      291      4        Da Mesquita, S. et al. Functional aspects of meningeal lymphatics in ageing and
+      292               Alzheimer’s disease. Nature 560, 185-191 (2018).
+      293      5        Zhang, W. et al. Glymphatic clearance function in patients with cerebral small vessel
+      294               disease. Neuroimage 238, 118257, doi:10.1016/j.neuroimage.2021.118257 (2021).
+      295      6        Jones, O. et al. Idiopathic intracranial hypertension is associated with a higher
+      296               burden of visible cerebral perivascular spaces: the glymphatic connection. American
+      297               Journal of Neuroradiology 42, 2160-2164 (2021).
+      298      7        Sepehrband, F. et al. Volumetric distribution of perivascular space in relation to mild
+      299               cognitive impairment. Neurobiology of aging 99, 28-43 (2021).
+      300      8        Doubal, F. N., MacLullich, A. M., Ferguson, K. J., Dennis, M. S. & Wardlaw, J. M.
+      301               Enlarged perivascular spaces on MRI are a feature of cerebral small vessel disease.
+      302               Stroke 41, 450-454 (2010).
+      303      9        Yang, S. et al. Higher ambulatory systolic blood pressure independently associated
+      304               with enlarged perivascular spaces in basal ganglia. Neurological research 39, 787-794
+      305               (2017).
+      306      10       Ruan, X. et al. Diffusion Tensor Imaging Analysis Along the Perivascular Space Index
+      307               in Primary Parkinson's Disease Patients With and Without Freezing of Gait.
+      308               Neuroscience 506, 51-57, doi:10.1016/j.neuroscience.2022.10.013 (2022).
+      309      11       Si, X. et al. Neuroimaging evidence of glymphatic system dysfunction in possible REM
+      310               sleep behavior disorder and Parkinson's disease. NPJ Parkinsons Dis 8, 54,
+      311               doi:10.1038/s41531-022-00316-9 (2022).
+      312      12       Barisano, G. et al. Imaging perivascular space structure and function using brain MRI.
+      313               Neuroimage 257, 119329 (2022).
+      314      13       Wardlaw, J. M. et al. Perivascular spaces in the brain: anatomy, physiology and
+      315               pathology. Nat Rev Neurol 16, 137-153, doi:10.1038/s41582-020-0312-z (2020).
+      316      14       Lan, H. et al. Weakly supervised perivascular spaces segmentation with salient
+      317               guidance of Frangi filter. Magn Reson Med 89, 2419-2431, doi:10.1002/mrm.29593
+      318               (2023).
+      319      15       Ballerini, L. et al. Perivascular spaces segmentation in brain MRI using optimal 3D
+      320               filtering. Scientific reports 8, 2132 (2018).
+      321      16       Bernal, J. et al. Assessment of perivascular space filtering methods using a three-
+      322               dimensional computational model. Magnetic Resonance Imaging 93, 33-51 (2022).
+      323      17       Lian, C. et al. Multi-channel multi-scale fully convolutional network for 3D
+      324               perivascular spaces segmentation in 7T MR images. Med Image Anal 46, 106-117,
+      325               doi:10.1016/j.media.2018.02.009 (2018).
+      326      18       Bookheimer, S. Y. et al. The lifespan human connectome project in aging: an
+      327               overview. Neuroimage 185, 335-348 (2019).
+      328      19       Chai, Y., Hedong Zhang, Gilsoon Park, Erika Lopez, Cong Zang, Jongmok Ha, Omar
+      329               Elhawary, and Hosung Kim. semi-supervised learning in perivascular space
+      330               segmentation using MRI images, in In Medical Imaging with Deep Learning
+      331               (Nashvile, TN, USA, 2023).
+
+
+                                                                                                                          10
+medRxiv preprint doi: https://doi.org/10.1101/2025.03.19.25324269; this version posted March 20, 2025. The copyright holder for this preprint
+  (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+                                       It is made available under a CC-BY-ND 4.0 International license .
+
+
+
+
+      332      20       Buysse, D. J., Reynolds III, C. F., Monk, T. H., Berman, S. R. & Kupfer, D. J. The
+      333               Pittsburgh Sleep Quality Index: a new instrument for psychiatric practice and
+      334               research. Psychiatry research 28, 193-213 (1989).
+      335      21       Smith, T., Gildeh, N. & Holmes, C. The Montreal Cognitive Assessment: validity and
+      336               utility in a memory clinic setting. The Canadian Journal of Psychiatry 52, 329-332
+      337               (2007).
+      338      22       Dietz W. H. The response of the US Centers for Disease Control and Prevention to
+      339               the obesity epidemic. Annual review of public health. 36(1):575-96. (2015).
+      340      23       Cardiology, A. C. o. Guideline for the prevention, detection, evaluation, and
+      341               management of high blood pressure in adults. Evaluation, and management of high
+      342               blood pressure in adults, Journal of the American College of Cardiology 23976 (2017).
+      343      24       De Boer, et al. Diabetes and hypertension: a position statement by the American
+      344               Diabetes Association. Diabetes care 40.9, 1273-1284 (2017).
+      345      25       Kim, J. S. et al. Automated 3-D extraction and evaluation of the inner and outer
+      346               cortical surfaces using a Laplacian map and partial volume effect classification.
+      347               Neuroimage 27, 210-221 (2005).
+      348      26       Sepehrband, F. et al. Image processing approaches to enhance perivascular space
+      349               visibility and quantification using MRI. Scientific reports 9, 12351 (2019).
+      350      27       Hou, Y. et al. Enhancement of perivascular spaces in 7 T MR image using Haar
+      351               transform of non-local cubes and block-matching filtering. Scientific Reports 7, 8569
+      352               (2017).
+      353      28       Yushkevich, P. A. et al. User-guided 3D active contour segmentation of anatomical
+      354               structures: significantly improved efficiency and reliability. Neuroimage 31, 1116-
+      355               1128 (2006).
+      356      29       Lynch, K. M., Sepehrband, F., Toga, A. W. & Choupan, J. Brain perivascular space
+      357               imaging across the human lifespan. Neuroimage 271, 120009 (2023).
+      358      30       Pham, W. et al. A critical guide to the automated quantification of perivascular
+      359               spaces in magnetic resonance imaging. Frontiers in neuroscience 16, 1021311 (2022).
+      360      31       Laveskog, A., Wang, R., Bronge, L., Wahlund, L.-O. & Qiu, C. Perivascular spaces in old
+      361               age: assessment, distribution, and correlation with white matter hyperintensities.
+      362               American Journal of Neuroradiology 39, 70-76 (2018).
+      363      32       Olsson, V., Tranheden, W., Pinto, J. & Svensson, L. Classmix: Segmentation-based
+      364               data augmentation for semi-supervised learning in Proceedings of the IEEE/CVF
+      365               winter conference on applications of computer vision. 1369-1378 (2019).
+      366      33       Chen, B., Zaebst, D. & Seel, L. A macro to calculate kappa statistics for
+      367               categorizations by multiple raters in Proceeding of the 30th Annual SAS Users Group
+      368               International Conference. 155-130 (2023).
+      369
+
+
+
+
+                                                                                                                          11
+

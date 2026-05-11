@@ -53,11 +53,11 @@ As [[whole-brain-modeling]] moves toward clinical translation in contexts rangin
 
 [[[jansen-rit]]-ref] Jansen, B. H., & Rit, V. G. (1995). Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns. *Biological Cybernetics*, 73(4), 357-366.
 
-[wong-wang-ref] Wong, K. F., & Wang, X. J. (2006). A recurrent network mechanism of time integration in perceptual decisions. *Journal of Neuroscience*, 26(4), 1314-1328.
+[[[wong-wang]]-ref] Wong, K. F., & Wang, X. J. (2006). A recurrent network mechanism of time integration in perceptual decisions. *Journal of Neuroscience*, 26(4), 1314-1328.
 
 [epileptor-ref] Jirsa, V. K., Stacey, W. C., Quilichini, P. P., Ivanov, A. I., & Bernard, C. (2014). On the nature of seizure dynamics. *Brain*, 137(8), 2210-2230.
 
-[tvb-nest-ref] The Virtual Brain Project. (2024). TVB-NEST co-simulation adapter architecture. https://www.thevirtualbrain.org
+[tvb-nest-ref] [[tvb|The Virtual Brain]] Project. (2024). TVB-NEST [[co-simulation]] adapter architecture. https://www.thevirtualbrain.org
 
 [thalamocortical-ref] Gabriela, M., Navas Zuloaga, J., Purcell, S. M., & Bazhenov, M. (2026). Age-related sleep changes in the human brain: insights from a large-scale thalamocortical model. *bioRxiv preprint* DOI: 10.64898/2026.03.16.712170.
 

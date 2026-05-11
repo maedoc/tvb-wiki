@@ -7,7 +7,7 @@ tags: [people-researcher, brain-stimulation, functional-connectivity, connectomi
 sources: [raw/papers/fox-raichle-2007.md, raw/papers/fox-greicius-2004.md, raw/papers/fox-herman-2012.md, raw/papers/fox-buckner-2014.md]
 ---
 
-Michael D. Fox, MD, PhD is a physician-scientist and Professor of Neurology at Harvard Medical School who directs the Center for Brain Circuit Therapeutics at Brigham and Women's Hospital in Boston. His research focuses on mapping and modulating human brain circuits to develop new treatments for neurological and psychiatric diseases. Fox is internationally recognized for his work on [[resting-state-fcMRI]] and its application to understanding brain stimulation therapies.
+Michael D. Fox, MD, PhD is a physician-scientist and Professor of Neurology at Harvard Medical School who directs the Center for Brain Circuit Therapeutics at Brigham and Women's Hospital in Boston. His research focuses on mapping and modulating human brain circuits to develop new treatments for neurological and psychiatric diseases. Fox is internationally recognized for his work on [[resting-state-fmri]] and its application to understanding brain stimulation therapies.
 
 ## Research Background and Training
 

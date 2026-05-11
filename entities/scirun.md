@@ -42,3 +42,9 @@ The two platforms can be integrated in workstreams where TVB generates the simul
 ## Related Software
 
 SCIRun shares conceptual similarities with other scientific visualization and neuroimaging toolkits in the ecosystem. Like [[brainstorm]] and [[mne-python]], SCIRun provides forward modeling capabilities for [[source-localization]], though it uses a distinct visual programming paradigm. For volume conduction modeling, it complements [[openmeeg]] and [[eeglab]] which provide alternative implementations of boundary element solvers. The visual programming approach influenced later tools like [[brainvoyager]] and various pipeline frameworks built on [[nipype]], though these generally operate at a higher abstraction level than SCIRun's modular components.
+
+## References
+
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
+2. (authors unknown). *[[braph]]: A Pipeline for Brain [[connectivity]] Analysis*.
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale [[co-simulation]] Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
