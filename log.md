@@ -293,3 +293,5 @@
 ## [2026-05-11 08:20] Repair: 20 issues fixed (6 source refs, 1 index, 4 frontmatter, 2 wikilinks, 7 orphans, 0 dup-refs, 0 opaque-refs, 0 crosslinks)
 
 ## [2026-05-11 08:31] Improve: 2 pages improved (brain-connectivity-toolkit, lfpykit)
+
+## [2026-05-11 08:58] Improve: 1 pages improved (neuroimaging-meg)
