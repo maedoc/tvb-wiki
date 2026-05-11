@@ -272,3 +272,7 @@
 ## [2026-05-11 07:10] LinkRepair: fixed 22 files (18 wikilink-in-URL, 4 abs-path)
 
 ## [2026-05-11 07:13] Ingest: 6 new papers, 0 stubs created
+
+## [2026-05-11 07:15] FullTextFetcher: fetched 2 new full texts (147 total in corpus)
+
+## [2026-05-11 07:16] Audit: 749 issues (36 broken links, 22 orphans, 0 placeholders, 0 dup-refs, 4 bad-meta, 98 citation-verify, 17 opaque-refs, 15 thin, 443 missing-links)
