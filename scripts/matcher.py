@@ -957,6 +957,201 @@ def run_matcher_cycle(force_rebuild: bool = False, eval_pages: int | None = None
     return stats
 
 
+# ── Matcher class (backfill & standalone) ─────────────────────────────
+
+class Matcher:
+    """Wrapper providing standalone backfill and the standard run cycle."""
+
+    def __init__(self, **kwargs):
+        self._paper_keywords = None
+
+    def run(self, **kwargs):
+        """Run the full matcher cycle (unchanged behaviour)."""
+        return run_matcher_cycle(**kwargs)
+
+    def _count_page_citations(self, filepath: str) -> int:
+        """Count total unique citations (frontmatter sources + inline refs)."""
+        try:
+            with open(filepath, 'r', encoding='utf-8') as f:
+                post = frontmatter.load(f)
+            source_slugs = set()
+            sources = post.metadata.get('sources', [])
+            if isinstance(sources, str):
+                sources = [s.strip() for s in sources.split(',') if s.strip()]
+            for s in sources:
+                s = str(s)
+                m = re.search(r'raw/papers/([^/]+)\.md', s)
+                if m:
+                    source_slugs.add(m.group(1))
+            body = post.content
+        except Exception:
+            # Malformed frontmatter — fall back to raw text
+            with open(filepath, 'r', encoding='utf-8') as f:
+                body = f.read()
+            source_slugs = set()
+
+        inline_refs = set(re.findall(r'\[\[raw/papers/([^]|]+)\.md', body))
+        return len(source_slugs | inline_refs)
+
+    def _attach_sources(self, page_path: str, slugs: list[str]) -> bool:
+        """Read frontmatter, append paper slugs to sources (deduped), write back."""
+        with open(page_path, 'r', encoding='utf-8') as f:
+            post = frontmatter.load(f)
+
+        existing = set()
+        current_sources = list(post.metadata.get('sources', []))
+        if isinstance(current_sources, str):
+            current_sources = [s.strip() for s in current_sources.split(',') if s.strip()]
+        for s in current_sources:
+            s = str(s)
+            m = re.search(r'raw/papers/([^/]+)\.md', s)
+            if m:
+                existing.add(m.group(1))
+
+        new_sources = []
+        for slug in slugs:
+            if slug not in existing:
+                new_sources.append(f"raw/papers/{slug}.md")
+                existing.add(slug)
+
+        if not new_sources:
+            return False
+
+        current_sources.extend(new_sources)
+        post.metadata['sources'] = current_sources
+        post.metadata['updated'] = datetime.date.today().isoformat()
+        with open(page_path, 'w', encoding='utf-8') as f:
+            f.write(frontmatter.dumps(post))
+        log.info("_attach_sources: added %d sources to %s",
+                 len(new_sources), os.path.basename(page_path))
+        return True
+
+    def _load_paper_keywords(self) -> dict[str, set[str]]:
+        """Cache keyword sets for all raw papers."""
+        if self._paper_keywords is not None:
+            return self._paper_keywords
+
+        keywords = {}
+        if not os.path.isdir(RAW_PAPERS_DIR):
+            self._paper_keywords = keywords
+            return keywords
+
+        for fn in os.listdir(RAW_PAPERS_DIR):
+            if not fn.endswith('.md'):
+                continue
+            slug = fn[:-3]
+            path = os.path.join(RAW_PAPERS_DIR, fn)
+            with open(path, 'r', encoding='utf-8') as f:
+                text = f.read()
+
+            title = slug
+            if text.startswith('---'):
+                end = text.find('---', 3)
+                if end != -1:
+                    fm = text[:end]
+                    m = re.search(r'title:\s*["\']?(.+?)["\']?\n', fm)
+                    if m:
+                        title = m.group(1).strip('"\'')
+                    body = text[end + 4:]
+                else:
+                    body = text
+            else:
+                body = text
+
+            preview = (title + ' ' + body[:1000]).lower()
+            preview = re.sub(r'[^\w\s]', ' ', preview)
+            words = set(w for w in preview.split() if len(w) > 3)
+            keywords[slug] = words
+
+        self._paper_keywords = keywords
+        log.info("Loaded keywords for %d papers", len(keywords))
+        return keywords
+
+    def backfill_citations(self, min_citations: int = 3, max_pages: int = 50, dry_run: bool = False):
+        """Aggressively backfill citation-starved wiki pages using keyword overlap."""
+        pages = get_all_pages()
+        needy = []
+
+        for slug, filepath in pages.items():
+            count = self._count_page_citations(filepath)
+            if count < min_citations:
+                needy.append((count, slug, filepath))
+
+        if not needy:
+            log.info("No pages found with fewer than %d citations", min_citations)
+            return []
+
+        needy.sort(key=lambda x: x[0])
+        paper_keywords = self._load_paper_keywords()
+        if not paper_keywords:
+            log.warn("No papers found to match against")
+            return []
+
+        tvb_keywords = {
+            'connectivity', 'network', 'brain', 'neuroimaging', 'model', 'simulation',
+            'dynamics', 'tvb', 'neural', 'mass', 'whole-brain', 'connectome',
+            'tractography', 'dti', 'fmri', 'eeg', 'meg', 'spiking', 'oscillation',
+            'bifurcation', 'epilepsy', 'stroke', 'dementia', 'alzheimer', 'parkinson',
+            'schizophrenia', 'autism', 'resting-state', 'functional-connectivity',
+            'structural-connectivity', 'effective-connectivity', 'graph-theory',
+            'complexity', 'entropy', 'synchronization', 'kuramoto', 'jansen-rit',
+            'wong-wang', 'wilson-cowan', 'hodgkin-huxley', 'izhikevich', 'mean-field',
+            'neural-field', 'population-dynamics', 'brain-simulation',
+            'computational-neuroscience', 'theoretical-neuroscience', 'systems-neuroscience'
+        }
+
+        attached = []
+        processed = 0
+
+        for count, slug, filepath in needy:
+            if processed >= max_pages:
+                break
+
+            try:
+                metadata, content = read_page(filepath)
+            except Exception as e:
+                log.warn("Could not read %s: %s", slug, e)
+                continue
+
+            title = metadata.get('title', slug)
+            preview = (title + ' ' + content[:1000]).lower()
+            preview = re.sub(r'[^\w\s]', ' ', preview)
+            page_words = set(w for w in preview.split() if len(w) > 3)
+
+            scores = []
+            for pslug, pwords in paper_keywords.items():
+                overlap = len(page_words & pwords)
+                bonus = len(page_words & tvb_keywords & pwords)
+                score = overlap + 2 * bonus
+                if score > 0:
+                    scores.append((score, pslug))
+
+            scores.sort(reverse=True, key=lambda x: x[0])
+            top_slugs = [s for _, s in scores[:5]]
+
+            if not top_slugs:
+                log.info("No relevant papers found for %s", slug)
+                continue
+
+            if dry_run:
+                log.info("[DRY RUN] Would backfill %s (count=%d) with %s",
+                         slug, count, top_slugs)
+            else:
+                added = self._attach_sources(filepath, top_slugs)
+                if added:
+                    log.info("Backfilled %s (count=%d) with %s",
+                             slug, count, top_slugs)
+                    attached.append((slug, top_slugs))
+                else:
+                    log.info("Backfill: no new sources for %s (already present)", slug)
+
+            processed += 1
+
+        log.info("Backfill complete: processed %d pages, attached to %d",
+                 processed, len(attached))
+        return attached
+
+
 # ── CLI ────────────────────────────────────────────────────────────────
 
 if __name__ == '__main__':
@@ -972,9 +1167,16 @@ if __name__ == '__main__':
                         help="Force rebuild of embedding indexes")
     parser.add_argument("-n", type=int, default=None,
                         help="Max pages to evaluate with LLM")
+    parser.add_argument("--backfill", action="store_true",
+                        help="Run aggressive citation backfill (keyword-based)")
+    parser.add_argument("--dry-run", action="store_true",
+                        help="With --backfill, show what would be attached without writing")
     args = parser.parse_args()
 
-    if args.build_only:
+    if args.backfill:
+        m = Matcher()
+        m.backfill_citations(dry_run=args.dry_run)
+    elif args.build_only:
         build_all_indexes()
     elif args.match_only:
         if not os.path.exists(WIKI_EMBED_FILE):

@@ -417,7 +417,7 @@ def build_writer_prompt(filepath: str) -> str:
     # Read relevant raw papers
     sources = get_sources(metadata)
     source_texts = []
-    for source in sources[:3]:  # Limit to 3 most relevant
+    for source in sources[:5]:  # Limit to 5 most relevant
         source_path = os.path.join(WIKI_ROOT, source) if not os.path.isabs(source) else source
         if os.path.exists(source_path):
             try:
@@ -497,6 +497,12 @@ Improve the wiki page: {slug}
 - Do NOT write about generic Python data science libraries
 - For entity pages, ALWAYS include a "Relationship to TVB" section explaining how this tool/concept connects to TVB workflows
 
+## CITATION REQUIREMENTS
+- Every factual claim MUST be supported by an inline citation to a source paper using the format `[[raw/papers/SLUG.md]]` or `[[raw/papers/SLUG.md|Author et al. (Year)]]`.
+- If the provided source papers do not support a claim, do not include that claim.
+- Before writing, review the source papers in the prompt. Synthesize their content, don't write from general knowledge.
+- Aim for at least 3 inline citations per paragraph of factual content.
+
 ## FORMATTING RULES
 1. Replace ALL placeholder text (*Placeholder*) with real, sourced content
 2. Add wikilinks [[like-this]] to related pages from the inventory above (minimum 8)
@@ -543,14 +549,18 @@ Review the proposed edit to: {os.path.basename(filepath)}
 ## REVIEW CHECKLIST
 Answer each of these:
 1. Are all new factual claims supported by cited sources? (PASS/FAIL)
-2. Are there any factual errors or dubious claims? (PASS/FAIL)
-3. Is the writing quality sufficient for a Scholarpedia-level wiki? Dense prose, not bullet points or cheat-sheet style? (PASS/FAIL)
-4. Does the page open with a clear, plain-English explanation before any equations? (PASS/FAIL)
-5. Do all wikilinks [[like-this]] correspond to pages that plausibly exist in a TVB/whole-brain wiki? (PASS/FAIL)
-6. Was placeholder text fully replaced? (PASS/FAIL)
-7. Is there sufficient narrative context — motivation, history, comparisons — not just equations and tables? (PASS/FAIL)
-8. Are there enough inline citations (≥3 per 500 words for dense articles)? (PASS/FAIL)
-9. Anything important missing that should be added? (NOTE or OK)
+2. Check that EVERY factual claim has an inline citation to `raw/papers/*.md`. (PASS/FAIL)
+3. Flag any paragraph with zero citations as FAIL. (PASS/FAIL)
+4. Verify that cited papers actually support the claims made about them. (PASS/FAIL)
+5. Are there any factual errors or dubious claims? (PASS/FAIL)
+6. Is the writing quality sufficient for a Scholarpedia-level wiki? Dense prose, not bullet points or cheat-sheet style? (PASS/FAIL)
+7. Does the page open with a clear, plain-English explanation before any equations? (PASS/FAIL)
+8. Do all wikilinks [[like-this]] correspond to pages that plausibly exist in a TVB/whole-brain wiki? (PASS/FAIL)
+9. Was placeholder text fully replaced? (PASS/FAIL)
+10. Is there sufficient narrative context — motivation, history, comparisons — not just equations and tables? (PASS/FAIL)
+11. Are there enough inline citations (≥3 per 500 words for dense articles, and ≥3 per paragraph of factual content)? (PASS/FAIL)
+12. If citations are missing or inadequate, demand revision. (PASS/FAIL)
+13. Anything important missing that should be added? (NOTE or OK)
 {cite_note}
 
 ## OUTPUT FORMAT
@@ -725,7 +735,7 @@ def improve_page(filepath: str) -> tuple[bool, str]:
         # Build sources block
         sources = get_sources(metadata)
         source_texts = []
-        for source in sources[:3]:
+        for source in sources[:5]:
             source_path = os.path.join(WIKI_ROOT, source) if not os.path.isabs(source) else source
             if os.path.exists(source_path):
                 try:
@@ -780,11 +790,14 @@ Current content ({target_section['words']} words):
 1. Rewrite ONLY the \"{section_heading}\" section with real, sourced content
 2. Replace ALL placeholder text with factual content
 3. Add wikilinks [[like-this]] to related pages from the inventory above
-4. Cite sources where appropriate
-5. Aim for 100-300 words for this section, with full paragraphs of prose
+4. Cite sources where appropriate — every factual claim needs an inline citation `[[raw/papers/SLUG.md]]` or `[[raw/papers/SLUG.md|Author et al. (Year)]]`
+5. If the provided source papers do not support a claim, do not include that claim
+6. Review the source papers and synthesize their content; do not write from general knowledge
+7. Aim for at least 3 inline citations per paragraph of factual content
+8. Aim for 100-300 words for this section, with full paragraphs of prose
 6. Output ONLY the new section content (no headings, no frontmatter, no commentary)
-7. Do NOT include the ## heading line itself — just the section body
-8. Do NOT add a ## References section"""
+9. Do NOT include the ## heading line itself — just the section body
+10. Do NOT add a ## References section"""
 
         success, output = run_pi(writer_prompt, model=WRITER_MODEL)
         if not success:
