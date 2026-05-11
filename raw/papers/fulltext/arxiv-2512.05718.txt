@@ -1,0 +1,782 @@
+    Emergence of Language in the Developing Brain
+    Linnea Evanson1,2,3 , Christine Bulteau2 , Mathilde Chipaux2 , Georg Dorfmüller2 ,
+    Sarah Ferrand-Sorbets2 , Emmanuel Raffo2 , Sarah Rosenberg2 , Pierre Bourdillon2,4∗ ,
+    Jean-Rémi King1∗
+    1
+     Meta AI, 2 Foundation Adolphe de Rothschild Hospital, Paris, France, 3 Laboratoire des systèmes
+    perceptifs, Ecole Normale Supérieure, PSL University, CNRS, Paris, France, 4 Integrative
+    Neuroscience & Cognition Center, Paris Cité University, Paris, France
+    ∗
+        Equal contribution
+
+    A few million words suﬀice for children to acquire language. Yet, the brain mechanisms underlying
+    this unique ability remain poorly understood. To address this issue, we investigate neural activity
+    recorded from over 7,400 electrodes implanted in the brains of 46 children, teenagers, and adults for
+    epilepsy monitoring, as they listened to an audiobook version of “The Little Prince”. We then train
+    neural encoding and decoding models using representations, derived either from linguistic theory or
+    from large language models, to map the location, dynamics and development of the language hierarchy
+    in the brain. We find that a broad range of linguistic features is robustly represented across the cortex,
+    even in 2–5-year-olds. Crucially, these representations evolve with age: while fast phonetic features
+    are already present in the superior temporal gyrus of the youngest individuals, slower word-level
+    representations only emerge in the associative cortices of older individuals. Remarkably, this neuro-
+    developmental trajectory is spontaneously captured by large language models: with training, these
+    AI models learned representations that can only be identified in the adult human brain. Together,
+    these findings reveal the maturation of language representations in the developing brain and show
+    that modern AI systems provide a promising tool to model the neural bases of language acquisition.
+
+    Date: May 12, 2025
+    Correspondence: jeanremi@meta.com
+
+
+
+
+   Fig. 1| Approach to study the neural representations of language across development. A. 46 participants implanted
+with 7,427 intracranial electrodes as part of their treatment for epilepsy, listened to an audiobook recording of Le
+Petit Prince, by Antoine de Saint Exupéry1 . The neural representations of these brain signals are then analyzed in
+light of language models, either derived from linguistics or from modern AI systems. Encoding consists of linearly
+predicting brain responses to speech given language features, while decoding consists of the reverse objective. B.
+Number of electrodes for each participant. Colors indicate the three age groups used in subsequent analyses. C.
+Average broadband response, for each age group, time-locked to word onset. Horizontal lines indicate moments when
+the average response is above chance (p<0.05) across individuals. D. Average broadband response at 100 ms relative
+to word onset. For clarity, the left and right hemispheres are merged onto the left hemisphere, and electrodes are
+plotted to the closest cortical vertex (See Supplementary Fig.2 for additional visualization of the electrodes).
+
+    Human children have a remarkable capacity to             sentences7,8 . In adults, the neural representations
+acquire language. With just a few million words,             of language are increasingly understood: the audi-
+they learn to categorize phonemes2–4 , combine them          tory cortex generates brief, low-level features such as
+into a meaningful lexicon5,6 , and construct complex         phonemes, while higher cortical regions, such as the
+
+
+                                                         1
+Superior Temporal Gyrus (STG), Lateral / Inferior             Local Field Potential (LFP) of each bipolar con-
+Frontal Cortex (L/IFC), and Inferior Parietal Lobule          struct of electrode pairs – hereafter labeled as “elec-
+(IPL) represent word meanings and construct syn-              trode” for simplicity. The results show that words
+tactic structures9–15 . However, when and how the             (Fig.1C,D) and phonemes (Fig.S1) elicit responses
+neural representations of language precisely emerge           in the brain areas typically associated with speech
+in the child brain over the course of development re-         comprehension, namely, the STG, Superior Tempo-
+mains largely unknown3,16–19 .                                ral Sulcus (STS), Anterior Temporal Lobe (ATL),
+    This knowledge gap is caused by both technical            IPL and L/IFC.
+and theoretical challenges. Technically, children’s
+limited ability to remain still and engaged in repet-
+itive tasks restrict classic functional Magnetic Reso-        Detecting linguistic representations with linear en-
+nance Imaging (fMRI) and Electroencephalography               coding. To test whether these neural responses rep-
+(EEG) paradigms20–25 . Theoretically, models of lan-          resent specific language features, we implemented
+guage acquisition tend to focus on conceptual and be-         a Temporal Response Function (TRF)32,33 – a lin-
+havioral predictions and often lack specificity regard-       ear model optimized to predict the neural activ-
+ing neural mechanisms and their development3,26,27 .          ity of each electrode from the classic linguistic fea-
+    The recent advances in the field of Artificial In-        tures encompassing both phonetic and lexical fea-
+telligence (AI) may help address this issue. Indeed,          tures (Fig.2A). The phonetic features characterize
+not only does machine learning facilitate the denois-         the articulatory components of speech (e.g. voiced,
+ing and analysis of complex brain signals, but Large          plosive, nasal) irrespective of their meaning. By con-
+Language Models (LLMs) spontaneously learn repre-             trast, lexical features describe words, and here in-
+sentations that linearly map onto those of the adult          clude the Zipf frequency34 and part-of-speech cate-
+brain13,28–30 . Although these modern AI models are           gories (e.g. noun, verb, adjective). We evaluate this
+not designed for neuroscience, they provide an un-            TRF encoding model with a held-out test set, by
+precedented tool to explore how language exposure             correlating its predicted neural responses with the
+may progressively shape the geometry of language              true neural data. Overall, the results show that pho-
+representations in neural networks.                           netic and lexical representations are best encoded
+    To test this possibility and precisely character-         in the speech cortex, and in particular in the STG
+ize the development of language representations in            (2-5 years: R=0.053, Wilcoxon test across partici-
+the brain, we use a variety of machine learning and           pants: p=0.001 | 6-11 years: R=0.129, p<0.001 |
+AI algorithms to analyze and model a large set of             12+ years: R=0.116, p<0.001) and STS (2-5 years:
+pediatric intracranial recordings. Specifically, we           R=0.040, p= 0.006 | 6-11 years: R=0.091, p<0.001
+recorded neural activity from 46 participants (aged           | 12+ years: R=0.08, p<0.001, Fig.2A-B). By con-
+2 to 46 years) who had stereotactic EEG (sEEG)                trast, areas outside of the language network, such as
+electrodes implanted for clinical purposes, as they           the occipital cortex, did not show significant encod-
+listened to an audiobook of Le Petit Prince1,31 ,             ing scores (2-5 years: R=0.008, p= 0.250 | 6-11 years:
+leading to neural responses to 283 K words and                R=0.010, p=0.125 | 12+ years: R=0.011, p=0.078).
+824 K phones recorded from over 7,400 electrodes dis-
+tributed across the cortex (Fig.1A-B). Using encod-
+ing and decoding models targeting features either (i)         Improvement of language representations across
+predicted by theoretical linguistics or (ii) learned by       development. With some notable exceptions (e.g.
+LLMs, we map the emergence, timing, and localiza-             ATL and IPL), these neural representations of lan-
+tion of language representations across the cortex.           guage can be significantly detected within each lan-
+                                                              guage Region of Interest (ROI) in each of the three
+                                                              age groups (Fig.2B). Critically, the TRF scores in-
+Results                                                       crease with development (Mann Whitney U test be-
+                                                              tween the youngest group and the middle and older
+Neural responses to speech in the child                       cohort led to p=0.039 and p=0.049, respectively).
+brain                                                         This effect, observed on average across the whole
+                                                              brain, appears to be most prominent in the STG,
+Average neural responses to speech. To investigate            STS and L/IFC (Fig.2B). Overall, these results ex-
+the neural representations of natural speech across           tend the findings reported in adults, by showing (i)
+development, we first analyze the brain responses             that similar neural representations of language can
+evoked at word and phoneme onset. To focus                    be found in the brains of 2-5 year olds and (ii) that
+on spatially-resolved neural signals, we extract the          these neural representations evolve across childhood.
+
+
+                                                          2
+Fig. 2| The neural representations of language change across development. A. Encoding score for each
+electrode, as evaluated by linearly predicting neural activity from linguistic features (R(phonemes + words)).
+Black electrodes indicate that neural activity is not significantly predicted from linguistic features (n.s.).
+Colors indicate the regions of interest, as identified within each subject. B. Average encoding score for each
+of the three age groups, for the whole brain, and for each region of interest. Error bars indicate the Standard
+Error of the Mean (SEM) across subjects. White and black stars indicate statistical significance within and
+across age groups, respectively.
+
+
+Hierarchical organization of language rep-                ity relative to phoneme or word onsets, respectively
+resentations across development                           (Fig.3B,E). The results show that phonetic features
+                                                          rise slightly before phoneme onset, peak around 150
+Anatomical organization of language representa-           ms and rapidly drop back to chance level (Fig.3B).
+tions. To clarify the anatomical organization of          By contrast, lexical features begin rising up to 1 s
+these language representations, we implemented a          before word onset, peak around 350 ms, and show a
+second TRF model trained, this time, with pho-            sustained response lasting up to 2 s after word onset
+netic features only. We then compare its encoding         (Fig.3E).
+scores (R(phonemes)) to those of the TRF model
+described above (R(phonemes + words)). The re-
+sulting comparison isolates the gain in neural pre-
+                                                          Development of language representations. To eval-
+dictions brought by lexical features: ∆R(words) =
+                                                          uate how these representations evolve during de-
+R(phonemes + words) − R(phonemes). The results
+                                                          velopment, we separately analyzed decoding results
+show that phonetic representations peak in STG, but
+                                                          within each age group. Overall, a broad set of lan-
+are significant across a large set of brain regions
+                                                          guage features are represented in neural activity in
+(Fig.3A). In comparison, word representations ap-
+                                                          each age group (Fig.3C,F). However, and unlike the
+pear to be more homogeneously distributed across
+                                                          two older groups, only a subset of phonetic and lex-
+the cortex (Fig.3D), with particular improvement in
+                                                          ical features are detected in 2-5 year olds (Fig.3C,
+ATL (p=0.0290, Fig.S3).
+                                                          F). Statistical comparisons across age groups fur-
+                                                          ther show that while phonetic representations do
+Time course of language representations. To clar-         not significantly vary across age (Mann Whitney U
+ify the dynamics of these phonetic and lexical rep-       test between the cohorts 2-5:6-11 p=0.128, 2-5:12+
+resentations, we next implemented a time-resolved         p=0.387, and 6-11:12+ p=0.643), lexical represen-
+decoding model. Specifically, we train, within each       tations significantly improve across development (2-
+ROI of each participant, a linear model to predict        5:6-11 p=0.0387, 2-5:12+ p=0.0339 and 6-11:12+
+phonetic or lexical features from the neural activ-       p=0.569, Fig.3C,F, Fig.4A,D).
+
+
+                                                      3
+Fig. 3| Anatomical, temporal and developmental bases of the language hierarchy A. Encoding scores of
+a model fit on phonetic features only, on each responsive electrode. B. Whole-brain decoding scores of each
+phonetic feature relative to phoneme onset, averaged over all participants. Horizontal lines indicate significant
+time-steps. C. Average decoding score between [-1 s, 2 s] for each phonetic feature. Error bars indicate SEM
+across subjects. Stars indicate significance across subjects. D. Gain of encoding scores obtained by adding
+word-features to the encoding model used in A: ∆R = R(word + phoneme) − R(phoneme). E-F. As in B-C,
+for lexical features.
+
+
+Development of the language network. To further               AI models account for the developmental
+clarify (i) the presence and (ii) the evolution of pho-       changes of language representations
+netic and lexical representations within each brain
+region, we trained a distinct linear decoder for each         Using AI to model the geometry of language represen-
+ROI of each participant. First, the dynamics of pho-          tations. The phonetic and lexical representations
+netic and lexical representations were similar across         explored above derive from the descriptive features
+the three age groups, except that word-level repre-           of linguistic models. Can trainable language mod-
+sentations tended to be attenuated in the youngest            els further account, not only for the presence and
+individuals as compared to older ones (Fig.4). No-            structure of language representations in the brain,
+tably, this led the younger groups lacking detectable         but also their developmental trajectory? Specifically,
+representations of language in IPL, L/IFC and ATL,            does training an LLM lead it to learn representa-
+in spite of demonstrating clear language representa-          tions that are only observable in adults? To explore
+tions in STG, with significant differences compared           this hypothesis, we apply our encoding and decoding
+to older age groups in the L/IFC (word level: 2-5:12+         analyses using, this time, the representations of two
+p=0.0237) and ATL (word level: 2-5:12+ p=0.0440)              landmark architectures, before and after their train-
+in particular. These results suggest that, as the brain       ing. The first model, wav2vec 2.035 is trained on 53 k
+matures, language features are broadcast to and rep-          hours of speech sounds1 . The second, Llama 3.139
+resented in an increasingly large cortical network.           is a large transformer trained on 15.6 trillion textual
+                                                              tokens. To facilitate computing and comparison, we
+                                                              focus, for each of these models, on two representa-
+                                                              tive layers and transform their high-dimensional ac-
+                                                                 1 This represents an equivalent of approximately 500 M tex-
+
+                                                              tual tokens, given an estimate of 150 tokens per minute.
+
+
+                                                          4
+Fig. 4| Evolution of word-level representations across childhood.             A. Average phonetic decoding per
+age group between [-1s, 2s] relative to phoneme onset. Error bars are SEM across participants. White and
+black stars indicate within- and across-groups statistical significance, respectively. B. Phonetic decoding time
+courses relative to phoneme onset. Horizontal lines indicate statistically significant time-steps. C. Same as
+B, for each region of interest. D-F. Same as A-C for lexical decoding relative to word onset.
+
+
+tivations into 50 principal components (Fig.5A,E).           such gain (mean ∆L R=-0.001, p=0.929). Second, to
+                                                             clarify the neural dynamics associated with these AI
+Training makes speech and large language models              representations, we implement linear decoding mod-
+more similar to the brain. First, and as previously          els. Similarly to phonemes versus words (Fig.3B,E),
+reported in adults29,36,37 , untrained models already        the results show that the deep layer of wav2vec 2.0 is
+account for neural responses in the speech cortex            significantly aligned with brain activity for a longer
+(Fig.5B,C,F,G). Second, training these AI models             time period than its shallow layer (Fig.5D). However,
+leads to a gain in encoding scores for both wav2vec          this difference in neural dynamics is, again, not ob-
+2.0 and Llama 3.1 (Fig.5B,F). This gain in brain-            served for the representations of Llama 3.1 (Fig.5H).
+predictability can be observed within each age group,        Similarly to lexical features (Fig.3E), the neural time
+and the largest effects peak in brain areas associated       courses associated with the shallow and deep layers
+with speech processing: STG and STS (Fig.5C,G).              of Llama 3.1 were both long lasting (Fig.5H). We
+Together, these results show that training these lan-        speculate that this lack of hierarchical effects may
+guage models make their activations more similar to          be caused by the fact that the first layer of Llama
+those of the brain.                                          3.1 is already representing word-level information.
+
+
+AI models capture the hierarchical organization of           A shared developmental trajectory between LLMs
+language representations in the cortex. Can LLMs             and the brain? Finally, to test whether the train-
+also account for the anatomical hierarchy of lan-            ing trajectories of these language models qualita-
+guage? To test this question, we first compare the           tively account for the evolution of neural represen-
+encoding scores of deep (L0.8 ) and shallow layers           tations across development, we compare decoding
+(L0.1 ). For wav2vec 2.0, this comparison leads to           across age groups using the representations of the
+a wide-spread gain in encoding performance (mean             best-performing layer of each model. The neural
+∆L R=0.0113, p<10e8 across participants), peaking            decoding of wav2vec 2.0 representations did not
+in the brain areas associated with language process-         clearly vary with age (2-5:6-11 p=0.060, 2-5:12+
+ing, and in particular in STG and STS, ATL and IPL           p=0.234, 6-11:12+ p=0.722, Fig.6A–D). although
+(Fig.5C). For Llama 3.1, however, we do not observe          an age-dependent effect is observable when compar-
+
+
+                                                         5
+Fig. 5| Speech and large language models account for the dynamics and hierarchy of neural represen-
+tations. A. Wav2vec 2.035 is a self-supervised model trained on trained 53k hours of speech sounds, and
+known to learn representations aligned to the adult brain36–38 . We investigate both trained and randomly
+initialized embeddings, extracted from two layers of wav2vec 2.0, located at 10% and 80% of its hierarchy,
+respectively. All embeddings are then PCA transformed into 50 orthogonal components. B. Average encod-
+ing scores (across all electrodes) for each age group, and each wav2vec 2.0 embedding. Error bars indicate
+SEM across subjects. Below and top stars indicate within- and across-group significance, respectively. C.
+Encoding scores (R) and encoding gains (∆R) for each electrode as estimated with (the comparison of) TRF
+model(s) input with one of the embeddings of wav2vec 2.0. D. Decoding time course, relative to word onset,
+for each of the three wav2vec 2.0 embeddings. Horizontal lines indicate statistically significant time-steps.
+E-H. Same as A-D, for Llama 3.139 , an LLM trained on 15.6 trillion textual tokens.
+
+
+ing the hierarchy of representations learned by the         tened to natural speech. Our encoding and decoding
+model, ∆L R (2-5:6-11 p=0.0307, 2-5:12+ p=0.0495,           results show that a rich set of language features is
+6-11:12+ p=0.700, Fig.5B and Fig.S4). In contrast,          already present in the cortex of 2–5-year-olds, with
+the neural decoding of Llama 3.1 representations sig-       neural dynamics comparable to adults, but initially
+nificantly improved with age (2-5:6-11 p=0.0187, 2-         restricted to a narrow set of regions that gradu-
+5:12+ p=0.0308, 6-11:12+ p=0.569, Fig.6 F-I). To            ally expand during development. These anatomico-
+further test whether this gain in decoding perfor-          functional changes are accompanied with a develop-
+mance is caused by acquired representations, we eval-       ment of the hierarchy of language representations:
+uate how the training gain (∆T R = RT rained −              while low-level phonetic features are consistently rep-
+RRandom ) varies across age group. As before, we            resented from 2 years old to adulthood, several high-
+observe that Llama 3.1 specifically learns represen-        level lexical features only emerge in the cortical activ-
+tations that can only be observed in the older groups       ity of individuals aged over 6 years old. Finally, these
+(∆T R12+ > ∆T R2−5 , pval=0.0411 and ∆T R6−11 >             findings, derived from the representations of linguis-
+∆T R2−5 , pval=0.0212 Fig.6E,J). Together, these re-        tic theory, are partially captured by the representa-
+sults suggest that the changes in language represen-        tions learned by wav2vec 2.035 and Llama 3.139 , two
+tations induced by training this LLM partially cap-         landmark AI models, respectively trained on speech
+ture the changes in language representations in the         and text. For clarity, we first discuss the results de-
+developing brain.                                           rived from linguistic models, before turning to those
+                                                            derived from AI models.
+
+Discussion                                                  How linguistic representations develop in the child
+                                                            brain. The temporal and anatomical profiles of lan-
+Results summary. This study provides a detailed             guage representations here identified in the brains of
+characterization of the evolution of language repre-        young children are remarkably consistent with those
+sentations in the brain, from the cortical responses        of the adult brain11,14,40–42 . Together, these results
+of young children, teenagers and adults, as they lis-       strengthen and extend the view that core compo-
+
+
+                                                        6
+Fig. 6| Training speech and large language models account for the developmental trajectory of language
+representations in the brain. A. Wav2vec 2.035 , same as Fig.5. Results shown for the layer best decoded
+by this model in Fig.5. B. Average decoding scores across the whole brain between [-1s, 2s] relative to word
+onset. Error bars indicate SEM across subjects. White and black stars indicate significant within- and
+across-groups, respectively. C. Decoding scores across time, for each age group. Dots indicate statistically
+significant time-steps. D. Same as C, for each region of interest separately. E. Training gain ∆T R, averaged
+over all electrodes in the language ROIs (STG, STS, ATL, IPL, L/IFC). Error bars indicate SEM across
+subjects. F-J. Same as A-E, with Llama 3.139 .
+
+
+nents of language processing are already functional          gorithms differ substantially from biological neural
+in the early phase of development21,43–47 . Further-         networks, they generate representations that linearly
+more, high-level processing stages of language appear        align with those of the adult brain recorded with
+to slowly mature throughout childhood especially in          Electrocorticography (ECoG)38,50 , fMRI30,36,51–54 ,
+the high-level cortices (e.g., STS, IPL). This find-         and Magnetoencephalography (MEG)53 .              The
+ing aligns with both (i) the slow anatomical matu-           present study complements these adult studies by
+ration of associative cortices48 and (ii) hierarchical       showing similarities between LLMs and the develop-
+theories of language acquisition, in which low-level         ing human brain, in four main ways. First, both
+representations, such as phonemes, are acquired dur-         wav2vec 2.035 and Llama 3.139 learn representations
+ing infancy, while higher-level features such as words       that align with those of children, teenagers and
+and semantics emerge more gradually2,4,26,49 . Im-           adults (Fig.5B,C,F,G). Second, wav2vec 2.0 devel-
+portantly, our approach complements these findings           ops a layer-wise structure that mirrors the anatomi-
+by providing, through the direct tracking of represen-       cal and temporal hierarchy of language processing in
+tational changes across development, new empirical           the brain. This property, however, is not observed in
+elements to inform and constrain the theories of lan-        Llama 3.1, in which the first layer already encodes
+guage acquisition.                                           word-level information. Third, training these mod-
+                                                             els improves their representational similarity with
+                                                             the developing brain (Fig.5B,F). Forth, the repre-
+Modeling the emergence of language representa-               sentations acquired by Llama 3.1 through training
+tions in the brain with AI. If language repre-               can only be observed in the brain of the oldest indi-
+sentations in the brain emerge hierarchically, a             viduals (Fig.6G-J). Together, these results indicate
+key question remains: can this emergence be cap-             that language representations evolve in similar ways
+tured by computational models? Here, we show                 in the developing human brain and in modern lan-
+that modern AI models offer surprisingly useful              guage models during training. An important next
+tools to address this issue.      Unlike descriptive         step will now consist of elucidating the key factors –
+and conceptual models, these algorithms make pre-            model architectures and training regimes – and the
+cise predictions about (i) the geometry of language          type of neural codes55–58 that drive this partial con-
+representations and (ii) their evolution with lan-           vergence between modern AI systems and the devel-
+guage exposure. In addition, and while these al-
+
+
+                                                         7
+oping brain27,59,60 .                                          1.   De Saint-Exupéry, A. Le Petit Prince French. First edi-
+                                                                    tion (Reynal & Hitchcock, New York, 1943).
+                                                               2.   Kuhl, P. K., Williams, K. A., Lacerda, F., Stevens, K. N.
+Limitations. The present work should be inter-                      & Lindblom, B. Linguistic experience alters phonetic
+preted in light of several important limitations.                   perception in infants by 6 months of age. Science 255,
+First, our cohort consists of French-speaking chil-                 606–608 (1992).
+                                                               3.   Kuhl, P. K. Early language acquisition: cracking the
+dren, who suffer from severe epilepsy. Consequently,                speech code. Nature reviews neuroscience 5, 831–843
+the present results may not be representative of the                (2004).
+evolution of language in the healthy brain61–63 . Sec-         4.   Werker, J. F. & Hensch, T. K. Critical periods in speech
+ond, although our sample size is relatively large                   perception: new directions. Annual review of psychology
+                                                                    66, 173–196 (2015).
+(n=46) compared to intracranial studies exploring              5.   Jusczyk, P. W. & Hohne, E. A. Infants’ memory for
+the high-dimensional representations of speech in                   spoken words. Science 277, 1984–1986 (1997).
+adults (e.g., Mesgarani & Chang64 : n=3; Mesgarani             6.   Bergelson, E. & Swingley, D. At 6–9 months, human in-
+et al.11 : n=6; Flinker et al.65 : n=8; Hamilton et                 fants know the meanings of many common nouns. Pro-
+                                                                    ceedings of the National Academy of Sciences 109, 3253–
+al.66 : n=9; Thomas et al.42 : n=8; Li et al.38 : n=12;             3258 (2012).
+Giroud et al.15 : n=11; Goldstein et al.50 : n=9), it          7.   Kovács, A. M. & Endress, A. D. Hierarchical processing
+remains modest for investigating inter-individual dif-              in seven-month-old infants. Infancy 19, 409–425 (2014).
+                                                               8.   Romeo, R. R. et al. Beyond the 30-million-word gap:
+ferences across development67 . In particular, this
+                                                                    Children’s conversational exposure is associated with
+sample size limits statistical power, and with it, our              language-related brain function. Psychological science
+ability to clarify subtle developmental stages – such               29, 700–710 (2018).
+as those elicited by literacy around age six19 . Third,        9.   Price, C. J. The Anatomy of Language: A Review of
+                                                                    100 fMRI Studies Published in 2009. Annals of the New
+the first months of life are known to be critical for               York Academy of Sciences 1191, 62–88. issn: 1749-6632
+speech development2,4,27 . However, these early de-                 (2010).
+velopmental stages remain inaccessible to intracra-           10.   Pallier, C., Devauchelle, A.-D. & Dehaene, S. Cortical
+nial studies, as sEEG is rarely performed in children               representation of the constituent structure of sentences.
+                                                                    Proceedings of the National Academy of Sciences 108,
+under two years of age due to the insuﬀicient rigid-                2522–2527 (2011).
+ity of their skull68 . Fourth, while audiobooks are           11.   Mesgarani, N., Cheung, C., Johnson, K. & Chang, E. F.
+naturalistic and engaging, they limit our ability to                Phonetic feature encoding in human superior temporal
+disentangle rare but theoretically important linguis-               gyrus. Science 343, 1006–1010 (2014).
+                                                              12.   Caucheteux, C., Gramfort, A. & King, J.-R. Disentan-
+tic phenomena. In particular, isolating structures                  gling syntax and semantics in the brain with deep net-
+such as long-distance dependencies, syntactic con-                  works. ICML, 1336–1348 (2021).
+stituents and reference69,70 , or extending this effort       13.   Huth, A. G., De Heer, W. A., Griﬀiths, T. L., Theunis-
+to language production71 remain important future                    sen, F. E. & Gallant, J. L. Natural speech reveals the
+                                                                    semantic maps that tile human cerebral cortex. Nature
+challenges.                                                         532, 453–458 (2016).
+                                                              14.   Keshishian, M. et al. Joint, Distributed and Hierarchi-
+Conclusion Finally, LLMs remain highly imperfect                    cally Organized Encoding of Linguistic Features in the
+                                                                    Human Auditory Cortex. Nature human behaviour 7,
+models: their architectures benefit from an implau-                 740–753. issn: 2397-3374 (2023).
+sibly large and precise working memory, they still            15.   Giroud, J., Trébuchon, A., Mercier, M., Davis, M. H. &
+struggle with various linguistic tasks72–74 and require             Morillon, B. The human auditory cortex concurrently
+                                                                    tracks syllabic and phonemic timescales via acoustic
+a considerably larger exposure to language than hu-
+                                                                    spectral flux. Science Advances 10 (2024).
+mans59,60,73,75 . This ineﬀiciency underscores the fun-       16.   Cheour, M. et al. Development of language-specific
+damental differences in how artificial and human                    phoneme representations in the infant brain. Nature
+neural systems acquire knowledge. Despite these                     neuroscience 1, 351–353 (1998).
+                                                              17.   Zatorre, R. J. Predispositions and plasticity in music
+clear differences, however, the present findings point              and speech learning: neural correlates and implications.
+to computational principles unexpectedly shared be-                 Science 342, 585–589 (2013).
+tween biological and artificial systems, offering a           18.   Skeide, M. A. & Friederici, A. D. The ontogeny of the
+potential blueprint for building a unified model of                 cortical language network. Nature reviews neuroscience
+                                                                    17, 323–332 (2016).
+language processing and acquisition in the human              19.   Dehaene, S. How we learn: The new science of education
+brain53,76,77 .                                                     and the brain (Penguin UK, 2020).
+                                                              20.   Dehaene-Lambertz, G., Dehaene, S. & Hertz-Pannier,
+                                                                    L. Functional Neuroimaging of Speech Perception in In-
+                                                                    fants. Science 298, 2013–2015. issn: 00368075 (2002).
+                                                              21.   Dehaene-Lambertz, G. et al. Functional organization
+                                                                    of perisylvian activation during presentation of sen-
+                                                                    tences in preverbal infants. Proceedings of the National
+                                                                    Academy of Sciences 103, 14240–14245 (2006).
+
+
+
+
+                                                          8
+22.   Shultz, S., Vouloumanos, A., Bennett, R. H. & Pelphrey,          41.   Forseth, K. J. et al. A lexical semantic hub for het-
+      K. Neural specialization for speech in the first months                eromodal naming in middle fusiform gyrus. Brain 141,
+      of life. Developmental science 17, 766–774 (2014).                     2112–2126 (2018).
+23.   Di Liberto, G. M. et al. Emergence of the cortical encod-        42.   Thomas, T. M. et al. Decoding articulatory and phonetic
+      ing of phonetic features in the first year of life. Nature             components of naturalistic continuous speech from the
+      communications 14, 7789 (2023).                                        distributed language network. Journal of neural engi-
+24.   Mersad, K., Kabdebon, C. & Dehaene-Lambertz, G. Ex-                    neering 20, 046030 (2023).
+      plicit access to phonetic representations in 3-month-old         43.   Ahmad, Z., Balsamo, L., Sachs, B., Xu, B. & Gaillard,
+      infants. Cognition 213, 104613 (2021).                                 W. Auditory comprehension of language in young chil-
+25.   Gennari, G., Marti, S., Palu, M., Fló, A. & Dehaene-                   dren: neural networks identified with fMRI. Neurology
+      Lambertz, G. Orthogonal Neural Codes for Speech in                     60, 1598–1605 (2003).
+      the Infant Brain. Proceedings of the National Academy            44.   Brusini, P., Dehaene-Lambertz, G., Dutat, M., Goﬀinet,
+      of Sciences 118 (2021).                                                F. & Christophe, A. ERP evidence for on-line syntactic
+26.   Friedmann, N., Belletti, A. & Rizzi, L. Growing trees:                 computations in 2-year-olds. Developmental Cognitive
+      The acquisition of the left periphery. Glossa: a journal               Neuroscience 19, 164–173 (2016).
+      of general linguistics 6 (2021).                                 45.   Arya, R. et al. Development of information sharing
+27.   Dupoux, E. Cognitive Science in the Era of Artificial                  in language neocortex in childhood-onset drug-resistant
+      Intelligence: A Roadmap for Reverse-Engineering the                    epilepsy. Epilepsia 60, 393–405 (2019).
+      Infant Language-Learner. Cognition 173, 43–59. issn:             46.   Ozernov-Palchik, O. et al. Precision fMRI Reveals
+      00100277 (2018).                                                       That the Language Network Exhibits Adult-like Left-
+28.   Mitchell, T. M. et al. Predicting Human Brain Activity                 Hemispheric Lateralization by 4 Years of Age. bioRxiv,
+      Associated with the Meanings of Nouns. Science 320,                    2024.05.15.594172. issn: 2692-8205 (2024).
+      1191–1195 (2008).                                                47.   Kanno, A. et al. Dynamic Causal Tractography Analysis
+29.   Schrimpf, M. et al. The neural architecture of language:               of Auditory Descriptive Naming: An Intracranial Study
+      Integrative modeling converges on predictive processing.               of 106 Patients. bioRxiv, 2025.03.07.641428 (2025).
+      Proceedings of the National Academy of Sciences 118,             48.   Gogtay, N. et al. Dynamic mapping of human cortical
+      e2105646118 (2021).                                                    development during childhood through early adulthood.
+30.   Caucheteux, C., Gramfort, A. & King, J.-R. Evidence                    Proceedings of the national academy of sciences 101,
+      of a predictive coding hierarchy in the human brain lis-               8174–8179 (2004).
+      tening to speech. Nature human behaviour 7, 430–441              49.   Schipke, C. S., Knoll, L. J., Friederici, A. D. &
+      (2023).                                                                Oberecker, R. Preschool children’s interpretation of
+31.   Li, J. et al. Le Petit Prince Multilingual Naturalistic                object-initial sentences: Neural correlates of their behav-
+      fMRI Corpus. Scientific Data 9, 530. issn: 2052-4463                   ioral performance. Developmental Science 15, 762–774
+      (2022).                                                                (2012).
+32.   Theunissen, F. et al. Estimating Spatio-Temporal Recep-          50.   Goldstein, A. et al. Shared computational principles for
+      tive Fields of Auditory and Visual Neurons from Their                  language processing in humans and deep language mod-
+      Responses to Natural Stimuli. Network: Computation in                  els. Nature neuroscience 25, 369–380 (2022).
+      Neural Systems 12, 289–316. issn: 0954-898X, 1361-6536           51.   Jain, S. & Huth, A. Incorporating context into language
+      (2001).                                                                encoding models for fMRI. Advances in neural informa-
+33.   Lalor, E. C. & Foxe, J. J. Neural responses to uninter-                tion processing systems 31 (2018).
+      rupted natural speech can be extracted with precise tem-         52.   Toneva, M. & Wehbe, L. Interpreting and improving
+      poral resolution. European journal of neuroscience 31,                 natural-language processing (in machines) with natural
+      189–193 (2010).                                                        language-processing (in the brain). Advances in neural
+34.   Zipf, G. K. Human behavior and the principle of least                  information processing systems 32 (2019).
+      effort: An introduction to human eoclogy (1949).                 53.   Caucheteux, C. & King, J.-R. Brains and algorithms
+35.   Baevski, A., Zhou, H., Mohamed, A. & Auli, M.                          partially converge in natural language processing. Com-
+      Wav2vec 2.0: A Framework for Self-Supervised Learning                  munications biology 5, 134 (2022).
+      of Speech Representations. Advances in Neural Infor-             54.   Pasquiou, A., Lakretz, Y., Thirion, B. & Pallier, C.
+      mation Processing Systems 2020-Decem, 1–12. eprint:                    Information-restricted neural language models reveal
+      2006.11477 (2020).                                                     different brain regions’ sensitivity to semantics, syn-
+36.   Millet, J. et al. Toward a realistic model of speech pro-              tax, and context. Neurobiology of Language 4, 611–636
+      cessing in the brain with self-supervised learning. Ad-                (2023).
+      vances in Neural Information Processing Systems 35,              55.   Hewitt, J. & Manning, C. D. A structural probe for find-
+      33428–33443 (2022).                                                    ing syntax in word representations. Proceedings of the
+37.   Vaidya, A. R., Jain, S. & Huth, A. Self-Supervised Mod-                2019 Conference of the North American Chapter of the
+      els of Audio Effectively Explain Human Cortical Re-                    Association for Computational Linguistics: Human Lan-
+      sponses to Speech in Proceedings of the 39th Interna-                  guage Technologies, Volume 1 (Long and Short Papers),
+      tional Conference on Machine Learning (PMLR, 2022),                    4129–4138 (2019).
+      21927–21944.                                                     56.   Lakretz, Y. et al. The Emergence of Number and Syn-
+38.   Li, Y. et al. Dissecting neural computations in the hu-                tax Units in LSTM Language Models. Proceedings of
+      man auditory pathway using deep neural networks for                    the 2019 Conference of the North American Chapter of
+      speech. Nature Neuroscience 26, 2213–2225 (2023).                      the Association for Computational Linguistics: Human
+39.   Grattafiori, A. et al. The Llama 3 Herd of Models 2024.                Language Technologies, Volume 1 (Long and Short Pa-
+      eprint: 2407.21783 (cs). (2025).                                       pers), 11–20 (2019).
+40.   De Heer, W. A., Huth, A. G., Griﬀiths, T. L., Gallant,           57.   Diego Simon, P. J., d’Ascoli, S., Chemla, E., Lakretz, Y.
+      J. L. & Theunissen, F. E. The hierarchical cortical orga-              & King, J.-R. A polar coordinate system represents syn-
+      nization of human speech processing. Journal of Neuro-                 tax in large language models. Advances in Neural Infor-
+      science 37, 6539–6557 (2017).                                          mation Processing Systems 37, 105375–105396 (2024).
+
+
+
+
+                                                                   9
+58.   Evanson, L., Lakretz, Y. & King, J. R. Language Acqui-            78.   Hoff, E. & Shatz, M. Blackwell handbook of language
+      sition: Do Children and Language Models Follow Similar                  development (John Wiley & Sons, 2009).
+      Learning Stages? Findings of the Association for Com-             79.   Fischl, B. FreeSurfer. NeuroImage. 20 YEARS OF fMRI
+      putational Linguistics: ACL 2023, 12205–12218 (2023).                   62, 774–781. issn: 1053-8119 (2012).
+59.   Warstadt, A. et al. Findings of the BabyLM Challenge:             80.   Reuter, M., Schmansky, N. J., Rosas, H. D. & Fischl, B.
+      Sample-Eﬀicient Pretraining on Developmentally Plau-                    Within-Subject Template Estimation for Unbiased Lon-
+      sible Corpora. Proceedings of the BabyLM Challenge                      gitudinal Image Analysis. NeuroImage 61, 1402–1418.
+      at the 27th Conference on Computational Natural Lan-                    issn: 1095-9572 (2012).
+      guage Learning, 1–34 (2023).                                      81.   CURRY Neuro Imaging Suite for Epilepsy Evaluation
+60.   Frank, M. C. & Goodman, N. D. Cognitive modeling                        https://compumedicsneuroscan.com/curry-epilepsy-
+      using artificial intelligence (2025).                                   evaluation/. Accessed: 21/02/2024.
+61.   Haseeb, A. et al. Young patients with focal seizures may          82.   Rockhill, A. P. et al. Intracranial Electrode Location
+      have the primary motor area for the hand in the post-                   and Analysis in MNE-Python. Journal of Open Source
+      central gyrus. Epilepsy research 76, 131–139 (2007).                    Software 7, 3897. issn: 2475-9066 (2022).
+62.   Holmes, G. L. Effect of seizures on the developing brain          83.   Fedorenko, E., Ivanova, A. A. & Regev, T. I. The Lan-
+      and cognition. Seminars in pediatric neurology 23, 120–                 guage Network as a Natural Kind within the Broader
+      126 (2016).                                                             Landscape of the Human Brain. Nature Reviews Neuro-
+63.   Flinker, A., Piai, V. & Knight, R. T. Intracranial elec-                science, 1–24. issn: 1471-0048 (2024).
+      trophysiology in language research (2018).                        84.   Desikan, R. S. et al. An Automated Labeling System for
+64.   Mesgarani, N. & Chang, E. F. Selective cortical repre-                  Subdividing the Human Cerebral Cortex on MRI Scans
+      sentation of attended speaker in multi-talker speech per-               into Gyral Based Regions of Interest. NeuroImage 31,
+      ception. Nature 485, 233–236 (2012).                                    968–980. issn: 1053-8119 (2006).
+65.   Flinker, A., Doyle, W. K., Mehta, A. D., Devinsky, O.             85.   Destrieux, C., Fischl, B., Dale, A. & Halgren, E. Au-
+      & Poeppel, D. Spectrotemporal modulation provides a                     tomatic Parcellation of Human Cortical Gyri and Sulci
+      unifying framework for auditory cortical asymmetries.                   Using Standard Anatomical Nomenclature. NeuroImage
+      Nature human behaviour 3, 393–405 (2019).                               53, 1–15. issn: 1053-8119 (2010).
+66.   Hamilton, L. S., Oganian, Y., Hall, J. & Chang, E. F.             86.   Gramfort, A. et al. MEG and EEG Data Analysis with
+      Parallel and distributed encoding of speech across hu-                  MNE-Python. Frontiers in Neuroscience 7, 1–13 (2013).
+      man auditory cortex. Cell 184, 4626–4639 (2021).                  87.   Speer, R. rspeer/wordfreq: v3.0 version v3.0.2. Accessed:
+67.   Hervé, E., Mento, G., Desnous, B. & François, C. Chal-                  12/05/2025. https : / / doi . org / 10 . 5281 / zenodo .
+      lenges and new perspectives of developmental cognitive                  7199437.
+      EEG studies. NeuroImage 260, 119508 (2022).                       88.   Space: Available trained pipelines for French https://
+68.   Katz, J., Armstrong, C., Kvint, S. & Kennedy, B. C.                     spacy.io/models/fr. Accessed: 21/02/2024.
+      Stereoelectroencephalography in the very young: Case              89.   Scikit-Learn: Machine Learning in Python — Scikit-
+      report. Epilepsy & Behavior Reports 19, 100552 (2022).                  Learn 1.6.1 Documentation Accessed: 09/05/2025.
+69.   Ding, N., Melloni, L., Zhang, H., Tian, X. & Poeppel,                   https://scikit-learn.org/stable/index.html.
+      D. Cortical tracking of hierarchical linguistic structures        90.   Wav2Vec2-Base Model Card https://huggingface.co/
+      in connected speech. Nature neuroscience 19, 158–164                    facebook/wav2vec2-base. Accessed: 21/02/2024. 2024.
+      (2016).                                                           91.   Meta-Llama/Llama-3.1-8B https://huggingface.co/
+70.   Dijksterhuis, D. E. et al. Pronouns reactivate conceptual               meta-llama/Llama-3.1-8B. Accessed: 2025-05-09.
+      representations in human hippocampal neurons. Science             92.   Benjamini, Y. & Hochberg, Y. Controlling the False Dis-
+      385, 1478–1484 (2024).                                                  covery Rate: A Practical and Powerful Approach to Mul-
+71.   Tourville, J. A. & Guenther, F. H. The DIVA model:                      tiple Testing. Journal of the Royal Statistical Society:
+      A neural theory of speech acquisition and production.                   Series B (Methodological) 57, 289–300. issn: 2517-6161
+      Language and cognitive processes 26, 952–981 (2011).                    (1995).
+72.   Lakretz, Y., Desbordes, T., Hupkes, D. & Dehaene,
+      S. Can transformers process recursive nested construc-
+      tions, like humans? Proceedings of the 29th Interna-              Acknowledgments We would like to thank all the partici-
+      tional Conference on Computational Linguistics, 3226–             pants and their families for their participation in this study.
+      3232 (2022).                                                      We thank the doctors, technicians and nurses at the Roth-
+73.   Srivastava, A. et al. Beyond the imitation game: Quanti-          schild Foundation Hospital for their support of this project
+      fying and extrapolating the capabilities of language mod-         and for their comments and suggestions. This project has
+      els. arXiv (2022).                                                received funding from the European Union’s Horizon 2020 re-
+74.   Hu, J. & Levy, R. Prompting Is Not a Substitute for               search and innovation program under the Marie Skłodowska-
+      Probability Measurements in Large Language Models.                Curie grant agreement No 945304, for L.E for her work at PSL.
+      Proceedings of the 2023 Conference on Empirical Meth-             This work was granted access to the HPC resources of IDRIS
+      ods in Natural Language Processing, 5040–5060 (2023).             under the allocation 2024-AD011013683R2 made by GENCI.
+75.   Gilkerson, J. et al. Mapping the early language environ-
+      ment using all-day recordings and automated analysis.
+      American journal of speech-language pathology 26, 248–            Author contributions L.E. implemented the experiment, col-
+      265 (2017).                                                       lected, analysed data, wrote and reviewed the manuscript.
+76.   Huh, M., Cheung, B., Wang, T. & Isola, P. Position:               C.B, M.C, G.D, S.F.S, E.R., S.R. collected data and reviewed
+      The Platonic Representation Hypothesis. Proceedings of            the manuscript. P.B. conceived the study, collected data and
+      the 41st International Conference on Machine Learning.            reviewed the manuscript. J-R.K. conceived the study, di-
+      Proceedings of Machine Learning Research 235, 20617–              rected the line of research, wrote and reviewed the manuscript.
+      20642 (2024).
+77.   Hosseini, E. et al. Universality of representation in bio-
+      logical and artificial neural networks. bioRxiv (2024).           Competing interests    No authors declare any competing in-
+                                                                        terests.
+
+
+                                                                   10
+Data and materials availability The data that support the
+findings of this study are not openly available because of sensi-
+tivity but are available upon reasonable request. The analysis
+and data visualization code are available upon request.
+
+Supplementary Materials
+
+ Materials and methods
+ Figs. S1 - S4
+
+
+
+
+Acronyms
+
+AI    Artificial Intelligence
+LLM Large Language Model
+SEM Standard Error of the Mean
+LFP   Local Field Potential
+ROI   Region of Interest
+PCA Principal Component Analysis
+TRF Temporal Response Function
+CV    Cross Validation
+EEG Electroencephalography
+iEEG intracranial EEG
+sEEG stereotactic EEG
+ECoG Electrocorticography
+MEG Magnetoencephalography
+fMRI functional Magnetic Resonance Imaging
+STG Superior Temporal Gyrus
+STS   Superior Temporal Sulcus
+ATL   Anterior Temporal Lobe
+IPL   Inferior Parietal Lobule
+L/IFC Lateral / Inferior Frontal Cortex
+
+
+
+
+                                                                    11
+Materials and Methods                                                    Segmentation. Except for encoding analyses, which are pro-
+                                                                         cessed on continuous recordings, these neural signals were
+                                                                         then segmented into epochs time-locked between -2.5 and
+Experimental setup                                                       +3.5 s relative to each phoneme or word onset. To limit the
+                                                                         impact of potential artifacts, we clipped the neural data to
+Participants and ethics. Forty-six French-speaking individ-              five standard deviations across epochs for a given channel at
+uals (22 female) undergoing evaluation of intractable epilepsy           each timestep. When reporting the average evoked responses,
+with stereotactic intracranial electrodes participated in this           we summarize the activity by taking the absolute value of each
+study. The study (NCT05217043) was approved by the Na-                   channel, then average over all electrodes of that participant
+tional Ethics Committee and the Local IRB (Local PBN 2021                before applying baseline correction between -0.75 and -0.5 s.
+25 / National 2021-A02652-39 / IRB 21.03762.000041). Par-                No baseline correction was applied for decoding.
+ticipants gave informed consent and, in the case of minors,
+the legal guardian also gave informed consent. Participants
+were informed that the study would have no impact on their               Electrode localization. Electrodes were localized for each
+clinical treatment and received no compensation. Data are                participant using the computed tomography (CT) and mag-
+located in controlled access data storage at Rothschild Foun-            netic resonance imaging (MRI) scans taken for clinical pur-
+dation Hospital. All processing of data for this research was            poses. The cortical structure was mapped by processing
+conducted exclusively by Rothschild Foundation Hospital.                 anatomical MRI with Freesurfer79,80 to segment brain regions
+                                                                         and build a 3D mesh of each participant’s anatomy. The MRI
+Age groups For simplicity, participants were grouped into                and CT scans were then aligned with Curry81 and Freesurfer,
+three age ranges (2–5, 6–11, and 12+ years) to reflect key               before electrodes were identified manually on the CT scans in
+stages in behavioral development, namely early language ac-              the participant’s individual coordinate space using Curry and
+quisition (2–5), onset of literacy(6–11), and the emergence of           mne82 .
+adult-level language processing (12+)19,78 .
+
+                                                                         Regions of interest. The brain areas typically recruited by
+Inclusion criteria. Participants were analysed only if there             speech perception have been well established in adults83 . To
+were no technical issues (e.g. minimum of 5 minutes of times-            summarize the effects across participants, we thus average the
+tamped audio stimulus). One participant was incorrectly clas-            encoding score, or train decoding models using electrodes in
+sified as a native French speaker, and thus not considered.              ROIs. Specifically, we use the following ROIs composed of par-
+One individual underwent two intracranial implantations, in              cellations of the Desikan-Killiany84 and Destrieux85 Atlases
+different brain areas, six months apart and was included as              provided by Freesurfer79 .
+two distinct participants for simplicity.
+                                                                         STG=[G_temp_sup-Lateral, G_temp_sup-Plan_polar,
+                                                                         G_temp_sup-Plan_tempo, G_temp_sup-G_T_transv, G_-
+Protocol. Participants were invited to passively listen to an            temporal_sup, S_temporal_transverse]
+audio-book in French. Participants could listen to nine dis-
+tinct segments of the audiobook whenever they liked during
+                                                                         STS= [S_temporal_sup]
+their stay in the Rothschild Foundation Hospital, which was
+on average five days. Participants were given a dedicated
+                                                                         ATL=[Pole_temporal]
+smartphone, which contained a unique custom-built applica-
+tion designed to play each segment of the audiobook and log
+                                                                         IPL=[G_pariet_inf-Supramar, S_interm_prim-Jensen,
+the time of this event. The phone played audio through an
+                                                                         G_pariet_inf-Angular]
+external speaker. Synchronisation between brain signal and
+audio was performed by transmitting the audio signal aug-
+                                                                         L/IFC=[lateralorbitofrontal, frontalpole,
+mented with triggers to the intracranial EEG (iEEG) record-
+                                                                         parsopercularis, parstriangularis, parsorbitalis]
+ing system as a bipolar channel.
+                                                                         Occipital=[G_occipital_sup, G_occipital_middle, G_-
+Stimuli. The audio book presented to the participants is Le              and_S_occipital_inf, S_calcarine, G_cuneus, S_-
+Petit Prince, by Antoine de Saint-Exupéry1 , read in French              oc_middle_and_Lunatus, S_oc_sup_and_transversal,
+by a female speaker31 . There are a total of 90 minutes of               Pole_occipital]
+audiobook divided into nine segments of ten minutes each,
+and containing a total of 14,353 words and 45,632 phonemes.
+On average, each participant listened to 40 minutes, 6,146               Visualization. For visualization purposes, we align the brain
+words, and 17,973 phonemes.                                              and the electrodes of each individual within a common MNI
+                                                                         coordinate system. For this, we exclude the electrodes that are
+                                                                         more than 5 mm away from the cortex, and plot the remain-
+Neural Preprocessing                                                     ing ones on their nearest cortical vertex. We then morphed
+                                                                         the individual cortical mesh to Freesurfer’s fsaverage with the
+Neural recordings. Neural recordings were acquired at                    function compute_source_morph from mne86 . We then collapse
+256 Hz for 32 participants, 512 Hz for 13 participants, and              the left and right hemispheres, and overlay the electrode posi-
+2,048 Hz for one participant. We present results for LFP,                tion onto the y and z axes. For clarity we divide the brain plots
+which was band-pass filtered between 0.05 - 20 Hz, then down-            into lateral and medial views, the lateral being all electrodes
+sampled to 20 Hz. To remove distributed electric fields and              less than 2 mm below the cortical surface and display only
+spatially localize the neural activity, we applied bipolar refer-        the lateral view. These visualization transformations have no
+encing within each electrode probe, based on immediate neigh-            impact on the analyses as they are all performed either for
+bors. For simplicity, we refer to these bipolar constructs as            each electrode (encoding) or for each individual’s ROI inde-
+electrodes throughout the rest of the manuscript.                        pendently.
+
+
+                                                                    12
+Language models                                                          We evaluate encoding models with a Pearson correlation Rc
+                                                                         for each channel on independent data:
+Following a classic definition in neuroscience, we operationally
+define representations as linearly-readable or predictable infor-                           R = corr(W · Ȳtest , Xtest )              (2)
+mation, on the notion that such format allows down stream
+                                                                         Chance level for correlation is R = 0, its maximum value is
+neural assembly to directly use this information without ad-
+                                                                         1, and R can only be below 0 because of noise fluctuation or
+ditional transformation. In that view, each representations is
+                                                                         if the assumptions of linear modeling (and in particular the
+defined by a high dimensional vectors whose bases are here-
+                                                                         identical distribution between the training and test sets) are
+after referred to as features.
+                                                                         violated.
+
+Phonetic features. The onset of words and phonemes as well               Here,     we     fit   a     TRF,      implemented          using
+as the 12 phonetic features in the audio were provided in The            mne.decoding.ReceptiveField32,86         and       scikit-learn’s
+Little Prince recording by Li et al.31 . This set of features            RidgeCV, with 10 λ value logarithmically-spaced between
+included 1) place of articulation information: low, mid, and             0.01 and 107 , optimized over 20% of the training data. We
+high vowels and labial and velar consonants, 2) manner of ar-            use τ =24 lags between -0.2 and 1 s relative to t.
+ticulation information: fricative, nasal, plosive, approximant,
+                                                                         We evaluate the TRF with Pearson correlation for each chan-
+and vowel and 3) the presence of voicing and trill.
+                                                                         nel Rc on the test set. We repeat this operation with a Cross
+                                                                         Validation (CV) with 10 splits of each chapter of each partic-
+Lexical features. The word-level features used were Zipf fre-            ipant using scikit-learn’s KFold (shuffle=False). Finally, cor-
+quency34,87 and eight part of speech categories. Zipf fre-               relation scores are averaged across splits within each subject,
+quency indicates, on a logarithmic scale, how common a word              thus leading to one score per feature and per electrode.
+is in natural language. Part of speech categories were defined
+with spacy’s fr_core_news_lg88 and categorized into adverb,
+adjective, determinant, verb, adposition, conjunction, noun              Decoding
+and pronouns.
+                                                                         Decoding analyses consist of predicting stimulus features from
+Wav2vec 2.0. Wav2vec 2.035 is a self-supervised deep learn-              epoched brain signals. Formally, we optimize a linear decoder
+                                                                                    ′
+ing model that takes raw audio waveforms as input trained                Vi ∈ R(c×τ )×f across electodes at each time sample i relative
+to unmask its quantized representations. This model is com-              to stimulus onset as follows:
+posed of 6 convolutional layers and 12 transformer layers. We                             X                     2
+                                                                                  arg min      Yt − Vi · X̄(t,i) + λ(f,i) ∥Vi ∥2     (3)
+input wav2vec 2.0 with the same audio files that were played                           Vi
+                                                                                            t
+to the participants and extracted activations of two layers, re-
+spectively position at 10% and 80% of the architecture. For              where X̄t,i is the concatenated brain activity of τ ′ = 3 lags
+the analysis of the combined effect of layers 0.8+0.1 the acti-          centered around i. We optimize Vi for each time step i from
+vations of both layers were concatenated. A Principal Com-               -2.5 s before onset to 3.5 s after the stimulus onset.
+ponent Analysis (PCA) of 50 components was taken of these
+embeddings, using sklearn89 StandardScaler followed by PCA,              We use scikit-learn’s RidgeCV, with 10 λ value logarithmically-
+fit per layer across the entire input data. The trained model            spaced between 0.01 and 107 .
+was the “facebook/wav2vec2-base” from Huggingface90 . The                We then evaluate it with a Spearman correlation Rt for each
+untrained wav2vec 2.0 used was the same, randomly initial-               time sample of the test set. We repeat this operation with
+ized with a set seed.                                                    a 10-split CV across epochs per subject using scikit-learn’s
+                                                                         KFold (shuffle=False). Finally, correlation scores are averaged
+Llama 3.1 Llama 3.1 is a LLM trained on textual data. The                across splits within each subject, thus leading to one score per
+model is composed of 32 transformer layers. We input Llama               feature x time-sample x participant.
+3.1 (8B) with the text of the audio book that was played to
+the human participants and extracted activations from two                For each participant, we either apply decoding analyses across
+layers positioned at 10% and 80% of its architecture. A PCA              all electrodes, or across all electrodes of a region-of-interest.
+of 50 components was taken of these embeddings, fit per layer
+across the entire regression input data. The trained model was
+downloaded from “meta-llama/Llama-3.1-8B” from Hugging-                  Statistics
+face91 . The untrained Llama 3.1 used was the same, randomly
+initialized with a set seed.                                             Within groups. Except if stated otherwise, we evaluate
+                                                                         whether correlation scores R ∈ Rs are above chance across s
+                                                                         participants, with a non-parametric one-tailed Wilcoxon test.
+Encoding                                                                 Note that R can be averaged across specific dimensions. For
+                                                                         example, decoding scores can be evaluated across participants
+Encoding analyses consist of predicting brain signals from               by averaging the R scores across time samples and language
+stimulus features. Formally, let X ∈ Rt×c be the brain signal            features.
+recorded with c electrodes at time t, and Y ∈ Rt×f be the f -
+dimensional stimulus features at time t. The TRF is a linear
+                                                                         Across groups. To test whether the scores of a group of
+encoding model, which consists in finding W ∈ R(τ ·f )×c as
+                                                                         participants (R ∈ Rs ) is higher than those of another group
+follows:                                                                         ′
+                    X                 2                                  (R ∈ Rs , with s ̸= s′ ) are significantly different, we use the
+            arg min     Xt − W · Ȳt + λc ∥W ∥2           (1)            non-parametric one-tailed Mann-Whitney U test.
+                W
+                     t
+
+
+where Ȳ ∈ Rt×(τ ·f ) is the concatenation of τ successive time          Within participant. To estimate the statistical effects within
+samples relative to Yt , and λc is an L2 regularization param-           each subject, we use permutation analyses to compare our en-
+eterized per channel.                                                    coding and decoding scores to a random distribution. The
+
+
+                                                                    13
+random distribution is here determined by training the encod-
+ing or decoding model on all data in a chapter, then evaluat-
+ing its R scores on 1,000 different versions of the time-shuffled
+target variable X̃i , e.g.:
+                     Ri = corr(X̃i , W · Y )                 (4)
+The p-value can then be approximated as the probability of
+finding random Ri superior or equal to R.
+
+Correction for multiple comparisons. To correct for multi-
+ple comparisons (e.g. across either electrodes or time samples),
+we apply a False Discovery Rate procedure92 , and report the
+corrected values. Significance is considered obtained over elec-
+trodes or time samples if the corrected p-value is lower than
+0.05.
+
+
+
+
+                                                                    14
+Fig. S1| Neural responses to natural speech across development. Average broadband response at 100 ms
+relative to phoneme onset.
+
+
+
+
+Fig. S2| Neural responses to natural speech across development. The broadband response per electrode
+at 100 ms relative to phoneme onset.
+
+
+
+                                                15
+Fig. S3| The normalised ∆R due to word level information per ROI. The ∆R due to word level infor-
+mation, normalised by R(phoneme): Normalised ∆R = (R(word+phoneme) - R(phoneme)) / R(phoneme).
+Stars indicate ROIs with significant (p<0.05) difference from zero, using a two-sided Wilcoxon test across
+participants.
+
+
+
+
+Fig. S4| Age dependent language hierarchy modeled by wav2vec 2.0. The age-dependent gain in encoding
+score offered by a later layer in wav2vec 2.0. ∆L R = R0.8+0.1 - R0.1
+
+
+
+
+                                                   16
+
