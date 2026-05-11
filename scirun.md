@@ -1,7 +1,7 @@
 ---
 title: SCIRun
 created: 2024-01-15
-updated: 2026-04-27
+updated: 2026-05-11
 type: entity
 tags: [software-visualization, computational-neuroscience, neuroimaging-eeg, neuroimaging-meg, forward-model, source-localization, volume-conduction, neural-mass-models]
 sources:

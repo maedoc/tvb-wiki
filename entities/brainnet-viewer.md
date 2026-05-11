@@ -15,7 +15,7 @@ tags:
 - brain-parcellations
 title: BrainNet Viewer
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 ## Overview
@@ -40,7 +40,7 @@ See also: [[tvb-adapters]], [[tvb-multiscale]], and [[whole-brain-simulators]] f
 
 ## Related Software
 
-BrainNet Viewer occupies a niche in the brain visualization ecosystem that includes several competing and complementary tools. The [[connectome-workbench]] (WB) provides similar surface-based visualization capabilities but with a stronger emphasis on CIFTI format data and close integration with the [[human-connectome-project]] (HCP) pipelines. For volumetric visualization of diffusion data and tractography, tools like [[dsi-studio]], Mrtrix3, and [[camino]] offer more specialized functionality.
+BrainNet Viewer occupies a niche in the brain visualization ecosystem that includes several competing and complementary tools. The [[connectome-workbench]] (WB) provides similar surface-based visualization capabilities but with a stronger emphasis on CIFTI format data and close integration with the [[human-connectome-project]] (HCP) pipelines. For volumetric visualization of diffusion data and tractography, tools like [[dsi-studio]], Mrtrix3, [[camino]], and [[tractseg]] offer more specialized functionality.
 
 The [[brain-connectivity-toolbox]] provides the graph theoretical analysis capabilities that complement BrainNet Viewer's visualizations, while [[brainnetome-atlas]]—developed by the same research group—provides the parcellation scheme most commonly used with the viewer. Other related visualization platforms include [[brainspace]], which specializes in dimensionality reduction and manifold learning visualizations of connectivity data, and Pycortex, which offers web-based interactive visualizations of brain data.
 
@@ -58,3 +58,25 @@ See also: [[nilearn]] for Python-based brain visualization, [[brainvoyager]] for
 1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
 2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
 3. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+
+## ORPHAN PAGE CONTEXT (tractseg)
+---
+created: 2024-01-15
+sources:
+- raw/papers/van-essen-2012.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/mijalkov-2017-braph.md
+- raw/papers/arxiv-2503.07263.md
+tags:
+- software-tractography
+- software-mrtrix3
+- diffusion-imaging
+- structural-connectivity
+- white-matter
+- tractography
+title: TractSeg
+type: entity
+updated: '2026-05-07'
+---
+
+TractSeg is an open-source software tool for the automated segmentation of [[white-matter]] tracts from diffusion magnetic resonance imaging (dMRI) data. D

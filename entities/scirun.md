@@ -4,6 +4,7 @@ sources:
 - raw/papers/sanz-leon-2013.md
 - raw/papers/mijalkov-2017-braph.md
 - raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
 tags:
 - software-visualization
 - software-brain-modeling
@@ -29,7 +30,7 @@ The software includes a comprehensive library of computational modules spanning 
 
 ## Technical Capabilities
 
-SCIRun implements several numerical algorithms critical for neuroimaging forward modeling. The boundary element method implementations allow computation of the lead field matrix relating neural current sources to scalp potential distributions, accounting for tissue conductivity inhomogeneities in the head volume conductor. When combined with realistic head models segmented from [[mri]] data, these forward solutions provide the physical basis for source localization algorithms used in [[eeg]] and [[meg]] analysis.
+SCIRun implements several numerical algorithms critical for neuroimaging forward modeling. The boundary element method implementations allow computation of the lead field matrix relating neural current sources to scalp potential distributions, accounting for tissue conductivity inhomogeneities in the head volume conductor. When combined with realistic head models segmented from [[mriqc]] data, these forward solutions provide the physical basis for source localization algorithms used in [[eeg]] and [[meg]] analysis.
 
 The software supports integration with various [[neuroimaging]] data formats and atlas-based [[parcellation]] schemes, enabling researchers to work with data from different acquisition modalities. Forward solutions can be computed for different head models ranging from simple spherical geometries to realistic boundary element meshes derived from individual [[structural-connectivity]] imaging. This flexibility makes SCIRun suitable for both method development studies using simplified models and applied research requiring patient-specific modeling.
 

@@ -12,7 +12,7 @@ tags:
 - neuroimaging
 title: Brain Parcellations
 type: concept
-updated: '2026-05-07'
+updated: '2026-05-11'
 ---
 
 Brain parcellations refer to the partitioning of the cerebral cortex (and sometimes subcortical structures) into discrete, spatially contiguous regions called parcels or regions of interest (ROIs). Each parcel is treated as a unit of analysis in [[whole-brain|whole-brain modeling]], enabling the construction of [[connectivity]] matrices that describe the statistical dependencies (functional connectivity), anatomical pathways (structural connectivity), or causal interactions ([[effective-connectivity]]) between brain regions. The choice of [[parcellation]] scheme is a foundational decision in any whole-brain analysis, as it determines the spatial resolution at which [[network-dynamics]] are represented and fundamentally influences the extracted connectivity patterns.
@@ -41,7 +41,7 @@ The choice of parcellation has been shown to significantly affect the results of
 
 ## Relationship to Whole‑Brain Modeling
 
-In the context of whole‑brain modeling, parcellations serve to define the nodes of the [[brain-network]]. The structural connectivity matrix, typically derived from diffusion MRI tractography, provides the anatomical scaffold on which [[neural-mass-models]] are coupled. The [[the-virtual‑brain]] platform incorporates multiple atlas options (including AAL, Desikan‑Killiany, and others) in its connectivity pipeline, allowing users to generate subject‑specific connectivity matrices from preprocessed structural MRI data.
+In the context of whole‑brain modeling, parcellations serve to define the nodes of the [[brain-network]]. The structural connectivity matrix, typically derived from diffusion MRI tractography, provides the anatomical scaffold on which [[neural-mass-models]] are coupled. The [[the-virtual‑brain]] platform incorporates multiple atlas options (including AAL, Desikan‑Killiany, and others) in its connectivity pipeline, allowing users to generate subject‑specific connectivity matrices from preprocessed structural MRI data. [[ Allen SDK]]
 
 ## Related Concepts
 

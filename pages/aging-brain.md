@@ -1,7 +1,7 @@
 ---
 title: Aging Brain
 created: 2026-04-20
-updated: 2026-05-08
+updated: 2026-05-11
 type: concept
 tags: [aging-brain, neuroimaging-fmri, functional-connectivity, cognitive-reserve, brain-maintenance, brain-reserve, successful-aging, alzheimers-disease, personalized-brain-modeling, whole-brain-modeling]
 sources: [raw/papers/grady-2012.md, raw/papers/semanticschial-b63e3d8a1467.md, raw/papers/smith-2021.md]

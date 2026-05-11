@@ -107,7 +107,7 @@ Closed‑loop stimulation represents the most direct clinical application of sei
 
 ### Surgical Optimization
 
-For patients with medication‑resistant epilepsy, surgical resection of the seizure onset zone offers the possibility of seizure freedom, but identifying the optimal resection volume remains challenging. Computational models support surgical planning by simulating the effects of candidate resections on seizure propagation, predicting whether removing a particular region will prevent secondary generalization or merely shift the seizure focus to another area. This application leverages the [[whole-brain|whole‑brain modeling]] capability to capture network effects that would be invisible to purely local analysis.
+For patients with medication‑resistant epilepsy, surgical resection of the seizure onset zone offers the possibility of seizure freedom, but identifying the optimal resection volume remains challenging. Computational models support surgical planning by simulating the effects of candidate resections on seizure propagation, predicting whether removing a particular region will prevent secondary generalization or merely shift the seizure focus to another area. This application leverages the [[whole‑brain|whole‑brain modeling]] capability to capture network effects that would be invisible to purely local analysis.
 
 The concept of an “epileptic network”—a distributed set of regions that cooperate to generate seizures—is increasingly influential in surgical planning. Rather than pursuing complete resection of all potentially epileptogenic tissue, surgeons may target hub regions that are critical for network recruitment, achieving therapeutic benefit with smaller resections. Computational models enable quantitative comparison of different surgical strategies, potentially reducing the trial‑and‑error that has historically characterized epilepsy surgery.
 
@@ -135,6 +135,8 @@ Finally, the relationship between computational models and the underlying neurob
 - [[epileptor‑rs|Epileptor Rs]]
 - [[wilson-cowan|Wilson Cowan]]
 - [[epileptor-rs|Epileptor Rs]]
+- [[trc-toolkit]]
+
 ## References
 
 1. Wendling F., Bartolomei F., Bellanger J.J., Chauvel P. *A [[dynamic‑causal‑modeling]] study of the generation of epileptic fast activity*. NeuroImage. [DOI](https://doi.org/10.1006/nimg.2002.1234))

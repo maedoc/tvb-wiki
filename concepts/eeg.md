@@ -16,7 +16,7 @@ tags:
 - neuroimaging
 title: EEG
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 # EEG
@@ -70,6 +70,7 @@ EEG analysis encompasses a wide range of techniques for extracting information f
 ## Software Tools
 
 Several software packages are widely used for EEG analysis. **[[eeglab]]** is an interactive MATLAB toolbox for EEG processing, including preprocessing, ICA decomposition, time-frequency analysis, and statistical testing. **Mne Python** provides a Python-based environment for EEG and MEG analysis with particular strengths in source localization and visualization. **Fieldtrip** is a MATLAB toolbox from the Donders Institute that emphasizes beamforming and source analysis. Other tools include **[[brainstorm]]**, **Cartool**, **[[openvibe]]**, and **Bci2000**.
+[[scirun]]
 
 ## Comparison with Other Neuroimaging Modalities
 

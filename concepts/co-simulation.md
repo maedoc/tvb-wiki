@@ -39,13 +39,13 @@ This architecture enables several important use cases. First, researchers can in
 
 ## Applications and Significance
 
-The ability to bridge scales through co‑simulation has proven particularly valuable for clinical translation. Personalized brain models built in TVB can incorporate patient‑specific structural connectivity derived from [[dti]] [[tractography]], and co‑simulation allows these models to interrogate how individual variations in microcircuit properties contribute to disease phenotypes. This approach connects naturally to [[personalized-brain-modeling]] workflows where the goal is to predict individual responses to stimulation interventions or pharmacological manipulations.
+The ability to bridge scales through co‑simulation has proven particularly valuable for clinical translation. Personalized brain models built in TVB can incorporate patient‑specific structural connectivity derived from [[dti]] [[tractography]], and co‑simulation allows these models to interrogate how individual variations in microcircuit properties contribute to disease phenotypes. This approach connects naturally to [[personalized‑brain‑modeling]] workflows where the goal is to predict individual responses to stimulation interventions or pharmacological manipulations. The resulting models can be benchmarked against empirical data using frameworks such as [[brain-score]].
 
-Beyond clinical applications, co‑simulation provides a principled framework for testing hypotheses about scale‑crossing mechanisms in brain function. Researchers can systematically vary parameters in the microscale spiking network and observe their effects on macroscale dynamics, creating testable predictions that connect theory to empirical [[neuroimaging]] data. This positions co‑simulation as a key enabling technology for the next generation of [[whole-brain-modeling]] studies that aim to move beyond phenomenological descriptions toward mechanistic explanations of brain function.
+Beyond clinical applications, co‑simulation provides a principled framework for testing hypotheses about scale‑crossing mechanisms in brain function. Researchers can systematically vary parameters in the microscale spiking network and observe their effects on macroscale dynamics, creating testable predictions that connect theory to empirical [[neuroimaging]] data. This positions co‑simulation as a key enabling technology for the next generation of [[whole‑brain‑modeling]] studies that aim to move beyond phenomenological descriptions toward mechanistic explanations of brain function.
 
 ## Relationship to Related Concepts
 
-Co‑simulation is distinct from but related to several other multi‑scale modeling approaches. [[neural-mass-model]]s themselves can be derived as moment closures from spiking network equations under specific assumptions, creating a mathematical link between the two levels. However, co‑simulation differs from this analytical approach by maintaining explicit coupling between separate simulation engines rather than collapsing one level into the other. Similarly, [[dynamic-causal-modeling]] provides a framework for inferring [[effective-connectivity]] from neuroimaging data, but typically operates at a single scale; co‑simulation offers a complementary forward‑modeling approach where hypothesized mechanisms can be instantiated and their predictions compared against empirical observations.
+Co‑simulation is distinct from but related to several other multi‑scale modeling approaches. [[neural‑mass‑model]]s themselves can be derived as moment closures from spiking network equations under specific assumptions, creating a mathematical link between the two levels. However, co‑simulation differs from this analytical approach by maintaining explicit coupling between separate simulation engines rather than collapsing one level into the other. Similarly, [[dynamic‑causal‑modeling]] provides a framework for inferring [[effective‑connectivity]] [[trentool]] from neuroimaging data, but typically operates at a single scale; co‑simulation offers a complementary forward‑modeling approach where hypothesized mechanisms can be instantiated and their predictions compared against empirical observations.
 
 ## ORPHAN PAGE CONTEXT (simbrain)
 ---
@@ -73,3 +73,24 @@ SimBrain (Simulations of Neural Networks in Java) is an open‑source neural net
 1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate [[brain‑network]] dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010))
 2. Michael Breakspear. *Dynamic models of large‑scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4))
 3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120))
+
+## ORPHAN PAGE CONTEXT (brain-score)
+---
+created: 2024-01-15
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/semanticscholar-9afbfd2d37be.md
+tags:
+- model-validation
+- computational-neuroscience
+- neural-network
+- benchmark
+- machine-learning
+title: Brain-Score
+type: entity
+updated: '2026-05-11'
+---
+
+Brain-Score is an open-source benchmarking platform designed to systematically evaluate computational brain models against empirical neural data. The pl

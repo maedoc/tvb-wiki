@@ -1,0 +1,290 @@
+                                                                  POISSON FLOW MODEL OF CORTICAL FOLDING PATTERN
+
+                                                                                   Moo K. Chung1 Luigi Maccotta2 , Aaron Struck2
+                                                                                      1
+                                                                                          University of Wisconsin, Madison, USA
+                                                                                        2
+                                                                                          Washington University, St. Louis, USA
+arXiv:2604.17291v1 [q-bio.NC] 19 Apr 2026
+
+
+
+
+                                                                      ABSTRACT                                      and provide limited information about the intrinsic geome-
+                                            Cortical folding reflects coordinated neurodevelopmental                try and spatial organization of sulcal–gyral folding patterns
+                                            processes and provides a sensitive marker of neurological               [7, 8]. Although effective for detecting regional differences,
+                                            disease. In juvenile myoclonic epilepsy (JME), structural               such measures collapse complex folding architecture into
+                                            abnormalities are subtle and spatially distributed, limiting the        isolated local quantities and therefore cannot capture coordi-
+                                            sensitivity of conventional morphometric measures such as               nated folding organization across the cortical surface. This
+                                            cortical thickness. We introduce a Poisson flow model derived           limitation is particularly consequential in JME, where abnor-
+                                            from gradients of the mean curvature field on the cortical sur-         malities are thought to reflect large-scale neurodevelopmental
+                                            face. The method yields a smooth scalar field obtained from             alterations spanning distributed brain regions rather than focal
+                                            a Poisson equation, whose surface gradient defines a flow               cortical changes.
+                                            representation of folding organization. This representation                 To address this gap, we model cortical folding using a
+                                            enables spatially coherent characterization of sulcal–gyral             Poisson equation applied to the mean curvature field on the
+                                            patterns and provides a principled geometric framework for              cortical surface. Solving the Poisson equation yields a smooth
+                                            studying distributed cortical alterations in JME.                       scalar field, whose gradient captures transitions from regions
+                                                                                                                    of higher to lower curvature. This yields a spatially coherent
+                                                                                                                    representation that preserves relative geometric organization
+                                                                 1. INTRODUCTION
+                                                                                                                    while suppressing high-frequency noise. The resulting repre-
+                                            Cortical folding reflects a complex interplay between neu-              sentation enables statistically efficient, vertexwise inference
+                                            rodevelopmental processes, mechanical constraints, and dif-             on folding organization and provides a principled geometric
+                                            ferential growth, and its organization is closely linked to nor-        alternative to conventional morphometric measures for study-
+                                            mal brain function and neurological disease [1, 2]. Accord-             ing distributed neurodevelopmental alterations in JME.
+                                            ingly, abnormalities in sulcal–gyral morphology have been
+                                            reported across a range of conditions, including epilepsy [3],                      2. MATERIALS AND METHODS
+                                            neurodevelopmental disorders [4], and neurodegenerative dis-
+                                            eases [5], indicating that folding patterns encode clinically           2.1. Imaging Data and Preprocessing
+                                            meaningful information beyond gross cortical shape.
+                                                 Juvenile myoclonic epilepsy (JME) is a genetic epilepsy            Participants were drawn from the Juvenile Myoclonic Epilepsy
+                                            with adolescent onset and a strong neurodevelopmental com-              Connectome Project (JMECP), a prospective study conducted
+                                            ponent [3, 6]. Prior morphometric studies have reported ab-             at the University of Wisconsin Hospital and Clinics [6].
+                                            normalities involving fronto-central and higher-order associ-           Detailed screening procedures and inclusion and exclusion
+                                            ation regions [3], while our recent volumetric work demon-              criteria are reported in [6]. The present study included 61
+                                            strates selective alterations in motor-associated thalamic nu-          individuals with JME (mean age 19.72 ± 3.70 years) and
+                                            clei and corticothalamic circuits [6]. These findings support           39 healthy controls (mean age 21.44 ± 2.35 years) with no
+                                            the view that JME represents a distributed neurodevelopmen-             history of neurological or psychiatric disorders. The total
+                                            tal disorder rather than focal cortical pathology.                      sample comprised 41 males and 59 females. The JME and
+                                                 Despite this recognition, most cortical morphometry stud-          control groups differed significantly in age (two-sample t-
+                                            ies rely on indirect summary measures such as cortical thick-           test, p = 0.008). Age and sex were therefore included as
+                                            ness, gyrification index, or regional volumes. These scalar             covariates in all group-level analyses.
+                                            descriptors primarily quantify local gray-matter properties                 All participants underwent structural MRI on GE MR750
+                                                                                                                    3T scanners using a 32-channel phased-array head coil. High-
+                                                Published in IEEE Engineering in Medicine and Biology Society An-
+                                            nual Conference (EMBC) 2026. The correspondence should be sent to
+                                                                                                                    resolution T1-weighted images were acquired as part of a
+                                            mkchung@wisc.edu. This work was supported by NIH MH133614 and           standardized epilepsy imaging protocol. Intensity inhomo-
+                                            NSF DMS–2010778.                                                        geneity was corrected using the N4 bias-correction algo-
+rithm [9]. Cortical reconstruction was performed with the
+FreeSurfer recon-all pipeline [10], including motion correc-
+tion, intensity normalization, Talairach alignment, skull strip-
+ping, and automated tissue segmentation. Subject-specific
+cortical meshes were extracted, yielding triangulated sur-
+faces. Surfaces were then mapped to MNI space using
+FreeSurfer’s surface-based registration [10], establishing
+vertex-wise correspondence across subjects while preserv-
+ing intrinsic cortical geometry.
+
+2.2. Estimating cortical folding pattern
+Let M denote the closed cortical manifold represented as a
+triangulated surface mesh. Cortical folding was character-
+ized by the vertexwise mean curvature field h(x), estimated
+at each mesh vertex v. Mean curvature was computed using
+a local quadratic surface fitting approach based on first-ring
+neighboring vertices [11, 12]. In local coordinates (x1 , x2 ),          Fig. 1. Solutions of the regularized Poisson equation for dif-
+the surface was approximated by fitting a second–order poly-             ferent values of λ. When λ = 0, the formulation reduces
+nomial using least–squares estimation,                                   to the standard Poisson equation, which can lead to overly
+                                                                         smooth solutions dominated by global modes. In this study,
+f (x1 , x2 ) = β0 + β1 x1 + β2 x2 + 12 β3 x21 + β4 x1 x2 + 12 β5 x22 .   we set λ = 0.1, which balances noise reduction with preser-
+Then the mean curvature is given by [11]                                 vation of local sulcal and gyral pattern.
+
+               1 (1 + β22 )β3 + (1 + β12 )β5 − 2(β1 β2 )β4               The signed curvature field h provides a compact geomet-
+     h(v) =                                                .
+               2               1 + β12 + β22                             ric descriptor that is consistent with known microstructural
+By convention, positive curvature corresponds to sulcal fundi            differences between sulcal and gyral regions [1].
+and negative curvature to gyral crowns. The resulting scalar
+field therefore provides a compact and intuitive encoding of             2.3. Poisson model of cortical folding
+local cortical folding polarity.                                         Curvature estimates are sensitive to discretization error, mesh
+    For subsequent analysis, the mean curvature field h(v)               irregularity, and high–frequency geometric noise [11]. To
+was normalized by subtracting its area–weighted mean using               reduce these effects, we smooth the folding pattern using a
+the finite–element mass matrix A [13, 7], which approximates             Poisson–based model. Let L denote the Laplace–Beltrami
+the surface area element. The total surface area is given by             operator on the closed cortical manifold M. Given the area–
+                           Z                                             normalized signed mean curvature field h (+ in sulci and - in
+              Area(M) =          dµ(x) ≈ 1⊤ A1.                          gyri), we recover a scalar potential u by solving
+                               M
+
+Accordingly, h was mean–centered as                                                         Lu = h       on M.                       (1)
+                                                                                                 −1
+                                                                         The inverse operator L acts as a low–pass filter, suppress-
+                               1⊤ Ah
+                       h ← h − ⊤     ,                                   ing high–frequency noise while emphasizing large–scale
+                               1 A1                                      source–sink structure in h. On a closed manifold, however,
+                                                                         global modes may dominate the solution (Fig. 1, bottom
+                                           R
+which enforces the zero–mean constraint M h dµ = 0 need
+for a well–posed Poisson equation on a closed manifold.                  right). To improve spatial locality, we adopt a regularized
+    Removing the global offset isolates spatially varying fold-          Poisson model [15],
+ing patterns and removes dependence on an arbitrary baseline                                  Lu + λu = h,                           (2)
+curvature. The resulting potential and flow fields therefore
+capture relative geometric variation between sulcal and gyral            where λ > 0 controls the balance between smoothness and
+regions. By convention, sulcal fundi exhibit positive curva-             locality. Small λ recovers standard Poisson behavior, while
+ture and gyral crowns negative curvature, so the sign of h               larger values emphasize mesoscale folding structure. We set
+encodes local folding polarity (Fig. 1, top left). Neuronal              λ = 0.1 in all experiments.
+number per unit cortical area is approximately conserved                     The resulting scalar field u induces a derived vector field
+across cortex [14], thinner sulcal cortex implies higher neu-            J on the cortical surface: J = −∇u, which lies in the tan-
+ronal packing density per unit volume relative to gyral cortex.          gent plane and points in the direction of steepest decrease of u
+Fig. 2. Flux field defined as the negative surface gradient of the
+potential, pointing in the direction of steepest decrease of potential
+energy from sulcal regions (red) toward gyral regions (blue). Com-
+pared to the original curvature data, the resulting flux patterns are
+smoother and more coherent.
+                                                                         Fig. 3. The ground-truth field htrue (top-left) is a degree–2 spherical-
+                                                                         harmonic mixture. A noisy observation hobs = htrue + ϵ is generated
+(Fig. 2). The gradient field J encodes spatial variation in the          with Gaussian noise N (0, 1). The remaining panels show poten-
+                                                                         tials u recovered from the regularized Poisson equation for different
+Poisson solution and captures transitions between regions of
+                                                                         λ. As λ decreases, the solution approaches the Poisson limit and
+positive and negative curvature, yielding trajectories that fol-         becomes more sensitive to high-frequency noise, while larger λ sup-
+low local variations from sulcal fundi toward gyral crowns.              presses fine-scale fluctuations and emphasizes low-frequency struc-
+                                                                         ture.
+2.4. Numerical implementation
+                                                                         spherical harmonics,
+We solve the regularized Poisson equation using a finite–
+element discretization [13]. Specifically, we employ the                                                 R
+                                                                                                         X
+cotangent finite–element formulation of the Laplace–Beltrami                            htrue (θ, ϕ) =         αr Yℓr mr (θ, ϕ),
+operator [11, 7], which yields a sparse, symmetric stiffness                                             r=1
+matrix L together with a finite–element mass matrix A that
+approximates the surface area element. The regularized Pois-             for which the corresponding regularized Poisson solution is
+son equation (2) is discretized as [15]                                  given analytically by
+                                                                                                  R
+                       (L + λA)u = Ah.                                                            X          αr
+                                                                                 utrue (θ, ϕ) =                       Yℓ m (θ, ϕ).
+                                                                                                  r=1
+                                                                                                      λ + ℓ r (ℓr + 1) r r
+After enforcing the zero–mean constraint on h, the resulting
+linear system is solved using sparse Cholesky factoriza-                     To emulate noise arising from discretization and mesh ir-
+tion [17]. For all real data analyses, we fixed λ = 0.1 to bal-          regularity, Gaussian noise ϵ ∼ N (0, σ 2 I) was added to obtain
+ance numerical stability and spatial locality of the recovered           the observed field hobs = htrue + ϵ. The recovered potential
+folding patterns. The MATLAB implementation is avail-                    u was then compared against both utrue and hobs to quantify
+able at https://github.com/laplcebeltrami/                               numerical accuracy and noise suppression behavior.
+poisson.                                                                     In our experiments, we used degree–2 harmonics,
+                                                                                                                              1
+                        3. VALIDATION                                         htrue = Y20 − Y21 + Y22 ,            utrue =       htrue ,
+                                                                                                                             6+λ
+
+Validation was performed using synthetic data on the unit                providing an explicit ground truth for validating our numeri-
+sphere S2 , where the Laplace–Beltrami operator admits                   cal implementation.
+closed–form eigenfunctions given by spherical harmonics                      Numerical accuracy was quantified using the area–weighted
+Yℓm [18, 7]. These satisfy                                               L2 norm ∥f ∥2 = f ⊤ Af . The error ∥u − utrue ∥ measures
+                                                                         solver accuracy, while ∥u − hobs ∥ reflects regularization
+                      LYℓm = ℓ(ℓ + 1)Yℓm ,                               behavior relative to noisy input. Results in Table 1 show
+                                                                         excellent agreement with the analytic solution in the noise-
+providing an analytic setting in which exact solutions of the            free case and stable performance under noise. Increasing λ
+regularized Poisson equation (2) are available. A ground–                suppresses noise at the cost of attenuating signal magnitude,
+truth curvature field was constructed as a finite mixture of             demonstrating the expected trade-off between fidelity and
+Table 1. Performance of the Poisson flow model u on the unit
+sphere with degree–2 ground truth utrue . Errors are reported as area–
+weighted L2 -norms.
+            Noise σ    λ     ∥u − utrue ∥ ∥u − hobs ∥
+               0      103 1.66×10−5 1.66×10−2
+                       10    5.88×10−3 9.41×10−2
+                        −2
+                     10      1.97×10−2 1.19×10−1
+                        0    1.97×10−2 1.19×10−1
+              0.1     10  3
+                             2.23×10−5 6.57×10−2
+                       10    5.89×10−3 1.18×10−1
+                        −2
+                     10      1.97×10−2 1.39×10−1
+                        0    1.97×10−2 1.39×10−1
+               1      103 1.46×10−4 6.87×10−1                            Fig. 4. t-statistic map for the JME–control contrast adjusted for age
+                                                                         and sex. Red clusters (JME>controls) indicate increased folding po-
+                       10    6.19×10−3 8.04×10−1
+                        −2                                               tential, with left-dominant effects in fronto-central and medial motor
+                     10      2.06×10−2 8.13×10−1
+                                                                         regions and focal right-hemisphere effects along the Sylvian fissure.
+                        0    2.07×10−2 8.13×10−1
+
+                                                                         clusters) were more widespread and bilaterally distributed,
+smoothing. Overall, the results confirm both the numerical               predominantly involving postcentral and visual cortices, with
+accuracy of the FEM discretization and the noise-filtering               additional focal effects in the right orbital gyri. Reduced
+behavior of the regularized Poisson model.                               folding potential reflects smoother, less differentiated sul-
+                                                                         cal–gyral geometry, consistent with attenuated large-scale
+                          4. RESULTS                                     folding organization.
+                                                                             Overall, the observed pattern indicates spatially dis-
+Our primary quantity of interest is the folding-induced flow             tributed alterations in cortical folding in JME, character-
+J = −∇u, which characterizes geometry-driven transport                   ized by regionally specific accentuation of folding geometry
+along the cortical surface (Fig. 2). Direct inference on J is            alongside more diffuse reductions in folding differentiation
+challenging because it is a vector field constrained to the tan-         across sensory and visual systems, rather than focal cortical
+gent plane. Instead, we exploit the fact that J is uniquely de-          abnormalities [3, 6].
+termined by the scalar potential u, such that testing for group
+differences in J is equivalent to testing differences in u. This
+enables statistically efficient scalar inference.                                               5. CONCLUSION
+    Group differences in cortical folding were assessed using
+linear regression on the folding potential maps ui (v). At each          We introduced a geometry-driven Poisson flow framework for
+vertex v, subject-level potentials were modeled as                       modeling cortical folding organization and applied it to juve-
+                                                                         nile myoclonic epilepsy (JME). By formulating folding as a
+       u = c0 + c1 Group + c2 Age + c3 Sex + ε,                   (3)    curvature-derived source–sink system and solving a regular-
+                                                                         ized Poisson equation on the cortical manifold, the method
+where Group encodes diagnostic status (JME vs. control), and             yields a smooth scalar potential whose gradient defines an in-
+age and sex were included as nuisance covariates. Statistical            trinsic folding-induced flow. This approach provides a princi-
+significance of the group effect c1 was evaluated using a t-             pled link between local sulcal–gyral polarity and large-scale
+statistic (Fig. 4) with false discovery rate (FDR) correction            geometric organization, while avoiding the instability and in-
+across the cortical surface [19]. Dark red and blue regions              terpretational challenges of direct vector-field inference.
+(|t| ≥ 4.3) correspond approximately to an FDR-corrected q-                  Applied to JME, the results reveal asymmetric and bidi-
+value of 0.01, while lighter colors (|t| ≥ 3.2) correspond to            rectional alterations in cortical folding organization. Regions
+q = 0.05.                                                                of increased and decreased folding potential are spatially dis-
+     Regions with significantly elevated folding potential in            tributed across motor, perisylvian, and association cortices
+JME (red clusters) were spatially focal and concentrated                 rather than confined to a single locus. This pattern indicates
+along bilateral perisylvian and temporal cortices, with addi-            spatially heterogeneous structural differences in JME, sug-
+tional involvement of fronto-central and medial motor regions            gesting that folding alterations are distributed across cortical
+[3, 20]. Increased folding potential reflects enhanced curva-            regions rather than reflecting a focal abnormality [6].
+ture contrast and more coherent sulcal–gyral organization,                   Applied to JME, the results reveal asymmetric and bidi-
+indicating localized alterations in cortical folding geome-              rectional alterations in cortical folding organization. Regions
+try. Regions with reduced folding potential in JME (blue                 of increased and decreased folding potential are spatially dis-
+tributed across motor, perisylvian, and association cortices         [8] K. Im and P.E. Grant, “Sulcal pits and patterns in devel-
+rather than confined to a single locus. This pattern indicates           oping human brains,” Neuroimage, vol. 185, pp. 881–
+spatially heterogeneous structural differences in JME, sug-              890, 2019.
+gesting that folding alterations are distributed rather than re-
+flecting a focal abnormality [6].                                    [9] N.J. Tustison, B.B. Avants, P.A. Cook, Y. Zheng,
+    Future work will examine the relationship between fold-              A. Egan, P.A. Yushkevich, and J.C. Gee, “N4ITK: im-
+ing patterns and clinical variables such as seizure frequency,           proved N3 bias correction,” IEEE Transactions on Med-
+disease duration, and cognitive performance to assess their              ical Imaging, vol. 29, pp. 1310–1320, 2010.
+clinical relevance. Integrating this framework with functional      [10] B. Fischl, “FreeSurfer,” NeuroImage, vol. 62, pp. 774–
+imaging may further clarify how structural folding organiza-             781, 2012.
+tion relates to seizure dynamics. In addition, extensions to
+multiscale or adaptive regularization and longitudinal analy-       [11] M.K. Chung, K.J. Worsley, S. Robbins, and A.C. Evans,
+ses may help characterize developmental trajectories underly-            “Tensor-based brain surface modeling and analysis,”
+ing the observed group differences.                                      in IEEE Conference on Computer Vision and Pattern
+                                                                         Recognition (CVPR), 2003, vol. I, pp. 467–473.
+                     6. REFERENCES                                  [12] S.C. Joshi, J. Wang, M.I. Miller, D.C. Van Essen, and
+                                                                         U. Grenander, “Differential geometry of the cortical sur-
+ [1] D.C. Van Essen, “A tension-based theory of morphogen-
+                                                                         face,” in Vision Geometry IV, Vol. 2573, Proceedings of
+     esis and compact wiring in the central nervous system,”
+                                                                         the SPIE 1995 International Symposium on Optical Sci-
+     Nature, vol. 385, pp. 313, 1997.
+                                                                         ence, Engineering and Instrumentation, 1995, pp. 304–
+ [2] K. Zilles, N. Palomero-Gallagher, and K. Amunts, “De-               311.
+     velopment of cortical folding during evolution and on-         [13] M.K. Chung and J. Taylor, “Diffusion smoothing on
+     togeny,” Trends in Neurosciences, vol. 36, pp. 275–284,             brain surface via finite element method,” in Proceed-
+     2013.                                                               ings of IEEE International Symposium on Biomedical
+ [3] B. Wandschneider, S.-J. Hong, B.C. Bernhardt,                       Imaging (ISBI), 2004, vol. 1, pp. 432–435.
+     F. Fadaie, C. Vollmar, M.J. Koepp, N. Bernasconi, and          [14] P. Rakic, “Specification of cerebral cortical areas,” Sci-
+     A. Bernasconi, “Developmental MRI markers cosegre-                  ence, vol. 241, pp. 170–176, 1988.
+     gate juvenile patients with myoclonic epilepsy and their
+     healthy siblings,” Neurology, vol. 93, pp. e1272–e1280,        [15] M. Kazhdan and M. Chuang,          “Interactive and
+     2019.                                                               anisotropic geometry processing using the screened
+                                                                         poisson equation,” in Proc. Eurographics/ACM SIG-
+ [4] M.K. Chung, S. Robbins, K.M. Dalton, R.J. Davidson,                 GRAPH Symposium on Geometry Processing, 2010.
+     A.L. Alexander, and A.C. Evans, “Cortical thickness
+     analysis in autism with heat kernel smoothing,” Neu-           [16] A. Einstein, “The foundation of the general theory of
+     roImage, vol. 25, pp. 1256–1265, 2005.                              relativity,” Annalen Phys, vol. 49, pp. 769–822, 1916.
+
+ [5] W.H. Kim, V. Singh, M.K. Chung, C. Hinrichs,                   [17] T.A. Davis, Direct Methods for Sparse Linear Systems,
+     D. Pachauri, O.C. Okonkwo, S.C. Johnson, and                        SIAM, 2006.
+     Alzheimer’s Disease Neuroimaging Initiative, “Multi-
+     resolutional shape features via non-euclidean wavelets:        [18] M.K. Chung, K.M. Dalton, L. Shen, A.C. Evans, and
+     Applications to statistical analysis of cortical thickness,”        R.J. Davidson, “Weighted Fourier representation and
+     NeuroImage, vol. 93, pp. 107–123, 2014.                             its application to quantifying the amount of gray mat-
+                                                                         ter,” IEEE Transactions on Medical Imaging, vol. 26,
+ [6] A.F. Struck, C. Garcia-Ramos, V. Prabhakaran, V. Nair,              pp. 566–581, 2007.
+     A. Adluru, Philibert R.S., D. Almane, N. Adluru, J.E.
+                                                                    [19] C.R. Genovese, N.A. Lazar, and T. Nichols, “Threshold-
+     Jones, and B.P. Hermann, “Motor-associated thala-
+                                                                         ing of statistical maps in functional neuroimaging using
+     mic nuclei are reduced in juvenile myoclonic epilepsy,”
+                                                                         the false discovery rate,” NeuroImage, vol. 15, pp. 870–
+     Epilepsia, vol. 66, pp. 4381–4393, 2025.
+                                                                         878, 2002.
+ [7] S.-G. Huang, I. Lyu, A. Qiu, and M.K. Chung, “Fast
+                                                                    [20] M.J. Koepp, F. Woermann, I. Savic, and B. Wandschnei-
+     polynomial approximation of heat kernel convolution on
+                                                                         der, “Juvenile myoclonic epilepsy—neuroimaging find-
+     manifolds and its application to brain sulcal and gyral
+                                                                         ings,” Epilepsy & Behavior, vol. 28, pp. S40–S44, 2013.
+     graph pattern analysis,” IEEE Transactions on Medical
+     Imaging, vol. 39, pp. 2201–2212, 2020.
+
