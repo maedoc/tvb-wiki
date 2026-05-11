@@ -15,7 +15,7 @@ tags:
 - neuroimaging
 title: NiftyNet
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 # NiftyNet
@@ -87,7 +87,7 @@ Segmentation outputs from NiftyNet—region masks, tissue labels, and lesion map
 
 - Automated brain tumor segmentation from multi‑modal MRI
 - [[white‑matter]] hyperintensity detection in [[aging‑brain]] and dementia studies
-- Hippocampal volume estimation for Alzheimer's disease biomarkers
+- Hippocampal volume estimation for [[alzheimers-disease|Alzheimer's disease]] biomarkers
 - Cortical surface extraction for TVB connectivity modeling
 - Multi‑site harmonization through domain adaptation techniques
 - Real‑time segmentation for neurosurgical planning

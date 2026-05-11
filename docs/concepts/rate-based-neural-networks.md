@@ -4,6 +4,7 @@ sources:
 - raw/papers/wilson-cowan-1972.md
 - raw/papers/gerstner-2014.md
 - raw/papers/breakspear-2017.md
+- raw/papers/anticevic-2012.md
 tags:
 - rate-based-neural-networks
 - firing-rate
@@ -12,7 +13,7 @@ tags:
 - neural-mass-model
 title: Rate-Based Neural Networks
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 # Rate-Based Neural Networks

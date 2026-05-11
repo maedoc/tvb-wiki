@@ -14,7 +14,7 @@ tags:
 - tractography
 title: TractSeg
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 TractSeg is an open-source software tool for the automated segmentation of [[white-matter]] tracts from diffusion magnetic resonance imaging (dMRI) data. Developed by **Jakob Wasserthal**, **Peter Neher**, and colleagues at the German Cancer Research Center (DKFZ), it employs machine learning techniques, specifically convolutional neural networks, to identify and extract major white matter fiber bundles in the brain. The tool produces binary segmentation masks for each identified tract, which can then be used to generate region-of-interest (ROI) masks for [[tractography]] analysis or to construct [[structural-connectivity]] matrices for [[whole-brain|whole-brain modeling]] applications.
@@ -37,7 +37,7 @@ An important feature of TractSeg is its ability to generate tract probability ma
 
 TractSeg plays a significant role in the [[the-virtual-brain]] (TVB) ecosystem by providing high-quality structural [[connectivity]] data essential for whole-brain modeling. In TVB, the structural connectome forms the anatomical scaffolding upon which neural mass models are simulated, and the quality of this structural foundation directly influences the fidelity of simulated [[brain-dynamics]]. TractSeg's automated segmentation enables researchers to generate consistent structural connectivity matrices efficiently, supporting [[personalized-brain-modeling]] pipelines.
 
-The segmented white matter tracts from TractSeg can be used to define the regions of interest for tracking fiber pathways between cortical and subcortical regions. These pathways form the structural connections that mediate signal propagation between brain areas in TVB simulations. The tool's ability to produce segmentation masks for 72 tracts provides coverage of the major fiber systems commonly used in whole-brain connectome construction. Combined with TVB's [[neural-mass-models]] and [[dynamic-causal-modeling]] frameworks, TractSeg-derived connectomes enable researchers to investigate how structural alterations in white matter pathways contribute to changes in functional brain dynamics observed in conditions such as epilepsy, schizophrenia, and Alzheimer's disease.
+The segmented white matter tracts from TractSeg can be used to define the regions of interest for tracking fiber pathways between cortical and subcortical regions. These pathways form the structural connections that mediate signal propagation between brain areas in TVB simulations. The tool's ability to produce segmentation masks for 72 tracts provides coverage of the major fiber systems commonly used in whole-brain connectome construction. Combined with TVB's [[neural-mass-models]] and [[dynamic-causal-modeling]] frameworks, TractSeg-derived connectomes enable researchers to investigate how structural alterations in white matter pathways contribute to changes in functional brain dynamics observed in conditions such as epilepsy, schizophrenia, and [[alzheimers-disease|Alzheimer's disease]].
 
 ## Limitations
 

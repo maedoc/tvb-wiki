@@ -1,0 +1,1004 @@
+Mehran University Research Journal of Engineering and Technology
+                                                                                     https://doi.org/10.22581/muet1982.0176
+                                                                                                              2025, 44(4) 32-45
+
+Group-Based EEG Source Mapping of the Visual Cortex Using Adaptive MSP
+Localization
+Anwar Ali Gahoa*, Dr Ahmed Muddassir Khana, Dr Anwar Ahmed Memona, Dr Sayed Hyder Abbas
+Musavib, Dr. Muhammad Abul Hassanc, Dr. Shehla Honey d
+a
+    Department of Electrical Engineering, Indus University, Karachi, Pakistan
+b
+    Department of Electrical Engineering, Mehran Engineering College Khairpur, Pakistan
+c
+    Department of Biomedical Engineering, NED University of Engineering & Technology, Karachi, Pakistan
+d
+    Department of Physics, University of Okara, Okara, Pakistan
+*
+    Corresponding author: Anwar Ali Gaho, Email: anwar.a.gaho@gmail.com
+
+
+           Received: 20 February 2025, Revised:09 September 2025, Accepted: 29 September 2025, Published: 01 October 2025
+
+KEYWORDS                                ABSTRACT
+
+Electroencephalography                  Approximately 10–20% of the global population (~8.2 billion in 2025) is affected by
+                                        neurological disorders, including migraine (~12%), Alzheimer’s/dementia (~0.7%),
+Multiple Sparse Priors
+                                        epilepsy (~0.6%), and Parkinson’s disease (~0.1%). Electroencephalography (EEG)
+Bayesian Framework                      serves as a critical modality for capturing electrophysiological brain dynamics in such
+Visual Cortex                           conditions. Advanced engineering techniques—including inverse problem regularization,
+                                        spatial filtering, source reconstruction algorithms, and computational modeling—enhance
+Free Energy
+                                        the accuracy, spatial resolution, and clinical applicability of EEG systems. EEG source
+                                        localization, supported by biomedical signal processing pipelines, plays a key role in
+                                        diagnosing and treating 10–15% of brain disorders involving abnormal cortical
+                                        excitability.
+
+                                        This research proposes a novel computational approach to EEG source localization that
+                                        emphasizes engineering innovation in biomedical signal processing and system
+                                        optimization. Specifically, it targets neural activity within the visual cortex, applying a
+                                        Bayesian framework with Multiple Sparse Priors inversion. The proposed algorithm
+                                        employs adaptive patch variation to optimize Free Energy and reduce localization errors
+                                        across subject groups in response to facial stimuli, including familiar, unfamiliar, and
+                                        scrambled faces. By addressing the ill-posed nature of the EEG source localization
+                                        problem, this approach mitigates uncertainties caused by factors such as noise, neural
+                                        overlaps, and structural defects. The results are validated using a synthetic EEG dataset.
+                                        MATLAB-based SPM12 toolbox is used for pre-processing and statistical analysis. In
+                                        this study, EEG source localization was performed on six subjects (three males, three
+                                        females, aged 23–31) using a proposed MSP inversion algorithm across cortical patch
+                                        ranges (350–3500, step 150). The adaptive patching strategy differs from prior MSP work
+                                        by dynamically adjusting patch sizes to optimize Free Energy, thereby reducing
+                                        localization errors more effectively across subject groups.
+
+                                        The proposed MSP inversion achieved reliable EEG source localization, with mean errors
+                                        ranging from 1.2 to 7.7 mm and a group mean of 4.0 mm, consistently identifying
+                                        occipitotemporal regions (BA 18, 19, 20, 37). The demonstrated results confirm the
+                                        accurate localization of visually evoked sources, supporting its potential for diagnostic
+                                        and computational applications in biomedical engineering and neuroscience.
+
+© Mehran University of Engineering and Technology 2025                                                                           1
+1. Introduction                                              computational loads, as shown in Fig.2. Sensor-fitted
+                                                             sphere models provide a balance between anatomical
+The human brain, a highly intricate bio-computational
+                                                             accuracy and computational efficiency. BEM models
+system, controls the essential functions including
+                                                             the head as a three-layer conductor and uses simplified
+perception, memory, language, emotion, and motor
+                                                             conductivity in integral methods to improve efficiency
+control. It comprises approximately 86 billion neurons
+                                                             [8,9].
+that communicate through electrochemical signalling,
+producing electrical activity measurable via scalp-
+mounted electrodes[1]. This electrical activity is
+assessed by various neuro electro-imaging techniques
+including        Electroencephalography         (EEG),
+Magnetencephalography MEG, Positron Emission
+Tomography (PET) and Magnetic resonance imaging
+(MRI) [2]. However, accurate and reliable brain
+source localization remains a challenge due to the           Fig. 2. Head Model meshes for EEG forward computation
+inherently ill-posed nature of the inverse problem,          – BEM using closed triangular surface meshes for scalp,
+                                                             skull and brain
+limited spatial resolution, signal noise, and inter-
+individual anatomical variability [3,4]. Although
+                                                                              Forward Problem (well-posed)
+multimodal neuroimaging and high-density electrode                                        Y = K(J) + E
+arrays improve brain source localization accuracy,
+EEG provides millisecond temporal resolution for
+real-time brain activity analysis [5]. The portability
+and wearability of EEG make it well-suited for
+biomedical research and diverse applications such as
+brain–computer interfaces (BCI), neuromarketing, and
+neuro-ergonomics [6]. EEG is widely used for                          Dataset (Y)                       Current Density (J)
+diagnosing brain disorders such as epilepsy,                                        Inverse Problem (ill-posed)
+Alzheimer’s, and Parkinson’s. It is cost-effective,
+portable, and non-invasive, although it can be
+sensitive to noise, artefacts, and variations in scalp                  Fig. 3. Forward and Inverse Models
+properties. It identifies brain activity sources using
+forward and inverse modeling techniques to calculate            The forward model uses BEM to measure
+scalp potentials and localize neural generators [7].         potentials generated at the scalp , whereas the inverse
+EEG source localization employs head models that             model estimates neural sources within the brain[10,
+represent the brain, skull, and scalp as concentric          11] as illustrated in Fig.3. However, since it is an ill-
+layers with anisotropic conductivity. This Berg              posed problem, obtaining a unique solution is
+approximation is commonly used in three- and four-           challenging, as different source configurations can
+layer models as shown in Fig.1. Since each subject's         produce identical scalp measurements [12].
+head has unique anatomical and conductive properties,            To address these challenges in EEG source
+subject-specific head models are necessary for               localization, various advanced algorithms have been
+accurate source localization.                                developed by neuroscientists and engineers[13, 14].
+                                                             For example, Minimum Norm (MN) estimates neural
+                                                             sources by minimizing the overall power of the source
+                                                             distribution. The Low-Resolution Electromagnetic
+                                                             Tomography (LORETA) family provides smooth and
+                                                             low-resolution estimates of brain activity. Focal
+                                                             Underdetermined System Solver (FOCUSS) is
+                                                             designed for underdetermined systems used for sparse
+                                                             source localization. Recursive Multiple Signal
+(a) Analytical Model based on   (b) Digital Model from MRI   Classification (MUSIC) identifies multiple signal
+   layered Spherical shells        using BEM meshing         sources iteratively, enhancing localization accuracy.
+  Fig. 1. Head Modeling Approaches used in EEG source        Hybrid approaches, such as Hybrid Weighted
+                        Analysis                             Minimum Norm, Recursive sLORETA-FOCUSS,
+                                                             Weighted Minimum Norm LORETA, and Shrinking
+  Approaches such as Boundary Element Method
+                                                             LORETA-FOCUSS, combine features from multiple
+(BEM) and Finite Element Method (FEM) offer
+                                                             algorithms to improve performance [12, 15].
+improve the accuracy but require higher
+© Mehran University of Engineering and Technology 2025                                                                        2
+   The Convexity - Champane , FLEX-Anatomical                          equations used in EEG source localization. Section 3
+patching (AP) and Patch-AP are worked upon to                          focuses on the novelty of the proposed algorithm of
+improve accuracy, with studies reporting lower                         adaptive patch variation approach blended with
+localization errors and better alignment with true                     synthetic EEG dataset generation scheme for its
+source distributions in both simulations and real EEG                  validation and methodology adopted. Section 4 is
+/ MEG data[16].                                                        about the outcome of results and discussion. Section 5
+                                                                       gives the conclusion about the research carried out in
+    Bayesian methods such as MN, Beamformer (BF),
+                                                                       the paper. Section 6 provides future work to be carried
+and LORETA-like approaches enhance source
+                                                                       out based on the novelty of this algorithm. Section 7
+estimation by incorporating prior knowledge, while
+                                                                       is on the acknowledgement and to say thanks for the
+Multiple Sparse Priors (MSP) inversions further
+                                                                       datasets provided and section 8 is about the references
+constrain and regularize the solution [17, 18]. These
+techniques are widely applied in clinical diagnostics                  2. EEG Brain Sources: Mathematical Framework
+and neuroscience to analyse dynamic brain activity.
+                                                                       EEG uses Maxwell's and Poisson's equations to model
+MSP also reduces the noise and improves the
+                                                                       brain activity[13]. It solves an inverse problem to
+localization accuracy by adjusting to individual
+                                                                       estimate active brain sources, using high-density EEG
+anatomical variation[19, 20].
+                                                                       systems and advanced source modeling. This process
+    This paper, specifically targets the visual cortex-                utilizes an evaluation framework with realistic head
+particularly the occipital lobe, responsible for visuo-                models, real and simulated EEG data, noise models
+spatial coordination and the processing of visual input                and statistical accuracy[25, 26].
+such as shape, motion, and contrast. Visual stimuli
+                                                                          The use of covariance and the Bayesian
+evoke synchronized neuronal responses in this region,
+                                                                       Framework makes it particularly well-suited to
+producing dipolar currents, measurable at the
+                                                                       addressing ill- posed inverse problem [21, 27].
+scalp[21, 22]. This study investigates optimal source
+estimations in the visual cortex using patch-based                                     Y = LJ +                             1
+MSP inversion, where the model adjusts free energy
+for different patch sets to achieve accurate localization              where Y   N c N n represents measured EEG dataset of
+while maintaining computational efficiency. Cortical                    N c sensors and N n time samples. L is leadfield matrix.
+patches ranging from 250 to 3500, in increasing steps
+                                                                       J   N N represents dipoles current density or
+                                                                              d   n
+
+of 150, were evaluated. Source estimations were
+                                                                       estimate brain sources.  Indicates random noise and
+derived from EEG datasets (N170 ERP) involving
+                                                                       uncertainty.
+facial stimuli. Localization accuracy was validated
+using synthetic EEG generation models. The results                        By applying Bayes' theorem [28]:
+were quantified to assess the effect of varying patch
+distributions on the quality of source reconstructions                                              P (Y J ) P ( J )
+                                                                                       P(J Y ) =                             2
+[23]. The study focuses on the N170 ERP component                                                         P (Y )
+associated with facial processing. The validation is
+carried out through simulations using MATLAB’s                         where P ( J Y ) is the posterior probability of source
+SPM12 toolbox. The research is also focused on                         estimation. P (Y J ) is the likelihood probability of a
+calculating localization errors[24]. To calculate
+localization errors, MNI coordinates, computed from                    given source activity. P ( J ) is prior probability of
+proposed MSP algorithm, are subtracted from true                       source activity. P (Y ) is constant probability. The
+MNI coordinates computed, either from standard MSP                     maximum posterior estimate of current dipoles is
+inversion approach or fMRI by using the Euclidean                      recovered by applying the operator on J to get the
+distance formula for two points Ptrue = ( xt , yt , zt ) and           estimated current density:
+Pest = ( xe , ye , ze ) in MNI space (mm):
+                                                                                       Ĵ = E  P ( J Y )                 3
+    Localization error =     ( xe − xt ) + ( ye − yt ) + ( ze − zt )
+                                                                       where Ĵ : estimated current density (brain source
+where Pest represents the MNI coordinates obtained
+                                                                       activity in EEG source localization)
+from MSP inversion by varying the patches, while
+ Ptrue is considered the true MNI spaces.                                 E . : Expectation Operator (average value)
+
+This research paper is comprised of seven sections:                    P ( J Y ) : Posterior probability distribution of (true)
+Section 1 introduces the background of EEG source                      current density J given the measured EEG data Y
+localization. Section 2 is about mathematical
+                                                                       (observed EEG data at the scalp sensors). The above
+© Mehran University of Engineering and Technology 2025                                                                           3
+equation states that the estimated current density is the                                         In this research, a comprehensive MSP-based
+expected value of the posterior distribution.                                                     framework is proposed as illustrated in Fig 4. Visual-
+                                                                                                  stimulated EEG datasets have been processed using
+The estimated current density Ĵ can be represented as:
+                                                                                                  SPM software to acquire optimized EEG brain source
+                         Jˆ = QLT (  + LQLT ) Y
+                                               −1
+                                                                                       4          localizations by optimizing free energy and
+                                                                                                  minimizing Localization errors[37]. The proposed
+where Q : Source covariance matrix (prior covariance                                              framework is integrated with synthetic EEG dataset
+of brain sources), L :Lead-field matrix (forward model                                            generation scheme to evaluate and validate the brain
+mapping brain sources to scalp EEG sensors). LT :                                                 sources and their localization. Fig 4 presents a dual-
+Transpose of lead - field matrix,  e : Noise covariance                                          pipeline flowchart comparing EEG source localization
+matrix (sensor noise covariance). Y : Measured EEG                                                using real (left) and synthetic (right) EEG datasets.
+data vector. This is liner Bayesian Minimum – norm                                                Both workflows follow parallel steps: inverse
+estimate of the source current density. In Free                                                   modeling, imaging methods, facial stimuli application.
+energy[29, 30],                                                                                   EEG source localization algorithms (Beamformer,
+                                                                                                  MNE, LORETA-like, GS, and MSP patch variations)
+                         F = log p (Y )                                                5          are applied. The synthetic pipeline includes source
+                                                                                                  selection, noise addition, and D-object updating. Both
+where, F :Free energy (a variational bound on model
+                                                                                                  branches compute Free energy and MNI coordinates,
+evidence), p (Y ) : Marginal likelihood (probability of                                           leading to a final statistical analysis of localization
+observing EEG data under the model). The                                                          error sources accuracy.
+optimization of MSP based Bayesian framework
+                                                                                                  3.2 Data Availability
+depends upon free energy equation[31, 32] as follows:
+                                                                                                   In this research, multimodal EEG datasets were
+          Nt                  N          NN               1
+                                                              (     ) (        )     1
+             tr ( C y Y−1 ) − t log Y − t n log ( 2 ) −  tr hˆ − v  hˆ − v  + log  h 
+                                                                       T
+   F =−
+          2                    2           2              2                       2             6acquired upon request via email along with NOC from
+                                                                                                   Prof. Dr. Richard Henson, Director of Medical
+where F : Variational free energy, N y : Number of                                                 Research Council (MRC) at University of Cambridge,
+samples based upon time points or trials, N : Number                                               UK. These datasets were voluntarily provided by
+of EEG channels (sensors), C y : Empirical data                                                    healthy employees of MRC. The datasets include
+                                                                                                   fMRI and MRI images with 1x1x1 mm³ resolution, as
+covariance            matrix,             y or ( LQLT +  e ) :                   Model           well as EEG dataset recorded at 1100 Hz, collected
+covariance matrix, tr (.) :Trace of a matrix (sum of                                               using a Elekta Neuromag Vectorview MEG system
+                                                                                                   with 102 magnetometers, 204 gradiometers, and 70
+diagonal elements),  y : Determinant of  y , ĥ :                                                EEG electrodes [38], as shown in Fig 5.
+Estimated hyperparameters,  : prior mean of                                                                                                                 Synthetic Data Generation
+                                                                                                                                                                     Algorithm
+hyperparameters,  : prior precision matrix (inverse
+
+                                                         (          )  ( hˆ − v ) :
+                                                                      T
+covariance of hyperparameters), hˆ − v                                                                                                                              Selection of
+                                                                                                                                                                 Sources in Cortical
+                                                                                                                                                                  Mesh from GS IA
+
+
+Distance of hyperparameters from the prior mean),                                                                                                                  Noise added &
+                                                                                                                                                                  MNI Vertices, and
+
+ h : Posterior covariance of hyperparameters,  h                                                                           Processed Data/
+                                                                                                                              D-object loaded
+                                                                                                                                                                  Object D Update
+
+
+                                                                                                                                                                      Vertices/Object
+:Determinant of the product of posterior covariance                                                                           Inverse problem
+                                                                                                                                                                        D-Updated
+
+
+and prior precision. Free energy is not a physical                                                                                                                    Inverse problem
+
+energy but a log-evidence bound. Since log-likelihood                                                                         Imaging Method
+                                                                                                                                                                      Imaging Method
+can be small subtracting complexity often makes Free                                                                           Stimuli/Faces
+
+energy negative[33]. Free energy has no units;                                                                                                                         Stimuli/Faces
+                                                                                                                             Beamformer, MNE,
+however, it is expressed with a negative sign[34].                                                                           Loreta like, GS and
+                                                                                                                               Selection of IA
+                                                                                                                                                                 Beamformer, MNE,
+                                                                                                                                                                 LORETA like, GS
+Therefore, it is referred to as negative Free energy[31].                                                                      MSP GS Patch
+                                                                                                                                                                 and Selction of IA
+
+
+Free Energy in MSP-based EEG source localization is
+                                                                                                                                                                      MSP GS Patch
+                                                                                                                                 Variation
+                                                                                                                                                                        Variation
+
+
+statistical score that balances data fit and model                                                 Repeat for Optimization   Free Energy//MNI
+                                                                                                                                Coordinates
+                                                                                                                                                                  Free Energy and/
+                                                                                                                                                                  MNI Coordinates
+simplicity. Even if, negative, model with highest free
+energy is considered the most reliable explanation of                                                                                            Free Energy/
+                                                                                                                                               Localization Error/
+
+EEG data[35].[36].                                                                                                                                 Averaing
+
+
+
+
+3. EEG Datasets and Methodology                                                                                                                Statistical Analysis
+                                                                                                                                               (M ean/Variances)
+
+3.1 Proposed Algorithm
+                                                                                                  Fig. 4. Proposed Algorithm Integrated with Synthetic Data
+                                                                                                                     Generation Scheme
+© Mehran University of Engineering and Technology 2025                                                                                                                                   4
+                                                                                                                    3.5 Brain Software / toolbox used
+                                                                                                                       In this research, MATLAB-based SPM12 toolbox
+                                                                                                                    was utilized for its advanced capabilities in pre-
+                                                                                                                    processing, analyzing, and interpreting multimodal
+                                                                                                                    datasets. These included integration of fMRI, MRI and
+                                                                                                                    EEG for brain activity reconstruction.
+                                                                                                                       3.6 Pre-processing EEG datasets
+                                                                                                                        Famous Faces, Unfamiliar Faces, and Scrambled
+                                                                                                                    Faces, the three (03) visual stimulation conditions
+                                                                                                                    used, were exposed in front of the subjects to record
+       Fig. 5. Elekta Neuromag Vectorview MEG and 70                                                                multimodal datasets including EEG datasets. Each
+                     Electrodes systems [30]                                                                        trial was linked to particular time intervals and
+3.3        Subjects / Participants                                                                                  conditions. To investigate brain sources localization,
+                                                                                                                    multiple channels with electrodes were used to
+In this research, six (06) subjects - including three (03)
+                                                                                                                    measure scalp activity, which was later reconstructed
+females and three (03) males aged between 23-and 31
+years, were selected to investigate optimized EEG                                                                   into source space within the posterior occipital lobe of
+source localization in brain visual cortex, as shown in                                                             the brain. First, the raw EEG recordings were imported
+Table 1. All participants were of Caucasian origin.                                                                 into MATLAB and converted to SPM format. The raw
+                                                                                                                    data was cleaned up and prepared during pre-
+Table 1
+                                                                                                                    processing. To promise accurate analysis, a thorough
+Subjects selected                                                                                                   pre-processing pipeline of sixteen (16) steps was
+ Subjects                      1              2                3             4              5              6        implemented, ranging from conversion to SPM to
+ Gender                       M               F                F             M              F             M         specifying contrasts in order to acquire cleaned EEG
+                                                                                                                    datasets [39, 40]. EEG datasets recorded were in the
+ Age                          31             26               23             23            24             30
+                                                                                                                    form of scalp topographies or time-varying
+3.4 Experimental Datasets                                                                                           waveforms.
+   Multimodal datasets were recorded after                                                                              The preprocessing of EEG data was carried out in
+participants viewed familiar, unfamiliar, and                                                                       SPM12 using a structured pipeline. Initially, raw
+scrambled faces with varied attributes, shown                                                                       M/EEG data files in native machine format (e.g., .fif)
+individually on a screen 1.3 meters away. Stimuli were                                                              were converted into MATLAB-compatible format
+presented sequentially with crosshair (+) and circle
+                                                                                                                    (.mat) for subsequent analysis. To minimize
+(O) signs, as outlined in Fig.6.
+                                                                                                                    computational complexity and disk usage, the data
+                  1700- 4256 msec                                                                                   were resampled from 1100 Hz to 200 Hz. A montaging
+                                                                                                                    step was then applied to remove contributions from
+                      O                                                                                             non-cortical channels, specifically electrooculography
+                                             400 - 600 msec
+Time
+                                                                                                                    (EOG) and electrocardiography (ECG) artifacts,
+                                                                                                                    ensuring improved signal fidelity [41]. Temporal
+                                         +                    600-800 msec
+                                                                                                                    filtering was performed using a high-pass filter to
+                                                                                    Famous
+
+                                                                                                                    eliminate low-frequency drifts, followed by a low-
+           Male
+                                                                                                                    pass filter to attenuate high-frequency noise. Event-
+         Female
+                                                                                  400 - 600 msec
+                                                                                                                    related triggers were extracted from the STI101
+                            Unfamiliar
+                                                                                                                    channel, and stimulus-locked epochs were generated
+                                                                              +                    400 - 600 msec
+                                                                                                                    within a defined window (−100 ms to +500 ms)
+                                                   Checked
+                                                    for left,
+                                                                                                                    relative to event onset. Finally, multiple runs were
+                                                  central and
+                                                      right                                        O                merged and concatenated to produce a unified dataset,
+                                                   symmetry
+
+                    Famous Scrambled
+                                                   of images                                                        thereby preparing the pre-processed EEG signals for
+                                                                                                                    subsequent forward modeling, inverse source
+       Fig. 6. Experimentation Setup for recording data                                                             reconstruction, and statistical analysis.
+
+
+© Mehran University of Engineering and Technology 2025                                                                                                                    5
+    Convert to SPM       Downsampling      High/Low Pass Filter           Epoching
+
+
+
+
+                            Average                                    Artefact
+     Merge Runs                              Montage (b)
+                           Reference                                  Detection
+
+
+
+
+    Prepare Sort            Combine
+                                           Average Contrast        Specify Meshes
+      Channels            Gradiometers
+
+
+
+
+                                           Time Frequency         Specify / Estimate
+   Coregisteration       Forward/Inverse
+                                              Contrast            / Specify Contrast
+
+
+
+
+                   Fig. 7. EEG Pre-processing pipeline
+    Thus, processed EEG dataset was made available                                      Fig. 10. Scalp map EEG 074 Channel [Full Scale View]
+for use in forward and inverse methods for measuring                                   3.7 Forward Model
+scalp surface potentials, as well as brain source
+reconstruction and localization [Fig 8 to Fig 10].                                         Forward model uses numerical head structures,
+                                                                                       MRI images, and a Boundary Element Method (BEM)
+                                                                                       head model, which includes co-registration of fiducial
+                                                                                       points. The lead field matrix (L) stores sensor (N) and
+                                                                                       mesh vertex (M) data in the gain matrix (K)[7, 9]. Fig.
+                                                                                       11 illustrates the forward mechanism and output used
+                                                                                       in EEG source localizations. The flowchart begins
+                                                                                       from head volume, which includes anatomical
+                                                                                       information about the subject’s brain. BEM as a
+                                                                                       numerical method is then applied to simulate electrical
+                                                                                       conductance across different tissues. The BEM model
+                                                                                       incorporates tissue conductivity and the radius of
+                                                                                       various head layers such as brain, cerebrospinal fluid
+                                                                                       (CSF), skull, and scalp. Based on this model, meshes
+                                                                                       are generated to represent the geometry of the head,
+                                                                                       using individual subject MRI data to ensure accuracy.
+                     Fig. 8. Pre-processed EEG signals                                 The next step involves the computation of the lead
+                                                                                       field matrix, which maps the brain's electrical sources
+    Fig 8 shows the pre-processed EEG signals across
+                                                                                       (dipoles) to the EEG sensor locations. Finally, neural
+multiple channels, illustrating temporal variations in
+                                                                                       activity voltages evoked by specific stimuli (e.g.,
+brain activity. Fig 9 presents the scalp map with EEG
+                                                                                       visual stimuli) are generated to complete the forward
+channel placements, visually mapping electrode
+                                                                                       modeling process [23].
+positions for spatial reference. Fig 10 displays the full-
+scale EEG response for channel EEG074, highlighting                                                  Start
+stimulus-locked brain responses over time. Together,                                             Head volume
+these figures validate the quality of EEG data and its
+suitability for source localization analysis.                                                  Numerical method
+
+                                                                                                  BEM Model
+                                                                                          (tissues conductivity, radius
+                                                                                          brain, CSF, skull and scalp)
+
+                                                                                                    Meshes
+
+                                                                                           Individual subjects MRI
+
+                                                                                               Lead field matrix
+                                                                                             dipoles/mesh vertices
+                                                                                                  and sensors
+
+
+                                                                                             Neural activity volts
+                                                                                            evoked by grey stimuli
+
+
+                                                                                                      Start
+
+
+
+
+         Fig. 9. Scalp map EEG signals with channels                                            Fig. 11. Forward Mechanism and Output
+
+© Mehran University of Engineering and Technology 2025                                                                                         6
+    Further, on the right side of Fig 11, 3D layered
+head, sliced horizontally, demonstrating how the
+different tissue layers are segmented and modeled for
+computational analysis, is shown. This visualization
+explains the spatial arrangement of tissues used in
+mesh generation. The bottom image is a sagittal view
+of the brain from MRI data, color-coded to indicate
+varying levels of neural activity or conductivity.
+3.8 Inverse Model
+                                                                             Fig 13. Free Energy and Inversion Approaches
+    The inversion modeling (Fig 2 and Fig 12) is
+implemented for brain source localization. It begins                      Table 2 presents a comparative analysis of Free
+with loading the pre-processed data, stored in D-object               energy values across different inversion methods.
+containing multi-channels, trials, sampling frequency,                Inversion yields the highest Free energy (–730.2) for
+and samples per trial [42] The inverse problem                        Famous faces, indicating the best model evidence and
+estimates the location of brain activity based on scalp-              superior fit to the data. In contrast, Beamformer,
+recorded signals. Inversion techniques like                           Minimum Norm Estimate, and LORETA exhibit
+Beamformer, MNE, and LORETA-like are applied,                         lower Free energy (-823.6, -846.3, and -841.4,
+along with Greedy Search (GS) for selecting the best                  respectively), reflecting less optimal solutions. This
+imaging algorithm and analysis, aligned with specific                 demonstrates that MSP inversion achieves more
+stimuli, such as facial images[43], MSP method is                     efficient and accurate source reconstruction with
+used with patch variation to refine source estimation.                famous faces stimuli compared to other inversion
+The results are evaluated using free energy and                       techniques and stimuli conditions [44].
+mapped to MNI coordinates. Initially best inversion
+approach and stimuli conditions are applied by using                 3.9 Synthetic EEG dataset Generation Scheme
+the assumed true default patches (250) and visual                        A synthetic EEG dataset generation scheme is an
+stimuli images of famous, unfamiliar and scrambled                   integral part of the proposed algorithm and is
+faces. This process is repeated to achieve better                    employed to validate the accuracy and reliability of the
+localization accuracy and optimized free energy [35].                source reconstruction method [10]. A forward model
+                             Start                                   was used to create synthetic data by simulating scalp
+                                                                     EEG signals using a cortical mesh, MRI template, co-
+                       Load EEG Dataset                              registration, and lead field matrix of each individual
+                                                                     subject. In the D-object, the synthetic data takes the
+                         Brain Imaging
+                                                                     place of the actual EEG while maintaining other
+                                                                     parameters. In order to ensure that the synthetic data
+                                                                     accurately reflects real conditions for reliable
+  Famous faces          Unfamiliar faces           Scrambled faces
+                                                                     algorithm testing, MSP inversion with synthetic data
+                   Inversion Approaches                              is used to validate real EEG source localization
+              MNE, Beamformer, LORETA, MSP
+                                                                     accuracy [9, 35].
+                                                                        In Fig.14 and Fig 15 below, brain source
+                 Comparative Analysis of IA and
+                   FS for Max Log Evidence                           localizations with real data and synthetic EEG data
+                                                                     was acquired at same MNI coordinates [-38,-65,-13].
+                              end
+                                                                                        estimated response - condition 1
+                      Fig. 12. Inversions                               15
+                                                                                               at -38, -65, -13 mm
+
+
+
+Table 2                                                                 10
+
+Inversions/FE                                                            5
+
+ Inversions                          Free Energy
+                                                                         0
+ BF                                  -823.6
+ MNE                                 -846.3                             -5
+
+ LORETA                              -841.4
+ MSP                                 -730.2                            -10
+
+
+                                                                       -15
+                                                                         -200       0          200             400         600   800
+                                                                                                     time ms
+
+
+© Mehran University of Engineering and Technology 2025                              PPM at 180 ms (99 percent confidence)
+                                                                                                                                       7
+                                                                                                  512 dipoles
+                                                                                   Percent variance explained 98.39 (97.79)
+          Percent variance explained 98.39 (97.79)
+                   log-evidence = -1236.6
+
+                                                          with lower Localization errors, and vice versa,
+                                                          particularly in response to familiar stimulus
+                                                          conditions. Furthermore, factors such as precise
+                                                          projections, narrow variance envelopes, and high
+                                                          potentials at active brain sources have been identified
+                                                          as contributors to optimized FE and minimized
+                                                          localization errors in the visual cortex.
+                                                          4.1 Active Brain Sources
+                                                              This section highlights active brain sources with
+                                                          optimized free energy and low localization errors,
+                                                          mainly in visual areas like the Fusiform, Visual
+                                                          Association, and Secondary Visual regions, while
+                                                          excluding irrelevant non-visual sources. In Fig.16 a
+       Fig. 14. Real Brain Activity at [-38,-65,-13]      pie chart representing visual stimulation illustrates the
+                                                          percentage distribution of EEG-evoked brain activity
+                                                          across various brain regions. The Right Fusiform area
+                                                          dominates with 50%, indicating its major involvement
+                                                          in the observed neural responses. Other notable areas
+                                                          include the Left Visual Association (25%), Left
+                                                          Fusiform (7%), Left-Secondary Visual (8%), Right-
+                                                          Secondary Visual (4%), and Right Inferior Temporal
+                                                          Gyrus (4%). This suggests strong activation in visual
+                                                          and fusiform area
+
+                                                                                             Right-Fusiform (37)
+
+                                                                                             Left-Fusiform (37)
+
+                                                                       7% 1%                 Right-SecVisual (18)
+                                                               25%
+                                                                                             Right-InfTempGyrus
+                                                                                   50%
+                                                                                             (20)
+                                                                                             Left-Visual Assoc (19)
+                                                                8% 4%
+                                                                 1%                          Right-Visual Assoc (19)
+
+                                                                                             Outside defined BAs
+                                                                       4%
+                                                                                             Right-Parahipp (36)
+
+
+
+                                                              Fig. 16. Percentage of EEG Evoked Brain Areas
+                                                          4.2. Free Energy at Active Brain Sources
+                                                             Free energy computed from six (06) subjects from
+    Fig. 15. Synthetic EEG activity at [-38, -65, -13]    patches from 250 to 3500 is shown in Table 3 where
+                                                          for each subject, free energy is demonstrated against
+                                                          specific patches. This is done in order to show the
+4. Results and Discussion
+                                                          overall tendency of generated free energy in an
+   In this paper, the comparative analysis of Free        occipital lobe source. In MSP source localization,
+energy and localization errors has been performed         increasing the number of patches, can raise free energy
+across six (06) subjects, comprising three males (Subj    by improving model flexibility but beyond an optimal
+#1, Subj #4, and Subj #6) and three females (Subj #2,     point, additional patches are pruned and do not
+Subj #3, and Subj #5), aged 23 to 31 years. Patches,      contribute further. Hence, only optimal subset
+representing regions of the visual cortex where neural    contributes meaningfully to source estimates.
+sources are activated, were examined to identify
+                                                          In Fig 17, six (6) lines have been plotted. In addition,
+optimal free energy and low localization errors. The
+                                                          red line represents an average FE against patches.
+results revealed an inversely relationship between free
+energy and localization errors: higher FE correlated      Table. 3.
+
+© Mehran University of Engineering and Technology 2025                                                                 8
+Group Free Energy and Patches
+Patches   Subj1   Subj2   Subj3   Subj4   Subj5   Subj6   Grp
+           M        F       F      M        F      M      Aver
+           31      26      23      23      24      30     Error
+ 256      -730    -1237   -874    -776    -1236   -1029   -971
+
+ 350      -725    -1239   -890    -770    -1232   -1023   -980
+
+ 500      -729    -1243   -881    -758    -1234   -1024   -978
+
+ 650      -724    -1237   -884    -771    -1231   -1022   -978
+
+ 800      -733    -1245   -884    -763    -1239   -1024   -981
+
+ 950      -731    -1237   -873    -772    -1241   -1021   -979
+
+ 1100     -729    -1233   -873    -761    -1234   -1023   -976
+
+ 1250     -727    -1237   -876    -771    -1236   -1022   -978
+
+ 1400     -728    -1240   -875    -761    -1237   -1021   -977
+
+ 1550     -732    -1240   -877    -769    -1242   -1021   -980
+
+ 1700     -727    -1234   -881    -764    -1228   -1021   -976    Fig. 17. Group Free Energy from MSP (Subj#1 to Subj#6)
+ 1850     -724    -1242   -873    -761    -1241   -1026   -978        In Fig. 17, the plots show Free Energy as a function
+ 2000     -725    -1236   -875    -763    -1239   -1018   -976    of cortical patch size for six subjects. Each subplot
+ 2150     -730    -1236   -876    -767    -1237   -1020   -978    presents the data points, linear regression line, and
+ 2300     -726    -1239   -873    -764    -1235   -1020     -     95% confidence interval. Across all subjects, Free
+                                                          1026    energy increases with increasing patch size, as
+ 2450     -726    -1235   -878    -761    -1229   -1019   -975    indicated by the positive slopes of the regression lines.
+                                                                  The shaded confidence intervals demonstrate the
+ 2600     -731    -1233   -878    -762    -1236   -1024     -
+                                                          1027    reliability of these trends. These results suggest that
+ 2750     -738    -1235   -872    -762    -1235   -1024   -978
+                                                                  larger cortical patch numbers tend to yield higher Free
+                                                                  energy, highlighting the influence of patch size on
+ 2900     -728    -1232   -880    -759    -1230   -1026   -976
+                                                                  EEG source localization quality.
+ 3050     -725    -1233   -882    -764    -1249   -1028   -980
+                                                                     In Table 4, localization errors are calculated by
+ 3200     -731    -1235   -877    -760    -1232   -1024   -976
+                                                                  varying the patches from 350 to 500 with increasing
+ 3350     -724    -1239   -878    -761    -1239   -1019   -977
+                                                                  step of 150 using EEG MSP inversion, and the results
+ 3500     -730    -1236   -867    -765    -1233   -1024   -975    are EEG source localization in the visual cortex. In Fig
+ Avg      -728    -1237   -877    -764    -1236   -1022   -978    18, red line represents group mean localization error
+ Err
+                                                                  (21.4 mm).
+                                                                  Table. 4.
+                                                                  Localization Errors [mm] M: Male, F: Female
+                                                                       Subj1 Subj2 Subj3 Subj4 Subj5 Subj 6             Avg
+                                                                         M      F    F     M     F     M                Loc
+                                                                         31    26    23   23    24     30               Err
+                                                                   MNI→ 42,   -38,  20,   41,   50,    41,
+                                                                        -42, -65, -72, -88, -68,      -88,
+                                                                         -9   -13   -14    -8   -8     -8
+                                                                  Patches
+                                                                    350       6.6    0.0    44.3   22.9   16.1   26.9   19.5
+                                                                     500      6.6    67.6   28.4   21.3   7.6    22.6   25.7
+                                                                     650      5.2    15.8   21.6   34.3   15.1   15.1   17.9
+                                                                     800      5.2    11.2   38.3   47.1   14.2   24.1   23.4
+                                                                     950      6.4    13.8   19.3   47.8   13.4   26.9   21.3
+                                                                    1100      18.1   0.0    22.8   22.9   19     24.5   17.9
+                                                                    1250      6.6    15.7   17.0   39.6   6.7    23.7   18.2
+                                                                    1400      7.5    10.9   18.5   20.6   14.2   26.9   16.4
+
+© Mehran University of Engineering and Technology 2025                                                                   9
+  1550     6.0      4.1    17.2    9.1     12.2    26.9   12.6   This practice estimates the trend of Subj#1, Subj#2,
+  1700    27.5     60.3    41.1    20.6    14.8    77.6   40.3   and Subj#5 are 16.4 mm, 18.4 mm, and 13.1 mm,
+  1850     4.0      0.0    38.3    5.0     13.4    7.5    11.4   respectively, which are lower than the group, mean
+  2000     7.5      3.6    22.2    21.3    13.6    24.5   15.5   localization error of 21.4 mm, indicating optimal
+  2150    38.7      0.0    42.6    9.1     13.6    24.5   21.4   localization accuracy and shown in the yellow boxes
+  2300    38.7      8.1    33.7    47.1    14.2    67.2   34.8   in the last row of the table. However, Subj#3 (female),
+  2450    38.7      0.0    17.2    11.8    6.7     24.5   16.5   Subj#4 (male), and Subj#6 (male) have higher
+  2600    20.3     67.6    37.8    45.6    13.6    33.6   36.4
+                                                                 localization errors of 28.7 mm, 24.6 mm, and 27.4
+                                                                 mm, respectively, exceeding group mean localization
+  2750     7.5      7.0    38.6    20.6    15.1    26.3   19.2
+                                                                 error of 21.4 mm and shown in red boxes in the last
+  2900    28.6     67.6    17.2    20.6    7.9     10.5   25.4
+                                                                 row.
+  3050    27.6      8.1    50.6    20.6    13.4    15.7   22.7
+  3200    20.3      4.1    8.3     20.6    14.2    24.1   15.3   4.3. Analysis of Optimized Localization Errors
+  3350    17.1      6.1    17.4    20.6    13.6    24.5   16.6      Table 6 presents the localization errors for
+  3500    17.1     33.6    38.3    11.9    16.1    23.6   23.4   individual subjects, along with an average localization
+ Mean     16.4     18.4    28.7    24.6    13.1    27.4   21.4   error reduced to 4.1 mm. This improvement is
+                                                                 achieved using the average optimized MNI spaces
+   In Table 5, across six subjects, localization errors          obtained through the MSP inversion approach. With
+vary considerably, with mean errors ranging from 13.1            the reduction in localization errors, brain active
+mm (Subj5) to 28.7 mm (Subj3), yielding a group                  sources can be further optimized and localized. These
+mean of 21.4 mm. Variability is notable, as reflected            localization errors, with a mean value of 4.1 mm,
+by standard deviations from 3.2 mm (Subj5) to 19.5               represent a significant improvement.
+mm (Subj2), while minimum errors show that certain               Table. 6.
+patch sizes achieve very accurate localization (0–8.3            Optimized Localization Errors [mm]
+mm), and maximum errors indicate occasional large
+                                                                  Subj1      Subj2   Subj3   Subj4    Subj5   Subj6 Avg
+deviations (16.1–77.6 mm). Overall, the group mean                                                                   Loc
+                                                                   M           F       F      M         F      M
+provides a summary of typical performance,                         31         26      23      23       24      30
+                                                                                                                    Errors
+highlighting that careful selection of patch sizes can
+                                                                    42,      -39,     [37    [37,     [44,    [48,
+improve accuracy and reduce inter-subject variability
+                                                                   -43,      -66,    ,-69,   -69,     -80,    -68,
+Table 5                                                            -22       -13     -14]    -15       -7]     2]
+Summary Statistics [mm] from Table 4                                5.5       1      17.5     4.4      4.2     3.2   6.0
+
+Metric Subj1 Subj2 Subj3 Subj4 Subj5              Sub6 Group        5.5       1      25.4     4.2      4.1     1.7   7.0
+                          M                            Mean          3       10.3     6.3     4.4      4.2     3.6   5.3
+Errors M       F,    F           F                 M
+                          23                           Errors        3        4       6.3     0        4.1     1.7   3.2
+         31    2    23          24                 30
+ Mean     16.4    18.4    28.7    24.6    13.1    27.4    21.4      6.6       1       4.6     0        1       1.7   2.5
+
+Std Dev 9.3       19.5    11.7    13.3    3.2      18     12.5      5.5       3.2     2.2     4.2      1       1.7   3.0
+
+  Min      4        0     8.3      5      6.7     7.5      5.3      6.8       1       6.7     0        4.2     6     4.1
+
+ Max      38.7    67.6    50.6    47.8    16.1    77.6    50.7      5.1       1       2.2     0        1      11.8   3.5
+                                                                    1.4       6.8     2.2     0        4.1     3.2   3.0
+The mean localization errors computed are plotted in
+                                                                    7.3       4       6.4     0        4.2     1.7   3.9
+Fig 18.
+                                                                    7.3       6.2     3.2     0        1       3.7   3.6
+                                                                    5.3       3.6     7.5     1.6      3.0     3.6   4.1
+
+                                                                 In Table 7, across six subjects, mean localization
+                                                                 errors range from 1.2 mm to 7.7 mm, with a group
+                                                                 average of 4.0 mm, indicating generally accurate EEG
+                                                                 source localization. Variability is moderate (group SD
+                                                                 3.3 mm), though some subjects (e.g., Subj3) show
+                                                                 higher errors and inconsistency. Overall, optimal
+                                                                 patch sizes can achieve low errors, while extreme
+                 Fig. 18. Localization Errors                    patch sizes may increase localization uncertainty.
+
+© Mehran University of Engineering and Technology 2025                                                                10
+Table 7                                                         activity, helping to confirm the locations in a flattened
+Summary Statistics [mm]                                         top-down view.
+   Metric   Subj1      Subj2 Subj3 Subj4 Subj5   Sub6   Group      From the results, it is demonstrated that, the most
+              M          F     F    M      F      M     Mean
+              31         2    23    23     24      30           significant activation was observed in the right
+ Mean Error   5.3       3.2   7.7   1.2   2.8     3.6     4     fusiform gyrus (BA 37), which is known for its role in
+   Std Dev       1.9    2.7   6.7    1.9   1.5   2.7     3.3    facial and object recognition. Additional activity was
+                                                                localized in the visual association cortex (BA 19), the
+  Min Error      1.4    1     2.2    0     1     1.7     1.2    secondary visual cortex (BA 18), and the inferior
+  Max Error      7.3   10.3   25.4   4.4   4.2   11.8   10.6    temporal gyrus (BA 20), all of which are associated
+                                                                with various levels of visual processing.
+
+    In Fig. 19, seven lines of localization errors are              Fig.20. confirms that multiple visual-related areas
+plotted, with each line representing an individual              in the brain are actively involved during visual
+subject. The red line represents the average                    stimulation, with strong bilateral activation especially
+localization error obtained using the default patches.          in the right fusiform gyrus, as shown by the coloured
+This red line indicates a localization error below the          activity zones.
+mean value of 4.1 mm, which is significantly reduced.
+It is observed that Subj1 (male), Subj2 (female), and
+Subj3 (female) are above the average line (i.e., the red
+line above 5 mm) and indicated in yellow box,
+resulting in higher localization errors. In contrast,
+Subj#4 (male), Subj#5 (female), and Subj#6 (male)
+are below the average line (i.e., the red line below 5
+mm), indicating lower localization errors and shown
+in red box.                                                      Fig. 20. Right Fusiform (37), visual association cortex
+    This analysis confirms that optimized patches                (19), secondary visual cortex (18), and inferior
+contribute to improved source localization accuracy              temporal gyrus (20), where brain sources are active for
+                                                                 visual stimulation.
+for most subjects.
+                                                                5. Conclusion
+                                                                   This research of EEG source localization was
+                                                                conducted across six (06) subjects using a proposed
+                                                                MSP inversion algorithm across cortical patch ranges
+                                                                (350 to 3500, step size 150).
+                                                                   As in Table 4, across all patches, the localization
+                                                                error ranges across subjects varied between 13.1–28.7
+                                                                mm. The findings confirm that the MSP-based
+                                                                approach provides reliable and accurate source
+                                                                localization in the visual cortex. As in Table 7, across
+                                                                individual subjects with selected patches, mean errors
+              Fig. 19. Group Analysis of Loc errors             range from 1.2 mm (Subj#4) to 7.7 mm (Subj#3). The
+                                                                group mean is 4.0 mm, indicating that, on average,
+   Further, based on the EEG source localization                EEG source localization is reasonably accurate across
+results, optimized MNI coordinates and high free                the six subjects.
+energy and low localization errors, multiple regions of
+the brain were identified as active during visual                  The analysis revealed that optimized free energy
+stimulation.                                                    values correspond to low localization errors, with a
+                                                                group average of 4.1 mm. Individual subject errors
+   Fig. 20, shows the brain areas activated during              largely fell within the favourable range of 1–5 mm,
+visual stimulation, based on EEG source localization.           demonstrating the effectiveness of the method.
+The left panel displays a 3D cortical surface of the
+brain with highlighted regions (in yellow-red),                    Key active brain sources were consistently
+indicating active sources. The arrows point toward              localized in regions associated with visual and face
+regions of significant activation. The right panel is a         processing, including the right fusiform gyrus (BA
+2D projection showing the spatial distribution of               37), visual association cortex (BA 19), secondary
+                                                                visual cortex (BA 18), and inferior temporal gyrus
+© Mehran University of Engineering and Technology 2025                                                                11
+(BA 20). These regions were robustly engaged during             quality via optimal sensor placement in
+visual stimulation, contributing significantly to the           noisy environments," Signal Processing,
+recorded scalp voltages.                                        vol. 226, p. 109659, 2025.
+
+    This method holds strong potential for advancing     [4]    S. Asadzadeh, T. Y. Rezaii, S. Beheshti, A.
+non-invasive brain mapping and improving                        Delpak, and S. Meshgini, "A systematic
+applications in cognitive neuroscience and clinical             review of EEG source localization
+diagnostics. Further, the proposed approach can be              techniques and their applications on
+applied to the development of brain-computer                    diagnosis of brain abnormalities," Journal
+                                                                of neuroscience methods, vol. 339, p.
+interfaces (BCIs), neuro-feedback systems, and
+                                                                108740, 2020.
+intelligent human-machine interaction frameworks.
+Enhanced localization accuracy can significantly         [5]    P. Vanderhaeghen and F. Polleux,
+improve signal interpretation in real-time neural               "Developmental mechanisms underlying
+decoding systems, wearable neurotechnology, and                 the evolution of human cortical circuits,"
+assistive communication devices. MSP based EEG                  Nature Reviews Neuroscience, vol. 24, no.
+source localization improves the accuracy and                   4, pp. 213-232, 2023.
+interpretability of cortical mapping with potential
+                                                         [6]    Z. Feng, I. Kakkos, G. K. Matsopoulos, C.
+applications in brain computer interface and human
+                                                                Guan, and Y. Sun, "Explaining E/MEG
+machine interface and assistive systems. Additionally,
+                                                                Source Imaging and Beyond: An Updated
+this work can contribute to the design of neuroimaging          Review," IEEE Journal of Biomedical and
+tools and algorithms used in embedded systems for               Health Informatics, 2025.
+medical and rehabilitative applications.
+6. Future Research                                       [7]    U. Chaudhary, "Non-invasive Brain Signal
+                                                                Acquisition Techniques: Exploring EEG,
+    Multiple Sparse based EEG source localization is a          EOG, fNIRS, fMRI, MEG, and fUS," in
+powerful brain mapping techniques that identifies               Expanding Senses using Neurotechnology:
+precise neural activity sources, making it crucial for          Volume 1‒Foundation of Brain-Computer
+advancing brain computer interfaces for controlling             Interface Technology: Springer, 2025, pp.
+                                                                25-80.
+devices with computer accuracy, personalized targeted
+neuro therapies, and early disease detection through     [8]    F. Caiado and A. Ukolov, "The history,
+identifying abnormal brain activity sources. My future          current state and future possibilities of the
+research work would be on the said improving and                non-invasive brain computer interfaces,"
+integrating techniques.                                         Medicine in Novel Technology and
+                                                                Devices, p. 100353, 2025.
+7. Acknowledgment
+   This research used the OpenNeuro dataset              [9]    W. A. Wartman et al., "Fast EEG/MEG
+ds000117, originally collected at the MRC Cognition             BEM-based forward problem solution for
+and Brain Sciences Unit, University of Cambridge.               high-resolution      head        models,"
+                                                                NeuroImage, vol. 306, p. 120998, 2025.
+We thank Wakeman and Henson for providing this
+multimodal neuroimaging resource[45].                    [10]   O. L. Elvetun and N. Sudheer, "Weighted
+8. References                                                   sparsity regularization for solving the
+                                                                inverse EEG problem: A case study,"
+[1]     G. Baghdadi, F. Hadaeghi, and C.                        Biomedical Signal Processing and Control,
+        Kamarajan, "Multimodal approaches to                    vol. 107, p. 107673, 2025.
+        investigating neural dynamics in cognition
+        and related clinical conditions: integrating     [11]   M. A. Jatoi and N. Kamel, Brain source
+        EEG, MEG, and fMRI data," vol. 19, ed:                  localization using EEG signal analysis.
+        Frontiers Media SA, 2025, p. 1495018.                   CRC Press, 2017.
+
+[2]     M. Awais, N. Badruddin, and M. Drieberg,         [12]   L. Hecker, A. Giri, D. Pantazis, and A.
+        "A hybrid approach to detect driver                     Adler, "Flexible alternating projection for
+        drowsiness utilizing physiological signals              spatially     extended     brain     source
+        to improve system performance and                       localization," IEEE Transactions on
+        wearability," Sensors, vol. 17, no. 9, p.               Biomedical Engineering, 2025.
+        1991, 2017.
+                                                         [13]   M. A. Jatoi, N. Kamel, A. S. Malik, I. Faye,
+[3]     M. Sadeghi, B. Rivet, and M. Babaie-                    and T. Begum, "A survey of methods used
+        Zadeh, "Enhancing source separation                     for source localization using EEG signals,"
+© Mehran University of Engineering and Technology 2025                                                    12
+        Biomedical Signal Processing and Control,        [23]   M. Jiao, S. Yang, X. Xian, N. Fotedar, and
+        vol. 11, pp. 42-52, 2014.                               F. Liu, "Multi-modal electrophysiological
+                                                                source imaging with attention neural
+[14]    M. H. Soomro, N. Badruddin, M. Z.                       networks based on deep fusion of EEG and
+        Yusoff, and M. A. Jatoi, "Automatic eye-                MEG," IEEE Transactions on Neural
+        blink artifact removal method based on                  Systems and Rehabilitation Engineering,
+        EMD-CCA,"        in  Complex     Medical                2024.
+        Engineering     (CME),    2013     ICME
+        International Conference on, 2013: IEEE,         [24]   M. A. Jatoi, N. Kamel, A. S. Malik, I. Faye,
+        pp. 186-190.                                            J. M. Bornot, and T. Begum, "EEG‐based
+                                                                brain source localization using visual
+[15]    M. Soufineyestani, D. Dowling, and A.                   stimuli," International Journal of Imaging
+        Khan, "Electroencephalography (EEG)                     Systems and Technology, vol. 26, no. 1, pp.
+        technology applications and available                   55-64, 2016.
+        devices," Applied Sciences, vol. 10, no. 21,
+        p. 7453, 2020.                                   [25]   F. L. Da Silva, "EEG: origin and
+                                                                measurement,"         in       EEG-fMRI:
+[16]    A. Giri, L. Hecker, J. C. Mosher, A. Adler,             physiological basis, technique, and
+        and D. Pantazis, "Localization of Realistic             applications: Springer, 2023, pp. 23-48.
+        Spatial Patches of Complex Source
+        Activity in MEG," bioRxiv, p. 2025.06.           [26]   G. Marrazzo, F. De Martino, A.
+        04.657819, 2025.                                        Mukovskiy, M. A. Giese, and B. de Gelder,
+                                                                "Neural encoding of biomechanically (im)
+[17]    S. Wang, C. Wei, K. Lou, D. Gu, and Q.                  possible    human      movements       in
+        Liu, "Advancing eeg/meg source imaging                  occipitotemporal cortex," bioRxiv, p.
+        with geometric-informed basis functions,"               2025.01. 07.631720, 2025.
+        in 2024 46th Annual International
+        Conference of the IEEE Engineering in            [27]   J. D. López, J. J. Espinosa, and G. R.
+        Medicine and Biology Society (EMBC),                    Barnes, "Random location of multiple
+        2024: IEEE, pp. 1-4.                                    sparse priors for solving the MEG/EEG
+                                                                inverse problem," in 2012 Annual
+[18]    T. Mannepalli and A. Routray, "Sparse                   International Conference of the IEEE
+        algorithms for EEG source localization,"                Engineering in Medicine and Biology
+        Medical & Biological Engineering &                      Society, 2012: IEEE, pp. 1534-1537.
+        Computing, vol. 59, no. 11, pp. 2325-2352,
+        2021.                                            [28]   K. Liu et al., "Vssi-ggd: A variation sparse
+                                                                eeg source imaging approach based on
+[19]    C. Wei, K. Lou, Z. Wang, M. Zhao, D.                    generalized gaussian distribution," IEEE
+        Mantini, and Q. Liu, "Edge sparse basis                 Transactions on Neural Systems and
+        network: a deep learning framework for                  Rehabilitation Engineering, vol. 32, pp.
+        EEG source localization," in 2021                       1524-1534, 2024.
+        International Joint Conference on Neural
+        Networks (IJCNN), 2021: IEEE, pp. 1-8.           [29]   K. Friston, J. Kilner, and L. Harrison, "A
+                                                                free energy principle for the brain," Journal
+[20]    M. Awais, N. Badruddin, and M. Drieberg,                of physiology-Paris, vol. 100, no. 1-3, pp.
+        "Driver drowsiness detection using EEG                  70-87, 2006.
+        power spectrum analysis," in 2014 IEEE
+        Region 10 symposium, 2014: IEEE, pp.             [30]   K. Friston, "The free-energy principle: a
+        244-247.                                                unified brain theory?," Nature reviews
+                                                                neuroscience, vol. 11, no. 2, pp. 127-138,
+[21]    M. A. Jatoi and N. Kamel, "Brain source                 2010.
+        localization using reduced EEG sensors,"
+        Signal, Image and video processing, vol.         [31]   K. Friston et al., "Multiple sparse priors for
+        12, no. 8, pp. 1447-1454, 2018.                         the M/EEG inverse problem," NeuroImage,
+                                                                vol. 39, no. 3, pp. 1104-1120, 2008.
+[22]    M. A. Jatoi, F. A. Dharejo, and S. H.
+        Teevino, "Comparison of machine learning         [32]   G. Flandin and K. J. Friston, "Analysis of
+        techniques based brain source localization              family‐wise error rates in statistical
+        using EEG signals," Current Medical                     parametric mapping using random field
+        Imaging, vol. 17, no. 1, pp. 64-72, 2021.               theory," Human brain mapping, 2016.
+
+
+
+© Mehran University of Engineering and Technology 2025                                                     13
+[33]    N. An et al., "Imaging somatosensory                    Journal of neuroscience methods, vol. 274,
+        cortex responses measured by OPM-MEG:                   pp. 94-105, 2016.
+        Variational free energy-based spatial
+        smoothing estimation approach," Iscience,        [43]   S. M. M. Basri, H. Al-Nashash, and H. Mir,
+        vol. 25, no. 2, p. 103752, 2022.                        "Inverse problem for M/EEG source
+                                                                localization: a review," IEEE Sensors
+[34]    K. Friston, J. Mattout, N. Trujillo-Barreto,            Journal, 2024.
+        J. Ashburner, and W. Penny, "Variational
+        free     energy     and     the     Laplace      [44]   G. Flandin and K. J. Friston, "Statistical
+        approximation," Neuroimage, vol. 34, no.                parametric        mapping          (SPM),"
+        1, pp. 220-234, 2007.                                   Scholarpedia, vol. 3, no. 4, 2008.
+
+[35]    M. A. Jatoi, N. Kamel, and J. D. López,          [45]   D. G. Wakeman and R. N. Henson, "A
+        "Multiple sparse priors technique with                  Parametric Empirical Bayesian Framework
+        optimized patches for brain source                      for the EEG/MEG Inverse Problem:
+        localization," International Journal of                 Generative Models for Multi-Subject and
+        Imaging Systems and Technology, vol. 30,                Multi-Modal Integration," Scientific Data,
+        no. 1, pp. 154-167, 2020.                               vol. 2, p. 150001, 2011.
+
+[36]    J. D. López Hincapié, G. R. Barnes, and J.
+        J. Espinosa, "Single meg/eeg source
+        reconstruction with multiple sparse priors
+        and variable patches," Dyna, 2012.
+
+[37]    J. D. López, V. Litvak, J. J. Espinosa, K.
+        Friston, and G. R. Barnes, "Algorithmic
+        procedures for Bayesian MEG/EEG source
+        reconstruction in SPM," NeuroImage, vol.
+        84, pp. 476-487, 2014.
+
+[38]    M. A. Jatoi, N. Kamel, A. S. Malik, I. Faye,
+        and T. Begum, "Representing EEG source
+        localization using finite element method,"
+        in Control System, Computing and
+        Engineering (ICCSCE), 2013 IEEE
+        International Conference on, 2013: IEEE,
+        pp. 168-172.
+
+[39]    B. Gohel and M. Khare, "EEG/MEG source
+        imaging in the absence of subject's brain
+        MRI scan: Perspective on co‐registration
+        and MRI selection approach," International
+        Journal of Imaging Systems and
+        Technology, vol. 33, no. 1, pp. 287-298,
+        2023.
+
+[40]    V. P. Oikonomou and I. Kompatsiaris, "A
+        novel bayesian approach for eeg source
+        localization," Computational Intelligence
+        and Neuroscience, vol. 2020, 2020.
+
+[41]    U. Chaudhary, "Preprocessing Techniques
+        for Brain Signal Data: Noise Reduction and
+        Artifact Removal Methods," in Expanding
+        Senses using Neurotechnology: Volume 1‒
+        Foundation of Brain-Computer Interface
+        Technology: Springer, 2025, pp. 119-178.
+
+[42]    A. L. Rincon and S. Shimoda, "The inverse
+        problem in electroencephalography using
+        the bidomain model of electrical activity,"
+
+
+© Mehran University of Engineering and Technology 2025                                                  14
+

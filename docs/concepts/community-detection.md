@@ -7,6 +7,7 @@ sources:
 - raw/papers/arxiv-2603.29903.md
 - raw/papers/power-2011.md
 - raw/papers/semanticscholar-ebab0fdee30d.md
+- raw/papers/anticevic-2012.md
 tags:
 - connectomics
 - network-dynamics
@@ -15,7 +16,7 @@ tags:
 - functional-connectivity
 title: Community Detection
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 Community detection is a network analysis technique used to identify groups of densely interconnected nodes within a larger network structure. In the context of [[whole-brain|whole-brain modeling]] and [[connectomics]], community detection algorithms are applied to brain networks—derived from [[structural-connectivity|structural connectivity]] via [[diffusion-imaging|diffusion tensor imaging]] or from [[functional-connectivity|functional connectivity]] via [[resting-state|resting-state fMRI]]—to reveal the modular organization of the brain. The resulting communities often correspond to known functional brain systems, such as the [[default-mode-network|default mode network]], somatomotor networks, and visual processing pathways, providing a principled decomposition of brain architecture into anatomically and functionally coherent subunits (Sporns et al., 2013; Bullmore & Bassett, 2011).

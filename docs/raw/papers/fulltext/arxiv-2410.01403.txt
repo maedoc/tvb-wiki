@@ -1,0 +1,399 @@
+                                                          Detection and suppression of epileptiform seizures
+                                                     via model-free control and derivatives in a noisy environment
+                                                              Cédric Join1,6 , D. Blair Jovellar2,3 , Emmanuel Delaleau4 and Michel Fliess5,6
+
+
+                                             Abstract— Recent advances in control theory yield closed-                  1) A closed-loop seizure suppression is proposed. It is
+                                          loop neurostimulations for suppressing epileptiform seizures.                    based on an intelligent regulator derived from model-
+                                          These advances are illustrated by computer experiments which                     free control (MFC) [11], [12]. This setting has already
+                                          are easy to implement and to tune. The feedback synthesis
+                                          is provided by an intelligent proportional-derivative (iPD)                      led to many concrete applications (see, e.g., references
+                                                                                                                           in [11], [12]). Let us emphasize here a most recent
+arXiv:2410.01403v1 [eess.SY] 2 Oct 2024
+
+
+
+
+                                          regulator associated to model-free control. This approach has
+                                          already been successfully exploited in many concrete situations                  comparison [13] with other popular types of control
+                                          in engineering, since no precise computational modeling is                       synthesis in some specific questions arising in intelli-
+                                          needed. iPDs permit tracking a large variety of signals in-                      gent transportation systems, where the superiority of
+                                          cluding high-amplitude epileptic activity. Those unpredictable
+                                          pathological brain oscillations should be detected in order to                   MFC is asserted. See below some of its main features:
+                                          avoid continuous stimulation, which might induce detrimental                       • MFC does not necessitate any mathematical mod-
+                                          side effects. This is achieved by introducing a data mining                          eling, and therefore neither delicate parameter
+                                          method based on the maxima of the recorded signals. The
+                                          real-time derivative estimation in a particularly noisy epilepti-
+                                                                                                                               identification procedures.
+                                          form environment is made possible due to a newly developed                         • It is much easier to tune than proportional-integral-
+                                          algebraic differentiator. The virtual patient is the Wendling                        derivative (PID) controllers which are the most
+                                          model, i.e., a set of ordinary differential equations adapted                        popular industrial feedback loops (see, e.g., [14]).
+                                          from the Jansen-Rit neural mass model in order to generate                         • It has already been successfully illustrated in
+                                          epileptiform activity via appropriate values of excitation- and
+                                                                                                                               biomedicine and bioengineering [15], [16], [17],
+                                          inhibition-related parameters. Several simulations, which lead
+                                          to a large variety of possible scenarios, are discussed. They                        [18], [19].
+                                          show the robustness of our control synthesis with respect to                     Following [12], the use of an intelligent proportional-
+                                          different virtual patients and external disturbances.                            derivative controller, or iPD, seems more adapted to
+                                             Index Terms— Epileptiform seizures, neurostimulation,
+                                          seizure detection, seizure suppression, model-free control,                      regulate, via electric stimulations, a large variety of
+                                          intelligent proportional-derivative controller, noise removal,                   high-amplitude epileptic activity.
+                                          algebraic differentiator, data mining.                                        2) Those aberrant burst events recur unpredictability and
+                                                                                                                           often are separated by long interictal time lapses. A
+                                                                   I. I NTRODUCTION                                        continuous stimulation like above might therefore in-
+                                             The complexity of brain explains why the closed-loop,                         duce detrimental side effects [20]. A real-time seizure
+                                          or feedback, setting, which is a key concept in control                          detection is thus necessary for triggering the above
+                                          theory, is so underdeveloped in computational neuroscience                       feedback. Frequency-domain techniques are today a
+                                          as analyzed in several recent publications (see, e.g., [1], [2],                 crucial ingredient in most publications on this subject
+                                          [3], [4], [5]), in spite of some preliminary attempts (see, e.g.,                (see, e.g., [21], [22], [23], [24], [25], and references
+                                          [6]). This is confirmed [7] by the secondary role of brain                       therein). We follow here another quite recent route
+                                          research in systems biology, a discipline that focuses on the                    using algebraic manipulations in the time-domain (see
+                                          connections between biology and control systems (see, e.g.,                      [26], [27], [28], for the theoretical background and
+                                          [8], [9]).                                                                       the presentation of successful applications), and more
+                                             This communication reports some preliminary computer                          specifically, here, via a new data mining viewpoint [29]
+                                          experiments on epilepsy, an important neurological disorder,                     where the maxima of the recorded signal are deter-
+                                          also known as a seizure disorder [10]:                                           mined. Let us summarize this approach:
+                                                                                                                             • Maxima in a seizure are large and close to each
+                                            1 CRAN (CNRS, UMR 7039)), Université de Lorraine, BP 239, 54506
+                                                                                                                               other.
+                                          Vandœuvre-lès-Nancy, France. @: cedric.join@univ-lorraine.fr
+                                             2 Department of Neurology & Stroke, University of Tübingen, Tübingen,         • Using derivatives for seizure detection, which in-
+                                          Germany. @: desiree-blair.jovellar@uni-tuebingen.de                                  volves a noisy environment, is a known challenge
+                                             3 Hertie-Institute for Clinical Brain Research, University of Tübingen,
+                                                                                                                               in engineering.
+                                          Tübingen, Germany.
+                                             4 ENI Brest, IRDL (CNRS, UMR 6027), 29200 Brest, France. @:                     • Our algebraic differentiator, which is borrowed
+                                          delaleau@enib.fr                                                                     from [30] (see, also, [31]), does not necessitate
+                                             5 LIX (CNRS, UMR 7161), École polytechnique, 91128 Palaiseau,
+                                                                                                                               any probabilistic and/or statistical assumption on
+                                          France. @: Michel.Fliess@polytechnique.edu, michel.fliess@swissknife.tech            the noise corruption.
+                                             6 AL.I.E.N., 7 rue Maurice Barrès, 54330 Vézelise, France. @:
+                                          {cedric.join, michel.fliess}@alien-sas.com                                    3) The virtual patient, i.e., the epileptiform signal, is
+       provided by Wendling’s neural mass model [32]. This          functions. The summation ym = y1 − y2 − y3 represents the
+       computational model, which is now recognized as an           incoming firing rate to the population of pyramidal cells.
+       efficient approach to get insights into this disease, is
+       deduced from the well-known Jansen-Rit set of ordi-                           III. S EIZURE DETECTION
+       nary differential equations [33] (see also [34], [35]).      A. Differentiation in a noisy environment
+       The stimulators location mimics [36], [37]. Modifying
+       the many parameters of Wendling’s model makes it                Here we will present a simplified version, borrowed
+       easy to verify the inherent robustness of our model-         from [26]. Consider the polynomial function p1 (t) = a0 +a1t,
+       free control.                                                t ⩾ 0, a0 , a1 ∈ R. Classic operational calculus (see, e.g.,
+                                                                    [40]), or Laplace transform, yields P1 = as0 + as21 . Multiply
+   Our paper is organized as follows. After a short presenta-
+tion in Sect. II of Wendling’s model where some stimulators         both sides by s2 :
+are added, Sect. III summarizes the derivatives estimation in                             s2 P1 = a0 s + a1                    (2)
+a noisy environment and proposes a seizure detection algo-
+                                                                    Deriving both sides with respect to s, which corresponds in
+rithm, which is illustrated by computer experiments. After a
+                                                                    the time domain to the multiplication by −t, yields a0 :
+review of some basic aspects of model-free control, Sect. IV
+is discussing several scenarios on seizure suppression. See                                          dP1
+                                                                                           a0 = s2       + 2sP1                 (3)
+Sect. V for short concluding remarks.                                                                ds
+                          II. M ODEL                                Then a1 is given by Eqn. (2)
+   The following modification of Wendling’s model [32],                                              dP1
+which is due to [36], [37], is obtained by adding stimulation                           a1 = −s3         − s2 P1                (4)
+                                                                                                     ds
+(see [38] for a slightly different choice):
+                                                                   In order to get rid of the positive powers of s, which
+      
+       ÿ0 = AaS(u + y1 − y2 − y3 ) − 2aẏ0 − a2 y0                corresponds in the time domain to derivatives w.r.t. time,
+                                                                    multiply both sides of Eqn. (3) (resp. (4)) by s−n , where the
+      
+                                                   2
+      ÿ1 = Aa (p +C2 S(u +C1 y0 )) − 2aẏ1 − a y1
+      
+      
+      
+        ÿ2 = BbC4 S(u +C3 y0 ) − 2bẏ2 − b2 y2           (1)       integer n > 0 is large enough. It yields in the time domain:
+      
+      ÿ3 = GgC7 S(u +C5 y0 − y4 ) − 2gẏ3 − g2 y3
+                                                                              dp1        6
+                                                                                                Z T
+                                                                                   = a1 = 3           (−T + 2τ) p1 (τ)dτ
+      
+      
+      ÿ = BbC S(u +C y ) − 2bẏ − b2 y
+      
+                                                                                dt       T       0
+          4        6         3 0       4      4
+
+where                                                               where T > 0 is the window size used for the estimation. The
+  • A, a, B, b, G, g,C1 , . . . ,C7 are positive constants;         integral, which is mitigating the corrupting noise in the sense
+  • A, B and G represent the amplitude of average excitatory        of [41], may be in practice replaced by a digital filter. The
+    (EPSP), slow and fast inhibitory (IPSP) postsynaptic            extension to polynomials of arbitrary degree is obvious and,
+    potentials, respectively.                                       therefore, also to truncated Taylor expansions. Details and
+  • The variables y0 , y1 , y2 , y3 , y4 represent the post-        references on the computer implementations may be found
+    synaptic potentials of pyramidal cells, excitatory feed-        in [31], as well as references to many concrete applications.
+    back, and both slow and fast inhibitory interneurons,
+    respectively.                                                   B. Seizure detection
+  • p(t) is an external perturbation corresponding to exci-            A seizure may be characterized by a short time lapse
+    tatory inputs from neighboring areas. There are various         between two large maxima. Those maxima correspond to
+    representations in the existing literature: white Gaussian      zero crossings of the derivative.
+    noise, constant value, sum of them. . .                            An academic illustration: Take the chirp, i.e., a frequency
+  • The electrical stimulation u(t) is the control variable.        modulated signal, which is familiar in radar engineering (see,
+    This follows the assumption that the stimulation gener-         e.g., [42]),
+    ates an electric field with a direct de- or hyperpolizing
+    linear effect onto the mean membrane potential of the                     y(t) = sin(2πt 2 ) + 5,              0⩽t ⩽5
+    neuronal subsets [39].                                          It is corrupted by an additive white Gaussian noise (mean:
+  • The sigmoid function S(□) reads
+                                                                    0, standard deviation: 0.1). Fig. 2 exhibits excellent results.
+                            vmax             r        
+                                                                       Fig. 3-(a) displays a signal produced by Wendling’s
+                 S(□) =             1 + tanh (□ − v0 )
+                                2             2                     model [32], i.e., without stimulation, i.e., u(t) = 0, in
+                                     vmax
+                        =                                           Eqn. (1). Its right part shows a seizure, which ought to be
+                            1 + exp(r(v0 − □))
+                                                                    detected in order to avoid any stimulation when there is
+    where vmax is the maximum firing rate, v0 is the average        no crisis [20]. The derivative of the recorded signal ym (t)
+    membrane potential acting as a firing threshold, vmax is        is reported in Fig. 3-(b). See Fig. 3-(c) for the time lapse
+    the maximum firing rate, and r > 0 is a constant.               between consecutive maxima. The choice of an adequate
+See Fig. 1 for a block diagram description of (1), where            threshold [29] for this time lapse yields the detection of the
+          Aa                     Bb              Gg
+Ha = s2 +2as+a 2 , Hb = s2 +2bs+b2 , Hg = s2 +2gs+g2 are transfer   seizure.
+                                                                                        Fig. 1.                   Model scheme: block diagrams
+
+
+                                                                                        100                                                                           0.7
+
+                                                                                         80
+                                                                                                                                                                      0.6
+                                                                                         60
+                              6.5
+                                                                                         40                                                                           0.5
+                               6
+                                                                                         20
+                                                                                                                                                                      0.4
+                              5.5                                                         0
+                                                                                                                                                                      0.3
+                                                                                         -20
+                               5
+
+                                                                                         -40                                                                          0.2
+                              4.5
+                                                                                         -60
+                                                                                                                                                                      0.1
+                               4                                                         -80
+
+                                                                                        -100                                                                           0
+                              3.5
+                                    0       1    2              3       4       5              0              1         2              3            4         5             0              1       2              3            4       5
+                                                     Time (s)                                                               Time (s)                                                                   Time (s)
+
+
+                                                (a) ym                              (b) Estimation of ẏm , zero crossing                                             (c) Time between two maxima
+                                                                                               thresholds (- -) and (. -)
+
+                                                                                        Fig. 2.                   Radar signal: Seizure detection
+
+
+                     30                                                                            1000                                                                         0.45
+
+                     25                                                                            800                                                                           0.4
+
+                     20                                                                                                                                                         0.35
+                                                                                                   600
+                     15                                                                                                                                                          0.3
+                                                                                                   400
+                     10                                                                                                                                                         0.25
+                                                                                                   200
+                     5                                                                                                                                                           0.2
+                                                                                                     0
+                     0                                                                                                                                                          0.15
+                                                                                                   -200
+                     -5                                                                                                                                                          0.1
+
+                    -10                                                                            -400                                                                         0.05
+
+                    -15                                                                            -600                                                                           0
+                          0             1        2                  3       4       5                     0         1            2              3         4       5                    0       1            2              3       4       5
+                                                     Time (s)                                                                        Time (s)                                                                   Time (s)
+
+
+                                                (a) ym                                    (b) Estimation of ẏm , zero crossing (c) Time between two maxima (–)
+                                                                                                          thresholds (- -) and (. -)                                               and detection threshold (- -)
+
+                                                                                               Fig. 3.             Epilepsy: Seizure detection
+
+
+
+               IV. C LOSED - LOOP CONTROL                                                                                                                 Eqn. (5) are of the same magnitude. Therefore α does
+A. The ultra-local model                                                                                                                                  not need to be precisely determined.
+                                                                                                                                                        • The data-driven quantity F, which subsumes not only
+  Consider, following [12], the ultra-local model of order 2
+                                                                                                                                                          the poorly known system structure but also any external
+                      ÿ(t) = F(t) + αu(t)                                                                                  (5)                           perturbation, may be estimated via the measurements of
+  •   α ∈ R, α ̸= 0, is a constant such that the three terms in                                                                                           u and y.
+Introduce the intelligent proportional-derivative controller,               2) Scenarios 1 and 2: Assume that y1 (t) is available. Set
+or iPD,                                                                  y(t) = y1 (t) in Eqn. (5), where α = 104 .1 Set KP = 100,
+                                                                         KD = 20 in Eqn. (6).
+                        Fest (t) − ÿ⋆ (t) + KP e(t) + KD ė(t)
+           u(t) = −                                                (6)      In Scenario 1 (Fig. 4) a constant reference is perfectly
+                                            α                            tracked (Fig. 4-(b)) with very reasonable values of the
+where                                                                    stimulation: 0 ⩽ u(t) ⩽ 15 (Fig. 4-(c)). It is quite obvious
+  • Fest (t) is an estimate of F (see Eqn. (7));                         to check that the very nature of the sigmoid function in
+  • y⋆ (t) is a reference trajectory, and e(t) = y(t) − y⋆ (t) is        Eqn. (1) prevents to track references of arbitrary magnitude.
+    the tracking error;                                                  In Scenario 2 (Fig. 5) the reference trajectory is reproducing
+  • KP , KD ∈ R are tuning gains.                                        a crisis-free recording (Fig. 5-(b)). The tracking is again
+                                                                         excellent.
+Eqn. (5) and (6) yield ë(t) +KD ė(t) +KP e(t) = F(t)−Fest (t).
+Select KP , KD such that the real parts of the roots of the                 3) Scenario 3 – Several virtual patients: Set in Scenario
+polynomial s2 + KD s + KP are strictly negative. It ensures              3 (Figs. 6, 7, 8) y(t) = ym (t), α = −105 in Eqn. (5), and
+that limt→+∞ e(t) ≈ 0 if the estimate Fest is “good” i.e.,               KP = 400, KD = 40 in Eqn. (6). The following numerical
+F(t) − Fest (t) ≈ 0. Thus local stability around the reference           variations on Cι , ι = 1, . . . , 7 correspond to different virtual
+trajectory is trivially ensured via this feedback loop. The              patients. Take 0.9 ×Cι (resp. 1.1 ×Cι ), ι = 1, . . . , 7. Results
+following estimate of F in Eqn. (5) is borrowed from [12]:               are reported in Fig. 6 (resp. Fig. 7). See Fig. 8 for the results
+                                                                         with the nominal values of Cι . Tracking is excellent in all
+                  60
+                       Z τ
+                                                                         three cases.
+        Fest (t) = 5         (τ 2 + 6σ 2 − 6τσ )y(t − τ + σ )dσ
+                  τ      0
+                                                                   (7)      4) Scenario 4 – Measurement noise: Again y(t) = ym (t),
+                  30α                                                    α = −105 in Eqn. (5), and KP = 400, KD = 40 in Eqn. (8). In
+                              Z τ
+                                              2   2
+                 − 5                (τ − σ ) σ u(t − τ + σ )dσ
+                   τ           0                                         Scenario 4 (Fig. 9) an additive white Gaussian noise has been
+  • It is a real-time estimate: τ > 0 is “small.”                        added as a measurement noise (mean: 0, standard deviation:
+  • It is indeed data-driven: the numerical value of Fest                0.5). Performances deteriorate only slightly with a chattering
+    results from the knowledge of the control and output                 control variable.
+    variables u and y.
+                                                                                                    V. C ONCLUSION
+  • It is a “low pass filter” thanks to the integrals in
+    Formula (7): noise in the sense of [41] are removed.                    Our communication suggests that some recent control
+   1) Riachy’s trick: It permits [12] to avoid the calculation           techniques, which were already most useful in industry,
+of the derivative ė in Eqn. (6). Rewrite (5) as ÿ(t) + KD ẏ(t) =      might also be helpful for implementing closed-loop neu-
+F(t) + KD ẏ(t) + αu(t). Set                                             rostimulations for curing epileptiform seizures. Even if our
+                                     Z t                                 results seem, to the best of our knowledge, to surpass
+           Y (t) = y(t) + KD               y(σ )dσ ,   0⩽c<t             the existing literature, there is still a lot of work to be
+                                      c                                  done to go beyond virtual patients. Future publications will
+                                                                         soon examine other topics in neuroscience, like Parkinson’s
+It yields Ÿ (t) = ÿ(t) + KD ẏ(t). Set F (t) = F(t) + KD ẏ(t).
+                                                                         disease and brain plasticity.
+Eqn. (5) becomes Ÿ (t) = F (t) + αu(t). Eqn. (6) reads now
+                       Fest (t) − ÿ⋆ (t) + KP e(t) + KD ẏ⋆ (t)                                      R EFERENCES
+          u(t) = −                                                 (8)
+                                           α                              [1] J.W. Antony, H.-V.V. Ngo, T.O., Bergmann, B. Rasch, “Real-time,
+where the derivative of y and, therefore, e disappears. The                   closed-loop, or open-loop stimulation? Navigating a terminological
+                                                                              jungle,” J. Sleep Res., 31, 2022, e13755.
+estimate Fest in Eqn. (8) may be computed via Formula (7)                 [2] S. Martı́nez, D. Garcı́a-Violini, M. Belluscio, J. Piriz, R. Sánchez-
+by replacing y by Y .                                                         Peña, “Dynamical models in neuroscience from a closed-loop control
+                                                                              perspective,” IEEE Rev. Biomed. Engin., 16, 2023, 706-721.
+                                                                          [3] S. Marceglia, M. Guidetti, I.E. Harmsen, A. Loh, S. Meoni, G.
+B. Computer simulations                                                       Foffani, A.M. Lozano, J. Volkmann, E. Moro, A. “Priori, Deep brain
+                                                                              stimulation: is it time to change gears by closing the loop?,” J. Neural
+   1) Presentation: The numerical values of the parameters                    Engin., 18, 2021, 061001.
+in Eqn. (1) are taken from [36], [37]: C1 = 135, C2 = 0.8C1 ,             [4] J. Rösch, D.E. Vetter, A. Baldassarre, V.H. Souza, P. Lioumis, T.
+C3 = 0.25C1 , C4 = 0.25C1 , C7 = C2 , C5 = 0.3C1 , C6 = 0.1C1 ,               Roine, A. Jooß, D. Baur, G. Kozák, D.B. Jovellar, S. Vaalto, G.L.
+A = 3.25, B = 22, G = 20, a = 100, b = 30, g = 350.                           Romani, R.J. Ilmoniemi, U. Ziemann, “Individualized treatment of
+                                                                              motor stroke: A perspective on open-loop, closed-loop and adaptive
+Following again [36], [37], set                                               closed-loop brain state-dependent TMS,” Clinic. Neurophysio., 158,
+                                                                              2024, 204-211.
+  •   p = 200, 0 ⩽ t ⩽ 2s, for a regular behavior;
+                                                                          [5] C. Zrenner, U. Ziemann, “Closed-loop brain stimulation,” Biolog.
+  •   p = 800, t > 2s, for an abnormal behavior.                              Psych., 95, 2024, 545-552.
+Moreover, p is corrupted by an additive white Gaussian noise
+                                                                            1 This numerical value might seem huge to readers which are used to this
+(mean: 0, standard deviation: 10).
+                                                                         model-free approach. It is easily explained here by looking at the second
+  The stimulation begins when the anomaly is detected.                   line of Eqn. (1) and computing the product AaC2 in front of the sigmoid
+Several scenarios are now presented.                                     function.
+                                  (a) States                (b) y1 (red —) and y⋆ (blue - -)             (c) Control input u
+                                                          Fig. 4.   Closed loop result: Scenario 1
+
+
+
+
+                                  (a) States                (b) y1 (red —) and y⋆ (blue - -)             (c) Control input u
+                                                          Fig. 5.   Closed loop result: Scenario 2
+
+
+
+
+                                  (a) States                (b) ym (red —) and y⋆ (blue - -)             (c) Control input u
+                                                         Fig. 6.    Closed loop result: Scenario 3a
+
+
+
+
+                                  (a) States                (b) ym (red —) and y⋆ (blue - -)             (c) Control input u
+                                                         Fig. 7.    Closed loop result: Scenario 3b
+
+
+
+ [6] H. Kassiri, S. Tonekaboni, M.T. Salam, N. Soltani, K. Abdelhalim,                Hesdorffer, B.I. Lee, G.W. Mathern, S.L. Moshé, E. Perucca, I.E.
+     J.L.P. Velazquez, R. Genov, “Closed-loop neurostimulators: A survey              Scheffer, T. Tomson, M. Watanabe, S. Wiebe, “A practical clinical
+     and a seizure-predicting design example for intractable epilepsy treat-          definition of epilepsy,” Epilepsia, 55, 2014, 475-482.
+     ment,” IEEE Trans. Biomed. Circ. Syst., 11, 2017, 1026-1040.                [11] M. Fliess, C. Join, “Model-free control,” Int. J. Contr., 86, 2013, 2228-
+ [7] E. De Schutter, “Why are computational neuroscience and systems                  2252.
+     biology so separate?,” Plos Comput. Biol., 4, 2008, e1000078.               [12] M. Fliess, C. Join, “An alternative to proportional-integral and
+ [8] U. Alon, An Introduction to Systems Biology (2nd ed.), CRC Press,                proportional-integral-derivative regulators: Intelligent proportional-
+     2020.                                                                            derivative regulators,” Int. J. Robust Nonlin. Contr., 32, 2022, 9512-
+ [9] D. Del Vecchio, R. Murray, Biomolecular Feedback Systems, Princeton              9524.
+     University Press, 2015.                                                     [13] A. Artuñedo, M. Moreno-Gonzalez, J. Villagra, “Lateral control for
+[10] R.S. Fisher, C. Acevedo, A. Arzimanoglou, A. Bogacz, J.H. Cross,                 autonomous vehicles: A comparative evaluation,” Annual Rev. Contr.,
+     C.E. Elger, J. Engel Jr, L. Forsgren, J.A. French, M. Glynn, D.C.                57, 2024, 100910.
+                                  (a) States                 (b) ym (red —) and y⋆ (blue - -)            (c) Control input u
+                                                          Fig. 8.   Closed loop result: Scenario 3c
+
+
+
+
+                                  (a) States                 (b) ym (red —) and y⋆ (blue - -)            (c) Control input u
+                                                          Fig. 9.   Closed loop result: Scenario 4
+
+
+
+[14] K.J. Åström, R.M. Murray, Feedback Systems: An Introduction for           [28] M. Fliess, H. Sira-Ramı́rez, “An algebraic framework for linear
+     Scientists and Engineers (2nd ed.), Princeton University Press, 2021.            identification,” ESAIM COCV, 9, 2003, 151-168.
+[15] O. Bara, M. Fliess, C. Join, J. Day, S.M. Djouadi, “Toward a model-         [29] M. Fliess, C. Join, “Fouille de données et segmentation de
+     free feedback control synthesis for treating acute inflammation,” J.             chroniques par extrema: considérations préliminaires,” 13e Conf.
+     Theor. Biol., 448, 2018, 26-37.                                                  Francoph. Modélis. Optim. Simu. (MOSIM’20), Agadir, 2020.
+[16] D. He, H. Wang, Y. Tian, N. Christov, I. Simeonov, “Trajectory                   arXiv:2009.09895
+     tracking of two-stage anaerobic digestion process: A predictive control     [30] M. Mboup, C. Join, M. Fliess, “Numerical differentiation with anni-
+     with guaranteed performance and saturated input, based on ultra-local            hilators in noisy environment,” Numer. Algo., 50, 2009, 439-467.
+     model,” J. Process Contr., 129, 2023, 103039.                               [31] A. Othmane, L. Kiltz, J. Rudolph, “Survey on algebraic numerical
+[17] E. Manzoni, M. Rampazzo, “Automatic regulation of anesthesia via                 differentiation: historical developments, parametrization, examples,
+     ultra-local model control,” IFAC PapersOnLine, 54-15, 2021, 49-54.               and applications,” Int. J. Syst. Sci., 53, 2022, 1848-1887.
+[18] T. MohammadRidha, M. Aı̈t-Ahmed, L. Chailloux, M. Krempf, I.                [32] F. Wendling, F. Bartolomei, J.J. Bellanger, P. Chauvet, “Epileptic fast
+     Guilhem, J.-Y. Poirier, C.-H. Moog, “Model free iPID control for                 activity can be explained by a model of impaired GABAergic dendritic
+     glycemia regulation of type-1 diabetes,” IEEE Trans. Biomed. Engin.,             inhibition,” Eur. J. Neurosci., 15, 2002, 1499-1508.
+     65, 2018, 199-206.                                                          [33] B.H. Jansen, V.G. Rit, “Electroencephalogram and visual evoked
+[19] C.T. Truong, K.H. Huynh, V.T. Duong, H.H. Nguyen, L.A. Pham, T.T.                potential generation in a mathematical model of coupled cortical
+     Nguyen, “Model-free volume and pressure cycled control of automatic              columns,” Bio. Cybern., 73, 1995, 357-366.
+     bag valve mask ventilator,” AIMS Bioengin., 8, 2021, 192-207.               [34] L.A. Ferrat, M. Goodfellow, J.R. Terry, “Classifying dynamic tran-
+[20] A. Berényi, M. Belluscio, D. Mao, G. Buzsáki, “Closed-loop control             sitions in high dimensional neural mass models: A random forest
+     of epilepsy by transcranial electrical stimulation,” Science, 337, 2012,         approach,” PLoS Comput. Biol., 14, 2018, e1006009.
+     735-737.                                                                    [35] F. Wendling, P. Benquet, F. Bartolomei, V. Jirsa, “Computational
+[21] M.K. Siddiqui, R. Morales-Menendez, X. Huang, N. Hussain, “A re-                 models of epileptiform activity,” J. Neurosci. Meth., 260, 2016, 233-
+     view of epileptic seizure detection using machine learning classifiers,”         251.
+     Brain Informat., 7, 2020, 5.                                                [36] M. Arrais, Stimulation cérébrale multisites: Modèles dynamiques et
+[22] L.S Vidyaratne, K.M. Iftekharuddin, “Real-Time epileptic seizure                 application aux crises d’épilepsie (in English). Thèse, Université de
+     detection using EEG,” IEEE Trans. Neural Syst. Rehabilit. Engin.,                Rennes, 2020.
+     25, 2017, 2146-2156                                                         [37] M. Arrais, F. Wendling, J. Modolo, “Identification of effective stimu-
+[23] G. Wu, K. Yu, H. Zhou, X. Wu, S. Su, “Time-series anomaly detection              lation parameter to abort seizures in a neural mass model,” 41st Int.
+     based on dynamic temporal graph convolutional network for epilepsy               Conf. IEEE Engin. Med. Biol. Soc., Berlin, 2019, pp. 5208-5211.
+     diagnosis,” Bioengin., 11, 2024, 53.                                        [38] M. Arrais, J. Madolo, D. Mogul, F. Wendling, “Design of optimal
+                                                                                      multi-site brain brain stimulation protocols via neuro-inspired epilepsy
+[24] Q. Yuan, W. Zhou, L. Zhang, F. Zhang, F., Xu, Y. Leng, D. Wei, M.
+                                                                                      models for abatement of interictal discharges,” J. Neural Engin., 18,
+     Chen, “Epileptic seizure detection based on imbalanced classification
+                                                                                      2021, 016024.
+     and wavelet packet transform,” Seizure, 50, 2017, 99-108.
+                                                                                 [39] T. Radman, R.L. Ramos, J.C. Brumberg, M. Bikson, “Role of cortical
+[25] M. Zhou, C. Tian, R. Cao, B. Wang, Y. Niu, T. Hu, H. Guo, J. Xiang,
+                                                                                      cell type and morphology in subthreshold and suprathreshold uniform
+     “Epileptic seizure detection based on EEG signals and CNN,” Front.
+                                                                                      electric field stimulation in vitro,” Brain Stimu., 2, 2009, 215-228.
+     Neuroinformat., 12, 2018.
+                                                                                 [40] K. Yosida, Operational Calculus (translated from the Japanese),
+[26] M. Fliess, C. Join, H. Sira-Ramı́rez, “Non-linear estimation is easy,”           Springer, 1984.
+     Int. J. Model. Identif. Contr., 4, 2008, 12-27.                             [41] M. Fliess, “Analyse non standard du bruit,” C.R. Math., 342, 2006,
+[27] M. Fliess, M. Mboup, H. Mounier, H. Sira-Ramı́rez, “Questioning                  797-802.
+     some paradigms of signal processing via concrete examples,” In              [42] C.E. Cook, M. Bernfeld, Radar Signals, Artech House, 1993.
+     G. Silva-Navarro, G., Sira-Ramı́rez, H. (Eds.): Algebraic Methods
+     in Flatness, Signal Processing and State Estimation (Chapter 1),
+     Innovación Editorial Lagares De México, 2003.
+

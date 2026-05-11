@@ -15,7 +15,7 @@ tags:
 - neuroimaging-dti
 title: DSI Studio
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 # DSI Studio
@@ -41,7 +41,7 @@ DSI Studio generates [[structural-connectivity]] matrices that can be directly i
 
 - Yeh, F. C., Wedeen, V. J., & Tseng, W. Y. I. (2010). Generalized q-sampling imaging. *IEEE Transactions on Medical Imaging*, 29(9), 1626–1635.
 - Yeh, F. C., & Tseng, W. Y. I. (2011). NTU-90: a high angular resolution brain atlas constructed by q-space diffeomorphic reconstruction. *NeuroImage*, 58(1), 91–99.
-- Yeh, F. C. (2020). Shape analysis of the human [[connectome]] in Alzheimer's disease. *NeuroImage*, 225, 117527.
+- Yeh, F. C. (2020). Shape analysis of the human [[connectome]] in [[alzheimers-disease|Alzheimer's disease]]. *NeuroImage*, 225, 117527.
 
 ## Related Software
 

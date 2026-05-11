@@ -12,7 +12,7 @@ tags:
 - interoperability
 title: PyNN
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 # PyNN
@@ -60,6 +60,6 @@ PyNN and TVB operate at different scales but are complementary:
 
 ## References
 
-- PyNN website: http://neuralensemble.org/PyNN/
-- Davison et al. (2009) — PyNN: a common interface for neuronal network simulators
-- Davison et al. (2008) — Coordination of neuronal network simulators
+1. Eppler et al. (2009). *[[pynest]]: A convenient interface to the NEST simulator*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/neuro.11.012.2008))
+2. Gwenevere Frank, Gopabandhu Hota, Keli Wang, C. Deng, Krish Arora, Diana Vins, Abhinav Uppal, Omowuyi Olajide, Kenneth Yoshimoto, Qingbo Wang, Mariko Yamaoka, Johannes Leugering, S. Deiss, Leif Gibb, Gert Cauwenberghs. (2026). *HiAER-Spike Software-Hardware Reconfigurable Platform for Event-Driven [[neuromorphic-computing]] at Scale*. arXiv.org. [DOI](](https://doi.org/10.48550/arXiv.2602.18072))
+3. Sarah Johari, Arghavan Mohammadhassani, Anup Das. (2025). *A Framework for Automatic Synthesis of Neuromorphic Architectures with Heterogeneous Integration of CMOS and Memristors*. International Symposium on Circuits and Systems. [DOI](](https://doi.org/10.1109/ISCAS56072.2025.11043873))

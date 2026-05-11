@@ -17,10 +17,10 @@ tags:
 - software-tvb
 title: Zerlaut Model
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
-The **Zerlaut model** is a mean-field representation of cortical microcircuit dynamics that describes the collective activity of interacting excitatory and inhibitory neural populations with spike-frequency adaptation. Developed by Yann Zerlaut and colleagues (2018), this model provides a mathematically tractable bridge between detailed [[spiking-neural-networks]] composed of leaky integrate-and-fire neurons with adaptation currents and the population-level descriptions used in whole-brain modeling frameworks such as [[tvb]]. The model captures essential cortical dynamics including oscillatory behavior, adaptation effects, and excitation-inhibition balance while remaining computationally efficient enough for large-scale brain network simulations.
+The **Zerlaut model** is a mean-field representation of cortical microcircuit dynamics that describes the collective activity of interacting excitatory and inhibitory neural populations with spike-frequency adaptation. Developed by Yann Zerlaut and colleagues (2018), this model provides a mathematically tractable bridge between detailed [[spiking-neural-networks]] composed of leaky integrate-and-fire neurons with adaptation currents and the population-level descriptions used in whole-brain modeling frameworks such as [[tvb]]. The model captures essential cortical dynamics including oscillatory behavior, adaptation effects, and [[excitation-inhibition-balance]] while remaining computationally efficient enough for large-scale brain network simulations.
 
 ## Motivation and Biological Context
 

@@ -2,6 +2,10 @@
 created: 2024-01-15
 sources:
 - raw/papers/semanticscholar-5c84b271b035.md
+- raw/papers/gewaltig-diesmann-2007.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/izhikevich-2007.md
+- raw/papers/semanticscholar-1bc88b4ebfe1.md
 tags:
 - software-nest
 - neuromorphic-computing
@@ -15,7 +19,7 @@ tags:
 - computational-neuroscience
 title: NESTML
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 NESTML ([[neural-simulation]] Tool Markup Language) is a domain-specific modeling language designed to describe neuron and synapse models for simulation in the NEST simulator. Developed primarily at the Institute of Neuroscience and Medicine (INM-6) at Forschungszentrum Jülich, NESTML provides a declarative approach to neuron modeling that separates the mathematical description of neuronal dynamics from the implementation details of particular simulation engines, enabling automatic code generation for multiple target platforms [@nestml-origin].

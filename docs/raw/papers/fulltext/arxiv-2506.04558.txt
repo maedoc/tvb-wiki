@@ -1,0 +1,1807 @@
+                                           A Scalable Exponential Random Graph Model: Amortised
+                                           Hierarchical Sequential Neural Posterior Estimation with
+                                                         Applications in Neuroscience
+                                                                 Yefeng Fan1,* and Simon Richard White1,2,**
+                                                       1
+                                                        MRC Biostatistics Unit, University of Cambridge, Cambridge, UK
+                                                   2
+                                                       Department of Psychiatry, University of Cambridge, Cambridge, UK
+                                                        *
+                                                          ORCID: https://orcid.org/0009-0009-6039-2994
+arXiv:2506.04558v1 [stat.ME] 5 Jun 2025
+
+
+
+
+                                                        **
+                                                           ORCID: http://orcid.org/0000-0001-8642-7037
+
+                                                                                   June 6, 2025
+
+
+                                          Abstract
+                                          Exponential Random Graph Models (ERGMs) are an inferential model for analysing statistical
+                                          networks. Recent development in ERGMs uses hierarchical Bayesian setup to jointly model a
+                                          group of networks, which is called a multiple-network Exponential Random Graph Model (MN-
+                                          ERGMs). MN-ERGM has been successfully applied on real-world resting-state fMRI data from
+                                          the Cam-CAN project to infer the brain connectivity on aging. However, conventional Bayesian
+                                          ERGM estimation approach is computationally intensive and lacks implementation scalability
+                                          due to intractable ERGM likelihood. We address this key limitation by using neural posterior
+                                          estimation (NPE), which trains a neural network-based conditional density estimator to infer the
+                                          posterior.
+                                          We proposed an Amortised Hierarchical Sequential Neural Posterior Estimation (AHS-NPE)
+                                          and various ERGM-specific adjustment schemes to target the Bayesian hierarchical structure
+                                          of MN-ERGMs. Our proposed method contributes to the ERGM literature as a very scalable
+                                          solution, and we used AHS-NPE to re-show the fitting results on the Cam-CAN data application
+                                          and further scaled it up to a larger implementation sample size. More importantly, our AHS-NPE
+                                          contributes to the general NPE literature as a new hierarchical NPE approach that preserves the
+                                          amortisation and sequential refinement, which can be applied to a variety of study fields.
+
+
+                                          1    Introduction
+                                          Exponential random graph models (ERGMs) are statistical inference models that characterise
+                                          the distribution of an observed network by flexibly using a set of network summary statistics.
+                                          Standard ERGMs are one-to-one models, meaning ERGM can only characterise the topological
+                                          structure of one network, and such a feature limits the application of ERGMs. More recently, a
+                                          multiple-network exponential random graph model (MN-ERGM) is proposed to jointly charac-
+                                          terise a group of networks by incorporating ERGMs into a Bayesian hierarchical structure, which
+                                          shows advantages of summarising group network topology inferences as well as accounting for
+                                          heterogeneity across networks [1]. The developed MN-ERGM demonstrate strong performance
+                                          in modelling neuro-imaging data, which typically requires multiple sample analysis [1].
+                                          Despite the advantage of ERGM, its estimation procedure is an extremely computationally in-
+                                          tensive procedure in the Bayesian setup due to the sampling distribution intractability, requiring
+
+
+                                                                                          1
+a prolonged process of exploring the mapping between the parameter space and the graph space
+[2, 3]. The estimation complexity is approximated to increase exponentially with the size of the
+network, placing a practicality constraint on the size of the network we can fit for ERGM (usu-
+ally a few hundred vertices as the maximum) [4, 5]. Such computational burden is also inherent
+in the MN-ERGM, and such computation demand scales linearly with the sample size. A more
+efficient approach is needed to scale up this advanced ERGM framework to meaningfully infer
+on larger samples.
+Likelihood-free Bayesian inference offers a promising direction, which has been adopted in
+various scenarios where the likelihood functions are typically intractable but are possible for
+simulation [6, 7]. Cranmer et al. have concluded three crucial criteria for a simulation-based
+approach: 1) Sampling efficiency; 2) Quality of inference; 3) Amortisation [8]. While the first
+two criteria are self-explanatory, amortisation focuses on the cost of re-fitting the model upon
+inference on a new observation, and it is undesirable for re-fitting to repeat computationally
+expensive steps. The amortisation criterion becomes especially important for the MN-ERGM
+application, where we need to repetitively infer on a large set of network samples.
+More recently, a class of likelihood-free approaches called the Neural Posterior Estimation
+(NPE) is proposed and applied to various studies [9, 10, 11, 12], which trains a neural network-
+based conditional estimator to infer the Bayesian posterior distribution [9]. NPE shows better
+amortisation and can flexibly model high-dimensional parameter space using expressive neu-
+ral network architectures such as normalising flows, leading to more accurate and scalable
+likelihood-free inference [13, 14]. NPE has since been applied to a range of studies includ-
+ing cosmology and neuroscience [15, 16, 17]. Furthermore, different NPE variants have been
+proposed [18], and a well-rounded package has been developed [19]. Among the NPE variants,
+a particularly important extension is the sequential neural posterior estimation (SNPE), which
+iteratively refines the conditional estimator towards the target posterior [10].
+In the past, a well-rounded NPE and SNPE implementation on ERGMs builds the strong foun-
+dation for this study [20], where a systematic analysis and assessment has been performed to
+justify the appropriateness of NPE on ERGMs and ERGM-specific challenges we may face
+upon adopting NPE frameworks.
+In this study, we propose a novel NPE extension to target a Bayesian hierarchical structure, en-
+abling scalable implementation of NPE on MN-ERGMs. We utilise NPE to estimate the local pa-
+rameters for individual networks and use an analytically tractable variational approximation up-
+date scheme for the higher hierarchical parameters [21]. We adopt an expectation-maximisation
+scheme to iteratively train, refine and adjust our normalising flow-based estimator and our train-
+ing data. Similar to SNPE, this allows better specification of parameters surrounding the target
+posteriors. Furthermore, our proposed approach preserves the amortisation properties for scal-
+ability, meaning we can incorporate a large number of targeted observed data (networks) with-
+out significantly increasing the computational complexity. In particular, we propose specific
+model fitting procedures that are designed to target the difficulties in using NPE-based models
+on ERGM density summarised from past study [20]. We call our proposed approach Amortised
+Hierarchical Sequential Neural Posterior Estimation (AHS-NPE).
+Apart from the specific usage of MN-ERGMs, our proposed AHS-NPE also contributes to the
+general NPE literature and can be adopted in other study fields. In past studies, NPE-based ap-
+proaches targeting Bayesian hierarchical structures are under-explored. We now review some of
+those approaches. Very recently, Habermann et al. and Heinrich et al. proposed two frameworks
+with sufficient scalability and flexibility [22, 23]. However, in comparison, our AHS-NPE has
+the advantage of incorporating iterative refinements of training, enabling more focus on the tar-
+get posterior region. Our proposed model fulfils the future work pointed out in Habermann’s
+model by incorporating sequential neural methods into the hierarchical modelling. A frame-
+work that can flexibly model with increasingly refined rounds is the hierarchical neural poste-
+rior estimation (HNPE) proposed by Rodrigues et al. [24]. HNPE uses two normalising flows
+
+
+                                                2
+and aggregation networks (e.g., DeepSets) to jointly learn posterior approximations for local
+and global parameters. In comparison, AHS-NPE may be perceived as a specialised variant of
+HNPE, targeting a different class of Bayesian hierarchical frameworks. In addition, compared to
+HNPE, AHS-NPE preserves the amortisation property for local parameters, ensuring scalability
+to large datasets of observed values without introducing additional computational overhead to
+the training of density estimators. Tran et al. proposed a Likelihood-Free Variational Inference
+(HIM-LFVI) [25]. HIM-LFVI shares the same objective function as our model, and therefore,
+our model forms an extension of HIM-LFVI. We improve by using SNPE for the local parame-
+ters without the need to perform ratio estimation. Furthermore, our AHS-NPE is more flexible
+in making adjustments across training rounds, allowing necessary changes to better target the
+ERGM densities.
+To demonstrate our proposed AHS-NPE in this study, we implement the AHS-NPE on MN-
+ERGM with the real-world fMRI datasets from the Cam-CAN project [26]. We perform two
+implementation schemes. Firstly, we aim to re-show and compare with the fitting results on
+the young group in Lehmann’s implementation of MN-ERGM on the Cam-CAN data with 100
+samples [1], which demonstrates our methods’ reliability and estimation accuracy. Secondly, we
+utilise the amortisation power of our AHS-NPE and scale up the implementation of MN-ERGM
+on the Cam-CAN data by modelling all 586 network samples in the Cam-CAN project into two
+age groups, which assesses and explores the aging impact on brain connectivity. We compare
+and consolidate the neurological findings with Lehmann et al.’s implementation.
+
+
+2     Background Methodology, Data Definition and Problem Setup
+2.1     Exponential Random Graph Models
+2.1.1   Exponential Random Graph Models
+ERGM characterises its probability distribution of network y through a set of summary statistics
+h(y) ∈ Rd with parameters θ ∈ Rd [5, 27],
+
+                                                             exp(θh(y))
+                      Y ∼ ERGM(θ)       s.t. p(Y = y|θ) =               ,
+                                                                c(θ)
+
+where c(θ) is an intractable normalising constant,
+                                           X
+                                    c(θ) =     exp(θh(y)).
+                                           y∈Y
+
+The intractability of the normalising constant is due to the combinatorial large graph space Y,
+and this makes the sampling distribution analytically intractable.
+In the Bayesian setting, the Exchange Algorithm is used [2, 3], which iteratively explores the
+parameter space and is computationally intensive [4, 5]. The fitting algorithm is in the Supple-
+mentary Materials.
+Instead of modelling the network y directly, past study has successfully demonstrated the ap-
+propriate usage of NPE on ERGM by modelling the summary statistics x = h(y) using the fact
+that these statistics are Bayesian sufficient for ERGM densities [20]. We define xobs to be the
+observed network statistics.
+Importantly, to enable comparison with Lehmann’s model [1], the summary statistics we use in
+this paper are the number of edges, GWESP, and GWNSP, where the exact definition can be
+found in the Supplimentary Materials. Further to match with the Lehmann’s study, we use the
+same sized networks with 90 vertices [1], this network size is also successfully been explored in
+past NPE study on ERGM, giving the most consistent application performance [20].
+
+
+
+                                                 3
+2.1.2    Multiple-Network Exponential Random Graph Models and Problem Setup
+We first explain the problem setup of this paper and then incorporate the concept of MN-ERGMs.
+In our targeted Bayesian hierarchical framework, we consider a population of n independent ran-
+dom variables, each denoted as xi for i = 1, . . . , n. The sampling distribution of these random
+variables is p(xi |θi ) with parameter θi ∈ Rd . The sampling distribution is typically intractable
+but allows simulations.
+To characterise the joint probability distribution of the population of samples, we build the hier-
+archical prior structure such that each individual-level (or local) parameter θi independently and
+identically follows a multivariate Normal distribution:
+
+                                         θi ∼ N (θg , Σg ),
+
+where θg and Σg represent the group-level (or global) mean and covariance. θg ∈ Rd and
+Σg ∈ Rd×d .
+The hyper-prior is specified as a Normal-inverse-Wishart distribution,
+                                                             Σg
+                                    π(θg |Σg ) ∼ N (µ0 ,        ),
+                                                             κ0
+
+                                     π(Σg ) ∼ W −1 (Ψ0 , ν0 ).
+We denote Θall = {θ1 , ..., θn , θg , Σg }.
+Lehmann et al. proposed MN-ERGMs to jointly model a population of networks using the above
+Bayesian hierarchical setup [1], which overcomes the disadvantage of single ERGM fitting ne-
+glecting the heterogeneities across individuals. By replacing xi with the individual network
+samples yi and taking the sampling distribution p(xi |θi ) as standard ERGM, the above hierar-
+chical structure corresponds to the MN-ERGM under Lehmann et al.’s definition. Therefore, our
+problem set-up targets exactly the MN-ERGM.
+
+2.2     Neural Posterior Estimations and Sequential Neural Posterior Estimations
+NPE and SNPE have been shown to be accurate and appropriate with ERGM application [20].
+NPE trains a conditional density estimator to directly infer the posterior [9]. More specifically,
+it starts by simulating a set of B data-parameter pairs {θb , xb }B
+                                                                  b=1 from the proposal distribution
+p̃(θ) to form our training dataset D.
+                                            θb ∼ p̃(θ),
+                                          xb ∼ p(x|θb ).
+A conditional density estimator qϕ (θ|x) parameterised by ϕ is trained using the training dataset.
+We mainly adopt the masked autoregressive flow (MAF) as our conditional density estimator
+[28].
+The conditional density estimator is trained with the objective function,
+
+                                   L(ϕ) = −Eθ,x [log qϕ (θ|x)],
+
+which is approximated by the negative log-likelihood,
+                                              B
+                                              X
+                                   L(ϕ) ≈ −          logqϕ (θb |xb ).
+                                              b=1
+
+As B → ∞ [9], the conditional density estimator converges towards a density called the pro-
+posal posterior
+                                                p̃(θ)p(x)
+                              p̃(θ|x) = π(θ|x)            ,                             (1)
+                                               π(θ)p̃(x)
+
+                                                 4
+with                                            Z
+                                      p̃(x) =           p̃(θ)p(x|θ).
+                                                    θ
+When the proposal distribution is the prior distribution (i.e., p̃(θ) = π(θ)), we yield the standard
+NPE, because trained conditional density estimator targets directly the posterior (i.e., proposal
+posterior equals the target posterior such that p̃(θ|x) = π(θ|x)). We can infer a particular
+observation xobs by qϕ (θ|xobs ). Such inference process is amortised, meaning inference can be
+performed on different observations xobs without the need to re-fit the model.
+When the proposal distribution is different from the prior distribution, we move to the SNPE
+concept because the conditional density estimator targets the proposal posterior instead of the
+posterior of interest. SNPE uses qϕ (θ|x) to target the true posterior π(θ|x) and considers q̃ϕ (θ|x)
+to target the proposal posterior p̃(θ|x) by defining [10]:
+                                                               p̃(θ) 1
+                                 q̃ϕ (θ|x) = qϕ (θ|x)                      .                     (2)
+                                                               π(θ) Zϕ (x)
+
+The Zϕ (x) is the normalising constant,
+                                                Z
+                                                                     p̃(θ)
+                                    Zϕ (x) =            qϕ (θ|x)           .
+                                                 θ                   π(θ)
+With the objective function,
+                                                B
+                                                X
+                                   L(ϕ) = −                 log q̃ϕ (θb |xb ).
+                                                b=1
+SNPE enables direct “read off” the correct conditional density estimator targeting the true pos-
+terior π(θ|x) without the need for post-hoc solving. To guarantee the evaluability of Zϕ (x), an
+atomic loss may be used instead. Please find more details in [10, 20].
+Such a ratio trick used in SNPE allows the usage of a proposal distribution different from the
+prior so long as that proposal distribution is analytically tractable. This forms a fundamentally
+important concept in our later proposal of AHS-NPE. In SNPE, it iteratively uses the trained
+conditional density estimator qϕ (θ|xobs ) as the proposal distrbution in the next round, which
+facilitates step by step approaching and generating more data-parameter pairs around the target
+posterior π(θ|x). Note that the data-parameter pairs from previous rounds are re-used (See [10]).
+This ensures the training dataset is more “relevant” to the inference aim. However, such itera-
+tive procedure uses the previous round estimated posterior and causes the amortisation property
+being lost (i.e., SNPE needs to be retrained when inferring a new xobs ).
+
+
+3      Methodology
+Our proposed AHS-NPE combines analytical variational inference solutions with NPE for the
+individual-level parameters. We follow an iterative Expectation-Maximisation (EM) procedure
+for updating both individual- and global-level parameters.
+AHS-NPE approximates the joint posterior distributions using a variational distribution q(.). We
+use q(Θall ) to target π(Θall |x).
+In particular, we rely on the mean-field assumption such that the joint variational distribution of
+parameters can be factorised into a product of independent distributions [29, 30],
+                                                                  n
+                                                                  Y
+                                  q(Θall ) = q(θg , Σg )                q(θi ),
+                                                                  i=1
+
+where the q(θg , Σg ) and q(θi ) target the posterior π(θg , Σg |x) and the conditional posterior
+π(θi |θg , Σg , x) respectively. We then can iteratively perform tractable variational updates for
+
+                                                        5
+q(θg , Σg ) and q(θi ). We no longer need to jointly consider all parameters, which largely help us
+to preserve the model amortisation and for implementation scalability.
+We aim to minimise the Kullbcak-Leibler (KL) divergence between our estimation and the true
+posterior,
+                                                                              π(Θall |x)
+                                                          Z
+       q(Θall ) = argminKL(q(Θall )||π(Θall |x)) = −             q(Θall ) log            dΘall ,
+                                                            Θall               q(Θall )
+
+and to approach this optimisation with the unknown true posterior π(Θall |x), we maximise the
+evidence lower bound (ELBO),
+                                                          π(Θall , x)
+                                ELBO(q) = EΘ [log                     ].
+                                                           q(Θall )
+Under the mean-field assumption, Jia et al. have shown the optimal variational distributions are
+[21],
+                        q ∗ (θg , Σg ) ∝ exp{Eθi [log p(θi , θg , Σg , x)]},
+                           q ∗ (θi ) ∝ exp{Eθg ,Σg [log p(θi , θg , Σg , x)]}.
+Our AHS-NPE approximates the q ∗ (θi ) using NPE to better target the intractable sampling dis-
+tribution and preserve the amortisation property, where the analytical optimal solution requires
+analytical tractability that is not applicable to ERGM densities.
+We use the EM algorithm to iteratively train the variational distributions and thus targets the
+joint posterior. The E-step uses NPE to approximate q(θi ) and the M-step uses the analytically
+optimal variational updates for the global parameters. AHS-NPE is presented in Algorithm 1.
+We rigorously prove the method validity in the Supplimentary Materials.
+
+3.1   E-Step: Neural Posterior Estimation
+The E-step estimates the posterior distribution of θi given the current estimates of the global
+parameters. More specifically, we update the estimated conditional posterior π(θi |θg , Σg , xi ) by
+q(θi ) for every individual. We perform the neural posterior estimation to target the intractable
+sampling distribution.
+We use a conditional density estimator q(θi ) = qϕ (θi |xi ), and the posterior estimation is condi-
+tioned on the prior distribution π(θi |θg , Σg ) where θg and Σg are assumed to be fixed at the up-
+dates from the M-step. In particular, we use a proposal distribution p̃(θi ) different from the prior
+π(θi |θg , Σg ), which is important for the ERGM-specific adjustments (discuss in Section 3.3).
+Therefore, the E-step uses the ratio trick in the SNPE with atomic/non-atomic loss, and it can
+be considered as an SNPE with one round of training to accommodate the different proposal
+distribution from the (hierarchical) prior.
+
+
+3.2   M-Step: Analytical Variational Updates
+M-step updates the global parameters θg and Σg based on the updated estimation of posterior
+distributions q(θi ) for θi . Jia et al. have derived an analytical solution without incorporation of
+any hyper-prior terms (assumed as uniform) [21]. To fit within the context of our MN-ERGM
+hyper-prior setup, we derive the analytically optimal variational updates under a Normal-inverse-
+Wishart hyper-prior distribution for θg and Σg . From the E-step updated q(θi ) = qϕ (θi |xi ), we
+obtain expectation values that we use for the M-step updates,
+
+                                         µi = Eθi [θi ],
+                                        h                     i
+                                Σi = Eθi (θi − µi )(θi − µi )⊤ ,
+
+                                                   6
+where the expectation is with respect to q(θi ), and we define
+                                                          n
+                                                     1X
+                                              µ̄ =      µi .
+                                                     n
+                                                      i=1
+
+Analytical evaluation is not possible using NPE, and therefore, we estimate via a sampling pro-
+                                    (s)
+cedure by generating S samples {θi }Ss=1 from qϕ (θi |xi ). We compute:
+
+                                                          S
+                                                     1 X (s)
+                                          µ̂i =         θi ,
+                                                     S
+                                                      s=1
+
+and
+                                          S
+                                       1 X (s)         (s)
+                               Σ̂i =      (θi − µ̂i )(θi − µ̂i )⊤ .
+                                       S
+                                         s=1
+
+We then update the analytically optimal variational distribution by
+
+                                  q ∗ (Σg ) = W −1 (Σg | Ψn , νn ),
+
+and
+                                                                 Σg
+                                 q ∗ (θg | Σg ) = N (θg | µn ,      ),
+                                                                 κn
+where
+                                    νn = ν0 + n,
+                     n h
+                    X                           i     κ0 n
+          Ψn = Ψ0 +     Σi + (µi − µ̄)(µi − µ̄)⊤ +         (µ0 − µ̄)(µ0 − µ̄)⊤ ,
+                                                    κ0 + n
+                    i=1
+
+                                      κ0 µ0 + ni=1 µi
+                                              P
+                               µn =                   ,
+                                           κ0 + n
+                                              kn = κ0 + n,
+where νn , Ψn , µn and kn represent the updated hyperparameters. Given the updated variational
+distribution representing the estimated posterior distribution of the global parameters, we need to
+obtain a point estimate feeding as a fixed prior structure for the E-step in the next iteration. With
+the closed-form variational distribution, we use the maximum a posteriori probability (MAP)
+such that we set
+                                                    Ψn
+                                        Σg =                ,
+                                               νn + d + 1
+                                                θg = µn .
+
+
+
+
+                                                      7
+Algorithm 1 AHS-NPE Fitting Process
+Initialise:
+                                      (1)       (1)
+    • Initialise global parameters θg = µ0 , Σg = Ψ0 .
+    • Initialise proposal distribution p̃(θi ).
+    • Initialise iteration indicator t = 1.
+E-step (NPE): For i = 1, . . . , n:
+
+   • Simulate data-parameter pairs and argument training dataset D using Algorithm 2 or 3
+                                   (t)                                (t)  (t)
+   • Train the (one-round) SNPE qϕ (θi ) using D with prior π(θi | θg , Σg ) and proposal
+     distribution p̃(θi ).
+M-step (Analytical Variational Updates):
+                 (t)
+      • From qϕ (θi ), compute:
+                                                     (t)
+                                             µi = Eθi [θi ],
+                                      (t)            (t)       (t) 
+                                     Σi = Eθi (θi − µi )(θi − µi )⊤ ,
+                                             
+
+                                                               n
+                                                   (t)     1 X (t)
+                                              µ̄         =    µi .
+                                                           n
+                                                              i=1
+
+      • Update variational distribution on θg and Σg :
+
+                                      q ∗(t) (Σg ) = W −1 (Σg | Ψn , νn ),
+
+                                                                            Σg 
+                                      q ∗(t) (θg | Σg ) = N θg | µn ,            ,
+                                                                            κn
+        where:
+                                                    νn = ν0 + n,
+                       n
+                       X  (t)   (t)          (t)             κ0 n
+                          Σi + (µi − µ̄(t) )(µi − µ̄(t) )⊤ +        (µ0 − µ̄(t) )(µ0 − µ̄(t) )⊤ ,
+                                                          
+        Ψn = Ψ0 +
+                                                             κ0 + n
+                       i=1
+                                                                 (t)
+                                                   κ0 µ0 + ni=1 µi
+                                                           P
+                                          µn =                       ,
+                                                         κ0 + n
+                                                   κn = κ0 + n.
+      • Update prior distribution:
+                                                                Ψn
+                                            Σ(t+1)
+                                             g     =                    ,
+                                                             νn + d + 1
+                                                    θg(t+1) = µn .
+   • Update proposal distribution p̃(θi ) using Algorithm 2 or 3.
+   • t=t+1
+Repeat until convergence.
+
+
+3.3     Proposal Definition and ERGM Specific Adjustments
+3.3.1    Proposal Definition
+The ability to extend the NPE-based framework to a large number of data points (network sam-
+ples) relies on the amortisation property. Unfortunately, conventional SNPE loses the amortisa-
+tion property due to the iterative revision of the proposal distribution using the fitted conditional
+density estimators across rounds. Therefore, the design of the proposal distribution becomes
+
+
+                                                         8
+important to both preserve the amortisation across EM rounds and maintain flexibility to target
+ERGM specific issues.
+The usage of atomic loss and SNPE density trick enables us to validly and flexibly choose any
+proposal distribution which does not need to equal the prior distribution. To construct a proposal
+distribution, we have the following aims and requirements.
+    • Tractability and Evaluability: The proposal distribution needs to be evaluatable, because
+      we need to determine its density during the training process using atomic/non-atomic loss.
+    • Reusability and Adaptability: The proposal should allow us with sufficient flexibility to
+      refine our proposals in each iteration. The proposal must also be round-by-round focusing
+      more closely on the target posterior domain. Furthermore, the proposal should re-use data
+      from the previous training rounds.
+    • Coverage: The proposal coverage should be sufficiently wide to avoid leakage [10, 19,
+      31]. Importantly, it should also consider correct coverage of the prior and possible poste-
+      rior domains.
+    • Adjustment Flexibility: The proposal should allow flexible adjustments across iterations.
+      It is useful for our next ERGM-specific adjustments.
+We now design a proposal and its proposal update scheme to jointly satisfy those aims. To
+constrain the proposal distributions on parametrised densities and take advantage of the Normal
+nature of the prior distribution, we use a mixture of Normal as the proposal distribution such
+that:                                     X
+                                  p̃(θ) =    wt N (θ|θg(t) , Σ(t)
+                                                              g ),
+                                                t
+
+where t is the AHS-NPE round iterations. Importantly, we iteratively incorporate (and may also
+                                                       (t)   (t)
+discard previous) updated hierarchical prior N (θ|θg , Σg ) for individual-level variables into
+the proposal. This has several significant benefits. Firstly, it ensures (at least minimal) coverage
+on the prior, which is important to avoid leakage issues [31].
+Moreover, it enables reuse of samples from previous rounds. Practically, we generate Nt data-
+parameter pairs based on the revised prior distribution in each iteration. These are consequently
+combined with training data from previous rounds to yield a total of N data-parameter pairs.
+We estimate the mixture weights by wt = N         t
+                                                N such that the proposal distribution unbiasedly
+                                     1
+represents the joint training dataset . Across iterations, we may also discard data from “distant”
+iterations and maintain the overall sample size using only the most “relevant” data-parameter
+pairs.
+Furthermore, our proposal distribution does not implicitly depend on the trained conditional
+density estimator inferred on any observed data, while still maintaining the ability to iteratively
+refine the model. This differentiates it from the SNPE, and our proposal preserves the amortisa-
+tion to enable scalability on a large set of observed data (networks).
+Finally, the variational EM scheme iteratively refines the prior distributions on local parame-
+ters. This means every trained density estimator across iterations is independent. This gives
+us the flexibility to augment the neural-network architecture, types of density estimators, data-
+parameter training datasets, and proposal distributions across iterations. Such flexibility proves
+to be especially important for us to make ERGM-specific adjustments.
+The designed proposal distribution and proposal update scheme fulfills all the aims we want to
+target; we include a general proposal update scheme in Algorithm 2. In addition, if the density
+estimator is chosen as MDN, we can more easily adopt an SNPE-A scheme [9], which does
+   1
+     The mixture weights need to be re-adjusted in each AHS-NPE round, to ensure the weights are representative
+and sum to one.
+
+
+
+
+                                                      9
+not need to use atomic loss and can better avoid leakage issues (see [10] and Supplementary
+Material in [20]).
+
+Algorithm 2 AHS-NPE Proposal Update Scheme
+Initialise:
+    • Set initial proposal as p̃1 (θ).
+    • Set initial sampling component the same as local parameter prior, p̃1 (θ) = p̃(1) (θ) =
+              (1)   (1)
+       N (θ|θg , Σg ).
+    • Set initial training dataset D = ∅.
+    • Set N = 0.
+For each t = 1 to T :
+    • Sample θb,t ∼ p̃(t) (θ) for b = 1, . . . , Nt .
+    • Simulate xb,t ∼ p(x|θb,t ) for b = 1, . . . , Nt .
+    • Aggregate D = D ∪ {xb,t , θb,t }N    t
+                                        b=1 and update  P N = N + Nt .
+                                                Nt
+    • Update all weight component wt = N and t wt = 1.
+    • Perform AHS-NPE update using Algorithm 1 with training dataset D to obtain updated
+       prior (on local parameters)
+                                                N (θ|θg(t) , Σ(t)
+                                                              g ).
+
+       • Update proposal component
+
+                                            p̃(t+1) (θ) = N (θ|θg(t) , Σ(t)
+                                                                        g ).
+
+       • Update proposal distribution
+
+                                     p̃t+1 (θ) = p̃t (θ) + wt+1 N (θ|θg(t) , Σ(t)
+                                                                              g ).
+
+
+
+
+3.3.2     ERGM Specific Adjustments
+Previous successful implementations of both NPE and SNPE on ERGMs have summarised a
+series of ERGM-specific challenges for NPE and SNPE usage [20], and we summarise them
+in the following as the aspects we want to target and resolve. These summaries are highly con-
+densed; for more comprehensive explanations and additional details, please refer to [20]. Taking
+advantage of the flexibility of AHS-NPE, we propose a distinct training process to address those
+ERGM-specific issues.
+       • Boundary Effect: As explored in the past study [20], the “boundary effect” leads to sharp
+         transitions or plateaus between the data-parameter mapping, for which a very expressive
+         density estimator may overfit those “noises” and cause fitting or leakage issues 2 , espe-
+         cially when the coverage is large.
+       • Multi-modality: Depending on the choice of summary statistics, ERGMs are likely to
+         exhibit multi-modal issues (the same set of parameters characterising multiple graph space
+         domains through ERGM densities), which can compromise the training data quality.
+       • Wide Coverage: An initial wide coverage should be adopted to offer support for various
+         probable posterior domains for different observations. ERGM statistics inter-relation may
+         mask the diagnostic of the incorrectly estimated posterior due to narrow coverage [20].
+         This is also especially important for our AHS-NPE application when there is large sample
+         heterogeneity.
+   2
+     Leakage refers to when the trained density estimator place a lot of probability mass to the incorrect regions of
+the parameter space under the true posterior distribution.
+
+
+
+                                                        10
+    • Not Too Wide Coverage: We should also avoid excessively wide proposals, which may
+      contain various parameter space domain that exhibits boundary effects and multi-modalities.
+      In particular, existence of boundary effects may restrict the adoption of more expressive
+      density estimators as they may cause over-fitting and leakage.
+To target the above issues, we propose an ERGM-specific adjustment scheme. To ensure suffi-
+cient coverage, we set our initial proposal distribution as a wide Normal distribution N (θ|µinitial , Σinitial )
+with an increased sampling size N1 (i.e., N1 > Nt for t = 1, ..., T ).
+Given a sufficiently wide initial proposal component and proposal distribution, the risk of “bound-
+ary effect” is triggered. To address this, we consider a burn-in period for density estimator
+training. During the burn-in period, we use a less expressive density estimator qϕinitial (θ|x) up to
+iteration Tinitial to avoid over-fitting to the “boundary effect”.
+Finally, when we iteratively learn more about the location of the “true” posteriors during our
+burn-in period, we then focus on that posterior domain and target the multi-modal issues within
+that domain. To achieve that, we switch to a more expressive and deeper density estimator
+qϕ (θ|x) for iterations after burn-in. Furthermore, we discard the wide first-round data-parameter
+pairs Dinitial from the training dataset. It is then replaced by a more refined Drefined to ensure ade-
+quate coverage without including unnecessarily wide parameter space that may exhibit boundary
+effects. More specifically, the Drefined is drawn from a Normal distribution N (θ|µrefined , Σrefined )
+with size Nrefined , incorporating all information learned from the burn-in rounds. This adjustment
+ensures that we can use more expressive density estimators without being adversely affected by
+the noisy wide coverage. It also ensures that the updated training dataset provides an adequate
+coverage to avoid leakage issues using the atomic loss. We summarise our ERGM specific ad-
+justment proposal update scheme in Algorithm 3.
+More specifically, in our AHS-NPE application, we set
+
+                                N (θ|µinitial , Σinitial ) = N (θ|0, 10I),
+
+ensuring sufficiently wide initial proposal support to cover all possible posterior distributions.
+Furthermore, we set N1 = 100, 000, Nt = 20, 000 and Nrefined = 50, 000. For the refined
+proposal component after the burn-in period, N (θ|µrefined , Σrefined ), we average the proposal
+component means and covariances across burn-in rounds and inflate the covariance by a factor
+of 5 times to improve coverage. More specifically, we set:
+                                                     PTinitial    (t)
+                                                          t=2  θg
+                                        µrefined =                 ,
+                                                      Tinitial − 1
+                                                      PTinitial    (t)
+                                                          t=2   Σg
+                                       Σrefined = 5                 .
+                                                       Tinitial − 1
+For the density estimators during burn-in rounds qϕinitial (θ|x), we use MAF with 32 hidden units
+(neurons) and 5 transformation steps in the flow. We only use a small number of hidden units
+to avoid being too expressive. We set Tinitial = 4. After the burn-in period (i.e., at iteration 5),
+we increase the density estimator qϕ (θ|x) hidden units to 64 and the number of transformation
+steps to 10. In particular, we significantly inflate the transformation steps to increase the depth
+of the flow. More transforms allow for finer adjustments to the data distribution to handle ex-
+tra complexity. This is especially important for modelling distributions with abrupt jumps and
+multi-modality.
+
+
+
+
+                                                     11
+Algorithm 3 AHS-NPE ERGM Adjustment Scheme
+Initialisation:
+     • Set initial proposal as p̃1 (θ) = N (θ|µinitial , Σinitial ).
+     • Set initial sampling component p̃(1) (θ) = N (θ|µinitial , Σinitial ).
+     • Initialise training dataset D = ∅; set N = 0.
+     • Set initial training data size N1 such that N1 > Nt for t = 1, . . . , T .
+For each t = 1 to T :
+     • Sample θb,t ∼ p̃(t) (θ) for b = 1, . . . , Nt .
+     • Simulate xb,t ∼ p(x|θb,t ) for b = 1, . . . , Nt .
+     • Aggregate D = D ∪ {xb,t , θb,t }N    t
+                                         b=1 and update  P N = N + Nt .
+     • Update all weight component wt = N        N
+                                                  t
+                                                    and     t wt = 1.
+If t = Tinitial :
+     • Revise proposal by removing initial wide coverage data:
+
+                                 p̃t (θ) = p̃t (θ) − w1 N (θ|µinitial , Σinitial ).
+
+                                D = D \ {xb,1 , θb,1 }N1
+                                                      b=1 ,       N = N − N1 .
+    • Define refined sampling component:
+
+                                   p̃(refined) (θ) = N (θ|µrefined , Σrefined ).
+
+    • Sample from the refined sampling component and update training data:
+
+                       D = D ∪ {xb,refined , θb,refined }N refined
+                                                         b=1 ,          N = N + Nrefined .
+
+    • Revise proposal by incorporating refined coverage and adjust all weights:
+
+                              p̃t (θ) = p̃t (θ) + wrefined N (θ|µrefined , Σrefined ),
+
+                                                           Nrefined
+                                              wrefined =            .
+                                                             N
+If t < Tinitial :
+     • Perform AHS-NPE update using Algorithm 1 with training dataset D and qϕinitial (θ|x).
+                                     (t)    (t)
+    • Obtain updated prior N (θ|θg , Σg ).
+Else:
+    • Perform AHS-NPE update using Algorithm 1 with training dataset D and qϕ (θ|x).
+                                 (t)  (t)
+    • Obtain updated prior N (θ|θg , Σg ).
+Update proposal component:
+
+                                    p̃(t+1) (θ) = N (θ|θg(t) , Σ(t)
+                                                                g ).
+
+Update proposal distribution:
+
+                              p̃t+1 (θ) = p̃t (θ) + wt+1 N (θ|θg(t) , Σ(t)
+                                                                       g ).
+
+
+
+
+4    Implementation Scheme
+Our implementation of AHS-NPE on MN-ERGM targets mainly the Cam-CAN project, which
+is the real-world resting-state fMRI data gathered with the research aim of investigating the
+aging effect on brain [26]. Lehmann et al. successfully implemented the MN-ERGM on the
+Cam-CAN data to capture the intuitive aging impact on brain connectivity [1].
+
+                                                    12
+To assess and fully utilise the scalability of our AHS-NPE, we consider two implementation
+schemes: One for validating the usefulness and adequacy of AHS-NPE, and another one for an
+extended MN-ERGM implementation on Cam-CAN data.
+For our implementations of AHS-NPE, we use the ERGM specific adjustment scheme as out-
+lined in Algorithm 3 Section 3.3.
+To detect training convergence, we monitor the relative change in global-level parameters be-
+                           (t)   (t−1)
+                          |θg −θg        |
+tween iterations (i.e.,       (t−1)          ). We conclude convergence if the average relative changes
+                            |θg     |
+across all parameters remain below 0.01 for two consecutive rounds.
+As a convention, we draw 100,000 posterior samples for both the individual- and group-level
+parameters unless specified otherwise.
+
+4.1   Reproducing Cam-CAN results
+In the first implementation, we aim to reproduce the Cam-CAN data MN-ERGM implementa-
+tion results from the Lehmann et al. paper [1]. To replicate the same implementation scheme,
+we focus on the One-level model for the young group (Section 2.5.1. in [1]). In particular, we
+target the same network set with the same data processing scheme by similarly binarising net-
+works under absolute thresholding with group-wide average node degree set to 3, and use a total
+sample of 100 of the youngest individuals in the Cam-CAN data.
+However, the hyper-prior settings differ. In Lehmann et al. implementation, they adopt the hyper
+prior,
+                                      π(θg ) ∼ N (µ0 , Σ0 ),
+                                              π(Σg ) ∼ W −1 (Ψ0 , ν0 ),
+which follows a Normal and Inverse-wishart distribution, but we adopt a Normal-inverse-Wishart
+distribution,
+                                                       Σg
+                                  π(θg |Σg ) ∼ N (µ0 ,    ),
+                                                       κ0
+                                              π(Σg ) ∼ W −1 (Ψ0 , ν0 ).
+We therefore re-implement a Bayesian multi-network ERGM with our Normal-inverse-Wishart
+distribution. We use the same informative hyper-prior specification for {µ0 , Ψ0 , ν0 } as Lehmann
+et al. (see details in [1]) and set k0 = 1. We refer to this fitting as our Bayesian fitting to
+distinguish it from the Lehmann et al. fitting.
+In this first implementation scheme, we assess and compare our AHS-NPE fitting with both our
+Bayesian fitting and Lehmann et al. implementation results [1].
+
+4.2   Extending Cam-CAN results
+The MN-ERGM in Lehmann et al. implementation assigns the 100 youngest and 100 oldest
+individuals to two age groups for implementation and posterior density comparisons.
+To extend upon that, we implement our AHS-NPE on two age groups, each with a sample size
+of 293, forming a total sample size of 586. Each group implementation is equivalent to the
+One-level model in Lehmann et al. paper [1]. To form the age groups, we divide the oldest
+half of individuals into the old group and the youngest half of individuals into the young group.
+Networks are also binarised by absolute thresholding with group-wide average node degree set
+to 3. We use the same approach to specify the informative hyper-priors as Lehmann et al. for
+{µ0 , Ψ0 , ν0 } and set k0 = 1.
+
+
+
+
+                                                         13
+5     Implementation Result
+5.1   Reproducing Cam-CAN results
+We implement the AHS-NPE on the young group, as described in Section 4 and use the ERGM-
+specific adjustments (Section 3.3). We perform 11 iterations to achieve convergence.
+We first assess and validate the AHS-NPE results for the group-level parameters θg by compar-
+ing them with our Bayesian fitting and Lehmann et al.’s fitting. In Figure 1 (above), we see that
+AHS-NPE successfully converges to our Bayesian fitting by iteration 9, showing little bias on the
+group-level parameters, and they are similar to Lehmann et al.’s fitting on an absolute scale. We
+also assess the Mahalanobis distance on group-level mean between AHS-NPE and our Bayesian
+fitting (Figure 1 below). We can see the estimations are rough in the burn-in rounds 1 to 4, but
+these rounds are crucial for adequate coverage for further training iterations. The estimation
+rapidly improves after burn-in due to refined coverage and enhanced density estimators.
+We then assess the AHS-NPE on individual-level parameters θi by comparing them with our
+Bayesian fitting in Figure 2. While the distribution of posterior means aligns relatively well
+(Figure 2 below), AHS-NPE shows a wider spread compared to our Bayesian fitting. However,
+we should not treat the Bayesian fitting as the “truth”, and therefore, we assess the posterior
+predictive distributions of both AHS-NPE and our Bayesian fitting with the observed statistics
+(Figure 2 above). Both AHS-NPE and Bayesian fit show adequate alignments. More specifi-
+cally, the AHS-NPE shows better and more precise alignment with the observed values in most
+samples, whereas our Bayesian fitting shows systematic drifts in most sample predictions. How-
+ever, the Bayesian fitting appears more accurate for more extreme samples than our AHS-NPE.
+We also examine the covariances of the individual-level parameters under AHS-NPE and our
+Bayesian fitting (Figure 3). While the mean values are similar between the two, AHS-NPE pro-
+duces a tighter posterior credible interval. Furthermore, AHS-NPE successfully captures the
+intrinsic inter-relationships between summary statistics, showing similar covariance directions
+to those in our Bayesian fitting. Both AHS-NPE and our Bayesian fitting are relatively consis-
+tent with Lehmann’s fitting (see Figure 3 in [1]).
+We then assess the group-level covariance Σg , which captures heterogeneities across individu-
+als. In Figure 4, while Σg estimated by AHS-NPE MAP and our Bayesian fitting are relatively
+similar and consistent in trends, AHS-NPE estimates a larger group-level covariance than our
+Bayesian fitting. This reflects the same situation that we observed in Figure 2 (below) where
+AHS-NPE individual-level parameters are more widely spread than our Bayesian fitting. Two
+reasons may be possible. Firstly, the bias in AHS-NPE individual-level estimates accumulates
+to the group-level covariances. Secondly, the centred design of our Bayesian fitting imposes a
+shrinkage effect to “tie” the individual-level parameters around the group-level parameters such
+that the inferred Σg is smaller than the “true” variability (i.e., our Bayesian fitting underesti-
+mates rather than AHS-NPE overestimates). Although these two reasons may be compounding,
+we suspect the second reason is more likely because it is observed that our Bayesian fitting
+shows systematic drifts in most posterior predictive samples compared to the observed values
+(Figure 2 above).
+Overall, AHS-NPE demonstrates accurate estimation and consistency with conventional Bayesian
+fittings, aligning closely with both our Bayesian fitting and Lehmann et al.’s fitting [1]. Our
+AHS-NPE successfully re-show the fitting results on the Cam-CAN young group.
+
+
+
+
+                                               14
+                       10.0
+
+
+                                                                          20
+
+
+
+
+                        7.5                                                                                                               20
+
+                                                                          15
+Density
+
+
+
+
+                                                                Density
+
+
+
+
+                                                                                                                                Density
+                        5.0
+                                                                          10
+
+                                                                                                                                          10
+
+
+
+                        2.5
+                                                                           5
+
+
+
+
+                        0.0                                                0                                                              0
+
+                              −4.0    −3.5          −3.0                   0.8             1.0         1.2        1.4                          −0.7       −0.6        −0.5      −0.4    −0.3
+                                      Edges                                                      GWESP                                                                GWNSP
+
+
+
+
+                                                  round 1   round 3              round 5         round 7     round 9        Observed                  paper fitting       our fitting
+                                     Round
+                                                  round 2   round 4              round 6         round 8
+
+
+
+
+                       600
+Mahalanobis Distance
+
+
+
+
+                       400
+
+
+
+
+                       200
+
+
+
+
+                          0
+                                 1            2             3                       4                  5                6                       7                     8                 9
+                                                                                                   Round
+
+
+
+Figure 1: Plots for comparing AHS-NPE to our Bayesian fitting and Lehmann et al. fitting [1];
+in the above plot, we plot posterior densities of θg in AHS-NPE training rounds; the red dashed
+lines are for the posterior means of θg in Lehmann et al. fitting and the blue dashed lines are for
+our Bayesian fitting; we only display 9 rounds due to the color spectrum limit, further rounds
+show almost the same density as Round 9 (see our convergence criterion); we do not have exact
+results from Lehmann et al. fitting, and our display is based on visual inspection of their Figure
+2 in [1]; the below plot is for the Mahalanobis distance [32] between our AHS-NPE fitting on
+θg and the posterior means of our Bayesian fitting; for consistency with the above plot, 9 rounds
+are used; Mahalanobis distance is a measure of the distance between a point and a distribution
+[32].
+
+
+
+
+                                                                                                 15
+           Edges (Posterior Predictives)                        GWESP (Posterior Predictives)                           GWNSP (Posterior Predictives)
+                                                                                                                 1500
+
+
+
+    400
+                                                         750
+
+
+
+
+                                                                                                                 1000
+    300
+
+                                                         500
+
+
+
+
+    200
+
+                                                                                                                  500
+                                                         250
+
+
+
+    100
+
+
+
+
+                                                           0                                                        0
+
+                 NPE           observed       Bayesian                 NPE          observed          Bayesian               NPE         observed       Bayesian
+
+
+
+                                                               condition      NPE     observed        Bayesian
+
+
+           Edges (Posterior)                                    GWESP (Posterior)                                       GWNSP (Posterior)
+                                                                                                                 −0.1
+
+    −3.0
+
+                                                         1.75
+                                                                                                                 −0.2
+
+
+    −3.5
+
+                                                                                                                 −0.3
+                                                         1.50
+
+
+    −4.0
+                                                                                                                 −0.4
+
+
+
+                                                         1.25
+    −4.5                                                                                                         −0.5
+
+
+
+
+                                                                                                                 −0.6
+    −5.0                                                 1.00
+
+
+                       NPE                Bayesian                           NPE                 Bayesian                          NPE              Bayesian
+
+
+
+                                                                     condition      NPE        Bayesian
+
+
+
+
+Figure 2: Paired plots that compare AHS-NPE with our Bayesian fitting on the individual-level
+parameters θi ; in the above plots, we display the posterior predictive means based on individual-
+level realisations, and they are plotted as paired plots between AHS-NPE (red), observed statis-
+tics (green), and our Bayesian fitting (blue); in the below paired plots, we show the posterior
+means of θi between AHS-NPE (red) and our Bayesian fittings (blue); note that we do not have
+access to Lehmann et al.’s fitting results on individual-level posteriors, and therefore, we omit
+comparison with their fittings here.
+
+
+
+
+                                                                                    16
+                                          i = 10                                                      i = 53                                                         i = 78
+
+
+
+
+              1.7
+
+
+
+
+                                                                                  1.4
+
+
+
+
+                                                                                                                                        1.4
+                                                                                  1.2
+              1.5
+
+
+
+
+                                                                                                                                        1.2
+      gwesp
+
+
+
+
+                                                                          gwesp
+
+
+
+
+                                                                                                                                gwesp
+                                                                                  1.0
+
+
+
+
+                                                                                                                                        1.0
+              1.3
+
+
+
+
+                                                                                  0.8
+
+
+
+
+                                                                                                                                        0.8
+              1.1
+
+
+
+
+                            −4.5           −4.0             −3.5                           −4.0    −3.5       −3.0      −2.5                      −4.0         −3.5        −3.0         −2.5
+
+                                          edges                                                           edges                                                       edges
+              −0.2
+
+
+
+
+                                                                                  −0.2
+              −0.4
+
+
+
+
+                                                                                                                                        −0.4
+                                                                                  −0.4
+      gwnsp
+
+
+
+
+                                                                          gwnsp
+
+
+
+
+                                                                                                                                gwnsp
+              −0.6
+
+
+
+
+                                                                                                                                                                                               NPE
+                                                                                                                                                                                               Bayesian
+
+
+
+
+                                                                                                                                        −0.6
+                                                                                  −0.6
+              −0.8
+              −1.0
+
+
+
+
+                                                                                  −0.8
+
+
+
+
+                                                                                                                                        −0.8
+                     1.1    1.2     1.3    1.4     1.5    1.6   1.7                          0.8     1.0          1.2     1.4                     0.8          1.0         1.2          1.4
+
+                                          gwesp                                                           gwesp                                                       gwesp
+
+
+
+
+                                                                                                                                        −2.5
+                                                                                  −2.5
+              −3.5
+
+
+
+
+                                                                                                                                        −3.0
+                                                                                  −3.0
+      edges
+
+
+
+
+                                                                          edges
+
+
+
+
+                                                                                                                                edges
+              −4.0
+
+
+
+
+                                                                                  −3.5
+
+
+
+
+                                                                                                                                        −3.5
+              −4.5
+
+
+
+
+                                                                                  −4.0
+
+
+
+
+                                                                                                                                        −4.0
+
+
+
+
+                     −1.0         −0.8      −0.6         −0.4      −0.2                  −0.8 −0.7 −0.6 −0.5 −0.4 −0.3 −0.2                    −0.8     −0.7   −0.6     −0.5     −0.4   −0.3
+
+                                          gwnsp                                                           gwnsp                                                       gwnsp
+
+
+
+Figure 3: Pairwise contour plots for posterior densities on individual-level parameters; the red
+is for AHS-NPE and the blue is for our Bayesian fitting; the contours are for the 50%, 75%
+and 95% credible intervals, respectively; we assess the 10th, 53rd and 78th sample in the young
+group. This matches with Lehmann et al. displayed plot in Figure 3 [1].
+
+
+
+
+                                                                                                                     17
+                           NPE                                                 Bayesian fitting
+
+
+
+
+       GWNSP    −0.0419   0.0170    0.0222                 GWNSP     −0.0215       0.0078         0.0136
+
+
+
+
+                                              Covariance                                                    Covariance
+                                                  0.2                                                           0.2
+
+
+       GWESP    −0.0730   0.0316    0.0170        0.1      GWESP     −0.0369       0.0147         0.0078        0.1
+
+
+                                                  0.0                                                           0.0
+
+
+
+
+        Edges   0.2056    −0.0730   −0.0419                  Edges   0.1101        −0.0369        −0.0215
+
+
+
+
+                 Edges    GWESP     GWNSP                             Edges        GWESP          GWNSP
+
+
+
+
+Figure 4: Heat plot styled visualisation of MAP of group-level covariances Σg ; the magnitudes
+are reflected by colours and transparencies; the exact values are displayed in black labellings
+accordingly.
+
+
+
+
+5.2   Extending Cam-CAN results
+We now implement the AHS-NPE on the Cam-CAN data to enable a larger-scale fitting with
+293 samples for each age group. We reach convergence in 12 iterations for the old group and 11
+iterations for the young group. We assess the group-level posterior and its 95% credible interval
+(Figure 5). We observe that the young group has significantly larger GWESP and GWNSP pos-
+terior than the old group, but the edge posterior is significantly smaller in the young group.
+Large GWESP and GWNSP with a small edge indicate a very efficient system. Therefore, our
+results inferred for the young group means efficient brain connectivity, which corresponds to
+the small-world properties that have been found among young people in other studies when
+analysing neuroimaging networks [33, 34]. This may be because young people maintain strong
+white matter integrity, allowing information to travel efficiently within the brain, but such effi-
+ciency is lost during ageing.
+Findings from our extended AHS-NPE fitting are highly consistent with the MN-ERGM fitting
+by Lehmann et al. [1]. In particular, the directions (i.e., signs of posterior estimates) of their
+posterior estimates are consistent with our result, for which they provided a detailed discussion
+to yield a similar ageing and connectivity efficiency conclusion as ours (see [1]). Moreover, our
+fitting shows relatively more significant age group differences. Our AHS-NPE can potentially
+be adopted in a much larger study to yield even more robust age difference results.
+Overall, our AHS-NPE extends the Cam-CAN application to re-validate the fitting results from
+past studies, and it seems to consolidate some extra interesting age differences.
+
+
+
+
+                                                        18
+                                                               edges
+                          40
+
+
+                          30
+
+
+                          20
+
+
+                          10
+
+
+                           0
+                               −4.1        −4.0                −3.9              −3.8             −3.7
+
+                                                           gwesp
+                          40
+
+
+                          30
+                                                                                                         Group
+                Density
+
+
+
+
+                          20                                                                                Old
+                                                                                                            Young
+                          10
+
+
+                           0
+                                               1.35                    1.40                1.45
+
+                                                           gwnsp
+                          40
+
+
+                          30
+
+
+                          20
+
+
+                          10
+
+
+                           0
+                                      −0.375          −0.350            −0.325          −0.300
+                                                          Posterior
+
+
+Figure 5: Density plots of the posterior density estimates for group-level means; the young
+groups are plotted in red and the old groups are plotted in green blue (colours match with
+Lehmann et al. paper [1]); three statistics are considered: edges (above), GWESP (middle)
+and GWNSP (below); the density plots use 10,000 posterior samples; the lines are for the 95%
+credible intervals and posterior means.
+
+
+
+
+6    Discussion
+Through our implementations, we have established the accuracy and usefulness of our novel
+AHS-NPE by re-showing the young cohort fitting results of MN-ERGMs in Lehmann study
+[1]. Such reproducing shows our AHS-NPE is a reliable tool for network analysis studies and
+broader studies in other fields.
+AHS-NPE add value to the ERGM literature by providing a much scalable modelling frame-
+work, which proves to be essential for the developed MN-ERGMs. The conventional Bayesian
+ERGM fitting is subject to computational burden, which is mainly due to the cost of sampling
+updates for the auxiliary variable (i.e., network simulation in the exchange algorithm). In our
+AHS-NPE implementation to extend the Cam-CAN study (Section 5.2) to target 586 samples,
+with 11 iterations to reach convergence and simulate 10,000 posterior samples per individual,
+we performed 330,000 simulations of data-parameter pairs for the model training. To perform
+the same scaled implementation using conventional Bayesian fitting, we need at least 5,860,000
+simulations of the auxiliary variables, which does not take into consideration the burn-in period.
+
+
+                                                                      19
+More importantly, the computational demand for the conditional density estimator training and
+data-parameter pairs simulation are almost the same between our implementation on 100 and
+286 samples (per group), and this is because the amortisation property means once the condi-
+tional density estimator is trained, the inference step computation is negligible. An important
+implication of that is we can further scale up the implementation sample size without the need
+to increase the computational burden significantly.
+Furthermore, our AHS-NPE preserves both the iterative refinement and the amortisation com-
+pared to other NPE-based hierarchical frameworks [22, 24]. While our implementation focus
+is mainly on ERGMs, its application and usage can be extended to the broad NPE literature on
+hierarchical structures.
+
+6.1   Limitation and Future Work
+In the AHS-NPE, we have established well-rounded guidelines on specific problems we may
+face when implementing NPE on ERGMs and designed procedures accordingly to target them.
+We are confident that using our design procedures, we can yield an adequate AHS-NPE fitting,
+and it is successfully validated using our implementations. However, we cannot claim that our
+procedures and the identified issues are the definite “truth”, because investigating the root “true”
+cause in scenarios where we are likely to face ERGM-specific challenges and how our proposed
+strategy solves it is challenging in a neural network setup. Our established procedures rely on
+our trials, experiences and knowledge of ERGMs, and they are certainly useful.
+While our AHS-NPE shows multiple advantages in terms of armortisation and iterative refine-
+ment, the generalisability of our proposed framework is relatively limited in comparison to other
+NPE-based hierarchical frameworks [22, 24]. The implementation logic can be generalised to
+any framework setup with a tractable analytical variational solution. The proposal density can
+be adjusted to other mixture distributions using similar logic. While the ERGM-specific adjust-
+ment scheme can also be adjusted and generalised, the refined sampling component p̃(refined) (θ)
+may require some careful design, which should aim to condense but still maintain a reasonable
+coverage using the burn-in rounds information. We also discussed some other potential limita-
+tions when proving methods validity in the Supplementary Materials.
+In our Cam-CAN application in Section 5.2, we extended the study to a larger scale. How-
+ever, the group division imposes some limitations on our neurological interpretations as the age
+range targeted may be too broad. In other words, the distinction between an individual being
+young or old is too general, which may introduce bias to our findings of age-related differences.
+Given more available data and sufficient contextual knowledge, future implementations can bet-
+ter utilise the strength of AHS-NPE to target specific neuro-imaging research questions.
+
+
+7     Supplementary Material
+7.1   Bayesian ERGM estimation
+Estimation of ERGM in the Bayesian setup uses the Exchange Algorithm [2, 3]. It iteratively
+considers exchanging with an auxiliary variable to cancel out the intractable nising constants.
+See Algorithm 4 and 5.
+
+
+
+
+                                                20
+Algorithm 4 Network Simulation Algorithm With Given θ
+  Initialisation
+  Initialise a network y (0) of the same size as the targeting network
+
+  for i = 1, ..., I do
+      Propose y ′ from q(.|y (i−1) )
+      Accept y ′ with
+
+
+                                                     p(y ′ |θ)q(y ′ |y (i−1) )
+                            Acceptance Ratio =                                   ,
+                                                   p(y (i−1) |θ)q(y (i−1) |y ′ )
+
+  end for
+
+
+Algorithm 5 Exchange Algorithm
+  Initialise: Set T and initialise θ(1)
+
+  for t = 1, ..., T do
+                        (t)
+      Propose θj′ ∼ N (θj , Σ)
+      Simulate yj ∼ p(·|yj−1 , θj′ ) with Algorithm 4
+                   ′
+
+      Accept the proposal with
+
+                                            π(θ′ | y) π(y ′ | θ)
+                        Acceptance Ratio =            ·
+                                            π(θ | y) π(y ′ | θ′ )
+                                            exp θ′ h(y) π(θ′ ) exp θh(y ′ )
+                                                                          
+                                          =                               
+                                            exp θh(y) π(θ) exp θ′ h(y ′ )
+
+  end for
+
+
+7.2   Summary Statistics
+The GWESP and GWNSP are defined as:
+                                             n−2
+                                             X                         
+                     hGW ESP (y) = exp(τ )           1 − (1 − exp(−τ ))i pi ,
+                                              i=1
+
+                                             n−2
+                                             X                         
+                    hGW N SP (y) = exp(τ )           1 − (1 − exp(−τ ))i npi .
+                                             i=1
+
+pi and npi are the number of connected and non-connected vertex pairs sharing i neighbours,
+respectively. The decay parameter τ is set as 0.75 [1].
+
+
+7.3   Methods Validity
+In this section, we first discuss the validity of the EM approach. We then align the objective of
+the NPE with the analytically optimal solution q ∗ (θi ). Finally, we present the derivation of the
+M-step updates.
+A large amount of our proof in this section relies on or is inspired by the foundation built by Jia
+et al. [21].
+
+
+                                                21
+7.3.1   EM Procedure
+We now give a mathematical proof of the validity of the EM procedure by first considering the
+ELBO for the joint KL divergence,
+
+                                                           π(Θall , x)
+                                 ELBO(q) = EΘall [log                  ].
+                                                            q(Θall )
+
+Under the mean field assumption, the ELBO becomes
+
+               ELBO(q) = Eθg ,Σg [log π(θg , Σg ) − log q(θg , Σg )]
+                           XN       h                                             
+                         +      Eθi Eθg ,Σg log p(xi | θi ) + log π(θi | θg , Σg )
+                                i=1
+                                            i
+                                − log q(θi ) .                                                     (3)
+
+Note that the above expectations are with respect to q(·).
+We first derive that the optimal q ∗ (θi ) targets the conditional posterior π(θi |xi , θg , Σg ). The
+derivation logic is to first gather all relevant terms in the expression, and take the functional
+derivative. By setting it to zero, we can derive the form we want.
+The relevant terms in the ELBO (Equation (3)) for q(θi ) is:
+                                                                                          
+         ELBO(q(θi )) = Eθi Eθg ,Σg [log p(xi | θi ) + log π(θi | θg , Σg )] − log q(θi ) .
+
+We take the functional derivative and set it to zero to achieve the optimality,
+
+        δELBO(q(θi ))
+                      = Eθg ,Σg [log p(xi | θi ) + log π(θi | θg , Σg )] − log q(θi ) − 1 = 0.
+           δq(θi )
+
+Rearranging and solving for q ∗ (θi ), we achieve
+
+               log q ∗ (θi ) = Eθg ,Σg [log p(xi | θi ) + log π(θi | θg , Σg )] + constant,
+
+and                                                                                     
+                    ∗           exp Eθg ,Σg [log p(xi | θi ) + log π(θi | θg , Σg )]
+                     q (θi ) =                                                            ,
+                                                          Z
+leaving Z as a normalisation constant. Our derived form is the same as the q ∗ proportionality
+expression from Jia et al. derivation as the θg and Σg are treated as independent of θi [21].
+If q ∗ (θg , Σg ) = π(θg , Σg |x), then q ∗ (θi ) = π(θi |θg , Σg , xi ) also holds in the EM procedure
+when keeping the global parameters θg and Σg fixed.
+Similarly, to demonstrate the optimal q ∗ (θg , Σg ) targets the posterior π(θg , Σg |x). We pick out
+terms in the ELBO (Equation (3)) related to global parameters and re-arrange,
+                                                                N
+                                         "                                                         #
+                                                               X
+            ELBO(q(θg , Σg )) = Eθg ,Σg log π(θg , Σg ) +           Eθi [log p(xi , θi | θg , Σg )] .
+                                                             i=1
+
+Following the similar optimisation procedure, we can find q ∗ (θg , Σg ) indeed targets the poste-
+rior π(θg , Σg |x) with equality holding when q(θi ) equals the true conditional posterior.
+Now we have shown our variational distributions indeed target what they should target, and then
+we discuss the EM procedure. By sequentially performing the E-step (optimising q(θi )) and the
+M-step (Optimising q(θg , Σg )), the ELBO is guaranteed to monotonically increase (or remain
+the same at each iteration), which ensures convergence to a (local) maximum.
+We further discuss some potential limitations in our EM procedure which may hinder our conver-
+gence speed. Firstly, we use a sampling procedure to estimate the expectation over our estimated
+
+                                                   22
+NPE q(θi ) = qϕ (θi |xi ), which may contain bias. However, given the efficiency of sample re-
+alisation from the estimated normalising flows, we can generate a large number of samples to
+avoid the potential bias. Secondly, with the need for a fixed point estimate of θg and Σg for the
+E-step, we used MAP from the updated variational distribution from the M-step, which may also
+cause bias. However, both the variational distribution of θg (Normal) and Σg (Inverse-Wishart)
+are regular and well-behaved, meaning that the MAP estimates should serve as adequate point
+estimates.
+
+7.3.2   NPE Approximation
+In the previous proof, we have shown the q ∗ (θi ) targets the conditional posterior π(θi |xi , θg , Σg )
+with equality holding when keeping the global parameters fixed. The validity of replacing q ∗ (θi )
+with the NPE qϕ (θi |xi ) relies on the fact that the objective of both approaches is aligned. With
+the hierarchical prior π(θi |θg , Σg ), qϕ (θi |xi ) also targets the conditional posterior π(θi |xi , θg , Σg ).
+We consider the loss function targeted by the NPE. The derivation logic is that when we min-
+imise for the NPE loss, we are equivalently minimising the KL divergence between our qϕ (.)
+and q ∗ (.). Recall the target loss function for NPE is
+
+                                     L(ϕ) = −Eθi ,xi [log qϕ (θi |xi )].
+
+Consider
+                                  p(xi , θi ) = p(xi | θi )π(θi | θg , Σg ),
+noting the global terms are incorporated as the prior terms. Using Bayes’ Theorem
+
+                                                       p(xi | θi )π(θi | θg , Σg )
+                             π(θi | xi , θg , Σg ) =                               ,
+                                                           p(xi | θg , Σg )
+
+moving the right hand side denominator to the left hand side, we get
+
+                               p(xi , θi ) = p(xi | θg , Σg )π(θi |xi , θg , Σg ).
+
+Now consider our NPE loss function again and expand the expectation,
+                                                   Z
+            L(ϕ) = −Exi ,θi [log qϕ (θi | xi )] = − p(xi , θi ) log qϕ (θi | xi ) dθi .
+
+Inserting p(xi , θi )
+                                                Z
+                   L(ϕ) = −p(xi | θg , Σg )         π(θi |xi , θg , Σg ) log qϕ (θi | xi ) dθi ,
+
+and noting p(xi | θg , Σg ) is independent of θi as well as replacing π(θi |xi , θg , Σg ) with q ∗ (θi )
+(considering equality in the EM steps),
+
+                             L(ϕ) = −p(xi | θg , Σg ) · Eθi [log qϕ (θi | xi )].
+
+We can see minimisation of NPE loss function is equivalent to minimising −Eθi [log qϕ (θi | xi )],
+which is further equivalent to minimising the KL Divergence
+
+                            KL(q ∗ ∥qϕ ) = Eθi [log q ∗ (θi ) − log qϕ (θi | xi )].
+
+Note that Eθi [log q ∗ (θi )] is independent of ϕ. Therefore, we have rigorously shown the intuitive
+fact that NPE is a valid approximation of the q ∗ (θi ).
+
+
+
+
+                                                       23
+7.3.3   M-step Updates
+In this part, we provide the mathematical derivation of the M-step updates under the Normal-
+inverse-Wishart prior for θg and Σg . Recall the optimal solution is of the form
+
+                                 q ∗ (θg , Σg ) ∝ exp {Eθi [log p(θi , θg , Σg , x)]} ,
+
+which can be simplified under the mean-field assumption as:
+                                              n                         n
+                       (   "                                                              #)
+                                              X                         X
+   q ∗ (θg , Σg ) ∝ exp Eθi log π(θg , Σg ) +    log π(θi | θg , Σg ) +   log p(xi | θi )    .
+                                                         i=1                          i=1
+
+Recognising log p(xi | θi ) is independent of θg and Σg ; and independence between θi , it can be
+reduced to                                        ( n                           )
+                                                   X
+                 q ∗ (θg , Σg ) ∝ π(θg , Σg ) exp     Eθi [log π(θi | θg , Σg )] ,            (4)
+                                                            i=1
+where we slightly abuse notation by using θi to denote both the joint and individual distribu-
+tions.
+From this step onwards, the derivation can be complex, and due to the complexity of the full
+equations, we will use simplified equations during the derivation process. To prevent it from
+becoming too abstract, we now explain the derivation logic. This derivation is mainly consoli-
+dated from the Jia et al. study [21], and we build upon their analytical solution to incorporate
+the Normal-inverse-Wishart prior on θg and Σg . In their study, they have derived the second
+component in Equation (4) will follow a Normal-inverse-Wishart distribution, but they left the
+left component as 1 (i.e., Uniform). We first re-show their derivations using our own steps. Then
+we consider this as a problem of multiplication of two Normal-inverse-Wishart distribution to
+derive our final updates.
+We first consider Eθi [log π(θi | θg , Σg )] in Equation (4) with the Normal prior structure N (θi |
+θg , Σg ) and expand the distribution,
+                                               1           1     h                        i
+     Eθi [log π(θi | θg , Σg )] = Constant − log |Σg | − Eθi (θi − θg )⊤ Σ−1  g (θi − θg ) .    (5)
+                                               2           2
+
+To evaluate the expectation based on the updated variational distribution of θi , we define
+
+                                                    µi = Eθi [θi ],
+                                                          h                     i
+                                Σi = Covq(θi ) [θi ] = Eθi (θi − µi )(θi − µi )⊤ .
+Then, we can expand out the expectation in Equation (5) using trace trick:
+             h                         i
+          Eθi (θi − θg )⊤ Σ−1                   −1                  ⊤ −1
+                                                     
+                           g (θi − θg ) = tr Σg Σi + (µi − θg ) Σg (µi − θg ).                                (6)
+
+We then insert Equation (6) back to Equation (5) and include the summation procedure over all
+individuals, as in Equation (4),
+n                                                      n
+X                                      n           1 Xh                                                  i
+                                                           tr Σ−1                      ⊤ −1
+                                                                      
+    Eθi [log π(θi | θg , Σg )] = Const− log |Σg |−              g Σ i   + (µ i − θ g )  Σ g (µ i − θ g )   .
+                                       2           2
+i=1                                                   i=1
+                                                                                                  (7)
+We are now preparing to recognise the expression as our known (Normal-inverse-Wishart) dis-
+tribution. The logic is that we pick out all terms related to θg and completing the square. We
+expand and rearrange the quadratic terms in Equation (7),
+        n
+        X                                                                     n
+                                                                              X            n
+                                                                                           X
+                            ⊤
+               (µi − θg )       Σ−1               ⊤ −1        ⊤ −1
+                                 g (µi − θg ) = nθg Σg θg − 2θg Σg                  µi +         µ⊤  −1
+                                                                                                  i Σg µi .
+         i=1                                                                  i=1          i=1
+
+
+                                                          24
+By defining:
+                                                           n
+                                                   1X
+                                              µ̄ =    µi ,
+                                                   n
+                                                       i=1
+and complete the squares, we can get
+  n
+  X                                                      n
+                                                         X
+              ⊤ −1                       ⊤ −1
+    (µi − θg ) Σg (µi − θg ) = n(θg − µ̄) Σg (θg − µ̄) +   (µi − µ̄)⊤ Σ−1
+                                                                       g (µi − µ̄) .
+  i=1                                                                     i=1
+
+We insert this back to Equation (7) to consider all relevant terms, the Equation (7) then becomes
+    n
+    X                                                n            n
+          Eq(θi ) [log π(θi | θg , Σg )] = Const −     log |Σg | − (θg − µ̄)⊤ Σ−1
+                                                                               g (θg − µ̄)
+                                                     2            2
+    i=1
+                                                n                        n                         (8)
+                                           1X              1X
+                                         −    tr(Σ−1
+                                                  g Σi ) −    (µi − µ̄)⊤ Σ−1
+                                                                          g (µi − µ̄).
+                                           2               2
+                                               i=1                     i=1
+
+We can already see the Normal part of the Normal-inverse-Wishart. Since the remaining proce-
+dures are quite standard, we jump a bit and omit some naive explanations. We combine the last
+two terms in Equation (8):
+                   n h
+                   X                                            i
+                      tr Σ−1                    ⊤ −1
+                                                                  = tr Σ−1
+                                                                           
+                          g  Σ i   + (µ i − µ̄)  Σ g (µ i − µ̄)         g Ψ1 ,
+                    i=1
+              Pn 
+with Ψ1 = i=1 Σi + (µi − µ̄)(µi − µ̄)⊤ . We can identify the Normal-Inverse-Wishart for
+                                                
+
+the exponential terms in Equation (8)
+                 ( n                                )
+                   X
+           exp        Eq(θi ) [log π(θi | θg , Σg )] = NIW (θg , Σg | µ1 , k1 , Ψ1 , ν1 ) ,
+                     i=1
+
+with
+                                                               n
+                                                    1X
+                                          µ1 = µ̄ =    µi ,
+                                                    n
+                                                               i=1
+
+                                                    k1 = n,
+                                       n h
+                                       X                             i
+                                Ψ1 =         Σi + (µi − µ̄)(µi − µ̄)⊤ ,
+                                       i=1
+
+                                        ν1 = n − d − 2.
+Our derived Ψ1 is an equivalent expression to Ψ1 = ni=1 E[θi θi⊤ ] − nµ̄µ̄⊤ as in Jia et al. paper
+                                                       P
+[21].                                                                         Pn
+We then proceed to consider the Equation (4) q ∗ (θg , Σg ) ∝ π(θg , Σg ) exp   i=1 Eq(θi ) [log π(θi | θg , Σg )]
+by inputting the Normal-inverse-Wishart prior π(θg , Σg ) ∼ NIW (θg , Σg | µ0 , k0 , Ψ0 , ν0 ).
+We treat this problem as a multiplication of two Normal-inverse-Wishart distributions:
+                                                      
+                                                  Σg
+                     p1 (θg , Σg ) = N θg | µ0 ,         · IW (Σg | ν0 , Ψ0 ) ,
+                                                  κ0
+                                                      
+                                                  Σg
+                     p2 (θg , Σg ) = N θg | µ1 ,         · IW (Σg | ν1 , Ψ1 ) .
+                                                  κ1
+Equation (4) then becomes the problem we want to target and reduce,
+
+                                q ∗ (θg , Σg ) = p1 (θg , Σg ) · p2 (θg , Σg ),
+
+                                                      25
+where p1 (θg , Σg ) represents the Normal-inverse-Wishart prior, and p2 (θg , Σg ) represents the
+derived Normal-inverse-Wishart distribution in Equation (8).
+We can then recognise the distribution for q ∗ (Σg ),
+
+                                     q ∗ (Σg ) ∼ IW (Ψn , νn ),
+
+where
+                                  νn = ν0 + ν1 + d + 2,
+                                        κ0 κ1
+                        Ψn = Ψ0 + Ψ1 +         (µ0 − µ1 )(µ0 − µ1 )⊤ .
+                                       κ0 + κ1
+Then, q ∗ (θg |Σg ) becomes,
+                                    q ∗ (θg |Σg ) ∼ N (µn , kn ),
+where
+                                              κ0 µ0 + κ1 µ1
+                                       µn =                 ,
+                                                 κ0 + κ1
+                                          kn = κ0 + κ1 .
+We insert in the two Normal-inverse-Wishart distributions to obtain the variational updates.
+
+                                          νn = ν0 + n,
+                      n h
+                     X                           i     κ0 n
+           Ψn = Ψ0 +     Σi + (µi − µ̄)(µi − µ̄)⊤ +         (µ0 − µ̄)(µ0 − µ̄)⊤ ,
+                                                     κ0 + n
+                     i=1
+
+                                       κ0 µ0 + ni=1 µi
+                                               P
+                                µn =                   ,
+                                            κ0 + n
+                                          kn = κ0 + n.
+
+
+References
+ [1]    B. Lehmann, R. Henson, L. Geerligs, S. White, et al. “Characterising group-level brain
+        connectivity: a framework using Bayesian exponential random graph models”. In: Neu-
+        roImage 225 (2021), p. 117480.
+ [2]    A. Caimo and N. Friel. “Bayesian inference for exponential random graph models”. In:
+        Social networks 33.1 (2011), pp. 41–55.
+ [3]    A. Caimo and N. Friel. “Bergm: Bayesian exponential random graph models in R”. In:
+        arXiv preprint arXiv:1703.05144 (2017).
+ [4]    P. Tolochko and H. G. Boomgaarden. “Same but different: A comparison of estimation
+        approaches for exponential random graph models for multiple networks”. In: Social Net-
+        works 76 (2024), pp. 1–11.
+ [5]    D. Lusher, J. Koskinen, and G. Robins. Exponential random graph models for social
+        networks: Theory, methods, and applications. Cambridge University Press, 2013.
+ [6]    F. Leclercq. “Bayesian optimization for likelihood-free cosmological inference”. In: Phys-
+        ical Review D 98.6 (2018), p. 063511.
+ [7]    E. E. Ishida et al. “Cosmoabc: likelihood-free inference via population Monte Carlo ap-
+        proximate Bayesian computation”. In: Astronomy and Computing 13 (2015), pp. 1–11.
+ [8]    K. Cranmer, J. Brehmer, and G. Louppe. “The frontier of simulation-based inference”.
+        In: Proceedings of the National Academy of Sciences 117.48 (May 2020), 30055–30062.
+ [9]    G. Papamakarios and I. Murray. “Fast ε-free inference of simulation models with bayesian
+        conditional density estimation”. In: Advances in neural information processing systems
+        29 (2016).
+
+
+                                                 26
+[10]   D. Greenberg, M. Nonnenmacher, and J. Macke. “Automatic posterior transformation for
+       likelihood-free inference”. In: International Conference on Machine Learning. PMLR.
+       2019, pp. 2404–2414.
+[11]   M. Dax, S. R. Green, J. Gair, J. H. Macke, A. Buonanno, and B. Schölkopf. “Real-time
+       gravitational wave science with neural posterior estimation”. In: Physical review letters
+       127.24 (2021), p. 241103.
+[12]   G. Papamakarios, D. Sterratt, and I. Murray. “Sequential neural likelihood: Fast likelihood-
+       free inference with autoregressive flows”. In: The 22nd international conference on arti-
+       ficial intelligence and statistics. PMLR. 2019, pp. 837–848.
+[13]   H. Pesonen et al. “ABC of the future”. In: International Statistical Review 91.2 (2023),
+       pp. 243–268.
+[14]   G. Avecilla, J. N. Chuong, F. Li, G. Sherlock, D. Gresham, and Y. Ram. “Neural networks
+       enable efficient and accurate simulation-based inference of evolutionary parameters from
+       adaptation dynamics”. In: PLoS biology 20.5 (2022), e3001633.
+[15]   A. Fengler, L. N. Govindarajan, T. Chen, and M. J. Frank. “Likelihood approximation
+       networks (LANs) for fast inference of simulation models in cognitive neuroscience”. In:
+       Elife 10 (2021), e65074.
+[16]   M. Vasist, F. Rozet, O. Absil, P. Mollière, E. Nasedkin, and G. Louppe. “Neural posterior
+       estimation for exoplanetary atmospheric retrieval”. In: Astronomy & Astrophysics 672
+       (2023), A147.
+[17]   P. J. Gonçalves et al. “Training deep neural density estimators to identify mechanistic
+       models of neural dynamics”. In: Elife 9 (2020), e56261.
+[18]   D. Ward, P. Cannon, M. Beaumont, M. Fasiolo, and S. Schmon. “Robust neural posterior
+       estimation and statistical model criticism”. In: Advances in Neural Information Process-
+       ing Systems 35 (2022), pp. 33845–33859.
+[19]   A. Tejero-Cantero et al. “sbi: A toolkit for simulation-based inference”. In: Journal of
+       Open Source Software 5.52 (2020), p. 2505.
+[20]   Y. Fan and S. White. “Neural Posterior Estimation on Exponential Random Graph Mod-
+       els: Evaluating Bias and Implementation Challenges”. In: arXiv preprint arXiv:2504.09349
+       (2025).
+[21]   X. Jia, W.-J. Yan, C. Papadimitriou, and K.-V. Yuen. “An analytically tractable solution
+       for hierarchical Bayesian model updating with variational inference scheme”. In: Me-
+       chanical Systems and Signal Processing 189 (2023), p. 110060.
+[22]   D. Habermann, M. Schmitt, L. Kühmichel, A. Bulling, S. T. Radev, and P.-C. Bürkner.
+       “Amortized Bayesian Multilevel Models”. In: arXiv preprint arXiv:2408.13230 (2024).
+[23]   L. Heinrich, S. Mishra-Sharma, C. Pollard, and P. Windischhofer. “Hierarchical Neural
+       Simulation-Based Inference Over Event Ensembles”. In: arXiv preprint arXiv:2306.12584
+       (2023).
+[24]   P. Rodrigues, T. Moreau, G. Louppe, and A. Gramfort. “HNPE: Leveraging global pa-
+       rameters for neural posterior estimation”. In: Advances in Neural Information Processing
+       Systems 34 (2021), pp. 13432–13443.
+[25]   D. Tran, R. Ranganath, and D. Blei. “Hierarchical implicit models and likelihood-free
+       variational inference”. In: Advances in Neural Information Processing Systems 30 (2017).
+[26]   M. A. Shafto et al. “The Cambridge Centre for Ageing and Neuroscience (Cam-CAN)
+       study protocol: a cross-sectional, lifespan, multidisciplinary examination of healthy cog-
+       nitive ageing”. In: BMC Neurology 14.1 (2014), p. 204.
+[27]   J. K. Harris. An introduction to exponential random graph modeling. Vol. 173. Sage Pub-
+       lications, 2013.
+[28]   G. Papamakarios, T. Pavlakou, and I. Murray. “Masked autoregressive flow for density
+       estimation”. In: Advances in neural information processing systems 30 (2017).
+
+
+
+                                               27
+[29]   T. Tanaka. “A theory of mean field approximation”. In: Advances in Neural Information
+       Processing Systems 11 (1998).
+[30]   N. Gast and B. Van Houdt. “A refined mean field approximation”. In: Proceedings of the
+       ACM on Measurement and Analysis of Computing Systems 1.2 (2017), pp. 1–28.
+[31]   M. Deistler, P. J. Goncalves, and J. H. Macke. “Truncated proposals for scalable and
+       hassle-free simulation-based inference”. In: Advances in Neural Information Processing
+       Systems 35 (2022), pp. 23135–23149.
+[32]   G. J. McLachlan. “Mahalanobis distance”. In: Resonance 4.6 (1999), pp. 20–26.
+[33]   S. Micheloyannis, M. Vourkas, V. Tsirka, E. Karakonstantaki, K. Kanatsouli, and C. J.
+       Stam. “The influence of ageing on complex brain networks: a graph theoretical analysis”.
+       In: Human brain mapping 30.1 (2009), pp. 200–208.
+[34]   C. J. Stam. “Functional connectivity patterns of human magnetoencephalographic record-
+       ings: a ‘small-world’network?” In: Neuroscience letters 355.1-2 (2004), pp. 25–28.
+
+
+
+
+                                              28
+

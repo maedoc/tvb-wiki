@@ -1,0 +1,671 @@
+                                                                                                                      TYPE Perspective
+                                                                                                                      PUBLISHED   21 March 2025
+                                                                                                                      DOI 10.3389/fnhum.2025.1552178
+
+
+
+
+                                                   Integration of multimodal
+OPEN ACCESS                                        imaging data with machine
+EDITED BY
+Avinash Lingojirao Tandle,
+SVKM’s Narsee Monjee Institute
+                                                   learning for improved diagnosis
+of Management Studies, India
+REVIEWED BY
+                                                   and prognosis in neuroimaging
+Vikram Kulkarni,
+SVKM’s Narsee Monjee Institute
+of Management Studies, India
+                                                   Saurabh Bhattacharya1 , Sashikanta Prusty2 , Sanjay P. Pande3 ,
+*CORRESPONDENCE                                    Monali Gulhane4*, Santosh H. Lavate5 , Nitin Rakesh4 and
+Monali Gulhane
+ monali.gulhane4@gmail.com
+                                                   Saravanan Veerasamy6
+                                                   1
+                                                    School of Computer Science and Engineering, Galgotias University, Greater Noida, Uttar Pradesh,
+RECEIVED 27 December 2024                          India, 2 Department of Computer Science and Engineering, ITER-FET, Siksha ‘O’ Anusandhan (Deemed
+ACCEPTED 04 March 2025                             to be University), Bhubaneswar, Odisha, India, 3 Department of Computer Technology, Yeshwantrao
+PUBLISHED 21 March 2025                            Chavan College of Engineering, Nagpur, Maharashtra, India, 4 Symbiosis Institute of Technology,
+                                                   Nagpur Campus, Symbiosis International (Deemed University), Pune, India, 5 Department of Electronics
+CITATION
+                                                   and Telecommunication Engineering, AISSMS College of Engineering, Pune, Maharashtra, India,
+Bhattacharya S, Prusty S, Pande SP,                6
+                                                     Department of Computer Science, College of Engineering and Technology, Dambi Dollo University,
+Gulhane M, Lavate SH, Rakesh N and
+                                                   Dambi Dollo, Oromia, Ethiopia
+Veerasamy S (2025) Integration
+of multimodal imaging data with machine
+learning for improved diagnosis
+and prognosis in neuroimaging.
+Front. Hum. Neurosci. 19:1552178.
+doi: 10.3389/fnhum.2025.1552178
+                                                   Introduction: Combining many types of imaging data—especially structural
+                                                   MRI (sMRI) and functional MRI (fMRI)—may greatly assist in the diagnosis and
+COPYRIGHT
+© 2025 Bhattacharya, Prusty, Pande,                treatment of brain disorders like Alzheimer’s. Current approaches are less helpful
+Gulhane, Lavate, Rakesh and Veerasamy. This        for forecasting, however, as they do not always blend spatial and temporal
+is an open-access article distributed under
+the terms of the Creative Commons                  patterns from different sources properly. This work presents a novel mixed deep
+Attribution License (CC BY). The use,              learning (DL) method combining data from many sources using CNN, GRU, and
+distribution or reproduction in other forums
+is permitted, provided the original author(s)      attention techniques. This work introduces a novel hybrid deep learning method
+and the copyright owner(s) are credited and        combining CNN, GRU, and a Dynamic Cross-Modality Attention Module to help
+that the original publication in this journal is
+cited, in accordance with accepted academic
+                                                   more efficiently blend spatial and temporal brain data. Through working around
+practice. No use, distribution or reproduction     issues with current multimodal fusion techniques, our approach increases the
+is permitted which does not comply with
+                                                   accuracy and readability of diagnoses.
+these terms.
+                                                   Methods: Utilizing CNNs and models of temporal dynamics from fMRI
+                                                   connection measures utilizing GRUs, the proposed approach extracts spatial
+                                                   characteristics from sMRI. Strong multimodal integration is made possible by
+                                                   including an attention mechanism to give diagnostically important features
+                                                   top priority. Training and evaluation of the model took place using the
+                                                   Human Connectome Project (HCP) dataset including behavioral data, fMRI,
+                                                   and sMRI. Measures include accuracy, recall, precision and F1-score used to
+                                                   evaluate performance.
+                                                   Results: It was correct 96.79% of the time using the combined structure.
+                                                   Regarding the identification of brain disorders, the proposed model was more
+                                                   successful than existing ones.
+                                                   Discussion: These findings indicate that the hybrid strategy makes sense for
+                                                   using complimentary information from several kinds of photos. Attention to
+                                                   detail helped one choose which aspects to concentrate on, thereby enhancing
+                                                   the readability and diagnostic accuracy.
+                                                   Conclusion: The proposed method offers a fresh benchmark for multimodal
+                                                   neuroimaging analysis and has great potential for use in real-world brain
+
+
+
+Frontiers in Human Neuroscience                                          01                                                              frontiersin.org
+Bhattacharya et al.                                                                                                    10.3389/fnhum.2025.1552178
+
+
+
+
+                                                 assessment and prediction. Researchers will investigate future applications of
+                                                 this technique to new picture kinds and clinical data.
+
+                                                 KEYWORDS
+
+                                                 multimodal imaging, structural MRI (sMRI), functional MRI (fMRI), neurological
+                                                 disorders, deep learning framework, data fusion, diagnosis and prognosis
+
+
+
+
+1 Introduction                                                                interactions, hence they may be used to identify dynamic functional
+                                                                              connectivity in fMRI data (Grijalva et al., 2023; Tabassum et al.,
+     Identification and understanding of brain illnesses now heavily          2024). CNNs or RNNs functioning on their own cannot manage the
+rely on brain scans, often known as neuroimaging. Techniques that             heterogeneous structure of brain data even with current advances.
+provide scientists a great wealth of information on the structure             To solve this, deep learning models have lately included attention
+and operation of the brain include “structural magnetic resonance             methods—which flexibly prioritize diagnostically essential traits—
+imaging” (sMRI) and “functional magnetic resonance imaging”                   in order to in multimodal fusion challenges, attention processes
+(fMRI). SMRI gauges brain anatomy including cortical breadth                  have shown promise in allowing models ignore less important
+and gray matter count. Conversely, fMRI studies how brain areas               input while concentrating on crucial data. This fresh concept allows
+interact with one another both during specific activities and in              neural models to be more dependable and understandable (Achalia
+absence of them. Though they each provide something unique,                   et al., 2020; Rudroff et al., 2024).
+combining these techniques is still difficult. Combining anatomical                Still, the present approaches of aggregating heterogeneous
+and functional aspects, multimodal neuroimaging presents a more               brain data are not very successful. Many techniques rely on
+whole picture of the brain. But the challenge of aggregating such             basic fusion approaches—that is, combining sMRI and fMRI
+disparate kinds of data often limits its use in clinical and research         features—that ignore the complicated interactions between the
+environments (Odusami et al., 2024; Karakis et al., 2023).                    two forms of imaging (Abate et al., 2024; Fu et al., 2024).
+     Although feature fusion and statistical models are simple to             Furthermore, traditional machine learning models depend on
+employ, current approaches for merging many kinds of brain                    handcrafted characteristics, which could result in prejudices and
+imaging do not highlight intricate linkages between place and                 overlook minute data patterns. Although DL models are quite
+time. These conventional approaches fail to constantly consider               strong, their clinical relevance is not always obvious (Grigas et al.,
+how the structural patterns in sMRI fit the functional connections            2024). These issues highlight the need of having a system that
+in fMRI. Consequently, the integration and prediction efforts                 not only efficiently blends spatial and temporal patterns but also
+are not as strong as they need to be. While certain issues are                clarifies the method of decision-making.
+addressed by advanced deep learning models—such as CNNs                            Since no technique completely exploits the advantages of both
+working on their own for geographical data and RNNs working                   sMRI and fMRI, multimodal neuroimaging suffers a research
+on temporal data—they do not fully use how these two forms of                 vacuum. Most of the present approaches either blend the modes
+data could cooperate. Using CNNs to extract spatial characteristics,          in a manner that loses their particular merits or tackle the
+GRUs to monitor changes over time, and an attention strategy to               modes individually. Furthermore, few research have investigated
+emphasize features most crucial for diagnosis, the proposed hybrid            how sophisticated deep learning models—such as attention-based
+architecture fills in this void. This offers a fresh approach to reach        mixed models—may be combined with brain data. This hole
+steady multimodal fusion.                                                     demonstrates how helpful it may be to design an understandable
+     Mostly depending on feature fusion or statistical models,                new framework combining structural and functional data in a
+multimodal integration in neuroimaging has been used to mix                   logical manner. This work aims to provide a mixed DL framework
+data from sMRI and fMRI thus far. Although these techniques are               that effectively incorporates data from sMRI and fMRI in order
+simple to use, they can overlook the intricate relationships between          to diagnose and forecast neurological disorders. The proposed
+structural and functional characteristics. For example, fMRI’s                method employs CNNs to extract spatial features from sMRI
+connectivity patterns might reflect physical paths seen in sMRI,              data, GRUs to track temporal changes in fMRI connectivity data,
+but traditional fusion techniques poorly describe these spatial-              and attention techniques to identify the most critical aspects for
+temporal relationships. These approaches also struggle with the               diagnosis. By adding these components, the model aims to provide
+great degree of detail in brain data, which may cause overfitting and         a robust and logical approach for merging multidimensional data.
+poor generalizability. As the discipline of neuroimaging expands,             Using the Human Connectome Project (HCP) dataset—a vast
+it is becoming evident that new computer systems are required to              collection of sMRI, fMRI, and behavioral data—the paper also
+properly exploit multimodal data merging.                                     evaluates how well the system performs.
+     By enabling automated feature identification and pattern                      This research advances several very significant issues. First,
+recognition of complexity, DL has transformed neuroscience.                   it generates a fresh mixed design fixing the issues with present
+Examining spatial data from sMRI, such as the breadth of the                  multimodal integration methods using CNNs, GRUs, and attention
+cortex and the gray matter count, CNN has done well. Likewise,                processes. This framework allows the model to see patterns in
+RNNs such as LSTM and GRU are excellent at modeling temporal                  both place and time in neural data, therefore providing a more
+
+
+Frontiers in Human Neuroscience                                          02                                                           frontiersin.org
+Bhattacharya et al.                                                                                                     10.3389/fnhum.2025.1552178
+
+
+
+
+complete picture of brain construction and operation. Second,                  understanding how the brain functions and for more accurate
+the proposed framework on the HCP dataset is thoroughly tested                 diagnosis making, these AI-powered devices can capture high-
+in the research under close comparison with other previously                   resolution images of space and time (Chen et al., 2025; Meng et al.,
+used approaches. Especially for the identification of complex                  2025; Wu et al., 2024). In psychology, representation and transfer
+brain illnesses, this evaluation demonstrates the practical value              learning have evolved into valuable MRI techniques. Especially for
+of the model in the actual world. Finally, the research places                 mental health issues, these methods allow you to use what you
+great weight on the need of being understandable. It achieves                  have learnt from other related employment to better grasp complex
+this by guiding our understanding of the characteristics rendering             anatomical findings in neuroimaging (Dufumier et al., 2024).
+the predictions of the model utilizing attention processes. In                     Furthermore, becoming increasingly prevalent are artificial
+professional settings, developing trust and acceptability depends              intelligence models that fit certain scenarios. Combining
+much on this emphasis on transparency. This effort aims to                     neuroimaging data with predictive analytics using gradient
+solve significant issues in merging data and provide easily                    boosting techniques has allowed one to more individually treat
+understandable models thus improving multimodal neuroimaging.                  sorrow. Combining neuroimaging with predictive analytics has
+A major advance for neurology assessment and prediction is using               potential (Ali et al., 2022). Furthermore, structural neuroimaging
+the advantages of both sMRI and fMRI to create the proposed                    studies emphasizing the “hippocampus and amygdala subregions”
+hybrid DL framework. This work employs modern deep learning                    have provided us vital new insights on how PTSD alters the brain.
+techniques while still emphasizing on being transparent and usable             The findings of this research have served to demonstrate how
+in clinical situations, therefore the way multimodal neuroimaging              stressful situations may alter the organization of several areas of
+data is handled and utilized might alter.                                      the brain (Ben-Zion et al., 2024).
+                                                                                   People with Parkinson’s disease—especially those with modest
+                                                                               cognitive impairment—have also been examined using multimodal
+2 Analysis of existing works                                                   scanning. Combining many forms of scanning, researchers have
+                                                                               predicted how a disease would worsen using machine learning. This
+                                                                               approach emphasizes the need of aggregating many kinds of data to
+     Improved artificial intelligence and brain scans have made
+                                                                               provide accurate forecasts and simplify targeted actions (Zhu et al.,
+diagnosis and understanding of a broad spectrum of neurological
+and mental diseases much simpler. Using scanning techniques                    2024; Zhu et al., 2023). Artificial intelligence-driven neuroimaging
+such MRI, fMRI, and PET, scientists have discovered a great deal               and techniques have transformed the field of neurological and
+about how the brain’s structure and function vary under several                psychiatric diagnosis. Combining several kinds of photos with
+conditions. Machine learning approaches have made diagnosis                    machine learning has made it simpler to understand more
+even more accurate when coupled with these imaging techniques                  about PTSD and grief and identify neurodegenerative illnesses
+and enabled early issue discovery. a robust artificial intelligence            like “Parkinson’s and Alzheimer’s.” Early diagnosis and more
+system searching for Parkinson’s disease advanced using clinical               individualized therapy resulting from this have been positive. These
+testing and brain data. This approach demonstrated how artificial              developments highlight how crucial it is now to assist individuals
+intelligence may examine many kinds of data to identify patterns               with complex brain illnesses using modern technologies.
+suggesting the worsening nature of a disease (Islam et al., 2024).
+     Particularly vital in the “early detection of Alzheimer’s disease”
+has been computer-assisted identification. This is so because better           3 Proposed methodology
+neuroimaging techniques have made it simpler to observe changes
+in both structure and function. Using MRI and fMRI, artificial                 3.1 Dataset description
+intelligence models have showed potential in identifying disease-
+related biomarkers, therefore enabling early intervention plans                    Data from different types of brain scans, such as sMRI and
+(Shanmugavadivel et al., 2023). Scientists have also examined how              fMRI, were gathered for this study from public sources such as
+outside elements in the context of sports mishaps correlate with               the “Human Connectome Project” (HCP). It has high-resolution
+patterns of brain injury. By use of “multimodal neuroimaging” and              pictures, details about the people in the pictures (like their age
+finite element analysis, researchers have developed a method to                and gender), and professional notes about brain diseases (like
+forecast brain damage. This offers a fresh approach to investigate             “Parkinson’s disease, Alzheimer’s disease, or PTSD”). We can see
+sporting mishaps (Yuan et al., 2024).                                          trends over time on functional connectivity maps from fMRI, and
+     Additionally investigated is “post-traumatic stress disorder”             we can see the width and thickness of the gray matter from sMRI.
+(PTSD) using neuroimaging-based diagnosis. More individualized
+treatment strategies result from the identification of brain patterns
+connected to PTSD made possible by machine learning techniques
+used on MRI data (Jia et al., 2024). GAN has been investigated                 3.2 Structural (sMRI) and functional
+as a potential means of adding additional data, enhancing image                (fMRI) data and preprocessing
+quality, and identifying neuroimaging errors. This innovative tool
+has allowed us to overcome the issues related to small neural                  3.2.1 Structural MRI (sMRI)
+datasets (Wang et al., 2023).                                                    • Data Type: Captures anatomical details of the “brain,
+     Since ultra-high-performance gradient MRI devices released,                   including gray matter volume, cortical thickness, and white
+neuroimaging has evolved much further. Very crucial for                            matter structure.”
+
+
+Frontiers in Human Neuroscience                                           03                                                          frontiersin.org
+Bhattacharya et al.                                                                                                       10.3389/fnhum.2025.1552178
+
+
+
+
+   • Preprocessing:    Includes     skull stripping, intensity                     The input sMRI images are represented as a 3D tensor XsMRI
+     normalization, and segmentation into gray matter, white                   with W × H × D, where W, Santosh H Lavate and D denote the
+     matter, and cerebrospinal fluid.                                          width, height and depth of the image resp.
+                                                                                   A conv layer applies filters K to produce feature maps:
+
+                                                                                                      Fspatial = K ∗ XsMRI + b
+3.2.2 Functional MRI (fMRI)
+   • Data Type: Measures brain activity by detecting blood                     Where ∗ denotes the conv operation, b is the “bias term,” and Fspatial
+     oxygen level-dependent (BOLD) signals, used for functional                represents “extracted spatial features.”
+     connectivity analysis.                                                        The feature maps are passed through activation function
+   • Preprocessing: Includes “slice timing correction, motion                  using ReLU and pooling layers to reduce dimensionality while
+     correction, spatial normalization, and temporal filtering.”               preserving key spatial features. The CNN component incorporates
+                                                                               residual connections to enhance feature propagation and prevent
+    Both modalities undergo co-registration and alignment to                   degradation of performance in deeper layers. Also, dropout
+a common anatomical space (e.g., MNI template) to ensure                       layers are included in both CNN and GRU networks to
+spatial correspondence. Preprocessed features such as connectivity             mitigate overfitting, especially given the high dimensionality of
+matrices (fMRI) and gray matter volumes (sMRI) are extracted for               neuroimaging data.
+machine learning analysis.
+                                                                               3.3.2 GRU for fMRI data
+                                                                                  Temporal dynamics in functional connectivity, derived
+3.2.3 Novel method for adaptive filtering and
+                                                                               from resting-state fMRI (RSFC), are captured using GRUs.
+augmentation techniques
+                                                                               RSFC is represented as a sequence of connectivity matrices
+   To address variability in the HCP dataset, the proposed
+                                                                               XfMRI = C1 , C2 ....CT where T is the number of time steps.
+methodology employs an adaptive filtering technique for fMRI data
+                                                                                  GRUs are employed to model the sequential nature of the data.
+and a novel data augmentation strategy for sMRI.
+                                                                               The GRU update equations are:
+
+                                                                                                 zt = σ(Wz . ht−1 , xt + bz )
+                                                                                                                      
+3.2.3.1 Adaptive filtering for fMRI
+    An adaptive filtering technique was implemented to enhance
+the signal-to-noise ratio (SNR) while preserving functional
+                                                                                                   rt = σ(Wr . ht−1 , xt + br )
+                                                                                                                       
+connectivity patterns. the enhanced fMRI signal sfiltered is computed
+as:
+                       Sfiltered = Sraw − α.N
+                                                                                  ht = (1 − zt )                   tanh(wh . rt     ht−1 , xt + bh )
+                                                                                                                                            
+                                                                                                      ht−1 + zt
+where S_raw is the raw fMRI signal, N is the estimated noise                   where, zt is the “update gate,” rt is “reset gate,” ht is “hidden state,”
+component, and α is a scaling factor determined dynamically                    xt is “input at time t,” and Wz , Wr Wh are weight matrices.
+based on local SNR.                                                                 The output of the GRU provides a representation of
+                                                                               the temporal relationships within the RSFC data denoted by
+3.2.3.2 Data augmentation for sMRI                                             F_temporal. The GRU architecture employs a bidirectional
+    A novel augmentation strategy applies synthetic                            structure, capturing forward and backward temporal dependencies
+transformations, including elastic deformations and intensity                  in fMRI connectivity data, thus improving the representation of
+scaling. Given an sMRI input Ioriginal , an augmented sample                   dynamic brain activity.
+Iaugmented is generated as:
+
+               Iaugmented = Telastic Ioriginal + β.Iscaled
+                                              
+                                                                               3.4 Attention mechanism
+where Telastic represents an elastic transformation, Iscaled is the
+                                                                                   The attention mechanism dynamically prioritizes features from
+intensity-scaled version of Ioriginal , and β is a scaling parameter to
+                                                                               both modalities, ensuring that the most diagnostically relevant
+control intensity adjustments.
+                                                                               information is emphasized. The attention mechanism in this
+    These techniques ensure improved generalizability and
+                                                                               framework is distinct in its use of a hierarchical cross-modality
+robustness of the model when handling the diverse and
+                                                                               approach, which aligns spatial features from sMRI and temporal
+high-dimensional HCP dataset.
+                                                                               features from fMRI dynamically.
+
+                                                                               3.4.1 Cross-attention module
+3.3 Feature extraction                                                             The cross-attention module aligns spatial features from sMRI
+                                                                               (spatial) with temporal features from fMRI (F temporal).
+3.3.1 CNN for sMRI data
+    The spatial characteristics of brain structures, such as gray                • The attention weights are computed using a compatibility
+matter volume and cortical thickness, are extracted from sMRI data                 function:
+                                                                                                                exp(eij )
+using CNNs. CNNs are well-suited for spatial data as they utilize                                   αij = PN
+convolutional filters to detect hierarchical features.                                                        k = 1 exp(eik )
+
+
+
+Frontiers in Human Neuroscience                                           04                                                             frontiersin.org
+Bhattacharya et al.                                                                                                     10.3389/fnhum.2025.1552178
+
+
+
+
+Where eij = Qi .KjT is “compatibility score” between query Qi and              and depression. The proposed CNN-GRU model effectively
+key Kj .Q and K are learned projections of Fspatial and Ftemporal resp.        captures these disruptions, enhancing diagnostic interpretability
+                                                                               and potential clinical application. Future work may integrate SHAP
+   • The attended features are computed as:                                    or Grad-CAM for improved feature attribution.
+                                                                                   This Figures 1a, b highlights the key features contributing
+                                          N
+                                          X                                    to brain disorder classification, emphasizing gray matter volume
+                            Fattended =         αij Vj
+                                                                               (sMRI) and functional connectivity (fMRI) as the most significant
+                                          j=1
+                                                                               biomarkers. Reduced gray matter in the hippocampus and
+where, Vj is the “value vector associated with Kj .00                          prefrontal cortex aligns with findings on neurodegenerative
+                                                                               disorders, while altered functional connectivity in the Default
+    The new Dynamic Cross-Modality Attention Module in the
+                                                                               Mode Network (DMN) further aids classification. These insights
+suggested framework figures out feature relationships between
+                                                                               improve model interpretability, ensuring biologically relevant
+sMRI spatial features and fMRI temporal features on the fly.
+                                                                               feature prioritization for clinical applications.
+This module matches features based on task relevance and uses
+query-key-value pairs to figure out attention weights that are
+specific to each mode. This moving alignment makes sure that the
+methods work together perfectly, which improves the accuracy of
+                                                                               3.5 Model architecture
+predictions and the ease of understanding. The attention weights A
+                                                                                    The proposed model architecture integrates sMRI and fMRI
+are computed using a scaled dot-product mechanism:
+                                                                               data using a hybrid DL framework as shown in Figure 1. The
+                                                     !
+                                  Qspatial Ktemporal                           structural data is processed through a Convolutional Neural
+                 A = softmax             p                                     Network (CNN), which extracts spatial features such as gray matter
+                                           dk
+                                                                               volume and cortical thickness. The CNN employs convolutional
+where, Qspatial = Wq Fspatial (query for sMRI feature),                        and pooling layers to capture hierarchical patterns from the
+Ktemporal = Wk Ftemporal (key for fMRI features), Wq and Wk                    sMRI images. Functional MRI data, represented as time-series
+are learned weight matrices and dk is the dimension of the key.                connectivity matrices, is fed into a Gated Recurrent Unit (GRU)
+                                                                               network, which is optimized to capture temporal dependencies and
+3.4.1.1 Feature fusion                                                         dynamic patterns of brain connectivity.
+    The attended features F_fused are computed by combining                         The process of combining elements is enhanced via an attention
+attention-modulated fMRI features with sMRI features                           strategy. More weight is given to the most diagnostically valuable
+                                                                               information from both as the attention technique provides distinct
+                      Ffused = Fspatial + A.Vtemporal                          characteristics from the CNN and GRU varying weights on the
+                                                                               fly. Combining the outputs of the focus module into a single
+This module dynamically aligns the two modalities, ensuring
+                                                                               feature representation is accomplished at a feature fusion layer.
+diagnostically relevant features are prioritized, thereby enhancing
+                                                                               This helps the model to make excellent use of the fused data
+multimodal data integration.
+                                                                               from sMRI and fMRI.
+                                                                                    Finally, the characteristics are arranged via completely
+3.4.2 Integration of attention outputs
+                                                                               connected layers such that they may be used for classification
+   The attended features from both modalities are concatenated
+                                                                               or regression. Using the multimodal characteristics acquired,
+and passed through a dense layer for classification or regression:
+                                                                               this section of the model approximates the objective name—
+        Ffinal = Dense(concat(Fspatial , Ftemporal , Fattended ))              like “healthy” or “diseased.” With an eye on finding the
+                                                                               appropriate loss function for every job—like cross-entropy for
+Figure 1 illustrates two key aspects of the proposed model. The                classification—the full design is explained from start to end. This
+Figure 1a shows the feature importance derived from attention                  architecture guarantees good combination of spatial and temporal
+mechanisms, highlighting the contributions of gray matter volume,              information, so it is a helpful instrument for neuroimaging-based
+cortical thickness, and functional connectivity metrics. Gray matter           assessment and prediction.
+volume exhibits the highest importance, indicating its critical role                The figure outlines the CNN-GRU model with a Dynamic
+in predictions. The Figure 1b presents example predictions using               Cross-Modality Attention Module for multimodal neuroimaging.
+multimodal inputs, plotting sMRI (gray matter volume) against                  It integrates CNNs for spatial feature extraction (sMRI), GRUs
+fMRI (functional connectivity). Data points are color-coded by                 for temporal analysis (fMRI), and an attention mechanism that
+the predicted labels, demonstrating the model’s ability to classify            aligns spatial and temporal features. The feature fusion layer merges
+healthy (blue) and diseased (red) cases effectively. This visualization        these representations for accurate classification. This architecture
+emphasizes the model’s interpretability and predictive strength.               effectively captures spatial-temporal patterns, enhancing diagnostic
+    The feature importance analysis - Figure 1 identifies gray                 accuracy, interpretability, and clinical applicability.
+matter volume (sMRI) and functional connectivity (fMRI) as
+key biomarkers for brain disorder classification, aligning with
+clinical research. Gray matter atrophy in the hippocampus and                  3.6 Ablation study
+frontal cortex is linked to Alzheimer’s, Parkinson’s, and multiple
+sclerosis, while altered functional connectivity in the default mode               To evaluate the effectiveness of the proposed hybrid framework
+network (DMN) is associated with Alzheimer’s, schizophrenia,                   as shown in Figure 2, ablation experiments were conducted to
+
+
+Frontiers in Human Neuroscience                                           05                                                          frontiersin.org
+Bhattacharya et al.                                                                                                  10.3389/fnhum.2025.1552178
+
+
+
+
+   FIGURE 1
+   (a) Feature importance from attention mechanisms and (b) multimodal input predictions in the proposed mode.
+
+
+
+
+                                                                             4 Results and discussion
+                                                                             4.1 Evaluation parameter comparison
+                                                                             with existing work
+
+                                                                                  The comparative analysis highlights the superiority of
+                                                                             the proposed CNN-GRU hybrid framework with attention
+                                                                             mechanisms over existing models as shown in Table 1. Liu et al.
+                                                                             (2015) achieved 93.2% accuracy using ADNI with multimodal
+                                                                             neuroimaging features, while Lu et al. (2018) achieved 95.6%
+                                                                             accuracy with a deep neural network on the same dataset. Prabhu
+                                                                             et al. (2022) combining MRI and EHR data, reported 92.7%
+                                                                             accuracy. In contrast, the proposed model outperforms these with
+                                                                             a 96.79% accuracy, leveraging the Human Connectome Project
+   FIGURE 2                                                                  dataset. Also, its precision (95.34%), recall (94.85%), and F1-score
+   Proposed model architecture.
+                                                                             (95.09%) demonstrate balanced and robust performance, ensuring
+                                                                             reliable predictions for neuroimaging tasks.
+                                                                                  The superior performance of the proposed CNN-GRU
+assess the impact of the attention mechanism and compare the                 framework can be attributed to its ability to simultaneously
+performance of the combined CNN-GRU model against standalone                 leverage spatial and temporal patterns through its hybrid
+CNN and GRU architectures.                                                   architecture. Unlike traditional models, which often rely
+                                                                             on shallow feature concatenation, this approach dynamically
+                                                                             integrates information using attention mechanisms, resulting in
+3.6.1 Impact of the attention mechanism                                      robust feature prioritization. Moreover, the proposed framework
+    The attention mechanism dynamically prioritizes relevant                 demonstrates improved computational efficiency due to optimized
+features, enhancing the integration of spatial and temporal data.            network design and better interpretability, a critical requirement
+The performance improvement was measured by removing the                     for clinical applications.
+attention module from the hybrid model and evaluating key
+metrics:
+
+                            1Accuracy =
+                                                                             4.2 Result for ablation study
+      AccuracyHybridwithAttention − AccuracyHybridwithoutAttention               The ablation study results demonstrate in Table 2 the
+                                                                             importance of the attention mechanism and the hybrid
+    The accuracy dropped from 96.79% to 93.45% without                       architecture in improving model performance. The Hybrid
+attention as compared to with attention mechanism, yielding a                CNN-GRU with Attention achieved the highest accuracy (96.79%),
+performance improvement (1Accuracy ) of 3.34% emphasizing the                sensitivity (94.85%), specificity (97.89%), and precision (95.34%),
+importance of the attention mechanism in feature prioritization.             outperforming all other configurations. Removing the attention
+    The ablation study confirms the critical role of the attention           mechanism reduced performance significantly, with accuracy
+mechanism and the superiority of the CNN-GRU hybrid                          dropping to 93.45%, highlighting its importance in feature
+architecture in leveraging both spatial and temporal features for            prioritization. Standalone CNN and GRU models exhibited
+enhanced neuroimaging performance.                                           lower accuracies (92.45% and 91.89%, respectively) and reduced
+
+
+Frontiers in Human Neuroscience                                         06                                                         frontiersin.org
+Bhattacharya et al.                                                                                                         10.3389/fnhum.2025.1552178
+
+
+
+
+TABLE 1 Evaluation parameters comparison of proposed work with existing works.
+
+  References            Method                           Dataset                     Accuracy        Precision              Recall       F1-score
+  Liu et al., 2015      Multimodal neuroimaging          ADNI                            93.2              91.5              92.4               91.9
+                        feature learning
+
+  Lu et al., 2018       Multimodal and multiscale DNN    ADNI                            95.6              94.3              93.8               94
+
+  Prabhu et al., 2022   Multi-modal DL using MRI and     Private EHR and imaging         92.7              91.8              90.4               91.1
+                        EHR                              dataset
+
+  Proposed framework    CNN-GRU with attention           HCP                             96.79             95.34             94.85             95.09
+                        mechanisms
+
+
+TABLE 2 Evaluation of ablation study.
+
+  Model configuration                                   Accuracy                   Sensitivity              Specificity              Precision
+  Hybrid CNN-GRU with attention                           96.79                       94.85                        97.89                95.34
+
+  Hybrid CNN-GRU without attention                        93.45                       91.78                        95.12                92.3
+
+  Standalone CNN                                          92.45                       90.23                         93.8                 91
+
+  Standalone GRU                                          91.89                       89.67                        92.34                90.12
+
+
+
+sensitivity and precision, emphasizing the advantage of combining               interpretable and biologically relevant integration of neuroimaging
+spatial and temporal features in a hybrid setup. The results validate           modalities, enhancing the model’s ability to distinguish between
+the effectiveness of the proposed architecture.                                 healthy and diseased conditions.
+     The proposed Dynamic Cross-Modality Attention Module
+enhances multimodal feature fusion by selectively prioritizing
+diagnostically relevant spatial (sMRI) and temporal (fMRI)                      4.3 Enhancing generalizability and
+features. Unlike standard attention-based models that rely on                   external validation
+predefined weighting schemes or static alignment between
+modalities, our approach dynamically reassigns feature importance                   The proposed hybrid CNN-GRU model achieves high accuracy
+based on the context of neuroimaging data, ensuring more                        (96.79%) in diagnosing brain disorders using the HCP dataset.
+meaningful cross-modality interactions.                                         However, external validation is crucial to ensure its applicability
+     Several recent studies have employed attention mechanisms                  across diverse clinical settings, as HCP primarily includes healthy
+for multimodal neuroimaging analysis. For example, Lu et al.                    individuals, limiting its representation of real-world neurological
+(2018) used a self-attention-based fusion model that computes                   variations. Future studies should validate the model using datasets
+feature importance independently for each modality before                       such as ADNI, which contains multimodal imaging data across
+concatenating them. However, such approaches may not fully                      different stages of cognitive impairment, or other clinical datasets
+capture the interactive dependencies between structural and                     covering neurodegenerative and psychiatric disorders. Integrating
+functional features. Similarly, Wang et al. (2023) proposed an                  PET scans from ADNI alongside sMRI and fMRI could further
+attention-gated CNN-RNN model, which assigns static attention                   enhance diagnostic precision.
+weights to different imaging regions but lacks real-time feature                    To improve generalizability, domain adaptation techniques like
+recalibration across modalities.                                                transfer learning can refine the model by pre-training on HCP
+     Our model differs from these approaches by introducing a                   and fine-tuning on clinical datasets. Also, harmonization strategies
+hierarchical attention strategy that aligns spatial and temporal                such as feature normalization and GAN-based augmentation could
+features dynamically. Instead of assigning independent attention                mitigate biases from variations in scanning protocols. Assessing
+scores, the proposed framework leverages query-key-value                        performance across diverse demographic and age groups would
+mapping to assess cross-modal feature importance on the                         further evaluate adaptability. These enhancements would help
+fly, allowing sMRI-based spatial features to influence fMRI-                    transition the model into a clinically deployable framework for
+derived temporal dynamics, and vice versa. This enables a more                  neuroimaging-based disease diagnosis.
+
+TABLE 3 Paired t-test results.
+
+  Model comparison                                                                               P-value
+                                                        Accuracy                   Precision                   Recall                F1-score
+  CNN-GRU with attention vs. standalone CNN               0.0018                      0.0025                       0.0013              0.0017
+
+  CNN-GRU with attention vs. standalone GRU               0.0021                      0.0029                       0.002               0.0023
+
+  CNN-GRU with attention vs. CNN-GRU without              0.0045                      0.0048                       0.0039              0.0042
+  attention
+
+
+
+
+Frontiers in Human Neuroscience                                            07                                                            frontiersin.org
+Bhattacharya et al.                                                                                                                          10.3389/fnhum.2025.1552178
+
+
+
+
+4.4 Statistical significance of                                                            Data availability statement
+performance improvements
+                                                                                               Publicly available datasets were analyzed in this study. This data
+    To validate the statistical significance of the observed                               can be found here: HCP dataset.
+performance improvements, paired t-tests were conducted to
+compare the proposed CNN-GRU with Attention framework
+against three baseline models: Standalone CNN, Standalone GRU,                             Author contributions
+CNN-GRU without Attention as shown in Table 3.
+    All comparisons resulted in p-values < 0.05, indicating that                               SB: Conceptualization, Writing – original draft, Writing –
+the performance improvements of the proposed CNN-GRU with                                  review and editing. SP: Data curation, Formal Analysis, Writing –
+Attention model are statistically significant compared to the                              review and editing. SPP: Conceptualization, Methodology,
+baseline models. This confirms that the observed differences are                           Writing – review and editing. MG: Conceptualization,
+not due to random variations but are meaningful improvements in                            Investigation, Methodology, Software, Writing – original draft,
+classification performance.                                                                Data curation, Formal Analysis. SL: Project administration,
+                                                                                           Resources, Software, Supervision, Writing – original draft, Formal
+                                                                                           Analysis. NR: Resources, Software, Supervision, Validation,
+                                                                                           Visualization, Writing – original draft, Formal Analysis,
+5 Conclusion, limitation and future                                                        Investigation. SV: Methodology, Resources, Software, Supervision,
+                                                                                           Validation, Visualization, Writing – original draft, Project
+scope                                                                                      administration.
+
+    The proposed CNN-GRU hybrid framework with attention
+mechanisms effectively integrates structural (sMRI) and
+functional (fMRI) neuroimaging data, achieving superior
+                                                                                           Funding
+performance across metrics like accuracy (96.79%) and
+                                                                                               The author(s) declare that no financial support was received for
+F1-score (95.09%). The attention mechanism significantly
+                                                                                           the research and/or publication of this article.
+improves feature prioritization, enabling robust classification
+for neurological diagnoses. These results demonstrate the
+potential of this model for clinical applications in multimodal
+neuroimaging analysis.                                                                     Conflict of interest
+    The study isn’t perfect because it only used one dataset (HCP).
+This means that it might not work as well with other datasets                                  The authors declare that the research was conducted in the
+or in real clinical cases. They also use a lot of resources because                        absence of any commercial or financial relationships that could be
+they are hard to program, which makes them less useful for                                 construed as a potential conflict of interest.
+larger collections.
+    In the future, the model could be tried on different sets
+of data, such as groups of people with the same disease. It’s                              Generative AI statement
+possible that things could work better and be more flexible with
+changes like transformer-based designs or transfer learning. If                                The authors declare that no Generative AI was used in the
+more imaging methods, like PET or DTI, are added, it might                                 creation of this manuscript.
+help doctors make more accurate diagnoses and be more useful
+in more scenarios.
+    For use in hospital situations, the suggested method shows                             Publisher’s note
+a lot of promise. For instance, it might help find brain diseases
+earlier in places with few resources and help make better                                      All claims expressed in this article are solely those of the
+care plans for each person. It can also be changed to include                              authors and do not necessarily represent those of their affiliated
+other imaging methods, such as PET or DTI, which makes it                                  organizations, or those of the publisher, the editors and the
+better for a wider range of brain diseases. Because a lot of                               reviewers. Any product that may be evaluated in this article, or
+people can understand and use it, it seems like a good idea to                             claim that may be made by its manufacturer, is not guaranteed or
+use it in scans.                                                                           endorsed by the publisher.
+
+
+References
+  Abate, F., Adu-Amankwah, A., Ae-Ngibise, K., Agbokey, F., Agyemang, V.,                    Achalia, R., Sinha, A., Jacob, A., Achalia, G., Kaginalkar, V., Venkatasubramanian,
+Agyemang, C., et al. (2024). UNITY: A low-field magnetic resonance neuroimaging            G., et al. (2020). A proof of concept machine learning analysis using multimodal
+initiative to characterize neurodevelopment in low and middle-income settings. Dev.        neuroimaging and neurocognitive measures as predictive biomarker in bipolar
+Cogn. Neurosci. 69:101397.                                                                 disorder. Asian J. Psychiatr. 50:101984.
+
+
+
+
+Frontiers in Human Neuroscience                                                       08                                                                       frontiersin.org
+Bhattacharya et al.                                                                                                                                     10.3389/fnhum.2025.1552178
+
+
+
+
+   Ali, F., Wengler, K., He, X., Nguyen, M., Parsey, R. V., and DeLorenzo, C. (2022).                disease using structural MR and FDG-PET images. Sci Rep. 8:5697. doi: 10.1038/
+Gradient boosting decision-tree-based algorithm with neuroimaging for personalized                   s41598-018-22871-z
+treatment in depression. Neurosci. Informatics 2:100110. doi: 10.1016/j.neuri.2022.
+                                                                                                       Meng, H., Liu, B., Lu, X., Tan, Y., Wang, S., Pan, B., et al. (2025). Alterations of
+100110
+                                                                                                     gray matter volume and functional connectivity in patients with cognitive impairment
+   Ben-Zion, Z., Korem, N., Fine, N., Katz, S., Siddhanta, M., Funaro, M., et al. (2024).            induced by occupational aluminum exposure: A case-control study. Front Neurol.
+Structural neuroimaging of hippocampus and amygdala subregions in posttraumatic                      15:1500924. doi: 10.3389/fneur.2024.1500924
+stress disorder: A scoping review. Biol Psychiatry Glob. Open Sci. 4, 120–134. doi:
+                                                                                                        Odusami, M., Maskeliūnas, R., Damaševičius, R., and Misra, S. (2024). Machine
+10.1016/j.bpsgos.2023.07.001
+                                                                                                     learning with multimodal neuroimaging data to classify stages of Alzheimer’s disease:
+  Chen, C., Sun, S., Chen, R., Guo, Z., Tang, X., Chen, G., et al. (2025). A multimodal              A systematic review and meta-analysis. Cogn. Neurodyn. 18, 775–794. doi: 10.1007/
+neuroimaging meta-analysis of functional and structural brain abnormalities                          s11571-023-09993-5
+in attention-deficit/hyperactivity disorder. Prog. Neuro-Psychopharmacol. Biol.
+                                                                                                       Prabhu, S., Berkebile, J., Rajagopalan, N., Yao, R., Shi, W., Giuste, F., et al.
+Psychiatry 136:111199.
+                                                                                                     (2022). “Multi-modal deep learning models for Alzheimer’s disease prediction using
+  Dufumier, B., Gori, P., Petiton, S., Louiset, R., Mangin, J., Grigis, A., et al.                   MRI and EHR,” in 2022 IEEE 22nd International Conference on Bioinformatics and
+(2024). Exploring the potential of representation and transfer learning for anatomical               Bioengineering (BIBE), (Piscataway, NJ: IEEE), 168–173.
+neuroimaging: Application to psychiatry. Neuroimage 296:120665. doi: 10.1016/j.
+                                                                                                       Rudroff, T., Klén, R., Rainio, O., and Tuulari, J. (2024). The untapped potential
+neuroimage.2024.120665
+                                                                                                     of dimension reduction in neuroimaging: Artificial intelligence-driven multimodal
+  Fu, W., Lin, Q., Fu, Z., Yang, T., Shi, D., Ma, P., et al. (2024). Synthesis and evaluation        analysis of long COVID fatigue. Brain Sci. 14:1209.
+of TSPO-targeting radioligand [18F]F-TFQC for PET neuroimaging in epileptic rats.
+                                                                                                       Shanmugavadivel, K., Sathishkumar, V., Cho, J., and Subramanian, M.
+Acta Pharm. Sin B doi: 10.1016/j.apsb.2024.05.031
+                                                                                                     (2023). Advancements in computer-assisted diagnosis of Alzheimer’s disease: A
+  Grigas, O., Maskeliunas, R., and Damaševičius, R. (2024). Early detection of                      comprehensive survey of neuroimaging methods and AI techniques for early
+dementia using artificial intelligence and multimodal features with a focus on                       detection. Ageing Res. Rev. 91:102072. doi: 10.1016/j.arr.2023.102072
+neuroimaging: A systematic literature review. Health Technol. 14, 201–237. doi: 10.
+                                                                                                       Tabassum, A., Badulescu, S., Singh, E., Asoro, R., McIntyre, R., Teopiz, K., et al.
+1007/s12553-024-00823-0
+                                                                                                     (2024). Central effects of acute intranasal insulin on neuroimaging, cognitive, and
+  Grijalva, C., Mullins, V., Michael, B., Hale, D., Wu, L., Toosizadeh, N., et al. (2023).           behavioural outcomes: A systematic review. Neurosci. Biobehav. Rev. 167:105907. doi:
+Neuroimaging, wearable sensors, and blood-based biomarkers reveal hyperacute                         10.1016/j.neubiorev.2024.105907
+changes in the brain after sub-concussive impacts. Brain Multiphys. 5:100086. doi:
+                                                                                                       Wang, R., Bashyam, V., Yang, Z., Yu, F., Tassopoulou, V., Chintapalli, S., et al.
+10.1016/j.brain.2023.100086
+                                                                                                     (2023). Applications of generative adversarial networks in neuroimaging and clinical
+  Islam, N., Turza, M., Fahim, S., and Rahman, R. (2024). Advanced Parkinson’s                       neuroscience. Neuroimage 269:119898.
+disease detection: A comprehensive artificial intelligence approach utilizing clinical
+                                                                                                       Wu, D., Kang, L., Li, H., Ba, R., Cao, Z., Liu, Q., et al. (2024). Developing
+assessment and neuroimaging samples. Int. J. Cogn. Comput. Eng. 5, 199–220. doi:
+                                                                                                     an AI-empowered head-only ultra-high-performance gradient MRI system for high
+10.1016/j.ijcce.2024.05.001
+                                                                                                     spatiotemporal neuroimaging. Neuroimage 290:120553.
+  Jia, Y., Yang, B., Yang, Y., Zheng, W., Wang, L., Huang, C., et al. (2024).
+                                                                                                       Yuan, Q., Li, X., Zhou, Z., and Kleiven, S. (2024). A novel framework for video-
+Application of machine learning techniques in the diagnostic approach
+                                                                                                     informed reconstructions of sports accidents: A case study correlating brain injury
+of PTSD using MRI neuroimaging data: A systematic review. Heliyon
+                                                                                                     pattern from multimodal neuroimaging with finite element analysis. Brain Multiphys.
+10:e28559.
+                                                                                                     6:100085. doi: 10.1016/j.brain.2023.100085
+   Karakis, R., Gurkahraman, K., Mitsis, G., and Boudrias, M. (2023). Deep learning
+                                                                                                       Zhu, X., Kim, Y., Ravid, O., He, X., Suarez-Jimenez, B., Zilcha-Mano, S., et al.
+prediction of motor performance in stroke individuals using neuroimaging data.
+                                                                                                     (2023). Neuroimaging-based classification of PTSD using data-driven computational
+J. Biomed. Inform. 141:104357.
+                                                                                                     approaches: A multisite big data study from the ENIGMA-PGC PTSD consortium.
+  Liu, S., Liu, S., Cai, W., Che, H., Pujol, S., Kikinis, R., et al. (2015). Multimodal              Neuroimage 283:120412.
+neuroimaging feature learning for multiclass diagnosis of Alzheimer’s disease. IEEE
+                                                                                                       Zhu, Y., Wang, F., Ning, P., Zhu, Y., Zhang, L., Li, K., et al. (2024). Multimodal
+Trans. Biomed. Eng. 62, 1132–1140.
+                                                                                                     neuroimaging-based prediction of Parkinson’s disease with mild cognitive impairment
+ Lu, D., Popuri, K., Ding, G., Balachandar, R., Beg, M., Weiner, M., et al. (2018).                  using machine learning technique. npj Park Dis. 10:218. doi: 10.1038/s41531-024-
+Multimodal and multiscale deep neural networks for the early diagnosis of Alzheimer’s                00828-6
+
+
+
+
+Frontiers in Human Neuroscience                                                                 09                                                                        frontiersin.org
+

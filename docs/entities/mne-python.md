@@ -1,14 +1,9 @@
 ---
 created: 2024-01-15
 sources:
-- gramfort2013
-- gramfort2014
-- hauk2004
-- lin2006
-- dalal2014
-- pisetta2024
-- jansen1993
 - raw/papers/gramfort-2013.md
+- raw/papers/semanticscholar-9e42d6a25d21.md
+- raw/papers/semanticscholar-5a69b770faf9.md
 tags:
 - software
 - neuroimaging-eeg
@@ -17,7 +12,7 @@ tags:
 - source-localization
 title: MNE-Python
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 **MNE-Python** is an open-source Python library for the analysis of magnetoencephalography (MEG), electroencephalography (EEG), stereotactic EEG (sEEG), and electrocorticography (ECoG) data. Developed primarily at the Martinos Center for Biomedical Imaging at Massachusetts General Hospital, MNE-Python provides comprehensive tools for preprocessing, [[source-localization]], time-frequency analysis, statistical inference, and visualization of neurophysiological data. The library implements the minimum norm estimation (MNE) method after which it is named, along with numerous other inverse solving approaches, making it a cornerstone tool for translating sensor-level recordings into anatomically interpretable source-space estimates.
@@ -34,8 +29,12 @@ The time-frequency analysis module implements multitaper spectral estimation, Mo
 
 ## Key Features
 
-Several features distinguish MNE-Python as a leading platform for electrophysiological analysis. The integration with the MNE-C command-line tools ensures backward compatibility with established preprocessing workflows. The objects-based data structure (Raw, Epochs, Evoked, SourceEstimate) provides intuitive interfaces while maintaining computational efficiency through lazy evaluation and memory mapping for large datasets. The connectivity module implements phase-locking value, coherence, imaginary coherence, and granger causality for investigating [[functional-connectivity]] between brain regions. The cortical parcellation system enables extraction of regional time courses for region-of-interest analyses, which is particularly relevant for comparing empirical data with whole-brain model outputs.
+Several features distinguish MNE-Python as a leading platform for electrophysiological analysis. The integration with the MNE-C command-line tools ensures backward compatibility with established preprocessing workflows. The objects-based data structure (Raw, Epochs, Evoked, SourceEstimate) provides intuitive interfaces while maintaining computational efficiency through lazy evaluation and memory mapping for large datasets. The connectivity module implements phase-locking value, coherence, imaginary coherence, and granger causality for investigating [[functional-connectivity]] between brain regions. The cortical [[parcellation]] system enables extraction of regional time courses for region-of-interest analyses, which is particularly relevant for comparing empirical data with [[whole-brain-modeling|whole-brain model]] outputs.
 
 ## Relationship to TVB
 
 MNE-Python and [[the-virtual-brain]] share complementary roles in whole-brain electrophysiology research. While MNE-Python performs source localization to transform sensor-level MEG/EEG recordings into anatomically constrained time series, TVB simulates whole-brain dynamics at the source level using neural mass models such as the [[jansen-rit-model]] or [[wong-wang-model]]. The two platforms integrate through the TVB forward modeling pipeline: TVB accepts leadfield matrices computed by MNE-Python to generate predicted EEG and MEG sensor data from simulated source activity, enabling direct comparison between empirical and model-derived signals. Conversely, MNE-Python-derived source time courses can seed TVB simulations as empirical constraints, providing personalized initial conditions for whole-brain models. This bidirectional workflow is particularly valuable in [[epilepsy-modeling]], where patient-specific source estimates from MEG or EEG inform seizure propagation simulations in TVB. The [[forward-model]] infrastructure in both platforms ensures compatibility, though users must carefully align sourcemaps, anatomies, and sampling frequencies when transferring data between systems.
+
+## References
+
+1. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fnins.2013.00010))

@@ -18,7 +18,7 @@ tags:
 - nonlinear-dynamics
 title: Bifurcation Analysis
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-07'
 ---
 
 Bifurcation analysis is the mathematical study of qualitative changes in the behavior of dynamical systems as parameters vary smoothly. In the context of [[computational-neuroscience]], bifurcation analysis provides a powerful theoretical framework for understanding transitions between different brain states—including the switch from resting activity to oscillatory rhythms, and the emergence of pathological states such as epileptic seizures. Rather than treating brain states as fixed or stochastic, [[bifurcation-theory]] reveals that these states emerge from the underlying structure of the dynamical equations governing neural activity, and that transitions between states occur at specific parameter values called **bifurcation points**. This perspective has proven essential for interpreting [[neuroimaging]] data, designing [[brain-stimulation]] protocols, and building predictive models of neurological disorders.
@@ -37,7 +37,7 @@ Local bifurcations occur near fixed points or periodic orbits and can be analyze
 
 **Saddle-node bifurcation** occurs when a stable fixed point and an unstable fixed point collide and annihilate each other as a parameter crosses a critical value. In neural contexts, this bifurcation underlies threshold behavior and the onset of excitability—neural systems often exhibit a characteristic "all-or-none" response that corresponds to crossing a saddle-node bifurcation boundary. The normal form is given by $\dot{x} = r - x^2$, where $r$ is the control parameter: when $r > 0$, there are two fixed points; when $r < 0$, there are none.
 
-**Andronov-Hopf bifurcation** occurs when a stable fixed point loses stability while giving rise to a limit cycle (oscillation). This is one of the most important bifurcations for neuroscience because it explains the spontaneous emergence of [[brain-oscillations]]—alpha rhythms (8–12 Hz), gamma oscillations (30–100 Hz), and other oscillatory activity can be understood as arising through Hopf bifurcations in [[neural-mass-models]]. The **supercritical** case, where a stable limit cycle emerges, corresponds to "soft" excitation with growing oscillations. The **subcritical** case, where an unstable limit cycle collapses onto the fixed point, corresponds to "hard" excitation with abrupt oscillations. The normal form in polar coordinates is $\dot{r} = r(\mu - r^2)$, $\dot{\theta} = \omega$, where $\mu$ is the bifurcation parameter.
+**[[andronov-hopf-bifurcation]]** occurs when a stable fixed point loses stability while giving rise to a limit cycle (oscillation). This is one of the most important bifurcations for neuroscience because it explains the spontaneous emergence of [[brain-oscillations]]—alpha rhythms (8–12 Hz), gamma oscillations (30–100 Hz), and other oscillatory activity can be understood as arising through Hopf bifurcations in [[neural-mass-models]]. The **supercritical** case, where a stable limit cycle emerges, corresponds to "soft" excitation with growing oscillations. The **subcritical** case, where an unstable limit cycle collapses onto the fixed point, corresponds to "hard" excitation with abrupt oscillations. The normal form in polar coordinates is $\dot{r} = r(\mu - r^2)$, $\dot{\theta} = \omega$, where $\mu$ is the bifurcation parameter.
 
 **Saddle-node on invariant circle (SNIC)** occurs when a saddle-node bifurcation occurs on a limit cycle, creating an infinite-period bifurcation. This is particularly relevant for neural excitability because it underlies **Class I excitability**, where the frequency of spiking or oscillation can approach zero continuously as the input current increases—neurons can fire at arbitrarily low frequencies. This contrasts with Class II excitability, which emerges through Hopf bifurcations and exhibits a minimum frequency threshold.
 
@@ -66,7 +66,7 @@ The Jansen-Rit model consists of three coupled populations (pyramidal, excitator
 | V | Chaos | Pathological interictal-like states |
 | VI | High-amplitude limit cycle | Seizure-like rhythmic activity |
 
-This mapping has proven invaluable for interpreting clinical EEG, where transitions between these regimes correspond to observed changes in brain state. The seizure-like regime (Region VI) is particularly relevant for understanding **[[epilepsy-modeling]]**, as the model captures how gradual changes in excitation-inhibition balance can suddenly trigger high-amplitude rhythmic activity—mirroring the clinical observation of seizure onset.
+This mapping has proven invaluable for interpreting clinical EEG, where transitions between these regimes correspond to observed changes in brain state. The seizure-like regime (Region VI) is particularly relevant for understanding **[[epilepsy-modeling]]**, as the model captures how gradual changes in [[excitation-inhibition-balance]] can suddenly trigger high-amplitude rhythmic activity—mirroring the clinical observation of seizure onset.
 
 ### Wilson-Cowan Model
 

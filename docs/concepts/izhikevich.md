@@ -6,6 +6,7 @@ sources:
 - raw/papers/doedel-oldeman-2009.md
 - raw/papers/breakspear-2006.md
 - raw/papers/arxiv-2507.22146.md
+- raw/papers/semanticscholar-bceb6bea8311.md
 tags:
 - izhikevich
 - bifurcation-analysis
@@ -17,7 +18,7 @@ tags:
 - nonlinear-dynamics
 title: Izhikevich
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 Eugene M. Izhikevich is a computational neuroscientist whose work on the intersection of nonlinear dynamical systems and neuroscience has fundamentally shaped how researchers understand neural excitability, oscillations, and bursting. His influential book *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting* [izhikevich-2007] provides a systematic geometric framework for classifying neuronal behaviors based on [[bifurcation-theory]], connecting the mathematics of dynamical systems to the biophysics of neural tissue. This work bridges the gap between abstract mathematical treatments of nonlinear systems and the practical needs of computational neuroscientists building [[spiking-neural-networks]] and [[whole-brain-modeling|whole-brain]] simulations.

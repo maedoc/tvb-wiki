@@ -9,14 +9,15 @@ tags:
 - diffusion-imaging
 title: Diffusion Imaging
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-10'
 ---
 
-Diffusion Imaging — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]], as well as frameworks like [[c302]] and tools like [[hnn]].
+Diffusion Imaging — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]], as well as frameworks like [[c302]] and tools like [[hnn]]. The techniques are also integral to the [[ramais]] platform for medical image segmentation.
 
 ## Related Concepts
 * [[niftyreg]]
 * [[white-matter]]
+* [[neusight]]
 
 ## References
 
@@ -64,3 +65,45 @@ updated: '2026-05-06'
 ---
 
 **HNN** (Human Neocortical Neurosolver) is an open-source computational modeling package designed to simulat
+
+## ORPHAN PAGE CONTEXT (neusight)
+---
+created: 2026-04-23
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2603.24176.md
+- raw/papers/arxiv-2603.07524.md
+tags:
+- software-brain-modeling
+title: NeuSIGHT
+type: entity
+updated: '2026-05-04'
+---
+
+## Overview
+
+NeuSIGHT ([[neural-simulation]] and Imaging for Hemodynamic Tracking) is an open-source software platform for personalized whole-brain modeling that integrates [[neuroimaging]] data with neural mass models to simulate [[brain-dynamics]]. Developed as a complement to [[the-virtual-
+
+## ORPHAN PAGE CONTEXT (ramais)
+---
+created: 2026-04-29
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+- raw/papers/semanticscholar-b76b57eda5f0.md
+- raw/papers/semanticscholar-d94ac445ea77.md
+tags:
+- software-neuroimaging
+- software-visualization
+- [[parcellation]]
+- brain-atlas
+title: RAMAIS (RAMIS)
+type: entity
+updated: '2026-05-06'
+---
+
+# RAMAIS (RAMIS)
+
+## Overview
+
+**RAMAIS** (sometimes referenced as **RAMIS**: Robustness and Accuracy in Medical Image Segmentation) represents a family of deep learning ap

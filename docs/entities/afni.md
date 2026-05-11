@@ -12,7 +12,7 @@ tags:
 - dynamic-causal-modeling
 title: AFNI
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-08'
 ---
 
 # AFNI
@@ -55,8 +55,35 @@ The foundational AFNI publication (Cox, 1996) established the software's core ph
 - [[the-virtual-brain]] — Whole-brain simulation platform utilizing connectivity matrices derived from AFNI preprocessing
 - Glmsingle — tool for single‑trial fMRI analysis and HRF estimation.
 
+[[niworkflows]]
+
 ## References
 
 1. M. M. Esfahani, Vladislav Esaulov, Hemanth Venkateswara, V. Calhoun. (2025). *NEUROMARK DFNC PATTERNS: A FULLY AUTOMATED PIPELINE TO ESTIMATE SUBJECT-SPECIFIC STATES FROM RS-FMRI DATA VIA CONSTRAINED ICA OF DFNC IN +100K SUBJECTS*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.01.29.635539))
 2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
-3. Mohaddese Qaremohammadlou, Mohammad Bagher Shamsollahi. (2025). *Investigating Brain Connectivity and Information Flow in Mental Workload Using EEG and fNIRS Integration*. [Link](](https://arxiv.org/abs/2511.02457))
+3. Mohaddese Qaremohammadlou, Mohammad Bagher Shamsollahi. (2025). *Investigating Brain Connectivity and Information Flow in Mental Workload Using EEG and fNIRS Integration*. [Link](https://arxiv.org/abs/2511.02457))
+
+## ORPHAN PAGE CONTEXT (niworkflows)
+---
+created: 2024-01-15
+sources:
+- accessdate: '2026-05-03'
+  id: NiWorkflows2021
+  title: NiWorkflows v1.11.0 documentation
+  url: https://niworkflows.readthedocs.io/
+- raw/papers/semanticscholar-109de470e443.md
+- raw/papers/semanticscholar-a0cce22e2ffc.md
+- raw/papers/semanticscholar-4d73a30d5c84.md
+- raw/papers/semanticscholar-d70e1661858c.md
+tags:
+- software-neuroimaging
+- neuroimaging-pipeline
+- preprocessing
+- [[bids]]
+- fmri
+- python
+- workflows
+- [[nipype]]
+- software-freesurfer
+- software-fsl
+-

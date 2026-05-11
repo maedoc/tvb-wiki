@@ -2,6 +2,11 @@
 created: 2024-01-15
 sources:
 - raw/papers/van-essen-2012.md
+- raw/papers/van-essen-2013.md
+- raw/papers/ritter-2013.md
+- raw/papers/semanticscholar-0037e7dd2da6.md
+- raw/papers/semanticscholar-a0a9350fb265.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - database
 - human-connectome-project
@@ -15,7 +20,7 @@ tags:
 - dataset
 title: ConnectomeDB
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-11'
 ---
 
 # ConnectomeDB

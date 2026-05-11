@@ -2,6 +2,11 @@
 created: 2025-01-15
 sources:
 - raw/papers/semanticscholar-109de470e443.md
+- raw/papers/semanticscholar-4d73a30d5c84.md
+- raw/papers/semanticscholar-9297e624d875.md
+- raw/papers/semanticscholar-f248a6deeded.md
+- raw/papers/semanticscholar-db98f2ae6803.md
+- raw/papers/semanticscholar-23779c8a88ea.md
 tags:
 - software-neuroimaging
 - neuroimaging-fmri
@@ -9,7 +14,7 @@ tags:
 - functional-connectivity
 title: ICA-AROMA
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 # ICA-AROMA

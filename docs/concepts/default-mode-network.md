@@ -5,9 +5,6 @@ sources:
 - raw/papers/buckner-andrews-hanna-schacter-2008.md
 - raw/papers/greicius-2003.md
 - raw/papers/smith-2013-connectomics.md
-- raw/papers/andrews-hanna-2010.md
-- raw/papers/friston-1993.md
-- raw/papers/semanticscholar-a0a9350fb265.md
 tags:
 - default-mode-network
 - resting-state
@@ -21,20 +18,20 @@ tags:
 - epilepsy-modeling
 title: Default Mode Network (DMN)
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-08'
 ---
 
-The **Default Mode Network (DMN)** is a large-scale [[brain-network]] identified through [[neuroimaging]] that demonstrates high metabolic activity during wakeful [[rest]] and systematic deactivation during externally-oriented goal-directed tasks. First characterized by Raichle et al. (2001) using positron emission tomography (PET), the DMN represents the brain's baseline or "default" mode of operation—the spontaneous neural activity that dominates when an individual is not engaged in explicit task performance. This network has become fundamental to our understanding of intrinsic brain organization and its dysfunction in psychiatric and neurological conditions.
+The **Default Mode Network (DMN)** is a large-scale [[brain-network]] identified through [[neuroimaging]] that demonstrates high metabolic activity during wakeful [[rest]] and systematic deactivation during externally-oriented goal-directed tasks. First characterized by [[raichle-2001]] using positron emission tomography (PET), the DMN represents the brain's baseline or "default" mode of operation—the spontaneous neural activity that dominates when an individual is not engaged in explicit task performance. This network has become fundamental to our understanding of intrinsic brain organization and its dysfunction in psychiatric and neurological conditions.
 
 ## Conceptual Origin and Significance
 
-The discovery of the DMN emerged from a pivotal observation in functional neuroimaging: certain brain regions consistently show higher metabolic activity at rest than during task performance. Raichle et al. (2001) formalised this observation, proposing that these regions constitute a coherent network representing the brain's default state of organized, intrinsic activity. This conceptual shift transformed how neuroscientists think about brain function—moving from a view that treated rest as an absence of activity to recognizing it as an active, structured process with distinct dynamics.
+The discovery of the DMN emerged from a pivotal observation in functional neuroimaging: certain brain regions consistently show higher metabolic activity at rest than during task performance. [[raichle-2001]] formalised this observation, proposing that these regions constitute a coherent network representing the brain's default state of organized, intrinsic activity. This conceptual shift transformed how neuroscientists think about brain function—moving from a view that treated rest as an absence of activity to recognizing it as an active, structured process with distinct dynamics.
 
 The significance of the DMN extends beyond its role as a baseline state. It provides a framework for understanding internally-directed cognition—the mental processes that occur independently of external sensory input. Prior to the identification of the DMN, neuroscience research had focused predominantly on mapping brain responses to external stimuli. The DMN research tradition established that the resting brain engages in substantial information processing, including autobiographical memory retrieval, future planning, social cognition, and self-referential thinking. This conceptual advance laid the groundwork for the modern field of [[resting-state]] neuroimaging and [[functional-connectivity]] analysis.
 
 ## Core Anatomical Architecture
 
-The DMN exhibits a characteristic anatomical distribution centered on the medial wall of the cerebral cortex. Buckner et al. (2008) provided a comprehensive anatomical characterization establishing the canonical regions comprising this network.
+The DMN exhibits a characteristic anatomical distribution centered on the medial wall of the cerebral cortex. [[buckner-andrews-hanna-schacter-2008]] provided a comprehensive anatomical characterization establishing the canonical regions comprising this network.
 
 ### Hub Regions
 
@@ -46,11 +43,11 @@ The angular gyrus, located at the intersection of the temporal, parietal, and oc
 
 ### Structural Basis
 
-Diffusion tensor imaging studies reveal that DMN regions are connected by dense anatomical pathways, particularly via the cingulum bundle linking PCC to mPFC and hippocampus. These [[structural-connectivity]] substrates provide the anatomical scaffolding enabling coherent [[functional-connectivity]] patterns observed in [[fmri]] and [[meg]] studies. The network exhibits "small-world" properties with dense local clustering and long-range inter-module connections typical of hub-dominated architectures.
+Diffusion tensor imaging studies reveal that DMN regions are connected by dense anatomical pathways, particularly via the cingulum bundle linking PCC to mPFC and hippocampus. These [[structural-connectivity]] substrates provide the anatomical scaffolding enabling coherent [[functional-connectivity]] patterns observed in [[neuroimaging-fmri]] and [[neuroimaging-meg]] studies. The network exhibits "small-world" properties with dense local clustering and long-range inter-module connections typical of hub-dominated architectures.
 
 ## Functional Organization and Subsystems
 
-Subsequent research revealed that the DMN is not a homogeneous entity but comprises functionally specialized subsystems. Andrews-Hanna et al. (2010) (building on Buckner et al. (2008)) proposed a influential fractionation of the DMN into two distinct subsystems with differential [[connectivity]] patterns and cognitive functions.
+Subsequent research revealed that the DMN is not a homogeneous entity but comprises functionally specialized subsystems. [[andrews-hanna-2010]] (building on [[buckner-andrews-hanna-schacter-2008]]) proposed a influential fractionation of the DMN into two distinct subsystems with differential [[connectivity]] patterns and cognitive functions.
 
 ### Dorsal Medial Prefrontal Subsystem
 
@@ -58,11 +55,11 @@ The dorsal medial prefrontal subsystem includes the dmPFC, temporoparietal junct
 
 ### Medial Temporal Lobe Subsystem
 
-The medial temporal lobe subsystem encompasses the hippocampus, parahippocampal cortex, and ventromial prefrontal cortex. This subsystem operates as an "episodic memory system," supporting retrieval of autobiographical memories and construction of simulated future events. The famous "scene construction" process—mentally visualizing detailed scenarios for memory encoding or future planning—depends critically on this subsystem's integrity. Disruption to hippocampal-prefrontal connectivity compromises these functions, as observed in conditions ranging from normal aging to Alzheimer's disease.
+The medial temporal lobe subsystem encompasses the hippocampus, parahippocampal cortex, and ventromial prefrontal cortex. This subsystem operates as an "episodic memory system," supporting retrieval of autobiographical memories and construction of simulated future events. The famous "scene construction" process—mentally visualizing detailed scenarios for memory encoding or future planning—depends critically on this subsystem's integrity. Disruption to hippocampal-prefrontal connectivity compromises these functions, as observed in conditions ranging from normal aging to [[alzheimers-disease|Alzheimer's disease]].
 
 ## Anticorrelation with Task-Positive Networks
 
-A fundamental feature of DMN dynamics is its systematic anticorrelation with networks supporting externally-directed cognition. When individuals engage in goal-directed tasks requiring external attention, the DMN shows systematic deactivation while the "task-positive network" (including dorsolateral prefrontal cortex and intraparietal sulcus) activates. [[anticevic-2012]] demonstrated that this anticorrelation is not merely a methodological artifact but reflects genuine competitive interactions between [[network-dynamics]].
+A fundamental feature of DMN dynamics is its systematic anticorrelation with networks supporting externally-directed cognition. When individuals engage in goal-directed tasks requiring external attention, the DMN shows systematic deactivation while the "task-positive network" (including dorsolateral prefrontal cortex and intraparietal sulcus) activates. anticevic-2012 demonstrated that this anticorrelation is not merely a methodological artifact but reflects genuine competitive interactions between [[network-dynamics]].
 
 This push-pull relationship suggests that the brain operates in a balanced state between internally-directed (DMN-mediated) and externally-directed (task-positive network-mediated) processing modes. The degree of DMN suppression during tasks predicts performance on demanding cognitive operations, and individual differences in this relationship correlate with behavioral measures of cognitive control. Disrupted DMN-task network balance has been implicated inmultiple psychiatric conditions, including [[schizophrenia-models]] wherein failure to appropriately suppress DMN activity during tasks may contribute to attentional deficits and self-referential processing disturbances.
 
@@ -88,13 +85,13 @@ In [[schizophrenia-models]], DMN abnormalities include reduced task-induced deac
 
 ### Neurological Conditions
 
-In epilepsy modeling, DMN disruptions correlate with cognitive interictal symptoms including memory impairment and executive dysfunction. The DMN's sensitivity to network disruptions makes it a valuable probe for understanding [[whole-brain]] dynamics in epileptic networks. Neurodegenerative conditions including Alzheimer's disease and frontotemporal dementia show characteristic DMN vulnerability patterns reflecting underlying proteinopathies and selective regional susceptibility.
+In epilepsy modeling, DMN disruptions correlate with cognitive interictal symptoms including memory impairment and executive dysfunction. The DMN's sensitivity to network disruptions makes it a valuable probe for understanding whole-[[brain-dynamics]] in epileptic networks. Neurodegenerative conditions including Alzheimer's disease and frontotemporal dementia show characteristic DMN vulnerability patterns reflecting underlying proteinopathies and selective regional susceptibility.
 
 ## Role in Whole-Brain Modeling
 
 The DMN presents both opportunities and challenges for [[whole-brain modeling]] approaches. Capturing the network's characteristic dynamics—and particularly its anticorrelation with task-positive networks—requires models that can represent competing brain states and state-dependent modulation of [[functional-connectivity]]. The DMN serves as a critical validation target for models aiming to simulate resting-state dynamics, and understanding its interactions with other networks provides constraints for [[parameter-estimation]] in large-scale models.
 
-[[personalized-brain-modeling]] approaches increasingly incorporate DMN parameters to predict individual differences in cognition and clinical outcomes. The network's accessibility via [[resting-state]] [[fmri]] makes it particularly amenable to building personalized models from readily acquired data, with applications ranging from surgical planning to treatment response prediction.
+[[personalized-brain-modeling]] approaches increasingly incorporate DMN parameters to predict individual differences in cognition and clinical outcomes. The network's accessibility via [[resting-state]] [[neuroimaging-fmri]] makes it particularly amenable to building personalized models from readily acquired data, with applications ranging from surgical planning to treatment response prediction.
 
 ## Related Concepts
 
@@ -104,7 +101,7 @@ The DMN presents both opportunities and challenges for [[whole-brain modeling]] 
 - [[brain-network]] – Large-scale organized brain connectivity patterns
 - [[network-hubs]] – Regions with high connectivity serving integration roles
 - [[structural-connectivity]] – Anatomical [[white-matter]] pathways
-- [[fmri]] – Functional magnetic resonance imaging
+- [[neuroimaging-fmri]] – Functional magnetic resonance imaging
 - [[aging]] – Effects of aging on brain networks
 - [[neurodevelopment]] – Developmental processes shaping brain organization
 - [[epilepsy-modeling]] – Computational models of epileptic networks
@@ -114,7 +111,3 @@ The DMN presents both opportunities and challenges for [[whole-brain modeling]] 
 1. (authors unknown). *A Default Mode of Brain Function*.
 2. (authors unknown). *The Brain's Default Network: Anatomy, Function, and Relevance to Disease*.
 3. (authors unknown). *Functional Connectivity in the Resting Brain: A Network Analysis of the Default Mode Hypothesis*.
-4. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.
-5. (authors unknown). *Functional-Anatomic Fractionation of the Brain's Default Network*.
-6. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
-7. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface-based [[bayesian]] modeling*. Imaging neuroscience. [DOI](](https://doi.org/10.1162/imag_a_00504))

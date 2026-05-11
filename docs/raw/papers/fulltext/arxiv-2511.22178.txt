@@ -1,0 +1,413 @@
+                                            Enhanced Graph Convolutional Network with
+                                          Chebyshev Spectral Graph and Graph Attention for
+                                              Autism Spectrum Disorder Classification
+                                                                                   Adnan Ferdous Ashrafi1 , Md. Hasanul Kabir2
+                                                                                  1, 2 Department of Computer Science and Engineering
+
+                                                                      Islamic University of Technology, KB Road, Gazipur -1704, Bangladesh
+                                                                             Email: nazib91@iut-dhaka.edu1 , hasanul@iut-dhaka.edu2
+arXiv:2511.22178v1 [cs.CV] 27 Nov 2025
+
+
+
+
+                                            Abstract—ASD is a complicated neurodevelopmental disorder        access to essential services and interventions, which can
+                                         marked by variation in symptom presentation and neurological        improve the quality of life.
+                                         underpinnings, making early and objective diagnosis extremely          Observation and interview methodologies are two
+                                         problematic. This paper presents a Graph Convolutional
+                                         Network (GCN) model, incorporating Chebyshev Spectral               prevalent manual strategies for the identification and
+                                         Graph Convolution and Graph Attention Networks (GAT), to            diagnosis of ASD. The Childhood Autism Rating Scale
+                                         increase the classification accuracy of ASD utilizing multimodal    (CARS) [1] comprises 15 items designed to evaluate ASD.
+                                         neuroimaging and phenotypic data. Leveraging the ABIDE I            CARS provides a spectrum of scores to denote ASD levels;
+                                         dataset, which contains resting-state functional MRI (rs-fMRI),     for instance, a score of 30-37 indicates moderate ASD, but a
+                                         structural MRI (sMRI), and phenotypic variables from 870
+                                         patients, the model leverages a multi-branch architecture that      score of 38-60 signifies severe ASD. Conversely,
+                                         processes each modality individually before merging them via        interview-based detection and diagnostic systems [2, 3, 4, 5]
+                                         concatenation. Graph structure is encoded using site-based          rely on discussions with parents or caregivers. Nonetheless,
+                                         similarity to generate a population graph, which helps in           the manual techniques rely on behavioral symptoms and the
+                                         understanding relationship connections across individuals.          observations of parents or caregivers, necessitating the
+                                         Chebyshev polynomial filters provide localized spectral learning
+                                         with lower computational complexity, whereas GAT layers             expertise of a physician for accurate assessments.
+                                         increase node representations by attention-weighted aggregation     Consequently, it is unable to collect data on authentic
+                                         of surrounding information. The proposed model is trained           conditions of routine everyday operations. Furthermore, these
+                                         using stratified five-fold cross-validation with a total input      methodologies are expensive and labor-intensive [6, 7]. In
+                                         dimension of 5,206 features per individual. Extensive trials        recent years, non-invasive brain imaging techniques, such as
+                                         demonstrate the enhanced model’s superiority, achieving a test
+                                         accuracy of 74.82% and an AUC of 0.82 on the entire dataset,        magnetic resonance imaging (MRI), have been explored to
+                                         surpassing multiple state-of-the-art baselines, including           identify structural and functional differences between
+                                         conventional GCNs, autoencoder-based deep neural networks,          individuals with ASD and typical controls [8], aiding in
+                                         and multimodal CNNs.                                                objective diagnosis and identifying neural correlates.
+                                            Index Terms—Autism Spectrum Disorder, Chebyshev Spectral            However, utilizing MRI data for ASD detection faces
+                                         Graph, Graph Attention, Graph Convolution Network, Multi-
+                                                                                                             several challenges [9]. Issues include variations in brain
+                                         modal data, ABIDE I
+                                                                                                             connectivity patterns, small sample sizes, and data
+                                                                                                             heterogeneity, particularly from multi-site collections like the
+                                                                I. I NTRODUCTION                             Autism Brain Imaging Data Exchange (ABIDE) [10] dataset,
+                                                                                                             which introduces variability due to different imaging
+                                            Autism Spectrum Disorder (ASD) is recognized as a                procedures and scanners. Conventional image classification
+                                         complex neurodevelopmental disorder characterized by                methods have often failed to accurately identify the
+                                         persistent deficits in social interaction, communication, and       disorder [11], frequently focusing solely on imaging features
+                                         restricted, repetitive behaviors and interests. Currently, the      and overlooking important non-imaging data. Furthermore,
+                                         diagnosis of ASD is largely based on behavioral observations        traditional techniques often rely on pairwise comparisons and
+                                         and clinical interviews, which are performed by clinical            may not fully capture complex interactions or individual
+                                         experts in neurodevelopmental disorders. However, these             characteristics. The inherent biological heterogeneity of
+                                         methods are considered subjective, and there is an absence          autism also poses a significant limitation to classification
+                                         of laboratory-based diagnostic tests, making identifying and        performance [12]. These challenges underscore the need for
+                                         diagnosing ASD a challenging task. Early detection of ASD           improved analysis techniques.
+                                         and specialized support are crucial for prompt diagnosis and           This study contributes a novel multi-branch Graph
+                                         979-8-3315-8654-6/25/$31.00 ©2025 IEEE                              Convolutional Network (GCN) architecture that combines
+Chebyshev Spectral Graph Convolution and Graph Attention         sparse-adaptive coupled dictionary learning to fuse sMRI
+Networks (GAT) to classify ASD using multimodal                  (regional morphology) and fMRI (functional connectivity)
+neuroimaging and phenotypic data. By constructing a              features. The approach enhances ASD classification
+site-based population graph and processing each modality         performance on the ABIDE dataset, achieving an accuracy of
+through specialised branches, the model effectively captures     75.32%.
+complex inter-subject relationships. Extensive evaluation on
+                                                                 D. Convolutional Neural Network Based Systems
+the ABIDE I dataset demonstrates state-of-the-art
+performance, achieving 74.81% accuracy and 0.82 AUC,                DeepMNF [22] a multi-modal CNN on ABIDE I dataset
+with ablation studies confirming the value of graph attention    was deployed by Abbas et al., and obtained an accuracy of
+and hyperparameter tuning.                                       75.14% on a partial testing set. The authors utilized both
+                                                                 sMRI and fMRI data available from the dataset. Saponaro et
+                   II. R ELATED W ORKS                           al. utilized a multimodal deep learning model employing a
+  Recent advancements have seen deep learning models             joint fusion approach [23] was developed by integrating
+applied extensively in the medical imaging field, aiming for     harmonized structural and functional MRI data. This
+improved accuracy compared to classical machine learning         approach achieved an accuracy of 85% ± 0.12 and AUC of
+methods. These models have achieved performance levels           0.78 ± 0.04 on a partial testing dataset.
+comparable to human experts in various domains, including        E. FCN and ViT based Systems
+natural language processing and computer vision.
+                                                                    TinyViT [24] deployed by Gupta et. al, exploited the
+A. Autoencoders                                                  generalizability of transfer learning using a student-teacher
+                                                                 network on the ABIDE I dataset. The authors achieved an
+   One of the first successful application of deep learning in
+                                                                 accuracy of 76.62% on a partial testing dataset. Du et
+ASD detection utilized deep neural networks combining
+                                                                 al. [25] deployed a fully connected network (FCN) based
+stacked denoising autoencoders [13] and a fully connected
+                                                                 system as the preliminary classifier to achieve an accuracy of
+network (FCN) on fMRI data from the ABIDE dataset,
+                                                                 68.98% on the testing dataset.
+achieving a 70% classification accuracy. Later, an
+autoencoder followed by a fully connected network                              III. M ATERIALS AND M ETHODS
+(AE-FCN) [14] along with Ensembles of Multiple Models               For this study, a multi-modal Graph Convolutional Neural
+and Architectures (EMMA), incorporating both functional          (GCN) network architecture has been adopted for
+MRI (fMRI) and structural MRI (sMRI) data to reach 85%           classification tasks, specifically tailored to integrate different
+accuracy.                                                        types of brain imaging and phenotypic data. The architecture
+B. GCN                                                           employs graph convolutional layers alongside an attention
+                                                                 mechanism to leverage both feature information and graph
+   A graph convolutional neural network (GCN) [15] that          structural relationships.
+integrates phenotypic information, obtained a best accuracy
+of 70.4% on ABIDE fMRI data. Building on the GCN, an             A. Dataset
+edge-variational graph convolutional neural network                 The ABIDE I [10] dataset is a significant, open-access
+(EV-GCN) [16] was proposed, which reportedly achieved            neuroimaging collection aimed at enhancing the
+81% classification accuracy. Furthermore, GCN and                comprehension of ASD by extensive brain imaging analysis.
+Ensemble GCN [17] on the ABIDE I dataset, obtained               It contains data from over 1,100 individuals, including both
+68.6% and 71.3% accuracy, respectively. Later, multi-modal       ASD cases and typically developing (TD) controls, gathered
+GCN (MMGCN) [18] was introduced, deploying multimodal            across 20+ international sites. The dataset comprises
+data from the ABIDE I dataset and obtained an accuracy of        resting-state functional MRI (rs-fMRI) and structural MRI
+72.37%. A weight-learning deep GCN [19] proposed that            (sMRI) images, plus phenotypic information such as age,
+deployed pairwise associations of non-imaging data into the      sex, IQ, and diagnostic scores (e.g., ADOS, ADI-R). ABIDE
+already existing DeepGCN classification model. The authors       provides cross-site harmonization and is frequently used for
+achieved an accuracy of 77.27% on a partial testing dataset.     deep learning-based categorization, brain connection studies,
+The Fuzzy MSE-GCN [20] framework was introduced later            and functional network modeling. The dataset is separated
+for ASD detection that integrates imaging and non-imaging        into ABIDE I and ABIDE II, with ABIDE II enhancing
+phenotypic data into a population graph. This approach           subject variety and improving phenotypic coverage.
+achieved an accuracy of 87% on the ABIDE dataset.
+                                                                 B. Chebyshev Spectral Graph Convolution
+C. Domain Adaptation                                               The Chebyshev Spectral Graph Convolution layer [26], a
+  Local Global Multimodal Domain Adaptation (LGMDA)              fundamental element of the proposed graph Convolutional
+paired with Sparse Adaptive Prior Coupled Dictionary             Neural Network (CNN) framework, makes substantial
+Learning (SACDL) framework [21] employs LGMDA to                 contributions to the generalization of CNNs to irregular
+perform multi-source domain adaptation and SACDL for             domains such as graphs. One of its primary contributions is
+                          Figure 1: The proposed enhanced GCN architecture with Graph Attention
+
+
+the provision of filters that are rigorously localized. This      model addresses this issue by utilizing a multi-branch Graph
+means that the influence of a filter at a central vertex is       Convolutional Network (GCN) designed for binary
+limited to a disk of radius K hops, a property that is not        classification of ASD and TD individuals. It integrates
+inherent in non-parametric spectral filters. In order to          multimodal brain imaging and phenotypic data using
+accomplish this localization, the filter is parametrized by a     Chebyshev Spectral Graph Convolutions and Graph
+polynomial of order K-1 using the Chebyshev expansion,            Attention Networks (GAT) as depicted in Figure 1 to learn
+where K denotes the filter’s support size.                        from both relational and feature-based representations. The
+                                                                  pipeline comprises several interconnected stages, including
+C. Graph Attention Networks
+                                                                  data preprocessing, feature extraction, population graph
+   By utilizing masked self-attentional layers, the Graph         construction, and model training with cross-validation.
+Attention Network (GAT) [27] presents a revolutionary                1) Input Modality: The model processes three modalities
+neural network architecture for graph-structured data,            from 870 subjects: functional MRI (fMRI) with dimensions
+directly addressing the shortcomings of previous approaches       870 × 4000, structural MRI (sMRI) with 870 × 1200, and
+that relied on graph convolutions or their approximations.        phenotypic data (age, gender, FIQ, NUM, PEC, and RAT)
+One of its key characteristics is that it enables nodes to        with 870 × 6. Each modality is fed into a dedicated branch for
+implicitly assign different weights to nodes in their vicinity    specialized graph convolutional transformations.
+without the need for costly matrix operations like inversion         2) Branched Graph Convolution: Each branch uses graph
+or previous knowledge of the network architecture. This is        connectivity defined by an EDGE INDEX and EDGENET
+performed by use of a graph attentional layer in which the        INPUT (60,876 pairwise connections). After a dimensional
+characteristics of each node i and its neighbors j ∈ Ni are       alignment via a Squeeze operation, two successive
+first subjected to a common linear transformation                 Chebyshev Graph Convolutional layers (ChebConv) are
+(parameterized by weight matrix W ). The significance of          applied, each followed by ReLU activation. Residual
+node j’s attributes to node i is represented by attention         connections between the layers support gradient flow and
+coefficients eij , computed by a common attentional               training stability.
+mechanism a. The new feature representation for node i is            3) Branch Concatenation: The outputs of all branches
+produced by normalizing these coefficients using a softmax        (each 870 × 32) are concatenated into a unified embedding
+function across the neighborhood of node i to yield αij .         of size 870 × 96, followed by Batch Normalization and
+These coefficients are subsequently applied as weights in a       Dropout to stabilize training and prevent overfitting.
+linear combination of the transformed neighbor attributes.           4) Graph Attention: A Graph Attention Convolution
+   It is computed as                                              (GATConv) layer is applied to the fused representation to
+                   x′i =
+                           X
+                                  αi,j Θt xj ,             (1)    dynamically weight the importance of neighboring nodes. Its
+                       j∈N (i)∪{i}
+                                                                  output (870 × 96) is added to its input via a residual
+                                                                  connection for enhanced expressiveness.
+D. Enhanced GCN Model Architecture                                   A final ChebConv layer reduces the representation to
+   Existing GCN architectures consider all modalities as the      870 × 2, matching the binary classification goal. A
+same and thus constructs a graph edge network in a                LogSoftmax activation converts this into log-probabilities for
+sequential layering model. However, all of the modalities are     ASD and TD.
+different in the ABIDE I dataset, and thus special attention is      5) Final Output: The model outputs a 870 × 2 matrix
+required for each type of modality in order to extract            containing log-probabilities for each subject. This
+maximum amount of features from them. The proposed                architecture effectively captures complex inter-subject and
+                               Table I: Ablation study of different enhanced GCN modifications
+ Model                    Test ACC   Test AUC         Test ACC Increment (%)                       Test AUC Increment (%)
+                                                     GCN             Ensemble GCN                 GCN                 Ensemble GCN
+ EGCN w/o GAT             70.14%       0.78          1.54%               -1.16%                   3.79%                     -0.01%
+ EGCN w GAT               71.24%       0.80          2.64%               -0.06%                   5.45%                     1.65%
+ EGCN w GAT w/o HPT       72.43%       0.81          3.83%               1.13%                    6.33%                     2.53%
+ EGCN w GAT w HPT         74.82%       0.82          6.21%               3.51%                    7.33%                     3.53%
+
+
+
+multi-modal relationships, demonstrating the efficiency of       it may be skewed in unbalanced datasets. To account for
+graph-based deep learning for population-scale neuroimaging      probabilistic performance, the model additionally assesses
+analysis.                                                        the Negative Log-Likelihood (NLL) Loss as found in (3),
+                                                                 which measures the divergence between predicted
+                IV. E XPERIMENTAL S ETUP
+                                                                 log-probabilities and the real class labels. NLL is given by:
+   The experimental framework is designed to evaluate the
+proposed enhanced GCN architecture for classifying ASD                                             N
+                                                                                                   X
+using neuroimaging and phenotypic data. The study is                              NLL Loss = −            log p(yi | xi )            (3)
+conducted using data from the ABIDE I dataset, which                                               i=1
+includes resting-state functional MRI (fMRI), structural MRI       where p(yi | xi ) represents the predicted probability for
+(sMRI), and six types of phenotypic information.                 the true label yi of instance xi , and N is the total number of
+A. Model Training                                                samples. Lastly, the AUC-ROC metric as formulated in 4
+                                                                 captures the model’s ability to discriminate between classes
+   Model training employs the Stochastic Gradient Descent
+                                                                 by plotting the True Positive Rate (TPR) against the False
+(SGD) optimizer with momentum and Nesterov acceleration.
+                                                                 Positive Rate (FPR) across various threshold settings. The
+The learning rate is regulated using a Cyclic Learning Rate
+                                                                 AUC is formally expressed as:
+scheduler with triangular mode. The training loop is
+deployed for 200 epochs per fold. After each epoch, a                                     Z 1
+validation is conducted on the remaining fold data using a                        AUC =         TPR(F P R−1 (x)) dx                  (4)
+                                                                                           0
+cross-validation method. The model epoch yielding the best
+validation accuracy is saved, and its performance on the test      where TPR and FPR are defined as TPR = T PT+F
+                                                                                                               P
+                                                                                                                 N and
+set is logged. This comprehensive experimental setup ensures              FP
+                                                                 FPR = F P +T N , respectively.
+rigorous validation of the proposed model, leveraging the
+strengths of graph-based representation learning and             D. Hyperparameter settings
+multi-modal feature integration to advance the classification       The model training method involves careful specification
+of ASD from neuroimaging and behavioral data.                    and, in certain instances, adjustment of multiple important
+B. Testing                                                       hyperparameters to enhance performance. The Graph
+                                                                 Convolutional Network (GCN) architecture was set with an
+  As the experiment was conducted using a five-fold
+                                                                 input dimension of 5206, a hidden dimension of 32, and an
+cross-validation method, the testing phase included each
+                                                                 output dimension of 2. For its Chebyshev convolutional
+sample from the training set. The testing was evaluated using
+                                                                 layers, the orders K1 and K2 were set to 2 and 5,
+generic evaluation metrics like accuracy and AUC, to ensure
+                                                                 respectively. An initial dropout rate of 0.5 was adopted
+comparability with state-of-the-art works in this domain.
+                                                                 during single-fold training. For the optimization method, the
+C. Evaluation Metrics                                            training phase consistently applied the Stochastic Gradient
+   The model’s performance is assessed using numerous            Descent (SGD) optimizer. This SGD optimizer was
+measures, including accuracy and the Area Under the              configured with a learning rate of 1e−3 , a momentum of 0.8,
+Receiver Operating Characteristic Curve (AUC-ROC), each          Nesterov acceleration, and a weight decay of 1.0. Learning
+offering complimentary insights on classification quality.       rate changes were controlled by a cyclic learning rate
+Accuracy as seen in 2 is defined as the ratio of accurately      scheduler, which had a base learning rate of 1e−3 , a
+predicted labels to the total number of predictions, computed    maximum learning rate of 1e−7 , a triangular mode, and step
+as:                                                              sizes of 500 for up-cycle and 300 for down-cycle phases.
+                                                                 Additionally, gradient clipping with a maximum norm of 2.0
+                                TP + TN                          was applied to stabilize training.
+             Accuracy =                                    (2)
+                         TP + TN + FP + FN
+  where T P , T N , F P , and F N signify true positives, true           V. E XPERIMENTAL RESULTS AND ANALYSIS
+negatives, false positives, and false negatives, respectively.     The state-of-the-art performance quantities are reported as
+While accuracy gives a basic measure of overall correctness,     found in their original manuscripts.
+                                 Table II: Performance Comparison of Different GCN-based Models
+       Ref.                                   Model                    Testing Subset      Test ACC              Test AUC
+       Dong et. al.[17]                          GCN                     Complete           68.60%                 0.74
+       Dong et. al.[17]                     Ensemble GCN                 Complete           71.30%                 0.78
+       Heinsfeld et. al.[13]           Autoencoder based DNN             Complete           65.00%                   -
+       Du et. al. [28]                        SVM-RFE                    Complete           72.10%                   -
+       Abbas et. al [22]                   Multi-modal CNN                Partial           75.14%                 0.77
+       Wang et. al [19]              Weight Learning DeepGCN              Partial           77.27%                 0.82
+       Zhang et. al. [29]                  LGMDA-SACDL                    Partial           75.32%                 0.75
+       Song et. al [18]                        MMGCN                     Complete           72.37%                 0.76
+       Saponaro et. al [23]               FR-NN with C-NN                 Partial           85.02%                 0.78
+       Ma et. al [30]           Multi-atlas Fusion Template with GCN      Partial           75.70%                 0.73
+       Gupta et. al [24]                        TinyViT                   Partial           76.62%                   -
+       Du et. al [25]                      FCN based model               Complete           68.98%                   -
+       Proposed                Enhanced GCN With Graph Attention         Complete           74.81%                 0.82
+
+
+
+A. Ablation Study                                                       model by Saponaro et al. [23] reports a higher accuracy of
+   Here in Table I, a quantitative analysis of different                85.02%, it is important to note that it is evaluated on a
+configurations of the model architecture is available. The              partial subset, which may limit its generalizability. The
+baseline EGCN without incorporating the Graph Attention                 proposed model maintains state-of-the-art performance with
+Network (GAT) layer achieves a test accuracy of 70.14% and              balanced accuracy and AUC on the complete dataset,
+an AUC of 0.78, reflecting marginal improvements of 1.54%               affirming the effectiveness of graph attention integration and
+in ACC and 3.79% in AUC over the standard GCN. Notably,                 multi-modal learning in enhancing ASD classification.
+adding the GAT module (EGCN w GAT) yields a slight
+performance gain but not the best result in the
+experimentation, with test accuracy rising to 71.24% and
+AUC to 0.80, suggesting that attention mechanisms alone
+may not consistently improve model generalization. The full
+model, EGCN with both GAT and hyperparameter tuning
+(EGCN w GAT w HPT), achieves the highest performance,
+with a test accuracy of 74.82% and AUC of 0.82. This
+corresponds to a substantial improvement of 6.21% and
+7.33% in ACC and AUC, respectively, over the baseline
+GCN, and 3.51% and 3.53% over the Ensemble GCN.
+
+B. Comparative Analysis
+   Table II presents a comprehensive comparison of the
+proposed Enhanced GCN with Graph Attention model
+against several state-of-the-art GCN-based and deep learning
+models for ASD classification. The proposed model achieves
+a test accuracy of 74.81% and an AUC of 0.82 on the
+complete ABIDE dataset, outperforming several baseline and                              Figure 2: Testing AUC curve
+advanced methods. When compared to Dong et al. [17],
+whose standard GCN and Ensemble GCN models achieved                     Figure 3: Qualitative results depicted using the best AUC curve
+68.60% and 71.30% accuracy, respectively, the proposed                  obtained during testing
+model exhibits a notable performance gain, particularly in
+AUC, where it surpasses both baselines by 8 and 4
+percentage points, respectively. Additionally, the model                C. Performance Evaluation
+outperforms other GCN variants such as MMGCN (72.37%
+accuracy, 0.76 AUC) proposed by Song et al. [18], and                      The performance of the presented work is evident from the
+FCN-based architectures like that of Du et al. [25] with                ROC curves during the experimentation and is presented in
+68.98% accuracy. Among multimodal models trained on                     Figure 3. The curves show there was no evident overfitting
+partial datasets, the proposed method demonstrates                      and the model performed in a quite stable manner to classify
+comparable or superior performance to architectures such as             between ASD and TD subjects. The final testing AUC is shown
+the Multi-modal CNN (75.14% accuracy, 0.77 AUC) by                      in Figure 2. An AUC score of 0.82 is evidence that the results
+Abbas et al. [22], and Weight Learning DeepGCN (77.27%                  are clinically useful and thus have prospective application in
+accuracy, 0.82 AUC) by Wang et al. [19]. Although the                   real-world settings.
+                               VI. C ONCLUSION                                                      K. A. Pelphrey, S. J. Peltier, J. D. Rudie, S. Sunaert, M. Thioux, J. M.
+                                                                                                    Tyszka, L. Q. Uddin, J. S. Verhoeven, N. Wenderoth, J. L. Wiggins, S. H.
+   This paper provides an innovative and successful                                                 Mostofsky, and M. P. Milham, “The autism brain imaging data exchange: towards
+                                                                                                    a large-scale evaluation of the intrinsic brain architecture in autism,” Molecular
+graph-based deep learning framework for Autism Spectrum                                             Psychiatry 2014 19:6, vol. 19, pp. 659–667, 6 2013. [Online]. Available:
+Disorder (ASD) classification, utilizing a multi-branch                                             https://www.nature.com/articles/mp201378
+                                                                                             [11]   L. Yi, C. Feng, P. C. Quinn, H. Ding, J. Li, Y. Liu, and K. Lee, “Do individuals
+Enhanced Graph Convolutional Network (EGCN) that blends                                             with and without autism spectrum disorder scan faces differently? a new multi-
+Chebyshev spectral graph convolutions with graph attention                                          method look at an existing controversy,” Autism Research, vol. 7, no. 1, pp. 72–83,
+                                                                                                    2014.
+mechanisms.                                                                                  [12]   J. Y. An and C. Claudianos, “Genetic heterogeneity in autism: from single gene
+   The contributions of this study are diverse. First, the                                          to a pathway perspective,” Neuroscience & Biobehavioral Reviews, vol. 68, pp.
+                                                                                                    442–453, 2016.
+model architecture presents a systematic means of addressing                                 [13]   A. S. Heinsfeld, A. R. Franco, R. C. Craddock, A. Buchweitz, and F. Meneguzzi,
+modality-specific feature extraction using parallel ChebConv                                        “Identification of autism spectrum disorder using deep learning and the abide
+                                                                                                    dataset,” NeuroImage: Clinical, vol. 17, pp. 16–23, 2018.
+branches, followed by late fusion and attention-guided                                       [14]   M. Rakić, M. Cabezas, K. Kushibar, A. Oliver, and X. Lladó, “Improving the
+refinement. Second, the usage of a population graph based                                           detection of autism spectrum disorder by combining structural and functional mri
+                                                                                                    information,” NeuroImage: Clinical, vol. 25, p. 102181, 2020.
+on acquisition site information provides a scalable and                                      [15]   S. Parisot, S. I. Ktena, E. Ferrante, M. Lee, R. Guerrero, B. Glocker, and
+generalizable framework for modeling inter-subject                                                  D. Rueckert, “Disease prediction using graph convolutional networks: application
+                                                                                                    to autism spectrum disorder and alzheimer’s disease,” Medical image analysis,
+interactions, especially in diverse datasets. Third, detailed                                       vol. 48, pp. 117–130, 2018.
+ablation studies empirically support the separate                                            [16]   Y. Huang and A. C. Chung, “Edge-variational graph convolutional networks for
+                                                                                                    uncertainty-aware disease prediction,” in Medical Image Computing and Computer
+contributions of the graph attention layer and hyperparameter                                       Assisted Intervention–MICCAI 2020: 23rd International Conference, Lima, Peru,
+optimization, showing the relevance of both structural and                                          October 4–8, 2020, Proceedings, Part VII 23. Springer, 2020, pp. 562–572.
+                                                                                             [17]   Y. Dong, D. Batalle, and M. Deprez, “A framework for comparison and
+parametric improvements in deep graph models.                                                       interpretation of machine learning classifiers to predict autism on the abide
+   Looking ahead, there are various viable paths to broaden                                         dataset,” Human brain mapping, vol. 46, 4 2025. [Online]. Available:
+                                                                                                    https://pubmed.ncbi.nlm.nih.gov/40095417/
+the breadth and effect of this study. Future studies might                                   [18]   T. Song, Z. Ren, J. Zhang, and M. Wang, “Multi-view and multimodal
+examine combining new data modalities, such as genetic or                                           graph convolutional neural network for autism spectrum disorder diagnosis,”
+                                                                                                    Mathematics 2024, Vol. 12, Page 1648, vol. 12, p. 1648, 5 2024. [Online].
+behavioral video data. Moreover, adaptive or learnable                                              Available: https://www.mdpi.com/2227-7390/12/11/1648/htm
+graph-building approaches may provide more dynamic and                                       [19]   M. Wang, J. Guo, Y. Wang, M. Yu, and J. Guo, “Multimodal autism spectrum
+                                                                                                    disorder diagnosis method based on deepgcn,” IEEE Transactions on Neural
+data-driven connection modeling between individuals.                                                Systems and Rehabilitation Engineering, vol. 31, pp. 3664–3674, 2023.
+Finally, adding interpretability frameworks into the model                                   [20]   S. Rajaprakash, C. B. Basha, C. S. Ram, I. Ameethbasha, V. Subapriya, and
+                                                                                                    R. Sofia, “Using convolutional network in graphical model detection of autism
+may yield neurobiologically significant insights, supporting                                        disorders with fuzzy inference systems,” Intelligence-Based Medicine, vol. 11, p.
+physicians in identifying crucial biomarkers and processes                                          100213, 2025.
+                                                                                             [21]   R. Zhang, F. Sheng, L. Wang, and W. Zeng, “Research on multi-center assisted
+causing ASD. Overall, this work offers a solid basis for the                                        diagnosis of asd based on multimodal feature fusion,” International Journal of
+continuing improvement of graph-based multi-modal learning                                          Imaging Systems and Technology, vol. 34, no. 3, p. e23110, 2024. [Online].
+                                                                                                    Available: https://onlinelibrary.wiley.com/doi/abs/10.1002/ima.23110
+in computational neuropsychiatry.                                                            [22]   S. Q. Abbas, L. Chi, and Y.-P. P. Chen, “Deepmnf: Deep multimodal
+                                                                                                    neuroimaging framework for diagnosing autism spectrum disorder,” Artificial
+                                  R EFERENCES                                                       Intelligence in Medicine, vol. 136, p. 102475, 2 2023. [Online]. Available:
+                                                                                                    https://linkinghub.elsevier.com/retrieve/pii/S0933365722002275
+ [1] E. Schopler, R. J. Reichler, R. F. DeVellis, and K. Daly, “Toward objective
+                                                                                             [23]   S. Saponaro, F. Lizzi, G. Serra, F. Mainas, P. Oliva, A. Giuliano,
+     classification of childhood autism: Childhood autism rating scale (cars).” Journal
+                                                                                                    S. Calderoni, and A. Retico, “Deep learning based joint fusion approach
+     of autism and developmental disorders, 1980.
+                                                                                                    to exploit anatomical and functional brain information in autism spectrum
+ [2] D. Skuse, R. Warrington, D. Bishop, U. Chowdhury, J. Lau, W. Mandy, and
+                                                                                                    disorders,” Brain Informatics, vol. 11, pp. 1–13, 12 2024. [Online]. Available:
+     M. Place, “The developmental, dimensional and diagnostic interview (3di): a novel
+                                                                                                    https://link.springer.com/articles/10.1186/s40708-023-00217-4
+     computerized assessment for autism spectrum disorders,” Journal of the American
+                                                                                             [24]   K. Gupta, A. Aly, and E. Ifeachor, “Cross-domain transfer learning for domain
+     Academy of Child & Adolescent Psychiatry, vol. 43, no. 5, pp. 548–558, 2004.
+                                                                                                    adaptation in autism spectrum disorder diagnosis,” in 18th International Conference
+ [3] C. Lord, M. Rutter, and A. Le Couteur, “Autism diagnostic interview-revised: a
+                                                                                                    on Health Informatics, 2025.
+     revised version of a diagnostic interview for caregivers of individuals with possible
+                                                                                             [25]   J. Du, S. Wang, R. Chen, and S. Wang, “Improving fmri-based autism severity
+     pervasive developmental disorders,” Journal of autism and developmental disorders,
+                                                                                                    identification via brain network distance and adaptive label distribution learning,”
+     vol. 24, no. 5, pp. 659–685, 1994.
+                                                                                                    IEEE Transactions on Neural Systems and Rehabilitation Engineering, vol. 33, pp.
+ [4] M. Johansson, E. Wentz, E. Fernell, K. Strömland, M. T. Miller, and C. Gillberg,
+                                                                                                    162–174, 2025.
+     “Autistic spectrum disorders in möbius sequence: a comprehensive study of 25
+                                                                                             [26]   M. Defferrard, X. Bresson, and P. Vandergheynst, “Convolutional neural networks
+     individuals,” Developmental medicine and child neurology, vol. 43, no. 5, pp. 338–
+                                                                                                    on graphs with fast localized spectral filtering,” Advances in neural information
+     345, 2001.
+                                                                                                    processing systems, vol. 29, 2016.
+ [5] L. Lecavalier, “An evaluation of the gilliam autism rating scale,” Journal of autism
+                                                                                             [27]   P. Veličković, G. Cucurull, A. Casanova, A. Romero, P. Lio, and Y. Bengio, “Graph
+     and developmental disorders, vol. 35, pp. 795–805, 2005.
+                                                                                                    attention networks,” arXiv preprint arXiv:1710.10903, 2017.
+ [6] M. Galliver, E. Gowling, W. Farr, A. Gain, and I. Male, “Cost of assessing a child
+                                                                                             [28]   Y. Du, X. He, P. Kochunov, G. Pearlson, L. E. Hong, T. G. van Erp, A. Belger,
+     for possible autism spectrum disorder? an observational study of current practice
+                                                                                                    and V. D. Calhoun, “A new multimodality fusion classification approach
+     in child development centres in the uk,” BMJ Paediatrics Open, vol. 1, no. 1, p.
+                                                                                                    to explore the uniqueness of schizophrenia and autism spectrum disorder,”
+     e000052, 2017.
+                                                                                                    Human Brain Mapping, vol. 43, pp. 3887–3903, 8 2022. [Online]. Available:
+ [7] M. Rutter, A. Le Couteur, C. Lord et al., “Autism diagnostic interview-revised,”
+                                                                                                    https://onlinelibrary.wiley.com/doi/full/10.1002/hbm.25890
+     Los Angeles, CA: Western Psychological Services, vol. 29, no. 2003, p. 30, 2003.
+                                                                                             [29]   R. Zhang, F. Sheng, L. Wang, and W. Zeng, “Research on multi-center assisted
+ [8] K. A. Stigler, B. C. McDonald, A. Anand, A. J. Saykin, and C. J. McDougle,
+                                                                                                    diagnosis of asd based on multimodal feature fusion,” International Journal of
+     “Structural and functional magnetic resonance imaging of autism spectrum
+                                                                                                    Imaging Systems and Technology, vol. 34, p. e23110, 5 2024. [Online]. Available:
+     disorders,” Brain research, vol. 1380, pp. 146–161, 2011.
+                                                                                                    https://onlinelibrary.wiley.com/doi/full/10.1002/ima.23110
+ [9] K. Hugdahl, M. Beyer, M. Brix, and L. Ersland, “Autism spectrum disorder,
+                                                                                             [30]   Y. Ma, X. Mu, T. Zhang, and Y. Zhao, “Maft-so: A novel multi-atlas fusion template
+     functional mri and mr spectroscopy: possibilities and challenges,” Microbial
+                                                                                                    based on spatial overlap for asd diagnosis,” Journal of Biomedical Informatics, vol.
+     Ecology in Health and Disease, vol. 23, no. 1, p. 18960, 2012.
+                                                                                                    157, p. 104714, 9 2024.
+[10] A. D. Martino, C. G. Yan, Q. Li, E. Denio, F. X. Castellanos, K. Alaerts, J. S.
+     Anderson, M. Assaf, S. Y. Bookheimer, M. Dapretto, B. Deen, S. Delmonte,
+     I. Dinstein, B. Ertl-Wagner, D. A. Fair, L. Gallagher, D. P. Kennedy, C. L.
+     Keown, C. Keysers, J. E. Lainhart, C. Lord, B. Luna, V. Menon, N. J. Minshew,
+     C. S. Monk, S. Mueller, R. A. Müller, M. B. Nebel, J. T. Nigg, K. O’Hearn,
+

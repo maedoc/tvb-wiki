@@ -1,12 +1,6 @@
 ---
 created: 2026-04-20
 sources:
-- Bliss1973
-- BiPoo1998
-- Bienenstock1982
-- Oja1982
-- Abbott2000
-- Gerstner2002
 - raw/papers/arxiv-2510.02545.md
 - raw/papers/semanticscholar-3256c8880985.md
 - raw/papers/arxiv-2512.03907.md
@@ -18,7 +12,7 @@ tags:
 - spiking-neural-networks
 title: Plasticity
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 ## Overview
@@ -70,3 +64,9 @@ Several open questions remain. The relationship between synaptic-level STDP and 
 ## Related Concepts
 
 Plasticity interacts with and depends on numerous other concepts in the [[whole-brain-modeling]] ecosystem. The [[excitation-inhibition-balance]] is intimately connected to plasticity, as homeostatic mechanisms regulate the relative strength of excitatory and inhibitory connections to maintain stable firing rates. The study of [[network-dynamics]] in plastic networks reveals emergent properties—such as stable learned states, metastable sequences, and critical dynamics—that are not present in static networks, connecting plasticity to the broader [[dynamical-systems-theory]] framework used to understand brain activity.
+
+## References
+
+1. Pascal Helson, Etienne Tanré, Romain Veltz. *[[mean-field-theory|Mean-field]] analysis of a [[neural-network]] with stochastic STDP*. [Link](](https://arxiv.org/abs/2510.02545))
+2. Duy Pham, Gene J. Yu, G. Lazzi, Jean-Marie C Bouteiller. (2026). *A spatially discretized convolutional [[neural-mass-models|neural mass model]] for studying meso-scale spatio-temporal transformations in the rat hippocampus*. Research Square. [DOI](](https://doi.org/10.21203/rs.3.rs-9306977/v1))
+3. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](](https://arxiv.org/abs/2512.03907))

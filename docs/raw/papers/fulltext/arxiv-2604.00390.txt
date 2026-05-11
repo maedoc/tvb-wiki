@@ -1,0 +1,2148 @@
+                                                   Causal Inference for Unobservable Multivariate
+                                                   Outcomes, with Applications to Brain Effective
+                                                                    Connectivity
+
+                                                                Haiyue Song1 , Ani Eloyan1 , Youjin Lee∗,1 , and
+                                                            for the Alzheimer’s Disease Neuroimaging Initiative†
+                                                    1
+                                                        Department of Biostatistics, Brown University, Providence, RI 02903, USA
+arXiv:2604.00390v1 [stat.ME] 1 Apr 2026
+
+
+
+
+                                                                                          Abstract
+
+                                                   Evaluating the causal effect of an intervention on multivariate outcomes is challenging
+
+                                                when the outcomes are interdependent and derived rather than directly observed. Effec-
+
+                                                tive connectivity, which summarizes the directional neural communication between brain
+
+                                                regions, is one such derived relational outcome. Estimating how external interventions af-
+
+                                                fect effective connectivity introduces two layers of causal inference problems: identifying
+
+                                                directional relationships among brain regions from high-dimensional neuroimaging time
+
+                                                series and estimating the causal effect of the intervention on these derived relationships.
+
+                                                Each layer introduces distinct biases. The first arises from within-outcome dependencies
+
+                                                unrelated to the intervention; to address this, we propose a sample-splitting method for es-
+
+                                                timating meaningful, and potentially causally informative, effective connectivity measures.
+
+                                                The second arises from confounding between the intervention and the derived outcomes;
+
+                                                to address this, we apply inverse probability weighting methods and incorporate multiple
+
+                                                testing when causal effects on multiple components of the outcomes are of interest. We
+
+                                                demonstrate, through theoretical results and simulations, that the proposed methods are
+
+                                                asymptotically valid under certain conditions with effective type-I and familywise error
+
+                                                control. Finally, we apply the proposed methods to examine the causal effect of amyloid
+
+                                                on effective connectivity using the resting-state fMRI data from the Alzheimer’s Disease
+                                            ∗
+                                                Correspondence: Youjin Lee, Department of Biostatistics, Brown University, Providence, RI 02903, USA.
+                                          youjin lee@brown.edu
+                                              †
+                                                Data used in preparation of this article were obtained from the Alzheimer’s Disease Neuroimaging Ini-
+                                          tiative (ADNI) database (adni.loni.usc.edu). As such, the investigators within the ADNI contributed to the
+                                          design and implementation of ADNI and/or provided data but did not participate in the analysis or writ-
+                                          ing of this report. A complete listing of ADNI investigators can be found at: http://adni.loni.usc.edu/wp-
+                                          content/uploads/how to apply/ADNI Acknowledgement List.pdf
+
+
+                                                                                              1
+      Neuroimaging Initiative database.
+
+      Keywords: Brain effective connectivity; Causal inference; Latent outcomes; Selective in-
+
+      ference.
+
+
+
+1     Introduction
+
+    Evaluating the causal effect of an intervention on multivariate outcomes is challenging, partic-
+ularly when inference targets specific components of the outcome rather than an overall outcome.
+In such settings, valid inference requires accounting not only for potential confounding between
+the intervention and the outcomes, but also for dependence among outcome components that
+may induce spurious associations. For example, consider the causal effect of an external interven-
+tion on functional synchrony of the human brain, as quantified by effective connectivity between
+pairs of brain regions. Effective connectivity refers to the directional interactions among brain
+regions (Friston, 1994, Stephan and Friston, 2010). In this context, the inferential goal is to
+examine how an intervention alters these directional interaction patterns, while accounting for
+the fact that baseline connectivity may exist even in the absence of intervention. A key chal-
+lenge, therefore, is to disentangle dependence among outcome components to obtain effective
+connectivity measures valid for downstream causal inference, while also addressing confounding
+between different intervention groups.
+    A further challenge in causal inference with such multivariate, relational outcomes is that the
+outcomes of interest are often defined in an abstract way or in a measure-specific manner. In
+many applications, outcomes of interest are not directly observed but are constructed through
+model-based approaches. For instance, effective connectivity is typically inferred using para-
+metric or semi-parametric models, yet there is no generally accepted framework for defining or
+estimating directional interactions among brain regions. Similar issues arise in other domains,
+including psychology (VanderWeele, 2022, Gilbert, 2025), political science (Knox et al., 2022,
+Stoetzer et al., 2025), and genomics (Lozano et al., 2009). In such settings, causal inference
+proceeds on outcomes that are themselves estimated, potentially introducing additional layers
+of uncertainty and bias into causal effect estimation.
+    The overarching goal of this study is to develop a novel method for examining causal effects of
+an intervention on multivariate, relational outcomes derived from time-series data. The setting
+
+
+                                                 2
+presents two important inferential challenges. First, dependence among outcome components,
+some of which may reflect underlying causal relationships, can induce spurious associations
+between the intervention and individual outcome components. Second, the relationships between
+the intervention and the multivariate outcomes may be subject to confounding. We propose a
+framework that addresses both challenges for valid causal inference for interdependent, derived
+multivariate outcomes.
+
+
+1.1    Motivating application
+
+   As a motivating application, we consider the causal effect of brain amyloid positivity on
+effective connectivity. Amyloid plaque accumulation is an important pathological feature of
+Alzheimer’s disease (AD) (Alzheimer’s Association, 2025), and in vivo amyloid burden measured
+using positron emission tomography (PET) is a widely used biomarker for disease diagnosis and
+monitoring of disease progression. Prior studies have reported associations between increased
+amyloid burden and alterations in brain networks and connectivity patterns (Palmqvist et al.,
+2017, Moffat et al., 2022). Notably, amyloid positivity in this study is determined based on PET
+imaging and is distinct from the our outcomes from functional neuroimaging data.
+   We use data from the Alzheimer’s Disease Neuroimaging Initiative (ADNI) available at
+adni.loni.usc.edu, a multi-center longitudinal study established to facilitate research on AD and
+the development and validation of disease biomarkers. Our analysis focuses on participants from
+ANDI phases 3 and 4, during which both amyloid PET and resting-state functional magnetic
+resonance imaging (fMRI) data were collected. Resting-state fMRI captures temporal variation
+in blood-oxygen-level-dependent (BOLD) signals across the brain. Following standard ADNI
+preprocessing protocols, we extract regional time series by aggregating voxel-level signals within
+prespecified regions of interest (ROI). In addition to imaging data, baseline covariates commonly
+associated with amyloid burden and brain connectivity are available, including sex, age, years of
+education, and apolipoprotein E (APOE) ε4 carrier status.
+   This application raises several fundamental questions. First, how can one construct effective
+connectivity measures from subject-level time-series data that are interpretable and causally
+informative? Second, under what conditions is it valid to use such derived measures as outcomes
+for causal inference?
+
+
+                                                3
+1.2      Background and previous studies
+
+   A key challenge in causal inference with multivariate outcomes is separating intervention
+effects from dependence among outcome components. Apparent effect on individual components
+may arise from associations induced by dependence with other components, rather than from
+direct causal effect of the intervention. One approach to isolating direct effects is to construct
+outcome components so that each represents a conditional feature of the data-generating process,
+thereby isolating the contribution attributable to the intervention. In the context of time-series
+data, this can be achieved by defining each component conditional on the historical information
+from all remaining components.
+   When outcomes are indexed by multiple units (e.g., regions), identifying an appropriate
+conditioning set becomes challenging due to the high dimensionality. In effective connectivity
+literature, data-driven variable selection and dimension-reduction approaches are commonly used
+to construct conditioning sets (Zhou et al., 2009, Liao et al., 2010, Tang et al., 2012). However,
+such approaches often introduce post-selection inference issues, as the resulting estimators and
+test statistics depend on data-adaptive model selection, violating assumptions underlying clas-
+sical inferential procedures based on fixed models and hypotheses (Kuchibhotla et al., 2022).
+Sample-splitting methods are widely used to mitigate post-selection bias by separating model
+construction from inference through random partitioning of the data. While their validity is well
+understood under independence assumptions (Tibshirani et al., 2016), extending these guaran-
+tees to temporally autocorrelated data requires additional conditions (Lunde, 2019, Xi et al.,
+2022).
+   Even when multivariate outcomes are constructed to be interpretable for downstream causal
+inference, it remains unclear under what conditions such quantities can be treated as observed
+outcomes for the purposes of causal inference. This issue has become increasingly salient with
+the growing use of algorithmically derived or predicted outcomes, including latent representa-
+tions obtained using Artificial Intelligence (AI) and deep learning, in which outputs of prediction
+algorithms are directly incorporated as outcomes in causal effect estimation (Modarressi et al.,
+2025). Recent work has begun to address causal inference with multidimensional derived out-
+comes. Qiu et al. (2024) establish identification conditions and multiple testing procedures for
+such settings, and Du et al. (2025) extend this framework by introducing doubly robust estima-
+
+
+                                                4
+tion. These approaches, however, do not address dependence induced during the construction
+of the outcome measures themselves; rather, they account for dependence only at the level of
+estimated causal effects through multiple testing.
+
+
+1.3    Contribution and outline of the paper
+
+   Our main contributions of this paper are as follows. First, we propose a unified approach that
+integrates the construction of multivariate, interdependent outcomes from time-series data with
+principled causal inference methods. We introduce two conceptual perspectives on derived out-
+comes and establish the distinct statistical and causal assumptions required for each perspective.
+Second, we propose an asymptotically valid sample-splitting strategy for constructing causally
+informative relational outcome measures from time-series data for valid downstream causal anal-
+ysis of intervention effects. Third, we establish the large-sample properties of the proposed
+intervention effect estimators in settings with interdependent and unobservable outcomes, and
+show how existing multiple testing procedures can be incorporated to account for dependence
+among the estimators. Overall, these developments enable causal inference when the outcomes
+are derived or estimated and exhibit both within-outcome and model-derived dependencies.
+   This reminder of the paper is organized as follows. In Section 2, we introduce notation,
+data structure, causal estimands, and identification conditions. Section 3 proposes effective
+connectivity measures and introduces their construction from time-series data using sample-
+splitting approaches. In Section 4, we present procedures for estimation and hypothesis testing of
+intervention effects on the derived effective connectivity outcomes. Section 5 conducts simulation
+studies evaluating the finite-sample performance of the proposed method and comparing them
+with alternative approaches. We apply our proposed methods to investigate the effect of amyloid
+PET positivity on effective connectivity in the human brain in Section 6. Section 7 concludes
+with a discussion of the findings, limitations, and directions for future work.
+
+
+
+
+                                                5
+2     Notation and target estimands
+
+2.1     Notation and data structure
+
+    Let i (i ∈ {1, 2, . . . , n} := [1 : n]) index subjects to which the unique intervention of interest
+can be exposed. Let j (j ∈ [1 : p]) index outcome units (e.g., brain regions), with pairs of regions
+defining units of effective connectivity. We consider a binary intervention for simplicity, denoted
+by Zi ∈ {0, 1} for subject i. To adjust for potential confounding, we consider a vector of baseline
+covariates Wi for subject i, assumed to be time invariant. The outcome of interest is multivariate
+and indexed by ordered pairs of outcome units. Specifically, let Yi = (Yi(1,2) , Yi(1,3) , ..., Yi(p,p−1) )⊤ ,
+where, for example, Yi(j1 j2 ) represents the effective connectivity from region j1 to region j2 (j1 , j2 ∈
+[1 : p], j1 ̸= j2 ). These outcomes are typically not directly observed and must instead be derived
+                                                                                b i . Let X (t)
+from subject-specific time-series data. We denote the derived outcome vector by Y          ij
+
+denote the time-series measurement for subject i at outcome unit j at time t (i ∈ [1 : n], j ∈
+                                [1:T ]
+[1 : p], t ∈ [1 : T ]). Define Xij , or equivalently X
+                                                     e ij , to represent the collection of time-series
+                                              e i = {X[1:T ] : j ∈ [1 : p]} denote the collection of
+data for outcome unit j of subject i, and let X       ij
+
+time series across all outcome units for subject i. In the motivating application, for example,
+Yi(j1 j2 ) corresponds to the true underlying effective connectivity from brain region j1 to j2 for
+                  (t)
+subject i, and Xij represents the mean BOLD signal at brain region j and time t, obtained from
+resting-state fMRI.
+    We can consider two distinct perspectives on the derived outcome Y
+                                                                     b i . Under the first per-
+
+spective, Y
+          b i represents an estimate of Yi , where Yi is treated as a subject-level unknown latent
+
+parameter. In this view, causal effect estimation on Yi remains the inferential goal, given that it
+is (asymptotically) equivalent to causal effect estimation on Y
+                                                              b i under suitable regularity condi-
+
+tions. Under the second perspective, Y
+                                     b i is interpreted as a proxy for the unobservable outcome
+
+Yi . In our settings, Yi is represented through the observed time series X
+                                                                         e i . In this case, infer-
+
+ence focuses on testing, rather than estimating, the causal effect on Yi under appropriate causal
+assumptions.
+    Figure 1 illustrates two different perspectives on using Y
+                                                             b for causal inference on Y. In
+
+Figure 1(a), Y
+             b is defined as a function of X
+                                           e and is closely related to the true, unobserved outcome
+
+Y (denoted by the dashed line), while allowing for confounding between Y and Y
+                                                                             b through
+
+
+
+                                                      6
+               Z           Y       Y
+                                   b = f (X)
+                                          e                     Z           Y           Y
+                                                                                        b
+
+
+
+                          W                                          W            X
+                                                                                  e
+
+                          (a)                                              (b)
+
+Figure 1: A graphical representation of two approaches for using Y   b in causal inference on Y. In panel
+(a), Y
+     b is a function of Xe that is closely related to the true, unobserved outcome Y (indicated by the
+dashed line); when a standard measure of Y exists, the effect on a unit change in Y can be estimated by
+the effect on a unit change in Y.
+                               b In panel (b), Y b serves as a proxy for Y, and the units of Y and Yb are
+not necessarily comparable; the intervention Z is assumed to affect Y  b through Y and the intermediate
+outcome X. e
+
+
+observed baseline covariates W. This perspective is appropriate when a specific, and presumably
+unique, measure of the true outcome Y exists, such that the causal effect corresponding to a unit
+change in Y can be approximated by the effect on a unit change in Y.
+                                                                  b Figure 1(b) illustrates
+
+the second perspective, in which Y
+                                 b is treated as a proxy for the unobservable outcome Y.
+
+This perspective is appropriate when the target outcome Y is an abstract concept that may
+be measured in multiple ways, but for which the intervention is expected to affect the proxy Y
+                                                                                             b
+
+through Y and the intermediate outcome X.
+                                       e Although Y may influence Y
+                                                                  b through multiple
+
+pathways, the focus here is on the pathway mediated by the observed time series X.
+                                                                                e In this
+
+setting, the units of Y (if such units exist) and Y
+                                                  b are not necessarily comparable. Under this
+
+perspective, inference is directed toward testing the existence of a causal effect of Z on Y through
+testing for an effect of Z on Y.
+                              b We elaborate on the conditions required for each perspective in
+
+Section 2.3.
+
+
+2.2    Potential outcomes and causal estimands
+
+   We use the potential outcomes framework to define the target estimands and formalize the
+causal null hypothesis of interest (Neyman, 1923, Rubin, 1974). For each outcome compo-
+nent, let Yi(j1 j2 ) (z) denote the potential outcome under intervention level z ∈ {0, 1}. The vector
+Yi (z) = (Yi(1,2) (z), ..., Yi(p,p−1) (z))⊤ includes potential outcomes for subject i across ordered pairs
+of outcome units. We examine the difference between the potential outcomes Yi (0) and Yi (1)
+using post-intervention time-series data X
+                                         e i and the estimated or derived outcomes Y
+                                                                                   b i . We intro-
+
+duce analogous potential outcome notation for the observed time series and derived outcomes,
+
+
+
+                                                    7
+denoting them by X           b i (z), respectively, for z ∈ {0, 1}.
+                 e i (z) and Y
+
+    Our focus is on the causal effect of the intervention on individual components of the outcome
+Y(j1 j2 ) (j1 , j2 ∈ [1 : p]; j1 ̸= j2 ). These effects can be represented by differences in average
+potential outcomes,
+
+
+                                        τ(j1 j2 ) = Ep [Y(j1 j2 ) (1) − Y(j1 j2 ) (0)],            (1)
+
+
+where the expectation Ep (·) is taken over subjects in the population.                     Let τ     =
+(τ(1,2) , ..., τ(p,p−1) )⊤ = Ep [Y(1)−Y(0)] denote the vector of componentwise causal effects. Because
+the true outcomes Yi are not directly observed, inference under either of the two perspectives
+described earlier directly targets τ ∗ := Ep [Y(1)
+                                              b    − Y(0)],
+                                                     b      which is the corresponding causal
+estimand defined in terms of the derived outcomes.
+    Under the second perspective on Y
+                                    b i , the inferential focus shifts from estimation of the causal
+
+effect in (1) to hypothesis testing. Specifically, for j1 , j2 ∈ [1 : p]; j1 ̸= j2 , we consider the
+collection of null hypotheses
+
+
+                                                  H0,(j1 j2 ) : τ(j1 j2 ) = 0.                     (2)
+
+
+                                                                                           ∗
+Similarly, for the derived outcomes we define the corresponding class of null hypotheses {H0,(j1 j2 )
+                                                                                                      :
+τ(j∗ 1 j2 ) = 0; j1 , j2 ∈ [1 : p]; j1 ̸= j2 }.
+
+
+2.3      Identification
+
+    In this section, we first establish the causal assumptions required under each perspective and
+distinguish those that are common from those that are perspective specific. For z ∈ {0, 1},
+i ∈ [1 : n], we impose the following common assumptions.
+
+Assumption 1 (Consistency). If Zi = z ∈ {0, 1}, X
+                                                ei = X
+                                                     e i (z), Yi = Yi (z), Y
+                                                                           bi = Y
+                                                                                b i (z).
+
+Assumption 2 (Stable Unit Treatment Value Assumption (SUTVA) (Rubin, 1974)). There are
+no hidden variations in the intervention and no interference between subjects.
+
+Assumption 3 (Positivity). P r(Zi = z | Wi = w) > 0 for w ∈ ΩW .
+
+Assumption 4 (Ignorability). Z ⊥⊥ X(0),
+                                  e     X(1)
+                                        e    | W.
+
+                                                                 8
+Consistency ensures that the observed time series, the unobservable outcomes, and the derived
+outcomes coincide with their respective potential outcome counterparts. The SUTVA assumes
+a single version of the intervention and no interference between subjects. The positivity and
+ignorability assumptions require sufficient overlap in the propensity scores and unconfounded-
+ness of the intervention, conditional on the baseline covariates Wi . Under either perspective,
+Y
+b i (z) is a function of X
+                         e i (z) and Wi . Therefore, Assumption 4 implies unconfoundedness of the
+
+intervention with respect to the potential derived outcomes, that is, Z ⊥⊥ Y(0),
+                                                                           b     Y(1)
+                                                                                 b    | W.
+   Because the outcomes Yi are not directly observed, additional conditions are required to
+relate {Yi (1), Yi (0)} to {Y
+                            b i (1), Y
+                                     b i (0)}. Under the first perspective, where we treat Y
+                                                                                           b i as an
+
+estimator of Yi (equivalently, Y
+                               b i (z) for Yi (z) for Zi = z under consistency). Then we define the
+
+bias in the subject-level outcome measures by:
+
+
+               ∆i (z) = (∆i(1,2) (z), ..., ∆i(p,p−1) (z))⊤ = Ei [Y
+                                                                 b i (z) | X
+                                                                           e i (z), Wi ] − Yi (z),
+
+
+where Ei [· | X
+              e i (z), Wi ] denote the subject-specific expectation given X
+                                                                          e i (z) and Wi . The follow-
+
+ing condition restricts the asymptotic behavior of the bias in Y
+                                                               b i (z) as the time-series dimension
+
+T increases.
+
+Condition 1 (Asymptotic Unbiasedness). For z ∈ {0, 1},                       max               Ep {∆(j1 j2 ) (z)} = op (1),
+                                                                      j1 ,j2 =[1:p]; j1 ̸=j2
+as T → ∞.
+
+Condition 1 allows us to treat Y
+                               b i as an estimator of Yi and is a key requirement for the identi-
+
+fication result stated in the following theorem.
+
+Theorem 1. Under Assumptions 1–4 and Condition 1, the estimand τ ∗ is consistent for τ as
+T → ∞.
+
+   On the other hand, when Y
+                           b i is interpreted as a proxy for Yi rather than an estimator, the
+
+following assumptions ensure that hypothesis tests based on the derived outcomes remain valid.
+
+Assumption A1 (Relevance). The unobservable outcomes of interest are associated with the
+derived outcomes.
+
+Assumption A2 (Exclusion Restriction). The intervention can affect the derived outcomes Y
+                                                                                        b i,
+
+only through the unobservable outcome Yi .
+
+                                                       9
+Assumption A3 (Ignorability). Z ⊥⊥ Y(0), Y(1) | W.
+
+Relevance ensures that any intervention on unobservable outcomes is reflected in the derived
+outcomes. The exclusion restriction requires that that all effects of the intervention on Y
+                                                                                          b operate
+
+through Y, ruling out direct pathways. This assumption is conceptually related to the exclusion
+restriction assumptions in identifying latent treatment effects (Stoetzer et al., 2025) and in
+instrumental variable models, although in our setting Y
+                                                      b serves as a proxy for the intermediate
+
+unobservable Y. Finally, the ignorability assumption requires that, conditional on W, the
+intervention is unconfounded with the potential unobservable outcomes.
+
+                                                    ∗
+Theorem 2. Under Assumptions 1–4, A1–A3, a test of H0,(j 1 j2 )
+                                                                : τ(j∗ 1 j2 ) = 0 provides a valid test
+of H0,(j1 j2 ) : τ(j1 j2 ) = 0 for j1 , j2 ∈ [1 : p]; j1 ̸= j2 .
+
+Given these assumptions, Section 3 focuses on obtaining subject-level estimates Y
+                                                                                b i from the
+
+time-series data X
+                 e i for each subject i. Section 4 then proceeds to across-subject inference to
+
+examine causal effects by combining data from both the intervention and control groups.
+
+
+
+3      Deriving multivariate interdependent outcomes
+
+    To distinguish changes in each outcome component that are directly due to the external
+intervention from those induced indirectly through its effects on other components, we construct
+a derived outcome measure, denoted by Y
+                                      b i , from the observed time-series data X
+                                                                               e i . In this
+
+section, we omit the subscript i, the subject index, for simplicity.
+
+
+3.1      Granger causality
+
+    A time series X
+                  e ·j is said to Granger-cause another series X
+                                                               e ·k if past values of X
+                                                                                      e ·j contain
+
+information that improves prediction of the future values of X
+                                                             e ·k (Granger, 1969). Although
+
+Granger causality reflects predictive relationships rather than true causation, we use the esti-
+mated Granger causality as a derived outcome measure for brain effective connectivity, given
+their widespread use in neuroscience. To account for the influence of other brain regions that
+may confound the relationship between regions j and k, we employ conditional Granger causality,
+which conditions on the time series of additional variables (Geweke, 1984, Liao et al., 2010). This
+
+
+                                                             10
+                               X
+                               e ·3 (0)                                         X
+                                                                                e ·3 (1)
+            Z=0                                              Z=1
+                          X
+                          e ·1 (0)   X
+                                     e ·2 (0)                              X
+                                                                           e ·1 (1)   X
+                                                                                      e ·2 (1)
+
+
+                    (a)                                              (b)
+Figure 2: Representations of Granger causality relationships under (a) control and (b) intervention,
+where the presence of a direct arrow indicates Granger causality between two time series and the arrow
+width reflects the strength of that relationship.
+
+
+approach allows the derived outcomes to better capture directed dependencies between regions
+while accounting for the broader multivariate system.
+   Figure 2 illustrates the role of conditional Granger causality when examining the causal effect
+of an external intervention on pairwise effective connectivity. The figure shows a case where the
+effective connectivity measure for one pair, if not carefully constructed, may be influenced by
+the intervention’s effects on other pairs in a non-causal way. In Figure 2(a), under control (i.e.,
+Z = 0), the time series X
+                        e ·3 Granger-causes X
+                                            e ·1 . In Figure 2(b), under intervention (i.e., Z = 1),
+
+the strength of this existing Granger causality from X
+                                                     e ·3 to X
+                                                             e ·1 increases, and an additional
+
+Granger-causal effect from X
+                           e ·3 to X
+                                   e ·1 emerges. When Granger causality is used as the measure
+
+of effective connectivity, such changes would lead to detected effects on Y(3,1) and Y(3,2) . One
+might also detect apparent effects on Y(1,2) or Y(2,1) , even though there is no change in the
+Granger-causality relationship between X
+                                       e ·1 and X
+                                                e ·2 , simply because their relationships with X
+                                                                                               e ·3
+
+have changed. This example motivates defining Y
+                                              b (j,k) using conditional Granger causality, so
+                                                                              e ·h for any h (h ̸= j, k).
+that the resulting measure for pair (j, k) is not affected by the time series X
+
+Remark 1. The setting illustrated in Figure 2(b) differs from a standard causal mediation frame-
+work (e.g., a causal pathway Z → Y(1,3) → Y(1,2) ) in that the spurious association between X
+                                                                                            e ·1
+
+and X
+    e ·2 is not necessarily causally induced. Accordingly, the notion of “direct” effect in this
+
+work does not correspond to the effect obtained by blocking an indirect causal path between Z and
+Y(1,2) . Instead, it refers to the effect obtained by blocking any paths between Z and Y(1,2) that
+operate through other components Y(j,k) with (j, k) ̸= (1, 2).
+
+
+
+
+                                                   11
+3.2     Deriving conditional Granger causality
+
+   To derive conditional Granger causality, we employ vector autoregressive (VAR) models with
+X
+e as input, under the assumption of weak stationarity; that is, the mean and covariance matrix
+
+are time-invariant. To estimate the conditional Granger causality from X
+                                                                       e ·j1 to X
+                                                                                e ·j2 , we construct
+
+two VAR models of order r for X
+                              e ·j2 . The full model includes lagged values of X
+                                                                               e ·j1 as predictors,
+
+whereas the reduced model excludes them. To account for the influence of other time series, both
+                                                    e ·k for k ∈ J , where J ⊆ [1 : p] \ {j1 , j2 }.
+models may additionally adjust for lagged values of X
+                             e ·J , and let ℓ = |J | be the number of conditioned time series. The
+We denote this collection by X
+models may also incorporate baseline covariates W to account for measurement error or other
+sources of systematic variation.
+   The coefficients in the VAR models are estimated by ordinary least squares under the as-
+sumption that the error terms are multivariate normal with mean zero and a time-invariant
+covariance matrix. Using the estimated coefficients from the full and reduced models, we con-
+struct the following test statistic for the null hypothesis that X
+                                                                 e ·j1 does not Granger-cause X
+                                                                                              e ·j2
+
+conditioning on X
+                e ·J .
+
+                              PT      (t)        PT       ′(t)
+                                                                  (       PT       ′(t)
+                                                                                               )−1
+                                      εj2 )2 −
+                               t=r+1 (b                  εj2 )2
+                                                  t=r+1 (b                         εj2 )2
+                                                                            t=r+1 (b
+               Fb(j1 j2 ) =                                                                          ,    (3)
+                                             r                        (T − r) − (ℓ + 2)r − 1
+
+         (t)        ′(t)                                                           (t)
+where εbj2 and εbj2 denote the sample residuals from modeling X·j2 in the reduced and full
+models, respectively. The test statistic asymptotically follows F -distribution with degrees of
+freedom (r, (T − r) − (ℓ + 2)r − 1). Although the residuals are indexed by t, their variances are
+assumed to be time-invariant.
+   From the first perspective, illustrated in Figure 1(a), the unobserved outcome Y may be
+viewed as the collection of {F(j1 j2 ) : j1 , j2 ∈ [1 : p], j1 ̸= j2 }, where F(j1 j2 ) denotes the population
+analogue of Fb(j1 j2 ) obtained by replacing the sample residual sums of squares with their true
+population quantities. Then {Fb(j1 j2 ) : j1 , j2 ∈ [1 : p], j1 ̸= j2 } represents the estimator Y
+                                                                                                 b for
+
+each subject i. From the second perspective, shown in Figure 1(b), the unobserved outcome Y
+implies the underlying effective connectivity, while {Fb(j1 j2 ) : j1 , j2 ∈ [1 : p], j1 ̸= j2 } serves as
+the derived outcome vector Y
+                           b for each subject i.
+
+
+
+
+                                                        12
+3.3     Sample-splitting approach
+
+   In our setting with moderately large p and T , the conditioning sets (e.g., J ) and the VAR
+order (e.g., r) may be chosen using a data-driven procedure for each subject. These choices
+affect both the null hypothesis and the null distribution of the statistic Fb(j1 j2 ) in (3). If Fb(j1 j2 )
+is constructed after selecting J and r using the same data, a selective inference problem arises,
+leading to anti-conservative inference.
+   To address this issue, we adopt a sample-splitting approach applied to time-series data for
+constructing Fb(j1 j2 ) for each subject. For simplicity, suppose that each subject’s time series is
+divided into two equal parts: the first half and the second half, with T0 = T /2. Let D1 denote
+                          (t)
+the first part, D1 := {X·j : j = [1 : p], t = [1 : T0 ]}, which can be used for model selection (i.e.,
+                                                                     (t)
+selecting J and r). Let D2 denote the second part, D2 := {X·j : j = [1 : p], t = [(T0 + 1) : T ]},
+which can be used to compute Fb(j1 j2 ) in (3). Unlike the i.i.d. setting, time-series data must be
+split into contiguous time blocks rather than randomly sampled time indices, so that the serial
+dependence structure learned from D1 can be validly applied to D2 .
+   Let Fb(j1 j2 ) (D2 ) | m(D
+                          b 1 ) denote the statistic in (3), computed using D2 under the model
+              b 1 ) selected from D1 . Next, we establish the asymptotic validity of this sample-
+specification m(D
+splitting procedure for Fb(j1 j2 ) (D2 ) | m(D
+                                           b 1 ), even when D1 and D2 are statistially dependent.
+
+Definition 1 (Asymptotic validity of sample-splitting (Lunde, 2019)). Let D
+                                                                          e2 denote an inde-
+
+pendent copy of D2 that is also independent of D1 . The sample-splitting is said to be asymp-
+totically valid in probability under a metric d(·, ·) measuring the distance between conditional
+distributions (e.g., bounded Lipschitz metric) if
+
+                                                                      
+                                                                         p
+               d L(F(j1 j2 ) (D2 ) | m(D
+                   b                 b 1 )), L(F(j1 j2 ) (D2 ) | m(D
+                                               b          e      b 1 )) −→ 0 as T → ∞,
+
+
+where L(·) denotes the distribution of a random variable.
+
+   Sufficient conditions for asymptotic validity of the sample-splitting procedure include (i)
+tightness and (ii) asymptotic deletion stability (Lunde, 2019). For (i), under the null hypothesis,
+Fb(j1 j2 ) (D2 ) | m(D
+                   b 1 ) converges in distribution to F (r, (T − T0 − r) − (ℓ + 2)r − 1) as T → ∞.
+Convergence to a non-degenerate limit implies asymptotic tightness; that is, for any δ > 0, there
+exists a compact interval such that the probability that Fb(j1 j2 ) (D2 ) | m(D
+                                                                            b 1 ) lies outside this
+
+                                                    13
+interval is smaller than δ.
+    For (ii), we formalize asymptotic deletion stability for the proposed outcome measures
+Fb(j1 j2 ) (D2 ) | m(D
+                   b 1 ) as follows.
+
+Definition 2 (Asymptotic deletion stability). Assume that T − T0 → ∞. Suppose that there
+exists a sequence LT −T0 such that LT −T0 → ∞ and T −T0 −LT −T0 → ∞. Let D2′ denote a version
+of D2 with its first LT −T0 observations removed. Consider an estimator θ̂ | m for each m ∈ M∗ ,
+where |M∗ | < ∞ and P r(m(D
+                        b 1 ) ∈ M∗ ) → 1. The estimator θ̂ | m
+                                                             b is said to be asymptotically
+deletion stable if
+                                                                   p
+                                    b 2 ) | m(D
+                                    θ(D             b ′ ) | m(D
+                                            b 1 ) − θ(D     b 1 ) −→ 0.
+                                                        2
+
+
+The following theorem shows that, under suitable regularity conditions, the proposed outcome
+measure for effective connectivity satisfies asymptotic deletion stability, ensuring that the corre-
+sponding sample-splitting approach is asymptotically valid.
+
+Theorem 3. Consider the setting of Definition 2. Under the null hypothesis that X
+                                                                                e ·j1 does not
+
+Granger-cause X
+              e ·j2 conditioning on X
+                                    e ·J , suppose that
+
+
+                                      (T − T0 − r) − (ℓ + 2)r − 1
+                              lim                                      = 1.
+                             T →∞ (T − T0 − LT −T0 − r) − (ℓ + 2)r − 1
+
+
+
+Then
+                                                                                   p
+                                                b 1 ) − Fb(j1 j2 ) (D2′ ) | m(D
+                             Fb(j1 j2 ) (D2 ) | m(D                         b 1 ) −→ 0.
+
+Together with tightness, this implies that Fb(j1 j2 ) (D2 ) | m(D
+                                                              b 1 ) provides an asymptotically valid
+sample-splitting procedure.
+
+    The proposed sample-splitting approach is particularly useful for time-series settings in which
+the derived variables represent relational outcomes among interconnected units and must be
+learned from longitudinal data. As the weak stationarity assumption is the key to establishing
+asymptotic validity, the time-series data used should consist entirely of either pre-intervention
+or post-intervention periods, so that the series is not disrupted by the intervention.
+
+
+
+
+                                                        14
+4       Causal inference with derived multivariate outcomes
+
+      With the derived outcomes Y
+                                b i , we now consider inference for the intervention effect on them.
+
+We focus on (i) addressing confounding due to covariates Wi under the ignorability assumption
+(Assumptions 4 and A3), and (ii) accounting for the multiple testing problem when testing
+intervention effects across multiple pairs of (j1 , j2 ) in (1) or (2).
+
+
+4.1      Treatment effect estimation for derived outcomes
+
+      We first aim to estimate each component of τ ∗ = Ep [Y(1)
+                                                           b    − Y(0)];
+                                                                  b      in particular, τ(j∗ 1 j2 ) =
+Ep [Yb(j1 j2 ) (1) − Yb(j1 j2 ) (0)]. To address confounding between Z and Y
+                                                                           b under Assumption 4, we
+
+construct an inverse probability weighting (IPW) estimator. One could alternatively consider
+an augmented IPW estimator that incorporates an outcome regression model to improve robust-
+ness to model misspecification. However, with multivariate outcomes exhibiting within-variable
+                                       b | Z, W) is nontrivial. We therefore focus on the IPW
+dependence, specifying a model for Ep (Y
+estimator.
+      With the propensity score defined as e(Wi ) := P r(Z = 1 | Wi ), the IPW estimator for τ(j∗ 1 j2 )
+is:                                                      (                                              )
+                                                    n
+                                            1X                    Zi Ybi(j1 j2 ) (1 − Zi )Ybi(j1 j2 )
+                             τb(j∗ 1 j2 ) =                                     −                           .   (4)
+                                            n i=1                  eb(Wi )         1 − eb(Wi )
+
+Under Assumptions 1–4 and a correctly specified propensity score model, it is straightforward to
+show that τb∗ is a consistent estimator of τ ∗ . Deriving its asymptotic variance and establishing
+a normal approximation requires additional care, however, because the components of τb∗ are
+generally correlated.
+      Consider a parametric model for the propensity score of the form of e(Xi ) = σ(Wi⊤ β), where
+σ(·) is a known smooth link function. Let βb denote the maximum likelihood estimator of β, and
+define eb(Wi ) = σ(Wi⊤ β).
+                       b Write ηi = W⊤ β, and let σ ′ = σ ′ (ηi ) denote the derivative of σ(ηi ).
+                                     i             i
+
+Under regularity conditions, τb(j∗ 1 j2 ) has the following asymptotically linear representation,
+
+                                                                             n
+                         √                                          1 X
+                                 τb(j∗ 1 j2 ) − τ(j∗ 1 j2 )                hi(j1 j2 ) + o(n−1/2 ),
+                                                              
+                             n                                    =√                                            (5)
+                                                                     n i=1
+
+
+
+
+                                                                        15
+where hi(j1 j2 ) is the influence function of τb(j∗ 1 j2 ) . Specifically,
+
+
+              Zi Ybi(j1 j2 ) (1 − Zi )Ybi(j1 j2 )
+   hi(j1 j2 ) =              −                      − τ(j∗ 1 j2 )
+                   σ                     1 − σi
+              " ni                                                                   #
+                                             ′                            ′
+                                                                                                              σi′
+                                                                                
+               1   X                       σ                            σ           ⊤     −1
+            −               Zi Ybi(j1 j2 ) 2i + (1 − Zi )Ybi(j1 j2 )      i
+                                                                                  W i   Iβ   (Zi − σ i )              Wi ,
+               n i=1                      σi                         (1 − σi )2                          σi (1 − σi )
+
+where Iβ denotes the Fisher information matrix for β.
+    Compared to the derivations in Qiu et al. (2024), in which the proposed IPW estimator based
+on the derived multivariate outcomes Y
+                                     b targets the estimand defined in terms of the potential
+
+outcomes of the unobserved outcome Y (i.e., τ ), our inference targets instead the estimand
+                                                               b i (i.e., τ ∗ ). Moreover, the link
+defined in terms of potential outcomes of the derived outcomes Y
+function σ(·) can be any known smooth mapping from Wi⊤ β to (0, 1), and need not be restricted
+to the logistic link. Under such general setting, we establish the asymptotic normality of τb∗ in
+the following theorem.
+
+Theorem 4. Suppose that the propensity score model is correctly specified and Assumptions 1–4
+hold. If V(j1 j2 ) := E( n1 ni=1 h2i(j1 j2 ) ) < ∞, then
+                           P
+
+
+                                 √                           d
+                                       τ(j∗ 1 j2 ) − τ(j∗ 1 j2 ) ) −→ N (0, V(j1 j2 ) ) as n → ∞.
+                                     n(b
+
+
+                                                  b(j j ) , can be derived by 1 Pn b
+An analytic estimator of the asymptotic variance, V                                   2
+                                                     1 2                      n  i=1 hi(j1 j2 ) , where
+
+hi(j1 j2 ) is obtained by replacing β with βb in hi(j1 j2 ) .
+b
+
+Corollary 1. Under the conditions of Theorem 4, V
+                                                b(j j ) is a consistent estimator of V(j j ) .
+                                                   1 2                                  1 2
+
+
+
+In practice, we restrict attention to components (j1 , j2 ) such that V
+                                                                      b(j j ) > c for some small
+                                                                         1 2
+
+
+constant c > 0, thereby excluding components associated with degenerate limiting distributions.
+    Under the additional condition below, the estimator τb(j1 j2 ) may be interchangeably with
+τb(j∗ 1 j2 ) when the derived outcomes are asymptotically unbiased for the unobserved outcomes
+(Condition 1).
+
+                                                                                           Ep ∆(j1 j2 ) (z) = op (n−1/2 ), where
+                                                                                                          
+Condition 2. For z ∈ {0, 1}, as T, n → ∞,                                max
+                                                                  j1 ,j2 =[1:p]; j1 ̸=j2
+∆i(j1 j2 ) (z) = Ei [Ybi(j1 j2 ) (z) | X
+                                       e i (z), Wi ] − Yi(j j ) (z).
+                                                           1 2
+
+                            √                    p
+Under Condition 2,              n(τ ∗ − τ ) → 0 when T, n → ∞, and the following result follows by
+Slutsky’s Theorem.
+
+                                                                 16
+                                                                                            √
+Corollary 2. Under the assumptions in Theorem 4 and Condition 2, as T, n → ∞,                     τ(j∗ 1 j2 ) −
+                                                                                                n(b
+          d
+τ(j1 j2 ) ) → N (0, V(j1 j2 ) ).
+
+The proposed outcome measure, Fb(j1 j2 ) (D2 ) | m(D
+                                                 b 1 ), is an asymptotically unbiased estimator of
+F(j1 j2 ) , satisfying Condition 1 provided that (T − T0 ) > r(p + 2). Condition 2 may require a
+larger T for each subject. Even when it is not satisfied, τb(j∗ 1 j2 ) remains a valid test statistic for
+the hypotheses in (2) under Assumptions 1–4, and A1–A3, as established in Theorem 2.
+
+
+4.2       Simultaneous inference
+
+    When inference concerns multiple components in τ or τ ∗ , dependence among the estimator
+ τ(j∗ 1 j2 ) } induced by within-outcome correlations and the use of shared estimated propensity
+{b
+scores must be properly accounted for. Valid simultaneous inference therefore requires multiple
+testing procedures that control error rates such as family-wise error rate (FWER) and/or the
+false discovery proportion (FDP). In Sections 5 and 6, we employ a step-down procedure with
+augmentation that controls FDP exceedance rate. This approach is introduced by Genovese and
+Wasserman (2006) and recently combined with a Gaussian multiplier bootstrap by Qiu et al.
+(2024). Further details are provided in Supplementary Material Section A3.
+
+
+
+5       Simulation studies
+
+    In this section, we present results of simulation studies conducted to assess the validity and
+effectiveness of the proposed method. We generate the data for n = 100 subjects. For each
+subject i = [1 : n], a vector of baseline covariates Wi ∈ Rq , with q = 5, is generated from
+a multivariate normal distribution. The intervention indicator Zi is then generated according
+to P r(Zi = 1 | Wi ) = logit(Wi⊤ β), where β = (0.7, −0.8, 0.5, 0.3, −0.3)⊤ . For each subject i,
+                                                  e i (z), z ∈ {0, 1}, of length T = 1000 and
+we generate two potential outcomes of time series X
+p ∈ {21, 51} from a VAR(1) model. The transition matrix describing the linear dependencies
+among the time series is partitioned into 3×3 blocks of equal size, each of dimension p/3. Within
+each diagonal block, the autoregressive coefficients are sampled from Unif(0.72, 0.85), while the
+off-diagonal coefficients within the blocks are generated more sparsely from Unif(0.03, 0.08) with
+random signs. The intervention effect is introduced through the between-block autoregressive co-
+
+
+                                                   17
+efficients. Specifically, when Zi = 1, a subset of these coefficients is set to values with magnitude
+δ ∈ {0.02, 0.04, 0.06, 0.08, 0.10}, whereas when Zi = 0, all between-block coefficients are set to
+zero (i.e., δ = 0). The parameter δ therefore controls the strength of the intervention effect. In
+addition, baseline covariates Wi influence the baseline connectivity structure by modifying the
+transition matrices. These structural patterns are held fixed across subjects across Monte Carlo
+replications.
+   Using simulated data, effective connectivity is derived using the proposed sample-splitting
+procedure, intervention effects are estimated using the IPW estimator in (4), and simultaneous
+inference is conducted. Hypothesis testing of the null hypothesis in (2) is performed at the
+α=0.05 level. The step-down procedure with augmentation targets control of the false discovery
+exceedance probability, FDPex := P r(FDP > 0.1) ≤ α. We compare the performance of four
+alternative methods: (i) the proposed sample-splitting approach and the IPW estimator with
+a correctly specified propensity score model; (ii) the proposed sample-splitting approach with
+an incorrect propensity score model; (iii) no sample splitting, using the second half of the data
+for both model selection and estimation, with a correctly specified propensity score model; and
+(iv) no sample splitting with an incorrectly specified propensity score model. For each method,
+we evaluate FWER and average bias under the global null (δ = 0). Under alternative scenarios
+(δ > 0), we report power, FDP, and FDPex, averaged over 1000 Monte Carlo replications.
+   Figure 3 summarizes the simulation results for n = 100. When p = 21, the proposed method
+maintains valid control of the FWER near the nominal 5% level and exhibits increasing power
+as δ increases, while controlling the FDP and the FDPex. In contrast, methods based on an
+incorrectly specified propensity score model exhibit inflated FWER and elevated false discoveries
+due to biased effect estimation and underestimation of variance. The error rates are further
+inflated when p = 51, as the number of direction components increase exponentially compared
+to p = 21. Method (iii) performs comparably to the proposed method in FWER, power, FDP
+and FDPex, which may suggest that sample splitting offers little benefit in this setting. However,
+similar results likely reflects the limited degree of overfitting in our data-generating mechanism,
+which is based on relatively simple VAR models. In more complex settings with complicated
+confounding structures among outcome units, overfitting is expected to be more pronounced,
+making sample splitting necessary to ensure valid inference. Overall, the proposed method
+
+
+
+                                                 18
+            (a)           FWER (δ = 0)
+
+                                                        p = 21                                                                    p = 51
+
+                   60%
+           FWER
+                   40%
+
+
+                   20%
+
+
+                    0%
+                                    (i)          (ii)              (iii)           (iv)                       (i)          (ii)            (iii)          (iv)
+                                                                                            Method
+
+            (b)           Power (δ > 0)
+
+                                                        p = 21                                                                    p = 51
+                   100%
+
+                   75%
+           Power
+
+
+
+
+                   50%
+
+                   25%
+
+                    0%
+
+                             0.02         0.04          0.06               0.08   0.10                 0.02         0.04          0.06             0.08   0.10
+                                                                                               δ
+
+            (c)           FDP (δ > 0)
+
+                                                        p = 21                                                                    p = 51
+
+                   60%
+
+
+                   40%
+           FDP
+
+
+
+
+                   20%
+
+
+                    0%
+
+                             0.02         0.04          0.06               0.08   0.10                 0.02         0.04          0.06             0.08   0.10
+                                                                                               δ
+
+            (d)           FDPex (δ > 0)
+
+                                                        p = 21                                                                    p = 51
+                   100%
+
+
+                   75%
+           FDPex
+
+
+
+
+                   50%
+
+
+                   25%
+
+
+                    0%
+
+                             0.02         0.04          0.06               0.08   0.10                 0.02         0.04          0.06             0.08   0.10
+                                                                                               δ
+
+                                                               (i) Sample splitting and correctly specified propensity score (proposed)
+                                                               (ii) Sample splitting and incorrectly specified propensity score
+                                             Method
+                                                               (iii) Without sample splitting and correctly specified propensity score
+                                                               (iv) Without sample splitting and incorrectly specified propensity score
+
+
+
+Figure 3: Simulation results when the number of subjects n = 100. Panel (a) shows the FWER under
+the global null; panel (b) shows power under alternatives with varying intervention intensities (δ); panels
+(c) and (d) show the FDP and FDPex, respectively, across different values of δ.
+
+
+demonstrates valid type-I error control under the global null and improved power as the effect
+size increases. Additional results for larger sample size (n = 200) are provided in Supplementary
+Material Section A4.
+
+
+
+
+                                                                                          19
+6     Investigation of the causal effect of amyloid elevation
+
+      on effective connectivity in Alzheimer’s Disease
+
+    We apply the proposed framework to examine the effect of amyloid burden, evaluated using
+amyloid PET imaging, on measures of brain effective connectivity. Our study population is re-
+stricted to participants in the non-dementia ADNI research groups at entry, including cognitively
+normal (CN), significant memory concern (SMC), early mild cognitive impairment (EMCI), and
+mild cognitive impairment (MCI). Accordingly, both the amyloid-positive and amyloid-negative
+groups exclude dementia participants, whose effective connectivity patterns may differ substan-
+tially related to dementia processes. For each subject, resting-state fMRI data are preprocessed
+and registered to the Montreal Neurological Institute (MNI) 152 T1 2mm standard template
+space. We compute region-specific mean time series using the AAL2 atlas (Rolls et al., 2015),
+resulting in p =120 time series corresponding to predefined ROIs. Additional preprocessing
+details are provided in Supplementary Material Section A5.
+                                              Estimated average causal effects on each pair of ROIs
+                          Precentral_L
+                          Precentral_R
+                     Frontal_Sup_2_L
+                     Frontal_Sup_2_R
+                      Frontal_Mid_2_L
+                     Frontal_Mid_2_R
+                   Frontal_Inf_Oper_L
+                  Frontal_Inf_Oper_R
+                      Frontal_Inf_Tri_L
+                     Frontal_Inf_Tri_R
+                 Frontal_Inf_Orb_2_L
+                 Frontal_Inf_Orb_2_R
+                     Rolandic_Oper_L
+                    Rolandic_Oper_R
+                 Supp_Motor_Area_L
+                 Supp_Motor_Area_R
+                            Olfactory_L
+                           Olfactory_R
+               Frontal_Sup_Medial_L
+               Frontal_Sup_Medial_R
+                  Frontal_Med_Orb_L
+                 Frontal_Med_Orb_R
+                              Rectus_L
+                              Rectus_R
+                            OFCmed_L
+                           OFCmed_R
+                             OFCant_L
+                             OFCant_R
+                            OFCpost_L
+                           OFCpost_R
+                              OFClat_L
+                             OFClat_R
+                                Insula_L
+                               Insula_R
+                      Cingulate_Ant_L
+                     Cingulate_Ant_R
+                      Cingulate_Mid_L
+                     Cingulate_Mid_R
+                     Cingulate_Post_L
+                    Cingulate_Post_R
+                      Hippocampus_L
+                      Hippocampus_R
+                  ParaHippocampal_L
+                 ParaHippocampal_R
+                           Amygdala_L
+                          Amygdala_R
+                           Calcarine_L
+                           Calcarine_R
+                             Cuneus_L
+                             Cuneus_R
+                              Lingual_L
+                             Lingual_R
+                      Occipital_Sup_L
+                      Occipital_Sup_R
+                       Occipital_Mid_L
+                      Occipital_Mid_R
+                        Occipital_Inf_L
+                        Occipital_Inf_R
+                            Fusiform_L
+                            Fusiform_R
+                         Postcentral_L
+                         Postcentral_R
+                       Parietal_Sup_L
+                       Parietal_Sup_R
+                         Parietal_Inf_L
+                         Parietal_Inf_R
+                     SupraMarginal_L
+                     SupraMarginal_R
+                             Angular_L
+                             Angular_R
+                          Precuneus_L
+                         Precuneus_R
+                Paracentral_Lobule_L
+                Paracentral_Lobule_R
+                            Caudate_L
+                            Caudate_R
+                            Putamen_L
+                           Putamen_R
+                            Pallidum_L
+                            Pallidum_R
+                           Thalamus_L
+                          Thalamus_R
+                              Heschl_L
+                              Heschl_R
+                     Temporal_Sup_L
+                     Temporal_Sup_R
+               Temporal_Pole_Sup_L
+               Temporal_Pole_Sup_R
+                      Temporal_Mid_L
+                     Temporal_Mid_R
+                Temporal_Pole_Mid_L
+               Temporal_Pole_Mid_R
+                       Temporal_Inf_L
+                       Temporal_Inf_R
+                 Cerebelum_Crus1_L
+                 Cerebelum_Crus1_R
+                 Cerebelum_Crus2_L
+                 Cerebelum_Crus2_R
+                       Cerebelum_3_L
+                      Cerebelum_3_R
+                    Cerebelum_4_5_L
+                   Cerebelum_4_5_R
+                       Cerebelum_6_L
+                      Cerebelum_6_R
+                     Cerebelum_7b_L
+                     Cerebelum_7b_R
+                       Cerebelum_8_L
+                      Cerebelum_8_R
+                       Cerebelum_9_L
+                      Cerebelum_9_R
+                     Cerebelum_10_L
+                     Cerebelum_10_R
+                           Vermis_1_2
+                              Vermis_3
+                           Vermis_4_5
+                              Vermis_6
+                              Vermis_7
+                              Vermis_8
+                              Vermis_9
+                             Vermis_10
+                                                      Precentral_L
+                                                      Precentral_R
+                                                 Frontal_Sup_2_L
+                                                 Frontal_Sup_2_R
+                                                  Frontal_Mid_2_L
+                                                 Frontal_Mid_2_R
+                                               Frontal_Inf_Oper_L
+                                              Frontal_Inf_Oper_R
+                                                  Frontal_Inf_Tri_L
+                                                 Frontal_Inf_Tri_R
+                                             Frontal_Inf_Orb_2_L
+                                             Frontal_Inf_Orb_2_R
+                                                 Rolandic_Oper_L
+                                                Rolandic_Oper_R
+                                             Supp_Motor_Area_L
+                                             Supp_Motor_Area_R
+                                                        Olfactory_L
+                                                       Olfactory_R
+                                           Frontal_Sup_Medial_L
+                                           Frontal_Sup_Medial_R
+                                              Frontal_Med_Orb_L
+                                             Frontal_Med_Orb_R
+                                                          Rectus_L
+                                                          Rectus_R
+                                                        OFCmed_L
+                                                       OFCmed_R
+                                                         OFCant_L
+                                                         OFCant_R
+                                                        OFCpost_L
+                                                       OFCpost_R
+                                                          OFClat_L
+                                                         OFClat_R
+                                                            Insula_L
+                                                           Insula_R
+                                                  Cingulate_Ant_L
+                                                 Cingulate_Ant_R
+                                                  Cingulate_Mid_L
+                                                 Cingulate_Mid_R
+                                                 Cingulate_Post_L
+                                                Cingulate_Post_R
+                                                  Hippocampus_L
+                                                  Hippocampus_R
+                                              ParaHippocampal_L
+                                             ParaHippocampal_R
+                                                       Amygdala_L
+                                                      Amygdala_R
+                                                       Calcarine_L
+                                                       Calcarine_R
+                                                         Cuneus_L
+                                                         Cuneus_R
+                                                          Lingual_L
+                                                         Lingual_R
+                                                  Occipital_Sup_L
+                                                  Occipital_Sup_R
+                                                   Occipital_Mid_L
+                                                  Occipital_Mid_R
+                                                    Occipital_Inf_L
+                                                    Occipital_Inf_R
+                                                        Fusiform_L
+                                                        Fusiform_R
+                                                     Postcentral_L
+                                                     Postcentral_R
+                                                   Parietal_Sup_L
+                                                   Parietal_Sup_R
+                                                     Parietal_Inf_L
+                                                     Parietal_Inf_R
+                                                 SupraMarginal_L
+                                                 SupraMarginal_R
+                                                         Angular_L
+                                                         Angular_R
+                                                      Precuneus_L
+                                                     Precuneus_R
+                                            Paracentral_Lobule_L
+                                            Paracentral_Lobule_R
+                                                        Caudate_L
+                                                        Caudate_R
+                                                        Putamen_L
+                                                       Putamen_R
+                                                        Pallidum_L
+                                                        Pallidum_R
+                                                       Thalamus_L
+                                                      Thalamus_R
+                                                          Heschl_L
+                                                          Heschl_R
+                                                 Temporal_Sup_L
+                                                 Temporal_Sup_R
+                                           Temporal_Pole_Sup_L
+                                           Temporal_Pole_Sup_R
+                                                  Temporal_Mid_L
+                                                 Temporal_Mid_R
+                                            Temporal_Pole_Mid_L
+                                           Temporal_Pole_Mid_R
+                                                   Temporal_Inf_L
+                                                   Temporal_Inf_R
+                                             Cerebelum_Crus1_L
+                                             Cerebelum_Crus1_R
+                                             Cerebelum_Crus2_L
+                                             Cerebelum_Crus2_R
+                                                   Cerebelum_3_L
+                                                  Cerebelum_3_R
+                                                Cerebelum_4_5_L
+                                               Cerebelum_4_5_R
+                                                   Cerebelum_6_L
+                                                  Cerebelum_6_R
+                                                 Cerebelum_7b_L
+                                                 Cerebelum_7b_R
+                                                   Cerebelum_8_L
+                                                  Cerebelum_8_R
+                                                   Cerebelum_9_L
+                                                  Cerebelum_9_R
+                                                 Cerebelum_10_L
+                                                 Cerebelum_10_R
+                                                       Vermis_1_2
+                                                          Vermis_3
+                                                       Vermis_4_5
+                                                          Vermis_6
+                                                          Vermis_7
+                                                          Vermis_8
+                                                          Vermis_9
+                                                         Vermis_10
+
+
+
+
+                                                                      Estimated effect sizes
+                                                                     −20 −10 0   10 20 30
+
+
+
+
+Figure 4: A heat map visualizing the full matrix of estimated causal effects of amyloid positivity on
+effective connectivity across pairs of ROIs (p = 120).
+
+
+                                                                        20
+    Among the n = 81 subjects, 37 (45.7%) are amyloid positive. The amyloid-positive and
+amyloid-negative groups do not differ significantly with respect to sex (40.5% vs. 36.4% male,
+p = 0.876) or years of education (16.22 ± 2.45 vs. 16.36 ± 2.72 years; p = 0.659). However,
+subjects in the amyloid-positive group are older on average than those in the amyloid-negative
+group (81.41 ± 7.74 vs 74.66 ± 7.77 years; p < 0.001), and the prevalence of APOE ε4 carrier
+status is higher among amyloid-positive subjects (54.1% vs. 27.3%; p = 0.026). Figure 4
+displays the estimated average effects across all outcome unit pairs of effective connectivity.
+Most estimated effects are close to zero, with a greater proportion taking negative values than
+positive values. After applying the multiple testing procedure, only a single directed effective
+connectivity from the left anterior cingulate cortex to the left middle occipital region remains
+statistically significant, with an estimated effect of −3.33 (simultaneous 95% CI : [−6.50, −0.16]).
+Overall, these results provide limited evidence for a global reduction in effective connectivity
+due to elevated amyloid burden. The finding may reflect limitations of resting-state fMRI data,
+including relatively low resolution and measurement noise.
+
+
+
+7     Discussion
+
+    The proposed framework for causal inference with derived outcomes from time-series data
+is broadly applicable in settings where the outcome of interest represents relationships between
+units, such as friendship, collaboration, or biological interaction, and is typically inferred from
+longitudinal observations. The methodology is particularly relevant when the primary research
+goal is to examine the causal effect of an external intervention on individuals or selected com-
+ponents of these relationship measures, rather than to study causal mechanisms among the
+relationships themselves, and when the outcomes are derived using well-established models that
+are widely adopted in the relevant scientific domains (e.g., VARs). A key principle underlying
+our approach is that models used to construct relational outcomes should appropriately account
+for, and condition on, others’ observed historical information when the inferential target is the
+intervention effect on one or more components of the derived outcomes. Specifically, by deriving
+outcome measures that condition on other time series, the proposed framework mitigates spuri-
+ous associations between the intervention and individual outcome components, thereby enabling
+more interpretable and valid downstream causal inference.
+
+                                                21
+   However, the proposed framework has several limitations that point to meaningful direc-
+tions for future research. First, the selection of conditioning time series currently relies on data
+from both intervention groups. Future work could develop procedures that define conditioning
+sets using only pre-intervention data, thus ensuring a clear separation between outcome con-
+struction and causal estimation. Second, the proposed variance estimator does not explicitly
+account for the additional variability introduced by the sample-splitting procedure, although we
+acknowledge discrepancies between τb∗ and τb, as well as between their corresponding variance
+estimators. Finally, our current implementation focuses on linear, weakly stationary time-series
+models, which are commonly used in connectivity analyses. While the use of widely adopted
+connectivity measures facilitates integration with existing practice, future work could investi-
+gate extensions to more flexible and general time-series-based measures with a principled causal
+inference framework.
+
+
+
+Acknowledgments
+
+   Data collection and sharing for this project was funded by the Alzheimer’s Disease Neu-
+roimaging Initiative (ADNI) (National Institutes of Health Grant U01 AG024904) and DOD
+ADNI (Department of Defense award number W81XWH-12-2-0012). ADNI is funded by the
+National Institute on Aging, the National Institute of Biomedical Imaging and Bioengineer-
+ing, and through generous contributions from the following: AbbVie, Alzheimer’s Association;
+Alzheimer’s Drug Discovery Foundation; Araclon Biotech; BioClinica, Inc.; Biogen; Bristol-
+Myers Squibb Company; CereSpir, Inc.; Cogstate; Eisai Inc.; Elan Pharmaceuticals, Inc.; Eli
+Lilly and Company; EuroImmun; F. Hoffmann-La Roche Ltd and its affiliated company Genen-
+tech, Inc.; Fujirebio; GE Healthcare; IXICO Ltd.; Janssen Alzheimer Immunotherapy Research
+& Development, LLC.; Johnson & Johnson Pharmaceutical Research & Development LLC.;
+Lumosity; Lundbeck; Merck & Co., Inc.; Meso Scale Diagnostics, LLC.; NeuroRx Research;
+Neurotrack Technologies; Novartis Pharmaceuticals Corporation; Pfizer Inc.; Piramal Imaging;
+Servier; Takeda Pharmaceutical Company; and Transition Therapeutics. The Canadian Insti-
+tutes of Health Research is providing funds to support ADNI clinical sites in Canada. Pri-
+vate sector contributions are facilitated by the Foundation for the National Institutes of Health
+(www.fnih.org). The grantee organization is the Northern California Institute for Research and
+
+                                                22
+Education, and the study is coordinated by the Alzheimer’s Therapeutic Research Institute at
+the University of Southern California. ADNI data are disseminated by the Laboratory for Neuro
+Imaging at the University of Southern California.
+
+
+
+Funding
+
+   This research was supported by Grant Number 5P20GM103645 from the National Institute
+of General Medical Sciences and Grant Number R01AG075511 from the National Institute on
+Aging.
+
+
+
+References
+
+Alzheimer’s Association (2025). 2025 alzheimer’s disease facts and figures. Alzheimer’s & De-
+  mentia 21 (5), e70235.
+
+Du, J.-H., Z. Zeng, E. H. Kennedy, L. Wasserman, and K. Roeder (2025). Causal inference
+  for genomic data with multiple heterogeneous outcomes. Journal of the American Statistical
+  Association 120 (552), 2484–2497.
+
+Friston, K. J. (1994). Functional and effective connectivity in neuroimaging: A synthesis. Human
+  Brain Mapping 2 (1-2), 56–78.
+
+Genovese, C. R. and L. Wasserman (2006). Exceedance control of the false discovery proportion.
+  Journal of the American Statistical Association 101 (476), 1408–1417.
+
+Geweke, J. F. (1984). Measures of Conditional Linear Dependence and Feedback Between Time
+  Series. Journal of the American Statistical Association 79 (388), 907–915.
+
+Gilbert, J. B. (2025). How measurement affects causal inference: Attenuation bias is (usually)
+  more important than outcome scoring weights. Methodology 21 (2), 91–122.
+
+Granger, C. W. J. (1969). Investigating Causal Relations by Econometric Models and Cross-
+  spectral Methods. Econometrica 37 (3), 424–438.
+
+Knox, D., C. Lucas, and W. K. T. Cho (2022). Testing causal theories with learned proxies.
+  Annual Review of Political Science 25 (1), 419–441.
+
+                                              23
+Kuchibhotla, A. K., J. E. Kolassa, and T. A. Kuffner (2022). Post-Selection Inference. Annual
+  Review of Statistics and Its Application 9 (1), 505–527.
+
+Liao, W., D. Mantini, Z. Zhang, Z. Pan, J. Ding, Q. Gong, Y. Yang, and H. Chen (2010). Eval-
+  uating the effective connectivity of resting state networks using conditional Granger causality.
+  Biological Cybernetics 102 (1), 57–69.
+
+Lozano, A. C., N. Abe, Y. Liu, and S. Rosset (2009). Grouped graphical granger modeling for
+  gene expression regulatory networks discovery. Bioinformatics 25 (12), i110–i118.
+
+Lunde, R. (2019). Sample splitting and weak assumption inference for time series. arXiv preprint
+  arXiv:1902.07425 .
+
+Modarressi, I., J. Spiess, and A. Venugopal (2025). Causal inference on outcomes learned from
+  text. arXiv preprint arXiv:2503.00725 .
+
+Moffat, G., P. Zhukovsky, G. Coughlan, and A. N. Voineskos (2022). Unravelling the relationship
+  between amyloid accumulation and brain network function in normal aging and very mild
+  cognitive decline: a longitudinal analysis. Brain Communications 4 (6), fcac282.
+
+Neyman, J. (1923). On the application of probability theory to agricultural experiments. essay
+  on principles. Ann. Agricultural Sciences, 1–51.
+
+Palmqvist, S., M. Schöll, O. Strandberg, N. Mattsson, E. Stomrud, H. Zetterberg, K. Blennow,
+  S. Landau, W. Jagust, and O. Hansson (2017). Earliest accumulation of β-amyloid occurs
+  within the default-mode network and concurrently affects brain connectivity. Nature commu-
+  nications 8 (1), 1214.
+
+Qiu, Y., J. Sun, and X.-H. Zhou (2024). Unveiling the Unobservable: Causal Inference on
+  Multiple Derived Outcomes. Journal of the American Statistical Association 119 (547), 2178–
+  2189.
+
+Rolls, E. T., M. Joliot, and N. Tzourio-Mazoyer (2015). Implementation of a new parcellation
+  of the orbitofrontal cortex in the automated anatomical labeling atlas. NeuroImage 122, 1–5.
+
+Rubin, D. B. (1974). Estimating causal effects of treatments in randomized and nonrandomized
+  studies. Journal of educational Psychology 66 (5), 688.
+
+                                               24
+Stephan, K. E. and K. J. Friston (2010). Analyzing effective connectivity with functional mag-
+  netic resonance imaging. WIREs Cognitive Science 1 (3), 446–459.
+
+Stoetzer, L. F., X. Zhou, and M. Steenbergen (2025). Causal inference with latent outcomes.
+  American Journal of Political Science 69 (2), 624–640.
+
+Tang, W., S. L. Bressler, C. M. Sylvester, G. L. Shulman, and M. Corbetta (2012). Measuring
+  granger causality between cortical regions from voxelwise fmri bold signals with lasso. PLoS
+  computational biology 8 (5), e1002513.
+
+Tibshirani, R. J., J. Taylor, R. Lockhart, and R. Tibshirani (2016). Exact Post-Selection In-
+  ference for Sequential Regression Procedures. Journal of the American Statistical Associa-
+  tion 111 (514), 600–620.
+
+VanderWeele, T. J. (2022). Constructed measures and causal inference: Towards a new model
+  of measurement for psychosocial constructs. Epidemiology 33 (1), 141–151.
+
+Xi, Z., X. Zhuang, and H. Chen (2022). Post-selection Inference with Application to Autoregres-
+  sive Processes. In 2021 International Conference on Mechanical, Aerospace and Automotive
+  Engineering, CMAAE 2021, New York, NY, USA, pp. 244–249. Association for Computing
+  Machinery.
+
+Zhou, Z., Y. Chen, M. Ding, P. Wright, Z. Lu, and Y. Liu (2009). Analyzing brain networks
+  with pca and conditional granger causality. Human brain mapping 30 (7), 2197–2206.
+
+
+
+
+                                              25
+                                      Supplementary materials
+
+
+A1       Details of conditional Granger causality models
+
+   The effective connectivity outcome measures are constructed separately for each subject. We
+therefore suppress the subject index i throughout this section for notational simplicity.
+          (t)
+   Let X·J denote the length-ℓ vector of time series corresponding to outcome units (e.g., brain
+                                                                                                 (t)   (t)
+regions) in the index set J at time t. The reduced VAR system for X·j2 , conditional on X·J for
+t = [(r + 1) : T ], can be represented as follows:
+
+                                                                                       
+                                 (t)               r          (t−k)                (t)
+                               X·j2        (t)
+                                                   X        X·j2               εj 2 
+                                         =C +           Ak             +               ,          (A1)
+                                    (t)                           (t−k)              (t)
+                                   X·J             k=1           X·J                εJ
+
+
+where C(t) is a vector of length of l + 1 that includes an intercept, and Ak are the (l + 1) × (l + 1)
+                                                                              (t)     (t)
+transition matrices for lag k = [1 : r]. The vector ε(t) = (εj2 , (εJ )⊤ )⊤ includes the error terms
+at time t, which satisfies E(ε(t) ) = 0. Let Σ denote the (l + 1) × (l + 1) covariance matrix of ε(t)
+for t = [(r + 1) : T ]. This matrix can be partitioned as
+
+                                                                                                
+                                                                 (t)                (t)      (t)
+                                                 var(ε )        cov(ε                    , εJ )
+                        Σ = E(ε(t) (ε(t) )⊤ ) =                             
+                                                       (t) (t)          (t)
+                                                  cov(εJ , εj2 )   var(εJ ).
+
+                                (t)       (t)   (t)
+   The full model for X·j1 , X·j2 and X·J can be written as
+
+                                                                 
+                             (t)                     (t−k)      ′ (t)
+                           X·j1          r      X·j1   ε j1 
+                                          X
+                           X  = C′(t) +     A′k 
+                            (t)                  (t−k)   (t) 
+                                                             ′ 
+                            ·j2                 X·j2  +  ε j2  .                                  (A2)
+                                        k=1                      
+                              (t)                    (t−k)      ′ (t)
+                             X·J                    X·J        εJ
+
+
+Here, C′(t) is a vector of length of l + 2 that includes an intercept, and A′k are the (l + 2) × (l + 2)
+transition matrices for lags k = [1 : r] in the full VAR system. The error terms at time t is
+          ′(t)   ′(t)   ′(t)
+ε′(t) = (εj1 , εj2 , (εJ )⊤ )⊤ , which satisfies E(ε′(t) ) = 0. Let Σ′ denote the (l + 2) × (l + 2)
+
+
+
+
+                                                            1
+covariance matrix of ε′(t) for t = [(r + 1) : T ], which can be partitioned as
+
+                                                                                           
+                                                 ′(t)            ′(t) ′(t)           ′(t)  ′(t)
+                                           var(εj1 )       cov(εj1 , εj2 )     cov(εj1 , εJ )
+             ′       ′(t)    ′(t) ⊤
+                                           ′(t) ′(t)           ′(t)         ′(t)     ′(t) 
+                                                                                            
+           Σ = E(ε          (ε   ) )=
+                                      cov(εj2   , εj1 ) var(ε  j2   ) cov(ε j2   , ε J  )
+                                                                                           
+                                             ′(t) ′(t)      ′(t) ′(t)            ′(t)
+                                       cov(εJ , εj1 ) cov(εJ , εj2 )     var(εJ ).
+
+
+   Under the following two assumptions, the parameters of each equation in the VAR system
+in (A1) and (A2) can be estimated by ordinary least squares. For resting-state fMRI data, the
+weak-stationarity assumption is commonly adopted and is often reasonable after appropriate
+preprocessing.
+
+Assumption B1. The error terms in the VAR models are Gaussian with time-invariant covari-
+ance matrices.
+
+  (i) Multivariate normality: The error terms satisfy ε(t) ∼ M V Nl+1 (0, Σ) and ε′(t) ∼
+      M V Nl+2 (0, Σ′ ).
+
+ (ii) Noises serial correlation: The covariance matrices Σ and Σ′ do not depend on t.
+                                                                     (t)      (t)                 (t)
+Assumption B2 (Weak Stationarity). The time series X·j1 , X·j2 , and each series in X·J are
+weakly stationary. That is, each has constant mean and finite second moment, and the autoco-
+variance function depend only on lag.
+
+
+
+A2       Lemmas and Proofs
+
+Lemma 1 (Tightness). For conditional Granger causality, the test statistic is an F-statistic .
+Let Fb(j1 j2 ) (D2 ) | m(D
+                       b 1 ) denote the estimator of this statistic computed from D2 (with time length
+T − T0 ), conditional on the model fitted on D1 . Under the null hypothesis that X
+                                                                                 e ·j1 does not
+
+Granger-cause X
+              e ·j2 conditioning on X
+                                    e ·J ,
+
+
+                   Fb(j1 j2 ) (D2 ) | m(D
+                                      b 1 ) ∼ F (r, (T − T0 − r) − (ℓ + 2)r − 1).
+
+
+                                                                 d
+                                                           b 1 ) → χ2r /r, under the null hypothesis.
+Since r and ℓ are fixed, as T − T0 → ∞, Fb(j1 j2 ) (D2 ) | m(D
+
+Because convergence in distribution to a non-degenerate limit implies tightness, the sequence of
+conditional Granger causality estimators is tight. That is, for any δ > 0, there exists a compact
+
+                                                        2
+interval such that the probability that Fb(j1 j2 ) (D2 ) | m(D
+                                                           b 1 ) lies outside this interval is smaller
+than δ.
+
+Proof of Theorem 1.
+
+                        h                                         i
+                τ ∗ = Ep Ep (Y
+                             b i (1) | Wi ) − Ep (Yb i (0) | Wi )     (Assumption 4)
+                        h                                                               i
+                    = Ep Ep (Ei [Yi (1) | Xi (1), Wi ]) − Ep (Ei [Yi (0) | Xi (0), Wi ])
+                                  b       e                         b      e
+
+                    = Ep [Ep (Yi (1) + ∆i (1) | Wi ) − Ep (Yi (0) + ∆i (0) | Wi )]
+
+                    = Ep [Ep (Yi (1) − Yi (0) | Wi )] + Ep [Ep (∆i (1) − ∆i (0) | Wi )]
+
+                    = Ep [Yi (1) − Yi (0)] + op (1) (Condition 1).
+
+
+
+
+                                                       (t)                        (t)           ′(t)   ′(t)
+Proof of Theorem 3. Under Assumption B1, εj2 ∼ N (0, var(εj2 )), and εj2 ∼ N (0, var(εj2 )),
+                                     (t)                (t)            ′(t)              ′(t)
+with finite variances. Thus, E[(εj2 )2 ] = var(εj2 ), E[(εj2 )2 ] = var(εj2 ). By Stein’s Lemma,
+      (t)              (t)                                      ′(t)
+var[(εj2 )2 ] = 2var2 (εj2 ) < ∞, and similarly for var[εj2 )2 ] < ∞.
+   Assume that the VAR models are correctly specified. Under Assumptions B1 and B2, and
+law of large numbers implies that, as T − T0 → ∞ and T − T0 − LT −T0 → ∞,
+
+                                           PT           (t)
+                                                       εj2 )2
+                                            t=T0 +r+1 (b                      p         (t)
+                                                                              → var(εj2 ),
+                                (T − T0 − r) − (ℓ + 2)r − 1
+                               PT                 (t)
+                                                 εj2 )2
+                                t=T0 +r+1+LT −T (b                            p         (t)
+                                                   0
+                                                                              → var(εj2 ),
+                        (T − T0 − r − LT −T0 ) − (ℓ + 2)r − 1
+
+and likewise,
+
+                                       PT               ′(t)
+                                                       εj2 )2
+                                            t=T0 +r+1 (b                      p         ′(t)
+                                                                              → var(εj2 ),
+                                (T − T0 − r) − (ℓ + 2)r − 1
+                               PT                 ′(t)
+                                                 εj2 )2
+                                t=T0 +r+1+LT −T (b                            p         ′(t)
+                                                  0
+                                                                              → var(εj2 ).
+                        (T − T0 − r − LT −T0 ) − (ℓ + 2)r − 1
+
+   Consider the ratio of the two conditional F -statistics, each represented as a function of the
+quantities above. After algebraic rearrangement, it can be written as a product of ratios involv-
+ing sample residual variances and degree-of-freedom adjustments. Each component converges in
+probability on one by the law of large numbers and the continuous mapping theorem. Conse-
+
+
+                                                       3
+quently,
+
+                                       Fb(j1 j2 ) (D2 ) | m(D
+                                                          b 1)  p
+                                                               −→ 1
+                                                    ′
+                                       Fb(j j ) (D2 ) | m(D
+                                           1 2            b 1)
+
+as T − T0 → ∞ and T − T0 − LT −T0 → ∞.
+
+Proof of Theorem 4. Let Zi follow a Bernoulli distribution with P r(Zi = 1 | Wi ) := σ(ηi ), where
+ηi = Wi⊤ β and σ(·) is a smooth link function mapping ηi to (0, 1). Define σi = σ(ηi ), σi′ = σ ′ (ηi ),
+               σi′
+and ωi =               . The estimator βb denotes the maximum likelihood estimator (MLE) of β,
+          σi (1 − σi )
+obtained by maximizing
+
+                             n
+                             X
+                                    {Zi log σi + (1 − Zi ) log(1 − σi )} .
+                              i=1
+
+
+The corresponding score function is
+
+                                          n
+                                          X
+                                       S=   (Zi − σi )ωi Wi ,
+                                                 i=1
+
+
+and the Fisher information matrix is
+
+                                               (σi′ )2
+                                                              
+                                                             ⊤
+                                    Iβ = E              W i Wi .
+                                           σi (1 − σi )
+
+Under standard regularity conditions,
+
+                                           n
+                                        1X
+                          βb − β = Iβ−1       (Zi − σi ) ωi Wi + op (n−1/2 ).                        (A3)
+                                        n i=1
+
+The corresponding IPW estimator is
+
+                                          n
+                                                 (                                           )
+                                         1X          Zi Ybi(j1 j2 )   (1 − Zi )Ybi(j1 j2 )
+                          τb(j∗ 1 j2 ) =                            −                            ,
+                                         n i=1       σ(W⊤ β)
+                                                           i
+                                                               b       1 − σ(W⊤ β) i
+                                                                                    b
+
+
+which depends on β.
+                 b Define
+
+                                                 n
+                                                     (                           )
+                                     1X                  Zi Ybi (1 − Zi )Ybi
+                             T (β) =                           −                     .
+                                     n i=1                σi      1 − σi
+
+
+
+
+                                                               4
+Its gradient is
+                                        n 
+                                                   σi′                 σi′
+                                                                               
+                                     1X
+                          ∇β T (β) =        − Zi Yi 2 − (1 − Zi )Yi
+                                                 b               b               Wi .                                     (A4)
+                                     n i=1         σi               (1 − σi )2
+
+A first-order Taylor expansion around β gives
+
+                           n
+                                  (                                             )
+                          1X          Zi Ybi(j1 j2 )   (1 − Zi )Ybi(j1 j2 )
+           τb(j∗ 1 j2 ) −                            −                              = ∇β T (β)⊤ (βb − β) + op (n−1/2 ).
+                          n i=1       σ(Wi⊤ β)          1 − σ(Wi⊤ β)
+
+Substituting the expansions the above yields
+
+                                                                            n
+                                                                      1X
+                                       τb(j∗ 1 j2 ) − τ(j∗ 1 j2 ) =         hi(j1 j2 ) + op (n−1/2 ),
+                                                                      n i=1
+
+where
+
+                    Zi Ybi(j1 j2 )      (1 − Zi )Ybi(j1 j2 )
+        hi(j1 j2 ) =                −                        − τ(j∗ 1 j2 )
+                   σ(Wi⊤ β)              1 − σ(Wi⊤ β)
+                   " n                                                                     #
+                                                   ′                             ′
+                                                                                       
+                     1X                          σ                             σ
+                 −                 Zi Ybi(j1 j2 ) 2i + (1 − Zi )Ybi(j1 j2 )      i
+                                                                                         Wi⊤ Iβ−1 (Zi − σi )ωi Wi .
+                     n i=1                       σi                         (1 − σi )2
+
+This linear expansion implies that τb(j∗ 1 j2 ) is asymptotically normal with the influence function
+hi(j1 j2 ) , i = [1 : n]. If the propensity score model is correctly specified, when under Assumptions
+                    √                                d
+                         τ(j∗ 1 j2 ) − τ(j∗ 1 j2 ) ) → N (0, V(j1 j2 ) ), as n → ∞, where V(j1 j2 ) = E(n−1 ni=1 h2i(j1 j2 ) ).
+                                                                                                           P
+1–4, we have n(b
+
+
+
+    The proof of Theorem 4 follows similar arguments to those in Qiu et al. (2024). In this
+work, the proposed IPW estimator based on the derived multivariate outcomes Y
+                                                                            b targets the
+
+estimand defined in terms of the potential outcomes for the unobserved outcome Y, denoted by
+τ . Our inference further targets the estimand defined with respect to the potential outcomes
+                                     b i , denoted by τ ∗ . Moreover, the link function σ(·) can
+associated with the derived outcomes Y
+be any smooth mapping from ηi to (0, 1), and is not restricted to the logistic form.
+
+Remark A1. When σ(u) = 1/(1 + e−u ), we have σ ′ (u) = σ(u){1 − σ(u)}, so that ωi = 1. The
+
+
+
+
+                                                                        5
+expression for hi(j1 j2 ) above then reduces exactly to the standard logistic regression case:
+
+
+    Zi Ybi(j1 j2 )   (1 − Zi )Ybi(j1 j2 )
+                   −                      − τ(j∗ 1 j2 )
+    σ(Wi⊤ β)          1 − σ(Wi⊤ β)
+    " n (                                                            )    #
+     1 X Zi Ybi(j1 j2 ) (1 − σ(Wi⊤ β)) (1 − Zi )Ybi(j1 j2 ) σ(Wi⊤ β)
+  −                                                 +                  Wi⊤ Iβ−1 (Zi − σ(Wi⊤ β))Wi .
+     n i=1               σ(Wi⊤ β)                       1 − σ(Wi⊤ β)
+
+                                                        p
+Proof of Corollary 1. By the consistency of the MLE βb −→ β and by continuity of the smooth
+                                        p                  p
+function σ(·), it follows that σ(Wi⊤ β)
+                                     b −→ σ(Wi⊤ β) and Ib −→ Iβ . For i ∈ [1 : n], we therefore
+                  p                            p
+     hi(j1 j2 ) → hi(j1 j2 ) and b
+have b                            h2i(j1 j2 ) −→ h2i(j1 j2 ) . Thus, the plug-in variance estimator V
+                                                                                                    b(j j ) =
+                                                                                                       1 2
+
+1
+  P n b2                                               2
+n   i=1 hi(j1 j2 ) is consistent for V(j1 j2 ) = E{hi(j1 j2 ) }.
+
+
+
+
+A3        Details about simultaneous inference
+
+    After obtaining Gaussian approximations for each component of τ ∗ , we proceed to conduct
+simultaneous inference on τ ∗ . Due to the high dimensionality and complex dependency structures
+among its components, we apply the Gaussian multiplier bootstrap procedure (?).
+    Let M denote the maximum absolute standardized coordinate τb(j∗ 1 j2 ) over indices (j1 , j2 ) with
+V
+b(j j ) > c for some pre-specified c > 0:
+   1 2
+
+
+
+
+                                                            √                                  −1/2
+                             M=             max                   τ(j∗ 1 j2 ) − τ(j∗ 1 j2 ) ) V
+                                                                n(b                           b
+                                                                                               (j1 j2 ) .   (A5)
+                                    (j1 ,j2 ): V
+                                               b(j j ) >c
+                                                  1 2
+
+
+
+
+To approximate the distribution of M, generate i.i.d. standard normal multiplies ξi,b , i ∈ [1 : n]
+and bootstrap replication b ∈ [1 : B], and calculate
+
+                                                                       n
+                                                               1 X b                  b −1/2 ,
+                             Mb =           max               √       ξi,b hi(j1 j2 ) V(j1 j2 )             (A6)
+                                      (j1 ,j2 ): V(j1 j2 ) >c
+                                                 b              n i=1
+
+
+Let q1−α denote the (1 − α)- quantile of {Mb , b ∈ [1 : B]}. Simultaneous (1 − α) confidence
+intervals for τ ∗ are then given by
+
+                                                     b 1/2                      b 1/2
+                               "                                                        #
+                                               q 1−α V(j j )              q 1−α V(j j )
+                                τb(j∗ 1 j2 ) −     √ 1 2 , τb(j∗ 1 j2 ) +     √ 12 ,                        (A7)
+                                                      n                          n
+
+
+for all (j1 , j2 ) such that V
+                             b(j j ) > c.
+                                1 2
+
+
+
+
+                                                                 6
+   Let S0 denote the initial set of null hypotheses corresponding to components (j1 , j2 ) with
+b(j j ) > c and set R0 = ∅. For each iteration k ≥ 1, define
+V  1 2
+
+
+
+
+                                                        √
+                             M(k) =       max                                b 1/2 ,
+                                                            n τb(j∗ 1 j2 ) / V(j1 j2 )
+                                       (j1 ,j2 )∈Sk−1
+
+
+                                                                                         (k)
+and let (j1∗ , j2∗ )(k) denote the index attaining this maximum. Let q1−α be the (1 − α)-quantile
+                                                                                               (k)
+obtained from the Gaussian multiplier bootstrap procedure. If M(k) > q1−α , update
+
+
+                    Rk = Rk−1 ∪ {(j1∗ , j2∗ )(k) },     Sk = Sk−1 \ {(j1∗ , j2∗ )(k) };
+
+
+otherwise, terminate the step-down process. Let Rk0 denote the resulting rejection set (dis-
+covery set) for some k0 ≥ 1. We then augment Rk0 by adding the next ⌊d |Rk0 |/(1 − d)⌋
+most significant remaining hypotheses in Sk0 , ranked by the absolute standardized test statistics
+√ ∗           b 1/2 . Let R denote the final discovery set after combining the step-down and aug-
+   τ(j1 j2 ) /V
+  nb           (j1 j2 )
+
+mentation steps. As shown in Qiu et al. (2024), this procedure can control the FDP exceedance
+rate at α and has a power converging to 1, provided that all non-zero τ(j∗ 1 j2 ) have non-degenerated
+asymptotic variances.
+
+
+
+A4       Details and additional simulation results
+
+A4.1      Details of the data-generating procedure
+
+   We consider multivariate time series of dimension p ∈ {21, 51}. For each subject i = [1 : n],
+                                                                  e i (z) for z ∈ {0, 1}, from a
+we generate two potential outcomes of length T = 1000, denoted by X
+VAR(1) model. The transition matrix follows a block structure, which is partitioned evenly into
+3 × 3 blocks, each of size p/3:                                          
+                                        A11 A12 A13 
+                                                       
+                                      A= A
+                                         21  A 22 A 23  .
+                                                        
+                                                       
+                                          A31 A32 A33
+
+The diagonal blocks (A11 , A22 , A33 ) represent within-hub autoregressive relationships for three
+interconnected groups of brain regions (hubs). Within each diagonal block, diagonal entries are
+drawn from Unif(0.72, 0.85), whereas off-diagonal entries are generated from Unif(0.03, 0.08)
+
+                                                        7
+with randomly assigned signs.       The off-diagonal blocks represent connectivity between dif-
+ferent hubs.       When Zi = 1, a subset of these entries is replaced by values of magnitude
+δ ∈ {0.02, 0.04, 0.06, 0.08, 0.10}, representing the strength of the intervention effect. When
+Zi = 0, all entries in the off-diagonal blocks are set to zero (δ = 0). Baseline connectivity
+is further allowed to depend on subject-level covariates Wi , which modifying the transition ma-
+trices. After generating, each transition matrix is rescaled to satisfy weak stationarity. For each
+simulation replication, the patterns of non-zero entries in the transition matrices is fixed across
+subjects.
+
+
+A4.2        Additional simulation study results
+
+   We examine estimation bias under the null (δ = 0), where the true effect is supposed to be
+zero for all components.
+
+            Bias                                         n = 100       n = 200
+                                                      p = 21 p = 51 p = 21 p = 51
+            (i) Sample splitting + correct PS          0.012    0.093   -0.001    0.078
+            (ii) Sample splitting + incorrect PS       0.326    0.664    0.323    0.659
+            (iii) No sample splitting + correct PS     0.012    0.093   -0.001    0.078
+            (iv) No sample splitting + incorrect PS    0.326    0.664    0.323    0.659
+
+            RMSE                                         n = 100       n = 200
+                                                      p = 21 p = 51 p = 21 p = 51
+            (i) Sample splitting + correct PS          0.693    0.775    0.588    0.666
+            (ii) Sample splitting + incorrect PS       0.970    1.190    0.946    1.174
+            (iii) No sample splitting + correct PS     0.693    0.775    0.588    0.666
+            (iv) No sample splitting + incorrect PS    0.970    1.190    0.946    1.174
+
+Table A1: Bias (top panel) and RMSE (bottom panel) of the estimated effective connectivity compo-
+nents under the global null hypothesis (δ = 0). Bias and RMSE are averaged across ROIs, subjects,
+and Monte Carlo replications.
+
+
+   Table A1 show the mean bias and the root mean squared error (RMSE) averaged across ROIs,
+subjects, and Monte Carlo replications. Across all settings, the proposed estimator exhibits mean
+bias close to zero and relatively small RMSE, both of which decrease as the sample size increases
+from n = 100 to n = 200. These findings indicate that, the proposed procedure provides an
+asymptotically unbiased effect estimator under the null. Methods (ii) and (iv), without correctly
+specified propensity scores, show substantially inflated biases across all (p, n) combinations.
+
+
+                                                8
+Method (iii), which uses the second half of the time series both for selecting conditions sets
+and deriving the causal estimator, performs similarly to the proposed method in all three bias
+metrics. This may be due to limited degree of overfitting in our data-generating mechanism,
+which is based on relatively simple VAR models. As expected, both absolute bias and RMSE
+increases with dimension (p), while increasing the sample size from n = 100 to n = 200 reduces
+variability. Overall, under the global null, the proposed method remains approximately unbiased.
+
+           (a)           FWER (δ = 0)
+
+                                                       p = 21                                                                    p = 51
+                  100%
+
+                  75%
+          FWER
+
+
+
+
+                  50%
+
+                  25%
+
+                   0%
+                                   (i)          (ii)              (iii)           (iv)                       (i)          (ii)            (iii)          (iv)
+                                                                                           Method
+
+           (b)           Power (δ > 0)
+
+                                                       p = 21                                                                    p = 51
+                  100%
+
+                  75%
+          Power
+
+
+
+
+                  50%
+
+                  25%
+
+                   0%
+
+                            0.02         0.04          0.06               0.08   0.10                 0.02         0.04          0.06             0.08   0.10
+                                                                                              δ
+
+           (c)           FDP (δ > 0)
+
+                                                       p = 21                                                                    p = 51
+                  100%
+
+                  75%
+          FDP
+
+
+
+
+                  50%
+
+                  25%
+
+                   0%
+
+                            0.02         0.04          0.06               0.08   0.10                 0.02         0.04          0.06             0.08   0.10
+                                                                                              δ
+
+           (d)           FDPex (δ > 0)
+
+                                                       p = 21                                                                    p = 51
+                  100%
+
+                  75%
+          FDPex
+
+
+
+
+                  50%
+
+                  25%
+
+                   0%
+
+                            0.02         0.04          0.06               0.08   0.10                 0.02         0.04          0.06             0.08   0.10
+                                                                                              δ
+
+                                                              (i) Sample splitting and correctly specified propensity score (proposed)
+                                                              (ii) Sample splitting and incorrectly specified propensity score
+                                            Method
+                                                              (iii) Without sample splitting and correctly specified propensity score
+                                                              (iv) Without sample splitting and incorrectly specified propensity score
+
+
+
+Figure A1: Simulation results when the number of subjects n = 200. Panel (a) shows the FWER under
+global null; panel (b) shows power under alternatives with varying intervention intensities (δ); panels
+(c) and (d) show the FDP and FDPex, respectively, across different values of δ.
+
+
+   Figure A1 shows the simulation results of FWER, power, FDP, FDPex across different settings
+
+
+                                                                                          9
+when n = 200. The patterns observed for n = 100 (shown in Figure 3 in the main manuscript)
+remain largely unchanged, while the power increases when n = 200.
+
+
+
+A5       Details and additional data application results
+
+A5.1      Inclusion criteria
+
+   Imaging and clinical data are obtained from phases 3 and 4 of the ADNI. We include par-
+ticipants with resting-state fMRI and amyloid PET scans acquired at the same study visit to
+ensure temporal alignment between the intervention and functional imaging outcomes. For each
+resting-state fMRI scan, a concurrent T1-weighted structural MRI within one year is required
+to facilitate accurate spatial registration. Participants are restricted to those classified at entry
+as cognitively normal (CN), significant memory concern (SMC), early mild cognitive impair-
+ment (EMCI), or mild cognitive impairment (MCI). Accordingly, both the amyloid-positive and
+amyloid-negative groups exclude dementia participants, whose effective connectivity patterns
+may differ substantially and may be related to dementia processes.
+
+
+A5.2      Details of fMRI pre-processing
+
+   Resting-state fMRI data are preprocessed using procedures adapted from ?. Raw imaging in
+the Digital Imaging and Communications in Medicine (DICOM) format are converted to Neu-
+roimaging Informatics Technology Initiative (NIfTI) format. For each scan, the first 10 volumes
+are discarded to allow for signal equilibration and participants’ adaptation to scanner noise.
+Slice-timing correction is then applied using FSL (slicetimer), followed by rigid-body motion
+correction with FSL (mcflirt), which also generates six motion parameters for later nuisance
+regression. To improve computational stability and harmonize time series length across partici-
+pants, motion-corrected data are truncated to the first 197 time points when longer acquisitions
+were available. A reference volume is extracted from the motion-corrected data and corrected for
+intensity inhomogeneity using N4 bias field correction (?), followed by skull stripping. For each
+participant, a concurrent T1-weighted structural MRI acquired closest in time to the resting-
+state fMRI scan is selected and similarly processed with N4 bias correction and skull stripping.
+Spatial normalization is performed using a two-stage registration strategy implemented in Ad-
+
+
+                                                 10
+vanced Normalization Tools (ANTs). First, the reference image is nonlinearly registered to the
+participant’s T1-weighted image using symmetric diffeomorphic normalization (SyN) (?). Sec-
+ond, the T1-weighted image is registered to the MNI152 T1 2 mm standard template, and the
+resulting composite transformations are applied to the full resting-state fMRI. The normalized
+resting-state fMRI data are spatially smoothed with a Gaussian kernel corresponding to a full
+width at half maximum (FWHM) of approximately 4.7 mm.
+   Regional mean time series are then extracted using the Automated Anatomical Label-
+ing 2 (AAL2) atlas, resulting in 120 time series of ROIs per scan(Rolls et al., 2015). Nui-
+sance regression is applied to remove motion-related artifacts.     Linear trends are subse-
+quently removed, and the data are temporally band-pass filtered (0.01-0.10 Hz) to isolate low-
+frequency fluctuations associated with spontaneous neural activity. Finally, weak stationar-
+ity of each ROI series is assessed using the augmented Dickey-Fuller (ADF) test, and only
+runs in which all 120 ROIs satisfied the stationarity condition are retained for downstream
+analysis.   After preprocessing and quality control procedures, the final sample cohort con-
+sists of n = 81 participants.   All preprocessing and analysis code is publicly available at
+github.com/haiyuesong/Causal-Inference-for-Unobservable-Multivariate-Outcomes.
+
+
+
+
+                                             11
+

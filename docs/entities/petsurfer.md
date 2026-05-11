@@ -7,14 +7,14 @@ sources:
 tags: []
 title: Petsurfer
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 [^Greve2014]: Greve, D.N., et al. (2014). Different processes underlie the regional cerebral metabolic rates for glucose (CMRglc) in resting and activation conditions. *NeuroImage*, 103, 268‑279.  
 
 [^Muller1996]: Müller‑Gärtner, H.W., et al. (1996). Measurement of radiotracer concentration in brain gray matter using PET. *Journal of Cerebral Blood Flow & Metabolism*, 16(4), 650‑658.  
 
-[^Thomas2009]: Thomas, B.A., et al. (2009). The importance of appropriate partial volume correction for PET quantification in Alzheimer's disease. *European Journal of Nuclear Medicine and Molecular Imaging*, 36(7), 1063‑1072.  
+[^Thomas2009]: Thomas, B.A., et al. (2009). The importance of appropriate partial volume correction for PET quantification in [[alzheimers-disease|Alzheimer's disease]]. *European Journal of Nuclear Medicine and Molecular Imaging*, 36(7), 1063‑1072.  
 
 ## References
 

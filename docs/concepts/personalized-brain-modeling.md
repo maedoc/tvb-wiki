@@ -22,7 +22,7 @@ tags:
 - personalized-brain-modeling
 title: Personalized Brain Modeling
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 Personalized brain modeling (also termed patient-specific brain modeling or virtual brain建模) refers to the construction of subject-specific computational brain models that are parameterized by an individual's unique [[neuroimaging]] data. Unlike generic brain models that represent average anatomical and functional patterns across a population, personalized models capture the distinctive structural architecture and dynamics of a specific individual—including their unique [[white-matter]] pathways, cortical [[parcellation]], and characteristic neural rhythms. This individualization enables clinically relevant simulations that can predict disease progression, treatment outcomes, and personalized neuromodulation protocols with significantly higher fidelity than population-level models.
@@ -79,7 +79,7 @@ Personalized brain modeling has found application across a range of clinical and
 
 **Stroke and brain injury** modeling uses personalized models to predict patterns of functional reorganization following focal brain damage. By virtually lesioning specific regions in the model and simulating recovery dynamics, researchers can explore which compensatory pathways might support functional restoration.
 
-**Neurodegenerative disorders** such as Alzheimer's disease can be modeled by parameterizing model dynamics to reproduce the altered functional connectivity patterns observed in patients. While the pathophysiology of neurodegeneration involves pathological protein accumulation that cannot be fully captured by current neural mass models, personalized models can still provide insight into how [[network-dynamics]] are perturbed by tissue loss.
+**Neurodegenerative disorders** such as [[alzheimers-disease|Alzheimer's disease]] can be modeled by parameterizing model dynamics to reproduce the altered functional connectivity patterns observed in patients. While the pathophysiology of neurodegeneration involves pathological protein accumulation that cannot be fully captured by current neural mass models, personalized models can still provide insight into how [[network-dynamics]] are perturbed by tissue loss.
 
 **Neuromodulation optimization** uses personalized models to simulate the effects of transcranial magnetic stimulation, transcranial direct current stimulation, or implanted electrode stimulation. By modeling the electric field distribution and its effects on neural dynamics, clinicians can optimize stimulation parameters (e.g., frequency, intensity, electrode placement) for individual patients.
 

@@ -6,6 +6,7 @@ sources:
 - raw/papers/arxiv-2512.24901.md
 - raw/papers/semanticscholar-b0ceb704952b.md
 - raw/papers/glean-github.md
+- raw/papers/semanticscholar-302c0316afdb.md
 tags:
 - brain-decoding
 - machine-learning
@@ -14,7 +15,7 @@ tags:
 - eeg
 title: Brain Decoding
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-08'
 ---
 
 # Brain Decoding

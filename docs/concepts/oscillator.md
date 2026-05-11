@@ -14,7 +14,7 @@ tags:
 - whole-brain-modeling
 title: Oscillator
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 # Oscillator
@@ -25,7 +25,7 @@ An oscillator in the context of [[computational-neuroscience]] refers to a dynam
 
 The mathematical framework of oscillators provides the foundation for understanding rhythmic brain activity observed across neuroimaging modalities including [[fmri]], [[eeg]], and [[meg]]. At the cellular level, individual neurons can exhibit oscillatory behavior through ionic feedback mechanisms, as first mathematically characterized by the [[bold-model|Fitzhugh-Nagumo model]] and later systematized by [[izhikevich]]. At the population level, [[neural-mass-model]]s and [[neural-mass-models]] capture the aggregate dynamics of large populations of excitatory and inhibitory neurons, giving rise to macroscopic oscillations in various frequency bands (delta, theta, alpha, beta, gamma). Understanding these oscillatory mechanisms is essential for [[whole-brain-modeling]], where the interaction of multiple brain regions through [[structural-connectivity]] yields coordinated temporal dynamics that can be compared to empirical [[resting-state]] [[functional-connectivity]] measurements.
 
-Oscillators serve multiple roles in brain modeling. First, they provide canonical representations of neural excitability and [[brain-oscillations]] that can be parameterized to match empirical data. Second, they enable [[bifurcation-analysis]], which reveals how systems transition between qualitatively different dynamical regimes—resting, oscillating, or epileptic as parameters vary. Third, coupled oscillator networks form the basis of models for [[brain-network]] synchronization, which is disrupted in conditions ranging from [[epilepsy-modeling]] to [[schizophrenia-models]].
+Oscillators serve multiple roles in brain modeling. First, they provide canonical representations of neural excitability and [[brain-oscillations]] that can be parameterized to match empirical data. Second, they enable [[bifurcation-analysis]], which reveals how systems transition between qualitatively different dynamical regimes—resting, oscillating, or epileptic—as parameters vary. Third, coupled oscillator networks form the basis of models for [[brain-network]] synchronization, which is disrupted in conditions ranging from [[epilepsy-modeling]] to [[schizophrenia-models]].
 
 ## Mathematical Formulation
 
@@ -56,11 +56,11 @@ The generic 2D oscillator exhibits four primary dynamical regimes that are direc
 
 The generic 2D oscillator serves as a simplification of more biophysically detailed models. The [[bold-model]] provides a canonical reduction of the [[bold-model|Hodgkin–Huxley model]] to two variables while preserving the essential excitable and oscillatory dynamics. At the population level, the [[bold-model|Jansen–Rit model]] and [[bold-model|Wilson–Cowan model]] extend these principles to neural ensembles, incorporating spatial interactions and delays that yield realistic oscillatory spectra. More recent formulations such as the [[Zerlaut]] model incorporate [[mean-field-theory]] and [[adaptive-exponential-integrate-and-fire]] approaches to better capture frequency-dependent effects.
 
-In the context of [[whole-brain-modeling]], the [[Epileptor]] model exemplifies how oscillator dynamics are specialized to capture seizure generation and propagation through coupled slow and fast subsystems. Similarly, the [[Wong–Wang model]] provides a reduction of detailed cortical microcircuits to excitatory-inhibitory oscillator units suitable for large-scale [[connectome]] simulation in [[The Virtual Brain]].
+In the context of [[whole-brain-modeling]], the [[Epileptor]] model exemplifies how oscillator dynamics are specialized to capture seizure generation and propagation through coupled slow and fast subsystems. Similarly, the [[bold-model]] provides a reduction of detailed cortical microcircuits to excitatory-inhibitory oscillator units suitable for large-scale [[connectome]] simulation in [[The Virtual Brain]].
 
 ## Open Questions
 
-A central challenge in applying oscillator models to whole-brain modeling lies in parameter estimation—determining which model parameters best fit empirical [[resting-state]] data remains an active area of research. Furthermore, the relationship between microscopic single-neuron oscillations and macroscopic population rhythms observed in [[fmri]] and [[eeg]] is not fully understood, requiring multi‑scale modeling approaches that bridge [[neural-mass-models]] with [[spiking‑neural‑networks]]. Recent work on [[fokker‑planck‑equation]] approaches and [[stochastic‑differential‑equations]] aims to capture the effects of noise on oscillator synchronization across brain networks.
+A central challenge in applying oscillator models to whole-brain modeling lies in parameter estimation—determining which model parameters best fit empirical [[resting-state]] data remains an active area of research. Furthermore, the relationship between microscopic single-neuron oscillations and macroscopic population rhythms observed in [[fmri]] and [[eeg]] is not fully understood, requiring multi-scale modeling approaches that bridge [[neural-mass-models]] with [[spiking-neural-networks]]. Recent work on [[fokker-planck-equation]] approaches and [[stochastic-differential-equations]] aims to capture the effects of noise on oscillator synchronization across brain networks.
 
 ## References
 

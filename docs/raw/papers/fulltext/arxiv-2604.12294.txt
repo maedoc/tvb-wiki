@@ -1,0 +1,630 @@
+                                                The IQ–Motion Confound in Multi-Site Autism fMRI
+                                             May Be Inflated by Site-Correlated Measurement Uncertainty
+
+                                                                                  Kareem Soliman
+                                                                      Independent Researcher, Sydney, Australia
+                                                                          kareem.soliman@outlook.com.au
+                                                                            ORCID: 0009-0006-7204-1129
+arXiv:2604.12294v1 [q-bio.QM] 14 Apr 2026
+
+
+
+
+                                                                                          April 2026
+
+
+                                                                                           Abstract
+
+                                                     Multi-site autism neuroimaging studies routinely control for the confound between full-
+                                                 scale IQ and head motion by regressing framewise displacement against IQ scores and remov-
+                                                 ing shared variance. This procedure assumes that ordinary least squares (OLS) provides an
+                                                 unbiased estimate of the confound magnitude. We tested this assumption on the ABIDE-I
+                                                 phenotypic dataset (n = 935 subjects across 19 international scanning sites) using Proba-
+                                                 bility Cloud Regression, an errors-in-variables (EIV) estimator that models per-observation
+                                                 measurement uncertainty in both variables. IQ measurement error was derived from pub-
+                                                 lished Wechsler test-retest reliability coefficients; response-side uncertainty was represented
+                                                 by a site-level proxy equal to the within-site standard deviation of mean framewise displace-
+                                                 ment. Three findings emerged. First, OLS overestimates the IQ-motion slope by a factor
+                                                 of 4.67 relative to the EIV-corrected estimate when the bias factor is computed from the
+                                                 full-precision fitted coefficients (βOLS = −0.00125, βEIV = −0.00027 mm per IQ point after
+                                                 rounding for display). Second, under leave-site-out cross-validation a single pooled predic-
+                                                 tor of raw FD produces negative out-of-sample R2 at all 19 sites (overall R2 = −0.074),
+                                                 indicating that the pooled predictor does not transport cleanly across sites once site infor-
+                                                 mation is removed. Third, the direction of the EIV-corrected slope is robust across all 64
+                                                 configurations of an 8 × 8 sensitivity grid spanning 12-fold ranges of each noise parameter.
+                                                 These results suggest that pooled OLS may overstate the IQ-motion association in ABIDE-I,
+                                                 but direct downstream consequences for motion-correction pipelines remain to be quantified
+                                                 using raw motion traces and connectivity-level re-analysis. Formal EIV methods appear to
+                                                 remain uncommon in multi-site neuroimaging confound estimation.
+
+                                             Keywords: measurement uncertainty, errors-in-variables, fMRI motion artifact, ABIDE,
+                                            multi-site neuroimaging, site heterogeneity
+
+
+                                            1    Introduction
+
+                                            Multi-site neuroimaging consortia have transformed the study of autism spectrum conditions
+                                            by pooling data across dozens of scanning sites to achieve sample sizes that no single centre
+                                            could provide alone. The Autism Brain Imaging Data Exchange (ABIDE) released phenotypic
+                                            and imaging data from over 1,100 participants across 20 international sites [Di Martino et al.,
+                                            2014], enabling hundreds of subsequent analyses. But pooling introduces a problem that the field
+                                            has spent a decade trying to solve: head motion during fMRI acquisition systematically biases
+                                            measures of functional connectivity, and motion correlates with the clinical and demographic
+                                            variables that multi-site studies exist to examine.
+
+
+                                                                                               1
+   Three independent groups identified this problem simultaneously. Power et al. [2012] intro-
+duced framewise displacement (FD) as the standard motion metric and proposed volume cen-
+soring (“scrubbing”) to mitigate its effects. Satterthwaite et al. [2012] demonstrated that motion
+effects are particularly problematic in developmental populations, where motion correlates with
+age and clinical status. Van Dijk et al. [2012] replicated the distance-dependent motion bias in an
+independent sample. Together, these papers established that even sub-millimetre head motion
+creates spurious short-range connectivity increases and long-range connectivity decreases, and
+that failure to account for motion produces false-positive group differences.
+   The field responded with progressively sophisticated correction methods. Satterthwaite et al.
+[2013] developed high-parameter confound regression models. Siegel et al. [2014] tested more
+stringent FD thresholds. Ciric et al. [2017] benchmarked 14 denoising pipelines and found that
+top-performing models include global signal regression. Ciric et al. [2018] published a comprehen-
+sive protocol that can reduce motion-related variance to near zero. Standardised preprocessing
+pipelines such as fMRIPrep [Esteban et al., 2019] have further reduced analytic variability. In
+parallel, statistical harmonisation methods adapted from genomics, notably ComBat [Johnson
+et al., 2007], have been applied to remove site effects from derived neuroimaging measures [Fortin
+et al., 2018, Yu et al., 2018].
+   All of this work addresses motion through one of two channels: preprocessing (removing
+motion-contaminated signal before analysis) or harmonisation (modelling site effects in derived
+measures). But both channels share a hidden assumption: that the regression model used to
+estimate the confound relationship is unbiased. Every scrubbing threshold, every confound re-
+gressor, every decision about which subjects to exclude is calibrated against an OLS estimate
+of how strongly motion relates to the variable of interest. If that OLS estimate is itself biased,
+then every downstream correction inherits the bias.
+   OLS assumes that predictors are measured without error. When both variables carry mea-
+surement noise, the OLS slope is biased. Classical errors-in-variables (EIV) theory predicts
+attenuation toward zero: the estimated slope is smaller in magnitude than the true slope [Fuller,
+1987, Carroll et al., 2006]. But this classical result assumes that the measurement error is inde-
+pendent of the true relationship across subgroups. When measurement precision and apparent
+effect size co-vary across subgroups, the pooled bias can reverse direction: OLS may overestimate
+rather than attenuate the pooled slope. In the present setting, noisier sites also exhibit steeper
+apparent slopes, so subgroup structure can inflate the pooled estimator rather than shrink it
+toward zero.
+  The analytic variability problem identified by Botvinik-Nezer et al. [2020], in which 70 teams
+analysing identical data reached substantially different conclusions, established that researcher
+degrees of freedom are a major source of irreproducibility. We identify an additional, orthogonal
+source of bias: the regression model itself. Even when all analytic choices are held constant, an
+OLS-based confound estimate is biased whenever both variables carry site-dependent measure-
+ment uncertainty.
+  In this paper, we apply errors-in-variables regression to the ABIDE-I phenotypic dataset to
+re-estimate the IQ-motion confound. We use Probability Cloud Regression (PCR), an EM-
+based EIV estimator that models each observation as a 2D Gaussian probability cloud with per-
+observation measurement uncertainties. IQ measurement error is derived from age-appropriate
+Wechsler test-retest reliability coefficients [Wechsler, 2003, 2008]; response-side uncertainty is
+represented by a site-level proxy computed empirically per site. Our key finding is that OLS
+overestimates the IQ-motion slope by a factor of 4.67 under this proxy uncertainty model, and
+that a single pooled predictor of raw FD does not transport cleanly across sites under leave-site-
+out cross-validation.
+
+
+
+
+                                                2
+2     Related Work
+
+2.1   Motion Artifact Correction
+
+The motion artifact literature has focused on two complementary strategies: identifying con-
+taminated volumes and removing their influence [Power et al., 2012, Siegel et al., 2014], and
+regressing out motion-related variance using nuisance covariates [Satterthwaite et al., 2013, Ciric
+et al., 2017]. Both strategies require an estimate of how strongly motion relates to the imaging
+measure of interest, and both use OLS for that estimate. Ciric et al. [2018] provided a compre-
+hensive protocol for motion denoising that can reduce motion-related variance to near zero, but
+this operates on the preprocessing side rather than on the regression model used downstream.
+Our work is complementary: we address the bias in the regression model itself, which operates
+even after perfect preprocessing.
+
+
+2.2   Multi-Site Harmonisation
+
+ComBat [Johnson et al., 2007], originally developed for batch effects in microarray data, has
+been adapted for neuroimaging applications including DTI [Fortin et al., 2017] and cortical
+thickness [Fortin et al., 2018]. Yu et al. [2018] applied ComBat to functional connectivity and
+found that site effects persist even with phantom-matched acquisition protocols. These methods
+harmonise derived neuroimaging measures by modelling additive and multiplicative site effects.
+Our approach addresses a different problem: the bias in the regression model used to estimate
+confound relationships between phenotypic variables when measurement error is site-correlated.
+ComBat and EIV correction are complementary, not competing.
+
+
+2.3   Errors-in-Variables Methods
+
+The statistical theory of errors-in-variables regression is well established [Deming, 1943, Fuller,
+1987, Carroll et al., 2006]. Classical results show that OLS is attenuated toward zero when
+predictors carry measurement error, and that the bias can be corrected when the error variance
+is known or estimable. Methods including regression calibration, SIMEX, and orthogonal dis-
+tance regression (ODR) are available but rarely used outside of their home disciplines. Carroll
+et al. [2006] identified an adoption barrier: practitioners avoid EIV methods because they require
+knowledge of the predictor error variance, which is often unavailable. In neuroimaging, formal
+EIV regression still appears to be rarely used for confound estimation. The closest related neu-
+roimaging literature focuses on measurement issues in region-of-interest analysis or on systematic
+errors in the BOLD signal rather than on confound regression itself.
+
+
+3     Method
+
+3.1   Data
+
+We used the ABIDE-I phenotypic dataset [Di Martino et al., 2014], publicly available from the
+Preprocessed Connectomes Project. The original dataset contains 1,112 subjects. We excluded
+subjects with missing full-scale IQ (FIQ), missing mean framewise displacement, missing age, FIQ
+≤ 40 (below the floor of reliable IQ measurement), or a quality control rating of “fail” from rater 1.
+The final sample comprised n = 935 subjects (449 with autism spectrum conditions, 486 controls)
+across 19 of the 20 ABIDE-I sites. Sample sizes per site ranged from 5 (SBL) to 174 (NYU).
+ASD and control groups were pooled because the IQ-motion confound estimation procedures
+
+
+                                                  3
+examined here are typically applied to the combined sample in the published literature, and
+the present analysis targets the bias in that pooled estimation procedure rather than diagnostic
+group differences.
+
+
+3.2   Variables
+
+The predictor variable X is full-scale IQ as measured by age-appropriate Wechsler scales (WISC-
+IV for participants under 16, WAIS-IV otherwise). The outcome variable Y is mean framewise
+displacement (FD) in millimetres, computed from the six rigid-body motion parameters estimated
+during fMRI preprocessing.
+
+
+3.3   Measurement Error Model
+
+IQ measurement error (σx ). We derived per-observation IQ measurement error from the
+classical test theory formula:               √
+                               σx,i = SDpop · 1 − rxx ,                          (1)
+where SDpop = 15 is the population standard deviation of IQ and rxx is the test-retest reliability
+coefficient from the relevant Wechsler technical manual. Using published reliability values from
+the WISC-IV [Wechsler, 2003] and WAIS-IV [Wechsler, 2008] manuals, this yields σx values of
+4.0 IQ points for children (age < 13), 3.4 for adolescents (age 13–15), and 3.0 for adults (age
+≥ 16). These values represent the expected standard error of measurement under standardised
+administration conditions.
+
+
+FD uncertainty proxy (σy ). We do not observe repeated motion measurements for each
+subject, so we represent response-side uncertainty with a site-level proxy equal to the within-site
+standard deviation of mean FD across subjects:
+                                              ¯ i : i ∈ site s}).
+                                  σy,s = SD({FD                                                (2)
+
+All subjects at a given site receive the same σy,s value. This quantity should be interpreted as a
+pragmatic uncertainty proxy rather than a direct measurement-error estimate, because within-
+site dispersion of mean FD mixes true between-subject heterogeneity with measurement noise.
+The advantage is that it requires no subjective tier assignment or manual grouping. Across the
+19 sites, σy ranged from 0.029 mm (Caltech) to 0.265 mm (NYU), with a mean of 0.129 mm.
+
+
+3.4   Probability Cloud Regression
+
+We introduce Probability Cloud Regression (PCR), an EM-based errors-in-variables estimator
+that treats each observation as a 2D Gaussian probability cloud with per-observation uncertain-
+ties (σx,i , σy,i ). For each observation i:
+                                                              2
+                            Xi = x̃i + εx,i ,   εx,i ∼ N (0, σx,i ),                           (3)
+                                                                      2
+                            Yi = m · x̃i + c + εy,i ,   εy,i ∼ N (0, σy,i ),                   (4)
+
+where m and c are the structural slope and intercept and x̃i is the latent true IQ.
+
+
+E-step. Given current estimates (m̂, ĉ), compute the posterior mean of each latent true posi-
+tion:
+                                   2 · X + σ 2 · m̂ · (Y − ĉ)
+                                  σy,i     i    x,i         i
+                            x̂i =            2 + m̂2 · σ 2     .                          (5)
+                                          σy,i          x,i
+
+
+                                                   4
+M-step. Update regression parameters via weighted least squares with weights:
+                                                             1
+                                             wi =    2 + m̂2 · σ 2 .                                         (6)
+                                                    σy,i        x,i
+
+
+  The algorithm was initialised at the OLS solution and iterated until parameter changes fell
+below 10−8 . Convergence occurred in 47 iterations.
+  When σx,i = σx and σy,i = σy for all i, PCR reduces to classical Deming regression with
+variance ratio δ = σy2 /σx2 [Deming, 1943]. In the heteroscedastic case, PCR targets the same
+estimand as orthogonal distance regression fitted with per-observation variance matrices.
+
+
+3.5   Cross-Validation
+
+Leave-site-out (LOSO) cross-validation was used as the primary validation scheme. For each of
+the 19 sites, the model was fitted on the remaining 18 sites and used to predict mean FD for
+the held-out site. Overall LOSO R2 was computed from concatenated predictions. This scheme
+tests whether a single pooled predictor of raw FD transports across sites. It is methodologically
+appropriate for multi-site neuroimaging because random k-fold cross-validation leaks site infor-
+mation across folds: if observations from the same site appear in both training and test sets,
+the model can exploit site-level structure rather than the IQ-motion relationship itself. Because
+held-out sites may differ in baseline motion levels as well as slope, negative LOSO R2 should
+be interpreted as evidence against a portable pooled predictor, not by itself as proof that every
+within-site slope is zero.
+
+
+3.6   Sensitivity Analysis
+
+To assess robustness to uncertainty in the noise parameters, we evaluated PCR across an 8 × 8
+grid of σx and σy multipliers. Multipliers ranged from 0.25× to 3.0× the empirically estimated
+baseline values, producing 64 configurations spanning a 12-fold range for each parameter. At
+each grid point, we recorded the PCR slope, the percentage by which the OLS slope magnitude
+exceeded the PCR slope magnitude, and the out-of-sample R2 .
+
+
+4     Results
+
+4.1   Headline Comparison
+
+Table 1: OLS versus EIV-corrected estimates of the IQ-motion relationship in ABIDE-I (n = 935,
+19 sites).
+
+             Metric                                   OLS               PCR (EIV-corrected)
+             Slope (mm per IQ point)              −0.00125                       −0.00027
+             Intercept (mm)                         0.265                          0.118
+             Bias factor∗                     4.67× overestimate                 Reference
+             LOSO R2 (raw FD)†                     −0.074                         −0.074
+       ∗
+           Computed from the full-precision fitted coefficients; rounded slopes are shown for readability.
+
+  The OLS slope was −0.00125 mm per IQ point; the PCR EIV-corrected slope was −0.00027
+mm per IQ point, a 4.67-fold difference when computed from the full-precision coefficients un-
+derlying Table 1. Both slopes are negative, indicating that higher IQ is associated with less head
+
+                                                         5
+motion, but the magnitude of the association as estimated by OLS is nearly five times larger
+than the EIV-corrected estimate. Here and below, the LOSO summary should be read as the
+performance of a pooled predictor of raw FD rather than as a direct test that every within-site
+slope is null.
+
+
+4.2   Within-Site Slope Heterogeneity
+
+When the 19 sites were grouped by quartiles of mean FD, the within-tier OLS slopes showed
+a monotonic pattern (Table 2). Sites in the minimal-motion tier (n = 290, mean FD = 0.074
+mm) showed essentially no IQ-motion relationship (slope = −0.000056). Sites in the high-motion
+tier (n = 254, mean FD = 0.197 mm) showed a slope 46 times steeper (−0.00261). The PCR-
+corrected slope (−0.00027) lies close to the within-tier slopes of the minimal and low-motion
+tiers, consistent with a substantially weaker pooled association in the lowest-motion sites.
+
+  Table 2: Within-tier OLS slopes grouped by quartiles of site mean framewise displacement.
+
+                   Tier                   n     Mean FD (mm)             Within-tier slope
+                   Minimal motion        290            0.074                  −0.000056
+                   Low motion            163            0.107                  −0.000011
+                   Medium motion         228            0.145                  −0.000968
+                   High motion           254            0.197                  −0.002605
+        ∗
+            Computed from the full-precision fitted coefficients; rounded slopes are shown for readability.
+
+  The site-level analysis (Figure 1) confirms this pattern at the individual site level. Sites with
+higher mean FD (and therefore larger σy proxy values) show steeper apparent IQ-motion slopes.
+This positive correlation between the uncertainty proxy and apparent effect size is consistent
+with the subgroup-driven inflation pattern studied here.
+
+
+4.3   Leave-Site-Out Cross-Validation
+
+Under leave-site-out cross-validation, the pooled predictor produced negative out-of-sample R2
+at every single site. The overall LOSO R2 was −0.074, and per-site values ranged from −3.78
+(SBL, n = 5) to −0.008 (UM_2, n = 34). Predicting held-out raw FD from a pooled IQ-based
+model trained on the other 18 sites was therefore less accurate than the naive site-level baseline.
+   This result shows that a single pooled predictor of raw FD does not transport cleanly across
+sites once site information is removed. The positive cross-validation R2 that one obtains under
+random k-fold is an artifact of site information leaking between training and test folds. At the
+same time, LOSO here is sensitive to between-site shifts in baseline motion, so the negative R2
+values should not be read as direct proof that every within-site IQ-motion association is absent.
+
+
+4.4   Sensitivity Analysis
+
+Across all 64 configurations of the 8 × 8 sensitivity grid, the sign of the PCR-corrected slope was
+consistently negative (Figure 4). The percentage by which the OLS slope magnitude exceeded
+the PCR slope magnitude ranged from essentially zero (at the extreme of simultaneously high
+σx and low σy ) to 408% (at low σx and high σy ), but at the empirically grounded baseline (1×
+multipliers for both parameters) the overestimation was 367%, corresponding to the headline
+4.67× bias factor computed from the full-precision coefficients. The finding is therefore not
+sensitive to the precise specification of the noise parameters within the range of plausible values.
+
+
+                                                          6
+Figure 1: Site-level IQ-motion slope versus site mean framewise displacement. Each point repre-
+                                                        √
+sents one ABIDE-I site; bubble size is proportional to n; colour encodes mean FD. Sites with
+larger site-level uncertainty proxies show steeper apparent slopes, consistent with subgroup-
+driven inflation of the pooled fit.
+
+
+
+
+Figure 2: Within-tier OLS slopes with pooled OLS (red dashed) and PCR EIV-corrected (blue
+dashed) reference lines. The pooled OLS slope lies between the medium and high-motion tiers.
+The PCR slope lies close to the minimal and low-motion tiers, consistent with a weaker associ-
+ation in the lowest-motion sites.
+
+
+                                              7
+Figure 3: Full scatter of all 935 ABIDE-I subjects with OLS (solid red) and PCR EIV-corrected
+(dashed blue) regression lines. Points coloured by motion tier quartile.
+
+
+
+
+Figure 4: Sensitivity of the attenuation estimate to σx and σy assumptions across 64 configu-
+rations. Colour scale is diverging red-blue, centred on zero. Positive values (red) indicate OLS
+overestimation. The finding is robust across the full range of plausible noise assumptions.
+
+
+                                               8
+5     Discussion
+
+The central finding of this paper is that the pooled OLS estimate of the IQ-motion association in
+ABIDE-I can be substantially inflated when site-level response uncertainty and apparent slope
+magnitude co-vary. OLS estimates a slope of −0.00125 mm per IQ point; under the present
+proxy uncertainty model, the PCR estimate shrinks to −0.00027 mm per IQ point, a 4.67-fold
+reduction computed from the full-precision coefficients. The pooled predictor does not transport
+cleanly across sites under leave-site-out cross-validation, and the direction of the finding is robust
+across a wide range of noise parameter assumptions.
+
+
+5.1   The Mechanism: Reverse Attenuation
+
+Classical EIV theory predicts that measurement error in the predictor attenuates the OLS slope
+toward zero [Fuller, 1987]. The ABIDE data produce the opposite pattern: OLS inflates the slope
+away from zero. Under the present model, this happens because the response-side uncertainty
+proxy (captured by within-site variability in FD) is positively correlated with the magnitude of
+the within-site IQ-motion slope across sites. High-motion sites produce both larger uncertainty
+proxies and steeper apparent slopes. When these sites are pooled, the noisy, steep-slope sites
+dominate the OLS estimate, pulling it away from the signal that would be observed in a uniform-
+precision sample.
+   This pattern is not necessarily unique to ABIDE-I: similar subgroup-driven inflation can arise
+whenever subgroup structure affects both relationship magnitude and effective measurement pre-
+cision. Establishing how common this regime is in other domains will require separate empirical
+work.
+
+
+5.2   Practical Consequences for Motion Correction
+
+If downstream analyses calibrate regression-based adjustments using a pooled IQ-motion slope
+of this kind, then the OLS estimate would imply a substantially stronger adjustment than the
+PCR estimate. The present study does not directly quantify connectivity-level consequences,
+so any claim about removed neural variance should be treated as a hypothesis rather than as a
+demonstrated result.
+   The within-tier slope analysis nonetheless provides a concrete illustration. In the two lowest-
+motion tiers (453 subjects, 48% of the sample), the IQ-motion slope is essentially zero. These are
+the sites with the highest measurement precision, where the pooled OLS estimate is least affected
+by the uncertainty proxy. The entire pooled IQ-motion relationship is driven by the high-motion
+tiers where the proxy uncertainty is largest. This pattern motivates, but does not by itself prove,
+the claim that pooled OLS-based correction could be too aggressive for a substantial fraction of
+the sample.
+
+
+5.3   Relationship to Analytic Variability
+
+Botvinik-Nezer et al. [2020] demonstrated that researcher analytic flexibility produces substantial
+variability in neuroimaging results. Our finding identifies a complementary source of bias that
+operates before any analytic decisions are made. Even if every team in the many-analysts exercise
+had used identical preprocessing and analysis pipelines, any team using OLS to estimate the IQ-
+motion confound would have obtained a biased estimate under the same proxy uncertainty model.
+This bias is not obvious from standard diagnostic checks: OLS residuals appear well-behaved, the
+regression is statistically significant, and random k-fold cross-validation yields positive R2 . Leave-
+
+
+                                                  9
+site-out cross-validation helps reveal the portability problem by removing the site information
+that drives the inflated pooled estimate.
+
+
+5.4   Relationship to ComBat Harmonisation
+
+ComBat [Johnson et al., 2007, Fortin et al., 2018] and related harmonisation methods address site
+effects in derived neuroimaging measures by modelling additive and multiplicative batch effects.
+Our analysis addresses a different problem: the bias in the regression model used to estimate
+relationships between phenotypic variables. ComBat could, in principle, harmonise FD values
+across sites before the IQ-motion regression, which would reduce between-site heterogeneity in
+the FD distribution and therefore in the σy proxy. But ComBat does not model the measure-
+ment error in IQ, and it does not correct the OLS estimator itself. The two approaches are
+complementary and could be applied in sequence.
+
+
+5.5   Limitations
+
+First, our analysis uses phenotypic-level FD means rather than time-resolved motion traces. A
+stronger test would use per-subject within-session FD variability as the direct measurement noise
+estimate, requiring access to the raw motion parameter files rather than the summary statistics
+in the phenotypic CSV.
+   Second, the σy estimate (within-site SD of mean FD) conflates between-subject variability with
+measurement noise. It should therefore be interpreted as a response-side uncertainty proxy rather
+than as a direct measurement-error estimate. If sites contain genuinely heterogeneous subject
+pools, the proxy overstates the measurement component; this may dampen the correction, but
+it also means that the present analysis is not yet a fully identified response-error model.
+  Third, leave-site-out cross-validation treats “site” as the cluster variable and tests transport
+of a pooled raw-FD predictor. Because held-out sites may differ in baseline motion levels as
+well as slope, the negative LOSO R2 values should not be interpreted as direct evidence that
+every within-site IQ-motion slope is zero. If the real structure is better captured by scanner
+manufacturer, acquisition protocol, or age distribution, the LOSO result should be re-evaluated
+against the alternative clustering.
+  Fourth, the sensitivity analysis demonstrates robustness to σ misspecification within a 12-fold
+range, but not to gross model violations such as non-Gaussian measurement error or within-site
+heteroscedasticity.
+  Fifth, we analysed the pooled sample without separating ASD and control groups. If the IQ-
+motion relationship differs between diagnostic groups, the pooled estimate may not accurately
+represent either group.
+
+
+5.6   Future Directions
+
+The most immediate next step is to replicate this analysis using the raw motion parameter
+files from ABIDE-I, computing per-subject within-session FD variability as a direct estimate
+of σy rather than relying on within-site SD as a proxy. This would provide a more principled
+measurement error model and allow within-site heteroscedasticity to be modelled directly.
+  A second extension is to apply the same EIV framework to ABIDE-II and other multi-site
+datasets (e.g., the Human Connectome Project, UK Biobank) to test whether the reverse atten-
+uation regime generalises beyond the ABIDE-I sample.
+  Third, the downstream consequences of the inflated confound estimate should be quantified
+
+                                               10
+directly: what happens to functional connectivity group differences when motion is regressed out
+using the EIV-corrected slope rather than the OLS slope? If downstream corrections based on
+the OLS estimate prove to be over-aggressive, re-analysing existing studies with the corrected
+confound estimate could recover effect sizes that were previously washed out.
+
+
+6    Conclusion
+
+In ABIDE-I, the pooled OLS estimate of the IQ-motion association is substantially larger in
+magnitude than the corresponding PCR estimate when site-level FD dispersion is used as a proxy
+for response-side uncertainty. A single pooled predictor of raw FD does not transport cleanly
+across sites, and the apparent association is concentrated in higher-motion sites. These results
+motivate measurement-uncertainty corrections in confound estimation, but the present analysis
+remains limited by the proxy nature of σy and by the absence of a direct downstream re-analysis
+of connectivity measures. The broader lesson is that auxiliary regressions used to calibrate
+confound adjustment deserve the same scrutiny for measurement error and site heterogeneity as
+primary analyses.
+
+
+AI Disclosure
+
+AI Disclosure. This research used multiple AI tools throughout the workflow. Claude Code
+(Anthropic) was used to download the ABIDE-I phenotypic dataset, implement the Probability
+Cloud Regression algorithm, execute all analyses, and generate figures. Claude (Anthropic)
+was used for literature search assistance, manuscript drafting, and iterative refinement of the
+experimental design, including the sensitivity analysis structure and cross-validation scheme.
+Prism (OpenAI) was used for manuscript review and compilation of the final LaTeX document.
+   The measurement error model and PCR theory was specified by the author based on exper-
+tise in statistics and psychometric measurement theory. The author independently verified all
+computational results, reviewed all AI-generated text for accuracy, and takes full responsibility
+for every claim, interpretation, and error in this manuscript.
+   In accordance with arXiv policy, the author confirms that generative AI tools were used as
+described above and that all content has been verified for accuracy. The PCR algorithm and
+analysis code are available at the repository listed under Data Availability for independent veri-
+fication.
+
+
+Data Availability
+
+The ABIDE-I phenotypic dataset is publicly available from the Preprocessed Connectomes
+Project (ABIDE project page). Analysis code sufficient to reproduce all reported results, in-
+cluding the EM convergence trace, sensitivity grid, and leave-site-out predictions, is available
+at https://github.com/kareem-soliman-ai/eiv-abide-replication.git under the Creative
+Commons Attribution–NonCommercial–ShareAlike 4.0 International license (CC BY–NC–SA
+4.0). This permits sharing and adaptation for non-commercial reproducibility and related sci-
+entific use, provided appropriate attribution is given and derivative works are distributed under
+the same license.
+
+
+
+
+                                               11
+Acknowledgements
+
+The author thanks the ABIDE consortium and all contributing sites for making this dataset
+publicly available. The author also thanks Johan Wennemyr for independent replication of the
+PCR algorithm on a separate dataset.
+
+
+References
+Rotem Botvinik-Nezer, Felix Holzmeister, Colin F. Camerer, Anna Dreber, Juergen Huber, Mag-
+  nus Johannesson, Michael Kirchler, Roni Iwanir, Jeanette A. Mumford, R. Alison Adcock, et al.
+  Variability in the analysis of a single neuroimaging dataset by many teams. Nature, 582(7810):
+  84–88, 2020. doi: 10.1038/s41586-020-2314-9.
+
+Raymond J. Carroll, David Ruppert, Leonard A. Stefanski, and Ciprian M. Crainiceanu. Mea-
+  surement Error in Nonlinear Models: A Modern Perspective. Chapman and Hall/CRC, 2nd
+  edition, 2006. doi: 10.1201/9781420010138.
+
+Rastko Ciric, Daniel H. Wolf, Jonathan D. Power, David R. Roalf, Graham L. Baum,
+  Kosha Ruparel, Russell T. Shinohara, Mark A. Elliott, Simon B. Eickhoff, Christos Da-
+  vatzikos, Ruben C. Gur, Raquel E. Gur, Danielle S. Bassett, and Theodore D. Satterth-
+  waite. Benchmarking of participant-level confound regression strategies for the control of
+  motion artifact in studies of functional connectivity. NeuroImage, 154:174–187, 2017. doi:
+  10.1016/j.neuroimage.2017.03.020.
+
+Rastko Ciric, Adon F. G. Rosen, Guray Erus, Matthew Cieslak, Azeez Adebimpe, Philip A. Cook,
+  Danielle S. Bassett, Christos Davatzikos, Daniel H. Wolf, and Theodore D. Satterthwaite.
+  Mitigating head motion artifact in functional connectivity MRI. Nature Protocols, 13(12):
+  2801–2826, 2018. doi: 10.1038/s41596-018-0065-y.
+
+W. Edwards Deming. Statistical Adjustment of Data. John Wiley & Sons, New York, 1943.
+
+Adriana Di Martino, Chao-Gan Yan, Qingyang Li, Erin Denio, Francisco X. Castellanos, Kaat
+  Alaerts, Jeffrey S. Anderson, Michal Assaf, Susan Y. Bookheimer, Mirella Dapretto, et al. The
+  autism brain imaging data exchange: towards a large-scale evaluation of the intrinsic brain
+  architecture in autism. Molecular Psychiatry, 19(6):659–667, 2014. doi: 10.1038/mp.2013.78.
+
+Oscar Esteban, Christopher J. Markiewicz, Ross W. Blair, Craig A. Moodie, A. Ilkay Isik, Asier
+  Erramuzpe, James D. Kent, Mathias Goncalves, Elizabeth DuPre, Madeline Snyder, Hiroyuki
+  Oya, Satrajit S. Ghosh, Jessey Wright, Joke Durnez, Russell A. Poldrack, and Krzysztof J.
+  Gorgolewski. fMRIPrep: a robust preprocessing pipeline for functional MRI. Nature Methods,
+  16(1):111–116, 2019. doi: 10.1038/s41592-018-0235-4.
+
+Jean-Philippe Fortin, Drew Parker, Birkan Tunç, Takanori Watanabe, Mark A. Elliott, Kosha
+  Ruparel, David R. Roalf, Theodore D. Satterthwaite, Ruben C. Gur, Raquel E. Gur, Robert T.
+  Schultz, Ragini Verma, and Russell T. Shinohara. Harmonization of multi-site diffusion tensor
+  imaging data. NeuroImage, 161:149–170, 2017. doi: 10.1016/j.neuroimage.2017.08.047.
+
+Jean-Philippe Fortin, Nicholas Cullen, Yvette I. Sheline, Warren D. Taylor, Irem Aselcioglu,
+  Philip A. Cook, Phil Adams, Crystal Cooper, Maurizio Fava, Patrick J. McGrath, Melvin
+  McInnis, Mary L. Phillips, Madhukar H. Trivedi, Myrna M. Weissman, and Russell T. Shino-
+  hara. Harmonization of cortical thickness measurements across scanners and sites. NeuroImage,
+  167:104–120, 2018. doi: 10.1016/j.neuroimage.2017.11.024.
+
+
+
+                                              12
+Wayne A. Fuller. Measurement Error Models. John Wiley & Sons, New York, 1987. doi:
+ 10.1002/9780470316665.
+
+W. Evan Johnson, Cheng Li, and Ariel Rabinovic. Adjusting batch effects in microarray
+ expression data using empirical Bayes methods. Biostatistics, 8(1):118–127, 2007. doi:
+ 10.1093/biostatistics/kxj037.
+
+Jonathan D. Power, Kelly A. Barnes, Abraham Z. Snyder, Bradley L. Schlaggar, and Steven E.
+  Petersen. Spurious but systematic correlations in functional connectivity MRI networks arise
+  from subject motion. NeuroImage, 59(3):2142–2154, 2012. doi: 10.1016/j.neuroimage.2011.10.
+  018.
+
+Theodore D. Satterthwaite, Daniel H. Wolf, James Loughead, Kosha Ruparel, Mark A. Elliott,
+  Hakon Hakonarson, Ruben C. Gur, and Raquel E. Gur. Impact of in-scanner head motion
+  on multiple measures of functional connectivity: Relevance for studies of neurodevelopment in
+  youth. NeuroImage, 60(1):623–632, 2012. doi: 10.1016/j.neuroimage.2011.12.063.
+
+Theodore D. Satterthwaite, Mark A. Elliott, Raphael T. Gerraty, Kosha Ruparel, James Loug-
+  head, Monica E. Calkins, Simon B. Eickhoff, Hakon Hakonarson, Ruben C. Gur, Raquel E.
+  Gur, and Daniel H. Wolf. An improved framework for confound regression and filtering for
+  control of motion artifact in the preprocessing of resting-state functional connectivity data.
+  NeuroImage, 64:240–256, 2013. doi: 10.1016/j.neuroimage.2012.08.052.
+
+Joshua S. Siegel, Jonathan D. Power, Joseph W. Dubis, Alecia C. Vogel, Jessica A. Church,
+  Bradley L. Schlaggar, and Steven E. Petersen. Statistical improvements in functional magnetic
+  resonance imaging analyses produced by censoring high-motion data points. Human Brain
+  Mapping, 35(5):1981–1996, 2014. doi: 10.1002/hbm.22307.
+
+Koene R. A. Van Dijk, Mert R. Sabuncu, and Randy L. Buckner. The influence of head motion
+ on intrinsic functional connectivity MRI. NeuroImage, 59(1):431–438, 2012. doi: 10.1016/j.
+ neuroimage.2011.07.044.
+
+David Wechsler. WISC-IV: Wechsler Intelligence Scale for Children, Fourth Edition: Technical
+  and Interpretive Manual. San Antonio, TX, 2003.
+
+David Wechsler. WAIS-IV: Wechsler Adult Intelligence Scale, Fourth Edition: Technical and
+  Interpretive Manual. San Antonio, TX, 2008.
+
+Meichen Yu, Kristin A. Linn, Philip A. Cook, Mary L. Phillips, Melvin McInnis, Maurizio
+ Fava, Madhukar H. Trivedi, Myrna M. Weissman, Russell T. Shinohara, and Yvette I. Sheline.
+ Statistical harmonization corrects site effects in functional connectivity measurements from
+ multi-site fMRI data. Human Brain Mapping, 39(11):4213–4227, 2018. doi: 10.1002/hbm.
+ 24241.
+
+
+
+
+                                              13
+

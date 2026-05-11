@@ -9,7 +9,7 @@ tags:
 - software-brain-modeling
 title: MarsAtlas
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 ## Overview
@@ -32,35 +32,35 @@ The typical workflow for using MarsAtlas in [whole-brain modeling][whole-brain-m
 
 Within the [The Virtual Brain][the-virtual-brain] (TVB) ecosystem, MarsAtlas serves as one of several supported parcellation schemes for constructing [[personalized-brain-modeling|personalized brain]] models [2][7]. TVB's [brain parcellations][brain-parcellations] framework allows users to select MarsAtlas when generating the regional-level connectivity matrix, which then drives the coupling between [[neural-mass-models]] at each node [9]. The use of MarsAtlas in TVB enables researchers to simulate [resting-state][resting-state] dynamics, task-related responses, and pathological states such as [epileptic seizures][epilepsy-modeling] at the whole-brain scale.
 
-Other atlases commonly used with TVB include the [AAL][aal-atlas], the [Desikan-Killiany Atlas][desikan-killiany-atlas], and the [[[schaefer]] Atlas][[[schaefer]]-atlas] (which provides functional parcellations based on [[resting-state]] fMRI][neuroimaging-fmri] gradients) [9][10]. The choice of atlas involves trade-offs between anatomical detail, functional specificity, and model complexity, and users often compare results across multiple parcellation schemes to assess robustness of findings.
+Other atlases commonly used with TVB include the [AAL][aal-atlas], the [Desikan-Killiany Atlas][desikan-killiany-atlas], and the [[schaefer]] Atlas (which provides functional parcellations based on [[resting-state]] fMRI][neuroimaging-fmri] gradients) [9][10]. The choice of atlas involves trade-offs between anatomical detail, functional specificity, and model complexity, and users often compare results across multiple parcellation schemes to assess robustness of findings.
 
 ## Key Features
 
-MarsAtlas is distinguished by several features that make it suitable for [[computational-neuroscience]] applications. First, the parcellation is explicitly designed for use in [connectome][connectome]-based modeling, with region boundaries aligned to both macro-anatomical landmarks (sulcal and gyral patterns) and available knowledge of cytoarchitectural divisions [1][4]. Second, the atlas provides bilateral symmetry between hemispheres, facilitating comparison of left-right connectivity patterns and enabling investigation of lateralization. Third, MarsAtlas includes both cortical and select subcortical regions, allowing models to incorporate thalamo-cortical and striato-cortical loops that are increasingly recognized as important for whole-[[brain-dynamics]] [11]. Fourth, the atlas is distributed in multiple formats ([[nifti]] volumes, GIFTI surfaces, CSV region lists) to support integration with diverse preprocessing pipelines and visualization software.
+MarsAtlas is distinguished by several features that make it suitable for [[computational-neuroscience]] applications. First, the parcellation is explicitly designed for use in [connectome][connectum]-based modeling, with region boundaries aligned to both macro-anatomical landmarks (sulcal and gyral patterns) and available knowledge of cytoarchitectural divisions [1][4]. Second, the atlas provides bilateral symmetry between hemispheres, facilitating comparison of left-right connectivity patterns and enabling investigation of lateralization. Third, MarsAtlas includes both cortical and select subcortical regions, allowing models to incorporate thalamo-cortical and striato-cortical loops that are increasingly recognized as important for whole-[[brain-dynamics]] [11]. Fourth, the atlas is distributed in multiple formats ([[nifti]] volumes, GIFTI surfaces, CSV region lists) to support integration with diverse preprocessing pipelines and visualization software.
 
 ## Related Software and Concepts
 
 MarsAtlas intersects with a rich ecosystem of tools and concepts in computational neuroscience. For [diffusion imaging][diffusion-imaging] and [tractography][tractography], the atlas works with [MRtrix3][mrtrix3], [FSL][fsl], and [DIPY][dipy] for fiber reconstruction. For network analysis, the [Brain Connectivity Toolbox][brain-connectivity-toolbox] and [graph-tool][graph-tool] provide algorithms for computing [modularity][modularity], [rich-club][rich-club] coefficients, and other [graph theory][graph-theory] metrics on MarsAtlas-derived connectivity matrices [12]. For visualization, [FreeView][freeview], [Connectome Workbench][connectome-workbench], and [ITK-SNAP][itk-snap] enable inspection of parcellated surfaces and volumes.
 
-Related atlases include the [AAL Atlas][aal-atlas], [Brainnetome Atlas][brainnetome-atlas], [Julich-Brain Atlas][julich-atlas], and [Yeo Atlas][yeo-atlas], each offering different resolutions and organizational principles [13][14]. The construction of new atlases increasingly leverages [machine learning][community-detection] approaches for data-driven parcellation, an approach that may supplement or replace anatomically-defined schemes like MarsAtlas in future work [15].
+Related atlases include the [AAL Atlas][aal-atlas], [Brainnetome Atlas][brainnetome-atlas], [Julich-Brain Atlas][julich-atlas], and [Yeo Atlas][yeo-atlas], each offering different resolutions and organizational principles [13][14]. The construction of new atlases increasingly leverages [machine learning][community-detection] approaches for data‑driven parcellation, an approach that may supplement or replace anatomically‑defined schemes like MarsAtlas in future work [15].
 
 ## Key Papers
 
-1. Auzias, G., Colliot, O., Glaunès, J. A., Perrot, M., Schnabel, J. A., Robinson, C. E., ... & Takerkart, S. (2013). Model-driven harmonic phase analysis for shape representation in neuroimaging. *NeuroImage*, 68, 60-68. DOI: 10.1016/j.neuroimage.2012.12.023 [Original MarsAtlas methodology]
+1. Auzias, G., Colliot, O., Glaunès, J. A., Perrot, M., Schnabel, J. A., Robinson, C. E., ... & Tacker… (2013). Model‑driven harmonic phase analysis for shape representation in neuroimaging. *NeuroImage*, 68, 60‑68. DOI: 10.1016/j.neuroimage.2012.12.023 [Original MarsAtlas methodology]
 
-2. Schaefer, A., Kong, R., Gordon, E. M., Laumann, T. O., Zuo, X. N., Holmes, A. J., ... & Yeo, B. T. (2018). Local-global parcellation of the human cerebral cortex from intrinsic [[functional-connectivity]]. *Cerebral Cortex*, 28(9), 3095-3114. [Functional parcellation comparison]
+2. [[schaefer]], A., Kong, R., Gordon, E. M., Laumann, T. O., Zuo, X. N., Holmes, A. J., … & Yeo, B. T. (2018). Local‑global parcellation of the human cerebral cortex from intrinsic [[functional‑connectivity]]. *Cerebral Cortex*, 28(9), 3095‑3114. [Functional parcellation comparison]
 
-3. Desikan, R. S., Ségonne, F., Fischl, B., Quinn, B. T., Dickerson, B. C., Blacker, D., ... & Killiany, R. J. (2006). An automated labeling system for subdividing the human cerebral cortex on MRI scans into gyral based regions of interest. *NeuroImage*, 31(3), 968-980. [[jhu-white-matter-atlas|reference]]
+3. Desikan, R. S., Ségonne, F., Fischl, B., Quinn, B. T., Dickerson, B. C., Blacker, D., … & Killiany, R. J. (2006). An automated labeling system for subdividing the human cerebral cortex on MRI scans into gyral‑based regions of interest. *NeuroImage*, 31(3), 968‑980. [[jhu‑white‑matter‑atlas|reference]]
 
-4. Jirsa, V. K., Proix, T., Perdikis, D., Woodman, M. M., Jacobsen, H., Le Cerf, E., ... & Vuust, P. (2017). [[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]. *NeuroImage*, 141, 511-528. [TVB foundational paper]
+4. Jirsa, V. K., Proix, T., Perdikis, D., Woodman, M. M., Jacobsen, H., Le Cerf, E., … & Vuust, P. (2017). [[the‑virtual‑brain]]: a simulator of primate brain [[network‑dynamics]]. *NeuroImage*, 141, 511‑528. [TVB foundational paper]
 
-5. Bullmore, E. T., & Sporns, O. (2009). Complex brain networks: graph theoretical analysis of structural and functional systems. *Nature Reviews Neuroscience*, 10(3), 186-198. [[netneuroscience|Network neuroscience]] background
+5. Bullmore, E. T., & Sporns, O. (2009). Complex brain networks: graph theoretical analysis of structural and functional systems. *Nature Reviews Neuroscience*, 10(3), 186‑198. [[netneuroscience|Network neuroscience]] background
 
-6. Fornito, A., Zalesky, A., & Bullmore, E. (2016). *Fundamentals of [[brain-network]] Analysis*. Academic Press. [Network analysis methods]
+6. Fornito, A., Zalesky, A., & Bullmore, E. (2016). *Fundamentals of [[brain‑network]] Analysis*. Academic Press. [Network analysis methods]
 
 ## References
 
 1. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
-2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
+2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
 3. (authors unknown). *Networks of the Brain*.
-4. Shengjie Qi, Xinda Song, Le Jia, Hongyu Cui, Yuchen Suo, Teng Long, Zhendong Wu, Xiaolin Ning. (2025). *The impact of channel density, inverse solutions, connectivity metrics and calibration errors on OPM-MEG connectivity analysis: A simulation study*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2025.121056))
+4. Shengjie Qi, Xinda Song, … (2025). *The impact of channel density, inverse solutions, connectivity metrics and calibration errors on OPM‑MEG connectivity analysis: A simulation study*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2025.121056))

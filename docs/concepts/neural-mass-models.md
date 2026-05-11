@@ -6,6 +6,7 @@ sources:
 - raw/papers/wilson-cowan-1972.md
 - raw/papers/arxiv-2512.03907.md
 - raw/papers/strogatz-1994.md
+- raw/papers/anticevic-2012.md
 tags:
 - neural-mass-models
 - whole-brain-modeling
@@ -17,7 +18,7 @@ tags:
 - epilepsy-modeling
 title: Neural Mass Models
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 ## Definition

@@ -8,6 +8,8 @@ sources:
 - raw/papers/semanticscholar-cabf914d6370.md
 - raw/papers/semanticscholar-dacc3b888fa6.md
 - raw/papers/schirner-2018.md
+- raw/papers/gorgolewski-2016.md
+- raw/papers/anticevic-2012.md
 tags:
 - neuroimaging
 - software-neuroimaging
@@ -16,7 +18,7 @@ tags:
 - neuroimaging-eeg
 title: NIfTI
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 NIfTI ([[neuroimaging]] Informatics Technology Initiative) is a file format standard for storing neuroimaging data, particularly volumetric magnetic resonance imaging data such as functional magnetic resonance imaging ([[fmri]]), diffusion tensor imaging (DTI), and structural MRI. The format was developed to address limitations in the earlier Analyze format and has become the de facto standard for sharing neuroimaging data across software platforms, databases, and research laboratories worldwide.

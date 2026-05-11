@@ -4,6 +4,7 @@ sources:
 - raw/papers/huntenburg-2018.md
 - raw/papers/semanticscholar-a0cce22e2ffc.md
 - raw/papers/semanticscholar-a51325b7fd19.md
+- raw/papers/arxiv-2503.23653.md
 tags:
 - software-visualization
 - bioimaging
@@ -12,7 +13,7 @@ tags:
 - classification
 title: ilastik
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-09'
 ---
 
 # ilastik

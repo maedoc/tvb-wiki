@@ -2,11 +2,15 @@
 created: 2026-05-04
 sources:
 - raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-9552467d25c9.md
+- raw/papers/semanticscholar-9e0528124f6e.md
+- raw/papers/semanticscholar-ce1b27301b4d.md
+- raw/papers/semanticscholar-929b90566fc8.md
 tags:
 - software-brain-modeling
 title: CCEytools
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 # CCEytools

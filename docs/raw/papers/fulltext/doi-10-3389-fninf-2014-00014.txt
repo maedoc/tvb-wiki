@@ -1,0 +1,649 @@
+                                                                                                                    METHODS ARTICLE
+                                                                                                                     published: 21 February 2014
+NEUROINFORMATICS                                                                                                    doi: 10.3389/fninf.2014.00014
+
+
+
+Machine learning for neuroimaging with scikit-learn
+Alexandre Abraham 1,2*, Fabian Pedregosa 1,2 , Michael Eickenberg 1,2 , Philippe Gervais 1,2 ,
+Andreas Mueller 3 , Jean Kossaifi 4 , Alexandre Gramfort 1,2,5 , Bertrand Thirion 1,2 and Gaël Varoquaux 1,2
+1
+  Parietal Team, INRIA Saclay-Île-de-France, Saclay, France
+2
+  Neurospin, I 2 BM, DSV, CEA, Gif-Sur-Yvette, France
+3
+  Institute of Computer Science VI, University of Bonn, Bonn, Germany
+4
+  Department of Computing, Imperial College London, London, UK
+5
+  Institut Mines-Telecom, Telecom ParisTech, CNRS LTCI, Paris, France
+
+
+
+Edited by:                              Statistical machine learning methods are increasingly used for neuroimaging data analysis.
+Satrajit S. Ghosh, Massachusetts        Their main virtue is their ability to model high-dimensional datasets, e.g., multivariate
+Institute of Technology, USA
+                                        analysis of activation images or resting-state time series. Supervised learning is typically
+Reviewed by:
+                                        used in decoding or encoding settings to relate brain images to behavioral or clinical
+Michael Hanke,
+Otto-von-Guericke-University,           observations, while unsupervised learning can uncover hidden structures in sets of
+Germany                                 images (e.g., resting state functional MRI) or find sub-populations in large cohorts. By
+Eugene Duff, University of Oxford,      considering different functional neuroimaging applications, we illustrate how scikit-learn,
+UK
+                                        a Python machine learning library, can be used to perform some key analysis steps.
+*Correspondence:
+                                        Scikit-learn contains a very large set of statistical learning algorithms, both supervised
+Alexandre Abraham, CEA
+Neurospin, Bât 145, Point Courrier      and unsupervised, and its application to neuroimaging data provides a versatile tool to
+156, 91191 Gif-sur-Yvette, France       study the brain.
+e-mail: alexandre.abraham@inria.fr
+                                        Keywords: machine learning, statistical learning, neuroimaging, scikit-learn, Python
+
+
+
+
+1. INTRODUCTION                                                                scikit-learn for neuroimaging. Rather than relying on an imma-
+Interest in applying statistical machine learning to neuroimag-                ture and black-box library, we prefer here to unravel simple and
+ing data analysis is growing. Neuroscientists use it as a powerful,            didactic examples of code that enable readers to build their own
+albeit complex, tool for statistical inference. The tools are devel-           analysis strategies.
+oped by computer scientists who may lack a deep understanding                      The paper is organized as follows. After introducing the
+of the neuroscience questions. This paper aims to fill the gap                 scikit-learn toolbox, we show how to prepare the data to apply
+between machine learning and neuroimaging by demonstrating                     scikit-learn routines. Then we describe the application of super-
+how a general-purpose machine-learning toolbox, scikit-learn,                  vised learning techniques to learn the links between brain images
+can provide state-of-the-art methods for neuroimaging analy-                   and stimuli. Finally we demonstrate how unsupervised learning
+sis while keeping the code simple and understandable by both                   techniques can extract useful structure from the images.
+worlds. Here, we focus on software; for a more conceptual intro-
+duction to machine learning methods in fMRI analysis, see                      2. OUR TOOLS: SCIKIT-LEARN AND THE PYTHON
+Pereira et al. (2009) or Mur et al. (2009), while Hastie et al. (2001)            ECOSYSTEM
+provides a good reference on machine learning. We discuss the                  2.1. BASIC SCIENTIFIC PYTHON TOOLS FOR THE NEUROIMAGER
+use of the scikit-learn toolkit as it is a reference machine learning          With its mature scientific stack, Python is a growing contender
+tool and has and a variety of algorithms that is matched by few                in the landscape of neuroimaging data analysis with tools such as
+packages, but also because it is implemented in Python, and thus               Nipy (Millman and Brett, 2007) or Nipype (Gorgolewski et al.,
+dovetails nicely in the rich neuroimaging Python ecosystem.                    2011). The scientific Python libraries used in this paper are:
+    This paper explores a few applications of statistical learning
+to resolve common neuroimaging needs, detailing the corre-                     • NumPy: Provides the ndarray data type to python, an
+sponding code, the choice of the methods, and the underlying                     efficient n-dimensional data representation for array-based
+assumptions. We discuss not only prediction scores, but also                     numerical computation, similar to that used in Matlab (Van
+the interpretability of the results, which leads us to explore the               Der Walt et al., 2011). It handles efficient array persis-
+internal model of various methods. Importantly, the GitHub                       tence (input and output) and provides basic operations such
+repository of the paper 1 provides complete scripts to generate                  as dot product. Most scientific Python libraries, including
+figures. The scope of this paper is not to present a neuroimaging-               scikit-learn, use NumPy arrays as input and output data
+specific library, but rather code patterns related to scikit-learn.              type.
+However, the nilearn library—http://nilearn.github.io—is a soft-               • SciPy: Higher level mathematical functions that operate on
+ware package under development that seeks to simplify the use of                 ndarrays for a variety of domains including linear algebra,
+                                                                                 optimization and signal processing. SciPy is linked to com-
+1 http://www.github.com/AlexandreAbraham/frontiers2013                           piled libraries to ensure high performances (BLAS, Arpack,
+
+
+
+Frontiers in Neuroinformatics                                      www.frontiersin.org                              February 2014 | Volume 8 | Article 14 | 1
+Abraham et al.                                                                                Machine learning for neuroimaging with Scikit-Learn
+
+
+
+
+  and MKL for linear algebra and mathematical operations).               learning tasks such as feature selection or dimensionality
+  Together, NumPy and SciPy provide a robust scientific envi-            reduction are also provided as estimators.
+  ronment for numerical computing and they are the elementary          • Predictor. A predictor is an estimator with a predict method
+  bricks that we use in all our algorithms.                              that takes an input array X_test and makes predictions for
+• Matplotlib: A plotting library tightly integrated into the scien-      each sample in it. We denote this input parameter “X_test”
+  tific Python stack (Hunter, 2007). It offers publication-quality       in order to emphasize that predict generalizes to new data.
+  figures in different formats and is used to generate the figures       In the case of supervised learning estimators, this method typ-
+  in this paper.                                                         ically returns the predicted labels or values computed from the
+• Nibabel: To access data in neuroimaging file formats. We use it        estimated model.
+  at the beginning of all our scripts.                                 • Transformer. As it is common to modify or filter data
+                                                                         before feeding it to a learning algorithm, some estima-
+2.2. SCIKIT-LEARN AND THE MACHINE LEARNING ECOSYSTEM                     tors, named transformers, implement a transform method.
+Scikit-learn (Pedregosa et al., 2011) is a general purpose               Preprocessing, feature selection and dimensionality reduc-
+machine learning library written in Python. It provides effi-            tion algorithms are all provided as transformers within the
+cient implementations of state-of-the-art algorithms, accessible to      library. If the transformation can be inverted, a method called
+non-machine learning experts, and reusable across scientific dis-        inverse_transform also exists.
+ciplines and application fields. It also takes advantage of Python
+interactivity and modularity to supply fast and easy prototyp-         When testing an estimator or setting hyperparameters, one needs
+ing. There is a variety of other learning packages. For instance,      a reliable metric to evaluate its performance. Using the same
+in Python, PyBrain (Schaul et al., 2010) is best at neural networks    data for training and testing is not acceptable because it leads to
+and reinforcement learning approaches, but its models are fairly       overly confident model performance, a phenomenon also known
+black box, and do not match our need to interpret the results.         as overfitting. Cross-validation is a technique that allows one to
+Beyond Python, Weka (Hall et al., 2009) is a rich machine learning     reliably evaluate an estimator on a given dataset. It consists in
+framework written in Java, however, it is more oriented toward         iteratively fitting the estimator on a fraction of the data, called
+data mining.                                                           training set, and testing it on the left-out unseen data, called test
+   Some higher level frameworks provides full pipeline to apply        set. Several strategies exists to partition the data. For example,
+machine learning techniques to neuroimaging. PyMVPA (Hanke             k-fold cross-validation consists in dividing (randomly or not) the
+et al., 2009) is a Python packaging that does data preparation,        samples in k subsets: each subset is then used once as testing set
+loading and analysis, as well as result visualization. It performs     while the others k − 1 subsets are used to train the estimator.
+multi-variate pattern analysis and can make use of external tools      This is one of the simplest and most widely used cross-validation
+such as R, scikit-learn or Shogun (Sonnenburg et al., 2010).           strategies. The parameter k is commonly set to 5 or 10. Another
+PRoNTo (Schrouff et al., 2013) is written in Matlab and can            strategy, sometimes called Monte-Carlo cross-validation, uses
+easily interface with SPM but does not propose many machine            many random partitions in the data.
+learning algorithms. Here, rather than full-blown neuroimaging             For a given model and some fixed value of hyperparameters,
+analysis pipelines, we discuss lower-level patterns that break down    the scores on the various test sets can be averaged to give a quan-
+how neuroimaging data is input to scikit-learn and processed           titative score to assess how good the model is. Maximizing this
+with it. Indeed, the breadth of machine learning techniques in         cross-validation score offers a principled way to set hyperparam-
+scikit-learn and the variety of possible applications are too wide     eters and allows to choose between different models. This proce-
+to be fully exposed in a high-level interface. Note that a pack-       dure is known as model selection. In scikit-learn, hyperparameters
+age like PyMVPA that can rely on scikit-learn for neuroimaging         tuning can be conviently done with the GridSearchCV esti-
+data analysis implements similar patterns behind its high-level        mator. It takes as input an estimator and a set of candidate
+interface.                                                             hyperparameters. Cross-validation scores are then computed for
+                                                                       all hyperparameters combinations, possibly in parallel, in order
+2.3. SCIKIT-LEARN CONCEPTS                                             to find the best one. In this paper, we set the regularization
+In scikit-learn, all objects and algorithms accept input data in the   coefficient with grid search in section 5.
+form of 2-dimensional arrays of size samples × features. This con-
+vention makes it generic and domain-independent. Scikit-learn          3. DATA PREPARATION: FROM MR VOLUMES TO A DATA
+objects share a uniform set of methods that depends on their              MATRIX
+purpose: estimators can fit models from data, predictors can make      Before applying statistical learning to neuroimaging data, stan-
+predictions on new data and transformers convert data from one         dard preprocessing must be applied. For fMRI, this includes
+representation to another.                                             motion correction, slice timing correction, coregistration with
+                                                                       an anatomical image and normalization to a common template
+• Estimator. The estimator interface, the core of the library,         like the MNI (Montreal Neurologic Institute) one if necessary.
+  exposes a fit method for learning model parameters from              Reference softwares for these tasks are SPM (Friston, 2007) and
+  training data. All supervised and unsupervised learning algo-        FSL (Smith et al., 2004). A Python interface to these tools is avail-
+  rithms (e.g., for classification, regression or clustering) are      able in nipype Python library (Gorgolewski et al., 2011). Below
+  available as objects implementing this interface. Machine            we discuss shaping preprocessed data into a format that can be fed
+
+
+
+Frontiers in Neuroinformatics                              www.frontiersin.org                            February 2014 | Volume 8 | Article 14 | 2
+Abraham et al.                                                                                  Machine learning for neuroimaging with Scikit-Learn
+
+
+
+
+to scikit-learn. For the machine learning settings, we need a data           The reduction process from 4D-images to feature vectors
+matrix, that we will denote X, and optionally a target variable to       comes with the loss of spatial structure (see Figure 1). It however
+predict, y.                                                              allows to discard uninformative voxels, such as the ones outside
+                                                                         of the brain. Such voxels that only carry noise and scanner arti-
+3.1. SPATIAL RESAMPLING                                                  facts would reduce SNR and affect the quality of the estimation.
+Neuroimaging data often come as Nifti files, 4-dimensional data          The selected voxels form a brain mask. Such a mask is often given
+(3D scans with time series at each location or voxel) along with a       along with the datasets or can be computed with software tools
+transformation matrix (called affine) used to compute voxel loca-        such as FSL or SPM.
+tions from array indices to world coordinates. When working with             Applying the mask is made easy by NumPy advanced index-
+several subjects, each individual data is registered on a common         ing using boolean arrays. Two-dimensional masked data will be
+template (MNI, Talairach...), hence on a common affine, during           referred to as X to follow scikit-learn conventions:
+preprocessing.
+   Affine matrix can express data anisotropy, when the distance
+between two voxels is not the same depending on the direction.            mask = nibabel.load(’mask.nii’).get_data()
+This information is used by algorithms relying on the spatial             func_data = nibabel.load(’epi.nii’).
+structure of the data, for instance the Searchlight.                        get_data()
+   SciPy routine scipy.ndimage.affine_transform                           # Ensure that the mask is boolean
+can be used to perform image resampling: changing the spatial             mask = mask.astype(bool)
+resolution of the data2. This is an interpolation and alters the data,    # Apply the mask, X = timeseries * voxels
+that is why it should be used carefully. Downsampling is com-             X = func_data[mask].T
+monly used to reduce the size of data to process. Typical sizes are 2
+or 3 mm resolution, but scan spatial resolution is increasing with        # Unmask data
+progress in MR physics. The affine matrix can encode the scaling          unmasked_data = numpy.zeros(mask.shape,
+factors for each direction.                                                 dtype=X.dtype)
+                                                                          unmasked_data[mask] = X
+3.2. SIGNAL CLEANING
+Due to its complex and indirect acquisition process, neuroimag-
+ing data often have a low signal-to-noise ratio. They contain            3.4. DATA VISUALIZATION
+trends and artifacts that must be removed to ensure maximum              Across all our examples, voxels of interest are represented on
+machine learning algorithms efficiency. Signal cleaning includes:        an axial slice of the brain. Some transformations of the origi-
+                                                                         nal matrix data are required to match matplotlib data format.
+• Detrending removes a linear trend over the time series of each         The following snippet of code shows how to load and display
+  voxel. This is a useful step when studying fMRI data, as the           an axial slice overlaid with an activation map. The background
+  voxel intensity itself has no meaning and we want to study its         is an anatomical scan and its highest voxels are used as synthetic
+  variation and correlation with other voxels. Detrending can be         activations.
+  done thanks to SciPy (scipy.signal.detrend).
+• Normalization consists in setting the timeseries variance to
+  1. This harmonization is necessary as some machine learning             # Load image
+  algorithms are sensible to different value ranges.                      bg_img = nibabel.load(’bg.nii.gz’)
+• Frequency filtering consists in removing high or low frequency          bg = bg_img.get_data()
+  signals. Low-frequency signals in fMRI data are caused by phys-         # Keep values over 6000 as artificial
+  iological mechanisms or scanner drifts. Filtering can be done             activation map
+  thanks to a Fourier transform (scipy.fftpack.fft) or a                  act = bg.copy()
+  Butterworth filter (scipy.signal.butter).                               act[act < 6000] = 0.
+
+3.3. FROM 4-DIMENSIONAL IMAGES TO 2-DIMENSIONAL ARRAY:                    # Display the background
+     MASKING                                                              plt.imshow(bg[..., 10].T, origin=’lower’,
+Neuroimaging data are represented in 4 dimensions: 3 spatial                interpolation=’nearest’, cmap=’gray’)
+dimensions, and one dimension to index time or trials. Scikit-            # Mask background values of activation map
+learn algorithms, on the other hand, only accept 2-dimensional            masked_act = np.ma.masked_equal(act, 0.)
+samples × features matrices (see section 2.3). Depending on the           plt.imshow(masked_act[..., 10].T, origin=
+setting, voxels and time series can be considered as features or            ’lower’, interpolation=’nearest’,
+samples. For example, in spatial independent component analysis             cmap=’hot’)
+(ICA), voxels are samples.                                                # Cosmetics: disable axis
+                                                                          plt.axis(’off’)
+                                                                          plt.show()
+2 An easy-to-use implementation is proposed in nilearn.
+
+
+
+
+Frontiers in Neuroinformatics                                www.frontiersin.org                            February 2014 | Volume 8 | Article 14 | 3
+Abraham et al.                                                                                    Machine learning for neuroimaging with Scikit-Learn
+
+
+
+
+ FIGURE 1 | Conversion of brain scans into 2-dimensional data.
+
+
+
+   Note that a background is needed to display partial maps.               strategies exist to reduce the number of features. A first one is
+Overlaying two images can be done thanks to the numpy.ma.                  based on prior neuroscientific knowledge. Here one could restrict
+masked_array data structure. Several options exist to enhance              the mask to occipital areas, where the visual cortex is located.
+the overall aspect of the plot. Some of them can be found in the           Feature selection is a second, data-driven, approach that relies on
+full scripts provided with this paper. It generally boils down to a        a univariate statistical test for each individual feature. Variables
+good knowledge of Matplotlib. Note that the Nipy package pro-              with high individual discriminative power are kept.
+vides a plot_map function that is tuned to display activation                  Scikit-learn offers a panel of strategies to select features. In
+maps (a background is even provided if needed).                            supervised learning, the most popular feature selection method
+                                                                           is the F-test. The null hypothesis of this test is that the feature
+4. DECODING THE MENTAL REPRESENTATION OF OBJECTS                           takes the same value independently of the value of y to pre-
+   IN THE BRAIN                                                            dict. In scikit-learn, sklearn.feature_selection pro-
+In the context of neuroimaging, decoding refers to learning a              poses a panel of feature selection strategies. One can choose to
+model that predicts behavioral or phenotypic variables from                take a percentile of the features (SelectPercentile), or a
+brain imaging data. The alternative that consists in predicting the        fixed number of features (SelectKBest). All these objects are
+imaging data given external variables, such as stimuli descriptors,        implemented as transformers (see section 2.3). The code below
+is called encoding (Naselaris et al., 2011). It is further discussed in    uses the f_classif function (ANOVA F-Test) along with the
+the next section.                                                          selection of a fixed number of features.
+    First, we illustrate decoding with a simplified version of the             On the reduced feature set, we use a linear SVM classi-
+experiment presented in Haxby et al. (2001). In the original work,         fier, sklearn.svm.SVC, to find the hyperplane that maxi-
+visual stimuli from 8 different categories are presented to 6 sub-         mally separates the samples belonging to the different classes.
+jects during 12 sessions. The goal is to predict the category of the       Classifying a new sample boils down to determining on which
+stimulus presented to the subject given the recorded fMRI vol-             side of the hyperplane it lies. With a linear kernel, the separating
+umes. This example has already been widely analyzed (Hanson                hyperplane is defined in the input data space and its coefficients
+et al., 2004; Detre et al., 2006; O’Toole et al., 2007; Hanson and         can be related to the voxels. Such coefficients can therefore be
+Halchenko, 2008; Hanke et al., 2009) and has become a refer-               visualized as an image (after unmasking step described in section
+ence example in matter of decoding. For the sake of simplicity,            3.3) where voxels with high values have more influence on the
+we restrict the example to one subject and to two categories, faces        prediction than the others (see Figure 2).
+and houses.
+    As there is a target variable y to predict, this is a supervised         feature_selection = SelectKBest(f_classif,
+learning problem. Here y represents the two object categories,                 k=500)
+a.k.a. classes in machine-learning terms. In such settings, where            clf = SVC(kernel=’linear’)
+y takes discrete values the learning problem is known as classi-             X_reduced = feature_selection.fit_
+fication, as opposed to regression when the variable y can take                transform(X)
+continuous values, such as age.                                              clf.fit(X_reduced, y)
+                                                                             ### Look at the discriminating weights
+4.1. CLASSIFICATION WITH FEATURE SELECTION AND LINEAR SVM                    coef = clf.coef_
+Many classification methods are available in scikit-learn. In this           ### Reverse feature selection
+example we chose to combine the use of univariate feature selec-             coef = feature_selection.inverse_transform
+tion and Support Vector Machines (SVM). Such a classification                  (coef)
+strategy is simple yet efficient when used on neuroimaging data.
+    After applying a brain mask, the data consist of 40,000 vox-
+els, here the features, for only 1400 volumes, here the samples.           4.2. SEARCHLIGHT
+Machine learning with many more features than samples is                   Searchlight (Kriegeskorte et al., 2006) is a popular algorithm in
+challenging, due to the so-called curse of dimensionality. Several         the neuroimaging community. It runs a predictive model on a
+
+
+
+Frontiers in Neuroinformatics                                    www.frontiersin.org                          February 2014 | Volume 8 | Article 14 | 4
+Abraham et al.                                                                                   Machine learning for neuroimaging with Scikit-Learn
+
+
+
+
+ FIGURE 2 | Maps derived by different methods for face versus            ANOVA; right: Searchlight map. The masks derived from standard
+ house recognition in the Haxby experiment—left: standard                analysis in the original paper (Haxby et al., 2001) are displayed in
+ analysis; center: SVM weights after screening voxels with an            blue and green.
+
+
+
+spatial neighborhood of each voxel and tests the out-of-sample           can go further by inferring a direct link between the image seen
+prediction performance as proxy measure of the link between the          by the subject and the associated fMRI data.
+local brain activity and the target behavioral variable. In practice,       In the experiment of Miyawaki et al. (2008) several series
+it entails performing cross-validation of the model, most often an       of 10×10 binary images are presented to two subjects while
+SVM, on voxels contained in balls centered on each voxel of inter-       activity on the visual cortex is recorded. In the original paper,
+est. The procedure implies solving a large number of SVMs and is         the training set is composed of random images (where black
+computationally expensive. Detailing an efficient implementation         and white pixels are balanced) while the testing set is com-
+of this algorithm is beyond the scope of this paper. However, code       posed of structured images containing geometric shapes (square,
+for searchlight and to generate Figure 2 is available in the GitHub      cross...) and letters. Here, for the sake of simplicity, we con-
+repository accompanying the paper.                                       sider only the training set and use cross-validation to obtain
+                                                                         scores on unseen data. In the following example, we study
+4.3. RESULTS                                                             the relation between stimuli pixels and brain voxels in both
+Results are shown in Figure 2: first F-score, that is standard           directions: the reconstruction of the visual stimuli from fMRI,
+analysis in brain mapping but also the statistic used to select fea-     which is a decoding task, and the prediction of fMRI data
+tures; second the SVC weights after feature selection and last the       from descriptors of the visual stimuli, which is an encoding
+Searchlight map. Note that the voxels with larger weights roughly        task.
+match for all methods and are located in the house-responsive
+areas as defined by the original paper. The Searchlight is more          5.1. DECODING
+expanded and blurry than the other methods as it iterates over a         In this setting, we want to infer the binary visual stimulus
+ball around the voxels.                                                  presented to the subject from the recorded fMRI data. As the
+   These results match neuroscientific knowledge as they high-           stimuli are binary, we will treat this problem as a classification
+light the high level regions of the ventral visual cortex which is       problem. This implies that the method presented here can-
+known to contain category-specific visual areas. While Searchlight       not be extended as-is to natural stimuli described with gray
+only gives a score to each voxel, the SVC can be used afterward to       values.
+classify unseen brain scans.                                                In the original work, Miyawaki et al. (2008) uses a Bayesian
+   Most of the final example script (haxby_decoding.py on                logistic regression promoting sparsity along with a sophisticated
+GitHub) is for data loading and result visualization. Only five          multi-scale strategy. As one can indeed expect the number of pre-
+lines are needed to run a scikit-learn classifier. In addition, thanks   dictive voxels to be limited, we compare the 2 SVM used above
+to the scikit-learn modularity, the SVC can be easily replaced by        with a logistic regression and a SVM penalized with the 1 norm
+any other classifier in this example. As all linear models share the     known to promote sparsity. The 1 penalized SVM classifier com-
+same interface, replacing the SVC by another linear model, such          pared here uses a square-hinge loss while the logistic regression
+as ElasticNet or LogisticRegression, requires changing only one          uses a logit function.
+line. Gaussian Naive Bayes is a non-linear classifier that should           Table 1 reports the performance of the different classifiers for
+perform well in this case, and modifying display can be done by          various values of C using a fivefold cross-validation. We first
+replacing coef_ by theta_.                                               observe that setting the parameter C is crucial as performance
+                                                                         drops for inappropriate values of C. It is particularly true for 1
+5. ENCODING BRAIN ACTIVITY AND DECODING IMAGES                           regularized models. Both 1 logistic regression and SVM yield
+In the previous experiment, the category of a visual stimulus was        similar performances, which is not surprising as they implement
+inferred from brain activity measured in the visual cortex. One          similar models.
+
+
+
+Frontiers in Neuroinformatics                                www.frontiersin.org                             February 2014 | Volume 8 | Article 14 | 5
+Abraham et al.                                                                                      Machine learning for neuroimaging with Scikit-Learn
+
+
+
+
+Table 1 | Five fold cross validation accuracy scores obtained for different values of parameter C (± SD), best scores are shown in bold.
+
+C value                           0.0005              0.001                0.005                0.01                    0.05                   0.1
+
+1 Logistic regression          0.50 ± 0.02        0.50 ± 0.02          0.57 ± 0.13          0.63 ± 0.11            0.70 ± 0.12             0.70 ± 0.12
+2 Logistic regression          0.60 ± 0.11        0.61 ± 0.12          0.63 ± 0.13          0.63 ± 0.13            0.64 ± 0.13             0.64 ± 0.13
+1 SVM classifier (SVC)         0.50 ± 0.06        0.55 ± 0.12          0.69 ± 0.11          0.71 ± 0.12            0.69 ± 0.12             0.68 ± 0.12
+2 SVM classifier (SVC)         0.67 ± 0.12        0.67 ± 0.12          0.67 ± 0.12          0.66 ± 0.12            0.65 ± 0.12             0.65 ± 0.12
+
+
+
+
+ from sklearn.linear_model import                                                      (y_train[train], X_train[train])
+    LogisticRegression as LR                                                           .predict(y_train[test]))
+ from sklearn.cross_validation import                                              X_true = X_train[test]
+    cross_val_score                                                                scores.append(
+                                                                                       1. - ((X_true - pred)
+ pipeline_LR = Pipeline([(’selection’,                                                    ** 2).sum(axis=0) /
+    SelectKBest(f_classif, 500)),                                                      ((X_true - X_true.mean(axis=0))
+    (’clf’, LR(penalty=’l1’, C=0.05)])                                                    ** 2).sum(axis=0))
+
+ scores_lr = []                                                             mean_scores = np.mean(scores, axis=0)
+ # y_train = n_samples x n_voxels
+ # To iterate on voxels, we transpose it.
+ for pixel in y_train.T:                                                     Note here that the Ridge can be replaced by a Lasso estima-
+     score = cross_val_score(pipeline_LR,                                 tor, which can give better prediction performance at the cost of
+        X_train, pixel, cv=5)                                             computation time.
+     scores_lr.append(score)
+                                                                          5.2.1. Receptive fields
+                                                                          Given the retinotopic structure of early visual areas, it is expected
+5.2. ENCODING                                                             that the voxels well predicted by the presence of a black or
+Given an appropriate model of the stimulus, e.g., one which can           white pixel are strongly localized in so-called population recep-
+provide an approximately linear representation of BOLD acti-              tive fields (prf ). This suggests that only very few stimulus pixels
+vation, an encoding approach allows one to quantify for each              should suffice to explain the activity in each brain voxel of the
+voxel to what extent its variability is captured by the model.            posterior visual cortex. This information can be exploited by
+A popular evaluation method is the predictive r2 score, which             using a sparse linear regression—the Lasso (Tibshirani, 1996)—to
+uses a prediction on left out data to quantify the decrease in            find the receptive fields. Here we use the LassoLarsCV estima-
+residual norm brought about by fitting a regression function as           tor that relies on the LARS algorithm (Efron et al., 2004) and
+opposed to fitting a constant. The remaining variance consists            cross-validation to set the Lasso parameter.
+of potentially unmodeled, but reproducible signal and spurious
+noise.
+   On the Miyawaki dataset, we can observe that mere black and              from sklearn.linear_model import
+white pixel values can explain a large part of the BOLD variance               LassoLarsCV
+in many visual voxels. Sticking to the notation that X represesents
+BOLD signal and y the stimulus, we can write an encoding model              # choose number of voxels to treat, set to
+using the ridge regression estimator:                                         None for all voxels
+                                                                            n_voxels = 50
+                                                                            # choose best voxels
+ from sklearn.linear_model import Ridge                                     indices = mean_scores.argsort()[::-1]
+ from sklearn.cross_validation import KFold                                   [:n_voxels]
+
+ cv = KFold(len(y_train), 10)                                               lasso = LassoLarsCV(max_iter=10)
+ # Fit ridge model, calculate predictions
+   on left out data                                                         receptive_fields = []
+ # and evaluate r^2 score for each voxel                                    for index in indices:
+ scores = []                                                                    lasso.fit(y_train, X_train[:, index])
+ for train, test in cv:                                                         receptive_fields.append(lasso.coef_.
+     pred = (Ridge(alpha=100.).fit                                                 reshape(10, 10))
+
+
+
+
+Frontiers in Neuroinformatics                                 www.frontiersin.org                               February 2014 | Volume 8 | Article 14 | 6
+Abraham et al.                                                                                              Machine learning for neuroimaging with Scikit-Learn
+
+
+
+
+5.3. RESULTS                                                                     information. Indeed, Biswal et al. (1995) have shown that brain
+Figure 3 gives encoding and decoding results: the relationship                   activation exhibits coherent spatial patterns during rest. These
+between a given image pixel and four voxels of interest in the                   correlated voxel activations form functional networks that are
+brain. In decoding settings, Figures 3A,C show the classifier’s                  consistent with known task-related networks (Smith et al., 2009).
+weights as brain maps for both methods. They both give roughly                      Biomarkers found via predictive modeling on resting-state
+the same results and we can see that the weights are centered in                 fMRI would be particularly useful, as they could be applied to
+the V1 and nearby retinotopic areas. Figures 3B,D show recon-                    diminished subjects that cannot execute a specific task. Here we
+struction accuracy score using Logistic Regression (LR) and SVM                  use a dataset containing control and ADHD (Attention Disorder
+(variable mean_scores in the code above). Both methods                           Hyperactivity Disorder) patients resting state data (subjects are
+give almost identical results. As in the original work (Miyawaki                 scanned without giving them any specific task to capture the
+et al., 2008), reconstruction is more accurate in the fovea. This                cerebral background activity).
+is explained by the higher density of neurons dedicated to foveal                   Resting state fMRI is unlabeled data in the sense that the brain
+representation in the primary visual area.                                       activity at a given instant in time cannot be related to an output
+    In encoding settings, Figure 3E shows classifiers weights for                variable. In machine learning, this class of problems is known as
+encoding, that we interpret as receptive fields. We can see that                 unsupervised learning. To extract functional networks or regions,
+receptive fields of neighboring voxels are neighboring pixels,                   we use methods that group together similar voxels by comparing
+which is expected from retinotopy: primary visual cortex maps                    their time series. In neuroimaging, the most popular method is
+the visual field in a topologically organized manner.                            ICA that is the subject of our first example. We then show how
+    Both encoding and decoding analysis show a link between the                  to obtained functionally-homogeneous regions with clustering
+selected pixel and brain voxels. In the absence of ground truth,                 methods.
+seeing that different methods come to the same conclusion comes
+as face validity.                                                                6.1. INDEPENDENT COMPONENT ANALYSIS (ICA) TO EXTRACT
+                                                                                      NETWORKS
+6. RESTING-STATE AND FUNCTIONAL CONNECTIVITY                                     ICA is a blind source separation method. Its principle is to
+   ANALYSIS                                                                      separate a multivariate signal into several components by max-
+Even in the absence of external behavioral or clinical variable,                 imizing their non-Gaussianity. A typical example is the cock-
+studying the structure of brain signals can reveal interesting                   tail party problem where ICA is able to separate voices from
+
+
+
+
+ FIGURE 3 | Miyawaki results in both decoding and encoding. Relations            to voxels with highest scores and its neighbors. (F): reconstruction accuracy
+ between one pixel and four brain voxels is highlighted for both methods. Top:   depending on pixel position in the stimulus—note that the pixels and voxels
+ Decoding. Classifier weights for the pixel highlighted [(A) Logistic            highlighted are the same in both decoding and encoding figures and that
+ regression, (C) SVM]. Reconstruction accuracy per pixel [(B) Logistic           encoding and decoding roughly match as both approach highlight a
+ regression, (D) SVM]. Bottom: Encoding. (E): receptive fields corresponding     relationship between the same pixel and voxels.
+
+
+
+
+Frontiers in Neuroinformatics                                       www.frontiersin.org                                  February 2014 | Volume 8 | Article 14 | 7
+Abraham et al.                                                                                 Machine learning for neuroimaging with Scikit-Learn
+
+
+
+
+several people using signal from microphones located across the
+room.
+
+6.1.1. ICA in neuroimaging
+ICA is the reference method to extract networks from resting state
+fMRI (Kiviniemi et al., 2003). Several strategies have been used
+to syndicate ICA results across several subjects. Calhoun et al.
+(2001) propose a dimension reduction (using PCA) followed by
+a concatenation of timeseries (used in this example). Varoquaux
+et al. (2010) use dimension reduction and canonical correla-
+tion analysis to aggregate subject data. Melodic (Beckmann and        FIGURE 4 | Default mode network extracted using different
+Smith, 2004), the ICA tool in the FSL suite, uses a concatenation     approaches: left: the simple Concat-ICA approach detailed in this
+                                                                      article; middle: CanICA, as implemented in nilearn; right: Melodic’s
+approach not detailed here.                                           concat-ICA. Data have been normalized (set to unit variance) for display
+                                                                      purposes.
+6.1.2. Application
+As data preparation steps, we not only center, but also detrend
+the time series to avoid capturing linear trends with the            6.2. LEARNING FUNCTIONALLY HOMOGENEOUS REGIONS WITH
+ICA. Applying to the resulting time series the FastICA algo-              CLUSTERING
+rithm (Hyvärinen and Oja, 2000) with scikit-learn is straightfor-    From a machine learning perspective, a clustering method aggre-
+ward thanks to the transformer concept. The data matrix must         gates samples into groups (called clusters) maximizing a measure
+be transposed, as we are using spatial ICA, in other words the       of similarity between samples within each cluster. If we consider
+direction considered as random is that of the voxels and not the     voxels of a functional brain image as samples, this measure can
+time points. The maps obtained capture different components of       be based on functional similarity, leading to clusters of voxels that
+the signal, including noise components as well as resting-state      form functionally homogeneous regions (Thirion et al., 2006).
+functional networks. To produce the figures, we extract only 10
+components, as we are interested here in exploring only the main
+                                                                     6.2.1. Approaches
+signal structures.
+                                                                     Several clustering approaches exists, each one having its own pros
+                                                                     and cons. Most require setting the number of clusters extracted.
+ # Here we start with Xs: a list of                                  This choice depends on the application: a large number of clusters
+   subject-level data matrices                                       will give a more fine-grained description of the data, with a higher
+ # First we concatenate them in the time-                            fidelity to the original signal, but also a higher model complexity.
+   direction, thus implementing                                      Some clustering approaches can make use of spatial information
+ # a concat-ICA                                                      and yield spatially contiguous clusters, i.e., parcels. Here we will
+ X = np.vstack(Xs)                                                   describe two clustering approaches that are simple and fast.
+ from sklearn.decomposition import FastICA
+ ica = FastICA(n_components=10)                                      6.2.1.1. Ward clustering. uses a bottom-up hierarchical
+ components_masked = ica.fit_transform                               approach: voxels are progressively agglomerated together into
+   (data_masked.T).T                                                 clusters. In scikit-learn, structural information can be specified
+                                                                     via a connectivity graph given to the Ward clustering estimator.
+                                                                     This graph is used to allow only merges between neighboring
+6.1.3. Results                                                       voxels, thus readily producing contiguous parcels. We will rely
+On Figure 4 we compare a simple concat ICA as implemented            on the sklearn.feature_extraction.image.grid_
+by the code above to more sophisticated multi-subject methods,       to_graph function to construct such a graph using the
+namely Melodic’s concat ICA and CanICA—also implemented              neighbor structure of an image grid, with optionally a brain
+using scikit-learn although we do not discuss the code here.         mask.
+We display here only the default mode network as it is a well-
+known resting-state network. It is hard to draw conclusions from     6.2.1.2. K-Means. is a more top-down approach, seeking cluster
+a single map but, at first sight, it seems that both CanICA and      centers to evenly explain the variance of the data. Each voxels
+Melodic approaches are less subject to noise and give similar        are then assigned to the nearest center, thus forming clusters.
+results.                                                             As imposing a spatial model in K-means is not easy, it is often
+    Scikit-learn proposes several other matrix decomposition         advisable to spatially smooth the data.
+strategies listed in the module “sklearn.decomposition.” A good         To apply the clustering algorithms, we run the common data
+alternative to ICA is the dictionary learning that applies a         preparation steps and produce a data matrix. As both Ward
+1 regularization on the extracted components (Varoquaux             clustering and K-means rely on second-order statistics, we can
+et al., 2011). This leads to more sparse and compact com-            speed up the algorithms by reducing the dimensionality while
+ponents than ICA ones, which are full-brain and require              preserving these second-order statistics with a PCA. Note that
+thresholding.                                                        clustering algorithms group samples and that here we want to
+
+
+
+Frontiers in Neuroinformatics                            www.frontiersin.org                                February 2014 | Volume 8 | Article 14 | 8
+Abraham et al.                                                                                               Machine learning for neuroimaging with Scikit-Learn
+
+
+
+
+ FIGURE 5 | Brain parcellations extracted by clustering. Colors are random. (A) K-means, 100 clusters, (B) Ward, 100 clusters, (C) K-means, 1000 clusters,
+ and (D) Ward, 1000 clusters.
+
+
+
+group voxels. So if the data matrix is, as previously a (time                   the scikit-learn Python toolkit in order to tackle neuroscientific
+points × voxels) matrix, we need to transpose it before run-                    problems. Encoding and decoding can rely on supervised learn-
+ning the scikit-learn clustering estimators. Scikit-learn provides a            ing to link brain images with stimuli. Unsupervised learning can
+WardAgglomeration object to do this feature agglomeration                       extract structure such as functional networks or brain regions
+with Ward clustering (Michel et al., 2012), but this is not the case            from resting-state data. The accompanying Python code for the
+when using K-Means.                                                             machine learning tasks is straightforward. Difficulties lie in apply-
+                                                                                ing proper preprocessing to the data, choosing the right model for
+                                                                                the problem, and interpreting the results. Tackling these difficul-
+ connectivity = grid_to_graph(n_x=mask.
+                                                                                ties while providing the scientists with simple and readable code
+        shape[0], n_y=mask.shape[1],
+                                                                                requires building a domain-specific library, dedicated to apply-
+        n_z=mask.shape[2], mask=mask)
+                                                                                ing scikit-learn to neuroimaging data. This effort is underway
+ ward = WardAgglomeration(n_clusters=1000,
+                                                                                in a nascent project, nilearn, that aims to facilitate the use of
+    connectivity=connectivity)
+                                                                                scikit-learn on neuroimaging data.
+ ward.fit(X)
+                                                                                    The examples covered in this paper only scratch the surface
+ # The maps of cluster assignment can be
+                                                                                of applications of statistical learning to neuroimaging. The tool
+   retrieved and unmasked
+                                                                                stack presented here shines uniquely in this regard as it opens the
+ cluster_labels = numpy.zeros(mask.shape,
+                                                                                door to any combination of the wide range of machine learn-
+   dtype=int)
+                                                                                ing methods present in scikit-learn with neuroimaging-related
+ cluster_labels[mask] = ward.labels_
+                                                                                code. For instance, sparse inverse covariance can extract the func-
+                                                                                tional interaction structure from fMRI time-series (Varoquaux
+6.2.2. Results                                                                  and Craddock, 2013) using the graph-lasso estimator. Modern
+Clustering results are shown in Figure 5. While clustering extracts             neuroimaging data analysis entails fitting rich models on limited
+some known large scale structure, such as the calcarine sul-                    data quantities. These are high-dimensional statistics problems
+cus on Figure 5A, it is not guaranteed to delineate functionally                which call for statistical-learning techniques. We hope that bridg-
+specific brain regions. Rather, it can be considered as a compres-              ing a general-purpose machine learning tool, scikit-learn, to
+sion, that is a useful method of summarizing information, as it                 domain-specific data preparation code will foster new scientific
+groups together similar voxels. Note that, as K-means does not                  advances.
+extract spatially-contiguous clusters, it gives a number of regions             ACKNOWLEDGMENTS
+that can be much larger than the number of clusters specified,                  We acknowledge funding from the NiConnect project and NIDA
+although some of these regions can be very small. On the oppo-                  R21 DA034954, SUBSample project from the DIGITEO Institute,
+site, spatially-constrained Ward directly creates regions. As it is a           France.
+bottom-up process, it tends to perform best with a large number
+of clusters. There exist many more clustering techniques exposed                REFERENCES
+in scikit-learn. Determining which is the best one to process                   Beckmann, C. F., and Smith, S. M. (2004). Probabilistic independent component
+fMRI time-series requires a more precise definition of the target                  analysis for functional magnetic resonance imaging. Trans. Med. Imaging 23,
+                                                                                   137–152. doi: 10.1109/TMI.2003.822821
+application.
+                                                                                Biswal, B., Zerrin Yetkin, F., Haughton, V., and Hyde, J. (1995). Functional connec-
+    Ward’s clustering and K-Means are among the simplest                           tivity in the motor cortex of resting human brain using echo-planar MRI. Magn.
+approaches proposed in the scikit-learn. Craddock et al. (2011)                    Reson. Med. 34, 53719. doi: 10.1002/mrm.1910340409
+applied spectral clustering on neuroimaging data, a similar appli-              Calhoun, V. D., Adali, T., Pearlson, G. D., and Pekar, J. J. (2001). A
+cation is available in nilearn as an example.                                      method for making group inferences from fMRI data using indepen-
+                                                                                   dent component analysis. Hum. Brain Mapp. 14, 140. doi: 10.1002/
+                                                                                   hbm.1048
+7. CONCLUSION                                                                   Craddock, R., James, G., Holtzheimer III, P., Hu, X., and Mayberg, H. (2011). A
+In this paper we have illustrated with simple examples how                         whole brain fmri atlas generated via spatially constrained spectral clustering.
+machine learning techniques can be applied to fMRI data using                      Hum. Brain Mapp. 33, 1914–1928. doi: 10.1002/hbm.21333
+
+
+
+
+Frontiers in Neuroinformatics                                      www.frontiersin.org                                    February 2014 | Volume 8 | Article 14 | 9
+Abraham et al.                                                                                                             Machine learning for neuroimaging with Scikit-Learn
+
+
+
+
+Detre, G., Polyn, S., Moore, C., Natu, V., Singer, B., Cohen, J., et al. (2006).               approaches to the analysis of functional neuroimaging data. J. Cogn. Neurosci.
+    “The multi-voxel pattern analysis (mvpa) toolbox,” in Poster Presented at the              19, 1735–1752. doi: 10.1162/jocn.2007.19.11.1735
+    Annual Meeting of the Organization for Human Brain Mapping (Florence, Italy).           Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., et al.
+    Available online at: http://www.csbmb.princeton.edu/mvpa                                   (2011). Scikit-learn: machine learning in python. J. Mach. Learn. Res. 12, 2825.
+Efron, B., Hastie, T., Johnstone, L., and Tibshirani, R. (2004). Least angle regression.    Pereira, F., Mitchell, T., and Botvinick, M. (2009). Machine learning clas-
+    Ann. Stat. 32, 407–499. doi: 10.1214/009053604000000067                                    sifiers and fMRI: a tutorial overview. Neuroimage 45, S199–S209. doi:
+Friston, K. (2007). Statistical Parametric Mapping: The Analysis of Functional Brain           10.1016/j.neuroimage.2008.11.007
+    Images. London: Academic Press.                                                         Schaul, T., Bayer, J., Wierstra, D., Sun, Y., Felder, M., Sehnke, F., et al. (2010).
+Gorgolewski, K., Burns, C. D., Madison, C., Clark, D., Halchenko, Y. O., Waskom,               PyBrain. J. Mach. Learn. Res. 11, 743–746.
+    M. L., et al. (2011). Nipype: a flexible, lightweight and extensible neuroimag-         Schrouff, J., Rosa, M. J., Rondina, J., Marquand, A., Chu, C., Ashburner,
+    ing data processing framework in python. Front. Neuroinform. 5:13. doi:                    J., et al. (2013). PRoNTo: pattern recognition for neuroimaging toolbox.
+    10.3389/fninf.2011.00013                                                                   Neuroinformatics 11, 319–337. doi: 10.1007/s12021-013-9178-1
+Hall, M., Frank, E., Holmes, G., Pfahringer, B., Reutemann, P., and Witten, I. H.           Smith, S., Fox, P., Miller, K., Glahn, D., Fox, P., Mackay, C., et al. (2009).
+    (2009). The weka data mining software: an update. ACM SIGKDD Explor.                       Correspondence of the brain’s functional architecture during activation
+    Newsl. 11, 10–18. doi: 10.1145/1656274.1656278                                             and rest. Proc. Natl. Acad. Sci. U.S.A. 106, 13040. doi: 10.1073/pnas.0905
+Hanke, M., Halchenko, Y. O., Sederberg, P. B., Hanson, S. J., Haxby, J. V., and                267106
+    Pollmann, S. (2009). PyMVPA: a python toolbox for multivariate pattern anal-            Smith, S. M., Jenkinson, M., Woolrich, M. W., Beckmann, C. F., Behrens, T. E.,
+    ysis of fMRI data. Neuroinformatics 7, 37–53. doi: 10.1007/s12021-008-9041-y               Johansen-Berg, H., et al. (2004). Advances in functional and structural MR
+Hanson, S. J., and Halchenko, Y. O. (2008). Brain reading using full brain support             image analysis and implementation as FSL. Neuroimage 23, S208–S219. doi:
+    vector machines for object recognition: there is no “face” identification area.            10.1016/j.neuroimage.2004.07.051
+    Neural Comput. 20, 486–503. doi: 10.1162/neco.2007.09-06-340                            Sonnenburg, S., Rätsch, G., Henschel, S., Widmer, C., Behr, J., Zien, A., et al. (2010).
+Hanson, S. J., Matsuka, T., and Haxby, J. V. (2004). Combinatorial codes in                    The SHOGUN machine learning toolbox. J. Mach. Learn. Res. 11, 1799.
+    ventral temporal lobe for object recognition: Haxby (2001) revisited: is                Thirion, B., Flandin, G., Pinel, P., Roche, A., Ciuciu, P., and Poline, J. (2006).
+    there a “face” area? Neuroimage 23, 156–166. doi: 10.1016/j.neuroimage.                    Dealing with the shortcomings of spatial normalization: Multi-subject parcel-
+    2004.05.020                                                                                lation of fMRI datasets. Hum. Brain Mapp. 27, 678. doi: 10.1002/hbm.20210
+Hastie, T., Tibshirani, R., and Friedman, J. J. H. (2001). The Elements of Statistical      Tibshirani, R. (1996). Regression shrinkage and selection via the Lasso. J. R. Stat.
+    Learning, Vol. 1. New York, NY: Springer. doi: 10.1007/978-0-387-21606-5                   Soc. 58, 267–288.
+Haxby, J. V., Gobbini, I. M., Furey, M. L., Ishai, A., Schouten, J. L., and Pietrini,       Van Der Walt, S., Colbert, S. C., and Varoquaux, G. (2011). The numpy array: a
+    P. (2001). Distributed and overlapping representations of faces and objects in             structure for efficient numerical computation. Comput. Sci. Eng. 13, 22–30. doi:
+    ventral temporal cortex. Science 293, 2425. doi: 10.1126/science.1063736                   10.1109/MCSE.2011.37
+Hunter, J. D. (2007). Matplotlib: a 2d graphics environment. Comput. Sci. Eng. 9,           Varoquaux, G., and Craddock, R. C. (2013). Learning and compar-
+    90–95. doi: 10.1109/MCSE.2007.55                                                           ing functional connectomes across subjects. Neuroimage 80, 405. doi:
+Hyvärinen, A., and Oja, E. (2000). Independent component analysis: algo-                       10.1016/j.neuroimage.2013.04.007
+    rithms and applications. Neural networks 13, 411–430. doi: 10.1016/S0893-               Varoquaux, G., Gramfort, A., Pedregosa, F., Michel, V., and Thirion, B. (2011).
+    6080(00)00026-5                                                                            Multi-subject dictionary learning to segment an atlas of brain spontaneous
+Kiviniemi, V., Kantola, J., Jauhiainen, J., Hyvärinen, A., and Tervonen, O. (2003).            activity. Inf. Process Med. Imaging 22, 562–573. doi: 10.1007/978-3-642-22092-
+    Independent component analysis of nondeterministic fmri signal sources.                    0_46
+    Neuroimage 19, 253. doi: 10.1016/S1053-8119(03)00097-1                                  Varoquaux, G., Sadaghiani, S., Pinel, P., Kleinschmidt, A., Poline, J. B., and
+Kriegeskorte, N., Goebel, R., and Bandettini, P. (2006). Information-based func-               Thirion, B. (2010). A group model for stable multi-subject ICA on fMRI
+    tional brain mapping. Proc. Natl. Acad. Sci. U.S.A. 103, 3863–3868. doi:                   datasets. Neuroimage 51, 288. doi: 10.1016/j.neuroimage.2010.02.010
+    10.1073/pnas.0600244103
+Michel, V., Gramfort, A., Varoquaux, G., Eger, E., Keribin, C., and Thirion, B.             Conflict of Interest Statement: The authors declare that the research was con-
+    (2012). A supervised clustering approach for fMRI-based inference of brain              ducted in the absence of any commercial or financial relationships that could be
+    states. Pattern Recogn. 45, 2041. doi: 10.1016/j.patcog.2011.04.006                     construed as a potential conflict of interest.
+Millman, K. J., and Brett, M. (2007). Analysis of functional magnetic resonance
+    imaging in python. Comput. Sci. Eng. 9, 52–55. doi: 10.1109/MCSE.2007.46                Received: 16 October 2013; accepted: 31 January 2014; published online: 21 February
+Miyawaki, Y., Uchida, H., Yamashita, O., Sato, M.-A., Morito, Y., Tanabe, H. C.,            2014.
+    et al. (2008). Visual image reconstruction from human brain activity using              Citation: Abraham A, Pedregosa F, Eickenberg M, Gervais P, Mueller A, Kossaifi J,
+    a combination of multiscale local image decoders. Neuron 60, 915–929. doi:              Gramfort A, Thirion B and Varoquaux G (2014) Machine learning for neuroimaging
+    10.1016/j.neuron.2008.11.004                                                            with scikit-learn. Front. Neuroinform. 8:14. doi: 10.3389/fninf.2014.00014
+Mur, M., Bandettini, P. A., and Kriegeskorte, N. (2009). Revealing representa-              This article was submitted to the journal Frontiers in Neuroinformatics.
+    tional content with pattern-information fMRI–an introductory guide. Soc.                Copyright © 2014 Abraham, Pedregosa, Eickenberg, Gervais, Mueller, Kossaifi,
+    Cogn. Affect. Neurosci. 4, 101–109. doi: 10.1093/scan/nsn044                            Gramfort, Thirion and Varoquaux. This is an open-access article distributed under the
+Naselaris, T., Kay, K. N., Nishimoto, S., and Gallant, J. L. (2011). Encoding and           terms of the Creative Commons Attribution License (CC BY). The use, distribution or
+    decoding in fMRI. Neuroimage 56, 400–410. doi: 10.1016/j.neuroimage.2010.               reproduction in other forums is permitted, provided the original author(s) or licensor
+    07.073                                                                                  are credited and that the original publication in this journal is cited, in accordance with
+O’Toole, A. J., Jiang, F., Abdi, H., Pénard, N., Dunlop, J. P., and Parent, M. A. (2007).   accepted academic practice. No use, distribution or reproduction is permitted which
+    Theoretical, statistical, and practical perspectives on pattern-based classification    does not comply with these terms.
+
+
+
+
+Frontiers in Neuroinformatics                                                www.frontiersin.org                                        February 2014 | Volume 8 | Article 14 | 10
+

@@ -4,6 +4,7 @@ sources:
 - raw/papers/power-2011.md
 - raw/papers/smith-2013-hcp.md
 - raw/papers/arxiv-2602.03240.md
+- raw/papers/anticevic-2012.md
 tags:
 - neuroimaging-fmri
 - resting-state
@@ -12,7 +13,7 @@ tags:
 - experimental-design
 title: Resting-State vs Task fMRI
 type: comparison
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 # Resting-State vs. Task fMRI

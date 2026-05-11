@@ -1,0 +1,249 @@
+                                            Phase Alignment Enhances Oscillatory Power in
+                                           Neural Mass Models Optimized for Class Encoding
+                                                                                                      Alexander Pei
+                                                                                                   Email: apei2@jh.edu
+
+
+                                              Abstract—Neural encoding of objects and cognitive states          pyramidal cells to simulate cortical dynamics. The JRNMM
+                                           remains an elusive yet crucial aspect of brain function. While       has seen considerable application across various neuroscien-
+                                           traditional feed-forward machine learning neural networks have       tific disciplines. In the context of epilepsy modeling, altering
+                                           enormous potential to encode information, modern architectures
+arXiv:2503.05564v1 [q-bio.NC] 7 Mar 2025
+
+
+
+
+                                           provide little insight into the brain’s mechanisms. In this work,    synaptic parameters in the JRNMM can result in seizure-like
+                                           a Jansen and Rit neural mass model was constructed to encode         activity when the model bifurcates into a limit cycle [3]. Al-
+                                           different sets of inputs, aiming to understand how simple neural     though this example does not reflect traditional encoding and
+                                           circuits can represent information. A genetic algorithm was          decoding of neural information, it demonstrates that varying
+                                           used to optimize parameters that maximized the differences in        synaptic parameters leads to vastly different neural dynamics.
+                                           responses to particular inputs. These differences in responses
+                                           manifested as phase-shifted oscillations across the set of inputs.   The JRNMM has also been a valuable tool in studying
+                                           By delivering impulses of excitation synchronized with a partic-     neural circuitry associated with specific cognitive states within
+                                           ular phase-shifted oscillation, we demonstrated that the encoded     the dynamic causal modeling (DCM) framework. In DCM,
+                                           phase could be decoded by measuring oscillatory power. These         observed EEG data from different cognitive states are modeled
+                                           findings demonstrate the capability of neural dynamical circuits     by altering the parameters of the JRNMM [4]. While DCM can
+                                           to encode and decode information through phase.
+                                                                                                                model particular cognitive states, it does not explicitly model
+                                                                                                                the mechanisms through which the parameters change. That is,
+                                                                 I. I NTRODUCTION
+                                                                                                                the differences in the modeled neural responses are a result of
+                                              In 2005, researchers announced the discovery of the ”Jen-         two neural dynamical systems with distinct parameters, rather
+                                           nifer Aniston neuron”—a neuron that selectively fired in             than a single dynamical system responding uniquely to distinct
+                                           response to images of the actress Jennifer Aniston [1]. While        inputs, as seen in traditional feed-forward neural networks.
+                                           this finding sparked considerable debate, it exemplifies how             In this work, we explore the ability of the JRNMM to
+                                           the brain may encode complex, high-level concepts within             encode neural inputs. By leveraging a genetic algorithm to
+                                           neural circuitry. However, the mechanisms underpinning how           maximize the differences in the JRNMM’s output in response
+                                           the brain encodes such information remain unknown. Although          to a set of neural inputs, the model learned to represent
+                                           single neurons may selectively respond to particular stimuli,        different inputs as oscillations with distinct phase shifts. This
+                                           they never function in isolation. Each neuron is influenced by       finding aligns with the concept of phase encoding of neural in-
+                                           thousands of direct presynaptic inputs and the extracellular         formation reported in existing literature. To decode the neural
+                                           environment in which it exists. Imaging modalities such as           inputs from the phase-shifted oscillations, we delivered spikes
+                                           electroencephalography (EEG) and functional magnetic reso-           either in phase or out of phase with the encoded oscillations.
+                                           nance imaging (fMRI), which capture the collective activity of       When the spikes were phase-aligned, the oscillatory power was
+                                           hundreds of thousands of neurons, reveal distinct patterns of        stronger, demonstrating successful decoding of the encoded
+                                           activity associated with specific cognitive states. This raises      information.
+                                           the question of how the coordinated action of large neural
+                                                                                                                                      II. BACKGROUND
+                                           networks gives rise to the brain’s ability to encode increasingly
+                                           abstract concepts. The aim of this work is to study how              A. Jansen and Rit Neural Mass Model
+                                           biologically inspired neural dynamical systems encode and               The Jansen and Rit Neural Mass Model (JRNMM) consists
+                                           decode information.                                                  of three cortical neural populations: excitatory interneurons
+                                              To address this challenge, we turn to mesoscopic compu-           (EI), inhibitory interneurons (II), and pyramidal cells (PC).
+                                           tational models, which represent the activity of thousands of        These neuron populations are assumed to be the main drivers
+                                           neurons through simplified equations. Modeling each individ-         of the dynamics of the six layers in the cortex and comprise a
+                                           ual neuron among the millions involved would provide the             small cortical column of approximately 20–200 µm in radius
+                                           highest-fidelity computational model but is intractable due to       [5].
+                                           computational constraints. One such mesoscopic model is the             Spikes from one neuron serve as inputs to another neuron by
+                                           Jansen and Rit neural mass model (JRNMM), which describes            causing excitatory or inhibitory postsynaptic potentials (EPSPs
+                                           the collective behavior of thousands of cortical neurons [2].        and IPSPs). The total number of spikes that arrive at a neuron
+                                           This model consists of a simple cortical circuit of intercon-        is determined by the average pulse density of the presynaptic
+                                           nected excitatory interneurons, inhibitory interneurons, and         neuron, multiplied by the number of synapses made onto
+the postsynaptic neuron. The resulting pulse density is then                                    TABLE I
+convolved with the postsynaptic potential (PSP) response                                    JRNMM PARAMETERS
+functions.                                                             Variable               Description                    Value
+   The net sum of the PSPs in a neuron polarizes the mem-               A, B        Max amplitude of EPSP and IPSP      3.25, 29.3 (mV)
+brane. Using Freeman’s derivation of the sigmoidal wave-to-              a, b     Lumped time constants of PSP delays   100, 66.7 (s−1 )
+                                                                         e0            Max firing rate of a neuron         2.5 (s−1 )
+pulse function, the membrane polarization of a neuron can be             V0               Mean firing threshold             0 (mV)
+converted to an average number of spikes per second to serve              r         Steepness of the sigmoid function    0.56 (mV−1 )
+as the presynaptic input to another neuron population [6], [7].          c1        No. of synapses a EI gets from PCs          50
+                                                                         c2        No. of synapses a PC gets from EIs          40
+The input-output process described above for a single neuron             c3        No. of synapses a II gets from PCs          12
+is assumed to be equivalent for the rest of the population               c4        No. of synapses a PC gets from IIs          12
+to which that neuron belongs (e.g., neuron 1 and neuron 2
+in the PC population have identical excitation and firing rate
+outputs).                                                            neuron (due to delays from propagation down the axial length
+   The EI and II populations synapse onto the PC popula-             of the neuron, neurotransmitter release, and other delays).
+tion. When an EI or II fires, it results in depolarization or
+hyperpolarization of the PC membrane potential, as specified         B. Multiple column extension
+by the PSP activation functions, or kernels, he (t) and hi (t).         The single-column JRNMM can be extended to model inter-
+This polarization is scaled by the pulse density of the neuron       cortical connectivity. A large majority of connections between
+populations, as well as the number of synapses formed onto the       cortical columns are formed by PCs in the supragranular
+PC population. The resulting polarization of the PC membrane         and infragranular layers [8]. Intercortical interactions can be
+potential is converted to a pulse density via the sigmoid            divided into three categories depending on where the axons of
+function. The spiking of the PC population then provides             the PCs terminate. In “feedforward” connections, axons of the
+excitatory input to the EI and II populations, depolarizing their    PCs terminate in layer 4. In “feedback” connections, axons
+membrane potentials via the same EPSP kernel he (t). The             of the PCs avoid layer 4. In “lateral” connections, axons of
+equations for the system are presented below and describe the        the PCs terminate uniformly across the cortical column [8].
+membrane polarization voltage V (t) of each neural population:       Applying these connectivity rules results in the following: the
+                                                                     membrane potential of the PCs from one column is converted
+                                                                     into a firing rate via the sigmoid function to target different
+      V1 (t) = he (t) ∗ [c1 S{V3 (t)} + P (t)]                 (1)
+                                                                     neuron populations based on the aforementioned connectivity
+      V2 (t) = he (t) ∗ c3 S{V3 (t)}                           (2)   rules [9]. In forward connectivity, the PCs excite the EIs, while
+      V3 (t) = he (t) ∗ c2 S{V1 (t)} − hi (t) ∗ c4 S{V2 (t)}   (3)   in backward connectivity, the PCs excite both the PCs and the
+                                                                     IIs. Lateral connectivity targets all cortical layers. Extending
+where V1 (t), V2 (t), and V3 (t) are the membrane potentials of      these rules to the single-column model in Eqn. 1 results in
+the EI, II, and PC populations, respectively. P (t) models the       additional firing rate inputs to each EI, II, and PC population’s
+external inputs (of thalamic origin or from another cortical         voltage, scaled by the number of postsynaptic synapses from
+column) exciting the EI layer. The symbol ∗ denotes the              the originating population. For example, a forward connection
+convolution operator, and S{·} is the sigmoid function:              from column j to column i would result in:
+                                   2e0
+             S{V (t)} =                                        (4)
+                          1 + exp(r(V0 − V (t)))                      V1,i (t) = he (t) ∗ [c1 S{V3 (t)} + P (t) + Af (i, j)S{V3,j (t)}]
+  The PSP kernels are:                                                                                                               (7)
+                     (                                               where V1,i (t) is the membrane potential of the EIs in column
+                       Aat exp(−at) if t ≥ 0,                        i, V3,j (t) is the PC membrane potential of column j, and
+           he (t) =                                            (5)   Af (i, j) specifies the number of synapses onto the EI layer.
+                       0             if t < 0.
+                                                                     The full state equations can be found in [9].
+                      (
+                         Bbt exp(−bt) t ≥ 0                                                   III. M ETHODS
+             hi (t) =                                          (6)
+                         0             t<0                           A. Model Connectivity
+  Tab. I contains a table of the parameters. The variables A            The following model connectivity was studied to mimic a
+and B determine the maxmimum amplitude of the EPSPs                  feed-forward perceptron/hierarchical brain structure:
+and IPSPs. a and b are the time constants for the PSP                   • Four cortical columns in the “input layer” (columns 1–4)
+exponential function, and determine the temporal dynamics               • Six cortical columns in the first “hidden layer” (columns
+of the PSPs. The time constants are referred as a lumped                  5–10)
+parameter representation of all the synaptic and dendritic              • Five cortical columns in the second “hidden layer”
+delays, i.e. how long it takes for the presynaptic activity to            (columns 11–15)
+manifest as a PSP near the axon hillock of the postsynaptic             • One cortical column in the “output layer” (column 16)
+   The forward connectivity is described in Table II. Within         between the classes by finding parameters that led to phase
+each hidden layer, columns have lateral connections between          shifts between the inputs. To quantify this observation, the
+adjacent columns (e.g., columns (5,6), (6,7), . . ., (9,10) have     distribution of the instantaneous phases between the classes is
+lateral connections). A propagation delay of 20 ms was sim-          shown in Fig. 2. For each pair of classes, a Watson-Williams
+ulated for intercolumn connections between units.                    test indicated a significant phase difference with a p-value less
+                                                                     than 0.05.
+                           TABLE II
+                     F ORWARD C ONNECTIONS                           B. Decoding of Phase into Oscillatory Power
+                   From Unit(s)      To Unit(s)                         In this section, the phase encoding of the classes is decoded
+                         1             5, 6, 7
+                         2             6, 7, 8
+                                                                     into oscillatory power. The output PC membrane potential
+                         3             7, 8, 9                       from the previous section was taken for Class 1 and Class
+                         4            8, 9, 10                       2. Using the findpeaks function in MATLAB, the time
+                      5, 6, 7          11, 12
+                      6, 7, 8          12, 13                        points of the peak PC membrane potentials were extracted
+                      7, 8, 9          13, 14                        over time for Class 1. Pulses of inputs with amplitude 1 AP/s
+                     8, 9, 10          14, 15
+                      11–15       16 (Output Unit)                   and duration 0.01 seconds were delivered to the EI layer of
+                                                                     the output PC for both Class 1 and Class 2 inputs. When the
+                                                                     pulses are aligned with the phases of the respective class, the
+B. Model Inputs                                                      oscillatory power is stronger, as shown in Fig. 3.
+   Four distinct inputs stimulated the dynamic model depend-
+ing on the input class. The input consisted of a single impulse                                 V. D ISCUSSION
+of mean firing rate delivered to the EI layer of the input layer,       In this work, a biologically inspired neural network con-
+with a value of 1 action potential per second. The four classes      structed using a JRNMM was optimized to maximize differ-
+are as follows:                                                      ences in neural outputs for a set of inputs. A genetic algo-
+   • Class 1: 1, 0, 1, 0                                             rithm found parameters that resulted in phase shifts between
+   • Class 2: 0, 1, 0, 1                                             oscillations for the sets of inputs, suggesting a method of
+   • Class 3: 1, 1, 0, 0                                             encoding via phase. The phase shifts could be “re-encoded” or
+   • Class 4: 0, 0, 1, 1                                             represented as changes in oscillatory power by aligning input
+where a 1 indicates that an input spike is delivered to the          pulses with the oscillatory peaks of a particular class. These
+ith unit at the respective index. For example, Class 1 inputs        findings provide insight into how a simple computational
+indicate that input unit 1 and input unit 3 received an excitatory   model of neural circuits can encode information through
+input. Each input spike occurred at t = 0.1 seconds and had          oscillatory dynamics.
+a duration of 0.01 seconds.                                             To bridge the gap between traditional feed-forward net-
+                                                                     works and dynamical models of the brain, we constructed
+C. Model Simulation and Genetic Algorithm                            a Jansen and Rit Neural Mass Model (JRNMM) architec-
+   A delay differential equation form of the JRNMM equations         ture comprising four input units, two hidden layers, and an
+was solved using dde23 in MATLAB with a time span of                 output unit. Using a genetic algorithm, we optimized the
+t = [0, 1] seconds and a maximum step size of 0.01. For a            network parameters (e.g., synaptic time constants, synaptic
+given set of parameters, the differential equation was solved
+four times, one for each set of inputs. A multi-objective
+genetic algorithm in MATLAB using default settings was used
+to maximize the mean-squared difference of the output PC
+membrane potential across the different classes. The algorithm
+was allowed to change the connectivity parameters between
+columns, as well as the individual column parameters. The
+objective function also included a term to prevent the dynamics
+from diverging to infinity by penalizing the average mean-
+squared PC membrane potential of the output layer for times
+after t = 0.5 seconds.
+                          IV. R ESULTS
+A. Phase Differences Between Classes
+   Fig. 1 shows the PC membrane potential of the output
+neuron across the different classes of inputs, after the ge-
+netic algorithm maximized the differences between classes.
+Qualitatively, the PC oscillates at approximately 8–10 Hz.           Fig. 1. PC membrane potential of the output neuron for the different classes
+Interestingly, the genetic algorithm maximized differences           of inputs. The bottom plot is a zoomed-in section of the top plot.
+                                                                              observed in a variety of experiments. Low-frequency delta and
+                                                                              theta oscillations have been shown to impact the responses
+                                                                              to sensory stimuli by creating windows of high and low
+                                                                              excitability [12]. The change in oscillatory power could be
+                                                                              used to modulate processing in another cortical region as a
+                                                                              means of cortical-cortical communication via oscillations [13].
+                                                                              Interestingly, nested oscillations were observed in the model
+                                                                              presented, but analysis in this domain is left for future work.
+
+     Fig. 2. Pairwise phase distributions across the classes of inputs.                                  VI. C ONCLUSION
+                                                                                 In this work, parameters of a Jansen and Rit neural mass
+                                                                              model were optimized using a genetic algorithm to maximize
+                                                                              the model’s response to distinct classes of inputs to explore
+                                                                              computational models of neural encoding. The model that
+                                                                              maximized responses encoded the different inputs as phase-
+                                                                              shifted oscillations, which were decoded into oscillatory power
+                                                                              by peak-aligning excitatory inputs. This provides a biolog-
+                                                                              ically inspired computational model for simple encoding-
+                                                                              decoding in a neural circuit.
+                                                                                                            R EFERENCES
+                                                                               [1] R. Q. Quiroga, L. Reddy, G. Kreiman, C. Koch, and I. Fried, “Invariant
+                                                                                   visual representation by single neurons in the human brain,” Nature, vol.
+                                                                                   435, no. 7045, pp. 1102–1107, 2005.
+                                                                               [2] B. H. Jansen and V. G. Rit, “Electroencephalogram and visual
+                                                                                   evoked potential generation in a mathematical model of coupled
+                                                                                   cortical columns,” Biological Cybernetics, vol. 73, pp. 357–366,
+                                                                                   9 1995. [Online]. Available: https://link.springer.com/article/10.1007/
+                                                                                   BF00199471
+Fig. 3. PC membrane potential of the output layer with peak-aligned pulse      [3] F. Wendling, J. J. Bellanger, F. Bartolomei, and P. Chauvel,
+inputs. Inputs aligned with (top) Class 1 peaks and (bottom) Class 2 peaks.        “Relevance of nonlinear lumped-parameter models in the analysis
+The black stars indicate the time the inputs were delivered.                       of depth-eeg epileptic signals,” Biological Cybernetics, vol. 83, pp.
+                                                                                   367–378, 2000. [Online]. Available: https://link.springer.com/article/10.
+                                                                                   1007/s004220000160
+                                                                               [4] S. J. Kiebel, M. I. Garrido, R. J. Moran, and K. J. Friston, “Dynamic
+gains) to maximize differences in the output unit across four                      causal modelling for eeg and meg,” Cognitive neurodynamics, vol. 2,
+distinct classes through phase shifts in neural oscillations.                      pp. 121–136, 2008.
+Notably, this differentiation was achieved even though the                     [5] J. DeFelipe, L. Alonso-Nanclares, and J. I. Arellano, “Microstructure
+                                                                                   of the neocortex: Comparative aspects,” Journal of Neurocytology
+inputs were delivered simultaneously across all classes. The                       2002 31:3, vol. 31, pp. 299–316, 3 2002. [Online]. Available:
+phase encoding observed in our model parallels the theta phase                     https://link.springer.com/article/10.1023/A:1024130211265
+precession seen in hippocampal place cells, where the firing                   [6] W. J. Freeman et al., Mass action in the nervous system. Citeseer,
+                                                                                   1975, vol. 2004.
+phase relative to ongoing theta oscillations encodes an animal’s               [7] W. J. Freeman, “Simulation of chaotic eeg patterns with a
+spatial position [10]. Similarly, in working memory, specific                      dynamic model of the olfactory system,” Biological Cybernetics
+items are associated with particular phases of theta oscillations,                 1987 56:2, vol. 56, pp. 139–150, 5 1987. [Online]. Available:
+                                                                                   https://link.springer.com/article/10.1007/BF00317988
+enhancing the organization of multiple objects in real time                    [8] D. J. Felleman and D. C. Van Essen, “Distributed hierarchical processing
+[11]. However, while these biological examples involve phase                       in the primate cerebral cortex.” Cerebral cortex (New York, NY: 1991),
+facilitating encoding through complex neural mechanisms, our                       vol. 1, no. 1, pp. 1–47, 1991.
+                                                                               [9] O. David, L. Harrison, and K. J. Friston, “Modelling event-related
+model explicitly uses oscillation phases to encode distinct                        responses in the brain,” NeuroImage, vol. 25, pp. 756–770, 2005.
+objects, demonstrating a direct computational role for phase in               [10] J. O’Keefe and M. L. Recce, “Phase relationship between hippocampal
+information representation. Future work will include exploring                     place units and the eeg theta rhythm,” Hippocampus, vol. 3, no. 3, pp.
+                                                                                   317–330, 1993.
+the dynamical system’s parameters to explain how the nature                   [11] M. Siegel, M. R. Warden, and E. K. Miller, “Phase-dependent neuronal
+of phase encoding arises in the model.                                             coding of objects in short-term memory,” Proceedings of the National
+                                                                                   Academy of Sciences, vol. 106, no. 50, pp. 21 341–21 346, 2009.
+   After demonstrating that the model is capable of encoding                  [12] C. E. Schroeder and P. Lakatos, “Low-frequency neuronal oscillations
+via phase, we explored a mechanism to “decode” the phases                          as instruments of sensory selection,” Trends in neurosciences, vol. 32,
+into another functional form (oscillatory power). Pulses of                        no. 1, pp. 9–18, 2009.
+                                                                              [13] M. Bonnefond, S. Kastner, and O. Jensen, “Communication between
+excitation were delivered to the output neuron at the peaks of                     brain areas based on nested oscillations,” eneuro, vol. 4, no. 2, 2017.
+membrane potential, in phase with a particular class response.
+When the pulses were in phase, the oscillatory power was
+stronger for that class compared to the others. This notion
+of oscillatory phase impacting neuronal dynamics has been
+

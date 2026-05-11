@@ -1,0 +1,608 @@
+ Frontiers in Research
+ Volume 6, Number 1, 2026, 1-13
+ DOI: 10.71350/30624533128                                                                        ISSN: 3062-4533
+
+Article
+
+A Bayesian neural network approach for predicting depression
+risk in adolescents
+                      1
+Edwin Kagereki         , Thomas Mageto1, Anthony Wanjoya                   1
+
+1 Jomo Kenyatta University of Agriculture and Technology, Department of Statistics and Actuarial Sciences,
+
+Nairobi, Kenya
+
+
+
+                                                                                          Article History
+ Abstract                                                                                 Received 24.10.2025
+ Adolescent depression is a significant public health concern in low- and middle-         Accepted 08.01.2026
+ income countries, including Kenya, where limited screening capacity
+ contributes to under diagnosis. This study developed and validated a Bayesian            Keywords
+ Neural Network for predicting depression risk among adolescents, leveraging              Adolescent;
+ probabilistic inference to capture predictive uncertainty and complex nonlinear          Bayesian neural network;
+ relationships. Secondary data for 2,192 adolescents aged 12-18 years were                depression
+ obtained from the Open Science Framework, incorporating psychosocial,
+ demographic, and mental health measures. Significant predictors were
+ identified using chi-square tests and point-biserial correlations, followed by
+ forward feature selection. The proposed Bayesian Neural Network employed a
+ three-hidden-layer feedforward architecture with ReLU and sigmoid
+ activations, Gaussian priors on weights, and Bayes-by-Backprop Variational
+ inference. Model performance was benchmarked against a Random Forest
+ classifier using cross-validation. Results indicate that anxiety, loneliness,
+ perceived social support, gratitude, positive youth development, academic self-
+ perception, gender, academic form, financial status, parental education, and age
+ are significant predictors of depression. The model achieved superior
+ performance, with an accuracy of 80.13%, F1 score of 0.876, recall of 0.965, ROC-
+ AUC of 0.813, and PR-AUC of 0.913, outperforming the Random Forest in most
+ metrics except precision. Calibration analysis yielded a low Brier score (0.0693),
+ indicating well-calibrated probabilistic predictions. These findings demonstrate
+ the suitability of Bayesian Neural Networks for adolescent depression risk
+ screening in resource-constrained settings, where uncertainty-aware decision
+ support is critical.
+
+
+
+                                                 Introduction
+According to the World Health Organization, mental health is a state of well-being in which
+individuals can cope with normal life stresses, work productively, and contribute to their
+communities. Depression in adolescence often presents with a unique set of symptoms,
+including excessive anxiety, emotional instability, and difficulty expressing feelings.
+Additionally, depressed adolescents may exhibit behaviors such as academic decline, self-
+harm, and suicidal tendencies, which can further exacerbate the condition. The causes of
+depression in adolescence are multifaceted, stemming from a combination of genetic,
+                                                _____________
+Corresponding Author Edwin Kagereki 🖂 Jomo Kenyatta University of Agriculture and Technology,
+Department of Statistics and Actuarial Sciences, Nairobi, Kenya
+
+                            This is an open access article under the CC BY 4.0 license.
+2    E. KAGEREKI ET AL.
+
+
+environmental, and psycho-social factors, including stress, major life events, and the presence
+of other mental health disorders.
+
+The negative impact of anxiety and depression on adolescent development is well-
+documented. These disorders can significantly impair academic performance, social
+functioning, and overall quality of life, ultimately affecting the transition into adulthood.
+Furthermore, evidence suggests that individuals who experience depression or anxiety during
+adolescence are at an increased risk of experiencing these conditions in adulthood,
+highlighting the importance of early intervention and prevention efforts (Dobson et al., 2021).
+
+Mental health of adolescents is a growing global concern, with approximately 20% affected by
+depression or anxiety, including in low- and middle-income countries (Lin et al., 2014). It is a
+significant but often overlooked issue globally. The transition from childhood to adolescence
+brings about numerous physiological, psychological, and social changes, increasing
+vulnerability to mental health disorders. Adolescent depression is a significant public health
+concern, with far-reaching consequences for individuals, families, and communities
+(Anderson et al., 2014).
+
+Early intervention can be crucial in reducing the long-term burden of the disease. By
+recognizing the signs and symptoms of depression in secondary school students, educators
+and mental health professionals can play a pivotal role in providing appropriate support and
+initiating timely treatment. The effectiveness of various treatment approaches, such as
+pharmacotherapy, cognitive-behavioral therapy, and family-based interventions, has been the
+subject of ongoing research, with the goal of identifying the most efficacious and tailored
+strategies for this population (Cai et al., 2021).
+
+In sub-Saharan Africa, adolescents are particularly vulnerable to mental health issues such as
+depression and anxiety (Sodi et al., 2022). A systematic review of the literature reveals that
+adolescents in this region face an elevated risk of mental disorders, yet mental healthcare
+systems are often poorly resourced and lack the necessary policies to address these challenges.
+In Kenya, this issue is even more critical, as up to 30% of adolescents may be experiencing
+depression, anxiety, or substance use, driven largely by adverse social determinants such as
+poor living conditions, limited economic opportunities, and exposure to violence (Myers et al.,
+2021). Despite the urgent need, mental health services for Kenyan adolescents are scarce, with
+few schools having dedicated professionals to provide the necessary support (Vreeman et al.,
+2017).
+
+Given the high prevalence and profound impact of depression among Kenyan adolescents,
+there is a critical need for comprehensive research and targeted interventions. Current efforts
+are hindered by limited data and resources, resulting in underdiagnosis and inadequate care.
+Advanced predictive methods, such as Bayesian neural networks, hold promise in this context
+by managing uncertainty and modeling complex nonlinear relationships in biopsychosocial
+risk factors. Using these techniques could improve the identification and understanding of
+depression patterns, informing more effective strategies to support adolescent mental health
+in Kenya (Hankin, 2015).
+                                                                FRONTIERS IN RESEARCH        3
+
+
+                                          Method
+
+Data
+This study used secondary data obtained from Open Science Framework
+(https://osf.io/download/nqhtw/). The data consists of depressive symptoms (PHQ), anxiety
+symptoms (GAD), socio-demographic information, and psychosocial wellbeing indices which
+include measures of gratitude, multidimensional scale of perceived social support (MSSS),
+happiness and optimism (EPOCH) and perceived academic control (PAC). The size of raw
+data was 2192.
+
+Univariate Analysis
+To determine statistically significant variables, this study adopted Chi-Square tests for
+categorical variables and point biserial correlation for continuous variables, all against
+depression status, which is a dichotomous dependent variable. Variables declared statistically
+significant had their individual p-value < 0.05.
+
+The Chi-Square test formula:
+                           (𝑂−𝐸)2
+                 𝜒2 = ∑                                                                (1)
+                                𝐸
+
+where;
+  • O: is the observed value
+  • E: is the expected value
+The biserial correlation formula:
+
+                         𝑀1 −𝑀0
+                 𝑟𝑝𝑏 =              √𝑝𝑞                                                (2)
+                           𝑠𝑛
+
+
+where;
+ • M1 = mean of the group that received the positive binary variable.
+ • M0 = mean of the group that received the negative binary variable.
+ • sn = standard deviation for the entire test.
+ • p = Proportion of cases in the "no" group.
+ • q = Proportion of cases in the "yes" group.
+
+Bayesian Neural Network
+
+Architectural Framework of the Bayesian Neural Network Model
+The architectural framework summarizes the process of Bayesian Neural Network. It begins
+with model setup, which involved defining the stochastic and functional models, and the
+training data. The functional model is the predictive function. The next step, inference,
+detailing Bayes by Backrop. The final section will provide outputs, that are posterior
+distribution, marginal predictions, and summary that includes estimates and uncertainty
+quantification. The architectural framework is illustrated in Figure 1.
+4    E. KAGEREKI ET AL.
+
+
+
+
+               Figure 1. Architectural framework for Bayesian neural network
+
+Functional Model of the Bayesian Neural Network Model
+The functional model was a feed forward neural network with both Rectified Linear Unit
+(ReLU) as the preferred nonlinear activation function within the hidden layers, while the
+sigmoid activation for the output layer. ReLU is less computational and powerful than
+sigmoid and tanh functions. It can easily backpropagate the errors and easily activate multi-
+layer hidden layer.
+
+Stochastic Model of the Bayesian Neural Network Model
+It’s not an intuitive task setting a prior of Bayesian Neural Network. According to Silvestro
+and Andermann (2020) there is no theoretical argument that makes any approach better than
+the other. However, this study adopted Gaussian prior;
+
+                          1             (𝜃−𝜇)2
+              𝑝(𝜃) = √2𝜋𝜎2 𝑒𝑥𝑝 (−                )                                     (3)
+                                         2𝜎2
+
+This is because ReLU leads to scaling symmetry which is an unidentifiability problem, so using
+a Gaussian prior minimizes the scaling symmetry as it favors weights with the same Frobenius
+norm on each layer. The weights of the network will be treated as stochastic variables.
+
+Bayesian Inference Method
+Bayesian Neural Network does not require a learning phase as one just needs to sample the
+posterior and do model averaging (Jospin et al., 2022). This study adopted Bayes-by-Backprop.
+Bayes-by-backprop mitigates the stoppage of backpropagation from functioning due to
+stochasticity (Buntine, 1994).
+Let q(θ) be the variational distribution parametrized by a set of parameters 𝜙. The values of
+the parameters φ, are learned such that qɸ(θ) is as close to the exact posterior P(θ|D).
+Let ε ∼ q(ε), a random variable be nonvariational source of noise. θ is sampled via
+deterministic transformation t (ε, ɸ), such that θ = t (ε, ɸ) follows qɸ(θ). With all
+                                                                     FRONTIERS IN RESEARCH           5
+
+
+transformations being non stochastic, backpropagation works as usual for the variational
+parameters 𝜙. This implies that the training loop can be implemented analogous to the training
+loop of a non-stochastic neural network. The general formula for the evidence lower bound
+(ELBO) becomes:
+
+                          𝑃(𝑡(𝜀,𝜙),𝐷)
+  ∫𝜀 𝑞𝜙 (𝑡(𝜀, 𝜙))𝑙𝑜𝑔 ( 𝑞 (𝑡(𝜀,𝜙)) ) |𝐷𝑒𝑡(𝛻𝜀 𝑡(𝜀, 𝜙))|𝑑𝜀                                        (4)
+                            𝜙
+
+
+Equation 4 is tedious to work with. Blundell et al. (2015) proposed that to estimate the gradient
+of ELBO, we use the fact that if qɸ (θ) = q(ε) dε, then for a differentiable function f(θ, ε), we’ve:
+
+ 𝜕                                       𝜕𝑓(𝜃,𝜙) 𝜕𝜃 𝜕𝑓(𝜃,𝜙)
+   ∫ 𝑞 (𝜃 ′ )𝑓(𝜃 ′ , 𝜙)𝑑𝜃 ′ = ∫𝜀 𝑞 (𝜀 ) ( 𝜕𝜃 𝜕𝜙 + 𝜕𝜙 )
+𝜕𝜙 𝜙 𝜙
+                                                                                               (5)
+
+
+By leveraging Bayes-by-backprop, the study ensured that the model balances accuracy,
+scalability and computational efficiency while capturing critical uncertainty estimates needed
+for predicting susceptibility to depression among adolescents.
+
+Estimating Model Parameter
+The predictive model is a classification model. The average model prediction was given by the
+relative probability of each class, which were considered the measure of uncertainty:
+
+        1
+  𝑝̂ = |Θ| ∑θ𝑖 ∈Θ Θθ𝑖 (𝑥)                                                                      (6)
+
+
+The final prediction is taken as the most likely class:
+  𝑦̂ = arg max 𝑝𝑖 ∈ 𝑝̂                                                                         (7)
+               𝑖
+
+Model Assessment
+Bayesian Neural Networks’ challenge in evaluating their performance is, they do not directly
+output a point estimate prediction but a conditional probability distribution p(y|x,D), from
+which an optimal estimate can later be extracted (Jospin et al., 2022). This implied the need to
+assess the model’s predictive performance and calibration.
+To evaluate the effectiveness of the predictive model, the study focused on the following
+metrics; Accuracy, Recall, Precision and F1 score.
+Random Forest was selected as the comparator model because it is a well-established and high
+performing baseline for classification tasks, particularly on tabular and small and moderate
+datasets, where it demonstrates strong robustness and limited sensitivity to hyperparameter
+tuning. Their performances were compared against each other.
+
+Model Diagnostic
+To diagnose the predictive model, calibration curve was plotted to assess how well the model’s
+predicted probabilities align with actual observed outcomes. Also, Brier score was calculated
+to measure the model’s capacity of neither underfitting nor overfitting.
+6         E. KAGEREKI ET AL.
+
+
+                                                Results
+Descriptive Statistics
+Adolescents with PHQ > 10 were categorized as depressed, whereas those with PHQ ≤ 10 were
+categorized as not depressed. 27.3% of the adolescents were depressed while 72.7% were not
+depressed.
+Table 1. Distribution of Depression Status among Adolescents
+
+    Depression Status              Frequency                       %
+
+    Not depressed                  1587                            72.7
+
+    Depressed                      596                             27.3
+
+
+Participants ranged in the age of 12 to 18, with a mean age of 15 years (σ = 1.11). The MSSS Total,
+which is a measure of perceived social support, ranged from 14 to 84 and had a mean score of
+61.41 with a standard deviation of 13.31. With a minimum score of 0 and a maximum score of 21,
+the average score on the Generalized Anxiety Disorder (GAD) scale was 7.43 (σ = 5.01). The PHQ
+Total, which measures depressive symptoms, ranged from 0 to 24 and had a mean of 7.94 (σ =
+5.10). The mean score on the UCLA Loneliness Scale was 19.34 (σ = 4.74), with scores ranging
+from 8 to 33. Table 2 provides an overview of the central tendency and variability for each
+continuous variable, helping to understand the characteristics of the data before further analysis.
+Table 2. Descriptive Statistics for Continuous Variables
+
+    Variable                              𝑥̅               σ              Min        Max
+
+
+    MSSS                             61.41                13.31           14               84
+
+    GAD                                  7.43             5.01             0               21
+
+    PHQ                                  7.94             5.10             0               24
+
+    UCLA                             19.34                4.74             8               33
+
+    Age                                   15              1.11            12               18
+
+    EPOCH                            27.47                 6.4             5               40
+
+    Gratitude                        35.02                5.99             6               42
+
+    PCS Academic                     22.03                3.24             0               28
+
+
+
+
+Significant Risk Factors
+From the univariate analysis, variables with p-value < 0.05 were identified as statistically
+significant risk factors for depression in adolescents.
+                                                               FRONTIERS IN RESEARCH       7
+
+
+Table 3. Statistically Significant Risk Factors
+
+ Variable                               Test statistic     p-value        Effect size
+
+
+ MSSS                                         0.2579        0.000                0.2579
+
+ GAD                                          -0.5339       0.000                0.5339
+
+ Siblings                                     0.0427        0.0632               0.0427
+
+ UCLA                                         -0.3569       0.000                0.3569
+
+ Age                                          -0.1053       0.000                0.1053
+
+ EPOCH                                        0.3069        0.000                0.3069
+
+ Gratitude                                    0.2651        0.000                0.2651
+
+ PCS Academic                                 0.2671        0.000                0.2671
+
+ Gender                                       16.494        0.001                0.0869
+
+ Form                                         38.545        0.000                0.1329
+
+ Home                                          3.927        0.2695               0.0424
+
+ Co-Curricular                                12.857        0.0016               0.0767
+
+ Sports                                        1.640        0.2003               0.0274
+
+ Perceived Academic Abilities                 130.018       0.0000               0.2440
+
+ Financial Status                             18.323        0.0004               0.0916
+
+ Religion                                      5.079        0.6503               0.0482
+
+ Father’s education                           14.113        0.0028               0.0804
+
+ Mother’s education                           13.787        0.0032               0.0795
+
+ Parents dead                                  5.181        0.075                0.0487
+
+
+Statistically significant categorical variables are; gender, form, co-curricular, perceived
+academic abilities, financial status and both parents’ education. Significant continuous
+variables are; GAD, MSSS, EPOCH, age, PCS academic, Gratitude and UCLA.
+Bayesian Neural Network Predictive Model
+This study developed a classification Bayesian Neural Network model where the dependent
+variable was depression status. Components of our model are; ReLU as the activation function
+within hidden layers while sigmoid function at the output layer, Gaussian prior with
+parameters (µ = 0, σ = 0.05) and a feed forward neural network with three hidden layers.
+8    E. KAGEREKI ET AL.
+
+
+
+
+        Figure 2. Training and validation performance of Bayesian neural network model
+
+The loss curves show a steady decline for both training and validation, with validation loss
+consistently lower, suggesting good generalization. Accuracy improves rapidly within the first few
+epochs and stabilizes, with validation accuracy outperforming training accuracy throughout.
+Similarly, both the Precision-Recall AUC and ROC AUC curves demonstrate strong performance,
+with validation metrics consistently higher than training, reaching near-perfect levels early on.
+Overall, the results indicate that the model is learning effectively, generalizing well to unseen data,
+and avoiding overfitting.
+The ROC Curve shows the model’s performance in distinguishing between classes, achieving an
+area of curve of 0.813, which indicates good classification ability. The Precision-Recall Curve has
+an average precision score of 0.913, which is excellent. This high score implies the model is very
+effective at correctly identifying positive cases while minimizing false positives, which is often
+particularly important for imbalanced datasets. The reported metrics show that the model performs
+strongly overall, with an accuracy of about 80% indicating consistent performance across samples.
+The F1 score is high (0.88), reflecting a good balance between precision and recall. Precision is
+moderate at 0.80, meaning that around 20% of predicted positives are false alarms. Recall is very
+high at 0.97, showing the model correctly identifies almost all true positives. This is summarized
+in Table 4.
+                                                                     FRONTIERS IN RESEARCH         9
+
+
+Table 4. Performance Metrics for Bayesian Neural Network Model
+
+ Metric                           value             Confidence interval (95%)
+
+
+ Accuracy                         0.8013                             0.7643 – 0.8375
+
+ F1 score                         0.8761                             0.8491 - 0.9001
+
+ precision                        0.8021                             0.7600 - 0.8398
+
+ recall                           0.9654                             0.9444 – 0.9849
+
+ ROC-AUC                           0.813                             0.7856 – 0.8699
+
+ PR-AUC                            0.913                             0.9013 – 0.9488
+
+
+Figure 3 illustrates the relationship between predictive probability and uncertainty in the Bayesian
+Neural Network model. As expected, uncertainty is lowest when the model is highly confident in
+its predictions (probabilities near 0 or 1) and peaks around 0.5, where the model is most indecisive.
+This behaviour reflects the model’s ability to capture epistemic uncertainty, with higher variability
+in predictions occurring in ambiguous regions. The distribution of true labels further shows that
+while confident predictions are generally reliable, cases with moderate probabilities exhibit overlap
+between classes and greater uncertainty, highlighting the need for caution or supplementary
+analysis in these regions. Moreover, from the Calibration curve, the model’s probabilities are
+highly trustworthy with a Brier score = 0.0693. This implies the model is neither underfitting nor
+overfitting.
+
+
+
+
+          Figure 3. Reliability and uncertainty diagnostic of Bayesian neural network model
+10        E. KAGEREKI ET AL.
+
+
+Random Forest Model
+This study developed a Random Forest classification model using the same variables used to
+develop the Bayesian Neural Network model. The Random Forest model was optimized using
+RandomizedSearchCV, with the best configuration included 486 decision trees, a maximum
+depth of 30, a minimum of 3 samples per split, 7 samples per leaf, and a maximum feature
+subset of 70%, with class weights balanced to account for data imbalance.
+Table 5. Performance Metrics for Random Forest Model
+
+ Metric                          value             Confidence interval (95%)
+
+
+ Accuracy                       0.7529                             0.7189 – 0.7883
+
+ F1 score                       0.8218                             0.8491 - 0.9001
+
+ precision                      0.8646                             0.7600 - 0.8398
+
+ recall                         0.7830                             0.9444 – 0.9849
+
+ ROC-AUC                         0.800                             0.7833 – 0.8351
+
+ PR-AUC                          0.911                             0.8913 – 0.9639
+
+
+
+The optimized model achieved a strong discriminative ability as indicated by an ROC-AUC
+of 0.800 and a PR-AUC of 0.911. The model shows strong performance with an accuracy of
+75.3%, meaning it correctly classified most test cases. Its overall F1-score is high at 0.82,
+indicating a good balance between precision (86.5%) and recall (78.3%).
+
+                                         Discussion
+This study found that 27.3% of the adolescents were depressed. This is in aligned with the
+study done by (Myers et al., 2021).
+The univariate analysis indicated that father’s and mother’s education are statistically
+significant risk factors. This aligned with the study done by Evans et al. (2018), where they
+found that parental factors played significant roles in the development of depression and
+anxiety in adolescents.
+Rates of depression were found to be higher in female adolescents, consistent with
+international epidemiology due to hormonal factors, social stresses, and psychosocial
+expectations based on gender (Thapar et al., 2022). The vulnerability revealed in higher forms
+might be due to constant academic pressures, stress of exams, and uncertainty about future
+prospects, a finding consistent with recent longitudinal studies (Barendse et al., 2023).
+Continuous psychosocial variables of anxiety (GAD), loneliness (UCLA), perceived social
+support (MSSS), gratitude, academic self-concept (PCS), and positive youth development
+(EPOCH) all emerged as strong correlates of depression. Anxiety and feelings of loneliness
+had the highest effect size, consistent with research-based models of depression as mutually
+reinforcing conditions in adolescence (McElroy et al., 2018).
+                                                                FRONTIERS IN RESEARCH        11
+
+
+Protective factors like gratitude, perceived social support, and positive youth development
+were negatively related to the risk of depression. These results support current
+conceptualizations of resilience that propose mental health to be promoted from a position of
+strength (Bandeira et al., 2023). Perceived academic competence showed one of the strongest
+associations among the categorical variables, indicating the central role of self-efficacy and
+school related identity in adolescent mental health. This aligns with a finding in educational
+psychology literature (Putwain et al., 2023).
+The Bayesian Neural Network generally outperforms the Random Forest across most
+performance metrics. Bayesian Neural Network achieves higher accuracy (0.8013 vs 0.7529),
+F1 score (0.8761 vs 0.8218), recall (0.9654 vs 0.7830), ROC-AUC (0.813 vs 0.800), and PR-AUC
+(0.913 vs 0.911), indicating stronger overall predictive ability and a better balance between
+sensitivity and specificity. The Random Forest only surpasses Bayesian Neural Network in
+precision (0.8646 vs 0.8021), suggesting it makes fewer false positives but at the expense of
+recall. Overall, the Bayesian Neural Network provides more robust performance, particularly
+in capturing true positives, making it the better model in this comparison. The Bayesian
+Neural Network’s capacity to effectively handle uncertainty and model complex nonlinear
+relationships inherent in mental health data likely contributes to this superior performance.
+This aligns with a study conducted by (Shridhar et al., 2018). This suggests that Bayesian
+Neural Networks are highly suitable for predictive modeling in adolescent depression
+contexts where the uncertainty of the data is considerable. This study aligns with study done
+by Fara et al. (2022) where they demonstrated their Bayesian Neural Network predictive
+model’s performance as robust depression linked speech-based MDD prediction tool.
+Furthermore, the Bayesian Neural Network’s uncertainty diagnostics indicate that the model
+appropriately represents predictive uncertainty, with confidence higher at extreme prediction
+probabilities and uncertainty peaking near ambiguous cases. This is consistent with the study
+conducted by Heek and Kalchbrenner (2019), where they identified Bayesian Neural
+Network’s advantage ability is to quantify model uncertainty, crucial in medical diagnosis.
+This feature is valuable in practical deployment, as it can inform clinicians and stakeholders
+about cases needing further evaluation beyond model predictions.
+Overall, this study provides compelling evidence that advanced probabilistic machine
+learning models can meaningfully enhance early identification of adolescent depression,
+complementing traditional assessment approaches and supporting more targeted, timely
+interventions.
+
+                             Conclusion and Recommendation
+This study successfully developed and validated a Bayesian Neural Network model that can
+predict depression risk among Kenyan adolescents with high accuracy and sensitivity.
+Statistically significant categorical variables are; gender, form, co-curricular, perceived
+academic abilities, financial status and both parents’ education. Significant continuous
+variables are; GAD, MSSS, EPOCH, age, PCS academic, Gratitude and UCLA. Psychosocial
+factors are strongest predictors; Anxiety (GAD) and loneliness (UCLA) show the largest
+effects. This implies that emotional and social experiences strongly influence depression risk.
+Academic self-perception matters; perceived academic abilities have the strongest categorical
+impact. This implies that low self-evaluation of performance significantly increases
+12    E. KAGEREKI ET AL.
+
+
+vulnerability. Socio-economic factors play a modest role; financial status and parental
+education show small but significant effects. Protective psychological factors reduce risk.
+Gratitude, social support (MSSS), and positive youth development (EPOCH) buffer against
+depression.
+The model’s superior performance compared to a Random Forest classifier demonstrates the
+strength of Bayesian approaches in handling uncertainty and complex data relationships,
+making them particularly suitable for mental health risk prediction in resource-constrained
+settings. The findings underscore the urgent need for enhanced mental health screening,
+support systems, and resources.
+This study recommends interventions targeting emotional regulation, social support, and
+academic self-perception may be particularly effective in mitigating depression among
+adolescents. Strategies that reduce anxiety and loneliness while promoting supportive social
+environments and positive youth development appear especially promising. This study
+recommends developing a dynamic Bayesian Neural Network predictive model that
+continuously updates its predictions over time as new data becomes available.
+
+Declarations
+Acknowledgments: Not applicable.
+Competing interests: The author(s) declared no potential conflicts of interest with respect to
+the research, authorship, and/or publication of this article.
+Funding: This research did not receive any specific grant from funding agencies in the public,
+commercial, or not-for-profit sectors.
+Publisher’s note: Frontiers in Research remains neutral with regard to jurisdictional claims in
+published maps and institutional affiliations.
+
+Orcid ID
+
+Edwin Kagereki       https://orcid.org/0009-0006-8703-4642
+
+Anthony Wanjoya         https://orcid.org/0009-0009-7609-4318
+
+
+
+                                             References
+Anderson, S. F., Salk, R. H., & Hyde, J. S. (2015). Stress in romantic relationships and adolescent
+    depressive symptoms: Influence of parental support. Journal of Family Psychology, 29(3), 339.
+
+Bandeira, M., Graham, M. A., & Ebersöhn, L. (2023). The significance of feeling safe for resilience of
+    adolescents in sub-Saharan Africa. Frontiers in Psychology, 14, 1183748.
+
+Barendse, M. E. A., Cosme, D., Flournoy, J. C., Vijayakumar, N., Cheng, T. W., Allen, N. B., & Pfeifer,
+     J. H. (2023). Neural correlates of adolescent stress and mental health. Nature Reviews
+     Psychology, 2(6), 370–384.
+
+Blundell, C., Cornebise, J., Kavukcuoglu, K., & Wierstra, D. (2015). Weight uncertainty in neural
+    network. In International Conference on Machine Learning (pp. 1613–1622).
+                                                                      FRONTIERS IN RESEARCH          13
+
+
+Buntine, W. L. (1994). Operations for learning with graphical models. Journal of Artificial Intelligence
+     Research, 2, 159–225.
+Cai, H., Xie, X.-M., Zhang, Q., Cui, X., Lin, J.-X., Sim, K., Ungvari, G. S., Zhang, L., & Xiang, Y.-T.
+     (2021). Prevalence of suicidality in major depressive disorder: A systematic review and meta-
+     analysis     of    comparative       studies.     Frontiers   in     Psychiatry,    12,   690130.
+     https://doi.org/10.3389/fpsyt.2021.690130
+Dobson, E. T., Croarkin, P. E., Schroeder, H. K., Varney, S. T., Mossman, S. A., Cecil, K., & Strawn,
+    J. R. (2021). Bridging anxiety and depression: A network approach in anxious adolescents.
+    Journal of Affective Disorders, 280, 305–314.
+Evans, D., Borriello, G. A., & Field, A. P. (2018). A review of the academic and psychological impact
+    of the transition to secondary education. Frontiers in Psychology, 9, 391751.
+Fara, S., Hickey, O., Georgescu, A., Goria, S., Molimpakis, E., & Cummins, N. (2022). Bayesian
+     networks for the robust and unbiased prediction of depression and its symptoms utilizing
+     speech and multimodal data. arXiv preprint arXiv:2211.04924.
+Hankin, B. L. (2015). Depression from childhood through adolescence: Risk mechanisms across
+    multiple systems and levels of analysis. Current Opinion in Psychology, 4, 13–20.
+Heek, J., & Kalchbrenner, N. (2019). Bayesian inference for large scale image classification. arXiv
+    preprint arXiv:1908.03491.
+Jospin, L. V., Laga, H., Boussaid, F., Buntine, W., & Bennamoun, M. (2022). Hands-on Bayesian
+     neural networks—A tutorial for deep learning users. IEEE Computational Intelligence Magazine,
+     17(2), 29–48.
+Lin, F.-G., Chou, Y.-C., Wu, C.-H., & Lin, J.-D. (2014). Short-term and long-term influences of family
+      arguments and gender difference on developing psychological well-being in Taiwanese
+      adolescents. Research in Developmental Disabilities, 35(11), 2735–2743.
+McElroy, E., Fearon, P., Belsky, J., Fonagy, P., & Patalay, P. (2018). Networks of depression and
+    anxiety symptoms across development. Journal of the American Academy of Child & Adolescent
+    Psychiatry, 57(12), 964–973.
+Myers, B., Bantjes, J., Lochner, C., Mortier, P., Kessler, R. C., & Stein, D. J. (2021). Prevalence,
+    correlates, and predictors of adolescent depression in LMICs. Journal of Adolescent Health, 69(3),
+    413–422.
+Putwain, D. W., Symes, W., & Remedios, R. (2023). Academic self-concept, stress, and adolescent
+    mental health. Educational Psychology Review, 35, 57.
+Shridhar, K., Laumann, F., & Liwicki, M. (2018). Uncertainty estimations by softplus normalization
+     in Bayesian convolutional neural networks with variational inference. arXiv preprint
+     arXiv:1806.05978.
+Silvestro, D., & Andermann, T. (2020). Prior choice affects ability of Bayesian neural networks to
+      identify unknowns. arXiv preprint arXiv:2005.04987.
+Sodi, T., Quarshie, E. N.-B., Oppong Asante, K., et al. (2022). Mental health literacy of school-going
+      adolescents in sub-Saharan Africa: A regional systematic review protocol. BMJ Open, 12,
+      e063687.
+Thapar, A., Eyre, O., Patel, V., & Brent, D. (2022). Depression in young people. The Lancet,
+    400(10352), 617–631.
+Vreeman, R. C., McCoy, B. M., & Lee, S. (2017). Mental health challenges among adolescents living
+    with HIV. Journal of the International AIDS Society, 20, 21497.
+

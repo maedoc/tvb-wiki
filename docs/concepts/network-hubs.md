@@ -13,7 +13,7 @@ tags:
 - brain-oscillations
 title: Network Hubs
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-07'
 ---
 
 ## Definition
@@ -44,7 +44,7 @@ The structural core concept is closely related to the rich-club phenomenon, in w
 
 ## Functional and Clinical Significance
 
-Hub regions demonstrate distinctive biological properties beyond their topological position. They exhibit elevated metabolic demand, as evidenced by higher cerebral blood flow and glucose metabolism measured via PET, and greater vascular density. This metabolic premium reflects the energetic cost of sustained communication and may explain why hub regions are preferentially affected in neurodegenerative diseases. In Alzheimer's disease, hub regions in the default-mode network show early amyloid deposition and atrophy, potentially reflecting their inherent vulnerability. Schizophrenia is associated with altered hub organization and reduced betweenness in frontal and temporal regions, suggesting disrupted integration of distributed neural systems. Epilepsy research has identified hub regions as critical nodes for seizure propagation, making them potential targets for surgical intervention and [[brain-stimulation]] therapies.
+Hub regions demonstrate distinctive biological properties beyond their topological position. They exhibit elevated metabolic demand, as evidenced by higher cerebral blood flow and glucose metabolism measured via PET, and greater vascular density. This metabolic premium reflects the energetic cost of sustained communication and may explain why hub regions are preferentially affected in neurodegenerative diseases. In [[alzheimers-disease|Alzheimer's disease]], hub regions in the default-mode network show early amyloid deposition and atrophy, potentially reflecting their inherent vulnerability. Schizophrenia is associated with altered hub organization and reduced betweenness in frontal and temporal regions, suggesting disrupted integration of distributed neural systems. Epilepsy research has identified hub regions as critical nodes for seizure propagation, making them potential targets for surgical intervention and [[brain-stimulation]] therapies.
 
 ## Related Concepts
 

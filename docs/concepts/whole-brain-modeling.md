@@ -26,14 +26,14 @@ tags:
 - bifurcation-analysis
 title: Whole-Brain Modeling
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 Whole-brain modeling is a computational neuroscience approach that represents the brain as a network of coupled regions, each governed by detailed neuronal or neural mass dynamics, with regional interactions constrained by empirical [[structural connectivity]] estimates derived from [[diffusion-mri]] (or using tools such as [[hd-bet]] for brain extraction) or tractography. This methodology enables the simulation of large-scale brain dynamics and the generation of synthetic neuroimaging data—including [[fMRI]], [[EEG]], and [[MEG]] signals—that can be directly compared to empirical recordings. The approach bridges the gap between microscopic neuronal mechanisms and macroscopic brain-wide activity patterns observed in human neuroimaging studies.
 
 ## Motivation and Scientific Context
 
-The human brain contains approximately 86 billion neurons organized into hundreds of distinct cortical and subcortical regions. Traditional reductionist approaches that study individual neurons or small circuits cannot capture the emergent, brain-wide dynamics that give rise to cognition, behavior, and clinical symptoms. [[whole-brain|Whole-brain modeling]] emerged as a response to this scale gap, motivated by the insight that many neurological and psychiatric disorders—including [[epilepsy-modeling]], Alzheimer's disease, and schizophrenia—manifest as large-scale network dysfunctions rather than isolated abnormalities in specific nuclei.
+The human brain contains approximately 86 billion neurons organized into hundreds of distinct cortical and subcortical regions. Traditional reductionist approaches that study individual neurons or small circuits cannot capture the emergent, brain-wide dynamics that give rise to cognition, behavior, and clinical symptoms. [[whole-brain|Whole-brain modeling]] emerged as a response to this scale gap, motivated by the insight that many neurological and psychiatric disorders—including [[epilepsy-modeling]], [[alzheimers-disease|Alzheimer's disease]], and schizophrenia—manifest as large-scale network dysfunctions rather than isolated abnormalities in specific nuclei.
 
 The field gained momentum in the early 2000s with the advent of large-scale [[connectome]] projects such as the [[human-connectome-project]], which provided high-quality structural and functional connectivity maps. Simultaneously, advances in computational power and software frameworks such as [[tvb]] (The Virtual Brain) made it feasible to simulate dynamics across 80+ brain regions with biologically plausible neuron models. The approach now serves as a critical tool for understanding [[resting-state]] networks, the neural basis of brain oscillations, and the propagation of activity through [[brain-network]] architectures.
 

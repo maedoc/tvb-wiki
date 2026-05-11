@@ -1,0 +1,916 @@
+                                                                                                                     TYPE Original Research
+                                                                                                                     PUBLISHED 15 October 2025
+                                                                                                                     DOI 10.3389/fneur.2025.1640514
+
+
+
+
+                                                  Unsupervised semi-automated
+OPEN ACCESS                                       MRI segmentation detects
+                                                  cortical lesion expansion in
+EDITED BY
+Salem Hannoun,
+American University of Beirut, Lebanon
+
+REVIEWED BY
+Clément Brossard,
+                                                  chronic traumatic brain injury
+Innodura TB, France
+Patrik Bey,
+University College London, United Kingdom         Holly J. Freeman1*, Alexander S. Atalay1 , Jian Li1,2 , Evie Sobczak1 ,
+Yuki Oi,
+University of California, San Diego, La Jolla,    Natalie Gilmore1 , Samuel B. Snider3 , Brian C. Healy4,5 ,
+United States
+                                                  Holly Carrington6 , Enna Selmanovic6,7 , Ariel Pruyser6 , Lisa Bura6 ,
+*CORRESPONDENCE
+Holly J. Freeman
+                                                  David P. Sheppard8 , David Hunt9 , Alan C. Seifert10 ,
+  hjfreeman@mgh.harvard.edu                       Yelena G. Bodien1,11 , Jeanne M. Hoffman8 ,
+†
+    These authors share senior authorship         Christine L. Mac Donald9 , Kristen Dams-O’Connor6,12,13† and
+RECEIVED 03 June 2025                             Brian L. Edlow1,2†
+ACCEPTED 27 August 2025
+                                                  1
+PUBLISHED 15 October 2025                           Department of Neurology, Center for Neurotechnology and Neurorecovery, Massachusetts General
+                                                  Hospital and Harvard Medical School, Boston, MA, United States, 2 Department of Radiology, Athinoula
+CITATION
+                                                  A. Martinos Center for Biomedical Imaging, Massachusetts General Hospital and Harvard Medical
+Freeman HJ, Atalay AS, Li J, Sobczak E,
+                                                  School, Boston, MA, United States, 3 Department of Neurology, Brigham and Women’s Hospital and
+Gilmore N, Snider SB, Healy BC, Carrington H,
+                                                  Harvard Medical School, Boston, MA, United States, 4 Massachusetts General Hospital Biostatistics
+Selmanovic E, Pruyser A, Bura L, Sheppard DP,
+                                                  Center, Massachusetts General Hospital, Boston, MA, United States, 5 Ann Romney Center for
+Hunt D, Seifert AC, Bodien YG, Hoffman JM,
+                                                  Neurologic Diseases, Brigham and Women’s Hospital, Boston, MA, United States, 6 Department of
+Mac Donald CL, Dams-O’Connor K and
+                                                  Rehabilitation and Human Performance, Icahn School of Medicine at Mount Sinai, New York, NY,
+Edlow BL (2025) Unsupervised
+                                                  United States, 7 Friedman Brain Institute, Icahn School of Medicine at Mount Sinai, New York, NY,
+semi-automated MRI segmentation detects
+                                                  United States, 8 Department of Rehabilitation Medicine, University of Washington School of Medicine,
+cortical lesion expansion in chronic traumatic
+                                                  Seattle, WA, United States, 9 Department of Neurological Surgery, University of Washington, Seattle,
+brain injury. Front. Neurol. 16:1640514.
+                                                  WA, United States, 10 Biomedical Engineering and Imaging Institute, Department of Radiology, Icahn
+doi: 10.3389/fneur.2025.1640514
+                                                  School of Medicine at Mount Sinai, New York, NY, United States, 11 Department of Physical Medicine
+COPYRIGHT                                         and Rehabilitation, Spaulding Rehabilitation Hospital, and Harvard Medical School, Charlestown, MA,
+© 2025 Freeman, Atalay, Li, Sobczak, Gilmore,     United States, 12 Department of Neurology, Icahn School of Medicine at Mount Sinai, New York, NY,
+Snider, Healy, Carrington, Selmanovic,            United States, 13 Department of Neuroscience, Icahn School of Medicine at Mount Sinai, New York, NY,
+Pruyser, Bura, Sheppard, Hunt, Seifert, Bodien,   United States
+Hoffman, Mac Donald, Dams-O’Connor and
+Edlow. This is an open-access article
+distributed under the terms of the Creative       Traumatic brain injury (TBI) is a risk factor for neurodegeneration and cognitive
+Commons Attribution License (CC BY). The
+use, distribution or reproduction in other        decline, yet the underlying pathophysiologic mechanisms are incompletely
+forums is permitted, provided the original        understood. This gap in knowledge is in part related to a lack of reliable and
+author(s) and the copyright owner(s) are          efficient methods for measuring cortical lesions in neuroimaging studies. The
+credited and that the original publication in
+this journal is cited, in accordance with         objective of this study was to develop a semi-automated lesion detection
+accepted academic practice. No use,               tool and apply it to an investigation of longitudinal changes in brain structure
+distribution or reproduction is permitted         among individuals with chronic TBI. We identiﬁed 24 individuals with chronic
+which does not comply with these terms.
+                                                  moderate-to-severe TBI enrolled in the Late Effects of TBI (LETBI) study who
+                                                  had cortical lesions detected by T1-weighted MRI and underwent two MRI
+                                                  scans at least 2 years apart. Initial MRI scans were performed more than 1 year
+                                                  post-injury, and follow-up scans were performed a median of 3.1 (IQR = 1.7)
+                                                  years later. We leveraged FreeSurfer parcellations of T1-weighted MRI volumes
+                                                  and a recently developed super-resolution technique, SynthSR, to automate
+                                                  the identiﬁcation of cortical lesions in this longitudinal dataset. Trained raters
+                                                  received the data in a randomized order and manually edited the automated
+                                                  lesion segmentations, yielding a ﬁnal semi-automated lesion mask for each scan
+                                                  at each time point. Inter-rater variability was assessed in an independent cohort
+                                                  of 10 additional LETBI subjects with cortical lesions. The semi-automated lesion
+                                                  segmentations showed a high level of accuracy compared to “ground truth”
+                                                  lesion segmentations performed via manual segmentation by a separate blinded
+                                                  rater. In a longitudinal analysis of the semi-automated segmentations, lesion
+                                                  volume increased between the two time points with a median volume change
+
+
+Frontiers in Neurology                                                  01                                                              frontiersin.org
+Freeman et al.                                                                                                          10.3389/fneur.2025.1640514
+
+
+
+
+                                                  of 4.91 (IQR = 12.95) mL (p < 0.0001). Lesion volume signiﬁcantly expanded
+                                                  in 37 of 61 measured lesions (60.7%), as deﬁned by a longitudinal volume
+                                                  increase that exceeded inter-rater variability. Longitudinal analyses showed
+                                                  similar changes in lesion volume using the ground-truth lesion segmentations.
+                                                  Inter-scan duration was not associated with the magnitude of lesion growth.
+                                                  While the proposed tool requires further reﬁnement and validation, we show
+                                                  that reliable and efficient semi-automated lesion segmentation is feasible in
+                                                  studies of chronic TBI, creating opportunities to elucidate mechanisms of post-
+                                                  traumatic neurodegeneration.
+
+                                                  KEYWORDS
+
+                                                  traumatic brain injury, cortical lesion, segmentation, longitudinal MRI, semi-automated
+
+
+
+
+1 Introduction                                                                 provides reliable and eﬃcient measurement of cortical lesions to
+                                                                               accelerate the study of PTND pathogenesis in individuals with
+     Traumatic brain injury (TBI) is a well-established risk factor for        chronic TBI.
+neurodegenerative diseases (1). The pathophysiologic mechanisms
+that link TBI to post-traumatic neurodegeneration (PTND) are
+not fully understood, though emerging evidence implicates a                    2 Materials and methods
+“polypathology” (2) that includes axonal injury (3), tau deposition
+(4), vascular injury (5, 6), and neuroinﬂammation (3). An                      2.1 Participant selection
+underexplored factor in the pathogenesis of PTND is the potential
+impact of focal cortical lesions, such as cerebral contusions, which                Between 2014 and 2023, 305 participants were enrolled in the
+are amongst the most common lesions in individuals with TBI (7).               ongoing LETBI study at Icahn School of Medicine at Mount Sinai
+It is unknown whether focal lesion size evolves during the chronic             (ISMMS) and the University of Washington (UW) (22). The LETBI
+stage of TBI (i.e., more than 1 year post-injury) and whether this             study recruits individuals with a history of moderate or severe TBI.
+may contribute to clinical decline.                                            We used the United States Department of Defense classiﬁcation
+     In addition to a paucity of longitudinal studies in individuals           of moderate TBI, which includes individuals considered by
+with chronic TBI, a key barrier to elucidating the impact                      other classiﬁcation systems as having “complicated mild” TBI
+of cortical lesions on PTND pathogenesis is methodological.                    (i.e., mild by Glasgow Coma Scale score criteria but with an
+Historically, lesions that disrupt the surface of the cerebral                 intracranial lesion detected by brain imaging) (23). For the present
+cortex have prevented MRI segmentation tools from accurately                   longitudinal study, participants needed to have two MRI scans
+diﬀerentiating lesion boundaries from the pial surface or the                  during consecutive study visits (≥2 years apart), each including
+gray-white matter junction (8–11). Similarly, lesions that involve             T1-weighted (T1w) multi-echo magnetization prepared gradient-
+the white matter may lead to erroneous segmentation of lesion                  recalled echo (MEMPRAGE) scans (24) with a resolution of 1
+boundaries from nearby cortical and subcortical structures (12,                mm isotropic.
+13). As a result, segmentation tools distributed with imaging                       Based on these criteria, 249 participants were excluded (n =
+analysis programs such as FreeSurfer (14), FSL (15), and SPM                   220 not yet eligible for second study visit, n = 29 without a T1w
+(16) have been unable to robustly measure longitudinal lesion                  MEMPRAGE MRI dataset at both time points). Of the n = 220
+growth. Hence, individuals with lesions have typically been                    excluded participants, scans from n = 10 were randomly selected
+excluded from TBI studies of cortical and subcortical volumetrics              to form the inter-rater dataset. Of the remaining 56 participants,
+(17, 18). Achieving precise segmentations of lesions and nearby                at least one cortical lesion was identiﬁed in n = 24 (42.9%) by
+anatomic structures is essential for downstream workﬂows,                      a trained rater who visually inspected the T1w images. Lesions
+including reconstruction of cortical surfaces and generation of                were deﬁned by visible disruptions in the cortical gray matter or
+volumetric measures (19), yet preliminary eﬀorts to achieve this               cortical gray/white junction. Lesions could extend into the adjacent
+goal have required substantial time by operators trained in human              subcortical white matter.
+neuroanatomy (11).
+     To address this methodological barrier and knowledge gap,
+we performed a longitudinal MRI study of individuals with                      2.2 Data acquisition, quality assessment,
+chronic TBI and leveraged recent innovations in machine learning               and processing
+image analysis (20, 21) to create a semi-automated lesion
+segmentation tool. We tested the ability of this semi-automated                    T1w images were obtained using Siemens Skyra, Philips
+lesion segmentation tool to detect longitudinal changes in lesion              Achieva, and Philips Ingenia Elition X scanners at 3 Tesla ﬁeld
+volume in individuals with chronic TBI enrolled in the Late Eﬀects             strength. The images were acquired at 1 mm isotropic resolution.
+of TBI (LETBI) study (22). Our goal was to develop a tool that                 Siemens Skyra scans used a repetition time (TR) of 2,530 ms
+
+
+Frontiers in Neurology                                                    02                                                         frontiersin.org
+Freeman et al.                                                                                                               10.3389/fneur.2025.1640514
+
+
+
+
+TABLE 1 MRI acquisition parameters for study participants.
+
+
+ Manufacturer                     Model                            Field strength (T)               TR/TE (msec/msec)           Number of scans
+ Siemens                          Skyra                                        3T                        2,530/1.79–7.37                 18
+
+ Philips                          Achieva                                      3T                        2,530/1.67–7.07                 11
+
+ Philips                          Ingenia Elition X                            3T                          2,530/2.14                    19
+
+
+
+TABLE 2 Quantitative quality assessment of MRI data at each enrollment
+site.
+                                                                                    2.3 “Ground truth” lesion segmentation
+
+ Enrollment         Longitudinal                  SNR             CNR                   Ground truth segmentations for all participants were
+ site                 cohort                                                        established through manual tracing performed by a neurologist
+ MSSM                    n=9                 23.30 +/− 5.73    0.93 +/− 0.19        blinded to subject identiﬁcation and time point. The process
+                                                                                    involved loading each T1w image into the FreeSurfer image
+ UW                      n = 15              39.29 +/− 12.21   0.75 +/− 0.14
+                                                                                    viewer, Freeview. A blank label volume was created using the same
+                                                                                    geometry as the T1w image. The neurologist (BLE) then manually
+                                                                                    segmented each lesioned area using the voxel edit tool, ensuring
+and echo times (TE) ranging from 1.79 ms to 7.37 ms. Philips                        accurate and detailed delineation of the lesions. All segmentations
+Achieva scans used a TR of 2,530 ms and TEs ranging from 1.67                       were initially performed on a single label volume, which was later
+to 7.07 ms. Philips Ingenia Elition X scans used a TR of 2,530 ms                   separated into unique values to indicate the presence of multiple
+and a TE of 2.14 ms. Further information about the number of                        lesions for individual subjects, thus creating a detailed ground
+scans obtained from each scanner is provided in Table 1. Eleven                     truth segmentation volume at each time point for all participants.
+participants underwent imaging on one scanner for their initial
+scan and a diﬀerent scanner for their follow-up scan due to
+upgrades occurring during the study follow-up periods. Additional                   2.4 Semi-automated lesion segmentation
+sequence parameters for the T1w sequences on each scanner have
+been previously reported (22).                                                           To minimize time requirements and reduce false negatives
+    Qualitative and quantitative data quality assessments were                      (i.e., missed labeling) in manual tracing, we developed a novel
+performed on the processed images of all 24 subjects at both                        method for semi-automated lesion segmentation intended to be
+time points. Data uniformity and comparability across subjects                      implemented into existing FreeSurfer workﬂows. As illustrated
+and scanning platforms were examined, given the variations                          in Figure 1A, we leveraged SynthSR (20, 21), a publicly available
+in sequence parameters. Visual quality assessments were based                       tool integrated within FreeSurfer that turns an MRI scan of any
+on the accuracy of FreeSurfer-generated surfaces (excluding                         orientation, resolution, and contrast into a 1 mm isotropic T1w
+those encompassing lesioned tissue) and the segmentation of                         image while inpainting lesions.
+subcortical structures, utilizing an accuracy rating scale adapted                       We applied SynthSR to T1w images for all participants and then
+from Diamond et al. (11). Signal-to-noise ratio (SNR) and contrast-                 repeated the FreeSurfer recon-all process on the synthesized images
+to-noise ratio (CNR) were measured using the FreeSurfer tools                       (Figure 1B). We deﬁned lesional voxels by comparing the SAMSEG
+“wm-anat-snr” and “mri_cnr,” calculating SNR in white matter                        (27) labels from the synthesized image with those from the original
+(WM) and the average of the WM-grey matter (GM) and GM-                             T1w image (Figure 1C) using the following rules: a voxel is deﬁned
+cerebrospinal ﬂuid (CSF) contrasts, respectively. While no subjects                 as a lesion if the segmentation label changed: (1) from white
+were excluded due to quality assessment measures, diﬀerences were                   matter (in the original T1w recon) to gray matter (in the SynthSR
+observed between the SNR distributions of enrollment sites, as                      recon); or (2) from CSF to background/white matter/gray matter;
+reported in Table 2.                                                                or (3) from white matter hypo-intensity to white matter. These
+    The T1w images were then processed, and the surfaces were                       rules were determined heuristically based on the segmentation label
+constructed, using FreeSurfer v7.4 (14). FreeSurfer processing                      changes inside the lesional areas from a subset of our sample (n
+involves motion correction, averaging of T1w images, removal                        = 5, randomly selected from the entire cohort and blinded to
+of non-brain tissue, automated Talairach transformation, and                        time point). Additional details and FreeSurfer segmentation class
+segmentation of brain structures. It also includes intensity                        information is outlined in Table 3.
+normalization, GM/WM boundary tessellation, and topology                                 To determine the segmentation rules, we relied on the label
+correction. Further steps involve surface deformation, surface                      changes within the ground truth lesion masks from those 5 subjects.
+inﬂation, spherical atlas registration, cortical parcellation, and the              Speciﬁcally, within the lesional areas deﬁned by the ground truth
+creation of curvature and sulcal depth maps. To robustly segment                    masks, we counted the number of voxels that had any changes
+neuroanatomic structures in brains with heterogeneous pathology,                    in their labels between the original SAMSEG and the SynthSR
+we used the Sequence Adaptive Multimodal SEGmentation                               SAMSEG, and we then sorted them from the largest to the smallest.
+(SAMSEG) tool (25, 26), instead of the default automated                            We used the label change with the largest voxel count as our ﬁrst
+segmentation (aseg) tool, before FreeSurfer recon-all. FreeSurfer                   rule and evaluated the Dice scores across the entire image against
+reconstructions for all participants were completed successfully.                   the ground truth. We then used a “greedy approach” by adding the
+
+
+
+Frontiers in Neurology                                                         03                                                         frontiersin.org
+Freeman et al.                                                                                                                  10.3389/fneur.2025.1640514
+
+
+
+
+   FIGURE 1
+   Overview of semi-automated lesion segmentation method. SynthSR images are generated for each acquired T1w image (A). Both images are then
+   processed through FreeSurfer recon-all, resulting in ASEG label volumes (B). The SynthSR-ASEG is compared to the acquired T1w ASEG to highlight
+   segmentation differences. Segmentation differences are identiﬁed voxel-by-voxel by comparing SynthSR ASEG and T1w ASEG volumes using
+   predeﬁned tissue-class rules: a voxel is classiﬁed as lesion if its label changes from white matter in ASEG to gray matter in SynthSR-ASEG, or from CSF
+   to white matter, gray matter or background, or from white matter hypointensity to white matter (C). Voxels meeting these criteria are classiﬁed as
+   lesions and reﬁned through morphological operations, including hole ﬁlling, erosion, small component removal, and dilation. (D). Finally, the cleaned
+   segmentation is reviewed for errors, including incorrectly labeled anatomy or missed lesions, and corrected to produce the ﬁnal modiﬁed,
+   semi-automated segmentation (E).
+
+
+
+
+label change with the second, third, etc. largest voxel counts and re-                Subsequently, we applied morphological image processing (28)
+evaluated the Dice. We stopped this rule selection process when the               to remove false positives, reduce noise, and ensure that the
+Dice score started decreasing.                                                    detected lesional areas are topologically correct, including hole
+
+
+
+
+Frontiers in Neurology                                                       04                                                                frontiersin.org
+Freeman et al.                                                                                                                                    10.3389/fneur.2025.1640514
+
+
+
+
+TABLE 3 Segmentation rules to identify lesional voxels.
+                                                                                                      benchmark for subsequent statistical testing of longitudinal lesion
+                                                                                                      expansion, allowing us to determine whether observed changes in
+  T1 SAMSEG ASEG                                 SynthSR ASEG (FreeSurfer
+  (FreeSurfer Label ID)                          Label ID)                                            lesion volume over time reﬂect lesion expansion or variability in
+                                                                                                      the method.
+  White matter (2, 41)                           Gray matter (3, 42)
+
+  CSF (24)                                       White matter (2, 41)
+
+  CSF (24)                                       Gray matter (3, 42)
+                                                                                                      2.6 Quantifying the contribution of the
+  CSF (24)                                       Background (0)
+                                                                                                      initial segmentation to the semi-automated
+  White matter hypointensity (77)                White matter (2, 41)                                 method
+Additional details regarding FreeSurfer labels are provided at https://surfer.nmr.mgh.harvard.
+edu/fswiki/FsTutorial/AnatomicalROI/FreeSurferColorLUT.
+                                                                                                           We quantiﬁed the contribution of the initial, fully automated
+                                                                                                      segmentation step and the degree of subsequent manual editing
+                                                                                                      needed to generate the ﬁnal semi-automated segmentations. For
+ﬁlling, spherical erosion/dilation, and area opening (Figure 1D).
+                                                                                                      this analysis, we calculated Dice coeﬃcients for each lesion against
+Successful application of this pipeline facilitated the identiﬁcation
+                                                                                                      the ground truth before and after manual reﬁnement. We assessed
+of clusters of lesioned voxels in the SynthSR inpainted volume,
+                                                                                                      whether these diﬀerences were signiﬁcantly diﬀerent from zero
+yielding an initial automated lesion segmentation mask (Figure 1E).
+                                                                                                      using Wilcoxon signed-rank tests. Bland–Altman plots were used
+A trained rater then performed manual edits (the only manual step
+                                                                                                      to assess agreement between the two approaches by plotting the
+in the semi-automated lesion segmentation method) to enhance the
+                                                                                                      lesion-wise diﬀerence in Dice against the lesion-wise mean Dice.
+accuracy of lesion segmentation boundaries, yielding a ﬁnal semi-
+                                                                                                           For the voxel-wise comparisons, we calculated voxel-level
+automated lesion mask. In post-processing, this mask was separated
+                                                                                                      true positives (TP), false negatives (FN), true negatives (TN),
+into unique values to identify multiple lesions for a single subject.
+                                                                                                      and false positives (FP) by comparing ground truth with both
+The rater performing manual edits for the semi-automated lesion
+                                                                                                      initial segmentation and reﬁned semi-automated segmentations at
+segmentation method was blinded to the “ground truth” manual
+                                                                                                      corresponding voxel locations. TP were voxels where both ground
+segmentations performed by the prior rater.
+                                                                                                      truth and segmentation were non-zero; FP were voxels where the
+                                                                                                      segmentation was non-zero, but the ground truth was zero; TN
+                                                                                                      were voxels where both were zero; and FN were voxels where the
+2.5 Evaluation of inter-rater variability for                                                         ground truth was non-zero, but the segmentation was zero. For
+the manual editing step of the                                                                        each lesion, we then derived the Dice coeﬃcient [2 TP/(2 TP + FP
+semi-automated method                                                                                 + FN)], sensitivity [TP/(TP + FN)], speciﬁcity [TN/(TN + FP)],
+                                                                                                      and precision [TP/(TP + FP)]. Given that zero-valued background
+     To determine inter-rater variability for the manual editing step                                 voxels were highly prevalent, we emphasize precision rather than
+of the semi-automated lesion segmentation method, we randomly                                         speciﬁcity, as it more directly reﬂects the reliability of positive voxel
+selected 10 T1w images with lesions from the LETBI dataset                                            detections. Per-lesion metrics were then aggregated across subjects
+that were not included in the 24-subject longitudinal dataset (i.e.,                                  by reporting the mean and standard deviation for each comparison.
+subjects for whom longitudinal data were not yet available). These                                         We next evaluated computational eﬃciency by measuring the
+10 independent T1w images were edited by three raters, each                                           total time required for recon-all completion. Runtimes for the
+of whom traced every lesion present on each scan. Raters were                                         SAMSEG and SynthSR workﬂows were compared with those from
+provided with SynthSR-generated segmentation masks (i.e., the                                         a standard FreeSurfer v8.0 run to assess potential time savings.
+initial automated lesion mask, as represented by the yellow lesion                                         Lastly, we quantiﬁed manual workload using an edited fraction
+mask in Figure 1E) and instructed to revise the segmentations,                                        metric, calculated as (deleted + added) voxels divided by the ﬁnal
+creating a ﬁnal semi-automated lesion mask (as represented by the                                     semi-automated lesion voxels. This reﬂects the proportion of voxels
+blue lesion mask in Figure 1E). In post-processing, this mask was                                     requiring change during manual reﬁnement, providing an estimate
+further separated into unique values to identify multiple lesions                                     of editing eﬀort.
+for individual subjects. The raters’ ﬁnal lesion masks were then
+compared to measure inter-rater variability.
+     To test inter-rater variability, we performed Bland-Altman
+analyses for each pair of raters (Rater 1 vs. Rater 2, Rater 1                                        2.7 Comparison of automated,
+vs. Rater 3, and Rater 2 vs. Rater 3), calculating the mean                                           semi-automated and ground truth
+diﬀerence (bias) and 95% limits of agreement (LoA). This analysis                                     segmentations
+was completed on the volume of each lesion, with multiple
+lesions from patients contributing to the analysis and each lesion                                        To evaluate the agreement of methods, we compared edited
+being treated as an independent observation. Additionally, we                                         semi-automated segmentations to the ground-truth segmentations
+computed the Intraclass Correlation Coeﬃcient (ICC) to assess                                         (Figure 2) at both time points using Wilcoxon signed-rank tests and
+the reliability of lesion-tracing. These analyses together assessed                                   Bland-Altman analyses. The Wilcoxon tests assessed whether there
+both agreement and reliability in lesion volumes, identifying any                                     were statistically signiﬁcant diﬀerences in the volumes generated by
+systematic biases or random variability. The LoA established a                                        the two methods, while the Bland-Altman analyses estimated the
+
+
+
+Frontiers in Neurology                                                                           05                                                              frontiersin.org
+Freeman et al.                                                                                                           10.3389/fneur.2025.1640514
+
+
+
+
+   FIGURE 2
+   Comparison of the initial automated lesion segmentation (yellow), the modiﬁed semi-automated segmentation (green), which was revised by a
+   trained rater, and the manually traced “ground truth” segmentation (blue).
+
+
+
+
+mean diﬀerence (bias), standard deviation, and limits of agreement            three raters to generate composite scores for each lesion. For the
+between them.                                                                 semi-automated and ground truth groups, Dice overlap and lesion
+   To complement the volumetric comparisons, we performed                     volume diﬀerences were derived by comparing Visit 2 to Visit 1
+voxel-wise comparisons of the initial automated segmentations                 segmentations. Statistical signiﬁcance of the diﬀerences between
+and the semi-automated segmentations against the ground truth                 longitudinal changes in lesion measurements (i.e., Dice overlap and
+segmentations. By comparing both automated and semi-automated                 volume) and inter-rater variability was assessed using the Wilcoxon
+segmentations against the ground truth segmentations, we provide              rank sum test, with a signiﬁcance threshold of 0.05, to account
+a quantitative measure of the changes in Dice scores, sensitivity,            for outliers and the small sample size. Finally, we operationally
+and precision that occur during the manual reﬁnement process of               deﬁned lesion expansion at the individual lesion level based on an
+semi-automated segmentation.                                                  increase in lesion volume greater than 2 times the SD over the
+                                                                              mean of the inter-rater volume variability, consistent with prior
+                                                                              neuroimaging studies (29). In a secondary analysis, we tested for
+2.8 Testing for longitudinal changes in                                       lesion expansion using a 1.5 SD cutoﬀ based on the application of
+                                                                              this statistical threshold to deﬁne abnormal cognitive performance
+lesion volume
+                                                                              in clinical practice (30).
+                                                                                  Longitudinal analyses of lesion volumes were performed in
+    We hypothesized that there are detectable changes in lesion
+                                                                              the subject’s native space at each time point. This method was
+volume when comparing Visit 1 to Visit 2 for the entire cohort
+                                                                              selected instead of using the FreeSurfer longitudinal pipeline, which
+and when comparing single-subject changes in lesion volume to
+                                                                              combines the two time points to generate a base image (31). The
+the null distribution of inter-rater variability (Figure 3). We tested
+                                                                              averaging process in the FreeSurfer pipeline would obscure the
+these two hypotheses using the semi-automated segmentations, as
+                                                                              examination of lesion progression by blending the time points
+well as the ground truth segmentations. We began by comparing
+                                                                              together, thus failing to capture dynamic changes in lesion size and
+lesion voxel volumes, measured in mL, between Visit 1 and Visit
+                                                                              location. By performing analyses in native space, we maintain the
+2, and then calculating the diﬀerence (Visit 2 – Visit 1) for each
+                                                                              integrity of individual time point data, allowing for precise tracking
+pair of measurements to determine the change in lesion volume.
+                                                                              of lesion growth and development over the study period without
+The statistical signiﬁcance of these changes was assessed using the
+                                                                              introducing registration artifacts.
+Wilcoxon signed rank test.
+
+
+
+2.9 Testing for changes in lesion volume                                      2.10 Evaluation of factors associated with
+compared to inter-rater variability                                           lesion volume change
+
+    Next, we tested whether the observed longitudinal changes                     We examined the relationship between changes in lesion
+in Dice overlap and lesion volume exceeds the degree of inter-                size (measured in mL) and the interval between imaging visits
+rater variability. Dice overlap and lesion volume diﬀerences were             (measured in days). For changes in lesion size, we use the values
+calculated for each lesion segmentation. For inter-rater data, Dice           previously calculated for analyses as described in Section 2.8.
+overlap and lesion volume diﬀerences were averaged across the                 Individual lesion clusters were matched between visits to directly
+
+
+
+Frontiers in Neurology                                                   06                                                            frontiersin.org
+Freeman et al.                                                                                                               10.3389/fneur.2025.1640514
+
+
+
+
+   FIGURE 3
+   T1w images from Visit 1 of six representative subjects demonstrating the heterogeneous nature of lesion size and location. Images are overlayed with
+   the ground truth lesion segmentations from Visit 1 (red shaded regions) and Visit 2 (blue outlined regions).
+
+
+
+
+compare changes over time. Pearson correlation coeﬃcient (R)                    Lesions were heterogeneous with respect to their neuroanatomic
+and two-tailed p-value were computed to assess the strength and                 locations and were most prevalent in the anterior frontal and
+signiﬁcance of any linear relationship between changes in lesion                temporal lobes (Figure 4). For the 24 individuals studied here
+size and duration between study visits. We applied Ordinary                     the ground truth lesion volume at Visit 1 ranged from 0.47 to
+Least Squares (OLS) regression analysis to further investigate how              53.28 mL (median = 8.81 mL, IQR = 12.21 mL) and Visit 2 lesion
+age, sex and interval between study visits relate to changes in                 volume ranged from 0.99 to 122.52 mL (median = 19.29 mL, IQR
+lesion volume.                                                                  = 34.42 mL). For the 10 diﬀerent subjects in inter-rater cohort, the
+    In addition, we examined whether voxel intensity changes                    lesion volume ranged from 0.93 to 29.38 mL (median = 4.44 mL,
+introduced by SynthSR inﬂuenced lesion volume diﬀerences or the                 IQR = 7.53 mL).
+extent of manual editing. For each visit and lesion, we quantiﬁed the
+number and volume of lesioned white matter voxels that underwent
+a signal change after SynthSR processing. These measures were
+compared with the manual-edit overlap and absolute lesion volume                3.2 Inter-rater variability
+diﬀerence using visit-wise Spearman correlations.
+                                                                                    We ﬁrst assessed agreement among the three raters using
+                                                                                Bland-Altman analysis (Table 5). The mean bias values between
+3 Results                                                                       each pair of raters ranged from −0.98 mL to 1.44 mL, with LoA
+                                                                                spanning from −3.57 mL to 4.60 mL. Additionally, the ICC was
+3.1 Participant and lesion characteristics                                      calculated to evaluate reliability among raters. The ICC (2,1)
+                                                                                was 0.98 (95% CI: 0.93–0.99), indicating excellent reliability.
+    The 24 longitudinal participants ranged in age at Visit 1 from              These results demonstrate a high level of consistency across the
+33 to 73 years old, with a median age of 55.8 years (IQR =                      raters, with minor diﬀerences likely attributable to individual rater
+14.3). Of these participants, nineteen were males. The 10 inter-                preferences or the inherent complexity of lesion-tracing in chronic
+rater participants ranged in age from 31 to 73 with a median age                TBI. Variability within the LoA reﬂects the heterogenous and
+of 51.8 years (IQR = 22.8). Nine of the inter-rater participants                complex nature of the lesions, leading to diﬀering identiﬁcations
+were male. Additional descriptive statistics are provided in Table 4.           and tracings by raters.
+
+
+
+Frontiers in Neurology                                                     07                                                               frontiersin.org
+Freeman et al.                                                                                                               10.3389/fneur.2025.1640514
+
+
+
+
+TABLE 4 Patient and lesion characteristics.
+
+
+ Characteristics                             Longitudinal dataset (n = 24)                                   Inter-rater dataset (n = 10)
+                                       M                    SD                  Range                  M                  SD                Range
+ Age at ﬁrst visit (years)            55.8                  11.2                  33–73               51.8                14.5               31–73
+
+ Visit interval (days)               1,328.5               498.7                734–2366              N/A                 N/A                 N/A
+
+ Sex (male:female)                    19:5                  N/A                   N/A                  9:1                N/A                 N/A
+
+ Lesion volume (visit 1, mL)          N/A                   N/A                 0.47–53.28            N/A                 N/A              0.93–29.38
+
+
+
+
+   FIGURE 4
+   Neuroanatomic distribution of ground truth lesions across time points. Heatmap of all 48 ground truth lesion tracings registered to MNI space and
+   overlayed on a 100 micron MRI template (46), revealing a predominance of frontotemporal cortical lesions in this cohort. Color and opacity of the
+   heatmap are modulated by the percent of lesion traces in each voxel, with the maximum overlap observed being 33%.
+
+
+
+3.3 Contribution of the initial automated                                           Table 6 details the improvement in Dice score and sensitivity
+segmentation to the semi-automated                                              achieved by the semi-automated segmentations, as compared to
+pipeline                                                                        the initial automated segmentations, at each visit. At Visit 1, Dice
+                                                                                increased from 0.47 to 0.54 and sensitivity from 0.45 to 0.56, while
+    Wilcoxon signed-rank tests showed that Dice coeﬃcients                      precision decreased slightly from 0.72 to 0.70. At Visit 2, Dice
+signiﬁcantly increased after reﬁnements at both visits (Visit 1: W              improved from 0.40 to 0.64 and sensitivity from 0.29 to 0.63, with
+= 49.0, p < 0.0008; Visit 2: W = 8.0, p < 0.0001). Bland-Altman                 precision dropping from 0.87 to 0.77. These observations suggests
+analyses indicated mean Dice improvements of +0.065 at Visit 1                  that the manual reﬁnement step of the semi-automated pipeline
+(95% LoA: −0.247 to 0.377) and +0.245 at Visit 2 (−0.136 to 0.615)              increases volumetric overlap with the ground truth segmentation
+(Figure 5). These results demonstrate that manual reﬁnement                     and recovers more true lesion voxels than the initial segmentation
+recovers, on average, an additional 6.5 % and 23.9 % Dice overlap               captures alone. The observed increase in Dice and sensitivity paired
+in Visit 1 and 2, respectively.                                                 with the decrease in precision at both timepoints indicates that
+
+
+
+Frontiers in Neurology                                                     08                                                              frontiersin.org
+Freeman et al.                                                                                                                    10.3389/fneur.2025.1640514
+
+
+
+
+TABLE 5 Inter-rater Bland Altman agreement results.
+
+
+ Comparison                      Mean difference (bias) [mL]               Dice (mean ± SD)                 Upper LOA [mL]               Lower LOA [mL]
+ Rater 1 vs. Rater 2                             1.44                              0.82 ± 0.07                       4.60                          −1.72
+
+ Rater 1 vs. Rater 3                             0.47                              0.75 ± 0.18                       2.03                          −1.10
+
+ Rater 2 vs. Rater 3                            −0.98                              0.77 ± 0.17                       1.62                          −3.57
+
+
+
+
+   FIGURE 5
+   Bland–Altman plots comparing initial vs. reﬁned semi-automated Dice (against ground truth) per lesion for Visit 1 (left) and Visit 2 (right).
+
+
+
+
+while more true lesion voxels are being captured, some non-lesion                  of agreement ranged from −11.41 mL to 16.25 mL, demonstrating
+voxels are also being added to the segmentation masks during the                   a reasonably close alignment between the two methods. The
+manual reﬁnement.                                                                  Wilcoxon signed-rank test indicated no statistically signiﬁcant
+    We assessed computational eﬃciency by extracting recon-                        diﬀerence (W = 276.00, p = 0.26), suggesting that the semi-
+all completion times from log ﬁles for SAMSEG, SynthSR, and                        automated method closely approximates the ground truth.
+FreeSurfer v8. Across all participants and visits, runtimes were                       At Visit 2, the semi-automated measurements showed a higher
+shorter with SynthSR (2.43 ± 0.40 h; 2.41 ± 0.43 h) and SAMSEG                     mean bias of −3.08 mL (SD = 9.71 mL, median = −2.49 mL, IQR
+(2.67 ± 0.42 h; 2.75 ± 0.42 h) than with FreeSurfer v8 (3.88 ±                     = 5.99 mL) compared to the ground truth, with a wider range
+0.76 h; 3.84 ± 0.46 h), representing an average ∼1.4 h reduction and               of agreement (−22.13 mL to 15.96 mL). This observation suggests
+lower variability (Table 7).                                                       that measurement diﬀerences varied more than in the ﬁrst visit. A
+    Although editing time was not recorded, the edited fraction was                Wilcoxon signed-rank test revealed a signiﬁcant diﬀerence between
+small at Visit 1 (median = 0.11, IQR = 0.00–0.43) and larger at Visit              the two methods at this timepoint (W = 197.00, p = 0.019),
+2 (median = 0.59, IQR = 0.51–0.71), indicating that reﬁnement                      suggesting that the discrepancies between the semi-automated and
+typically required labeling substantially fewer voxels than fully                  ground truth measurements were more pronounced at this visit.
+manual tracing. Together with the observed Dice improvements                           Collectively, these ﬁndings at Visit 1 and Visit 2 suggest that the
+after reﬁnement, these ﬁndings suggest reduced manual eﬀort                        semi-automated method provides a reliable alternative to ground
+despite some increases in non-lesion voxels. The time required                     truth tracing, oﬀering comparable accuracy and consistency,
+for each segmentation method varied depending on lesion burden.                    despite increased variability at the second timepoint (Figure 6).
+We estimated that lesion adjustment using the semi-automated
+method required approximately 10–20 min per scan, compared to
+60–90 min for manual segmentation.
+                                                                                   3.5 Longitudinal changes in lesion volume
+
+                                                                                       Longitudinal changes in lesion sizes derived from semi-
+3.4 Semi-automated segmentation                                                    automated segmentations at Visit 1 and Visit 2 ranged from
+performance compared to ground truth                                               −0.11 to 55.21 mL. The Wilcoxon signed-rank test results yielded
+segmentation                                                                       a statistic of 1.0 at p < 0.0001, indicating an increase in lesion
+                                                                                   volume between Visit 1 and Visit 2. Repeating the Wilcoxon signed-
+   At Visit 1, the semi-automatic volume measurements yielded                      rank test using the ground truth segmentations similarly revealed
+a mean bias of 2.42 mL (SD = 7.06 mL, median = −0.01 mL, IQR                       an increase in lesion volume, ranging from 1.30 to 79.45 mL (W =
+= 6.36 mL) relative to the ground truth measurements. The limits                   1.00, p < 0.0001).
+
+
+
+Frontiers in Neurology                                                        09                                                                   frontiersin.org
+Freeman et al.                                                                                                                       10.3389/fneur.2025.1640514
+
+
+
+
+TABLE 6 Group-level performance metrics against ground truth segmentations for initial vs. semi-automated segmentations.
+
+
+ Segmentation                                      Visit 1                                                               Visit 2
+ methods
+                            Dice        Sensitivity         Precision        Speciﬁcity          Dice         Sensitivity          Precision      Speciﬁcity
+                          (M ± SD)       (M ± SD)           (M ± SD)          (M ± SD)         (M ± SD)        (M ± SD)            (M ± SD)        (M ± SD)
+ Initial automated        0.47 ± 0.30    0.45 ± 0.30        0.72 ± 0.17        1.00 ± 0.00     0.40 ± 0.23     0.29 ± 0.17          0.87 ± 0.21    1.00 ± 0.00
+ segmentation
+
+ Semi-automated           0.54 ± 0.30    0.56 ± 0.31        0.70 ± 0.71        1.00 ± 0.00     0.64 ± 0.28     0.63 ± 0.28          0.77 ± 0.22    1.00 ± 0.00
+ segmentation
+
+
+TABLE 7 Recon-all runtimes by method and visit.
+
+
+ Visit                             SAMSEG                                            SynthSR                                       FreeSurfer v8
+                  M ± SD [HH:MM]              Min–Max              M ± SD [HH:MM]               Min–Max            M ± SD [HH:MM]                 Min–Max
+ Visit 1                 2.67 ± 0.42            2.02–3.64                 2.43 ± 0.40             1.80–3.34                  3.88 ± 0.76           3.05–6.61
+
+ Visit 2                 2.75 ± 0.42            1.86–3.65                 2.41 ± 0.43             1.90–3.35                  3.84 ± 0.46           3.13–4.62
+
+
+
+
+   FIGURE 6
+   Bland-Altman agreement plots comparing lesion volume measurements across visits and methods. Each plot shows the difference vs. the mean,
+   with bias (dashed red lines) and limits of agreement (dashed black lines).
+
+
+
+
+3.6 Changes in lesion volume compared to                                             volume greater than 2 times the SD over the mean of the inter-
+inter-rater variability                                                              rater results (top dashed line in Figure 7, right). When using a
+                                                                                     threshold of 1.5 times the SD over the mean of the inter-rater
+    The longitudinal changes in Dice overlap from Visit 1 to Visit                   results, 93.8% of lesions for the ground truth and 65.6% of lesions
+2 exceeded inter-rater variability for both the semi-automated                       for the semi-automated experienced an increase in lesion volume.
+method (W = 1299.0, p < 0.0001) and the ground truth method
+(W = 684.5, p < 0.0001). Similarly, the increase in lesion volume
+from Visit 1 to Visit 2 exceeded inter-rater variability (i.e., the                  3.7 Lesion size variation across different
+volume diﬀerence between raters for the same lesion) for both                        visit intervals
+the semi-automated method (W = 225.0, p < 0.0001) and the
+ground truth method (W= 16.0, p < 0.0001) (Figure 7). Further,                          Inter-visit intervals ranged from 727 to 2,366 days. Correlation
+90.6% of lesions for the ground truth method and 60.7% of lesions                    analyses revealed no relationship between visit intervals and
+for the semi-automated method experienced an increase in lesion                      changes in lesion size for both the semi-automated (R = −0.12,
+
+
+
+Frontiers in Neurology                                                          10                                                                frontiersin.org
+Freeman et al.                                                                                                                  10.3389/fneur.2025.1640514
+
+
+
+
+   FIGURE 7
+   Comparison of Longitudinal Lesion Changes with Inter-rater Variability. The longitudinal changes in Dice scores (left panel) and volume
+   measurements (right panel) from Visit 1 to Visit 2 are compared to their respective inter-rater reliability measures. The respective mean (red line) and
+   2 SD intervals (purple dashed lines) pertain to the inter-rater data.
+
+
+
+
+p = 0.38) and ground truth (R = −0.10, p = 0.58) methods                          4 Discussion
+(Figure 8). Regression models accounting for age, sex, and visit
+interval explained only 7.3% (R² = 0.073) and 5.2% (R² =                              In this longitudinal MRI study of 24 individuals with chronic
+0.052) of the variance in lesion volume change, for the semi-                     TBI, we demonstrate the reliability and eﬃciency of a semi-
+automated and ground truth methods, respectively. After adjusting                 automated cortical lesion segmentation tool. Our ﬁndings indicate
+for the number of predictors, the adjusted R² values were 0.024                   that this semi-automated method performs robustly against
+for semi-automated and −0.049 for ground truth, indicating                        ground-truth manual tracings to segment lesions with improved
+minimal explanatory power. None of the individual predictors were                 precision over an automated technique and with improved time
+statistically signiﬁcant in either model (all p > 0.11). The overall              eﬃciency compared to previously developed methods (11). Further,
+F-statistics were 1.49 (p = 0.23) for semi-automated and 0.52                     in a proof-of-principle application of the semi-automated lesion
+(p = 0.68) for ground truth, suggesting that the models did not                   segmentation tool, we provide preliminary evidence that cortical
+eﬀectively predict lesion volume changes. Together, these ﬁndings                 lesions expand beyond 1 year post-injury, with 37 of 61 measured
+indicate that the observed changes in lesion size after TBI are not               lesions (60.7%) expanding on MRI scans performed at least 2
+explained by age-related factors or inﬂuenced by sex, regardless of               years apart. These observations raise the possibility that lesion
+the measurement method used.                                                      expansion may contribute to PTND—a ﬁnding that will require
+                                                                                  conﬁrmation in larger longitudinal studies with clinical-radiologic-
+                                                                                  pathological correlations. The semi-automated lesion tool thus
+                                                                                  creates new opportunities to investigate the role of cortical lesions
+3.8 Impact of SynthSR-induced voxel                                               in the pathogenesis of PTND.
+intensity changes on lesion volume and                                                The semi-automated lesion segmentation tool developed here
+editing burden                                                                    builds upon recent innovations in machine learning-based imaging
+                                                                                  analysis, most notably SynthSR (20, 21). What distinguishes this
+    We further assessed whether SynthSR-induced voxel intensity                   tool from previously developed lesion segmentation methods is: (1)
+changes were associated with lesion volume diﬀerences or editing                  increased eﬃciency when compared to traditional manual tracing;
+burden (Table 8). Correlations between intensity change volume                    (2) compatibility with standard FreeSurfer outputs with a fully
+and lesion volume diﬀerence were small and non-signiﬁcant (Visit                  speciﬁed, scriptable sequence of steps to support reproducibility
+1: ρ = −0.26, p = 0.215, q = 0.287; Visit 2: ρ = 0.08, p = 0.713, q =             within FreeSurfer-based workﬂows; and (3) scalability to large
+0.713). The intensity change count showed modest, visit-dependent                 datasets with anatomically guided segmentation. The new semi-
+correlations with manual-edit overlap (Visit 1: ρ = 0.38, p = 0.067,              automated tool demonstrates robust performance characteristics
+q = 0.134; Visit 2: ρ = 0.41, p = 0.047, q = 0.134), suggesting a                 against “ground-truth” manual lesion segmentations, as evidenced
+potential but limited inﬂuence on manual editing requirements.                    by the strong agreement observed between the two methods at Visit
+
+
+
+Frontiers in Neurology                                                       11                                                                 frontiersin.org
+Freeman et al.                                                                                                                10.3389/fneur.2025.1640514
+
+
+
+
+   FIGURE 8
+   Correlation analysis examining the time between study visits and the calculated difference in lesion volume both for ground truth (blue) and
+   semi-automated (green) methods.
+
+
+
+TABLE 8 Correlations between lesion intensity changes and manual-editing burden across visits.
+
+
+ Association                                                            Visit 1                                             Visit 2
+                                                           ρ                p                q                 ρ                p                  q
+ Absolute lesion volume diﬀerence (mL) ↔                −0.263             0.215            0.287            0.079             0.713              0.713
+ Intensity-change volume within lesions (mL)
+
+ Intensity-change voxels within lesions (count) ↔        0.380             0.067            0.134            0.409             0.047              0.134
+ Manual-edit overlap (count)
+
+
+
+1. The observed discrepancies at Visit 2 may reﬂect a heightened                 required approximately 10–20 min per MRI scan, and we estimate
+sensitivity of the semi-automated method to more complex lesion                  that several hours of training were required for each rater
+morphologies, which could account for the increased variability                  performing the manual editing. Nonetheless, the time required for
+in measurements. Collectively, these ﬁndings underscore the                      the manual editing step in the newly proposed method is far less
+reliable performance of semi-automated segmentation compared                     than for our previously published lesion segmentation method (11).
+to traditional manual tracing, but also the potential for future                 While the prior tool required manual creation of set points along
+improvement in the reliability of the method.                                    the entire lesion surface, the new method requires only a small
+     Importantly, the semi-automated lesion segmentation tool                    number of voxel-based edits in volumetric space. A key future
+requires human input to reﬁne and optimize lesion boundaries—                    direction will be to determine whether full automation is reliable.
+a step that reﬂects the inherent challenge of training automated                 This goal may be attainable via integration with recently developed
+tools to detect traumatic lesions, which often have heterogeneous                methods such as VoxelPrompt (32) and FastSurfer-LIT (33). We
+signal characteristics related to variable distributions of gliosis,             currently recommend manual editing of segmented lesions until
+demyelination, and encephalomalacia. This manual editing step                    further studies conﬁrm the reliability of fully automated methods.
+
+
+
+Frontiers in Neurology                                                      12                                                               frontiersin.org
+Freeman et al.                                                                                                          10.3389/fneur.2025.1640514
+
+
+
+
+     The lesion expansion observed in this cohort is consistent                    Nevertheless, there are several potential beneﬁts of a technique
+with and builds upon the growing evidence base indicating that                 that leverages a robust software package like FreeSurfer, which has
+pathological processes in TBI persist and progress in the chronic              been intensively tested, veriﬁed and can handle a broad spectrum
+setting, even beyond one year post-injury. The clinical signiﬁcance            of neuroimaging data. Speciﬁcally, our technique obviates the need
+of lesion expansion is well established in the acute stages of care            for extensive model training for diﬀerent types of lesions, because
+(34), wherein expansion of an acute lesion may cause mass eﬀect                it generates preliminary segmentations via a simple, reproducible
+and herniation. In the chronic stage, there are many unanswered                pipeline amenable to subsequent curation. Standalone, dataset-
+questions about the clinical relevance, underlying mechanisms,                 speciﬁc deep learning approaches, by comparison, require further
+and temporal dynamics of TBI lesion expansion. Prior evidence                  validation of their generalizability, entail maintenance and
+from histopathology (3, 35) and neuroimaging studies suggests that             support, investment in replication infrastructure, and signiﬁcant
+inﬂammation persists in the chronic stage of TBI (36, 37), but                 computational resources for training on new datasets. Also,
+whether chronic lesion expansion is attributable to inﬂammation,               because our approach relies on standard FreeSurfer outputs, it is
+gliosis, microvascular ischemia, or some combination of factors                immediately deployable and likely more feasible to integrate into
+is unknown. Elucidating mechanisms of chronic lesion expansion                 existing neuroimaging pipelines than establishing a computational
+will require pathological-radiologic correlation analyses, which the           environment for more sophisticated automated segmentation.
+LETBI study is designed to perform, given the premortem consent
+for autopsy provided by LETBI participants (22). The absence of
+an association between lesion expansion and time between scans                 5 Conclusions
+suggests that lesion expansion occurs at variable rates, though
+this preliminary observation will require future studies with larger               In summary, we developed and implemented a semi-automated
+sample sizes to conﬁrm.                                                        lesion detection tool that accurately identiﬁes and eﬃciently
+     Several limitations should be considered when interpreting the            quantiﬁes the volume of cortical lesions in individuals with chronic
+results of this study. The small sample size of 24 individuals with            TBI. Further, we provide proof-of-principle evidence that this
+chronic TBI limits the generalizability of our results, necessitating          lesion segmentation tool can detect longitudinal lesion growth
+larger cohorts for validation. Only investigating two imaging time             in the chronic stage of TBI. Future applications of this tool
+points and the relatively brief follow-up period of 3.5 +/− 1.2                have the potential to elucidate the pathophysiologic links between
+years is also insuﬃcient to elucidate the long-term trajectory of              lesion expansion and the clinical expression of PTND, including
+lesion expansion and its implications for PTND. The potential                  in individuals with TBI resulting in large cortical lesions that
+contribution of cortical lesion expansion to the pathogenesis of               would otherwise exclude them from analyses of neuroimaging
+PTND is unknown and will require future studies with suﬃciently                data. Ultimately, the integration of lesion segmentation into
+large sample sizes to account for other risk factors, as well as               clinical MRI workﬂows has the potential to inform preventive,
+protective factors.                                                            diagnostic, prognostic, and therapeutic strategies for individuals
+     While the semi-automated tool improves eﬃciency, it                       with chronic TBI.
+still requires manual input for reﬁning lesion boundaries,
+introducing potential variability and subjectivity. Additionally, the
+heterogeneous neuroanatomic locations and signal characteristics
+                                                                               Data availability statement
+of traumatic lesions further complicate the segmentation process,
+                                                                                   The analytic code used in this study is available at https://
+as the tool may not uniformly handle all types of lesions with
+                                                                               github.com/ComaRecoveryLab/semiauto-cortical-lesion-
+the same accuracy. It is currently unknown whether the semi-
+                                                                               expansion. The source data is available upon reasonable request to
+automated method detects lesions that evade detection by manual
+                                                                               the corresponding author.
+raters who do not have access to the initial automated lesion masks.
+Lastly, this study did not test for cognitive and functional correlates
+of lesion expansion—a crucial area for future research. Addressing             Ethics statement
+these limitations will be essential for advancing our understanding
+of cortical lesion dynamics in chronic TBI.                                        The studies involving humans were approved by the ISMMS,
+     A key goal in future studies will be to evaluate the accuracy             UW, and Mass General Brigham Institutional Review Boards. The
+and eﬃciency of the proposed semi-automated lesion segmentation                studies were conducted in accordance with the local legislation and
+technique in comparison to fully automated techniques that are                 institutional requirements. The participants provided their written
+being generated in the rapidly evolving ﬁeld of deep learning.                 informed consent to participate in this study.
+There is an increasing number of MRI segmentation algorithms
+that are being applied to a broad spectrum of neuropsychiatric
+diseases using deep learning tools (38–41), as well as applications            Author contributions
+in more widely available CT scans (42–44). Several such techniques
+have been applied to individuals with TBI (42, 45), underscoring                   HF: Conceptualization, Data curation, Formal analysis,
+the potential for fully automated deep learning techniques to                  Investigation, Methodology, Resources, Software, Validation,
+supplement, or ultimately replace, the type of semi-automated                  Visualization, Writing – original draft, Writing – review &
+lesion segmentation tool developed here.                                       editing. AA: Data curation, Software, Validation, Visualization,
+
+
+
+Frontiers in Neurology                                                    13                                                         frontiersin.org
+Freeman et al.                                                                                                                                    10.3389/fneur.2025.1640514
+
+
+
+
+Writing – original draft, Writing – review & editing, Formal                                  (W81XWH2210999), and the Chen Institute MGH Research
+analysis. JL: Writing – original draft, Writing – review & editing,                           Scholar Award.
+Conceptualization, Data curation, Software, Validation, Formal
+analysis. ESo: Data curation, Methodology, Validation, Writing –
+review & editing. NG: Data curation, Methodology, Validation,                                 Conﬂict of interest
+Writing – review & editing. SS: Data curation, Methodology,
+Validation, Writing – review & editing. BH: Formal analysis,                                      The authors declare that the research was conducted in the
+Writing – review & editing. HC: Data curation, Investigation,                                 absence of any commercial or ﬁnancial relationships that could be
+Writing – review & editing. ESe: Investigation, Writing – review                              construed as a potential conﬂict of interest.
+& editing. AP: Investigation, Writing – review & editing. LB:
+Investigation, Writing – review & editing. DS: Investigation,
+Writing – review & editing. DH: Data curation, Investigation,                                 Generative AI statement
+Writing – review & editing. AS: Methodology, Writing – review
+& editing. YB: Methodology, Writing – review & editing, Data                                      The author(s) declare that no Gen AI was used in the creation
+curation, Investigation. JH: Methodology, Writing – review &                                  of this manuscript.
+editing. CM: Funding acquisition, Investigation, Methodology,                                     Any alternative text (alt text) provided alongside ﬁgures in
+Writing – review & editing. KD-O’C: Funding acquisition,                                      this article has been generated by Frontiers with the support of
+Investigation, Methodology, Supervision, Writing – original draft,                            artiﬁcial intelligence and reasonable eﬀorts have been made to
+Writing – review & editing. BE: Funding acquisition, Investigation,                           ensure accuracy, including review by the authors wherever possible.
+Methodology, Supervision, Writing – original draft, Writing –                                 If you identify any issues, please contact us.
+review & editing.
+
+                                                                                              Publisher’s note
+Funding
+                                                                                                  All claims expressed in this article are solely those of the
+    The author(s) declare that ﬁnancial support was received for                              authors and do not necessarily represent those of their aﬃliated
+the research and/or publication of this article. This study was                               organizations, or those of the publisher, the editors and the
+supported by the NIH National Institute of Neurological Disorders                             reviewers. Any product that may be evaluated in this article, or
+and Stroke (RF1NS128961, RF1NS115268, U01NS086625), NIH                                       claim that may be made by its manufacturer, is not guaranteed or
+Director’s Oﬃce (DP2HD101400), the U.S. Department of Defense                                 endorsed by the publisher.
+
+
+
+
+References
+  1. Dams-O’connor K, Ketchum JM, Cuthbert JP, Corrigan JD, Hammond                           traumatic brain injury. J Neurotrauma. (2008) 25:1343–5. doi: 10.1089/neu.2008.
+FM, Haarbauer-Krupa J, et al. Functional outcome trajectories following                       0615
+inpatient rehabilitation for TBI in the United States: a NIDILRR TBIMS
+                                                                                                9. Strangman GE, O’neil-Pirozzi TM, Supelana C, Goldstein R, Katz DI, Glenn
+and CDC interagency collaboration. J Head Trauma Rehabil. (2020)
+                                                                                              MB. Regional brain morphometry predicts memory rehabilitation outcome after
+35:127–39. doi: 10.1097/HTR.0000000000000484
+                                                                                              traumatic brain injury. Front Hum Neurosci. (2010) 4:182. doi: 10.3389/fnhum.2010.
+  2. Kenney K, Iacono D, Edlow BL, Katz DI, Diaz-Arrastia R, Dams-O’connor K,                 00182
+et al. Dementia after moderate-severe traumatic brain injury: coexistence of multiple
+                                                                                                10. Santhanam P, Wilson SH, Oakes TR, Weaver LK. Accelerated age-
+proteinopathies. J Neuropathol Exp Neurol. (2018) 77:50–63. doi: 10.1093/jnen/nlx101
+                                                                                              related cortical thinning in mild traumatic brain injury. Brain Behav. (2019)
+  3. Johnson VE, Stewart JE, Begbie FD, Trojanowski JQ, Smith DH, Stewart W, et al.           9:e01161. doi: 10.1002/brb3.1161
+Inﬂammation and white matter degeneration persist for years after a single traumatic
+brain injury. Brain. (2013) 136:28–42. doi: 10.1093/brain/aws322                                11. Diamond BR, Donald CLM, Frau-Pascual A, Snider SB, Fischl B, Dams-O’connor
+                                                                                              K, et al. Optimizing the accuracy of cortical volumetric analysis in traumatic brain
+  4. Mckee AC, Stern RA, Nowinski CJ, Stein TD, Alvarez VE, Daneshvar DH,                     injury. MethodsX. (2020) 7:100994. doi: 10.1016/j.mex.2020.100994
+et al. The spectrum of disease in chronic traumatic encephalopathy. Brain. (2013)
+136:43–64. doi: 10.1093/brain/aws307                                                            12. Dadar M, Potvin O, Camicioli R, Duchesne S, Alzheimer’s Disease Neuroimaging
+                                                                                              Initiative. Beware of white matter hyperintensities causing systematic errors
+  5. Sandsmark DK, Bashir A, Wellington CL, Diaz-Arrastia R. Cerebral                         in FreeSurfer gray matter segmentations! Hum Brain Mapp. (2021) 42:2734–
+microvascular injury: a potentially treatable endophenotype of traumatic                      45. doi: 10.1002/hbm.25398
+brain      injury-induced    neurodegeneration. Neuron. (2019)  103:367–
+79. doi: 10.1016/j.neuron.2019.06.002                                                           13. Oi Y, Hirose M, Togo H, Yoshinaga K, Akasaka T, Okada T, et al. Identifying
+                                                                                              and reverting the adverse eﬀects of white matter hyperintensities on cortical surface
+  6. Dams-O’connor K, Seifert AC, Crary JF, Delman BN, Del Bigio MR, Kovacs                   analyses. Neuroimage. (2023) 281:120377. doi: 10.1016/j.neuroimage.2023.120377
+GG, et al. The neuropathology of intimate partner violence. Acta Neuropathol. (2023)
+146:803–15. doi: 10.1007/s00401-023-02646-1                                                     14. Fischl        B.     FreeSurfer.      Neuroimage.         (2012)       62:774–
+                                                                                              81. doi: 10.1016/j.neuroimage.2012.01.021
+  7. Vande Vyvere T, Pisica D, Wilms G, Claes L, Van Dyck P, Snoeckx A, et al.
+Imaging Findings in acute traumatic brain injury: a National Institute of Neurological          15. Smith SM, Jenkinson M, Woolrich MW, Beckmann CF, Behrens
+Disorders and Stroke common data element-based pictorial review and analysis of over          TE, Johansen-Berg H, et al. Advances in functional and structural
+4000 admission brain computed tomography scans from the Collaborative European                MR image analysis and implementation as FSL. Neuroimage. (2004)
+NeuroTrauma Eﬀectiveness Research in Traumatic Brain Injury (CENTER-TBI) Study.               23:S208–219. doi: 10.1016/j.neuroimage.2004.07.051
+J Neurotrauma. (2024) 41:2248–97. doi: 10.1089/neu.2023.0553
+                                                                                                16. Friston KJ, Holmes AP, Worsley KJ, Poline J-P, Frith CD, Frackowiak RSJ, et al.
+  8. Merkley TL, Bigler ED, Wilde EA, Mccauley SR, Hunter JV, Levin HS,                       Statistical parametric maps in functional imaging: a general linear approach. Hum
+et al. Diﬀuse changes in cortical thickness in pediatric moderate-to-severe                   Brain Mapp. (1994) 2:189–210. doi: 10.1002/hbm.460020402
+
+
+
+
+Frontiers in Neurology                                                                   14                                                                       frontiersin.org
+Freeman et al.                                                                                                                                     10.3389/fneur.2025.1640514
+
+
+
+
+  17. Ding K, De Marquez C, La Plata JY, Wang M, Mumphrey C,                                    31. Reuter M, Schmansky NJ, Rosas HD, Fischl B. Within-subject template
+Moore C, et al. Cerebral atrophy after traumatic white matter injury:                         estimation for unbiased longitudinal image analysis. Neuroimage. (2012) 61:1402–
+correlation with acute neuroimaging and outcome. J Neurotrauma. (2008)                        18. doi: 10.1016/j.neuroimage.2012.02.084
+25:1433–40. doi: 10.1089/neu.2008.0683
+                                                                                                32. Hoopes A, Butoi VI, Guttag JV, Dalca AV. VoxelPrompt: A vision-language agent
+  18. Warner MA, Youn TS, Davis T, Chandra A, De Marquez C, La Plata C,                       for grounded medical image analysis. arXiv. (2024) 2410:08397.
+et al. Regionally selective atrophy after traumatic axonal injury. Arch Neurol. (2010)
+67:1336–44. doi: 10.1001/archneurol.2010.149                                                    33. Pollak, C, Kugler, D, Bauer, T, Ruber, T, Reuter, M. (2025). FastSurfer-LIT:
+                                                                                              lesion inpainting tool for whole brain MRI segmentation with tumors, cavities and
+  19. Kumar RG, Selmanovic E, Gilmore N, Spielman L, Li LM, Hoﬀman JM,                        abnormalities. Imag Neurosci. 3:1–8. doi: 10.1162/imag_a_00446
+et al. Distinct clinical phenotypes and their neuroanatomic correlates in chronic
+traumatic brain injury. Brain Commun. (2025) 7:fcaf216. doi: 10.1093/braincomms/                34. Adatia K, Newcombe VFJ, Menon DK. Contusion progression following
+fcaf216                                                                                       traumatic brain injury: a review of clinical and radiological predictors, and inﬂuence
+                                                                                              on outcome. Neurocrit Care. (2021) 34:312–24. doi: 10.1007/s12028-020-00994-4
+  20. Iglesias JE, Billot B, Balbastre Y, Tabari A, Conklin J, Gilberto Gonzalez
+R, et al. Joint super-resolution and synthesis of 1 mm isotropic MP-RAGE                        35. Witcher KG, Bray CE, Chunchai T, Zhao F, O’neil SM, Gordillo AJ,
+volumes from clinical MRI exams with scans of diﬀerent orientation, resolution                et al. (2021). Traumatic brain injury causes chronic cortical inﬂammation
+and contrast. Neuroimage. (2021) 237:118206. doi: 10.1016/j.neuroimage.2021.                  and neuronal dysfunction mediated by microglia. J Neurosci 41:1597–
+118206                                                                                        616. doi: 10.1523/JNEUROSCI.2469-20.2020
+  21. Iglesias JE, Billot B, Balbastre Y, Magdamo C, Arnold SE, Das S, et al.                   36. Scott G, Zetterberg H, Jolly A, Cole JH, De Simoni S, Jenkins PO, et al.
+SynthSR: A public AI tool to turn heterogeneous clinical brain scans into                     Minocycline reduces chronic microglial activation after brain trauma but increases
+high-resolution T1-weighted images for 3D morphometry. Sci Adv. (2023)                        neurodegeneration. Brain. (2018) 141:459–71. doi: 10.1093/brain/awx339
+9:eadd. doi: 10.1126/sciadv.add3607                                                            37. Edlow BL, Tseng CJ, Gilmore N, Mckinney IR, Tromly SL, Deary KB, et al.
+ 22. Edlow BL, Keene CD, Perl DP, Iacono D, Folkerth RD, Stewart W, et al.                    Neuroinﬂammation at the Gray-White Matter Interface in Active-Duty U.S. Special
+Multimodal characterization of the late eﬀects of traumatic brain injury: a                   Operations Forces. Neurotrauma Rep. (2024) 5:1205–11. doi: 10.1089/neur.2024.0116
+methodological overview of the late eﬀects of traumatic brain injury project. J                 38. Pinaya WHL, Tudosiu PD, Gray R, Rees G, Nachev P, Ourselin S,
+Neurotrauma. (2018) 35:1604–19. doi: 10.1089/neu.2017.5457                                    et al. Unsupervised brain imaging 3D anomaly detection and segmentation with
+ 23. U.S. Department of Defense. DoD Standard Surveillance Case Deﬁnition for TBI             transformers. Med Image Anal. (2022) 79:102475. doi: 10.1016/j.media.2022.102475
+Adapted for AFHSB Use (2019). Available online at: https://www.health.mil/Reference-            39. Zoetmulder R, Gavves E, Caan M, Marquering H. Domain- and task-speciﬁc
+Center/Publications/2015/12/01/Traumatic-Brain-Injury (Accessed January 22, 2025).            transfer learning for medical segmentation tasks. Comput Methods Programs Biomed.
+  24. Van Der Kouwe AJW, Benner T,                   Salat DH, Fischl B. Brain                (2022) 214:106539. doi: 10.1016/j.cmpb.2021.106539
+morphometry with multiecho MPRAGE.                   Neuroimage. (2008) 40:559–                  40. De Rosa AP, Benedetto M, Tagliaferri S, Bardozzo F, D’ambrosio A, Bisecco A,
+69. doi: 10.1016/j.neuroimage.2007.12.025                                                     et al. Consensus of algorithms for lesion segmentation in brain MRI studies of multiple
+  25. Puonti O, Iglesias JE, Van Leemput K. Fast and sequence-adaptive whole-                 sclerosis. Sci Rep. (2024) 14:21348. doi: 10.1038/s41598-024-72649-9
+brain segmentation using parametric Bayesian modeling. Neuroimage. (2016) 143:235–              41. Ma J, He Y, Li F, Han L, You C, Wang B, et al. Segment anything in medical
+49. doi: 10.1016/j.neuroimage.2016.09.011                                                     images. Nat Commun. (2024) 15:654. doi: 10.1038/s41467-024-44824-z
+  26. Cerri S, Puonti O, Meier DS, Wuerfel J, Muhlau M, Siebner HR, et al. A                    42. Monteiro M, Newcombe VFJ, Mathieu F, Adatia K, Kamnitsas K, Ferrante E, et al.
+contrast-adaptive method for simultaneous whole-brain and lesion segmentation in              Multiclass semantic segmentation and quantiﬁcation of traumatic brain injury lesions
+multiple sclerosis. Neuroimage. (2021) 225:117471. doi: 10.1016/j.neuroimage.2020.            on head CT using deep learning: an algorithm development and multicentre validation
+117471                                                                                        study. Lancet Digit Health. (2020) 2:e314–22. doi: 10.1016/S2589-7500(20)30085-6
+  27. Cerri S, Greve DN, Hoopes A, Lundell H, Siebner HR, Muhlau M, et al. An                   43. Phaphuangwittayakul A, Guo Y, Ying F, Dawod AY, Angkurawaranon S,
+open-source tool for longitudinal whole-brain and white matter lesion segmentation.           Angkurawaranon C, et al. An optimal deep learning framework for multi-type
+Neuroimage Clin. (2023) 38:103354. doi: 10.1016/j.nicl.2023.103354                            hemorrhagic lesions detection and quantiﬁcation in head CT images for traumatic
+  28. Soille P. Morphological Image Analysis. Berlin: Springer (2004).                        brain injury. Appl Intell. (2022) 52:7320–38. doi: 10.1007/s10489-021-02782-9
+  29. Jovicich J, Czanner S, Han X, Salat D, Van Der Kouwe A, Quinn B, et al.                   44. Macintosh BJ, Liu Q, Schellhorn T, Beyer MK, Groote IR, Morberg PC, et al.
+MRI-derived measurements of human subcortical, ventricular and intracranial brain             Radiological features of brain hemorrhage through automated segmentation from
+volumes: reliability eﬀects of scan sessions, acquisition sequences, data analyses,           computed tomography in stroke and traumatic brain injury. Front Neurol. (2023)
+scanner upgrade, scanner vendors and ﬁeld strengths. Neuroimage. (2009) 46:177–               14:1244672. doi: 10.3389/fneur.2023.1244672
+92. doi: 10.1016/j.neuroimage.2009.02.010                                                        45. Kamnitsas K, Ledig C, Newcombe VFJ, Simpson JP, Kane AD, Menon DK,
+  30. De Vent NR, Agelink Van Rentergem JA, Huizenga HM, Van Der Flier WM,                    et al. Eﬃcient multi-scale 3D CNN with fully connected CRF for accurate brain lesion
+Sikkes WM, Murre JMJ, et al. An operational deﬁnition of ‘abnormal cognition’ to              segmentation. Med Image Anal. (2017) 36:61–78. doi: 10.1016/j.media.2016.10.004
+optimize the prediction of progression to dementia: what are optimal cut-oﬀ points              46. Edlow BL, Mareyam A, Horn A, Polimeni JR, Witzel T, Tisdall MD, et al. 7 Tesla
+for univariate and multivariate normative comparisons? J Alzheimers Dis. (2020)               MRI of the ex vivo human brain at 100 micron resolution. Sci Data. (2019) 6:244.
+77:1693–703. doi: 10.3233/JAD-200811                                                          doi: 10.1038/s41597-019-0254-8
+
+
+
+
+Frontiers in Neurology                                                                   15                                                                         frontiersin.org
+

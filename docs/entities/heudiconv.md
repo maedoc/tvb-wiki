@@ -2,6 +2,8 @@
 created: 2024-01-15
 sources:
 - raw/papers/sanz-leon-2013.md
+- raw/papers/gorgolewski-2016.md
+- raw/papers/schirner-2018.md
 tags:
 - software-bids
 - neuroimaging-fmri
@@ -10,7 +12,7 @@ tags:
 - reproducibility
 title: heudiconv
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 ## Overview

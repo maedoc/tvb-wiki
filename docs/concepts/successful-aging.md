@@ -13,7 +13,7 @@ tags:
 - compensation
 title: Successful Aging
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 Successful [[aging]] refers to the maintenance of cognitive function despite age-related changes in brain structure and function. In the context of [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]], successful aging represents a target state that models aim to reproduce—the capacity of the aging brain to preserve or compensate for declining neural resources to maintain behavioral performance. This concept bridges [[cognitive-reserve]] theory with empirical neuroimaging findings, providing a framework for understanding individual differences in aging trajectories and informing personalized interventions.
@@ -40,20 +40,27 @@ The reserve concept receives support from studies showing that education, occupa
 
 Whole-brain models offer a unique tool for testing hypotheses about successful aging mechanisms. By simulating age-related changes in structural connectivity, neural parameters, or coupling strength, models can generate predictions about downstream effects on functional dynamics and cognitive performance. Several modeling approaches have been applied to aging research:
 
-**Neural mass models** can incorporate age-related changes in parameters such as excitatory-inhibitory balance, synaptic time constants, or noise levels, then examine how these changes affect network-level dynamics. Bifurcation analysis can identify parameter regimes corresponding to healthy versus pathological aging.
+**Neural mass models** can incorporate age-related changes in parameters such as excitatory-inhibitory balance, synaptic time constants, or noise levels, then examine how these changes affect network-level dynamics. [[bifurcation-analysis]] can identify parameter regimes corresponding to healthy versus pathological aging.
 
 **Connectome simulations** using the [[the-virtual-brain]] platform can incorporate empirical structural connectivity matrices from older adults, allowing researchers to examine how individual differences in white matter integrity propagate to functional dynamics. The personalisation of model parameters to individual neuroimaging data is a key approach in [[personalized-brain-modeling]].
 
-**Network models** examining topological changes with age can relate alterations in community structure, hub connectivity, or rich-club organization to cognitive outcomes, providing a mechanistic link between structure and function.
+**Network models** examining topological changes with age can relate alterations in community structure, hub connectivity, or [[rich-club|rich-club organization]] to cognitive outcomes, providing a mechanistic link between structure and function.
 
 ## Open Questions and Challenges
 
 Despite significant progress, fundamental questions remain about the neural basis of successful aging. The relative contributions of maintenance, reserve, and compensation to individual outcomes remain difficult to disentangle empirically, as these mechanisms may operate simultaneously and interact bidirectionally [1]. Computational models offer a promising approach to this problem through in silico experiments that manipulate individual mechanisms in isolation.
 
-The relationship between structural and functional changes in aging is incompletely understood. While diffusion imaging reveals white matter alterations, and T1-weighted imaging shows gray matter loss, these structural changes incompletely predict functional connectivity differences. Whole-brain models that integrate multiple neuroimaging modalities may help resolve this relationship.
+The relationship between structural and functional changes in aging is incompletely understood. While [[diffusion-imaging]] reveals white matter alterations, and T1-weighted imaging shows gray matter loss, these structural changes incompletely predict functional connectivity differences. Whole-brain models that integrate multiple neuroimaging modalities may help resolve this relationship.
 
 Finally, the translation of successful aging research into interventions remains challenging. While lifestyle factors such as physical exercise, cognitive training, and social engagement are associated with better outcomes, the mechanistic pathways through which these interventions act are unclear. Computational models that predict individual responses to interventions could guide personalized prevention strategies.
 
 ## Related Concepts
 
 Successful aging intersects with several related concepts in the wiki. The [[brain-maintenance]] page elaborates on preservation mechanisms, while [[cognitive-reserve]] provides deeper treatment of reserve theory. The [[compensation]] concept page covers neural compensation specifically. For neuroimaging methodology, see [[neuroimaging-fmri]] and [[functional-connectivity]]. For modeling approaches, see [[whole-brain-modeling]] and [[neural-mass-models]]. The [[aging]] page covers broader aging processes, while [[alzheimers-modeling]] addresses pathological aging. The [[brain-reserve]] page discusses structural reserve specifically.
+
+## References
+
+1. (authors unknown). *Maintenance, Reserve and Compensation: The Cognitive Neuroscience of Healthy Ageing*.
+2. (authors unknown). *Memory and Executive Function in Aging and AD: Multiple Factors that Cause Decline and Reserve Factors that Compensate*.
+3. (authors unknown). *The Cognitive Neuroscience of Ageing and Functional Reserve*.
+4. Changi Kim, Mi‐Young Oh. (2025). *Brain Resilience and Its Association with Post‐Stroke Dementia: A Neuroimaging‐Based Study*. Alzheimer's & Dementia. [DOI](](https://doi.org/10.1002/alz70856_101113))

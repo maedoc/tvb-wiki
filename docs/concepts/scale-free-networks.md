@@ -18,7 +18,7 @@ tags:
 - functional-connectivity
 title: Scale-Free Networks
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-07'
 ---
 
 # Scale-Free Networks
@@ -53,7 +53,7 @@ Brain networks differ from purely topological scale-free networks in several imp
 
 Brain networks feature a sophisticated taxonomy of hubs that serve distinct functional roles. **Connector hubs** bridge between different [[modularity|modules]] or communities, facilitating integration across specialized subsystems. Provincial hubs, by contrast, connect nodes within a single module, supporting local segregation. Both types of hubs may participate in a **rich-club** phenomenon, wherein the most highly connected nodes preferentially interconnect with one another. The rich-club has been implicated in global information integration and is thought to support the brain's capacity for distributed processing.
 
-The presence of a rich-club has important implications for understanding brain disorders. Computational models suggest that targeted attacks on hub regions—or pathological disruption of hub-to-hub connectivity—can induce cascading failures that disproportionately disrupt network communication, providing a mechanistic hypothesis for the network-level deficits observed in conditions ranging from schizophrenia to Alzheimer's disease.
+The presence of a rich-club has important implications for understanding brain disorders. Computational models suggest that targeted attacks on hub regions—or pathological disruption of hub-to-hub connectivity—can induce cascading failures that disproportionately disrupt network communication, providing a mechanistic hypothesis for the network-level deficits observed in conditions ranging from schizophrenia to [[alzheimers-disease|Alzheimer's disease]].
 
 ## Robustness, Dynamics, and Therapeutic Implications
 

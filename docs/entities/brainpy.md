@@ -12,7 +12,7 @@ tags:
 - jax
 title: BrainPy
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 # BrainPy
@@ -70,7 +70,7 @@ The community has developed practical applications including implementations of 
 
 ## Use Cases
 
-BrainPy has been applied to several computational neuroscience research directions requiring high‑performance simulation and parameter optimization. The E‑I balanced network implementation demonstrates realistic cortical dynamics with irregular spiking arising from cooperative excitation and inhibition. Decision‑making network simulations reproduce probabilistic choice behavior through evidence accumulation, with applications in studying cognitive control and working memory. The framework's support for delay‑based coupling through structural connectivity matrices enables whole‑brain simulations where distinct brain regions interact through [[white-matter]] tract‑derived communication delays, relevant for studying resting‑state dynamics and clinical applications in epilepsy and Alzheimer's disease modeling.
+BrainPy has been applied to several computational neuroscience research directions requiring high‑performance simulation and parameter optimization. The E‑I balanced network implementation demonstrates realistic cortical dynamics with irregular spiking arising from cooperative excitation and inhibition. Decision‑making network simulations reproduce probabilistic choice behavior through evidence accumulation, with applications in studying cognitive control and working memory. The framework's support for delay‑based coupling through structural connectivity matrices enables whole‑brain simulations where distinct brain regions interact through [[white-matter]] tract‑derived communication delays, relevant for studying resting‑state dynamics and clinical applications in epilepsy and [[alzheimers-disease|Alzheimer's disease]] modeling.
 
 ## References
 

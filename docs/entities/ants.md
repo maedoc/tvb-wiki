@@ -2,13 +2,18 @@
 created: 2026-05-03
 sources:
 - raw/papers/tustison-2010.md
+- raw/papers/semanticscholar-f45e6044c92f.md
+- raw/papers/semanticscholar-a324c47ea982.md
+- raw/papers/cbs-tools.md
+- raw/papers/arxiv-2508.01342.md
+- raw/papers/semanticscholar-171870fd1033.md
 tags:
 - software-ants
 - software-brain-modeling
 - neuroimaging
 title: ANTsR
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-11'
 ---
 
 [[antsr]] is an open-source R package that provides bindings to the [ANTs](](/ants)) (Advanced Normalization Tools) C++ library for biomedical image processing and analysis. Developed primarily at the University of Pennsylvania, ANTsR enables researchers to leverage state-of-the-art image registration, segmentation, and statistical learning techniques within the R statistical environment [@avants2014insight]. The package serves as a bridge between the computational efficiency of ANTs and the rich statistical tooling available in R, making it particularly valuable for large-scale [[neuroimaging]] studies requiring rigorous statistical inference.

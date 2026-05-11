@@ -1,0 +1,497 @@
+                                            SDE-Driven Spatio-Temporal Hypergraph Neural Networks for Irregular
+                                               Longitudinal fMRI Connectome Modeling in Alzheimer’s Disease
+
+                                            Ruiying Chen1∗ , Yutong Wang2∗ , Houliang Zhou1 , Wei Liang1 , Yong Chen, MD, PhD3 ,
+                                                                               Lifang He, PhD1
+                                                                   1
+                                                                     Lehigh University, Bethlehem, PA, USA
+                                                                 2
+                                                                   New York University, New York, NY, USA
+                                                             3
+                                                               University of Pennsylvania, Philadelphia, PA, USA
+
+                                         Abstract
+                                         Longitudinal neuroimaging is essential for modeling disease progression in Alzheimer’s disease (AD), yet irregular
+arXiv:2603.20452v1 [cs.LG] 20 Mar 2026
+
+
+
+
+                                         sampling and missing visits pose substantial challenges for learning reliable temporal representations. To address this
+                                         challenge, we propose SDE-HGNN, a stochastic differential equation (SDE)-driven spatio-temporal hypergraph neu-
+                                         ral network for irregular longitudinal fMRI connectome modeling. The framework first employs an SDE-based recon-
+                                         struction module to recover continuous latent trajectories from irregular observations. Based on these reconstructed
+                                         representations, dynamic hypergraphs are constructed to capture higher-order interactions among brain regions over
+                                         time. To further model temporal evolution, hypergraph convolution parameters evolve through SDE-controlled recur-
+                                         rent dynamics conditioned on inter-scan intervals, enabling disease-stage-adaptive connectivity modeling. We also
+                                         incorporate a sparsity-based importance learning mechanism to identify salient brain regions and discriminative con-
+                                         nectivity patterns. Extensive experiments on the OASIS-3 and ADNI cohorts demonstrate consistent improvements
+                                         over state-of-the-art graph and hypergraph baselines in AD progression prediction. The source code is available at
+                                         https:// anonymous.4open.science/ r/ SDE-HGNN-017F.
+
+                                         Introduction
+                                         Alzheimer’s disease (AD) is a progressive neurodegenerative disorder characterized by gradual cognitive decline and
+                                         widespread disruption of brain networks. Because neuropathological changes unfold over many years before clinical
+                                         diagnosis, accurately modeling disease progression is essential for early detection and prognosis prediction1 . Longi-
+                                         tudinal neuroimaging provides repeated observations of brain function over time and offers unique opportunities to
+                                         characterize subject-specific disease trajectories and heterogeneous progression patterns.
+                                         Resting-state functional magnetic resonance imaging (rs-fMRI) enables the study of functional connectivity among
+                                         distributed brain regions and has been widely used to investigate network-level alterations associated with AD2, 3 .
+                                         However, longitudinal neuroimaging data collected in clinical cohorts are inherently irregular: visits are unevenly
+                                         spaced, follow-up intervals vary substantially across subjects, and missing observations frequently occur. Importantly,
+                                         such irregularity arises at two temporal scales. (1) within-scan level, where ROI-level fMRI time series may contain
+                                         noisy, incomplete, or corrupted observations due to motion artifacts or signal instability, potentially affecting the
+                                         estimation of functional connectivity; and (2) across-visit level, where longitudinal imaging visits occur at irregular
+                                         time intervals and may be missing entirely for some subjects, making it difficult to model disease progression using
+                                         discrete-time approaches. These characteristics pose significant challenges for conventional machine learning methods
+                                         to learn reliable temporal representations of disease progression from irregular longitudinal data.
+                                         Graph neural networks (GNNs) have demonstrated strong potential for modeling brain connectivity by learning struc-
+                                         tured representations from functional connectomes4, 5, 6 . In these approaches, brain networks are typically represented
+                                         as graphs where nodes correspond to brain regions and edges encode pairwise functional connectivity between re-
+                                         gions. Despite recent advances, two fundamental limitations remain when applying existing GNN-based approaches
+                                         to irregular longitudinal fMRI connectomes. First, most existing models rely on discrete-time architectures or fixed
+                                         temporal grids, which are not well suited to heterogeneous follow-up intervals and missing visits. As a result, tempo-
+                                         ral dynamics may be inaccurately represented when observations occur at irregular time points. Recent studies have
+                                           * These authors contributed equally.
+explored ordinary differential equation (ODE)- or stochastic differential equation (SDE)-based frameworks for mod-
+eling continuous-time dynamics of longitudinal brain networks under irregular sampling7, 8, 9 . While these approaches
+improve temporal modeling, they typically rely on pairwise graph representations. Second, conventional graph repre-
+sentations assume pairwise relationships between brain regions. However, many cognitive and pathological processes
+arise from coordinated activity among multiple regions simultaneously. Consequently, modeling brain networks using
+only pairwise edges may provide an incomplete description of higher-order functional organization.
+Hypergraphs provide a natural extension of conventional graphs by allowing each hyperedge to connect multiple nodes
+simultaneously, enabling explicit modeling of coordinated multi-region interactions in brain networks. Although
+hypergraph neural networks have been explored for brain connectome analysis (e.g., DwHGCN10 , HyperGALE11 ,
+HGST12 ), most existing methods focus on spatial connectivity modeling under static-time assumptions. Some re-
+cent studies extend hypergraph learning to longitudinal settings. For example, Hao et al.13 proposed a weighted
+hypergraph convolutional network (WHGCN) for longitudinal AD analysis by constructing hypergraphs at each time
+point and fusing them through weighted aggregation. However, this approach models relationships between subjects
+rather than between brain regions, and relies on discrete-time fusion across predefined visits. Consequently, exist-
+ing hypergraph-based approaches cannot jointly model continuous-time disease progression and higher-order brain
+network interactions in irregular longitudinal neuroimaging data.
+To address these limitations, we propose SDE-HGNN, an SDE-driven spatio-temporal hypergraph neural network for
+irregular longitudinal fMRI connectome modeling. The proposed framework integrates continuous-time modeling
+with higher-order brain network representation to capture both temporal disease dynamics and coordinated multi-
+region functional interactions. Specifically, we first employ an SDE-based module to reconstruct ROI-level fMRI
+signals as continuous stochastic trajectories, mitigating the effects of irregular or incomplete observations. Based on
+the reconstructed representations, we construct dynamic hypergraphs that model higher-order relationships among
+multiple brain regions. To model longitudinal disease progression, hypergraph convolution parameters are further
+evolved through SDE-controlled recurrent dynamics conditioned on inter-visit intervals. In addition, we incorpo-
+rate a sparsity-based importance learning mechanism to identify salient brain regions and discriminative connectivity
+patterns associated with AD progression. SDE-HGNN is the first framework that jointly models continuous-time
+longitudinal dynamics and higher-order brain network interactions for irregular fMRI connectome analysis.
+The main contributions of this work are summarized as follows:
+    • We introduce an SDE-based reconstruction module to model ROI-level fMRI signals as continuous stochastic
+      trajectories, addressing irregular or incomplete observations in fMRI time series.
+    • We develop a novel SDE-guided spatio-temporal hypergraph neural network in which hypergraph convolution
+      parameters evolve continuously according to inter-visit intervals, enabling adaptive modeling of disease pro-
+      gression under irregular longitudinal sampling.
+    • We incorporate a sparsity-based learning mechanism within the hypergraph framework to identify salient brain
+      regions and disease-specific connectivity patterns, providing interpretable insights into AD progression.
+    • Extensive experiments on the OASIS-3 and ADNI cohorts demonstrate consistent improvements over state-of-
+      the-art graph and hypergraph baselines while revealing clinically meaningful longitudinal connectivity biomark-
+      ers aligned with known AD pathology.
+
+Methodology
+We consider the problem of predicting disease progression from irregular longitudinal rs-fMRI connectomes. Suppose
+that each subject contains multiple imaging visits acquired at irregular time intervals. For a subject with up to T visits
+occurring at time points {t1 , t2 , · · · , tT }, the inter-visit interval is defined as ∆tk = tk − tk−1 . For each visit, ROI-
+level BOLD time series are extracted after standard preprocessing and brain parcellation. Let N denote the number of
+regions of interest (ROIs) and D the feature dimension per ROI. After preprocessing, the ROI feature matrix at visit
+tk is denoted by Xtk ∈ RN ×D , where each row corresponds to the feature representation of one brain region. As
+discussed in the Introduction, irregularity in longitudinal rs-fMRI arises at two temporal scales: noisy or incomplete
+ROI time series within scans and heterogeneous intervals between visits. To address these challenges, our proposed
+Figure 1. Overview of SDE-HGNN framework. (a) Irregular longitudinal fMRI signals are reconstructed using a
+neural SDE, followed by hypergraph construction and SDE-driven spatio-temporal modeling with GRU refinement
+and aggregation. (b) Hypergraph construction from reconstructed ROI signals via pairwise distance computation and
+KNN-based hyperedge formation. (c) Downstream tasks include progression prediction, diagnosis classification and
+interpretation.
+
+SDE-HGNN framework consists of three sequential stages: (1) SDE-based fMRI signal reconstruction, (2) hypergraph
+construction at each visit, and (3) SDE-guided spatio-temporal hypergraph modeling. An overview of the SDE-HGNN
+framework is shown in Fig. 1.
+SDE-based fMRI Signal Reconstruction. Resting-state fMRI signals are inherently noisy and may contain irregular
+or incomplete observations. To obtain temporally coherent ROI-level representations, we model each ROI’s BOLD
+time series as a continuous stochastic process. Specifically, we adopt a neural stochastic differential equation (SDE)
+encoder–decoder framework14 . A recurrent neural network (RNN) encoder first processes the irregularly sampled
+observations and maps them to an approximate posterior over an initial latent state z0 . A neural SDE then models the
+latent trajectory as
+                                          dzt = fθ (zt , t) dt + gθ (zt , t) dBt                                    (1)
+where t denotes continuous time within a scan, fθ is a neural network–parameterized drift function modeling deter-
+ministic temporal dynamics, gθ is a learnable diffusion function controlling stochastic variability in the latent process,
+and Bt denotes standard Brownian motion.
+The learned SDE enables interpolation at arbitrary time points, generating continuous latent trajectories zt even un-
+der irregular sampling. A decoder then reconstructs complete ROI-level time series from these latent states. This
+reconstruction step mitigates artifacts caused by irregular intra-scan sampling and ensures that downstream functional
+connectivity estimation is based on temporally consistent signals. After reconstruction, each visit tk is represented by
+an ROI feature matrix Xtk ∈ RN ×D .
+Hypergraph Construction. Standard connectome modeling constructs pairwise connectivity graphs via ROI-ROI
+correlations. However, many neural processes arise from coordinated activity among multiple brain regions simulta-
+neously. To explicitly model such higher-order interactions, we construct a hypergraph at each visit, which generalizes
+the standard graph by allowing each hyperedge to connect an arbitrary subset of nodes. For each hypernode vi , we
+compute pairwise Euclidean distances between node features and select its K-nearest neighbors (KNN) to form a
+hyperedge ej .
+     (i)
+Let xtk ∈ RD denote the feature vector of ROI i, corresponding to the i-th row of Xtk . The hypergraph incidence
+matrix at visit tk is defined as
+                                                         (ij) 2
+                                              
+                                              exp − dtk , v ∈ N (v )
+                                                           (i)     i     K i
+                                 Htk (i, j) =         (q·d¯t )2                                              (2)
+                                                            k
+
+                                                0,               otherwise
+                                              
+
+           (ij)    (i)    (j)         (i)
+where dtk = ∥xtk − xtk ∥2 and d¯tk denotes the mean distance from hypernode vi to all other hypernodes, q is a
+scaling parameter, and NK (vi ) denotes the K-nearest-neighbor set of hypernode vi . Each hypernode participates in
+multiple overlapping hyperedges, enabling message passing beyond pairwise relationships.
+Let Me = diag(m1 , . . . , mE ) ∈ RE×E denote the diagonal hyperedge weight matrix, where mj is the weight of
+hyperedge ej (initialized to 1 and later modulated by learned importance probabilities), and E denotes the number of
+hyperedges. Hypernode degrees and hyperedge degrees are defined as
+                                             E
+                                             X                                 N
+                                                                               X
+                                  d(vi ) =         mj Htk (i, j),   δ(ej ) =         Htk (i, j).                   (3)
+                                             j=1                               i=1
+
+Let Dv ∈ RN ×N and De ∈ RE×E denote the diagonal hypernode and hyperedge degree matrices. The normalized
+hypergraph propagation matrix can be expressed as
+                                        Stk = D−1/2
+                                               v    Htk Me D−1 T   −1/2
+                                                            e Htk Dv    .                                          (4)
+The propagation matrix Stk encodes higher-order neighborhood relationships for downstream hypergraph convolution.
+SDE-guided Spatio-temporal HGNN. To model longitudinal disease progression under irregular visit intervals, we
+allow the hypergraph convolution parameters to evolve continuously over time. Let Wtk ∈ RD×dl denote the hyper-
+graph convolution weight state at visit tk , where dl is the number of output dimensions. We model its evolution as an
+SDE-driven continuous-time stochastic process
+                                            Wt′ k = SDESolve(fθ , Wtk−1 , ∆tk ),                                   (5)
+where fθ is a learnable drift function and ∆tk is the inter-visit time interval.
+To incorporate visit-specific information, we further refine the evolved weights using a gated recurrent unit (GRU)
+module conditioned on the current ROI features:
+                                     Wtk = GRU(Xtk , Wt′ k ) + GRU(Xtk , W0 ),                                     (6)
+where the second term introduces a time-invariant baseline initialized by a learnable weight state W0 shared across
+visits, allowing the convolution parameters to adapt dynamically to heterogeneous disease progression rates.
+The refined weight matrix Wtk is then used in the hypergraph convolution operator to compute visit-specific hypern-
+ode representations:                                              
+                                             Ztk = σ Stk Xtk Wtk ,                                              (7)
+where Ztk ∈ RN ×dl is the output hypernode embeddings, and σ is the activation function. Through this process,
+the model captures higher-order interactions among brain regions while jointly modeling continuous-time disease
+progression in irregular longitudinal neuroimaging data.
+Sparse Interpretability. The hypergraph structure Stk and hypernode feature matrix Xtk may contain redundant or
+noisy information that is not essential for disease prediction. To identify informative brain regions and connectivity
+patterns, we introduce a sparsity-based interpretability mechanism that learns importance scores for both hypernode
+features and hyperedges. Specifically, inspired by GNNExplainer15 , we learn the hypernode feature importance prob-
+abilities PX ∈ RN ×D and hyperedge importance probabilities PE ∈ RE . The sparsified hypernode features are
+obtained by
+                                                  X̃tk = Xtk ⊙ PX ,                                                (8)
+where ⊙ denotes the element-wise multiplication.
+Let PE = [pE1 , pE2 , . . . , pEN ] denote the vector of hyperedge importance probabilities, where pEi represents the
+importance score of hyperedge ei . Each hyperedge importance probability is computed from the importance-weighted
+feature of its center node:
+                                                               (i)
+                                                pEi = σ vT (xtk ⊙ pi ) ,
+                                                                      
+                                                                                                                  (9)
+where v ∈ RD is a learnable projection vector, and pi ∈ RD is the i-th row of the hypernode feature importance
+matrix PX , corresponding to the feature importance weights of hypernode i.
+Using these learnable importance probabilities, the hypergraph propagation matrix is recomputed as
+
+                                S̃tk = D̃−1/2
+                                         v    Htk diag(pE1 , . . . , pEN )D̃−1 T    −1/2
+                                                                            e Htk D̃v    ,                        (10)
+
+Finally, the sparsified hypernode representations are computed as
+                                                                        
+                                                  Ẑtk = σ S̃tk X̃tk Wtk .                                        (11)
+
+which replaces the original convolution in Eq. (7). This sparsification mechanism enables the model to identify salient
+brain regions and discriminative connectivity patterns associated with disease progression.
+Loss Function. After hypergraph convolution, node embeddings Ẑtk are aggregated via global max and mean pool-
+ing to obtain graph-level representations. The resulting features are fed to a multilayer perceptron (MLP) classi-
+fier for disease progression prediction. The overall training objective combines classification loss with sparsity and
+information-preserving regularization:
+
+                                            L = Lce + λ1 Lmi + λ2 Ls + λ3 Le .                                    (12)
+
+The classification loss is defined as
+                                                                                   
+                                        Lce = − y log σ(ŷ) + (1 − y) log(1 − σ(ŷ) .                             (13)
+
+To ensure that the sparsified hypernode features and hypergraph structure preserve sufficient predictive information,
+we introduce a mutual information regularization term
+                                               C
+                                                      1[y = c] log PΦ ŷ = y | S̃tk , X̃tk ,
+                                               X                                          
+                                   Lmi = −                                                                        (14)
+                                                c=1
+
+which maximizes the mutual information between the sparsified representations and the disease labels.
+The sparsity regularization is defined as
+                                                                      T
+                                                                  1 X
+                                               Ls = ∥PX ∥1 +          ∥PE ∥1 .                                    (15)
+                                                                  T
+                                                                     k=1
+
+To encourage discrete feature selection, we further apply binary entropy regularization: Le = LPX + LPE , where
+                                                                             T
+                                                                          1 X                                     
+ LPX = − PX log(PX ) + (1 − PX ) log(1 − PX ) ,                 LPE = −        PE log(PE ) + (1 − PE ) log(1 − PE ) .
+                                                                           T
+                                                                             k=1
+                                                                                                                  (16)
+
+Together, these losses encourage the model to identify a compact subset of salient ROIs and hyperedges that are
+most informative for predicting disease progression. The coefficients λ1 , λ2 , and λ3 are tunable hyperparameters that
+control the trade-off among the different loss terms.
+                 Table 1. Classification comparisons for stable vs. progressive subjects on OASIS-3.
+
+    Num. of Timepoints      Methods            AUC              Accuracy           Sensitivity         Specificity
+                            DGCNN         0.6812 ± 0.0094    0.6500 ± 0.0240    0.6246 ± 0.0946     0.6587 ± 0.0629
+                           DwHGCN         0.6168 ± 0.0346    0.6988 ± 0.0095    0.3275 ± 0.1117     0.8286 ± 0.0428
+      Cross-sectional
+                          HyperGALE       0.6408 ± 0.0483    0.6614 ± 0.0150    0.4365 ± 0.0094     0.7250 ± 0.0280
+                             HGST         0.6348 ± 0.0516    0.7162 ± 0.0230    0.5707 ± 0.0368     0.8718 ± 0.0195
+                         BrainTokenGT     0.4840 ± 0.0403    0.5369 ± 0.2150     0.3853 ± 0.4239    0.5874 ± 0.4364
+                           WHGCN          0.5539 ± 0.0748    0.5292 ± 0.1390    0.5278 ± 0.2461     0.5292 ± 0.2613
+             1
+                           SDEGCN         0.5702 ± 0.0598    0.6706 ± 0.0706     0.2385 ± 0.1122    0.8213 ± 0.1323
+                          SDE-HGNN       0.6067 ± 0.0458    0.7148 ± 0.0460      0.2324 ± 0.1575   0.8825 ± 0.0905
+                         BrainTokenGT     0.5230 ± 0.0252    0.5061 ± 0.0547     0.5480 ± 0.1240    0.4912 ± 0.1085
+                           WHGCN          0.5848 ± 0.0690    0.5967 ± 0.1482     0.5457 ± 0.2451    0.6155 ± 0.2749
+             2
+                           SDEGCN         0.6738 ± 0.0396    0.6236 ± 0.1818    0.5865 ± 0.2165     0.6374 ± 0.3173
+                          SDE-HGNN       0.7293 ± 0.0206    0.7322 ± 0.0304      0.5648 ± 0.0182   0.7906 ± 0.0374
+                         BrainTokenGT     0.5330 ± 0.0339    0.5314 ± 0.0882     0.4663 ± 0.1734    0.5540 ± 0.1719
+                           WHGCN          0.5954 ± 0.0438    0.5997 ± 0.0692     0.5958 ± 0.1046    0.6010 ± 0.1230
+             3
+                           SDEGCN         0.7103 ± 0.0271    0.6960 ± 0.0779     0.5448 ± 0.1533   0.7493 ± 0.1539
+                          SDE-HGNN       0.7726 ± 0.0361    0.7081 ± 0.0642     0.6987 ± 0.0973     0.7108 ± 0.1153
+                         BrainTokenGT     0.5410 ± 0.0649    0.5741 ± 0.0500     0.4861 ± 0.0942    0.6045 ± 0.0715
+                           WHGCN          0.6148 ± 0.0213    0.6079 ± 0.0739     0.5803 ± 0.1033    0.6175 ± 0.1330
+             4
+                           SDEGCN         0.7305 ± 0.0311    0.7095 ± 0.0202     0.5811 ± 0.0863    0.7545 ± 0.0181
+                          SDE-HGNN       0.7769 ± 0.0337    0.7496 ± 0.0409     0.6629 ± 0.0423    0.7795 ± 0.0695
+                         BrainTokenGT     0.5758 ± 0.0244    0.5866 ± 0.0756     0.4709 ± 0.2040    0.6268 ± 0.1733
+                           WHGCN          0.6153 ± 0.0363    0.6198 ± 0.0838     0.5753 ± 0.1385    0.6355 ± 0.1546
+             5
+                           SDEGCN         0.7153 ± 0.0234   0.7135 ± 0.0518      0.5287 ± 0.1178   0.7780 ± 0.1022
+                          SDE-HGNN       0.7808 ± 0.0354    0.7135 ± 0.0462     0.6833 ± 0.0767     0.7238 ± 0.0791
+                         BrainTokenGT     0.5489 ± 0.0416    0.5649 ± 0.0269     0.4973 ± 0.0798    0.5885 ± 0.0147
+                           WHGCN          0.6312 ± 0.0363    0.6506 ± 0.0471     0.5182 ± 0.1978    0.6965 ± 0.1216
+             6
+                           SDEGCN         0.7335 ± 0.0265    0.7148 ± 0.0393     0.5345 ± 0.1181   0.7780 ± 0.0781
+                          SDE-HGNN       0.7772 ± 0.0297    0.7255 ± 0.0317     0.6785 ± 0.0367     0.7417 ± 0.0511
+
+
+
+Experiments and Results
+We evaluate the proposed SDE-HGNN framework along four aspects: (i) longitudinal disease progression prediction
+under varying follow-up lengths on the OASIS-3 dataset; (ii) diagnostic classification on the ADNI dataset; (iii)
+ablation studies to analyze the contributions of key model components; and (iv) saliency visualization to assess model
+interpretability.
+
+Datasets. We conduct experiments on two publicly available longitudinal neuroimaging datasets: OASIS-316 and
+ADNI17 . OASIS-3 cohort: The OASIS-3 cohort contains 747 subjects, including 193 progressive subjects and 554
+stable subjects. Each subject contributes up to six irregular longitudinal visits, which are mapped to cohort-mean
+follow-up months: baseline, 34, 62, 74, 81, and 93 months. The irregular intervals between visits make this dataset
+particularly suitable for evaluating continuous-time disease progression models. ADNI cohort: The ADNI cohort
+includes 289 subjects (135 healthy controls, 100 MCI, and 54 AD). We evaluate three binary diagnostic tasks: HC vs.
+AD, HC vs. MCI, and MCI vs. AD.
+Experimental Setup. For both datasets, rs-fMRI scans were preprocessed using the standard fMRIPrep pipeline18 ,
+                    Table 2. Classification performance for different methods on ADNI dataset.
+
+        Tasks         Methods              AUC                Accuracy            Sensitivity         Specificity
+                      DGCNN          0.5817 ± 0.1661      0.6797 ± 0.0993      0.3321 ± 0.2983      0.7733 ± 0.1111
+                     DwHGCN          0.6312 ± 0.0362      0.6195 ± 0.0372      0.4653 ± 0.0635      0.7658 ± 0.0897
+                   BrainTokenGT      0.5770 ± 0.1119      0.5932 ± 0.0844      0.5222 ± 0.2603      0.6138 ± 0.1613
+                     WHGCN           0.6039 ± 0.1126      0.5453 ± 0.1298      0.5333 ± 0.3943      0.5551 ± 0.3273
+     HC vs. AD
+                    HyperGALE        0.6102 ± 0.0183      0.6769 ± 0.0625      0.4779 ± 0.0724      0.7872 ± 0.0729
+                     SDEGCN          0.6504 ± 0.0435     0.7141 ± 0.0225       0.4291 ± 0.1957     0.8296 ± 0.0895
+                       HGST          0.6036 ± 0.1163      0.6317 ± 0.0908      0.3882 ± 0.1122      0.7576 ± 0.1515
+                    SDE-HGNN        0.6989 ± 0.1008       0.6770 ± 0.0530     0.5382 ± 0.1101       0.7333 ± 0.1032
+                      DGCNN          0.5421 ± 0.1862      0.6308 ± 0.1376      0.4071 ± 0.2405      0.6913 ± 0.1844
+                     DwHGCN          0.5876 ± 0.0087      0.6277 ± 0.0038      0.4433 ± 0.0522      0.6335 ± 0.0528
+                   BrainTokenGT      0.5628 ± 0.0654      0.5421 ± 0.0779      0.5130 ± 0.0748      0.5664 ± 0.1267
+                     WHGCN           0.5674 ± 0.0563      0.5421 ± 0.0887      0.4846 ± 0.3149      0.6375 ± 0.2860
+    HC vs. MCI
+                    HyperGALE        0.5733 ± 0.0251      0.5953 ± 0.0152      0.4645 ± 0.0627      0.6638 ± 0.0142
+                     SDEGCN          0.5948 ± 0.0740      0.5915 ± 0.0313      0.3000 ± 0.2588     0.8074 ± 0.1596
+                       HGST          0.5639 ± 0.1513      0.6072 ± 0.1008      0.4154 ± 0.0987      0.6739 ± 0.2219
+                    SDE-HGNN        0.6241 ± 0.0480      0.6468 ± 0.0478      0.5500 ± 0.1140       0.7185 ± 0.0763
+                      DGCNN          0.5295 ± 0.1633      0.6414 ± 0.1012      0.3786 ± 0.2087      0.7117 ± 0.1432
+                     DwHGCN          0.5325 ± 0.0076      0.6100 ± 0.0073      0.4142 ± 0.0575      0.6767 ± 0.0032
+                   BrainTokenGT      0.5372 ± 0.0993      0.5116 ± 0.0834     0.4964 ± 0.2447       0.5193 ± 0.1782
+                     WHGCN           0.5595 ± 0.0795      0.5746 ± 0.2189      0.3714 ± 0.3452      0.6231 ± 0.3628
+    MCI vs. AD
+                    HyperGALE        0.5682 ± 0.0823      0.6174 ± 0.0526      0.3587 ± 0.0263      0.7342 ± 0.0198
+                     SDEGCN          0.5274 ± 0.0683      0.5460 ± 0.1059      0.4018 ± 0.4537      0.6200 ± 0.4057
+                       HGST          0.5349 ± 0.0948      0.6233 ± 0.2016      0.3766 ± 0.2313      0.7019 ± 0.1522
+                    SDE-HGNN        0.5873 ± 0.1414      0.6495 ± 0.0086       0.2455 ± 0.2909     0.8200 ± 0.1600
+
+
+including slice-timing correction, MCFLIRT-based motion correction, and spatial normalization to the MNI152 tem-
+plate. To further reduce motion artifacts, ICA-AROMA19 was applied, followed by spatial smoothing with a 6 mm
+FWHM Gaussian kernel. The cortex was parcellated using the Schaefer-100 atlas20 , yielding 100 regions of interest
+(ROIs). ROI-level BOLD time series were extracted and used to construct node features for hypergraph modeling. To
+prevent data leakage and ensure predictive validity, only longitudinal scans prior to the point of clinical conversion
+were used for progressive subjects.
+Functional connectivity representations were derived from the reconstructed ROI signals produced by the SDE module.
+Hypergraphs were constructed at each visit using a KNN strategy based on pairwise distances between ROI features.
+The number of neighbors K was set to 10. The proposed model was implemented in PyTorch and trained using the
+Adam optimizer. The learning rate, hidden dimensions, and regularization coefficients were selected via validation on
+the training folds. All experiments were conducted using five-fold cross-validation with identical stratified subject-
+level splits (6:2:2 ratio), and the reported results correspond to the average performance across folds. Performance is
+measured using the following metrics: area under the ROC curve (AUC), accuracy, sensitivity, and specificity.
+
+Comparison with Competing Methods. We compare SDE-HGNN with both cross-sectional and longitudinal base-
+lines. Cross-sectional baselines include DGCNN21 , DwHGCN10 , HyperGALE11 , HGST12 . Longitudinal baselines
+include Brain-TokenGT6 , WHGCN13 , SDEGCN8 . These baselines cover a range of graph and hypergraph neural net-
+work approaches for brain connectome analysis.
+Table 3. Ablation results for temporal modeling and sparsity modules on the OASIS-3 dataset (progressive vs. stable
+classification with six time points).
+
+ Methods                                 AUC                 Accuracy             Sensitivity            Specificity
+ HGNN+RNN                 0.7328 ± 0.0370 0.6760 ± 0.0461 0.6078 ± 0.2949 0.7001 ± 0.1526
+ HGNN+ODE                 0.7519 ± 0.0414 0.7161 ± 0.0722 0.6269 ± 0.0216 0.7472 ± 0.0941
+ SDE-HGNN (w/o Sparsity) 0.7556 ± 0.0364 0.7161 ± 0.0670 0.6069 ± 0.1510 0.7541 ± 0.1365
+ SDE-HGNN (Full)         0.7772 ± 0.0297 0.7255 ± 0.0317 0.6785 ± 0.0367 0.7417 ± 0.0511
+
+
+Table 1 reports progression prediction results on OASIS-3 under varying numbers of longitudinal visits. SDE-HGNN
+consistently achieves the best performance across all settings. The performance gap becomes more pronounced as
+the number of visits increases, demonstrating the effectiveness of SDE-based continuous-time modeling in capturing
+longitudinal disease dynamics. In addition, the hypergraph formulation enables the model to capture higher-order
+interactions among multiple brain regions, leading to stronger performance even when only a small number of visits
+are available. Table 2 reports diagnostic classification results on ADNI. While the OASIS-3 experiments primarily
+evaluate longitudinal modeling capability, the ADNI experiments emphasize spatial representation learning. Across all
+diagnostic tasks, SDE-HGNN achieves the highest AUC and accuracy. In particular, the model shows clear advantages
+in the clinically challenging early-stage scenarios (HC vs. MCI and MCI vs. AD), indicating that the hypergraph
+representation effectively captures subtle multi-region functional abnormalities.
+Ablation Studies. To assess the contribution of key components in SDE-HGNN, we conduct ablation studies on
+OASIS-3 by modifying the temporal evolution strategy and the sparsity mechanism. As shown in Table 3, two obser-
+vations can be made. First, replacing the SDE-driven temporal evolution with a discrete-time RNN or deterministic
+ODE leads to a noticeable performance drop. This indicates that continuous-time stochastic modeling is important for
+capturing subject-specific variability in irregular longitudinal trajectories. Second, removing the sparsity regularization
+terms (Ls , Le ) also reduces performance. This suggests that the interpretability mechanism not only provides expla-
+nations but also acts as an effective regularizer that suppresses redundant connectivity patterns, thereby improving
+predictive performance.
+
+
+
+
+Figure 2. Longitudinal visualization of salient ROIs in the progressive group across six follow-up visits. Color
+indicates regional importance (yellow: higher; red: lower) among the top-20 ROIs at each time point.
+Interpretation Analysis. To examine the clinical relevance of the learned representations, we visualize the top-20
+salient ROIs for progressive subjects across six follow-up visits on the OASIS-3 dataset (Fig. 2). The visualization
+reveals a clear temporal evolution of important regions. Early visits consistently highlight the parahippocampal cortex,
+a well-established early biomarker of AD22, 23 . At later stages, salient regions expand toward prefrontal and temporo-
+parietal cortices, consistent with the posterior-to-anterior spread of tau pathology described in Braak staging24, 25 .
+These findings indicate that SDE-HGNN captures temporally evolving functional reorganization associated with AD
+progression rather than producing static importance patterns.
+To further analyze connectivity changes, we examine the learned hyperedge importance probabilities and perform
+two-sample t-tests to identify statistically significant connectivity differences between stable and progressive groups
+on OASIS-3. Fig. 3 visualizes top-30 discriminative connections across six longitudinal time points. ROIs are grouped
+into seven large-scale functional networks based on the Schaefer100 (7-network) parcellation: visual (VIS), somato-
+motor (SMN), dorsal attention (DAN), ventral attention (VAN), limbic (LIM), frontoparietal control (CON), and de-
+fault mode network (DMN). Across all visits, the most discriminative connections primarily involve the DAN, DMN,
+Figure 3. Top-30 discriminative functional connections between stable and progressive groups across six longitudinal
+time points (t1 –t6 ), identified via FDR-corrected two-sample t-tests (p < 0.05) on learned hyperedge importance
+probabilities. ROIs are grouped into seven large-scale neural systems based on the Schaefer100 (7-network) parcella-
+tion: visual (VIS), somatomotor (SMN), dorsal attention (DAN), ventral attention (VAN), limbic (LIM), frontoparietal
+control (CON), and default mode network (DMN). The intra-network connections are colored by their respective net-
+work and inter-network connections are colored in grey.
+
+
+
+
+                        Figure 4. Sensitivity analysis of three loss weighting hyperparameters.
+
+and SMN. Notably, interactions between DAN and DMN appear even at baseline, suggesting that early disruption of
+these opposing systems may serve as an early functional marker of AD. As disease progresses, connectivity differences
+increasingly involve prefrontal and temporo-parietal regions, consistent with known disease progression patterns.
+Hyperparameter Sensitivity Analysis. We analyze the sensitivity of model performance to the three loss weighting
+parameters in Eq. (12): λ1 (mutual information loss), λ2 (ℓ1 sparsity regularization), λ3 (entropy regularization). For
+each parameter, we vary its value across six levels while fixing the remaining parameters at their optimal settings. Fig. 4
+reports the resulting AUC values. Across all three parameters, we observe an inverted-U trend, where performance
+improves as the parameter increases from a small value, peaks at an intermediate value, and gradually decreases for
+larger values. The best performance is obtained at: λ1 = 2, λ2 = 0.1, and λ3 = 0.1. These results indicate that
+moderate regularization provides the best balance between feature selection and predictive performance.
+
+Conclusion
+In this work, we propose an SDE-driven spatio-temporal hypergraph neural network learning framework (SDE-
+HGNN) for modeling irregular longitudinal brain connectomes in Alzheimer’s disease. By integrating continuous-
+time temporal modeling with higher-order hypergraph representations, the proposed method captures both disease
+progression dynamics and coordinated multi-region functional interactions beyond conventional pairwise connec-
+tivity. Extensive experiments on the OASIS-3 and ADNI datasets demonstrate that SDE-HGNN achieves robust
+performance across varying numbers of time points while generalizing to both longitudinal progression prediction
+and cross-sectional diagnosis. In addition, the sparsity-based importance learning mechanism identifies salient ROIs
+and connectivity patterns associated with disease progression, providing interpretable insights into disease-related
+brain network changes. These results highlight the value of jointly modeling temporal continuity and higher-order
+connectivity in irregular neuroimaging data. Moreover, the proposed framework offers a principled way to handle
+heterogeneous longitudinal observations in clinical studies. Future work will extend this framework to multimodal
+neuroimaging integration and larger clinical cohorts to further improve the characterization of disease trajectories and
+support data-driven clinical decision-making.
+Acknowledgments
+This work was supported in part by NIH (R01LM013519, RF1AG077820), NSF (IIS-2319451, MRI-2215789), DOE
+(DE-SC0025801), and Lehigh University (CORE and RIG).
+
+References
+ 1. Jack CR, Knopman DS, Jagust WJ, Shaw LM, Aisen PS, Weiner MW, et al. Hypothetical model of dynamic
+    biomarkers of the Alzheimer’s pathological cascade. The Lancet Neurology. 2010;9(1):119-28.
+ 2. Logothetis NK. What we can do and what we cannot do with fMRI. Nature. 2008;453(7197):869-78.
+ 3. Smith S. Overview of fMRI analysis. The British journal of radiology. 2004;77:S167-75.
+ 4. Bessadok A, Mahjoub MA, Rekik I. Graph neural networks in network neuroscience. IEEE Transactions on
+    Pattern Analysis and Machine Intelligence. 2022;45(5):5833-48.
+ 5. Tong W, Li YX, Zhao XY, Chen QQ, Gao YB, Li P, et al. fMRI-based brain disease diagnosis: A graph network
+    approach. IEEE Transactions on Medical Robotics and Bionics. 2023;5(2):312-22.
+ 6. Dong Z, Wu Y, Xiao Y, Chong JSX, Jin Y, Zhou JH. Beyond the snapshot: Brain tokenized graph transformer for
+    longitudinal brain functional connectome embedding. In: International Conference on Medical Image Computing
+    and Computer-Assisted Intervention. Springer; 2023. p. 348-57.
+ 7. Han K, Yang Y, Huang Z, Kan X, Guo Y, Yang Y, et al. Brainode: Dynamic brain signal analysis via graph-
+    aided neural ordinary differential equations. In: IEEE EMBS International Conference on Biomedical and Health
+    Informatics. IEEE; 2024. p. 1-8.
+ 8. Zhou H, Zhou R, Liu Y, Zhao K, Shen L, Chen BY, et al. Uncovering alzheimer’s disease progression via SDE-
+    based spatio-temporal graph deep learning on longitudinal brain networks. arXiv preprint arXiv:250921735. 2025.
+ 9. Mahmud AI, Suleiman AB, Yahaya U. Modelling functional brain aging in Alzheimer’s disease using neural
+    ODEs on rsfMRI graphs. International Journal of Research Publication and Reviews. 2025;6(7):2482-8.
+10. Wang J, Li H, Qu G, Cecil KM, Dillman JR, Parikh NA, et al. Dynamic weighted hypergraph convolutional
+    network for brain functional connectome analysis. Medical image analysis. 2023;87:102828.
+11. Arora M, Jain CS, Baru LB, Dadi K, et al. Hypergale: Asd classification via hypergraph gated attention with
+    learnable hyperedges. In: 2024 International Joint Conference on Neural Networks (IJCNN). IEEE; 2024. p. 1-8.
+12. Han X, Lei M, Li J. Hypergraph-based semantic and topological self-supervised learning for brain disease diag-
+    nosis. Pattern Recognition. 2026;169:111921.
+13. Hao X, Li J, Ma M, Qin J, Zhang D, Liu F, et al. Hypergraph convolutional network for longitudinal data analysis
+    in Alzheimer’s disease. Computers in Biology and Medicine. 2024;168:107765.
+14. De Brouwer E, Simm J, Arany A, Moreau Y. GRU-ODE-Bayes: Continuous modeling of sporadically-observed
+    time series. Advances in neural information processing systems. 2019;32.
+15. Ying Z, Bourgeois D, You J, Zitnik M, Leskovec J. Gnnexplainer: Generating explanations for graph neural
+    networks. Advances in neural information processing systems. 2019;32.
+16. Marcus DS, Fotenos AF, Csernansky JG, Morris JC, Buckner RL. Open access series of imaging studies: longitu-
+    dinal MRI data in nondemented and demented older adults. Journal of cognitive neuroscience. 2010;22(12):2677-
+    84.
+17. Mueller SG, Weiner MW, Thal LJ, Petersen RC, Jack C, Jagust W, et al. The Alzheimer’s disease neuroimaging
+    initiative. Neuroimaging Clinics. 2005;15(4):869-77.
+18. Esteban O, Markiewicz CJ, Blair RW, et al. fMRIPrep: a robust preprocessing pipeline for functional MRI. Nature
+    Methods. 2019;16(1):111-6.
+19. Pruim RH, Mennes M, van Rooij D, et al. ICA-AROMA: A robust ICA-based strategy for removing motion
+    artifacts from fMRI data. NeuroImage. 2015;112:267-77.
+20. Schaefer A, Kong R, Gordon EM, Laumann TO, Zuo XN, Holmes AJ, et al. Local-global parcellation of the
+    human cerebral cortex from intrinsic functional connectivity. Cerebral cortex. 2018;28(9):3095-114.
+21. Zhao K, Duka B, Xie H, Oathes DJ, Calhoun V, Zhang Y. A dynamic graph convolutional neural network frame-
+    work reveals new insights into connectome dysfunctions in ADHD. NeuroImage. 2022;246:118774.
+22. Echávarri C, Aalten P, Uylings HB, Jacobs H, Visser PJ, Gronenschild E, et al. Atrophy in the parahippocampal
+    gyrus as an early biomarker of Alzheimer’s disease. Brain Structure and Function. 2011;215(3):265-71.
+23. Van Hoesen GW, Augustinack JC, Dierking J, Redman SJ, Thangavel R. The parahippocampal gyrus in
+    Alzheimer’s disease: clinical and preclinical neuroanatomical correlates. Annals of the new York Academy of
+    Sciences. 2000;911(1):254-74.
+24. Braak H, Alafuzoff I, Arzberger T, Kretzschmar H, Del Tredici K.               Staging of Alzheimer disease-
+    associated neurofibrillary pathology using paraffin sections and immunocytochemistry. Acta neuropathologica.
+    2006;112(4):389-404.
+25. Vogel JW, Young AL, Oxtoby NP, Smith R, Ossenkoppele R, Strandberg OT, et al. Four distinct trajectories of
+    tau deposition identified in Alzheimer’s disease. Nature medicine. 2021;27(5):871-81.
+

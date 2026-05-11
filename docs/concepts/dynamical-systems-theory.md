@@ -18,7 +18,7 @@ tags:
 - brain-oscillations
 title: Dynamical Systems Theory
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 ## Definition
@@ -69,7 +69,7 @@ The [[bifurcation analysis]] of such models reveals the mechanisms underlying pa
 
 When individual neural mass models are coupled through a connectivity matrix derived from [[diffusion-mri]] [[tractography]], the resulting [[whole-brain]] model is a high-dimensional dynamical system. The state space has dimension $N \times n$ where $N$ is the number of brain regions (typically 68–360 in cortical parcellations) and $n$ is the dimension of each node's local dynamics (often 3–6 for standard neural mass models). The global dynamics emerge from the interplay between the local node dynamics—governed by parameters controlling excitability, inhibition, and coupling strength—and the network topology defined by the structural [[connectome]].
 
-This coupled system displays a rich repertoire of behaviors, including metastable dynamics where the brain wanders between partial attractors without settling into any stable configuration. The concept of ** metastability**, borrowed from dynamical systems theory, has been used to explain how the brain.flexibly integrates information across distributed networks without being trapped in a single static state. This ties directly to the free-energy principle championed by Giulio Tononi and Karl Friston, which posits that brain dynamics minimize free energy by staying in the vicinity of attractors that encode the brain's model of the world.
+This coupled system displays a rich repertoire of behaviors, including metastable dynamics where the brain wanders between partial attractors without settling into any stable configuration. The concept of ** metastability**, borrowed from dynamical systems theory, has been used to explain how the brain.flexibly integrates information across distributed networks without being trapped in a single static state. This ties directly to the free-energy principle championed by Giulio Tononi and [[karen-friston|Karl Friston]], which posits that brain dynamics minimize free energy by staying in the vicinity of attractors that encode the brain's model of the world.
 
 ### Parameter Estimation and Variational Inference
 

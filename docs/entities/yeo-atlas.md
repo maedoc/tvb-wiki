@@ -2,11 +2,16 @@
 created: 2026-04-28
 sources:
 - raw/papers/van-essen-2012.md
+- raw/papers/semanticscholar-a0a9350fb265.md
+- raw/papers/ritter-2013.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/semanticscholar-ce1b27301b4d.md
+- raw/papers/semanticscholar-0037e7dd2da6.md
 tags:
 - software-brain-modeling
 title: Yeo Atlas
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 # Yeo Atlas

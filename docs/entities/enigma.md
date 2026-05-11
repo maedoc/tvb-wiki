@@ -1,12 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- Stein JL et al. Nature Genetics 2012
-- van Erp TGM et al. Molecular Psychiatry 2016
-- Schmaal L et al. Molecular Psychiatry 2016
-- Hibar DP et al. Molecular Psychiatry 2017
-- Hoogman M et al. Lancet Psychiatry 2017
-- Boedhoe PS et al. American Journal of Psychiatry 2017
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-57c27f9f72e9.md
 - raw/papers/ritter-2013.md
@@ -23,7 +17,7 @@ tags:
 - dataset
 title: ENIGMA
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 ENIGMA (Enhancing [[neuroimaging]] Genetics through Meta-Analysis) is an international consortium that brings together neuroimaging researchers from dozens of institutions worldwide to perform large-scale collaborative studies on brain structure and function. Founded in 2009 by Professor Paul Thompson of the University of Southern California (USC) and colleagues, ENIGMA pioneered the use of mega-analyses (combining individual participant data rather than summary statistics) to achieve statistical power previously impossible in single-site studies. The consortium has grown to include over 800 investigators across more than 340 institutions in 35 countries, with working groups focused on schizophrenia, major depressive disorder (MDD), bipolar disorder, ADHD, autism, obsessive-compulsive disorder (OCD), and healthy [[aging]]. This distributed approach to neuroimaging research has become a template for open science collaboration in the field.
@@ -55,3 +49,9 @@ ENIGMA has produced several landmark datasets and analytical resources that are 
 ## Relationship to TVB
 
 ENIGMA-derived effect size maps provide group-average empirical constraints that can be translated into [[the-virtual-brain]] lesion or [[structural-connectivity]] perturbation models. When ENIGMA reports reduced cortical thickness in specific regions for a given disorder (e.g., frontal lobe thinning in schizophrenia), these z-score maps can inform the parameter initialization of [[neural-mass-model]] simulations in TVB, allowing researchers to simulate the functional consequences of ENIGMA-identified structural changes. For example, [[epilepsy-modeling]] studies have used ENIGMA-derived atrophy patterns to initialize patient-specific TVB simulations showing altered seizure propagation due to structural lesions. Similarly, [[alzheimers-disease]] studies have mapped ENIGMA hippocampal atrophy findings onto TVB connectome models to predict downstream effects on resting-state [[functional-connectivity]]. The consortium's standardized processing output (processed via [[freesurfer]] and [[fsl]]) can also be directly integrated into TVB's anatomical connectivity pipelines, enabling construction of personalized brain models using ENIGMA-harmonized data from [[hcp-dataset]] and [[uk-biobank]] cohorts. This integration represents a key pathway for translating population-level neuroimaging findings into testable predictions about brain dynamics in individual patients.
+
+## References
+
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
+2. Xinyu Wang, Sicheng Chen, Yanrong Chen, Xinian Zuo, Jingping Zhao, Yufeng Zang, Chao-Gan Yan. (2025). *The academic impact of open data: Bibliometric evidence from the DIRECT consortium and the [[rest]]-meta-MDD database*. China Scientific Data. [DOI](](https://doi.org/10.11922/11-6035.csd.2025.0033.zh))
+3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain [[connectivity]]. [DOI](](https://doi.org/10.1089/brain.2012.0120))

@@ -24,7 +24,7 @@ tags:
 - network-dynamics
 title: Alzheimer's Modeling
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-07'
 ---
 
 ## Overview
@@ -33,7 +33,7 @@ Alzheimer's modeling refers to the application of [[computational-neuroscience]]
 
 ## Motivation and Context
 
-The need for computational models of Alzheimer's disease arises from several challenges in AD research. First, the disease has a long preclinical phase—potentially decades—during which pathological changes accumulate before clinical symptoms appear. Second, the relationship between pathological hallmarks (amyloid and tau) and clinical manifestations (cognitive impairment) is complex and non-[[linear]], making it difficult to predict individual patient trajectories using conventional statistical approaches alone. Third, clinical trials for AD therapeutics have historically suffered from high failure rates, in part because interventions are tested too late in the disease process or without sufficient understanding of individual patient pathophysiology.
+The need for computational models of [[alzheimers-disease|Alzheimer's disease]] arises from several challenges in AD research. First, the disease has a long preclinical phase—potentially decades—during which pathological changes accumulate before clinical symptoms appear. Second, the relationship between pathological hallmarks (amyloid and tau) and clinical manifestations (cognitive impairment) is complex and non-[[linear]], making it difficult to predict individual patient trajectories using conventional statistical approaches alone. Third, clinical trials for AD therapeutics have historically suffered from high failure rates, in part because interventions are tested too late in the disease process or without sufficient understanding of individual patient pathophysiology.
 
 Whole-brain modeling offers a mechanistic approach to these problems by embedding individual patient data—derived from neuroimaging modalities such as [[fmri|functional MRI]] and [[dti|diffusion tensor imaging]]—into biologically constrained models of brain dynamics. These models can simulate how pathological changes (such as connectivity degradation or synaptic loss) propagate through large-scale brain networks, producing observable signatures in [[functional-connectivity]] and [[structural-connectivity]]. By fitting model parameters to individual patient data, researchers can personalize models to capture each patient's unique disease state and predict future progression.
 

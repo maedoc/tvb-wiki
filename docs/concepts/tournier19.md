@@ -3,6 +3,9 @@ created: 2026-05-06
 sources:
 - raw/papers/Renton2024.md
 - raw/papers/semanticscholar-380768cf42a8.md
+- raw/papers/arxiv-2511.04871.md
+- raw/papers/semanticscholar-f45e6044c92f.md
+- raw/papers/semanticscholar-1d74a8be554f.md
 tags:
 - references
 - mrtrix3
@@ -10,7 +13,7 @@ tags:
 - tractography
 title: Tournier et al. 2019
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 # Tournier et al. 2019

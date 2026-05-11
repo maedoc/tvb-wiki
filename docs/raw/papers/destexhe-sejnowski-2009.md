@@ -5,17 +5,18 @@ updated: 2026-04-20
 type: source
 tags: [paper-review ,neural-mass-models ,people-researcher]
 authors:
-  - Paul C. Bressloff
-year: 2010
-venue: Physical Review E
-doi: "https://doi.org/10.1103/physreve.82.051903"
+  - Alain Destexhe
+  - Terrence J. Sejnowski
+year: 2009
+venue: Scholarpedia
+doi: "https://doi.org/10.4249/scholarpedia.1389"
 bibtex: |
-  @book{bressloff2010wilsonc,
+  @article{destexhe2009wilsonc,
     title={Wilson-Cowan model of the excitatory and inhibitory population dynamics},
-    author={"Paul C. Bressloff"},
-    year={2010},
-    publisher={Physical Review E},
-    doi={https://doi.org/10.1103/physreve.82.051903},
+    author={Destexhe, Alain and Sejnowski, Terrence J.},
+    year={2009},
+    journal={Scholarpedia},
+    doi={10.4249/scholarpedia.1389},
   }
 ---
 

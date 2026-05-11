@@ -1,0 +1,294 @@
+                                          Fetpype: An Open-Source Pipeline for Reproducible
+                                                      Fetal Brain MRI Analysis
+
+                                              Thomas Sanchez 1,2,* , Gerard Martı́-Juan 3,* , David Meunier 4 , Miguel Angel
+                                              Gonzalez Ballester 3,5 , Oscar Camara 3 , Elisenda Eixarch 6,7 , Gemma Piella 3 ,
+                                                           Meritxell Bach Cuadra 1,2 , and Guillaume Auzias 4
+                                                                 1
+                                                                      CIBM – Center for Biomedical Imaging, Switzerland
+                                                 2
+                                                    Department of Diagnostic and Interventional Radiology, Lausanne University
+                                                                       Hospital and University of Lausanne, Switzerland
+arXiv:2512.17472v2 [eess.IV] 3 Feb 2026
+
+
+
+
+                                                        3
+                                                          BCN MedTech, Department of Engineering, Universitat Pompeu Fabra, Spain
+                                                      4
+                                                        Aix-Marseille Université, CNRS, Institut de Neurosciences de La Timone, France
+                                                                                    5
+                                                                                      ICREA, Barcelona, Spain
+                                               6
+                                                 BCNatal — Fetal Medicine Research Center (Hospital Clı́nic and Hospital Sant Joan de Déu,
+                                                                         Universitat de Barcelona), Barcelona, Spain
+                                           7
+                                             Institut d’Investigacions Biomèdiques August Pi i Sunyer (IDIBAPS), Barcelona, Spain and Centre
+                                                           for Biomedical Research on Rare Diseases (CIBERER), Barcelona, Spain
+                                                                                        *
+                                                                                          Equal contribution
+
+
+
+
+                                          1    Summary
+
+                                          Fetal brain magnetic resonance imaging (MRI) is crucial for assessing neurodevelopment in
+                                          utero. However, fetal MRI analysis remains technically challenging due to fetal motion, low
+                                          signal-to-noise ratio, and the need for complex multi-step processing pipelines. These pipelines
+                                          typically include motion correction, super-resolution reconstruction, tissue segmentation, and
+                                          cortical surface extraction. While specialized tools exist for each individual processing step,
+                                          integrating them into a robust, reproducible, and user-friendly end-to-end workflow remains
+                                          difficult. This fragmentation limits reproducibility across studies and hinders the adoption of
+                                          advanced fetal neuroimaging methods in both research and clinical contexts.
+
+                                          Fetpype addresses this gap by providing a standardized, modular, and reproducible framework
+                                          for fetal brain MRI preprocessing and analysis, enabling researchers to process raw T2-weighted
+                                          acquisitions through to derived volumetric and surface-based outputs within a unified workflow.
+
+
+                                          2    Statement of need
+
+                                          Fetpype is an open-source Python package designed to streamline and standardize the prepro-
+                                          cessing and analysis of T2-weighted fetal brain MRI data. The package targets the fetal neu-
+                                          roimaging community, where methodological heterogeneity and complex software dependencies
+                                          have historically limited reproducibility and comparability across studies.
+
+                                          Existing fetal brain MRI tools typically focus on individual processing steps and require cus-
+                                          tomized code for pre- and post-processing, as well as to connect different modules, making
+                                          it difficult to reproduce processing results across studies. Fetpype addresses these challenges
+
+
+                                                                                           1
+Figure 1: The different steps covered by Fetpype. Starting from several T2-weighted stacks of
+thick slices of the fetal brain (acquisition), Fetpype pre-processes data before feeding them to a
+super-resolution reconstruction algorithm that fuses them into a single high-resolution volume.
+This volume then undergoes segmentation, before moving to cortical surface extraction.
+
+
+by providing a configurable, containerized, and Nipype-driven solution that integrates state-
+of-the-art fetal MRI processing tools into a cohesive pipeline. By emphasizing reproducibility,
+extensibility, and ease of use, Fetpype lowers the barrier to applying advanced fetal MRI anal-
+ysis methods and facilitates consistent processing across sites, scanners, and studies. In doing
+so, Fetpype improves comparability across studies and supports community collaboration by
+facilitating the dissemination of new image processing methods for clinical applications. The
+pipeline is publicly available on GitHub.
+
+
+3    State of the field
+
+Fetal brain MRI analysis relies on a range of specialized tools that address individual pro-
+cessing steps, particularly motion correction and super-resolution reconstruction. Widely used
+reconstruction frameworks include SVRTK (C++) [9, 17], NiftyMIC (Python) [3], and NeSVoR
+(Python/PyTorch) [19]. While increasingly distributed as containers, these tools rely on dis-
+tinct data organization schemes as well as custom pre- and post-processing steps. Downstream
+processing tools for brain extraction, segmentation, and surface reconstruction show similar
+diversity, combining Python scripts, compiled binaries, and domain-specific imaging libraries
+[11, 18, 5, 1]. As a result, constructing an end-to-end fetal MRI workflow typically requires cus-
+tom scripting to orchestrate multiple containers, manage data formats, and handle intermediate
+outputs, limiting reproducibility and accessibility.
+
+Fetpype was built to address these limitations by providing a unified, Python-based frame-
+work to integrate existing containerized tools for fetal brain MRI analysis. By enforcing data
+formatting following the widely-used Brain Imaging Data Structure (BIDS) standard [7], and
+leveraging containerized execution and Nipype-based workflow management [8]and Hydra-based
+configuration [20], Fetpype provides a standardized and scalable environment for reproducible
+end-to-end fetal brain MRI analysis on both local workstations and large-scale computing clus-
+ters.
+
+
+                                                2
+4     Software design
+
+Fetpype is built around four core design principles: data standardization, containerization,
+workflow orchestration, and flexible configuration:
+
+
+    1. Data Standardization: Fetpype expects input data organized according to the Brain
+       Imaging Data Structure (BIDS) standard [7], promoting interoperability and simplifying
+       data management.
+
+    2. Containerization: Individual processing tools are encapsulated within Docker or Singu-
+       larity containers. This ensures reproducibility and reduces installation issues, providing a
+       better experience for the end user.
+
+    3. Workflow Management: The Nipype library [8] is used to construct processing work-
+       flows. It provides a robust interface for combining different steps from different containers
+       or packages, facilitating data caching and parallelization, and allowing pipelines to be
+       easily shareable.
+
+    4. Configuration: Pipeline configuration is managed using simple YAML files and the
+       Hydra library [20], allowing users to easily select between different modules or parameters
+       without directly modifying the code.
+
+
+The current implementation of Fetpype integrates modules for:
+
+    • Data preprocessing: including brain extraction using Fetal-BET [5], non-local means
+      denoising [12], and N4 bias-field correction [16], all wrapped into a single container built
+      at https://github.com/fetpype/utils_container.
+
+    • Super-resolution reconstruction: implementing three widely used pipelines: NeSVoR
+      [19], SVRTK [9, 17], and NiftyMIC [3].
+
+    • Segmentation: implementing BOUNTI [18] and the Developing Human Connectome
+      Project pipeline [11].
+
+    • Cortical surface extraction: using a custom implementation available at https://
+      github.com/fetpype/surface_processing based on [1, 2, 10].
+
+The overall processing workflow is summarized in Figure 1.
+
+
+5     Research impact statement
+
+Fetpype is the result of a longstanding collaboration within a European consortium of re-
+searchers specializing in fetal neuroimaging. Its default configurations and processing work-
+flows have been the result of extensive testing to achieve robust processing on data acquired
+across multiple hospitals in France, Spain, and Switzerland, covering a range of scanners and
+acquisition protocols.
+
+The framework has been used to process large-scale fetal MRI datasets within the consortium,
+has contributed to a first publication [14], and is supporting ongoing research projects. Fetpype
+is used by multiple research groups and has begun to receive external contributions, including
+
+
+                                                 3
+pull requests that integrate additional processing methods. This suggests that Fetpype ad-
+dresses a clear methodological need and can serve as shared community infrastructure for fetal
+brain MRI research.
+
+In the future, we plan to supplement Fetpype with an automated reporting library contain-
+ing automated quality control [15], subject-wise and population-wise biometry and volumetry
+[4, 13], as well as spectral analysis of surfaces [6]. We welcome community contributions, par-
+ticularly implementations of new methods that can be integrated into the existing containerized
+workflow framework.
+
+
+AI usage disclosure
+
+GitHub Copilot, integrated within Visual Studio Code, was used during software development
+to assist with code completion and implementation. ChatGPT (GPT-5.2) was used for proof-
+reading and language refinement of the manuscript. The authors take full responsibility for the
+written content.
+
+
+Acknowledgements
+
+This work was funded by Era-net NEURON MULTIFACT project (TS: Swiss National Science
+Foundation grants 31NE30 203977, 215641; GA: French National Research Agency, Grant ANR-
+21-NEU2-0005; EE: Instituto de Salud Carlos III (ISCIII) grant AC21 2/00016; GMJ, GP, OC,
+MAGB: Ministry of Science, Innovation and Universities: MCIN/AEI/10.13039/501100011033/),
+the SulcalGRIDS Project, (GA: French National Research Agency Grant ANR-19-CE45-0014),
+the pediatric domain shifts project (TS: SNSF 205320-215641), and NVIDIA research grants
+with the use of NVIDIA RTX6000 ADA GPUs. We acknowledge the CIBM Center for Biomed-
+ical Imaging, a Swiss research center of excellence founded and supported by CHUV, UNIL,
+EPFL, UNIGE and HUG.
+
+
+References
+
+ [1] Pierre-Louis Bazin and Dzung L Pham. Topology correction using fast marching methods
+     and its application to brain segmentation. In International Conference on Medical Image
+     Computing and Computer-Assisted Intervention, pages 484–491. Springer, 2005.
+
+ [2] Pierre-Louis Bazin and Dzung L Pham. Topology correction of segmented medical im-
+     ages using a fast marching algorithm. Computer methods and programs in biomedicine,
+     88(2):182–190, 2007.
+
+ [3] Michael Ebner, Guotai Wang, Wenqi Li, Michael Aertsen, Premal A Patel, Rosalind Augh-
+     wane, Andrew Melbourne, Tom Doel, Steven Dymarkowski, Paolo De Coppi, et al. An
+     automated framework for localization, segmentation and super-resolution reconstruction
+     of fetal brain mri. NeuroImage, 206:116324, 2020.
+
+ [4] Oscar Esteban, Daniel Birman, Marie Schaer, Oluwasanmi O Koyejo, Russell A Poldrack,
+     and Krzysztof J Gorgolewski. Mriqc: Advancing the automatic prediction of image quality
+     in mri from unseen sites. PloS one, 12(9):e0184661, 2017.
+
+
+
+                                              4
+ [5] Razieh Faghihpirayesh, Davood Karimi, Deniz Erdoğmuş, and Ali Gholipour. Fetal-BET:
+     Brain extraction tool for fetal MRI. IEEE Open Journal of Engineering in Medicine and
+     Biology, 2024.
+
+ [6] David Germanaud, Julien Lefèvre, Roberto Toro, Clara Fischer, Jessica Dubois, Lucie
+     Hertz-Pannier, and Jean-Francois Mangin. Larger is twistier: spectral analysis of gyrifi-
+     cation (spangy) applied to adult brain size polymorphism. NeuroImage, 63(3):1257–1272,
+     2012.
+
+ [7] Krzysztof J Gorgolewski, Tibor Auer, Vince D Calhoun, R Cameron Craddock, Samir
+     Das, Eugene P Duff, Guillaume Flandin, Satrajit S Ghosh, Tristan Glatard, Yaroslav O
+     Halchenko, et al. The brain imaging data structure, a format for organizing and describing
+     outputs of neuroimaging experiments. Scientific data, 3(1):1–9, 2016.
+
+ [8] Krzysztof J Gorgolewski, Christopher D Burns, Cindee Madison, Dav Clark, Yaroslav O
+     Halchenko, Michael L Waskom, and Satrajit S Ghosh. Nipype: a flexible, lightweight and
+     extensible neuroimaging data processing framework in python. Frontiers in neuroinfor-
+     matics, 5:13, 2011.
+
+ [9] Maria Kuklisova-Murgasova, Gerardine Quaghebeur, Mary A Rutherford, Joseph V Hajnal,
+     and Julia A Schnabel. Reconstruction of fetal brain MRI with intensity matching and
+     complete outlier removal. Medical image analysis, 16(8):1550–1564, 2012.
+
+[10] Qiang Ma, Liu Li, Emma C Robinson, Bernhard Kainz, Daniel Rueckert, and Amir
+     Alansary. Cortexode: Learning cortical surface reconstruction by neural odes. IEEE Trans-
+     actions on Medical Imaging, 42(2):430–443, 2022.
+
+[11] Antonios Makropoulos, Emma C Robinson, Andreas Schuh, Robert Wright, Sean Fitzgib-
+     bon, Jelena Bozek, Serena J Counsell, Johannes Steinweg, Katy Vecchiato, Jonathan
+     Passerat-Palmbach, et al. The developing human connectome project: A minimal process-
+     ing pipeline for neonatal cortical surface reconstruction. Neuroimage, 173:88–112, 2018.
+
+[12] José V Manjón, Pierrick Coupé, Luis Martı́-Bonmatı́, D Louis Collins, and Montserrat
+     Robles. Adaptive non-local means denoising of mr images with spatially varying noise
+     levels. Journal of Magnetic Resonance Imaging, 31(1):192–203, 2010.
+
+[13] Sara Neves Silva, Alena Uus, Hadi Waheed, Simi Bansal, Kamilah St Clair, Wendy Norman,
+     Jordina Aviles Verdera, Daniel Cromb, Tomas Woodgate, Milou Van Poppel, et al. Scanner-
+     based real-time automated volumetry reporting of the fetus, amniotic fluid, placenta, and
+     umbilical cord for fetal mri at 0.55 t. Magnetic resonance in medicine, 2025.
+
+[14] Thomas Sanchez, Angeline Mihailov, Gerard Martı́-Juan, Nadine Girard, Aurélie Manchon,
+     Mathieu Milh, Elisenda Eixarch, Vincent Dunet, Mériam Koob, Léo Pomar, et al. Data
+     quality biases normative models derived from fetal brain mri. bioRxiv, pages 2026–01, 2026.
+
+[15] Thomas Sanchez, Vladyslav Zalevskyi, Angeline Mihailov, Gerard Martı́-Juan, Elisenda
+     Eixarch, Andras Jakab, Vincent Dunet, Mériam Koob, Guillaume Auzias, and Meritx-
+     ell Bach Cuadra. Automatic quality control in multi-centric fetal brain mri super-resolution
+     reconstruction. In Perinatal, Preterm and Paediatric Image Analysis, pages 3–14, Cham,
+     2026. Springer Nature Switzerland.
+
+[16] Nicholas J Tustison, Brian B Avants, Philip A Cook, Yuanjie Zheng, Alexander Egan,
+     Paul A Yushkevich, and James C Gee. N4ITK: improved n3 bias correction. IEEE trans-
+     actions on medical imaging, 29(6):1310–1320, 2010.
+
+
+
+                                               5
+[17] Alena U Uus, Irina Grigorescu, Milou PM van Poppel, Johannes K Steinweg, Thomas A
+     Roberts, Mary A Rutherford, Joseph V Hajnal, David FA Lloyd, Kuberan Pushparajah,
+     and Maria Deprez. Automated 3D reconstruction of the fetal thorax in the standard atlas
+     space from motion-corrupted MRI stacks for 21–36 weeks ga range. Medical image analysis,
+     80:102484, 2022.
+
+[18] Alena U. Uus, Vanessa Kyriakopoulou, Antonios Makropoulos, Abi Fukami-Gartner, Daniel
+     Cromb, Alice Davidson, Lucilio Cordero-Grande, Anthony N. Price, Irina Grigorescu, Lo-
+     gan Z. J. Williams, Emma C. Robinson, David Lloyd, Kuberan Pushparajah, Lisa Story,
+     Jana Hutter, Serena J. Counsell, A. David Edwards, Mary A. Rutherford, Joseph V. Haj-
+     nal, and Maria Deprez. Bounti: Brain volumetry and automated parcellation for 3d fetal
+     mri. August 2023.
+
+[19] Junshen Xu, Sayeri Lala, Borjan Gagoski, Esra Abaci Turk, P Ellen Grant, Polina Gol-
+     land, and Elfar Adalsteinsson. NeSVoR: Implicit neural representation for slice-to-volume
+     reconstruction in MRI. IEEE Transactions on Medical Imaging, 2023.
+
+[20] Omry Yadan. Hydra - a framework for elegantly configuring complex applications. Github,
+     2019.
+
+
+
+
+                                              6
+

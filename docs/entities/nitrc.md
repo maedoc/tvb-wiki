@@ -7,14 +7,14 @@ sources:
 tags: []
 title: Nitrc
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-09'
 ---
 
 # NITRC
 
 ## Overview
 
-NITRC (Neuroimaging Informatics Technology Initiative) is a community‑owned web repository that provides researchers with centralized access to neuroimaging software tools, resources, and computational environments. Established as part of the NIH Blueprint for Enhancing the Development of Neuroimaging Technologies, NITRC serves as the primary distribution mechanism for hundreds of neuroimaging analysis packages across multiple modalities, including [[fMRI]], [[EEG]], [[MEG]], and [[diffusion tensor imaging]] [1]. The platform addresses a fundamental challenge in computational neuroscience: the fragmentation of software tools across different labs, websites, and distribution channels, which historically made it difficult for researchers to discover, obtain, and reproduce neuroimaging analyses. NITRC consolidates these resources into a single, searchable repository with version‑controlled downloads, documentation, and community support forums [1].
+NITRC (Neuroimaging Informatics Technology Initiative) is a community‑owned web repository that provides researchers with centralized access to neuroimaging software tools, resources, and computational environments. Established as part of the NIH Blueprint for Enhancing the Development of Neuroimaging Technologies, NITRC serves as the primary distribution mechanism for hundreds of neuroimaging analysis packages across multiple modalities, including [[fMRI]], [[EEG]], [[MEG]], and [[neuroimaging]] [1]. The platform addresses a fundamental challenge in computational neuroscience: the fragmentation of software tools across different labs, websites, and distribution channels, which historically made it difficult for researchers to discover, obtain, and reproduce neuroimaging analyses. NITRC consolidates these resources into a single, searchable repository with version‑controlled downloads, documentation, and community support forums [1].
 
 ## Motivation and Context
 
@@ -43,5 +43,5 @@ The relationship between NITRC and emerging platforms like [[brainlife]] represe
 ## References
 
 1. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
-2. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain [[connectivity]]*. Journal of Neuroscience Methods. [DOI](](https://doi.org/10.1016/j.jneumeth.2014.07.015))
+2. Woodman et al. (2014). *GraphVar: A user‑friendly toolbox for comprehensive graph analyses of functional brain [[connectivity]]*. Journal of Neuroscience Methods. [DOI](](https://doi.org/10.1016/j.jneumeth.2014.07.015))
 3. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.

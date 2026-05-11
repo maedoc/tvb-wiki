@@ -2,6 +2,11 @@
 created: 2025-01-15
 sources:
 - raw/papers/gramfort-2013.md
+- raw/papers/schirner-2018.md
+- raw/papers/semanticscholar-31012b56630b.md
+- raw/papers/arxiv-2601.09525.md
+- raw/papers/arxiv-2512.24901.md
+- raw/papers/semanticscholar-9297e624d875.md
 tags:
 - software
 - neuroimaging-eeg
@@ -11,7 +16,7 @@ tags:
 - data-processing
 title: MNE-BIDS-Pipeline
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 ## Overview

@@ -2,6 +2,10 @@
 created: 2025-01-15
 sources:
 - raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/geppetto-2018.md
+- raw/papers/migliore-2006.md
+- raw/papers/arxiv-2601.21478.md
 tags:
 - software-neuroml
 - computational-neuroscience
@@ -12,7 +16,7 @@ tags:
 - software-modeldb
 title: Open Source Brain
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 Open Source Brain (OSB) is an online platform and community repository for sharing, developing, and distributing [[computational-neuroscience]] models in a standardized, reusable format. Founded in the late 2000s by researchers in Angus Silver's group at University College London (UCL) and collaborators across Europe, OSB addresses a fundamental challenge in computational neuroscience: the proliferation of incompatible, poorly documented model implementations that are difficult to reuse, reproduce, or extend. The platform serves as both a model database analogous to [[ModelDB]] and a collaborative development environment where researchers can publish nervous system models ranging from single neuron simulations to whole-[[brain-network]] architectures.

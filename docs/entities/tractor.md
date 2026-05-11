@@ -12,7 +12,7 @@ tags:
 - software-visualization
 title: TractoR
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-07'
 ---
 
 TractoR ([[tractography]] with R) is an open-source software package that provides tools for performing fiber tractography and [[structural-connectivity]] analysis on diffusion magnetic resonance imaging (dMRI) data. Originally developed at the Wellcome Trust Centre for [[neuroimaging]] at University College London, TractoR implements probabilistic tractography algorithms and provides a consistent interface for processing dMRI datasets from raw images to streamline [[white-matter]] tract reconstruction. The software is written primarly in R with computationally intensive components implemented in C++, and it has become a widely-used tool in the [[connectomics]] community for extracting white matter pathways and generating structural [[connectivity]] matrices.
@@ -39,7 +39,7 @@ Researchers using TVB frequently employ TractoR to generatetractography-derived 
 
 ## Key Papers
 
-The original TractoR software was described by "Connectivity ICF" in a technical note published in NeuroImage in 2011 (though the exact citation details should be verified). The software has since been cited in numerous studies applying tractography to investigate structural connectivity in healthy controls and clinical populations. Researchers have used TractoR to examine alterations in white matter connectivity associated with Alzheimer's disease, schizophrenia, and other neurological conditions, demonstrating its utility in both research and clinical contexts.
+The original TractoR software was described by "Connectivity ICF" in a technical note published in NeuroImage in 2011 (though the exact citation details should be verified). The software has since been cited in numerous studies applying tractography to investigate structural connectivity in healthy controls and clinical populations. Researchers have used TractoR to examine alterations in white matter connectivity associated with [[alzheimers-disease|Alzheimer's disease]], schizophrenia, and other neurological conditions, demonstrating its utility in both research and clinical contexts.
 
 ## Related Software
 

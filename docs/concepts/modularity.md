@@ -19,7 +19,7 @@ tags:
 - small-world-networks
 title: Modularity
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-07'
 ---
 
 Modularity is a fundamental organizational principle in complex networks, including the brain's structural and functional [[connectivity]]. It refers to the degree to which a network can be partitioned into clearly delineated groups—called modules, communities, or sub-networks—wherein nodes within each group exhibit dense interconnections while maintaining relatively sparse connections to nodes in other groups. This organizational scheme balances the competing demands of **segregated local processing** and **integrated global coordination**, making it essential for understanding brain function in both health and disease.
@@ -89,7 +89,7 @@ These modules interact through **[[network-hubs]]**—highly connected regions l
 
 ### Clinical Implications
 
-Altered modularity has been reported across psychiatric and neurological conditions including schizophrenia, Alzheimer's disease, autism spectrum disorder, and epilepsy. In schizophrenia, reduced modularity may reflect disrupted integration between frontal and temporal systems. In Alzheimer's disease, modular breakdown coincides with tau pathology spreading through **[[structural-connectivity]]** pathways. These findings position modular metrics as potential biomarkers and as windows into disease mechanisms.
+Altered modularity has been reported across psychiatric and neurological conditions including schizophrenia, [[alzheimers-disease|Alzheimer's disease]], autism spectrum disorder, and epilepsy. In schizophrenia, reduced modularity may reflect disrupted integration between frontal and temporal systems. In Alzheimer's disease, modular breakdown coincides with tau pathology spreading through **[[structural-connectivity]]** pathways. These findings position modular metrics as potential biomarkers and as windows into disease mechanisms.
 
 ## Relationship to Other Network Metrics
 

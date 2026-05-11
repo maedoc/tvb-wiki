@@ -2,6 +2,11 @@
 created: 2024-01-15
 sources:
 - raw/papers/semanticscholar-109de470e443.md
+- raw/papers/ogawa-1990.md
+- raw/papers/arxiv-2512.24901.md
+- raw/papers/semanticscholar-e08252ec3941.md
+- raw/papers/Renton2024.md
+- raw/papers/semanticscholar-db98f2ae6803.md
 tags:
 - software-preprocessing
 - neuroimaging-fmri
@@ -12,7 +17,7 @@ tags:
 - reproducibility
 title: ASLPrep
 type: software
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 # ASLPrep

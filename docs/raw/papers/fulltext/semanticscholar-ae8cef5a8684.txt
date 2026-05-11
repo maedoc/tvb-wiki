@@ -1,0 +1,789 @@
+                                                                                                                      TYPE Original Research
+                                                                                                                      PUBLISHED 17 December 2025
+                                                                                                                      DOI 10.3389/fneur.2025.1672133
+
+
+
+
+                                                 Multi-center evaluation of
+OPEN ACCESS                                      Neurophet AQUA for brain MRI
+                                                 segmentation: T1 compared with
+EDITED BY
+Peter Sörös,
+University of Oldenburg, Germany
+
+REVIEWED BY
+Sung-han Lin,
+                                                 FreeSurfer and T2-FLAIR
+University of Texas Southwestern Medical
+Center, United States
+Antonio Carlos Da Silva Senra Filho,
+                                                 compared with ground truth
+State University of Campinas, Brazil
+
+*CORRESPONDENCE                                  Hyunjae Yu 1, Hyunji Lee 1, Minho Lee 1, Donghyeon Kim 1,
+Regina E. Y. Kim                                 Lukas Pirpamer 2,3, Marco Duering 2,3, Sue Moy 4, Karl G. Helmer 4,5
+  reginaeunyoungkim@neurophet.com
+
+RECEIVED 24 July 2025
+                                                 and Regina E. Y. Kim 1* for the Alzheimer's Disease
+REVISED 07 November 2025                         Neuroimaging Initiative
+ACCEPTED 17 November 2025
+PUBLISHED 17 December 2025                       1
+                                                  Research Institute, Neurophet Inc., Seoul, Republic of Korea, 2Medical Image Analysis Center (MIAC),
+                                                 Basel, Switzerland, 3Department of Biomedical Engineering, Translational Imaging in Neurology
+CITATION
+                                                 (ThINk) Basel, University of Basel, Basel, Switzerland, 4Department of Radiology, Massachusetts
+Yu H, Lee H, Lee M, Kim D, Pirpamer L,
+                                                 General Hospital, Boston, MA, United States, 5Harvard Medical School, Boston, MA, United States
+Duering M, Moy S, Helmer KG and
+Kim REY (2025) Multi-center evaluation of
+Neurophet AQUA for brain MRI segmentation:
+T1 compared with FreeSurfer and T2-FLAIR
+compared with ground truth.
+Front. Neurol. 16:1672133.
+                                                 Introduction: Accurate segmentation of brain regions in magnetic resonance
+doi: 10.3389/fneur.2025.1672133                  imaging (MRI) is essential for diagnosing and managing neurological diseases.
+COPYRIGHT                                        FreeSurfer is a widely used tool for brain MRI segmentation, but its limitations
+© 2025 Yu, Lee, Lee, Kim, Pirpamer, Duering,     in speed and usability pose challenges in clinical practice. Neurophet AQUA,
+Moy, Helmer and Kim. This is an open-access      an advanced automated segmentation tool, aims to overcome these
+article distributed under the terms of the
+Creative Commons Attribution License             challenges by offering rapid and reliable segmentation. This study evaluates
+(CC BY). The use, distribution or reproduction   two segmentation pipelines: (1) a T1-based brain region segmentation pipeline,
+in other forums is permitted, provided the       comparing the performance and reliability of Neurophet AQUA and FreeSurfer
+original author(s) and the copyright owner(s)
+are credited and that the original publication   v7.3.2 using the standard recon-all pipeline in segmenting gray matter, white
+in this journal is cited, in accordance with     matter, and subcortical structures; and (2) a T2-FLAIR-based white matter lesion
+accepted academic practice. No use,              segmentation pipeline of Neurophet AQUA, assessing the detection of white
+distribution or reproduction is permitted
+which does not comply with these terms.          matter hyperintensities (WMH).
+                                                 Methods: Four main datasets were used. For the T1-based segmentation
+                                                 pipeline, the Alzheimer’s Disease Neuroimaging Initiative (ADNI) dataset was
+                                                 used to compare the segmentation results of Neurophet AQUA and FreeSurfer,
+                                                 with quality assessed by expert evaluation. The MarkVCID dataset was used
+                                                 to evaluate the scan-rescan repeatability and inter-scanner reproducibility
+                                                 of Neurophet AQUA. For the T2-FLAIR-based pipeline, WMH segmentation
+                                                 performance was assessed using 2D and 3D FLAIR sequences from the ADNI
+                                                 dataset by comparing the segmentations to ground truth (GT) labels and
+                                                 calculating Dice similarity coefficients (DSC).
+                                                 Results: Segmentation quality and reliability showed that Neurophet AQUA and
+                                                 FreeSurfer achieved comparable performance in most regions, with no significant
+                                                 differences. However, Neurophet AQUA had significantly faster processing time.
+                                                 In intracranial volume (ICV) measurements, Neurophet AQUA showed better
+                                                 repeatability than FreeSurfer in both rescans (ICC: 0.999 vs. 0.991) and inter-
+                                                 scanner settings (ICC: 0.983 vs. 0.866). AQUA also demonstrated consistent
+                                                 WMH segmentation across 2D and 3D FLAIR images.
+                                                 Conclusion: Neurophet AQUA demonstrated high segmentation accuracy
+                                                 and excellent repeatability in rescanned measurements, as well as exploratory
+                                                 evidence of inter-scanner reproducibility on T1-weighted MRI, showing
+
+
+
+Frontiers in Neurology                                                 01                                                               frontiersin.org
+Yu et al.                                                                                                                  10.3389/fneur.2025.1672133
+
+
+
+
+                                                    comparable performance to established tools such as FreeSurfer. It also showed
+                                                    consistent WMH segmentation across FLAIR types. Neurophet AQUA is highly
+                                                    suitable for clinical applications that require accurate analysis, high repeatability
+                                                    and reproducibility, and rapid brain MRI processing, making it particularly well-
+                                                    suited for multicenter research studies.
+
+                                                    KEYWORDS
+
+                                                    brain MRI segmentation, scan-rescan repeatability, inter-scanner reproducibility,
+                                                    white matter hyperintensity, automated segmentation, T1-weighted MRI, T2-FLAIR
+
+
+
+
+1 Introduction                                                                   2 Method
+     Accurate volumetric measurements of brain regions are essential             2.1 Datasets
+for tracking neurodegenerative diseases. Various automated brain
+segmentation tools have been developed, including widely used                         To evaluate Neurophet AQUA’s performance, four validation
+research software such as FreeSurfer (1), FSL-FIRST (2), ANTs (3),               datasets were used, selected from the Alzheimer’s Disease
+and SPM (4), as well as newer deep-learning-based solutions like                 Neuroimaging Initiative (ADNI) (16, 17) and the MarkVCID
+FastSurfer (5) and the free VolBrain platform, which does not require            consortium (18–20) (Figure 1). The ADNI data used in the
+local installation (6). These tools differ in their segmentation                 preparation of this article were obtained from the Alzheimer’s
+methodologies, computational efficiency, and clinical applicability.             Disease Neuroimaging Initiative (ADNI) database (adni.loni.usc.
+     Neurophet AQUA is a recently developed segmentation tool                    edu). The ADNI was launched in 2003 as a public-private
+designed for efficient and reliable analysis of structural brain changes,        partnership, led by Principal Investigator Michael W. Weiner,
+particularly in the context of neurodegenerative diseases. It is                 MD. The primary goal of ADNI has been to test whether serial
+FDA-approved for clinical use (7). The tool provides rapid processing            magnetic resonance imaging (MRI), positron emission
+while retaining the comprehensive segmentation capabilities typical              tomography (PET), other biological markers, and clinical and
+of established neuroimaging pipelines. For instance, a recent study by           neuropsychological assessment can be combined to measure the
+Lee et al. (8) demonstrated that while FreeSurfer typically requires             progression of mild cognitive impairment (MCI) and early
+approximately 1 h per image, Neurophet AQUA completes the                        Alzheimer’s disease (AD).
+analysis in under 5 min on average. Moreover, Neurophet AQUA                          First, for T1-based segmentation evaluation, 90 ADNI cases
+incorporates a deep-learning-based T2-FLAIR segmentation                         (Validation dataset 1) were categorized as cognitively normal (CN),
+algorithm for fully automated identification of white matter                     mild cognitive impairment (MCI), or Alzheimer’s disease dementia
+hyperintensities (WMHs) in T2-FLAIR scans, showing particularly                  (ADD), with 30 subjects per group. Each group included equal
+strong performance in segmenting small-sized WMHs (9, 10).                       numbers of 1.5 T and 3 T MRI scans, evenly distributed across
+     While the segmentation capabilities of Neurophet AQUA have                  Siemens, Philips, and General Electric (GE). Sex and age were also
+previously been documented and positively evaluated (9), there                   matched to minimize intergroup differences (Table 1).
+remains a need for objective performance comparisons to establish                     Second, for scan-rescan repeatability (Validation dataset 2), we
+its reliability in a broader context. In this study we aimed to                  analyzed 42 MarkVCID patients who underwent two MRI scans on
+benchmark Neurophet AQUA against FreeSurfer, a well-established                  the same scanner within 14 days. Inter-scanner reproducibility
+and widely open source used tool, validated across diverse                       (Validation dataset 3) was assessed using 15 patients scanned on four
+populations and MRI scanners (11), using expert radiologist                      different 3 T MRI scanners (Siemens Trio, Siemens Prisma, GE
+assessments of T1-weighted MRI scans. We further validate the                    Discovery 750, and Philips Achieva) within 15 weeks.
+technical reliability of both tools through scan-rescan repeatability                 Third, for T2-FLAIR-based lesion segmentation evaluation, 100
+to determine consistency in results when images are acquired twice               ADNI cases (Validation dataset 4) were selected using WMH volume
+on the same MRI device (12–14). Additionally, we evaluate inter-                 cut-offs based on Fazekas grades (0–3). Instead of visual grading,
+scanner reproducibility to assess whether consistent results are                 pre-defined volumetric thresholds from previous literature (21) were
+obtained when the same patient is scanned on different MRI                       applied (WMH score 0: ≤1 mL; score 1: 1–7 mL; score 2: 7–20 mL;
+machines (15).                                                                   score 3: >20 mL, approximately corresponding to Fazekas grades
+     In this study, we aimed to benchmark Neurophet AQUA against                 0–3). Subjects aged 60–90 were evenly distributed across Siemens,
+FreeSurfer for T1-weighted brain segmentation, and to evaluate its               Philips, and GE scanners (Table 2). Cases with stroke, metastasis,
+scan-rescan repeatability and inter-scanner reproducibility across               hemorrhage, or traumatic brain injury were excluded, along with
+multi-center MRI data. Additionally, we assessed AQUA’s T2-FLAIR-                scans having severe artifacts, low signal-to-noise ratio (SNR), or
+based WMH segmentation against ground truth labels. This                         unclear lesion boundaries.
+comprehensive evaluation was designed to establish AQUA’s reliability                 Tables 1, 2 summarize the demographic and MRI characteristics
+and clinical applicability as a rapid, automated segmentation tool.              of Validation datasets 1 and 4, respectively.
+
+
+
+
+Frontiers in Neurology                                                      02                                                          frontiersin.org
+Yu et al.                                                                                                                                                  10.3389/fneur.2025.1672133
+
+
+
+
+      FIGURE 1
+      Flow chart. The flow chart illustrates the study design and participant inclusion process. It shows the selection of participants from the initial screening
+      through to the final analysis, detailing the number of subjects excluded at each stage. The chart includes steps such as inclusion criteria, scanning
+      procedures, and segmentation analysis, providing a visual overview of the study methodology. ADNI, Alzheimer’s Disease Neuroimaging Initiative.
+
+
+
+
+TABLE 1 Demographic and imaging characteristics of validation dataset 1                          TABLE 2 Demographic and MRI characteristics of validation dataset 4
+used for T1-weighted MRI segmentation performance evaluation.                                    (ADNI Subset) stratified by 2D and 3D T2-FLAIR sequences for WMH
+                                                                                                 segmentation evaluation.
+    Variables            CN               MCI               ADD                p-
+                                                                             value†                  Variables               2D FLAIR                3D FLAIR                p-value†
+                     (N = 30)          (N = 30)          (N = 30)
+                                                                                                                              (N = 40)               (N = 60)
+    Sex - Female      18 (60.0%)        18 (60.0%)        18 (60.0%)            NS
+                                                                                                     Sex - Female             19 (47.5%)              27 (45.0%)                  NS
+    Age
+                      74.1 ± 8.2        72.9 ± 8.8         73.2 ± 9.3           NS                   Age (Mean ± SD)           75.0 ± 7.7              79.0 ± 6.9                0.007
+    (Mean ± SD)
+                                                                                                     WMH Group                                                                    NS
+    Field strength                                                              NS
+                                                                                                      WMH score 0            10 (25.0%)              15 (25.0%)
+     1.5 T           15 (50.0%)        15 (50.0%)        15 (50.0%)
+                                                                                                      WMH score 1            10 (25.0%)              15 (25.0%)
+     3 T             15 (50.0%)        15 (50.0%)        15 (50.0%)
+                                                                                                      WMH score 2            10 (25.0%)              15 (25.0%)
+    Manufacturer                                                                NS
+                                                                                                      WMH score 3            10 (25.0%)              15 (25.0%)
+     Siemens         10 (33.3%)        10 (33.3%)        10 (33.3%)
+                                                                                                     Manufacturer                                                                 NS
+     Philips         10 (33.3%)        10 (33.3%)        10 (33.3%)
+                                                                                                      Siemens                18 (45.0%)              26 (43.3%)
+     GE              10 (33.3%)        10 (33.3%)        10 (33.3%)
+†
+ The continuous variable was analyzed using one-way ANOVA, while Chi-square tests were                Phillips               13 (32.5%)              20 (33.3%)
+conducted for categorical variables. A p-value ≥ 0.05 indicates no significant difference             GE                      9 (22.5%)              14 (23.3%)
+between groups.
+CN, cognitive normal; MCI, mild cognitive impairment; ADD, Alzheimer’s disease
+                                                                                                 †
+                                                                                                  The continuous variable was analyzed using independent two-sample t-test, while Chi-
+dementia; GE, general electronics; SD, standard deviation; NS, not significant.                  square test were conducted for categorical variables. A p-value ≥ 0.05 indicates no significant
+                                                                                                 difference between groups.
+                                                                                                 WMH, white matter hyperintensity; GE, general electronics; NS, not significant.
+
+2.2 Segmentation methods
+                                                                                                 annotated ground truth labels, performed by certified radiologists.
+2.2.1 Neurophet AQUA                                                                             This deep learning-based algorithm uses the SAU-Net architecture,
+    The Neurophet AQUA T1-weighted MRI segmentation algorithm                                    based on Nested U-Net (8, 22).
+was trained on multi-center and multi-vendor data (8). The training                                  Preprocessing included the right anterior–posterior orientation
+set consisted of 746 T1-weighted images acquired with Philips,                                   shift and 1 mm isotropic resampling. Histogram-based intensity
+Siemens, and GE MRI scanners: 300 high-quality, 363 medium-                                      normalization was applied before dividing the images into local
+quality, and 83 low-quality. All training data included manually                                 patches, which were used to iteratively train the network with data
+
+
+
+
+Frontiers in Neurology                                                                      03                                                                               frontiersin.org
+Yu et al.                                                                                                                   10.3389/fneur.2025.1672133
+
+
+
+
+augmentation techniques. High-quality data was trained using a 3D               2.3.1 Segmentation quality assessment
+ResNeSt block with a per-channel attention module and EvoNorm                       Segmentation quality was evaluated based on the accuracy of
+layer (23, 24). Hierarchical transfer learning was performed on                 cortical gray matter (GM)–white matter (WM) boundaries and the
+medium- and low-quality data. The final segmentation, completed in              localization accuracy of key brain regions, including the frontal,
+about 5 min, covered over 100 regions of interest in the cortex and             parietal, temporal, and occipital lobes, as well as the hippocampus.
+subcortex (8).                                                                  Quality was rated on a three-point ordinal scale (1 = poor,
+    The Neurophet AQUA T2-FLAIR segmentation algorithm was                      2 = medium, 3 = ideal) and compared between Neurophet AQUA and
+trained on 239 FLAIR images, consisting of both 2D and 3D FLAIR                 FreeSurfer. Additionally, overall segmentation quality was directly
+sequences, from a multi-site dataset across four Korean hospitals.              compared at the patient level, without distinguishing specific brain
+Manual lesion labeling (0 = non-WMH, 1 = WMH) was performed                     regions. All quality assessments were conducted by blinded raters
+by three board-certified radiologists (9).                                      from the MIAC AG analysis team, who were trained experts following
+    Preprocessing involved resampling MRIs to 1 mm2 isotropic space             the standard operating procedures of MIAC AG and blinded to the
+and cranial stripping using HD-BET (25). Data augmentation was                  identity of the segmentation algorithm. Detailed expert evaluations of
+applied using TorchIO technology.1 The model, based on 2D U-Net                 segmentation quality, categorized into cortical tissue boundaries, lobar
+and patch-based training, incorporated a bottleneck attention module            segmentation, and hippocampal segmentation, are provided in
+to improve small WMH performance. A unique training process is                  Supplementary Tables S1, S2. Additionally, the example images are
+sorted datasets by ground truth data volume. The final model uses an            presented in Supplementary Figures S1, S2.
+ensemble method, merging results from models with and without
+histogram normalization, leading to enhanced segmentation                       2.3.2 Technical validation
+performance, particularly for small WMHs (9, 10).                                   For technical validation, we assessed both scan-rescan
+    Neurophet AQUA, a commercial software, was developed with                   repeatability and inter-scanner reproducibility. Repeatability was
+the participation of authors Donghyeon Kim and Minho Lee. The                   evaluated by measuring brain volumes from two T1-weighted MRI
+installation requirements for Neurophet AQUA are Windows 10                     scans acquired on the same scanner within a 14-day interval.
+(64-bit), an Intel i7-8700 CPU (6 cores, 3.2 GHz), 32 GB or more of             Reproducibility was assessed by analyzing brain volumes from four
+RAM, a 256 GB or larger SSD and a 4 TB or larger HDD for storage,               T1-weighted MRI scans obtained using four different 3 T scanners
+and an NVIDIA GeForce RTX 3060 GPU with 12 GB or more of                        across multiple sites within a 15-week period. The evaluated
+memory, CUDA 11.0, and NVIDIA driver version 455 or later.                      volumetric measures included total brain volume, intracranial cavity
+                                                                                volume (ICV), and the cortical volumes of the frontal, parietal,
+2.2.2 FreeSurfer                                                                temporal, and occipital lobes, as well as hippocampal volume.
+    We used the recon-all cross-sectional pipeline from FreeSurfer
+version 7.3.22 with default settings. This pipeline includes several            2.3.3 WMH segmentation performance
+stages, such as cortical surface extraction, subcortical segmentation,              WMH segmentation performance was assessed using the Dice
+and spatial normalization, enabling comprehensive structural analysis           Similarity Coefficient (DSC) (27). Neurophet AQUA outputs were
+of T1-weighted MR images (1). Additionally, cortical lobes and                  compared against manually annotated ground truth WMH masks,
+hippocampal masks were extracted from the aparc+aseg segmentation               labeled by expert radiologists following the STRIVE-2 criteria (28).
+by merging labels according to the defined structures (26). The entire
+pipeline takes approximately 2 h to complete.
+                                                                                2.4 Statistical analysis
+
+2.3 Performance assessment                                                           Demographic and imaging characteristics of the datasets used for
+                                                                                T1-weighted MRI segmentation quality assessment and T2-FLAIR
+    The performance of Neurophet AQUA was validated in three key                segmentation performance evaluation were analyzed. For continuous
+areas: (1) segmentation quality of cortical and subcortical regions, (2)        variables such as age, one-way ANOVA or independent t-tests were
+repeatability and reproducibility of volumetric measurements                    performed, while categorical variables (e.g., gender, field strength)
+(technical validation), and (3) the accuracy of WMH segmentation.               were analyzed using chi-square tests.
+For T1-weighted images, (1) and (2) were evaluated by benchmarking                   Segmentation quality ratings between Neurophet AQUA and
+against FreeSurfer. For T2-FLAIR scans, (3) was assessed using                  FreeSurfer were compared using the Wilcoxon signed-rank test (29,
+ground truth-based Dice similarity coefficient (DSC) evaluation. All            30). Additionally, segmentation differences at the patient level,
+quantitative analyses (Validations 1–4) were independently performed            considering recognition type, field strength, and scanner
+by the Medical Image Analysis Center (MIAC AG, Basel, Switzerland),             manufacturer, were assessed using chi-square tests.
+which was not involved in the software development.                                  For scan-rescan volume differences, normality was assessed using
+                                                                                the Shapiro–Wilk test. If the data were normally distributed, paired
+                                                                                t-tests were conducted; otherwise, the Wilcoxon signed-rank test was
+                                                                                applied. Scan-rescan repeatability and inter-scanner reproducibility
+                                                                                were evaluated using the intraclass correlation coefficient (ICC) with
+                                                                                a two-way random-effects model for absolute agreement. The ICC
+1 https://github.com/TorchIO-project/torchio                                    values were interpreted as follows: ICC < 0.5 (poor), 0.5 ≤ ICC < 0.75
+2 freely available at https://surfer.nmr.mgh.harvard.edu/.                      (moderate), 0.75 ≤ ICC < 0.9 (good), and ICC ≥ 0.9 (excellent) (31).
+
+
+Frontiers in Neurology                                                     04                                                             frontiersin.org
+Yu et al.                                                                                                                                     10.3389/fneur.2025.1672133
+
+
+
+
+     To assess bias and agreement in segmented volumes, Bland–                                    ratings in five regions and slightly lower in one. However, after
+Altman plots were utilized for both scan-rescan repeatability and                                 applying Bonferroni correction for multiple comparisons (adjusted
+inter-scanner reproducibility. Limits of Agreement (LOA) were                                     α = 0.005), all regional differences, including those in the left
+calculated as 1.96 times the standard deviation of volume                                         hippocampus, were no longer statistically significant.
+differences, while the Limits of Agreement for Multiple                                                To more clearly illustrate segmentation quality, representative
+measurements (LOAM) were applied to account for inter-scanner                                     visual examples are presented in Figures 2, 3. Specifically, Figure 2A
+variability (32, 33).                                                                             shows a case where Neurophet AQUA more clearly distinguished the
+     For WMH segmentation, DSC differences between 2D and 3D                                      gray matter-white matter-cerebrospinal fluid boundary, while Figure 2B
+FLAIR sequences were analyzed. The Shapiro–Wilk test was used to                                  shows a case where FreeSurfer performed a more distinct boundary
+assess normality, and variance homogeneity was tested using Levene’s                              separation. Furthermore, as seen in Figure 3, Neurophet AQUA
+test. If variance homogeneity was not met, a Welch’s two-sample                                   demonstrated superior performance in detecting lobar boundaries, and
+t-test was performed; otherwise, either a standard two-sample t-test                              no instances were observed where FreeSurfer outperformed AQUA in
+or a Mann–Whitney U test was applied, depending on                                                this aspect. A visual comparison of segmentation results between the
+data distribution.                                                                                two tools is shown in Table 4. Among 90 subjects, segmentation quality
+     All statistical analyses were performed using R version 4.4.0.                               was rated equal in 55 (61.1%), better for Neurophet AQUA in 17
+Two-tailed tests were applied, and statistical significance was set at                            (18.9%), and better for FreeSurfer in 18 (20.0%). Overall, segmentation
+p < 0.05.                                                                                         quality was comparable, with most subjects receiving identical scores.
+                                                                                                       Among the 35 subjects showing differences, we examined the
+                                                                                                  influence of cognitive type, field strength, and scanner manufacturer.
+3 Results                                                                                         For cognitive type, both tools had the highest number in the MCI
+                                                                                                  group, with no significant difference. Both tools also had more 3 T
+3.1 Segmentation quality of T1-weighted                                                           than 1.5 T cases, with no difference in performance based on field
+MRI segmentation                                                                                  strength. Regarding manufacturing, 7 of the 17 better-rated Neurophet
+                                                                                                  AQUA cases were from Siemens, while 8 of the 18 better FreeSurfer
+    The segmentation quality ratings for GM–WM boundaries                                         cases were from GE. Again, no significant difference was observed
+comparing Neurophet AQUA and FreeSurfer are summarized in                                         based on manufacturer.
+Table 3 for the four lobes (frontal, temporal, parietal, occipital) and
+the hippocampus. Among these, only the left hippocampus showed
+significantly higher quality with Neurophet AQUA (2.83 ± 0.37 vs.                                 3.2 Scan-rescan repeatability
+2.67 ± 0.54, p = 0.029). Although no significant differences were
+found in other regions, Neurophet AQUA received slightly higher                                        The scan-rescan repeatability results for Neurophet AQUA and
+                                                                                                  FreeSurfer are summarized in Table 5. First, regarding volume
+                                                                                                  differences between scan and rescan images, Neurophet AQUA
+TABLE 3 Comparison of segmentation quality scores between Neurophet                               showed no significant bias in any region, including the whole brain,
+AQUA and FreeSurfer on T1-weighted MRI from validation dataset 1.
+                                                                                                  ICV, frontal lobe, temporal lobe, parietal lobe, occipital lobe, and
+    Regions                            Mean (Number of                            p-              hippocampus. In contrast, FreeSurfer exhibited a significant volume
+                                     subjects per scores of                     value†            difference in ICV (1500.0 ± 160.2 vs. 1509.3 ± 153.8, p = 0.004),
+                                             1/2/3)                                               whereas no significant differences were observed in other regions.
+                                  Neurophet               FreeSurfer                                   Second, ICC values for both Neurophet AQUA and FreeSurfer
+                                    AQUA                                                          were above 0.8, indicating good to excellent repeatability (ICC:
+    Cortical GM-WM
+                                                                                                  Neurophet AQUA = 0.814–0.999, FreeSurfer = 0.843–0.991).
+    boundaries
+                                   2.40 (13/28/49)        2.43 (12/27/51)          NS             Neurophet AQUA demonstrated excellent repeatability (ICC ≥ 0.9)
+                                                                                                  for ICV, as well as the frontal, temporal, and parietal lobes, while
+                      Left          3.00 (0/0/90)          2.98 (1/0/89)           NS
+    Frontal lobe                                                                                  the occipital lobe and hippocampus exhibited good repeatability
+                      Right         3.00 (0/0/90)          3.00 (0/0/90)           na             (ICC > 0.8). Similarly, FreeSurfer showed excellent repeatability
+                      Left          3.00 (0/0/90)          3.00 (0/0/90)           na             (ICC ≥ 0.9) in the frontal, temporal, parietal, left occipital, and
+    Temporal lobe
+                      Right         2.99 (0/1/89)          2.99 (0/1/89)           NS             right hippocampus, whereas the right occipital lobe and left
+                                                                                                  hippocampus displayed good repeatability with ICCs above 0.8.
+                      Left          2.94 (0/5/85)          2.93 (1/4/85)           NS
+    Parietal lobe                                                                                      The results of the Bland–Altman analysis are shown in Figure 4.
+                      Right         2.99 (0/1/89)          2.94 (0/5/85)           NS
+                                                                                                  For ICV, FreeSurfer exhibited larger scan-rescan differences compared
+                      Left          2.94 (0/5/85)          2.96 (0/4/86)           NS             to Neurophet AQUA. In the occipital lobes, although ICC values for
+    Occipital lobe
+                      Right         2.98 (0/2/88)          2.93 (0/6/84)           NS             Neurophet AQUA (left: 0.844, right: 0.814) were lower than those for
+                      Left          2.83 (0/15/75)        2.67 (3/24/63)          0.029
+                                                                                                  FreeSurfer (left: 0.910, right: 0.843), Neurophet AQUA had fewer
+    Hippocampus                                                                                   outliers. In the hippocampus, Neurophet AQUA had more outliers in
+                      Right         2.81 (1/15/74)        2.77 (0/21/69)           NS
+                                                                                                  the left hemisphere, but its 95% LoA values were comparable to those
+†
+ The Wilcoxon signed-rank test was performed. A p-value ≥ 0.05 indicates no significant           of FreeSurfer. In the right hemisphere, Neurophet AQUA’s 95% LoA
+difference between Neurophet AQUA and FreeSurfer.
+GM, gray matter; WH, white matter; Left, left hemisphere; Right, right hemisphere; na, not        covered almost twice the range of FreeSurfer’s; however, most data
+applicable; NS, not significant.                                                                  points were concentrated within a similar range, except for one outlier.
+
+
+Frontiers in Neurology                                                                       05                                                             frontiersin.org
+Yu et al.                                                                                                                  10.3389/fneur.2025.1672133
+
+
+
+
+    FIGURE 2
+    Representative examples of GM–WM–CSF boundary delineation by Neurophet AQUA and FreeSurfer. (A) Neurophet AQUA provided clearer separation
+    of gray matter, white matter, and cerebrospinal fluid boundaries. (B) FreeSurfer provided sharper boundary separation in another case.
+
+
+
+
+    FIGURE 3
+    Representative example of lobe boundary detection. Neurophet AQUA demonstrated more precise delineation of lobe boundaries.
+
+
+
+A summary of the Bland–Altman analysis results for all regions is             analyzed regions, both methods demonstrated at least moderate
+provided in Supplementary Table S3 and Supplementary Figure S3.               agreement (ICC: Neurophet AQUA = 0.715–0.983, FreeSurfer = 0.650–
+                                                                              0.882). The average ICC for ICV, whole brain, and the four lobes (frontal,
+                                                                              temporal, parietal, occipital) as well as the hippocampus was higher for
+3.3 Inter-scanner reproducibility                                             Neurophet AQUA (average ICC = 0.850) compared to FreeSurfer
+                                                                              (average ICC = 0.788), though both methods exhibited good agreement.
+    The inter-scanner reproducibility of Neurophet AQUA and                       Neurophet AQUA achieved excellent agreement for ICV
+FreeSurfer was evaluated and is summarized in Table 6. Across all             (ICC = 0.983) and brain volume (ICC = 0.935), while demonstrating
+
+
+Frontiers in Neurology                                                   06                                                              frontiersin.org
+Yu et al.                                                                                                                                                 10.3389/fneur.2025.1672133
+
+
+
+
+TABLE 4 Visual comparison of T1-weighted MRI segmentation performance between Neurophet AQUA and FreeSurfer.
+
+    Variables                            Neurophet AQUA                              FreeSurfer                            p-value†                       Equal performance
+                                              better                                   better                                                                  (N = 55)
+                                             (N = 17)                                 (N = 18)
+    Cognitive type                                                                                                              NS
+
+     CN                                          2 (11.8%)                             5 (27.8%)                                                                 23 (41.8%)
+
+     MCI                                         8 (47.1%)                             8 (44.4%)                                                                 14 (25.5%)
+
+     ADD                                         7 (41.2%)                             5 (27.8%)                                                                 18 (32.7%)
+
+    Field strength                                                                                                              NS
+
+     1.5 T                                       6 (35.3%)                             6 (33.3%)                                                                 33 (60.0%)
+
+     3 T                                        11 (64.7%)                             12 (66.7%)                                                                22 (40.0%)
+
+    Manufacturer                                                                                                                NS
+
+     Siemens                                     7 (41.2%)                             7 (38.9%)                                                                 16 (29.1%)
+
+     Philips                                     5 (29.4%)                             3 (16.7%)                                                                 22 (40.0%)
+
+     GE                                          5 (29.4%)                             8 (44.4%)                                                                 17 (30.9%)
+†
+ The Chi-square test was performed. A p-value ≥ 0.05 indicates no significant difference between groups.
+SD, standard deviation; CN, cognitive normal; MCI, mild cognitive impairment; ADD, Alzheimer’s disease dementia; GE, general electronics; NS, not significant.
+
+
+TABLE 5 Comparison of scan–rescan repeatability for volumetric measurements between Neurophet AQUA and FreeSurfer using T1-weighted MRI
+from validation dataset 2.
+
+    Regions                                              Neurophet AQUA                                              FreeSurfer                                          ICC
+                                            Test             Retest              p-value     †
+                                                                                                      Test            Retest              p-value     †
+                                                                                                                                                                 AQUA              FS
+                                            Mean            Mean (SD)                                 Mean           Mean (SD)
+                                            (SD)                                                      (SD)
+                                             1493.4                                                    1500.0
+    ICV                                                       1493.4 (111.0)         NS                              1509.3 (153.8)          0.004               0.999           0.991
+                                             (112.3)                                                  (160.2)
+
+                                                                                                       1067.8
+    Whole brain                           1031.6 (76.7)       1032.5 (74.4)          NS                              1065.3 (107.8)           NS                 0.993           0.986
+                                                                                                      (114.9)
+
+                          Left              74.0 (8.2)          73.6 (9.2)           NS              73.0 (13.7)       73.1 (13.2)            NS                 0.953           0.987
+    Frontal lobe
+                          Right             74.4 (8.3)          74.0 (9.4)           NS              73.6 (13.4)       73.4 (12.9)            NS                 0.940           0.982
+
+                          Left              49.7 (5.1)          49.3 (5.8)           NS              44.1 (9.8)         44.6 (9.0)            NS                 0.947           0.964
+    Temporal lobe
+                          Right             48.0 (4.6)          47.7 (5.5)           NS              43.7 (9.6)         44.2 (9.1)            NS                 0.925           0.962
+
+                          Left              49.4 (4.9)          49.1 (5.5)           NS              46.5 (8.5)         46.6 (8.3)            NS                 0.920           0.971
+    Parietal lobe
+                          Right             50.5 (5.3)          50.2 (5.9)           NS              47.2 (9.7)         47.4 (9.3)            NS                 0.937           0.962
+
+                          Left              21.1 (2.7)          21.0 (3.2)           NS              20.0 (3.9)         20.0 (3.8)            NS                 0.844           0.910
+    Occipital lobe
+                          Right             22.3 (2.9)          21.9 (3.6)           NS              20.9 (4.3)         21.1 (4.4)            NS                 0.814           0.843
+
+                          Left              3.4 (0.4)           3.4 (0.4)            NS               3.5 (0.5)         3.5 (0.4)             NS                 0.883           0.876
+    Hippocampus
+                          Right             3.4 (0.4)           3.5 (0.4)            NS               3.6 (0.5)         3.6 (0.5)             NS                 0.821           0.971
+Volume measurements for each region were in cc.
+†
+ The paired t-test was performed on normally distributed data. For continuous variables that did not show normal distributions, the Wilcoxon signed rank test was performed. A p-value ≥
+0.05 indicates no significant difference between test and retest.
+ICC, intraclass correlation coefficient; FS, FreeSurfer; ICV, intracranial volume; Left, left hemisphere; Right, right hemisphere; SD, standard deviation; NS, not significant.
+
+
+
+
+moderate consistency in the right hippocampus (ICC = 0.715). All                                 3.4 WMH segmentation by T2-FLAIR
+other regions showed good agreement. In contrast, FreeSurfer                                     sequence
+displayed good agreement in most regions but only moderate
+agreement in the right frontal, temporal, parietal, and occipital lobes                              The segmentation performance of Neurophet AQUA using the
+(ICC = 0.650–0.741).                                                                             T2-FLAIR sequence, in relation to lesion load and T2-FLAIR
+    The agreement between scanner-derived volumes was further                                    sequence dimensions, is summarized in a boxplot categorized by
+analyzed using the LOAM method. The results, along with                                          WMH scores (Figure 5). A comparison of the DSC between 2D and
+visualizations, are presented in Supplementary Table S4 and                                      3D FLAIR sequences revealed no significant differences across all
+Supplementary Figure S4.                                                                         WMH score groups. Specifically, for WMH Score 0, the DSC was
+
+
+Frontiers in Neurology                                                                      07                                                                            frontiersin.org
+Yu et al.                                                                                                                       10.3389/fneur.2025.1672133
+
+
+
+
+    FIGURE 4
+    Bland–Altman plot for scan-rescan repeatability. Bland–Altman plots for scan-rescan repeatability comparing ICV, occipital lobe, and hippocampus
+    between Neurophet AQUA and FreeSurfer. X-axis: mean brain volume between the scan and rescan. The unit of volume on the X-axis is cc. Y-axis:
+    volume difference between the scan and rescan. The mean of difference is indicated by the blue line. The lower (−1.96 SD) and upper (+1.96 SD) limits
+    of agreement are indicated by dotted yellow lines. A negative difference on the y-axis indicates that the volume measured in the retest image was
+    smaller than the volume measured in the scan image. ICV, intracranial volume; Left, left hemisphere; Right, right hemisphere; SD, standard deviation.
+
+
+
+
+0.3 ± 0.3 for 2D FLAIR and 0.3 ± 0.2 for 3D FLAIR (p = 0.643). For                T1-weighted MRI, with strong agreement with FreeSurfer’s outputs.
+WMH Score 1, it was 0.5 ± 0.1 for 2D FLAIR and 0.5 ± 0.2 for 3D                   The reliability of repeated measurements was robust, with minimal
+FLAIR (p = 0.584). For WMH Score 2, both sequences showed                         variation observed across multiple segmentations. Additionally, the
+identical values of 0.7 ± 0.1 (p = 0.559). For WMH Score 3, the DSC               lesion segmentation pipeline produced consistent results from various
+was 0.8 ± 0.04 for 2D FLAIR and 0.8 ± 0.03 for 3D FLAIR (p = 0.204).              T2-FLAIR images with the respective ground truth WMH label
+Additionally, an overall comparison of DSC between 2D and 3D                      masks, demonstrating the tool’s versatility across different
+FLAIR, irrespective of WMH score, showed no significant differences               imaging sequences.
+(0.6 ± 0.2 vs. 0.6 ± 0.2, p = 0.933).                                                  Although no statistically robust differences were found after
+                                                                                  adjusting for multiple comparisons, the comparisons revealed several
+                                                                                  important trends. Both tools performed similarly in segmenting
+4 Discussion                                                                      cortical GM–WM boundaries across the four lobes (frontal, temporal,
+                                                                                  parietal, occipital), as well as the hippocampus. In the left
+    This study aimed to evaluate the performance of Neurophet                     hippocampus, AQUA received slightly higher scores (2.83 ± 0.37 vs.
+AQUA in three key areas: segmentation accuracy for cortical regions,              2.67 ± 0.54, p = 0.029); however, this nominal difference did not
+repeatability and reproducibility of volume measurements, and WMH                 remain significant after correction and should be interpreted cautiously.
+segmentation. To assess the T1-weighted MRI brain segmentation                         It is worth noting that Neurophet AQUA does not require
+pipeline of Neurophet AQUA, we compared it to FreeSurfer (version                 additional optimization pipelines, unlike FreeSurfer, which uses
+7.3.2, cross-sectional pipeline), a widely used tool in neuroimaging.             specialized pipelines for hippocampal subfield parcellation. Although
+Neurophet AQUA showed high segmentation accuracy on                               FreeSurfer’s specialized pipeline may offer a more detailed
+
+
+Frontiers in Neurology                                                       08                                                                frontiersin.org
+Yu et al.                                                                                                                                           10.3389/fneur.2025.1672133
+
+
+
+
+TABLE 6 Inter-scanner reproducibility comparison of segmentation
+results between Neurophet AQUA and FreeSurfer using T1-weighted MRI
+                                                                                                        suggest that Neurophet AQUA and FreeSurfer perform similarly in
+from validation dataset 3.                                                                              many brain regions, meaning that Neurophet AQUA may be useful
+                                                                                                        for clinical applications. In hippocampal segmentation, Neurophet
+ Regions                                                          ICC                                   AQUA showed a nominal difference; however, this study should be
+                                              Neurophet                   FreeSurfer                    considered a benchmark comparison rather than a superiority
+                                                AQUA                                                    assessment. Future studies with larger sample sizes, more tools, and
+ ICV                                                0.983                       0.866                   broader brain regions, along with rigorous statistical approaches
+ Whole brain                                        0.935                       0.882
+                                                                                                        including multiple comparison correction, will be necessary to draw
+                                                                                                        firm conclusions about performance differences.
+                           Left                     0.789                       0.805
+ Frontal lobe                                                                                               The scan-rescan repeatability of both Neurophet AQUA and
+                           Right                    0.796                       0.669                   FreeSurfer was excellent (ICC > 0.8), with Neurophet AQUA
+                           Left                     0.875                       0.791                   demonstrating particularly high consistency (ICC = 0.999) in ICV,
+ Temporal lobe
+                           Right                    0.873                       0.741                   which enhances its robustness in cross-sectional studies. Most brain
+                                                                                                        regions, including the frontal, temporal, and parietal lobes, showed
+                           Left                     0.869                       0.813
+ Parietal lobe                                                                                          excellent repeatability (ICC ≥ 0.9). These results suggest that
+                           Right                    0.854                       0.730
+                                                                                                        Neurophet AQUA may be suitable for clinical and research
+                           Left                     0.838                       0.864                   applications requiring high reproducibility. In addition, Neurophet
+ Occipital lobe
+                           Right                    0.864                       0.650                   AQUA demonstrated no significant volume differences across
+                           Left                     0.813                       0.782
+                                                                                                        repeated measures, suggesting it may be more robust in handling
+ Hippocampus                                                                                            scan variability.
+                           Right                    0.715                       0.864
+                                                                                                            Bland–Altman analysis supported these findings, showing that
+ Average                                            0.850                       0.788                   Neurophet AQUA had less bias between test and retest measurements
+ICC, interclass correlation coefficient; ICV, intracranial volume; Left, left hemisphere; Right,        than FreeSurfer, particularly for ICV. The narrower limits of agreement
+right hemisphere.
+                                                                                                        (LoA) for Neurophet AQUA indicate more consistent performance
+                                                                                                        with fewer outliers, especially in the occipital lobe and hippocampus.
+                                                                                                        While both tools showed similar reliability in hippocampal
+                                                                                                        segmentation, Neurophet AQUA’s results were more consistent, with
+                                                                                                        smaller bias and narrower LoA, especially on the right. This suggests
+                                                                                                        Neurophet AQUA is suitable for clinical applications requiring stable,
+                                                                                                        reproducible segmentation, such as longitudinal studies or
+                                                                                                        disease monitoring.
+                                                                                                            Regarding inter-scanner reproducibility, Neurophet AQUA
+                                                                                                        showed higher consistency across MRI scanners compared with
+                                                                                                        FreeSurfer (average ICC: Neurophet AQUA = 0.850 vs.
+                                                                                                        FreeSurfer = 0.788). AQUA also showed high consistency in ICV and
+                                                                                                        brain-wide measurements (ICC = 0.983 and 0.935), whereas
+                                                                                                        FreeSurfer had more variability, particularly in the occipital lobe and
+     FIGURE 5
+                                                                                                        hippocampus. These results provide exploratory evidence that
+     Comparison of WMH segmentation accuracy by FLAIR sequence                                          Neurophet AQUA may offer more stable performance in multi-center
+     type. The boxplot shows the distribution of DSC for each sequence                                  studies or settings using multiple scanner types. However, as the
+     type according to WMH. The asterisks (*) represent the mean DSC
+     for each group. The numbers at the top indicate the results of
+                                                                                                        validation dataset is limited to 15 subjects (4 3 T scanners, 15 weeks),
+     statistical tests comparing the DSC differences between two groups.                                replication in a larger, multi-center cohort is required. Accordingly,
+     A Mann–Whitney U test was performed for WMH 0 and WMH all (all                                     the reproducibility of these findings should be verified in future
+     subjects), while a two-sample t-test was used for the other groups. A
+     p-value ≥ 0.05 indicates no significant difference between the DSC
+                                                                                                        studies before applying them to broader populations.
+     in FLAIR sequence types.                                                                               One limitation of the T1-based segmentation analysis is the use of
+                                                                                                        FreeSurfer’s standard pipeline, which analyzes many brain regions in
+                                                                                                        one run. This enabled comparison across regions, including the
+                                                                                                        hippocampus. However, future studies may benefit from using
+segmentation of the hippocampus, the additional complexity and                                          FreeSurfer’s specialized hippocampal subfield pipeline for more
+workflow requirements could limit its use in general neuroimaging                                       targeted comparisons in neurodegenerative disease contexts.
+applications. In contrast, Neurophet AQUA offers a more streamlined                                     Additionally, FreeSurfer Version 8.0 (released on February 27, 2025)
+and user-friendly approach, making it potentially more applicable for                                   introduces several functional updates and deep learning–based
+broader neuroimaging studies. However, this study did not compare                                       modules, such as SynthSeg, SynthStrip, and SynthMorph, which
+the subfield parcellations, which could provide further insights into                                   improve cortical and subcortical segmentation accuracy and reduce
+hippocampal segmentation performance.                                                                   processing time, albeit at higher memory requirements. Given the
+    No significant differences were found in the segmentation of other                                  significant methodological changes in this version, comparative
+regions such as the frontal and temporal lobes, where both tools                                        evaluation with other segmentation tools using these updated
+achieved ideal ratings (grade 3, ideal) in all subjects. These findings                                 algorithms represents an important direction for future research.
+
+
+Frontiers in Neurology                                                                             09                                                             frontiersin.org
+Yu et al.                                                                                                                        10.3389/fneur.2025.1672133
+
+
+
+
+While this study relied on FreeSurfer’s standard pipeline for                      and accurate volumetric measurements in diverse clinical settings,
+T1-weighted segmentation, future research could gain insights from                 which can support patient-specific diagnosis and treatment planning.
+systematic comparisons with other automated tools. For instance,                       Future research should include comparative validation using
+FastSurfer provides accelerated GPU-based processing, whereas                      T2-FLAIR data and further evaluate reproducibility and reliability
+VolBrain offers automatic segmentation of T1-weighted images and                   across diverse patient cohorts. These efforts will enable a more
+detection of WMH from FLAIR images without local installation. It                  comprehensive assessment of Neurophet AQUA’s capabilities.
+is relatively fast and freely accessible, but limited to 10 scans per day.             In conclusion, Neurophet AQUA shows high promise as a tool for
+Such comparative analyses could help determine the relative accuracy,              diagnosing and monitoring neurodegenerative diseases. Its utility is
+efficiency, and suitability of different pipelines focused on                      expected to grow with continued research and broader
+neurodegenerative disease.                                                         clinical application.
+     Regarding WMH segmentation on T2-FLAIR images, both 2D
+and 3D sequences showed similar DSC values, suggesting that
+Neurophet AQUA can accurately segment WMH even on 2D data.
+This is useful for retrospective analysis of older scans. This trend was           Data availability statement
+consistently observed across a range of WMH scores, indicating
+reliable WMH segmentation regardless of lesion burden. The study by                    The data analyzed in this study is subject to the following licenses/
+Lee et al. (9) validated AQUA’s WMH segmentation performance on                    restrictions: the datasets used and/or analyzed during the current
+T2-FLAIR images against existing automated and semi-automated                      study are available from the corresponding author on reasonable
+segmentation methods (LGA, LPA, SLS, UBO, BIANCA). AQUA                            request. Requests to access these datasets should be directed to
+demonstrated higher accuracy than existing methods across diverse                  Hyunjae Yu, yhj93@neurophet.com.
+datasets and scanner environments. Considering these findings
+collectively, Neurophet AQUA supports reliable WMH segmentation
+even in multi-center, multi-scanner environments. However, since                   Members of the Alzheimer’s Disease
+comparisons were not made within the same subjects, further studies                Neuroimaging Initiative
+are needed for equivalence assessment. Meanwhile, relatively low DSC
+values were observed for WMH scores of 0 (DSC mean: 2D = 0.300,                         Data used in preparation of this article were obtained from the
+3D = 0.292), corresponding to lesion volumes below 1 mL. This aligns               Alzheimer’s Disease Neuroimaging Initiative (ADNI) database (adni.
+with previous reports indicating reduced performance for very small                loni.usc.edu). As such, the investigators within the ADNI contributed to
+lesions (<0.2 mL) or multiple small lesions (34, 35). Therefore, the low           the design and implementation of ADNI and/or provided data but did
+DSC observed in this study can be interpreted as reflecting the general            not participate in analysis or writing of this report. A complete listing of
+difficulty in segmenting small WMHs rather than an inherent                        ADNI investigators can be found at: http://adni.loni.usc.edu/
+limitation of the AQUA algorithm.                                                  wp-content/uploads/how_to_apply/ADNI_Acknowledgement_List.pdf.
+
+
+
+                                                                                   Author contributions
+5 Conclusion
+                                                                                       HY: Data curation, Formal analysis, Investigation, Validation,
+    This study compared the segmentation performance and                           Visualization, Writing – original draft. HL: Conceptualization, Data
+measurement reliability of Neurophet AQUA on T1-weighted MRI                       curation, Formal analysis, Investigation, Methodology, Writing –
+with FreeSurfer, and assessed the WMH segmentation performance                     original draft. ML: Software, Validation, Writing – review & editing.
+of T2-FLAIR images on Neurophet AQUA. The results that T1-                         DK: Funding acquisition, Resources, Supervision, Writing – review &
+weighted MRI segmentation showed good segmentation quality                         editing. LP: Formal analysis, Writing – review & editing. MD:
+performance for both Neurophet AQUA and FreeSurfer in most                         Supervision, Writing – review & editing. SM: Data curation, Writing –
+regions, while both algorithms exhibited good scan-rescan                          review & editing. KH: Data curation, Writing – review & editing. RK:
+repeatability and moderate or better inter-scanner reproducibility.                Conceptualization, Methodology, Project administration, Validation,
+Notably, this comparison was performed using FreeSurfer version                    Writing – review & editing.
+7.3.2 with the standard recon-all pipeline, and the findings may not be
+directly generalizable to newer versions (e.g., version 8.0) that
+incorporate deep learning–based modules such as SynthSeg and
+SynthStrip. Further comparative validation using these updated                     Funding
+frameworks will be an important direction for future research. No
+significant differences were observed in WMH segmentation                               The author(s) declare that financial support was received for the
+performance between 2D and 3D T2-FLAIR sequences. These                            research and/or publication of this article. Data collection and sharing
+findings confirm that Neurophet AQUA provides reliable results                     for this project was funded by the Alzheimer’s Disease Neuroimaging
+across various MRI environments.                                                   Initiative (ADNI) (National Institutes of Health Grant U01 AG024904)
+    Neurophet AQUA is approved as a medical device by both the                     and DOD ADNI (Department of Defense award number W81XWH-
+U.S. FDA and the Korean Ministry of Food and Drug Safety. This                     12-2-0012). ADNI is funded by the National Institute on Aging, the
+study highlights its potential for clinical application, offering efficient        National Institute of Biomedical Imaging and Bioengineering, and
+
+
+Frontiers in Neurology                                                        10                                                                frontiersin.org
+Yu et al.                                                                                                                                                   10.3389/fneur.2025.1672133
+
+
+
+
+through generous contributions from the following: AbbVie,                                          Conflict of interest
+Alzheimer’s Association; Alzheimer’s Drug Discovery Foundation;
+Araclon Biotech; BioClinica, Inc.; Biogen; Bristol-Myers Squibb                                         HY and HL are employed as researchers at Neurophet Inc. ML
+Company; CereSpir, Inc.; Cogstate; Eisai Inc.; Elan Pharmaceuticals,                                and RK are directors at Neurophet Inc. DK is the Co-CEO and CTO
+Inc.; Eli Lilly and Company; EuroImmun; F. Hoffmann-La Roche Ltd.                                   of Neurophet Inc. and holds equity in the company.
+and its affiliated company Genentech, Inc.; Fujirebio; GE Healthcare;                                   The remaining authors declare that the research was conducted in
+IXICO Ltd.; Janssen Alzheimer Immunotherapy Research &                                              the absence of any commercial or financial relationships that could be
+Development, LLC.; Johnson & Johnson Pharmaceutical Research &                                      construed as a potential conflict of interest.
+Development LLC.; Lumosity; Lundbeck; Merck & Co., Inc.; Meso
+Scale Diagnostics, LLC.; NeuroRx Research; Neurotrack Technologies;
+Novartis Pharmaceuticals Corporation; Pfizer Inc.; Piramal Imaging;
+                                                                                                    Generative AI statement
+Servier; Takeda Pharmaceutical Company; and Transition
+                                                                                                         The authors declare that no Gen AI was used in the creation of
+Therapeutics. The Canadian Institutes of Health Research is providing
+                                                                                                    this manuscript.
+funds to support ADNI clinical sites in Canada. Private sector
+                                                                                                         Any alternative text (alt text) provided alongside figures in this
+contributions are facilitated by the Foundation for the National
+                                                                                                    article has been generated by Frontiers with the support of artificial
+Institutes of Health (www.fnih.org). The grantee organization is the
+                                                                                                    intelligence and reasonable efforts have been made to ensure accuracy,
+Northern California Institute for Research and Education, and the
+                                                                                                    including review by the authors wherever possible. If you identify any
+study is coordinated by the Alzheimer’s Therapeutic Research Institute
+                                                                                                    issues, please contact us.
+at the University of Southern California. ADNI data are disseminated
+by the Laboratory for Neuro Imaging at the University of Southern
+California. The MarkVCID data used in the preparation of this article                               Publisher’s note
+were obtained from the MarkVCID consortium. A complete listing of
+MarkVCID investigators can be found on https://markvcid.partners.                                       All claims expressed in this article are solely those of the authors
+org/acknowledgements. Data collection and sharing for MarkVCID                                      and do not necessarily represent those of their affiliated organizations,
+was funded by NINDS/NIA as part of the MarkVCID Consortium                                          or those of the publisher, the editors and the reviewers. Any product
+(U24NS100591).                                                                                      that may be evaluated in this article, or claim that may be made by its
+                                                                                                    manufacturer, is not guaranteed or endorsed by the publisher.
+
+
+Acknowledgments                                                                                     Supplementary material
+   We thank the Alzheimer’s Disease Neuroimaging Initiative                                              The Supplementary material for this article can be found online
+(ADNI) and the MarkVCID consortium for approving the use of                                         at: https://www.frontiersin.org/articles/10.3389/fneur.2025.1672133/
+open-source data for analysis.                                                                      full#supplementary-material
+
+
+
+References
+  1. Fischl, B. FreeSurfer. NeuroImage. (2012) 62:774–81. doi: 10.1016/j.                             9. Lee, S, Rieu, ZH, Kim, RE, Lee, M, Yen, K, Yong, J, et al. Automatic segmentation
+neuroimage.2012.01.021                                                                              of white matter hyperintensities in T2-FLAIR with AQUA: a comparative validation
+  2. Patenaude, B, Smith, SM, Kennedy, DN, and Jenkinson, M. A Bayesian model of                    study against conventional methods. Brain Res Bull. (2023) 205:110825. doi: 10.1016/j.
+shape and appearance for subcortical brain segmentation. NeuroImage. (2011)                         brainresbull.2023.110825
+56:907–22. doi: 10.1016/j.neuroimage.2011.02.046                                                      10. Rieu, ZH, Kim, JY, Kim, REY, Lee, M, Lee, MK, Oh, SW, et al. Semi-supervised
+  3. Avants, BB, Tustison, NJ, Song, G, Cook, PA, Klein, A, and Gee, JC. A reproducible             learning in medical MRI segmentation: brain tissue with white matter hyperintensity
+evaluation of ANTs similarity metric performance in brain image registration.                       segmentation using flair MRI. Brain Sci. (2021) 11:720. doi: 10.3390/brainsci11060720
+NeuroImage. (2011) 54:2033–44. doi: 10.1016/j.neuroimage.2010.09.025                                  11. Iscan, Z, Jin, TB, Kendrick, A, Szeglin, B, Lu, H, Trivedi, M, et al. Test-retest
+  4. Ashburner, J, and Friston, KJ. Unified segmentation. NeuroImage. (2005) 26:839–51.             reliability of freesurfer measurements within and between sites: effects of visual approval
+doi: 10.1016/j.neuroimage.2005.02.018                                                               process. Hum Brain Mapp. (2015) 36:3472–85. doi: 10.1002/hbm.22856
+
+  5. Henschel, L, Conjeti, S, Estrada, S, Diers, K, Fischl, B, and Reuter, M. FastSurfer - a          12. Lee, JY, Park, JE, Chung, MS, Oh, SW, and Moon, WJ. Expert opinions and
+fast and accurate deep learning based neuroimaging pipeline. NeuroImage. (2020)                     recommendations for the clinical use of quantitative analysis software for MRI-based
+219:117012. doi: 10.1016/j.neuroimage.2020.117012                                                   brain volumetry. J Korean Soc Radiol. (2021) 82:1124–39. doi: 10.3348/jksr.2020.0174
+
+ 6. Manjón, JV, and Coupé, P. Volbrain: an online MRI brain volumetry system. Front                    13. Park, JE, Park, SY, Kim, HJ, and Kim, HS. Reproducibility and generalizability in
+Neuroinform. (2016) 10:30. doi: 10.3389/fninf.2016.00030                                            radiomics modeling: possible strategies in radiologic and statistical perspectives. Korean
+                                                                                                    J Radiol. (2019) 20:1124–37. doi: 10.3348/kjr.2018.0070
+  7. Jeong, SY, Suh, CH, Heo, H, Shim, WH, and Kim, SJ. Current updates and unmet needs
+of brain MRI-based artificial intelligence software for patients with neurodegenerative               14. Storelli, L, Rocca, MA, Pagani, E, Van Hecke, W, Horsfield, MA, De Stefano, N, et al.
+diseases in the Republic of Korea. Investig Magn Reson Imag. (2022) 26:237–45. doi:                 Measurement of whole-brain and gray matter atrophy in multiple sclerosis: assessment
+10.13104/imri.2022.26.4.237                                                                         with MR imaging. Radiology. (2018) 288:554–64. doi: 10.1148/radiol.2018172468
+
+  8. Lee, H, Kim, HW, Lee, M, Kang, J, Kim, D, Lim, HK, et al. Evaluating brain volume                15. Biberacher, V, Schmidt, P, Keshavan, A, Boucard, CC, Righart, R, Sämann, P, et al.
+segmentation accuracy and reliability of FreeSurfer and Neurophet AQUA at variations                Intra- and interscanner variability of magnetic resonance imaging based volumetry in
+in MRI magnetic field strengths. Sci Rep. (2024) 14:24513. doi: 10.1038/                            multiple     sclerosis.  NeuroImage.      (2016)     142:188–97.     doi:  10.1016/j.
+s41598-024-74622-y                                                                                  neuroimage.2016.07.035
+
+
+Frontiers in Neurology                                                                         11                                                                            frontiersin.org
+Yu et al.                                                                                                                                                10.3389/fneur.2025.1672133
+
+
+
+
+  16. Mueller, SG, Weiner, MW, Thal, LJ, Petersen, RC, Jack, CR, Jagust, W, et al. Ways             26. Klein, A, and Tourville, J. 101 labeled brain images and a consistent human cortical
+toward an early diagnosis in Alzheimer’s disease: the Alzheimer’s Disease Neuroimaging            labeling protocol. Front Neurosci. (2012) 6:171. doi: 10.3389/fnins.2012.00171
+Initiative (ADNI). Alzheimers Dement. (2005) 1:55–66. doi: 10.1016/j.jalz.2005.06.003
+                                                                                                    27. Dice, LR. Measures of the amount of ecologic association between species. Ecology.
+   17. Weiner, MW, Veitch, DP, Aisen, PS, Beckett, LA, Cairns, NJ, Cedarbaum, J, et al.           (1945) 26:297–302.
+Update of the Alzheimer’s Disease Neuroimaging Initiative: a review of papers published
+since its inception. Alzheimers Dement 2015. (2014) 11:e1–e120. doi: 10.1016/j.                      28. Duering, M, Biessels, GJ, Brodtmann, A, Chen, C, Cordonnier, C, de Leeuw, FE,
+jalz.2014.11.001                                                                                  et al., Neuroimaging standards for research into small vessel disease—advances since
+                                                                                                  2013 22 Lancet Neurol Elsevier Ltd 2023 602–618 doi: 10.1016/S1474-4422(23)00131-X
+ 18. Lu, H, Kashani, AH, Arfanakis, K, Caprihan, A, DeCarli, C, Gold, BT, et al.
+MarkVCID cerebral small vessel consortium: II. Neuroimaging protocols. Alzheimers                   29. Mishra, P, Pandey, CM, Singh, U, and Gupta, A. Scales of measurement and
+Dement. (2021) 17:716–25. doi: 10.1002/alz.12216                                                  presentation of statistical data. Ann Card Anaesth. (2018) 21:419–22. doi: 10.4103/aca.
+  19. Maillard, P, Lu, H, Arfanakis, K, Gold, BT, Bauer, CE, Zachariou, V, et al.                 ACA_131_18
+Instrumental validation of free water, peak-width of skeletonized mean diffusivity, and             30. Munzel, BUB. The use of parametric vs. nonparametric tests in the statistical
+white matter hyperintensities: MarkVCID neuroimaging kits. Alzheimers Dement (N Y).               evaluation of rating scales. Pharmacopsychiatry. (1998) 31:222–4.
+(2022) 14:e12314. doi: 10.1002/dad2.12261
+                                                                                                    31. Koo, TK, and Li, MY. A guideline of selecting and reporting Intraclass correlation
+  20. Wilcock, D, Jicha, G, Blacker, D, Albert, MS, D’Orazio, LM, Elahi, FM, et al.
+                                                                                                  coefficients for reliability research. J Chiropr Med. (2016) 15:155–63. doi: 10.1016/j.
+MarkVCID cerebral small vessel consortium: I. Enrollment, clinical, fluid protocols.
+Alzheimers Dement. (2021) 17:704–15. doi: 10.1002/alz.12215                                       jcm.2016.02.012
+
+  21. Andere, A, Jindal, G, Molino, J, Collins, S, Merck, D, Burton, T, et al. Volumetric           32. Christensen, HS, Borgbjerg, J, Børty, L, and Bøgsted, M. On Jones et al.’s method
+white matter Hyperintensity ranges correspond to Fazekas scores on brain MRI. J Stroke            for extending bland-Altman plots to limits of agreement with the mean for multiple
+Cerebrovasc Dis. (2022) 31:106333. doi: 10.1016/j.jstrokecerebrovasdis.2022.106333                observers. BMC Med Res Methodol. (2020) 20:304. doi: 10.1186/s12874-020-01182-w
+   22. Lee, M, Kim, J, Kim, REY, Kim, HG, Oh, SW, Lee, MK, et al. Split-attention u-net:            33. Giavarina, D. Understanding bland Altman analysis. Biochem Med (Zagreb).
+a fully convolutional network for robust multi-label segmentation from brain mri. Brain           (2015) 25:141–51. doi: 10.11613/BM.2015.015
+Sci. (2020) 10:1–22. doi: 10.3390/brainsci10120974                                                   34. Røvang, MS, Selnes, P, MacIntosh, BJ, Groote, IR, Pålhaugen, L, Sudre, C, et al.
+  23. Ioffe, S, and Szegedy, C. Batch normalization: accelerating deep network training by        Segmenting white matter hyperintensities on isotropic three-dimensional fluid
+reducing internal covariate shift. arXiv [Preprint]. 2015. doi: 10.48550/arXiv.1502.03167         attenuated inversion recovery magnetic resonance images: assessing deep learning tools
+  24. Zhang, H, Wu, C, Zhang, Z, Zhu, Y, Lin, H, Zhang, Z, et al Resnest: split-attention         on      a   Norwegian       imaging     database.     PLoS     One.     (2023)     18:
+networks. arXiv [Preprint]. 2020. doi: 10.48550/arXiv.2004.08955                                  e0285683. doi: 10.1371/journal.pone.0285683
+  25. Isensee, F, Schell, M, Pflueger, I, Brugnara, G, Bonekamp, D, Neuberger, U, et al.             35. Heinen, R, Steenwijk, MD, Barkhof, F, Biesbroek, JM, van der Flier, WM, Kuijf, HJ,
+Automated brain extraction of multisequence MRI using artificial neural networks. Hum             et al. Performance of five automated white matter hyperintensity segmentation methods
+Brain Mapp. (2019) 40:4952–64. doi: 10.1002/hbm.24750                                             in a multicenter dataset. Sci Rep. (2019) 9:16742. doi: 10.1038/s41598-019-52966-0
+
+
+
+
+Frontiers in Neurology                                                                       12                                                                           frontiersin.org
+

@@ -1,0 +1,572 @@
+                                              Hemispheric-Specific Coupling Improves
+                                             Modeling of Functional Connectivity Using
+                                                     Wilson–Cowan Dynamics
+                                                                  Ramiro Plüss1 , Hernán Villota2 , and Patricio Orio3,4
+arXiv:2506.22951v2 [q-bio.NC] 17 Aug 2025
+
+
+
+
+                                                     1
+                                                         Instituto Tecnológico de Buenos Aires (ITBA), CABA, Argentina
+                                                 2
+                                                         Institución Universitaria de Envigado (IUE), Envigado, Colombia
+                                                         3
+                                                             Insituto de Neurociencias, Facultad de Ciencias, Universidad de
+                                                                                Valparaı́so, Valparaı́so, Chile
+                                                 4
+                                                     Centro Interdisciplinario de Neurociencia de Valparaı́so, Valparaı́so,
+                                                                                               Chile
+
+
+                                                                                             Abstract
+
+                                                               Large-scale neural mass models have been widely used to simulate resting-
+                                                         state brain activity from structural connectivity. In this work, we extend a well-
+                                                         established Wilson–Cowan framework by introducing a novel hemispheric-specific
+                                                         coupling scheme that differentiates between intra-hemispheric and inter-hemispheric
+                                                         structural interactions. We apply this model to empirical cortical connectomes and
+                                                         resting-state fMRI data from matched control and schizophrenia groups. Simulated
+                                                         functional connectivity is computed from the band-limited envelope correlations of
+                                                         regional excitatory activity and compared against empirical functional connectivity
+                                                         matrices. Our results show that incorporating hemispheric asymmetries enhances
+                                                         the correlation between simulated and empirical functional connectivity, highlight-
+                                                         ing the importance of anatomically-informed coupling strategies in improving the
+                                                         biological realism of large-scale brain network models.
+
+                                               Keywords: Wilson–Cowan model, structural connectivity, functional connectivity,
+                                            schizophrenia, neural dynamics, hemispheric coupling
+
+
+                                            1.           Introduction
+
+                                            Schizophrenia is a severe neuropsychiatric disorder characterized by profound disruptions
+                                            in thought processes, perception, and affect regulation. Mounting evidence indicates that
+
+                                                                                                  1
+these symptoms are associated with altered functional connectivity (FC) across large-scale
+brain networks, particularly within and between the default mode, frontoparietal control,
+and salience networks [10, 13]. Understanding how these functional abnormalities arise
+from the underlying anatomical organization, or structural connectivity (SC), remains
+a central question in computational psychiatry. Structural connectomes derived from
+diffusion MRI provide a static scaffold upon which neural dynamics unfold. However,
+the mapping between SC and FC is complex due to nonlinear interactions and modula-
+tory processes that shape brain activity. Computational models of whole-brain dynamics
+offer a principled framework to investigate this SC–FC relationship. In particular, the
+Wilson–Cowan neural mass model provides a biologically grounded formalism to simu-
+late excitatory and inhibitory population dynamics, enabling the generation of realistic
+large-scale activity patterns [1, 2]. In this work, we simulate FC from empirical cortical
+SC matrices obtained from matched control and schizophrenia groups. To isolate corti-
+cal dynamics and minimize confounds related to deep nuclei, we restrict our analysis to
+cortical regions. We first implement a classic whole-brain model with uniform global cou-
+pling strength (G), and then introduce a novel hemispheric-specific coupling strategy that
+distinguishes intra- (G1 ) and inter-hemispheric (G2 ) connectivity. This extension is moti-
+vated by anatomical and functional asymmetries previously reported in both healthy and
+clinical populations [10]. We evaluate the capacity of each model variant to reproduce em-
+pirical resting-state FC, using Pearson correlation as a measure of SC–FC correspondence.
+Additionally, we analyze group differences and explore the role of hemispheric specificity
+in capturing altered integration patterns observed in schizophrenia. Our results show that
+introducing hemispheric coupling parameters improves the model’s performance and may
+help reveal biologically meaningful asymmetries in large-scale brain dynamics.
+
+
+2.     Material and Methods
+
+2.1.   Empirical Dataset and Brain Network Estimation
+
+We employed a publicly available dataset containing diffusion and functional MRI scans
+from 27 patients with schizophrenia and 27 demographically matched healthy controls [13,
+14]. These data were acquired using a 3T Siemens Trio scanner and include high-
+resolution T1-weighted images, diffusion spectrum imaging (DSI), and resting-state fMRI.
+Participants in the patient group met DSM-IV criteria for schizophrenia or schizoaffec-
+tive disorder, and were recruited from the Lausanne University Hospital. Brain network
+construction was performed using the Connectome Mapping Toolkit [6]. Cortical segmen-
+tation was based on the Lausanne 2008 multi-scale parcellation scheme [7], from which
+we selected the 83-region resolution to balance anatomical specificity with computational
+feasibility. SC matrices were derived from deterministic streamline tractography applied
+
+
+                                             2
+to the DSI data, with edge weights defined as normalized streamline counts accounting
+for surface area and length biases [3]. FC was estimated as the absolute Pearson correla-
+tion between regional mean BOLD signals after standard preprocessing, including motion
+correction, nuisance regression, spatial smoothing, and band-pass filtering [11, 4]. This
+framework provides subject-level structural and functional networks with matched parcel-
+lations, enabling direct comparison and simulation of brain dynamics constrained by indi-
+vidual connectomes. To reduce inter-subject variability and highlight group-level trends,
+we computed group-average SC and FC matrices separately for the control (CTRL) and
+schizophrenia (SCHZ) cohorts.Since all individual SC and FC matrices are symmetric
+by construction, owing to the undirected nature of tractography and the use of Pearson
+correlation, the resulting group-average matrices are also symmetric. This approach al-
+lows us to focus on global network properties and systematic differences between groups,
+rather than individual-specific fluctuations. By simulating neural dynamics on the group-
+averaged SC using the Wilson–Cowan model, we can directly assess how alterations in
+anatomical connectivity influence the emergence of functional interactions at the pop-
+ulation level. Furthermore, the use of averaged matrices facilitates a controlled explo-
+ration of model parameters, such as global versus hemispheric-specific coupling schemes,
+enabling us to investigate how different modes of interaction (intra-hemispheric vs. inter-
+hemispheric connectivity) affect the model’s ability to reproduce empirical FC. This is
+particularly relevant in schizophrenia, where disruptions in inter-hemispheric integration
+have been consistently reported. Finally, from a translational perspective, the group-level
+SC and FC matrices serve as clinical reference profiles, against which deviations at the
+individual level could be later evaluated. This provides a meaningful scaffold for assessing
+the impact of pathological alterations and testing hypotheses about network-level mech-
+anisms underlying psychiatric disorders. The 83-region resolution includes both cortical
+and subcortical structures. To restrict the analysis to cortical dynamics, we excluded
+subcortical regions and the brainstem, resulting in 68 cortical ROIs (34 per hemisphere).
+This reduction ensures compatibility with the Wilson–Cowan neural mass model, which
+is defined at the mesoscopic cortical level. All modeling and simulation steps were per-
+formed on these 68 × 68 group-average matrices.
+
+2.2.   Wilson–Cowan Network Model
+
+We employed a whole-brain neural mass model based on the Wilson–Cowan equations [1,
+2], which describe the dynamics of coupled excitatory (E) and inhibitory (I) neural pop-
+ulations. Each cortical region k is modeled as a pair of interacting populations governed
+by Eq. (1) and Eq. (2).
+
+
+
+
+                                             3
+                                                                              
+                                                                  N
+                dEk                                               X
+           τe       = −Ek + (1 − re Ek )Se aee Ek − aei,k Ik + G     Ckl El + P       (1)
+                                                                                
+                 dt                                               l=1
+                                                                  l̸=k
+               dIk
+            τi     = −Ik + (1 − ri Ik )Si (aie Ek − aii Ik + Q)                         (2)
+               dt
+
+    Here, τe and τi are the time constants for excitatory and inhibitory populations,
+respectively; re and ri modulate population refractoriness; and aαβ are synaptic weight
+parameters. The matrix Ckl encodes the normalized structural connectivity between
+regions, and G is a global coupling parameter. P and Q represent constant external
+inputs. The transfer function S(x; µ, σ) is a sigmoidal nonlinearity that governs the
+population response, where µ defines the activation threshold and σ controls the slope of
+the transition. Its general form is given by Eq. (3).
+
+                                                   1
+                                   S(x) =                                               (3)
+                                            1 + exp − x−µ
+                                                          
+                                                       σ
+
+    This formulation has been widely used to simulate large-scale brain dynamics and to
+investigate the emergence of functional connectivity from anatomical structure [8]. To
+derive simulated FC from the model, we extract the excitatory activity Ek (t) from each
+region after a transient period and compute its analytic signal using the Hilbert transform.
+The magnitude of this signal provides the amplitude envelope, which captures the slow
+oscillatory modulation of neural activity. Simulated FC is then defined as the Pearson
+correlation between the amplitude envelopes of all pairs of regions. This method follows
+standard procedures for extracting resting-state FC from band-limited neural signals,
+and allows for direct comparison with empirical FC matrices derived from resting-state
+fMRI. Prior to applying the Hilbert transform, the signals are band-pass filtered in the
+0.01–0.1 Hz range to match the frequency content of resting-state BOLD fluctuations.
+
+2.3.   Inhibitory Synaptic Plasticity
+
+To enhance the model’s stability and biological plausibility, we adopt a inhibitory synaptic
+plasticity (ISP) mechanism [12]. This rule dynamically modulates the inhibitory-to-
+excitatory coupling aei (t) within each cortical region based on local activity levels. The
+weight evolves according to Eq. (4).
+
+                                   daei
+                                      τp = I(E − ρE )                                  (4)
+                                     dt
+   The parameter τp is the adaptation time constant and ρE is a target excitatory level.
+This form of homeostatic ISP promotes balanced excitation-inhibition interactions, pre-
+venting runaway excitation and enabling sustained oscillatory activity across a wide range
+
+                                                4
+of coupling regimes. By integrating Eq. (4) alongside the Wilson–Cowan dynamics, the
+model remains compatible with empirical resting-state activity, while improving robust-
+ness and interpretability. Similar ISP rules have been shown to support biologically
+realistic network dynamics in large-scale simulations [12, 8].
+
+2.4.   Hemispheric-Specific Coupling
+
+The standard formulation uses a single global parameter G to scale all long-range excita-
+tory inputs. However, anatomical studies have shown that inter-hemispheric connections
+are sparser and more variable than intra-hemispheric ones, and that this asymmetry may
+be exaggerated in schizophrenia [10]. We introduce a modified coupling scheme that dif-
+ferentiates between intra- and inter-hemispheric projections via two parameters, G1 and
+G2 , respectively. Fig. (1) illustrates the difference between the global and hemispheric-
+specific coupling schemes applied to the structural connectivity matrix.
+
+
+
+
+Figure 1: Coupling schemes in the Wilson–Cowan model. The left panel illustrates global
+coupling using a single parameter G, which uniformly modulates connectivity across all
+regions. The right panel shows hemispheric-specific coupling, where G1 modulates intra-
+hemispheric connections and G2 modulates inter-hemispheric ones. The structural matrix
+is reordered such that the first 34 regions correspond to the right hemisphere (HR ) and
+the last 34 to the left hemisphere (HL ), resulting in a quadrant structure that reflects the
+anatomical division.
+
+    In the global case, all regions are influenced uniformly. In the hemispheric-specific
+scheme, the matrix is divided into four blocks: intra-hemispheric connections within HR
+and HL are scaled by G1 , while inter-hemispheric connections (between HR and HL ) are
+scaled by G2 . This block-wise parameterization allows the model to capture asymmetric
+integration patterns across hemispheres. Specifically, the long-range term in Eq. (1) is
+replaced by Eq. (5).
+
+
+
+
+                                             5
+                       N
+                       X                    N
+                                            X
+                                                   intra       inter
+                                                                    
+                   G          Ckl El   −→      G1 δkl    + G2 δkl      Ckl El ,         (5)
+                       l=1                  l=1
+                       l̸=k                 l̸=k
+
+           intra                                                             inter
+    where δkl    = 1 if regions k and l belong to the same hemisphere, and δkl     = 1 oth-
+erwise. This extension allows the model to explore the hypothesis that intra-hemispheric
+and inter-hemispheric coupling are differentially disrupted in schizophrenia. The param-
+eters G1 and G2 were systematically varied to assess their impact on the correlation
+between simulated and empirical functional connectivity, as well as their influence on
+functional network topology.
+
+2.5.   Parameter values
+
+All simulations were based on the Wilson–Cowan model. The transfer function S(x),
+defined in Eq. (3), was parameterized with µ = 1.0 and σ = 0.25, modulating the
+population response gain. The model included activity-dependent adaptation on the
+inhibitory-to-excitatory synaptic weight, initialized as aei (0) = 2.5, and evolving accord-
+ing to the excitatory-inhibitory interaction. Other synaptic weights were fixed: aee = 3.5,
+aie = 3.75, and aii = 0. Refractoriness coefficients were set to re = ri = 0.5, with
+a threshold adaptation term ρE = 0.14 governing plasticity. Time constants were set
+to τe = 10 ms, τi = 20 ms, and τp = 1s for synaptic adaptation. The simulation was
+integrated using an Euler method with time step ∆tsim = 1 × 10−4 s, downsampled to
+∆t = 1 × 10−3 s. A transient period of 100 seconds was discarded before collecting 100
+seconds of simulated activity. Gaussian noise was introduced in the excitatory input with
+                     p
+standard deviation D/∆tsim , where D = 2 × 10−3 . Empirical structural and functional
+connectivity matrices, normalized and restricted to 68 cortical regions, were used to cou-
+ple regional dynamics and evaluate model performance. Each simulation was initialized
+with E0 = I0 = 0.1, and unless otherwise specified, a single realization per parameter pair
+was executed. We performed grid searches over coupling parameters in both models: G in
+the global coupling scheme, and G1 , G2 in the hemispheric-specific variant. In all cases,
+parameters were explored over the range G ∈ [0.1, 30.0]. In the global model, G uniformly
+scales all long-range excitatory inputs. In the hemispheric-specific model, by contrast, G1
+modulates intra-hemispheric coupling, whereas G2 controls inter-hemispheric connectiv-
+ity. Model performance was assessed by comparing the simulated functional connectivity
+with empirical FC using Pearson correlation and the Euclidean distance between the
+upper-triangular entries of the respective matrices.
+
+
+
+
+                                                   6
+3.     Results
+
+We analyze the empirical connectivity matrices for the CTRL and SCHZ groups to high-
+light their main differences and evaluate how well the simulations reproduce the observed
+FC patterns. We systematically assess the performance of a whole-brain model based on
+Wilson–Cowan dynamics. Our analysis is structured around two modeling approaches.
+First, we consider a single global coupling parameter, G, which uniformly scales the
+influence of all structural connections across the network. Second, we introduce two
+distinct coupling parameters: G1 for intra-hemispheric and G2 for inter-hemispheric in-
+teractions. This parametrization allows us to explore whether differentiating coupling
+within and between hemispheres improves the model’s ability to replicate empirical pat-
+terns, particularly in light of known hemispheric asymmetries in schizophrenia. For each
+configuration, we perform parameter sweeps and compute both the pearson correlation
+and root mean square error between the simulated and empirical FC matrices. These
+metrics quantify the model’s accuracy and guide the selection of optimal parameters for
+each group.
+
+3.1.   Topological Analysis of Empirical Structural Connectivity
+
+We computed a set of global network metrics on the average SC matrices of the CTRL and
+SCHZ groups, including clustering coefficient, modularity, average shortest path length,
+global efficiency, mean strength, and the small-world index. Although minor numerical
+differences were observed between groups, no consistent or significant trends emerged
+that would support robust topological distinctions at the global scale. Then we compare
+SC weighted network histograms between the two groups, as shown in Fig. 2.
+
+
+
+
+Figure 2: Comparison of SC weighted network properties between the CTRL and SCHZ
+groups, based on empirical group-average matrices. Histogram of (a) connection weights,
+(b) node betweenness centrality and (c) degree distribution. All metrics were computed
+from the empirical SC matrices restricted to cortical regions.
+
+    Fig. (2a) displays the histogram of SC weights based on group-average matrices. Both
+groups exhibit a predominance of weak connections, consistent with the known sparsity
+of long-range anatomical projections. However, the SCHZ group shows a slightly higher
+
+                                           7
+count of weaker edges, suggesting a reduction in overall anatomical connectivity strength
+compared to the CTRL group. In Fig. (2b), the histogram of node betweenness centrality
+reveals that the CTRL group tends to distribute intermediary structural roles across a
+broader range of nodes, as indicated by a slightly wider spread in centrality values.
+In contrast, the SCHZ group exhibits a more concentrated profile, with fewer nodes
+contributing to long-range communication pathways. Nonetheless, the overall difference
+between the two groups remains modest at the level of group-average SC. In Fig. (2c),
+CTRL and SCHZ degree distributions are largely similar, with only subtle shifts, though
+the SCHZ group appears to exhibit fewer high-degree hubs.
+
+3.2.   Wilson–Cowan Model with Uniform Global Coupling G
+
+To investigate the relationship between structural and functional connectivity (SC–FC)
+in both CTRL and SCHZ groups, we simulated the Wilson–Cowan model on empirical
+structural connectomes using a single global coupling strength parameter G. We eval-
+uated a range of G values logarithmically distributed from 0.1 to 30.0. For each group
+and each value of G, we generated 10 simulations, computed the resulting FC matrices,
+and compared them to the empirical FC using two complementary metrics: the Pearson
+correlation (r) and the root mean squared error (RMSE).
+
+     To illustrate the best-performing simulation under the global coupling model, Fig. (3)
+presents the results for the SCHZ group with G = 1.0. This instance yielded r = 0.37 and
+RMSE = 0.22 with respect to the empirical FC. The top row shows the excitatory activity
+traces in Fig. (3a) and the filtered BOLD envelope in Fig. (3b). The bottom row displays
+the structural connectivity matrix in Fig. (3c), the simulated functional connectivity in
+Fig. (3d), and the empirical FC in Fig. (3e). The simulated FC captures the overall
+block organization and inter-hemispheric symmetry observed in the empirical pattern.
+As observed in Fig. (3d), a noticeable difference appears in the off-diagonal blocks, which
+are associated with inter-hemispheric connections in the network. The best-performing
+case for the CTRL group yielded r = 0.32 and RMSE = 0.24, indicating a slightly worse
+fit.
+
+    Fig. (4) shows the average Pearson correlation (⟨r⟩) and the average root mean square
+error (⟨RMSE⟩) across simulations as a function of the global coupling parameter G, along
+with one standard deviation. The CTRL group reached a peak ⟨r⟩ = 0.27 ± 0.03, while
+the SCHZ group achieved a higher maximum of ⟨r⟩ = 0.30±0.03, both groups at G = 1.0.
+
+
+
+
+                                            8
+Figure 3: Group-averaged best-performing simulation for the SCHZ group using global
+coupling G = 1.0. (a) Excitatory activity, (b) Hilbert envelope, (c) SC, (d) Simulated
+FC (e) and empirical FC. The simulation yielded r = 0.37, RMSE = 0.22.
+
+
+
+
+Figure 4: (a) Average pearson correlation (⟨r⟩) and (b) average RMSE (⟨RM SE⟩)
+between simulated and empirical FC as a function of global coupling strength G, for
+both CTRL and SCHZ groups. Error bars indicate ±1 standard deviation across 10
+simulations per value of G.
+
+    In both cases, the RMSE curve reached its minimum near the same values of G, re-
+inforcing the identification of optimal coupling regimes. Specifically, the lowest RMSE
+values were ⟨RMSE⟩ = 0.25±0.01 for the CTRL group and ⟨RMSE⟩ = 0.20±0.01 for the
+
+                                          9
+SCHZ group, both groups occurring at G = 1.0. On average, the SCHZ group achieved
+higher correlation values across simulations, suggesting that the model reproduces func-
+tional connectivity more accurately in patients than in controls under this global coupling
+scheme.
+
+
+
+3.3.   Wilson–Cowan Model with Distinct Coupling Parameters G1 and G2
+
+To evaluate whether distinguishing intra-hemispheric and inter-hemispheric interactions
+improves model performance, we extended the global coupling scheme by introducing two
+separate parameters: G1 for intra-hemispheric and G2 for inter-hemispheric connectiv-
+ity. To illustrate the best-performing simulation under the hemispheric-specific coupling
+model, Fig. (5) presents the results for the SCHZ group with G1 = 0.80 and G2 = 15.00.
+
+
+
+
+Figure 5: Group-averaged best-performing simulation for the SCHZ group using
+hemispheric-specific coupling parameters G1 = 0.80, G2 = 15.00. (a) Structural Connec-
+tivity (SC) matrix, (b) Simulated Functional Connectivity (FC), and (c) Empirical FC.
+The simulation yielded a correlation of r = 0.47 and RMSE = 0.20. Panels (a) and (c)
+correspond to the same subject as in Fig. (3c) and Fig. (3e), respectively.
+
+    This configuration yielded a correlation of r = 0.47 and RMSE = 0.20 when com-
+pared to the empirical FC. Fig. (5) includes the structural connectivity matrix used
+for the simulation in Fig. (5a), the resulting simulated FC in Fig. (5b), and the em-
+pirical FC used for comparison in Fig. (5c). The simulated FC replicates the modular
+structure and bilateral symmetry of the empirical matrix, with notable improvements in
+inter-hemispheric correlations. As observed in Fig. (5b), the enhanced fit is particularly
+evident in the preservation of off-diagonal block structures, reflecting effective modeling
+of cross-hemispheric interactions. The best-performing case for the CTRL group yielded
+r = 0.40 and RMSE = 0.20 at G1 = 1.0 and G2 = 15.0, indicating a slightly worse
+fit. On average, the SCHZ group achieved higher correlation values across simulations,
+suggesting that the model reproduces functional connectivity more accurately in patients
+than in controls under the hemispheric-specific coupling scheme.
+
+                                            10
+    Fig (6) summarizes the results of a parameter sweep over a wide range of G1 and G2
+values. Figs (6a,b) show ⟨r⟩ between simulated and empirical FC for the CTRL and SCHZ
+groups, respectively. We observe a substantial improvement in performance compared to
+the uniform coupling case. The optimal configuration for the CTRL group was found
+at G1 = 1.0, G2 = 15.0, yielding a ⟨r⟩ = 0.36 ± 0.05 in Fig (6a). The SCHZ group
+achieved an even higher maximum ⟨r⟩ = 0.43 ± 0.03 at G1 = 0.8, G2 = 15.0 in Fig (6b).
+We observe that, for the CTRL group, the best-performing simulations are located in
+a more central region of the (G1 , G2 ) parameter space compared to the SCHZ group.
+In the SCHZ case, the region of highest correlation is shifted toward higher G2 values
+relative to G1 , indicating a stronger reliance on inter-hemispheric coupling. Moreover,
+the maximum correlation achieved in the SCHZ group is higher than that of the CTRL
+group. When comparing the mean correlation peaks, both groups share a same optimal
+value for G2 , but differ in their optimal G1 . Specifically, the CTRL group requires
+stronger intra-hemispheric coupling to better replicate empirical FC patterns, whereas
+the SCHZ group achieves optimal performance with lower G1 . Although not shown,
+we also computed the RMSE between empirical and simulated connectivity patterns
+across the same parameter grid. Consistent with the correlation analysis, we found that
+configurations yielding higher correlations also exhibited lower RMSE values, indicating
+convergence in both topological correlation and absolute distance.
+
+
+
+
+Figure 6: Parameter sweep across intra-hemispheric and inter-hemispheric coupling
+strengths G1 and G2 in the Wilson–Cowan model. (a,b) ⟨r⟩ between simulated and
+empirical FC for the CTRL and SCHZ groups, respectively. The red box in panels (a)
+and (b) marks the parameter combination that yielded the highest average correlation
+for each group.
+
+
+
+                                          11
+    While the model captures certain qualitative tendencies, such as the correlation be-
+tween empirical and simulated FC, it does not yet reproduce network metrics comparable
+to those observed in the empirical data. This suggests that additional refinements are
+needed to improve the model’s ability to replicate the topological organization of func-
+tional connectivity.
+
+
+4.   Conclusions
+
+In this study, we implemented the Wilson–Cowan model and introduced a hemispheric-
+specific coupling scheme. We examined both groups and compared structural connectivity
+network features. In structural connectivity, we found results consistent with previous
+studies reporting decreased anatomical connectivity strength [9, 15], redistribution of
+central roles across network regions [15], and topological reorganization in schizophre-
+nia [10]. To further explore the mechanistic basis of these alterations, we evaluated the
+capacity of a biologically grounded neural mass model based on Wilson–Cowan dynam-
+ics [1, 2, 12], in order to reproduce resting-state functional connectivity from empirical
+cortical structural connectomes in matched control and schizophrenia groups. In our im-
+plementation, we differentiated intra-hemispheric and inter-hemispheric anatomical pro-
+jections via a hemispheric-specific coupling scheme. This modified version systematically
+outperformed the classic global coupling approach, yielding higher Pearson correlations
+between simulated and empirical FC across both groups. The improvement was espe-
+cially pronounced in the schizophrenia group in both models. This may reflect a stronger
+constraint of functional dynamics by the underlying structural scaffold in schizophre-
+nia, where reduced global integration and increased modularity limit the repertoire of
+functional configurations. In such conditions, anatomically grounded models may more
+accurately capture the structure–function mapping [5, 8]. Interestingly, the optimal pa-
+rameter configuration differed between groups. The SCHZ group achieved a higher max-
+imum correlation of ⟨r⟩ = 0.43 ± 0.03 at G1 = 0.8, G2 = 15.0, whereas the CTRL group
+reached ⟨r⟩ = 0.36 ± 0.05 at G1 = 1.0, G2 = 15.0. Although both groups showed optimal
+performance in regimes where inter-hemispheric coupling G2 exceeded intra-hemispheric
+coupling G1 , the schizophrenia group required a lower G1 to reproduce empirical FC.
+This may suggest a diminished role of intra-hemispheric integration in shaping functional
+dynamics in schizophrenia, potentially reflecting degraded or less functionally effective
+intra-hemispheric anatomical pathways [15]. Additionally, the SCHZ model displayed
+good performance across a broader range of G2 values, indicating a degree of flexibil-
+ity or compensatory reliance on inter-hemispheric interactions. Together, these findings
+suggest distinct structure–function coupling regimes between groups, with schizophrenia
+exhibiting both reduced intra-hemispheric integration and a more tolerant configuration
+space for inter-hemispheric coupling. Overall, these findings highlight the value of inte-
+
+
+                                           12
+grating structural connectivity data with biologically inspired models to gain mechanistic
+insights into the altered brain dynamics observed in neuropsychiatric disorders.
+
+
+Data Availability and Reproducibility
+
+All simulations were implemented in Python 3.11. The implementation relies on the
+following open-source libraries: NumPy 1.26, SciPy 1.13, pandas 2.2.1, matplotlib
+3.8.3, and Numba 0.60 for just-in-time compilation of performance-critical functions.
+The Wilson–Cowan model and analysis scripts are structured for modularity and exten-
+sibility. The entire simulation pipeline can be reproduced by running the provided main
+scripts (run global.py and run hemispheric.py). A requirements.txt file is provided
+to facilitate environment replication. The simulation outputs (e.g., empirical and simu-
+lated functional connectivity matrices, node activity signals, and computed metrics) are
+stored in a structured directory under results/, which is automatically generated by the
+code. These outputs include all data used to produce the figures presented in this work.
+The data that support the findings of this study are openly available in GitHub.
+
+
+References
+
+ [1] H. R. Wilson and J. D. Cowan. Excitatory and inhibitory interactions in localized
+     populations of model neurons. Biophysical Journal, 12(1):1–24, 1972.
+
+ [2] H. R. Wilson and J. D. Cowan. A mathematical theory of the functional dynamics
+     of cortical and thalamic nervous tissue. Kybernetik, 13(2):55–80, 1973.
+
+ [3] P. Hagmann, L. Cammoun, X. Gigandet, R. Meuli, C. J. Honey, V. J. Wedeen, and
+     O. Sporns. Mapping the structural core of human cerebral cortex. PLoS Biology,
+     6(7):e159, 2008.
+
+ [4] S. M. Smith, P. T. Fox, K. L. Miller, D. C. Glahn, P. M. Fox, C. E. Mackay, N. Fil-
+     ippini, K. E. Watkins, R. Toro, A. R. Laird, and C. F. Beckmann. Correspondence
+     of the brain’s functional architecture during activation and rest. Proceedings of the
+     National Academy of Sciences, 106(31):13040–13045, 2009.
+
+ [5] G. Deco and V. K. Jirsa. Ongoing cortical activity at rest: criticality, multistability,
+     and ghost attractors. Journal of Neuroscience, 32(10):3366–3375, 2012.
+
+ [6] A. Daducci, S. Gerhard, A. Griffa, A. Lemkaddem, L. Cammoun, X. Gigandet,
+     R. Meuli, P. Hagmann, and J.-P. Thiran. The connectome mapper: an open-source
+     processing pipeline to map connectomes with MRI. PLoS One, 7(12):e48121, 2012.
+
+
+
+
+                                             13
+ [7] L. Cammoun, X. Gigandet, D. Meskaldji, J.-P. Thiran, O. Sporns, K. Q. Do,
+     P. Maeder, R. Meuli, and P. Hagmann. Mapping the human connectome at multiple
+     scales with diffusion spectrum MRI. Journal of Neuroscience Methods, 203(2):386–
+     397, 2012.
+
+ [8] G. Deco, A. Ponce-Alvarez, D. Mantini, G. L. Romani, P. Hagmann, and M. Cor-
+     betta. Resting-state functional connectivity emerges from structurally and dynami-
+     cally shaped slow linear fluctuations. Journal of Neuroscience, 33(27):11239–11252,
+     2013.
+
+ [9] A. Griffa, P. S. Baumann, J.-P. Thiran, and P. Hagmann. Structural connectomics
+     in brain diseases. NeuroImage: Clinical, 2:769–783, 2013.
+
+[10] A. Griffa, P. S. Baumann, J.-P. Thiran, and P. Hagmann. Characterizing the con-
+     nectome in schizophrenia with diffusion spectrum imaging. Human Brain Mapping,
+     36(1):354–366, 2015.
+
+[11] A. Griffa, B. Ricaud, K. Benzi, X. Bresson, A. Daducci, P. Vandergheynst, J.-P.
+     Thiran, and P. Hagmann. Transient networks of spatio-temporal connectivity map
+     communication pathways in brain functional systems. NeuroImage, 155:490–502,
+     2017.
+
+[12] R. G. Abeysuriya, J. Hadida, S. N. Sotiropoulos, S. Jbabdi, R. Becker, B. A. E.
+     Hunt, M. J. Brookes, and M. W. Woolrich. A biophysical model of dynamic bal-
+     ancing of excitation and inhibition in fast oscillatory large-scale networks. PLOS
+     Computational Biology, 14(10):e1006007, 2018.
+
+[13] J. Vohryzek, Y. Aleman-Gomez, A. Griffa, J. Raoul, M. Cleusix, P. S. Baumann,
+     P. Conus, K. Do Cuenod, and P. Hagmann. Structural and functional connectomes
+     from 27 schizophrenic patients and 27 matched healthy adults. 2020. https://doi.
+     org/10.5281/zenodo.3758534.
+
+[14] L. Gutiérrez-Gómez, J. Vohryzek, B. Chiêm, P. S. Baumann, P. Conus, K. Do
+     Cuenod, P. Hagmann, and J.-C. Delvenne. Stable biomarker identification for pre-
+     dicting schizophrenia in the human connectome. Network Neuroscience, 4(3):521–
+     543, 2020.
+
+[15] S. Guo, Y. Lin, S. Zhao, Y. Cui, Y. Xia, K. Chen, D. Yao, and D. Guo. Pattern
+     recognition of schizophrenia based on multidimensional spatial feature fusion. Brain-
+     Apparatus Communication: A Journal of Bacomics, 2(1):2249036, 2023. https:
+     //doi.org/10.1080/27706710.2023.2249036.
+
+
+
+
+                                           14
+

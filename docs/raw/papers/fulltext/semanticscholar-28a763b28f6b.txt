@@ -1,0 +1,436 @@
+Journal of Computational Neuroscience
+https://doi.org/10.1007/s10827-026-00925-w
+
+    BRIEF REPORT
+
+
+
+Co-simulation framework combining a microscopically detailed point
+neuron model of the hippocampal CA1 region with the macroscopic
+high-resolution virtual brain model
+Lorenzo Tartarini1 · Paul Triebkorn2 · Lionel Kusch2 · Sergio Solinas3 · Huifang Wang2 · Daniela Gandolfi4,5 ·
+Viktor Jirsa2 · Jonathan Mapelli1,6
+
+Received: 20 June 2025 / Revised: 18 January 2026 / Accepted: 2 February 2026
+© The Author(s) 2026
+
+
+Abstract
+The human brain is a complex adaptive system characterized by dynamic processes operating across multiple spatio-tem-
+poral scales. Capturing these dynamics requires computational models that can integrate different levels of resolution. In
+this work we present a multiscale co-simulation framework that couples whole-brain modeling with a detailed point-neu-
+ron model of the human hippocampal CA1 region. We used a high-resolution implementation of the “The Virtual Brain”
+(TVB), in which cortical surface mesh vertices are embedded with the Spatial Epileptor Model (SEM). At the microscale,
+the CA1 model captures neuronal activity at micrometer spatial and sub-millisecond temporal resolution. This integration
+enables the simulation of macroscale epileptic dynamics with microscale neuronal precision within anatomically grounded
+brain regions, facilitating cross-scale communication. These results demonstrate the potential of this approach to advance
+mechanism-driven, personalized medicine in clinical neuroscience.
+
+Keywords Co-simulation · Whole brain models · Epileptor · Spiking neural networks
+
+
+
+1 Introduction                                                              and design pharmacological interventions. In recent years,
+                                                                            research in this field has produced a wide range of models
+Computational brain models have proven essential for advanc-                capable of replicating brain dynamics at multiple spatio-tem-
+ing our understanding of brain functions and for developing                 poral scales. High-resolution models have been particularly
+innovative technologies to investigate neurological disorders               effective in elucidating local brain dynamics (Gandolfi et al.,
+                                                                            2023), whereas large scale models are increasingly adopted
+                                                                            as digital twins for clinical applications (Wang et al., 2024).
+Action Editor: Simon Schultz                                                Despite extensive efforts and investments, most simulations
+                                                                            at the cellular level remain limited to animal studies. Conse-
+     Jonathan Mapelli
+     jonathan.mapelli@unimore.it                                            quently, co-simulation technologies, where regions of inter-
+                                                                            est are modeled at high resolution while the rest of the brain
+1
+     Department of Biomedical, Metabolic and Neural Sciences,               is approximated using mean field approaches, have thus been
+     University of Modena and Reggio Emilia, Modena, Italy                  developed primarily in mouse models (Kusch et al., 2024).
+2
+     Aix Marseille Univ, INSERM, INS, Inst Neurosci Syst,                   Only recently, alternative co-simulation frameworks have
+     Marseille, France                                                      been proposed to model multiscale dynamics; however,
+3
+     Department of Engineering, University of Sassari, Sassari,             beside interesting results with mouse models (Kusch et al.,
+     Italy                                                                  2024; Hater et al., 2025), the only report at human-level sim-
+4
+     Department of Engineering “Enzo Ferrari”, University of                ulations (Bragin et al., 2024) presents technical details about
+     Modena and Reggio Emilia, Modena, Italy                                the interface between micro and macroscale simulators with-
+5
+     Artificial Intelligence Research and Innovation Center AIRI,           out simulation results.
+     University of Modena and Reggio Emilia, Modena, Italy                      The possibility of simultaneously simulating human
+6
+     Center for Neuroscience and Neurotechnologies, University              brain dynamics at multiple scales would represent a major
+     of Modena and Reggio Emilia, Modena, Italy
+
+
+                                                                                                                                13
+                                                                                             Journal of Computational Neuroscience
+
+
+advance for both diagnosis and therapy. In the context of        and whole brain simulations. To tackle the first aspect, the
+excitability disorders, such as epilepsy, this is particularly   communication protocol transmits rate-coded informa-
+relevant. Epileptic seizures are marked by recurrent, spon-      tion for each region in both simulations (see Fig. SM1). To
+taneous, and complex spatiotemporal activity that involves       ensure the computational efficiency, the system has been
+multiple brain regions and diverse propagation patterns,         implemented in a containerized environment, enabling
+including frequency shifts, latency differences, and syn-        straightforward portability and execution across High Per-
+chronization. Understanding how seizures evolve in space         formance Computing (HPC) platforms, and has been vali-
+(i.e., which brain regions are involved) and time (i.e., the     dated on such systems.
+sequence and dynamics of activity spread) is critical for
+accurate diagnosis, seizure prediction, and for designing        2.2 Hippocampus CA1 NEST model
+effective treatments, including surgical interventions. To
+this end, we present a novel co-simulation framework that        The CA1 region of the human hippocampus was simulated
+integrates both macroscale and microscale levels of brain        in NEST as in Gandolfi et al. (2023). Briefly, the point-neu-
+modeling, enabling the study of human brain dynamics with        ron model incorporates data-driven 3D soma positioning
+high spatial and temporal resolution.                            (Fig. 1) with the corresponding connectivity matrix gen-
+                                                                 erated through a realistic morpho-anatomical connection
+                                                                 strategy (Gandolfi et al., 2022). Each neuron is simulated
+2 Methods                                                        using the Hill-Tononi (HT) model (Hill & Tononi, 2005)
+                                                                 which, although originally developed for thalamic neurons,
+2.1 Co-simulation framework                                      can reproduce hippocampal bursting activity and provides
+                                                                 a consistent number of degrees of freedom with a balanced
+In this work, we present a co-simulation framework that          compromise between computational efficiency and detailed
+integrates a microscopically detailed spiking neural network     dynamics. Moreover, HT neurons support intrinsic fast and
+model of the human CA1, simulated using the NEST (based          slow excitatory and inhibitory input dynamics, enabling
+on NEST 3.8.0-post0.dev0; see Supplementary materials)           synaptic behavior consistent with AMPA, NMDA and GAB-
+framework (Gewaltig & Diesmann, 2007; Graber et al.,             Aergic transmission. Synaptic communication between
+n.d.), with macroscopic whole-brain dynamics simulated           point neurons is governed by the Tsodyks-Markram model
+using The Virtual Brain (TVB; tvb-library 2.3; See supple-       (Tsodyks & Markram, 1997). Such a model captures both the
+mentary materials) platform (Sanz-Leon et al., 2015). The        availability of synaptic resources and the probability of neu-
+two main constraints of the framework are scalability and        rotransmitter release, enabling short term plasticity. Equa-
+computational efficiency, both of which are essential to sup-    tions of the HT and Tsodyks-Markram models are detailed
+port increasing complexity in neural population modeling         in the Supplementary Materials. The network dynamics are
+
+Fig. 1 Different computational
+framework. A. Full-scale
+model of the CA1 region of a
+right hippocampus as obtained
+in Gandolfi et al. (2023). B.
+The full-scale model has been
+downscaled for computational
+efficiency in the testing phase.
+Insets show the typical bursting
+behavior of a CA1 neuron. C.
+The high-resolution TVB model
+was downscaled for computa-
+tional efficiency. D. Parahippo-
+campal and hippocampal regions
+of the TVB. Black box shows
+the region corresponding to the
+right hippocampus. Inset shows
+seizure-like activity represented
+by the difference between the
+slow waves state x2 and the fast
+discharges state x1
+
+
+
+
+13
+Journal of Computational Neuroscience
+
+
+simulated at a sub-millisecond time and micrometer spatial       of the surface mesh, where each weight is proportional to
+resolution, necessitating the use of HPC resources for net-      the cross-sectional area of the streamlines connecting the
+works with billions of synapses.                                 vertices (Triebkorn et al., 2025). Each node of the surface
+   To enable coupling between TVB-based simulation and           mesh, representing a neural mass of the TVB network, was
+the NEST-based model, custom input/output devices have           simulated using the Spatial Epileptor Model (SEM) (Proix
+been designed in NEST (Kusch et al., 2024) using the Mes-        et al., 2018) which captures the onset, time course, and
+sage Passing Interface (MPI) protocol to receive and send        termination of ictal-like discharges, as well as their recur-
+data at every simulation time step. The NEST input device        rence (Jirsa et al., 2014). Neural masses were coupled via
+receives a rate-coded signal and generates Poissonian spike      two types of connections: (i) long-range global connectivity
+trains with the received firing rate.                            derived from tractography (Fig. 2A), and local connections
+   An input device is created for each CA1 mesh vertex,          (Fig. 2B), based on a Laplacian kernel spanning over the
+with each device driving a corresponding subpopulation           geodesic distance between nodes along the mesh surface.
+of point neurons, as described below. At each time step, a       The resulting global connectivity exhibits a block-struc-
+rate vector is received, containing one value per neuronal       tured organization, revealing distinct inter-hemispheric,
+subpopulation. The order of the vectors is consistent with       intra-hemispheric, and subcortical connections, as well as
+the order of creation of the input devices. The NEST MPI-        projections from subcortical to cortical regions. Due to the
+based output device follows a similar design. It records the     high dimensionality of the system, the visualizations of Fig.
+total number of spike events for each subpopulation and          2 A, B display only the sparsity pattern of the connectivity
+transmits a vector of spike counts back to the TVB process,      matrix, omitting connection strength to avoid visual clut-
+enabling feedback-driven co-simulation. This will later be       ter. Moreover, the projection of this inherently three-dimen-
+used as input for the TVB model. The input/output devices        sional connectivity structure onto two-dimensional plane
+are compatible with multi-node parallel execution, allowing      introduces artifacts, which stem from mesh node indexing
+the framework to scale efficiently with increasing network       and the high dimensionality of the dataset.
+size and complexity, a critical requirement given the growth         The 6D Spatial Epileptor Model is described by a system
+in computational cost associated with large-scale spiking        of 6 differential equations (see supplementary material) rep-
+networks. In the presented study, a down-sampled version of      resenting distinct dynamics states: two fast discharge vari-
+the right CA1 network model was used. The original model,        ables (x1 , y1 ), two spike and wave events (SWE) states (x2 ,
+comprising about 5.28 million neurons and 40 billion syn-        y2 ), one permittivity state (z), and an integral coupling func-
+apses, was scaled down to 110 000 neurons and 4.3 million        tion (g). Specifically, x1 models fast excitatory activity dur-
+connections (Fig. 1B; see Methods). The downscaling pro-         ing seizures and y1 acts as the associated recovery variable.
+cedure has been performed by randomly sampling neurons           The variables x2 and y2 represent slower oscillatory SWE
+and, accordingly, preserving only consistent connections.        activity and its corresponding recovery dynamics, respec-
+The integrity of the reduced network has been assessed by        tively. The variable z modulates seizure susceptibility and
+analyzing the neuronal density distribution (Fig. SM3 A-C),      governs transitions between ictal and non-ictal states. The
+the indegree and outdegree distribution (Fig. SM3 D-E) and       integral coupling function g links the two subpopulations,
+the distribution of the connection lengths (Fig. SM3 F) (See     driving the SWE states by integrating past fast discharge
+Supplementary materials).                                        activity via temporal convolution. The external input cur-
+                                                                 rents to the rapid discharge population Iext and the SWE
+2.3 The high-resolution virtual brain epileptor                  population Iext2 , are constant bias terms that dictate the sta-
+model                                                            ble points of the corresponding subsystems. The parameter
+                                                                 m controls the dynamics of SEM during the ictal period,
+The macroscopic brain model in TVB was built using               while the excitability parameter x0 controls the equilibrium
+anatomical data derived from T1-weighted and diffusion-          point of the SEM, thus the ability, for each node, to switch
+weighted magnetic resonance imaging (DW-MRI) (Wang               between a non-ictal and an ictal state (Fig. 2C). Moreover,
+et al., 2024) provided by the human connectome proj-             the SEM includes global coupling applied to the variable
+ect (Van Essen et al., 2013; Glasser et al., 2013, subject       x1 , local coupling influences both the dynamics of x1 and
+100206). From these imaging modalities, a cortical surface       x2 and the integral coupling function g. The global coupling
+mesh was extracted (Fig. 1C) and parcellated using the Vir-      is based on a weighted global connectivity signal propaga-
+tual Epileptic Patient atlas (Wang et al., 2021), generating a   tion, where a history buffer containing all neural masses’
+map between each mesh vertex and its corresponding brain         previous states is sampled according to a delay matrix based
+region. Then, using DW-MRI tractography, a sparse con-           on tract length between regions. Local coupling models the
+nectivity matrix has been generated between the vertices         influence of the activity of a node on its neighbors by: (i)
+
+
+
+                                                                                                                     13
+                                                                                                        Journal of Computational Neuroscience
+
+
+
+
+Fig. 2 High Resolution version of TVB, using subject’s mesh points as   z reproducing seizure like oscillations. (D) Assignment between TVB
+nodes. (A) Global Connectivity Matrix obtained from Tractography,       mesh nodes and NEST model neurons using the HippUnfold protocol
+(B) Local Connectivity based on Geodesic distance between the nodes.    (DeKraker et al., 2022, 2023) to bring the two sets of points in a com-
+(C) SEM activity (x2 − x1 ) timeseries of a single TVB node and cor-    mon coordinate system. (E) Histogram showing the number of vertices
+responding x1 , y1 subpopulation dynamic driven by permittivity state   in the mesh assigned to a certain number of neurons
+
+
+rapid discharge coupling (loc11 ), (ii) an integral coupling            = 3, x2 = -0.9, y2 = 0.3, g = -0.1), except for a localized sub-
+term (loc12 ), and (iii) the effects of coupling through SWE            set of adjacent CA1 nodes, designated as the seizure onset
+events (loc22 ), where loc11 , loc12 , loc22 are the corre-             zone, where the epileptic oscillations triggered pathological
+sponding local coupling strengths. In particular, the g state           propagation (x1 = 0, y1 = -5, z = 3, x2 = 0, y2 = 0, g = 0). The
+directly modulates the SWE activity, thus creating a bidi-              local coupling parameters were calibrated to ensure coher-
+rectional link between the fast discharge and the SWE states            ent propagation of both dynamics x1 and x2 throughout the
+in neighboring regions. The whole brain mesh consists of                network with the following values (k = 0.636, γ11 = 0.34,
+337,981 cortical nodes and 97,509 subcortical nodes, total-             γ12 = 0.064, γ22 = 0.032, γglob = 1, θ11 = -1, θ12 = -1, θ22
+ing 435,490 total locations. Since both global connectivity,            = -0.5, Iext = 3.1, Iext2 = 0.45, τ0 = 2857, τ1 = 1, τ2 = 10,
+tract length mapping and geodesic distances would result in             tt = 0.17)
+extremely large and sparse matrices, custom TVB classes
+have been used. The custom SimulatorSparse class includes               2.4 Epileptor activity to NEST rates conversion
+a specialized SparseHistory class attribute that keeps track
+of states for delayed communications. Local coupling is                 The two simulators were coupled through MPI based com-
+handled by the HeavisideSparse function, optimized via                  munication protocol that enabled bidirectional exchange of
+a Numba-accelerated sparse matrix routine. Global con-                  activity across the two spatio-temporal scales. To have topo-
+nectivity is represented by the ConnectivitySparse class,               logically coherent co-simulation across models, neurons
+which stores weights, tract lengths, and delays using sparse            were assigned to vertices of the TVB mesh by mapping each
+matrices.                                                               vertex to the spatially nearest NEST neurons. This mapping
+   For validation, a reduced mesh was used, including only              was performed using geodesic Laplace coordinates along
+regions from the right hemisphere: fusiform gyrus, para-                the Anterior-Posterior (AP) and Proximal-Distal (PD) axes
+hippocampal gyrus, entorhinal cortex, subiculum, CA1,                   of the hippocampal surfaces, as computed by the HippUn-
+CA2, CA3, CA4 and dentate-gyrus, as extracted from MRI                  fold toolbox (DeKraker et al., 2022, 2023). The HippUn-
+data. The excitability parameter (x0 ) was set to model CA1             fold toolbox provides a surface-based topology-preserving
+as the epileptogenic zone (x0 = -1.6), while the surrounding            representation of the hippocampus based on thickness, cur-
+areas were defined as propagation zones (x0 = -1.9). The                vature, gyrification, texture and other morphological and
+system was initialized at a stable point (x1 = -1.5, y1 = -11, z        laminar features (DeKraker et al., 2022). This surface-based
+
+
+
+13
+Journal of Computational Neuroscience
+
+
+representation is better suited for anatomically meaningful     Where ox1 , ox2 are the conversion offsets and gx1 , gx2 are
+alignment between subjects than conventional volumetric         the conversion gains. The conversion parameters were con-
+registrations (DeKraker et al., 2023).                          figured such that at least one NEST spike is generated for
+   After projecting both the 3D coordinates of the point neu-   each SWE Complex, modeled through the x2 state, within
+rons and the mesh vertices into a common 2D intrinsic coor-     the connected subpopulation. Additionally, the probability
+dinate system, a KDTree clustering algorithm was used to        of generating in response to the rapid discharge component
+identify the closest neurons to each mesh vertex (Fig. 2D).     (x1 ) denoted as px1 , was set to be half the probability asso-
+The assignment was limited to mesh nodes labeled as CA1,        ciated with the SWE complex (px2 ). This parameterization
+CA2 or Subiculum. To refine anatomical labeling, mesh           results in Poisson-distributed firing rates ranging from 0
+nodes originally labeled CA2 or subiculum but assigned          to 0.31 spikes/s for x2 -driven activity and from 0 to 0.16
+to any point neuron were relabeled CA1. In contrast, mesh       spikes/s for x1 -driven activity. These values were derived
+nodes initially labeled CA1 that remained unassigned were       using the following ox2 = 0.5, ox1 = 2, gx2 = 1.25, gx1 = 0.375
+relabeled CA2 or subiculum, depending on the identity of        and a simulation step dt = 0.1 ms for both NEST and TVB
+the nearest non-CA1 mesh node.                                  simulations. This conversion scheme is grounded in the
+   The framework employs a Singularity container (Kurtzer       observation of spiking synchronization driven by slow SWE
+et al., 2017) for portability across HPC systems and is orga-   dynamics, as described in Truccolo et al. (2014), where neu-
+nized into three main Python-based processes. The launcher      ronal firing showed temporal clustering at the onset of the
+process manages the sequential initialization of the two        spike phase during recorded seizures. A secondary weaver
+simulations. It first starts the TVB simulation, which gener-   spiking activity was also observed during the wave phase,
+ates the model, and then opens an MPI communication port        which in the present model is captured via the x1 compo-
+via a custom model class. This port expects as many inputs/     nent, modulating the contribution of rapid discharges in
+outputs as there are surface vertices labeled CA1, the region   the SEM-to-spike-rate transformation. At each simulation
+targeted for co-simulation. When the MPI port is active, the    time step, the received values px1 and px2 drive a Poisson
+launcher starts the NEST simulation, which connects to the      process that determines whether each subpopulation gener-
+port using custom developed streaming I/O devices: spike_       ates a spike (i.e., spike_generation). To validate the co-
+detector_mpi and spike_generator_mpi. For each CA1              simulation framework, an initial test was performed with
+mesh node, a pair of these devices is instantiated and con-     SNN connectivity disabled, in order to confirm the synchro-
+nected to the corresponding neurons, based on the AP-PD         nization between SEM-derived x1 and x2 activity and sub-
+mapping. Spike_generator_mpi receives input rates from          population firing rates. Subsequent simulations with NEST
+the MPI port and generates the corresponding spike trains       connectivity enabled the investigation of the dynamics of
+using an inhomogeneous Poisson process. These spikes are        network-level signal propagation. Extensive tests were con-
+relayed to NEST point neuron models through parrot neu-         ducted to assess the correct interaction between TVB and
+rons and static synapses. In contrast, spike_detector_mpi is    NEST simulators (see Supplementary materials for a full
+designed to transmit the number of spikes detected within       description).
+each simulation time step back to the MPI port. However,
+in this preliminary version of the framework, this feedback
+is disabled. TVB influences CA1 spiking activity, but not       3 Results
+vice versa.
+   To convert the absolute state variables of the SEM into      Preliminary results The system was preliminarily validated
+meaningful spiking input, a Rectified Linear Unit (ReLU)-       by initializing both the TVB and NEST models in a steady
+like transformation is applied to a combination of x2 slow      state. The seizure-like event was then induced at the mac-
+wave events and x1 fast discharges (Eq. (1)-(3)). This pro-     roscale level (TVB), originating from the zone of onset of
+duces a firing rate which, scaled by the simulation timestep,   the seizure (a subset of CA1 regions) and triggering excita-
+defines the Poisson parameter used to probabilistically gen-    tion that propagated to the microscale spiking neural net-
+erate spikes at each time step for each subpopulation.          work (SNN). To assess the validity of the co-simulation, we
+                                                                analyzed the relationship between SWE oscillations (x2 ),
+px1 = (x1 + ox1 ) · gx1 · dt                             (1)   rapid discharges (x1 ), and synchronization within the SNN.
+                                                                At the macroscale level, the TVB model exhibited propaga-
+px2 = (x2 + ox2 ) · gx2 · dt                             (2)   tion of epileptic activity (Fig. 3A-C) from the hippocampus
+                                                                to adjacent areas of the temporal lobes. Both SWE events
+spike_generation = P oisson(px1 + px2 )                  (3)   and fast discharges originated at seizure onset sites and
+
+
+
+
+                                                                                                                    13
+                                                                                                        Journal of Computational Neuroscience
+
+
+
+
+Fig. 3 (A-C) Temporal evolution of the TVB SEM, showing the              series of a single TVB node. (I) Comparison between TVB node x2
+propagation of seizure-like events at three different time points. The   driving signal (upper panel, blue), the activity converted spike prob-
+onset site of the seizure comprises a subset of CA1 vertices and is      ability sent to the NEST model (upper panel, yellow) and generated
+pointed by the red arrow. (D-F) Temporal evolution of the NEST spik-     spike activity in the NEST model (lower panel). (J) The phase of the
+ing neural network showing coherent activity (red dots) between TVB      spike probability sent from TVB to NEST computed using the Hilbert
+vertices and CA1 point neurons. Circled regions in C and F highlight     transform and (K) average phase locked spike histogram across CA1
+the same regions in the two models. (G) Propagation of TVB node          vertices and corresponding spiking subpopulations
+activity (x2 − x1 ) as a time series across 16,636 vertices. (H) Time-
+
+spread to neighboring mesh nodes. At the microscale level,               NEST subpopulations. The resulting average phase-lock
+the NEST-based SNN showed corresponding burst-like syn-                  histograms (Fig. 3K) show that NEST spikes are concen-
+chronized activity (Fig. 3I-K), with spiking events propagat-            trated around the phases with higher spike-generation prob-
+ing across the hippocampal structure (Fig. 3D-F). To further             ability, confirming tight phase synchronization between the
+validate cross-scale coherence, we focused on a single CA1               two models. Finally, we replicated empirical patterns by
+vertex to illustrate seizure dynamics at both the macro- and             comparing the simulated macroscale time series (analogous
+microscale levels (Fig. 3H, I). To quantify synchronization              to local field potentials) with sorted neuronal spike trains
+between simulations, we computed phase-locked spike his-                 recorded from microelectrodes during seizures, as reported
+tograms. The phase of the TVB signals (x2 - x1 ) for each                in previous studies (Truccolo et al., 2014) (Fig. 3I).
+CA1 node was extracted using the Hilbert transform (Fig.                    To give an estimate of the required computational
+3J) and compared with spike counts from the corresponding                resources, 2000 ms were simulated in 20 minutes and
+
+
+
+13
+Journal of Computational Neuroscience
+
+                                                                                                                      Acknowledgements Data were provided [in part] by the Human
+44 seconds on a desktop computer equipped with an                                                                     Connectome Project, WU-Minn Consortium (Principal Investigators:
+Intel®Core™i9-13900K CPU (13th Gen, 16 cores / 32                                                                     David Van Essen and Kamil Ugurbil; 1U54MH091657) funded by
+threads) with 62 GB of RAM. The simulations were exe-                                                                 the 16 NIH Institutes and Centers that support the NIH Blueprint for
+cuted within a Debian-based environment running under the                                                             Neuroscience Research; and by the McDonnell Center for Systems
+                                                                                                                      Neuroscience at Washington University." This work received
+Windows Subsystem for Linux (WSL) on a Windows11 host                                                                 funding from the University of Modena and Reggio Emilia, PRJ-
+operating system, using python 3.10.13 with MPI support                                                               0408-FAR2024-UNIMORE-EPICURE (CUP E93C24002030005)
+via the mpi4py package version 4.1.0, a custom NEST pack-                                                             and FAR-DIP-2024-GANDOLFI (E93C24000500005) to DG; the
+age derived from version 3.8.0-post0.dev0 built through                                                               Italian National Recovery and Resilience Plan (NRRP), M4C2,
+                                                                                                                      funded by the European Union – NextGenerationEU (Project
+CMake and TVB library version 2.3. To achieve synchro-                                                                IR0000011, CUP B51E22000150006, “EBRAINS-Italy” to JM and
+nization between the two simulators, the TVB waited an                                                                SS; Project PE0000006, “MNESYS” CUP:D33C22001340002 - to
+average time of 8.51± 10.24 ms for the NEST process to                                                                JM, the Ministry of University and Research, PRIN 2022ZY5RXB
+compute the simulation step.                                                                                          CUP E53D2301172 to JM; Regione Emilia Romagna “Progetti di
+                                                                                                                      formazione per la ricerca - Territorio: transizione tecnologica, culturale,
+                                                                                                                      economica e sociale verso la sostenibilità – 39◦ Ciclo RIF. PA 2023-
+Discussion and conclusions The proposed framework                                                                     19066/RER– Codice CUP: E83C23000510002. European Union’s
+marks a significant advance in the integration of microscop-                                                          Horizon Europe Programme under the Specific Grant Agreement No.
+ically detailed spiking networks with whole-brain models,                                                             101147319 (EBRAINS 2.0 Project) to VJ.
+enabling the investigation of cross-scale dynamic interac-
+                                                                                                                      Author Contributions L.T, performed the research; P.T., L.T., H.W., D.G.
+tions in human brain simulations. The conversion from sei-                                                            analyzed data, L.K., L.T. designed and implemented the co-simulation
+zure-like activity in the spatial epileptor model to spiking                                                          framework; L.T. , S.M.G.S perfomed CA1 simulations, J.M., V.J funded
+activity in the SNN effectively reproduced experimental                                                               the research; H.W., D.G., J.M., P.T. coordinated the research; L.T. and
+pattern observed during human focal seizures, particularly                                                            D.G wrote the original draft. All authors reviewed the manuscript."
+those characterized by SWE complexes. This is largely due
+                                                                                                                      Funding Open access funding provided by Università degli Studi di
+to the coupled subsystems of the Epileptor model, which                                                               Modena e Reggio Emilia within the CRUI-CARE Agreement.
+separately represents rapid discharges and SWE dynamics,
+allowing for a more biologically grounded input to the spik-                                                          Data Availability All codes developed to generate results and figures
+ing network. This co-simulation framework thus provides                                                               shown in the present manuscript will be made available upon request
+                                                                                                                      to the corresponding authors at the following link (​h​t​t​p​​s​:​/​​/​g​i​t​​h​u​​b​.​c​​o​m​/​
+a powerful tool which allows for deeper insights regarding                                                            N​​e​u​r​​o​L​o​​r​e​n​​z​o​/​​C​o​s​i​​m​_​​C​A​1​​_​N​E​S​​T​_​T​​V​B​_​​d​o​w​n​s​c​a​l​e​d)
+seizure dynamics across spatial and temporal scales. Future
+developments will target full-scale integration: expand-                                                              Declarations
+ing the TVB model to cover the entire brain surface and
+scaling the NEST model to include the entire CA1 region                                                               Competing interests The authors declare no competing interests.
+with approximately 40 billion synapses. Additionally, after
+a proper validation of the transfer function, bidirectional                                                           Open Access This article is licensed under a Creative Commons
+interaction will be enabled, allowing the spiking network to                                                          Attribution 4.0 International License, which permits use, sharing,
+                                                                                                                      adaptation, distribution and reproduction in any medium or format,
+influence whole-brain dynamics. This will allow the study                                                             as long as you give appropriate credit to the original author(s) and the
+of how specific neuronal and synaptic parameters contrib-                                                             source, provide a link to the Creative Commons licence, and indicate
+ute to the initiation, propagation, and termination of sei-                                                           if changes were made. The images or other third party material in this
+zures. Finally, future work will include a detailed analysis                                                          article are included in the article’s Creative Commons licence, unless
+                                                                                                                      indicated otherwise in a credit line to the material. If material is not
+of meso- and macro-scale emergent dynamics across dif-                                                                included in the article’s Creative Commons licence and your intended
+ferent frequency bands, as well as the long-range effects of                                                          use is not permitted by statutory regulation or exceeds the permitted
+local activity, further advancing our understanding of epi-                                                           use, you will need to obtain permission directly from the copyright
+lepsy and brain network behavior. On a larger scale, it can                                                           holder. To view a copy of this licence, visit ​h​t​t​p​​:​/​/​​c​r​e​a​​t​i​​v​e​c​​o​m​m​o​​n​s​.​​o​
+                                                                                                                      r​g​​/​l​i​c​e​n​s​e​s​/​b​y​/​4​.​0​/.
+be envisaged the building of digital twin based on personal
+data and modified at the microcircuit level to explore path-
+ological conditions and test personalized pharmacological
+                                                                                                                      References
+strategies (see Supplementary materials). This approach
+has the potential to help us understand the mechanisms at                                                             Gandolfi, D., Mapelli, J., Solinas, S. M. G., et al. (2023). Full-scale
+the microscale level and ultimately contribute to the devel-                                                              scaffold model of the human hippocampus ca1 area. Nature Com-
+opment of personalized medicine.                                                                                          putational Science, 3(3), 264–276. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​3​8​​/​s​4​​3​5​8​
+                                                                                                                          8​-​0​2​3​-​0​0​4​1​7​-​2
+                                                                                                                      Wang, H. E., Triebkorn, P., Breyton, M., Dollomaja, B., Lemarechal,
+Supplementary Information The online version contains supplementary                                                       J. D., Petkoski, S., Sorrentino, P., Depannemaecker, D., Hash-
+material available at ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​7​​/​s​1​​0​8​2​7​-​0​2​6​-​0​0​9​2​5​-​w.       emi, M., & Jirsa, V. K. (2024). Virtual brain twins: from basic
+
+
+
+                                                                                                                                                                                                             13
+                                                                                                                                                                                      Journal of Computational Neuroscience
+
+     neuroscience to clinical use. National Science Review, 11(5), 079.​                                                    Glasser, M. F., Sotiropoulos, S. N., Wilson, J. A., et al. (2013). The
+     h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​9​3​​/​n​s​​r​/​n​w​a​e​0​7​9                                                minimal preprocessing pipelines for the human connectome proj-
+Kusch, L., Diaz-Pier, S., Klijn, W., Sontheimer, K., Bernard, C., Mor-                                                            ect. NeuroImage, 80, 105–124. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​6​​/​j​.​​n​e​u​​r​o​i​​m​
+     rison, A., & Jirsa, V. (2024). Multiscale co-simulation design pat-                                                          a​g​e​​.​2​​0​1​3​.​0​4​.​1​2​7
+     tern for neuroscience applications. Frontiers in Neuroinformatics,                                                     Wang, H. E., Scholly, J., Triebkorn, P., Sip, V., Medina Villalon, S.,
+     18, 1156683. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​3​​3​8​9​​/​f​n​​i​n​f​.​2​0​2​4​.​1​1​5​6​6​8​3                    Woodman, M. M., Le Troter, A., Guye, M., Bartolomei, F., &
+Hater, T., Courson, J., Lu, H., Diaz-Pier, S., & Manos, T. (2025).                                                                Jirsa, V. (2021). Vep atlas: An anatomic and functional human
+     Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with                                                                  brain atlas dedicated to epilepsy patients. Journal of Neurosci-
+     a Case Study on Neural-Level Seizure Generation and Whole-                                                                   ence Methods, 348, 108983. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​6​​/​j​.​​j​n​e​​u​m​e​​t​h​.​
+     Brain Propagation. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​4​​8​5​5​​0​/​a​​r​X​i​v​.​2​5​0​5​.​1​6​8​6​1                2​​0​2​​0​.​1​0​8​9​8​3
+Bragin, V., Dura-Bernal, S., Chen, J., Pai, R. K., Perdikis, D., Meier,                                                     Triebkorn, P., Wang, H.E., Woodman, M., Guye, M., Bartolomei, F., &
+     J. M., Domide, L., Schirner, M., & Ritter, P. (2024). Interfacing                                                            Jirsa, V. (2025). Delay-constrained re-entry governs large-scale
+     biophysical circuits with whole-brain networks using the vir-                                                                brain seizures and other network pathologies. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​4​​
+     tual brain and netpyne. Journal of Computational Neuroscience,                                                               8​5​5​​0​/​a​​r​X​i​v​.​2​5​0​8​.​0​4​8​2​4
+     52(Suppl 1), 3–166. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​7​​/​s​1​​0​8​2​7​-​0​2​4​-​0​0​8​7​1​-​5       Proix, T., Jirsa, V. K., Bartolomei, F., Guye, M., & Truccolo, W.
+Gewaltig, M.-O., & Diesmann, M. (2007). Nest (neural simulation tool).                                                            (2018). Predicting the spatiotemporal diversity of seizure propa-
+     Scholarpedia, 2(4), 1430. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​4​​2​4​9​​/​s​c​​h​o​l​a​r​p​e​d​i​a​.​1​4​3​0         gation and termination in human focal epilepsy. Nature Commu-
+Graber, S., Mitchell, J., Kurth, A.C., Terhorst, D., Skaar, J.-E.W.,                                                              nications, 9, 1088. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​3​8​​/​s​4​​1​4​6​7​-​0​1​8​-​0​2​9​7​3​-​y
+     Schöfmann, C.M., Kunkel, S., Trensch, G., Haug, N., Mallett, D.,                                                       Jirsa, V. K., Stacey, W. C., Quilichini, P. P., Ivanov, A. I., & Bernard, C.
+     Andriyovich, P.Y., Otazu Porter, X., Lee, A.Y., & Plesser, H.E.                                                              (2014). On the nature of seizure dynamics. Brain, 137(8), 2210–
+     (n.d.) NEST 3.8. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​5​​2​8​1​​/​z​e​​n​o​d​o​.​1​2​6​2​4​7​8​4                      2230. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​9​3​​/​b​r​​a​i​n​/​a​w​u​1​3​3
+Sanz-Leon, P., Knock, S. A., Spiegler, A., & Jirsa, V. K. (2015). Math-                                                     DeKraker, J., Haast, R. A. M., Yousif, M. D., Karat, B., Lau, J. C.,
+     ematical framework for large-scale brain network modeling in the                                                             Köhler, S., & Khan, A. R. (2022). Automated hippocampal
+     virtual brain. NeuroImage, 111, 385–430. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​6​​                              unfolding for morphometry and subfield segmentation with hip-
+     /​j​.​​n​e​u​​r​o​i​​m​a​g​e​​.​2​​0​1​5​.​0​1​.​0​0​2                                                                       punfold. ELife, 11, 77945. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​7​​5​5​4​​/​e​L​​i​f​e​.​7​7​9​4​5
+Gandolfi, D., Mapelli, J., Solinas, S., De Schepper, R., Geminiani, A.,                                                     DeKraker, J., Palomero-Gallagher, N., Kedo, O., et al. (2023). Evalu-
+     Casellato, C., D’Angelo, E., & Migliore, M. (2022). A realistic                                                              ation of surface-based hippocampal registration using ground-
+     morpho-anatomical connection strategy for modelling full-scale                                                               truth subfield definitions. ELife, 12, 88404. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​7​​5​
+     point-neuron microcircuits. Scientific Reports, 12(1), 13864. ​h​t​t​p​​                                                     5​4​​/​e​L​​i​f​e​.​8​8​4​0​4
+     s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​3​8​​/​s​4​​1​5​9​8​-​0​2​2​-​1​8​0​2​4​-​y                                     Kurtzer, G. M., Sochat, V., & Bauer, M. W. (2017). Singularity: Sci-
+Hill, S., & Tononi, G. (2005). Modeling sleep and wakefulness in                                                                  entific containers for mobility of compute. PLOS ONE, 12(5),
+     the thalamocortical system. Journal of Neurophysiology, 93(3),                                                               0177459. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​3​7​1​​/​j​o​​u​r​n​a​l​.​p​o​n​e​.​0​1​7​7​4​5​9
+     1671–1698. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​1​5​2​​/​j​n​​.​0​0​9​1​5​.​2​0​0​4                          Truccolo, W., Ahmed, O. J., Harrison, M. T., Eskandar, E. N., Cos-
+Tsodyks, M., & Markram, H. (1997). The neural code between neo-                                                                   grove, G. R., Madsen, J. R., Blum, A. S., Potter, N. S., Hoch-
+     cortical pyramidal neurons depends on neurotransmitter release                                                               berg, L. R., & Cash, S. S. (2014). Neuronal ensemble synchrony
+     probability. Proceedings of the National Academy of Sciences,                                                                during human focal seizures. Journal of Neuroscience, 34(30),
+     94(2), 719–723. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​7​3​​/​p​n​​a​s​.​9​4​.​2​.​7​1​9                           9927–9944. ​h​t​t​p​s​:​​​/​​/​d​o​​i​.​o​​r​​g​​/​​1​0​​.​1​5​​​2​3​/​​J​N​E​​U​R​O​​​S​C​I​​.​4​​​5​6​​7​-​1​3​.​2​0​1​4
+Van Essen, D. C., Smith, S. M., Barch, D. M., Behrens, T. E. J.,
+     Yacoub, E., & Ugurbil, K. (2013). The wu-minn human connec-                                                            Publisher's Note Springer Nature remains neutral with regard to juris-
+     tome project: An overview. NeuroImage, 80, 62–79. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​                                      dictional claims in published maps and institutional affiliations.
+     r​g​/​​1​0​.​1​​0​1​6​​/​j​.​​n​e​u​​r​o​i​​m​a​g​e​​.​2​​0​1​3​.​0​5​.​0​4​1
+
+
+
+
+13
+

@@ -2,6 +2,11 @@
 created: 2024-01-15
 sources:
 - raw/papers/van-essen-2012.md
+- raw/papers/semanticscholar-bb75bdb90ada.md
+- raw/papers/semanticscholar-31012b56630b.md
+- raw/papers/semanticscholar-7fca07d7db38.md
+- raw/papers/arxiv-2601.17073.md
+- raw/papers/van-essen-2013.md
 tags:
 - brain-parcellations
 - neuroimaging-fmri
@@ -13,7 +18,7 @@ tags:
 - neuroimaging-dti
 title: Glasser Atlas
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-11'
 ---
 
 The Glasser Atlas, formally designated HCP_MMP1.0 (Human Connectome Project Multi-Modal Parcellation, version 1.0), is a high-resolution parcellation of the human cerebral cortex into 180 distinct cortical areas per hemisphere. Published in 2016 by Matthew Glasser, David Van Essen, and colleagues, it represents one of the most detailed and anatomically refined cortical parcellations currently available, derived from a systematic combination of multiple neuroimaging modalities collected as part of the [[human-connectome-project]]. The atlas has become a foundational reference in [[connectome]]-based research, particularly in [[whole-brain modeling]] and [[functional-connectivity]] studies, because its parcels correspond to functionally coherent regions with distinct [[structural-connectivity]] profiles.

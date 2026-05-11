@@ -2,6 +2,11 @@
 created: 2024-01-15
 sources:
 - raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-21fa7aef6f98.md
+- raw/papers/arxiv-2504.07835.md
+- raw/papers/arxiv-2508.18891.md
+- raw/papers/arxiv-2507.21684.md
+- raw/papers/arxiv-2604.19334.md
 tags:
 - software-neural-computation
 - computational-neuroscience
@@ -10,7 +15,7 @@ tags:
 - machine-learning
 title: Theano
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 Theano is a Python library for symbolic mathematical computation that was developed at the Montreal Institute for Learning Algorithms (MILA) at Université de Montréal. Originally released in 2007, Theano enabled researchers to define, optimize, and evaluate mathematical expressions involving multi-dimensional arrays efficiently. It was among the first widely adopted frameworks for deep learning research and played a crucial role in advancing the field during the early to mid-2010s before being largely superseded by TensorFlow and PyTorch. Theano's core innovation lay in its ability to perform symbolic differentiation, compile computations into efficient machine code, and leverage Graphics Processing Units (GPUs) for accelerated computation—capabilities that were novel and transformative at the time of its development.

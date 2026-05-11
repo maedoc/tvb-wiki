@@ -13,7 +13,7 @@ tags:
 - rich-club
 title: Structural Core
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 The structural core is a set of highly interconnected hub regions that form a central backbone for brain communication. Located predominantly in the posterior medial and parietal cortex, these regions exhibit the highest degree of anatomical [[connectivity]] in the brain and serve as major conduit points for information flow between disparate brain regions. The concept emerged from early [[connectomics]] work applying graph theoretical analysis to diffusion MRI data, revealing that [[brain-network]] organization is not homogeneous but contains a densely interconnected core of regions that anchor global communication.
@@ -42,7 +42,7 @@ The structural core is closely related to several other concepts in brain networ
 
 ## Clinical and Functional Significance
 
-The structural core has become a focus of clinical research due to its involvement in several neurological and psychiatric conditions. In Alzheimer's disease, core regions including the precuneus and posterior cingulate show early amyloid deposition, likely reflecting their high metabolic activity and synaptic density. Studies of disorders of consciousness have revealed that damage to core pathways correlates with impaired awareness and reduced integration of information across brain regions. Altered core connectivity has also been reported in schizophrenia, depression, and autism, suggesting that rich-club disruption may be a common pathway for diverse brain disorders.
+The structural core has become a focus of clinical research due to its involvement in several neurological and psychiatric conditions. In [[alzheimers-disease|Alzheimer's disease]], core regions including the precuneus and posterior cingulate show early amyloid deposition, likely reflecting their high metabolic activity and synaptic density. Studies of disorders of consciousness have revealed that damage to core pathways correlates with impaired awareness and reduced integration of information across brain regions. Altered core connectivity has also been reported in schizophrenia, depression, and autism, suggesting that rich-club disruption may be a common pathway for diverse brain disorders.
 
 From a [[brain-maintenance]] perspective, the structural core may be particularly vulnerable to age-related changes due to its high metabolic demands and central position in the network—the "hub" vulnerability hypothesis suggests that highly connected nodes are disproportionately affected by pathology due to their integrative role.
 

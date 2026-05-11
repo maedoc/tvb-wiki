@@ -16,7 +16,7 @@ tags:
 - graph-theory
 title: Connectomics
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-07'
 ---
 
 # Connectomics
@@ -64,7 +64,7 @@ The **[[brain-connectivity-toolbox]]** (BCT), developed by Rubinov and Sporns (2
 
 Connectomics has transformed both basic and clinical neuroscience. At the basic level, network analysis reveals principles of brain organization—what makes the brain different from [[random-networks]], how structure constrains function, and how networks develop across the lifespan. The discovery of a **[[structural-core]]**—a central backbone of highly connected regions shared across individuals—established that brain architecture is both highly individualized and constrained by conserved principles.
 
-Clinically, alterations in network organization serve as biomarkers for neurological and psychiatric conditions. Schizophrenia, Alzheimer's disease, and epilepsy each show characteristic signatures: disrupted modular organization, altered rich-club topology, or shifted hub configuration. These network-level markers complement traditional diagnostic approaches and offer potential for personalized medicine.
+Clinically, alterations in network organization serve as biomarkers for neurological and psychiatric conditions. Schizophrenia, [[alzheimers-disease|Alzheimer's disease]], and epilepsy each show characteristic signatures: disrupted modular organization, altered rich-club topology, or shifted hub configuration. These network-level markers complement traditional diagnostic approaches and offer potential for personalized medicine.
 
 ## Open Questions and Future Directions
 

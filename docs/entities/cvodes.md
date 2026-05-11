@@ -14,7 +14,7 @@ tags:
 - numerical-methods
 title: CVODES
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-10'
 ---
 
 # CVODES
@@ -41,7 +41,7 @@ CVODES extends its predecessor CVODE by adding the capability to compute sensiti
 
 ## Relationship to TVB
 
-CVODES plays a critical role in [The Virtual Brain](](the-virtual-brain.md)) (TVB) ecosystem as the underlying numerical engine for simulating large-scale whole-brain network models. The TVB framework uses CVODES to integrate systems of neural mass equations—such as the [[jansen-rit]] model](](jansen-rit-model.md)) and its variants—across brain regions connected through empirical [[structural-connectivity]] matrices derived from diffusion tensor imaging.
+CVODES plays a critical role in [The Virtual Brain](](the-virtual-brain.md)) (TVB) ecosystem as the underlying numerical engine for simulating large-scale whole-brain network models. The TVB framework uses CVODES to integrate systems of neural mass equations—such as the [[jansen-rit]] model](]([[jansen-rit-model]].md)) and its variants—across brain regions connected through empirical [[structural-connectivity]] matrices derived from diffusion tensor imaging.
 
 The integration of CVODES into TVB addresses several computational challenges specific to whole-brain modeling. First, the brain network model comprises dozens to hundreds of coupled neural mass oscillators, creating a stiff system where fast excitatory synaptic currents couple to slower inhibitory dynamics and membrane potential integration. Second, parameter estimation in TVB requires computing derivatives of observable outputs (simulated [[fmri]] signals, EEG power spectra) with respect to model parameters—capabilities provided by CVODES through its sensitivity analysis modules. Third, TVB's stochastic simulations, which incorporate noise to model spontaneous brain activity, require solvers that can handle both deterministic dynamics and [[stochastic-differential-equations]] efficiently.
 
@@ -84,7 +84,7 @@ The primary developers of CVODES include Alan Hindmarsh, Peter Brown, and Radu S
 
 - [The Virtual Brain](](the-virtual-brain.md)) — Whole-brain simulator that uses CVODES for neural mass model integration
 - [[nest]] — [[spiking-neural-networks|Spiking neural network]] simulator with its own differential equation solvers
-- [Brian](](brian.md)) — Python-based neural simulator with flexible equation specification
+- [Brian](]([[brian]].md)) — Python-based neural simulator with flexible equation specification
 - [[neuron]] — Multi-compartment neuron simulator with sophisticated stiff solvers
 - [SUNDIALS](](software-sundials.md)) — Parent suite containing CVODE, KINSOL, and IDA
 - [[dynamical-systems-theory]] — Mathematical framework that CVODES implements numerically

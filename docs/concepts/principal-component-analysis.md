@@ -3,6 +3,10 @@ created: 2026-04-20
 sources:
 - raw/papers/friston-1993.md
 - raw/papers/arxiv-2601.03796.md
+- raw/papers/arxiv-2512.24901.md
+- raw/papers/semanticscholar-8a312473f20f.md
+- raw/papers/arxiv-2601.09525.md
+- raw/papers/ritter-2013.md
 tags:
 - computational-neuroscience
 - whole-brain-modeling
@@ -14,7 +18,7 @@ tags:
 - dimensionality-reduction
 title: Principal Component Analysis
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 Principal Component Analysis (PCA) is a [[linear]] dimensionality reduction technique that transforms high-dimensional data into a set of orthogonal components ordered by the amount of variance they explain. In the context of [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]], PCA serves as a foundational tool for identifying dominant patterns of co-variation in [[neuroimaging]] data, enabling the extraction of spatially distributed networks that reflect underlying neurophysiological processes.

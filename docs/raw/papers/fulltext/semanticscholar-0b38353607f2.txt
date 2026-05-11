@@ -1,0 +1,1026 @@
+        EVALUATION OF INVERSE PROBLEM METHODS (sLORETA, MNE, dSPM
+        AND wMEM) FOR EPILEPTOGENIC ZONE LOCALIZATION IN EEG/MEG:
+                       TOWARDS NEUROENHANCEMENT
+
+                                                                                  Amal Necibi 1
+                                                                                 Abir Hadriche 2
+                                                                                  Nawel Jmail 3
+
+    ABSTRACT
+    Objective: In order to determine the most accurate approach for presurgical planning in
+    pharmacoresistant epilepsy, the goal of this study is to examine the effectiveness of four
+    distributed source localization techniques for identifying the Epileptogenic Zone (EZ) using
+    MEG.
+
+    Theoretical Framework: The inverse problem of source localization in neuroimaging serves as
+    the foundation for the study. MEG-recorded gamma oscillations are used as biomarkers for
+    epileptic activity in the theoretical framework, which is based on the principles of
+    electrophysiology and validated against the clinical gold standard of intracranial EEG (iEEG).
+
+    Method: Four inverse techniques are compared in the methodology: Maximum Entropy on the
+    Mean (MEM), standardized Low-Resolution Brain Electromagnetic Tomography (sLORETA),
+    Dynamic Statistical Parametric Mapping (dSPM), and Minimum Norm Estimation (MNE). Three
+    metrics were used to quantitatively assess localization accuracy: active volume measurements,
+    correlation analysis of source activities, and the Dice Similarity Coefficient (DSC) for spatial
+    overlap with iEEG networks.
+
+    Results and Discussion: All methods localized parts of the seizure onset zone, according to the
+    results. While dSPM offered wide network coverage and wMEM was excellent at detecting deep
+    sources, sLORETA had the most compact active volumes and the highest concordance with iEEG
+    (DSC=0.72). These results are interpreted in the discussion, emphasizing the differences in
+    spatial spread and complementary strengths of each technique.
+
+    Research Implications: Discussions of the research's theoretical and practical ramifications
+    offer insights into how the findings may be used or impact clinical neurology and neurosurgery
+    procedures. These ramifications might include better patient surgical outcomes, improved
+    presurgical planning for epilepsy centers, and an improved computational neuroscience
+    methodological framework.
+
+    Originality/Value: By offering a unique, multi-metric comparative analysis of important inverse
+    techniques that has been directly validated with intracranial EEG, this study adds to the body
+    of literature. sLORETA's recognition as a superior tool for accurate EZ delineation, which can
+    directly influence clinical decision-making and enhance the quality of life for patients with
+    drug-resistant epilepsy, demonstrates the research's relevance and value. This approach
+    directly contributes to the United Nations Sustainable Development Goal (SDG 3) by enhancing
+    diagnostic precision and paving the way for improved treatment options for the millions of
+    people worldwide suffering from pharmacoresistant epilepsy.
+
+    Keywords: epileptogenic zone, magnetoencephalography, source localization, inverse
+    problem, intracranial EEG, presurgical evaluation, Sustainable Development Goals (SDG).
+
+
+
+
+    1
+      MiraclLab, Sfax University, Tunisia. E-mail: amalnecibi@gmail.com
+    2
+     Digital Research Center of Sfax, Regim Lab, ENIS, Sfax University, Tunisia.
+    E-mail: Abir.hadriche.tn@ieee.org
+    3
+     MiraclLab, Regim Lab, ENIS, Sfax University, Tunisia. E-mail: naweljmail@yahoo.fr
+
+
+1
+            SDGsReview | Florida, USA | VOL. 5| e07511 | pag: 01-21| 2025.
+     Necibi, A., Hadriche, A., Jmail, N. (2025). Evaluation of Inverse Problem Methods (sLORETA, MNE,
+     dSPM and wMEM) for Epileptogenic Zone Localization in EEG/MEG: Towards Neuroenhancement
+
+
+
+
+     Received: Jul/25/2025
+     Accepted: Sep/26/2025
+     DOI: https://doi.org/10.47172/2965-730X.SDGsReview.v5.n09.pe07511
+
+
+
+
+    1 INTRODUCTION
+
+
+           Noninvasive neuroimaging methods, such as magnetoencephalography
+    (MEG), have become essential for delineating epileptogenic networks, providing
+    millisecond-level temporal resolution and enhanced spatial precision compared
+    to scalp EEG(Gross et al., 2001). In cases of pharmacoresistant epilepsy,
+    accurately pinpointing epileptogenic zones (EZs)—the cortical areas that trigger
+    seizures(Peled et al., 2001)(Hadriche et al., 2022) is dependent on the
+    examination of pathological biomarkers like interictal spikes and gamma-band
+    oscillations (30–80 Hz). The clinical relevance of these biomarkers is heavily
+    influenced by the effectiveness of inverse problem solutions that reconstruct
+    neural sources from MEG data(Baillet, 2017) .
+           Various distributed inverse techniques, including Minimum Norm
+    Estimation     (MNE)(Hauk,      2004),     standardized      Low-Resolution       Brain
+    Electromagnetic Tomography (sLORETA)(Pascual-Marqui et al., 2002), Maximum
+    Entropy on the Mean (MEM)(Sociotogique, 2004), and Dynamic Statistical
+    Parametric Mapping (dSPM)(McDonald et al., 2009), each operate under
+    different assumptions regarding source distributions. MNE, for instance, tends
+    to favor shallow sources due to its L2-norm constraint (Lin et al., 2006), while
+    MEM utilizes spatial sparsity to effectively address extended epileptiform
+    discharges(Chowdhury et al., 2013). A thorough evaluation of these methods
+    necessitates robust metrics: (1) Dice Similarity Coefficient (DSC)(Zijdenbos et
+    al., 1994) to measure spatial overlap with intracranial EEG (iEEG) references,
+    (2) time-course correlation to evaluate temporal accuracy, and (3) active
+    volume assessments(Eickhoff et al., 2012) to measure spatial spread.
+           Connectivity analysis enhances the identification of EZs by examining
+    network interactions. Phase-based metrics such as Phase Locking Value
+    (PLV)(Lachaux et al., 1999) assess synchronization in gamma oscillations, while
+    Granger Causality (GC)(Bressler & Seth, 2011) determines the directionality of
+
+
+2          SDGsReview | Florida, USA | VOL. 5| e07511 | pag: 01-21| 2025.
+     Necibi, A., Hadriche, A., Jmail, N. (2025). Evaluation of Inverse Problem Methods (sLORETA, MNE,
+     dSPM and wMEM) for Epileptogenic Zone Localization in EEG/MEG: Towards Neuroenhancement
+
+
+
+    spike propagation. It's important to note that the selection of inverse method
+    can significantly alter connectivity estimates(Elbehy et al., 2024); for example,
+    sLORETA’s smoothness constraint can lead to an exaggerated coherence
+    between neighboring areas(Grova et al., 2006), and dSPM is the most effective
+    at identifying connections between brain regions(Nawel et al., 2019).
+           This study aims to fill three important gaps: (1) a systematic comparison
+    of MNE, sLORETA, MEM, and dSPM using DSC, correlation, and active volume
+    metrics; (2) validation against iEEG data in five patients with drug-resistant
+    epilepsy; and (3) the enhancement of connectivity analysis pipelines for clinical
+    application. Our results indicate that MEM outperforms the others in terms of
+    DSC (0.68 ± 0.12) and correlation (r = 0.72), while sLORETA effectively reduces
+    false positives (active volume: 1.2 cm³). These findings contribute to
+    presurgical planning by quantifying the trade-offs between spatial accuracy and
+    network specificity in MEG-based EZ localization.
+
+
+    2 MATERIALS AND METHODS
+
+
+    2.1 MATERIALS
+
+
+           The signal processing and analysis were conducted using MATLAB
+    R2016b (MathWorks Inc.), a computational platform that enables advanced
+    processing     of     neurophysiological       data(Palmini       et    al.,     1995).
+    The Brainstorm toolbox (version 3.4) was employed for source localization and
+    connectivity analysis, leveraging its intuitive graphical interface for MEG/EEG
+    data visualization(M. Darbas, 2022).
+           This study analyzed MEG recordings from five drug-resistant epilepsy
+    patients (3 males, 2 females; age range: 28-45 years) acquired at the Clinical
+    Neurophysiology Department of La Timone Hospital (Marseille, France). All
+    patients exhibited frequent interictal epileptiform discharges (spikes) and
+    gamma oscillations (30-80 Hz), identified as key biomarkers for epileptogenic
+    zone localization(Hadriche et al., 2021). Data were recorded using a 151-
+    channel CTF MEG system (sampling rate: 1,025 Hz; bandwidth: 0.1-330 Hz)
+    during eyes-closed resting state.
+
+
+
+3          SDGsReview | Florida, USA | VOL. 5| e07511 | pag: 01-21| 2025.
+     Necibi, A., Hadriche, A., Jmail, N. (2025). Evaluation of Inverse Problem Methods (sLORETA, MNE,
+     dSPM and wMEM) for Epileptogenic Zone Localization in EEG/MEG: Towards Neuroenhancement
+
+
+
+           Intracranial EEG (iEEG) data were simultaneously acquired via
+    stereotactically implanted depth electrodes (Talairach coordinate system, 512
+    Hz sampling)(Dai et al., 2012). The study protocol was approved by the INSERM
+    Institutional   Review     Board (IRB0000388,       FWA00005831),       with    written
+    informed consent obtained from all participants.
+
+
+    3 METHODS
+
+
+    3.1 SIGNAL PREPROCESSING
+
+
+           The study employed an integrated preprocessing pipeline using
+    Brainstorm (Jmail et al., 2011) , EEGLAB, FieldTrip, and MATLAB (MathWorks,
+    Inc.) toolboxes. Following established protocols (Frikha et al., 2016), we
+    implemented a dual-stage event selection process where an experienced
+    neurophysiologist first visually identified epileptiform events (both spikes and
+    oscillatory bursts) in the raw recordings. These events were then subjected to
+    specialized filtering procedures to minimize artifacts and prevent spectral
+    overlap between different activity types. For spike analysis, we applied a 10-
+    45 Hz band-pass FIR filter to emphasize high-frequency components while
+    attenuating slow-wave interference. Oscillatory events were processed using a
+    narrowband 29 Hz filter to isolate specific rhythmic activity. Both filters were
+    designed with identical performance specifications: 3% maximum passband
+    ripple (Rp) and 30 dB stopband attenuation (Rs) to ensure consistent signal
+    quality across all analyzed events. This filtering strategy allowed for
+    independent examination of sustained oscillations within their characteristic
+    frequency ranges.
+
+
+    3.1.1 Source localization of MEG signal
+
+
+           Forward Problem Solution :The forward modeling approach combined
+    multiple computational techniques to create accurate head models for each
+    participant. We implemented three principal numerical methods - Boundary
+    Element Method (BEM), Finite Element Method (FEM), and Finite Difference
+
+
+
+4          SDGsReview | Florida, USA | VOL. 5| e07511 | pag: 01-21| 2025.
+     Necibi, A., Hadriche, A., Jmail, N. (2025). Evaluation of Inverse Problem Methods (sLORETA, MNE,
+     dSPM and wMEM) for Epileptogenic Zone Localization in EEG/MEG: Towards Neuroenhancement
+
+
+
+    Method (FDM) - to solve the electromagnetic forward problem. Recognizing that
+    skull conductivity varies anatomically, we incorporated patient-specific MRI
+    data to precisely model local tissue properties. The modeling process began
+    with cortical surface reconstruction and mesh generation using BrainVisa
+    software, followed by the creation of individualized multi-sphere head models
+    as described in(M. Darbas, 2022) . Final integration of MRI-derived anatomical
+    data with MEG sensor geometry was achieved through Brainstorm's co-
+    registration algorithms(Hadriche & Jmail, 2021)(Jmail et al., 2016)(Necibi et
+    al., 2023), ensuring optimal alignment for subsequent source reconstruction.
+           Inverse Problem Approaches: To address the inherently ill-posed nature
+    of MEG source localization, we evaluated four complementary distributed
+    source imaging techniques. The inverse problem presents fundamental
+    challenges because infinite source configurations can produce identical scalp
+    potential distributions. Our solution strategy incorporated neurophysiological
+    constraints and regularization methods to identify biologically plausible source
+    distributions(Geweke, 2014)(Hadriche et al., 2021)(M. Darbas, 2022). Unlike
+    traditional dipole fitting approaches that require a priori specification of source
+    count, all implemented methods utilized fixed-position 3D source grids with
+    regularization    parameters     to   stabilize   solutions    and    mitigate    noise
+    effects(Bressler & Seth, 2011). This distributed source framework provided
+    several advantages for epilepsy research, including simultaneous analysis
+    oscillatory events, which represent distinct but complementary biomarkers of
+    epileptic activity.
+           The implemented inverse problem solutions all utilize a standardized 3D
+    source space with predetermined dipole locations, requiring only appropriate
+    regularization to mitigate noise interference and produce physiologically stable
+    reconstructions. Unlike traditional dipole fitting approaches that mandate
+    specifying source quantities a priori, these distributed techniques overcome
+    this limitation through their fundamental mathematical formulations. Each
+    method brings unique value to source imaging: MNE excels in computational
+    simplicity and processing speed, dSPM provides enhanced statistical reliability
+    through its normalization approach, sLORETA achieves superior spatial precision
+    via its smoothness constraints, while MEM incorporates valuable anatomical
+
+
+
+5          SDGsReview | Florida, USA | VOL. 5| e07511 | pag: 01-21| 2025.
+     Necibi, A., Hadriche, A., Jmail, N. (2025). Evaluation of Inverse Problem Methods (sLORETA, MNE,
+     dSPM and wMEM) for Epileptogenic Zone Localization in EEG/MEG: Towards Neuroenhancement
+
+
+
+    priors within its Bayesian framework. Critically, all four techniques
+    demonstrate robust performance when analyzing both transient epileptic spikes
+    and sustained oscillatory patterns - two fundamental biomarkers for
+    characterizing seizure dynamics(Bressler & Seth, 2011). The following
+    subsections provide detailed technical specifications for each inverse solution
+    methodology.
+
+
+    3.1.2 Minimum Norm Estimation (MNE)
+
+
+             Solved the inverse problem by identifying the current distribution with
+    minimal overall intensity that could explain the observed MEG signals. While
+    this approach avoided assumptions about source number, it required careful
+    regularization to manage cross-talk between chronologically adjacent sources.
+    The MNE solution, as formulated by(Neuromagnetism, 1994), computed:
+
+
+    𝑆𝑆𝑀𝑁𝐸 = 𝐺 𝑇 (𝐺𝐺 𝑇 + λC)−1 𝐺                           (1)
+
+
+    Where:
+
+
+             λ controlled regularization strength
+             and C represented the noise covariance matrix.
+
+
+
+             This formulation naturally favored superficial cortical sources due to its
+    fundamental        physics     properties,      potentially   underestimating   deeper
+    generators.
+
+
+    3.1.3 Dynamic Statistical Parametric Mapping (dSPM)
+
+
+             Extended MNE through noise-aware normalization, creating statistical
+    parametric maps of source activity. The transformation:
+
+
+    𝑆𝑑𝑆𝑃𝑀 = 𝑊𝑑𝑆𝑃𝑀 𝑆𝑀𝑁𝐸                              (2)
+
+
+     2
+    𝑊𝑑𝑆𝑃𝑀               𝑇
+          = 𝑑𝑖𝑎𝑔(𝑆𝑀𝑁𝐸 𝐶𝑆𝑀𝑁𝐸                         (3)
+
+
+6            SDGsReview | Florida, USA | VOL. 5| e07511 | pag: 01-21| 2025.
+     Necibi, A., Hadriche, A., Jmail, N. (2025). Evaluation of Inverse Problem Methods (sLORETA, MNE,
+     dSPM and wMEM) for Epileptogenic Zone Localization in EEG/MEG: Towards Neuroenhancement
+
+
+
+             with weights derived from the MNE noise covariance matrix, produced
+    more       robust      activity      estimates      suitable      for     between-subject
+    comparisons(Koessler et al., 2011)(Mosher & Leahy, 1998)(Van ’t Ent et al.,
+    2003).
+
+
+    3.1.4 Standardized Low-Resolution Tomography (sLORETA)
+
+
+             Adopted distinct theoretical foundations by assuming widespread
+    cortical activation patterns. Its inverse operator:
+
+
+    𝐿 = 𝑅/𝐽                        (4)
+
+
+    Where:
+
+
+             R represented the source covariance matrix, replaced traditional noise covariance with
+             data covariance to accommodate uncertain numbers of simultaneously active sources
+             (Delorme & Makeig, 2004).
+
+
+
+    3.1.5 Maximum Entropy on the Mean (MEM)
+
+
+             Implemented a fundamentally different Bayesian approach, modeling
+    cortical activity as discrete parcels with correlated neighboring sources. This
+    method's spatial modeling framework made it particularly sensitive to the
+    geometric extent of cortical activations (Pellegrino et al., 2020), with recent
+    extensions incorporating temporal frequency analysis for improved oscillatory
+    source localization.
+
+
+    3.2 QUANTITATIVE EVALUATION: CONNECTIVITY METRICS
+
+
+             Three complementary metrics were employed to assess source
+    localization accuracy and network characteristics in epileptic activity analysis.
+    First, the Dice Similarity Coefficient (DSC) (Cohen, 1960) quantified spatial
+    overlap between MEG-derived active regions and intracranial EEG (iEEG)
+    findings, measuring concordance through voxel-wise comparisons. Second,
+
+
+
+7            SDGsReview | Florida, USA | VOL. 5| e07511 | pag: 01-21| 2025.
+     Necibi, A., Hadriche, A., Jmail, N. (2025). Evaluation of Inverse Problem Methods (sLORETA, MNE,
+     dSPM and wMEM) for Epileptogenic Zone Localization in EEG/MEG: Towards Neuroenhancement
+
+
+
+    Pearson correlation analysis (Hauk et al., 2022) evaluated linear dependencies
+    between reconstructed source time courses, revealing functional associations
+    across cortical regions. Third, active volume measurements (Bailey et al., 2013)
+    characterized the spatial extent of epileptiform discharges by calculating the
+    number of contiguous supra-threshold voxels, providing insights into discharge
+    propagation. These metrics were systematically applied to compare four
+    inverse methods (MNE, dSPM, sLORETA, MEM), with results visualized as node-
+    edge graphs where DSC values weighted node similarity, correlation
+    coefficients defined edge strengths, and active volumes determined node sizes.
+    This tri-metric approach enabled comprehensive evaluation of both localization
+    precision (DSC), functional relationships (correlation), and spatial dynamics
+    (active volume) in epileptic networks.
+
+
+    Table 1
+    Functional connectivity metrics
+                                                                     Static  (S)   /
+             Metrics                       Domain   Directionality
+                                                                     Dynamic (D)
+             Dice            Similarity
+                                        Spatial     Non-directed     S
+             Coefficient (DSC)
+             Pearson Correlation        Time        Non-directed     S
+             Active Volume              Spatial     Non-directed     S
+
+
+    3.2.1 Spatial concordance: Dice Similarity Coefficient (DSC)
+
+
+             The Dice Similarity Coefficient (DSC) measures spatial agreement
+    between binary activation maps derived from different source reconstruction
+    methods(Lachaux et al., 1999). Computed as:
+
+
+             2|𝐴∩𝐵|
+    𝐷𝑆𝐶 = |𝐴|+|𝐵|                    (5)
+
+
+    where:
+
+
+             A = Voxels identified by MEG source localization
+             B = Voxels marked by iEEG as EZ
+             ∩ = Intersection of active voxels
+
+
+
+
+8            SDGsReview | Florida, USA | VOL. 5| e07511 | pag: 01-21| 2025.
+     Necibi, A., Hadriche, A., Jmail, N. (2025). Evaluation of Inverse Problem Methods (sLORETA, MNE,
+     dSPM and wMEM) for Epileptogenic Zone Localization in EEG/MEG: Towards Neuroenhancement
+
+
+
+             This metric ranges from 0 to 1. A DSC of 0 indicates no spatial overlap,
+    while 1 represents perfect overlap (rarely achieved). The DSC serves as a
+    crucial validation tool in neuroimaging studies(Boutelier et al., 2012), enabling
+    quantitative comparison of method-dependent activation patterns while being
+    particularly sensitive to threshold selection. Its primary utility lies in evaluating
+    the reproducibility of spatial results across different inverse solutions, with
+    clinical applications extending to surgical planning and biomarker development
+    where localization consistency is paramount.
+
+
+    3.2.2 Temporal correlation: Pearson’s r
+
+
+             Pearson correlation (r) assesses linear amplitude relationships between
+    continuous source reconstruction outputs(Egghe & Leydesdorff, 2009). It
+    measures the linear relationship between MEG-derived source time series (Xᵢ)
+    and iEEG time series (Yᵢ) from electrodes spatially concordant with MEG
+    sources. The formula is:
+
+
+             ∑𝑇
+              𝑡=1(𝑥𝑡 −𝑥̅ )(𝑦𝑡 −𝑦
+                               ̅)
+    𝑟=                                                       (6)
+         √∑𝑇              𝑇
+           𝑡=1(𝑥𝑡 −𝑥̅ )² ∑𝑡=1(𝑦𝑡 −𝑦
+                                  ̅)²
+
+
+
+
+    where:
+
+
+             r = 1: Perfect linear correlation (e.g., sLORETA/dSPM in epileptic spike analysis).
+             r ≤ 0: No/anti-correlation (e.g., wMEM’s r ≈ −0.01 suggests algorithmic divergence).
+             Threshold for strong agreement: r > 0.7.
+
+
+
+             This metric, ranging from -1 (perfect anticorrelation) to +1 (perfect
+    correlation), complements spatial overlap measures (Yarkoni et al., 2011) by
+    characterizing        whether       different     methods      produce    similar    amplitude
+    distributions regardless of precise spatial alignment. Its primary utility emerges
+    in   validating       the       robustness   of   activation    strength     patterns     across
+    methodologies, though interpretation requires caution as it remains vulnerable
+    to outlier influences and nonlinear relationships that may exist in source space
+    data.
+
+
+
+9            SDGsReview | Florida, USA | VOL. 5| e07511 | pag: 01-21| 2025.
+      Necibi, A., Hadriche, A., Jmail, N. (2025). Evaluation of Inverse Problem Methods (sLORETA, MNE,
+      dSPM and wMEM) for Epileptogenic Zone Localization in EEG/MEG: Towards Neuroenhancement
+
+
+
+     3.2.3 Volume analysis: active voxel count
+
+
+              Activated volume quantifies the spatial extent of suprathreshold brain
+     activity(Fan et al., 2016) using the calculation
+
+
+     𝑉(𝑐𝑚3 ) = 𝑁𝑣𝑜𝑥𝑒𝑙𝑠 × (∏3𝑘=1 𝑣𝑜𝑥𝑒𝑙_𝑠𝑖𝑧𝑒𝑘 )) × 10−3                          (7)
+
+
+     Where:
+
+
+              𝑁𝑣𝑜𝑥𝑒𝑙𝑠 = count of significant voxels
+              𝑣𝑜𝑥𝑒𝑙_𝑠𝑖𝑧𝑒𝑘 = voxel dimensions (mm).
+
+
+
+              Expressed in cm³, this metric provides critical information about the
+     sensitivity-specificity tradeoffs of different reconstruction methods(Friston,
+     1994), where larger volumes may indicate either greater true positive detection
+     or increased false positives depending on methodological characteristics. The
+     utility of activated volume comparisons lies in benchmarking method
+     performance, optimizing analysis pipelines, and establishing standardized
+     reporting metrics for clinical applications, though meaningful interpretation
+     requires explicit documentation of statistical thresholds and spatial smoothing
+     parameters.
+
+
+     4 RESULTS
+
+
+              Figure 1 illustrates the activated brain regions detected from epileptic
+     spike MEG data using four source localization methods: MNE, dSPM, sLORETA,
+     and MEM. The analysis reveals that MNE, dSPM, and sLORETA identified multiple
+     active regions of interest (ROIs), whereas MEM showed significantly fewer
+     activated areas. This study examines four distributed inverse solution
+     approaches to assess functional connectivity between active brain regions,
+     utilizing 10 predefined cortical areas (scouts) in each hemisphere. For every
+     identified ROI, the researchers reconstructed time courses capturing of gamma-
+     band oscillations.
+
+
+
+
+10            SDGsReview | Florida, USA | VOL. 5| e07511 | pag: 01-21| 2025.
+      Necibi, A., Hadriche, A., Jmail, N. (2025). Evaluation of Inverse Problem Methods (sLORETA, MNE,
+      dSPM and wMEM) for Epileptogenic Zone Localization in EEG/MEG: Towards Neuroenhancement
+
+
+
+     Figure 1
+     Active regions: a (MNE), b (sLORETA ) ,c (dsPM), d (wMEM)
+
+
+
+
+            Figure 2 displays the Dice Similarity Coefficient (DSC) matrix comparing
+     spatial agreement between four source localization methods (MNE, sLORETA,
+     dSPM, wMEM), with values ranging from 0 (no overlap) to 1 (perfect
+     concordance).
+
+
+     Figure 2
+     Dice Similarity Coefficient (DSC) Matrix
+
+
+
+
+11          SDGsReview | Florida, USA | VOL. 5| e07511 | pag: 01-21| 2025.
+      Necibi, A., Hadriche, A., Jmail, N. (2025). Evaluation of Inverse Problem Methods (sLORETA, MNE,
+      dSPM and wMEM) for Epileptogenic Zone Localization in EEG/MEG: Towards Neuroenhancement
+
+
+
+               The DSC matrix highlights critical spatial agreement patterns among the
+     four localization methods, with values ranging from complete discordance (≈0)
+     to moderate concordance (0.55-0.56). The strongest agreement emerges
+     between sLORETA and dSPM (DSC=0.56), attributable to their shared theoretical
+     foundations - while sLORETA imposes spatial smoothness constraints, dSPM
+     builds upon this framework through noise normalization, yielding partially
+     overlapping source estimates. MNE demonstrates intermediate concordance
+     with both methods (DSC=0.45-0.55), consistent with its similar minimum-norm
+     approach but distinct regularization. Strikingly, wMEM shows near-zero overlap
+     with all other techniques (DSC≤0.01), revealing its fundamentally unique spatial
+     profile. This divergence (p<0.05) stems from wMEM's Bayesian framework and
+     anatomical priors that preferentially localize focal, deep sources like
+     hippocampal epileptogenic zones often missed by cortical-weighted methods.
+
+
+     Figure 3
+     histogram of Dice Similarity Coefficient (DSC)
+
+
+                                             Dice
+         0,6
+         0,5
+         0,4
+         0,3
+         0,2
+         0,1
+                                                                                  Dice
+           0
+
+
+
+
+               The DSC patterns suggest a clinically valuable synergy: sLORETA's
+     reliability    for   cortical   localization    (DSC=0.55-0.56     with    MNE/dSPM)
+     complements wMEM's sensitivity to deep mesiotemporal activity, advocating for
+     their combined use in comprehensive presurgical evaluations. This bimodal
+     approach may optimize resection planning by capturing both superficial and
+     deep epileptogenic components.
+
+
+
+12             SDGsReview | Florida, USA | VOL. 5| e07511 | pag: 01-21| 2025.
+      Necibi, A., Hadriche, A., Jmail, N. (2025). Evaluation of Inverse Problem Methods (sLORETA, MNE,
+      dSPM and wMEM) for Epileptogenic Zone Localization in EEG/MEG: Towards Neuroenhancement
+
+
+
+            Figure 4 presents the Pearson correlation matrix of temporal dynamics
+     between reconstructed source time courses across methods, quantifying their
+     consistency in capturing epileptic activity patterns (scale: -1 to +1).
+
+
+     Figure 4
+     Pearson Correlation Matrix
+
+
+
+
+            The temporal correlation analysis reveals distinct methodological
+     profiles in capturing epileptic activity dynamics. MNE, sLORETA, and dSPM
+     demonstrate remarkably consistent temporal patterns (r=0.89-0.97), indicating
+     these methods converge on similar solutions for cortical source dynamics, with
+     dSPM (r=0.97 with sLORETA) effectively enhancing temporal precision rather
+     than identifying fundamentally different activity. In stark contrast, wMEM
+     shows negligible to slightly negative correlations (r=-0.03 to -0.01) with all
+     other methods, suggesting it detects either: (1) high-frequency components like
+     pathological ripples that are attenuated by conventional approaches, or (2)
+     phase-inverted signals from deep sources due to volume conduction effects.
+     This   pronounced     temporal     discordance     implies   that    wMEM     accesses
+     complementary neurophysiological information, particularly valuable for
+     identifying high-frequency oscillations and deep source activity that may be
+     critical for epileptogenic zone localization but are overlooked by traditional
+     minimum-norm methods. Consequently, wMEM data should be analyzed both
+     independently and in conjunction with other methods to provide a more
+
+
+
+13          SDGsReview | Florida, USA | VOL. 5| e07511 | pag: 01-21| 2025.
+      Necibi, A., Hadriche, A., Jmail, N. (2025). Evaluation of Inverse Problem Methods (sLORETA, MNE,
+      dSPM and wMEM) for Epileptogenic Zone Localization in EEG/MEG: Towards Neuroenhancement
+
+
+
+     complete picture of ictal dynamics across different frequency bands and
+     cortical depths.
+            Figure 5 illustrates the comparative activated volumes (cm³) for each
+     method, highlighting differences in spatial extent sensitivity during epileptic
+     spike localization.
+
+
+     Figure 5
+     Activated Volumes Comparison
+
+
+
+
+            The volumetric analysis demonstrates significant method-dependent
+     differences in spatial sensitivity, with dSPM generating the largest activation
+     volumes (632.4 cm³) due to its noise-normalized approach that amplifies both
+     true epileptogenic activity and propagated signals - while this enhances
+     detection of network-level abnormalities, it may compromise surgical
+     specificity by including false positives. Contrary to expectations, wMEM
+     produces intermediate volumes (413.9 cm³) rather than the most focal
+     activations, a finding that reconciles when considering its preferential
+     detection of anatomically constrained deep structures like the amygdala-
+     hippocampal complex that often present as clustered but spatially extended
+     sources. In comparison, MNE and sLORETA show more conservative activation
+     patterns (212.6-251.3 cm³), with sLORETA's spatial smoothing constraints
+     yielding particularly clinically relevant boundaries that balance sensitivity and
+     specificity. The striking threefold volume difference between dSPM and MNE
+     (p<0.001) underscores a critical methodological trade-off: while dSPM's
+
+
+
+14          SDGsReview | Florida, USA | VOL. 5| e07511 | pag: 01-21| 2025.
+      Necibi, A., Hadriche, A., Jmail, N. (2025). Evaluation of Inverse Problem Methods (sLORETA, MNE,
+      dSPM and wMEM) for Epileptogenic Zone Localization in EEG/MEG: Towards Neuroenhancement
+
+
+
+     expansive activations better capture ictal networks, they require careful
+     thresholding in clinical applications, whereas MNE and sLORETA's more
+     constrained volumes may offer greater surgical precision but potentially miss
+     pathological activity at the network periphery. These volumetric differences
+     emphasize the importance of method selection tailored to specific clinical
+     objectives, whether comprehensive network mapping or precise resection
+     planning.
+            Table 2 summarizes the quantitative comparison of source localization
+     methods, reporting pairwise Dice Similarity Coefficients (DSC), Pearson
+     correlations (r), and activated volumes (cm³) for MNE, sLORETA, dSPM, and
+     wMEM.
+
+
+     Table 2
+     Pairwise comparison of source localization metrics across inverse methods
+                   Paire                Dice   Corr    Volume1     Volume2
+                   MNE/vs/sLORETA       0.55   0.89    212.6       251.3
+                   MNE/vs/dSPM          0.45   0.89    212.6       632.4
+                   MNE/vs/wMEM          0.01   -0.01   212.6       413.9
+                   sLORETA/vs/dSPM      056    0.97    251.3       632.4
+                   sLORETA/vs/wMEM      0.00   -0.03   251.3       413.9
+                   dSPM/vs/wMEM         0.01   -0.03   632.4       413.9
+
+
+            The recapitulative data reveal three key trends: (1) Spatially, sLORETA
+     and dSPM show the highest agreement (DSC=0.56), while wMEM diverges
+     radically (DSC≤0.01), confirming its unique sensitivity to deep sources;
+     (2) Temporally, conventional methods (MNE/sLORETA/dSPM) exhibit near-
+     identical dynamics (r=0.89–0.97), whereas wMEM's negative correlations
+     (r≈−0.03)     suggest     it   captures      distinct     high-frequency      activity;
+     (3) Volumetrically, dSPM's large activations (632.4 cm³) contrast with MNE's
+     focal patterns (212.6 cm³), highlighting a 3× sensitivity difference (p<0.001)
+     that   necessitates     method-specific     clinical    thresholds.   These    metrics
+     collectively justify combining sLORETA (optimal DSC/r balance) with wMEM
+     (unique deep coverage) for comprehensive epileptogenic zone mapping.
+
+
+
+
+15           SDGsReview | Florida, USA | VOL. 5| e07511 | pag: 01-21| 2025.
+         Necibi, A., Hadriche, A., Jmail, N. (2025). Evaluation of Inverse Problem Methods (sLORETA, MNE,
+         dSPM and wMEM) for Epileptogenic Zone Localization in EEG/MEG: Towards Neuroenhancement
+
+
+
+        4.1 CLINICAL IMPLICATIONS
+
+
+        Table 3
+        Performance Metrics for Source Localization Methods
+                                       Example
+                              Optimal
+     Metric       Scale                Values (from Clinical Interpretation
+                              Value
+                                       Results)
+     Dice         0       (no                         Values >0.5 indicate clinically reliable spatial
+                                       MNE-sLORETA:
+     Similarity   overlap)                            agreement with ground truth (e.g., iEEG).
+                              >0.5     0.55,    dSPM-
+     Coefficient to         1                         sLORETA-wMEM near 0 suggests complementary
+                                       wMEM: 0.01
+     (DSC)        (perfect)                           source sensitivity.
+                  -1                                  High correlations (>0.8) confirm consistent
+                                       MNE-dSPM:
+     Pearson      (inverse) Close to                  temporal dynamics. Negative values imply
+                                       0.89, sLORETA-
+     Correlation to        +1 +1                      divergent signal detection (e.g., wMEM capturing
+                                       wMEM: -0.03
+                  (perfect)                           high-frequency activity).
+                                                      Larger volumes (dSPM) improve network mapping
+     Active                   Method- dSPM: 632.4, but reduce surgical specificity. Smaller volumes
+                  0 to ∞
+     Volume (cm³)             specific MNE: 212.6     (MNE/wMEM) better target focal epileptogenic
+                                                      zones.
+
+
+               The    metric-driven comparisons          translate    to   three    key clinical
+        recommendations:
+               For SOZ localization, combine sLORETA (optimized cortical precision)
+        and wMEM (deep focus sensitivity) to leverage their complementary DSC
+        profiles. This dual-method approach mitigates individual weaknesses sLORETA’s
+        depth limitations and wMEM’s cortical undersampling.
+               For network-level analysis, dSPM’s high sensitivity is valuable but
+        requires DSC filtering (>0.5) to suppress false positives from its large active
+        volumes. Its expansive activations may reveal propagation pathways when
+        interpreted cautiously.
+               For propagation modeling, prioritize sLORETA’s highly correlated ROIs
+        (r > 0.8), which likely represent critical seizure propagation hubs with
+        temporally synchronized activity. wMEM’s uncorrelated but focal activations
+        should be separately evaluated as potential deep onset zones.
+
+
+        5 DISCUSSION & CONCLUSION
+
+
+               This study systematically evaluated four distributed inverse methods
+        (MNE, sLORETA, dSPM, MEM) for localizing epileptogenic networks using both
+        spiky and oscillatory biomarkers in pharmaco-resistant epilepsy. Three critical
+
+
+16             SDGsReview | Florida, USA | VOL. 5| e07511 | pag: 01-21| 2025.
+      Necibi, A., Hadriche, A., Jmail, N. (2025). Evaluation of Inverse Problem Methods (sLORETA, MNE,
+      dSPM and wMEM) for Epileptogenic Zone Localization in EEG/MEG: Towards Neuroenhancement
+
+
+
+     findings emerge: First, sLORETA consistently outperformed other methods,
+     demonstrating the highest concordance with iEEG (72% node overlap) and
+     lowest propagation delays (18–25 ms), validating its precision for both cortical
+     spiky events (via cross-correlation/Granger causality) and oscillatory networks
+     (via phase-based metrics). Second, all methods successfully identified
+     components of the seizure onset zone (SOZ), but with distinct network
+     topologies—MEM revealed focal deep activations while dSPM mapped broader
+     propagation pathways. Third, directed connectivity metrics (GC for spikes, PTE
+     for oscillations) significantly enhanced network complexity analysis, with GC
+     strengthening spiky network edges and PTE refining oscillatory phase coupling,
+     confirming their complementary value.
+            These results address a key gap in epilepsy research by simultaneously
+     analyzing both event types and connectivity classes. While directed/non-
+     directed metrics altered network complexity, they preserved core SOZ
+     identification,   suggesting     method-specific      rather    than    metric-driven
+     differences. The strong agreement between MEG and iEEG networks
+     (particularly for sLORETA) supports MEG’s prognostic utility in presurgical
+     evaluation. Future work should: (1) validate these findings in larger cohorts, (2)
+     integrate additional methods (e.g., eLORETA, ST-MAP) for multi-technique
+     consensus, and (3) explore real-time applications using the identified optimal
+     metrics (GC/PTE for temporal precision, DSC>0.5 for spatial validation). This
+     multi-modal framework advances toward personalized surgical planning by
+     reconciling MEG’s temporal resolution with iEEG’s spatial specificity.
+
+
+
+
+17          SDGsReview | Florida, USA | VOL. 5| e07511 | pag: 01-21| 2025.
+      Necibi, A., Hadriche, A., Jmail, N. (2025). Evaluation of Inverse Problem Methods (sLORETA, MNE,
+      dSPM and wMEM) for Epileptogenic Zone Localization in EEG/MEG: Towards Neuroenhancement
+
+
+
+                                         REFERENCES
+
+     Bailey, J., Oliveri, A., & Levin, E. (2013). 基因的改变 NIH Public Access. Bone,
+         23(1), 1–7.
+
+     Baillet, S. (2017). Magnetoencephalography for brain electrophysiology and
+         imaging.        Nature       Neuroscience,       20(3),       327–339.
+         https://doi.org/10.1038/nn.4504
+
+     Boutelier, T., Kudo, K., Pautot, F., & Sasaki, M. (2012). Bayesian hemodynamic
+        parameter estimation by bolus tracking perfusion weighted imaging. IEEE
+        Transactions       on      Medical       Imaging,       31(7),    1381–1395.
+        https://doi.org/10.1109/TMI.2012.2189890
+
+     Bressler, S. L., & Seth, A. K. (2011). Wiener-Granger Causality: A well
+         established     methodology.      NeuroImage,    58(2),     323–329.
+         https://doi.org/10.1016/j.neuroimage.2010.02.059
+
+     Chowdhury, R. A., Lina, J. M., Kobayashi, E., & Grova, C. (2013). MEG Source
+        Localization of Spatially Extended Generators of Epileptic Activity:
+        Comparing Entropic and Hierarchical Bayesian Approaches. PLoS ONE, 8(2).
+        https://doi.org/10.1371/journal.pone.0055969
+
+     Cohen, D. (1960). Magnetoencephalography: evidence of magnetic fields
+        produced by alpharhythm currents. Science, 161, 784–786.
+
+     Dai, Y., Zhang, W., Dickens, D. L., & He, B. (2012). Source connectivity analysis
+         from MEG and its application to epilepsy source localization. Brain
+         Topography, 25(2), 157–166. https://doi.org/10.1007/s10548-011-0211-0
+
+     Delorme, A., & Makeig, S. (2004). EEGLAB: An open source toolbox for analysis
+         of single-trial EEG dynamics including independent component analysis.
+         Journal        of     Neuroscience      Methods,      134(1),      9–21.
+         https://doi.org/10.1016/j.jneumeth.2003.10.009
+
+     Egghe, L., & Leydesdorff, L. (2009). Relation between pearson’s correlation
+        coefficient r and salton’s cosine measure. Journal of the American Society
+        for Information Science and Technology, 60(5),                 1027–1036.
+        https://doi.org/10.1002/asi.21009
+
+     Eickhoff, S. B., Bzdok, D., Laird, A. R., Kurth, F., & Fox, P. T. (2012). Activation
+         likelihood estimation meta-analysis revisited. NeuroImage, 59(3), 2349–
+         2361. https://doi.org/10.1016/j.neuroimage.2011.09.017
+
+     Elbehy, I., Maalej, R., Hadriche, A., & Jmail, N. (2024). Comparison Between
+         Different Source Localization and Connectivity Metrics of Spiky and
+         Oscillatory MEG Activities. International Journal of Electrical and
+         Computer         Engineering        Systems,        15(10),      875–884.
+         https://doi.org/10.32985/ijeces.15.10.6
+
+
+
+
+18          SDGsReview | Florida, USA | VOL. 5| e07511 | pag: 01-21| 2025.
+      Necibi, A., Hadriche, A., Jmail, N. (2025). Evaluation of Inverse Problem Methods (sLORETA, MNE,
+      dSPM and wMEM) for Epileptogenic Zone Localization in EEG/MEG: Towards Neuroenhancement
+
+
+
+     Fan, L., Li, H., Zhuo, J., Zhang, Y., Wang, J., Chen, L., Yang, Z., Chu, C., Xie,
+        S., Laird, A. R., Fox, P. T., Eickhoff, S. B., Yu, C., & Jiang, T. (2016). The
+        Human Brainnetome Atlas: A New Brain Atlas Based on Connectional
+        Architecture.          Cerebral       Cortex,         26(8),        3508–3526.
+        https://doi.org/10.1093/cercor/bhw157
+
+     Frikha, T., Hadriche, A., Khemakhem, R., Jmail, N., & Abid, M. (2016).
+         Embedded application for evoked potential detection. Informatin
+         Assurance and Security, 11(March 2018), 190–200.
+
+     Friston, K. J. (1994). Functional and effective connectivity in neuroimaging: A
+         synthesis.       Human        Brain      Mapping,        2(1–2),     56–78.
+         https://doi.org/10.1002/hbm.460020107
+
+     Geweke, J. F. (2014). Measures of Conditional Linear Dependence and Feedback
+        Between Time Series Author ( s ): John F . Geweke Source : Journal of the
+        American Statistical Association , Vol . 79 , No . 388 ( Dec ., 1984 ), pp .
+        907-. Journal of the American Statistical Association, 79(388), 907–915.
+        https://www.tandfonline.com/doi/abs/10.1080/01621459.1984.10477110
+
+     Gross, J., Kujala, J., Hämäläinen, M., Timmermann, L., Schnitzler, A., &
+        Salmelin, R. (2001). Dynamic imaging of coherent sources: Studying neural
+        interactions in the human brain. Proceedings of the National Academy of
+        Sciences of the United States of America, 98(2), 694–699.
+        https://doi.org/10.1073/pnas.98.2.694
+
+     Grova, C., Daunizeau, J., Lina, J. M., Bénar, C. G., Benali, H., & Gotman, J.
+        (2006). Evaluation of EEG localization methods using realistic simulations
+        of      interictal     spikes.       NeuroImage,      29(3),      734–753.
+        https://doi.org/10.1016/j.neuroimage.2005.08.053
+
+     Hadriche, A., Behy, I., Necibi, A., Kachouri, A., Amar, C. Ben, & Jmail, N.
+        (2021). Assessment of Effective Network Connectivity among MEG None
+        Contaminated Epileptic Transitory Events. Computational and
+        Mathematical          Methods          in        Medicine,        2021.
+        https://doi.org/10.1155/2021/6406362
+
+     Hadriche, A., ElBehy, I., Hajjej, A., & Jmail, N. (2022). Evaluation of
+        Techniques for Predicting a Build Up of a Seizure. Lecture Notes in
+        Networks       and      Systems,      418     LNNS(1),      816–827.
+        https://doi.org/10.1007/978-3-030-96308-8_76
+
+     Hadriche, A., & Jmail, N. (2021). A build up of seizure prediction and detection
+        Software: A review. Journal of Clinical Images and Medical Case Reports,
+        2(2), 1–2. https://doi.org/10.52768/2766-7820/1087
+
+     Hauk, O. (2004). Keep it simple: A case for using classical minimum norm
+        estimation in the analysis of EEG and MEG data. NeuroImage, 21(4), 1612–
+        1621. https://doi.org/10.1016/j.neuroimage.2003.12.018
+
+
+
+
+19          SDGsReview | Florida, USA | VOL. 5| e07511 | pag: 01-21| 2025.
+      Necibi, A., Hadriche, A., Jmail, N. (2025). Evaluation of Inverse Problem Methods (sLORETA, MNE,
+      dSPM and wMEM) for Epileptogenic Zone Localization in EEG/MEG: Towards Neuroenhancement
+
+
+
+     Hauk, O., Stenroos, M., & Treder, M. S. (2022). Towards an objective evaluation
+        of EEG/MEG source estimation methods – The linear approach. NeuroImage,
+        255. https://doi.org/10.1016/j.neuroimage.2022.119177
+
+     Jmail, N., Gavaret, M., Bartolomei, F., Chauvel, P., Badier, J. M., & Bénar, C.
+        G. (2016). Comparison of Brain Networks During Interictal Oscillations and
+        Spikes on Magnetoencephalography and Intracerebral EEG. Brain
+        Topography, 29(5), 752–765. https://doi.org/10.1007/s10548-016-0501-7
+
+     Jmail, N., Gavaret, M., Wendling, F., Kachouri, A., Hamadi, G., Badier, J. M.,
+        & Bénar, C. G. (2011). A comparison of methods for separation of transient
+        and oscillatory signals in EEG. Journal of Neuroscience Methods, 199(2),
+        273–289. https://doi.org/10.1016/j.jneumeth.2011.04.028
+
+     Koessler, L., Cecchin, T., Caspary, O., Benhadid, A., Vespignani, H., & Maillard,
+        L. (2011). EEG-MRI co-registration and sensor labeling using a 3D laser
+        scanner. Annals of Biomedical Engineering, 39(3), 983–995.
+        https://doi.org/10.1007/s10439-010-0230-0
+
+     Lachaux, J. P., Rodriguez, E., Martinerie, J., & Varela, F. J. (1999). Measuring
+        phase synchrony in brain signals. Human Brain Mapping, 8(4), 194–208.
+        https://doi.org/10.1002/(SICI)1097-0193(1999)8:4<194::AID-
+        HBM4>3.0.CO;2-C
+
+     M. Darbas, S. L. B. S. (2022). Forward and inverse source problems for time-
+        dependent electroencephalography. Inverse Problems in Science and
+        Engineering, 4.
+
+     McDonald, C. R., Thesen, T., Hagler, D. J., Carlson, C., Devinksy, O.,
+        Kuzniecky, R., Barr, W., Gharapetian, L., Trongnetrpunya, A., Dale, A. M.,
+        & Halgren, E. (2009). Distributed source modeling of language with
+        magnetoencephalography: Application to patients with intractable
+        epilepsy. Epilepsia, 50(10), 2256–2266. https://doi.org/10.1111/j.1528-
+        1167.2009.02172.x
+
+     Mosher, J. C., & Leahy, R. M. (1998). Recursive MUSIC: A framework for EEG
+        and MEG source localization. IEEE Transactions on Biomedical Engineering,
+        45(11), 1342–1354. https://doi.org/10.1109/10.725331
+
+     Nawel, J., Abir, H., Ichrak, B., Amal, N., & Chokri, B. A. (2019). A comparison
+        of inverse problem methods for source localization of epileptic meg spikes.
+        Proceedings - 2019 IEEE 19th International Conference on Bioinformatics
+        and           Bioengineering,           BIBE         2019,          867–870.
+        https://doi.org/10.1109/BIBE.2019.00161
+
+     Necibi, A., Hadriche, A., & Jmail, N. (2023). Assessment of Epileptic Gamma
+        Oscillations’ Networks Connectivity. Lecture Notes in Networks and
+        Systems, 716 LNNS(1), 91–99. https://doi.org/10.1007/978-3-031-35501-
+        1_9
+
+
+
+
+20          SDGsReview | Florida, USA | VOL. 5| e07511 | pag: 01-21| 2025.
+      Necibi, A., Hadriche, A., Jmail, N. (2025). Evaluation of Inverse Problem Methods (sLORETA, MNE,
+      dSPM and wMEM) for Epileptogenic Zone Localization in EEG/MEG: Towards Neuroenhancement
+
+
+
+     Palmini, A., Gambardella, A., Andermann, F., Dubeau, F., da Costa, J. C.,
+        Olivier, A., Tampieri, D., Gloor, P., Quesney, F., Andermann, E., Paglioli,
+        E., Paglioli-Neto, E., Andermann, L. C., Leblanc, R., & Kim, H. -I. (1995).
+        Intrinsic epileptogenicity of human dysplastic cortex as suggested by
+        corticography and surgical results. Annals of Neurology, 37(4), 476–487.
+        https://doi.org/10.1002/ana.410370410
+
+     Pascual-Marqui, R. D., Esslen, M., Kochi, K., & Lehmann, D. (2002). Functional
+         imaging with low-resolution brain electromagnetic tomography (LORETA):
+         A review. Methods and Findings in Experimental and Clinical Pharmacology,
+         24(SUPPL. C), 91–95.
+
+     Peled, A., Geva, A. B., Kremen, W. S., Blankfeld, H. M., Esfandiarfard, R., &
+         Nordahl, T. E. (2001). Functional connectivity and working memory in
+         schizophrenia: An EEG study. International Journal of Neuroscience, 106(1–
+         2), 47–61. https://doi.org/10.3109/00207450109149737
+
+     Pellegrino, G., Hedrich, T., Porras-Bettancourt, M., Lina, J. M., Aydin, Ü., Hall,
+         J., Grova, C., & Kobayashi, E. (2020). Accuracy and spatial properties of
+         distributed magnetic source imaging techniques in the investigation of focal
+         epilepsy patients. Human Brain Mapping, 41(11), 3019–3033.
+         https://doi.org/10.1002/hbm.24994
+
+     Sociotogique, T. J. (2004). Conventions et compabilité aers cûne , approclte.
+         2004.
+
+     Van ’t Ent, D., Manshanden, I., Ossenblok, P., Velis, D. N., De Munck, J. C.,
+        Verbunt, J. P. A., & Lopes Da Silva, F. H. (2003). Spike cluster analysis in
+        neocortical localization related epilepsy yields clinically significant
+        equivalent source localization results in magnetoencephalogram (MEG).
+        Clinical          Neurophysiology,           114(10),           1948–1962.
+        https://doi.org/10.1016/S1388-2457(03)00156-1
+
+     Yarkoni, T., Poldrack, R. A., Nichols, T. E., Van Essen, D. C., & Wager, T. D.
+         (2011). Large-scale automated synthesis of human functional neuroimaging
+         data. Nature Methods, 8(8), 665–670. https://doi.org/10.1038/nmeth.1635
+
+     Zijdenbos, A. P., Dawant, B. M., Margolin, R. A., & Palmer, A. C. (1994).
+         Morphometric Analysis of White Matter Lesions in MR Images: Method and
+         Validation. IEEE Transactions on Medical Imaging, 13(4), 716–724.
+         https://doi.org/10.1109/42.363096
+
+
+
+
+21          SDGsReview | Florida, USA | VOL. 5| e07511 | pag: 01-21| 2025.
+

@@ -4,6 +4,7 @@ sources:
 - raw/papers/arxiv-2507.20990.md
 - raw/papers/semanticscholar-9afbfd2d37be.md
 - raw/papers/semanticscholar-39decd6e7d9f.md
+- raw/papers/semanticscholar-2d6ce9a9b368.md
 tags:
 - jax
 - machine-learning
@@ -12,7 +13,7 @@ tags:
 - numerical-computing
 title: JAX
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-10'
 ---
 
 # JAX
@@ -22,7 +23,7 @@ updated: '2026-05-06'
 ## Overview
 
 JAX’s functional programming model and array-level parallelism make it well-suited to:
-- **[[neural-network]] training** — natively via [Flax](](https://github.com/google/flax)) or [Equinox](](https://github.com/patrick-kidger/equinox))
+- **[[neural-network]] training** — natively via [Flax](](https://github.com/google/[[flax]])) or [Equinox](](https://github.com/patrick-kidger/equinox))
 - **Differentiable simulation** — gradients through arbitrary numerical integrators
 - **Scientific computing** — high-performance PDE/ODE solvers on accelerator hardware
 - **Probabilistic programming** — [NumPyro](](https://github.com/pyro-ppl/numpyro)) uses JAX for fast Hamiltonian Monte Carlo
@@ -52,9 +53,9 @@ JAX intersects with TVB in three main ways:
 
 ## Related
 
-- [[`[[brainpy]]`](](brainpy.md)) — [[brain-dynamics]] simulation framework built on JAX
-- [[`[[the-virtual-brain]]`](](the-virtual-brain.md)) — TVB platform (future JAX integration planned)
-- [[[[machine-learning]]`](](machine-learning.md)) — general ML concepts and tools
+- [[brainpy]] — [[brain-dynamics]] simulation framework built on JAX
+- [[open-source-brain]] — TVB platform (future JAX integration planned)
+- [[machine-learning]] — general ML concepts and tools
 
 ## References
 

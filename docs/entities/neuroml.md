@@ -35,6 +35,11 @@ sources:
   url: https://nestml.org/
   year: 2024
 - raw/papers/semanticscholar-5c84b271b035.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-899d3552b2ad.md
+- raw/papers/gewaltig-diesmann-2007.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-eb704b6f5462.md
 tags:
 - software-brain-modeling
 - neural-mass-models
@@ -43,7 +48,7 @@ tags:
 - computational-neuroscience
 title: NeuroML
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 NeuroML (often expanded as Neural Open Markup Language, though the project itself generally uses the abbreviation as-is) is an XML-based description language designed specifically for specifying [[computational-neuroscience]] models at multiple scales of biological organization. Developed to address the fragmentation of model representation in the field, NeuroML provides a standardized format for expressing neuron morphologies, [[ion-channel]] dynamics, synapse properties, and network architectures in a simulator-independent manner. The language emerged from the broader effort to improve [[reproducibility]] and interoperability in computational neuroscience, enabling researchers to define models once and execute them across different simulation platforms [[source-separation]].

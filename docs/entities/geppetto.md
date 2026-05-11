@@ -2,13 +2,17 @@
 created: 2026-04-24
 sources:
 - raw/papers/geppetto-2018.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/breakspear-2017.md
+- raw/papers/anticevic-2012.md
+- raw/papers/arxiv-2505.16861.md
 tags:
 - software-brain-modeling
 - software-tvb
 - whole-brain-modeling
 title: Geppetto
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-11'
 ---
 
 # Geppetto

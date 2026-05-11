@@ -1,0 +1,803 @@
+                                                                                                                     TYPE Original Research
+                                                                                                                     PUBLISHED 20 February 2025
+                                                                                                                     DOI 10.3389/fpsyt.2025.1485286
+
+
+
+
+                                                    Multi-view united transformer
+OPEN ACCESS                                         block of graph attention network
+EDITED BY
+Yuchou Chang,
+University of Massachusetts Dartmouth,
+                                                    based autism spectrum
+United States
+
+REVIEWED BY
+                                                    disorder recognition
+Abdulhamit Subasi,
+University of Turku, Finland                        D. Darling Jemima 1*, A. Grace Selvarani 2
+Delaram Sadeghi,
+Islamic Azad University of Mashhad, Iran            and J. Daphy Louis Lovenia 3
+Genta Kulari,
+Autonomous University of Lisbon, Portugal
+                                                    1
+                                                      Department of Computer Science and Engineering, Sri Krishna College of Technology,
+                                                    Coimbatore, India, 2 Department of Computer Science and Engineering, Sri Ramakrishna Engineering
+*CORRESPONDENCE                                     College, Coimbatore, India, 3 Department of Mathematics, Karunya Institute of Technology and
+D. Darling Jemima                                   Sciences, Coimbatore, India
+   darlingjemimai@gmail.com
+
+RECEIVED 27 August 2024
+ACCEPTED 03 February 2025
+                                                    Introduction: Autism Spectrum Disorder (ASD) identiﬁcation poses signiﬁcant
+PUBLISHED 20 February 2025
+                                                    challenges due to its multifaceted and diverse nature, necessitating early
+CITATION
+                                                    discovery for operative involvement. In a recent study, there has been a lot of
+Jemima DD, Selvarani AG and Lovenia JDL
+(2025) Multi-view united transformer block of       talk about how deep learning algorithms might improve the diagnosis of ASD by
+graph attention network based autism                analyzing neuroimaging data.
+spectrum disorder recognition.
+Front. Psychiatry 16:1485286.
+doi: 10.3389/fpsyt.2025.1485286                     Method: To overrule the negatives of current techniques, this research proposed
+COPYRIGHT
+                                                    a revolutionary strategic model called the Uniﬁed Transformer Block for Multi-
+© 2025 Jemima, Selvarani and Lovenia. This is       View Graph Attention Networks (MVUT_GAT). For the purpose of extracting
+an open-access article distributed under the
+                                                    delicate outlines from physical and efﬁcient functional MRI data, MVUT_GAT
+terms of the Creative Commons Attribution
+License (CC BY). The use, distribution or           combines the advantages of multi-view learning with attention processes.
+reproduction in other forums is permitted,
+provided the original author(s) and the
+                                                    Result: With the use of the ABIDE dataset, a thorough analysis shows that
+copyright owner(s) are credited and that the
+original publication in this journal is cited, in   MVUT_GAT performs better than Mutli-view Site Graph Convolution Network
+accordance with accepted academic                   (MVS_GCN), outperforming it in accuracy by +3.40%. This enhancement
+practice. No use, distribution or reproduction
+is permitted which does not comply with
+                                                    reinforces our suggested model’s effectiveness in identifying ASD. The result
+these terms.                                        has implications over higher accuracy metrics. Through improving the accuracy
+                                                    and consistency of ASD diagnosis, MVUT_GAT will help with early interference
+                                                    and assistance for ASD patients.
+
+                                                    Discussion: Moreover, the proposed MVUT_GAT’s which patches the distance
+                                                    between the models of deep learning and medical visions by helping to identify
+                                                    biomarkers linked to ASD. In the end, this effort advances the knowledge of
+                                                    recognizing autism spectrum disorder along with the powerful ability to enhance
+                                                    results and the value of people who are undergone.
+
+
+
+
+                                                    KEYWORDS
+
+                                                    MVUT_GAT, transformer block, autism spectrum disorder, deep learning, neuroimaging
+
+
+
+
+Frontiers in Psychiatry                                                  01                                                            frontiersin.org
+Jemima et al.                                                                                                              10.3389/fpsyt.2025.1485286
+
+
+
+
+1 Introduction                                                                   2 Related work
+    Autism Spectrum Disorder (ASD) identiﬁcation has emerged as a                2.1 Recognizing ASD via various deep
+crucial issue within the ﬁeld of neurodevelopmental research, as the             learning models
+prevalence of ASD grows worldwide. ASD is a complex and diverse
+neurodevelopmental syndrome marked by difﬁculties in social                          Functional Connectivity in ASD (3) is complex and shows
+communication and repetitive activities. Identifying ASD early in a              hypo- and hyper-connectivity within many brain networks.
+child’s life is critical for appropriate intervention and support, yet it        Dimensional clustering can determine unique FC subtypes that
+remains a signiﬁcant difﬁculty owing to the complex and frequently               relate to speciﬁc behavioral characteristics, hence unearthing a wide
+subtle nature of the symptoms. Traditional diagnostic procedures                 variety of connections between brain activity and behavior.
+depend mainly on clinical observations, behavioral evaluations, and              Recognition of common patterns in FC would explain the
+interviews, which are subjective, time-consuming, and may lack the               heterogeneity of ASD better, facilitate better diagnosis, and
+sensitivity required for early diagnosis (1). In recent years, the use of        develop tailored interventions that bridge neural changes to
+deep learning approaches into ASD detection has showed great                     observable symptoms. The use of neuroimaging methods to better
+potential and drew major interest from researchers and clinicians.               understand and diagnose neurodevelopmental disorders suggests a
+Deep learning, a form of machine learning that uses artiﬁcial neural             possible option for enhancing clinical practice. A technique for
+networks modelled after the human brain, provides a unique technique             estimating effective connectivity in brain networks (BNs) (4) using
+to identify the detailed patterns and traits linked with ASD in                  EEG data, with a focus on children with attention-deﬁcit
+neuroimaging data. Magnetic resonance imaging (MRI) and                          hyperactivity disorder (ADHD). Their ﬁndings revealed
+functional MRI (fMRI) have emerged as critical methods for                       substantial differences in directed information transmission across
+understanding the brain’s anatomical and functional connections in               EEG electrodes in ADHD patients compared to healthy controls,
+a non-invasive manner (2). Deep learning methods, particularly neural            with discriminative power notably high in the theta-band, which is
+networks with numerous layers, have shown the ability to                         associated with focus and motor activity. Similarly (5), used
+automatically learn and extract nuanced patterns from neuroimaging               functional MRI (fMRI) data from the Autism Brain Imaging Data
+data, allowing for the detection of minor anomalies linked with ASD.             Exchange (ABIDE) dataset to solve the problem of multi-site data
+Minor anomalies are minor differences in the structure and function of           aggregation in autism diagnosis. They used data harmonization
+the brain, undetectable using conventional methods and often too                 approaches to improve classiﬁcation accuracy and discovered
+minor to be easily visible. Such minor differences include slight                insights into ASD pathogenesis through network analysis. With
+variations in the amygdala and cerebellum, abnormal connectivity                 machine learning techniques applied to fMRI functional
+patterns between areas of the brain, alterations in cortical thickness or        connectivity, promising detection of ASD can be automated. The
+volume, or microstructural changes in white matter. Advanced deep                critical advances include integration of temporal dynamics,
+learning algorithms identify such minor differences when processing              multiscale data, and focused analysis of brain networks relevant
+neuroimaging data. Thus, these minor differences are associated with             to ASD. Even though performance keeps improving, more work is
+some cognitive and behavioral features of ASD, which allows for earlier          needed to create robust and interpretable models for clinical
+and more precise diagnosis. Deep learning has the ability to overcome            application. Combining data modalities with larger datasets may
+various issues that standard approaches confront while identifying               further propel this ﬁeld toward reliable computer-aided diagnosis of
+ASD. Deep learning algorithms can effectively handle large volumes of            ASD (6). Their research produced encouraging results and revealed
+data, identifying nuanced patterns that would be difﬁcult to detect              changes in brain network structure related to ASD. Furthermore
+manually. Furthermore, these models may incorporate multimodal                   (7), the signiﬁcance of using sequential information from task-
+information by incorporating data from a variety of sources, including           based fMRI for synthetic data augmentation in ASD diagnosis is
+structural and functional MRI, genetic markers, and behavioral                   demonstrated, demonstrating the potential for improving
+evaluations. The end result is a more thorough and nuanced                       diagnostic accuracy and comprehending the underlying illness.
+knowledge of ASD’s neurological roots, which might lead to more                  Together, these studies highlight the value of neuroimaging
+accurate and early detection. Furthermore, the incorporation of                  techniques and advanced machine learning approaches in
+attention processes into deep learning models enables the prioritizing           understanding the intricacies of neurodevelopmental disorders,
+of key variables, improving interpretability and enabling the discovery          opening the path for more effective diagnostic tools and deeper
+of biomarkers linked with ASD. Understanding how deep learning                   insights into the brain.
+models make decisions is crucial for bridging the gap between their                  An Unsupervised Contrastive Graph Learning (UCGL)
+complex, ‘black box’ nature and the clinical insights needed to make             framework for resting-state fMRI research (8) underlines the
+informed decisions in practice As deep learning advances, new                    difﬁculty of acquiring labelled training data in clinical practice
+architectures, optimization approaches, and hybrid models are being              and suggests a pretext model trained on unlabeled data for
+developed to improve the accuracy, resilience, and generalizability of           subsequent illness diagnosis tasks. The UCGL framework is tested
+ASD diagnosis models.                                                            on three rs-fMRI datasets, and it outperforms current techniques in
+
+
+
+
+Frontiers in Psychiatry                                                     02                                                          frontiersin.org
+Jemima et al.                                                                                                              10.3389/fpsyt.2025.1485286
+
+
+
+
+the automated diagnosis of major depressive illness, ASD, and                  2.2 GNN-based ASD recognition
+Alzheimer’s disease. ASD is diagnosed using structural (sMRI)
+and functional (fMRI) MRI modalities (9). To solve the low data                     Adversarial Graph Contrastive Learning (A-GCL) (15) is a
+availability, transfer learning is used in conjunction with four vision        method for identifying neurodevelopmental problems using fMRI
+transformers and a 3D-CNN model. The investigations use several                data. The model employs a graph neural network (GNN) based on
+ways to generate data and extract slices from raw 3D sMRI and 4D               graph contrastive learning, with graphs generated from fMRI data. A-
+fMRI images, yielding ground breaking ﬁndings. The brain disease               GCL outperforms three datasets, Autism Brain Imaging Data
+categorization in resting-state functional magnetic resonance                  Exchange (ABIDE) I, ABIDE II, and attention deﬁcit hyperactivity
+imaging (rs-fMRI) data study (10). Using multi-omics data, the                 disorder (ADHD), over three atlases. While an A-GCL model may
+team created eleven networks that depicted various facets of the               provide a good theoretical ﬁt, this may be underpinned with several
+brain. Kullback-Leibler divergence is used in their methodology,               limitations including high-quality data in fMRI, inability to generalize
+Graph convolution techniques are then applied to learn gene-                   across very diverse populations, low interpretability, and computing
+disease connections. Functional magnetic resonance imaging                     demands. Speciﬁcally, the atlases used need to be determined and
+(fMRI) data has been more important in neuroscience research                   only the resting-state fMRI is adopted. A Multi-Scale Dynamic Graph
+recently for the identiﬁcation of neurological illnesses and for the           Learning (MDGL) (16) framework for detecting brain disorders
+comprehension of cognitive processes. Many research has looked at              utilizing resting-state functional magnetic resonance imaging (rs-
+various approaches to deal with issues such noise, limited sample              fMRI) data. They use various brain atlases to build multi-scale
+numbers, and the requirement for interpretability that arise                   dynamic functional connectivity networks (FCNs) and graph
+while processing fMRI data. Applying fMRI data to categorize                   neural networks to extract spatiotemporal information from them.
+neurological disorders or cognitive function has been the subject              ASD categorization based on brain functional activity and gene
+of several research. Using fMRI-derived brain graphs, GroupINN                 expression using an attention-based graph neural network (GNN)
+(11)—a grouping-based interpretable neural network—classiﬁes                   (17). Their ﬁndings highlighted the signiﬁcance of customized
+cognitive performance well. Node grouping is included into the                 information in ASD diagnosis and biomarker identiﬁcation. By
+architecture of this model, which jointly learns these groups and              combining individual brain topology and graph data. Furthermore,
+extracts graph properties. Using resting-state fMRI time-series data,          they identiﬁed brain regions important for ASD, such as the social-
+networks of long- and short-term memories (LSTMs) (12) can be                  brain circuit and default-mode network, and discovered ASD-related
+used to directly diagnose autism spectrum disorders (ASD). They                genes using functional MRI data and gene expression analysis,
+used the extensive, multi-site Autism Brain Imagery Data Exchange              demonstrating the potential of their approach for effective ASD
+(ABIDE) I database for testing and training, and as a result, their            diagnosis and biomarker identiﬁcation. Present the Autism
+classiﬁcation accuracy was higher than that of earlier techniques. By          Spectrum Disorder-based Attention GNN and Crossover Boosted
+applying algorithms that use deep learning to the ABIDE dataset                Meerkat Optimization (ASD-AttGCBMO) (18) algorithm. The
+(13), it was possible to identify ASD patients only by looking at              suggested technique uses structural Magnetic Resonance Imaging
+patterns of brain activation. This approach achieved a remarkable              (sMRI) data from the ABIDE 1 dataset for preprocessing to improve
+degree of accuracy and revealed functional connectivity patterns               picture quality. Surface-based analysis and voxel-based morphometry
+linked to ASD. ASD-DiagNet (14), a system for ASD identiﬁcation                (VBM) both extract signiﬁcant information such surface area, cortical
+using fMRI data, was developed utilizing the 1,035 participants                thickness, shape descriptors, and brain volumes. To address issues
+from 17 imaging facilities in the Autism Brain Imaging Information             such as overﬁtting and class imbalance, the model utilizes attention
+Exchange dataset. Techniques include a hybrid strategy for                     GNNs with crossover-boosted meerkat optimization. PLSNet (19) is
+feature extraction that uses a single layer the perceptron and an              a position-aware graph-convolution-network-based model for ASD
+autoencoder, as well as a linear interpolation-based data                      diagnosis that uses functional MRI (fMRI) data. PLSNet includes a
+augmentation technique. In order to overcome the shortcomings                  time-series encoder for feature extraction and a connection generator
+of conventional behavioral observation-based diagnostic                        to represent long-term relationships. PLSNet includes a time-series
+techniques, the research emphasizes the importance of developing               encoder for feature extraction and a connection generator to
+machine learning infrastructures for qualitative diagnosis of varied           represent long-term relationships. Position embedding and a
+mental disorders like autism spectrum disorder.                                rarefying approach are used to solve challenges such as brain
+    In these studies, the ABIDE dataset has become a notable                   region variation and dimensionality complexity. The work delivers
+resource offering a big, multi-site collection of fMRI data for                cutting-edge performance on the Autism Brain Imaging Data
+research on ASD. By using this dataset, researchers may test and               Exchange dataset.
+train their models on a variety of samples, which improves the                      The neuroimaging methods, namely magnetic resonance imaging
+generalizability of their conclusions. This research uses a range of           (MRI) and functional MRI (fMRI), to diagnose Autism Spectrum
+methodologies, from deep learning architectures to conventional                Disorder (ASD). Each research suggests a unique methodology, such
+machine learning approaches. While deep learning models                        as machine learning techniques, generative adversarial networks
+frequently give better performance but lack transparency, classical            (GANs), unsupervised contrasting graph learning, and adversarial
+models could offer interpretability. Thus, by putting forth models             self-supervised GNNs. A Conditional Generative Adversarial
+which are both practical and understandable, recent initiatives have           Network (cGAN) for predicting ASD (20). The researchers
+sought to close this gap.                                                      emphasize the limits of classic supervised machine learning
+
+
+Frontiers in Psychiatry                                                   03                                                             frontiersin.org
+Jemima et al.                                                                                                         10.3389/fpsyt.2025.1485286
+
+
+
+
+techniques when dealing with tiny datasets, and they provide a cGAN          the diagnosis of ASD (26). They overcome the constraints of
+that surpasses normal GANs in terms of prediction accuracy. A graph          previous graph convolutional network (GCN)-based techniques
+attention network (GAT) (21), based on spatially restricted sparse           by allowing bidirectional information sharing across brain
+functional brain networks (FBNs), was used to diagnose ASD. They             networks and adding edge weight information via an edge self-
+developed a unique approach, Pearson’s correlation-based Spatial             attention mechanism. It allows for information complementarity
+Constraints Representation (PSCR), for estimating FBN structures             across different layers of brain networks. The Autism Spectrum
+and feeding them into a GAT for classiﬁcation. Their trials using the        Disorder-based Attention Graph Neural Network and Crossover
+ABIDE I dataset demonstrated the superiority of the PSCR technique           Boosted Meerkat Optimization (ASD-AttGCBMO) method (27)
+as well as the inﬂuence of various FBNs on classiﬁcation outcomes.           detects ASD using structural MRI data. Their approach uses
+Their suggested system produced encouraging classiﬁcation results,           attention graph neural networks and a crossover boosted
+surpassing rival approaches and offering insights for future illness         optimization strategy to improve feature categorization between
+detection using FBN and GNN frameworks.                                      ASD and control participants. Graph Neural Network (GNN)
+    The focus is on ASD, and task-based functional magnetic                  topologies and machine learning models for analyzing rs-fMRI
+resonance imaging (fMRI) data is used. The authors focus on data-            data to better understand schizophrenia (28). They train deep graph
+driven learning algorithms for biomarker identiﬁcation and outcome           convolutional neural networks (DGCNNs) and machine learning
+prediction. Their deep learning methods use GNNs (GNNs) (22) for             models with graph-theoretical measurements based on functional
+spatial variables and Long Short-Term Memory (LSTM) networks for             correlations between brain areas of interest CI-GNN ﬁnds
+temporal features. The chapter emphasizes the signiﬁcance of                 inﬂuential subgraphs associated with choices (e.g., major
+dynamic connectivity changes and provides a more comprehensive,              depressive disorder), meeting the demand for interpretable graph
+integrated model that includes spatiotemporal aspects as well as             neural networks and highlighting the signiﬁcance of causal linkages
+neural ordinary differential equations. ASD (23), utilizing a                in explainability. Moving on to neurodegenerative illnesses (29),
+thorough examination of multi-modal imaging markers. Their                   investigates early dementia prediction using fMRI data and a Graph
+dual-branch GNN performs a major diagnosis by extracting and                 Convolutional Network (GCN) technique A multi-task learning
+combining data from structural and functional magnetic resonance             strategy using a knowledge graph attention network to identify both
+imaging. The study also uses a perturbation model to ﬁnd brain               mental and physical diseases (MPD) (30) simultaneously.
+imaging signals and a neuro-transcriptomic joint analysis to reveal              Investigating disparities in brain activity to differentiate
+putative genetic biomarkers related with ASD brain development.              between individuals with Autism Spectrum Disorder (ASD) and
+Contribute to psychiatric diagnosis (24) using brain-networks by             those without aids in understanding the root causes of ASD, leading
+presenting a Granger causality-inspired GNN (CI-GNN). The                    to enhanced diagnosis and treatment strategies. As a result,
+model strives for interpretability without resorting to post-hoc             functional connectivity (FC) analysis (31) derived from resting-
+interpretative paradigms.                                                    state functional magnetic resonance imaging (rs-fMRI) data has
+    A graph neural network architecture called BrainGNN (25) was             emerged as a potent method for assessing and charting
+used to analyze fMRI datasets from the Human Connectome                      brain activity.
+Program (HCP) 900 Participant Release and Autism Spectrum                        Using a supervised the siamese graph convolution neural
+Disorder (ASD). Their solution leverages both functional and                 network (s-GCN) (32) as a foundation, this approach learns a
+topological knowledge gathered from fMRI data by using new                   graph similarity measure with a speciﬁc emphasis on comparing
+ROI-aware graph convolution layers (Ra-GConv). Furthermore,                  brain connection networks. The model takes graph structure into
+BrainGNN uses ROI-selection layer pooling (R-pool) to emphasize              account by using spectral graph convolutions, which function in the
+important brain areas, making it easier to read. Regularization terms        graph spectral domain. This improves results on the ABIDE
+are suggested to promote ﬂexible modeling of single or group-level           database. Graph neural networks, with applications in neurology
+patterns and fair ROI selection, such as units loss, topK pooled             and other domains, have shown promise as a method for processing
+(TPK), which loss, and group-level constancy (GLC) loss.                     graph-structured data. During the graph representation learning
+                                                                             process, local structural information is preserved by the use of
+                                                                             EigenPooling (33), a pooling operation based on the graph Fourier
+2.3 GCN-based ASD recognition                                                transform. By fusing layers for pooling based on EigenPooling with
+                                                                             conventional graph convolutional layers, they create EigenGCN, a
+     In recent research, there has been an increasing emphasis on            graph neural network architecture for graph classiﬁcation, and
+using functional brain networks (FBN) to classify neurological               demonstrate its efﬁcacy on six widely used benchmarks. To
+illnesses, particularly Autism Spectrum Disorder (ASD). MVS-                 overcome the shortcomings of current approaches in the ﬁeld of
+GCN (2), a multi-view graph convolution network guided by                    resting-state functional magnetic resonance imaging (rs-fMRI) (34)
+previous brain structure learning, to overcome the issues                    research, formulate functionally connected networks as
+presented by subject heterogeneity and noise correlations in brain           spatiotemporal graphs. To simulate the non-stationary character
+networks. Their machine learning technique not only helps to                 of functional connectivity, they present a spatio-temporal graphing
+classify neurological illnesses, but also gives an interpretable             convolutional network (ST-GCN) built on brief sub sequences of
+framework for deeper insights into the brain network. A joint                BOLD time series. When it comes to predicting age and gender
+learning architecture of multi-level dynamic brain networks for              from BOLD data, ST-GCN performs better than standard methods.
+
+
+Frontiers in Psychiatry                                                 04                                                         frontiersin.org
+Jemima et al.                                                                                                                             10.3389/fpsyt.2025.1485286
+
+
+
+
+It also ﬁnds key brain areas and functional linkages that are                                       a                                       
+                                                                                                        ij=Sof tmax
+                                                                                                                              exp(eij )
+                                                                                                                                                                  (3)
+involved in the predictions.                                                                                              ok∈N i exp(eik )
+    Functional brain networks (FBN) have attracted a lot of interest
+                                                                                 Finally, the new node includes h^ 0i is calculated as a weighted
+as a means of diagnosing neurological disorders including autism
+                                                                              sum of the original characteristics, using attention coefﬁcients as
+spectrum disorders (ASD). Accurate categorization is difﬁcult due
+                                                                              weights.
+to noisy correlations in brain networks and considerable subject
+heterogeneity. MVS-GCN (2), which combines graph neural                                                   h^ 0i = o aij h^ 0 j                                    (4)
+networks to get efﬁcient end-to-end representations for brain                                                     j∈N i
+
+networks. To improve classiﬁcation performance and ﬁnd
+                                                                                  This method efﬁciently captures the signiﬁcance of
+possible functional subnetworks, this approach combines multi-
+                                                                              characteristics from surrounding brain areas in the context of
+view graph convolutional neural networks with previous knowledge
+                                                                              ASD identiﬁcation (35) by utilizing the self-attention mechanism
+of brain anatomy. Using the Alzheimer’s Disease Neuroimaging
+                                                                              and graph structure information. The GAT layer’s capacity to
+Initiative (ADNI) and Autism Brain Imaging Data Exchange
+                                                                              selectively aggregate information depending on attention
+(ABIDE) datasets, the authors assess the MVS-GCN model and
+                                                                              coefﬁcients improves the overall efﬁcacy of ASD detection in
+show that it is more effective than current techniques. This concept
+                                                                              neuroimaging data.
+motivates to generate a integrating the views in a combined form
+with the help of transformer and introduced a new Multi-View
+United Transformer Block (MVUTB). The proposed model also
+                                                                              3.2 Transformer-based ASD recognition
+improves the performance of class discrimination using Graph
+Attention Network.
+                                                                                  Transformer-based models have gained popularity in recent
+                                                                              neuroimaging studies for detecting Autism Spectrum Disorder
+                                                                              (ASD) (36, 37). Transformers, which were ﬁrst introduced for
+3 Background                                                                  natural language processing, have shown amazing ability to
+                                                                              capture subtle patterns and relationships within sequential data,
+3.1 Graph attention layer on ASD                                              making them ideal for analyzing complex brain imaging data linked
+                                                                              with ASD.
+    The Graph Attention Layer (GAT) is critical in identifying
+essential patterns and characteristics in neuroimaging data for               3.2.1 Overview of transformer model
+recognizing Autism Spectrum Disorder (ASD). The application of                    The Transformer design includes an encoder-decoder structure,
+GAT is discussed here, with equations to show how it works in the             however in the context of ASD identiﬁcation, we concentrate on the
+context of ASD recognition.                                                   encoder. The Transformer encoder’s main components include self-
+    The GAT layer in the ASD identiﬁcation task receives a                    attention mechanisms (38), multi-head self-attention (MHA), and
+collection of node characteristics reﬂecting
+                                           n      neuroimaging
+                                                           o      data        feedforward neural networks (FFN).
+                                              ^   ^     ^
+connected with brain areas (34). Let h = h 1 , h 2 , …, h N N is the
+number of brain regions, and F is the number of related                       3.2.2 Self-attention mechanisms
+characteristics for each area.nThe goal is to create
+                                                  o     a new set of              The self-attention mechanism is a critical component of the
+node functionalities h0 = h^ 01 , h^ 02 , …, h^ 0N , with h^ 01 in RFo        Transformer model, allowing it to weigh various elements of the
+as Output.                                                                    input sequence independently. Given an input sequence, the self-
+    The t ra nsformation starts with a common l inea r                        attention mechanism calculates attention ratings for each element
+transformation, parameterized by a weight matrix. W in RFo X F ,              in the sequence in comparison to all other items. The attention
+applied to each node’s features:                                              scores are then utilized to calculate a weighted total of the input
+                                                                              sequence, which results in context-aware representations for each
+                             h^ 0 i = W h^ i                      (1)
+                                                                              piece. The mathematical expression for the self-attention process is
+    A self-attention mechanism is used to produce attention                   as follows:
+coefﬁcients (eij) that indicate the signiﬁcance of characteristics                                                           
+from node j to node i for ASD detection. The attention                                                                   QK T
+                                                                                          Attention(Q, K, V) = Sof tmax pﬃﬃﬃﬃﬃ V                                  (5)
+coefﬁcients are generated using a shared attentional mechanism                                                            dk
+and masked attention, focusing solely on ﬁrst-order neighbors.                    The query, key, and value matrices are represented by Q, K, V,
+                                                                              respectively, and dk denotes the dimension of the key vectors.
+                          eij = a( h^ i i, h^ j j)
+                                         0     0
+                                                                  (2)
+
+     To introduce the graph structure, masked attention is                    3.2.3 Multiple-head self-attention
+conducted, only for the node j which is a neighbor of node i, that               To increase model expressiveness, the Transformer utilizes
+is taking just the neighborhood Ni of node i. To make coefﬁcients             many attention heads in tandem. Each head gains a separate
+comparable across nodes, a softmax function is applied:                       understanding of the relationships within the input sequence.
+
+
+
+
+Frontiers in Psychiatry                                                  05                                                                            frontiersin.org
+Jemima et al.                                                                                                      10.3389/fpsyt.2025.1485286
+
+
+
+
+The outputs from the several heads are concatenated and linearly         of varied views from neuroimaging data. The model effectively
+processed to generate the ﬁnal attention output. The formula for         captures subtle patterns from several perspectives, encouraging
+multi-head self-attention is as follows:                                 complete feature extraction for accurate ASD detection.
+                                                                         Experimental validation shows that the proposed ASD-MVUTB
+         MHA(Q, K, V) = Concat(Head1 , ……, Headn )W o         (6)        outperforms existing techniques.
+   Where Headi = Attention(QWQi , KWKi , VWVi ) and Wo is the                The workﬂow for detecting Autism Spectrum Disorder (ASD)
+output projection matrix.                                                in Figure 1, is structured around N distinct views (V1, V2, and VN),
+                                                                         each comprising both positive (+V) and negative (-V) perspectives.
+3.2.4 Feedforward neural network                                         In the V1-Positive View (+V), the process initiates with a Graph
+   After the attention process, the model uses feedforward neural        Attention Network (GAT-1), wherein neuroimaging data
+networks to perform further nonlinear transformations. The FFN is        undergoes attention-based feature extraction. The output of GAT-
+made up of two linear layers separated by a non-linear activation        1 is then subject to a Residual Addition operation, combining the
+function (often a ReLU). The mathematical expression for the FFN         GAT-1 output and the original positive view data. Subsequently,
+operation is as follows:                                                 another Graph Attention Network (GAT-2) is applied, repeating
+                                                                         the attention-based feature extraction process. The results of GAT-2
+                 FFN(x) = ReLU(xW1 + b1)W2 + b2               (7)        for both +V and -V are concatenated, and the concatenated output
+                                                                         undergoes two linear layers (linear (128,16) and linear (16,2)) to
+    The weight matrices and bias terms are represented by W1,
+                                                                         determine the binary classiﬁcation output, indicating whether the
+b1, W2 and b2.
+                                                                         patient exhibits ASD (39, 40).
+    In the context of ASD detection, the Transformer encoder
+                                                                             Mathematically, the process can be expressed as follows:
+examines neuroimaging data, such as MRI scans, to identify
+                                                                             1. GAT-1 Process:
+ASD-related characteristics and patterns. The self-attention
+mechanism allows the model to focus on speciﬁc areas of interest,                         GAT − 1( + V) = GAT − 1 Output                   (8)
+whilst the multi-head mechanism improves the model’s capacity to
+collect varied and complicated correlations in brain data. The              2. Residual Addition:
+ensuing feed forward neural networks modify the representations
+                                                                                      GAT − 1 Output + +V = Residual Addition              (9)
+for downstream tasks, such as distinguishing between ASD and
+control participants.                                                       3. GAT-2 Process:
+
+                                                                           GAT − 2(Residual Addition Output) = GAT − 2 Output             (10)
+
+4 Proposed model of ASD multi-view                                          4. GAT-2 Layer Concatenation:
+united transformer block                                                   Concatenate(GAT − 2 Output ( + V), GAT − 2 Output (
+
+    In this section, we introduce the ASD Multi-View United                   − V))                                                       (11)
+Transformer Block (ASD-MVUTB), a new model for detecting                    5. Linear Layer Application:
+Autism Spectrum Disorder (ASD). Our suggested design uses
+transformer blocks to combine multi-view information, taking use             Linear (128, 16) → Lineary (16, 2) = View 1 Output           (12)
+
+
+
+
+   FIGURE 1
+   Workﬂow of detecting ASD.
+
+
+
+
+Frontiers in Psychiatry                                             06                                                          frontiersin.org
+Jemima et al.                                                                                                          10.3389/fpsyt.2025.1485286
+
+
+
+
+    Next, after the GAT-2 process for each view, a Transformer                  The ASD-MVUTB working process is represented as follows:
+Encoder (TE) is applied. The TE operation is conducted separately               1. MVUTB layers:
+for both the +V and -V outcomes of each view. This multi-view                   • Positive TE Outputs Processing.
+approach enhances the model’s ability to capture diverse features
+and patterns related to ASD within the neuroimaging data.                              X1 = MVUTB( + V i TEOUT , +V i+1 TEOUT )               (15)
+    The Transformer Encoder for all View (V’s) is expressed as:
+                                                                                            X2 = MVUTB(X1, +V i+2 TEOUT )                     (16)
+              TE(GAT − 2 Output( + V)) = +V TE Output           (13)
+                                                                                • Negative TE Outputs Processing.
+
+              TE(GAT − 2 Output( − V)) = −V TE Output           (14)                   Y1 = MVUTB( − V i TEOUT , −V i+1 TEOUT )               (17)
+    This entire process is replicated for View2 (V2), View3 (V3) and
+upto ViewN(VN). In this work three views are used to construct the                          Y2 = MVUTB(Y1, −V i+2 TEOUT )                     (18)
+ASD model. The utilization of Graph Attention Networks and                      2. +Vs and –Vs Flatteninng.
+Transformer Encoders facilitates capturing intricate patterns in
+neuroimaging data, and the linear layers aid in synthesizing and                                    F X = Flatten(X1, X2)                     (19)
+classifying the information for ASD detection. The concatenated
+results from the GAT-2 process ensure a comprehensive                                               F Y = Flatten(Y1, Y2)                     (20)
+representation of both positive and negative perspectives in each
+                                                                                3. Concatenation:
+view, contributing to the overall diagnostic outcome.
+    The proposed ASD-MVUTB model architecture, as illustrated                                   F Concat = Concat(F X , F Y )                 (21)
+in Figure 2, involves distinct processing of positive and negative TE
+                                                                                4. Linear Transformations:
+outputs from Views (+Vs and -Vs) separately. Speciﬁcally, the TE
+outputs +ViTEout (X1) and +Vi+1TEout (X2) are processed                                      Z1 = Linear (F Concat , 384, 32)                 (22)
+independently in the ﬁrst MVUTB layer. The resulting outputs,
+denoted as X1 and X2, are then combined with +Vi+2TEout in the
+                                                                                                Z2 = Linear (Z1, 32, 16)                      (23)
+second MVUTB layer. These intermediate results are ﬂattened to
+create feature vectors. A parallel process is applied to the negative
+                                                                                                Z3 = Linear (Z2, 16, 2)                       (24)
+TE outputs, resulting in three sets of ﬂattened feature vectors.
+Subsequently, the ﬂattened results from both +Vs and -Vs are                     The motivation behind this architecture lies in the enhanced
+concatenated, and the concatenated feature vector undergoes three            feature extraction from both positive and negate+ve TE outputs
+linear transformations: Linear(384, 32), Linear(32, 16), and                 independently, and the subsequent concatenation allows the model
+Linear(16, 2).                                                               to capture and leverage information from both perspectives.
+
+
+
+
+   FIGURE 2
+   ASD-MVUTB proposed model architecture.
+
+
+
+
+Frontiers in Psychiatry                                                 07                                                          frontiersin.org
+Jemima et al.                                                                                                                 10.3389/fpsyt.2025.1485286
+
+
+
+
+The linear layers at the end serve to further distill and map the                    2. Multi-Head Attention (MHA):
+concatenated features into a ﬁnal prediction space for ASD                                                                                    
+classiﬁcation. This layered approach enhances the model’s ability                                                                 qx1 , kTx1
+                                                                                       MHA = (qx1 , kx1 , V x2 ) = Sof tmax         pﬃﬃﬃﬃﬃ      V x2       (26)
+to discern intricate patterns and relationships within the TE                                                                           dk
+outputs, contributing to its effectiveness in ASD recognition.                       3. Addition (A1):
+     In the proposed framework depicted in Figure 3, the Multi-View
+Transformer Block operates through a meticulous process involving                                   R1 = X1 + MHA(qx1 , kx1 , V x2 )                       (27)
+two views of features, denoted as X1 and X2. These views undergo                     4. Multi-Layer Perceptron (MLP):
+Layer Normalization simultaneously. Subsequently, a linear mapping is
+applied to the query (q) and key (k) from X1, and the value (v) from                            MLP(X) = ReLU(XW 1 + b1 )W 2 + b2                          (28)
+X2, which are then fed into the Multi-Head Attention (MHA)
+                                                                                     5. Addition (A2):
+mechanism. The output of MHA, along with the original features
+from X1, undergoes an element-wise addition (A1) to yield a                                              R2 = R1 + MLP(R1)                                 (29)
+preliminary result (R1). Following this, another Layer Normalization
+                                                                                      The adoption of Multi-Head Attention allows the model to
+is applied, succeeded by a Multi-Layer Perceptron (MLP). The output
+                                                                                  capture intricate relationships within and between X1 and X2,
+of the MLP, combined with the result from the previous addition (R1),
+                                                                                  enhancing representational capacity. The subsequent addition of
+undergoes a second addition (A2), culminating in the generation of the
+                                                                                  the MHA output and the original X1 features promotes the fusion
+ﬁnal outcome. This iterative and additive process allows for the effective
+                                                                                  of learned contextual information with the original content. The
+integration of information from multiple views.
+                                                                                  Layer Normalization following each operation ensures stability and
+     1. Layer Normalization:
+                                                                                  normalization of the intermediate results. The introduction of the
+                                (X − m)                                           MLP introduces non-linear transformations, further enhancing the
+                 LayerNorm(X) = pﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ  g + b               (25)         model’s ability to capture complex patterns. The ﬁnal addition
+                                 s2 + e
+                                                                                  consolidates the MLP’s output with the result from the initial MHA
+    Where m and s represent the mean and standard deviation, e is                 addition, producing a comprehensive and reﬁned representation
+a small constant, and g and b are learnable parameters.                           that incorporates information from both views. This iterative
+
+
+
+
+   FIGURE 3
+   Framework of multi-views in transformer block.
+
+
+
+
+Frontiers in Psychiatry                                                      08                                                                  frontiersin.org
+Jemima et al.                                                                                                                      10.3389/fpsyt.2025.1485286
+
+
+
+
+process aligns with the principles of transformer-based                                  quantitative assessment based on the ABIDE dataset. When
+architectures, facilitating multi-view feature integration for                           evaluating how well various algorithms handle neuroimaging data
+improved learning and representation.                                                    for ASD identiﬁcation, the ﬁgure is a useful point of comparison.
+                                                                                             Figure 5 displays the values of the super node number for the
+                                                                                         graph structure learning and the corresponding outcomes. Findings
+5 Experimental results                                                                   indicate that the number of nodes in the coarsened graph
+                                                                                         signiﬁcantly affects classiﬁcation performance, indicating the
+    The experimental ﬁndings in this section show how well the                           importance of the brain network’s coarsening level for graph
+Multi-View United Transformer Block of the Graph Attention                               structure learning. More speciﬁcally, the coarsened graph’s
+Network detects ASD. Using a variety of neuroimaging                                     topology information is condensed if there are fewer super nodes
+modalities, including as MRI and fMRI data, the model performs                           than there are, and richer if there are more super nodes than
+exceptionally well in identifying subtle patterns linked to ASD. In                      there are.
+addition, the inclusion of attention processes improves                                      V ∈ {1, 2, 3, 4, 5, 6} was changed, and the performance variation
+interpretability and makes it possible to ﬁnd signiﬁcant                                 with different values was examined in order to examine the impact
+biomarkers. These ﬁndings highlight the potential of deep                                of variability throughout the number of views. As seen in Figure 6,
+learning techniques to transform the knowledge and early                                 the performance gets better the more views there are, up to a
+identiﬁcation of ASD.                                                                    maximum of three. This indicates that distinct views have built-in
+    In Table 1, a comprehensive comparison between the proposed                          correlations that help capture topological details. Further evidence
+Multi-View United Transformer Block of Graph Attention                                   that more views will unavoidably contribute duplicate data to the
+Network (MVUT_GAT) and several existing methods reveals                                  model and lower its classiﬁcation performance comes from the
+notable advancements in accuracy. Compared to the MVS-GCN                                observation that the model’s performance tends to stabilize as the
+(1) approach the MVUT_GAT exhibits a superior performance,                               number of views rises.
+surpassing MVS-GCN by +3.4%, ASD-DiagNet by +4.98%, and
+DAE by +5.68%. These substantial accuracy improvements
+underscore the efﬁcacy of the proposed method in outperforming                           6 Conclusion and discussion
+various state-of-the-art approaches in Autism Spectrum
+Disorder identiﬁcation.                                                                      Identiﬁcation of Autism Spectrum Disorder (ASD) may
+    A comparative examination of the Area Under the Curve                                advance with the incorporation of deep learning models, such as
+(AUC) values for several approaches on the ABIDE dataset is                              the Multi-View United Transformer Block of Graph Attention
+shown in Figure 4. An extensive summary of each technique’s                              Network. These algorithms’ capacity to automatically identify
+efﬁcacy in diagnosing Autism Spectrum Disorder (ASD) is given by                         subtle abnormalities in multimodal neuroimaging data improves
+the AUC, a statistic used to evaluate the performance of                                 diagnostic precision and makes it easier to identify ASD early on. By
+classiﬁcation models. The graph provides information about the                           including attention processes, interpretability is further enhanced
+relative advantages and disadvantages of the models by graphically                       and the gap between clinically applicable discoveries and
+representing the discriminative capacity of different methodologies.                     complicated models is closed. The proposed model Multi-View
+The most promising techniques for precise ASD diagnosis are                              United Transformer Block of Graph Attention Network
+chosen by academics and clinicians with the help of this                                 (MVUT_GAT) outperforms the existing model by +3.4% which
+                                                                                         improves the robustness and generalizability of ASD diagnostic
+TABLE 1 Comparison of existing methods for sensitivity, speciﬁcity,                      models. In order to improve the robustness and generalizability of
+accuracy, and AUC.                                                                       ASD diagnostic models, continued research efforts should
+                                                                                         concentrate on honing architectures, optimizing models, and
+                                  Accuracy               Sensitivity   Speciﬁcity
+                                                                                         investigating hybrid techniques as deep learning continues to
+         DAE (12)                      67.61                78.7          53.2           develop. To further enhance our knowledge of the neurological
+    ASD-DiagNet (13)                   68.31                60.31         67.76          foundations of ASD, future research may investigate the integration
+                                                                                         of other data sources, including as genetic markers and behavioral
+      GroupINN (10)                    63.6                 61.52         57.36
+                                                                                         assessments. These developments might transform early diagnosis
+       ST-GCN (33)                     57.29                54.78         48.91          and intervention approaches, ultimately leading to better outcomes
+ Eigenpooling GCN (32)                 57.5                 58.81         59.94          for people with ASD worldwide.
+
+     LSTM-ASD (11)                     68.5                   -             -
+
+      BrainGNN (24)                    61.84                61.65         60.79          7 Future work
+         sGCN (31)                     67.54                64.73         60.12
+                                                                                             Future studies on MVUT_GAT for ASD diagnosis will focus on
+      MVS-GCN (1)                      69.89                70.18         63.05
+                                                                                         some key issues to improve the robustness and generalizability of
+       MVUT_GAT                        73.29                73.86         69.67          the model. Among these, the main focuses should be on optimizing
+- means sensitivity and speciﬁcity are not applicable.                                   the model, hyperparameters reﬁnement, an increase in efﬁciency
+
+
+Frontiers in Psychiatry                                                             09                                                          frontiersin.org
+Jemima et al.                                                                                                                          10.3389/fpsyt.2025.1485286
+
+
+
+
+                                                 80
+
+                                                 70                                                           DAE[12]
+                                                 60                                                           ASD-DiagNet[13]
+                                                                                                              GroupINN[10]
+                                                 50
+                                                                                                              ST-GCN[33]
+
+
+
+
+                                           AUC
+                                                 40
+                                                                                                              Eigenpooling GCN[32]
+                                                 30
+                                                                                                              BrainGNN[24]
+                                                 20                                                           sGCN[31]
+
+                                                 10                                                           MVS-GCN
+                                                                                                              Proposed MVUT_GAT
+                                                  0
+                                                                     Methodologies
+
+   FIGURE 4
+   The comparison of various methods AUC on the ABIDE dataset.
+
+
+
+
+                                                      74
+                                                                                                                            MVS-GCN
+
+                                                      72
+                                                                                                                            Proposed
+                                                                                                                            MVUT_GAT
+                                                      70
+
+
+                                           Accuracy(%) 68
+
+
+                                                      66
+
+
+                                                      64
+
+
+                                                      62
+                                                                 6     7   8       9     10    11   12   13       14   15    16
+
+                                                                               Number of SuperNodes
+
+   FIGURE 5
+   Performance for different number of super nodes of coarsened graphs.
+
+
+
+
+levels along with transfer learning, and other advanced techniques                            another important area. Mechanisms of attention and
+that can help it handle such datasets. Additionally, MVUT_GAT                                 explainability techniques, such as the saliency maps used by the
+could be combined with other deep learning models, like CNNs or                               model, will clarify the decision-making process for clinicians, so
+RNNs, to enhance performance. Multimodal data integration, such                               they can better trust and implement deep learning models in
+as genetic markers, behavioral assessments, and neuroimaging,                                 practice while ﬁlling a gap between advanced algorithms and
+would give a better understanding of ASD and could also                                       clinical use. Longitudinal studies should be pursued to track the
+enhance diagnostic accuracy. Improving interpretability is yet                                changes in ASD over time with neuroimaging data. This will ensure
+
+
+
+                                                            76
+                                                                                                                        MVS-GCN
+                                                            74
+                                                                                                                        Proposed
+                                                            72                                                          MVUT_GAT
+
+                                                            70
+                                           Accuracy(%)
+                                                            68
+
+                                                            66
+
+                                                            64
+
+                                                            62
+                                                                      1        2          3         4         5         6
+                                                                                       Number of Views
+
+   FIGURE 6
+   Performance variation as the number of views increases.
+
+
+
+
+Frontiers in Psychiatry                                                                 10                                                          frontiersin.org
+Jemima et al.                                                                                                                                        10.3389/fpsyt.2025.1485286
+
+
+
+
+earlier detection of ASD and real-time tracking of interventions. A                           Funding
+greater population from more diverse demographics would increase
+the number of datasets, which would be more generalizable for the                                 The author(s) declare that no ﬁnancial support was received for
+model and its applications in different settings of healthcare. Finally,                      the research, authorship, and/or publication of this article.
+collaboration among deep learning researchers, clinicians, and
+neuroscientists will be very critical to align the models with
+clinical needs and ensure that these advances are translated into                             Conﬂict of interest
+better ASD diagnosis and intervention, hence improving outcomes
+for individuals around the world.                                                                 The authors declare that the research was conducted in the
+                                                                                              absence of any commercial or ﬁnancial relationships that could be
+                                                                                              construed as a potential conﬂict of interest.
+Data availability statement
+    Publicly available datasets were analyzed in this study. This data                        Publisher’s note
+can be found here: https://fcon_1000.projects.nitrc.org/indi/abide/.
+                                                                                                  All claims expressed in this article are solely those of the
+                                                                                              authors and do not necessarily represent those of their afﬁliated
+Author contributions                                                                          organizations, or those of the publisher, the editors and the
+                                                                                              reviewers. Any product that may be evaluated in this article, or
+   DJ: Methodology, Writing – original draft. AS: Supervision,                                claim that may be made by its manufacturer, is not guaranteed or
+Writing – review & editing. JL: Validation, Writing – review & editing.                       endorsed by the publisher.
+
+
+
+
+References
+  1. First LL, Gagnon M. Challenges in early diagnosis of neurodevelopmental                     14. Eslami T, Mirjalili V, Fong A, Laird AR, Saeed F. ASD-DiagNet: a hybrid
+disorders: Implications for assessment and intervention. J Clin Child Psychol. (2017)         learning approach for detection of autism spectrum disorder using fMRI data. Front
+46:451–65. doi: 10.1080/15374416.2016.1234376                                                 Neuroinformatics. (2019) 13:70. doi: 10.3389/fninf.2019.00070
+   2. Wen G, Cao P, Bao H, Yang W, Zheng T, Zaiane O. MVS-GCN: A prior brain                    15. Zhang S, Chen X, Shen X, Ren B, Yu Z, Yang H, et al. A-GCL: Adversarial graph
+structure learning-guided multi-view graph convolution network for autism spectrum            contrastive learning for fMRI analysis to diagnose neurodevelopmental disorders. Med
+disorder diagnosis. Comput Biol Med. (2022) 142:105239. doi: 10.1016/                         Image Anal. (2023) 90:102932. doi: 10.1016/j.media.2023.102932
+j.compbiomed.2022.105239                                                                        16. Lang J, Wylie G, Haig C, Gillberg C, Minnis H. Towards system redesign: An
+  3. Easson AK, Fatima Z, McIntosh AR. Functional connectivity-based subtypes of              exploratory analysis of neurodivergent traits in a childhood population referred for
+individuals with and without autism spectrum disorder. Network Neurosci. (2019)               autism assessment. PloS One. (2024) 19:e0296077. doi: 10.1371/journal.pone.0296077
+3:344–62. doi: 10.1162/netn_a_00067                                                              17. Wang Z, Xu Y, Peng D, Gao J, Lu F. Brain functional activity-based classiﬁcation
+  4. Abbas AK, Azemi G, Amiri S, Ravanshadi S, Omidvarnia A. Effective connectivity           of autism spectrum disorder using an attention-based graph neural network combined
+in brain networks estimated using EEG signals is altered in children with ADHD.               with gene expression. Cereb Cortex. (2023) 33:6407–19. doi: 10.1093/cercor/bhac513
+Comput Biol Med. (2021) 134:104515. doi: 10.1016/j.compbiomed.2021.104515                       18. Goel L, Gupta S, Gupta A, Rajan SN, Gupta VK, Singh A, et al. Advancing ASD
+  5. Ingalhalikar M, Shinde S, Karmarkar A, Rajan A, Rangaprakash D, Deshpande G.             detection: novel approach integrating attention graph neural networks and crossover
+Functional connectivity-based prediction of Autism on site harmonized ABIDE                   boosted meerkat optimization. Int J Mach Learn Cybernetics. (2024) 1:1–19.
+dataset. IEEE Trans Biomed Eng. (2021) 68:3628–37. doi: 10.1109/TBME.2021.3080259             doi: 10.1007/s13042-023-02092-1
+  6. Zhang J, Feng F, Han T, Gong X, Duan F. Detection of autism spectrum disorder              19. Wang Y, Long H, Zhou Q, Bo T, Zheng J. PLSNet: Position-aware GCN-based
+using fMRI functional connectivity with feature selection and deep learning. Cogn             autism spectrum disorder diagnosis via FC learning and ROIs sifting. Comput Biol Med.
+Comput. (2023) 15:1106–17. doi: 10.1007/s12559-021-09981-z                                    (2023), 107184. doi: 10.1016/j.compbiomed.2023.107184
+  7. Wang J, Dvornek NC, Staib LH, Duncan JS. Learning sequential information in task-          20. Raja KC, Kannimuthu S. Conditional generative adversarial network approach
+Based fMRI for synthetic data augmentation. In: International Workshop on Machine             for autism prediction. Comput Syst Sci Eng. (2023) 44. doi: 10.32604/csse.2023.025331
+Learning in Clinical Neuroimaging. Springer Nature Switzerland, Cham (2023). p. 79–88.          21. Yang C, Wang P, Tan J, Liu Q, Li X. Autism spectrum disorder diagnosis using
+  8. Wang X, Chu Y, Wang Q, Cao L, Qiao L, Zhang L, et al. Unsupervised contrastive           graph attention network based on spatial-constrained sparse functional brain networks.
+graph learning for resting-state functional MRI analysis and brain disorder detection.        Comput Biol Med. (2021) 139:104963. doi: 10.1016/j.compbiomed.2021.104963
+Hum Brain Mapp. (2023) 44:5672–92. doi: 10.1002/hbm.v44.17                                       22. Duncan J, Staib LH, Dvornek N, Li X, Zhuang J, Wang J, et al. Data-driven learning
+  9. Alharthi AG, Alzahrani SM. Multi-Slice Generation sMRI and fMRI for Autism               strategies for biomarker detection and outcome prediction in Autism from task-based
+Spectrum Disorder Diagnosis Using 3D-CNN and Vision Transformers. Brain Sci.                  fMRI. In: Deep Learning for Medical Image Analysis. Cambridge, MA, USA: Academic
+(2023) 13:1578. doi: 10.3390/brainsci13111578                                                 Press (2024). p. 357–93.
+  10. Zhang H, Song R, Wang L, Zhang L, Wang D, Wang C, et al. Classiﬁcation of                 23. Gao J, Xu Y, Li Y, Lu F, Wang Z. Comprehensive exploration of multi-modal and
+brain disorders in rs-fMRI via local-to-global graph neural networks. IEEE Trans Med          multi-branch imaging markers for autism diagnosis and interpretation: insights from an
+Imaging. (2022) 42:444–55. doi: 10.1109/TMI.2022.3219260                                      advanced deep learning model. Cereb Cortex. (2024) 34:bhad521. doi: 10.1093/cercor/bhad521
+  11. Yan Y, Zhu J, Duda M, Solarz E, Sripada C, Koutra D. (2019). Groupinn:                    24. Zheng K, Yu S, Chen B. Ci-gnn: A granger causality-inspired graph neural
+grouping-based interpretable neural network for classiﬁcation of limited, noisy brain         network for interpretable brain network-based psychiatric diagnosis. Neural Networks.
+data, in: Proceedings of the 25th ACM SIGKDD International Conference on Knowledge            (2024), 106147. doi: 10.1016/j.neunet.2024.106147
+Discovery & Data Mining (New York, NY, USA: ACM). pp. 772–82.                                   25. Li X, Zhou Y, Dvornek N, Zhang M, Gao S, Zhuang J, et al. Braingnn:
+   12. Dvornek NC, Ventola P, Pelphrey KA, Duncan JS. Identifying autism from resting-        interpretable brain graph neural network for fmri analysis. Med Image Anal. (2021)
+state fmri using long short-term memory networks. In: International Workshop on               67:102233. doi: 10.1016/j.media.2021.102233
+Machine Learning in Medical Imaging. Cham, Switzerland Springer (2017). p. 362–70.              26. Zhang P, Zhang W, Sun W, Xu J, Hu H, Wang L, et al. Identiﬁcation of gene
+  13. Heinsfeld AS, Franco AR, Craddock RC, Buchweitz A, Meneguzzi F.                         biomarkers for brain diseases via multi-network topological semantics extraction and
+Identiﬁcation of autism spectrum disorder using deep learning and the abide dataset.          graph convolutional network. BMC Genomics. (2024) 25:1–16. doi: 10.1186/s12864-
+Neuroimage: Clin. (2018) 17:16–23. doi: 10.1016/j.nicl.2017.08.017                            024-09967-9
+
+
+
+
+Frontiers in Psychiatry                                                                  11                                                                           frontiersin.org
+Jemima et al.                                                                                                                                         10.3389/fpsyt.2025.1485286
+
+
+
+
+  27. Xie H, Yang Y, Cui H, Yang C. Federated learning for cross-institution brain               International Conference on Medical Image Computing and Computer-Assisted
+network analysis. NeuroImage. (2024) 252.                                                        Intervention (MICCAI 2020). Cham, Switzerland: Springer. pp. 528–38. Springer.
+  28. Xu J, Yang Y, Huang D, Gururajapathy SS, Ke Y, Qiao M, et al. Data-driven                     35. Xue Y, Dong HY, Feng JY, Bai MS, Li D, Yang H, et al. Parent–child interaction
+network neuroscience: On data collection and benchmark. Adv Neural Inf Process Syst.             related to brain functional alterations and development outcomes in autism spectrum
+(2024) 36. doi: 10.17608/k6.auckland.21397377                                                    disorder: A study based on resting state-fMRI. Res Dev Disabil. (2024) 147:104701.
+                                                                                                 doi: 10.1016/j.ridd.2024.104701
+  29. Han S, Sun Z, Zhao K, Duan F, Caiafa CF, Zhang Y, et al. Early prediction of
+dementia using fMRI data with a graph convolutional network approach. J Neural Eng.                36. Xue Y, Bai MS, Dong HY, Wang TT, Mohamed ZA, Jia FY. Altered intra-and
+(2024) 21:016013. doi: 10.1088/1741-2552/ad1e22                                                  inter-network brain functional connectivity associated with prolonged screen time in
+                                                                                                 pre-school children with autism spectrum disorder. Eur J Pediatr. (2024) 183:1–9.
+  30. Zhang W, Kong L, Lee S, Chen Y, Zhang G, Wang H, et al. Detecting mental and               doi: 10.1007/s00431-024-05500-y
+physical disorders using multi-task learning equipped with knowledge graph attention
+network. Artif Intell Med. (2024), 102812. doi: 10.1016/j.artmed.2024.102812                       37. Qian S, Yang Q, Cai C, Dong J, Cai S. Spatial-temporal characteristics of brain
+                                                                                                 activity in autism spectrum disorder based on hidden Markov model and dynamic
+   31. Jiang H, Cao P, Xu M, Yang J, Zaiane O. Hi-gcn: a hierarchical graph                      graph theory: a resting-state fMRI study. Brain Science. (2024) 14(5):507–12.
+convolution network for graph embedding learning of brain network and brain                      doi: 10.3390/brainsci14050507
+disorders prediction, Comput. Biol Med. (2020) 127:104096. doi: 10.1016/
+                                                                                                   38. Wang Y, Long H, Bo T, Zheng J. Residual graph transformer for autism
+j.compbiomed.2020.104096
+                                                                                                 spectrum disorder prediction. Comput Methods Programs Biomed. (2024)
+  32. Ktena SI, Parisot S, Ferrante E, Rajchl M, Lee M, Glocker B, et al. Metric learning        224:108065. doi: 10.1016/j.cmpb.2024.108065
+with spectral graph convolutions on brain connectivity networks. Neuroimage. (2018)                39. Zhao F, Feng F, Ye S, Mao Y, Chen X, Li Y, et al. Multi-head self-attention
+169:431–42. doi: 10.1016/j.neuroimage.2017.12.052                                                mechanism-based global feature learning model for ASD diagnosis. Biomed Signal
+  33. Ma Y, Wang S, Aggarwal CC, Tang J. (2019). Graph convolutional networks                    Process Control. (2024) 91:106090. doi: 10.1016/j.bspc.2024.106090
+witheigenpooling, in: Proceedings of the 25th ACM SIGKDD International Conference                  40. Le Cunff AL, Dommett E, Giampietro V. Neurophysiological measures and
+on Knowledge Discovery & Data Mining, (New York, NY, USA: ACM). pp. 723–31.                      correlates of cognitive load in attention-deﬁcit/hyperactivity disorder (ADHD), autism
+  34. Gadgil S, Zhao Q, Pfefferbaum A, Sullivan EV, Adeli E, Pohl KM. (2020). Spatio-            spectrum disorder (ASD) and dyslexia: A scoping review and research
+temporal graph convolution for resting-state fmri analysis, in: Proceedings of the               recommendations. Eur J Neurosci. (2024) 59:256–82. doi: 10.1111/ejn.16201
+
+
+
+
+Frontiers in Psychiatry                                                                     12                                                                        frontiersin.org
+

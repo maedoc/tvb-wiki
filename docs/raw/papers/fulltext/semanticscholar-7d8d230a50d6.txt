@@ -1,0 +1,893 @@
+        Titre: Improved Alzheimer disease diagnosis with a machine learning
+          Title: approach and neuroimaging: Case study development
+
+    Auteurs:
+               Lilia Lazli
+      Authors:
+
+        Date: 2025
+        Type: Article de revue / Article
+ Référence: Lazli, L. (2025). Improved Alzheimer disease diagnosis with a machine learning
+               approach and neuroimaging: Case study development. JMIRx Med, 6, e60866 (13
+     Citation: pages). https://doi.org/10.2196/60866
+
+
+   Document en libre accès dans PolyPublie
+   Open Access document in PolyPublie
+
+
+     URL de PolyPublie:
+                                  https://publications.polymtl.ca/64723/
+             PolyPublie URL:
+                                  Version officielle de l'éditeur / Published version
+                   Version:
+                                  Révisé par les pairs / Refereed
+Conditions d’utilisation:
+                           Creative Commons Attribution 4.0 International (CC BY)
+             Terms of Use:
+
+
+
+    Document publié chez l’éditeur officiel
+    Document issued by the official publisher
+
+
+       Titre de la revue:
+                                  JMIRx Med (vol. 6)
+                 Journal Title:
+       Maison d’édition:
+                                  JMIR Publications Inc.
+                    Publisher:
+              URL officiel:
+                                  https://doi.org/10.2196/60866
+                 Official URL:
+                           This is an open-access article distributed under the terms of the Creative Commons
+                           Attribution License (https://creativecommons.org/licenses/by/4.0/), which permits
+         Mention légale: unrestricted use, distribution, and reproduction in any medium, provided the original
+             Legal notice: work, first published in JMIRx Med, is properly cited. The complete bibliographic
+                           information, a link to the original publication on https://med.jmirx.org/, as well as this
+                           copyright and license information must be included.
+
+
+
+
+   Ce fichier a été téléchargé à partir de PolyPublie, le dépôt institutionnel de Polytechnique Montréal
+         This file has been downloaded from PolyPublie, the institutional repository of Polytechnique Montréal
+                                           https://publications.polymtl.ca
+JMIRx Med                                                                                                                                   Lazli
+
+Original Paper
+
+Improved Alzheimer Disease Diagnosis With a
+Machine Learning Approach and Neuroimaging: Case
+Study Development
+
+Lilia Lazli, PhD
+Department of Computer and Software Engineering, Polytechnique Montréal, University of Montreal, Montreal, QC, Canada
+
+Corresponding Author:
+Lilia Lazli, PhD
+Department of Computer and Software Engineering, Polytechnique Montréal
+University of Montreal
+2500 Chem de Polytechnique
+Montreal, QC, H3T 1J4
+Canada
+Phone: 1(514) 340-5121 ext 3750
+Email: lazlilia28@gmail.com
+
+Related Articles:
+Preprint (arXiv): https://arxiv.org/abs/2405.09553v1
+Peer-Review Report by Anonymous: https://med.jmirx.org/2025/1/e73768
+Peer-Review Report by Masoud Khani (Reviewer AS): https://med.jmirx.org/2025/1/e73454
+Peer-Review Report by Anonymous: https://med.jmirx.org/2025/1/e73130
+Authors' Response to Peer-Review Reports: https://med.jmirx.org/2025/1/e72821
+
+
+Abstract
+Background: Alzheimer disease (AD) is a severe neurological brain disorder. While not curable, earlier detection can help
+improve symptoms substantially. Machine learning (ML) models are popular and well suited for medical image processing
+tasks such as computer-aided diagnosis. These techniques can improve the process for an accurate diagnosis of AD.
+Objective: In this paper, a complete computer-aided diagnosis system for the diagnosis of AD has been presented. We
+investigate the performance of some of the most used ML techniques for AD detection and classification using neuroimages
+from the Open Access Series of Imaging Studies (OASIS) and Alzheimer’s Disease Neuroimaging Initiative (ADNI) datasets.
+Methods: The system uses artificial neural networks (ANNs) and support vector machines (SVMs) as classifiers, and
+dimensionality reduction techniques as feature extractors. To retrieve features from the neuroimages, we used principal
+component analysis (PCA), linear discriminant analysis, and t-distributed stochastic neighbor embedding. These features are
+fed into feedforward neural networks (FFNNs) and SVM-based ML classifiers. Furthermore, we applied the vision transformer
+(ViT)–based ANNs in conjunction with data augmentation to distinguish patients with AD from healthy controls.
+Results: Experiments were performed on magnetic resonance imaging and positron emission tomography scans. The OASIS
+dataset included a total of 300 patients, while the ADNI dataset included 231 patients. For OASIS, 90 (30%) patients were
+healthy and 210 (70%) were severely impaired by AD. Likewise for the ADNI database, a total of 149 (64.5%) patients
+with AD were detected and 82 (35.5%) patients were used as healthy controls. An important difference was established
+between healthy patients and patients with AD (P=.02). We examined the effectiveness of the three feature extractors
+and classifiers using 5-fold cross-validation and confusion matrix–based standard classification metrics, namely, accuracy,
+sensitivity, specificity, precision, F1-score, and area under the receiver operating characteristic curve (AUROC). Compared
+with the state-of-the-art performing methods, the success rate was satisfactory for all the created ML models, but SVM and
+FFNN performed best with the PCA extractor, while the ViT classifier performed best with more data. The data augmenta-
+tion/ViT approach worked better overall, achieving accuracies of 93.2% (sensitivity=87.2, specificity=90.5, precision=87.6,
+F1-score=88.7, and AUROC=92) for OASIS and 90.4% (sensitivity=85.4, specificity=88.6, precision=86.9, F1-score=88, and
+AUROC=90) for ADNI.
+
+
+https://med.jmirx.org/2025/1/e60866                                                                          JMIRx Med 2025 | vol. 6 | e60866 | p. 1
+                                                                                                             (page number not for citation purposes)
+JMIRx Med                                                                                                                         Lazli
+
+Conclusions: Effective ML models using neuroimaging data could help physicians working on AD diagnosis and will assist
+them in prescribing timely treatment to patients with AD. Good results were obtained on the OASIS and ADNI datasets with
+all the proposed classifiers, namely, SVM, FFNN, and ViTs. However, the results show that the ViT model is much better at
+predicting AD than the other models when a sufficient amount of data are available to perform the training. This highlights that
+the data augmentation process could impact the overall performance of the ViT model.
+
+JMIRx Med 2025;6:e60866; doi: 10.2196/60866
+
+Keywords: Alzheimer disease; computer-aided diagnosis system; machine learning; principal component analysis; linear
+discriminant analysis; t-distributed stochastic neighbor embedding; feedforward neural network; vision transformer architec-
+ture; support vector machines; magnetic resonance imaging; positron emission tomography imaging; Open Access Series of
+Imaging Studies; Alzheimer's Disease Neuroimaging Initiative; OASIS; ADNI
+
+                                                                       networks, especially the vision transformer (ViT)
+Introduction                                                           architecture [24], which is becoming more popular in
+                                                                       the field of computer vision due to its effectiveness.
+Alzheimer disease (AD) is a progressive degenerative brain
+                                                                     • We designed these models to analyze the two
+disorder that gradually destroys memory, reason, judgment,
+                                                                       neuroimages commonly used in AD diagnosis,
+language, and ultimately the ability to perform even the
+                                                                       namely, structural magnetic resonance imaging (sMRI)
+simplest of tasks [1]. An automated AD classification system
+                                                                       and fluorodeoxyglucose (FDG)–positron emission
+is crucial for the early detection of disease. This computer-
+                                                                       tomography (PET) as these modalities are the preemi-
+aided diagnosis (CAD) system can help expert clinicians
+                                                                       nent sources of information in the CAD process.
+prescribe the proper treatment and prevent brain tissue
+                                                                     • The multimodal CAD system uses principal component
+damage [1].
+                                                                       analysis (PCA) [25] in conjunction with SVM and
+   In the last decades, researchers have developed sev-                FFNN, training them on the PCA features extracted
+eral CAD systems [1-5]. Rule-based expert systems were                 from the neurological images.
+developed from the 1970s to the 1990s and supervised models          • The most challenging datasets, namely the Open
+from the 1990s [1]. Moreover, several approaches have been             Access Series of Imaging Studies (OASIS) [26] and
+proposed in the literature aiming at providing an automatic            Alzheimer’s Disease Neuroimaging Initiative (ADNI)
+tool that guides the clinician in the AD diagnosis process             [27] datasets, underwent rigorous tests using various
+[1,5-7]. We can categorize these approaches into two types:            experimental settings. These experiments validated the
+univariate approaches, like statistical parametric mapping             effectiveness of the chosen models, showcasing their
+(SPM), and multivariate approaches, like the voxels-as-fea-            superiority over state-of-the-art approaches in terms of
+tures (VAF) approach.                                                  accuracy, sensitivity, specificity, precision, F1-score,
+                                                                       and area under the receiver operating characteristic
+   Due to advances in computing power, machine learning
+                                                                       curve (AUROC).
+(ML) has encompassed many health care sectors and has
+shown results with organ and substructure segmentation as
+well as disease classifications in areas of pathology, brain,    Methods
+breast, bone, retina, etc. Open-access datasets on AD have
+led to the development of CAD systems that use ML to             Participants
+help scientists and medical staff make early diagnoses.          Sometimes we found signs of AD in the brain data of
+These systems will ultimately help speed up the treatment        healthy and older patients, so considerable experience and
+of patients with AD. To make predictions, scientists have        knowledge were essential to distinguish the AD data from the
+adopted various ML-based classifiers, including support          HC patients’ data. In this context, we have experimented the
+vector machines (SVMs) [8,9], hidden Markov models               performance of the proposed CAD system on the OASIS [26]
+[10,11], k-nearest neighbors classifier [12,13], discriminant    and ADNI [27] datasets.
+analysis [14,15], random forest [16,17], decision trees [18],
+naive Bayes classifier [19,20], and artificial neural networks   OASIS Dataset
+(ANNs) [21,22].
+                                                                 The OASIS dataset [26] was prepared by Dr Randy
+   Despite the efforts of researchers, there have been few       Buckner from the Howard Hughes Medical Institute at
+works on AD detection using ML models that have had              Harvard University, the Neuroinformatics Research Group
+significant performance, and the development of an automa-       at Washington University School of Medicine, and the
+ted AD classification model remains a rather challenging task.   Biomedical Informatics Research Network. OASIS is a
+Within this framework of distinguishing between healthy          longitudinal multimodal neuroimaging, clinical, cognitive,
+controls (HCs) and people with AD, the main contributions        and biomarker dataset for normal aging and AD. We selected
+of this paper can be summarized as follows.                      the patients with and without dementia from a larger database
+    • We developed a CAD system using the best-supervised        and obtained them from the longitudinal pool of the Wash-
+       learning classifiers, such as SVMs [8,9], feedforward     ington University Alzheimer Disease Research Center. The
+       neural networks (FFNNs) [23], and transformer neural      experiment used a dataset that included 90 cognitively
+https://med.jmirx.org/2025/1/e60866                                                                JMIRx Med 2025 | vol. 6 | e60866 | p. 2
+                                                                                                   (page number not for citation purposes)
+JMIRx Med                                                                                                                           Lazli
+
+normal patients and 210 individuals with AD. The AD group         data would be anonymous and would be part of scientific
+included very mild, mild, moderate, and severe dementia.          publications.
+
+ADNI Dataset                                                         According to local legislation and institutional require-
+                                                                  ments, the study of human participants using the OASIS
+The ADNI dataset [27], which is the most commonly                 dataset does not require ethical review and approval [26].
+used in machine learning tasks, is an association of med-         Written informed consent from the patients’ legal guardi-
+ical centers and universities located in the United States        ans or next of kin was not required to participate in this
+and Canada. ADNI is funded by the National Institute on           study in accordance with national legislation and institutional
+Aging and the National Institute of Biomedical Imaging and        requirements [26]. The data used for the analysis has been
+Bioengineering, and through generous contributions from           deidentified and made public.
+the following: AbbVie; Alzheimer’s Association; Alzheim-
+er’s Drug Discovery Foundation; Araclon Biotech; BioClin-         Data Preparation
+ica, Inc; Biogen; Bristol-Myers Squibb Company; CereSpir,         We performed the following steps on the OASIS and ADNI
+Inc; Cogstate; Eisai Co., Ltd; Elan Pharmaceuticals, Inc; Eli     neuroimages: normalization, resizing, removing nonbrain
+Lilly and Company; EUROIMMUN; F. Hoffmann-La Roche                slices, selecting slices with the most information, and
+Ltd and its affiliated company Genentech, Inc; Fujirebio;         converting 3D images into 2D slices. First, the damaged
+GE HealthCare; IXICO plc; Janssen Alzheimer Immunother-           original files containing the images were removed. We
+apy Research & Development, LLC; Johnson & Johnson                selected a larger number of central slices to aid the CAD
+Pharmaceutical Research & Development, LLC; Lumosity;             system in accurately classifying AD. We used an SPM tool
+Lundbeck; Merck & Co., Inc; Meso Scale Diagnostics                (SPM8 [29]), which is a major update to SPM software,
+LLC; NeuroRx Research; Neurotrack Technologies; Novartis          originally developed by Karl Friston, to partially correct
+Pharmaceuticals Corporation; Pfizer Inc; Piramal Imaging;         spatial intensity inhomogeneities. This software normalized
+Servier; Takeda Pharmaceutical Company; and Transition            all the images using a general affine model with 12 param-
+Therapeutics. The Canadian Institutes of Health Research is       eters. The origin of the raw sMRI scans was set man-
+providing funds to support ADNI clinical sites in Canada.         ually to anterior commissure before manually registering
+Private sector contributions are facilitated by the Foundation    them with SPM’s canonical T1 template image. We applied
+for the National Institutes of Health. The grantee organiza-      the nonparametric nonuniform intensity normalization (N3)
+tion is the Northern California Institute for Research and        technique to solve the tissue intensity nonuniformity problem
+Education, and the study is coordinated by the Alzheimer’s        [30]. Then the hybrid median filter was used to remove
+Therapeutic Research Institute at the University of Southern      impulse noise while preserving edges.
+California. ADNI data are disseminated by the Laboratory for
+Neuroimaging at the University of Southern California.            ML Approaches
+   The main aim of ADNI is to provide open-source datasets        Overview
+to discover biomarkers and identify and track the progression
+of AD accurately. It developed to become an ideal source of       A generic automated AD detection and classification
+longitudinal multisite PET and magnetic resonance imaging         framework is summarized in Figure 1. ML classifiers aim
+(MRI) images of patients with AD and older control patients       to predict the class of the input data (images of patients with
+(HC). The datasets were formed to make the detection              AD or healthy patients) by looking at a number of learning
+system powerful by providing baseline information regarding       examples. The process begins with the preprocessing of sMRI
+changes in brain structure and metabolism, as well as clinical,   and FDG-PET images to keep only relevant data. Then each
+cognitive, and biochemical data. The ADNI cohort used in          image is represented by grayscale features and is collapsed
+our study included 82 cognitively normal patients and 149         into a new feature space by applying PCA-based feature
+patients with AD. The AD group included patients with mild        extraction to pick the optimal features. After that, to classify
+cognitive impairment and those with confirmed AD.                 the patients, these selected features are fed to the supervised
+                                                                  learner. In this work, SVMs and FFNNs are learned on the
+Ethical Considerations                                            PCA features extracted from the neuroimages. While for ViT,
+                                                                  we applied the data augmentation strategy [31], since the
+This work used two datasets (ADNI and OASIS), which are
+                                                                  training of this network required more data compared to the
+available in the public domain. For the benchmark ADNI
+                                                                  other two classifiers. For PCA, a performance comparison
+dataset, the terms of use are declared on their website [28].
+                                                                  was made with similar techniques, t-distributed stochastic
+All patients in the ADNI database provided written informed
+                                                                  neighbor embedding (t-SNE) [32] and linear discriminant
+consent, which was approved by the institutional review
+                                                                  analysis (LDA) [14].
+board of each participating institution. Patients were informed
+that their information would be kept confidential and their
+
+
+
+
+https://med.jmirx.org/2025/1/e60866                                                                  JMIRx Med 2025 | vol. 6 | e60866 | p. 3
+                                                                                                     (page number not for citation purposes)
+JMIRx Med                                                                                                                                    Lazli
+
+Figure 1. Block diagram of a generic Alzheimer disease computer-aided diagnosis system. ADNI: Alzheimer’s Disease Neuroimaging Initiative; DL:
+deep learning; FFNN: feedforward neural network; LDA: linear discriminant analysis; ML: machine learning; MRI: magnetic resonance imaging;
+OASIS: Open Access Series of Imaging Studies; PCA: principal component analysis; PET: positron emission tomography; SVM: support vector
+machine; t-SNE: t-distributed stochastic neighbor embedding; ViT: vision transformer.
+
+
+
+
+Below is a summary description of the four approaches                      In this study, we used this technique to extract useful
+proposed for our CAD system, and more details on the                    features for classifiers. PCA allows the production of new
+mathematical background of these approaches can be found                variables that represent linear combinations of the original
+in Multimedia Appendix 1 for PCA, Multimedia Appendix 2                 variables. Using linear algebra and matrix operations, a
+for SVM, Multimedia Appendix 3 for FFNN, and Multimedia                 transformation is performed from the original dataset to a new
+Appendix 4 for ViT.                                                     coordinate system structured by the principal components.
+                                                                        The analysis of this linear transformation is obtained thanks
+Principal Component Analysis                                            to the eigenvectors and the eigenvalues of the covariance
+PCA is a linear dimensionality reduction method used widely             matrix. The PCA steps are summarized as follows: (1)
+in data preprocessing and exploratory analysis. Different               standardize the range of continuous initial variables, (2) find
+image classification purposes have successfully used PCA                correlations by computing the covariance matrix, (3) find
+because its method is nonparametric and easy to apply, and              the eigenvectors and eigenvalues of the covariance matrix,
+helps extract useful information from confusing datasets [25].          (4) choose the principal components, and (5) change the
+                                                                        data to the new coordinate system. More details about the
+
+
+https://med.jmirx.org/2025/1/e60866                                                                           JMIRx Med 2025 | vol. 6 | e60866 | p. 4
+                                                                                                              (page number not for citation purposes)
+JMIRx Med                                                                                                                          Lazli
+
+PCA computation process with mathematical formulas are           averaging attention-weighted positions. This promotes the
+explained in Multimedia Appendix 1.                              network’s focus on all of the data of the input sequence. This
+                                                                 characteristic encourages us to use ViT for our brain imaging
+Support Vector Machines                                          study owing to its capacity to precisely catch interdependen-
+We used SVMs as classifiers for the classification of            cies between spreaded brain regions. More details about the
+independent and identically distributed data [23]. These         ViT computation process with mathematical foundations are
+machines are widely used as supervised max-margin models,        explained in Multimedia Appendix 4.
+along with associated learning algorithms that analyze data.         Nevertheless, the learning dataset is too small, involving
+To distinguish two classes, the principle of SVMs is to seek     substantial data to learn a ViT from scratch. In this regard, we
+the optimal hyperplane that allows for maximizing the margin     used data augmentation to expand the size of the input data by
+between the closest data points of the opposite classes.         creating additional data from the original input data. To create
+    The SVM algorithm for linear classification is widely used   new images, we performed some geometric transformations.
+in ML. However, in this study, we used SVMs to perform           The visual transformation primarily focuses on translating,
+nonlinear classification due to the data’s nonlinear separa-     flipping random images horizontally, rotating them at 15
+bility. We achieved this by applying a kernel function to        angles without cropping, and rescaling the input data to the
+represent the data as a set of pairwise similarity comparisons   range of [0, 1].
+between the original data points.
+                                                                 Statistical Analysis
+   This function transforms the original data points into
+                                                                 We have carried out the performance assessment and the
+coordinates in a higher-dimensional feature space, thereby
+                                                                 comparison of the classifiers using typical confusion matrix–
+facilitating linear separation. Multimedia Appendix 2
+                                                                 based evaluation metrics. The confusion matrix has the
+provides further details about the SVM computation process,
+                                                                 elements of true positive (TP), false positive (FP), false
+including mathematical formulas.
+                                                                 negative (FN), and true negative (TN). Each column of the
+Feedforward Neural Network                                       matrix indicates an instance of the predicted class, and each
+                                                                 row contains a true (correct or actual) class. The following
+Biological nervous systems, such as the brain, inspire the       are the metrics used to evaluate the performance of the CAD
+information-processing paradigm of FFNN, which is one of         system.
+the two main types of ANNs [23]. The distinctive feature
+of this network is the unidirectional flow of information,          Sensitivity—also known as recall—is used for calculating
+meaning that the information flow in the model is only in one    the classifier’s ability to correctly predict Alzheimer instances
+direction—forward—without any loops or cycles. Informa-          (AD class). On the other hand, the classifier uses specificity
+tion flows from the input nodes through the hidden nodes and     to accurately predict all non-Alzheimer instances (HC class)
+to the output nodes.                                             across all inputs.
+   This network is static and memoryless. Given a data              A classifier should have high sensitivity and specificity.
+input, FFNN provides a single set of output values instead       Therefore, the accuracy metric, which calculates the number
+of a sequence of values. Furthermore, the response produced      of correctly classified instances relative to the total number
+for an input is independent of the previous state of the         of instances, is the average of these two measures. The
+network. FFNN automatically learns from examples and             precision metric measures the classifier’s ability to quantify
+uses a backpropagation learning algorithm for determining        the number of TPs of the AD class that receive a correct label
+weights. More details about the FFNN computation process         in classification.
+with mathematical foundations are explained in Multimedia           The combined harmonic mean of both sensitivity and
+Appendix 3.                                                      precision gives the F1-score, which takes a value between
+                                                                 0 and 1. The receiver operating characteristic curve, a method
+Transformers                                                     for visualizing a classifier’s ability to diagnose or predict
+Transformers, which dominate natural language processing,        correctly, clearly illustrates the trade-off that arises between
+have acquired a reputation in computer vision owing to           the sensitivity and specificity metrics. At various thresholds,
+their positive results in many applications such as seman-       the receiver operating characteristic curve plots the TP rate or
+tic segmentation, object detection, and image classification.    sensitivity against the FP rate (1 – specificity).
+Transformer architecture entirely relies on an attention
+                                                                    We aim to determine the degree of separability, or the
+mechanism to produce global dependencies between input
+                                                                 ability to correctly predict class, using the AUROC. The
+and output, avoiding recurrence. Self-attention assesses the
+                                                                 higher the AUROC, the better; 1 would be perfect, and
+sequence representation by connecting various positions
+                                                                 0.5 would be random. Accuracy, sensitivity, specificity,
+within a single sequence.
+                                                                 precision, F1-score, and AUROC are the six main metrics
+   In this work, we applied a ViT architecture [24] to           used to assess the efficacy of each classifier. The following
+neuroimages with very little adjustment, demonstrating           are the mathematical formulas for the first five metrics.
+better performance in numerous computer-vision tasks. ViT
+uses a multiheaded self-attention mechanism to catch and
+learn long-range dependencies between distant positions by
+https://med.jmirx.org/2025/1/e60866                                                                 JMIRx Med 2025 | vol. 6 | e60866 | p. 5
+                                                                                                    (page number not for citation purposes)
+JMIRx Med                                                                                                                                           Lazli
+
+                                    TP + TN
+          Accuracy =                                                (1)
+                               TP + FP + FN + TP
+                                                                            Results
+
+                                  TP
+                  Sensitivity =                                     (2)
+                                                                            We experimented the performance of the proposed CAD
+
+                                TP + FN
+                                                                            system on patients’ images from the OASIS [26] and ADNI
+                                                                            [27] datasets. These datasets contain sMRI and FDG-PET
+
+                                        TN
+                                                                            scans along with information about the patients’ demograph-
+
+                 Specificity =                                      (3)
+                                      TN + FP
+                                                                            ics and clinical assessments. There are 300 patients for
+                                                                            OASIS and 231 patients for ADNI whose age was between
+                                                                            18 and 96 years, and each patient had 3 or 4 accessible
+                                        TP
+                   Precision =                                      (4)
+                                                                            PET and T1-weighted MRI scans. Tables 1 and 2 provide
+                                      TP + FP
+                                                                            more details on the demographic and clinical characteristics
+                                                                            of participants.
+
+                               Precision × Sensitivity
+     F1 − score = 2                                                 (5)
+                               Precision + Sensitivity
+
+Table 1. The demographic information (gender, race, class, right-handed) of participants.
+ Variable                                       OASISa patients (n=300), n (%)                          ADNIb patients (n=231), n (%)
+ Gender
+    Women                                       80 (26.7)                                               99 (42.9)
+    Men                                         220 (73.3)                                              132 (57.1)
+ Race
+    Caucasian                                   174 (58.0)                                              159 (68.8)
+    African-American                            122 (40.7)                                              70 (30.3)
+    Asian                                       4 (1.3)                                                 2 (0.9)
+ Class
+    Alzheimer                                   210 (70.0)                                              149 (64.5)
+    Healthy                                     90 (30.0)                                               82 (35.5)
+ Right-handed
+    Women                                       77 (96.3)                                               93 (93.9)
+    Men                                         219 (99.5)                                              130 (98.5)
+aOASIS: Open Access Series of Imaging Studies.
+bADNI: Alzheimer’s Disease Neuroimaging Initiative.
+
+
+
+
+Table 2. The demographic characteristics and clinical assessment data in terms of age, education, mini-mental state examination, and Alzheimer’s
+Disease Assessment Scale–Cognitive subscale.
+ Variable                                 OASISd patients, mean (SD; range)                 ADNIe patients, mean (SD; range)
+ Age (years)
+    Women                                 67.78 (43.2‐95.6)                                 75.3 (5.2)
+    Men                                   70.17 (42.5‐91.7)                                 75.4 (7.1)
+ Education
+    Women                                 14.3 (1.6; 9-18)                                  15.6 (3.2)
+    Men                                   15.2 (2.7; 8-23)                                  14.9 (3.4)
+ Mini-mental state examinationf
+    Baseline (women)                      25.4 (0.4; 22-26)                                 29.0 (1.2; 19-26)
+    2 years (women)                       —g                                                29.0 (1.3)
+    Baseline (men)                        23.8 (1.9; 25-29)                                 23.8 (1.9; 25–29)
+    2 years (men)                         19.3 (5.6)                                        29.0 (1.2; 19-26)
+ Alzheimer’s Disease Assessment Scale–Cognitive subscaleh
+    Baseline (women)                      —                                                 7.3 (3.3)
+    2 years (women)                       —                                                 6.3 (3.5)
+
+
+
+https://med.jmirx.org/2025/1/e60866                                                                                  JMIRx Med 2025 | vol. 6 | e60866 | p. 6
+                                                                                                                     (page number not for citation purposes)
+JMIRx Med                                                                                                                                         Lazli
+
+
+ Variable                                OASISd patients, mean (SD; range)                    ADNIe patients, mean (SD; range)
+    Baseline (men)                       —                                                    7.3 (3.3)
+    2 years (men)                        —                                                    27.3 (11.7)
+dOASIS: Open Access Series of Imaging Studies.
+eADNI: Alzheimer’s Disease Neuroimaging Initiative.
+fThe mini-mental state examination has a possible score range of 0-30.
+gNot available.
+hThe Alzheimer’s Disease Assessment Scale–Cognitive subscale has a possible score range of 0-30.
+
+
+We used a clinical dementia rating scale to control the                      brain with the following parameters: voxel size is 2 × 2 × 2
+dementia status of the dataset; a score of 0 on the scale                    mm3 for ADNI and 2 × 3.1 × 2 mm3 for OASIS, isotropic
+indicates a normal cognitive level, while a score greater than               resolution is 1.0 mm, time of repetition is 5050 milliseconds,
+0 determines the presence of AD. In this context, we divided                 and time of echo is 10 milliseconds. All slices of reconstruc-
+the images into 210 (70%) patients with AD and 90 (30%)                      ted PET images are resampled to contain 256 × 256 × 207
+HCs for the OASIS dataset and 149 (64.5%) patients with AD                   voxels with a voxel size of 1.2 × 1.2 × 1.2 mm3.
+and 82 (35.5%) HCs for the ADNI dataset. The majority of
+                                                                                The appropriate hyperparameter values for the classifiers
+the samples were identified as men, specifically 220 (73%)
+                                                                             were chosen by reviewing prior state-of-the-art work and after
+for OASIS and 132 (57%) for ADNI, while the majority
+                                                                             doing empirical testing and exploratory analyses. Some of
+of the samples were Caucasian, specifically 174 (58%) for
+                                                                             the hyperparameters used in the experiment are presented in
+OASIS and 159 (69%) for ADNI.
+                                                                             Table 3.
+  After the preprocessing steps, each slice of sMRI includes
+256 × 256 × 176 voxels covering the entire region of the
+
+Table 3. The hyperparameter tuning and classifiers configuration used in the experiment.
+ Hyperparameter                                                          Search range
+ Support vector machine
+    Multiclass method                                                    One-vs-one (one-vs-all, one-vs-one)
+    Penality parameter of error                                          0.001 (0.0001, 0.001, 0.01, 0.1)
+    Box constraint level                                                 1 (0.001‐1000)
+    Kernel function                                                      Gaussian (Gaussian, linear, quadratic, cubic)
+    Kernel scale                                                         2.8
+    Iteration                                                            30
+    Standardize data                                                     True
+ Feedforward neural network
+    Number of fully connected layers                                     1
+    First layer size                                                     100
+    Activation                                                           Hyperbolic tangent sigmoid
+    Learning function                                                    Gradient descent with momentum weight and bias
+    Iteration limit                                                      1000
+    Regularizarion strength (λ)                                          0
+    Update of weight and bias                                            Levenberg-Marquardt optimization
+    Standardize data                                                     True
+ Vision transformer
+    Layers                                                               12
+    Hidden size D                                                        768
+    Multilayer perceptron size                                           3072
+    Heads                                                                12
+    Parameters                                                           86 million
+    Path resolution                                                      16 × 16
+
+For training and testing, 5-fold cross-validation was achieved               on SVM and FFNN using four dimensionality reduction
+on each dataset. For each fold, 70% of the data was used                     techniques (VAF, LDA, t-SNE, and PCA), as well as on the
+for training, 10% for validation, and 20% for testing the                    ViT classifier, without and with data augmentation. During
+effectiveness of each classifier. We conducted experiments                   the training process, SVM and FFNN achieved the best
+
+https://med.jmirx.org/2025/1/e60866                                                                                JMIRx Med 2025 | vol. 6 | e60866 | p. 7
+                                                                                                                   (page number not for citation purposes)
+JMIRx Med                                                                                                                                                  Lazli
+
+results with PCA for the validation data, while the ViT                            an accuracy of 88.6% for SVM (prediction speed ~1300
+classifier achieved the best results with increased data.                          observations/second, training time 1.4280 seconds), 80.9%
+                                                                                   for FFNN (prediction speed ~5300 observations/second,
+   For the test data, we obtained for the OASIS dataset
+                                                                                   training time 8.2319 seconds), and 90.4% for ViT (predic-
+an accuracy of 91.9% (prediction speed ~2000 observa-
+                                                                                   tion speed ~7200 observations/second, training time 129.4531
+tions/second, training time 1.5703 seconds) for SVM, 88.2%
+                                                                                   seconds). Tables 4 and 5 provide further details about the
+(prediction speed ~6000 observations/second, training time
+                                                                                   top classification results achieved with the proposed ML
+7.7715 seconds) for FFNN, and 93.2% (prediction speed
+                                                                                   classifiers for the OASIS and ADNI datasets, respectively,
+~7000 observations/second, training time 102.3529 seconds)
+                                                                                   based on six metrics.
+for ViT. The same result was seen for the ADNI data, with
+
+Table 4. Five-fold cross-validation performance for the Open Access Series of Imaging Studies test data in terms of accuracy, sensitivity, specificity,
+precision, F1-score, and area under the receiver operating characteristic curve (AUROC).
+ Classifier                           Accuracy (%)   Sensitivity (%)        Specificity (%)          Precision (%)          F1-score (%)         AUROC (%)
+ Support vector machine
+    VAFa                              66.3           61.3                   62.1                     65.1                   52.4                 60
+    LDAb                              75.6           70.1                   69                       70.6                   68.7                 72
+    t-SNEc                            80.2           74.5                   72.4                     71.4                   70.1                 73
+    PCAd                              91.9e          86.4                   90.6                     87.2                   89                   90
+ Feedforward neural network
+    VAF                               62.4           54.1                   57.2                     51.6                   53.4                 51
+    LDA                               70.5           66.4                   71.4                     68.9                   72.5                 66
+    t-SNE                             72.6           71.3                   70.2                     69.4                   72.8                 73
+    PCA                               88.2           85.4                   84.6                     86.2                   83.7                 82
+ Vision transformer
+    Without data                      60.8           53.1                   54.6                     56.8                   55.6                 61
+    augmentation
+    With data augmentation            93.2           87.2                   90.5                     87.6                   88.7                 92
+aVAF: voxels-as-features.
+bLDA: linear discriminant analysis.
+ct-SNE: t-distributed stochastic neighbor embedding.
+dPCA: principal component analysis.
+eItalics indicate the best achieved results.
+
+
+
+
+Table 5. Five-fold cross-validation performance for Alzheimer’s Disease Neuroimaging Initiative test data in terms of accuracy, sensitivity,
+specificity, precision, F1-score, and area under the receiver operating characteristic curve (AUROC).
+ Classifier                           Accuracy (%)   Sensitivity (%)   Specificity (%)        Precision (%)          F1-score (%)         AUROC (%)
+ Support vector machine
+    VAFa                              42.8           59.2              60.4                   63.2                   50.1                 58
+    LDAb                              72.1           68.4              67.2                   68.4                   66.2                 70
+    t-SNEc                            79.3           71.1              70.1                   69.2                   68.3                 71
+    PCAd                              88.6e          84.1              88.4                   85.1                   87.4                 88
+ Feedforward neural network
+    VAF                               60.9           51.3              56.4                   49.1                   51                   48
+    LDA                               69.1           62.3              70                     65.4                   70.1                 63
+    t-SNE                             70.4           68.1              68.4                   67.1                   70.4                 70
+    PCA                               80.9           84.1              82.3                   84.3                   81.4                 80
+ Vision transformer
+    Without data                      59.3           50.2              51.1                   54.4                   53.4                 57
+    augmentation
+    With data augmentation            90.4           85.4              88.6                   86.9                   88                   90
+aVAF: voxels-as-features.
+bLDA: linear discriminant analysis.
+ct-SNE: t-distributed stochastic neighbor embedding.
+
+
+
+
+https://med.jmirx.org/2025/1/e60866                                                                                         JMIRx Med 2025 | vol. 6 | e60866 | p. 8
+                                                                                                                            (page number not for citation purposes)
+JMIRx Med                                                                                                                            Lazli
+
+dPCA: principal component analysis.
+eItalics indicate the best achieved results.
+
+
+                                                                  obtained by the basic VAF-SVM model (66.3% for OASIS
+Discussion                                                        and 42.8% for ADNI). We compared the performance of the
+                                                                  SVM, FFNN, and ViT models using confusion matrix–based
+Main Findings                                                     metrics.
+The main finding is that the development of diagnostic tools         All models performed well, providing acceptable
+applying the ML approach in conjunction with neuroimaging         performance for both databases. Data augmentation/ViT
+data could substantially help in automating the classification    outperformed other models, with accuracies of 93.2% for
+and prediction of AD.                                             OASIS and 90.4% for ADNI (see Tables 4 and 5 for more
+    In this context, this study proposed a complete CAD           details on results obtained from all models tested on both
+system to successfully classify patients with AD and              databases). The second best classifier is PCA/SVM, achieving
+discriminate them from HC patients. The purpose was to            an accuracy decrease of 1.3% for OASIS and 1.8% for ADNI,
+examine the association between SVM, FFNN, and ViT ML             compared to the rates obtained by ViT, resulting in overall
+classifiers; PCA, LDA, and t-SNE dimensionality reduction         accuracy rates of 91.9% and 88.6% for OASIS and ADNI,
+techniques; and sMRI and FDG-PET neuroimaging modali-             respectively. Therefore, the data augmentation process and
+ties to detect early signs of AD. Furthermore, we aimed to        the PCA dimensionality reduction method have the potential
+clarify the impact of some data preprocessing strategies, such    to impact the overall performance of the ViT and SVM
+as noise reduction and data augmentation, on improving the        models, respectively.
+performance of classifiers.                                          Moreover, compared to the performance using a single
+   With regard to the sMRI and FDG-PET modalities, they           MRI modality, all models performed well using a multi-
+can provide large amounts of information; nevertheless,           modal MRI/PET environment. The best results with MRI
+interpreting all image content is challenging for physicians.     were also obtained with ViT and SVM classifiers. Accura-
+The experimental analysis demonstrates that combining             cies of 83.9% for the OASIS dataset and 81.2% for ADNI
+these neuroimaging modalities with selected ML classifiers        were obtained using the data augmentation/ViT approach.
+enhances their performance, enabling doctors to provide           PCA/SVM achieved accuracies of 82.4% for the OASIS and
+precise diagnosis and timely patient care. This confirms the      80.6% for the ADNI datasets. This draws attention to the
+theory regarding the benefits of these two modalities. Since      potential of integrating multiple modalities to increase the
+sMRI provides high-resolution images of brain anatomical          performance of the CAD system.
+structures, which confirm structural change in the brain, it
+shows shrinkage of brain tissue and abnormalities, while          Comparison With Prior Work
+FDG-PET shows the functionality of the brain.                     To verify the convergence of the proposed CAD system, we
+                                                                  compared the results obtained with some relevant state-of-
+    Regarding the selected dimensional reduction techniques,
+                                                                  the-art ML models. The experimental results show that our
+all of the chosen dimensional reduction techniques performed
+                                                                  models, particularly SVM and ViT, have good performance
+well as feature extractors when combined with the SVM and
+                                                                  on both the OASIS and ADNI datasets and achieved better
+FFNN classifiers, but a comparative analysis of the three
+                                                                  or comparable accuracy to most existing methods in the
+techniques reveals that PCA outperforms LDA and t-SNE.
+                                                                  literature. For the OASIS dataset, the PCA/SVM method had
+However, it is important to clarify certain findings: PCA
+                                                                  a 91.9% accuracy and the ViT model with data augmentation
+allows the identification of the most significant variables
+                                                                  had a 93.2% accuracy. Nanni et al [33], Khan and Zubair
+in the data due to its potential to generate new variables,
+                                                                  [16], Sethi et al [2], Basheer et al [34], Saratxaga et al [35],
+which represent linear combinations of the original variables.
+                                                                  and Liu et al [36] got 90.2%, 86.8%, 86.2%, 92.3%, 93%, and
+Moreover, t-SNE differs from PCA by preserving only small
+                                                                  82.6% accuracy, respectively.
+pairwise distances or local similarities, while PCA aims
+to preserve large pairwise distances to maximize variance.           The same finding was obtained for the ADNI data-
+Unlike PCA, LDA is a supervised technique that maximizes          set, where we achieved an accuracy of 88.6% using the
+class separability in the reduced dimensionality space, thereby   PCA/SVM approach and 90.4% using the ViT model by
+retaining the most discriminative features.                       increasing the data. In contrast, the accuracy achieved by
+                                                                  Rallabandi et al [37], Jo et al [4], Jo et al [3], Liu et al [36],
+   Preliminary results from evaluating the complete CAD
+                                                                  and Shojaei et al [38] was 75%, 75.02%, 80.8%, 90%, and
+system using the three classifiers prove that the system
+                                                                  87%, respectively. Table 6 compares our best results obtained
+is more effective in separating AD and HC classes. The
+                                                                  with the prior state-of-the-art models discussed.
+results provided by all the experiments carried out reveal an
+increase in sensitivity and, consequently, the final accuracy
+
+
+
+
+https://med.jmirx.org/2025/1/e60866                                                                   JMIRx Med 2025 | vol. 6 | e60866 | p. 9
+                                                                                                      (page number not for citation purposes)
+JMIRx Med                                                                                                                                       Lazli
+
+Table 6. Comparative study of performance with state-of-the-art machine learning models using the Open Access Series of Imaging Studies (OASIS)
+and Alzheimer’s Disease Neuroimaging Initiative (ADNI) datasets.
+                                                                                                                                           AURO
+ Study                Approach                                                    Dataset        Accuracy    Sensitivity    F1-score       Ca
+
+ Liu et al [36]       Monte Carlo sampling/ResNet50-CNNsb/ensemble classifier     OASIS          82.6        74.3           —c             —
+ Saratxaga et al      ResNet18-based CNNs                                         OASIS          93          —              —              —
+ [35]
+ Basheer et al        PCAd/ CapsNet-based CNNs                                    OASIS          92.3        82.3           —              —
+ [34]
+ Nanni et al [33]     Ensemble of 5 transfer learning models                      OASIS          90.2        —              —              —
+ Khan and Zubair      Chi-square statistical test/RFe                             OASIS          86.8        80             86.4           87.2
+ [16]
+ Sethi et al [2]      CNNs/ SVMf                                                  OASIS          86.2        —              —              —
+ Our study            PCA/SVM                                                     OASIS          91.9        86.4           89             90
+ Our study            Data augmentation/ViTg                                      OASIS          93.2h       87.2           88.7           92
+ Shojaei et al        Genetic algorithm/3D-CNNs                                   ADNI           87          —              —              —
+ [38]
+ Liu et al [36]       Monte Carlo sampling/ResNet50-CNNs/ensemble classifier      ADNI           90          83.5           —              —
+ Rallabandi et al     FreeSurfer/SVM                                              ADNI           75          75             72             76
+ [37]
+ Jo et al [4]         Sliding Window Association Test/CNNs                        ADNI           75          —              —              82
+ Jo et al [3]         Weighted gene coexpression network analysis/RF              ADNI           80.8        —              —              80.8
+ Our study            PCA/SVM                                                     ADNI           88.6        84.1           87.4           88
+ Our study            Data augmentation/ViT                                       ADNI           90.4        85.4           88             90
+aAUROC: area under the receiver operating characteristic curve.
+bCNN: convolutional neural network.
+cNot available.
+dPCA: principal component analysis.
+eRF: random forest.
+fSVM: support vector machine.
+gViT: vision transformer.
+hItalics indicate the best achieved results.
+
+
+
+
+Limitations and Future Directions                                        common features of similar samples. This is very effective
+                                                                         for representing the common features of the same kind of
+There are several improvements possible for the proposed                 data samples, but it is not suitable for distinguishing different
+CAD system. We aim to enhance the system’s perform-                      sample classes. Therefore, to achieve the purpose of feature
+ance by collaborating with more extensive AD datasets and                extraction, we need to combine PCA with other feature
+implementing various types of ANN and ML-based classifi-                 dimensionality reduction algorithms like uniform manifold
+ers.                                                                     approximation and projection.
+   The PCA used for feature extraction looks for the principal
+axis direction, which is used to effectively represent the
+
+Acknowledgments
+This project was supported by “Fonds de recherche du Québec-Nature et Technologies -FRQNT” grants under awards B3X ×
+314498 and B3XR × 358107.
+The author would like to thank “Fonds de recherche du Québec-Nature et Technologies -FRQNT” for the financial support
+offered to accomplish this project. Many thanks to the researchers and expert clinicians of the Open Access Series of Imaging
+Studies and Alzheimer’s Disease Neuroimaging Initiative (ADNI) datasets for developing the images used in the preparation of
+this work. Special thanks to the reviewers and proofreader (Joshua Dykas) of this work.
+Data used in preparation of this article were obtained from the ADNI database. As such, the investigators within the ADNI
+contributed to the design and implementation of ADNI or provided data but did not participate in the analysis or writing of this
+report. A complete listing of ADNI investigators can be found at [39].
+Data Availability
+
+
+
+https://med.jmirx.org/2025/1/e60866                                                                           JMIRx Med 2025 | vol. 6 | e60866 | p. 10
+                                                                                                               (page number not for citation purposes)
+JMIRx Med                                                                                                                          Lazli
+
+This study used two datasets, Open Access Series of Imaging Studies [26] and Alzheimer’s Disease Neuroimaging Initiative
+[27], which are available in the public domain. However, they are subject to restrictions because they were used under
+permissions for this study and are therefore not publicly available.
+Conflicts of Interest
+None declared.
+Multimedia Appendix 1
+Principal component analysis.
+[DOCX File (Microsoft Word File), 19 KB-Multimedia Appendix 1]
+
+Multimedia Appendix 2
+Support vector machines.
+[DOCX File (Microsoft Word File), 16 KB-Multimedia Appendix 2]
+
+Multimedia Appendix 3
+Feedforward neural network.
+[DOCX File (Microsoft Word File), 18 KB-Multimedia Appendix 3]
+
+Multimedia Appendix 4
+Vision transformer.
+[DOCX File (Microsoft Word File), 19 KB-Multimedia Appendix 4]
+References
+1.   Hu X, Sun Z, Nian Y, et al. Self-explainable graph neural network for Alzheimer disease and related dementias risk
+     prediction: algorithm development and validation study. JMIR Aging. Jul 8, 2024;7:e54748. [doi: 10.2196/54748]
+     [Medline: 38976869]
+2.   Sethi M, Rani S, Singh A, Mazón JLV. A CAD system for Alzheimer’s disease classification using neuroimaging MRI
+     2D slices. Comput Math Methods Med. Aug 9, 2022;2022:8680737. [doi: 10.1155/2022/8680737] [Medline: 35983528]
+3.   Jo T, Kim J, Bice P, et al. Circular-SWAT for deep learning based diagnostic classification of Alzheimer’s disease:
+     application to metabolome data. EBioMedicine. Nov 2023;97:104820. [doi: 10.1016/j.ebiom.2023.104820] [Medline:
+     37806288]
+4.   Jo T, Nho K, Bice P, Saykin AJ, Alzheimer’s Disease Neuroimaging Initiative. Deep learning-based identification of
+     genetic variants: application to Alzheimer’s disease classification. Brief Bioinform. Mar 10, 2022;23(2):bbac022. [doi:
+     10.1093/bib/bbac022] [Medline: 35183061]
+5.   Lazli L, Boukadoum M, Mohamed OA. A survey on computer-aided diagnosis of brain disorders through MRI based on
+     machine learning and data mining methodologies with an emphasis on Alzheimer disease diagnosis and the contribution
+     of the multimodal fusion. Appl Sci (Basel). 2020;10(5):1894. [doi: 10.3390/app10051894]
+6.   Lazli L, Boukadoum M, Ait Mohamed O. Computer-aided diagnosis system of Alzheimer’s disease based on multimodal
+     fusion: tissue quantification based on the hybrid fuzzy-genetic-possibilistic model and discriminative classification based
+     on the SVDD model. Brain Sci. Oct 22, 2019;9(10):289. [doi: 10.3390/brainsci9100289] [Medline: 31652635]
+7.   Groppell S, Soto-Ruiz KM, Flores B, et al. A rapid, mobile neurocognitive screening test to aid in identifying cognitive
+     impairment and dementia (BrainCheck): cohort study. JMIR Aging. Mar 21, 2019;2(1):e12615. [doi: 10.2196/12615]
+     [Medline: 31518280]
+8.   Eke CS, Jammeh E, Li X, Carroll CB, Pearson S, Ifeachor EC. Early detection of Alzheimer’s disease with blood plasma
+     proteins using support vector machines. IEEE J Biomed Health Inform. Jan 2021;25(1):218-226. [doi: 10.1109/JBHI.
+     2020.2984355] [Medline: 32340968]
+9.   Cai W, Chu C, Zhu X. Intelligent classification of Alzheimer’s disease based on support vector machine. Presented at:
+     3rd International Conference on Applied Mathematics, Modelling and Intelligent Computing (CAMMIC 2023); Mar
+     24-26, 2023; Tangshan, China. [doi: 10.1117/12.2686137]
+10. Kang K, Cai J, Song X, Zhu H. Bayesian hidden Markov models for delineating the pathology of Alzheimer’s disease.
+     Stat Methods Med Res. Jul 2019;28(7):2112-2124. [doi: 10.1177/0962280217748675] [Medline: 29278101]
+11. Tahami Monfared AA, Fu S, Hummel N, et al. Estimating transition probabilities across the Alzheimer’s disease
+     continuum using a nationally representative real-world database in the United States. Neurol Ther. Aug
+     2023;12(4):1235-1255. [doi: 10.1007/s40120-023-00498-1] [Medline: 37256433]
+12. Elgammal YM, Zahran MA, Abdelsalam MM. A new strategy for the early detection of alzheimer disease stages using
+     multifractal geometry analysis based on k-nearest neighbor algorithm. Sci Rep. Dec 26, 2022;12(1):22381. [doi: 10.
+     1038/s41598-022-26958-6] [Medline: 36572791]
+
+https://med.jmirx.org/2025/1/e60866                                                                JMIRx Med 2025 | vol. 6 | e60866 | p. 11
+                                                                                                    (page number not for citation purposes)
+JMIRx Med                                                                                                                             Lazli
+
+13.     Lu D, Yue Y, Hu Z, Xu M, Tong Y, Ma H. Effective detection of Alzheimer’s disease by optimizing fuzzy k-nearest
+        neighbors based on salp swarm algorithm. Comput Biol Med. Jun 2023;159:106930. [doi: 10.1016/j.compbiomed.2023.
+        106930] [Medline: 37087779]
+14.     Jha D, Alam S, Pyun JY, Lee KH, Kwon GR. Alzheimer’s disease detection using extreme learning machine, complex
+        dual tree wavelet principal coefficients and linear discriminant analysis. J Med Imaging Health Inform. Jun 1,
+        2018;8(5):881-890. [doi: 10.1166/jmihi.2018.2381]
+15.     Lin W, Gao Q, Du M, Chen W, Tong T. Multiclass diagnosis of stages of Alzheimer’s disease using linear discriminant
+        analysis scoring for multimodal data. Comput Biol Med. Jul 2021;134:104478. [doi: 10.1016/j.compbiomed.2021.
+        104478] [Medline: 34000523]
+16.     Khan A, Zubair S. An improved multi-modal based machine learning approach for the prognosis of Alzheimer’s disease.
+        J King Saud Univ Comput Inf Sci. Jun 2022;34(6):2688-2706. [doi: 10.1016/j.jksuci.2020.04.004]
+17.     Shastry KA, Sattar SA. Logistic random forest boosting technique for Alzheimer’s diagnosis. Int J Inf Technol.
+        2023;15(3):1719-1731. [doi: 10.1007/s41870-023-01187-w] [Medline: 37056794]
+18.     Costa A, Pais M, Loureiro J, et al. Decision tree-based classification as a support to diagnosis in the Alzheimer’s disease
+        continuum using cerebrospinal fluid biomarkers: insights from automated analysis. Braz J Psychiatry. Aug 30,
+        2022;44(4):370-377. [doi: 10.47626/1516-4446-2021-2277] [Medline: 35739065]
+19.     Bhagya Shree SR, Sheshadri HS. Diagnosis of Alzheimer’s disease using naive Bayesian classifier. Neural Comput
+        Applic. Jan 2018;29(1):123-132. [doi: 10.1007/s00521-016-2416-3]
+20.     Chandra A, Roy S. On the detection of alzheimer’s disease using naïve bayes classifier. Presented at: 2023 International
+        Conference on Microwave, Optical, and Communication Engineering (ICMOCE); May 26-28, 2023; Bhubaneswar,
+        India. [doi: 10.1109/ICMOCE57812.2023.10166516]
+21.     Amoroso N, Diacono D, Fanizzi A, et al. Deep learning reveals Alzheimer’s disease onset in MCI subjects: results from
+        an international challenge. J Neurosci Methods. May 15, 2018;302:3-9. [doi: 10.1016/j.jneumeth.2017.12.011] [Medline:
+        29287745]
+22.     Lella E, Lombardi A, Amoroso N, et al. Machine learning and DWI brain communicability networks for Alzheimer’s
+        disease detection. Appl Sci (Basel). 2020;10(3):934. [doi: 10.3390/app10030934]
+23.     Kotsiantis SB, Zaharakis ID, Pintelas PE. Machine learning: a review of classification and combining techniques. Artif
+        Intell Rev. Nov 10, 2006;26(3):159-190. [doi: 10.1007/s10462-007-9052-3]
+24.     Boesch G. Vision transformers (ViT) in image recognition. viso.ai. Nov 25, 2023. URL: https://viso.ai/deep-learning/
+        vision-transformer-vit/ [Accessed 2025-03-20]
+25.     Jolliffe IT, Cadima J. Principal component analysis: a review and recent developments. Philos Trans A Math Phys Eng
+        Sci. Apr 13, 2016;374(2065):20150202. [doi: 10.1098/rsta.2015.0202] [Medline: 26953178]
+26.     Open Access Series of Imaging Studies (OASIS). WashU Sites. URL: https://sites.wustl.edu/oasisbrains/ [Accessed
+        2021-11-16]
+27.     Alzheimer’s Disease Neuroimaging Initiative. URL: http://www.adni-info.org/ [Accessed 2021-11-16]
+28.     Terms of use. Alzheimer’s Disease Neuroimaging Initiative. URL: http://adni.loni.usc.edu/terms-of-use/ [Accessed
+        2021-11-16]
+29.     SPM8. Wellcome Centre for Human Neuroimaging. URL: https://www.fil.ion.ucl.ac.uk/spm/software/spm8/ [Accessed
+        2022-10-20]
+30.     Sled JG. The MNI_N3 software package. McConnell Brain Imaging Centre. Mar 15, 2004. URL: http://www.bic.mni.
+        mcgill.ca/software/N3/ [Accessed 2022-10-23]
+31.     Garcea F, Serra A, Lamberti F, Morra L. Data augmentation for medical imaging: a systematic literature review. Comput
+        Biol Med. Jan 2023;152:106391. [doi: 10.1016/j.compbiomed.2022.106391] [Medline: 36549032]
+32.     Maaten L, Hinton G. Viualizing data using t-SNE. J Mach Learn Res. 2008;9:2579-2605. URL: https://www.jmlr.org/
+        papers/volume9/vandermaaten08a/vandermaaten08a.pdf [Accessed 2024-04-04]
+33.     Nanni L, Interlenghi M, Brahnam S, et al. Comparison of transfer learning and conventional machine learning applied to
+        structural brain MRI for the early diagnosis and prognosis of Alzheimer’s disease. Front Neurol. Nov 5, 2020;11:576194.
+        [doi: 10.3389/fneur.2020.576194] [Medline: 33250847]
+34.     Basheer S, Bhatia S, Sakri SB. Computational modeling of dementia prediction using deep neural network: analysis on
+        OASIS dataset. IEEE Access. Mar 17, 2021;9:42449-42462. [doi: 10.1109/ACCESS.2021.3066213]
+35.     Saratxaga CL, Moya I, Picón A, et al. MRI deep learning-based solution for Alzheimer’s disease prediction. J Pers Med.
+        Sep 9, 2021;11(9):902. [doi: 10.3390/jpm11090902] [Medline: 34575679]
+36.     Liu C, Huang F, Qiu A, Alzheimer’s Disease Neuroimaging Initiative. Monte Carlo ensemble neural network for the
+        diagnosis of Alzheimer’s disease. Neural Netw. Feb 2023;159:14-24. [doi: 10.1016/j.neunet.2022.10.032] [Medline:
+        36525914]
+
+https://med.jmirx.org/2025/1/e60866                                                                   JMIRx Med 2025 | vol. 6 | e60866 | p. 12
+                                                                                                       (page number not for citation purposes)
+JMIRx Med                                                                                                                             Lazli
+
+37.     Rallabandi VPS, Tulpule K, Gattu M. Automatic classification of cognitively normal, mild cognitive impairment and
+        Alzheimer’s disease using structural MRI analysis. Inform Med Unlocked. 2020;18:100305. [doi: 10.1016/j.imu.2020.
+        100305]
+38.     Shojaei S, Saniee Abadeh M, Momeni Z. An evolutionary explainable deep learning approach for Alzheimer’s MRI
+        classification. Expert Syst Appl. Jun 15, 2023;220:119709. [doi: 10.1016/j.eswa.2023.119709]
+39.     Acknowledgement list for ADNI publications. Alzheimer’s Disease Neuroimaging Initiative. URL: https://adni.loni.usc.
+        edu/wp-content/uploads/how_to_apply/ADNI_Acknowledgement_List.pdf [Accessed 2025-04-09]
+
+Abbreviations
+     AD: Alzheimer disease
+     ADNI: Alzheimer’s Disease Neuroimaging Initiative
+     ANN: artificial neural network
+     AUROC: area under the receiver operating characteristic curve
+     CAD: computer-aided diagnosis
+     FDG: fluorodeoxyglucose
+     FFNN: feedforward neural network
+     FN: false negative
+     FP: false positive
+     HC: healthy control
+     LDA: linear discriminant analysis
+     ML: machine learning
+     MRI: magnetic resonance imagining
+     N3: nonparametric nonuniform intensity normalization
+     OASIS: Open Access Series of Imaging Studies
+     PCA: principal component analysis
+     PET: positron emission tomography
+     sMRI: structural magnetic resonance imaging
+     SPM: statistical parametric mapping
+     SVM: support vector machine
+     t-SNE: t-distributed stochastic neighbor embedding
+     TN: true negative
+     TP: true positive
+     VAF: voxels-as-features
+     ViT: vision transformer
+
+
+
+          Edited by Ching Nam Hang; peer-reviewed by Anonymous, Masoud Khani, Anonymous; submitted 23.05.2024; final revised
+          version received 09.02.2025; accepted 10.02.2025; published 21.04.2025
+
+          Please cite as:
+          Lazli L
+          Improved Alzheimer Disease Diagnosis With a Machine Learning Approach and Neuroimaging: Case Study Development
+          JMIRx Med 2025;6:e60866
+          URL: https://med.jmirx.org/2025/1/e60866
+          doi: 10.2196/60866
+
+
+© Lilia Lazli. Originally published in JMIRx Med (https://med.jmirx.org), 21.04.2025. This is an open-access article distrib-
+uted under the terms of the Creative Commons Attribution License (https://creativecommons.org/licenses/by/4.0/), which
+permits unrestricted use, distribution, and reproduction in any medium, provided the original work, first published in JMIRx
+Med, is properly cited. The complete bibliographic information, a link to the original publication on https://med.jmirx.org/, as
+well as this copyright and license information must be included.
+
+
+
+
+https://med.jmirx.org/2025/1/e60866                                                                   JMIRx Med 2025 | vol. 6 | e60866 | p. 13
+                                                                                                       (page number not for citation purposes)
+

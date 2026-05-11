@@ -19,14 +19,14 @@ tags:
 - preprocessing
 title: CIVET
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-07'
 ---
 
 # CIVET  
 
 ## Overview  
 
-CIVET (sometimes expanded as "Canadian Institute for Advanced Research Volumetric Imaging," though this expansion is not universally attested in the literature) is a fully automated processing pipeline for magnetic resonance imaging (MRI) data, developed primarily at the Montreal Neurological Institute (MNI) for the quantitative analysis of cortical anatomy. The software extracts cortical thickness measurements and brain tissue volumes from T1-weighted MRI scans through a sophisticated deformable surface model approach. Since its initial release in the early 2000s, CIVET has become one of the standard tools for cortical thickness analysis in both developmental neuroscience and clinical research contexts, with particular prominence in studies of normal [[aging]], Alzheimer's disease, and schizophrenia (Kim et al., 2005; Lyttelton et al., 2007).  
+CIVET (sometimes expanded as "Canadian Institute for Advanced Research Volumetric Imaging," though this expansion is not universally attested in the literature) is a fully automated processing pipeline for magnetic resonance imaging (MRI) data, developed primarily at the Montreal Neurological Institute (MNI) for the quantitative analysis of cortical anatomy. The software extracts cortical thickness measurements and brain tissue volumes from T1-weighted MRI scans through a sophisticated deformable surface model approach. Since its initial release in the early 2000s, CIVET has become one of the standard tools for cortical thickness analysis in both developmental neuroscience and clinical research contexts, with particular prominence in studies of normal [[aging]], [[alzheimers-disease|Alzheimer's disease]], and schizophrenia (Kim et al., 2005; Lyttelton et al., 2007).  
 
 ## Technical Foundation  
 

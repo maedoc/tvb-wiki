@@ -2,13 +2,18 @@
 created: 2025-01-15
 sources:
 - raw/papers/Renton2024.md
+- raw/papers/mijalkov-2017-braph.md
+- raw/papers/gorgolewski-2016.md
+- raw/papers/huntenburg-2018.md
+- raw/papers/semanticscholar-3159c6df6394.md
+- raw/papers/arxiv-2604.16463.md
 tags:
 - software-visualization
 - neuroimaging
 - software-neuroimaging
 title: Fiji
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-11'
 ---
 
 # Fiji
