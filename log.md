@@ -278,3 +278,5 @@
 ## [2026-05-11 07:16] Audit: 749 issues (36 broken links, 22 orphans, 0 placeholders, 0 dup-refs, 4 bad-meta, 98 citation-verify, 17 opaque-refs, 15 thin, 443 missing-links)
 
 ## [2026-05-11 07:17] DeepResearch: 12 papers added via focused research
+
+## [2026-05-11 07:18] SoftwareMapper: 3 pages created
