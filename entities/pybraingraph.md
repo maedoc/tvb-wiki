@@ -1,12 +1,6 @@
 ---
 created: 2025-01-01
 sources:
-- sporns2010
-- rubinov2010
-- bullmore2009
-- watts1998
-- sanz-leon2013
-- cabral2014
 - raw/papers/sanz-leon-2013.md
 tags:
 - software-visualization
@@ -52,4 +46,4 @@ pybraingraph operates within a broader ecosystem of network analysis tools. The 
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))

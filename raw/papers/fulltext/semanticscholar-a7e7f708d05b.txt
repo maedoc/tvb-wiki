@@ -1,0 +1,652 @@
+        Received: 7 April 2025 | Revised: 15 August 2025 | Accepted: 30 September 2025 | Published online: 24 October 2025
+
+RESEARCH ARTICLE                                                                                                            Artificial Intelligence and Applications
+                                                                                                                                            2026, Vol. 4(2) 165–175
+                                                                                                                            DOI: 10.47852/bonviewAIA52025860
+
+Effective Denoising of Epileptic
+High-Frequency Oscillations (HFOs) in
+Scalp EEG Using a Temporal Generative
+Adversarial Network (TimeGAN)
+
+Sahbi Chaibi1,2,*, Wadhah Ayadi3 and Abdennaceur Kachouri1
+1
+    AFD2E Laboratory, Sfax University, Tunisia
+2
+    Faculty of Sciences, University of Monastir, Tunisia
+3
+    Laboratory of Electronics and Microelectronics, University of Monastir, Tunisia
+
+
+
+Abstract: Over the past two decades, High-Frequency Oscillations (HFOs) have been widely recognized as promising biomarkers for delineating
+the specific regions of the brain responsible for seizure onset, and for monitoring the spatiotemporal dynamics of epileptogenic activity. While deep
+learning (DL) techniques have shown promise in processing HFOs in intracranial EEG (iEEG) data, they often struggle to perform effectively on
+scalp electroencephalography (EEG). This limitation is particularly owing to the inherently lower signal-to-noise ratio of scalp HFOs, their smaller
+amplitude, and their increased susceptibility to artifact contamination, which together obscure subtle high-frequency phenomena. Despite these
+restrictions or barriers, clinicians predominantly rely on scalp EEG recordings due to their noninvasive nature, low cost, and recognized safety.
+To extend the benefits or applicability of DL-based HFO detection to a broader patient population, automated scalp EEG systems incorporating
+HFO denoising algorithms are highly warranted and necessary. Hence, the present study aimed at proposing, developing, and comparing the
+effectiveness of five optimized DL-based paradigms for denoising unwanted artifacts from realistic scalp EEG. The target data was created
+by combining intracranial HFO samples with injected realistic contaminants such as electrooculogram (EOG) and electromyography (EMG),
+accurately replicating scalp EEG profiles. In this regard, we considered evaluating and comparing the following time-series DL architectures,
+referred to as: one-dimensional Convolutional Neural Networks (CNN-1D), Long Short-Term Memory (LSTM) networks, Stacked Autoencoders
+(SAE), one-dimensional Transformer (Transformer-1D), and Generative Adversarial Networks (GAN). This analysis aims to elucidate each
+model’s denoising performance strengths and weaknesses. The reached quantitative and qualitative experimental results revealed that the proposed
+current GAN model significantly achieved superior performance compared to other DL approaches, suggesting its effectiveness as a robust solution
+for denoising scalp HFOs, thereby enhancing noninvasive HFOs detection.
+
+Keywords: epilepsy, EOG, EMG, HFOs, denoising, temporal GAN
+
+
+
+1. Introduction and Literature Review                                                  activity. Despite the HFOs’ frequency range variations across studies,
+                                                                                       they are generally classified to range between 80 Hz and 500 Hz,
+       Epilepsy is a neurological disorder characterized by intermittent               including three major subtypes: High-Gamma (HG, 80–120 Hz),
+seizures resulting from abnormal or excessive neuronal activity in the                 Ripples (Rs, 120–250 Hz), and Fast Ripples (FRs, 250–500 Hz) [8].
+brain. Recent research studies on HFOs have highlighted their remarkable               Pathological HFOs offer various clinical benefits in epilepsy and might
+potential as valuable spatial biomarkers for effectively localizing                    serve as biomarkers for pre-surgical diagnosis and accurate localization
+epileptogenic zones and tracking the underlying spatiotemporal                         of the Seizure Onset Zone (SOZ) in refractory epilepsy affected patients
+dynamics of the epileptic networks [1, 2]. Research conducted on both                  [9, 10]. In this regard, removing pathological HFO-producing tissue
+human and animal models has established a noticeable association                       has been highly associated with improved surgical outcomes and
+between HFOs and brain tissue capable of generating seizures [3].                      higher rates of seizure freedom [2, 11]. Additionally, HFOs may act
+HFOs could be invasively recorded via clinical iEEG emitted signals                    as important biomarkers for predicting seizures, thereby, enhancing the
+[4]. Other studies, however, maintained that HFOs might also be non-                   affected individuals’ life quality [12]. Their detection during epilepsy
+invasively captured via scalp EEG or magnetoencephalography (MEG)                      surgery could significantly help in predicting surgical outcomes [13]
+[5–7]. HFOs are characterized as spontaneous rhythmic oscillations                     and might also provide insights into the underlying seizure-generating
+with low amplitude and brief durations (30–100 ms), exhibiting at least                properties of brain tissue [14]. More recently, a wide range of DL based
+three distinguishable cycles that clearly stand out from the background                algorithms have been developed to reduce reliance on HFOs’ manual
+                                                                                       analysis, thus, mitigating human bias. In this respect, various state-of-
+                                                                                       the-arts deep learning (DL) algorithms have been developed, achieving
+*
+ Corresponding author: Sahbi Chaibi, AFD2E Laboratory, Sfax University and             impressive and promising results, and demonstrating remarkable
+Faculty of Sciences, University of Monastir, Tunisia. Email: sahbi.chaibi@fsm.rnu.tn   performance in identifying pathological HFOs associated with
+
+
+
+© The Author(s) 2025. Published by BON VIEW PUBLISHING PTE. LTD. This is an open access article under the CC BY License (https://creativecommons.org/licenses/
+by/4.0/).
+
+
+                                                                                                                                                               165
+  Artificial Intelligence and Applications                Vol. 4    Iss. 2   2026
+
+
+
+
+intracranial EEG. Nevertheless, most of the existing DL algorithms           key learning hyperparameters. This section concludes by presenting the
+have been primarily developed to detect iEEG recorded invasive HFOs.         EEG denoising evaluation metrics applied.
+       Still, clinical practice relies heavily on scalp EEG [8, 15],                Subsequently, Section 3 presents the experimental results,
+owing especially to its non-invasive nature, which has created a             introducing the proposed optimized DL architectures and their tuned
+pressing and ongoing need to develop robust DL-based HFO detectors           hyperparameters, along with detailed assessments and comparisons of
+specifically tailored for processing scalp EEG data. In fact, scalp          denoising performance. Section 4 is devoted to an in-depth discussion
+EEGs are more susceptible to persistent artifacts and physiological          and comparison of the attained qualitative and quantitative results,
+activity sources, resulting in reduced signal-to-noise ratios compared       while highlighting the contributions we have made as well as the main
+to iEEG, which obscures the subtle high-frequency phenomena [8,              limitations of this research. The ultimate section presents the major
+16–18]. Current DL algorithms applied for processing iEEG recorded           conclusions achieved, along with a summary of the research findings
+that invasive HFOs do not seem to perform effectively with scalp EEG         and potential future directions.
+cases [8, 17, 18]. Yet, detecting HFOs in scalp EEG is particularly
+challenging and considered as a complex process, owing to their low
+amplitude, brief duration, and very low signal-to-noise ratio. Such a
+                                                                             2. Methods and Materials
+contamination might well result in a high incidence of false HFO                    Our proposed DL-based experimental framework for the
+detections, emanating mainly form the interference of various sources,       automatic denoising of epileptic HFO patterns in scalp EEG signals
+usually perceived in electroencephalographic (EEG) recordings,               involves several key steps: data collection, preprocessing, data splitting,
+including electrooculographic (EOG) and electromyographic (EMG)              model training, tuning and hyperparameter optimization of different
+artifacts, and less often, in cardiac artifacts (ECG). Removing or           implemented deep neural networks, and finally, the evaluation of
+rejecting artifacts from scalp EEG is, therefore, crucial for an effective   the optimized models. Initially, intracranial EEG channels recorded
+interpretation of EEG recordings, and their ultimate use in the form         from various electrode contacts located in epileptogenic regions
+of HFOs spatiotemporal brain mapping [2, 19]. Yet, both EMG and              were selected. Afterward, a thorough inspection was conducted by
+EOG associated artifacts turn out to be too difficult to omit due to their   experienced clinicians to identify and label epileptic HFO events in our
+high amplitude, variable topographical distribution, and widespread          dataset. Subsequently, during the preprocessing phase, the annotated
+frequency. In effect, artifacts of various types share closely similar       HFO samples were mixed with noise artifacts at varying signal-to-
+morphological characteristics with HFOs in both frequency and time           interference ratio (SIR) levels. After preprocessing, the data were
+domains. Separating HFO bursts from various artifact activities remains      subsequently divided into training, validation, and test sets. Each DL
+a major challenge within the invasive EEG (iEEG) domain and is               model was then trained on the prepared dataset, and its hyperparameters
+even more difficult in the scalp EEG denoising field [20]. Currently,        were carefully tuned to improve performance and achieve the best
+according to relevant literature, the most recently released state-of-       possible regression results. Finally, the models’ effectiveness was
+the-art DL-based regression models dealing with electrophysiological         evaluated using five widely used metrics, providing a comprehensive
+data denoising, turn out to rely either on one-dimensional Conventional      assessment of their predictive accuracy and reliability. Figure 1 below
+Neural Networks (CNN-1D) [15, 21–25], on Long Short-Term Memory              provides an overview of the proposed methodology, though the actual
+(LSTM) [15], on Generative Adversarial Networks (GAN) [26–31],               implementation may include additional steps or variations depending
+on one-dimensional Transformer (Transformer-1D) [15, 32, 33], or             on the techniques and algorithms used in the study.
+on Stacked Autoencoders (SAE) [34]. Regarding the present study,
+we undertook to propose, optimize, test, assess, and compare the             2.1. Dataset, visualizations and software environments
+performance potential of different denoising designs. Our main goal was
+to determine the most effective model fit for accurately removing noise              Two datasets were used in our experiments. The first was collected
+from scalp EEG bearing contaminated HFO activities. The remainder of         at the Montreal Neurological Institute and Hospital (MNI) in Canada.
+this paper is organized as follows. Following the introduction, Section      The second, denoted as EEGdenoiseNet, was sourced from Zhang et al.
+2 describes the intracranial EEG database, along with the scalp EEG          [35]. Dataset 1 consists of intracranial EEG signals recorded from
+artifact dataset used in this study. It also provides a brief overview of    three patients suffering from refractory epilepsy. These signals were
+the preprocessing steps and methodologies employed, along with an            initially preprocessed using a low-pass anti-aliasing filter set at 500
+introduction to the core DL paradigms explored and their respective          Hz, followed by sampling at a rate of 2 kHz. The MNI dataset consists
+
+
+
+                                                                 Figure 1
+                                     Framework of the overall HFO denoising procedure using DL models
+
+
+
+
+166
+  Artificial Intelligence and Applications                Vol. 4    Iss. 2    2026
+
+
+
+
+of recordings from 24 subdural grid channels and 70 depth sEEG               testing the usefulness, applicability, and practicality of the proposed
+channels, each lasting about 4 min. Recordings were obtained during          approaches. This serves as a foundational step toward developing more
+interictal periods from bilateral mesial temporal lobe (MTL) structures.     robust DL models in future work. Indeed, many successful DL models
+Data collection followed ethical guidelines, with all patients providing     were initially trained on small datasets, with validation conducted on
+informed consent according to MNI research protocols. After review           larger datasets during later development stages. Lastly, cross-validation
+by experienced neurologists, 314 distinct HFO events were identified         helps mitigate the challenges posed by limited data size by enhancing the
+and retained for further analysis. These experts’ visual annotations         reliability and generalizability of the models. Specifically, in this study,
+served as the gold-standard benchmark for optimizing and assessing the       various techniques, methodologies, and experimental simulations were
+performance of DL models designed in this study. Figure 2 illustrates        implemented using the Anaconda Python environment, MATLAB, and
+the graphical interface used to mark and inspect HFO samples.                the Google Colab cloud platform.
+       Regarding the second noise source, we also used the widely
+adopted EEGdenoiseNet dataset [35], which serves as a benchmark for
+                                                                             2.2. Data preprocessing
+artifact denoising. It contains 3400 clean ocular artifact (EOG) samples
+and 5598 pure muscular artifact (EMG) signals, enabling the synthesis               Preprocessing EEG data is a crucial step to improve data quality
+of contaminated EEG signals. Following previously renowned studies           and facilitate meaningful analysis. According to our research objectives,
+[21, 23, 24, 30, 32, 35], the signal-to-interference ratio (SIR) values      the basic initial preprocessing steps include normalization, resizing or
+appropriate for contaminating our iEEG HFO segments were set to              rescaling samples, adding noise, and mixing. Max-Abs normalization
+range from −14 dB to 5 dB.                                                   was applied to ensure that the models received consistent input, thereby
+       Although larger datasets, especially long EEG recordings from         enhancing training effectiveness and convergence. This method scales
+multiple subjects, are crucial for developing and training reliable deep     the dataset values to a specific range, between −1 and 1, bringing all
+neural network models, we believe that our dataset is of paramount           data onto a comparable scale. While EEGdenoiseNet [35] includes
+importance for several reasons. Firstly, access to large clinical HFO        3400 eye artifact (EOG) and 5598 muscle artifact (EMG) sequences,
+datasets is frequently impeded by privacy concerns, consent issues,          each containing 512 samples after our adjustments, each labeled HFO
+potential misuse, and institutional barriers. Nevertheless, despite these    event was also resized to 512 samples to match the EEGdenoiseNet
+challenges, our limited dataset demonstrates the feasibility of leveraging   segment length. Additionally, the EEGdenoiseNet artifact dataset was
+DL for scalp HFO denoising.                                                  resampled to 2000 Hz to ensure all datasets shared the same sampling
+       Second, for proof-of-concept studies like ours, using a few           frequency. With respect to our study, EEGdenoiseNet is used as a
+hundred annotated HFO events as preliminary research enables                 publicly available benchmark dataset widely adopted by the research
+
+
+                                                                   Figure 2
+                                  A snapshot of the graphical user interface (GUI) used for HFO annotation
+
+
+
+
+                                                                                                                                                    167
+  Artificial Intelligence and Applications               Vol. 4    Iss. 2   2026
+
+
+
+
+community for the quantitative evaluation of artifact denoising             the need to apply common loss metrics, with the most popular being
+methods. Regarding the noise addition and mixing stages, we combined        the mean squared error (MSE) and the mean absolute error (MAE).
+the 314 annotated pure raw iEEG signals with the EOG and EMG data           Additionally, a wide range of optimizers were also applied to train DL
+segments from EEGdenoiseNet to generate artifact-contaminated EEG           models, including Stochastic Gradient Descent (SGD), RMSprop, and
+signals. This was achieved using a linear noising approach with SIR         Adam, each distinctly influencing convergence and learning efficiency
+values ranging from −14 dB to 5 dB, as follows:                             processes. Regarding hyperparameters, they were specifically tailored
+                                                                            to meet each DL model special needs. Regarding the CNNs, for
+                                                                     (1)    instance, multiple convolutional layers were applied for the features’
+                                                                            extraction purposes, wherein, each layer uses different convolutional
+where λ is the artifact coefficient derived from the noise-added EEGs       filters, followed by a max pooling process. Each layer was activated
+associated SIR. In our case, the following λ values were used: 3, 8,        using Relu, and the network concludes with a fully connected layer,
+12, 16, 20, 22, and 25. Both the initial iEEG signal and the artifact       enclosing multiple hidden layers with N neurons. As regards the
+(EOG or EMG) were normalized prior to mixing. We then proceeded by          LSTMs, they were adept at capturing intricate temporal patterns within
+randomly mixing the entire artifacts and actual iEEG data. The signal-      uni-dimensional data, such as time series, and were typically designed
+to-interference ratio (SIR) computation method [21, 22, 27, 28] was         to use N LSTM units. Concerning SAEs, they apply a special encoder–
+calculated as follows:                                                      decoder device to reflect learning representation modes, highly critical
+                                                                            for deciphering complex data structures. The encoder compresses
+                                                                            input data into a lower-dimensional latent space, capturing essential
+                                       λ
+                                                                     (2)    features, while the decoder undertakes to reconstruct the original input,
+                                                                            allowing the model to estimate relevant effectiveness. Stacking multiple
+where RMS denotes the root mean square operator. Following these            layers of encoders and decoders enhances the AEs’ ability to learn
+preprocessing stages, a total of 23,072 EMG and EOG-noised EEG              hierarchical representations. Initially introduced in 2017, Transformers
+signals covering SIR values between −14 dB and 5 dB were obtained.          [36] represent powerful DL architectures fit for implementation in
+The contaminated EEG signals and raw iEEG samples were used as              various applications, including the EEG signal analysis domains. Their
+input and target output, respectively, to train the various DL models.      built-in self-attention and multi-head attention mechanisms enable the
+80% of the final preprocessed data were randomly selected and reserved      model to weigh the importance of various input elements, by capturing
+for training, while the remaining 20% were evenly split between             dependencies within the same sequence and modeling relationships
+validation and testing, using 10-fold cross-validation.                     across different representation subspaces through attention mechanisms.
+                                                                            Briefly, transformers encompass an embedded layer, enabling to convert
+2.3. DL denoising models: core architectures and                            input data into a meaningful vector space, while positional encoding
+                                                                            adds sequential context order, enabling models to handle complex
+hyperparameter tuning                                                       structured data with both relational and positional understanding, and a
+       In DL based applications, optimizing model performance hinges        set of transformer–encoder data processing layers that apply attention-
+on several key hyperparameters. Some are commonly applicable across         based techniques, along with a feed-forward layer or Multi-Layer
+various architectures, while others are specific to particular methods.     Perceptron (MLP) as an extra transformation unit. Finally, the GANs,
+Understanding these hyperparameters is crucial, as their optimal values     originally introduced by Goodfellow et al. [37], stand as a powerful
+are often drawn from extensive trial-and-error tuning tests. The most       DL modeling class, involving two neural networks: the generator
+significantly common hyperparameters include the learning rate,             and the discriminator. Actually, a GAN is a DL method based on two
+number of epochs, optimizer choice, early stopping criteria, batch size,    adversarial neural network architectures, a Discriminator (D) and a
+and cost function. As one of the most critical hyperparameters, learning    Generator (G), to produce highly realistic synthetic data. The Generator
+rate helps determine how quickly a model adapts during training by          serves to generate new data samples from random noise inputs, aimed to
+controlling weight updates. A recommended starting value is 0.0001,         mimic real data, while the Discriminator helps in ensuring whether the
+and the choice of a learning rate could significantly impact the model’s    devised samples are genuine or generated. The G’s major goal consists
+overall performance. The number of epochs refers to the total passes        in producing data that D would mistakenly identify as real, leading
+performed through the training dataset, and setting up this parameter       to significant updates for G and penalties for D. Inversely, however,
+requires an equitable balance of underfitting and overfitting. When a       if D manages to correctly identify fake data, it turns out to be more
+model is underfitted, it fails to maintain effective learning, leading to   adept at discrimination. This adversarial process iteratively refines
+poor performance at the levels of the training and validation datasets.     both networks, enhancing the generator’s ability to produce realistic
+Overfitting, however, occurs when a model appears to learn the training     synthetic data until the discriminator can no longer reliably distinguish
+data perfectly well, which often results in excellent performance at the    between real and generated samples. Therefore, the objective function
+training set level, yet, poor generalization in regard to new latently      of a GAN can be expressed as a minimax optimization procedure, as
+implicit data. Hence, early stopping might help in mitigating overfitting   described by the following equation:
+by halting training when performance metrics stagnate, once a patience
+parameter is typically set between 3 and 25 epochs for regression tasks.                                                                         (3)
+More particularly, the training loss would steadily decline, while the
+validation loss would initially decrease prior to rising anew at the
+occurrence of the overfitting process. As to early stopping, it serves             Here, x denotes a sample drawn from the real data distribution
+to halt training at the level where validation loss reaches its minimum.             , while         represents the random input noise fed into the
+In this regard, batch size displays a noticeable impact on training         generator. D(x) corresponds to the discriminator’s output for real
+dynamics, wherein, larger sizes could speed up training but might           data, while D(G(z)) corresponds to its output for generated data. G(z)
+hinder generalization, while smaller sizes might enhance generalization     is the generated (fake) sample produced from random noise z. For a
+at the expense of increased noise and execution time. The cost function,    comprehensive understanding of the provided GAN frameworks and
+enabling to quantify the difference between predicted values and            their applications, the aforementioned-cited source [37] offers valuable
+actual values, is vital for guiding the model learning process. Hence,      in-depth analyses.
+
+
+
+168
+  Artificial Intelligence and Applications                 Vol. 4    Iss. 2         2026
+
+
+
+
+2.4. Performance evaluation metrics applied for EEG                             where: and respectively denote the average values of the iEEG
+denoising regression tasks                                                      ground truth and the DL model output. The fourth quantitative
+                                                                                evaluative metric of our denoising model was determined by computing
+        Selecting the most appropriate evaluation metrics is crucial in         the correlation coefficient (CC) between both PSD of ground truth
+the area of regression-based biomedical healthcare applications. In this        signal and denoised signal, defined as:
+context, we opted for adopting and implementing the previous studies’
+applied evaluation metrics, dealing with the subject of EEG denoising,
+consistently with their denoising performance assessment criteria. The                                                                                 (7)
+aim was to elucidate each denoising model associated strength, to provide
+useful insights as to the most effective model selection process. In the
+process, each model’s practical implications and limitations were outlined,     where:         and        respectively designate the average values of
+paving the way for future innovations in matters of scalp EEG based             the ground truth EEG signal spectrum and the model output spectrum.
+HFO denoising procedure. For this purpose, five objective quantitative          The final metric applied was the correlation between the time-frequency
+performance metrics were applied to evaluate and report the regression          map of the true EEG signal and the denoised signal, denoted as CCtf. In
+models’ performance, while measuring error ranges between denoised              our study context, the Complex Morlet (CMOR) wavelet was applied
+EEG signals and true iEEG signals [23, 34]. In this respect, evaluating the     to map time-frequency, as detailed in Chaibi et al. [38] (for further
+different networks’ performance was performed in terms of relative root         implementation details). This metric value was computed as follows:
+mean square error in time (RRMSEt), spectral relative root mean square
+error in frequency domain (RRMSEf), along with the Pearson correlation                                                                                 (8)
+coefficient values. In effect, both the temporal Pearson correlation
+coefficient (CCt) and frequency Pearson correlation coefficient (CCf)
+should help in pinpointing each method’s ability to effectively preserve        where: x and y respectively denote the time-frequency matrix maps
+both temporal change and spectral information between the initial iEEG          within the 0–1000 frequency range of the original iEEG signal and the
+signals and denoised EEG signals. Additionally, time-frequency Pearson          denoised signal, respectively, while n represents the flattened size of the
+correlation coefficient (CCtf) was also introduced to provide information       TF map. In qualitative research, visual data analysis serves as a highly
+regarding the method’s ability to simultaneously preserve temporal and          fruitful tool, enabling clearer interpretation of findings by transforming
+spectral information. The RRMSEt was used to measure the difference             complex results into intuitive and accessible visual representations.
+between the DL model predicted temporal EEG signal ( ) and the ground           Through radar charts, figures, and curves, it presents data in a reader-
+truth time-series iEEG signal ( ), as defined by:                               friendly format that improves comprehension and facilitates deeper
+                                                                                insights.
+                                                                       (4)
+                                                                                3. Results
+     On considering the frequency domain, the PSD was introduced to                    Most available DL algorithms trained on invasive EEG
+compute the RRMSEf, as follows:                                                 recordings perform poorly when applied to scalp EEG data, primarily
+                                                                                due to the lower signal-to-interference ratios and the susceptibility of
+                                                                       (5)      scalp EEG to various artifacts. These artifacts can mask persistent high-
+                                                                                frequency phenomena. Moreover, different types of EEG artifacts and
+                                                                                HFOs often exhibit similar morphological characteristics in both the
+wherein, the function PSD denotes the signal’s power spectral density.          time and frequency domains, potentially leading to misidentification
+The PSD frequency range in our case is 0–1000 Hz.                               of HFOs and adversely impacting clinical interpretations. To address
+       The correlation coefficient (CC), is the classic correlation             these challenges, it is essential to evaluate the performance of these
+measure of time-series data, also referred to as Pearson correlation            algorithms specifically for denoising scalp HFOs. This section focuses
+coefficient. It serves to measure the degree of statistical relationship        on tuning and optimizing both common and shared DL hyperparameters
+binding two variables, i.e., the ground truth signal and the denoised           and their specific internal architectures, as their proper selection and
+signal, in our case. The CCt takes values within the range of [−1; 1],          adjustment are critical for enhancing models’ performance in regression
+defined in time domain as:                                                      tasks like ours, ensuring stability, and improving generalization.
+                                                                                       Table 1 presents the optimal shared hyperparameter values
+                                                                       (6)      identified through extensive trial-and-error tuning, using both manual
+                                                                                and Bayesian optimization methods. Various settings, including learning
+
+
+                                                                 Table 1
+                                        Optimal hyperparameters applied in the EEG denoising context
+                                                                            Hyperparameter
+                                                                    Number of epochs                                                  Patience used in
+Method              Optimizer Loss function         Batch size      in early stopping Learning rate            Cross-validation        early stopping
+CNN-1D               RmsProp           MSE              25                    391              0.00001           10-K-Folders                 6
+LSTM                                                                          371              0.00002
+Stacked AE                                                                    500              0.00005
+Transformer 1D                                                                217              0.00002
+GAN                                                                           273               0.0008
+
+
+
+                                                                                                                                                      169
+  Artificial Intelligence and Applications               Vol. 4    Iss. 2   2026
+
+
+
+
+rates (ranging from 10⁻⁸ to 0.1), batch sizes (3 to 50), optimizers (SGD,   (k = 5 to 15) was iteratively tested through trial and error to determine
+Adam, RMSprop, Adadelta), and loss functions (MSE, MAE), were               the best trade-off between performance and computational cost.
+systematically evaluated to assess their impact. Different models were            Figure 3 provides an overview of the specifically optimized
+initially trained for 500 epochs, with early stopping applied to each       model configurations, along with the complete set of tuned architectures.
+architecture to prevent overfitting. Furthermore, k-fold cross-validation   Regarding the CNN method, we consistently employed three
+
+
+                                                                Figure 3
+Graphical illustrations of the various tuned DL architectures applied for HFO-sequence denoising: (a) CNN-1D, (b) LSTM, (c) Stacked
+                                   Autoencoder, (d) Transformer-1D and (e) GAN model architecture
+
+
+
+
+170
+  Artificial Intelligence and Applications                   Vol. 4   Iss. 2    2026
+
+
+
+
+convolutional layers with kernel sizes of 15, 10, and 8, respectively,         models’ effectiveness, thereby supporting more effective fine-tuning
+each activated by the ReLU function. Max pooling layers were applied           and optimization.
+after the first and third convolutional layers, while batch normalization            Noteworthy as shown in Figure 4, the GAN model nearly
+followed all convolutional layers. For the fully connected module,             converged to zero loss values, demonstrating markedly superior
+two dense layers were used, separated by a dropout layer to reduce             accuracy and effectiveness compared to the other DL models.
+overfitting. The first dense layer contained 1024 neurons and utilized
+the ReLU activation function. The output dense layer comprised 512
+neurons, corresponding to the denoised EEG signal, and applied a linear
+                                                                               4. Discussion
+activation function suitable for regression tasks. With respect to the                While several DL algorithms exist for detecting HFOs in
+LSTM method, we employed ten units followed by a flattening of all             intracranial EEG, clinical applications often rely on scalp EEG due to
+resultant outputs. Subsequently, the same fully connected layers used          its non-invasive nature and safety. Scalp EEG enables real-time and
+in the CNN-1D model were applied to the LSTM model. The stacked                simple monitoring of brain activity but is frequently contaminated
+autoencoder comprises an encoder, a bottleneck layer, and a decoder.           by artifacts such as EMG, EOG, and other noise, which can lead to
+The encoder has three ReLU-activated dense layers (256, 128, and 64            spurious detections and inaccurate clinical interpretation of HFOs.
+neurons), followed by a 32-neuron bottleneck layer for compressed                     To address these challenges, this study introduced five DL
+feature extraction. The decoder mirrors this structure in reverse, ending      methods designed to remove artifacts while preserving HFO features
+with a linear activation layer of 512 neurons to reconstruct the denoised      in scalp EEG signals. Accordingly, we examined several advanced
+EEG signal. The temporal Transformer-based method begins with an               DL denoising techniques, including CNN-1D, LSTM, Stacked
+embedding layer that converts raw contaminated EEG time series into            Autoencoders, Transformer-1D, and GAN models. These five networks
+dense vectors, capturing key features while reducing dimensionality.           were designed to reduce EMG and EOG artifacts in contaminated
+Positional encoding is applied to preserve the temporal order of data          EEG samples containing HFOs. Performance was evaluated using the
+points. The model uses four transformer blocks (as configured in               Relative Root Mean Square Error (RRMSE) to quantify information
+Vaswani et al. [36]), after which the output is flattened and passed           retention and the Correlation Coefficient (CC) to assess similarity
+through a MLP comprising two dense layers with 256 and 512 neurons.            between the denoised and original signals across different domains.
+A linear activation function is applied at the output layer for continuous     After tuning and evaluating these models, our goal was to identify the
+regression tasks like EEG denoising. The GAN architecture, shown in            most effective method for denoising scalp EEG signals in the context
+Figure 3, includes a Generator with 16 residual blocks and three 2D            of HFO processing. Figure 5 illustrates the strengths and weaknesses
+convolutional layers, ending with a Tanh activation for regression.            of each model. Notably, the GAN model demonstrated superior
+The Discriminator consists of a convolutional layer followed by                performance by minimizing total error (RRMSEt and RRMSEf) while
+seven residual blocks and two dense layers; the first uses leaky ReLU          maximizing correlation coefficients (CCt, CCf, and CCtf), outperforming
+activation, and the final layer applies a sigmoid activation to classify       the other DL methods in denoising HFO sequences.
+EEG signals as real or fake. Further implementation details and                       For a qualitative analysis of the different denoising models,
+parameters are provided in Sawangjai et al. [29].                              Figure 6 presents representative visual results illustrating noise
+       As summarized in Table 2, the performance evaluation and                removal and artifact reduction across the compared methods. Subplot
+quantitative experimental results demonstrate the exceptional and              6(1,1) displays a contaminated EEG segment alongside the denoised
+superior reliability of the proposed GAN-based EEG denoising model.            signal produced by the CNN-1D model, as well as the corresponding
+The model achieved excellent regression results, with time-domain              true iEEG signal. Subplot 6(1,2) compares the power spectral density
+RRMSEₜ and frequency-domain RRMSEf values of 0.0007 and 0.031,                 (PSD) of the CNN-1D denoised EEG with that of the original iEEG
+respectively. Additionally, the Pearson correlation coefficients were          signal, while Subplots 6(1,3) and 6(1,4) show the spectrograms of the
+0.995 for the time domain (CCₜ) and 0.998 for the frequency domain             original and denoised signals, respectively, with time on the horizontal
+(CCf). The time–frequency metric (CCtf) yielded a score value of 0.810.        axis and frequencies from 0 to 1000 Hz on the vertical axis. This
+       Additionally, visualizing and comparing the loss trends across          model failed to fully preserve the HFO representation observed in
+epochs for both training and validation sets provided valuable insights        the original iEEG spectrogram. Graphs 6(2,1) through 6(2,4) present
+into the models’ convergence behavior. As shown in Figure 4, the loss          similar results for the LSTM method, which also failed to retain the
+curves illustrate how the models evolved during training, enabling             HFO event information. Illustrations 6(3,1)–6(3,4) present results
+assessment of their learning trajectories and convergence toward               for the Stacked Autoencoder approach, which exhibited significantly
+optimal solutions. All models demonstrated good convergence and                poorer performance than the earlier models in retaining HFO-related
+consistent improvement in generalizability throughout the training             information. For the Transformer-1D model, Subplots 6(4,1) through
+iterations. This visual comparison helps to understand and evaluate            6(4,4) illustrate outputs that inadequately preserve HFO burst traces
+
+                                                                     Table 2
+                                           Comparison of denoising performance of various DL networks
+                                                                                Metric value
+ Model                   RRMSEt temporal             RRMSEf spectral            CCt temporal              CCf spectral        CCTF time-frequency
+ CNN-1D                          0.124                      0.403                   0.906                    0.964                     0.575
+ LSTM 1D                         0.125                      0.353                   0.904                    0.961                     0.608
+ Stacked AE                      0.138                      0.235                   0.890                    0.954                     0.676
+ Transformer-1D                  0.172                      0.645                   0.809                    0.922                     0.655
+ GAN                            0.0007                      0.031                   0.995                    0.998                     0.810
+Note: Average values were reported across all SIR levels.
+
+
+
+
+                                                                                                                                                  171
+  Artificial Intelligence and Applications             Vol. 4    Iss. 2   2026
+
+
+
+
+                                                                Figure 4
+ Depiction of training and validation loss curves of the compared DL models for HFOs segments denoising: (a) CNN-1D, (b) LSTM, (c)
+                               Stacked Autoencoder, (d) Transformer-1D and (e) GAN model architecture
+
+
+
+
+                           Figure 5                                       accuracy in artifact denoising. This is reflected by correlation coefficients
+ Radar chart-based performance evaluation of the selected EEG             significantly below 1 (unity) and RRMSE values that remain notably
+                denoising regression networks                             above zero. Such limitations can result in inaccurate denoising of
+                                                                          scalp HFO segments, particularly when processing signals containing
+                                                                          overlapping transient artifacts (e.g., EMG or eye-blink artifacts) under
+                                                                          low SIR conditions.
+                                                                                 In summary, the proposed GAN model excels at denoising
+                                                                          artifact-contaminated scalp EEG signals while preserving essential
+                                                                          HFO features. Its effective noise reduction and accurate neural signal
+                                                                          reconstruction make it a valuable tool for improving the reliability
+                                                                          of HFO denoising in scalp EEG, thereby enhancing both clinical and
+                                                                          research applications of HFOs.
+                                                                                 This study acknowledges several limitations. First, although the
+                                                                          GAN model demonstrated impressive results in denoising HFOs with
+                                                                          as few as 314 labeled real HFO samples, its generalizability may be
+                                                                          limited due to the small dataset size. A larger and more diverse dataset is
+                                                                          necessary to capture the complex variations present in real-world HFO
+                                                                          signals.
+                                                                                 Second, internal validation was performed using data from
+                                                                          a single institution. To improve the generalizability and clinical
+                                                                          applicability of our findings, external validation using multi-center data
+                                                                          representing a wide range of ages, symptoms, and clinical HFO profiles
+                                                                          is essential. This would help further refine the GAN model and ensure
+                                                                          its broader generalizability.
+                                                                                 Third, no systematic comparison against conventional baseline
+across different domains. Finally, Graphs 6(5,1) through 6(5,4) present   methods and other machine learning approaches has been performed,
+the GAN model results, demonstrating its superior effectiveness in        hindering an objective assessment of progress in the field.
+artifact removal. The GAN successfully preserved HFO traces in the               In conclusion, since our results are preliminary and not yet fully
+denoised signal, which closely approximates the benchmark iEEG            conclusive, large-scale multicenter validation studies are required to
+signal across time, frequency, and time–frequency domains.                establish the reliability and generalizability of these findings prior to
+       Overall, the GAN model demonstrates strong performance             clinical application.
+compared to the other DL-based models, which exhibited limited
+
+
+
+
+172
+  Artificial Intelligence and Applications               Vol. 4    Iss. 2    2026
+
+
+
+
+                                                            Figure 6
+  Qualitative comparison of EEG denoising models. Rows 1–5 correspond, respectively, to the CNN-1D, LSTM, Stacked Autoencoder,
+                                               Transformer-1D, and GAN models
+
+
+
+
+5. Conclusion and Future Research Veins                                     clinically viable alternative for epilepsy cases where intracranial EEG is
+                                                                            impractical or high-risk without requiring invasive procedures.
+       Accordingly, our present framework consisted of providing
+                                                                                   Potentially, our future research is likely to follow the following
+a systematic review and comparative analysis of five proposed EEG
+                                                                            roadmap: (i) testing advanced DL models, such as large language
+denoising fine-tuned DL models, using both the EEGdenoiseNet dataset
+                                                                            models (LLMs) [39]; (ii) exploring additional evaluation metrics,
+and our own dataset as a consistent evaluative benchmark. In this regard,
+                                                                            including R-squared, mean absolute error (MAE), and median absolute
+a set of five DL architectures, designed to remove EMG and EOG
+                                                                            error (MedAE); and (iii) collaborating with multiple institutions to
+artifacts from contaminated EEG signals, was assessed by evaluating
+                                                                            assess the feasibility and generalizability of our findings using larger
+each model’s robustness in this context. The reached findings clearly
+                                                                            datasets, incorporating more intracranial HFO segments along with
+demonstrated the GAN model’s high reliability in removing artifacts
+                                                                            their corresponding scalp EEG data for validation [38, 40–42].
+from contaminated EEG data, showing superior robustness across
+varying noise conditions and achieving strong performance in denoising
+HFO sequences in scalp EEG. Indeed, it achieved the lowest temporal         Acknowledgment
+and spectral relative root mean square errors (RRMSEs) of 0.0007                   The authors gratefully acknowledge the staff at the Montreal
+and 0.031, respectively, along with the highest temporal and spectral       Neurological Institute and Hospital in Canada for generously providing
+correlation coefficients of 0.995 and 0.998, respectively. Additionally,    the dataset used in this study to evaluate various DL denoising models.
+the time–frequency correlation coefficient (CCtf) reached 0.810.
+                                                                                   The authors would like to express their sincere gratitude to the
+       Ultimately, our approach may open new avenues by bridging the
+                                                                            members of the Functional Exploration of the Nervous System Service
+gap between invasive and non-invasive EEG processing, providing a
+
+
+
+                                                                                                                                                 173
+  Artificial Intelligence and Applications                 Vol. 4    Iss. 2   2026
+
+
+
+
+at CHU Sahloul, Sousse, Tunisia, for their valuable assistance and             [5] Fan, Y., Dong, L., Liu, X., Wang, H., & Liu, Y. (2021). Recent
+professionalism in the visual inspection process of HFOs in our dataset.           advances in the noninvasive detection of high-frequency
+      We would also like to thank the editor and reviewers for their               oscillations in the human brain. Reviews in the Neurosciences,
+insightful comments and suggested recommendations relevant to the                  32(3), 305–321. https://doi.org/10.1515/revneuro-2020-0073
+present manuscript.                                                            [6] Cserpan, D., Gennari, A., Gaito, L., Lo Biundo, S. P., Tuura,
+      Special thanks are also extended to Prof. Sami CHAMI, for his                R., Sarnthein, J., & Ramantani, G. (2022). Scalp HFO rates
+valuable assistance in matters of linguistic proofreading and structural           are higher for larger lesions. Epilepsia Open, 7(3), 496–503.
+review of the present manuscript.                                                  https://doi.org/10.1002/epi4.12596
+                                                                               [7] Foley, E., Quitadamo, L. R., Walsh, A. R., Bill, P., Hillebrand,
+                                                                                   A., & Seri, S. (2021). MEG detection of high frequency
+Ethical Statement
+                                                                                   oscillations and intracranial-EEG validation in pediatric
+       This study did not require formal ethical approval at the                   epilepsy surgery. Clinical Neurophysiology, 132(9), 2136–2145.
+authors’ institution because it involved the secondary analysis of                 https://doi.org/10.1016/j.clinph.2021.06.005
+fully anonymized human EEG data obtained through an established                [8] Milon-Harnois, G. (2023). Détection automatique et analyse des
+academic collaboration. All original data collection was conducted                 oscillations à haute fréquence en EEG-HD de surface [Scalp
+in accordance with ethical guidelines at the Montreal Neurological                 HD-EEG high frequency oscillations automatic detection and
+Institute (MNI), Canada, with informed consent obtained from all                   analysis]. PhD Thesis, Université d’Angers.
+participants. At the National School of Engineers of Sfax (ENIS),              [9] Jacobs, J., Staba, R., Asano, E., Otsubo, H., Wu, J. Y., Zijlmans,
+University of Sfax, Tunisia, institutional ethics committee approval is            M., ..., & Gotman, J. (2012). High-frequency oscillations (HFOs)
+not required for educational or research studies involving previously              in clinical epilepsy. Progress in Neurobiology, 98(3), 302–315.
+collected, anonymized patient data. This exemption is based on the                 http://doi.org/10.1016/j.pneurobio.2012.03.001
+University of Sfax Research Ethics Policy.                                    [10] Fazli Besheli, B., Sha, Z., Gavvala, J. R., Karamursel, S., Quach,
+                                                                                   M., Swamy, C. P., ..., & Ince, N. F. (2024). Using high-frequency
+Conflicts of Interest                                                              oscillations from brief intraoperative neural recordings to predict
+                                                                                   the seizure onset zone. Communications Medicine, 4(1), 243.
+        The authors declare that they have no conflicts of interest to this        https://doi.org/10.1038/s43856-024-00654-0
+work.                                                                         [11] Wang, Z., Guo, J., van’T Klooster, M., Hoogteijling, S., Jacobs,
+                                                                                   J., & Zijlmans, M. (2024). Prognostic value of complete resection
+Data Availability Statement                                                        of the high-frequency oscillation area in intracranial EEG:
+                                                                                   A systematic review and meta-analysis. Neurology, 102(9),
+      Data are available from the corresponding author upon reasonable
+                                                                                   e209216. https://doi.org/10.1212/WNL.0000000000209216
+request.
+                                                                              [12] Sun, Y., Ren, G., Ren, J., & Wang, Q. (2021). High-frequency
+                                                                                   oscillations detected by electroencephalography as biomarkers
+Author Contribution Statement                                                      to evaluate treatment outcome, mirror pathological severity and
+                                                                                   predict susceptibility to epilepsy. Acta Epileptologica, 3(1), 29.
+      Sahbi Chaibi: Conceptualization, Methodology, Software,
+                                                                                   https://doi.org/10.1186/s42494-021-00063-z
+Validation, Formal analysis, Investigation, Resources, Data curation,
+Writing – original draft, Writing – review & editing, Visualization,          [13] Fedele, T., van’T Klooster, M., Burnos, S., Zweiphenning, W.,
+Project administration. Wadhah Ayadi: Conceptualization,                           van Klink, N., Leijten, F., ..., & Sarnthein, J. (2016). Automatic
+Methodology, Validation. Abdennaceur Kachouri: Validation,                         detection of high frequency oscillations during epilepsy surgery
+Supervision.                                                                       predicts seizure outcome. Clinical Neurophysiology, 127(9),
+                                                                                   3066–3074. https://doi.org/10.1016/j.clinph.2016.06.009
+                                                                              [14] Liu, J., Sun, S., Liu, Y., Guo, J., Li, H., Gao, Y., ..., & Xiang, J. (2020).
+References                                                                         A novel MEGNet for classification of high-frequency oscillations
+ [1] Stovall, T., Hunt, B., Glynn, S., Stacey, W. C., & Gliske, S. V.              in magnetoencephalography of epileptic patients. Complexity,
+     (2021). Interictal high frequency background activity as a bio-               2020(1), 9237808. https://doi.org/10.1155/2020/9237808
+     marker of epileptogenic tissue. Brain Communications, 3(3),              [15] Zhang, X. (2024). Deep learning-based techniques for
+     fcab188. https://doi.org/10.1093/braincomms/fcab188                           electroencephalogram (EEG) signal denoising. Transactions on
+ [2] Lin, J., Smith, G. C., Gliske, S. V., Zochowski, M., Shedden,                 Computer Science and Intelligent Systems Research, 5, 922–927.
+     K., & Stacey, W. C. (2024). High frequency oscillation                        https://doi.org/10.62051/rrve8560
+     network dynamics predict outcome in non-palliative                       [16] Höller, P., Trinka, E., & Höller, Y. (2018). High-frequency
+     epilepsy surgery. Brain Communications, 6(1), fcae032.                        oscillations in the scalp electroencephalogram: Mission
+     https://doi.org/10.1093/braincomms/fcae032                                    impossible without computational intelligence. Computational
+ [3] Zhang, Y., Chung, H., Ngo, J. P., Monsoor, T., Hussain, S. A.,                Intelligence       and       Neuroscience,         2018(1),       1638097.
+     Matsumoto, J. H., ..., & Nariai, H. (2022). Characterizing                    https://doi.org/10.1155/2018/1638097
+     physiological high-frequency oscillations using deep                     [17] Milon-Harnois, G., Jrad, N., Schang, D., van Bogaert,
+     learning. Journal of Neural Engineering, 19(6), 066027.                       P., & Chauvet, P. (2022). Deep learning for scalp high
+     https://doi.org/10.1088/1741-2552/aca4fa                                      frequency oscillations identification. In 2022 30th
+ [4] Guragain, H., Cimbalnik, J., Stead, M., Groppe, D. M.,                        European Signal Processing Conference, 1223–1227.
+     Berry, B. M., Kremen, V., ..., & Brinkmann, B. H. (2018).                     https://doi.org/10.23919/EUSIPCO55093.2022.9909978
+     Spatial variation in high-frequency oscillation rates and                [18] Besio, W. G., Martinez-Juarez, I. E., Makeyev, O., Gaitanis,
+     amplitudes in intracranial EEG. Neurology, 90(8), e639–e646.                  J. N., Blum, A. S., Fisher, R. S., & Medvedev, A. V. (2014).
+     https://doi.org/10.1212/WNL.0000000000004998                                  High-frequency oscillations recorded on the scalp of patients
+
+
+
+
+174
+  Artificial Intelligence and Applications               Vol. 4   Iss. 2    2026
+
+
+
+
+       with epilepsy using tripolar concentric ring electrodes. IEEE              GAN: An improved image denoising algorithm based on
+       Journal of Translational Engineering in Health and Medicine, 2,            generative adversarial networks. Electronics, 12(22), 4595.
+       2000111. https://doi.org/10.1109/JTEHM.2014.2332994                        https://doi.org/10.3390/electronics12224595
+[19]   Chaibi, S., Mahjoub, C., le Bouquin Jeannès, R., & Kachouri,        [32]   Yin, J., Liu, A., Li, C., Qian, R., & Chen, X. (2023). Jīyú
+       A. (2023). Interactive interface for spatio-temporal mapping of            bìngxíng CNN hé Transformer de nǎo diàn jiàng zào
+       epileptic human brain using characteristics of high frequency              wǎngluò [A parallel CNN and transformer network for EEG
+       oscillations (HFOs). Biomedical Signal Processing and Control,             denoising]. Journal of Signal Processing, 39(8), 1419–1432.
+       85, 105041. https://doi.org/10.1016/j.bspc.2023.105041                     https://dx.doi.org/10.16798/j.issn.1003-0530.2023.08.008
+[20]   Ren, S., Gliske, S. V., Brang, D., & Stacey, W. C. (2019).          [33]   Chen, J., Pi, D., Jiang, X., Xu, Y., Chen, Y., & Wang, X.
+       Redaction of false high frequency oscillations due to muscle               (2024). Denosieformer: A transformer-based approach for
+       artifact improves specificity to epileptic tissue. Clinical                single-channel EEG artifact removal. IEEE Transactions
+       Neurophysiology, 130(6), 976–985. https://doi.org/10.1016/j.               on Instrumentation and Measurement, 73, 2501116.
+       clinph.2019.03.028                                                         https://doi.org/10.1109/TIM.2023.3341114
+[21]   Chowdhury, M. E. H., Hossain, M. S., Mahmud, S., & Khandakar,       [34]   Leite, N. M. N., Pereira, E. T., Gurjao, E. C., & Veloso, L. R. (2018).
+       A. (2022). Deep learning technique to denoise electromyogram               Deep convolutional autoencoder for EEG noise filtering. In 2018
+       artifacts from single-channel electroencephalogram signals.                IEEE International Conference on Bioinformatics and Biomedicine,
+       Computer Science & Information Technology, 85–98.                          2605–2612. https://doi.org/10.1109/BIBM.2018.8621080
+       https://doi.org/10.5121/csit.2022.122006                            [35]   Zhang, H., Zhao, M., Wei, C., Mantini, D., Li, Z., & Liu, Q.
+[22]   Huang, T.-Q., Wang, C.-S., Chen, Z.-Q., Zhang, F.-Q., Meng,                (2021). EEGdenoiseNet: A benchmark dataset for deep learning
+       X.-L., Grau, A., ..., & Huang, J.-W. (2023). 2-D GCANet applied            solutions of EEG denoising. Journal of Neural Engineering,
+       to denoise 1-D EEG signals in online remote teaching scenarios.            18(5), 056057. https://doi.org/10.1088/1741-2552/ac2bf8
+       Journal of Network Intelligence, 8(4), 1289–1302.                   [36]   Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L.,
+[23]   Xiong, J., Meng, X.-L., Chen, Z.-Q., Wang, C.-S., Zhang, F.-               Gomez, A. N., ..., & Polosukhin, I. (2017). Attention is all you
+       Q., Grau, A., ..., & Huang, J.-W. (2024). One-dimensional EEG              need. In Proceedings of the 31st International Conference on
+       artifact removal network based on convolutional neural networks.           Neural Information Processing Systems, 6000–6010.
+       Journal of Network Intelligence, 9(1), 142–159.                     [37]   Goodfellow, I. J., Pouget-Abadie, J., Mirza, M., Xu, B., Warde-
+[24]   Bekele, M. W., Eyob Abera, D., Hailemichael, M. T.,                        Farley, D., Ozair, S., ..., & Bengio, Y. (2014). Generative
+       Yeabsra Dechasa, K., Fanos, M. N., & Yared Getachew, M.                    adversarial nets. In Proceedings of the 28th International
+       (2023). Electroencephalography data denoising with deep                    Conference on Neural Information Processing Systems, 2, 2672–
+       neural networks. In 2023 IEEE International Conference on                  2680.
+       Control, Electronics and Computer Technology, 1074–1078.            [38]   Chaibi, S., Lajnef, T., Sakka, Z., Samet, M., & Kachouri, A.
+       https://doi.org/10.1109/ICCECT57938.2023.10140786                          (2013). A comparison of methods for detection of high frequency
+[25]   Arsene, C. T. C., Hankins, R., & Yin, H. (2019). Deep                      oscillations (HFOs) in human intacerberal EEG recordings.
+       learning models for denoising ECG signals. In 2019                         American Journal of Signal Processing, 3(2), 25–34.
+       27th European Signal Processing Conference, 1–5.                    [39]   Vacareanu, R., Negru, V. A., Suciu, V., & Surdeanu, M. (2024).
+       https://doi.org/10.23919/EUSIPCO.2019.8902833                              From words to numbers: Your large language model is secretly
+[26]   An, Y., Lam, H. K., & Ling, S. H. (2022). Auto-denoising for               a capable regressor when given in-context examples. In First
+       EEG signals using generative adversarial network. Sensors,                 Conference on Language Modeling.
+       22(5), 1750. https://doi.org/10.3390/s22051750                      [40]   Koessler, L. (2023). What are the advantages and challenges
+[27]   Brophy, E., Redmond, P., Fleury, A., de Vos, M., Boylan, G.,               of simultaneous scalp EEG and intracranial EEG data
+       & Ward, T. (2022). Denoising EEG signals for real-world BCI                recording? In N. Axmacher (Ed.), Intracranial EEG: A
+       applications using GANs. Frontiers in Neuroergonomics, 2,                  guide for cognitive neuroscientists (pp. 179–197). Springer.
+       805573. https://doi.org/10.3389/fnrgo.2021.805573                          https://doi.org/10.1007/978-3-031-20910-9_12
+[28]   Dong, Y., Tang, X., Li, Q., Wang, Y., Jiang, N., Tian, L., ..., &   [41]   Wong, S. M., Sharma, R., Abushama, A., Ochi, A., Otsubo,
+       Fang, P. (2023). An approach for EEG denoising based on                    H., & Ibrahim, G. M. (2024). The impact of simultaneous
+       wasserstein generative adversarial network. IEEE Transactions              intracranial recordings on scalp EEG: A finite element
+       on Neural Systems and Rehabilitation Engineering, 31, 3524–                analysis. Journal of Neuroscience Methods, 405, 110101.
+       3534. https://doi.org/10.1109/TNSRE.2023.3309815                           https://doi.org/10.1016/j.jneumeth.2024.110101
+[29]   Sawangjai, P., Trakulruangroj, M., Boonnag, C., Piriyajitakonkij,   [42]   Parmigiani, S., Mikulan, E., Russo, S., Sarasso, S., Zauli, F. M.,
+       M., Tripathy, R. K., Sudhawiyangkul, T., & Wilaiprasitporn, T.             Rubino, A., ..., & Pigorini, A. (2022). Simultaneous stereo-EEG
+       (2022). EEGANet: Removal of ocular artifacts from the EEG                  and high-density scalp EEG recordings to study the effects of
+       signal using generative adversarial networks. IEEE Journal                 intracerebral stimulation parameters. Brain Stimulation, 15(3),
+       of Biomedical and Health Informatics, 26(10), 4913–4924.                   664–675. https://doi.org/10.1016/j.brs.2022.04.007
+       https://doi.org/10.1109/JBHI.2021.3131104
+[30]   Wang, S., Luo, Y., & Shen, H. (2022). An improved Generative         How to Cite: Chaibi, S., Ayadi, W., & Kachouri, A. (2026). Effective Denoising of
+       Adversarial Network for Denoising EEG signals of brain-computer      Epileptic High-Frequency Oscillations (HFOs) in Scalp EEG Using a Temporal
+                                                                            Generative Adversarial Network (TimeGAN). Artificial Intelligence and Applications,
+       interface systems. In 2022 China Automation Congress, 6498–          4(2), 165–175. https:doi.org/10.47852/bonviewAIA52025860
+       6502. https://doi.org/10.1109/CAC57257.2022.10055145
+[31]   Wang, Y., Luo, S., Ma, L., & Huang, M. (2023). RCA-
+
+
+
+
+                                                                                                                                                           175
+

@@ -25,7 +25,7 @@ $$\dot{x}_i = -x_i + S\left(\sum_{j} W_{ij} \cdot x_j - \lambda \cdot x_i + I_{e
 
 where $W_{ij}$ represents the [[structural-connectivity]] weight from region $j$ to region $i$, $\lambda$ is a coupling strength parameter, $I_{ext}$ denotes external input, and $S(\cdot)$ is a sigmoid activation function that converts mean membrane potentials to firing rates [[@jansen1995neural]]. The [[sigmoid function]] $S(x) = 1/(1 + e^{-x})$ introduces the nonlinear dynamics essential for capturing realistic brain oscillations and transition phenomena.
 
-gira provides efficient implementations of these models optimized for large-scale simulations across hundreds of brain regions [[@sanzleon2015tvb]]. The framework leverages TVB's simulation engine to solve the coupled differential equations using numerical integration methods [[@sanzleon2015tvb]], while offering modular interfaces for customizing model parameters, connectivity matrices, and simulation outputs.
+gira provides efficient implementations of these models optimized for large-scale simulations across hundreds of brain regions [[@sanzleon2015tvb]]. The framework leverages TVB's simulation engine to solve the coupled differential equations using numerical integration methods [[@sanzleon2015tvb]], while offering modular interfaces for customizing model parameters, [[connectivity]] matrices, and simulation outputs.
 
 ## Relationship to TVB
 
@@ -44,22 +44,22 @@ gira fits within a landscape of whole-brain modeling approaches that includes th
 - [[@jansen1995neural]] Jansen, B. H., & Rit, V. G. (1995). "Electroencephalogram and visual evoked potential generation in a lumped parameter model of the rabbit cortical thalamic circuitry." *Biological Cybernetics*.
 - [[@wong2006kinetics]] Wong, K. F., & Wang, X. J. (2006). "A recurrent network mechanism for time integration in perceptual decisions." *Journal of Neuroscience*.
 - [[@wilson1972excitatory]] Wilson, H. R., & Cowan, J. D. (1972). "Excitatory and inhibitory interactions in localized populations of model neurons." *Biophysical Journal*.
-- [[@sanzleon2015tvb]] Sanz-Leon, P., et al. (2015). "The Virtual Brain: a simulator of primate brain network dynamics." *NeuroImage*.
+- [[@sanzleon2015tvb]] Sanz-Leon, P., et al. (2015). "[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]." *NeuroImage*.
 - [[@ritter2010tvb]] Ritter, P., et al. (2010). "The Virtual Brain: an approach to cerebral modeling for epilepsy and cursor-task BCI." *Brain Topology*.
 - [[@ Deco2014key]] Deco, G., et al. (2014). "Key: The role of local and global neuronal coupling in the dynamics of resting-state networks." *Brain Mapping*.
-- [[@ Deco2013importance]] Deco, G., et al. (2013). "The importance of variable coupling in brain network models." *Frontiers in Neuroscience*.
-- [[@jirsa2003spatiotemporal]] Jirsa, V. K., et al. (2003). "Spatiotemporal forward model of epileptic dynamics." *Seizure*.
+- [[@ Deco2013importance]] Deco, G., et al. (2013). "The importance of variable coupling in [[brain-network]] models." *Frontiers in Neuroscience*.
+- [[@jirsa2003spatiotemporal]] Jirsa, V. K., et al. (2003). "Spatiotemporal [[forward-model]] of epileptic dynamics." *Seizure*.
 
 ## Related Software
 
-- **The Virtual Brain (TVB)** - Core whole-brain simulation platform that gira integrates with
+- **The Virtual Brain (TVB)** - Core [[whole-brain]] simulation platform that gira integrates with
 - **TVB Library** - Core library providing infrastructure for brain simulations
-- **Nest** - Simulator for spiking neural networks
+- **Nest** - Simulator for [[spiking-neural-networks]]
 - **Brian2** - Simulator for spiking neural networks
-- **BCTPY** - Brain Connectivity Toolbox for Python network analysis
-- **Epileptor** - Seizure modeling neural mass model in TVB
+- **BCTPY** - [[brain-connectivity-toolkit|Brain Connectivity Toolbox]] for Python network analysis
+- **Epileptor** - Seizure modeling [[neural-mass-models|neural mass model]] in TVB
 - **TVB-SLIM** - Parameter estimation and model fitting tools
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))

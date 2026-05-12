@@ -1,0 +1,908 @@
+                                             DeepNuParc: A Novel Deep Clustering Framework for
+                                             Fine-scale Parcellation of Brain Nuclei Using Diffusion
+                                                                MRI Tractography
+
+                                             Haolin Hea,b , Ce Zhua , Le Zhanga , Yipeng Liua , Xiao Xua , Yuqian Chenc , Leo
+                                          Zekelmanc , Jarrett Rushmored , Yogesh Rathic , Nikos Makrisc , Lauren J. O’Donnellc,∗,
+                                                                              Fan Zhanga,∗
+arXiv:2503.07263v2 [eess.IV] 2 Sep 2025
+
+
+
+
+                                                         a University of Electronic Science and Technology of China, Chengdu, China
+                                                               b The Chinese University of Hong Kong, Hong Kong SAR, China
+                                                                           c Harvard Medical School, Boston, USA
+                                                                               d Boston University, Boston, USA
+
+
+
+
+                                          Abstract
+
+                                          Brain nuclei are clusters of anatomically distinct neurons that serve as important hubs
+                                          for processing and relaying information in various neural circuits. Fine-scale parcella-
+                                          tion of the brain nuclei is vital for a comprehensive understanding of their anatomico-
+                                          functional correlations. Diffusion MRI tractography is an advanced imaging technique
+                                          that can estimate the brain’s white matter structural connectivity to potentially reveal
+                                          the topography of the nuclei of interest for studying their subdivisions. In this work,
+                                          we present a deep clustering pipeline, namely DeepNuParc, to perform automated,
+                                          fine-scale parcellation of brain nuclei using diffusion MRI tractography. First, we in-
+                                          corporate a newly proposed deep learning approach to enable accurate segmentation of
+                                          the nuclei of interest directly on the dMRI data. Next, we design a novel streamline
+                                          clustering-based structural connectivity feature for a robust representation of voxels
+                                          within the nuclei. Finally, we improve the popular joint dimensionality reduction and
+                                          k-means clustering approach to enable nuclei parcellation at a finer scale. We demon-
+                                          strate DeepNuParc on two important brain structures, i.e. the amygdala and the tha-
+                                          lamus, that are known to have multiple anatomically and functionally distinct nucleus
+                                          subdivisions. Experimental results show that DeepNuParc enables consistent parcel-
+
+                                               ∗ Lauren J. O’Donnell and Fan Zhang contributed equally as co-senior authors. The corresponding author
+
+                                          is Fan Zhang (fan.zhang@uestc.edu.cn).
+
+
+
+                                          Preprint submitted to NeuroImage                                                        September 3, 2025
+lation of the nuclei into multiple parcels across multiple subjects and achieves good
+correspondence with the widely used coarse-scale atlases. Our code is available at
+https://github.com/HarlandZZC/deep_nuclei_parcellation.
+Keywords:
+Brain nuclei, parcellation, diffusion MRI, tractography, deep clustering
+
+
+1. Introduction
+
+   Brain nuclei are clusters of anatomically distinct neurons that serve as important
+hubs for processing and relaying information in various neural circuits [1, 2]. For ex-
+ample, the amygdala is a collection of nuclei that is responsible for human emotional
+processing [3], and the thalamus contains various nuclei that act as relay stations for
+sensory information headed to the cerebral cortex [4]. Anatomically, these brain nu-
+cleus structures have a complex internal composition with several types of neurons
+arranged into multiple subdivisions, and each subdivision exhibits unique functional
+roles. They are interconnected with other brain regions through white matter (WM)
+pathways that allow for the integration and coordination of various brain functions.
+Many studies have shown that the distinct functional specificity of the subdivisions of
+these brain nucleus structures plays an important role in the progression and diagnosis
+of related brain diseases [5–8]. For instance, abnormalities in specific amygdala sub-
+divisions have been linked to brain disorders such as autism, Alzheimer’s disease, and
+anxiety [6]. Therefore, parcellation of brain nuclei is of great interest for understanding
+their neuroanatomical features and can potentially assist in the diagnosis and therapy
+of brain diseases.
+   Magnetic resonance imaging (MRI) is a widely used technique to study brain nu-
+cleus structures and their subdivisions. The most commonly used is the structural MRI
+(sMRI), e.g., T1-weighted images. In the past few decades, a large number of stud-
+ies have used sMRI to investigate the anatomy of various brain nuclei and largely en-
+hanced our understanding of their overall structure and function [9–11]. More recently,
+to enable investigation of the detailed structure and subdivisions, studies have utilized
+advanced high-resolution sMRI scans for improved imaging of the brain nuclei [12–
+
+
+                                            2
+16]. For instance, nine amygdala nucleus subdivisions are delineated using postmortem
+specimens at high resolution (100–150 µm) on a 7T scanner [12]. However, one short-
+coming of sMRI is that it does not provide information about the inter-regional con-
+nectivity of the brain. As a result, only using sMRI is insufficient in assessing how the
+nucleus structures of interest interact with other brain regions — information critical in
+assisting in identifying anatomically distinct subdivisions within the nuclei.
+   Moving beyond the conventional sMRI data, there is an increasing interest in de-
+veloping connectivity-based nucleus parcellation methods using more advanced MRI
+techniques [17, 18]. One category of methods utilizes functional MRI (fMRI) to assess
+the functional connectivity between various brain regions [19–22]. These methods par-
+cellate the nucleus structures of interest into subdivisions with similar blood-oxygen-
+level-dependent (BOLD) signals, based on the assumption that voxels exhibiting sim-
+ilar activity share the same functional role. For example, one recent fMRI study [20]
+subdivides the amygdala into two subdivisions and shows good correspondence with
+the widely used parcellation atlas that includes the laterobasal (LB), the centromedial
+(CM), and the superficial (SF) subdivisions [23]. Another category of work attempts to
+use diffusion MRI (dMRI) for brain parcellation based on WM structural connectivity
+[24–27], which aligns with the scope of our study. dMRI is an advanced MR technique
+that uniquely enables in vivo reconstruction of the brain’s WM connections via a com-
+putational process called tractography [28, 29]. Many methods have been proposed for
+nucleus parcellation using dMRI tractography, under the assumption that voxels con-
+nected to the same brain regions share the same WM structural connectivity [24–27].
+That is to say, voxels crossed by fibers with similar white matter anatomy or pathway
+trajectories typically belong to the same anatomical subdivision. Such methods have
+demonstrated successful applications in studying brain diseases such as schizophrenia
+[30] and Parkinson’s disease [31, 32].
+   Despite the increasing popularity of connectivity-based nucleus parcellation, ef-
+fective and fine-scale parcellation using dMRI tractography remains a challenge. In
+general, the overall process for parcellating the nucleus structure of interest (e.g., the
+amygdala) into multiple subdivisions includes the following major steps: 1) segmenta-
+tion, that is identifying the entire structure from the dMRI data, 2) connectivity feature
+
+
+                                            3
+extraction, that is computing imaging features that are informative to differentiate vox-
+els belonging to different subdivisions, and 3) nucleus voxel clustering, that is group-
+ing the voxels based on the extracted connectivity features. There are several technical
+challenges during this process. The first is how to accurately segment the nucleus struc-
+ture of interest in dMRI data. The typical approach involves segmenting structures on
+higher-resolution sMRI with superior tissue contrast, registering to dMRI space, and
+optionally refining the segmentation using dMRI-derived parameters to minimize par-
+tial volume contamination [33]. However, the registration is challenging due to image
+distortions and low resolution of dMRI data, often resulting in segmentation errors
+between the nucleus of interest and its neighboring regions [34]. The second chal-
+lenge is how to come up with an informative connectivity feature representation that
+can discriminatively describe the subdivisions of the nucleus structure. Existing work
+usually represents voxels using local fiber orientation distribution [24] or connectivity
+probability derived from probabilistic tractography [25, 26]. However, these methods
+do not consider the actual trajectory of the WM fibers that reflect the underlying WM
+anatomy. The third challenge is how to effectively identify the subregions of the nu-
+cleus structure of interest based on their connectivity features. This has been done
+by using traditional machine learning clustering approaches, e.g., k-means applied to
+custom-designed voxel features [24, 25, 33], to identify voxels with similar connectiv-
+ity patterns, while recent advances in deep clustering have shown superior performance
+over traditional methods in dMRI-related parcellation tasks [35, 36].
+    In this paper, we propose a novel deep-learning method, namely DeepNuParc, for
+automated, fine-scale nucleus parcellation using dMRI tractography. We demonstrate
+our method on two important brain nucleus structures, i.e. the amygdala and the tha-
+lamus, that are known to have multiple anatomically and functionally distinct nucleus
+subdivisions. Fine-scale parcellation of these two nucleus structures is highly impor-
+tant in clinical and scientific applications, e.g., identifying targets for deep brain stim-
+ulation (DBS) in the treatment of neurodegenerative conditions. Overall, DeepNuParc
+includes three major technical contributions. First, we segment the nucleus structure
+of interest directly from dMRI data to avoid any potential segmentation errors caused
+by inter-modality registration between sMRI and dMRI data. Second, we design a
+
+
+                                             4
+novel streamline clustering-based connectivity feature to enable robust representation
+of the voxels within the segmented nucleus structure of interest. Third, we propose
+a deep clustering network that extends the popular joint dimensionality reduction and
+k-means clustering approach [37] to group voxels with similar connectivity for nu-
+cleus parcellation at a finer scale. We perform experiments on the Human Connectome
+Young Healthy Adult (HCP-YA) dataset [38]. Experimental results show that DeepNu-
+Parc enables consistent nucleus structure parcellation into multiple subdivisions across
+multiple subjects and achieves good correspondence with the widely used coarse-scale
+atlases. This investigation extends our previous conference publication [39] to include
+an improved neural network training framework, additional experiments on a broader
+spectrum of nuclei (including the thalamus and the amygdala), a more comprehensive
+performance assessment, and an improved method description with in-depth technical
+details.
+    The rest of this paper is organized as follows. Section 2 describes the experimen-
+tal datasets, the proposed framework, and the model training and testing. Section 3
+presents the experimental setup and results on high-quality dMRI data. Finally, the
+discussion, conclusions, and future work are given in Section 4.
+
+
+
+
+                         Figure 1: Overall framework of DeepNuParc.
+
+
+
+
+                                             5
+2. Methods
+
+    Figure 1 gives an overview of our proposed DeepNuParc method, including (1)
+dMRI data preprocessing and nucleus structure segmentation (Section 2.1), (2) voxel-
+wise connectivity feature representation that leverages dMRI tractography streamline
+clustering (Section 2.2.1) and streamline cluster dilation and smoothing (Section 2.2.2),
+and (3) fine-scale nucleus parcellation using the proposed adaptive k-means-friendly
+autoencoder clustering method.
+
+2.1. Dataset, Preprocessing, and Nucleus Structure Segmentation
+
+    We utilize dMRI data from 100 young healthy adults (29.1±3.7 years; 54 females
+and 46 males) from the Human Connectome Project (HCP) [38]. The acquisition pa-
+rameters are TE=89.5ms, TR=5520ms, and voxel size=1.25×1.25×1.25 mm3 , 18 base-
+line images, and 270 diffusion-weighted images distributed evenly at b=1000/2000/3000
+s/mm2 . The provided dMRI data in HCP has been processed following the HCP min-
+imum processing pipeline, including brain masking, motion correction, eddy current
+correction, EPI distortion correction, and rigid registration to the MNI space [40]. In
+our experiments, 80 subjects are used for model training and 20 subjects are used for
+testing.
+    Segmentation of the entire nucleus structure (i.e., the amygdala and the thalamus)
+is performed using our recently proposed DDParcel method [34] that performs the
+FreeSurfer Desikan-Killiany (DK) parcellation [41] including the nuclei of interest.
+Unlike existing methods that perform segmentation on T1-weighted data and then reg-
+ister to dMRI space, DDParcel enables segmentation directly from the dMRI data to
+avoid potential errors due to inter-modality registration. In this way, we can obtain
+an accurate nucleus structure segmentation to benefit the following connectivity-based
+parcellation into multiple subdivisions. In brief, the input of DDParcel is the subject-
+specific dMRI-derived parameter maps including fractional anisotropy, mean diffusiv-
+ity, and diffusion tensor eigenvalues. A pre-trained segmentation model provided in
+DDParcel with 101 anatomical regions (including both cortical and subcortical parcel-
+lations) corresponding to the DK parcellation is applied to the input parameter maps.
+
+
+
+                                           6
+One benefit of DDParcel is the use of a multi-level fusion network to leverage the com-
+plementary information from the multiple dMRI-derived parameters for accurate brain
+segmentation in dMRI space.
+
+
+2.2. Voxel-wise Connectivity Feature Representation
+
+    After segmentation of the entire nucleus structure of interest, we compute a struc-
+tural connectivity feature representation of each voxel within the structure based on
+its WM connections. Unlike existing work that represents voxels using local fiber
+orientation distributions [24] or connectivity probabilities derived from probabilistic
+tractography [25, 26], we propose to use deterministic tractography data parcellated
+into streamline clusters for a robust connectivity representation, as deterministic trac-
+tography can provide highly geometrically plausible trajectory information and ensures
+the effectiveness of our subsequent streamline cluster dilation and smoothing processes
+(Section 2.2.2).
+
+
+2.2.1. Nucleus Tractography and Streamline Clustering
+    We first compute tractography to extract all WM streamlines connecting to the nu-
+cleus structure of interest, which is referred to as “nucleus tractography” in our study.
+To do so, we perform whole-brain tractography, followed by selecting all streamlines
+connected to the nucleus structure. We use a dual-tensor Unscented Kalman Filter
+(UKF) method [42] provided in the SlicerDMRI software [43, 44] to compute the
+whole-brain tractography. We choose the UKF method because it has been demon-
+strated to be highly robust for successful fiber tracking across the lifespan [45] and
+highly sensitive, especially in the presence of crossing fibers in WM structures [46–
+49]. During the streamline filtering process, to avoid missing any potential streamlines
+that terminate before reaching the nucleus structure, we dilate the nucleus segmentation
+and use the dilated region as an inclusion mask to retain streamlines that pass through
+the nucleus from the whole-brain tractography.
+    Next, we perform streamline clustering to subdivide the nucleus tractography into
+multiple distinct fiber bundles. Due to the large number of streamlines in nucleus
+tractography, it is difficult to build a feature representation directly for each voxel using
+
+
+                                             7
+individual streamlines. Therefore, we perform streamline clustering (also known as
+fiber clustering) to group white matter streamlines based on their spatial and geometric
+properties. We use our well-established WhiteMatterAnalysis (WMA) pipeline [45,
+50, 51] for groupwise streamline clustering simultaneously across multiple subjects. In
+previous work, we have shown successful application of this method in whole-brain
+and region-specific tractography clustering analyses [45, 49, 52]. In our study, for each
+subject, we subdivide the nucleus tractography into K streamline clusters (see Section
+3.2 for parameter setting of K).
+
+
+
+
+                 Figure 2: Illustration of the streamline cluster dilation and smoothing.
+
+
+2.2.2. Feature Extraction via Streamline Cluster Dilation and Smoothing
+    We then extract a feature representation for each voxel within the segmented nu-
+cleus structure per subject based on the obtained streamline clusters. Based on our
+previous work for dentate parcellation [36], for each voxel i, we construct a feature
+representation Fi = (vi j | j = 1, . . . , K), where vi j is set to 1 if streamline cluster j in-
+tersects with i. However, this representation can be ineffective for brain structures like
+the amygdala and the thalamus which have highly complex WM connections. First,
+there are voxels within the nucleus not directly intersecting with any streamline clus-
+ters (referred to as empty voxels), resulting in Fi being a zero vector. Second, this
+representation neglects the spatial relationship between the voxels and the clusters;
+that is to say, vi j is 0 no matter how far it is between i and j. To resolve these, we
+
+
+
+                                                    8
+propose two novel additions for an improved feature representation.
+    First, to address empty voxels, we design a streamline cluster dilation process, as
+illustrated in Figure 2.a. For each empty voxel i, we set vi j = 1 if any adjacent voxel of
+i intersects with cluster j. This process largely reduces the sparsity effect of streamlines
+within a cluster, which results in voxels that are generally traversed by the streamline
+cluster but do not intersect with any individual streamlines.
+    Second, to provide information about spatial relationships, we design a streamline
+cluster smoothing process, as illustrated in Figure 2.b. For each voxel i with vi j = 0, we
+set vi j = G(di j ), where di j is the smallest distance between i and all voxels intersecting
+with cluster j, and G(d) is computed via a Gaussian kernel with mean = 0 and σ =
+1. After this, each element in Fi provides information about the spatial relationship
+between the voxel and the streamline clusters, while ensuring no empty elements with
+a zero feature representation.
+
+
+2.3. Fine-Scale Nucleus Parcellation via Deep Clustering
+
+    We parcellate the nucleus structure of interest by clustering the voxels based on
+their connectivity features. To do this, we design a dense autoencoder network that
+extends the deep clustering method in [37] for an improved fine-scale parcellation.
+The overall network architecture is shown in Figure 2, including three major parts:
+(1) encoder to extract a low-dimensional latent feature for each voxel based on its
+input connectivity feature, (2) decoder to reconstruct the original input from the low-
+dimensional feature, and (3) k-means to cluster voxels belonging to the segmented
+nucleus structure, thereby achieving nucleus parcellation into multiple parcels.
+
+
+
+
+                                              9
+     Figure 3: Overview of the proposed adaptive k-means-friendly autoencoder clustering network.
+
+
+2.3.1. Input Augmentation and Dense Autoencoder Framework
+   Compared to the original network proposed in [37], we first include an input aug-
+mentation process to address the specialty of the input feature. Specifically, the original
+input is a 1D feature representation, where each element corresponds to one stream-
+line cluster and its neighboring elements are two other random streamline clusters.
+A straightforward way is to apply a 1D convolution network, but it can only use the
+randomly assigned neighborhood information. The relationships between individual
+elements within each one-dimensional feature vector are critically important. For in-
+stance, when two elements are both ‘1’, it indicates that the nucleus of interest is simul-
+taneously traversed by two streamline clusters. However, due to the limited receptive
+field, 1D convolution struggles to capture each element equally. Relationships between
+closely spaced elements are more readily captured by 1D convolution, while relation-
+ships between elements that are further apart are more challenging to capture.
+   Hence, similar to our previous work that builds a 2D representation from a 1D vec-
+tor for tractography parcellation [53], we perform an input augmentation by shuffling
+the elements in the feature vector sequentially and concatenating them into a 2D input
+matrix. In our study, we cyclically shifted the feature vector K (the number of stream-
+line clusters) times, generating a feature matrix with a size of K × K. Thus, we can
+apply a 2D convolution with a larger receptive field to representation learning. Addi-
+tionally, thanks to the cyclic arrangement of the elements, the 2D convolutional kernels
+
+
+                                                 10
+can convolve the relationships between all elements in a uniform and equitable manner.
+    The CNN component consists of a 5 × 5 convolutional layer followed by batch nor-
+malization (BN) and 2 × 2 max pooling (as shown by the orange dashed arrows), which
+performs feature extraction and spatial dimension reduction at each encoder level. Fur-
+thermore, we also improve the original simple convolution network with a DenseNet
+structure [54] in the encoder to better use the input feature, as illustrated with the green
+dashed arrows in Figure 3. Specifically, for the encoder, we incorporate a dense struc-
+ture. The output of each layer, after being downsampled, is concatenated with the
+output of the subsequent layer. This architecture, combining dense and convolutional
+layers, can enable the encoder to better utilize the information from each convolutional
+layer, thereby capturing details from the feature representation.
+
+
+2.3.2. Adaptive K-Means-Friendly Training Mechanism
+    One critical challenge for the deep clustering model is to ensure that the learned
+latent features from pre-trained autoencoders can be adapted according to the down-
+stream clustering task. While the joint dimensionality reduction and k-means cluster-
+ing approach in [37] has largely addressed this, we find it ineffective when a fine-scale
+clustering is performed, generating unbalanced clustering results where a subset of
+clusters is empty or with a small number of voxels. Therefore, we propose an im-
+proved adaptive training mechanism to avoid this issue, as follows.
+    We first pre-train the autoencoder using a mean squared error (MSE) loss to learn
+a latent feature per voxel. Then, we simultaneously train the autoencoder and the k-
+means clustering based on the latent feature computed from the pre-training stage.
+This allows a fine-tuning of the autoencoder together with the clustering. During each
+training batch, we check if there are any clusters with only a small number of voxels
+(which is empirically set to be fewer than 1/80 of the batch size), and if so, replace
+these clusters’ centroids with the mean of the others.
+    Below is the loss function including one component for the autoencoder and one
+for cluster centroid assignment:
+
+                   Losstrain = λMSE(d(e(xi )), xi ) + β∥e(xi ) − mk←i ∥22 ,
+
+
+
+                                             11
+   where e(·) is the encoder, d(·) is the decoder, xi is the input feature, and mk←i is
+the cluster centroid to which xi belongs. The weighting parameter λ is set to be 15000
+based on a testing range from 5000 to 20000, and β is set to be 0.5 based on a testing
+range from 0.1 to 10.
+
+
+3. Experiments and Results
+
+   To verify the reliability and generalizability of our method, we perform the follow-
+ing experimental evaluations on both the amygdala and thalamus. First, we assess the
+influence of major parameters involved in our method (Section 3.2). Second, we com-
+pare with several baseline methods to demonstrate the performance of each component
+in our proposed method (Section 3.3). Third, we compare our parcellation results with
+existing atlases to assess if our parcellation corresponds to the known anatomy of the
+nucleus structures of interest.
+
+3.1. Evaluation Metrics
+
+   For exploratory parcellation tasks based on tractography in medical imaging, it is
+crucial to use appropriate metrics to evaluate the effectiveness of parcellation. In our
+study, we use a total of four metrics, which are as follows: 1) Spatial Continuity (SC)
+is the percentage of voxels in the maximum connected component per parcel, where
+a higher SC indicates a better spatial continuity. 2) Dice Coefficient (Dice) measures
+the spatial overlap of the corresponding parcels across subjects, where a high value
+indicates a high consistency. 3) Relative Standard Deviation (RSD) is calculated by
+taking the variance of the Fractional Anisotropy (FA) values of all voxels within each
+parcel, dividing it by the mean, and then averaging this result across all parcels, where
+a lower RSD indicates better distinctiveness between different parcels.
+
+3.2. Determination of Parcel Quantity: Effect of Major Parameters
+
+   In our parcellation algorithm, two parameters are particularly important. One is
+k, which represents the number of streamline clusters for clustering all streamlines
+passing through the nucleus structure. The other is c, which represents the final number
+of parcels into which the target nucleus is divided. To explore reasonable values for k
+
+
+                                           12
+and c, we investigate all hyperparameter combinations of k = 25, 50, 100, 150, 200,
+and c ranging from 3 to 13 for both the amygdala and thalamus. For the parcellation
+results of each hyperparameter combination, we evaluate the effectiveness using the
+aforementioned three metrics: Dice, SC, and RSD. For SC and RSD, we compute the
+mean value across all testing subjects. For Dice, we compute the mean score across all
+testing subject pairs for each parcel and then the average Dice across all parcels.
+   Figures 4 and 5 give the metrics obtained for each set of parameter settings for the
+amygdala and thalamus, respectively. Regarding the impact of the number of parcels
+c, we observe that as c increases, the distinctiveness between parcels improves (indi-
+cated by lower RSD values). However, this comes at the cost of reduced spatial overlap
+(lower Dice scores) and decreased spatial continuity of the parcels (lower SC values).
+As for the effect of the number of streamline clusters k, the performance across the
+three metrics generally improves as k increases gradually, reaching an optimal point
+under each c setting, after which further increases in k lead to a decline in perfor-
+mance. We make these choices after comprehensively considering the Dice, SC, and
+RSD metrics, as well as the additional computational overhead associated with increas-
+ing the k value. We ultimately choose k = 100 and c = 9 for the amygdala, and k = 150
+and c = 11 for the thalamus. To validate the biological relevance of our parcellation
+results, we compute FA values for each parcel within the segmented nucleus structures.
+For each subject, FA values are calculated for all voxels within each identified parcel,
+and the distributions of the parcel mean FA are analyzed across subjects. The results
+are presented as box plots in Figures 6 and 7. For the amygdala (Figure 6), FA values
+range from low anisotropy regions (Parcels 9 and 4, median ∼0.16) to high anisotropy
+regions (Parcel 5, median ∼0.35). The thalamus parcellation (Figure 7) shows similar
+heterogeneity, with FA values ranging from ∼0.24 to ∼0.40 across different parcels.
+These distinct FA distributions indicate that our parcellation captures meaningful mi-
+crostructural differences between subdivisions.
+
+
+
+
+                                           13
+Figure 4: Metrics for amygdala parcellation.
+
+
+
+
+Figure 5: Metrics for thalamus parcellation.
+
+
+
+
+                    14
+                    Figure 6: FA value distribution across 9 amygdala parcels.
+
+
+
+
+                   Figure 7: FA value distribution across 11 thalamus parcels.
+
+
+3.3. Comparison across Different Methods
+
+   We compare the following methods: 1) the baseline k-means method that applies
+the traditional k-means clustering method directly on the input connectivity feature
+representation, 2) the feat-orig method that applies the proposed network on the orig-
+inal feature vector [36] (as introduced in Section 2.2.2) without the streamline cluster
+dilation and smoothing process, 3) the net-orig method that applies the original deep
+
+
+                                               15
+clustering network [37] (as introduced in Section 2.3) on our proposed connectivity
+feature representation, and 4) our method that applies the proposed autoencoder-based
+k-means-friendly network (Section 2.3) to the proposed connectivity feature represen-
+tation (Section 2.2). Table 1 and Table 2 give the comparison results, where our method
+in general obtains the best performance across all compared methods.
+
+
+Table 1: Quantitative comparison across different methods for the amygdala parcellation. For the Dice
+overlap, the averaged metric for each parcel p is also provided.
+
+                                                                    Dice
+      Amygdala SC RSD
+                                   Avg p1          p2     p3       p4   p5   p6   p7     p8     p9
+
+      k-means        0.57 0.48 0.19 0.22 0.37 0.16 0.23 0.15 0.10 0.25 0.10 0.17
+      feat-orig      0.75 0.48 0.20 0.17 0.60 0.12 0.28 0.10 0.09 0.16 0.12 0.14
+      net-orig       0.98 0.46 0.42 0.33 0.50 0.44 0.34 0.48 0.54 0.44 0.43 0.30
+      ours           0.99 0.47 0.50 0.58 0.50 0.43 0.58 0.46 0.50 0.51 0.46 0.45
+
+
+
+Table 2: Quantitative comparison across different methods for the thalamus parcellation. For the Dice over-
+lap, the averaged metric for each parcel p is also provided.
+
+                                                                    Dice
+Thalamus SC RSD
+                             Avg p1         p2    p3      p4       p5   p6   p7   p8    p9    p10 p11
+
+k-means        0.35 0.44 0.20 0.29 0.19 0.16 0.12 0.33 0.14 0.36 0.27 0.13 0.12 0.14
+feat-orig      0.55 0.43 0.21 0.53 0.18 0.28 0.22 0.10 0.10 0.11 0.41 0.04 0.24 0.10
+net-orig       0.99 0.42 0.65 0.66 0.68 0.68 0.56 0.69 0.67 0.61 0.65 0.59 0.65 0.68
+ours           0.99 0.42 0.66 0.64 0.72 0.73 0.58 0.67 0.67 0.58 0.68 0.60 0.72 0.67
+
+
+
+
+                                                     16
+3.4. Visualization of Parcellation Results and Comparison with Existing Atlas
+
+
+
+
+Figure 8: Visualization of the parcellation results obtained using the proposed method of two randomly
+selected subjects.
+
+
+    To assess our parcellation methodology, we conduct a comparative analysis with
+established atlases. Specifically, for the amygdala parcellation, we leverage the SPM
+Anatomy Toolbox [23], which categorizes the amygdala into three distinct subdivi-
+sions: LB, CM, and SF segments. For the thalamus parcellation, we utilize the Mel-
+bourne Subcortex Atlas s3 [55], which classifies the thalamus into six delineated re-
+gions: medial ventroposterior (VPm), lateral ventroposterior (VPl), inferior ventroan-
+terior (VAi), superior ventroanterior (VAs), medial dorsoanterior (DAm), and lateral
+dorsoanterior (DAl).
+    To visualize the quality of the learned latent representations, we perform t-SNE
+[56] analysis on the autoencoder embeddings. For each parcel, we randomly sample 10
+voxels per subject and visualize their embeddings in the learned feature space (Figures
+9 and 10). The t-SNE plots demonstrate clear clustering of voxels according to their
+parcel assignments, confirming that our autoencoder successfully learns discriminative
+features that align well with the final parcellation results.
+
+
+
+
+                                                 17
+Figure 9: t-SNE visualization of learned voxel embeddings for amygdala parcellation.
+
+
+
+
+Figure 10: t-SNE visualization of learned voxel embeddings for thalamus parcellation.
+
+
+
+
+                                        18
+Figure 11: Visualization of the group-wise parcellation result (the heatmap presented in the top row for each
+parcel), with comparison to the existing parcellation atlases (the color label presented in the top row for each
+parcel).
+
+
+    Figure 8 and Figure 11 give a visualization of our subject-specific and group-wise
+parcellations of the amygdala and thalamus, respectively, as well as the SPM atlas
+for the amygdala and the Melbourne Subcortex Atlas s3 for the thalamus. For the
+amygdala, we have three parcels for CM, two for SF, and four for LB, each highly
+visually overlapping with the corresponding atlas parcel. For the thalamus, we have one
+parcel for VPm, two for VPl, four for VAi, one for VAs, two for DAm, and one for DAl.
+Quantitatively, the average Dice coefficient between our parcels and the corresponding
+atlas parcels is 0.72 for the amygdala and 0.62 for the thalamus.
+
+
+
+
+                                                      19
+4. Discussion and Conclusion
+
+    In this work, we propose DeepNuParc, a novel deep clustering pipeline to perform
+parcellation of the brain nuclei with dMRI tractography. In our proposed framework,
+we first compute a novel voxel-wise connectivity feature representation, with a feature
+refinement process using the newly proposed streamline cluster dilation and smooth-
+ing. Next, we design an adaptive k-means-friendly autoencoder framework that can
+compress the feature representation and jointly train with the downstream clustering
+algorithm. Finally, we achieve fine-scale parcellation of the brain nucleus structure by
+clustering voxels into different groups.
+    A crucial step in our DeepNuParc method involves the explicit reconstruction of
+dMRI tractography streamlines to create the feature representation, as opposed to rely-
+ing on connectivity probabilities derived from probabilistic tractography [25, 26]. The
+explicit reconstruction of tractography streamlines allows us to form streamlines that
+pass through a nucleus into streamline clusters, thereby enriching the data representa-
+tion. Furthermore, by constructing each voxel’s feature vector based on its traversal by
+streamline clusters, we transform a complex high-dimensional brain parcellation prob-
+lem into a simpler one-dimensional vector clustering problem. This approach enhances
+both the simplicity and robustness of the algorithm.
+    Our algorithm has good flexibility and compatibility to be modified and customized.
+The entire processing framework is composed of multiple steps connected in sequence,
+with each step being a module that performs a specific function. This means we can
+adjust the hyperparameters of specific modules (e.g., the extent of cluster dilation or the
+number of streamline clusters) or optimize the algorithms of certain modules (e.g., di-
+rect extraction of the nucleus structure) to achieve adjustments or improvements in the
+results. Secondly, our algorithm demonstrates a high robustness to parameter choices.
+Regardless of how we adjust the parameters k or c, we consistently obtain good met-
+rics. Specifically, for spatial continuity, we do not explicitly enforce that all voxels in a
+parcel must be connected, yet over 99% of the voxels in the same parcel ended up be-
+ing connected through the neural network’s own representation learning. This indicates
+that our algorithm effectively utilizes the information present in the data.
+
+
+                                             20
+   We show that our parcellation results are anatomically reasonable when compared
+to the existing atlases. For the amygdala, we identify nine different parcels, which
+show a strong match with the previous atlas of three parcels (CM, SF, LB). There
+are three parcels for CM, two for SF, and four for LB. For the thalamus, we identify
+eleven parcels, which also match well with the previous atlas of six parcels (VPm,
+VPl, VAi, VAs, DAm, DAl). There is one parcel for VPm, two for VPl, four for
+VAi, one for VAs, two for DAm, and one for DAl. Each of these parcellated parcels
+shows a highly visually overlapping with the corresponding atlas parcel. Overall, our
+parcellation results, which provide finer parcellation granularity, show good alignment
+with prior segmentation studies when compared to existing atlases. This suggests that
+our algorithm holds promise for exploring subregions of brain nucleus structures.
+   Potential limitations of the present study, including suggested future work to ad-
+dress limitations, are as follows. First, in our current work, we apply DeepNuParc to
+study the amygdala and thalamus. However, our method can be generally applied to
+any other brain nucleus structures or gray matter structures that are connected with
+white matter tracts. Therefore, it would be of interest in future work to test how our
+method works on other anatomical structures. Second, our current experiments are per-
+formed using the HCP dataset acquired from young healthy adults. Future work should
+involve training and testing the model on datasets from diverse sources and populations,
+though this presents a significant challenge. For example, clinical data with lower res-
+olution (typically 2-3mm), fewer diffusion directions, and lower b-values may present
+challenges for tractography quality and parcellation performance. Individuals of differ-
+ent ages and those with neurological conditions may exhibit anatomical variability and
+altered white matter integrity that could affect connectivity patterns. Third, our current
+method focuses on using structural connectivity to perform the parcellation, while it
+is an interesting direction to integrate multimodal data such as fMRI to improve the
+functional coherence of the results. Fourth, in our current study, we validate the bio-
+logical relevance of the obtained parcels by comparing them with existing atlases and
+conducting FA distribution and embedding analyses. However, the underlying bio-
+logical significance of each parcel remains unclear and warrants further investigation
+using anatomical techniques such as tracer studies. Fifth, to balance computational effi-
+
+
+                                           21
+ciency, we used data from 100 HCP subjects for model training and testing. While this
+sample size has proven sufficient for dMRI-based machine/deep learning tasks in our
+prior work [57–60], we expect that increasing it would further enhance our method’s
+performance.
+   Overall, we show the ability to use dMRI tractography and deep learning to perform
+fine-scale parcellation of brain nuclei. Our method may provide a useful tool to explore
+insights into the detailed structure and function of brain nuclei.
+
+
+5. Ethics Statement
+
+   This study was conducted retrospectively using public HCP imaging data. No eth-
+ical approval was required.
+
+
+6. Acknowledgements
+
+   This work is in part supported by the National Key R&D Program of China (No.
+2023YFE0118600), and the National Natural Science Foundation of China (No. 62371107).
+
+
+References
+
+ [1] R. N. J. V. C. van Huijzen. The human central nervous system. Swiss Arch Neurol
+     Psychiatr, 160:82–82, 2009.
+
+ [2] R. J. Rushmore, K. Sunderland, H. Carrington, J. Chen, M. Halle, A. Lasso, et al.
+     Anatomically curated segmentation of human subcortical structures in high reso-
+     lution magnetic resonance imaging: An open science approach. Front Neuroanat,
+     16:894606, 2022.
+
+ [3] A. Puccetti, S. M. Schaefer, C. M. Van Reekum, A. D. Ong, D. M. Almeida, C. D.
+     Ryff, et al. Linking amygdala persistence to real-world emotional experience and
+     psychological well-being. J Neurosci, 41:3721–3730, 2021.
+
+ [4] E. G. Jones. The Thalamus. Springer Science & Business Media, 2012.
+
+
+
+
+                                           22
+ [5] A. Alkemade. Subdivisions and anatomical boundaries of the subthalamic nu-
+     cleus. J Neurosci, 33:9233–9234, 2013.
+
+ [6] V. N. Nikolenko, M. V. Oganesyan, N. A. Rizaeva, V. A. Kudryashova, A. T.
+     Nikitina, M. P. Pavliv, et al. Amygdala: Neuroanatomical and morphophysiolog-
+     ical features in terms of neurological and neurodegenerative diseases. Brain Sci,
+     10, 2020.
+
+ [7] K. Hwang, M. A. Bertolero, W. B. Liu, and M. D’Esposito. The human thalamus
+     is an integrative hub for functional brain networks. J Neurosci, 37:5594–5607,
+     2017.
+
+ [8] M.-T. Herrero, C. Barcia, and J. M. Navarro. Functional anatomy of thalamus
+     and basal ganglia. Childs Nerv Syst, 18:386–404, 2002.
+
+ [9] F. M. Richardson and C. J. Price. Structural mri studies of language function in
+     the undamaged brain. Brain Struct Funct, 213:511–523, 2009.
+
+[10] M. L. Ries, C. M. Carlsson, H. A. Rowley, M. A. Sager, C. E. Gleason,
+     S. Asthana, et al. Magnetic resonance imaging characterization of brain struc-
+     ture and function in mild cognitive impairment: a review. J Am Geriatr Soc,
+     56:920–934, 2008.
+
+[11] E. J. L. Brunenberg, B. Platel, P. A. M. Hofman, B. M. Ter Haar Romeny, and
+     V. Visser-Vandewalle. Magnetic resonance imaging techniques for visualization
+     of the subthalamic nucleus. J Neurosurg, 115:971–984, 2011.
+
+[12] Z. M. Saygin, D. Kliemann, J. E. Iglesias, A. J. W. Van Der Kouwe, E. Boyd,
+     M. Reuter, et al. High-resolution magnetic resonance imaging reveals nuclei
+     of the human amygdala: manual segmentation to automatic atlas. Neuroimage,
+     155:370–382, 2017.
+
+[13] J. M. Tyszka and W. M. Pauli. In vivo delineation of subdivisions of the human
+     amygdaloid complex in a high-resolution group template. Hum Brain Mapp,
+     37:3979–3998, 2016.
+
+
+                                         23
+[14] M. Saranathan, C. Iglehart, M. Monti, T. Tourdias, and B. Rutt. In vivo high-
+     resolution structural mri-based atlas of human thalamic nuclei. Sci Data, 8:275,
+     2021.
+
+[15] L. A. Massey, M. A. Miranda, L. Zrinzo, O. Al-Helli, H. G. Parkes, J. S. Thornton,
+     et al. High resolution mr anatomy of the subthalamic nucleus: imaging at 9.4 t
+     with histological validation. Neuroimage, 59:2035–2044, 2012.
+
+[16] R. J. Rushmore, P. Wilson-Braun, G. Papadimitriou, I. Ng, Y. Rathi, F. Zhang,
+     et al. 3d exploration of the brainstem in 50-micron resolution mri. Front Neu-
+     roanat, 14:40, 2020.
+
+[17] S. B. Eickhoff, B. Thirion, G. Varoquaux, and D. Bzdok. Connectivity-based
+     parcellation: Critique and implications. Hum Brain Mapp, 36:4771–4792, 2015.
+
+[18] A. Messé. Parcellation influence on the connectivity-based structure-function
+     relationship in the human brain. Hum Brain Mapp, 41:1167–1180, 2020.
+
+[19] X. Zhang, H. Cheng, Z. Zuo, K. Zhou, F. Cong, B. Wang, et al. Individualized
+     functional parcellation of the human amygdala using a semi-supervised clustering
+     method: A 7t resting state fmri study. Front Neurosci, 12:270, 2018.
+
+[20] K. Bielski, S. Adamus, E. Kolada, J. Raczaszek-Leonardi,
+                                           ˛                  and I. Szatkowska. Par-
+     cellation of the human amygdala using recurrence quantification analysis. Neu-
+     roimage, 227:117644, 2021.
+
+[21] Y. Yang, L. Fan, C. Chu, J. Zhuo, J. Wang, P. T. Fox, et al. Identifying functional
+     subdivisions in the human brain using meta-analytic activation modeling-based
+     parcellation. Neuroimage, 124:300–309, 2016.
+
+[22] P. Moghimi, A. T. Dang, Q. Do, T. I. Netoff, K. O. Lim, and G. Atluri. Evalua-
+     tion of functional mri-based human brain parcellation: a review. J Neurophysiol,
+     128:197–217, 2022.
+
+[23] S. B. Eickhoff, K. E. Stephan, H. Mohlberg, C. Grefkes, G. R. Fink, K. Amunts,
+     et al. A new spm toolbox for combining probabilistic cytoarchitectonic maps and
+     functional imaging data. NeuroImage, pages 1325–1335, 2005.
+
+
+                                          24
+[24] Q. Wen, B. D. Stirling, L. Sha, L. Shen, P. J. Whalen, and Y.-C. Wu. Parcellation
+     of human amygdala subfields using orientation distribution function and spectral
+     k-means clustering. In CDMRI, pages 123–132, 2016.
+
+[25] M. Avecillas-Chasin, S. Levinson, T. Kuhn, M. Omidbeigi, J.-P. Langevin,
+     N. Pouratian, et al. Connectivity-based parcellation of the amygdala and iden-
+     tification of its main white matter connections. Sci Rep, 13:1305, 2023.
+
+[26] Z. M. Saygin, D. E. Osher, J. Augustinack, B. Fischl, and J. D. E. Gabrieli.
+     Connectivity-based segmentation of human amygdala nuclei using probabilistic
+     tractography. Neuroimage, 56:1353–1361, 2011.
+
+[27] A. Bisecco, M. A. Rocca, E. Pagani, et al. Connectivity-based parcellation of the
+     thalamus in multiple sclerosis and its implications for cognitive impairment: A
+     multicenter study. Human brain mapping, 36:2809–2825, 2015.
+
+[28] P. J. Basser, S. Pajevic, C. Pierpaoli, J. Duda, and A. Aldroubi. In vivo fiber
+     tractography using dt-mri data. Magn Reson Med, 44:625–632, 2000.
+
+[29] F. Zhang, A. Daducci, Y. He, S. Schiavi, C. Seguin, R. E. Smith, et al. Quantitative
+     mapping of the brain’s structural connectivity using diffusion mri tractography: A
+     review. Neuroimage, 249:118870, 2022.
+
+[30] G. A. Basile, A. Bramanti, S. Bertino, G. Cutroneo, A. Bruno, A. Tisano,
+     et al. Structural connectivity-based parcellation of the dopaminergic midbrain
+     in healthy subjects and schizophrenic patients. Medicina, 56, 2020.
+
+[31] A. Zolal, W. H. Polanski, L. Klingelhoefer, H. H. Kitzler, J. Linn, D. Podlesek,
+     et al. Parcellation of the subthalamic nucleus in parkinson’s disease: A retrospec-
+     tive analysis of atlas- and diffusion-based methods. Stereotact Funct Neurosurg,
+     98:416–423, 2020.
+
+[32] D. Milardi, G. A. Basile, J. Faskowitz, S. Bertino, A. Quartarone, G. P. Anas-
+     tasi, et al. Effects of diffusion signal modeling and segmentation approaches on
+     subthalamic nucleus parcellation. Neuroimage, 250:118959, 2022.
+
+
+                                           25
+[33] E. Najdenovska, Y. Alemán-Gómez, G. Battistella, et al. In-vivo probabilistic
+     atlas of human thalamic nuclei based on diffusion-weighted magnetic resonance
+     imaging. Scientific data, 5(1):1–11, 2018.
+
+[34] F. Zhang, K. I. K. Cho, J. Seitz-Holland, L. Ning, J. H. Legarreta, Y. Rathi, et al.
+     Ddparcel: deep learning anatomical brain parcellation from diffusion mri. IEEE
+     TMI, 43(3):1191–1202, 2023.
+
+[35] Y. Chen, C. Zhang, T. Xue, Y. Song, N. Makris, Y. Rathi, et al. Deep fiber clus-
+     tering: Anatomically informed fiber clustering with self-supervised deep learning
+     for fast and effective tractography parcellation. Neuroimage, 273:120086, 2023.
+
+[36] X. Xu, Y. Chen, L. Zekelman, Y. Rathi, N. Makris, F. Zhang, et al. Tractography-
+     based parcellation of cerebellar dentate nuclei via a deep nonnegative matrix fac-
+     torization clustering method. In ISBI, pages 1–4, 2023.
+
+[37] B. Yang, X. Fu, N. D. Sidiropoulos, and M. Hong. Towards k-means-friendly
+     spaces: Simultaneous deep learning and clustering. In ICML, pages 3861–3870,
+     2017.
+
+[38] V. E. Stephen, D. Barch, T. Behrens, E. Yacoub, and K. Ugurbil. The wu-minn
+     human connectome project: An overview. Neuroimage, 80:62–79, 2013.
+
+[39] H. He, C. Zhu, L. Zhang, Y. Liu, X. Xu, Y. Chen, et al. A novel deep clustering
+     framework for fine-scale parcellation of amygdala using dmri tractography. In
+     ISBI, pages 1–5, 2024.
+
+[40] M. F. Glasser, S. N. Sotiropoulos, J. A. Wilson, T. S. Coalson, B. Fischl, J. L.
+     Andersson, et al. The minimal preprocessing pipelines for the human connectome
+     project. Neuroimage, 80:105–124, 2013.
+
+[41] R. S. Desikan, F. Ségonne, B. Fischl, B. T. Quinn, B. C. Dickerson, D. Blacker,
+     et al. An automated labeling system for subdividing the human cerebral cortex on
+     mri scans into gyral based regions of interest. Neuroimage, 31:968–980, 2006.
+
+
+
+
+                                           26
+[42] C. P. Reddy and Y. Rathi. Joint multi-fiber noddi parameter estimation and trac-
+     tography using the unscented information filter. Front Neurosci, 10, 2016.
+
+[43] I. Norton, W. I. Essayed, F. Zhang, S. Pujol, A. Yarmarkovich, A. J. Golby, et al.
+     Slicerdmri: Open source diffusion mri software for brain cancer research. Cancer
+     Res, 77:e101–e103, 2017.
+
+[44] F. Zhang, T. Noh, P. Juvekar, S. F. Frisken, L. Rigolo, I. Norton, et al. Slicerdmri:
+     Diffusion mri and tractography research software for brain cancer surgery plan-
+     ning and visualization. JCO Clinical Cancer Informatics, pages 299–309, 2020.
+
+[45] F. Zhang, Y. Wu, I. Norton, L. Rigolo, Y. Rathi, N. Makris, et al. An anatomi-
+     cally curated fiber clustering white matter atlas for consistent white matter tract
+     parcellation across the lifespan. Neuroimage, 179:429–447, 2018.
+
+[46] C. Baumgartner, O. Michailovich, J. Levitt, O. Pasternak, S. Bouix, C. Westin,
+     et al. A unified tractography framework for comparing diffusion models on clin-
+     ical scans. In Computational Diffusion MRI Workshop of MICCAI, Nice, pages
+     27–32, 2012.
+
+[47] Z. Chen, Y. Tie, O. Olubiyi, F. Zhang, A. Mehrtash, L. Rigolo, et al. Corti-
+     cospinal tract modeling for neurosurgical planning by tracking through regions of
+     peritumoral edema and crossing fibers using two-tensor unscented kalman filter
+     tractography. Int J Comput Assist Radiol Surg, 11:1475–1486, 2016.
+
+[48] R. Liao, L. Ning, Z. Chen, L. Rigolo, S. Gong, O. Pasternak, et al. Performance of
+     unscented kalman filter tractography in edema: Analysis of the two-tensor model.
+     Neuroimage Clin, 15:819–831, 2017.
+
+[49] T. Xue, F. Zhang, C. Zhang, Y. Chen, Y. Song, A. J. Golby, et al. Superficial white
+     matter analysis: An efficient point-cloud-based deep learning framework with su-
+     pervised contrastive learning for consistent tractography parcellation across pop-
+     ulations and dmri acquisitions. Med Image Anal, 85:102759, 2023.
+
+[50] L. J. O’Donnell and C.-F. Westin. Automatic tractography segmentation using a
+     high-dimensional white matter atlas. IEEE TMI, 26:1562–1575, 2007.
+
+
+                                           27
+[51] L. J. O’Donnell, W. M. III Wells, A. J. Golby, and C.-F. Westin. Unbiased group-
+     wise registration of white matter tractography. In MICCAI, pages 123–130, 2012.
+
+[52] F. Zhang, G. Xie, L. Leung, M. A. Mooney, L. Epprecht, I. Norton, et al. Creation
+     of a novel trigeminal tractography atlas for automated trigeminal nerve identifi-
+     cation. Neuroimage, 220:117063, 2020.
+
+[53] F. Zhang, S. Cetin Karayumak, N. Hoffmann, Y. Rathi, A. J. Golby, and L. J.
+     O’Donnell. Deep white matter analysis (deepwma): Fast and consistent tractog-
+     raphy segmentation. Med Image Anal, 65:101761, 2020.
+
+[54] G. Huang, Z. Liu, L. Van Der Maaten, and K. Q. Weinberger. Densely connected
+     convolutional networks. In CVPR, pages 2261–2269, 2017.
+
+[55] Y. Tian, D. S. Margulies, M. Breakspear, and A. Zalesky. Topographic organiza-
+     tion of the human subcortex unveiled with functional connectivity gradients. Nat
+     Neurosci, 23:1421–1432, 2020.
+
+[56] L. Maaten and G. Hinton. Visualizing data using t-sne. Journal of machine
+     learning research, 9:2579–2605, 2008.
+
+[57] F. Zhang, W. M. Wells, and L. J. O’Donnell. Deep diffusion mri registration (ddm-
+     reg): a deep learning method for diffusion mri registration. IEEE transactions on
+     medical imaging, 41(6):1454–1467, 2021.
+
+[58] F. Zhang, Y. Wu, I. Norton, et al. An anatomically curated fiber clustering white
+     matter atlas for consistent white matter tract parcellation across the lifespan. Neu-
+     roimage, 179:429–447, 2018.
+
+[59] F. Zhang, A. Breger, K. I. K. Cho, et al. Deep learning based segmentation of
+     brain tissue from diffusion mri. NeuroImage, 233:117934, 2021.
+
+[60] F. Zhang, S. C. Karayumak, N. Hoffmann, et al. Deep white matter analysis
+     (deepwma): Fast and consistent tractography segmentation. Medical image anal-
+     ysis, 65:101761, 2020.
+
+
+
+                                           28
+

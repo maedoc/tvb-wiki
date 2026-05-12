@@ -1,0 +1,987 @@
+                                                                      DECO: Sparse Mixture-of-Experts
+                                                           with Dense-Comparable Performance on End-Side Devices
+
+
+                                                        Chenyang Song 1 Weilin Zhao 1 Xu Han 1 Chaojun Xiao 1 Yingfa Chen 1 Zhiyuan Liu 1
+                                                                        scy22@mails.tsinghua.edu.cn, {han-xu,liuzy}@tsinghua.edu.cn
+
+
+                                                                   Abstract                                                                   High Performance
+arXiv:2605.10933v1 [cs.LG] 11 May 2026
+
+
+
+
+                                                While Mixture-of-Experts (MoE) scales model
+                                                capacity without proportionally increasing com-
+                                                putation, its massive total parameter footprint cre-                                                DECO
+                                                ates significant storage and memory-access bottle-                                              DEnse COmparable
+                                                                                                                                                   Sparse MoE
+                                                necks, which hinder efficient end-side deployment
+                                                that simultaneously requires high performance,               Low Computation Cost                 Pruning          Small Storage Overhead
+                                                                                                                                                Quantization
+                                                low computational cost, and small storage over-                (Low Active Parameter Scale)
+                                                                                                                                                    …...
+                                                                                                                                                                     (Low Total Parameter Scale)
+
+                                                head. To achieve these properties, we present
+                                                DECO, a sparse MoE architecture designed to                Figure 1. The “ideal triangle” of end-side MoE. Beyond the high
+                                                match the performance of dense Transformers un-            performance and reduced computational cost of sparse MoE, the
+                                                der identical total parameter budgets and training         model should maintain a minimal storage footprint, achieving high
+                                                                                                           performance within dense-comparable total parameter budgets.
+                                                tokens. DECO utilizes the differentiable and flex-
+                                                ible ReLU-based routing enhanced by learnable              creasingly prominent model architecture. The key property
+                                                expert-wise scaling, which adaptively balances             of MoE is the sparse activation, namely, activating a small
+                                                the contributions of routed and shared experts.            subset of expert modules from a large pool of parameters.
+                                                Furthermore, we introduce NormSiLU, an acti-               Therefore, MoE retains high capacity and strong perfor-
+                                                vation function that normalizes inputs prior to            mance while substantially reducing computation costs.
+                                                SiLU operators, producing a more stable trend of
+                                                                                                           As a research hotspot, MoE has been extensively studied,
+                                                routed-expert activation ratio and a higher intrin-
+                                                                                                           from architecture design (Liu et al., 2024; Cai et al., 2025) to
+                                                sic sparsity level. We also identify an empirical
+                                                                                                           scaling laws and compute-optimal settings (Krajewski et al.,
+                                                advantage in using non-gated MLP experts with
+                                                                                                           2024; Tian et al., 2025). Prior work primarily pursues two
+                                                ReLU-based routing, indicating the possibility
+                                                                                                           objectives: high performance and low computation cost.
+                                                of MoE architecture simplification. Experiments
+                                                                                                           However, when it comes to end-side deployment, a third
+                                                demonstrate that DECO, activating only 20% of
+                                                                                                           non-negligible objective emerges: small storage overhead.
+                                                experts, matches dense performance and outper-
+                                                                                                           Concretely, MoE with a huge number of total parameters
+                                                forms established MoE baselines. Our special-
+                                                                                                           demands substantial storage space. More critically, large
+                                                ized acceleration kernel delivers a 3.00× speedup
+                                                                                                           MoE models may incur high memory-access costs when
+                                                on real hardware compared with dense inference.
+                                                                                                           transferring experts between GPU high-bandwidth memory
+                                                Codes and checkpoints will be released.
+                                                                                                           and shared memory (Li et al., 2025), or when moving of-
+                                                                                                           floaded parameters from disk/flash storage to GPU/NPU
+                                         1. Introduction                                                   memory of end-side devices. Such latency can erode the
+                                                                                                           efficiency gains afforded by sparse computation.
+                                         The scale of large language models (LLMs) has grown
+                                                                                                           Therefore, as shown in Figure 1, an ideal MoE model for
+                                         rapidly to achieve consistent performance gains across di-
+                                                                                                           end-side deployment should satisfy the above three objec-
+                                         verse tasks. The rising training and deployment costs for
+                                                                                                           tives. To pursue this “ideal triangle”, we pose the question:
+                                         massive LLMs have made mixture-of-experts (MoE) an in-
+                                            1
+                                             Dept. of Comp. Sci. & Tech., Institute for AI, Tsinghua
+                                                                                                             Can a sparse MoE model achieve performance compa-
+                                         University, Beijing, China. Correspondence to: Xu Han <han-         rable to a dense model, given the same total parameter
+                                         xu@tsinghua.edu.cn>, Zhiyuan Liu <liuzy@tsinghua.edu.cn>.           budget and the same number of training tokens?
+
+                                         Preprint. May 12, 2026.                                           A closely related study by Li et al. (2025) identifies the
+
+                                                                                                       1
+                      DECO: Sparse Mixture-of-Experts with Dense-Comparable Performance on End-Side Devices
+
+                     0.5 0.2 -0.4 0.1                             Token 1                       ………...                      Token T                            -0.1 0.5 0.3 -0.6
+                                              linear projection                                other tokens                               linear projection
+
+
+             ① ReLU-based                                                                                                                                                  ① ReLU-based
+                Routing                                                                                                                                                       Routing
+
+                                                            Up Proj                 Up Proj                  Up Proj                 Up Proj
+                     0.5 0.2    0    0.1       Expert 1   ③ NormSiLU   Expert 2   ③ NormSiLU    Expert 3   ③ NormSiLU   Expert 4   ③ NormSiLU                   0      0.5 0.3   0
+                                                           Down Proj               Down Proj                Down Proj               Down Proj
+
+    ② Learnable Expert-Wise         (learnable weights)                                                                                          (learnable weights)        ② Learnable Expert-Wise
+        Router Scaling               0.3 0.1 0.2 0.3                                                                                               0.3 0.1 0.2 0.3              Router Scaling
+
+
+
+                                                                                       ④ Non-Gated MLP Experts
+                                               weighted sum                                                                                weighted sum
+                    0.15 0.02   0   0.03                          Output 1                      ………...                     Output T                             0    0.05 0.06   0
+
+
+                                    calculate router entropy                             ⑤ Adaptive Sparsity                                calculate router entropy
+                                                                   0.731                   Regularization
+                                                                                                                             0.689
+
+
+Figure 2. The overall architecture of DECO. For router design, we adopt ReLU-based routing enhanced by learnable expert-wise router
+scaling. For expert design, we propose NormSiLU as a better routed-expert activation function and employ non-gated MLP experts. For
+precise sparsity control, we employ adaptive sparsity regularization.
+
+optimal settings of DeepSeek-V3-style MoE architectures                                                As shown in Section 4, DECO demonstrates performance
+that enable them to surpass dense models under matched                                                 comparable to dense models when matched for total param-
+total parameters and computation budget. However, due to                                               eters and training tokens. DECO also surpasses established
+the low per-token computation of sparse MoE, in that work,                                             MoE baselines of the same scale and activation ratio. Natu-
+MoE settings are trained on substantially more tokens under                                            rally, DECO’s dense-comparability is conditional, since the
+the same computation budget. We adopt a stricter setting                                               performance of MoE is affected by many factors, including
+that requires exactly the same number of training tokens.                                              the activation ratio, expert granularity, and shared expert
+                                                                                                       size. In Section 5, we analyze the effect of these factors.
+To achieve this goal, we propose DECO (Figure 2), a sparse
+MoE architecture that achieves DEnse-COmparable perfor-                                                 Finally, we implement a tailored acceleration kernel for
+mance through a fundamental revision of MoE design.                                                     DECO to test its practical inference acceleration value on
+                                                                                                        real hardware. Based on CUTLASS (Thakkar et al., 2023),
+For router design, conventional MoE models generally adopt
+                                                                                                        the kernel leverages tensor cores to improve computational
+TopK routing, which is non-differentiable and enforces a
+                                                                                                        throughput and reduces memory-access overhead by ex-
+uniform activation ratio across all tokens. To overcome
+                                                                                                        ploiting the sparse activation. Overall, the kernel achieves a
+this issue, we adopt ReLU-based routing, a differentiable
+                                                                                                        speedup of 3.00× compared with vanilla dense inference.
+paradigm that enables flexible token-dependent activation
+ratios. Moreover, to mitigate output scale imbalances be-
+tween shared and routed experts, while simultaneously ac-                                               2. Preliminaries and Related Works
+counting for potential expert heterogeneity, we introduce
+                                                                                                       To achieve high performance while curbing computational
+learnable expert-wise router scaling. This mechanism in-
+                                                                                                       growth, MoE has recently risen as the mainstream archi-
+volves learnable scaling factors to calibrate the contribution
+                                                                                                       tecture. An MoE typically comprises three components: a
+of individual routed experts.
+                                                                                                       router, a set of experts, and an auxiliary training objective.
+The expert design is similarly optimized for stability and
+                                                                                                        Router design. The router computes weights assigned to
+efficiency. Empirical analysis reveals that coupling ReLU-
+                                                                                                        each expert and selects which experts to activate. It gener-
+based routing with vanilla SiLU-activated experts results
+                                                                                                        ally consists of a linear projection, an activation function,
+in two critical problems: a surging routed-expert activation
+                                                                                                        and post-processing of router scores.
+ratio (Figure 5) and vanishing SiLU output magnitudes (Fig-
+ure 7). To resolve these issues, we propose NormSiLU,                                                  The activation function controls the expert selection pattern.
+which applies dual-stage normalization prior to the SiLU                                               Many MoE designs use TopK, which forces each token to
+operator. NormSiLU stabilizes activation trends and reduces                                            activate a fixed number of experts (Jiang et al., 2024; Dai
+the activation ratio, alleviating the need for aggressive spar-                                        et al., 2024). However, TopK is criticized for its inflexibil-
+sity regularization. It also produces more stable and signifi-                                         ity (an input-invariant number of active experts) and non-
+cant SiLU output magnitudes, promoting better utilization                                              differentiability. TopP (Huang et al., 2024) selects experts by
+of expert parameters. Beyond the activation function, we                                               a threshold p, activating experts until their cumulative router
+employ non-gated MLP experts rather than standard gated                                                score reaches at least p, thereby permitting token-dependent
+variants, as they exhibit superior empirical compatibility                                             activation ratios. MoE++ (Jin et al., 2024) retains TopK
+with ReLU-based routing. Finally, to precisely control the                                             but introduces zero-computation experts, which indirectly
+activation ratio, we design an adaptive sparsity regulariza-                                           allows variable computation cost. To improve differentia-
+tion that auto-scales the regularization strength.                                                     bility, ReMoE (Wang et al., 2024b) and BlockFFN (Song
+
+                                                                                                   2
+                DECO: Sparse Mixture-of-Experts with Dense-Comparable Performance on End-Side Devices
+
+et al., 2025b) adopt ReLU for expert selection. Since ReLU            (Section 3.1), experts (Section 3.2), and adaptive sparsity
+naturally produces considerable zero values while remain-             regularization (Section 3.3).
+ing differentiable, it enables smoothly learnable activation
+ratios and delivers performance advantages.                           3.1. Router Design
+Post-processing of router scores primarily normalizes expert          ReLU-based routing. Distinct from conventional TopK
+weights to preserve a consistent output scale. Most designs           routing, DECO incorporates ReLU in the router to deter-
+use Softmax as the score normalizer. DeepSeek-V3 (Liu                 mine expert activation. As demonstrated in prior stud-
+et al., 2024) instead applies element-wise Sigmoid followed           ies (Yao et al., 2025; Song et al., 2025b), ReLU is fully dif-
+by unit-sum normalization. Compared with Softmax, Sig-                ferentiable, inherently induces sparsity, and supports token-
+moid mitigates extremely skewed score distributions. No-              dependent activation ratios. These attributes render ReLU a
+tably, DeepSeek-V3 also introduces a scalar scaling factor            robust and flexible routing function.
+applied to router scores, which helps balance contributions
+between shared and routed experts.                                    Learnable expert-wise router scaling. To balance the out-
+                                                                      put scales of routed and shared experts, DECO applies a
+In this work, DECO adopts ReLU-based routing, and re-                 scaling operator to the routing scores before they are mul-
+places the fixed scalar scaling factor with learnable expert-         tiplied by the expert outputs. We extend the fixed scalar
+wise router scaling factors, providing flexibility and accom-         scaling factor of DeepSeek-V3 (Liu et al., 2024) to a learn-
+modating potential heterogeneity in expert output scales.             able vectorized one. This modification accommodates the
+Expert design. In most mainstream MoE models, each                    potential heterogeneity across routed experts by assigning
+expert is a standard gated MLP with SiLU activation                   them distinct, learnable coefficients.
+(SwiGLU) (Shazeer, 2020). DeepSeekMoE (Dai et al.,                    Formally, given the hidden dimension dh , the expert number
+2024) shows the benefits of introducing fine-grained experts          Ne , and the input hidden state x ∈ Rdh , the router score p
+and shared experts but retains the SwiGLU backbone.                   of DECO can be computed as follows:
+DECO refines expert design by introducing NormSiLU as                                              T
+                                                                                     p = α ⊙ ReLU(Wrouter x),                   (1)
+the expert activation, which resolves the issues of surging
+routed-expert activation ratio and vanishing SiLU output              where W ∈ Rdh ×Ne and α ∈ RNe are learnable weights,
+magnitudes. Moreover, we find that with ReLU-based rout-              and ⊙ represents element-wise multiplication.
+ing, non-gated MLP experts empirically bring a more stable
+trend of activation ratio than the gated variant.                     3.2. Expert Design
+
+Auxiliary training objective. Aside from the language                 Non-gated MLP experts. While gated MLP is widely
+modeling loss, MoE models generally introduce auxiliary               considered superior to the non-gated variant (Shazeer, 2020),
+training objectives. The most common one is for load bal-             we observe that non-gated experts exhibit more favorable
+ancing, typically implemented via the auxiliary loss pro-             properties within the specific context of ReLU-based routing.
+posed by Fedus et al. (2022). To alleviate auxiliary-loss             Concretely, in a ReLU-activated MoE, non-gated experts
+interference with language modeling, DeepSeek-V3 adopts               obtain a more stable trend of activation ratio, whereas gated
+a loss-free load-balancing policy without a differentiable ob-        variants exhibit a sharply increasing trend. This inherent
+jective (Wang et al., 2024a). MoE models with variable acti-          stability implies that a significantly lower regularization
+vation ratios often incorporate a sparsification objective. For       penalty is required to achieve a target sparsity threshold,
+example, ReMoE applies adaptive L1-norm regularization,               thereby alleviating the negative impact on performance.
+and BlockFFN employs chunk-wise sparsification (Wang                  NormSiLU. We introduce NormSiLU (Algorithm 1) as an
+et al., 2024b; Song et al., 2025b).                                   enhanced activation for MoE experts, prepending a dual-
+Inspired by ReMoE, DECO uses an adaptive sparsity regu-               stage normalization to the SiLU non-linearity.
+larization, whose coefficient auto-scales to precisely control        First, inter-expert mean normalization centers the expert up-
+the sparsity level. We also replace the L1-norm with router           projection weights around zero, ensuring the pre-activation
+entropy to improve numerical stability.                               input distribution is approximately zero-centered. This ad-
+                                                                      justment stabilizes the SiLU activation distribution within
+3. Methodology of DECO                                                experts. Second, intra-expert RMS normalization is applied
+                                                                      to maintain consistent activation magnitudes. We find that
+We propose DECO, a sparse MoE architecture that achieves              this dual-stage normalization not only prevents internal ex-
+performance comparable to dense variants while maintain-              pert activations from vanishing, but also promotes a steady
+ing the same total number of parameters and training to-              activation ratio at the router level. A theoretical demonstra-
+kens. We split our design into three components: the router           tion for its rationality is presented in Appendix C.
+
+                                                                  3
+                 DECO: Sparse Mixture-of-Experts with Dense-Comparable Performance on End-Side Devices
+
+Algorithm 1 Pseudocode of NormSiLU.
+# Nt : num_tokens ; De : dim_expert ; Dh : dim_hidden
+# Ne : num_experts ; Na : num_active_experts
+rms_norm = RMSNorm ( dim = dim_expert ) # learnable RMSNorm layer , weight shape is [ De ]
+def NormSiLU ( input_hidden , up_proj_weight , intermediate_state ):
+    # input_hidden : [Nt , Dh ], the input hidden state of MoE
+    # up_proj_weight : [Ne , De , Dh ], the up - projection weights of experts
+    # intermediate_state : [Nt , Na , De ], the expert intermediate state produced by a sparse
+     linear operation between " input_hidden " and " up_proj_weight "
+      # inter - expert mean normalization : conducted at the " num_experts " dimension
+      up_proj_avg = mean ( up_proj_weight , dim =0) # [De , Dh ], fixed during inference
+      intermediate_avg = matmul ( input_hidden , up_proj_avg .T) # [Nt , De ]
+      intermediate_state -= intermediate_avg . unsqueeze (1)
+      # intra - expert RMS normalization : conducted at the " dim_expert " dimension
+      intermediate_state = rms_norm ( intermediate_state )
+      return SiLU ( intermediate_state ) # standard SiLU activation
+
+
+
+Given the expert intermediate dimension de , the structure              4. Experiments
+of a DECO expert is formally defined as:
+                                                                        4.1. Main Results
+                                                                        To demonstrate the architectural rationality of DECO,
+            xup = SparseLinear(x, Wup ),                                we compare it against the following baselines: Dense
+            x′up = NormSiLU(x, Wup , xup ),                  (2)        (i.e., a standard LLaMA-style Transformer using SwiGLU
+              y = SparseLinear(x′up , Wdown ),                          FFNs (Touvron et al., 2023)), TopP (Huang et al., 2024),
+                                                                        DeepSeek-V3 (Liu et al., 2024), ReMoE (Wang et al.,
+                                                                        2024b), and BlockFFN (Song et al., 2025b). Four total pa-
+where Wup ∈ RNe ×de ×dh and Wdown ∈ RNe ×dh ×de are                     rameter scales are involved in experiments: Small (0.11B),
+the up-projection and down-projection weights, respectively.            Medium (0.24B), Large (0.53B), and XLarge (1.18B).
+SparseLinear operator facilitates sparse linear operations              All settings are trained on the same high-quality data mix-
+by involving only active experts at inference time.                     ture. The model performance is evaluated by two metrics:
+                                                                        Perplexity (PPL) on the C4 English validation set (Raffel
+3.3. Adaptive Sparsity Regularization                                   et al., 2020), and average accuracy across a suite of com-
+To effectively control the sparsity level, we adopt an adap-            monsense reasoning benchmarks. See Appendix A for more
+tive sparsity regularization, based on the router entropy loss          details about the experimental settings.
+and a dynamic scaling algorithm for the coefficient.                    To ensure a rigorous comparison, within each group of the
+Router entropy is a sparsification loss applied to a normal-            same total parameter count, the number of training tokens
+ized router score. In DECO, it is calculated as:                        is also held consistent at around 40 times the parameter
+                                                                        count. All non-FFN components, including attention layers
+                                                                        and embedding layers, remain identical within each group.
+    p1 = |p|/Sum(|p|),        Lent = −pT1 ln(p1 + ϵ)         (3)        All MoE settings within a group share the same routed-
+                                                                        expert activation ratio (around 20% on the training data) and
+                                                                        intermediate dimension of the shared expert. Furthermore,
+where p is the router score defined in Equation 1. The router           we ensure that all routed experts have close parameter counts
+entropy loss, Lent , is then multiplied by a coefficient λ and          to maintain consistent expert granularities.
+added to the total training objective.
+                                                                        From the results shown in Figure 3 (evaluation results on
+Instead of using a static coefficient, inspired by Re-                  individual benchmarks are shown in Appendix D), we derive
+MoE (Wang et al., 2024b), we adaptively scale λ according               the following conclusions:
+to the current sparsity level. Specifically, if the current spar-
+                                                                        (1) Dense comparability: With an average routed-expert
+sity falls below the target sparsity, λ is scaled by a η > 1
+                                                                        activation ratio of 20%, DECO achieves performance parity
+for the subsequent iteration; otherwise, λ is divided by η. In
+                                                                        with the Dense baseline. This holds true under the same total
+this way, DECO maintains a stable activation ratio centered
+                                                                        parameter budget and training token volume, demonstrating
+precisely at the desired sparsity level.
+
+                                                                    4
+                                                DECO: Sparse Mixture-of-Experts with Dense-Comparable Performance on End-Side Devices
+
+                                              Small, PPL ( )                                          Medium, PPL ( )                                                     Large, PPL ( )                                           XLarge, PPL ( )
+                       DECO           34.36                                     DECO             27.74                                           DECO             21.87                                       DECO          18.38
+
+                      Dense            34.40                                    Dense              27.85                                        Dense              21.93                                      Dense          18.41
+
+    DeepSeek-V3                                            35.09              BlockFFN                     28.16                           DeepSeek-V3                      22.19                             ReMoE                   18.69
+
+                      ReMoE                                 35.13          DeepSeek-V3                     28.19                                 ReMoE                              22.49                DeepSeek-V3                           18.99
+
+                BlockFFN                                       35.27            ReMoE                                           28.99          BlockFFN                                        22.94        BlockFFN                                   19.28
+
+                        TopP                                       40.98          TopP                                          33.55              TopP                                        26.60            TopP                                   22.22
+
+                               34.25 34.50 34.75 35.00 35.25 35.50                       27.6 27.9 28.2 28.5 28.8 29.1 29.4                               21.75 22.00 22.25 22.50 22.75 23.00 23.25                18.25 18.50 18.75 19.00 19.25 19.50
+                                             Small, Task ( )                                        Medium, Task ( )                                                  Large, Task ( )                                              XLarge, Task ( )
+                       DECO                                    36.90            DECO                                            39.18            DECO                                          42.81          DECO                                     47.38
+
+                      Dense                                36.80                Dense                                   39.01                   Dense                                          42.80          Dense                           46.98
+
+                      ReMoE                        36.60                   DeepSeek-V3                         38.82                             ReMoE                      42.48                           BlockFFN                     46.85
+
+                BlockFFN                         36.53                          ReMoE                 38.57                                DeepSeek-V3              42.38                                     ReMoE          46.37
+
+    DeepSeek-V3                       36.31                                   BlockFFN           38.44                                         BlockFFN           42.34                                  DeepSeek-V3        46.36
+
+                        TopP         34.71                                        TopP      36.34                                                  TopP       38.67                                             TopP       41.10
+
+                                 36.30 36.45 36.60 36.75 36.90 37.05                      38.4     38.6     38.8   39.0    39.2     39.4                  42.30     42.45      42.60   42.75     42.90                 46.25 46.50 46.75 47.00 47.25 47.50 47.75
+
+Figure 3. The evaluation results of DECO versus baseline settings. “PPL” and “Task” indicate the C4 validation perplexity and the average
+accuracy (%) on downstream benchmarks, respectively. DeepSeek-V3 uses gated MLP experts, and ReMoE uses non-gated ones. This is
+due to their better performance than the opposite settings, see Section 4.4 for detailed discussions.
+
+DECO’s efficiency in maintaining dense-level representa-                                                                                       To demonstrate the effect of DECO’s router scaling design,
+tion power with reduced active computation.                                                                                                    we experiment on two ablation settings: “Fixed” adopts a
+                                                                                                                                               constant scaling factor for all routed experts, and “Scalar”
+(2) Performance superiority: Under the same routed-expert
+                                                                                                                                               involves a single learnable scalar scaling factor shared by
+activation ratio, shared-expert dimensions, and expert gran-
+                                                                                                                                               experts. Both ablation settings are initialized with the same
+ularity, DECO surpasses existing MoE baselines from per-
+                                                                                                                                               values as DECO. Evaluation results in Table 1 reveal the
+plexity to downstream task performance.
+                                                                                                                                               performance benefits of learnable vectorized scaling fac-
+                                                                                                                                               tors. We further explore the sensitivity of performance to
+4.2. Effect of Learnable Expert-Wise Router Scaling                                                                                            initialization value in Appendix B.
+
+Table 1. The ablation results on the effect of learnable expert-wise                                                                           As empirical justification for this design, we analyze the
+router scaling. “Fixed” indicates one fixed scaling factor, while                                                                              distribution of expert output norms on the C4 validation set.
+“Scalar” includes one shared learnable scalar scaling factor.                                                                                  As illustrated in Figure 4, the output scales of routed experts
+                                                                                                                                               in DECO (Medium) exhibit clear heterogeneity. These re-
+                                                     Small                             Medium                                                  sults validate our hypothesis that applying expert-specific,
+                                               PPL (↓) Task (↑)                   PPL (↓) Task (↑)
+                                                                                                                                               learnable vectorized factors is essential to accommodate the
+                        Fixed                   34.43               36.74           27.94                     39.08                            varying output scale across different experts.
+                        Scalar                  35.16               36.63           27.92                     38.54
+                        DECO                    34.36               36.90           27.74                     39.18                            4.3. Effect of NormSiLU
+
+                                                                                                                                               Table 2. The ablation results on the effect of NormSiLU. The
+                                                Sorted Routed-Expert Output Scales                                                             marker “w/o” means removing a specific normalization step, and
+                                         mean level (0.23)                                                                                     “SiLU” is the vanilla SiLU operator without any normalization.
+Average Output Norm
+
+
+
+
+                      1.0
+                      0.8                                                                                                                                                                 Small                                 Medium
+                      0.6                                                                                                                                                           PPL (↓) Task (↑)                       PPL (↓) Task (↑)
+                      0.4                                                                                                                            w/o Mean                          34.57             36.85              27.77                38.88
+                                                                                                                                                     w/o RMS                           35.77             36.78              27.97                39.04
+                      0.2                                                                                                                            SiLU                              35.69             36.46              28.05                38.85
+                      0.0
+                                 0               10            20            30                  40                50                                NormSiLU                          34.36             36.90              27.74                39.18
+                                                                      Expert Index
+Figure 4. The distribution of routed-expert output norms in the first                                                                          To validate the effect of NormSiLU, which incorporates
+MoE layer of DECO (Medium) on the C4 validation set, which                                                                                     both inter-expert mean normalization and intra-expert RMS
+shows clear expert-wise heterogeneity.
+                                                                                                                                           5
+                                       DECO: Sparse Mixture-of-Experts with Dense-Comparable Performance on End-Side Devices
+
+
+                       50                          SiLU                                              0.06                                               SiLU                                            1.4
+                                                   w/o RMS                                                                                              w/o RMS
+
+
+
+
+                                                               Sparsity Regularization Coefficient
+
+
+
+
+                                                                                                                                                                      Absolute SiLU Output Magnitudes
+                       45                          w/o Mean                                          0.05                                               w/o Mean                                        1.2
+                                                   NormSiLU                                                                                             NormSiLU
+Activation Ratio (%)
+
+
+
+
+                       40                                                                            0.04                                                                                               1.0                                SiLU
+                                                                                                                                                                                                        0.8                                w/o RMS
+                       35                                                                            0.03                                                                                                                                  w/o Mean
+                                                                                                                                                                                                        0.6                                NormSiLU
+                       30                                                                            0.02
+                       25                                                                                                                                                                               0.4
+                                                                                                     0.01
+                       20                                                                                                                                                                               0.2
+                                                                                                     0.00
+                            0   3000   6000 9000 12000 15000                                                0   3000   6000 9000 12000 15000                                                                  0    3000     6000 9000 12000 15000
+                                       Training Step                                                                   Training Step                                                                                        Training Step
+
+Figure 5. The trend of activation ratio of                     Figure 6. The trend of the regularization co- Figure 7. The average absolute output mag-
+DECO (Small) and ablation settings without                     efficient of DECO (Small) and ablation set- nitudes of SiLU within routed experts of
+different steps of NormSiLU. The baseline                      tings without different steps of NormSiLU. DECO (Small) and ablation settings without
+“SiLU” and “w/o RMS” settings show surg-                       The baseline “SiLU” and “w/o RMS” set- different steps of NormSiLU. The baseline
+ing routed-expert activation ratio before be-                  tings show significantly higher coefficients, “SiLU” and “w/o Mean” settings show van-
+ing pulled back by regularization.                             which potentially harm performance.           ishing SiLU output magnitudes.
+
+normalization, we evaluate three ablation settings: “w/o                                                                    Table 3. The ablation results on the effect of expert gating. “GA”
+                                                                                                                            and “NG” indicate gated MLP experts and non-gated MLP experts,
+Mean” removes inter-expert mean normalization, “w/o RMS”
+                                                                                                                            respectively. “DS-V3” indicates DeepSeek-V3.
+removes intra-expert RMS normalization, and “SiLU” is the
+standard SiLU operator without any normalization.                                                                                                                     Small       Medium        Large
+                                                                                                                                                   Setting
+                                                                                                                                                                   PPL (↓) Task PPL (↓) Task PPL (↓) Task
+As shown in Table 2, both normalization steps contribute
+positively, with intra-expert RMS normalization provid-                                                                             DS-V3 (GA)                     35.09                                 36.31      28.19     38.82   22.19     42.38
+                                                                                                                                    DS-V3 (NG)                     35.16                                 36.73      28.28     38.47   22.33     42.02
+ing a more substantial gain. To investigate the underlying
+mechanisms of NormSiLU, we track three critical variables                                                                         ReMoE (GA)                       36.02                                 36.61      29.55     38.15   22.78     42.27
+throughout the training process: the routed-expert activation                                                                     ReMoE (NG)                       35.13                                 36.60      28.99     38.57   22.49     42.48
+ratio, the sparsity regularization coefficient, and the average                                                                      DECO (GA)                     39.77                                 35.78      32.46     37.29   22.13     42.29
+absolute output magnitudes of SiLU within experts.                                                                                   DECO (NG)                     34.36                                 36.90      27.74     39.18   21.87     42.81
+
+As illustrated in Figure 5, the activation ratios of “SiLU” and
+“w/o RMS” surge rapidly during the initial training phase.                                                                                         50                                                                                  DECO (GA)
+                                                                                                                                                                                                                                       DECO (NG)
+                                                                                                                            Activation Ratio (%)
+
+
+
+
+While the adaptive regularization eventually pulls back this                                                                                       45
+surge, Figure 6 reveals that these settings require a signif-                                                                                      40
+icantly higher regularization coefficient, which typically                                                                                         35
+degrades overall performance. Conversely, NormSiLU and                                                                                             30
+“w/o Mean” maintain stable activation trends, with Norm-                                                                                           25
+SiLU achieving the lowest activation ratio. We conclude                                                                                            20
+that intra-expert RMS normalization mitigates the un-                                                                                                   0          3000                                       6000       9000      12000       15000
+controlled growth of activation ratios, while inter-expert                                                                                                                                                     Training Step
+mean normalization further promotes sparsity level.                                                                         Figure 8. The trend of routed-expert activation ratio of DECO
+Moreover, analysis of the internal SiLU output magnitudes                                                                   (Small) using different expert gating policies.
+(Figure 7) reveals that “SiLU” and “w/o Mean” exhibit
+                                                                                                                            tectures: DeepSeek-V3, ReMoE, and DECO. DeepSeek-V3
+considerably lower magnitudes. This suggests that expert
+                                                                                                                            is a well-performing MoE architecture using a fixed per-
+neurons (i.e., parameter columns/rows) in these settings are
+                                                                                                                            token activation ratio, while ReMoE and DECO use ReLU-
+potentially under-utilized and less significantly activated.
+                                                                                                                            based routing to implement a flexible activation ratio. For
+In contrast, inter-expert mean normalization effectively
+                                                                                                                            each architecture, we compare non-gated MLP experts (NG)
+addresses this issue, ensuring more robust activation and
+                                                                                                                            against gated MLP experts (GA).
+utilization of expert neurons.
+                                                                                                                            As demonstrated by Table 3, for ReLU-based routing, non-
+4.4. Effect of Expert Gating                                                                                                gated MLP experts generally surpass gated counterparts.
+                                                                                                                            Conversely, for standard TopK routing (e.g., DeepSeek-V3),
+To investigate whether expert gating significantly influences                                                               gated experts provide a marginal performance gain, though
+MoE performance, we conduct experiments on three archi-                                                                     the difference is not significant.
+
+                                                                                                                        6
+                                      DECO: Sparse Mixture-of-Experts with Dense-Comparable Performance on End-Side Devices
+
+                                                                                          35                                                                   35
+                    38                               DECO (Small)
+                                                     Dense (Small)                        34                                                                   34
+                                                     DECO (Medium)
+                    36                               Dense (Medium)                       33                                                                   33
+C4 Validation PPL
+
+
+
+
+                                                                                                                                           C4 Validation PPL
+                                                                      C4 Validation PPL
+                    34                                                                    32                             DECO (Small)                          32                            DECO (Small)
+                                                                                                                         Dense (Small)                                                       Dense (Small)
+                                                                                          31                             DECO (Medium)                         31                            DECO (Medium)
+                    32                                                                                                   Dense (Medium)                                                      Dense (Medium)
+                                                                                                                                                               30
+                                                                                          30
+                    30                                                                                                                                         29
+                                                                                          29
+                                                                                                                                                               28
+                    28                                                                    28
+                                                                                                                                                               27
+                         5.0 7.5 10.0 12.5 15.0 17.5 20.0 22.5 25.0                        32   64     96 128 160 192 224 256                                       50   100         150      200      250
+                                     Activation Ratio (%)                                        Intermediate Dimension of Shared Expert                                       Granularity
+
+Figure 9. The impact of the routed-expert ac- Figure 10. The impact of shared expert sizes Figure 11. The impact of the expert granu-
+tivation ratio on the performance of DECO on the performance of DECO (Small and larity (g = 4dh /de ) on the performance of
+(Small and Medium).                           Medium). Routed expert dimension is 64.      DECO (Small and Medium).
+
+We attribute this disparity to the training dynamics that                                                         Therefore, reaching target ratios beyond this intrinsic thresh-
+emerge when gated experts are paired with flexible,                                                               old is infeasible. The experimental results, illustrated in
+threshold-based routing. As illustrated in Figure 8, DECO                                                         Figure 9, yield two primary observations:
+(GA) exhibits highly unstable activation trends, character-
+                                                                                                                  (1) Positive correlation with performance: DECO’s perfor-
+ized by a drastic surge in the routed-expert activation ratio
+                                                                                                                  mance scales positively with the activation ratio. This aligns
+that must be aggressively counteracted by sparsity regular-
+                                                                                                                  with findings in standard TopK MoE, where increased acti-
+ization. In contrast, DECO (NG) maintains a stable acti-
+                                                                                                                  vation ratios correspond to higher per-token computational
+vation trajectory, requiring substantially less regularization
+                                                                                                                  investment, typically resulting in superior model quality.
+and thereby preserving model performance.
+                                                                                                                  (2) Scale-dependent comparability thresholds: The activa-
+Mechanistically, this divergence may stem from gradient
+                                                                                                                  tion ratio required for DECO to achieve parity with dense
+behavior. Compared with non-gated variants, gated experts
+                                                                                                                  models varies by scale. Specifically, the “Small” setting
+(e.g., SwiGLU) contain more multiplicative interactions
+                                                                                                                  reaches dense-level performance at a 15% activation ratio,
+that produce highly dynamic output scales, sending massive
+                                                                                                                  whereas “Medium” requires only 10%. This suggests that
+gradient signals back to the router. Because ReLU-based
+                                                                                                                  as DECO scales up, it may attain dense-comparable param-
+routing couples activation directly to the logit threshold, this
+                                                                                                                  eter efficiency at lower activation ratios. This observation
+gradient surge drastically destabilizes the activation ratio.
+                                                                                                                  is consistent with recent literature suggesting that the op-
+Conversely, in TopK-routed architectures like DeepSeek-V3,
+                                                                                                                  timal activation ratio decreases as total parameter count
+the hard constraint of activating a fixed number of experts
+                                                                                                                  increases (Zhao et al., 2025a). Further investigation on
+per token effectively masks this logit-induced instability,
+                                                                                                                  larger-scale models is required to validate this scaling trend.
+rendering the overall performance largely insensitive to the
+choice of expert gating.
+                                                                                                                  5.2. Shared Expert Size
+
+5. Effect of Key MoE Hyperparameters                                                                              We evaluate the performance of DECO across various
+                                                                                                                  shared-expert sizes, proportional to the intermediate dimen-
+Compared to dense architectures, MoE models introduce                                                             sion of the shared expert. For rigorous comparison, we hold
+unique hyperparameters that significantly influence perfor-                                                       the total parameter count approximately constant across all
+mance, among which the activation ratio, expert granularity,                                                      settings. This necessitates a trade-off between the capacity
+and shared expert size are often considered the most im-                                                          of the shared expert and the number of routed experts.
+portant ones (Tian et al., 2025). Similarly, the performance
+of DECO is also sensitive to these factors, and the dense-                                                        As illustrated in Figure 10, when the intermediate dimension
+comparability of DECO has its conditions. In this section,                                                        of the shared expert is around 1∼2 times that of a routed
+we conduct an empirical study to characterize the impact of                                                       expert (fixed at 64), DECO achieves comparability with the
+these three MoE-specific factors on DECO.                                                                         dense baseline and exhibits relative insensitivity to the size
+                                                                                                                  of the shared expert. However, as the shared-expert dimen-
+                                                                                                                  sion increases to 3∼4 times that of the routed experts, the
+5.1. Activation Ratio
+                                                                                                                  perplexity (PPL) degrades significantly. This performance
+We evaluate DECO across a wide range of routed-expert                                                             drop is attributed to the reduced number of routed experts
+activation ratios, from 5% to 25%. Notably, according to the                                                      necessitated by the fixed parameter budget. These findings
+red line in Figure 8, DECO exhibits an intrinsic activation                                                       corroborates the observations in Tian et al. (2025), suggest-
+ratio of approximately 28% if no regularization is applied.                                                       ing that an oversized shared expert is unnecessary. Instead,
+
+                                                                                                              7
+                DECO: Sparse Mixture-of-Experts with Dense-Comparable Performance on End-Side Devices
+
+Table 4. Single-GPU decoding speeds on Spec-Bench (token/sec) and average speedup ratios relative to “Baseline AR” on NVIDIA RTX
+4090 (24GB) and Jetson AGX (64GB). “Ours” denotes the setting with our acceleration kernel.
+
+                  Device            Setting       MT.     Trans.       Summ.        QA       Math      RAG        Average
+                                 Baseline AR     86.63     87.81        86.20      87.88      87.83     86.24      87.10
+             RTX 4090 24GB          Ours        224.28    222.65       218.24     228.57     231.88    222.19     224.63
+                                  Speedup       2.59×     2.54×        2.53×      2.60×      2.64×     2.58×      2.58×
+                                 Baseline AR     14.68    14.89        14.61      14.91      14.89     14.62       14.77
+            Jetson AGX 64GB         Ours         44.15    44.08        42.78      45.29      45.99     43.64       44.32
+                                  Speedup        3.01×    2.96×        2.93×      3.04×      3.09×     2.98×       3.00×
+
+a single shared expert with a scale comparable to that of a           dense-comparable. The property of activation sparsity,
+routed expert appears to be optimal.                                  indicating that only a small fraction of parameters con-
+                                                                      tribute largely to final outputs, also exists in dense mod-
+5.3. Expert Granularity                                               els. Recent studies (Song et al., 2025a; Luo et al., 2024;
+                                                                      Zhang et al., 2024) indicate that for each token, only about
+As illustrated in Figure 11, for “Medium” setting, we ob-             30%∼40% neurons within a standard SwiGLU FFN provide
+serve a monotonic improvement in perplexity (PPL) as gran-            non-negligible contributions. The remaining 60%∼70% of
+ularity increases when g > 120. However, the “Small”                  neurons “seem” to occupy computation, but actually do not
+setting shows reduced sensitivity to granularity, as its lower-       have much contribution and are not considerably updated
+capacity experts are potentially more difficult to capture the        by the optimizer due to near-zero SiLU activation values.
+“long-tail” distribution of the data or develop fine-grained          Actually, dense models can be regarded as a special form
+specialization. For both settings, when granularity is be-            of sparse MoE, where the SiLU-activated gating projection
+low 60, performance fluctuates near the dense baseline. By            functions as a “router”, and neurons within up-down pro-
+contrast, for g > 60, DECO consistently achieves dense                jections serve as “experts”. Therefore, given an optimized
+parity. These results suggest that finer expert granularity is        architecture and a sufficient activation ratio, it is possible
+essential for stable and competitive performance of DECO.             for a sparse MoE model to match dense performance.
+
+6. Practical Inference Acceleration
+                                                                      Table 5. The experimental results on FineWeb, a dataset with less
+To demonstrate the practical utility of DECO for real-world           heterogeneous composition.
+deployment, we implement an acceleration kernel tailored
+for DECO, which leverages sparse activation to reduce                                       Small                   Medium
+both computational overhead and memory access latency                                 PPL (↓) Task (↑)         PPL (↓) Task (↑)
+incurred by inactive routed experts. We evaluate the ker-                   Dense        3.393      38.03       3.213       41.49
+nel’s efficacy on Spec-Bench (Xia et al., 2024), a compre-                  DECO         3.406      38.65       3.211       41.58
+hensive acceleration benchmark, using a single NVIDIA
+RTX 4090 (24GB) and Jetson AGX (64GB) as the inference
+devices. We establish a baseline, called “Baseline AR”,               Dense-comparability may be easier to achieve under
+using standard autoregressive decoding without sparsity-              more heterogeneous training data. In previous exper-
+based optimizations. Both the baseline and our kernel are             iments, we adopt a diverse data mixture for training, in-
+implemented within FR-Spec (Zhao et al., 2025b), a high-              cluding web texts, codes, math, and many other data cat-
+performance CUDA-optimized inference framework, to en-                egories. On such heterogeneous data, DECO matches or
+sure a controlled experimental environment. As detailed in            exceeds the dense baselines across various parameter scales
+Table 4, our acceleration kernel significantly outperforms            (Figure 3). However, this "dense-comparability" may be
+“Baseline AR”, achieving an average speedup of 2.58× on               sensitive to the underlying data composition. As shown in
+RTX 4090 and 3.00× on Jetson AGX. These results confirm               Table 5, when trained on FineWeb (Penedo et al., 2024),
+that DECO’s sparse activation patterns, produced by ReLU-             a less heterogeneous dataset, the dense-comparability of
+based routing, can be effectively translated into tangible            DECO is less significant, and DECO (Small) slightly lags
+throughput gains in practical inference scenarios.                    behind Dense (Small) in PPL. A reasonable explanation
+                                                                      is that high-entropy, multi-domain datasets are inherently
+7. Discussion                                                         better suited for sparse MoE. In such settings, the model
+                                                                      can effectively process domain-specific tasks by activating
+Considering the intrinsic activation sparsity of “dense”              only a specialized subset of its parameters. More studies are
+language models, it is reasonable to expect MoE to be                 needed to verify this explanation.
+
+                                                                  8
+                DECO: Sparse Mixture-of-Experts with Dense-Comparable Performance on End-Side Devices
+
+8. Conclusion                                                         Bi, X., Chen, D., Chen, G., Chen, S., Dai, D., Deng, C.,
+                                                                        Ding, H., Dong, K., Du, Q., Fu, Z., et al. Deepseek LLM:
+In this work, we propose DECO, a novel MoE architecture                 Scaling open-source language models with longtermism.
+designed to minimize computational and storage overhead                 arXiv preprint arXiv:2401.02954, 2024. URL https:
+while maintaining dense-comparable performance. Under                   //arxiv.org/pdf/2401.02954.
+an activation ratio of 20%, DECO not only matches the
+performance of dense FFNs with an equivalent parameter                Bisk, Y., Zellers, R., Gao, J., Choi, Y., et al. PIQA:
+count and training token budget, but also consistently outper-          Reasoning about physical commonsense in natural lan-
+forms existing MoE baselines. Our analysis demonstrates                 guage. In Proceedings of the AAAI conference on artifi-
+that DECO’s success stems from a series of architectural                cial intelligence, volume 34, pp. 7432–7439, 2020. URL
+refinements, including ReLU-based routing with learnable                https://ojs.aaai.org/index.php/AAAI/article/
+expert-wise scaling, as well as the integration of non-gated            view/6239/6095.
+MLP experts utilizing the NormSiLU activation. Further-
+more, practical acceleration is achieved on real hardware,            Cai, W., Jiang, J., Wang, F., Tang, J., Kim, S., and Huang, J.
+confirming that the sparsity of DECO can be translated into             A survey on mixture of experts in large language models.
+tangible efficiency gains for real-world deployment.                    IEEE Transactions on Knowledge and Data Engineering,
+                                                                        2025. URL https://arxiv.org/pdf/2507.11181.
+Limitations                                                           Clark, P., Cowhey, I., Etzioni, O., Khot, T., Sabharwal, A.,
+One potential limitation of this work is that we do not con-            Schoenick, C., and Tafjord, O. Think you have solved
+duct experiments involving the supervised fine-tuning (SFT)             question answering? Try ARC, the AI2 reasoning chal-
+or reinforcement learning (RL) stage. Recent studies have               lenge. arXiv preprint arXiv:1803.05457, 2018. URL
+indicated that MoE architectures may encounter unique chal-             https://arxiv.org/pdf/1803.05457.pdf.
+lenges during post-training, such as RL instability result-
+                                                                      Dai, D., Deng, C., Zhao, C., Xu, R., Gao, H., Chen, D.,
+ing from fluctuating router activations (Zheng et al., 2025).
+                                                                        Li, J., Zeng, W., Yu, X., Wu, Y., et al. DeepSeek-
+Therefore, it is reasonable to assume that DECO may have
+                                                                        MoE: Towards ultimate expert specialization in mixture-
+similar issues. To address this limitation, we are currently
+                                                                        of-experts language models. CoRR, 2024. URL http:
+training a larger, product-level DECO model optimized for
+                                                                       //arxiv.org/pdf/2401.06066.
+edge-device deployment. This process will involve find-
+ing potential issues during the stages of SFT and RL, and             Dubey, A., Jauhri, A., Pandey, A., Kadian, A., Al-Dahle,
+developing corresponding mitigation strategies.                        A., Letman, A., Mathur, A., Schelten, A., Yang, A., Fan,
+Moreover, as already stated in this article, several hypothe-          A., et al. The Llama 3 herd of models. arXiv preprint
+ses and empirical observations deserve more extensive veri-             arXiv:2407.21783, 2024. URL https://arxiv.org/pd
+fication. Specifically, it remains to be determined how the             f/2407.21783.
+activation ratio threshold required for dense-comparability
+scales with model size, and how DECO’s intrinsic sparsity             Fedus, W., Zoph, B., and Shazeer, N. Switch Transformers:
+and performance fluctuate across diverse data distributions             Scaling to trillion parameter models with simple and ef-
+or inference tasks. Investigating these factors is essential to         ficient sparsity. Journal of Machine Learning Research,
+further establish the robustness and theoretical foundation             23(120):1–39, 2022. URL https://www.jmlr.org/p
+of our proposed architecture.                                           apers/volume23/21-0998/21-0998.pdf.
+
+                                                                      Gao, L., Biderman, S., Black, S., Golding, L., Hoppe, T.,
+Impact Statement                                                        Foster, C., Phang, J., He, H., Thite, A., Nabeshima, N.,
+                                                                        et al. The Pile: An 800GB dataset of diverse text for
+This paper presents work whose goal is to advance the field
+                                                                        language modeling. arXiv preprint arXiv:2101.00027,
+of Machine Learning. There are many potential social con-
+                                                                        2020. URL https://arxiv.org/pdf/2101.00027.p
+sequences of our work, none of which we feel must be
+                                                                        df.
+specifically highlighted here.
+                                                                      Gao, L., Tow, J., Abbasi, B., Biderman, S., Black, S., DiPofi,
+References                                                              A., Foster, C., Golding, L., Hsu, J., Le Noac’h, A., Li,
+                                                                        H., McDonell, K., Muennighoff, N., Ociepa, C., Phang,
+Ba, J. L., Kiros, J. R., and Hinton, G. E. Layer normalization.         J., Reynolds, L., Schoelkopf, H., Skowron, A., Sutawika,
+  arXiv preprint arXiv:1607.06450, 2016. URL https:                     L., Tang, E., Thite, A., Wang, B., Wang, K., and Zou, A.
+  //arxiv.org/pdf/1607.06450.                                           The language model evaluation harness, 07 2024. URL
+                                                                        https://zenodo.org/records/12608602.
+
+                                                                  9
+                DECO: Sparse Mixture-of-Experts with Dense-Comparable Performance on End-Side Devices
+
+Hu, S., Tu, Y., Han, X., He, C., Cui, G., Long, X., Zheng, Z.,          datasets: Decanting the web for the finest text data at
+  Fang, Y., Huang, Y., Zhao, W., et al. MiniCPM: Unveiling              scale. Advances in Neural Information Processing Sys-
+  the potential of small language models with scalable train-           tems, 37:30811–30849, 2024. URL https://proceedi
+  ing strategies. arXiv preprint arXiv:2404.06395, 2024.                ngs.neurips.cc/paper_files/paper/2024/file/3
+                                                                        70df50ccfdf8bde18f8f9c2d9151bda-Paper-Datas
+Huang, Q., An, Z., Zhuang, N., Tao, M., Zhang, C., Jin, Y.,             ets_and_Benchmarks_Track.pdf.
+ Xu, K., Chen, L., Huang, S., and Feng, Y. Harder tasks
+  need more experts: Dynamic routing in MoE models.                   Raffel, C., Shazeer, N., Roberts, A., Lee, K., Narang, S.,
+  arXiv preprint arXiv:2403.07652, 2024. URL https:                     Matena, M., Zhou, Y., Li, W., and Liu, P. J. Exploring
+ //arxiv.org/pdf/2403.07652.                                            the limits of transfer learning with a unified text-to-text
+                                                                        Transformer. Journal of machine learning research, 21
+Jiang, A. Q., Sablayrolles, A., Roux, A., Mensch, A., Savary,           (140):1–67, 2020. URL https://www.jmlr.org/pap
+   B., Bamford, C., Chaplot, D. S., Casas, D. d. l., Hanna,             ers/volume21/20-074/20-074.pdf.
+   E. B., Bressand, F., et al. Mixtral of experts. arXiv
+   preprint arXiv:2401.04088, 2024. URL https://arxiv.                Sakaguchi, K., Le Bras, R., Bhagavatula, C., and Choi, Y.
+   org/pdf/2401.04088.                                                  WinoGrande: An adversarial winograd schema challenge
+                                                                        at scale. In Proceedings of the AAAI Conference on
+Jin, P., Zhu, B., Yuan, L., and Yan, S. MoE++: Accelerat-               Artificial Intelligence, volume 34, pp. 8732–8740, 2020.
+   ing mixture-of-experts methods with zero-computation                 URL https://cdn.aaai.org/ojs/6399/6399-13-9
+   experts. arXiv preprint arXiv:2410.07348, 2024. URL                  624-1-10-20200517.pdf.
+   https://arxiv.org/pdf/2410.07348?
+                                                                      Sap, M., Rashkin, H., Chen, D., Le Bras, R., and Choi,
+Krajewski, J., Ludziejewski, J., Adamczewski, K., Pióro,
+                                                                        Y. SocialIQA: Commonsense reasoning about social
+  M., Krutul, M., Antoniak, S., Ciebiera, K., Król, K.,
+                                                                        interactions. In Proceedings of the 2019 Conference
+  Odrzygóźdź, T., Sankowski, P., et al. Scaling laws
+                                                                        on Empirical Methods in Natural Language Processing
+  for fine-grained mixture of experts. arXiv preprint
+                                                                        and the 9th International Joint Conference on Natural
+  arXiv:2402.07871, 2024. URL https://arxiv.org/pd
+                                                                        Language Processing (EMNLP-IJCNLP), pp. 4463–4473,
+  f/2402.07871.
+                                                                        2019. URL https://aclanthology.org/D19-1454.
+Li, H., Lo, K. M., Wang, Z., Wang, Z., Zheng, W., Zhou, S.,             pdf.
+   Zhang, X., and Jiang, D. Can mixture-of-experts surpass
+                                                                      Shazeer, N. GLU variants improve Transformer. arXiv
+   dense llms under strictly equal resources? arXiv preprint
+                                                                        preprint arXiv:2002.05202, 2020. URL https://arxiv.
+   arXiv:2506.12119, 2025. URL https://arxiv.org/pd
+                                                                        org/pdf/2002.05202.pdf.
+   f/2506.12119.
+
+Liu, A., Feng, B., Xue, B., Wang, B., Wu, B., Lu, C., Zhao,           Song, C., Han, X., Zhang, Z., Hu, S., Shi, X., Li, K., Chen,
+  C., Deng, C., Zhang, C., Ruan, C., et al. DeepSeek-V3                 C., Liu, Z., Li, G., Yang, T., and Sun, M. ProSparse:
+  technical report. arXiv preprint arXiv:2412.19437, 2024.              Introducing and enhancing intrinsic activation sparsity
+  URL https://arxiv.org/pdf/2412.19437.                                 within large language models. In Proceedings of the 31st
+                                                                        International Conference on Computational Linguistics,
+Luo, Y., Song, C., Han, X., Chen, Y., Xiao, C., Liu, Z.,                pp. 2626–2644, January 2025a. URL https://aclant
+  and Sun, M. Sparsing Law: Towards large language                      hology.org/2025.coling-main.180.pdf.
+  models with greater activation sparsity. arXiv preprint
+  arXiv:2411.02335, 2024. URL https://arxiv.org/pd                    Song, C., Zhao, W., Han, X., Xiao, C., Chen, Y., Li, Y.,
+  f/2411.02335.                                                         Liu, Z., and Sun, M. BlockFFN: Towards end-side
+                                                                        acceleration-friendly mixture-of-experts with chunk-level
+Paperno, D., Kruszewski, G., Lazaridou, A., Pham, N.-Q.,                activation sparsity. arXiv preprint arXiv:2507.08771,
+  Bernardi, R., Pezzelle, S., Baroni, M., Boleda, G., and               2025b. URL https://arxiv.org/pdf/2507.08771.
+  Fernández, R. The LAMBADA dataset: Word prediction
+  requiring a broad discourse context. In Proceedings of              Su, D., Kong, K., Lin, Y., Jennings, J., Norick, B.,
+  the 54th Annual Meeting of the Association for Compu-                 Kliegl, M., Patwary, M., Shoeybi, M., and Catanzaro,
+  tational Linguistics (Volume 1: Long Papers), pp. 1525–               B. Nemotron-CC: Transforming common crawl into a
+  1534, 2016. URL https://aclanthology.org/P16-1                        refined long-horizon pretraining dataset. In Proceedings
+  144.pdf.                                                              of the 63rd Annual Meeting of the Association for Compu-
+                                                                        tational Linguistics (Volume 1: Long Papers), pp. 2459–
+Penedo, G., Kydlíček, H., Lozhkov, A., Mitchell, M., Raf-              2475, 2025. URL https://aclanthology.org/2025.
+  fel, C. A., Von Werra, L., Wolf, T., et al. The FineWeb               acl-long.123.pdf.
+
+                                                                 10
+                DECO: Sparse Mixture-of-Experts with Dense-Comparable Performance on End-Side Devices
+
+Thakkar, V., Ramani, P., Cecka, C., Shivam, A., Lu, H., Yan,           Zhao, G., Fu, Y., Li, S., Sun, X., Xie, R., Wang, A.,
+  E., Kosaian, J., Hoemmen, M., Wu, H., Kerr, A., Nicely,                Han, W., Yang, Z., Sun, W., Zhang, Y., et al. To-
+  M., Merrill, D., Blasig, D., Qiao, F., Majcher, P., Springer,          wards a comprehensive scaling law of mixture-of-experts.
+  P., Hohnerbach, M., Wang, J., and Gupta, M. CUTLASS,                   arXiv preprint arXiv:2509.23678, 2025a. URL https:
+  Jan 2023. URL https://github.com/NVIDIA/cutlas                         //arxiv.org/pdf/2509.23678.
+  s.
+                                                                       Zhao, W., Pan, T., Han, X., Zhang, Y., Sun, A., Huang,
+Tian, C., Chen, K., Liu, J., Liu, Z., Zhang, Z., and Zhou,               Y., Zhang, K., Zhao, W., Li, Y., Wang, J., et al. FR-
+  J. Towards greater leverage: Scaling laws for efficient                Spec: Accelerating large-vocabulary language models via
+  mixture-of-experts language models. arXiv preprint                     frequency-ranked speculative sampling. arXiv preprint
+  arXiv:2507.17702, 2025. URL https://arxiv.org/pd                       arXiv:2502.14856, 2025b. URL https://arxiv.org/
+  f/2507.17702.                                                          pdf/2502.14856.
+
+Touvron, H., Martin, L., Stone, K., Albert, P., Almahairi,             Zheng, C., Liu, S., Li, M., Chen, X.-H., Yu, B., Gao,
+  A., Babaei, Y., Bashlykov, N., Batra, S., Bhargava, P.,                C., Dang, K., Liu, Y., Men, R., Yang, A., et al.
+  Bhosale, S., et al. LLaMA 2: Open foundation and fine-                 Group sequence policy optimization. arXiv preprint
+  tuned chat models. arXiv preprint arXiv:2307.09288,                    arXiv:2507.18071, 2025. URL https://arxiv.org/pd
+  2023. URL https://arxiv.org/pdf/2307.09288.p                           f/2507.18071.
+  df.
+
+Wang, L., Gao, H., Zhao, C., Sun, X., and Dai, D. Auxiliary-
+ loss-free load balancing strategy for mixture-of-experts.
+ arXiv preprint arXiv:2408.15664, 2024a. URL https:
+ //arxiv.org/pdf/2408.15664.
+
+Wang, Z., Chen, J., and Zhu, J. ReMoE: Fully differentiable
+ mixture-of-experts with ReLU routing. arXiv preprint
+ arXiv:2412.14711, 2024b. URL https://arxiv.org/
+ pdf/2412.14711.
+
+Xia, H., Yang, Z., Dong, Q., Wang, P., Li, Y., Ge, T., Liu,
+  T., Li, W., and Sui, Z. Unlocking efficiency in large
+  language model inference: A comprehensive survey of
+  speculative decoding. In Findings of the Association for
+  Computational Linguistics ACL 2024, pp. 7655–7671,
+  2024. URL https://aclanthology.org/2024.find
+  ings-acl.456.pdf.
+
+Yao, F., Cui, J., Zhang, R., Liu, L., Hao, S., Zhang, L.,
+  Dong, C., Wang, S., Gao, J., Shang, J., et al. DenseMixer:
+  Improving moe post-training with precise router gradient.
+  In NeurIPS 2025 Workshop on Structured Probabilistic
+  Inference {\&} Generative Modeling, 2025. URL https:
+  //openreview.net/pdf?id=88PI0SpVL3.
+
+Zellers, R., Holtzman, A., Bisk, Y., Farhadi, A., and Choi, Y.
+  HellaSwag: Can a machine really finish your sentence?
+  In Proceedings of the 57th Annual Meeting of the Associa-
+  tion for Computational Linguistics, pp. 4791–4800, 2019.
+  URL https://aclanthology.org/P19-1472.pdf.
+
+Zhang, Z., Song, Y., Yu, G., Han, X., Lin, Y., Xiao, C., Song,
+  C., Liu, Z., Mi, Z., and Sun, M. ReLU2 wins: Discovering
+  efficient activation functions for sparse LLMs. arXiv
+  preprint arXiv:2402.03804, 2024. URL https://arxiv.
+  org/pdf/2402.03804.pdf.
+
+                                                                  11
+                  DECO: Sparse Mixture-of-Experts with Dense-Comparable Performance on End-Side Devices
+
+A. Detailed Experimental Settings
+Training datasets For all settings, we use the same pretraining dataset, which consists of a mixture of various data,
+including FineWeb (Penedo et al., 2024), Nemotron-CC (Su et al., 2025), Pile (Gao et al., 2020), Wikipedia, and many other
+collected raw corpora. The training data covers a wide range of categories, such as raw web texts, math, code, and articles.
+The data mixing ratio is carefully tuned through experiments on small-scale models.
+
+Evaluation benchmarks We evaluate the accuracy of models on various commonsense reasoning benchmarks with
+LMEval (Gao et al., 2024), including PIQA (Bisk et al., 2020), SIQA (Sap et al., 2019), HellaSwag (Zellers et al., 2019),
+ARC-C, ARC-E (Clark et al., 2018), WinoGrande (Sakaguchi et al., 2020), and LAMBADA (Paperno et al., 2016).
+
+Baseline adjustments Since BlockFFN is originally designed to combine activation sparsity and speculative decoding for
+better acceleration, it introduces a chunk-level sparsity regularization to increase the union sparsity level of consecutive
+tokens (Song et al., 2025b). However, we do not consider such a chunk-level issue in this work. Therefore, we replace its
+original regularization designs with our own adaptive sparsity regularization for fair comparison.
+
+Hyperparameters To find the optimal hyperparameters, we first conduct a grid search on small-scale models. Then,
+following DeepSeek LLM (Bi et al., 2024), we assume a power-law relationship of both the optimal learning rate and batch
+size with respect to the computation budget. Thereby, we can extrapolate the hyperparameters for large-scale models using
+those for small-scale models. The detailed hyperparameters of each experimental setting are shown in Table 6. All MoE
+baseline settings and DECO use a dense FFN at the first layer, and adopt sparse MoE for the remaining Nlayer − 1 layers.
+We use the WSD learning rate scheduler along the training process (Hu et al., 2024; Dubey et al., 2024), with 100 warmup
+steps at the beginning and 1,000 decay steps at the last stage.
+
+Table 6. The hyperparameter settings of models. ds , df f , Nlayer , and nstep denote the intermediate dimension of the shared expert, the
+intermediate dimension of the dense FFN layer, the total number of hidden layers, and the number of training steps, respectively. η and
+λinit are the coefficient multiplier and the initial value of the regularization coefficient as used in the adaptive sparsity regularization.
+
+     Scale                  dh       de      ds      Ne     df f   Nlayer     nstep           lr      batch_size        η       λinit
+                                                                                                                 5
+     0.11B (Small)         768       64      128      42   1,920     16       15,000     1.175e − 3   2.62 × 10       1.002    1e − 8
+     0.24B (Medium)       1,024      64      128      57   2,560     20       15,000      9.3e − 4    5.24 × 105      1.002    1e − 8
+     0.53B (Large)        1,280      64      128      77   3,360     27       20,000      7.8e − 4    1.05 × 106      1.001    1e − 8
+     1.18B (XLarge)       1,792      64      128     102   4,480     32       23,000     6.54e − 4    2.10 × 106      1.001    1e − 8
+
+
+
+B. Impact of the Scaling Factor Initialization Value
+In this section, we conduct experiments on DECO when its learnable expert-wise scaling factors are initialized with different
+values. The results are shown in Table 7. The performance of DECO does not change monotonically with the initialization
+value. Empirically, the best performance is achieved when the scaling factors are initialized around 0.1∼0.25. In our
+experiments in Section 4, we choose the initialization value of 0.1 for all DECO settings.
+
+    Table 7. The performance of DECO (Small) when the learnable expert-wise scaling factors are initialized with different values.
+
+                                  Init Value       0.01    0.025   0.05      0.1       0.25    0.5     1.0
+                                  PPL (↓)          34.71   35.66   34.61    34.36     34.26   35.20   34.74
+                                  Task (↑)         36.86   36.57   36.64    36.90     36.72   36.57   36.54
+
+
+
+C. Theoretical Support for NormSiLU
+To theoretically demonstrate the rationality of NormSiLU, we consider the post-activation output of all experts. Let
+Wup ∈ Rdh ×(Ne de ) denote the concatenated up-projection weights of Ne experts, and let x ∈ Rdh be the input hidden state.
+The post-activation intermediate state is computed as:
+                                                                                T
+                                               y = SiLU(Norm(z)),          z = Wup x ∈ RNe de .                                          (4)
+
+                                                                      12
+                DECO: Sparse Mixture-of-Experts with Dense-Comparable Performance on End-Side Devices
+
+For simplicity, we first assume that the operator “Norm” is implemented as a vanilla layer normalization (Ba et al., 2016)
+across the entire concatenated expert dimension. Let g = ∇y L be the upstream gradient from the language modeling loss L.
+The gradient with respect to the weights Wup is formulated as:
+
+                                       ∇Wup L = x(∇z L)T = x(JTnorm Dsilu g)T ,
+                                                               z0                                                           (5)
+                                            u = Norm(z) =             , z0 = z − z̄,
+                                                           ||z0 ||rms
+
+where Dsilu = diag(σ(u) + u ⊙ σ(u) ⊙ (1 − σ(u))) is the diagonal Jacobian matrix of the SiLU activation, σ is the
+sigmoid function, and z̄ denotes the mean of z. Letting n = Ne de be the total dimension of z and 1 be the all-ones vector,
+the Jacobian matrix of the layer normalization, Jnorm = ∂u∂z , is expanded as:
+
+                                                                             z0 zT0
+                                                                                      
+                                                      1            1
+                                       Jnorm =                 In − 11T −                .                                  (6)
+                                                 ||z0 ||rms        n      n||z0 ||2rms
+
+Since the matrix inside the parentheses is an affine shift of a projection matrix, its spectral norm ||Jnorm ||2 is strictly
+bounded by 1/||z0 ||rms . Furthermore, assuming the elements of Wup follow a zero-centered i.i.d. normal distribution, we
+can statistically approximate the RMS norm as ||z0 ||rms ≈ √d1 n ||Wup ||F · ||x||2 .
+                                                                      h
+
+Applying the sub-multiplicative property of matrix norms, the Frobenius norm of the gradient is bounded by:
+
+                      ||∇Wup L||F ≤ ||x||2 · ||Jnorm ||2 · ||Dsilu ||2 · ||g||2 ≤ ||g||2 · O(||Wup ||−1
+                                                                                                     F ).                   (7)
+
+Therefore, as long as Wup is initialized with a proper Frobenius norm, this normalization theoretically guarantees that the
+gradient scale remains bounded and invariant to the input magnitude, preventing gradient explosion.
+However, the above paradigm possesses a critical systems-level flaw: computing a global layer normalization requires the
+explicit materialization of z across all experts. This inherently violates the core sparsity principle of MoE, as it forces the
+computation of inactive experts.
+To resolve this bottleneck, our final implementation of NormSiLU decouples the operation into a dual-stage mechanism: an
+inter-expert mean normalization and an intra-expert RMS normalization. During inference, the global inter-expert averaging
+operator mathematically reduces to: Avg(Wup     T          T
+                                                   x) = w̄up x, where w̄up ∈ Rdh ×de is the fixed average up-projection
+weight. By contrast, the RMS normalization is strategically restricted to the intra-expert dimension (de ) and applied only to
+activated experts. This dual-stage design preserves the theoretical gradient-bounding stability while strictly adhering to the
+computational constraints of sparse inference.
+
+D. Evaluation Results on individual benchmarks
+In this section, we provide the evaluation results of DECO and baselines on each individual benchmark. The results of
+“Small”, “Medium”, “Large”, and “XLarge” settings are shown in Table 8, Table 9, Table 10, and Table 11, respectively.
+
+                           Table 8. The evaluation scores of “Small” settings on individual benchmarks.
+
+                               PIQA     SIQA     HellaSwag       ARC-E    ARC-C     WinoGrande      LAMBADA       Avg.
+         TopP                  60.17    35.21       27.67         42.38   18.86         50.91              7.74   34.71
+         DeepSeek-V3 (GA)      60.12    35.93       27.85         44.15   19.45         50.75             15.89   36.31
+         DeepSeek-V3 (NG)      60.66    36.63       27.76         45.76   20.05         50.43             15.85   36.73
+         ReMoE (GA)            60.34    36.59       27.72         46.34   18.43         51.22             15.60   36.61
+         ReMoE (NG)            59.74    35.16       27.96         46.09   19.54         49.96             17.76   36.60
+         BlockFFN              60.83    36.28       27.62         44.87   19.45         50.12             16.55   36.53
+         DECO (GA)             58.22    35.93       27.65         42.51   19.03         51.30             15.84   35.78
+         Dense                 60.77    35.57       28.03         45.88   20.22         50.59             16.51   36.80
+         DECO (NG)             60.94    36.85       27.96         45.84   20.22         50.67             15.80   36.90
+
+
+
+
+                                                                 13
+      DECO: Sparse Mixture-of-Experts with Dense-Comparable Performance on End-Side Devices
+
+
+
+
+              Table 9. The evaluation scores of “Medium” settings on individual benchmarks.
+
+                   PIQA     SIQA     HellaSwag     ARC-E      ARC-C     WinoGrande      LAMBADA        Avg.
+TopP               61.37    36.49       28.57       45.75      19.03        50.51              12.63   36.34
+DeepSeek-V3 (GA)   62.79    37.87       29.61       48.53      20.90        52.17              19.84   38.82
+DeepSeek-V3 (NG)   63.28    37.67       29.64       49.07      20.65        49.25              19.76   38.47
+ReMoE (GA)         62.62    37.67       29.10       48.65      20.05        50.67              18.28   38.15
+ReMoE (NG)         63.22    36.64       29.40       49.71      19.71        50.83              20.45   38.57
+BlockFFN           63.38    35.82       29.61       48.82      20.99        50.51              19.95   38.44
+DECO (GA)          61.86    37.10       28.44       47.18      19.37        49.64              17.43   37.29
+Dense              63.00    36.90       29.57       51.47      22.01        50.51              19.62   39.01
+DECO (NG)          64.36    36.18       29.47       51.98      20.73        52.09              19.48   39.18
+
+
+
+
+               Table 10. The evaluation scores of “Large” settings on individual benchmarks.
+
+                   PIQA     SIQA     HellaSwag     ARC-E      ARC-C     WinoGrande      LAMBADA        Avg.
+TopP               64.53    36.44       31.42       50.55      22.53        51.07              14.13   38.67
+DeepSeek-V3 (GA)   66.32    38.38       32.71       55.18      24.91        51.07              28.06   42.38
+DeepSeek-V3 (NG)   65.94    37.87       32.75       54.67      23.38        52.49              27.03   42.02
+ReMoE (GA)         66.05    38.69       32.08       55.26      24.32        52.33              27.19   42.27
+ReMoE (NG)         66.92    38.79       32.66       55.93      24.57        51.41              27.10   42.48
+BlockFFN           66.10    38.59       32.51       56.36      24.15        51.38              27.30   42.34
+DECO (GA)          66.14    38.74       32.69       56.41      23.72        51.78              26.57   42.29
+Dense              66.87    37.77       32.92       56.27      24.74        51.70              29.34   42.80
+DECO (NG)          65.94    39.61       32.78       57.11      25.43        53.28              25.50   42.81
+
+
+
+
+              Table 11. The evaluation scores of “XLarge” settings on individual benchmarks.
+
+                   PIQA     SIQA     HellaSwag     ARC-E      ARC-C     WinoGrande      LAMBADA        Avg.
+TopP               66.16    37.36       34.10       57.32      22.87        49.41              20.49   41.10
+DeepSeek-V3 (GA)   69.53    39.92       36.65       62.21      28.41        53.28              34.52   46.36
+ReMoE (NG)         68.93    40.07       37.43       61.20      28.07        53.43              35.46   46.37
+BlockFFN           70.02    40.28       36.81       61.91      28.50        55.80              34.60   46.85
+Dense              70.46    40.69       37.33       63.38      28.58        52.72              35.73   46.98
+DECO (NG)          70.24    40.89       37.42       62.96      29.69        54.93              35.53   47.38
+
+
+
+
+                                                    14
+

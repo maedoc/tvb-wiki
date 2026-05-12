@@ -337,3 +337,9 @@
 ## [2026-05-12 06:40] LinkRepair: fixed 12 files (9 wikilink-in-URL, 3 abs-path)
 
 ## [2026-05-12 06:45] Audit: 745 issues (29 broken links, 10 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 28 opaque-refs, 14 thin, 460 missing-links)
+
+## [2026-05-12 11:22] Linter: 44 broken links, 14 orphans, 2 stale, 0 empty
+
+## [2026-05-12 11:26] Audit: 802 issues (44 broken links, 14 orphans, 1 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 28 opaque-refs, 14 thin, 465 missing-links)
+
+## [2026-05-12 11:28] Linter: 44 broken links, 14 orphans, 2 stale, 0 empty
