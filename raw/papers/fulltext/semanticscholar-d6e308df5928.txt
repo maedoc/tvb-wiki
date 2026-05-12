@@ -1,0 +1,325 @@
+                                 MEASUREMENT SCIENCE REVIEW, 25, (2025), No. 1, 10-14
+
+
+
+
+                                             Journal homepage: https://content.sciendo.com
+
+
+
+
+Optimization Driven Variational Autoencoder GAN for Artifact
+Reduction in EEG Signals for Improved Neurological Disorder
+and Disability Assessment
+Mohamed Yacin Sikkandar 1*, S. Sabarunisha Begum 2, Ahmad Alassaf1, Ibrahim AlMohimeed1,
+Khalid Alhussaini3, Adham Aleid 3, Abdulrahman Khalid Alhaidar4
+1
+  Department of Medical Equipment Technology, College of Applied Medical Sciences, Majmaah University,
+Al Majmaah 11952, Saudi Arabia, m.sikkandar@mu.edu.sa, am.alassaf@mu.edu.sa, i.almohimeed@mu.edu.sa
+2
+  Department of Biotechnology, P.S.R. Engineering College, Sivakasi 626140, India, sabarunishabegum@psr.edu.in
+3
+  Department of Biomedical Technology, College of Applied Medical Sciences, King Saud University, Riyadh 12372,
+Saudi Arabia, kalhussaini@ksu.edu.sa, adaleid@ksu.edu.sa
+4
+  Support Services Department, Tumair General Hospital, Ministry of Health, Tumair 15316, Saudi Arabia,
+akalhaidar@moh.gov.sa
+
+Abstract: This study introduces an innovative method for minimizing artifacts in electroencephalography (EEG) signals by integrating
+brainstorm optimization (BSO) with a variational autoencoder generative adversarial network (VAE-GAN), resulting in the BrOpt_VAGAN
+model. EEG signals are critical for the diagnosis of neurological disorders, for brain-computer interface (BCI) applications, and for the
+monitoring of neurological disabilities. However, EEG data often contains artifacts from physiological sources — such as electro-
+oculographic (EOG), electromyographic (EMG), and electrocardiographic (ECG) signals — which can distort the accuracy of brain activity
+readings. Our proposed BrOpt_VAGAN model combines BSO with a VAE-GAN framework to more effectively remove these artifacts,
+thus improving the clarity and accuracy of EEG signals. In this model, the VAE first reduces the raw EEG signals into a lower-dimensional
+representation that captures the essential signal patterns while filtering out the noise. The GAN component then refines this representation
+via adversarial training, effectively minimizing artifacts and improving the quality of the processed EEG data. BSO optimally adjusts the
+encoding and decoding parameters within the VAE-GAN structure, enabling the model to handle different noise levels and helps to find
+different neurological disorders. Preliminary results show that BrOpt_VAGAN performs significantly better with an accuracy of 98.5 % and
+an error rate of 11.23 %, enabling a clearer and more precise EEG signal reconstruction.
+
+Keywords: EEG, ECG, artefacts, EMG, random noise, neural network, optimization, fractional calculus
+
+
+
+
+1. INTRODUCTION                                                          sleep problems, and cerebral palsy. Mental illnesses are
+   Numerous studies have shown that neurological problems                classified as "psychiatric diseases" and are primarily
+are increasing at an alarming rate. The WHO states that one              characterized by abnormalities in cognition, emotion, or
+in four people worldwide will experience neurological                    behavior that lead to suffering or functional impairment.
+problems at some point in their lives [1]. Neurological                  A variety of brain-imaging modalities are available to
+diseases are the second most common disease worldwide                    diagnose neurological disorders, including positron emission
+after ischemic heart disease. Neurological diseases affect               tomography (PET), near infrared spectroscopy (NIRS),
+both the brain and the nervous system of the human body [2].             magnetoencephalography (MEG), electroencephalography
+Many neurological disorders are well-documented and rather               (EEG), and functional magnetic resonance imaging (fMRI)
+prevalent, while many others are uncommon. Neurological                  [3]. This paper emphasizes EEG analysis due to its cost-
+difficulties include a variety of conditions, including                  effectiveness, non-invasiveness, and portability, making it
+epilepsy, learning disabilities, neuromuscular disorders,                a widely used approach. An EEG systematically monitors and
+autism, Alzheimer's disease, attention deficit hyperactive               records the brain's electrical activity to assess the cerebral
+disorder (ADHD), multiple sclerosis, Parkinson's disease,                processes. Many studies use EEG data to detect neurological
+
+DOI: 10.2478/msr-2025-0002                                         *Corresponding author: m.sikkandar@mu.edu.sa (Mohamed Yasin Sikkandar)
+
+
+                                                                    10
+                              MEASUREMENT SCIENCE REVIEW, 25, (2025), No. 1, 10-14
+
+diseases, neurodevelopmental problems, acute neurological
+events, and patient behavior [4]-[5]. Traumatic brain injury is
+the leading cause of disability and death in children
+worldwide. Over five million Americans are disabled as
+a result of a traumatic brain injury. Researchers believe that
+a computer-aided diagnosis (CAD) system trained on
+extensive patient data and physiologic signals and images
+using advanced signal processing and AI/ML techniques can
+help neurologists, neurosurgeons, radiologists, and other
+medical professionals improve clinical decision-making.
+Research in this area has increased significantly over the last
+ten years.
+   In [6], a generalized EEG neural network (GENet)
+architecture is developed based on a convolutional neural
+network, which is able to identify various neurological
+disorders based on EEG data. This paradigm facilitates the
+execution of the essential functions for the categorization
+process. In [7], a deep neural networks (DNN)-based hybrid
+ensemble feature selection (HEFS) Framework for
+Parkinson's disease identification was proposed. Multi-level
+dimensionality reduction (MLDR) is applied to HEFS                         Fig. 1. BSO-VAE-GAN architecture for artifact reduction.
+matrices. After normalizing the matrix scores, merging the
+scores, reconstructing a new dataset, and reducing the                 Probabilistic variational autoencoder (PVA) based filtering
+features using neighborhood component analysis (NCA), an                 First define the low-pass filter (LPF) and high-pass filter
+accuracy rate of 97.08 % and an F1-score of 98.10 % were               (HPF):
+achieved. In [8], a unique expert system was introduced that
+                                                                                                        𝑆[𝑡].𝑤[𝑡]
+utilizes just EEG information for the early diagnosis of                                  𝐿𝑃𝐹[𝑡] = ∑𝑇−1                               (1)
+schizophrenia. A deep learning network was developed to                                                𝑖=0 𝑆[𝑖].𝑤[𝑖]
+
+improve the accuracy of the image categorization outcomes.                              𝐻𝑃𝐹[𝑡] = 𝛿[𝑡] − 𝐿𝑃𝐹[𝑡]                        (2)
+   In [9]-[11], the use of variable-frequency complex
+demodulation (VFCDM) and convolutional neural networks                 where 𝑆[𝑡], 𝑤[𝑡], and 𝛿[𝑡] represent the sinc filter, the
+(CNN) to differentiate between healthy, interictal, and ictal          Hamming window, and the discrete unit impulse function.
+states was investigated using EEG data. Time frequency                 PVA consists of five main parts: feature extractor, encoder,
+spectrum (TFS) shows frequency changes across different                sampler, feature generator, and signal reconstructor. The
+states that correspond to fluctuations in brain activity. The          model's components work together to synthesize EEG
+LOSO CV method routinely achieves good performance,                    signals. The feature extractor 𝑔𝑥 (. ) uses cascade filters to
+ranging from 90 % to 99 % across different combinations of             divide the input signal y into four amplitude-modulated
+healthy and epileptic states. In [12]-[14], the EEG temporal           subsets 𝑥 ∈ {𝑥𝐻𝐻 , 𝑥𝐻𝐿 , 𝑥𝐿𝐻 , 𝑥𝐿𝐿 }, which are the learning
+                                                                       targets of the feature generator. The encoder 𝑔𝑒 (. ) learns the
+spatial network (ETSNet) is introduced, which includes
+                                                                       distribution parameters of the latent variable z and cutoff
+a Squeeze-and-Excitation Block and several CNNs tailored
+                                                                       frequency 𝜃. It makes two assumptions:
+for eyes-open and closed resting states. Several limitations
+                                                                          • 𝜃𝑘 ~𝑢(𝑜, 1) for 𝑘 = 1,2 … .6 stands for six occurrences
+are evident form the above studies:                                          in the proposed model. The Bernoulli distributions
+   1. The lack of standardized assessment measures and                       approximates this distribution.
+      datasets makes comparison difficult.                                • 𝑧𝑗 ~𝑁(𝜇𝑍𝑗 , 𝜎𝑧2𝑗 ) for each dimension 𝑗 ∈ {1,2, … 𝐽}, where
+   2. The computational complexity of some deep learning
+                                                                             𝑗 is a hyperparameter that controls the number of
+      models such as CNN with long short term memory                         dimensions.
+      (LSTM) may limit their practical use.                               The samplers 𝑔𝑧 (. ) and 𝑔𝜃 (. ) provide a distinct data
+                                                                       distribution estimate. The method uses reparameterization for
+2. PROPOSED METHODOLOGY                                                backpropagation, sampling 𝑧𝑗 and 𝜃𝑘 to allow the gradients to
+   An optimization-enhanced variational autoencoder                    flow across the network node. Using the encoder settings,
+generative adversarial network (OE-VAE-GAN) for artifact               feature generator 𝑔𝑧 ′ (. ) creates four feature signals for the
+reduction in EEG signals could be a robust approach for                signal reconstructor. Signal reconstructor 𝑔𝑦 (. ) uses the
+cleaning EEG data, especially in clinical and research                 generated feature subsets to reconstruct the signals while
+contexts where artifact presence (e.g., due to muscle                  preserving their fundamentals. Monte Carlo (MC) can be
+movements, eye blinks, or ambient noise) compromises the               used to estimate the predicted log likelihood of reconstructing
+quality of data analysis, as shown in Fig. 1.                          raw signals y from reconstructed feature signals x.
+
+
+
+                                                                  11
+                                        MEASUREMENT SCIENCE REVIEW, 25, (2025), No. 1, 10-14
+
+                                                 1
+   −𝐸𝑞,(𝑥, 𝑧, 𝜃|𝑦 ) [𝑙𝑜𝑔𝑝(𝑦|𝑥)] ≈ − ∑𝐿𝑙=1 𝑙𝑜𝑔𝑝(𝑦|𝑥 (𝑙) ) (3)                   3. PERFORMANCE ANALYSIS
+                                   𝐿
+
+                                                                               Dataset description
+where 𝐿 is the number of samples. The mean square error
+(MSE) was reduced instead of the negative log likelihood                          In this section, both study datasets are described. The
+from (4) to maintain convergence stability.                                    CHB-MIT dataset [12] initially included 22 participants: 17
+                                                                               women aged 1.5-19 years and 5 men aged 3-22 years. The
+                              1                                                collection includes 198 seizures and 969 hours of EEG
+                𝐽(𝜑𝑦 ; 𝑦) = ∑𝑁
+                             𝑛=1(𝑦𝑛 − 𝑔𝑛 (𝑥𝑛 ))
+                                                2
+                                                                    (4)
+                              𝑁                                                recordings. The number of seizures is lower than the number
+                                                                               of seizure-free signals. The second dataset, KAU, was
+where the sample index and the total number of training                        obtained at 256 Hz from two male scalp EEG patients aged
+samples are 𝑛 and 𝑁, respectively. The optimization of the                     28 years. This dataset is similar to the CHB-MIT dataset. The
+latent variable 𝑍 reduces the Kullback-Leibler divergence                      subjects' ages were considered. The individuals in the CHB-
+(KLD) compared to the previous ones. Latent variable Z                         MIT dataset are similar to these two cases. In both datasets,
+optimization under variational inference for 𝑝(𝑧) requires a                   an age range of 1-28 years was chosen. This is significant as
+reduction of the KLD relative to the prior.                                    age       considerably      affects     the    clinical   and
+                                                                               electroencephalographic features of seizures [13]. Both
+  𝐸                                     𝑧 𝑦 = 𝐾𝐿𝐷(𝑞(𝑧|𝑦)𝑝(𝑧)
+                                      𝑞( | )                        (5)        individuals had 38-channel EEGs. They had two 495 s
+      𝑞(𝑧 |𝑦)𝑞(𝜃 |𝑦)𝑞(𝑥 |𝑦, 𝜃 )[log          ]
+                                       𝑝(𝑧)                                    seizures and four 417 s seizures, respectively. The CHB-MIT
+                                                                               dataset selects 18 out of 23 channels because they are similar
+  The Gaussian distribution KLD and a VAE reparametri-                         to all recordings.
+zation method were used for this optimization.
+                                                                               Experimental setup
+Generative adversarial network with optimization process
+                                                                                  The time-step value in this study varied from 0 to 𝑚 − 𝑡,
+   A GAN consists of two CNNs, a generator and a dis-                          with 𝑡 set to 50. The prior and downstream tasks were each
+criminator, with opposing conditional arguments. In the                        trained for 30 epochs with a batch size of 64. The network
+discriminator, we used the Patch-GAN to classify each patch                    was trained using Python, PyTorch, and an RTX 3060Ti
+as true or generated. The discriminator should punish local                    GPU. The BrOpt_VAGAN model with its complex VAE and
+signal patches to accurately mimic high-frequency                              GAN components can be very computationally intensive.
+components. The GAN training total loss function is:                           Real-time EEG analysis requires significant hardware
+                                                                               resources (e.g., GPUs, TPUs) that may not be available in all
+𝐿𝐺𝐴𝑁 (𝐺, 𝐷) = 𝐸𝑥,𝑦 [𝑙𝑜𝑔𝐷(𝑥, 𝑦)] + 𝐸𝑥,𝑦 [𝑙𝑜𝑔 (1 − 𝐷(𝑥, 𝐺(𝑥, 𝑧)))]               medical settings, especially for portable or low-power
+                                                                               devices. Here, the modeling findings of the proposed artifact
+                                                                    (6)        elimination method using the BrOpt_VAGAN network are
+                                                                               quickly investigated. The simulation is performed by
+   The generator (G) minimizes the loss function 𝐿𝐺𝐴𝑁 (𝐺, 𝐷),                  comparing the results with a number of well-known methods,
+while the discriminator 𝐷 maximizes it to discriminate                         including HEFS+DNN [12], VFCDM+CNN [14]. These are
+between the generated samples 𝐺(𝑥, 𝑦) and the actual                           done to reduce artifacts due to random noise. The metrics
+samples 𝑦. We provide the discriminator estimate error loss                    used for assessment in this study include MSE and signal to
+feedback to guarantee successful training. Therefore, the final                noise ratio (SNR).
+goal function is:                                                                 The MSE measure describes the difference between the
+                                                                               real reaction and the intended response:
+           𝐺 ∗ = 𝐴𝑅𝐺 min max 𝐿𝐺𝐴𝑁 (𝐺, 𝐷) + 𝛾𝐿𝐿1(𝐺)                  (7)
+                          𝐺       𝐷                                                                       1
+                                                                                                 𝑀𝑆𝐸 =        (𝑂𝑛 − 𝐷𝑛 )2               (10)
+                                                                                                          𝑁
+where 𝐿𝐿1(𝐺) is an extra 𝐿1 norm based on the generator
+function loss to approximate the ground truth output. 𝛾 is an                    Table 1 shows the accuracy and error calculation for the
+                                                                               proposed BrOpt_VAGAN method in terms of pseudo-clean
+adjustable parameter set to 100. The multi-modal feature-
+                                                                               and noisy input.
+fusion of image and interaction information L_GAN 𝐿𝐺𝐴𝑁
+causes the generative network to create the same pathological                  Table 1. Accuracy performance of the proposed BrOpt_VAGAN
+feature as the original signal:                                                model.
+                                                                                                 Mixtures of artifact   Accuracy     Error
+                𝐿𝐺𝐴𝑁 = ∑𝑁                 𝛼
+                        𝑛=1 𝑙𝑜𝑔𝐷𝜃𝑥 (𝐺𝜃𝑥 (𝐼 , 𝑡))                    (8)
+                                                                                                 components             [%]          [%]
+                                                                                Pseudo-clean     brain                  98.5         12.41
+where 𝑡 is the interactive information and 𝑁 is the number of
+                                                                                                 eye                    96.2         11.53
+samples. We use the visual perceptual loss to maintain the
+                                                                                                 muscle                 97.3         12.74
+perceptual similarity. The loss function is:
+                                                                                Noisy input      brain                  98.6         11.84
+                1      𝑊     𝐻𝑖,𝑗                                                                eye                    95.9         11.90
+  𝐿𝐺𝐴𝑁/𝑖.𝑗 =          ∑ 𝑖,𝑗 ∑𝑗=1  (𝜑𝑖,𝑗 (𝐼 𝑓 ) − 𝜑𝑖,𝑗 (𝐺𝜃𝑔(𝐼𝛼,𝑡))   (9)                          muscle                 93.5         12.56
+             𝑊𝑖,𝑗 𝐻𝑖,𝑗 𝑖=1
+
+
+
+
+                                                                          12
+                              MEASUREMENT SCIENCE REVIEW, 25, (2025), No. 1, 10-14
+
+   Fig. 2 shows that BrOpt_VAGAN consistently achieves                lowest MSE %, with values between 12.3 % and 12.98 %,
+the lowest MSE % with values between 11.2 % and 12.6 %                indicating superior performance in minimizing errors due to
+and thus has superior accuracy. In contrast, HEFS+DNN                 muscle artifacts. Overall, BrOpt_VAGAN is the most
+shows stable but higher MSE values (20.1 % to 20.9 %),                effective, followed by VFCDM+CNN, while HEFS+DNN is
+while VFCDM+CNN has the highest MSE % across all                      the least effective in this context.
+channels (21.3 % to 21.76 %). This shows that
+BrOpt_VAGAN is the most effective method for error
+reduction regardless of the number of channels,
+outperforming both HEFS+DNN and VFCDM+CNN.
+
+
+
+
+                                                                      Fig. 4. Comparison of MSE with the EEG+muscle signal artifact.
+
+                                                                      4. CONCLUSION
+ Fig. 2. Comparison of MSE with the EEG+brain signal artifact.
+                                                                         The proposed study presents a BrOpt_VAGAN framework
+   Fig. 3 shows the MSE of HEFS+DNN, VFCDM+CNN,                       for automated classification of neurological disorders from
+and BrOpt_VAGAN for EEG signals with eye signal artifacts             raw EEG data. The experiments are performed with
+across channels (2 to 10). HEFS+DNN has stable MSE values             BrOpt_VAGAN, a publicly available benchmark dataset. The
+between 19.4 % and 19.5 % and thus shows a constant                   experiments were conducted under closed and open-eye
+performance. VFCDM+CNN has the highest MSE % (21.5 %                  conditions, as recommended in the CHB-MIT dataset
+to 21.9 %), indicating that it is less effective at handling          publication and other research papers. The results show that
+artifacts. BrOpt_VAGAN achieves lower MSE values                      the proposed method can improve the maximum performance
+(15.3 % to 15.9 %) than VFCDM+CNN but slightly higher                 by 98.7 % accuracy on the specified dataset using multiple
+than HEFS+DNN, suggesting moderate effectiveness in                   channels. The performance improvement is shown for five-
+reducing artifacts. Overall, HEFS+DNN is the most stable,             class classification, which confirms the effectiveness and
+while BrOpt_VAGAN performs better than VFCDM+CNN                      efficiency of the BrOpt_VAGAN framework. Therefore,
+in error minimization.                                                future work will focus on exploring other loss functions
+                                                                      tailored to imbalanced data or incorporating ensemble
+                                                                      methods that can also lead to improved accuracy.
+                                                                      Furthermore, fine-tuning the self-supervised learning
+                                                                      approach with larger and more diverse datasets could lead to
+                                                                      better generalization and make the method more reliable in
+                                                                      practical applications.
+
+                                                                      FUNDING
+                                                                        King Salman Center for Disability Research through
+                                                                      Research Group Number KSRG-2023-339. The funders had
+                                                                      no role in the study design, data collection and analysis, the
+                                                                      decision to publish, or the preparation of the manuscript.
+
+                                                                      DATA AVAILABILITY STATEMENT
+  Fig. 3. Comparison of MSE with the EEG+eye signal artifact.
+                                                                         The dataset is available under the following reference,
+   Fig. 4 compares the MSE of the aforementioned methods              Little, Max A et al. “Suitability of dysphonia measurements
+when processing EEG signals with muscle signal artifacts              for telemonitoring of Parkinson's disease.” IEEE transactions
+over different numbers of channels. HEFS+DNN consistently             on bio-medical engineering vol. 56, 4 (2009): 1015.
+shows the highest MSE %, ranging from 27.4 % to 28.6 %,
+indicating a significant error in handling muscle artifacts.          ACKNOWLEDGMENTS
+VFCDM+CNN achieves lower MSE values, ranging from                       The authors extend their appreciation to the King Salman
+19.2 % to 19.5 %, indicating moderate effectiveness in                Center for Disability Research through Research Group
+artifact reduction. BrOpt_VAGAN consistently achieves the             Number KSRG-2023-339 for supporting this research.
+
+
+                                                                 13
+                              MEASUREMENT SCIENCE REVIEW, 25, (2025), No. 1, 10-14
+
+REFERENCES                                                            [8]  Shah, S. J. H., Albishri, A., Kang, S. S., Lee, Y.,
+[1]   Raghavendra, U., Acharya, U. R., Adeli, H. (2020).                   Sponheim, S. R., Shim, M. (2023). ETSNet: A deep
+      Artificial intelligence techniques for automated                     neural network for EEG-based temporal–spatial pattern
+      diagnosis of neurological disorders. European                        recognition in psychiatric disorder and emotional
+      Neurology, 82 (1-3), 41-64.                                          distress classification. Computers in Biology and
+      https://doi.org/10.1159/000504292                                    Medicine, 158, 106857.
+[2]   Jayanthi, J., Kavitha, M., Jayasankar, T., Britto, A. S.             https://doi.org/10.1016/j.compbiomed.2023.106857
+      F., Prakash, N. B. (2021). Segmentation of brain tumor          [9] Fouad, I. A., Labib, F. E.-Z. M. (2023). Identification
+      magnetic resonance images using a teaching-learning                  of Alzheimer’s disease from central lobe EEG signals
+      optimization algorithm. Computers, Materials &                       utilizing machine learning and residual neural network.
+      Continua, 68 (3), 4191-4203.                                         Biomedical Signal Processing and Control, 86 (B),
+      https://doi.org/10.32604/cmc.2021.012252                             105266. https://doi.org/10.1016/j.bspc.2023.105266
+[3]   Stephe, S., Jayasankar, T., Kumar, K. V. (2022). Motor          [10] Holmes, G. L. (2012). Consequences of epilepsy
+      imagery EEG recognition using deep generative                        through the ages: When is the die cast? Epilepsy
+      adversarial network with EMD for BCI applications.                   Currents, 12 (4_suppl), 4-6.
+      Technical Gazette, 29 (1), 92-100.                                   https://doi.org/10.5698/1535-7511-12.4s.4
+      https://doi.org/10.17559/TV-20210121112228                      [11] Kaur, C., Singh, P., Sahni, S. (2021). EEG artifact
+[4]   Tawhid, M. N. A., Siuly, S., Wang, K., Wang, H.                      removal system for depression using a hybrid denoising
+      (2024). GENet: A generic neural network for detecting                approach. Basic and Clinical Neuroscience, 12 (4),
+      various neurological disorders from EEG. IEEE                        465-476. https://doi.org/10.32598/bcn.2021.1388.2
+      Transactions on Cognitive and Developmental Systems,            [12] Zhao, X., Liu, D., Ma, L., Ai, Q., Liu, Q., Xie, S. (2021).
+      16 (5), 1829-1842.                                                   EEG signals de-noising with wavelet by optimizing
+      https://doi.org/10.1109/TCDS.2024.3386364                            threshold based on fruit fly optimization. In ICNCC '20:
+[5]   Ouhmida, A., Saleh, S., Ammar, A., Raihani, A.,                      Proceedings of the 2020 9th International Conference
+      Cherradi, B. (2024). HEFS-MLDR: A novel hybrid                       on Networks, Communication and Computing. New
+      ensemble feature selection framework for improved                    York, US: Association for Computing Machinery, 71-
+      deep neural network architecture in the diagnosis of                 77. https://doi.org/10.1145/3447654.3447665
+      Parkinson’s disease. Multimedia Tools and                       [13] Chen, X., Xu, X., Liu, A., McKeown, M. J., Wang, Z.
+      Applications.                                                        J. (2018). The use of multivariate EMD and CCA for
+      https://doi.org/10.1007/s11042-024-20276-x                           denoising muscle artefacts from few-channel EEG
+[6]   Al Fahoum, A., Zyout, A. (2024). Wavelet transform,                  recordings. IEEE Transactions on Instrumentation and
+      reconstructed phase space, and deep learning neural                  Measurement, 67 (2), 359-370.
+      networks for EEG-based schizophrenia detection.                      https://doi.org/10.1109/TIM.2017.2759398
+      International Journal of Neural Systems, 34 (9),                [14] Gorjan, D., Gramann, K., Pauw, K. D., Marusic, U.
+      2450046. https://doi.org/10.1142/S0129065724500461                   (2022). Removal of movement-induced EEG artefacts:
+[7]   Veeranki, Y. R., McNaboe, R., Posada-Quintero, H. F.                 Current state of the art and guidelines. Journal of
+      (2023). EEG-based seizure detection using variable-                  Neural Engineering, 19 (1), 011004.
+      frequency complex demodulation and convolutional                     https://doi.org/10.1088/1741-2552/ac542c
+      neural networks. Signals, 4 (4), 816-835.
+      https://doi.org/10.3390/signals4040045                                                                 Received June 4, 2024
+                                                                                                         Accepted January 16, 2025
+
+
+
+
+                                                                 14
+

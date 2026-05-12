@@ -1,0 +1,815 @@
+SN Comprehensive Clinical Medicine      (2026) 8:86
+https://doi.org/10.1007/s42399-026-02330-x
+
+    REVIEW
+
+
+
+Integrating Multimodal Neuroimaging for Neurological Disorders: A
+Systematic Framework for Clinical Translation
+Yan Jun Lin1 · Izabella Komperda2
+
+Received: 25 December 2025 / Revised: 25 February 2026 / Accepted: 6 March 2026
+© The Author(s) 2026
+
+
+Abstract
+Background Multimodal neuroimaging enables integrated assessment of brain structure, function, metabolism, and con-
+nectivity, yet progress remains fragmented across methods, modalities, and clinical applications. Despite growing evidence
+that multimodal machine learning outperforms single-modality approaches, clinical translation has stalled due to unresolved
+challenges in harmonization, external validation, and deployment.
+Methods We searched PubMed, Scopus, and Web of Science from January 2005 through March 2025 and synthesized 127
+peer-reviewed studies spanning Alzheimer's disease, Parkinson's disease, epilepsy, multiple sclerosis, and traumatic brain
+injury. Findings were organized using the Integrated Multimodal Fusion in Neuroimaging (IMFN) framework, a five-domain
+taxonomy covering Integration Architecture, Methodological Standardization, Fusion Algorithms, Neurological Applica-
+tions, and Clinical Translation.
+Results Multimodal machine learning achieved pooled sensitivity of 94.6% (95% CI: 90.76-96.89%) for Alzheimer's dis-
+ease versus healthy controls and 83.8% (95% CI: 78.87-87.71%) for mild cognitive impairment. External validation consis-
+tently reduced accuracy by 10-15 percentage points, exposing recurrent failure modes including site confounding, inconsis-
+tent preprocessing, and missing-modality handling. Clinical workflow vignettes demonstrated that multimodal integration
+produced the largest diagnostic gains in ambiguous cases where single modalities failed.
+Conclusions Current multimodal neuroimaging methods show strong discriminative performance under controlled condi-
+tions but face substantial barriers to clinical deployment. We propose Clinical Implementation Readiness criteria to evaluate
+translational maturity and identify prospective utility studies, standardized fusion pipelines, and equitable dataset develop-
+ment as priorities for closing the gap between research performance and reliable clinical use.
+
+Keywords Neuroimaging · PET · MRI · neurological disorders
+
+
+Introduction                                                               neurotransmission and metabolism with high biochemical
+                                                                           specificity, yet its temporal resolution, measured in minutes,
+ The human brain operates through the coordinated activ-                   obscures the millisecond dynamics of neural computation.
+ity of billions of neurons, organized into networks that                   Where fMRI achieves whole-brain coverage at millimeter
+span multiple spatial and temporal scales. No single imag-                 spatial precision, it does so by measuring a hemodynamic
+ing modality can capture this complexity. In Alzheimer’s                   proxy several physiological steps removed from underlying
+disease, meta-analytic evidence suggests that multimodal                   neural activity [2, 3]. Electroencephalography tracks cogni-
+machine learning can achieve pooled sensitivity of 94.6%                   tion in real time, but volume conduction through cerebro-
+for Alzheimer’s disease versus healthy controls [1]. Positron              spinal fluid, skull, and scalp fundamentally limits spatial
+emission tomography reveals the molecular machinery of                     localization. Each modality illuminates certain aspects of
+                                                                           brain organization while leaving others in shadow. These
+                                                                           partial views can be integrated to construct a more complete
+1
+     Department of Biological Sciences, Cornell University,
+                                                                           picture than any single technique provides.
+     Ithaca, NY, USA                                                          This has proven far more difficult to realize than early
+2
+     Department of Engineering, Rutgers University, New
+                                                                           work suggested. The challenge is not merely technical but
+     Brunswick, NJ, USA                                                    conceptual: different imaging modalities measure different
+ 86     Page 2 of 15                                                  SN Comprehensive Clinical Medicine      (2026) 8:86
+
+
+physical phenomena, operate on different timescales, and        (cross-validation within a single cohort) or external (held-
+carry different sources of noise and artifact. Fusing them      out data from independent sites), and whether study designs
+coherently requires addressing questions that have no obvi-     were prospective or retrospective. This distinction proved
+ous answers. When structural atrophy measured by MRI            critical: many impressive accuracy figures collapse under
+and metabolic dysfunction measured by PET disagree about        external scrutiny, a pattern we examine in detail below. Of
+disease localization, which should be trusted? How should       847 initially identified articles, 127 met inclusion criteria
+sequential acquisitions separated by weeks or months be         after removing duplicates and screening for methodological
+interpreted given that brain states fluctuate continuously?     quality and clinical relevance.
+What does it mean when a machine learning algorithm                 Specifically, database searches yielded 847 records
+trained on multimodal data outperforms single-modality          (PubMed: 312; Scopus: 298; Web of Science: 237). After
+approaches—has it genuinely learned complementary infor-        removing 194 duplicates, 653 unique records underwent
+mation, or has it merely exploited site-specific confounds      title and abstract screening. Of these, 389 were excluded
+that happen to correlate with diagnosis?                        for falling outside the scope of multimodal neuroimaging
+   Neurological disorders affect over one billion people        integration (e.g., single-modality studies, non-neurological
+worldwide, with dementia projected to reach 152 million         applications, or non-original research). The remaining 264
+cases by 2050 as populations age [4]. Current diagnostic        full-text articles were assessed for eligibility against the fol-
+accuracy remains inadequate: early Alzheimer’s detection        lowing criteria: (1) use of two or more neuroimaging modal-
+with single imaging modalities has limited sensitivity, dif-    ities in combination, (2) application to at least one of the five
+ferential diagnosis of Parkinson’s disease from atypical        target neurological disorders, (3) reporting of quantitative
+parkinsonism remains challenging even for experienced           fusion or integration methodology, and (4) adequate meth-
+movement disorder specialists [5], and epileptogenic zone       odological description to assess study quality. An additional
+localization fails in 20–30% of surgical candidates despite     137 articles were excluded at the full-text stage for insuf-
+extensive workup [6]. The clinical stakes are substantial.      ficient methodological detail (n = 58), lack of multimodal
+Misdiagnosis leads to inappropriate treatments and delayed      integration (n = 44), or focus on populations or disorders
+interventions. Closing these diagnostic gaps requires con-      outside our scope (n = 35), yielding a final set of 127 cited
+fronting the methodological challenges that have thus far       works that form the basis of this synthesis, encompassing
+impeded translation.                                            the primary multimodal neuroimaging literature identified
+                                                                through the screening process as well as foundational meth-
+                                                                odological, regulatory, and contextual references necessary
+Methods                                                         to frame the IMFN domains. A PRISMA-consistent screen-
+                                                                ing flow diagram is provided in Supplementary Figure S1.
+This narrative review employed a framework-driven                   Several frameworks have been proposed to organize
+approach to synthesize literature across the five IMFN          multimodal neuroimaging, each with distinct strengths and
+domains. We searched PubMed, Scopus, and Web of Sci-            limitations. The early, intermediate, and late fusion tax-
+ence from January 2005 through December 2024, with              onomy from machine learning offers a useful algorithmic
+targeted supplementary searches through March 2025 for          classification but largely omits the hardware and acquisi-
+rapidly evolving topics including machine learning archi-       tion constraints that determine what algorithms can achieve
+tectures and federated learning implementations. Search         [7]. The ATN (Amyloid-Tau-Neurodegeneration) frame-
+terms combined modality descriptors (‘multimodal neu-           work provides a biologically grounded staging system for
+roimaging,’ ‘PET/MRI,’ ‘EEG-fMRI,’ ‘hybrid imaging’)            Alzheimer’s disease biomarkers, but it is disorder-specific
+with methodological terms (‘data fusion,’ ‘harmonization,’      and does not specify how biomarkers should be computa-
+‘ComBat,’ ‘deep learning’) and disorder-specific terms. We      tionally integrated [8]. Translational readiness frameworks
+included original research articles, systematic reviews with    from regulatory science outline criteria for clinical deploy-
+meta-analyses, and methodological development papers.           ment, yet they are often disconnected from the technical
+Manual searches of reference lists from key publications        determinants of whether those criteria can be met. IMFN
+supplemented database searches.                                 addresses these gaps by spanning the full pipeline from
+   Quality screening prioritized studies that reported exter-   hardware integration through clinical deployment, rather
+nal validation on independent datasets, recruited multi-        than focusing on a single stage in isolation (Table 1). This
+site samples enabling assessment of generalizability, and       end-to-end perspective reflects the reality that bottlenecks
+evaluated clinical utility outcomes beyond pure classifica-     at any point can derail translation regardless of sophistica-
+tion accuracy. For machine learning performance claims,         tion elsewhere: a fusion algorithm fails without harmonized
+we specifically noted whether validation was internal           inputs, and harmonized data do not translate if clinical
+SN Comprehensive Clinical Medicine     (2026) 8:86                                                              Page 3 of 15   86
+
+
+Table 1 Comparison of IMFN with Existing Multimodal Neuroimag-      Table 2 IMFN Domain Characteristics, Maturity Levels, and Failure
+ing Frameworks                                                      Modes
+Dimension        Existing Frameworks      IMFN Framework            Domain          Typical     Outputs      Maturity Key Fail-
+Scope            Algorithm-focused or     Hardware → Algo-                          Inputs                              ure Modes
+                 disease-specific         rithm → Clinical          Integration     Raw acqui- Co-           High       Attenu-
+                                          pathway                   Architecture    sitions,    registered (clinical) ation
+Harmonization    Often omitted or treated Central domain with                       hardware    multimodal              correction
+                 as preprocessing         explicit methods and                      specs       data                    errors,
+                                          validation                                                                    motion
+Missing          Rarely addressed;        Explicit handling                                                             artifacts
+Modality         assumes complete data    strategies required for   Methodological Multi-       Harmo-       Medium Over-har-
+                                          deployment                Standardization site data,  nized        (research) monization
+Regulatory       Separate from technical Integrated via Clinical                    scanner     features                removing
+                 framework                Translation domain                        metadata                            biological
+                                                                                                                        signal
+Implementation Conceptual taxonomy        Practical checklist
+                 without actionable steps and CIR criteria          Fusion          Processed   Predictions, Medium- Data
+                                          provided                  Algorithms      features,   biomarkers High         leakage,
+                                                                                    clinical                            site con-
+                                                                                    question                            founding,
+                                                                                                                        overfitting
+workflows cannot accommodate algorithm outputs. We note
+                                                                    Neurological    Clinical    Validated    Variable Label
+that the term “Systematic Framework” in our title refers to         Applications    cohorts,    disease                 noise,
+this structured, end-to-end organizational architecture of the                      outcome     models                  cohort
+IMFN taxonomy itself, not to a systematic review method-                            data                                selection
+                                                                                                                        bias
+ology. As described above, this work employs a narrative
+                                                                    Clinical        Validated   Deployed     Low        Regula-
+review approach with framework-driven synthesis.                    Translation     algorithms, clinical     (emerg-    tory gaps,
+                                                                                    workflow    tools        ing)       integration
+The IMFN Framework                                                                  needs                               failures,
+                                                                                                                        drift
+The Integrated Multimodal Fusion in Neuroimaging frame-
+work organizes the field across five interconnected domains,        training requirements are subsumed under workflow inte-
+each with defined inputs, outputs, maturity indicators, and         gration within the Clinical Translation domain. Rather than
+failure modes. This organization emerged from conceptual            imposing an external taxonomy, we sought to identify the
+synthesis of recurring bottlenecks identified across 127            natural joints along which the field divides when viewed
+reviewed publications, mapped to clinical implementation            from a translational perspective. Each domain has distinct
+dependencies, and was refined through an iterative process          inputs, outputs, and failure modes, and bottlenecks at any
+of domain definition and boundary testing. Specifically, we         stage propagate downstream.
+catalogued the principal failure modes and translational bar-           Table 2 summarizes the five IMFN domains. Integration
+riers reported across the reviewed literature, then grouped         Architecture encompasses the hardware systems and acqui-
+these into candidate domains based on shared dependen-              sition protocols that generate raw multimodal data—the
+cies and workflow positioning. Five domains consistently            foundation upon which everything else rests. This domain
+emerged as both necessary and sufficient to span the transla-       has achieved the highest clinical maturity, with hybrid PET/
+tional pipeline from data acquisition to clinical deployment.       MRI systems now deployed at major academic medical
+We evaluated whether additional candidate domains—                  centers worldwide, though quantification challenges persist
+including data governance and patient consent pipelines,            [9–11]. Methodological Standardization addresses the criti-
+cost-effectiveness analysis, and clinician training require-        cal problem of site-to-site variability that confounds multi-
+ments—warranted independent domain status. Data gover-              center studies; this domain remains at research maturity,
+nance and consent considerations, while critically important,       with active methodological development but limited clinical
+operate as cross-cutting regulatory constraints that apply          deployment of harmonization approaches [12–17]. Fusion
+within each existing domain rather than constituting a dis-         Algorithms represent the computational heart of multimodal
+tinct translational stage with unique inputs and outputs;           integration, spanning classical statistical approaches through
+accordingly, they are addressed within the Clinical Trans-          contemporary deep learning; maturity here is medium-to-
+lation domain (Sect. 9). Cost-effectiveness analysis simi-          high, with many proof-of-concept demonstrations but fewer
+larly represents an evaluative lens applied across domains          validated implementations [18–20].
+rather than a discrete pipeline stage, and is discussed as a            Neurological Applications encompass disease-specific
+component of clinical implementation readiness. Clinician           implementations, where maturity varies substantially:
+ 86       Page 4 of 15                                                 SN Comprehensive Clinical Medicine     (2026) 8:86
+
+
+Alzheimer’s disease and epilepsy presurgical evaluation             However, the quantification challenges that emerge from
+have the most extensive evidence bases, while traumatic          this integration are often underappreciated in algorithm
+brain injury applications remain largely investigational.        development work. MR-based attenuation correction repre-
+Finally, Clinical Translation addresses regulatory pathways,     sents the most fundamental concern [11]. In standalone PET/
+deployment architectures, and implementation science—            CT systems, the CT component directly measures tissue
+where regulatory, deployment, and workflow barriers              density, providing physically grounded attenuation maps. In
+converge. This domain currently shows the lowest matu-           PET/MRI, no such direct measurement is available; attenu-
+rity, representing the critical bottleneck that motivates this   ation must instead be inferred from MR tissue segmenta-
+review. The relationships between these domains are illus-       tion or atlas-based methods. These approaches introduce
+trated in Fig. 1.                                                systematic biases, particularly near air-tissue interfaces and
+                                                                 in patients with pathological tissue changes that violate atlas
+                                                                 assumptions. Studies comparing MR-based and CT-based
+Integration Architecture                                         attenuation correction have demonstrated regional standard-
+                                                                 ized uptake value (SUV) differences of 5–15%, with larger
+Hybrid PET/MRI Systems                                           errors in precisely the periventricular and temporal regions
+                                                                 most relevant to neurodegenerative disease assessment.
+Simultaneous PET/MRI acquisition represents the most                Standardized uptake value ratio (SUVR) variability com-
+sophisticated integration architecture currently avail-          pounds these concerns. When a PET scanner is upgraded
+able, enabling direct spatial and temporal correlation           mid-study, when acquisition parameters differ subtly
+of metabolic and structural information within a single          between institutions, or when different reference regions
+examination session [9, 10]. The technical achievement           are employed for normalization, apparent SUVR values
+is considerable: integrating photomultiplier-based PET           can shift by magnitudes comparable to disease effects. This
+detectors within the high magnetic field environment of an       creates scenarios where apparent disease progression may
+MRI scanner required fundamental redesigns of detector           actually reflect scanner drift—a confounder that published
+technology, with avalanche photodiodes and silicon pho-          performance metrics often fail to address.
+tomultipliers replacing traditional photomultiplier tubes.
+The result is the capacity to acquire PET and MRI data           Simultaneous EEG-fMRI
+truly simultaneously, eliminating the spatial registration
+errors and physiological state differences that complicate       The integration of electroencephalography with functional
+sequential acquisitions.                                         MRI offers a different kind of complementarity: bridging
+
+Fig. 1 The Integrated Multimodal
+Fusion in Neuroimaging (IMFN)
+Framework. This conceptual dia-
+gram illustrates the five intercon-
+nected domains organized as a
+translational pipeline: (1) Integra-
+tion Architecture encompassing
+hardware systems and acquisition
+protocols; (2) Methodological
+Standardization addressing multi-
+site harmonization; (3) Fusion
+Algorithms spanning early,
+intermediate, and late strategies;
+(4) Neurological Applications for
+disease-specific validation; and
+(5) Clinical Translation for regu-
+latory and deployment pathways.
+Arrows indicate primary informa-
+tion flow between domains, with
+feedback loops representing vali-
+dation requirements. Key outputs
+and characteristic failure modes
+are annotated for each domain.
+Clinical maturity levels range
+from high (Integration Architec-
+ture) to low/emerging (Clinical
+Translation)
+SN Comprehensive Clinical Medicine   (2026) 8:86                                                         Page 5 of 15   86
+
+
+the temporal resolution gap that limits fMRI alone [21, 22].    substantial patient cooperation and scanner time that clini-
+Neural events unfold on millisecond timescales, while the       cal radiology departments cannot routinely accommodate.
+hemodynamic response measured by fMRI peaks 4–6 s               Standard clinical brain MRI, by contrast, typically com-
+after neural activity and extends over 15–20 s. EEG pro-        pletes in 15–25 min with sequences optimized for detecting
+vides the temporal precision to identify when neural events     lesions rather than quantitative analysis. The gap between
+occur, while fMRI provides the spatial resolution to identify   research-grade and clinical-grade acquisitions represents a
+where. In principle, this combination enables localization of   significant barrier to translation that algorithm developers
+neural activity with both millisecond timing and millimeter     rarely acknowledge. A fusion approach validated on ADNI-
+precision.                                                      quality research scans may perform entirely differently—or
+    The technical challenges, however, are substantial and      fail entirely—when applied to clinical scans acquired under
+fall into two categories that are frequently conflated in the   time pressure with motion-degraded image quality.
+literature. Acquisition artifacts arise from the electromag-
+netic environment of the MR scanner: gradient artifacts from
+rapid field switching and ballistocardiogram artifacts from     Methodological Standardization
+pulsatile blood flow causing mechanical head motion. These
+artifacts are relatively well-characterized, and decades of     The Multi-Site Variability Problem
+methodological development have produced effective cor-
+rection approaches including average artifact subtraction,      Large-scale neuroimaging studies require multi-site data
+optimal basis set methods, and template-based removal.          collection to achieve statistical power and demographic
+    Analysis artifacts are more insidious and less consis-      diversity, but this necessity introduces non-biological vari-
+tently addressed. The hemodynamic response function var-        ability that can exceed the magnitude of disease effects
+ies across brain regions, between subjects, and potentially     [12, 13]. Scanner manufacturers differ in gradient sys-
+in pathological tissue. Yet most EEG-fMRI analyses assume       tems, radiofrequency coils, reconstruction algorithms, and
+a canonical HRF, convolving EEG-derived regressors with         calibration procedures. Even nominally identical scanner
+a fixed hemodynamic model. In epilepsy applications—            models at different sites can produce systematically differ-
+perhaps the most clinically mature EEG-fMRI use case—           ent measurements due to local magnetic field homogeneity,
+interictal discharges may occur in pathological tissue with     temperature variations, and software version differences.
+abnormal neurovascular coupling, potentially generating         Without correction, machine learning algorithms trained on
+misleading localizations when canonical HRF assumptions         multi-site data may learn to distinguish scanners rather than
+are violated.                                                   disease states—achieving high apparent accuracy that does
+                                                                not generalize.
+Intramodal MRI Fusion                                              The severity of this problem is illustrated by a recent
+                                                                36-site study of brain morphometry, in which Marzi and
+Combining multiple MRI sequences from a single scan-            colleagues demonstrated that site could be predicted from
+ning session offers practical advantages that should not be     neuroimaging features with greater than 90% accuracy prior
+underestimated: no radiotracer costs, no ionizing radiation     to harmonization [13]. The finding that scanner identity is
+exposure, and near-universal availability at institutions       more easily discriminable than most clinical distinctions of
+that would otherwise lack access to PET [23, 24]. Struc-        interest underscores why many reported accuracies may be
+tural MRI provides volumetric information about gray mat-       artifactually inflated. When training and test data come from
+ter integrity; diffusion tensor imaging reveals white matter    the same sites, algorithms can exploit scanner signatures as
+microstructure through water diffusion anisotropy; resting-     proxies for diagnosis; when deployed on data from new
+state fMRI captures spontaneous fluctuations in blood oxy-      sites, this spurious learning fails, producing the 10–15%
+genation that reflect intrinsic functional connectivity; and    performance degradation consistently observed in external
+task-based fMRI maps neural responses to specific cogni-        validation studies.
+tive demands.
+   Clinical feasibility hinges on acquisition parameters. A     Harmonization Methods
+research protocol optimized for multimodal fusion might
+include high-resolution T1-weighted imaging (7–10 min),         ComBat has emerged as the dominant harmonization
+multi-shell diffusion imaging (15–20 min), resting-state        approach in neuroimaging [14–17]. The method models site
+fMRI (10–15 min), and task-based fMRI if needed.                effects as additive shifts in mean and multiplicative changes
+Total acquisition time approaches 45–60 min, requiring          in variance, using empirical Bayes estimation to borrow
+ 86       Page 6 of 15                                                  SN Comprehensive Clinical Medicine   (2026) 8:86
+
+
+strength across sites and stabilize estimates even with rela-     Fusion Algorithms
+tively small per-site sample sizes. Fortin and colleagues
+demonstrated that ComBat successfully removes site effects        Algorithm Taxonomy Tied to Clinical Questions
+in cortical thickness measurements while preserving age
+associations and maintaining statistical power for detect-        The choice of fusion strategy should be driven by clini-
+ing biological effects [15]. Subsequent validations have          cal need rather than algorithmic elegance, a principle
+extended the approach to functional connectivity, diffusion       honored more in rhetoric than practice [18, 25–27]. Early
+tensor metrics, and magnetic resonance spectroscopy.              fusion, which concatenates features from different modali-
+   The appeal of ComBat lies in its relative simplicity and       ties before any learning takes place, is most appropriate for
+demonstrated effectiveness, but several limitations deserve       diagnostic questions where modalities provide complemen-
+attention. ComBat assumes that site effects are uniform           tary information about a single underlying disease state.
+across brain regions and clinical groups—an assumption            Late fusion, which trains separate models on each modal-
+that may be violated when sites differ in patient populations     ity and combines their predictions, better suits prognostic
+or when pathology differentially affects specific regions.        questions where different modalities may predict different
+Naïve application of ComBat in such scenarios can inad-           outcomes—structural integrity predicting cognitive decline
+vertently remove biological signal along with site effects,       rate, metabolic dysfunction predicting treatment response.
+producing harmonized data that obscure rather than reveal         Intermediate fusion, which learns cross-modal representa-
+disease effects. Proper validation requires demonstrating         tions through attention mechanisms or shared latent spaces,
+that biological associations are preserved after harmoniza-       excels when the spatial relationships between modality
+tion while site predictability is eliminated. Deep learning       findings carry diagnostic information. These architectural
+harmonization approaches, including CycleGAN-based                differences are illustrated schematically in Fig. 2A, with
+image translation and domain adaptation networks, offer           decision guidance for clinical matching provided in Fig. 2B.
+potential advantages for voxel-level harmonization and
+capturing non-linear site effects. However, these methods         Performance Reality Check
+require substantially larger training samples, are more prone
+to generating visual artifacts in pathological regions, and are   A 2024 meta-analysis by Odusami and colleagues synthe-
+harder to validate systematically.                                sized multimodal machine learning performance across
+
+Fig. 2 Fusion Algorithm Tax-
+onomy and Clinical Matching.
+(A) Schematic representation
+of early, intermediate, and late
+fusion architectures showing
+data flow from input modalities
+(MRI, PET, EEG, CSF) through
+processing stages to final predic-
+tions. Early fusion concatenates
+features before learning; interme-
+diate fusion employs cross-modal
+attention mechanisms; late fusion
+combines separate model predic-
+tions via ensemble voting. (B)
+Decision algorithm for match-
+ing fusion strategy to clinical
+question based on whether spatial
+correlation is critical and whether
+modalities measure the same
+underlying construct
+SN Comprehensive Clinical Medicine   (2026) 8:86                                                           Page 7 of 15   86
+
+
+47 studies for Alzheimer’s disease classification [1]. The       combinations but increase model complexity. Imputation
+pooled sensitivity was 94.6% (95% CI: 90.76–96.89%) for          predicts missing modality features from available ones but
+distinguishing Alzheimer’s disease from healthy controls         introduces additional uncertainty. Late fusion with avail-
+and 83.8% (95% CI: 78.87–87.71%) for mild cognitive              able modalities only provides a natural fallback but may not
+impairment versus controls. These figures demonstrate that       leverage cross-modal interactions. No consensus exists on
+multimodal approaches outperform single-modality base-           optimal approaches, and validation must explicitly include
+lines, but several caveats apply.                                missing-modality scenarios that reflect clinical reality.
+   First, the vast majority of included studies used data from
+the Alzheimer’s Disease Neuroimaging Initiative (ADNI),          Explainability in Multimodal Context
+a research cohort with exceptionally high data quality,
+standardized acquisition protocols, and expert-adjudicated       Clinicians need to know when to trust a multimodal system’s
+diagnostic labels. Performance in routine clinical settings      output—both for sound clinical judgment and for regula-
+with lower-quality images and less certain diagnoses will        tory compliance. Gradient-based saliency maps, attention
+inevitably be worse. Second, most studies employed inter-        mechanisms, and SHAP values have been adapted for mul-
+nal validation rather than external validation on independent    timodal contexts, but their validity remains controversial. In
+datasets. When external validation is performed, accuracy        single-modality imaging, highlighting regions contributing
+consistently drops by 10–15% points—a degradation that           to a prediction has intuitive clinical meaning. In multimodal
+transforms impressive research results into clinically mar-      fusion, attribution becomes more complex: is the prediction
+ginal performance. Third, the distinction between AD and         driven primarily by MRI structural features, PET metabolic
+healthy controls is the easiest classification problem in the    patterns, or their interaction? Current explainability meth-
+dementia field; the clinically meaningful challenges—dis-        ods struggle to convey cross-modal contributions in clini-
+tinguishing MCI progressors from non-progressors, dif-           cally meaningful ways. Representative applications of these
+ferentiating AD from other dementias—are substantially           fusion strategies across disorders are shown in Fig. 2C;
+harder.                                                          Table 3 summarizes multimodal neuroimaging performance
+                                                                 metrics across neurological disorders.
+Common Failure Modes
+
+Based on our synthesis, five failure mode patterns recur         Clinical Workflow Applications
+with concerning frequency. Site confounding masquerading
+as disease signal represents the most insidious failure mode.    Abstract performance metrics ultimately matter only inso-
+When training data come from multiple sites, and those           far as they translate into improved clinical decision-making.
+sites differ systematically in patient populations, algorithms   To illustrate how multimodal neuroimaging can inform
+can achieve high apparent accuracy by learning scanner           practice, we present three clinical vignettes representing
+signatures that correlate with diagnosis. Missing modality       common scenarios in dementia clinics, epilepsy surgery
+at inference creates deployment challenges that are rarely       programs, and movement disorder services. These vignettes
+addressed during development. Scanner drift over time            are composites informed by specific published cases and
+causes gradual performance degradation. Demographic              clinical evidence, designed to highlight decision points
+shift undermines generalizability—most large neuroimag-          where multimodal information adds value. The dementia
+ing datasets have been collected predominantly in White,         vignette draws on the diagnostic workflow described by
+educated, Northern Hemisphere populations. Label noise           Rabinovici and colleagues [37], who demonstrated in a
+particularly affects prodromal disease states where diagnos-     prospective Medicare study (n = 11,409) that amyloid PET
+tic uncertainty is substantial.                                  changed management in 60.2% of MCI patients and 63.5%
+                                                                 of dementia patients; the presentation and decision logic
+Missing Modality Strategies                                      reflect the Appropriate Use Criteria established by Johnson
+                                                                 et al. [32]. The epilepsy vignette is modeled on the MRI-
+Clinical deployment requires handling missing modalities         negative, PET-positive temporal lobe epilepsy syndrome
+gracefully rather than failing silently. Several strategies      characterized by Carne et al. [58], with surgical outcome
+have been proposed, each with trade-offs [28–30]. Modal-         data drawn from the meta-analysis by Courtney et al. [56]
+ity dropout during training randomly omits modalities to         (n = 4,104 patients; OR 2.68 for favorable outcome with
+build robustness but may sacrifice peak performance when         localizing PET). The parkinsonism vignette reflects the
+all modalities are available. Mixture-of-experts architec-       DaTscan clinical utility evidence synthesized by Bega et
+tures maintain separate pathways for different modality          al. [46] and the FDG-PET metabolic pattern differentiation
+ 86      Page 8 of 15                                                     SN Comprehensive Clinical Medicine    (2026) 8:86
+
+
+Table 3 Multimodal Neuroimaging Performance Across Neurological Disorders.
+Disorder            Best-Supported Combinations          Classification Performance     Evidence                Key Barriers
+Alzheimer’s Disease MRI + Amyloid PET; MRI + FDG-        AD vs. HC: 90–95% (inter-      Strong                  External valida-
+                    PET; MRI + Tau PET [31–45]           nal); 80–85% (external). MCI                           tion gap; MCI
+                                                         conversion: 75–85%                                     heterogeneity;
+                                                                                                                cost of PET
+Parkinson’s Disease DaTscan + FDG-PET;                    PD vs. atypical: 80–90% when Moderate                 Limited early
+                    DaTscan + MIBG; MRI + DaTscan         combined                                              detection; no
+                    [46–55]                                                                                     progression
+                                                                                                                biomarker
+Epilepsy            MRI + FDG-PET; MRI + ictal EEG;       Surgical outcome OR 2.68 for Strong                   Workflow com-
+                    EEG-fMRI [57–70]                      localizing PET [56]; 60–70%                           plexity; expertise
+                                                          sensitivity MRI-negative [58]                         requirements
+Multiple Sclerosis  Conventional MRI + MTR; MRI + PET Lesion detection improved;        Emerging                Unclear incre-
+                    (microglia) [71–85]                   NAWM pathology detected                               mental value over
+                                                                                                                serial MRI
+Traumatic Brain     Structural MRI + DTI [86–100]         Injury detection improved;    Weak                    Injury hetero-
+Injury                                                    outcome prediction R² < 0.3                           geneity; weak
+                                                                                                                imaging-outcome
+                                                                                                                link
+Abbreviations: AD Alzheimer’s disease, HC healthy controls, MCI mild cognitive impairment, MTR magnetization transfer ratio, NAWM
+normal-appearing white matter, OR odds ratio
+
+
+described by Eckert et al. [49]. No randomized controlled               A second decision point emerges: is tau PET needed? Tau
+trial has directly compared the full multimodal workflow            PET provides complementary staging and prognostic infor-
+against standard-of-care; we identify prospective clinical          mation [33–35]. While amyloid PET indicates whether AD
+utility studies as a priority in Sect. 10. These pathways are       pathology is present, tau PET indicates how far the patho-
+summarized in Fig. 3.                                               logical process has spread, correlating more closely with
+                                                                    symptom severity and predicting future decline rate. Quan-
+Dementia Clinic: Diagnostic Uncertainty in Early-                   titative integration of MRI volumetrics with PET positiv-
+Stage Disease                                                       ity maps may substantially improve diagnostic confidence
+                                                                    compared to MRI alone
+A 68-year-old retired teacher presents with 18 months of pro-
+gressive memory complaints noticed by her spouse. Formal            Epilepsy Surgery: The MRI-Negative Conundrum
+neuropsychological testing reveals impairment in delayed
+recall and verbal fluency, with relatively preserved attention      A 32-year-old has experienced drug-resistant focal seizures
+and executive function. Her Mini-Mental State Examination           since age 16 despite trials of multiple anti-seizure medica-
+score is 24/30. Brain MRI shows ‘mild hippocampal atro-             tions. Semiology suggests temporal lobe onset. Scalp EEG
+phy, symmetric, consistent with age-related changes versus          captures habitual seizures with ictal rhythms lateralized to
+early neurodegenerative process.’ The clinical picture is           the left temporal region. High-resolution MRI with an epi-
+ambiguous: this could represent early Alzheimer’s disease,          lepsy protocol is reported as ‘no discrete structural lesion
+could be a non-Alzheimer’s degenerative process, or could           identified.’ This MRI-negative finding complicates surgical
+reflect non-neurodegenerative conditions                            planning.
+   Current appropriate use criteria suggest that amyloid               The decision to pursue FDG-PET is straightforward in
+PET adds value when diagnostic uncertainty is high—                 this context. Meta-analytic evidence demonstrates that
+operationally, when the clinician’s pre-test probability of         localizing FDG-PET hypometabolism predicts favorable
+AD is between approximately 30% and 70% [32]. In this               surgical outcome with odds ratio 2.68 (95% CI: 2.08–3.45),
+patient’s case, the pre-test probability is estimated at 55%,       and this association holds for both MRI-positive and MRI-
+squarely within the zone where amyloid PET is most infor-           negative cases [56]. FDG-PET shows hypometabolism
+mative. An amyloid PET scan is obtained and is positive,            extending from the left mesial temporal structures into
+with diffuse cortical uptake in frontal, parietal, and temporal     the anterior temporal neocortex, concordant with the EEG
+regions. This finding substantially increases the probability       lateralization.
+of underlying Alzheimer’s pathology and redirects the dif-             The finding of MRI-negative, PET-positive temporal
+ferential away from non-AD dementias, making the patient            lobe epilepsy defines a distinct surgically remediable syn-
+a potential candidate for anti-amyloid therapies                    drome, as characterized by Carne and colleagues [58]. Such
+SN Comprehensive Clinical Medicine          (2026) 8:86                                                                   Page 9 of 15     86
+
+
+
+
+Fig. 3 Clinical Decision Algorithms for Multimodal Neuroimaging            and electrophysiological findings guiding surgical planning. (C) Par-
+Workup. (A) Dementia clinic pathway illustrating stepwise integration      kinsonism differential diagnosis pathway showing sequential addition
+of amyloid and tau PET based on pre-test probability assessment, with      of DaTscan, FDG-PET metabolic pattern analysis, and optional MIBG
+decision nodes for therapy eligibility and disease staging. (B) Epilepsy   scintigraphy to distinguish idiopathic Parkinson's disease from atypi-
+presurgical evaluation pathway demonstrating the role of FDG-PET in        cal parkinsonian syndromes
+MRI-negative cases, with concordance assessment between imaging
+
+
+patients show more widespread temporal hypometabolism                      Parkinsonism: Differential Diagnosis at Presentation
+than classic hippocampal sclerosis cases but can achieve
+seizure freedom rates of 60–70%, comparable to MRI-posi-                    A 65-year-old retired engineer is referred for evaluation of
+tive cases, particularly when PET and EEG are concordant.                  ‘possible Parkinson’s disease.’ He has noticed progressive
+The multimodal evidence provides sufficient confidence to                  slowing of movements over two years, difficulty rising from
+proceed toward resection rather than invasive monitoring.                  low chairs, and smaller handwriting. Examination reveals
+ 86     Page 10 of 15                                                  SN Comprehensive Clinical Medicine    (2026) 8:86
+
+
+moderate bradykinesia and rigidity bilaterally. Notably,         Clinical Translation Pathways
+rest tremor is minimal, and there are subtle suggestions of
+vertical gaze limitation. The presentation raises concern for    Regulatory Considerations
+progressive supranuclear palsy (PSP) or another atypical
+parkinsonian syndrome.                                           The regulatory landscape for multimodal AI-based diagnos-
+    Dopamine transporter (DaTscan) imaging provides the          tics remains challenging and evolving [101–105]. The FDA’s
+first decision point [46]. This SPECT study images pre-          Software as a Medical Device (SaMD) framework provides
+synaptic dopamine transporters, distinguishing degenera-         relevant classification criteria, but multimodal complexity
+tive parkinsonism (abnormal scan) from non-degenerative          creates uncertainty not fully addressed by existing guidance.
+causes (normal scan). Meta-analytic evidence indicates           The European Union’s AI Act introduces additional require-
+that DaTscan changes diagnosis in approximately one-third        ments for high-risk medical AI, including transparency obli-
+of patients and management in half [48]. In this patient,        gations, human oversight mandates, bias monitoring, and
+DaTscan shows markedly reduced uptake bilaterally—con-           conformity assessment procedures. The regulatory burden is
+firming dopaminergic neurodegeneration but not specifying        substantial, and many research groups lack the resources to
+which degenerative syndrome                                      navigate it—widening the gap between promising research
+    FDG-PET metabolic patterns differ among degenera-            and deployed clinical tools. Technical deployment raises
+tive conditions: PD shows relative metabolic preservation        practical challenges beyond algorithmic performance.
+while PSP shows characteristic midbrain and frontal hypo-        Healthcare data privacy requirements often favor on-prem-
+metabolism [49, 50]. In this patient, FDG-PET reveals            ises deployment, but multimodal AI systems may require
+midbrain and supplementary motor area hypometabolism,            computational resources exceeding typical hospital IT infra-
+supporting suspected PSP. Additionally, MIBG cardiac             structure. Integration with existing PACS and EHR systems
+scintigraphy can distinguish Lewy body disorders from            is critical. Deployed models require ongoing monitoring for
+non-Lewy body parkinsonism [47]. The combination of              performance degradation from input drift and concept drift.
+DaTscan, FDG-PET, and structural MRI provides diag-
+nostic confidence exceeding any single modality, with            Clinical Implementation Readiness Criteria
+major implications for treatment expectations, prognosis,
+and clinical monitoring.                                         We propose Clinical Implementation Readiness (CIR) cri-
+                                                                 teria as a structured framework for evaluating deployment
+Failure Modes and Critical Cautions                              readiness. Technical validation requires that performance
+                                                                 be characterized across sites, scanners, and demographic
+The multimodal neuroimaging literature is character-             groups. Clinical validation demands demonstration that the
+ized by optimistic framing that often obscures the gap           tool impacts clinical decisions in prospective settings. Work-
+between proof-of-concept demonstrations and robust               flow integration requires compatibility with existing systems.
+clinical tools.                                                  Failure mode handling demands graceful degradation with
+   Overfitting to benchmark datasets constitutes a perva-        missing modalities and out-of-distribution detection. Gov-
+sive concern. ADNI has been used in hundreds of machine          ernance encompasses drift monitoring protocols, retraining
+learning studies, creating a risk that published methods are     procedures, human oversight mechanisms, and audit trails.
+optimized for ADNI-specific characteristics rather than          A 1–3 scoring rubric across these dimensions provides prag-
+generalizable disease features. Data leakage during har-         matic readiness assessment. Each CIR dimension is scored
+monization represents a subtle but critical methodological       from 1 (Early Stage) to 3 (Deployment Ready), yielding a
+flaw—when ComBat is applied to entire datasets before            composite score out of 15. Scores below 10 suggest signifi-
+train/test splitting, information from test samples influences   cant development work remains before clinical deployment;
+harmonization parameter estimation. The failure to address       scores of 10–12 indicate readiness for supervised clinical
+missing modalities means algorithms may fail unpredict-          pilot deployment; and scores of 13–15 indicate readiness
+ably in clinical deployment. Conflating internal and external    for broader clinical implementation. These thresholds are
+validation misleads about clinical readiness. A 95% accu-        proposed as initial guidance and should be refined through
+racy on cross-validation within ADNI means something             empirical validation in future implementation studies. The
+very different from 95% accuracy on an independent exter-        complete scoring matrix with detailed dimensional anchors
+nal cohort.                                                      is provided in Supplementary Table S1.
+SN Comprehensive Clinical Medicine       (2026) 8:86                                                                                              Page 11 of 15                86
+
+
+Federated Learning for Privacy-Preserving                             the rigor of our study selection process. Second, the rapid
+Development                                                           pace of methodological development means that advances
+                                                                      published after our search cutoff are not captured. Third,
+Federated learning offers a promising approach to a funda-            our framework synthesis represents one possible organiza-
+mental tension: the need for large, diverse training datasets         tion among many. Fourth, we focused primarily on English-
+conflicts with privacy and regulatory barriers to data sharing        language publications, potentially missing relevant work
+[106–110]. In federated architectures, each participating site        published in other languages or venues. Finally, claims
+trains locally on its own data and shares only model param-           about clinical implementation are necessarily preliminary
+eters with a central server for aggregation. Patient images           given the nascent state of deployed multimodal neuroimag-
+never leave institutional boundaries. Recent implementa-              ing tools.
+tions have demonstrated feasibility for brain tumor segmen-
+tation and Alzheimer’s classification, with federated models
+approaching centralized performance. Challenges include               Conclusions
+handling heterogeneous data distributions, communication
+overhead, and ensuring aggregation procedures do not leak             Across 127 studies, multimodal approaches consistently
+private information.                                                  outperform unimodal methods under controlled conditions,
+                                                                      and the clinical workflow vignettes highlight where these
+Future Directions                                                     gains matter most: diagnostically difficult cases in which
+                                                                      standard workup is inconclusive, single modalities fail, and
+Prospective clinical utility studies represent the most urgent        treatment decisions carry high stakes. In dementia clinics,
+need [111–115]. The field has generated hundreds of retro-            integrating MRI volumetrics with amyloid and tau PET can
+spective proof-of-concept studies—but remarkably few pro-             convert ambiguous presentations into actionable diagno-
+spective evaluations of whether these approaches actually             ses; in epilepsy surgery evaluation, FDG-PET can rescue
+improve clinical decisions and patient outcomes. Demonstrat-          localization in MRI-negative cases; and in parkinsonism,
+ing that a tool classifies historical cases correctly is necessary;   stepwise addition of imaging modalities can achieve diag-
+demonstrating that its deployment leads to better diagnoses           nostic confidence unattainable with any single technique.
+and improved patient quality of life is what ultimately mat-          The IMFN framework maps these dependencies explicitly,
+ters. Standardization efforts must move beyond post-hoc har-          so that advances across domains can compound.
+monization to establish acquisition protocols, preprocessing
+pipelines, and reporting standards enabling true reproduc-            Supplementary Information The online version contains supplementary
+ibility. The Brain Imaging Data Structure (BIDS) initiative           material available at ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​7​​/​s​4​​2​3​9​9​-​0​2​6​-​0​2​3​3​0​-​x.
+represents important progress, but analogous standards for
+multimodal fusion pipelines remain nascent. Explainability            Authors’ contributions Y.J.L. conceived the study, conducted the lit-
+                                                                      erature search and synthesis, developed the IMFN framework, drafted
+methods require development for multimodal contexts spe-              the manuscript, and prepared all figures and tables. I.K. supervised the
+cifically [116–120]. Health equity requires deliberate action:        work and critically revised the manuscript for important intellectual
+training datasets must be expanded beyond North American              content. All authors approved the final manuscript and agree to be ac-
+and European cohorts, and subgroup performance analyses               countable for all aspects of the work.
+across race, ethnicity, and socioeconomic status should be a
+                                                                      Funding No specific funding was received for this work.
+reporting requirement [121–127].
+                                                                      Data Availability Not applicable. No new datasets were generated or
+                                                                      analyzed in this study.
+Limitations
+                                                                      Code Availability Not applicable. No custom code was generated for
+                                                                      this review.
+This review has several important limitations. First, as a
+narrative rather than systematic review, study selection
+reflects author judgment rather than fully reproducible crite-        Declarations
+ria, potentially introducing bias; to mitigate this concern, we       Ethics Approval and Consent to Participate Not applicable.
+have now provided a PRISMA-consistent screening flow
+diagram (Supplementary Figure S1) detailing the identifi-             Consent for Publication Not applicable.
+cation, screening, eligibility, and inclusion stages, thereby
+improving transparency and enabling readers to evaluate               Competing Interests The authors declare no competing interests.
+  86          Page 12 of 15                                                                                        SN Comprehensive Clinical Medicine                               (2026) 8:86
+
+Open Access This article is licensed under a Creative Commons                                            16. Yu M, Linn KA, Cook PA, et al. Statistical harmonization cor-
+Attribution 4.0 International License, which permits use, sharing,                                           rects site effects in functional connectivity measurements from
+adaptation, distribution and reproduction in any medium or format,                                           multi-site fMRI data. Hum Brain Mapp. 2018;39(11):4213–27.
+as long as you give appropriate credit to the original author(s) and the                                 17. Bell TK, Godfrey KJ, Ware AL, Yeates KO, Harris AD. Har-
+source, provide a link to the Creative Commons licence, and indicate                                         monization of multi-site MRS data with ComBat. NeuroImage.
+if changes were made. The images or other third party material in this                                       2022;257:119330.
+article are included in the article’s Creative Commons licence, unless                                   18. Vieira S, Pinaya WH, Mechelli A. Using deep learning to inves-
+indicated otherwise in a credit line to the material. If material is not                                     tigate the neuroimaging correlates of psychiatric and neurologi-
+included in the article’s Creative Commons licence and your intended                                         cal disorders: Methods and applications. Neurosci Biobehav Rev.
+use is not permitted by statutory regulation or exceeds the permitted                                        2017;74(Pt A):58–75.
+use, you will need to obtain permission directly from the copyright                                      19. Wen J, Thibeau-Sutre E, Diaz-Melo M, et al. Convolutional neu-
+holder. To view a copy of this licence, visit ​h​t​t​p​​:​/​/​​c​r​e​a​​t​i​​v​e​c​​o​m​m​o​​n​s​.​​o​       ral networks for classification of Alzheimer’s disease: Overview
+r​g​​/​l​i​c​e​n​s​e​s​/​b​y​/​4​.​0​/.                                                                      and reproducible evaluation. Med Image Anal. 2020;63:101694.
+                                                                                                         20. Bashyam VM, Erus G, Doshi J, et al. MRI signatures of brain age
+                                                                                                             and disease over the lifespan based on a deep brain network and
+                                                                                                             14,468 individuals worldwide. Brain. 2020;143(7):2312–24.
+References                                                                                               21. Allen PJ, Josephs O, Turner R. A method for removing imaging
+                                                                                                             artifact from continuous EEG recorded during functional MRI.
+1.     Odusami M, Maskeliūnas R, Damaševičius R, Misra S. Machine                                            NeuroImage. 2000;12(2):230–9.
+       learning with multimodal neuroimaging data to classify stages                                     22. Debener S, Mullinger KJ, Niazy RK, Bowtell RW. Properties of
+       of Alzheimer’s disease: A systematic review and meta-analysis.                                        the ballistocardiogram artefact as revealed by EEG recordings at
+       Cogn Neurodyn. 2024;18(3):775–94.                                                                     1.5, 3 and 7 T static magnetic field strength. Int J Psychophysiol.
+2.     Biswal B, Yetkin FZ, Haughton VM, Hyde JS. Functional con-                                            2008;67(3):189–99.
+       nectivity in the motor cortex of resting human brain using echo-                                  23. Basser PJ, Mattiello J, LeBihan D. MR diffusion tensor spectros-
+       planar MRI. Magn Reson Med. 1995;34(4):537–41.                                                        copy and imaging. Biophys J. 1994;66(1):259–67.
+3.     Fox MD, Raichle ME. Spontaneous fluctuations in brain activity                                    24. Mori S, Zhang J. Principles of diffusion tensor imaging and
+       observed with functional magnetic resonance imaging. Nat Rev                                          its applications to basic neuroscience research. Neuron.
+       Neurosci. 2007;8(9):700–11.                                                                           2006;51(5):527–39.
+4.     GBD 2019 Dementia Forecasting Collaborators. Estimation of                                        25. Calhoun VD, Sui J. Multimodal fusion of brain imaging data: A
+       the global prevalence of dementia in 2019 and forecasted preva-                                       key to finding the missing link(s) in complex mental illness. Biol
+       lence in 2050: an analysis for the Global Burden of Disease Study                                     Psychiatry Cogn Neurosci Neuroimaging. 2016;1(3):230–44.
+       2019. Lancet Public Health. 2022;7(2):e105–25.                                                    26. Uludağ K, Roebroeck A. General overview on the merits of mul-
+5.     Postuma RB, Berg D, Stern M, et al. MDS clinical diagnostic crite-                                    timodal neuroimaging data fusion. NeuroImage. 2014;102(Pt
+       ria for Parkinson’s disease. Mov Disord. 2015;30(12):1591–601.                                        1):3–10.
+6.     Rosenow F, Lüders H. Presurgical evaluation of epilepsy. Brain.                                   27. Sui J, Adali T, Yu Q, Chen J, Calhoun VD. A review of multi-
+       2001;124(Pt 9):1683–700.                                                                              variate methods for multimodal fusion of brain imaging data. J
+7.     Baltrušaitis T, Ahuja C, Morency LP. Multimodal machine learn-                                        Neurosci Methods. 2012;204(1):68–81.
+       ing: A survey and taxonomy. IEEE Trans Pattern Anal Mach                                          28. Thung KH, Yap PT, Shen D. Multi-stage diagnosis of Alzheim-
+       Intell. 2019;41(2):423–43.                                                                            er’s disease with incomplete multimodal data via multi-task deep
+8.     Jack CR Jr, Bennett DA, Blennow K, et al. NIA-AA Research                                             learning. Deep Learn Med Image Anal Multimodal Learn Clin
+       Framework: Toward a biological definition of Alzheimer’s dis-                                         Decis Support. 2017;160–168. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​7​​/​9​7​​8​-​3​-​3​1​
+       ease. Alzheimers Dement. 2018;14(4):535–62.                                                           9​-​6​7​5​5​8​-​9​_​1​9
+9.     Catana C, Benner T, van der Kouwe A, et al. MRI-assisted PET                                      29. Zhou T, Thung KH, Zhu X, Shen D. Effective feature learning and
+       motion correction for neurologic studies in an integrated MR-                                         fusion of multimodality data using stage-wise deep neural network
+       PET scanner. J Nucl Med. 2011;52(1):154–61.                                                           for dementia diagnosis. Hum Brain Mapp. 2019;40(3):1001–16.
+10.    Izquierdo-Garcia D, Hansen AE, Förster S, et al. An SPM8-based                                    30. Pan Y, Liu M, Lian C, Zhou T, Xia Y, Shen D. Synthesizing miss-
+       approach for attenuation correction combining segmentation and                                        ing PET from MRI with cycle-consistent generative adversarial
+       nonrigid template formation: application to simultaneous PET/                                         networks for Alzheimer’s disease diagnosis. Med Image Comput
+       MR brain imaging. J Nucl Med. 2014;55(11):1825–30.                                                    Comput Assist Interv. 2018;455–463. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​7​​/​9​7​​
+11.    Mehranian A, Zaidi H. Clinical assessment of emission- and                                            8​-​3​-​0​3​0​-​0​0​9​3​1​-​1​_​5​2
+       segmentation-based MR-guided attenuation correction in                                            31. Villain N, Chételat G, Grassiot B, et al. Regional dynamics of
+       whole-body time-of-flight PET/MR imaging. J Nucl Med.                                                 amyloid-β deposition in healthy elderly, mild cognitive impair-
+       2015;56(6):877–83.                                                                                    ment and Alzheimer’s disease: a voxelwise PiB–PET longitudinal
+12.    Johnson WE, Li C, Rabinovic A. Adjusting batch effects in                                             study. Brain. 2012;135(Pt 7):2126–39.
+       microarray expression data using empirical Bayes methods. Bio-                                    32. Johnson KA, Minoshima S, Bohnen NI, et al. Appropriate use
+       statistics. 2007;8(1):118–27.                                                                         criteria for amyloid PET: A report of the Amyloid Imaging Task
+13.    Marzi C, Giannelli M, Barucci A, Tessa C, Mascalchi M, Diciotti                                       Force, the Society of Nuclear Medicine and Molecular Imaging,
+       S. Efficacy of MRI data harmonization in the age of machine                                           and the Alzheimer’s Association. J Nucl Med. 2013;54(3):476–90.
+       learning: A multicenter study across 36 datasets. Sci Data.                                       33. Ossenkoppele R, Schonhaut DR, Schöll M, et al. Tau PET pat-
+       2024;11(1):115.                                                                                       terns mirror clinical and neuroanatomical variability in Alzheim-
+14.    Fortin JP, Parker D, Tunç B, et al. Harmonization of multi-site                                       er’s disease. Brain. 2016;139(Pt 5):1551–67.
+       diffusion tensor imaging data. NeuroImage. 2017;161:149–70.                                       34. Ossenkoppele R, Rabinovici GD, Smith R, et al. Discriminative
+15.    Fortin JP, Cullen N, Sheline YI, et al. Harmonization of cortical                                     accuracy of [18F]flortaucipir positron emission tomography for
+       thickness measurements across scanners and sites. NeuroImage.                                         Alzheimer disease vs other neurodegenerative disorders. JAMA.
+       2018;167:104–20.                                                                                      2018;320(11):1151–62.
+SN Comprehensive Clinical Medicine         (2026) 8:86                                                                   Page 13 of 15     86
+
+35. Biel D, Brendel M, Rubinski A, Buerger K, et al. Tau-PET and          55. Politis M, Niccolini F. Serotonin in Parkinson’s disease. Behav
+    in vivo Braak-staging as prognostic markers of future cognitive           Brain Res. 2015;277:136–45.
+    decline in cognitively normal to demented individuals. Alzheim-       56. Courtney MR, Antonic-Baker A, Chen Z, Sinclair B, et al.
+    ers Res Ther. 2021;13:137.                                                Association of localizing 18F-FDG-PET hypometabolism and
+36. Jack CR Jr, Wiste HJ, Algeciras-Schimnich A, et al. Predicting            outcome following epilepsy surgery: A systematic review and
+    amyloid PET and tau PET stages with plasma biomarkers. Brain.             meta-analysis. Neurology. 2024;102(9):e209304.
+    2023;146(5):2029–44.                                                  57. Engel J Jr, McDermott MP, Wiebe S, et al. Early surgical therapy
+37. Rabinovici GD, Gatsonis C, Apgar C, et al. Association of amyloid         for drug-resistant temporal lobe epilepsy: A randomized trial.
+    positron emission tomography with subsequent change in clinical           JAMA. 2012;307:922–30.
+    management among Medicare beneficiaries with mild cognitive           58. Carne RP, O’Brien TJ, Kilpatrick CJ, et al. MRI-negative PET-
+    impairment or dementia. JAMA. 2019;321(13):1286–94.                       positive temporal lobe epilepsy: A distinct surgically remediable
+38. Palmqvist S, Tideman P, Cullen N, et al. Prediction of future             syndrome. Brain. 2004;127(Pt 10):2276–85.
+    Alzheimer’s disease dementia using plasma phospho-tau com-            59. Téllez-Zenteno JF, Hernandez Ronquillo L, Moien-Afshari F,
+    bined with other accessible measures. Nat Med. 2021;27:1034–42.           Wiebe S. Surgical outcomes in lesional and non-lesional epi-
+39. Hansson O, Edelmayer RM, Boxer AL, et al. The Alzheim-                    lepsy: A systematic review and meta-analysis. Epilepsy Res.
+    er’s Association appropriate use recommendations for blood                2010;89:310–8.
+    biomarkers in Alzheimer’s disease. Alzheimers Dement.                 60. Spencer SS, Theodore WH, Berkovic SF. Clinical appli-
+    2022;18(12):2669–86.                                                      cations: MRI, SPECT, and PET. Magn Reson Imaging.
+40. Leuzy A, Chiotis K, Lemoine L, et al. Tau PET imaging in neu-             1995;13(8):1119–24.
+    rodegenerative tauopathies—still a challenge. Mol Psychiatry.         61. Salamon N, Kung J, Shaw SJ, et al. FDG-PET/MRI coregistra-
+    2019;24:1112–34.                                                          tion improves detection of cortical dysplasia in patients with epi-
+41. Villemagne VL, Burnham S, Bourgeat P, et al. Amyloid β depo-              lepsy. Neurology. 2008;71(20):1594–601.
+    sition, neurodegeneration, and cognitive decline in sporadic          62. Capraz IY, Kurt G, Akdemir O, et al. Surgical outcome in patients
+    Alzheimer’s disease: A prospective cohort study. Lancet Neurol.           with MRI-negative, PET-positive temporal lobe epilepsy. Sei-
+    2013;12:357–67.                                                           zure. 2015;29:63–8.
+42. Schöll M, Lockhart SN, Schonhaut DR, et al. PET imaging of tau        63. Immonen A, Jutila L, Muraja-Murro A, et al. Long-term epilepsy
+    deposition in the aging human brain. Neuron. 2016;89:971–82.              surgery outcomes in patients with MRI-negative temporal lobe
+43. Mormino EC, Papp KV. Amyloid accumulation and cogni-                      epilepsy. Epilepsia. 2010;51:2260–9.
+    tive decline in clinically normal older individuals: Implications     64. Chassoux F, Rodrigo S, Semah F, et al. FDG-PET improves surgi-
+    for aging and early Alzheimer’s disease. J Alzheimers Dis.                cal outcome in negative MRI Taylor-type focal cortical dyspla-
+    2018;64(s1):S633–46.                                                      sias. Neurology. 2010;75:2168–75.
+44. La Joie R, Ayakta N, Seeley WW, et al. Multisite study of the rela-   65. Willmann O, Wennberg R, May T, Woermann FG, Pohlmann-
+    tionships between antemortem [11 C]PIB-PET Centiloid values               Eden B. The contribution of 18F-FDG PET in preoperative epi-
+    and postmortem measures of Alzheimer’s disease neuropathol-               lepsy surgery evaluation for patients with temporal lobe epilepsy.
+    ogy. Alzheimers Dement. 2019;15:205–16.                                   A meta-analysis. Seizure. 2007;16:509–20.
+45. Therriault J, Pascoal TA, Lussier FZ, et al. Biomarker model-         66. Boscolo Galazzo I, Mattoli MV, Pizzini FB, et al. Cerebral
+    ing of Alzheimer’s disease using PET-based Braak staging. Nat             metabolism and perfusion in MR-negative individuals with
+    Aging. 2022;2:526–35.                                                     refractory focal epilepsy assessed by simultaneous acquisition
+46. Bega D, Kuo PH, Chalkidou A, et al. Clinical utility of DaTscan           of 18F-FDG PET and arterial spin labeling. Neuroimage Clin.
+    in patients with suspected Parkinsonian syndrome: A systematic            2016;11:648–57.
+    review and meta-analysis. NPJ Parkinsons Dis. 2021;7(1):43.           67. Duncan JS. Imaging in the surgical treatment of epilepsy. Nat Rev
+47. Orimo S, Suzuki M, Inaba A, Mizusawa H. 123I-MIBG myo-                    Neurol. 2010;6:537–50.
+    cardial scintigraphy for differentiating Parkinson’s disease from     68. Chugani HT, Shields WD, Shewmon DA, Olson DM, Phelps ME,
+    other neurodegenerative parkinsonism: A systematic review and             Peacock WJ. Infantile spasms: I. PET identifies focal cortical dys-
+    meta-analysis. Parkinsonism Relat Disord. 2012;18(5):494–500.             genesis in cryptogenic cases for surgical treatment. Ann Neurol.
+48. Seifert KD, Wiener JI. The impact of DaTscan on the diagnosis             1990;27(4):406–13.
+    and management of movement disorders: A retrospective study.          69. Juhász C, John F. Utility of MRI, PET, and ictal SPECT in pre-
+    Am J Neurodegener Dis. 2013;2:29–34.                                      surgical evaluation of non-lesional pediatric epilepsy. Seizure.
+49. Eckert T, Barnes A, Dhawan V, et al. FDG PET in the differential          2020;77:15–28.
+    diagnosis of parkinsonian disorders. NeuroImage. 2005;26:912–21.      70. Hauptman JS, Mathern GW. Surgical treatment of epilepsy
+50. Huang C, Tang C, Feigin A, et al. Changes in network activity             associated with cortical dysplasia: 2012 update. Epilepsia.
+    with the progression of Parkinson’s disease. Brain. 2007;130(Pt           2012;53(Suppl 4):98–104.
+    7):1834–46.                                                           71. Bodini B, Stankoff B. Imaging Central Nervous System Demy-
+51. Marek K, Jennings D, Lasch S, et al. The Parkinson Progression            elination and Remyelination by Positron-Emission Tomography.
+    Marker Initiative (PPMI). Prog Neurobiol. 2011;95:629–35.                 Brain Plast. 2016;2(1):93–8.
+52. Iranzo A, Santamaria J, Valldeoriola F, et al. Dopamine trans-        72. Rissanen E, Tuisku J, Rokka J, et al. In Vivo Detection of Diffuse
+    porter imaging deficit predicts early transition to synucleinopa-         Inflammation in Secondary Progressive Multiple Sclerosis Using
+    thy in idiopathic REM sleep behavior disorder. Ann Neurol.                PET Imaging and the Radioligand 11 C-PK11195. J Nucl Med.
+    2017;82:419–28.                                                           2014;55(6):939–44.
+53. Simuni T, Siderowf A, Lasch S, et al. Longitudinal change of clin-    73. Airas L, Nylund M, Rissanen E. Evaluation of microglial activa-
+    ical and biological measures in early Parkinson’s disease. Mov            tion in multiple sclerosis patients using positron emission tomog-
+    Disord. 2018;33:771–82.                                                   raphy. Front Neurol. 2018;9:181.
+54. Niethammer M, Feigin A, Eidelberg D. Functional neuroimag-            74. Stankoff B, Wang Y, Bottlaender M, et al. Imaging of CNS myelin
+    ing in Parkinson’s disease. Cold Spring Harb Perspect Med.                by positron-emission tomography. Proc Natl Acad Sci USA.
+    2012;2:a009274.                                                           2006;103(24):9304–9.
+ 86       Page 14 of 15                                                                  SN Comprehensive Clinical Medicine                                   (2026) 8:86
+
+75. Wei W, Poirion E, Bodini B, et al. Predicting PET-derived demy-                deterioration following TBI: A diffusion tensor imaging study.
+    elination from multimodal MRI using sketcher-refiner adversarial               Neurorehabil Neural Repair. 2016;30(1):49–62.
+    training for multiple sclerosis. Med Image Anal. 2019;58:101546.          94. Hulkower MB, Poliak DB, Rosenbaum SB, Zimmerman ME, Lip-
+76. Grecchi E, Veronese M, Bodini B, et al. Multimodal partial                     ton ML. A decade of DTI in traumatic brain injury: 10 years and
+    volume correction: Application to [11 C]PIB PET/MRI myelin                     100 articles later. AJNR Am J Neuroradiol. 2013;34(11):2064–74.
+    imaging in multiple sclerosis. J Cereb Blood Flow Metab.                  95. Kinnunen KM, Greenwood R, Powell JH, et al. White matter
+    2017;37(12):3803–17.                                                           damage and cognitive impairment after traumatic brain injury.
+77. Zhang M, Liu J, Li B, et al. 18F-florbetapir PET/MRI for quan-                 Brain. 2011;134(Pt 2):449–63.
+    titatively monitoring demyelination and remyelination in acute            96. Sidaros A, Engberg AW, Sidaros K, et al. Diffusion tensor imag-
+    disseminated encephalomyelitis. EJNMMI Res. 2019;9:96.                         ing during recovery from severe traumatic brain injury and rela-
+78. Pietroboni AM, Carandini T, Colombi A, et al. Amyloid PET as                   tion to clinical outcome: a longitudinal study. Brain. 2008;131(Pt
+    a marker of normal-appearing white matter early damage in mul-                 2):559–72.
+    tiple sclerosis: correlation with CSF β-amyloid levels and brain          97. Mac Donald CL, Dikranian K, Bayly P, Holtzman D, Brody D.
+    volumes. Eur J Nucl Med Mol Imaging. 2019;46:280–7.                            Diffusion tensor imaging reliably detects experimental traumatic
+79. Giannetti P, Politis M, Su P, et al. Microglia activation in multiple          axonal injury and indicates approximate time of injury. J Neuro-
+    sclerosis black holes predicts outcome in progressive patients:                sci. 2007;27(44):11869–76.
+    an in vivo [(11)C](R)-PK11195-PET pilot study. Neurobiol Dis.             98. Wilde EA, McCauley SR, Hunter JV, et al. Diffusion tensor imag-
+    2014;65:203–10.                                                                ing of acute mild traumatic brain injury in adolescents. Neurol-
+80. Giannetti P, Politis M, Su P, et al. Increased PK11195-PET bind-               ogy. 2008;70(12):948–55.
+    ing in normal-appearing white matter in clinically isolated syn-          99. Douglas DB, Iv M, Douglas PK, et al. Diffusion tensor imag-
+    drome. Brain. 2015;138(1):110–9.                                               ing of TBI: Potentials and challenges. Top Magn Reson Imaging.
+81. Filippi M, Rocca MA, Ciccarelli O, et al. MRI criteria for the                 2015;24(5):241–51.
+    diagnosis of multiple sclerosis: MAGNIMS consensus guide-                 100. Dikranian K, Cohen R, Mac Donald C, et al. Mild traumatic brain
+    lines. Lancet Neurol. 2016;15(3):292–303.                                      injury to the infant mouse causes robust white matter axonal
+82. Thompson AJ, Banwell BL, Barkhof F, et al. Diagnosis of mul-                   degeneration which precedes apoptotic death of cortical and tha-
+    tiple sclerosis: 2017 revisions of the McDonald criteria. Lancet               lamic neurons. Exp Neurol. 2008;211(2):551–60.
+    Neurol. 2018;17(2):162–73.                                                101. FDA. Proposed Regulatory Framework for Modifications to Artifi-
+83. Lassmann H, van Horssen J, Mahad D. Progressive mul-                           cial Intelligence/Machine Learning (AI/ML)-Based Software as a
+    tiple sclerosis: pathology and pathogenesis. Nat Rev Neurol.                   Medical Device (SaMD). US Food and Drug Administration; 2019.
+    2012;8(11):647–56.                                                             Available from: h​ ​t​t​​p​s​:​/​​/​w​w​​w​.​f​​d​a​.​g​o​v​/​m​e​d​i​a​/​1​2​2​5​3​5​/​d​o​w​n​l​o​a​d​​​
+84. Reich DS, Lucchinetti CF, Calabresi PA. Multiple Sclerosis. N             102. Muehlematter UJ, Daniore P, Vokinger KN. Approval of artificial
+    Engl J Med. 2018;378(2):169–80.                                                intelligence and machine learning-based medical devices in the
+85. Barkhof F, Calabresi PA, Miller DH, Reingold SC. Imaging out-                  USA and Europe (2015-20): a comparative analysis. Lancet Digit
+    comes for neuroprotection and repair in multiple sclerosis trials.             Health. 2021;3(3):e195–203.
+    Nat Rev Neurol. 2009;5:256–66.                                            103. Beckers R, Kwade Z, Zanca F. The EU medical device regula-
+86. Shenton ME, Hamoda HM, Schneiderman JS, et al. A review                        tion: Implications for artificial intelligence-based medical device
+    of magnetic resonance imaging and diffusion tensor imaging                     software in medical physics. Phys Med. 2021;83:1–8.
+    findings in mild traumatic brain injury. Brain Imaging Behav.             104. Harvey HB, Gowda V. How the FDA Regulates AI. Acad Radiol.
+    2012;6(2):137–92.                                                              2020;27(1):58–61.
+87. Asken BM, DeKosky ST, Clugston JR, Jaffee MS, Bauer RM.                   105. Larson DB, Magnus DC, Lungren MP, Shah NH, Langlotz
+    Diffusion tensor imaging (DTI) findings in adult civilian, mili-               CP. Ethics of Using and Sharing Clinical Imaging Data for
+    tary, and sport-related mild traumatic brain injury (mTBI): A sys-             Artificial Intelligence: A Proposed Framework. Radiology.
+    tematic critical review. Brain Imaging Behav. 2018;12:585–612.                 2020;295(3):675–82.
+88. Niogi SN, Mukherjee P, Ghajar J, et al. Extent of microstructural white   106. Dayan I, Roth HR, Zhong A, et al. Federated learning for pre-
+    matter injury in postconcussive syndrome correlates with impaired              dicting clinical outcomes in patients with COVID-19. Nat Med.
+    cognitive reaction time: a 3T diffusion tensor imaging study of mild           2021;27(10):1735–43.
+    traumatic brain injury. AJNR Am J Neuroradiol. 2008;29:967–73.            107. Li W, Milletarì F, Xu D, et al. Privacy-preserving feder-
+89. Richter S, Winzeck S, Correia MM, Czeiter E, et al. Predicting                 ated brain tumour segmentation. Mach Learn Med Imag-
+    recovery in patients with mild traumatic brain injury and a normal             ing 2019;11861:133–41. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​7​​/​9​7​​8​-​3​-​0​3​0​-​3​2​6​9​
+    CT using serum biomarkers and diffusion tensor imaging (CEN-                   2​-​0​_​1​6
+    TER-TBI): an observational cohort study. eClinicalMedicine.               108. Remedios SW, Butman JA, Landman BA, Pham DL. Federated
+    2024;75:102751.                                                                gradient averaging for multi-site training with momentum-based
+90. Puybasset L, Perlbarg V, Unrug J, et al. Prognostic value of                   optimizers. Lect Notes Monogr Ser 2020. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​7​​
+    global deep white matter DTI metrics for 1-year outcome pre-                   /​9​7​​8​-​3​-​0​3​0​-​6​0​5​4​8​-​3​_​1​7
+    diction in ICU traumatic brain injury patients: an MRI-COMA               109. Kaissis GA, Makowski MR, Rückert D, Braren RF. Secure, pri-
+    and CENTER-TBI combined study. Intensive Care Med.                             vacy-preserving and federated machine learning in medical imag-
+    2022;48(2):201–12.                                                             ing. Nat Mach Intell. 2020;2(6):305–11.
+91. Maas AIR, Menon DK, Steyerberg EW, et al. Collaborative Euro-             110. Kaissis G, Ziller A, Passerat-Palmbach J, et al. End-to-end pri-
+    pean NeuroTrauma Effectiveness Research in Traumatic Brain                     vacy preserving deep learning on multi-institutional medical
+    Injury (CENTER-TBI): A prospective longitudinal observational                  imaging. Nat Mach Intell. 2021;3(6):473–84.
+    study. Neurosurgery. 2015;76:67–80.                                       111. Gorgolewski KJ, Auer T, Calhoun VD, et al. The brain imaging
+92. Yuh EL, Mukherjee P, Lingsma HF, et al. Magnetic resonance                     data structure, a format for organizing and describing outputs of
+    imaging improves 3-month outcome prediction in mild traumatic                  neuroimaging experiments. Sci Data. 2016;3:160044.
+    brain injury. Ann Neurol. 2013;73(2):224–35.                              112. Esteban O, Markiewicz CJ, Blair RW, et al. fMRIPrep: a robust
+93. Newcombe VF, Correia MM, Ledig C, et al. Dynamic changes in                    preprocessing pipeline for functional MRI. Nat Methods.
+    white matter abnormalities correlate with late improvement and                 2019;16(1):111–6.
+SN Comprehensive Clinical Medicine                                   (2026) 8:86                                                                                   Page 15 of 15     86
+
+113. Poldrack RA, Gorgolewski KJ. Making big data open: data shar-                                                   121. Chen IY, Pierson E, Rose S, Joshi S, Ferryman K, Ghassemi M.
+     ing in neuroimaging. Nat Neurosci. 2014;17(11):1510–7.                                                               Ethical machine learning in healthcare. Annu Rev Biomed Data
+114. Nichols TE, Das S, Eickhoff SB, et al. Best practices in data                                                        Sci. 2021;4:123–44.
+     analysis and sharing in neuroimaging using MRI. Nat Neurosci.                                                   122. Obermeyer Z, Powers B, Vogeli C, Mullainathan S. Dissecting
+     2017;20(3):299–303.                                                                                                  racial bias in an algorithm used to manage the health of popula-
+115. Pomponio R, Erus G, Habes M, et al. Harmonization of large                                                           tions. Science. 2019;366(6464):447–53.
+     MRI datasets for the analysis of brain imaging patterns through-                                                123. Rajkomar A, Hardt M, Howell MD, Corrado G, Chin MH. Ensur-
+     out the lifespan. NeuroImage. 2020;208:116450.                                                                       ing Fairness in Machine Learning to Advance Health Equity. Ann
+116. Selvaraju RR, Cogswell M, Das A, Vedantam R, Parikh D, Batra                                                         Intern Med. 2018;169(12):866–72.
+     D. Grad-CAM: Visual explanations from deep networks via gra-                                                    124. Char DS, Shah NH, Magnus D. Implementing Machine Learning
+     dient-based localization. Int J Comput Vis. 2020;128(2):336–59.                                                      in Health Care — Addressing Ethical Challenges. N Engl J Med.
+117. Lundberg SM, Lee SI. A unified approach to interpreting model                                                        2018;378(11):981–3.
+     predictions. Adv Neural Inf Process Syst. 2017;30:4765–74.                                                      125. Gianfrancesco MA, Tamang S, Yazdany J, Schmajuk G. Potential
+118. Böhle M, Eitel F, Weygandt M, Ritter K. Layer-wise relevance                                                         Biases in Machine Learning Algorithms Using Electronic Health
+     propagation for explaining deep neural network decisions in                                                          Record Data. JAMA Intern Med. 2018;178(11):1544–7.
+     MRI-based Alzheimer’s disease classification. Front Aging Neu-                                                  126. Seyyed-Kalantari L, Zhang H, McDermott MBA, Chen IY, Ghas-
+     rosci. 2019;11:194.                                                                                                  semi M. Underdiagnosis bias of artificial intelligence algorithms
+119. Eitel F, Ritter K. Testing the robustness of attribution methods for                                                 applied to chest radiographs in under-served patient populations.
+     convolutional neural networks in MRI-based Alzheimer’s disease                                                       Nat Med. 2021;27(12):2176–82.
+     classification. Interpretability of Machine Intelligence in Medical                                             127. Vyas DA, Eisenstein LG, Jones DS. Hidden in Plain Sight —
+     Image Computing and Multimodal Learning for Clinical Deci-                                                           Reconsidering the Use of Race Correction in Clinical Algorithms.
+     sion Support. Springer; 2019;3–11. ​h​t​t​p​s​:​​​/​​/​d​o​​i​.​o​​r​​g​​/​​1​0​​.​1​0​​​0​7​/​​​9​7​​8​-​3​​        N Engl J Med. 2020;383(9):874–82.
+     -​0​3​0​-​3​​3​​8​5​0​-​3​_​1
+120. Rudin C. Stop explaining black box machine learning models for                                                  Publisher’s note Springer Nature remains neutral with regard to juris-
+     high stakes decisions and use interpretable models instead. Nat                                                 dictional claims in published maps and institutional affiliations.
+     Mach Intell. 2019;1(5):206–15.
+
