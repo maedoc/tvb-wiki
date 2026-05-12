@@ -77,7 +77,7 @@ PUSH_INTERVAL = 1800  # seconds
 LAST_PUSH_FILE = os.path.join(META_DIR, "last_push.txt")
 
 # ── Error handling ─────────────────────────────────────────────────────
-PI_TIMEOUT = 450               # 7.5 min per pi subprocess (cloud kimi-k2.6 needs more time for 2000-token prompts)
+PI_TIMEOUT = 600               # 10 min per pi subprocess (kimi-k2.6:cloud needs this for 1500-2000 token prompts)
 MAX_RETRIES = 3
 RETRY_BACKOFF = [10, 30, 90]   # seconds between retries
 CIRCUIT_BREAKER_THRESHOLD = 3  # consecutive failures to disable agent

@@ -1,0 +1,1666 @@
+                                            Sparse Bayesian Modeling of EEG Channel
+                                           Interactions Improves P300 Brain-Computer
+                                                      Interface Performance
+                                               Guoxuan Ma∗, Yuan Zhong∗, Moyan Li∗, Yuxiao Nie, and Jian Kang†
+                                            Department of Biostatistics, University of Michigan, Ann Arbor MI 48109
+arXiv:2602.17772v2 [stat.ME] 26 Feb 2026
+
+
+
+
+                                                                                     March 2, 2026
+
+
+
+                                                                                         Abstract
+                                                       Electroencephalography (EEG)-based P300 brain-computer interfaces (BCIs) en-
+                                                   able communication without physical movement by detecting stimulus-evoked neu-
+                                                   ral responses. Accurate and efficient decoding remains challenging due to high di-
+                                                   mensionality, temporal dependence, and complex interactions across EEG channels.
+                                                   Most existing approaches treat channels independently or rely on black-box ma-
+                                                   chine learning models, limiting interpretability and personalization. We propose a
+                                                   sparse Bayesian time-varying regression framework that explicitly models pairwise
+                                                   EEG channel interactions while performing automatic temporal feature selection.
+                                                   The model employs a relaxed-thresholded Gaussian process prior to induce struc-
+                                                   tured sparsity in both channel-specific and interaction effects, enabling interpretable
+                                                   identification of task-relevant channels and channel pairs. Applied to a publicly avail-
+                                                   able P300 speller dataset of 55 participants, the proposed method achieves a median
+                                                   character-level accuracy of 100% using all stimulus sequences and attains the high-
+                                                   est overall decoding performance among competing statistical and deep learning ap-
+                                                   proaches. Incorporating channel interactions yields subgroup-specific gains of up to
+                                                   7% in character-level accuracy, particularly among participants who abstained from
+                                                   alcohol (up to 18% improvement). Importantly, the proposed method improves me-
+                                                   dian BCI-Utility by approximately 10% at its optimal operating point, achieving peak
+                                                   throughput after only seven stimulus sequences. These results demonstrate that ex-
+                                                   plicitly modeling structured EEG channel interactions within a principled Bayesian
+                                                   framework enhances predictive accuracy, improves user-centric throughput, and sup-
+                                                   ports personalization in P300 BCI systems.
+
+                                           Keywords: Brain-Computer Interface, Bayesian Method, Gaussian Process, P300 Speller
+
+
+
+
+                                             ∗
+                                                 Equally contributed
+                                             †
+                                                 To whom correspondence should be addressed: jiankang@umich.edu
+
+
+                                                                                              1
+1     Introduction
+
+Brain-computer interfaces (BCIs) facilitate direct communication between the human brain
+
+and external devices such as computers. The widespread interest in BCI systems stems from
+
+their broad range of potential applications in movement and communication assistance,
+
+particularly for individuals with motor impairments (Pfurtscheller et al. 2008), while their
+
+applications include performance enhancement in healthy users, neurorehabilitation, and
+
+other cognitive and clinical research domains (Van Erp et al. 2012, Kwak et al. 2015).
+
+    The BCI systems typically acquire brain activity through noninvasive electroencephalog-
+
+raphy (EEG). Among various EEG signals, event-related potentials (ERPs) refer to brain
+
+responses elicited by external stimuli such as visual, auditory, or somatosensory cues (Far-
+
+well & Donchin 1988). In an ERP-based BCI design, the system presents multiple stimuli
+
+in an on-screen keyboard, and the user focuses attention and mentally response to the
+
+desired stimulus. The stimulus that the user intends to select is called the target stimulus.
+
+After each stimulus presentation, the BCI classifies the corresponding EEG response as
+
+either target or non-target, depending on whether it contains ERP components of target
+
+perception. This design is often named after the P300 component, a deflection in the EEG
+
+signal that peaks approximately 300 ms after the onset of a rare or unexpected target
+
+stimulus (Fazel-Rezai et al. 2012). Among various applications of P300-based BCIs, the
+
+P300 speller is one of the most well-known. It functions as a virtual keyboard which allows
+
+users to type characters by attending to flashing groups of letters or symbols, which are
+
+then decoded based on the elicited P300 responses (Farwell & Donchin 1988).
+
+
+Data and motivation To better illustrate the problem, we briefly describe the moti-
+
+vating EEG dataset from a publicly available P300-based BCI experiment by Won et al.
+
+(2022). The study collected EEG recordings from 55 participants during BCI spelling
+
+tasks, together with questionnaire data on demographics and physical and mental states
+
+                                             2
+Figure 1: An illustration of the P300 BCI spelling task and recorded signal. (A) The P300
+BCI speller presents a sequence of row or column flashes (a row or a column) on a virtual
+screen to the user. The user focuses on a target character and responds to the row and
+column flashes that contain the target character. The EEG signals of the flash are recorded
+from multiple channels and are segmented into a 1200 ms window following stimulus onset.
+(B) The names and layout of the 32 scalp EEG channels according to the international 10-
+20 system. (C) Example of recorded multi-channel EEG signals and the derived channel
+connectivity.
+
+
+before and after the experiment. Each participant completed both a calibration (train-
+
+ing) phase and a test phase using a P300 speller. During spelling, rows and columns of
+
+a virtual keyboard (a 6×6 matrix; see Figure 1A) were flashed repeatedly in a random
+
+order. As a result, each stimulus sequence was consisted of 12 flashes (i.e., 6 rows and 6
+
+columns). For a given target character, the flashes corresponding to its row and column
+
+constituted target stimuli, while all remaining flashes were non-targets. Each character
+
+selection included 15 such stimulus sequences. EEG signals were recorded from 32 scalp
+
+                                            3
+channels arranged according to the international 10-20 system and segmented into 1200
+
+ms windows following the stimulus onset to capture the event-related responses associated
+
+with the P300 component. More details are available in Section 4.
+
+   As illustrated in Figure 1C, discriminative information between target and non-target
+
+signals varies across channels and time. For example, channels FC2 and PO3 show clear
+
+target-related deflections in the P300 latency range, whereas channel CP1 exhibits much
+
+weaker differences. Even within informative channels, only limited post-stimulus time inter-
+
+vals contribute meaningfully to discrimination. These motivates temporal channel selection
+
+via sparse modeling to reduce noise from uninformative channels and time points. Beyond
+
+marginal temporal features, the signal interactions between EEG channels, summarized
+
+through measures of channel connectivity, provide an additional and complementary source
+
+of discriminative information. Figure 1C shows that the connectivity patterns derived from
+
+the target signal differ from those of non-target signals. Incorporating channel connectivity
+
+as an additional predictor, alongside temporal EEG features, therefore has the potential
+
+to improve classification performance. Furthermore, because subject-level questionnaire
+
+data on demographics and physical and mental states are available, this dataset enables
+
+investigation of heterogeneity across individuals, including whether certain subgroups of
+
+participants benefit more from accounting for signal interactions in modeling than others.
+
+This opens the door to identifying populations for whom modeling channel interactions is
+
+particularly advantageous, with implications for personalized and adaptive BCI systems.
+
+
+Related work The most-studied and fundamental computational challenge in P300-
+
+based BCIs is the classification of brain activity following each stimulus as either a target
+
+or non-target response. Accurate classification of these EEG segments enables the identi-
+
+fication of the target row and column in the speller matrix, and hence the selection of the
+
+desired character. The original work (Farwell & Donchin 1988) developed four classification
+
+
+                                             4
+methods, stepwise linear discriminant analysis (SWLDA), peak picking, area, and covari-
+
+ance, with the best performance achieved by SWLDA in their experiment. Subsequent
+
+studies have sought to improve P300 speller performance through more advanced machine
+
+learning and signal processing techniques, including independent component analysis (ICA)
+
+(Xu et al. 2004) and support vector machines (SVMs) (Kaper et al. 2004). A comprehen-
+
+sive review by Philip & George (2020) highlighted the strength of ensemble methods, which
+
+combine the advantages of multiple classifiers and are particularly effective for handling
+
+the class imbalance inherent in P300 datasets. Bayesian methods have also gained increas-
+
+ing attention for BCI classification. For example, Zhang et al. (2015) proposed a sparse
+
+Bayesian model using Laplace priors for EEG signal classification. Barthélemy et al. (2023)
+
+introduced a Bayesian accumulation of Riemannian probabilities, providing an end-to-end
+
+framework for P300 BCI classification. Recently, Ma et al. (2022) developed a Bayesian
+
+generative model that characterizes the probability distribution of multi-trial EEG sig-
+
+nals, which provides both a flexible simulation tool for EEG data and a novel probabilistic
+
+classifier for P300 BCIs.
+
+   Despite the success of existing methods, most approaches overlook potential functional
+
+relationships among brain regions and treat EEG signals from different channels as in-
+
+dependent predictors. However, studies have shown that brain functions arise from the
+
+coordinated activity of distributed areas rather than isolated regions (Tononi & Edel-
+
+man 1998, Friston et al. 1997). In the BCI context, Kabbara et al. (2016) demonstrated
+
+clear differences in functional brain networks between target and non-target visual stimuli.
+
+These findings suggest that interactions among EEG channels, which reflect network-level
+
+brain dynamics, carry important information for distinguishing stimulus types (target/non-
+
+target). Modeling such inter-channel dependencies can therefore enhance both the predic-
+
+tive accuracy and the neurophysiological interpretability of BCI systems.
+
+   To model signal interactions, many existing approaches adopt a two-step strategy, by
+
+
+                                             5
+first identifying main effects and then refitting the model with both main and interaction
+
+effects (Hao et al. 2018, Wang et al. 2021). However, this approach is less suitable for
+
+EEG data, as the presence of an interaction does not necessarily depend on the existence
+
+of corresponding main effects. Zhao et al. (2025) took a difference approach by introduc-
+
+ing the Gaussian Latent channel model with Sparse time-varying effects (GLASS) for P300
+
+speller, which uses constrained multinomial logistic regression for target classification while
+
+accounting for correlations between channels via latent channel decompositions. Although
+
+GLASS incorporates channel correlations into the model structure, it does not explicitly
+
+model channel interactions as predictors, and therefore cannot directly evaluate and in-
+
+terpret the effect sizes of inter-channel relationships. Recent Bayesian approaches have
+
+incorporated both main and interaction terms within a unified inference framework using
+
+hierarchical shrinkage priors (Griffin & Brown 2017). Nonetheless, such general frame-
+
+works is less effective in accounting for the unique temporal and structural dependencies
+
+in EEG data. More recently, neural network-based methods have been proposed in EEG
+
+classification tasks. Examples include multi-task autoencoder models (Ditthapron et al.
+
+2019), compact convolutional neural networks such as EEGNet (Lawhern et al. 2018), and
+
+weighted ensemble strategies (Kshirsagar & Londhe 2019). These approaches can implicitly
+
+capture interaction effects among EEG channels and their association with stimulus type
+
+outcomes. However, they often require extensive task-specific architectural design and large
+
+training datasets, which vary considerably across studies. Moreover, the black-box nature
+
+of neural networks limits interpretability, making it difficult to identify which specific chan-
+
+nels or channel pairs drive classification decisions. This lack of interpretability constrains
+
+the scientific insights that can be drawn about the underlying neural mechanisms and may
+
+hinder model generalizability. Consequently, there is a strong need for statistical methods
+
+that can incorporate inter-channel interaction effects while preserving interpretability and
+
+computational efficiency.
+
+
+                                               6
+Our contributions In this paper, we propose a Bayesian time-varying regression model
+
+with signal interactions via relaxed-thresholded Gaussian process (SI-RTGP) priors. Our
+
+model relaxes the traditional linearity assumption among EEG predictors by explicitly
+
+modeling signal interaction effects across channels, while performing temporal-spatial chan-
+
+nel selection, thereby improving both predictive performance and interpretability. To our
+
+knowledge, this is among the first models to explicitly incorporate inter-channel interactions
+
+into EEG-based prediction within a Bayesian framework.
+
+   We propose a relaxed-thresholded Gaussian process (RTGP) prior to flexibly model the
+
+association between EEG signals and stimulus-type outcomes. It has several advantages
+
+compared to existing work. First, the RTGP prior defines a broad class of temporally
+
+varying functions that are piecewise smooth and sparse, which enables automatic feature
+
+selection with Bayesian inference. Second, compared with existing thresholded Gaussian
+
+process priors, such as the soft-thresholded (Kang et al. 2018) and hard-thresholded (Cai
+
+et al. 2020) variants, the proposed RTGP prior is more flexible, capable of adapting to
+
+both sparse and non-sparse patterns by tuning a relaxation parameter. It also offers sub-
+
+stantial computational advantages, allowing efficient MCMC sampling even for large-scale
+
+EEG datasets. We evaluate the proposed method using both synthetic data and EEG data
+
+from the P300 speller study by Won et al. (2022). The SI-RTGP model achieves higher
+
+classification accuracy for many participants and identifies meaningful channels and chan-
+
+nel pairs, which provides valuable insights into the neural mechanisms underlying P300
+
+responses.
+
+
+
+
+                                              7
+2     Method
+
+2.1     Bayesian time-varying model with signal interactions
+
+Our model is individual-specific, meaning that a separate model is built for each participant
+
+using only their own calibration data and evaluated on their corresponding test data. For
+
+clarity, the subject index is suppressed in the notation throughout the model development.
+
+    Suppose a total of R target characters are typed during the calibration phase. For each
+
+character r = 1, . . . , R, the BCI presents S stimulus sequences, each consisting of J = 12
+
+flashes: 6 row stimuli (j = 1, . . . , 6) and 6 column stimuli (j = 7, . . . , 12) on a 6 × 6 speller
+
+matrix, in a random order. Let I = {(r, s, j) | r = 1, . . . , R; s = 1, . . . , S; j = 1, . . . , J}
+
+denote the index set of all stimulus presentations. The total number of flashes is therefore
+
+n = |I| = R × S × J flashes in total, and we use i ∈ I to index an individual flash.
+
+Let K denote the number of EEG channels and T the number of time points within the
+
+post-stimulus window. Then, denote Xki (t) the observed intensity of the EEG signal of
+
+the i-th stimulus from channel k at time t. Let Xki = (Xki (1), . . . , Xki (T ))⊤ ∈ RT and
+                              ⊤ ⊤
+X i = X⊤        ⊤
+                                 
+          1i , X2i , · · · , XKi   ∈ Rp , where p = KT . We denote by Zi (k1 , k2 ) the signal
+
+interaction between channels k1 and k2 , where 1 ≤ k1 < k2 ≤ K. In this study, we define
+
+the signal interaction as the Fisher Z-transformation of the Pearson correlation between
+
+Xk1 i and Xk2 i , i.e.
+                                                                              
+                                          1          1 + cor(Xk1 i , Xk2 i )
+                           Zi (k1 , k2 ) = log                                     .
+                                          2          1 − cor(Xk1 i , Xk2 i )
+
+Let Zi = {Zi (k1 , k2 )}1≤k1 <k2 ≤K ∈ Rq , where q = K(K − 1)/2. Finally, let Yi ∈ {0, 1}
+
+be the target/non-target stimulus type outcomes of the i-th flash. Figure 2 provides an
+
+illustration on data and notations.
+
+    We propose a Bayesian time-varying classification model with signal interactions to
+
+
+
+
+                                                     8
+Figure 2: Illustration of the data and notation for the SI-RTGP model. Xki represents
+the EEG signal from channel k for the i-th flash. For the i-th flash, the signal interaction
+between channel k1 and channel k2 is measured by the z-transformed Pearson correlation
+between EEG signals from channels k1 and k2 .
+
+
+predict the stimulus type outcome, as follows,
+                                       K   T
+                                    1 XX                      1 X
+        g {Pr(Yi = 1 | Xi , Zi )} =           βk (t)Xki (t) +        ζ(k1 , k2 )Zi (k1 , k2 ),   (1)
+                                    p k=1 t=1                 q k <k
+                                                                    1   2
+
+
+where g(·) is the link function (e.g., probit and logit), βk (t) is a time-varying coefficient
+
+function for channel k, and ζ(k1 , k2 ) quantifies the effect of the signal interaction between
+
+the EEG signal from channels k1 and k2 . The rescaling factors 1/p and 1/q are introduced
+
+to prevent the linear predictor µi from becoming excessively large when K and T are large.
+
+Model (1) accounts for signals from each separate channel and signal interactions across
+
+channels as predictors for stimulus type outcomes classification.
+
+
+
+
+                                                  9
+2.2    Relaxed-thresholded Gaussian process prior
+
+Thresholded Gaussian process priors are effective in capturing both the sparsity and tem-
+
+poral dependency in the relationship between stimulus type and EEG signal predictors.
+
+However, existing variants, such as the soft-thresholded Gaussian process (Kang et al.
+
+2018, Xu & Kang 2025, Xu et al. 2026) and the thresholded Gaussian process (Shi &
+
+Kang 2015, Wu et al. 2024), can pose significant computational challenges when applied to
+
+large-scale datasets. To address this, we propose a relaxed-thresholded Gaussian process
+
+(RTGP) prior, which maintains the ability to capture sparsity while improving computa-
+
+tional efficiency, defined as follows.
+
+
+Definition 1. Given a kernel κ, a thresholding parameter ω ≥ 0, and a relaxing parameter
+
+ξ > 0, suppose f (x) ∼ GP(0, κ) and f˜(x) ∼ N(f (x), ξ 2 ). Let g(x) = f (x)I(|f˜(x)| >
+
+ω) ≜ Tr (f, ω, ξ 2 ), then g(x) follows a relaxed-thresholded Gaussian process, denoted as
+
+g(x) ∼ RTGP(κ, ω, ξ 2 ).
+
+
+   In Definition 1, I(·) denotes the indicator function and Tr is the relaxed-thresholding
+
+function. The introduction of f˜(x) allows the full conditional distribution of f (x) to have
+
+a conjugate and closed-form expression. The parameter ξ 2 represents the variance of f˜(x)
+
+and serves as a relaxing parameter that controls the independent white noise added to
+
+f (x). Smaller values of ξ 2 impose a stricter constraint that preserves the mean structure
+
+of f (x), while larger values provide greater flexibility. To illustrate, Figure 3 compares
+
+different thresholded GP functions. Let f (x) ∼ GP(0, κ). The soft-thresholding function
+
+Ts (f (x), 0.5) sets values with |f (x)| < 0.5 to zero, and otherwise shrinks the magnitude
+
+by the threshold 0.5. The hard-thresholding function Th (f (x), 0.5) also sets values below
+
+magnitude of 0.5 to zero, while leaving larger values unchanged. Both soft and hard
+
+thresholded GPs impose sparsity and piecewise smoothness, with the hard-thresholded
+
+GP introducing jump discontinuities and the soft-thresholded GP remaining continuous.
+
+                                             10
+Figure 3: Illustration of different thresholded Gaussian process prior. Ts (·, 0.5) and
+Th (·, 0.5) represents the soft and the hard thresholding function thresholded at 0.5.
+Tr (·, 0.5, ξ 2 ) represents the proposed relaxed-thresholding function with different value of
+relaxing parameter ξ 2 .
+
+
+The second row of Figure 3 illustrates the proposed RTGP under different values of ξ.
+
+When ξ = 0.01, Tr {f (x), 0.5, 0.01} closely resembles the hard-thresholded GP. For ξ =
+
+0.1, Tr {f (x), 0.5, 0.1} is a continuous function that preserves sparsity, similar to the soft-
+
+thresholded GP. As ξ increases to 1, Tr {f (x), 0.5, 1} recovers f (x).
+
+   This flexibility is particularly valuable in modeling EEG data, where the true signal
+
+pattern is unknown. For example, if the true curve near x = 100 is with meaningful
+
+magnitude as in 3, RTGP can adapt and recover the pattern by choosing an appropriate
+
+ξ (e.g. ξ = 1), whereas both soft- and hard-thresholded GPs would enforce sparsity with
+
+probability 1. The following proposition formalizes the relationship between the RTGP
+
+and other thresholded GPs.
+
+
+Proposition 1. Given a thresholding parameter ω > 0, let Tr (θ, ω, ξ 2 ) = θ · I(|θ̃| >
+
+ω), Th (θ, ω) = θ · I(|θ| > ω) and Ts (θ, ω) = sgn(θ)(|θ| − ω) · I(|θ| > ω) where θ ∼
+
+Pθ (θ). Then for any ϵ > 0, there exist ξ 2 , such that Pr (|Tr (θ, ω, ξ 2 ) − Th (θ, ω)| < ϵ) > 0,
+
+Pr (|Tr (θ, ω, ξ 2 ) − θ| < ϵ) > 0, and Pr (|Tr (θ, ω, ξ 2 ) − Ts (θ⋆ , ω)| < ϵ) > 0, where θ⋆ = θ + ω
+
+                                                 11
+when θ > 0 and θ⋆ = θ − ω when θ < 0. Furthermore, lim
+                                                    2
+                                                       Tr (θ, ω, ξ 2 ) = Th (θ, ω) and
+                                                                         ξ →0
+               2
+ lim Tr (θ, ω, ξ ) = θ.
+ξ 2 →∞
+
+
+    Proposition 1 provides a mathematical illustration of Figure 3, which shows that relaxed-
+
+thresholded function has certain probability to reduce to soft or hard thresholded function
+
+and the flexibility is controlled by the relaxing parameter ξ 2 . The proof is included in the
+
+supplementary materials.
+
+    Given a stationary kernel κ, we assign βk (t) ∼ RTGP(κ, ω1 , ξ 2 ) for channel k. That is,
+
+
+         βk (t) = Ek (t)I(|Ẽk (t)| > ω1 ),      Ek (t) ∼ GP(0, κ),       Ẽk (t) ∼ N(Ek (t), ξ 2 ),   (2)
+
+
+where {Ek (·)}K
+              k=1 follow independent Gaussian processes. There are various choices for the
+
+kernel function κ(·, ·); for instance, we use the modified squared exponential (MSE) kernel,
+
+defined as: κ (x, x′ ) = exp −α |x|22 + |x′ |22 − ρ |x − x′ |22 , where α > 0, ρ > 0, and | · |2
+                                              
+
+is the L2 -norm (Wu et al. 2024, 2025). Here, α is the decay parameter that controls the
+
+decay rate of variance. The parameter ρ is the smoothing parameter; a smaller value of
+
+ρ corresponds to a smoother GP. Note that the MSE kernel becomes a standard squared
+
+exponential kernel when α = 0. In our study, we set the hyperparameter α to a small value
+
+(0.01) and estimate ρ following the discussion in Lin et al. (2023). Specifically, ρ is estimated
+
+by averaging the estimated smoothing parameters of fitting GP models to the EEG signal
+
+on all the channels. We also include the sensitivity analysis of the hyperparameter ρ in the
+
+supplementary materials.
+
+    Similarly, for the effect of signal interaction across channels, we assign ζ(k1 , k2 ) ∼
+
+RTGP(ση2 κI , ω2 , ξ 2 ), k1 < k2 , where κI represents the identity kernel. That is,
+
+                     ζ(k1 , k2 ) = η(k1 , k2 )I(|η̃(k1 , k2 )| > ω2 ),
+                                                                                                       (3)
+                                iid
+                     η(k1 , k2 ) ∼ N(0, ση2 ),                                     2
+                                                     η̃(k1 , k2 ) ∼ N(η(k1 , k2 ), ξ ),
+
+and ση2 ∼ IG(aη , bη ). We choose to use the identity kernel here to assume prior independence
+
+
+                                                    12
+across channel pairs. Other kernels can be adopted when prior information is available in
+
+different applications.
+
+    By combining Model (1) with the prior specifications in (2) and (3), we define the
+
+proposed model as a Bayesian time-varying classification model with signal interactions
+
+via relaxed-thresholded Gaussian process prior (SI-RTGP).
+
+
+
+3     Posterior Computation
+
+In this section, we describe the posterior computation for Model (1) with priors (2) and
+
+(3) using probit link function. We represent the Gaussian processes by the Karhunen-
+
+Loève expansion and obtain an equivalent model representation. Specifically, consider the
+
+spectral decomposition of the kernel function, κ (x, x′ ) = ∞                  ′              ∞
+                                                           P
+                                                             l=1 λl ψl (x)ψl (x ), where {λl }l=1
+
+are the eigenvalues in descending order, and {ψl (x)}∞
+                                                     l=1 are the corresponding orthonormal
+
+eigenfunctions. By Mercer’s Theorem, we can represent the Gaussian process Ek (t) in
+                P∞
+(2) by Ek (t) =   l=1 ekl ψl (t), where ekl are Karhunen-Loève coefficients. We truncate
+
+the expansion to the leading L terms, where L is chosen following the common practice
+
+in principal component analysis where we retain enough components to explain a high
+
+proportion of total variation. Then, the prior of βk (·) specified in (2) becomes
+                  ( L             )                                 L
+                                                                                      !
+                    X                                              X
+         βk (t) =       ekl ψl (t) I(|Ẽk (t)| > ω1 ), Ẽk (t) ∼ N     ekl ψl (t), ξ 2 ,        (4)
+                      l=1                                             l=1
+
+and ekl ∼ N(0, σe2 λl ). We set σe2 to be large values and aη = bη = 0.001 so that the priors are
+
+non-informative. For flexibility, we set ξ 2 = 1 in the first 200 iterations and then gradually
+
+decrease its value to 0.0001. For ω1 and ω2 , we set them to zero in the first 200 steps,
+
+then assign an adaptive discrete prior, i.e. P (ω1 = γ1z ) = 1/Z and P (ω2 = γ2z ) = 1/Z,
+
+z = 1, · · · , Z, where {γ1z }Zz=1 and {γ2z }Zz=1 are Z evenly spaced number between aω quantile
+
+and bω quantile of {|Ẽk (t)|}K,T
+                              k=1,t=1 and {|η̃(k1 , k2 )|}k1 <k2 respectively. In practice, we found
+
+
+
+
+                                                13
+aω = 0.25 and bω = 0.90 yield good performance. We include the sensitivity analysis of aω
+
+and bω in the Supplementary Materials.
+
+    Given the above specifications, the full conditionals of {ek,l }K,L                T,K
+                                                                    k=1,l=1 , {Ẽk (t)}t=1,k=1 ,
+
+{η(k1 , k2 )}k1 <k2 and {η̃(k1 , k2 )}k1 <k2 are normal distributions due to conjugacy. The full
+
+conditionals of ω1 and ω2 are discrete distribution. We develop a Gibbs sampler for the
+
+posterior sampling. The detailed derivation and the sampling procedure is provided in the
+
+supplementary materials.
+
+
+
+4     P300 BCI Speller Data Analysis
+
+We analyze a publicly available P300 BCI dataset consisting of 55 participants (Won et al.
+
+2022). EEG signals were recorded from 32 Ag/AgCl active electrodes placed according to
+
+the international 10-20 system. The signals were sampled at 512 Hz. EEG preprocessing
+
+included a bandpass filter with a frequency range of 0.5-10 Hz. Although the dataset
+
+provides a 1200 ms post-stimulus window, we restrict our analysis to the first 600 ms after
+
+stimulus onset, corresponding to 307 samples at the 512 Hz sampling rate. In the P300
+
+speller task, participants spelled predefined words using the standard 6 × 6 P300 speller
+
+paradigm, with 12 stimuli per sequence. The experiment was consisted of two phases:
+
+training (two runs) and testing (four runs). In the two training runs, participants spelled the
+
+words “BRAIN” and “POWER”. In the testing runs, they spelled four additional words,
+
+“SUBJECT,” “NEURONS,” “IMAGINE,” and “QUALITY”. During each sequence, rows
+
+and columns of the matrix flashed in a random order. Each stimulus was displayed for 125
+
+ms, followed by a 62.5 ms pause. Each target character was flashed for 15 sequences in
+
+both training and test runs.
+
+
+
+
+                                              14
+4.1    Benchmark methods and implementation details
+
+We compare four model variants based on the proposed method, RTGP-L, RTGP-P,
+
+SIRTGP-L, and SIRTGP-P, with several commonly used classification methods.               The
+
+four variants are Bayesian time-varying regression approaches that incorporate relaxed-
+
+thresholded Gaussian Process priors, using either logit (-L) or probit (-P) link functions.
+
+RTGP models include only main effects from individual EEG channels, while SIRTGP
+
+models additionally incorporate pairwise signal interactions across channels.
+
+   For benchmarking, we include GLASS (Zhao et al. 2025), EEGNet (Lawhern et al.
+
+2018), extreme gradient boosting (XGBoost) (Sarraf, Pattnaik et al. 2023), logistic regres-
+
+sion (Sakamoto & Aono 2009), support vector classification (SVC) (Kaper et al. 2004), ran-
+
+dom forest (RF), and stepwise linear discriminant analysis (SWLDA) (Farwell & Donchin
+
+1988). The GLASS model is trained using the recommended default settings from the
+
+authors’ GLASS implementation (Zhao et al. 2025). Logistic regression is implemented
+
+using the scikit-learn LogisticRegression class with a maximum of 3000 iterations. SVC
+
+is implemented with the SVC class with probability estimation enabled and also uses a
+
+maximum of 3000 iterations. The random forest model uses 1000 trees, with a maximum
+
+tree depth of 3. At each split, the number of features considered is set to the square root of
+
+the total number of input features. The XGBoost model is configured with 1000 boosting
+
+rounds, a learning rate of 0.02, a maximum tree depth of 5, a column subsampling ratio of
+
+0.8, and a regularization parameter γ = 10, using the binary logistic loss function. EEGNet
+
+is trained for 100 epochs with a batch size of 32, a dropout rate of 0.5, and a kernel length
+
+of 128. SWLDA is implemented using forward-backward selection with entry and removal
+
+p-value thresholds set to 0.05 and 0.1, respectively.
+
+
+
+
+                                             15
+Figure 4: Median character prediction accuracy across 55 participants for different methods
+over 15 sequences using the proposed models (four variants) and competing methods. For
+clarity, the left panel includes the proposed method with channel interaction and probit link
+(SITRGP probit) and competing methods, while the right panel compares the four model
+variants. Competing methods include GLASS, Logistic Regression (LR), Support Vector
+Classifier (SVC), Random Forest (RF), Extreme Gradient Boosting (XGBoost), EEGNet,
+and Stepwise Linear Discriminant Analysis (SWLDA).
+
+
+4.2    Evaluation of prediction performance
+
+The stimulus-specific prediction output by each method, such as predicted probabilities or
+
+discrimination scores, is treated as a classification score that quantifies how likely each stim-
+
+ulus group (one row or one column) contains the target character. To evaluate character-
+
+level prediction accuracy, we aggregate these classification scores across sequences. Specifi-
+
+cally, for each character, we sum the scores for all row and column stimuli across sequences
+
+and identify the predicted character as the one located at the intersection of the row and
+
+column with the highest cumulative score. To provide a more comprehensive assessment of
+
+model performance, we repeat this evaluation using the first 1 through 15 sequences. This
+
+allows us to examine how prediction accuracy improves as more sequences (i.e., repetitions
+
+of the flashing paradigm) become available.
+
+   Figure 4 presents the median character prediction accuracy across 55 participants for
+
+different methods over 15 sequences. Among the competing approaches, EEGNet and
+
+GLASS achieve the highest accuracies. However, SIRTGP-P has the highest median accu-
+
+racy at every sequence comparing to competing methods. The four model variants based
+
+                                               16
+Table 1: Character prediction accuracy for all methods at the last (15th) sequence. Mean:
+mean accuracy; SD: standard deviation; Median: median accuracy; Q1: 1st quartile for
+accuracy; Q3: 3rd quartile for accuracy.
+
+             Method            Mean (SD)                 Median (Q1, Q3)
+             EEGNet          90.58% (13.65%)         96.43% (89.29%, 100.00%)
+             GLASS           90.00% (14.11%)         92.86% (89.29%, 100.00%)
+             LR              80.52% (20.51%)          85.71% (71.43%, 96.43%)
+             RF              78.83% (19.73%)          82.14% (66.07%, 94.64%)
+             SVC             70.26% (26.56%)          78.57% (57.14%, 91.07%)
+             SWLDA           87.21% (15.53%)          89.29% (82.14%, 96.43%)
+             XGB             84.09% (15.23%)          85.71% (75.00%, 96.43%)
+             RTGP-L          90.78% (12.87%)         96.43% (85.71%, 100.00%)
+             RTGP-P          92.27% (11.72%)         96.43% (91.07%, 100.00%)
+             SIRTGP-L        91.23% (13.67%)         96.43% (91.07%, 100.00%)
+             SIRTGP-P       92.86% (12.69%)        100.00% (89.29%, 100.00%)
+
+
+on the proposed method have comparable performance, with the variants using the probit
+
+link slightly outperforming those using the logit link. In addition, the model variants using
+
+signal interactions achieve equal or higher median accuracy than those not using interac-
+
+tions at most sequences. Table 1 summarizes mean, standard deviation, median, 1st and
+
+3rd quartiles of the character prediction accuracy using all the 15 sequences for all methods.
+
+Overall, SIRTGP-P achieves the best prediction performance, with the highest mean and
+
+median accuracy and with relatively small variations across participants. All four model
+
+variants of the proposed method outperform competing methods, with equal or higher
+
+mean and median prediction accuracy and comparatively small performance variation.
+
+   Although character-level accuracy is a fundamental performance metric for BCI systems,
+
+it does not fully reflect the user experience. In practice, users care not only about achieving
+
+high accuracy but also about how quickly that an accurate selection can be made (Ma
+
+et al. 2023). To complement the accuracy results in Figure 4, we additionally evaluate
+
+system throughput using the BCI-Utility metric. BCI-Utility is a user-centric measure
+
+that quantifies the average information gained per unit time and is maximized when a
+
+system provides both high accuracy and rapid decision-making (Dal Seno et al. 2009, Ma
+
+
+
+                                              17
+Figure 5: Median BCI-Utility (bit/second) across 55 participants for different methods
+over 15 sequences using the proposed models (four variants) and competing methods. For
+clarity, the left panel includes the proposed method with channel interaction and probit link
+(SITRGP probit) and competing methods, while the right panel compares the four model
+variants. Competing methods include GLASS, Logistic Regression (LR), Support Vector
+Classifier (SVC), Random Forest (RF), Extreme Gradient Boosting (XGBoost), EEGNet,
+and Stepwise Linear Discriminant Analysis (SWLDA).
+
+
+et al. 2023). We compute the BCI-Utility (bit/second) for all methods using available signal
+
+up to each of the 15 sequences.
+
+   Figure 5 shows the median BCI-Utility across 55 participants. Consistent with the ac-
+
+curacy results, the proposed SIRTGP-P with signal interaction achieves the highest median
+
+BCI-Utility at every sequence and provides the best overall throughput among all compet-
+
+ing methods and model variants. Importantly, BCI-Utility and accuracy do not increase
+
+monotonically over sequence in the same way. While accuracy continues to improve as
+
+more sequences of data becomes available, BCI-Utility typically peaks earlier because ad-
+
+ditional sequences increase decision time. For SIRTGP-P, the median BCI-Utility reaches
+
+its maximum at the 7th sequence, when the model already attains a high median accuracy
+
+of 89.29%, and gradually decreases thereafter, even though median accuracy continues to
+
+rise and reaches 100% at the 15th sequence. This illustrates an important trade-off. The
+
+optimal operating point for a BCI system is not necessarily the point with the highest ac-
+
+curacy, but the point that delivers the best balance between speed and accuracy (Ma et al.
+
+2023). The proposed method performs strongly on both metrics, achieving the highest
+
+
+                                             18
+accuracy while also maximizing user-centric BCI-Utility.
+
+
+
+4.3     Predictive Utility and Heterogeneity of Channel Interactions
+
+4.3.1   When do channel interactions improve prediction performance?
+
+We investigate which group of participants are more likely to benefit from incorporating the
+
+signal interaction (SI) into the prediction model. Using questionnaire data collected in the
+
+same study by Won et al. (2022), we compare the median accuracy achieved by SIRTGP-
+
+P and RTGP-P, stratified by participants’ responses. Participants with prior exposure to
+
+BCI or similar biofeedback experiments show a 4% improvement in character-level accuracy
+
+when SI is included, compared to models without SI. Similarly, participants who reported
+
+abstaining from alcohol 24 hours prior to the experiment achieved a 7% gain with SI, with
+
+an maximum of 18% improvement. Additional factors associated with an increased benefit
+
+from modeling SI include feeling relaxed (+4%), being in good physical condition (+4%),
+
+finding it easy to concentrate (+2%) and perceiving the BCI task as difficult after the
+
+calibration phase (+4%). In addition, participants who reported good eye condition, high
+
+concentration, or that BCI stimuli were presented quickly during testing runs showed gains
+
+of 2-7% in accuracy when SI is included.
+
+   These findings align with the existing neuroscience literature, which has reported in-
+
+creased brain connectivity or regional interactions when performing familiar tasks (Terstege
+
+et al. 2022, Noad et al. 2024), being in good mental and physical state (Douw et al. 2014,
+
+Ismaylova et al. 2018, Costumero et al. 2020), making cognitive effort during tasks (Aben
+
+et al. 2020, Wang et al. 2024), and the disruptive effects of alcohol consumption on brain
+
+connectivity (Shokri-Kojori et al. 2017, Elton et al. 2021). Our results suggest that the
+
+benefit of incorporating SI in prediction models may vary between participants. Future
+
+adaptive BCI experiments could consider tailoring the use of SI predictors based on previ-
+
+
+
+                                            19
+Figure 6: Average percentiles for channel interaction selection probability over the 55
+participants. For clarity, only edges with percentiles greater than 75% are shown.
+
+ous participant experience, alcohol consumption, and reported physical and mental states.
+
+
+4.3.2   Heterogeneity in channel interaction effects
+
+Based on the estimated SIRTGP-P signal interaction selection between-channels, we exam-
+
+ine which pair of channels consistently contributed to the prediction performance in the 55
+
+participants. Because a separate model is fitted for each individual, the posterior selection
+
+probability of channel interaction may not be directly comparable across individuals, we
+
+compute the percentile of the posterior channel interaction selection probability for each
+
+individual and then average these percentiles across participants for each channel pair.
+
+Figure 6 displays the channel pairs whose average percentile exceeded 75%.
+
+   We observe that the interaction between T7 and CP5 has one of the highest percentiles
+
+of selection probability, as well as the interaction between CP2 and O2. These patterns are
+
+consistent with existing neuroscience findings and are particularly relevant for the P300 BCI
+
+speller paradigm, which requires both visual-language processing and sustained attention.
+
+Both T7 and CP5 record activity from the left temporal region (Kurihara et al. 2022),
+
+and enhanced coupling within this region aligns with previous evidence of left temporal
+
+                                             20
+Figure 7: Average percentiles for channel interaction selection probability stratified by
+responses to four questions: (a) without/with alcohol consumption in 24 hours, (b)
+with/without prior exposure to similar experiments, (c) reported the BCI difficult/easy
+after experiment, and (d) reported relaxed/anxious after calibration. For clarity, only
+edges with percentiles greater than 75% are shown.
+
+
+involvement during language-related processing (Michael et al. 2001, Trimmel et al. 2018).
+
+The CP2-O2 pair reflects parietal-occipital connectivity, and the strong effect observed here
+
+is supported by established evidence of parietal-occipital coupling during stimulus-driven
+
+visuospatial attention and during tasks involving visual and language-related processing
+
+(Indovina & Macaluso 2004, Aguilar & Grullon 2025).
+
+   To examine how channel interaction effects vary between participant groups, we plotted
+
+the average percentiles of probability of interaction selection stratified by questionnaire re-
+
+sponses in Figure 7. The plotted network represents the subset of connectivity effects that
+
+are consistently identified as predictive. A denser network indicates that predictive infor-
+
+mation is distributed across a broader set of channel interactions, suggesting a widespread
+
+and active network-level engagement during the task. Conversely, a sparser network would
+
+imply that only a small number of specific channel-pair interactions are reliably informa-
+
+
+
+                                              21
+tive. Participants who abstained from alcohol 24 hours prior to the experiment, had prior
+
+experience with similar tasks, reported the BCI typing task as difficult, or felt relaxed dur-
+
+ing the experiment exhibit denser networks on average than their respective counterparts.
+
+This suggests that channel interactions are more predictive and informative in these groups,
+
+consistent with prior evidence linking increased brain connectivity to task familiarity, men-
+
+tal and physical state, cognitive effort, and the absence of alcohol-related disruptions (Aben
+
+et al. 2020, Elton et al. 2021, Noad et al. 2024, Wang et al. 2024).
+
+   The T7-CP5 pair identified in Figure 6 appears in all stratified plots, while the CP2-O2
+
+pair is observed in all stratified plots except for participants with prior exposure. Nev-
+
+ertheless, the relative strength of T7-CP5 and CP2-O2 vary considerably across groups,
+
+despite their presence in most plots. In general, the stratified plots exhibit substantially
+
+different patterns compared to the aggregate plot. This heterogeneity of signal interactions
+
+across participant groups highlights the value of the proposed method and helps explain
+
+why models that account for signal interactions can outperform those that do not.
+
+
+
+4.4    Temporal dynamics of channel selection
+
+To illustrate how the proposed method identifies informative channels over time, we present
+
+the channel selection results for one representative subject. Figure 8 shows the posterior
+
+channel selection probabilities at multiple time points following stimulus onset. Panel
+
+(a) displays results from SIRTGP-P with signal interaction (SI), while panel (b) shows
+
+the corresponding results from RTGP-P without SI. The subject reported being relaxed
+
+and perceived the task as difficult. For this subject, SIRTGP-P achieves 100% prediction
+
+accuracy, which represents a 7.1% improvement (from 92.9% to 100%) over RTGP-P. This
+
+observation is consistent with our findings that participants who reported being relaxed
+
+during calibration and who found the BCI experiment difficult tend to benefit more from
+
+incorporating SI into the prediction model.
+
+                                              22
+Figure 8: Posterior channel selection probability at different time points after the onset of
+stimulus presentation for one subject based on (a) SIRTGP-P and (b) RTGP-P.
+
+
+   Figure 9 presents the average target and nontarget signals across for 32 channels for
+
+the same subject. The target responses exhibit a clear and typical P300 morphology at
+
+approximately 300 ms post-stimulus (spanning 200-400 ms), which serves as the primary
+
+
+                                             23
+Figure 9: Average target (orange) and nontarget (blue) signals for all 32 channels from the
+same subject of Figure 8.
+
+
+discriminative feature between target and nontarget flashes. A notable pattern emerges
+
+when comparing the two panels in Figure 8. The SI-enabled model in panel (a) identifies
+
+a larger set of informative channels around the P300 latency window. In contrast, panel
+
+(b) shows broadly similar, but consistently weaker selection patterns when SI is omitted
+
+around 300 ms. These results provide a concrete example in which explicitly modeling
+
+signal interaction enables the method to detect more spatially distributed task-relevant
+
+features and to select channels that are temporally consistent, which in turn, improves
+
+predictive performance.
+
+
+
+
+                                            24
+5      Simulations
+
+5.1     Data generation
+
+We consider simulating data under a standard P300 speller setting with R = 19 charac-
+
+ters, corresponding to “THE QUICK BROWN FOX”, including three spaces. For each
+
+character, S = 5 sequences are generated, each consisting of J = 12 stimulus flashes
+
+with corresponding target and nontarget labels. To resemble realistic EEG recordings, we
+
+decompose the observed signal into stimulus-evoked components and background noise.
+
+Specifically, for channel k = 1, . . . , K and flash i = 1, . . . , n, the signal is generated as
+
+Xki (t) = α1k (t)Yi + α0k (t)(1 − Yi ) + ε1ki (t)Yi + ε0ki (t)(1 − Yi ) + εki (t), where Yi indicates
+
+whether the ith stimulus is a target (Yi = 1) or a nontarget (Yi = 0), K = 6 is the
+
+number of channels, and n = R × S × J. The functions α1k (t) and α0k (t) represent the
+
+average evoked responses to target and nontarget stimuli at channel k, respectively, and
+
+are shown in Figure 10. ε1ki (t) and ε0ki (t) represent the noise added to the target and
+
+the nontarget stimulus respectively. The random noise εki (t) characterizes the intrinsic
+
+brain activity of channel k unrelated to the stimulus responses. We generate the noise
+
+term as follows, for i = 1, . . . , n and t = 1, . . . , T , (ε11i (t), . . . , ε1Ki (t))⊤ ∼ N(0, τ 2 Σ1 ) and
+
+(ε01i (t), . . . , ε0Ki (t))⊤ ∼ N(0, τ 2 Σ0 ) and εki (t) ∼ N(0, σ 2 ), where
+                                                                                                  
+           1       0.7 0.1 0.1 0.1 0.2          1                    0.1 0.1 0.5 0.1 0.8
+                                                                                        
+                                                                                        
+           0.7      1 0.1 0.1 0.6 0.1 
+                                                 0.1                   1 0.1 0.1 0.3 0.1 
+                                                                                         
+                                                                                        
+           0.1     0.1 1 0.7 0.1 0.1            0.1                  0.1 1 0.1 0.1 0.1 
+                                                                                        
+      Σ1 = 
+           
+                                        and Σ0 = 
+                                                 
+                                                                                           .
+                                                                                           
+           0.1     0.1 0.7 1 0.1 0.1            0.5                  0.1 0.1 1 0.1 0.1 
+                                                                                        
+                                                                                        
+                                                                                        
+           0.1     0.6 0.1 0.1 1 0.4            0.1                  0.3 0.1 0.1 1 0.3
+                                                                                        
+                                                                                        
+            0.2     0.1 0.1 0.1 0.4 1               0.8                 0.1 0.1 0.1 0.3 1
+
+The covariance structures Σ1 and Σ0 are designed to reflect channel-level spatial dependence
+
+under target and nontarget conditions. We generated data under varying signal and noise
+
+                                                     25
+Figure 10: Channel-wise average evoked responses used in the simulation. The target and
+
+nontarget responses correspond to α1k (t) and α0k (t), respectively.
+
+
+conditions by changing the peak ratio α, interaction strength τ 2 , and noise variance σ 2 .
+
+We consider α ∈ {2.5, 3.0, 3.5}, τ 2 ∈ {1, 4, 9}, and σ 2 ∈ {20, 25, 40}, where α = 2.5, τ 2 = 9,
+
+and σ 2 = 20 serve as the baseline configuration. We repeat each setting for 50 simulation
+
+replicates.
+
+
+
+5.2    Competing methods and evaluation metrics
+
+We consider the four variants within the RTGP framework and compare our methods with
+
+EEGNet (Lawhern et al. 2018), extreme gradient boosting (XGBoost) (Sarraf, Pattnaik
+
+et al. 2023), logistic regression (Sakamoto & Aono 2009), support vector classification
+
+(SVC) (Kaper et al. 2004), random forest (RF), and stepwise linear discriminant analysis
+
+(SWLDA) (Farwell & Donchin 1988). In addition, we include the soft-thresholded Gaussian
+
+process prior with a probit link (STGP-P) as a baseline Bayesian functional regression
+
+model, in contrast to the relaxed-thresholding mechanism adopted by the RTGP variants.
+
+All competing methods are implemented using the same software and hyperparameter
+
+settings as in Section 4.
+
+   We summarize the mean and standard deviation of character-level prediction accuracy
+
+of each method over the 50 replicates to evalutation the predictive performance. In addition,
+
+we compare the selection accuracy between the SWLDA benchmark and the proposed SI-
+
+RTGP. For channel k = 1, . . . , K and time point t = 1, . . . , T , let νk (t) = I |α1k (t) −
+
+
+
+                                               26
+            
+α0k (t)| > 0 denote the true signal support, and define its estimated counterpart as ν̂k (t) =
+
+1 if |β̂k (t)| > 0, ν̂k (t) = 0, otherwise. We quantify selection performance using the effective
+
+selection window ratio (ESWR) and the exclusive effective window ratio (EEWR), defined
+
+respectively as
+
+                  {t : ν̂k (t) = 1 & νk (t) = 1}                        {t : ν̂k (t) = 0 & νk (t) = 0}
+ESWR(νk ) =                                      ,        EEWR(νk ) =                                  .
+                           {t : νk (t) = 1}                                      {t : νk (t) = 0}
+
+Accordingly, ESWR reflects how effectively a method recovers true signal time points,
+
+whereas EEWR reflects how effectively it excludes non-signal time points.
+
+
+
+5.3    Simulation results
+
+Table 2 reports the character-level prediction accuracy under different simulation settings.
+
+Overall, the proposed SIRTGP methods achieve the best prediction performance across all
+
+settings. In most configurations, SIRTGP-P method achieves the highest accuracy among
+
+the competing approaches.
+
+   As the peak ratio α increases, prediction accuracy generally improves. The advantage
+
+of SIRTGP is most pronounced under weak main effects (α = 2.5). Under stronger main
+
+effects, several machine learning methods exhibit less stable behavior, whereas SIRTGP
+
+remains consistently competitive. Prediction accuracy decreases as the noise variance σ 2
+
+increases for all methods. Nevertheless, SIRTGP maintains superior performance across all
+
+noise levels. In addition, increasing τ 2 strengthens channel-level spatial dependence in the
+
+noise process. In this setting, SIRTGP achieves the largest performance gains and the best
+
+overall accuracy, which highlights the benefit of explicitly modeling interaction structure
+
+when such dependence is present.
+
+   Table 3 reports the selection accuracy results. Compared with SWLDA, SIRTGP at-
+
+tains substantially higher ESWR on channels with true signal activity, indicating more
+
+accurate recovery of contiguous signal-support regions. In contrast, SWLDA tends to
+
+                                                     27
+Table 2: Character-level prediction accuracy under different simulation settings. Mean:
+mean accuracy; SD: standard deviation.
+                    (a) Different peak ratios under σ 2 = 20 and τ 2 = 9.
+                Method            α = 2.5           α = 3.0          α = 3.5
+                               Mean (SD)         Mean (SD)        Mean (SD)
+                EEGNet         0.804 (0.196)     0.916 (0.135)    0.784 (0.236)
+                LR             0.524 (0.204)     0.769 (0.190)    0.583 (0.298)
+                RF             0.502 (0.223)     0.769 (0.210)    0.545 (0.321)
+                SVC            0.694 (0.220)     0.886 (0.147)    0.693 (0.278)
+                SWLDA          0.689 (0.229)     0.885 (0.159)    0.683 (0.286)
+                XGBoost        0.498 (0.244)     0.645 (0.222)    0.428 (0.279)
+                STGP-P         0.530 (0.254)     0.650 (0.282)    0.719 (0.283)
+                RTGP-L         0.715 (0.214)     0.882 (0.153)    0.952 (0.087)
+                RTGP-P         0.752 (0.216)     0.885 (0.151)    0.950 (0.093)
+                SIRTGP-L       0.897 (0.138)     0.946 (0.092)    0.974 (0.057)
+                SIRTGP-P      0.931 (0.115)     0.959 (0.078)    0.978 (0.048)
+
+                  (b) Different noise variances under α = 2.5 and τ 2 = 9.
+                Method            σ 2 = 20          σ 2 = 25         σ 2 = 40
+                               Mean (SD)         Mean (SD)        Mean (SD)
+                EEGNet         0.804 (0.196)     0.742 (0.213)    0.694 (0.237)
+                LR             0.524 (0.204)     0.450 (0.192)    0.417 (0.208)
+                RF             0.502 (0.223)     0.415 (0.201)    0.370 (0.228)
+                SVC            0.694 (0.220)     0.611 (0.220)    0.560 (0.244)
+                SWLDA          0.689 (0.229)     0.605 (0.230)    0.548 (0.252)
+                XGBoost        0.498 (0.244)     0.408 (0.274)    0.393 (0.261)
+                STGP-P         0.530 (0.254)     0.493 (0.244)    0.405 (0.208)
+                RTGP-L         0.715 (0.214)     0.662 (0.218)    0.506 (0.200)
+                RTGP-P         0.752 (0.216)     0.691 (0.223)    0.547 (0.214)
+                SIRTGP-L       0.897 (0.138)     0.860 (0.160)    0.700 (0.209)
+                SIRTGP-P      0.931 (0.115)     0.893 (0.150)    0.768 (0.207)
+
+               (c) Different interaction strengths under α = 2.5 and σ 2 = 20.
+                Method            τ2 = 1            τ2 = 4           τ2 = 9
+                               Mean (SD)         Mean (SD)        Mean (SD)
+                EEGNet         0.434 (0.191)     0.810 (0.221)    0.804 (0.196)
+                LR             0.829 (0.185)     0.603 (0.273)    0.524 (0.204)
+                RF             0.588 (0.224)     0.576 (0.299)    0.502 (0.223)
+                SVC            0.749 (0.205)     0.727 (0.259)    0.694 (0.220)
+                SWLDA          0.762 (0.212)     0.723 (0.266)    0.689 (0.229)
+                XGBoost        0.572 (0.237)     0.536 (0.238)    0.498 (0.244)
+                STGP-P         0.618 (0.276)     0.582 (0.274)    0.530 (0.254)
+                RTGP-L         0.828 (0.177)     0.787 (0.193)    0.715 (0.214)
+                RTGP-P        0.837 (0.181)      0.801 (0.201)    0.752 (0.216)
+                SIRTGP-L       0.801 (0.186)     0.834 (0.170)    0.897 (0.138)
+                SIRTGP-P       0.827 (0.190)    0.863 (0.163)    0.931 (0.115)
+
+
+
+
+                                               28
+Table 3: Selection accuracy measured by ESWR and EEWR under α = 2.5, σ 2 = 20, and
+τ 2 = 9. The reported numbers are Mean (SD) across simulation replications.
+
+      Method     Ch 1          Ch 2            Ch 3            Ch 4          Ch 5          Ch 6
+ ESWR SIRTGP 0.465 (0.103) 0.518 (0.144)   0.479 (0.100)   0.497 (0.123)       –             –
+      SWLDA 0.393 (0.067) 0.395 (0.055)    0.378 (0.066)   0.425 (0.082)       –             –
+ EEWR SIRTGP 0.918 (0.087) 0.940 (0.073)   0.944 (0.090)   0.941 (0.074) 0.960 (0.046) 0.971 (0.039)
+      SWLDA 0.936 (0.052) 0.934 (0.067)    0.949 (0.058)   0.935 (0.059) 0.947 (0.031) 0.941 (0.034)
+
+
+
+select isolated time points, which leads to reduced coverage of the true signal window.
+
+Meanwhile, both methods achieve comparably high EEWR, suggesting effective control of
+
+false discoveries in non-signal regions.
+
+
+
+6     Conclusion
+
+In this study, we propose a Bayesian time-varying regression model with channel interac-
+
+tions via the relaxed-thresholded Gaussian process (RTGP) priors for P300 BCI speller.
+
+The proposed SIRTGP models achieves the overall best predictive performance under vary-
+
+ing signal and noise conditions in simulation, and shows superior temporal channel selection
+
+compared with the baseline method. The application of SIRTGP on a publicly available
+
+dataset demonstrates its real-world advantage compared to common predictive models used
+
+in P300 speller. Furthermore, through the propsed framework, we identify key channels
+
+and channel pairs that contribute to P300 detection, which offers insights for future BCI
+
+study and neural signal modeling.
+
+
+
+Data and Code Availability
+
+The data used this study is from a publicly available EEG dataset for RSVP and P300
+
+speller brain–computer interface experiments (Won et al. 2022). The dataset is openly
+
+accessible at https://doi.org/10.6084/m9.figshare.c.5769449. Our method has a Python
+
+implementation and is available at https://github.com/yuxiao-66/rtgp.
+
+
+                                             29
+References
+
+Aben, B., Calderon, C. B., Van den Bussche, E. & Verguts, T. (2020), ‘Cognitive effort
+
+  modulates connectivity between dorsal anterior cingulate cortex and task-relevant corti-
+
+  cal areas’, Journal of Neuroscience 40(19), 3838–3848.
+
+
+Aguilar, O. & Grullon, R. (2025), ‘Spatial dynamics and functional connectivity in eeg:
+
+  Insights from lexical processing’, bioRxiv pp. 2025–04.
+
+
+Barthélemy, Q., Chevallier, S., Bertrand-Lalo, R. & Clisson, P. (2023), ‘End-to-end p300
+
+  bci using bayesian accumulation of riemannian probabilities’, Brain-Computer Interfaces
+
+  10(1), 50–61.
+
+
+Cai, Q., Kang, J. & Yu, T. (2020), ‘Bayesian network marker selection via the thresholded
+
+  graph laplacian gaussian prior’, Bayesian Analysis 15(1), 79.
+
+
+Costumero, V., Bueichekú, E., Adrián-Ventura, J. & Ávila, C. (2020), ‘Opening or clos-
+
+  ing eyes at rest modulates the functional connectivity of v1 with default and salience
+
+  networks’, Scientific reports 10(1), 9137.
+
+
+Dal Seno, B., Matteucci, M. & Mainardi, L. T. (2009), ‘The utility metric: a novel method
+
+  to assess the overall performance of discrete brain–computer interfaces’, IEEE Transac-
+
+  tions on Neural Systems and Rehabilitation Engineering 18(1), 20–28.
+
+
+Ditthapron, A., Banluesombatkul, N., Ketrat, S., Chuangsuwanich, E. & Wilaiprasitporn,
+
+  T. (2019), ‘Universal joint feature extraction for p300 eeg classification using multi-task
+
+  autoencoder’, IEEE Access 7, 68415–68428.
+
+
+Douw, L., Nieboer, D., van Dijk, B. W., Stam, C. J. & Twisk, J. W. (2014), ‘A healthy
+
+  brain in a healthy body: brain network correlates of physical and mental fitness’, PLoS
+
+  One 9(2), e88202.
+
+                                               30
+Elton, A., Garbutt, J. C. & Boettiger, C. A. (2021), ‘Risk and resilience for alcohol use
+
+  disorder revealed in brain functional connectivity’, NeuroImage: Clinical 32, 102801.
+
+
+Farwell, L. A. & Donchin, E. (1988), ‘Talking off the top of your head: toward a mental
+
+  prosthesis utilizing event-related brain potentials’, Electroencephalography and clinical
+
+  Neurophysiology 70(6), 510–523.
+
+
+Fazel-Rezai, R., Allison, B. Z., Guger, C., Sellers, E. W., Kleih, S. C. & Kübler, A. (2012),
+
+  ‘P300 brain computer interface: current challenges and emerging trends’, Frontiers in
+
+  neuroengineering 5, 14.
+
+
+Friston, K. J., Buechel, C., Fink, G. R., Morris, J., Rolls, E. & Dolan, R. J. (1997), ‘Psy-
+
+  chophysiological and modulatory interactions in neuroimaging’, Neuroimage 6(3), 218–
+
+  229.
+
+
+Griffin, J. & Brown, P. (2017), ‘Hierarchical shrinkage priors for regression models’,
+
+  Bayesian Analysis 12(1), 135–159.
+
+
+Hao, N., Feng, Y. & Zhang, H. H. (2018), ‘Model selection for high-dimensional
+
+  quadratic regression via regularization’, Journal of the American Statistical Association
+
+  113(522), 615–625.
+
+
+Indovina, I. & Macaluso, E. (2004), ‘Occipital–parietal interactions during shifts of exoge-
+
+  nous visuospatial attention: trial-dependent changes of effective connectivity’, Magnetic
+
+  resonance imaging 22(10), 1477–1486.
+
+
+Ismaylova, E., Di Sante, J., Gouin, J.-P., Pomares, F. B., Vitaro, F., Tremblay, R. E. &
+
+  Booij, L. (2018), ‘Associations between daily mood states and brain gray matter volume,
+
+  resting-state functional connectivity and task-based activity in healthy adults’, Frontiers
+
+  in Human Neuroscience 12, 168.
+
+
+                                             31
+Kabbara, A., Khalil, M., El-Falou, W., Eid, H. & Hassan, M. (2016), ‘Functional brain
+
+  connectivity as a new feature for p300 speller’, PLoS One 11(1), e0146282.
+
+
+Kang, J., Reich, B. J. & Staicu, A.-M. (2018), ‘Scalar-on-image regression via the soft-
+
+  thresholded gaussian process’, Biometrika 105(1), 165–184.
+
+
+Kaper, M., Meinicke, P., Grossekathoefer, U., Lingner, T. & Ritter, H. (2004), ‘Bci compe-
+
+  tition 2003-data set iib: support vector machines for the p300 speller paradigm’, IEEE
+
+  Transactions on biomedical Engineering 51(6), 1073–1076.
+
+
+Kshirsagar, G. B. & Londhe, N. D. (2019), ‘Weighted ensemble of deep convolution neu-
+
+  ral networks for single-trial character detection in devanagari-script-based p300 speller’,
+
+  IEEE Transactions on Cognitive and Developmental Systems 12(3), 551–560.
+
+
+Kurihara, Y., Takahashi, T. & Osu, R. (2022), ‘The relationship between stability of in-
+
+  terpersonal coordination and inter-brain eeg synchronization during anti-phase tapping’,
+
+  Scientific reports 12(1), 6164.
+
+
+Kwak, N.-S., Müller, K.-R. & Lee, S.-W. (2015), ‘A lower limb exoskeleton control sys-
+
+  tem based on steady state visual evoked potentials’, Journal of neural engineering
+
+  12(5), 056009.
+
+
+Lawhern, V. J., Solon, A. J., Waytowich, N. R., Gordon, S. M., Hung, C. P. & Lance, B. J.
+
+  (2018), ‘Eegnet: a compact convolutional neural network for eeg-based brain–computer
+
+  interfaces’, Journal of neural engineering 15(5), 056013.
+
+
+Lin, Z., Si, Y. & Kang, J. (2023), ‘Latent subgroup identification in image-on-scalar regres-
+
+  sion’, arXiv preprint arXiv:2307.00129 .
+
+
+Ma, G., Kang, J., Thompson, D. E. & Huggins, J. E. (2023), ‘Bci-utility metric for asyn-
+
+
+
+
+                                             32
+  chronous p300 brain-computer interface systems’, IEEE Transactions on Neural Systems
+
+  and Rehabilitation Engineering 31, 3968–3977.
+
+
+Ma, T., Li, Y., Huggins, J. E., Zhu, J. & Kang, J. (2022), ‘Bayesian inferences on neu-
+
+  ral activity in eeg-based brain-computer interface’, Journal of the American Statistical
+
+  Association 117(539), 1122–1133.
+
+
+Michael, E. B., Keller, T. A., Carpenter, P. A. & Just, M. A. (2001), ‘fmri investigation of
+
+  sentence comprehension by eye and by ear: Modality fingerprints on cognitive processes’,
+
+  Human brain mapping 13(4), 239–252.
+
+
+Noad, K. N., Watson, D. M. & Andrews, T. J. (2024), ‘Familiarity enhances functional
+
+  connectivity between visual and nonvisual regions of the brain during natural viewing’,
+
+  Cerebral Cortex 34(7), bhae285.
+
+
+Pfurtscheller, G., Müller-Putz, G. R., Scherer, R. & Neuper, C. (2008), ‘Rehabilitation
+
+  with brain-computer interface systems’, Computer 41(10), 58–65.
+
+
+Philip, J. T. & George, S. T. (2020), ‘Visual p300 mind-speller brain-computer interfaces:
+
+  a walk through the recent developments with special focus on classification algorithms’,
+
+  Clinical EEG and neuroscience 51(1), 19–33.
+
+
+Sakamoto, Y. & Aono, M. (2009), Supervised adaptive downsampling for P300-based brain-
+
+  computer interface, in ‘2009 Annual International Conference of the IEEE Engineering
+
+  in Medicine and Biology Society’, IEEE, pp. 567–570.
+
+
+Sarraf, J., Pattnaik, P. et al. (2023), ‘A study of classification techniques on P300 speller
+
+  dataset’, Materials Today: Proceedings 80, 2047–2050.
+
+
+Shi, R. & Kang, J. (2015), ‘Thresholded multiscale gaussian processes with applica-
+
+
+
+
+                                             33
+  tion to bayesian feature selection for massive neuroimaging data’, arXiv preprint
+
+  arXiv:1504.06074 .
+
+
+Shokri-Kojori, E., Tomasi, D., Wiers, C. E., Wang, G.-J. & Volkow, N. D. (2017), ‘Alcohol
+
+  affects brain functional connectivity and its coupling with behavior: greater effects in
+
+  male heavy drinkers’, Molecular psychiatry 22(8), 1185–1195.
+
+
+Terstege, D. J., Durante, I. M. & Epp, J. R. (2022), ‘Brain-wide neuronal activation and
+
+  functional connectivity are modulated by prior exposure to repetitive learning episodes’,
+
+  Frontiers in Behavioral Neuroscience 16, 907707.
+
+
+Tononi, G. & Edelman, G. M. (1998), ‘Consciousness and complexity’, science
+
+  282(5395), 1846–1851.
+
+
+Trimmel, K., van Graan, A. L., Caciagli, L., Haag, A., Koepp, M. J., Thompson, P. J.
+
+  & Duncan, J. S. (2018), ‘Left temporal lobe language network connectivity in temporal
+
+  lobe epilepsy’, Brain 141(8), 2406–2418.
+
+
+Van Erp, J., Lotte, F. & Tangermann, M. (2012), ‘Brain-computer interfaces: beyond
+
+  medical applications’, Computer 45(4), 26–34.
+
+
+Wang, C., Jiang, B. & Zhu, L. (2021), ‘Penalized interaction estimation for ultrahigh
+
+  dimensional quadratic regression’, Statistica Sinica 31(3), 1549–1570.
+
+
+Wang, W., Li, H., Wang, Y., Liu, L. & Qian, Q. (2024), ‘Changes in effective connectivity
+
+  during the visual-motor integration tasks: a preliminary f-nirs study’, Behavioral and
+
+  Brain Functions 20(1), 4.
+
+
+Won, K., Kwon, M., Ahn, M. & Jun, S. C. (2022), ‘EEG dataset for RSVP and P300
+
+  speller brain-computer interfaces’, Scientific data 9(1), 388.
+
+
+
+
+                                             34
+Wu, B., Guo, Y. & Kang, J. (2024), ‘Bayesian spatial blind source separation via the thresh-
+
+  olded gaussian process’, Journal of the American Statistical Association 119(545), 422–
+
+  433.
+
+
+Wu, B., Wu, K. & Kang, J. (2025), ‘Bayesian scalar-on-image regression with a spa-
+
+  tially varying single-layer neural network prior’, Journal of Machine Learning Research
+
+  26(116), 1–38.
+
+
+Xu, N., Gao, X., Hong, B., Miao, X., Gao, S. & Yang, F. (2004), ‘Bci competition 2003-
+
+  data set iib: enhancing p300 wave detection using ica-based subspace projections for bci
+
+  applications’, IEEE transactions on biomedical engineering 51(6), 1067–1072.
+
+
+Xu, Y., Johnson, T. D., Heitzeg, M. & Kang, J. (2026), ‘Bayesian image mediation analysis’,
+
+  Journal of the American Statistical Association In Press.
+
+
+Xu, Y. & Kang, J. (2025), Bayesian image regression with soft-thresholded conditional
+
+  autoregressive prior, in ‘The Thirteenth International Conference on Learning Represen-
+
+  tations’.
+
+
+Zhang, Y., Zhou, G., Jin, J., Zhao, Q., Wang, X. & Cichocki, A. (2015), ‘Sparse bayesian
+
+  classification of eeg for brain–computer interface’, IEEE transactions on neural networks
+
+  and learning systems 27(11), 2256–2267.
+
+
+Zhao, B., Huggins, J. E. & Kang, J. (2025), ‘Bayesian inference on brain-computer inter-
+
+  faces via glass’, Journal of the American Statistical Association In Press.
+
+
+
+
+                                            35
+

@@ -1,0 +1,1578 @@
+                                                Inferring Active Neural Circuits Using Diffusion
+                                                                    Scores
+
+
+                                                              Savik Kinger                                       Johannes Bertram
+                                                      Department of Computer Science                       Department of Computer Science
+                                                             Yale University                                   University of Tübingen
+arXiv:2605.02852v1 [q-bio.NC] 4 May 2026
+
+
+
+
+                                                            Luciano Dyballa                                       Eviatar Yemini
+                                                     School of Science & Technology                        Department of Neurobiology
+                                                              IE University                             University of Massachusetts Amherst
+
+                                                                                    Steven W. Zucker
+                                                                   Depts. of Computer Science and Biomedical Engineering
+                                                                                     Wu Tsai Institute
+                                                                                      Yale University
+
+
+
+                                                                                              Abstract
+                                                     In biological systems, neural circuits compute through directed, short-latency inter-
+                                                     actions whose effects unfold across multiple time scales and behavioral contexts.
+                                                     We address the problem of inferring these local, lag-specific interactions from
+                                                     sampled neural population activity under varying stimuli, without assuming a para-
+                                                     metric form for the underlying dynamics. Our approach leverages denoising score
+                                                     models by estimating joint-window scores over consecutive activity snapshots
+                                                     (i.e., brain states) and converting these scores into calibrated, directed edge tests
+                                                     via cross-block score products. The key insight is that these products recover the
+                                                     Jacobian of the transition map between brain states under nonlinear dynamics. To
+                                                     cleanly separate lag-specific effects, we introduce minimal multi-block windows
+                                                     that condition on intermediate time points, avoiding the omitted-lag bias inherent
+                                                     in pairwise analyses. The resulting method, Score–Block Time Graphs (SBTG),
+                                                     identifies lag-specific directed interactions in sampled neuronal population data.
+                                                     We specifically apply SBTG to whole-brain C. elegans calcium imaging data to
+                                                     recover lag-specific circuit structure not resolved by current methods, including
+                                                     improved alignment with independent connectomes, cell-type-specific temporal
+                                                     organization, and neuromodulatory profiles consistent with known receptor kinet-
+                                                     ics. These findings highlight the potential for SBTG to serve as a practical “AI
+                                                     for science” tool by turning high-dimensional neural population recordings into
+                                                     statistically testable circuit hypotheses.
+
+
+                                           1    Introduction
+                                           Neural circuits consist of directed interactions and modulators operating across multiple time scales.
+                                           A sensory neuron responds to a stimulus, triggering activity in downstream interneurons within
+                                           tens to hundreds of milliseconds, which in turn drive motor outputs that shape behavior. This
+                                           directed flow of information—who influences whom, and on what timescale—is the computational
+                                           foundation of neural processing. Modern high-throughput recording technologies, such as whole-
+                                           brain calcium imaging, capture the simultaneous activity of tens to thousands of neurons in behaving
+                                           animals [Siegle et al., 2021, Semedo et al., 2019], affording a dynamic view of the functional activity
+
+                                           Presented at 90th Cold Spring Harbor Laboratory Symposium on Quantitative Biology, May 2026.
+  A C. Elegans     B Neural Activity Traces                                                        C                D Inferred
+  Connectome             No Stim          Butanone               Pentanedione        NaCl                           Connectome
+
+
+
+
+                  Activity
+
+
+
+
+                                                                                                   SBTG Algorithm
+                  Activity
+                  Activity                                Activity window:
+                                                                                            Time
+
+                                                     E Verification against Connectome
+
+Figure 1: Goal: inferring connections from activity. A: C. elegans (a small worm) with cartoon
+anatomical connectome. B: Available data: neural activity measurements for (3) sampled neurons.
+The activity window shows observed ”state” of brain at time t. C: SBTG algorithm; see Figure 2. D:
+Inferred putative functional connectome; i.e., which connections among neurons likely caused the
+state to evolve. E: Verification of putative connectome against anatomy.
+
+
+underlying sensation and behavior Flavell and Gordus [2022]. Yet these recordings capture only the
+observable outputs of the circuit, not the synaptic wiring diagrams that generate them, nor the wireless
+extrasynaptic signaling networks (e.g., neuromodulation via monoamines and neuropeptides) that are
+absent from anatomical connectomes Bargmann [2012], Bargmann and Marder [2013], Venkatesh
+et al. [2025], Bentley et al. [2016], Ripoll-Sánchez et al. [2023]. Recent work has shown a disconnect
+between static connectomes and dynamic functional activity measured in vivo, often revealing weak
+or inconsistent correspondence between these two circuit views Yemini et al. [2021], Susoy et al.
+[2021], Uzel et al. [2022], Randi et al. [2023], Currier and Clandinin [2025]. Understanding the
+origin of this disconnect is critical. We therefore ask: can directed, time-resolved circuit structure
+be recovered from population activity without prior anatomical knowledge? (Figure 1). The answer
+speaks to the emerging “AI for science” objective: using modern machine learning for extracting
+structured, falsifiable scientific conjectures from complex measurements [Bock et al., 2011].
+This problem has attracted substantial methodological effort, but existing approaches face funda-
+mental limitations: nonlinear dynamics, high-dimensional populations, and short recordings with
+strong temporal dependence. Vector autoregressive models and Granger causality require linearity
+assumptions that break down for saturating or state-dependent neural responses [Granger, 1969,
+Lütkepohl, 2005]. Point-process models strongly assume spike observations rather than calcium
+fluorescence [Hawkes, 1971]. Constraint-based causal discovery methods like PCMCI+ handle
+temporal dependence but rely on conditional-independence testing that limits scalability [Runge
+et al., 2020]. Meanwhile, score-based generative models have shown strong empirical alignment with
+neural population structure—yet their internals remain opaque: they do not reveal which edges carry
+the directed influence [Ozcelik and VanRullen, 2023, Kapoor et al., 2024].
+We build on a different perspective: the local geometry of joint distributions over consecutive activity
+snapshots. The score function—the gradient of the log-density—encodes how local probability mass
+evolves as one moves through neural activity space. For a window of observations (xt , xt+1 ), the
+cross-block score product asks how the score with respect to the future state depends on perturbations
+of the past state. This quantity is intimately related to the mixed Hessian of the log-density, which—
+under additive-noise dynamics—corresponds to the Jacobian of the underlying state transition map.
+The Jacobian is precisely the object of interest: its (j, i) entry quantifies how strongly neuron i at
+time t appears to influence neuron j at time t+1. Cross-block score products thus provide a window
+into directed causal structure, estimable from a learned score model without assuming any parametric
+form for the dynamics.
+A critical challenge arises when interactions span multiple timescales, as is common in biological
+neural circuits. In animal brains, fast synaptic transmission operates in tens of milliseconds while
+slow neuromodulatory signals unfold over longer periods Greengard [2001], Bargmann [2012],
+Bargmann and Marder [2013], Watteyne et al. [2024]. Naively estimating coupling from pairs
+(xt , xt+1 ) conflates these effects: the inferred “lag-1” coupling mixes direct lag-1 influence with
+indirect effects mediated through unconditioned intermediate time points. This reflects both multi-
+step links in the connectome Randi et al. [2023], Dvali et al. [2025], Creamer et al. [2025] and the
+
+
+                                                                 2
+effect of diffusive neuromodulators Bargmann [2012], Bargmann and Marder [2013], Bentley et al.
+[2016], Watteyne et al. [2024], Ripoll-Sánchez et al. [2023]. Formally, this is the multi-lag analog of
+omitted variable bias in regression, and it means that pair-window methods cannot cleanly separate
+timescale-specific causal effects. Our solution is to construct minimal multi-block windows that
+condition on all intermediate time points, separating the contribution of each timescale. For lag ℓ,
+we model the joint distribution of (xt , xt+1 , . . . , xt+ℓ ) and extract the cross-block score product
+between the first and last blocks. This yields per-lag Jacobian estimates that are identifiable under a
+nonlinear multi-lagged model of brain state dynamics.
+
+             A Activity Manifold with Tangent Space                      C Score Field on   D Edge Discovery
+                                                                                             1 Couple gradients to
+             Neuron 1
+                                                                                               find interactions
+
+
+
+
+                                                                                             2   Mean Test to identify
+                   Neuron 2                               Neuron 3                               significant edges
+             B Train DSM Model
+                                                                                             3 SBTG graph predicts
+                                                      Learn score
+                                                                                                 functional connectome
+               Construct window
+
+
+
+Figure 2: Learning connections between states. A: State of the brain evolve as dynamics on some
+manifold in neural space. We model the transitions z; i.e., the tangents to these dynamics (tangent
+space Txt+1 shown). B: Training DSM model on activity transition window to learn scores. C:
+Cartoon score field on Txt+1 , showing the score pointing towards higher probability transitions. D:
+Steps to infer likely connections.
+
+We call the resulting method Score–Block Time Graphs (SBTG), reflecting its construction from
+joint-window score geometry and its output as lag-specific directed graphs. SBTG incorporates
+several design choices critical for real neural data: null-contrast hyperparameter selection that avoids
+circularity with ground truth, cross-fitting for valid out-of-sample inference, and heteroskedasticity
+and autocorrelation consistent (HAC) standard errors for temporal dependence. The output is a set of
+lag-specific directed graphs with calibrated significance and sign information.
+Whole-brain C. elegans calcium imaging data provides a particularly well-aligned and controlled
+setting for this approach. C. elegans’ compact nervous system and stereotyped wiring reduce the
+severity of hidden-neuron confounding and support pooling partially overlapping recordings under a
+shared-dynamics assumption, while independent connectome atlases provide directed references for
+downstream validation. We therefore make the following contributions:
+1. Approach. We develop Score–Block Time Graphs (SBTG), a method that provably recovers lag-
+   specific Jacobians (in expectation) from cross-block score products under additive-noise dynamics
+   (Theorem 4.1).
+2. Dynamic connectome identification. Applying SBTG to whole-brain C. elegans calcium imaging,
+   we recover lag-specific directed structure that aligns with independent connectomes and reveals
+   biologically meaningful organization across time scales.
+
+
+2   Related Work
+
+Neural Population Connectivity. Large-scale extracellular probes and dense optical imaging have
+shifted systems neuroscience from single-unit tuning to population interactions, motivating meth-
+ods that respect both the local geometry and the directed temporal structure of cortical dynamics.
+Empirical work suggests that information exchange across areas is confined to low-dimensional
+“communication subspaces,” often expressed over specific temporal delays, so that effective cou-
+pling is expressed in constrained directions of population activity rather than uniformly across
+neurons [Semedo et al., 2019]. Meanwhile, surveys in mouse visual cortex show functional hier-
+archies consistent with anatomical pathways [Siegle et al., 2021], and classic EM-plus-physiology
+studies link response tuning to local microcircuit wiring [Bock et al., 2011]. This motivates learn-
+ing time-directed, lag-specific interactions rather than static correlations. However, most existing
+population-level approaches either summarize interactions at a single timescale or rely on parametric
+dynamical assumptions, limiting their ability to resolve multi-timescale circuit structure.
+
+
+                                                                     3
+Time-Series Structure Learning. Classical approaches include linear VAR models and Granger
+causality, which are well understood but struggle when effects are nonlinear and conditioning sets are
+large [Granger, 1969, Lütkepohl, 2005]. Point-process models such as Hawkes processes capture
+spike-train dynamics yet impose strong parametric assumptions and require careful regularization in
+high dimension [Hawkes, 1971]. Constraint-based discovery methods adapted to time series (e.g.,
+PCMCI+ ) explicitly handle autocorrelation and reduce conditioning sets, but still rely on conditional-
+independence testing and can face power/computation challenges as variables and lags grow [Runge
+et al., 2020]. Smooth DAG optimization methods and time-series variants (e.g., Dynotears and related
+approaches) are effective under restrictive assumptions but are not designed for high-dimensional
+nonlinear population dynamics without strong priors [Pamfil et al., 2020, Zheng et al., 2018, Yu et al.,
+2019]. Recent deep-learning approaches frame connectivity inference variously as latent-variable
+graph inference (NRI [Kipf et al., 2018]), low-rank dynamical reconstruction (LINT [Valente et al.,
+2022]), or transformer-based attention recovery (NetFormer [Lu et al., 2025]); we benchmark against
+all three on the empirical C. elegans setting in Appendix B.5.1.
+Score-Based Modeling for Structure. Denoising score matching and diffusion-style models estimate
+the score ∇ log p(x), enabling scalable modeling without normalized likelihoods [Hyvärinen, 2005,
+Vincent, 2011, Song and Ermon, 2019, Song et al., 2021]. Beyond images, these models are
+increasingly aligned with neural data, motivating the use of scores as a representation of local
+geometry of neural window distributions [Ozcelik and VanRullen, 2023, Kapoor et al., 2024]. Recent
+score-based causal discovery approaches target mainly i.i.d. settings or specific families of perturbed
+systems [Varici et al., 2023, Montagna et al., 2023, Zhu et al., 2023]. Our work departs from this by
+targeting lagged, multi-stimulus neural time series via joint-window score geometry and by converting
+scores into statistically calibrated, directed edge tests with explicit lag interpretation.
+
+3   Problem Statement
+We now formalize the inference problem, introducing multi-lag neural dynamics, the central role
+of the coupling Hessian, and the practical challenges posed by partial observability across multiple
+recordings.
+Multi-Lag Neural Dynamics. We model population neural activity as a discrete-time stochastic
+process observed at a fixed sampling rate. Let xt ∈ Rn denote the activity of n neurons at time t.
+In our C. elegans data, the sampling rate is 4 Hz (4 3D-image volumes/second), so each time step
+corresponds to 250 ms—a timescale relevant for both fast chemical synapses and slower modulatory
+effects. Our central modeling assumption is that the future state depends on a finite history of past
+states through a nonlinear transition map with additive noise:
+                               xt+1 = g(xt , xt−1 , . . . , xt−L+1 ) + εt ,                           (1)
+             Ln       n
+where g : R → R is a differentiable transition function encoding the circuit’s computational
+structure, L is the lag order, and εt ∼ N (0, Σε ) represents stochastic neural variability independent
+of the past.
+The directed circuit structure at each lag is encoded in the Jacobian blocks of the transition map:
+                                                ∂g
+                                      Jℓ :=           ∈ Rn×n ,                                        (2)
+                                              ∂xt+1−ℓ
+
+where entry (Jℓ )ji quantifies the local, instantaneous influence of neuron i at time t−ℓ+1 on neuron
+j at time t+1. We aim to recover the support and sign pattern of the lag-specific Jacobians from
+observed time series, identifying which directed interactions are active and at what timescales.
+The Omitted-Lag Problem. A natural first approach is to analyze pairs of consecutive observations
+(xt , xt+1 ). However, when L ≥ 2, this pair-window approach suffers from an omitted-lag bias:
+the inferred coupling conflates multiple lag effects through the autocorrelation structure of the
+process. To see this concretely, consider a scalar VAR(2) process: xt+1 = a1 xt + a2 xt−1 + εt .
+From pairs (xt , xt+1 ) alone, the best linear predictor is E[xt+1 |xt ] = (a1 + a2 b)xt where b =
+Cov(xt−1 , xt )/Var(xt ). The reduced-form coefficient a1 + a2 b mixes both lag effects—we cannot
+separately identify a1 from pairs alone. This reduced-form mixing of effects generalizes to the
+multivariate nonlinear case: pairs cannot separate lag-specific causal effects. Our multi-block
+window construction directly addresses this issue by conditioning on all intermediate time points (i.e.,
+
+
+                                                    4
+conditioning allows us to consider E[xt+1 |xt , xt−1 ] = a1 xt + a2 xt−1 ), enabling clean identification
+of each Jℓ .
+The Coupling Hessian: Geometric Intuition. For a window z = (xt , xt+1 ), the score function
+s(z) = ∇z log p(z) describes how log-probability changes as we move in window-space. Geomet-
+rically, the score points toward higher-density regions; its magnitude reflects the local curvature of
+the probability landscape. Now consider the cross-block component for window z = (xt , xt+1 ):
+how does the score with respect to the future xt+1 depend on the past xt ? This dependence is
+captured by the mixed Hessian ∇xt+1 ∇⊤   xt log p(z)—a measure of how the probability surface “tilts”
+between past and future. Steeper tilt means stronger influence. And concretely, we have that
+∇xt+1 ∇⊤                                 ⊤
+          xt log p(xt , xt+1 ) = ∇xt+1 ∇xt log p(xt+1 |xt ), since the log p(xt ) term vanishes under
+∇xt+1 . This highlights that the cross-block curvature is determined by the local transition structure.
+The Score-Hessian Identity reveals that this cross-block curvature can be estimated from score
+products:
+                       E[st+1 (z) st (z)⊤ ] = −E[∇xt+1 ∇⊤  xt log p(z)].                   (3)
+Under the additive-noise dynamics in (1), this mixed Hessian equals a noise-scaled Jacobian, Σ−1
+                                                                                              ε J1 ,
+so that the cross-block score product recovers −Σ−1  ε J1  in expectation via (3).  Accordingly, we
+interpret signs using the sign-aligned coupling −E[st+1 (z)st (z)⊤ ].
+Multiple Recordings and Partial Observability. Neural recordings rarely observe all neurons.
+In C. elegans, each recording observes a different subset Ou ⊂ [N ] of the canonical neuron set
+due to imaging geometry and neural identification challenges. Across our 21 recordings, individual
+neurons appear in 12–20 worms (median 18 worms per neuron), and only 189 head neurons and 42
+tail neurons of the 302 canonical neurons are reliably identified Yemini et al. [2021]. This partial
+overlap creates both a statistical challenge (how to aggregate evidence across recordings) and an
+identifiability question (what can we recover).
+When the observed neurons O are a proper subset of the full population, any inferred coupling is
+necessarily a reduced-form quantity that reflects both direct effects and mediation through hidden
+neurons. Formally, let g̃O denote the effective transition function governing the observed marginal
+dynamics. SBTG identifies E[Jg̃O ,ℓ ]—the expected Jacobian of this reduced-form map. In Theo-
+rem A.5, we show that this decomposes into the conditional expectation of the true Jacobian plus a
+bias term that depends on how hidden neurons correlate with observed dynamics. This bias vanishes
+when hidden neurons are exogenous (independent of the observed conditioning set), but may be
+nonzero in general.
+For C. elegans, this concern is substantially mitigated by the organism’s small nervous system:
+with only 302 neurons total and our coverage of 189 reliably identified head neurons, we observe a
+substantial fraction of the circuit. Moreover, the stereotyped wiring of C. elegans—documented by
+electron microscopy reconstructions [White et al., 1986, Cook et al., 2019, Witvliet et al., 2021]—
+means that the different recordings provide complementary views of the same underlying circuit.
+Under this shared-dynamics assumption, aggregating evidence across recordings yields a consistent
+estimator of population-level coupling.
+
+4   Methods: Score–Block Time Graphs
+The preceding section identifies what SBTG should recover (lag-specific Jacobians) and what can
+go wrong (omitted-lag bias, hidden-neuron confounding). We now describe how to translate these
+insights into a practical pipeline. The core workflow consists of learning a score model for minimal
+multi-block windows, computing cross-block score products, and testing whether these products are
+significantly nonzero after correcting for temporal dependence. Several design choices are critical,
+and we motivate them below.
+Minimal Multi-Block Windows. Clean separation of lag-specific effects requires conditioning on all
+intermediate time points. For each target lag ℓ, we therefore construct a minimal multi-block window:
+                                (ℓ)
+                               zt     = (xt , xt+1 , . . . , xt+ℓ ) ∈ R(ℓ+1)n .                       (4)
+This construction conditions on all intermediate time points while allowing per-lag hyperparameter
+tuning and model selection. The window dimension grows linearly with lag (2n for ℓ = 1, 3n for
+ℓ = 2, etc.), inducing an explicit tradeoff between statistical efficiency and conditioning completeness.
+
+
+                                                       5
+In short, minimal multi-block windows provide clean lag separation without unnecessary dimensional
+growth.
+We emphasize that SBTG is not a single-fixed-lag model: the construction is repeated independently
+for each target lag ℓ ∈ L = {1, . . . , L}, producing a per-lag minimal multi-block window, score
+model, and edge-test family. The output is a stack of lag-specific directed graphs {A(ℓ) }ℓ∈L . In
+particular, naively unrolling a model in time and feeding it lagged inputs (xt−1 , xt−2 , . . .) does not
+provide the same conditioning on intermediate states and inherits a temporal omitted-variable bias;
+we make this distinction precise in Appendix B.4.
+Structured Score Model. Given these windows, we require a score model that captures the joint
+distribution’s local geometry while remaining computationally tractable in high dimension. We
+parameterize the score through an energy function that decomposes into within-block and cross-block
+                                             (0)   (1)       (ℓ)        (k)
+terms. Write the window of Eq. 4 as zt = (zt , zt , . . . , zt ) where zt := xt+k ∈ Rn denotes
+the k-th time block. We use:
+                                       ℓ                   ℓ
+                                                 (k)               (ℓ)      (ℓ−r)
+                                       X                   X
+                          Uθ (zt ) =         gk (zt ) +          (zt )⊤ Wr zt       ,                (5)
+                                       k=0                 r=1
+
+where gk are multi-layer perceptrons capturing within-block structure and Wr ∈ Rn×n are explicit
+coupling matrices between time blocks. The score is sbθ (zt ) = −∇zt Uθ (zt ). This structured form
+balances expressiveness with interpretability and statistical efficiency: the MLPs can capture complex
+marginal structure within each time block, while the coupling matrices Wr force the DSM objective
+to learn the correct cross-block influence. This is a deliberate bias–variance choice: the model class
+is more constrained than a fully generic score network, but it is better aligned with the downstream
+goal of recovering interpretable lag-specific interactions in data-limited recordings. In particular,
+                            (ℓ−r)    (ℓ)
+the cross-partial ∂ 2 Uθ /∂zt     ∂zt = Wr , so each explicit coupling matrix Wr acts directly as a
+directed adjacency from time block ℓ−r to time block ℓ, rather than being implicit in the weights of a
+generic black-box network. Training minimizes the denoising score matching objective:
+                                              h                          i
+                                                                       2
+                               LDSM (θ) = E ∥b  sθ (z + σε) + ε/σ∥ ,                               (6)
+
+where ε ∼ N (0, I) and σ is a noise level hyperparameter. This objective coincides with the score
+matching objective used in state-of-the-art generative diffusion models. Intuitively, the target −ε/σ is
+the score of the Gaussian corruption kernel applied to zt ; the denoising identity [Vincent, 2011] then
+guarantees that minimising this loss estimates the score of the underlying joint-window distribution
+of neural activity, without ever requiring its normalising constant.
+Null-Contrast Hyperparameter Selection. Hyperparameter selection for structure learning is
+subtle, particularly for high-dimensional biological neural time series. The DSM validation loss
+measures score-function accuracy but does not correlate with edge-recovery performance: a model
+may achieve low DSM loss while learning spurious correlations that do not correspond to directed
+circuit interactions. Using ground-truth edges for tuning would introduce circularity and defeat the
+purpose of the model. We address this by tuning to maximize the “null contrast”:
+                                                        µℓ |j̸=i )
+                                                  mean(|b
+                                       NC :=                       ,                                 (7)
+                                                       µnull
+                                                 mean(|bℓ |j̸=i )
+                  1
+                      P           (ℓ)            (ℓ)
+where µ  bℓ,ji = Twin    bt+ℓ,j (zt ) · sbt,i (zt ) is the lag-ℓ cross-block score product (matrix entry
+                        ts
+(j, i), averaged over windows), and µ bnull
+                                        ℓ     is the same statistic computed after temporally permuting
+lag-block scores, breaking the true joint structure while preserving marginal properties. Higher
+null contrast indicates a stronger signal relative to a distribution-breaking null, without requir-
+ing edge labels. This objective rewards hyperparameter settings that find notably reproducible
+structure—structure that we then validate externally against known knowledge of the synaptic and
+neuromodulator connectomes White et al. [1986], Cook et al. [2019], Bentley et al. [2016]. In
+practice, this enables hyperparameter selection without access to ground-truth edges.
+Inference under Temporal Dependence. To avoid overfitting bias, we use 5-fold cross-fitting:
+the score model sbθ is trained on 80% of windows, and all edge statistics reported are computed on
+held-out data. However, temporal dependence introduces a second inference challenge. The product
+                       (ℓ)           (ℓ)
+series Yt := sbt+ℓ,j (zt ) · sbt,i (zt ) inherits autocorrelation from the overlapping window structure.
+
+
+                                                       6
+Standard errors that assume independent observations would overstate significance—in our data, by a
+factor of three. We use Newey–West HAC estimators with bandwidth calibrated      to window
+                                                                                         size and
+                                                      [2
+                                                                      Pm             h
+sampling rate, incorporating lagged autocovariances: σ NW  =  γ
+                                                              b0 +  2    h=1   1  − m+1 γ bh where
+γ
+bh is the lag-h sample autocovariance and bandwidth m controls how many lags to include.Newey
+and West [1994]
+With n = 80 neurons, we test n(n − 1) = 6,320 directed edges per lag, making significance testing
+essential. We use Benjamini–Yekutieli (BY) because it provides finite-sample False Discovery Rate
+(FDR) control under arbitrary dependence among test statistics [Benjamini and Yekutieli, 2001]. Since
+our p-values derive from temporally overlapping windows and a shared score model, they exhibit
+unknown dependence structures. The BY test provides principled FDR control under overlapping
+windows. We conduct a sensitivity analysis to arrive at our chosen sensitivity of α = 0.10 in Figure 5.
+Together, cross-fitting and HAC inference yield calibrated edge statistics despite temporal dependence.
+The complete SBTG procedure is summarized as pseudocode in Algorithm 1 (Section B).
+Theoretical Guarantees. We now state the core identification results; the complete formal treatment
+with explicit assumptions and proofs appears in Section A. Under the additive-noise dynamics
+                       yt+1 = f (yt , . . . , yt−L+1 ) + ηt ,   ηt ∼ N (0, Ω),                       (8)
+we show that cross-block score products computed from joint-window score models recover lag-
+specific Jacobian structure in expectation.
+Fix a lag ℓ ∈ {1, . . . , L} and define the minimal multi-block window zt := (yt , yt+1 , . . . , yt+ℓ ).
+Let sτ (zt ) := ∇yτ log p(zt ) denote the score component with respect to the block at time τ . Our
+central summary statistic is the cross-block score product matrix
+
+                                Mℓ := E st+ℓ (zt ) st (zt )⊤ ∈ RN ×N .
+                                                           
+                                                                                                     (9)
+The following theorem states that Mℓ is proportional to the lag-ℓ Jacobian of the underlying transition
+map, up to noise scaling.
+                                                                                    ∂f
+Theorem 4.1 (Lag-Specific Jacobian Recovery). For ℓ ∈ {1, . . . , L}, let Fℓ := ∂yt+1−ℓ   ∈ RN ×N
+denote the lag-ℓ Jacobian of the one-step transition map. Then the cross-block score product matrix
+satisfies
+                                       Mℓ = − Ω−1 E[Fℓ ].                                      (10)
+
+Equation (10) formalizes the central link used by SBTG: score geometry of joint windows reveals
+directed coupling. The proportionality to Ω−1 implies that neurons with larger innovation variance
+contribute weaker score signals. In particular, when Ω is diagonal, Ω−1 acts as a positive row-wise
+rescaling, preserving the sparsity pattern. Moreover, (10) reduces to a global sign flip between Mℓ
+and the average Jacobian. Accordingly, we work throughout with the sign-aligned coupling matrix
+Cℓ := − Mℓ so that sign((Cℓ )ji ) = sign(E[(Fℓ )ji ]) under diagonal noise, matching the intended
+directed effects interpretation.
+The structured estimator of Eq. (5) is a practical realization of the population object that Theorem 4.1
+identifies; we elaborate this distinction in Appendix B.4.
+Further, when only a subset O ⊂ [N ] of neurons is observed, the same construction applied to the
+marginal window distribution recovers observed-to-observed coupling up to an explicit bias term
+induced by marginalizing hidden neurons. Theorem A.5 in Section A shows that the observed cross-
+block score product decomposes into a noise-scaled E[Fℓ [O, O]] term plus a bias matrix that depends
+on conditional uncertainty in the hidden activity given the observed window. This bias vanishes
+under standard conditional-independence conditions on the hidden components, and in C. elegans is
+empirically mitigated by the relatively high fraction of neurons observed across recordings.
+
+
+5   Results
+
+We validate SBTG in synthetic settings and in whole-brain C. elegans calcium imaging. We first
+assess lag-1 performance against anatomical and functional benchmarks, then demonstrate that SBTG
+recovers biologically plausible multi-timescale structure not captured by standard methods.
+
+
+                                                    7
+Table 1: Synthetic benchmark (Nonlinear Tanh). SBTG outperforms linear and nonlinear baselines
+in both binary detection (AUROC, AUPRC) and edge recovery (F1).
+Table 2: Benchmark performance. SBTG achieves best rank correlation (Spearman) with com-
+parable performance on binary detection (AUROC) with Pearson. Cross correlation, Granger show
+near-chance performance. Spearman measures rank agreement between inferred weights and anatom-
+ical synapse counts.
+   Method        F1 Score      AUROC         AUPRC                                   Cook            Randi
+
+   SBTG         0.39 ± 0.08   0.83 ± 0.07   0.24 ± 0.06       Method              AUROC     ρ     AUROC      ρ
+   DYNOTEARS    0.23 ± 0.11   0.57 ± 0.06   0.21 ± 0.09       SBTG                0.581   0.202   0.637   0.147
+   VAR-LASSO    0.21 ± 0.03   0.60 ± 0.05   0.24 ± 0.08       Pearson             0.576   0.106   0.596   0.098
+   PCMCI+       0.17 ± 0.03   0.54 ± 0.05   0.10 ± 0.01       Cross Correlation   0.568   0.094   0.571   0.087
+   VAR-Ridge    0.16 ± 0.02   0.56 ± 0.05   0.24 ± 0.06       Granger             0.548   0.066   0.602   0.098
+   VAR-LiNGAM   0.08 ± 0.07   0.48 ± 0.04   0.09 ± 0.01       Glasso              0.516   0.076   0.533   0.070
+
+
+Synthetic Validation. We first verify SBTG’s ability to recover known structure on synthetic data.
+For instance, we generate nonlinear VAR(2) dynamics as follows:
+                    xt+1 = tanh(A1 xt + A2 xt−1 ) + εt ,             εt ∼ N (0, 0.1 · I),
+with n = 20 neurons, 10% edge density, and T = 5000 time points in Table 1. We benchmark against
+standard linear (VAR) and nonlinear (DYNOTEARS, PCMCI+) causal discovery methods. We
+include additional synthetic analyses in the appendix B.7 for Hawkes, VAR, and Poisson processes,
+and report a larger-scale (n=80) extension of the tanh benchmark in Table 13, with VAR and Poisson
+scaling diagnostics described alongside it (Appendix B.7).
+SBTG achieves substantially higher classification performance (AUROC 0.83) compared to baselines,
+most of which hover near chance (0.50–0.60). Notably, even nonlinear methods like DYNOTEARS
+(AUROC 0.57) and PCMCI+ (0.54) struggle to recover the true graph structure in this regime. This
+supports our claim that SBTG’s score-based gradient estimators effectively capture the nonlinear
+dynamics where standard regression-based approaches fail.
+C. elegans Data and Structural Benchmarks. We evaluate on whole-brain calcium imaging from
+NeuroPAL-annotated C. elegans [Yemini et al., 2021]: 240-second videos at 4 Hz presenting three
+sensory stimuli. After preprocessing (dF/F0 normalization, z-scoring, and combining left–right
+neuron pairs), each recording contains n = 80 identified neurons. We benchmark inferred edges
+against three independent references: a structural connectome from electron microscopy [Cook
+et al., 2019], a functional atlas from optogenetic perturbation [Randi et al., 2023], and a monoamine
+connectome from gene expression [Bentley et al., 2016]. We focus first on lag-1 (250 ms)
+predictions, which are expected to align most closely with monosynaptic transmission. Table 2
+reports performance across methods.
+We observe that SBTG performs competitively across metrics, but in particular on Spearman correla-
+tion (0.202 vs. 0.106), indicating better recovery of connection strengths—the relative importance of
+edges. However, the performance on binary classification metrics reveals that in aggregate, we are
+reproducing neither the entire anatomical nor functional connectome. We therefore emphasize two
+facets of SBTG over existing approaches: learning explicitly directed couplings between neurons
+and learning such directed effects at varying temporal resolutions. Appendix B.5.2 discusses the
+rationale for the synthetic-vs-empirical baseline split and our emphasis on Spearman correlation
+under partial-reference ground truth.
+Multi-Lag Analysis: Cell-Type Temporal Signatures. Having established lag-1 performance,
+we now ask whether SBTG’s multi-lag analysis reveals biologically meaningful temporal structure.
+Rather than interpreting thousands of neuron-to-neuron couplings directly, we summarize the inferred
+edges by functional cell type—sensory (n = 28), interneuron (n = 34), and motor (n = 11)—and
+track how directed coupling strength redistributes across lags (Figure 3; see Figure 6 in the Appendix
+for details). Across phases, the dominant signal concentrates at short lags, consistent with fast local
+computation. This also provides an internal check that SBTG is separating lag structure rather than
+merely reflecting shared marginal autocorrelation.
+We then refine the analysis by stratifying windows according to stimulus phase (Figure 3A): Baseline
+(no stimulus), On (immediately after onset), Steady (sustained stimulus), and Off (immediately after
+removal). As expected from increasing window dimension and shrinking effective sample size,
+
+
+                                                          8
+A                                     B
+
+
+
+
+C
+
+
+
+
+Figure 3: Stimulus Phase Analysis. A: Stimulus phase segmentation used for analysis (baseline, on,
+steady, off). B: Number of FDR-significant directed edges by lag within each phase. C: Cell-type
+coupling strength versus lag within each phase, summarizing directed interactions between sensory
+(S), interneuron (I), and motor (M) groups.
+Figure 4: Estimated peak matching time points. Bar lengths indicate the interpolated time lag
+(tpeak ) where the F1 score between the SBTG model’s prediction and the respective ground-truth
+network is maximized. Monoaminergic interactions (e.g., serotonin) and correlated functional activity
+peak at significantly longer timescales compared to the fast structural backbone.
+
+
+the number of FDR-significant edges decreases with lag within every phase (Figure 3B). However,
+despite On/Off being short (10 s) and therefore far more data-limited than Baseline/Steady, their
+inferred coupling magnitudes shift most strongly toward longer lags (Figure 3C). This is consistent
+with the hypothesis that dominant computations occur at stimulus transitions: onset and offset perturb
+the circuit, and their effects propagate over a longer integration horizon even when fewer windows
+are available Kato et al. [2014], Ferkey et al. [2021].
+The sustained phases exhibit the complementary signature. During stimulus presentation, coupling is
+strongest at short lags and attenuates as lag increases (Figure 3C), indicating that once a stimulus-
+driven regime is established, interactions concentrate at short latency rather than accumulating at long
+delays. Non-stimulus presentation is comparatively quiet at short lags but picks up structure at the
+longest lags (Figure 3C), consistent with baseline windows near the end of a trial that sit immediately
+before the next onset, so that only long-lag statistics “reach into” the upcoming transition.
+Taken together, these results support a phase-resolved picture that is difficult to obtain from single-lag
+methods: onset and offset preferentially express longer-lag coupling, sustained stimulation concen-
+trates coupling at short lags, and baseline periods show weak short-lag structure while registering
+long-lag changes near upcoming transitions.
+Synaptic and Neuromodulatory Temporal Profiles. Published biological results provide a testbed
+for SBTG (Figure 1E). Electrical and chemical synapses are known to traffic the fastest signals
+Bargmann [2012], Bargmann and Marder [2013]. Monoaminergic neuromodulators mediate slower
+state transitions with one important exception: tyramine signals a time-critical fast escape response
+through an ionotropic receptor (a ligand-gated ion channel) Pirri et al. [2009]. Moreover, ionotropic
+channels, which open in direct response to ligand binding, signal faster than their metabotropic
+counterparts, wherein ligand binding triggers rate-limiting second-messenger systems to open
+separate ion channels Hobert [2018]. The published synaptic Cook et al. [2019], monoamine Bentley
+et al. [2016], and GABA Yemini et al. [2021] connectomes permitted us to test SBTG for these
+biological ground truths.
+For each neurotransmitter and each lag, we treat the inferred coupling magnitudes as edge scores
+and report AUROC/AUPRC against the corresponding reference adjacency (Table 15). Directly
+inline with biological predictions, synaptic connectivity marks the fastest peak of activity, followed
+by tyramine as the second fastest signal, with the remaining slower acting neuromodulators peaks
+thereafter. Notably, dopamine suppresses octopamine signaling Suo et al. [2009], which may explain
+why it slightly precedes octopamine in timing. Serotonin, which in the head stimulates pharyngeal
+pumping in response to food Avery and Horvitz [1990], Dag et al. [2023], exhibited a very long lag
+consistent with the absence of food and pharyngeal pumping in the neural activity experiments. The
+
+
+                                                    9
+Randi et al. functional atlas reflects its mixture of the aforementioned signaling pathways. Lastly, as
+expected, ionotropic GABA signaling was faster than its metabotropic counterpart (Figure 7).
+Notably, these temporal distinctions emerge without transmitter-specific modeling assumptions:
+SBTG is fit once per lag to activity windows, and transmitter identity enters only at evaluation time
+through an external reference graph. Taken together, our results suggest that lag-resolved score
+geometry can reveal meaningful timescale signatures in population dynamics, complementing the
+synaptic-scale (lag-1) structure emphasized by standard functional-connectivity analyses.
+
+6   Discussion
+We studied the problem of recovering directed, lag-specific neural interactions from population record-
+ings under nonlinear dynamics, without assuming a parametric transition model. Our central claim is
+that the local geometry of joint window distributions can be systematically converted into statistically
+testable circuit hypotheses. Score–Block Time Graphs (SBTG) instantiate this theory by transforming
+joint-window score geometry into signed, lag-resolved edge tests, linking high-dimensional activity
+trajectories to interpretable statements about who influences whom, and on what timescale.
+This pipeline is justified by a straightforward identification mechanism. For the minimal multi-
+block window zt = (yt , yt+1 , . . . , yt+ℓ ), cross-block score products recover the lag-ℓ Jacobian in
+expectation under additive-noise dynamics, up to a noise scaling and a global sign flip. This motivates
+the sign-aligned coupling Cℓ := − E[st+ℓ (zt )st (zt )⊤ ]. Conditioning on intermediate time points
+is essential: when L ≥ 2, pair-window estimates conflate lag effects through temporal dependence
+(an omitted-lag bias), whereas minimal multi-block windows separate timescales by construction.
+Cross-fitting, HAC standard errors, BY control, and null-contrast tuning make this identification
+practically usable in short, temporally dependent recordings.
+Several limitations bound the interpretation of our results. Our sampling rate (4 Hz) cannot resolve
+sub-250 ms dynamics: cascades that unfold over multiple observed frames induce lag-specific
+dependence and are therefore recoverable by SBTG, whereas mechanisms completing within a single
+250 ms bin are absorbed into the one-step sampled transition and are not separately identifiable from
+a concurrent pattern at this rate. We use only 189 head and 42 tail neurons of the 302 in C. elegans,
+so observed couplings may include a reduced-form bias induced by hidden activity, although this
+is partially mitigated by relatively high coverage and cross-worm aggregation. Power decays with
+lag because window dimension grows and effective sample size shrinks, and our external references
+(Cook, Randi, and Bentley connectomes) are incomplete proxies for task- and state-dependent
+effective connectivity. Finally, our exact-identification result (Theorem 4.1) requires additive-noise
+dynamics with the stationarity / moment conditions of Assumption A.4; outside that regime SBTG
+should be read as estimating a reduced-form effective-coupling object rather than the literal Jacobian,
+an interpretation we elaborate in Appendix B.4.
+Within these constraints, the results support a high-level conclusion: SBTG can identify which lags
+matter in a regime where data bottlenecks are severe. At lag 1, SBTG improves rank alignment
+with anatomical structure while producing signed, directed hypotheses not available to correlation
+baselines. More importantly, the multi-lag, phase-stratified analysis indicates that timescale
+signatures are regime-dependent: onset/offset phases shift coupling toward longer lags despite
+being the most data-limited, while sustained stimulation concentrates coupling at short latency.
+Transmitter-specific evaluation further shows distinct lag profiles, with monoamines and metabotropic
+signaling shifting to longer-lag alignment relative to faster synaptic and ionotropic systems. Together,
+these findings suggest that lag-resolved score geometry can reveal multi-timescale organization in
+the state dynamics of neural populations.
+
+References
+Takuya Akiba, Shotaro Sano, Toshihiko Yanase, Takeru Ohta, and Masanori Koyama. Optuna:
+  A next-generation hyperparameter optimization framework. In Proceedings of the 25th ACM
+  SIGKDD international conference on knowledge discovery & data mining, pages 2623–2631,
+  2019.
+Leon Avery and H Robert Horvitz. Effects of starvation and neuroactive drugs on feeding in
+  caenorhabditis elegans. Journal of Experimental Zoology, 253(3):263–270, 1990.
+
+
+                                                  10
+Cornelia I Bargmann. Beyond the connectome: how neuromodulators shape neural circuits. Bioessays,
+  34(6):458–465, 2012.
+Cornelia I Bargmann and Eve Marder. From the connectome to brain function. Nature methods, 10
+  (6):483–490, 2013.
+Yoav Benjamini and Daniel Yekutieli. The control of the false discovery rate in multiple testing under
+  dependency. The Annals of Statistics, 29(4):1165–1188, 2001.
+Barry Bentley, Robyn Branicky, Christopher L Barnes, Yee Lian Chew, Eviatar Yemini, Edward T
+  Bullmore, Petra E Vértes, and William R Schafer. The multilayer connectome of caenorhabditis
+  elegans. PLoS computational biology, 12(12):e1005283, 2016.
+Daniel D. Bock, Wei-Chung Allen Lee, Aaron M. Kerlin, Mark L. Andermann, Gerard Hood,
+  Andreas W. Wetzel, Sergey Yurgenson, Edward R. Soucy, Hyon Suk Kim, and R. Clay Reid.
+  Network anatomy and in vivo physiology of visual cortical neurons. Nature, 471:177–182, 2011.
+  doi: 10.1038/nature09802.
+Steven J. Cook, Travis A. Jarrell, Christopher A. Brittin, Yi Wang, Adam E. Bloniarz, Maksim A.
+  Yakovlev, Ken C. Q. Nguyen, Leo T.-H. Tang, Emily A. Bayer, Janet S. Duerr, H. Robert Bülow,
+  Oliver Hobert, David H. Hall, and Scott W. Emmons. Whole-animal connectomes of both
+  C. elegans sexes. Nature, 571(7763):63–71, 2019. doi: 10.1038/s41586-019-1352-7.
+Matthew S Creamer, Andrew M Leifer, and Jonathan W Pillow. Bridging the gap between the
+ connectome and whole-brain activity in c. elegans. bioRxiv, pages 2024–09, 2025.
+Timothy A Currier and Thomas R Clandinin. Infrequent strong connections constrain connectomic
+  predictions of neuronal function. Cell, 2025.
+Ugur Dag, Ijeoma Nwabudike, Di Kang, Matthew A Gomes, Jungsoo Kim, Adam A Atanas, Eric
+  Bueno, Cassi Estrem, Sarah Pugliese, Ziyu Wang, et al. Dissecting the functional organization of
+  the c. elegans serotonergic system at whole-brain scale. Cell, 186(12):2574–2592, 2023.
+Sophie Dvali, Caio Seguin, Richard Betzel, and Andrew M Leifer. Diverging network architecture of
+  the c. elegans connectome and signaling network. PRX Life, 3(3):033021, 2025.
+Denise M Ferkey, Piali Sengupta, and Noelle D L’Etoile. Chemosensory signal transduction in
+  caenorhabditis elegans. Genetics, 217(3):iyab004, 2021.
+Steven W Flavell and Andrew Gordus. Dynamic functional connectivity in the static connectome of
+  caenorhabditis elegans. Current Opinion in Neurobiology, 73:102515, 2022.
+C. W. J. Granger. Investigating causal relations by econometric models and cross-spectral methods.
+  Econometrica, 37(3):424–438, 1969. doi: 10.2307/1912791.
+Paul Greengard. The neurobiology of slow synaptic transmission. Science, 294(5544):1024–1030,
+  2001.
+Alan G. Hawkes. Spectra of some self-exciting and mutually exciting point processes. Biometrika,
+  58(1):83–90, 1971. doi: 10.1093/biomet/58.1.83.
+Oliver Hobert. The neuronal genome of caenorhabditis elegans. WormBook: The online review of C.
+  elegans biology [Internet], 2018.
+Aapo Hyvärinen. Estimation of non-normalized statistical models by score matching. Journal of
+ Machine Learning Research, 6:695–709, 2005.
+Aapo Hyvärinen, Kun Zhang, Shohei Shimizu, and Patrik O. Hoyer. Estimation of a structural vector
+  autoregression model using non-gaussianity. Journal of Machine Learning Research, 11(56):
+ 1709–1731, 2010. URL http://jmlr.org/papers/v11/hyvarinen10a.html.
+Jaivardhan Kapoor, Auguste Schulz, Julius Vetter, Felix Pei, Richard Gao, and Jakob H. Macke.
+   Latent diffusion for neural spiking data, 2024. URL https://arxiv.org/abs/2407.08751.
+
+
+                                                 11
+Saul Kato, Yifan Xu, Christine E Cho, LF Abbott, and Cornelia I Bargmann. Temporal responses of
+  c. elegans chemosensory neurons are preserved in behavioral dynamics. Neuron, 81(3):616–628,
+  2014.
+Thomas Kipf, Ethan Fetaya, Kuan-Chieh Wang, Max Welling, and Richard Zemel. Neural relational
+  inference for interacting systems. In Proceedings of the 35th International Conference on Machine
+  Learning, 2018.
+Ziyu Lu, Wuwei Zhang, Trung Le, Hao Wang, Uygar Sümbül, Eric SheaBrown, and Lu Mi. Net-
+  Former: An interpretable model of neural population activity for connectivity inference. In
+  International Conference on Learning Representations, 2025.
+Helmut Lütkepohl. New Introduction to Multiple Time Series Analysis. Springer, Berlin, Heidelberg,
+  2005. ISBN 978-3540262398.
+Francesco Montagna, Nicoletta Noceti, Lorenzo Rosasco, Kun Zhang, and Francesco Locatello.
+  Scalable causal discovery with score matching, 2023. URL https://arxiv.org/abs/2304.
+  03382.
+Whitney K. Newey and Kenneth D. West. A simple, positive semi-definite, heteroskedasticity and
+ autocorrelation consistent covariance matrix. Econometrica, 55(3):703–708, 1987.
+Whitney K. Newey and Kenneth D. West. Automatic lag selection in covariance matrix estimation.
+ The Review of Economic Studies, 61(4):631–653, 1994.
+Furkan Ozcelik and Rufin VanRullen. Natural scene reconstruction from fmri signals using generative
+  latent diffusion. Scientific Reports, 13(1):15666, 2023. doi: 10.1038/s41598-023-42891-8. URL
+  https://doi.org/10.1038/s41598-023-42891-8.
+Roxana Pamfil, Nisara Sriwattanaworachai, Shaan Desai, Philip Pilgerstorfer, Paul Beaumont, Kon-
+  stantinos Georgatzis, and Bryon Aragam. Dynotears: Structure learning from time-series data,
+  2020. URL https://arxiv.org/abs/2002.00498.
+Jennifer K Pirri, Adam D McPherson, Jamie L Donnelly, Michael M Francis, and Mark J Alkema. A
+  tyramine-gated chloride channel coordinates distinct motor programs of a caenorhabditis elegans
+  escape response. Neuron, 62(4):526–538, 2009.
+Francesco Randi, Anuj Sharma, Saba Dvali, Jiarui Yuan, Eviatar Yemini, Yao Shen, Liam Paninski,
+  and Andrew M. Leifer. A neural circuit atlas of sensory integration in C. elegans. Nature, 623:
+  406–414, 2023. doi: 10.1038/s41586-023-06683-4.
+Lidia Ripoll-Sánchez, Jan Watteyne, HaoSheng Sun, Robert Fernandez, Seth R Taylor, Alexis
+  Weinreb, Barry L Bentley, Marc Hammarlund, David M Miller, Oliver Hobert, et al. The neuropep-
+  tidergic connectome of c. elegans. Neuron, 111(22):3570–3589, 2023.
+Jakob Runge et al. Discovering contemporaneous and lagged causal relations in autocorrelated
+  nonlinear time series datasets. arXiv preprint, 2020.
+João D. Semedo, Amin Zandvakili, Christian K. Machens, Byron M. Yu, and Adam Kohn. Cortical
+   areas interact through a communication subspace. Neuron, 102(1):249–259.e4, 2019. doi: 10.
+  1016/j.neuron.2019.01.026.
+Joshua H. Siegle, Xuexin Jia, Severine Durand, et al. Survey of spiking in the mouse visual system
+  reveals functional hierarchy. Nature, 592:86–92, 2021. doi: 10.1038/s41586-020-03171-x.
+Yang Song and Stefano Ermon. Generative modeling by estimating gradients of the data distribution.
+  In Advances in Neural Information Processing Systems, 2019.
+Yang Song, Jascha Sohl-Dickstein, Diederik P. Kingma, Abhishek Kumar, Stefano Ermon, and Ben
+  Poole. Score-based generative modeling through stochastic differential equations. In International
+  Conference on Learning Representations, 2021.
+Satoshi Suo, Joseph G Culotti, and Hubert HM Van Tol. Dopamine counteracts octopamine signalling
+  in a neural circuit mediating food response in c. elegans. The EMBO journal, 28(16):2437–2448,
+  2009.
+
+
+                                                12
+Vladislav Susoy, Wesley Hung, Daniel Witvliet, Joshua E Whitener, Min Wu, Core Francisco Park,
+  Brett J Graham, Mei Zhen, Vivek Venkatachalam, and Aravinthan DT Samuel. Natural sensory
+  context drives diverse brain-wide activity during c. elegans mating. Cell, 184(20):5122–5137,
+  2021.
+Kerem Uzel, Saul Kato, and Manuel Zimmer. A set of hub neurons and non-local connectivity
+  features support global brain dynamics in c. elegans. Current Biology, 32(16):3443–3459, 2022.
+Adrian Valente, Jonathan W. Pillow, and Srdjan Ostojic. Extracting computational mechanisms from
+  neural data using low-rank RNNs. In Advances in Neural Information Processing Systems, 2022.
+Burak Varici, Emre Acarturk, Karthikeyan Shanmugam, Abhishek Kumar, and Ali Tajer. Score-based
+  causal representation learning with interventions, 2023. URL https://arxiv.org/abs/2301.
+  08230.
+Keertana Venkatesh, Lidia Ripoll-Sánchez, Isabel Beets, and William R Schafer. C. elegans wired and
+  wireless connectome: insights into principles of nervous system structure and function. Journal of
+  Biosciences, 50(1):1–17, 2025.
+Pascal Vincent. A connection between score matching and denoising autoencoders. Neural Computa-
+  tion, 23(7):1661–1674, 2011. doi: 10.1162/NECO a 00142.
+Jan Watteyne, Aleksandra Chudinova, Lidia Ripoll-Sánchez, William R Schafer, and Isabel Beets.
+  Neuropeptide signaling network of caenorhabditis elegans: from structure to behavior. Genetics,
+  228(3):iyae141, 2024.
+John G White, Eileen Southgate, J Nichol Thomson, and Sydney Brenner. The structure of the
+  nervous system of the nematode caenorhabditis elegans: the mind of a worm. Phil. Trans. R. Soc.
+  Lond, 314(1):340, 1986.
+Daniel Witvliet, Ben Mulcahy, James K Mitchell, Yaron Meirovitch, Daniel R Berger, Yuelong Wu,
+ Yufang Liu, Wan Xian Koh, Rajeev Parvathala, Douglas Holmyard, et al. Connectomes across
+  development reveal principles of brain maturation. Nature, 596(7871):257–261, 2021.
+Eviatar Yemini, Albert Lin, Alireza Nejatbakhsh, Erdem Varol, Ruoxi Sun, Marius Möllers, Thu
+  Vuong-Brender, Nikos Chronis, Frank C. Schroeder, Hui Lu, Ian M. Wallace, Venkatachalam
+  Venkatachalam, Paul W. Sternberg, and Oliver Hobert. NeuroPAL: A multicolor atlas for whole-
+  brain neuronal identification in C. elegans. Cell, 184(1):272–288.e11, 2021. doi: 10.1016/j.cell.
+  2020.12.012.
+Yue Yu, Jie Chen, Tian Gao, and Mo Yu. DAG-GNN: DAG structure learning with graph neural
+  networks. In Kamalika Chaudhuri and Ruslan Salakhutdinov, editors, Proceedings of the 36th
+  International Conference on Machine Learning, volume 97 of Proceedings of Machine Learning
+  Research, pages 7154–7163. PMLR, 09–15 Jun 2019.
+Xun Zheng, Bryon Aragam, Pradeep Ravikumar, and Eric P. Xing. Dags with no tears: Continuous
+  optimization for structure learning. In Advances in Neural Information Processing Systems, 2018.
+Zhenyu Zhu, Francesco Locatello, and Volkan Cevher. Sample complexity bounds for score-matching:
+  Causal discovery and generative modeling, 2023. URL https://arxiv.org/abs/2310.18123.
+
+
+
+
+                                                13
+A     Theoretical Model and Results
+A.1     Notation
+
+We use the following conventions throughout:
+
+                   Symbol           Meaning
+                       N            Total number of neurons in the organism
+                       n            Number of observed neurons in a recording (n ≤ N )
+                       L            Maximum lag order in the dynamics
+                       T            Number of time points per recording
+                       M            Number of recordings (e.g., different worms)
+                    yt ∈ RN         Full population activity at time t
+                    xt ∈ Rn         Observed neuron activity at time t
+                    O ⊂ [N ]        Set of observed neuron indices
+                       zt           Set of full (Or observed) states learned for fixed lag ℓ
+                 H := [N ] \ O      Set of hidden (unobserved) neuron indices
+                f : RLN → RN        Transition function (dynamics)
+                  Fℓ ∈ RN ×N        Jacobian at lag ℓ: (Fℓ )ji = ∂fj /∂yt+1−ℓ,i
+                  Ω ∈ RN ×N         Noise covariance matrix
+              s(z) := ∇z log p(z)   Score function of density p
+                      µℓ,ji         Cross-block score product: E[st+ℓ,j · st,i ]
+
+A.2     Model Definition
+
+Assumption A.1 (Multi-Lag Dynamics with Additive Noise). The full population activity yt ∈ RN
+evolves according to:
+                          yt+1 = f (yt , yt−1 , . . . , yt−L+1 ) + ηt ,                    (11)
+where:
+ • f : RLN → RN is a differentiable transition function
+        iid
+ • ηt ∼ N (0, Ω) with Ω ≻ 0
+ • ηt is independent of (ys )s≤t
+                                                                                       (m)
+Assumption A.2 (Partial Observation). For each recording m ∈ [M ], we observe xt := yt [Om ]
+where Om ⊂ [N ] is the set of observed neurons. Different recordings may observe different subsets.
+Assumption A.3 (Shared Dynamics Across Recordings). The transition function f and noise covari-
+ance Ω are identical across all recordings. This reflects species-level conservation of neural circuit
+structure.
+Assumption A.4 (Stationarity and Moment Conditions). The process          R (yt ) is stationary with
+E[∥yt ∥4 ] < ∞. The stationary density p(y) is positive and smooth with ∥∇ log p(y)∥2 p(y)dy <
+∞.
+
+A.3     Main Theorem: Unified Identifiability
+
+Theorem A.5 (Unified Lag-Specific Jacobian Identifiability). Under Assumptions A.1–A.4, define
+the window zt := (yt , yt+1 , . . . , yt+ℓ ) and the cross-block score product matrix:
+                               Mℓ := E st+ℓ (zt ) st (zt )⊤ ∈ RN ×N ,
+                                                              
+
+where sτ (z) := ∇yτ log p(z) is the score component with respect to time τ .
+Then:
+(a) Full observation: If all N neurons are observed,
+                                        Mℓ = − Ω−1 E[Fℓ ].                                 (12)
+    In particular, supp(Mℓ ) = supp(E[Fℓ ]). Moreover, if Ω is diagonal then Cℓ := −Mℓ satisfies
+    sign((Cℓ )ji ) = sign(E[(Fℓ )ji ]).
+
+
+                                                  14
+ (b) Partial observation: If we observe O ⊂ [N ] with |O| = n, define M̃ℓ := E[s̃t+ℓ s̃⊤
+                                                                                       t ] from the
+     marginal score on observed neurons. Then:
+                                      M̃ℓ = − Ω−1
+                                               OO E[Fℓ [O, O]] + Bℓ ,                                  (13)
+      where Bℓ is a bias matrix depending on Cov(y[H], y[O]). The bias vanishes if y[H] ⊥⊥ y[O]
+      conditional on the past.
+
+A.4    Proof of Theorem A.5
+
+We first recall the main identity justifying the use of score-block matrices.
+Lemma A.6 (Score-Hessian Identity). For any density p(z) with finite Fisher information, and any
+coordinates a, b:                                  2           
+                                                   ∂ log p(z)
+                          E[sa (z) sb (z)] = −E                   .
+                                                     ∂za ∂zb
+
+                                                   ∂    p(z)
+Proof. By definition, sa (z) = ∂za log p(z) = zp(z)
+                                                 a
+                                                      . Expanding the expectation:
+                                           Z
+                             E[sa · sb ] = sa (z) sb (z) p(z) dz
+                                           Z
+                                             ∂za p(z)
+                                         =            · sb (z) · p(z) dz
+                                              p(z)
+                                           Z
+                                         = ∂za p(z) · sb (z) dz.                                       (14)
+
+Applying integration by parts in za , with boundary terms vanishing by regularity of p:
+                 Z                           Z
+                    ∂za p(z) sb (z) dz = − p(z) ∂za sb (z) dz = −E[∂za sb (z)].                        (15)
+
+Since ∂za sb (z) = ∂za ∂zb log p(z), combining (14)–(15) yields:
+                                                   2         
+                                                   ∂ log p(z)
+                                 E[sa · sb ] = −E               .
+                                                    ∂za ∂zb
+
+
+
+We now prove Theorem A.5. Throughout, we restrict to lags ℓ ∈ {1, . . . , L} so that the lag-ℓ Jacobian
+Fℓ corresponds to a direct dependence of yt+ℓ on yt through a single transition.
+
+Part (a): full observation. Assume all N neurons are observed. Consider the window zt :=
+(yt , yt+1 , . . . , yt+ℓ ) and the joint density p(zt ). By the Markov structure induced by (11), the joint
+log-density decomposes as
+                        log p(zt ) = log p(yt+ℓ | yt:t+ℓ−1 ) + log p(yt:t+ℓ−1 ),                       (16)
+where yt:t+ℓ−1 := (yt , . . . , yt+ℓ−1 ). The second term in (16) does not depend on yt+ℓ , hence any
+mixed derivative involving yt+ℓ reduces to the corresponding mixed derivative of the conditional
+term.
+By Assumption A.1, the conditional distribution is Gaussian:
+                                                                            
+                 yt+ℓ | yt:t+ℓ−1 ∼ N f (yt+ℓ−1 , yt+ℓ−2 , . . . , yt+ℓ−L ), Ω .
+
+Define the residual
+                                 r := yt+ℓ − f (yt+ℓ−1 , . . . , yt+ℓ−L ).
+Then the conditional log-density is
+                                                        1
+                             log p(yt+ℓ | yt:t+ℓ−1 ) = − r ⊤ Ω−1 r + C,                                (17)
+                                                        2
+
+                                                       15
+where C is a normalization constant. Differentiating (17) with respect to yt+ℓ yields the (future-block)
+score:
+                              ∇yt+ℓ log p(yt+ℓ | yt:t+ℓ−1 ) = −Ω−1 r.                               (18)
+Now take the mixed derivative with respect to yt . Since r depends on yt only through the mean
+function f , we have ∇yt r = −∇yt f . Therefore,
+                                                                   ⊤
+               ∇yt ∇⊤yt+ℓ log p(yt+ℓ | yt:t+ℓ−1 ) = ∇yt −Ω
+                                                               −1
+                                                                  r
+                                                  = −∇yt r ⊤ Ω−1
+                                                                
+
+                                                         = −(−∇yt f ⊤ )Ω−1 = ∇yt f ⊤ Ω−1 .              (19)
+Equivalently, in entrywise form, for indices j, i ∈ [N ],
+                                                     N
+           ∂2                                        X  ∂ h            i
+                      log p(yt+ℓ | yt:t+ℓ−1 ) =              (−Ω−1 r)j
+      ∂yt+ℓ,j ∂yt,i                                    ∂yt,i
+                                                     k=1
+                                                     N                            N
+                                                     X                  ∂rk     X           ∂f 
+                                                                                                 k
+                                                 =          (−Ω−1 )jk         =   (−Ω−1 )jk −
+                                                                        ∂yt,i                 ∂yt,i
+                                                     k=1                         k=1
+                                                 = (Ω−1 Fℓ )ji ,                                        (20)
+             ∂f
+where Fℓ := ∂y t
+                  ∈ RN ×N is the lag-ℓ Jacobian evaluated at the appropriate lagged state stack (and
+thus depends on time through the state).
+Combining (16) with (20), we obtain
+                 ∂2                              ∂2
+                           log p(zt ) =                       log p(yt+ℓ | yt:t+ℓ−1 ) = (Ω−1 Fℓ )ji .
+           ∂yt+ℓ,j ∂yt,i                   ∂yt+ℓ,j ∂yt,i
+Now apply Lemma A.6 with coordinates a = (t + ℓ, j) and b = (t, i):
+                                                              ∂2
+                                                                                 
+              (Mℓ )ji = E[st+ℓ,j (zt ) st,i (zt )] = −E                 log p(zt )
+                                                          ∂yt+ℓ,j ∂yt,i
+                            −1                     −1
+                                                             
+                      = −E (Ω Fℓ )ji = − Ω E[Fℓ ] ji .                                                  (21)
+Hence,
+                                         Mℓ = −Ω−1 E[Fℓ ].                                              (22)
+This establishes part (a), with the support and sign relations following directly from (22).              □
+
+Part (b): partial observation. Now suppose we observe only a subset O ⊂ [N ] with |O| = n, and
+write H := [N ] \ O for the hidden indices. Let
+                       z̃t := (xt , xt+1 , . . . , xt+ℓ )       where       xτ := yτ [O],
+and let hτ := yτ [H] denote the hidden components. We use the decomposition
+                        zt = (z̃t , ht:t+ℓ ),         ht:t+ℓ := (ht , ht+1 , . . . , ht+ℓ ).
+Define the marginal score components
+                              s̃τ (z̃t ) := ∇xτ log p(z̃t ),         τ ∈ {t, t + ℓ},
+and the corresponding cross-block score product matrix
+                             M̃ℓ := E s̃t+ℓ (z̃t ) s̃t (z̃t )⊤ ∈ Rn×n .
+                                                             
+
+
+We first relate the marginal score to the full-data score via differentiation under the integral. Since
+                                            Z
+                                  p(z̃t ) = p(z̃t , ht:t+ℓ ) dht:t+ℓ ,
+
+we have, for any observed coordinate a (corresponding to some (τ, i) with i ∈ O),
+                                                       Z
+                                  ∂a p(z̃t )     1
+                 ∂a log p(z̃t ) =            =           ∂a p(z̃t , ht:t+ℓ ) dht:t+ℓ
+                                   p(z̃t )     p(z̃t )
+
+                                                         16
+                                         Z
+                                   1
+                               =           ∂a log p(z̃t , ht:t+ℓ ) p(z̃t , ht:t+ℓ ) dht:t+ℓ
+                                 p(z̃t )
+                               = E[∂a log p(zt ) | z̃t ] .                                          (23)
+Stacking these identities over i ∈ O yields the vector form:
+                           s̃τ (z̃t ) = E[sτ,O (zt ) | z̃t ] ,   τ ∈ {t, t + ℓ},                    (24)
+                                              n
+where sτ,O (zt ) := ∇yτ [O] log p(zt ) ∈ R is the full-data score restricted to the observed coordinates.
+Let
+                A := st+ℓ,O (zt ) ∈ Rn ,     B := st,O (zt ) ∈ Rn ,   X := z̃t .
+Then (24) implies
+                       s̃t+ℓ (X) = E[A | X],        s̃t (X) = E[B | X].
+Consequently,
+                   M̃ℓ = E s̃t+ℓ (X) s̃t (X)⊤ = E E[A | X] E[B | X]⊤ .
+                                                                      
+                                                                                                    (25)
+We now apply the matrix-valued law of total covariance:
+                  E[AB ⊤ ] = E E[A | X] E[B | X]⊤ + E[Cov(A, B | X)] .
+                                                       
+                                                                                                    (26)
+Rearranging (26) and using (25) yields
+                               M̃ℓ = E[AB ⊤ ] − E[Cov(A, B | z̃t )] .                               (27)
+The first term is the corresponding observed-observed block of the full cross-block score matrix:
+                          E[AB ⊤ ] = E st+ℓ,O (zt ) st,O (zt )⊤ = (Mℓ )OO .
+                                                              
+
+Therefore,
+              M̃ℓ = (Mℓ )OO + Bℓ ,            Bℓ := −E[Cov(st+ℓ,O (zt ), st,O (zt ) | z̃t )] .      (28)
+Finally, substituting the full-observation identity (22) into (28) gives
+                                    M̃ℓ = − Ω−1 E[Fℓ ] OO + Bℓ .
+                                                          
+                                                                                                    (29)
+In particular, if the noise covariance is block-diagonal across observed and hidden coordinates (i.e.
+ΩOH = ΩHO = 0), then (Ω−1 )OO = Ω−1         OO and (29) simplifies to
+
+                                   M̃ℓ = −Ω−1
+                                           OO E[Fℓ [O, O]] + Bℓ .                                   (30)
+The bias term Bℓ in (28) captures the effect of marginalizing hidden neurons and depends on the
+conditional variability of the full-data scores given the observed window (and thus on the coupling
+between hidden and observed components, e.g. through Cov(y[H], y[O])). Moreover, Bℓ = 0
+whenever
+                                 Cov(st+ℓ,O (zt ), st,O (zt ) | z̃t ) = 0
+which holds, for example, if the hidden components are conditionally independent of the observed
+components given the past. This establishes part (b).                                            □
+
+B     Methods and Implementation
+This section provides documentation of our analysis pipeline, including all preprocessing steps, model
+configurations, hyperparameter choices, and statistical procedures. Algorithm 1 summarizes the
+end-to-end SBTG procedure; the subsections below describe each step in detail.
+
+B.1     Data Preprocessing and Quality Control
+
+B.1.1    Raw Data Sources
+Our analysis integrates three primary data sources. The NeuroPAL calcium imaging data [Yemini
+et al., 2021] consists of head and tail activity recordings sampled at 4 Hz (250 ms per frame) over 240-
+second recordings. Three chemical stimuli— the attractive odors 2-butanone and 2,3-pentanedione,
+and an aversive quantity of NaCl (160mM) —were used. The structural connectome from White et al.
+
+
+                                                       17
+Algorithm 1 Score–Block Time Graphs (SBTG)
+
+         1: Input: Multi-animal recordings {X (u) }M
+                                                   u=1 ; lag set L; FDR level α
+         2: Output: Lag-specific signed adjacencies {A(ℓ) }ℓ∈L
+         3: for each lag ℓ ∈ L do
+         4:   Build minimal (ℓ+1)-block windows; pool across worms
+         5:   Select hyperparameters via null contrast (Eq. 7)
+         6:   5-fold cross-fit: train score model, evaluate on held-out
+         7:   for each ordered neuron pair (i, j) do
+         8:      Compute product series Yt = sbt+ℓ,j · sbt,i
+         9:      Estimate µbℓ,ji and HAC standard error
+        10:   end for
+        11:   Aggregate across worms via inverse-variance meta-analysis
+                                                          (ℓ)
+        12:   Apply BY FDR control at level α; store Aji = sign(b
+                                                                µℓ,ji )
+        13: end for
+        14: return {A(ℓ) }ℓ∈L
+
+
+
+
+[1986], Cook et al. [2019] provides anatomical ground truth from electron microscopy reconstruction,
+including chemical synapses and gap junctions which we use as binary ground truth for edge predic-
+tion. Molecular expression data using NeuroPAL and neural identification reporters adds ground truth
+for the ionotropic GABAa connectome and metabotropic GABAb connectome Yemini et al. [2021].
+The Bentley connectome Bentley et al. [2016] provides ground truth from molecular expression
+reporters for monoaminergic (dopamine, octopamine, serotonin, tyramine) neuromodulatory edge
+prediction. The Randi et al. functional atlas [Randi et al., 2023] offers functional ground truth from
+optogenetic impulse response experiments, quantifying a second dimension of functional connectivity.
+
+B.1.2   Neuron Identification and Alignment
+
+
+                         Table 3: Neuron coverage across recordings.
+                   Category                       Count              Notes
+                   Total neurons (C. elegans)              302     Hermaphrodite
+                   Head neurons identified                 189         NeuroPAL
+                   Tail neurons identified                  42         NeuroPAL
+                   Neurons in ≥ 15 worms                    80    Our analysis set
+                   Median appearances per neuron            18      Range: 15–20
+                   Worms with ≥ 70 neurons                  20    Post-imputation
+
+Coverage Statistics. We require neurons to appear in ≥ 15 worms, balancing coverage breadth
+with per-neuron sample size.
+
+D/V Subtype Collapsing. NeuroPAL identifies dorsal/ventral subtypes (e.g., RMDD, RMDV) not
+distinguished in Cook’s cell-class connectome. We collapse these to enable connectome alignment,
+recovering approximately 20 neurons that would otherwise be excluded. Table 4 lists all collapsed
+pairs.
+
+
+                            Table 4: Dorsal/ventral subtype collapsing.
+                                   Subtypes           Parent Class
+                                   RMDD, RMDV         RMD
+                                   SMDD, SMDV         SMD
+                                   RMEV, RMED         RME
+                                   RMDL, RMDR         RMD (L/R)
+
+
+
+
+                                                 18
+B.2     Hyperparameter Optimization
+
+B.2.1    Null Contrast Objective
+
+Motivation. Denoising score matching (DSM) loss measures how well sbθ approximates the true
+score, but this does not guarantee edge recovery. In validation experiments, DSM validation loss
+showed negative correlation with biological AUROC (r = −0.15 for Cook). This occurs because
+lower DSM loss can be achieved by fitting noise—learning high-frequency structure that does not
+correspond to real circuit connectivity.
+
+Definition.     The null contrast objective compares real signal strength to a null distribution:
+
+                                                             µℓ,ji |, j ̸= i)
+                                                       mean(|b
+                                             NC =                             ,                       (31)
+                                                             µnull
+                                                       mean(|bℓ,ji |, j ̸= i)
+
+                  1
+                     PTwin
+where µ bℓ,ji = Twin    t=1 s                                                             bnull is computed
+                             bt+ℓ,j (zt ) · sbt,i (zt ) is the cross-block score product, µ
+after randomly permuting the lag-ℓ block scores across windows, and higher NC indicates stronger
+structured signal relative to permutation baseline. Permutation preserves marginal statistics (each
+block’s score distribution) while breaking the joint structure. NC > 1 indicates the real data exhibits
+stronger cross-lag coupling than would occur by chance.
+
+Implementation via Optuna. We use Optuna’s TPE (Tree-structured Parzen Estimator) sampler
+for hyperparameter search [Akiba et al., 2019]:
+
+Algorithm 2 Hyperparameter Optimization via Null Contrast
+          1: Input: Training windows {zt }N     t=1 , number of trials K
+          2: Output: Optimal hyperparameters θ∗
+          3: Initialize Optuna study with TPE sampler
+          4: for trial k = 1, . . . , K do
+          5:     Sample hyperparameters: σnoise , hidden dim, num layers, lr
+          6:     Split data into train/validation (80/20)
+          7:     Train score model on train set (30 epochs for speed)
+          8:     Compute scores on validation set
+          9:     Compute µ  b from validation scores
+         10:     Permute lag-ℓ scores, compute µ   bnull
+         11:     Compute NC = mean(|b     µ|) / mean(|bµnull |)
+         12:     Report NC to Optuna
+         13: end for
+         14: return Hyperparameters with highest NC
+
+
+
+
+                      Table 5: Hyperparameter search space for Optuna optimization.
+                        Parameter             Range            Distribution
+                          σnoise (DSM noise)            [0.01, 0.30]           Continuous
+                          hidden dim                    {32, 64, 128}          Categorical
+                          num layers                    {2, 3}                 Categorical
+                          learning rate                 [10−4 , 10−2 ]         Log-uniform
+                          Fixed across trials:
+                          batch size                    128                    -
+                          train frac                    0.8                    -
+                          epochs (tuning)               30                     Reduced for speed
+                          epochs (final)                100                    Full training
+
+
+
+Number of Trials. We use K = 20 trials for synthetic benchmarks and K = 50 for empirical
+analysis. Validation experiments showed convergence by 20 trials, with diminishing returns beyond
+50.
+
+
+                                                               19
+B.3     Statistical Inference
+
+B.3.1    Cross-Fitting Protocol
+To avoid overfitting bias, all edge statistics are computed on held-out data:
+
+Algorithm 3 5-Fold Cross-Fitting
+          1: Input: Windows {zt(u) } with stimulus IDs {u}
+          2: Assign each unique stimulus u to one of 5 folds
+          3: for fold f = 1, . . . , 5 do
+          4:     Dtrain ← windows from stimuli not in fold f
+          5:     Dtest ← windows from stimuli in fold f
+          6:     Train score model s bθ on Dtrain
+          7:     Compute scores on Dtest : {b st }t∈Dtest
+          8: end for
+          9: Concatenate all held-out scores
+         10: Compute edge statistics from held-out scores only
+
+
+
+Remark. Folds are stratified by stimulus sequence (worm × trial), not by individual windows. This
+prevents data leakage from temporally adjacent windows and ensures independence between train
+and test sets.
+
+B.3.2    HAC Standard Errors
+Problem. The score product series Yt = sbt+ℓ,j · sbt,i exhibits strong autocorrelation due to overlap-
+ping windows. For lag-1 with 2-block windows, adjacent observations share the entire first block.
+Standard t-tests assuming i.i.d. observations would dramatically overstate significance.
+
+Solution: Newey–West HAC Estimator. We use the Newey–West heteroskedasticity and autocor-
+relation consistent (HAC) variance estimator [Newey and West, 1987]:
+                                                  m              !
+                                       1          X           h
+                       VarHAC (Ȳ ) =
+                       d                   γ
+                                           b0 + 2      1−           γ
+                                                                    bh ,             (32)
+                                       N                  m+1
+                                                                      h=1
+
+               1
+                 PN −h
+where γ
+      bh = N          t=1   (Yt − Ȳ )(Yt+h − Ȳ ) is
+                                                    the lag-hautocovariance, m is the bandwidth parameter
+                                                 h
+(number of lags to include), and the kernel 1 − m+1 ensures positive semi-definiteness.
+
+Bandwidth Selection. We use m = 7 based on typical autocorrelation decay in our 4 Hz neural
+data, the rule-of-thumb m ≈ N 1/4 , and sensitivity analysis showing stable results for m ∈ [5, 10].
+The t-statistic is then:                                         √
+                                                                     Nµ
+                                                                      bℓ,ji
+                                                 tji = q                      ,                           (33)
+                                                             Var
+                                                             d HAC (Yji )
+which we convert to two-sided p-values via the standard normal approximation.
+
+B.3.3    FDR Control
+Multiple Testing Burden. With n = 80 neurons, we test n(n − 1) = 6320 directed edges per lag.
+At α = 0.05 with independent tests, we would expect ∼ 316 false discoveries. At lag-5, we test
+5 × 6320 = 31600 edges.
+
+BY Procedure. We use the BY procedure [Benjamini and Yekutieli, 2001], which controls FDR
+under arbitrary dependence among p-values:
+                                                                             i
+                                          Reject H(i) if p(i) ≤                   α,                      (34)
+                                                                         m · c(m)
+                                                                                       Pm   1
+where p(1) ≤ · · · ≤ p(m) are ordered p-values, m = 6320, and c(m) =                    j=1 j ≈ log(m) + γ.
+
+
+                                                                 20
+Choice of α. We use α = 0.10 as our FDR level, slightly more liberal than the conventional 0.05,
+reflecting the exploratory analysis context (hypothesis generation), validation against independent
+connectomes (false positives will not align), and typical neuroscience practice for functional connec-
+tivity. Sensitivity analysis in Figure 5 examines α ∈ {0.01, 0.05, 0.10, 0.20} for BH and BY FDR
+control methods.
+
+
+
+
+Figure 5: Left: number of discovered directed edges as a function of the nominal FDR level α under
+Benjamini–Hochberg (BH) and Benjamini–Yekutieli (BY). Right: Spearman rank correlation with an
+external structural benchmark, computed over the edges passing the corresponding threshold, versus
+α. BY is more conservative, reflecting its validity under arbitrary dependence among test statistics.
+
+
+B.4   Remarks
+
+Population object vs. practical estimator. Theorem A.5 characterizes the population object
+recovered by the exact joint-window score: under additive-noise dynamics, the identity Mℓ =
+−Ω−1 E[Fℓ ] holds in expectation regardless of how the score is parameterized. The structured score
+model in Eq. (5) is a practical estimator chosen to make this population object recoverable from
+short, temporally dependent recordings; it is not a claim that this specific functional form is the
+unique or universal score family. The structural choices in Eq. (5) (cross-block coupling matrices
+Wr separated from within-block MLPs gk ) regularize the estimator toward the cross-block geometry
+that the theorem identifies, but they do not expand what the theorem proves: with an unrestricted
+(and consistent) score estimator the same identity would still hold in the population. The role of the
+structured form is to make the same target estimable in a data-limited regime.
+
+Minimal multi-block windows vs. time-unrolled inputs. Naive time-unrolling — concatenating
+lagged inputs (xt−1 , xt−2 , . . .) as features for a single model — is not equivalent to SBTG’s minimal
+multi-block window. With L ≥ 2, pair-window estimates of the form E[s(xt+ℓ ) s(xt )⊤ ] conflate
+the direct lag-ℓ effect with indirect pathways through intermediate time points xt+1 , . . . , xt+ℓ−1 —
+                                                                               (ℓ)
+a temporal omitted-variable bias. SBTG’s minimal multi-block window zt = (xt , xt+1 , . . . , xt+ℓ )
+explicitly conditions on those intermediate states, so the cross-block score product −E[st+ℓ s⊤       t ]
+recovers the direct lag-ℓ Jacobian by construction. Time-unrolling alone does not provide this
+conditioning, and methods that simply concatenate lagged copies of the data inherit the omitted-lag
+bias even when they nominally accept long histories.
+
+Sensitivity to additive-noise and stationarity assumptions. The exact identification result of
+Theorem 4.1 requires additive-noise dynamics, xt+1 = f (xt , . . . , xt−L+1 ) + εt , with the stationarity
+/ moment conditions of Assumption A.4. Real neural data are unlikely to satisfy these exactly. Our
+intended claim, however, is that SBTG targets a lag-specific coupling object directly from the
+joint-window distribution without requiring a parametric transition model. Outside the idealized
+theorem setting we view SBTG as estimating a reduced-form but still interpretable effective-coupling
+object — the closest population analogue of the lag-ℓ Jacobian under whatever distribution actually
+generates the data. In high-dimensional, partially observed, non-stationary regimes characteristic
+of neuroscience recordings, this is a strength rather than a weakness: SBTG retains a probability-
+distribution-based estimand that does not depend on architectural and training choices the way RNN-
+or attention-based connectivity proxies (e.g., LINT, NetFormer) do.
+
+
+                                                   21
+B.5     Baseline Methods Implementation
+
+We compare SBTG against seven baseline methods spanning linear/nonlinear and optimization-based
+approaches.
+
+                              Table 6: Baseline method specifications.
+   Method                Implementation Details
+   Pearson               Lag-ℓ cross-correlation: corr(xt+ℓ,j , xt,i ). Pooled across worms. No regulariza-
+                         tion.
+   Partial Correlation   Via precision matrix Ω = Σ−1 . Ωji estimates ∂xj /∂xi conditional on all others.
+                         Uses GraphicalLassoCV for regularization.
+                                         n                                   o
+   Graphical LASSO       b = arg minΩ − log det(Ω) + tr(ΩΣ)
+                         Ω                                      b + λ∥Ω∥1 . Cross-validated λ via
+                         scikit-learn.
+   Granger Causality     Per-pair F -test: Does xt−1:t−ℓ,i improve prediction of xt,j beyond
+                         own lags?        Fit per-worm, average F -statistics. Implementation:
+                         statsmodels.tsa.stattools.grangercausalitytests.
+   VAR-LASSO             Fit VAR(ℓ) via ℓ1 -penalized regression. Per-worm fitting, average coefficients.
+                         Regularization: α = 0.1
+   VAR-Ridge             ℓ2 -penalized VAR. α = 1.0. More stable than LASSO for correlated predictors.
+   VAR-LiNGAM            Causal discovery via independent components [Hyvärinen et al., 2010]. Assumes
+                         linear non-Gaussian additive noise. Implementation: lingam package.
+
+
+Remark. For VAR and Granger baselines, we fit models per-worm and average the resulting
+parameters/statistics. This avoids spurious temporal dependencies at worm boundaries that would
+arise from concatenation.
+
+B.5.1    Deep-Learning Baselines
+Beyond the classical and causal-discovery baselines above, we compare against three recent deep-
+learning architectures for connectivity inference. All three are trained on identical sliding-window
+calcium-imaging data and evaluated against the Cook structural connectome at lag 1.
+
+ • NRI [Kipf et al., 2018]: a variational autoencoder for interacting systems.
+ • NetFormer [Lu et al., 2025]: a transformer-inspired next-step predictor for neural dynamics.
+ • LINT [Valente et al., 2022]: a method that fits low-rank rate RNNs to neural trajectories.
+
+
+Table 7: Deep-learning baselines on the Cook structural connectome (lag 1, n=80). SBTG
+outperforms all three deep-learning baselines on every metric. NRI, NetFormer, and LINT remain
+near chance on AUROC, indicating that their inductive biases (latent-variable VAE, attention-based
+prediction, low-rank dynamical reconstruction) do not naturally produce lag-specific directed edge
+tests in this regime; SBTG’s cross-block score geometry, by contrast, is designed to recover them by
+construction.
+                Method                         AUROC       AUPRC        F1      Correlation
+                SBTG (lag 1)                    0.581       0.289      0.284       0.155
+                NRI [Kipf et al., 2018]         0.507       0.208      0.173       0.033
+                NetFormer [Lu et al., 2025]     0.505       0.205      0.176       0.008
+                LINT [Valente et al., 2022]     0.503       0.204      0.163       0.006
+
+
+B.5.2    Synthetic vs. Empirical Baseline Choice and Metric Rationale
+The synthetic and empirical experiments use deliberately different baseline sets, and the empirical
+evaluation reports both AUROC and Spearman rank correlation. We explain both choices here.
+
+
+                                                    22
+Why the baseline sets differ. The synthetic suite (Tables 1, 10, 11, 12) tests exact recovery against
+fully specified data-generating processes, so we benchmark against methods that target structural
+recovery under known dynamical assumptions: causal-discovery (DYNOTEARS, PCMCI+ , VAR-
+LiNGAM) and regularized regression (VAR-LASSO, VAR-Ridge). The empirical C. elegans setting
+(Table 2) evaluates rank alignment with partial external references (Cook structural connectome,
+Randi et al. functional atlas), where ground truth is incomplete and noisy; here we benchmark against
+well-understood correlation/regression baselines (Pearson, cross-correlation, Granger, Glasso) plus
+the deep-learning architectures of Section B.5.1 (NRI, NetFormer, LINT). Both baseline sets are
+domain-appropriate, but they answer different questions. The synthetic comparators are designed
+for sharp ground truth; the empirical comparators are designed for the partial-observation, partial-
+reference regime of population recordings.
+
+Why Spearman correlation alongside AUROC. On the empirical Cook benchmark we report
+both AUROC and Spearman rank correlation ρ. The two metrics answer different questions in this
+regime. AUROC treats every unannotated edge as equally negative, including pairs that may be
+biologically plausible but absent from the structural reference (the Cook connectome is itself partial,
+and absence of an edge does not imply absence of a functional interaction). Spearman correlation, in
+contrast, asks whether the inferred edges that SBTG ranks more strongly align with the biologically
+supported relationships in the reference, irrespective of where any binary cutoff falls. Our intended
+real-data claim is therefore not that SBTG solves binary connectome recovery from activity alone,
+but that it recovers a more accurate relative ordering of directed interactions and their multi-timescale
+organization. We retain AUROC for comparison with prior literature, while emphasizing ρ as the
+more interpretable measure under partial-reference ground truth.
+
+B.6     Synthetic Benchmark Suite
+
+To validate SBTG’s ability to recover known structure, we implemented a comprehensive synthetic
+benchmark suite.
+
+B.6.1    Data Generating Processes
+We test four synthetic families, each with lag-1 and lag-2 ground truth:
+
+                                   Table 8: Synthetic data families.
+  Family           Dynamics
+  VAR(2)           xt+1 = A1 xt + A2 xt−1 + εt , εt ∼ N (0, σ 2 I). Ground truth: supp(A1 ), supp(A2 ).
+  Poisson GLM      λt = exp(α + A1 xt + A2 xt−1 + st ), xt+1 ∼ Poisson(λt ). Count data with stimulus
+                   drive st .
+  Hawkes-like      λt = softplus(α + A1 xt + A2 xt−1 ), xt+1 ∼ Poisson(λt ). Self-exciting point
+                   process.
+  Tanh VAR(2)      xt+1 = tanh(W1 xt + W2 xt−1 ) + εt . Saturating nonlinearity like neural firing rates.
+
+
+Sparsity and Scaling. All adjacency matrices use 10% sparsity (6–7 edges per neuron on average
+for n = 10), lag-1 scale of 0.5–0.8 (stronger effects), lag-2 scale of 0.25–0.4 (weaker delayed effects),
+and spectral scaling for VAR families to ensure stability.
+
+B.6.2    Experimental Design
+Network Size. We use n = 10 neurons and m = 3 independent stimulus sequences per dataset.
+These dimensions are smaller than biological scale (n = 80) to enable fast iteration and comprehen-
+sive method comparison.
+
+Methods Evaluated We run SBTG with 20 Optuna trials each using null contrast objective, testing
+two statistical configurations (HAC bandwidth m ∈ {5, 7}) with BY FDR at α = 0.10, yielding
+6 fits per dataset. We compare against seven baseline methods: VAR-LASSO (α = 0.1), VAR-
+Ridge (α = 1.0), VAR-LiNGAM [Hyvärinen et al., 2010], Poisson-GLM (for count families),
+
+
+                                                   23
+                          Table 9: Synthetic benchmark configuration.
+                   Factor            Levels Values
+                   Data family        4              VAR, Poisson, Hawkes, Tanh
+                   Noise level        2              Low (σ = 0.1), High (σ = 0.5)
+                   Sequence length    2              Short (300), Long (800)
+                   Random seed        2              0, 1
+                   Total combinations: 4 × 2 × 2 × 2 = 32 datasets
+
+
+PCMCI+ [Runge et al., 2020] and DYNOTEARS [Pamfil et al., 2020]. All baselines use per-worm
+fitting with coefficient averaging (VAR methods) or per-worm F-test averaging (Granger).
+
+Evaluation Metrics For each method and dataset, we compute binary classification metrics for
+lag-1 (AUROC, AUPRC, F1, Precision, Recall), multi-lag AUROC (separate values for lag-1 and
+lag-2 predictions), and Spearman correlation (rank correlation between predicted weights and ground
+truth).
+
+B.7   Full Synthetic Results
+
+We present the full benchmark results for Linear VAR, Poisson, and Hawkes datasets below. The
+Nonlinear Tanh results are presented in the main text (Table 1).
+
+          Table 10: Linear VAR Results. SBTG outperforms linear/nonlinear baselines.
+                     Method               F1 Score         AUROC         AUPRC
+                     SBTG             0.39 ± 0.20         0.72 ± 0.16   0.25 ± 0.15
+                     DYNOTEARS        0.14 ± 0.16         0.56 ± 0.06   0.19 ± 0.11
+                     VAR-LASSO        0.21 ± 0.04         0.59 ± 0.04   0.17 ± 0.03
+                     PCMCI+           0.13 ± 0.09         0.52 ± 0.09   0.10 ± 0.00
+                     VAR-Ridge        0.17 ± 0.03         0.46 ± 0.14   0.13 ± 0.06
+                     VAR-LiNGAM       0.12 ± 0.10         0.52 ± 0.05   0.10 ± 0.03
+
+
+
+             Table 11: Poisson GLM Results. SBTG handles count data effectively.
+                     Method               F1 Score         AUROC         AUPRC
+                     SBTG             0.25 ± 0.12         0.66 ± 0.16   0.15 ± 0.06
+                     DYNOTEARS        0.03 ± 0.05         0.48 ± 0.04   0.09 ± 0.01
+                     VAR-LASSO        0.23 ± 0.12         0.58 ± 0.08   0.16 ± 0.06
+                     PCMCI+           0.19 ± 0.07         0.56 ± 0.07   0.11 ± 0.02
+                     VAR-Ridge        0.16 ± 0.02         0.53 ± 0.09   0.15 ± 0.08
+                     VAR-LiNGAM       0.09 ± 0.14         0.51 ± 0.05   0.12 ± 0.06
+
+
+
+            Table 12: Hawkes Process Results. Challenging point-process dynamics.
+                     Method               F1 Score         AUROC         AUPRC
+                     SBTG             0.20 ± 0.09         0.58 ± 0.15   0.12 ± 0.05
+                     DYNOTEARS        0.03 ± 0.08         0.50 ± 0.03   0.10 ± 0.02
+                     VAR-LASSO        0.17 ± 0.09         0.55 ± 0.06   0.14 ± 0.04
+                     PCMCI+           0.14 ± 0.05         0.51 ± 0.05   0.09 ± 0.01
+                     VAR-Ridge        0.16 ± 0.02         0.51 ± 0.07   0.14 ± 0.04
+                     VAR-LiNGAM       0.03 ± 0.08         0.50 ± 0.03   0.10 ± 0.02
+
+
+Linear and count-process scaling at n=80. Beyond the nonlinear tanh family above, we ran
+preliminary larger-scale benchmarks on the Linear VAR and Poisson GLM families at n=80 as part
+of the reviewer-response process. SBTG retains a non-trivial recovery signal in both: mean F1 of
+
+
+                                                     24
+Table 13: Nonlinear Tanh at empirical scale (n=80). Extension of Table 1 from the n=10 to
+n=80. We evaluate the four (noise, length) variants used elsewhere in the synthetic suite: noise
+∈ {low, high} and length ∈ {short (T =300), long (T =3000)}. SBTG remains above chance on
+the two high-noise variants, achieving per-cell AUROC of 0.68 at high/short and 0.82 at high/long;
+the gain with Tlong =3000 vs Tshort =300 is consistent with our windows-per-edge analysis. The
+aggregated rows below report mean ± std across all four variants, including the failed low-noise cells.
+Classical and causal-discovery baselines remain at chance throughout.
+                      Method              F1 Score         AUROC         AUPRC
+                      SBTG              0.35 ± 0.18       0.62 ± 0.16   0.23 ± 0.15
+                      VAR-LASSO         0.15 ± 0.02       0.50 ± 0.01   0.11 ± 0.00
+                      VAR-Ridge         0.19 ± 0.00       0.49 ± 0.00   0.10 ± 0.00
+                      VAR-LiNGAM        0.10 ± 0.05       0.49 ± 0.01   0.10 ± 0.00
+
+
+0.160 on the VAR family and 0.141 on the Poisson family, averaged across the same noise/length
+grid as the tanh table above. By contrast, several alternative methods collapse to chance at this scale:
+VAR-LiNGAM achieves mean F1 0.044 (VAR) and 0.048 (Poisson), and the deep-learning baselines
+NRI, NetFormer, and LINT remain near chance throughout. We do not claim that n=10 recovery
+extends without modification to the empirical regime; rather, SBTG remains feasible and continues
+to recover a modest but interpretable signal in a substantially more complex setting where competing
+methods do not.
+
+B.8     Cell Type Analysis
+
+B.8.1    Cell Type Assignment
+Neurons are classified into functional categories using Cook’s annotations:
+
+                                    Table 14: Cell type categories.
+                     Type              Count Examples
+                     Sensory (S)            28    ASE, AWA, AWC, ASH, ASK
+                     Interneuron (I)        34    AIB, RIM, AVA, AVE, RIA
+                     Motor (M)              11    RMD, SMD, RME, VA, VB
+                     Other                   7    GLR, DVA, PVC
+
+
+B.8.2    Statistical Comparisons
+For each lag r and cell-type pair (A, B) ∈ {S, I, M }2 , we extract significant edges A → B where
+{(j, i) : i ∈ A, j ∈ B, µr,ji significant}, compute mean |b
+                                                          µr,ji | across these edges, perform within-
+lag comparison using Mann-Whitney U test comparing (A → B) versus all other pairs at lag r,
+and conduct across-lag comparison using paired t-test for the same pair (A → B) at different lags.
+Heatmaps show mean |µ| for each (A, B) pair with significance stars from Mann-Whitney tests.
+
+B.9     Monoamine Connectome Evaluation
+
+B.9.1    Alignment Procedure
+We preprocess neuron names (collapsing L/R and D/V subtypes), filter to the 80 neurons in our
+analysis set, construct adjacency matrices, and binarize such that a directed edge (i → j) exists if the
+transmitter/receptor is present.
+
+B.9.2    Metric Selection and Rationale
+We evaluate our model using three complementary metrics: AUROC (Area Under the Receiver
+Operating Characteristic Curve), AUPRC (Area Under the Precision-Recall Curve), and the Max F1
+Score. The choice of these metrics is motivated by the extreme sparsity of the connectome (< 10%
+density) and the need to capture different aspects of model performance.
+
+
+                                                     25
+AUROC (Ranking Quality): Measures the probability that a randomly chosen true edge is ranked
+higher than a randomly chosen non-edge. This metric effectively quantifies how well the model
+captures the underlying biological physics of the system, independent of the choice of threshold.
+A high AUROC indicates that the learned coupling scores assign statistically higher values to true
+biological connections.
+AUPRC (Reliability): Measures the trade-off between precision and recall across all thresholds,
+focusing specifically on the positive class (edges). In sparse datasets like connectomes, AUROC can
+be overly optimistic due to the large number of true negatives. AUPRC provides a stricter measure of
+how reliable the top-ranked predictions are, penalizing false positives more heavily.
+F1 Score (Recoverability): Represents the harmonic mean of precision and recall at the optimal
+decision threshold. While AUROC and AUPRC measure ranking performance across all thresholds,
+the Max F1 score answers a practical question: is there a single cut-off point that recovers a graph
+structure topologically similar to the ground truth? We analyze the peaks of the F1 score specifically
+because they indicate the time lag at which the inferred functional graph is closest to the structural
+connectome.
+
+
+
+
+Figure 6: (A) Monoamine-connectome prediction (F1) versus lag for SBTG and representative
+baselines, shown separately by transmitter (dopamine, serotonin, tyramine, octopamine).(B) Cell-
+type coupling heatmaps (sensory/interneuron/motor) as a function of lag, comparing SBTG to VAR
+and Pearson. (C) Randi functional benchmark performance versus lag (AUROC, AUPRC) across
+methods.
+
+The temporal profile of these recoverability scores is visualized in Figure 7 for Electrical (gap
+junctions) vs. Chemical (neurotransmitters) connectomes and ionotropic (GABA-A) or metabotropic
+(GABA-B) connectomes White et al. [1986], Cook et al. [2019], Yemini et al. [2021].
+
+B.10   Peak Lag Analysis
+
+To characterize the dominant timescales of synaptic, functional, and neuromodulatory signaling, we
+analyzed the Model Performance (F1 score) as a function of time lag.
+To do so, first we identified the discrete lag tmax maximizing the observed F1 score:
+                                         tmax = arg max F1 (t).                                  (35)
+                                                   t∈T
+
+
+                                                 26
+Figure 7: Lag-resolved recoverability for structural and receptor networks. Top: Chemical
+vs. Gap Junction benchmarks as a function of lag (left: AUPRC, right: F1). The Gap Junction
+network shows a sharp peak at t = 0.25s and rapidly decays, whereas Chemical Synapses exhibit
+broader persistence across lags. Bottom: GABA-A vs. GABA-B benchmarks (left: AUPRC, right:
+F1), showing strongest recoverability at the shortest lag with additional lag-dependent structure,
+particularly for GABA-B.
+
+
+Second, to estimate the true biological peak tpeak between sampled points, we applied local parabolic
+interpolation. We fit a parabola to the discrete maximum (tmax , ymax ) and its immediate neighbors
+(tmax − ∆t, yprev ) and (tmax + ∆t, ynext ). The vertex of this parabola provides the sub-sample peak
+estimate:
+                                             ∆t        yprev − ynext
+                            tpeak = tmax +       ·                        .                      (36)
+                                              2 yprev − 2ymax + ynext
+This estimator assumes the underlying curve is smooth and concave at the peak. Peaks occurring at
+the boundary of the sampling window (e.g., Serotonin at 5s) were not interpolated.
+
+Table 15: Peak time lags for functional connectivity benchmarks. Discrete peaks are the lags with
+maximum sampled F1 score. Interpolated peaks are estimated using parabolic interpolation around
+the discrete maximum to find the sub-sample peak location.
+            Network                   Peak Lag (s)    Interp Lag (s)   Peak F1   Interp F1
+            Monoamine: dopamine               0.75             0.82       0.02       0.02
+            Monoamine: serotonin              5.00             5.00       0.07       0.07
+            Monoamine: tyramine               0.50             0.55       0.06       0.06
+            Monoamine: octopamine             0.75             0.87       0.03       0.04
+            Structural: Cook                  0.25             0.25       0.34       0.34
+            Functional: Randi                 2.00             1.88       0.69       0.69
+
+
+
+
+                                                 27
+

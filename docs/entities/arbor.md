@@ -10,10 +10,12 @@ tags:
 - software-arbor
 title: Arbor
 type: entity
-updated: '2026-05-07'
+updated: 2026-05-12
 ---
 
-Arbor (arbor) is a high-performance library for [[neural-network]] simulation, emphasizing efficient multi-compartment [[neuron]] models on modern hardware.
+Arbor is a high-performance neural simulation library optimized for efficient multi-compartment [[neuron]] models and large-scale [[spiking-neural-networks]] on modern hardware architectures. Developed to meet the computational demands of biophysically detailed simulations, Arbor spans scales from single-compartment neurons to coordinated populations of cells, functioning as a microscopic counterpart to macroscopic whole-brain platforms [[raw/papers/arxiv-2505.16861.md|Hater et al. (2025)]]. In contrast to [[tvb]], which models [[whole-brain-modeling]] dynamics through anatomical [[structural-connectivity]] and regional mean activity [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]], and [[nest]], which specializes in large networks of point neurons with efficient spike communication [[raw/papers/gewaltig-diesmann-2007.md|Gewaltig & Diesmann (2007)]], Arbor emphasizes detailed compartmental resolution and performance portability across heterogeneous computing systems.
+
+The library's modular architecture has enabled a direct co-simulation coupling with TVB through an MPI intercommunicator that translates discrete spikes into continuous macroscopic signals in real time [[raw/papers/semanticscholar-eb704b6f5462.md|Hater et al. (2026)]]. This bidirectional integration allows researchers to replace abstract [[neural-mass-models|neural-mass]] nodes in whole-brain networks with biologically realistic Arbor cell populations, making it possible to study [[epilepsy-modeling|seizure onset]] and [[network-dynamics]] propagation from the cellular level to the entire brain. By bridging microscopic biophysics with [[connectome]]-based macroscopic function, Arbor occupies a distinctive niche in the multi-scale [[computational-neuroscience]] ecosystem.
 
 ## Key Features
 
