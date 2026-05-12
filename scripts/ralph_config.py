@@ -48,7 +48,7 @@ def get_page_lock(page_path: str) -> threading.Lock:
     return PAGE_LOCKS.setdefault(page_path, threading.Lock())
 
 # ── Models ─────────────────────────────────────────────────────────────
-WRITER_MODEL = "ollama/minimax-m2.5:cloud"
+WRITER_MODEL = "ollama/kimi-k2.6:cloud"  # switched from minimax-m2.5:cloud for speed
 REVIEWER_MODEL = "ollama/glm-5.1:cloud"
 REPAIRER_MODEL = "ollama/gpt-oss:120b-cloud"
 

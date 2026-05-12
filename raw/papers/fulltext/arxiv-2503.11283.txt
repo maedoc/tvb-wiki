@@ -1,0 +1,879 @@
+                                                             Brain Effective Connectivity Estimation via Fourier
+                                                                          Spatiotemporal Attention
+                                                                                Wen Xiong                                                                          Jinduo Liu*
+                                                                 Beijing University of Technology                                                     Beijing University of Technology
+                                                                          Beijing, China                                                                        Beijing, China
+                                                                  xiongwen@emails.bjut.edu.cn                                                                jinduo@bjut.edu.cn
+
+                                                                                Junzhong Ji                                                                      Fenglong Ma
+                                                                 Beijing University of Technology                                                       Pennsylvania State University
+arXiv:2503.11283v1 [cs.LG] 14 Mar 2025
+
+
+
+
+                                                                           Beijing, China                                                                 University Park, PA, USA
+                                                                         jjz01@bjut.edu.cn                                                                   fenglong@psu.edu
+
+                                         Abstract                                                                                        Keywords
+                                         Estimating brain effective connectivity (EC) from functional mag-                               Brain effective connectivity, Fourier Attention, Spatiotemporal At-
+                                         netic resonance imaging (fMRI) data can aid in comprehending                                    tention
+                                         the neural mechanisms underlying human behavior and cognition,                                  ACM Reference Format:
+                                         providing a foundation for disease diagnosis. However, current                                  Wen Xiong, Jinduo Liu*, Junzhong Ji, and Fenglong Ma. 2025. Brain Effective
+                                         spatiotemporal attention modules handle temporal and spatial at-                                Connectivity Estimation via Fourier Spatiotemporal Attention. In Proceed-
+                                         tention separately, extracting temporal and spatial features either                             ings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data
+                                         sequentially or in parallel. These approaches overlook the inher-                               Mining V.1 (KDD ’25), August 3–7, 2025, Toronto, ON, Canada. ACM, New
+                                         ent spatiotemporal correlations present in real world fMRI data.                                York, NY, USA, 12 pages. https://doi.org/10.1145/3690624.3709226
+                                         Additionally, the presence of noise in fMRI data further limits the
+                                         performance of existing methods. In this paper, we propose a novel                              1    Introduction
+                                         brain effective connectivity estimation method based on Fourier                                 Graph models have gained popularity as an effective approach for
+                                         spatiotemporal attention (FSTA-EC), which combines Fourier at-                                  comprehending extensive datasets and offering outputs that are
+                                         tention and spatiotemporal attention to simultaneously capture                                  easily interpretable [25, 32]. Brain effective connectivity (EC) rep-
+                                         inter-series (spatial) dynamics and intra-series (temporal) depen-                              resents the influence exerted by one brain region upon another in
+                                         dencies from high-noise fMRI data. Specifically, Fourier attention                              terms of information flow and causality [9]. Brain EC analysis has
+                                         is designed to convert the high-noise fMRI data to frequency do-                                found applications across several clinical research domains, delving
+                                         main, and map the denoised fMRI data back to physical domain,                                   into neurological and psychiatric disorders, including Alzheimer’s
+                                         and spatiotemporal attention is crafted to simultaneously learn                                 disease [40], schizophrenia [45], depression [35, 47], autism spec-
+                                         spatiotemporal dynamics. Furthermore, through a series of proofs,                               trum disorders [18], et al. By extrapolating brain EC insights from
+                                         we demonstrate that incorporating learnable filter into fast Fourier                            neuroimaging data, such as functional magnetic resonance imaging
+                                         transform and inverse fast Fourier transform processes is mathe-                                (fMRI), researchers can potentially establish biomarkers for early
+                                         matically equivalent to performing cyclic convolution. The exper-                               detection, disease progression monitoring, and treatment efficacy
+                                         imental results on simulated and real-resting-state fMRI datasets                               assessment. This also enables us to illuminate the interplay among
+                                         demonstrate that the proposed method exhibits superior perfor-                                  distinct cerebral areas and their contributions to diverse cognitive
+                                         mance when compared to state-of-the-art methods. The code is                                    processes and behaviors.
+                                         available at https://github.com/XiongWenXww/FSTA.                                                  Lately, plenty of techniques have emerged that leverage fMRI
+                                                                                                                                         data for the analysis of brain EC. These techniques can be broadly
+                                         CCS Concepts                                                                                    categorized into two main categories: model-based methods and
+                                         • Computing methodologies → Machine learning approaches;                                        data-driven methods [23]. Model-based methods are relatively straight-
+                                         • Applied computing → Health informatics.                                                       forward to implement and offer explanatory insights into brain
+                                                                                                                                         activity, which can reveal specific relationships and mechanisms
+                                         *Corresponding author: Jinduo Liu (email: jinduo@bjut.edu.cn).                                  between brain regions but require prior knowledge [12]. These
+                                                                                                                                         methods could be constrained by inaccurate prior knowledge and
+                                         Permission to make digital or hard copies of all or part of this work for personal or
+                                         classroom use is granted without fee provided that copies are not made or distributed           assumptions incorporated during modeling [8]. On the other hand,
+                                         for profit or commercial advantage and that copies bear this notice and the full citation       data-driven methods do not rely on priori assumptions and can
+                                         on the first page. Copyrights for components of this work owned by others than the              adapt to different types of data. However, fMRI time series data
+                                         author(s) must be honored. Abstracting with credit is permitted. To copy otherwise, or
+                                         republish, to post on servers or to redistribute to lists, requires prior specific permission   exhibit strong temporal and spatial characteristics, and current
+                                         and/or a fee. Request permissions from permissions@acm.org.                                     data-driven methods always capture the spatial and temporal cor-
+                                         KDD ’25, August 3–7, 2025, Toronto, ON, Canada                                                  relations separately. Thus, they disregard the unified spatiotem-
+                                         © 2025 Copyright held by the owner/author(s). Publication rights licensed to ACM.
+                                         ACM ISBN 979-8-4007-1245-6/25/08                                                                poral interdependence inherent in real-world fMRI time series
+                                         https://doi.org/10.1145/3690624.3709226                                                         data. In addition, the high noise levels in fMRI data also limit the
+KDD ’25, August 3–7, 2025, Toronto, ON, Canada                                                      Wen Xiong, Jinduo Liu*, Junzhong Ji, and Fenglong Ma
+
+
+performance of existing methods. Therefore, how to capture the             causality (GC)[6]. Specifically, GC is proficient at deducing causal
+unified spatiotemporal interdependence inherent in fMRI data and           relationships between variables; however, it remains incapable of
+improve the model’s resistance to noise have become key research           ascertaining the directionality of these relationships and neces-
+challenges in this field.                                                  sitates stationary data. In the case of DCM and SEM, they both
+   Attention mechanisms [44] have been widely used in fMRI data            offer avenues for addressing non-stationary fMRI data. But all of
+analysis and have achieved good performance [1]. However, when             these model-based approaches rely on prior knowledge, which can
+the noise level in the data is high, its performance is usually affected   be prone to errors. Data-driven methods such as pairwise linear
+[24]. Current studies show that employing the fast Fourier trans-          non-Gaussian acyclic model (pwLiNGAM) [15], generative adver-
+form (FFT) and inverse fast Fourier transform (IFFT) can efficiently       sarial networks (GAN) [26, 27], ant colony optimization based on
+mitigate the effects of noise in data [42]. Additionally, combining        conditional entropy and transfer entropy (ACOCTE) [28], causal
+them with a novel spatiotemporal attention mechanism may also              recurrent variational autoencoder (CR-VAE) [22] and causal autoen-
+be expected to capture the unified spatiotemporal interdependence          coder with meta-knowledge (MetaCAE) [16], aiming to discover EC
+inherent in high-noise fMRI data.                                          patterns directly from fMRI data without prior knowledge. Never-
+   In this paper, we propose a novel method that utilizes Fourier          theless, the majority of methods tend to omit the unified spatiotem-
+spatiotemporal attention (FSTA-EC) for brain effective connectivity        poral correlation and inherent noise present in fMRI data.
+estimation. FSTA-EC integrates Fourier attention (FA) and spa-
+tiotemporal attention (STA) to enable the concurrent learning of           2.2    Fourier Attention
+inter-series (spatial) dynamics and intra-series (temporal) depen-         Several studies have explored applications based on Fourier trans-
+dencies from high-noise fMRI data. In detail, FA exploits FFT to           form. Nguyen et al. employed a generalized Fourier nonparametric
+transform high-noised fMRI data into frequency domain and em-              regression estimator while retaining QKV components [31]. Pa-
+ploys IFFT to restore the denoised fMRI data back to the original          tro et al. apply a normalization layer before FFT in the spectral
+physical domain, while extracting the global frequency domain              block, and use a weighted gating mechanism after FFT, employing a
+features of fMRI data during this procedure. Then, STA utilizes            common product operation [34]. Lee-Thorp et al. perform discrete
+temporal attention (TA) to learn intricate temporal patterns from          Fourier transform along the hidden dimension and the sequence
+fMRI time series data and employs spatiotemporal fusion atten-             dimension, respectively [21]. Unlike the aforementioned work, we
+tion (STFA) to simultaneously capture both spatiotemporal features         incorporate an element-wise multiplication into the FFT and IFFT,
+and spatial brain effective connectivity among brain regions. The          which functions as a filter to control the gain of each frequency
+proposed method has been rigorously tested with both simulated             component.
+and real-world fMRI data. The experimental results demonstrate
+that it offers performance advantages over existing state-of-the-art       2.3    Spatiotemporal Attention
+methods.
+   The main contributions of this paper are summarized:                    Regarding spatiotemporal attention, many spatiotemporal atten-
+                                                                           tion modules have been applied to tasks such as traffic prediction,
+     • To the best of our knowledge, this is the first work that           functional connectivity [13, 14] and disease classification tasks
+       takes into account Fourier transformation for denoising fMRI        [4, 30]. Lan et al. feed traffic data into temporal attention, followed
+       time series data and employs spatiotemporal attention to            by passing the extracted temporal features into spatial attention
+       estimating brain effective connectivity.                            [19]. Additionally, many studies treat temporal and spatial atten-
+     • The proposed method employs a learnable filter in FFT and           tion as independent modules and arrange them in a sequential
+       IFFT techniques to denoise the fMRI data and extract global         structure. [11, 17, 50]. In contrast to previous studies, Zhang et al.
+       frequency domain features, thereby enhancing the perfor-            apply temporal and spatial attention in parallel, ultimately fusing
+       mance on high-noise fMRI data.                                      these features through gated fusion [48]. However, these studies
+     • The proposed method derives both spatiotemporal features            organize temporal and spatial attention either serially or in parallel,
+       and spatial effective connectivity from fMRI data by a unified      which can only extract temporal and spatial features of fMRI data
+       spatiotemporal attention framework, enabling a more com-            in separate patterns. These approaches fail to account for inher-
+       prehensive utilization of the spatiotemporal relationships.         ent spatiotemporal correlations present in real world fMRI data.
+     • Systematic experiments demonstrate that in the majority of          In contrast, our spatiotemporal attention module fuses temporal
+       cases, the performance of FSTA-EC is superior to current            and spatial attention within a unified framework, achieving a deep
+       state-of-the-art methods.                                           integration of temporal features and spatial relationships among
+                                                                           nodes.
+2 Related Work
+2.1 Brain Effective Connectivity Methods                                   3     Notation and Problem Definition
+Recently, a plethora of techniques have surfaced to estimate brain         In this paper, we utilize a lowercase font (e.g., 𝑣𝑖 ) to denote the (𝑖-th)
+EC using fMRI data. These techniques can be broadly categorized            brain region, the uppercase font (e.g., 𝑋 ) represents the matrix, and
+into two main groups: model-based methods and data-driven meth-            the uppercase calligraphic letters (e.g., X) are used to denote three-
+ods [23]. A multitude of model-based methods have been developed           dimensional tensor. Let a tensor X ∈ R𝑇 ×𝑁 ×𝐷 signifies embedded
+to estimate EC. These methods include dynamic causal modeling              fMRI time series data in three-dimensional, where 𝑇 is the number
+(DCM) [2, 10], structural equation modeling (SEM) [7], and Granger         of data points, 𝑁 signifies the number of brain regions, and 𝐷 stands
+Brain Effective Connectivity Estimation via Fourier Spatiotemporal Attention                                     KDD ’25, August 3–7, 2025, Toronto, ON, Canada
+
+
+for the embedding size of fMRI data. Then X𝑡 implies the data of the           information self-contained in the input fMRI time series data:
+tensor X at time step 𝑡. The math bold italic letters at the subscript                                      !                        !
+position of the parameter, i.e., 𝑄 T,ℎ , 𝑄 S,ℎ denote query in temporal                                   𝑝                       𝑝
+                                                                                        𝑃𝐸 (𝑝,2𝑘 ) = sin 2𝑘 , 𝑃𝐸 (𝑝,2𝑘+1) = cos 2𝑘 ,
+and spatiotemporal fusion attention mechanism, respectively. The                                         𝛾𝐷                      𝛾𝐷           (1)
+detailed meanings of all symbols are shown in Appendix A.1.                                             X = (⊗𝑋 ) + 𝑃𝐸,
+   First, we give the definition of brain effective connectivity.
+                                                                               where 𝑝 denotes the position of the vector in the fMRI time series
+   Definition 1. (Brain Effective Connectivity) Brain effective                data, 𝑘 signifies the position in the vector, 𝛾 normally takes the
+connectivity, also known as the causal brain network, can be repre-            value of 10000, and ⊗ represents two-dimensional convolution with
+sented as a directed graph G =< 𝑣, 𝐴 >, where 𝑣 denotes the set of             the kernel size of 1 × 1.
+nodes, with each node 𝑣𝑖 ∈ 𝑣 indicating a brain region or a region of             Subsequently, the embedded fMRI time series data is passed
+interest (ROI). 𝐴 represents edge matrix, which means 𝐴𝑖 𝑗 signifies           through fast Fourier transform (FFT) for further analysis. This trans-
+the effective connectivity from brain region 𝑣 𝑗 to 𝑣𝑖 , implying a causal     formation decomposes fMRI time series data into its constituent
+influence exerted by brain region 𝑣 𝑗 on 𝑣𝑖 .                                  frequencies, enabling the extraction of crucial frequency features
+                                                                               and aiding in the identification of periodic or trending patterns
+                                                                               within the fMRI data. Considering this, we map the embedded fMRI
+   Then, the problem of brain effective connectivity estimation can
+                                                                               data to frequency domain H by FFT:
+be formulated as learning G from brain data (e.g., fMRI).
+                                                                                                                              −1
+                                                                                                                            𝑇∑︁
+                                                                                                                                              2𝜋
+                                                                                                  H𝑓 = F (X𝑡 ) =                    X𝑡 𝑒 − 𝑗 𝑇 𝑓 𝑡 ,              (2)
+4     Methodology                                                                                                            𝑡 =0
+In this section, we first present the main idea of FSTA-EC, then               where F (·) implies one-dimensional fast Fourier transform, 𝑗 is
+describe the details of each component, and finally introduce the              the imaginary unit, X𝑡 stands for the data corresponding to the 𝑡-th
+loss function.                                                                 time step of the fMRI time series, and H𝑓 represents the spectrum
+                                                                                                                               2𝜋 𝑓
+                                                                               of the sequence X𝑡 at frequency 𝑇 . According to the Euler’s
+4.1     Model Overview                                                         formula 𝑒 𝑖𝑥 = cos 𝑥 + 𝑗 sin 𝑥 [20], we can further elaborate on the
+Over the past few years, numerous attention-based methods have                 aforementioned equation:
+emerged for the estimation of brain EC. However, these methods                                   −1
+                                                                                               𝑇∑︁                            𝑇∑︁−1
+have shown limited effectiveness in handling the high noise and                                                   2𝜋                        2𝜋
+                                                                                        H𝑓 =           X𝑡 cos(−      𝑓 𝑡) + 𝑗       X𝑡 sin(− 𝑓 𝑡)
+frequency domain features of fMRI data. Moreover, the majority of                               𝑡 =0
+                                                                                                                  𝑇            𝑡 =0
+                                                                                                                                            𝑇
+spatiotemporal attention methods use separate patterns, inherently                                                                                                (3)
+                                                                                               𝑇∑︁−1                𝑇∑︁−1
+challenging the unified spatiotemporal interdependence observed                                           2𝜋                     2𝜋
+                                                                                            =      X𝑡 cos( 𝑓 𝑡) − 𝑗       X𝑡 sin( 𝑓 𝑡).
+in the real world, leading to a significant impact on brain EC esti-                          𝑡 =0
+                                                                                                          𝑇          𝑡 =0
+                                                                                                                                 𝑇
+mation.
+                                                                                  Then FA modifies the spectrum by applying a learnable filter K
+   To overcome the above issues, we present a novel brain effective
+                                                                               through the process of modulation:
+connectivity estimation method via Fourier spatiotemporal atten-
+tion, named FSTA-EC. The framework of FSTA-EC is depicted in                                                    H̃ = K ⊙ H,                                       (4)
+Figure 1. Firstly, the fMRI data is fed into FA to remove noise and
+capture global context features from the frequency domain. Sub-                where ⊙ is element-wise multiplication, and K is a learnable fil-
+sequently, the temporal dependencies are initially acquired using              ter. After completing the learning process in frequency domain,
+temporal attention in spatiotemporal attention. Then the spatiotem-            we recover the original fMRI data by IFFT, which also facilitates
+poral dynamic features of fMRI data and brain EC are obtained                  noise reduction of the fMRI data. Similar to FFT, we can derive the
+through spatiotemporal fusion attention.                                       following formula using Euler’s formula:
+                                                                                                                    𝑁 −1
+                                                                                                                1 ∑︁         2𝜋
+                                                                                        X̃𝑡 = F −1 ( H̃𝑓 ) =         H̃𝑓 𝑒 𝑗 𝑇 𝑓 𝑡
+4.2     Fourier Attention                                                                                       𝑁
+                                                                                                                     𝑓 =0
+The key difference between Fourier attention (FA) and general at-
+                                                                                                                    𝑁 −1                 −1
+                                                                                                                                      h𝑇∑︁
+tention is the replacement of multi-head attention with Fourier                                                 1   ∑︁                                  2𝜋
+                                                                                                            =                K⊙               X𝑡 cos(      𝑓 𝑡)   (5)
+transform. Firstly, to unveil the intricate features and patterns that                                          𝑁                      𝑡 =0
+                                                                                                                                                        𝑇
+                                                                                                                     𝑓 =0
+may be present in the fMRI data, each node undergoes an embed-
+                                                                                                                       −1
+                                                                                                                     𝑇∑︁
+ding process at each time step, yielding three-dimensional fMRI                                                                           2𝜋     i 2𝜋
+                                                                                                                −𝑗           X𝑡 sin(         𝑓 𝑡) 𝑒 𝑗 𝑇 𝑓 𝑡 ,
+data with dimensions 𝑇 × 𝑁 × 𝐷, where 𝑇 is the number of data                                                                             𝑇
+                                                                                                                      𝑡 =0
+points, 𝑁 signifies the number of nodes, and 𝐷 stands for the em-
+bedding size. Due to the inability of attention to comprehend the              where F −1 (·) signifies one-dimensional inverse fast Fourier trans-
+time order of the input fMRI time series data and positional en-               form. Indeed, the spectrum is composed of cosine and sine waves
+coding (PE) has the advantage of capturing the relative position               with varying frequencies and amplitudes in H . This enables us to
+information of the sequences, PE is needed to make the position                deduce the specific periodic properties of the fMRI time series signal.
+KDD ’25, August 3–7, 2025, Toronto, ON, Canada                                                                                                               Wen Xiong, Jinduo Liu*, Junzhong Ji, and Fenglong Ma
+
+
+
+                                                                                                                        a) Fourier Attention
+
+
+
+
+                                               Positional Encoding
+                                                 Embedding &
+                     ROI#1
+                     ROI#2
+                     ROI#3
+                     ROI#4
+                     ROI#5                                                            Fast Fourier Transform                   Multiple Learnable Filter
+                                                                                                                                                                Inverse Fast Fourier Transform
+                       Input: fMRI Time
+                          Series Data
+                                                                                                     b) Spatiotemporal Attention
+
+
+
+
+                                                                                                                        ×
+
+
+
+
+                                                                                                                                                                                       Feed Forward
+                                                                                                                                                                      Add & Norm
+
+
+
+
+                                                                                                                                                                                                          Add & Norm
+                                                 FFN module
+                                                                                                 Multi-Head Attention
+                                                                     ×
+                                                                         FFN module
+
+
+
+                                                                                      Concat
+
+
+
+                                                                                               ×
+                     Output: Brain Effective                                                                                                                                       FFN module
+                          Connectivity
+
+
+
+
+                                                                                                                 ×
+Figure 1: The architecture of FSTA-EC. Specifically, it comprises two elements: (a) Fourier Attention and (b) Spatiotemporal
+Attention. Fourier attention initially applies fast Fourier transform to convert high-noise fMRI data into frequency domain and
+then utilizes inverse fast Fourier transform to map the denoised fMRI data back to physical domain. Spatiotemporal attention
+incorporates temporal attention to learn temporal features from fMRI time series data and employs spatiotemporal fusion
+attention to simultaneously capture both spatiotemporal dynamic features and spatial brain EC.
+
+
+Consequently, analyzing the spectrum facilitates improved identifi-                                                      and spatiotemporal fusion attention. In addition, STA benefits from
+cation of dominant frequencies and recurring patterns within the                                                         multi-head attention, with the ability to simultaneously gather in-
+fMRI time series.                                                                                                        formation from distinct subspaces, thereby enhancing the capacity
+                                                                                                                         to capture diverse facets of the input sequence. Specifically, the
+   Proposition 1. By incorporating learnable filter K into the FFT
+                                                                                                                         multi-head attention is composed of multiple self-attention. In this
+and IFFT processes, the resulting operation is equivalent to cyclic
+                                                                                                                         context, we employ 𝐻 self-attention mechanisms. Within each tem-
+convolution.
+                                                                                                                         poral attention, QT,ℎ , KT,ℎ , VT,ℎ is first obtained through linear
+    The detailed proof is shown in Appendix A.2. Using a learnable                                                       transformation:
+filter K and applying it as a cyclic convolution, FA can capture long-                                                                                     QT,ℎ = Xℎ′⊤𝑊T + 𝑏𝑖𝑎𝑠 T,ℎ ,
+                                                                                                                                                                                       𝑄                         𝑄
+range dependencies or patterns extending beyond the immediate
+neighbors. This allows FA to have a broader receptive field and                                                                                            KT,ℎ = Xℎ′⊤𝑊T𝐾 + 𝑏𝑖𝑎𝑠 T,ℎ
+                                                                                                                                                                                 𝐾
+                                                                                                                                                                                     ,                                  (9)
+consider the global context when making predictions or extracting
+                                                                                                                                                           VT,ℎ = Xℎ′⊤𝑊T𝑉 + 𝑏𝑖𝑎𝑠𝑉T,ℎ ,
+features from the fMRI time series data.
+    Once the fMRI data is denoised, to prevent gradient vanishing                                                        where Xℎ′⊤ denotes the transpose of input of the ℎ-th head after
+and exploding, we incorporate residual connections and layer nor-                                                                                                 𝐷
+                                                                                                                         embedding, Xℎ′⊤ ∈ R𝑁 ×𝑇 × 𝐻 ,𝑊T ∈ R 𝐻 × 𝐻 , QT,ℎ , KT,ℎ , VT,ℎ sym-
+                                                                                                                                                                                   𝑄                  𝐷      𝐷
+
+malization techniques:                                                                                                   bolize the Query, Key, Value of the ℎ-th head in temporal attention,
+                                X̃ ′ = 𝜌 ( X̃ + X),                                                        (6)           respectively. Then temporal features can be calculated as:
+where 𝜌 (·) denotes layer normalization operation. To enhance the                                                                                                     ⊤ !
+                                                                                                                                                               QT,ℎ KT,ℎ
+capability of FA in capturing intricate representations, we incorpo-                                                                      OT,ℎ = 𝑠𝑜 𝑓 𝑡𝑚𝑎𝑥        √       VT,ℎ ,          (10)
+rate a feedforward network (FFN) module:                                                                                                                            𝑑
+                    X ′ = 𝜌 (𝑅𝑒𝐿𝑈 ( X̃ ′𝑊1 )𝑊2 + X̃ ′ ).                                                   (7)           where 𝑑 denotes the dimension of the Query vector. In our specific
+                                                                                                                                             𝐷 , so the total computation of multi-head atten-
+                                                                                                                         case, 𝑑 is equal to 𝐻
+  We define Φ(·) as the representation of a sequence of operations                                                       tion is unchanged. By concatenating the information obtained from
+within the FFN, specifically to combine Eqs. ( 6) and ( 7) into:                                                         each head and then performing a linear transformation, we obtain
+                                   X ′ = Φ( X̃).                                                           (8)           the output of temporal attention:
+                                                                                                                                                      OT = 𝛾 (OT,1, OT,2, ..., OT,𝐻 )𝑊C,                               (11)
+4.3     Spatiotemporal Attention
+                                                                                                                         where 𝛾 (·) is the concatenation operation. After obtaining the con-
+Unlike most other spatiotemporal feature extractors, spatiotem-
+                                                                                                                         catenation OT , similar to the approach employed in FA, the tempo-
+poral attention (STA) can simultaneously extract spatiotemporal
+                                                                                                                         ral features of the fMRI data are derived using the FFN module:
+correlations and effective connectivity between different brain re-
+gions. This is achieved through the utilization of temporal attention                                                                                            ZT = Φ(OT ).                                          (12)
+Brain Effective Connectivity Estimation via Fourier Spatiotemporal Attention                                           KDD ’25, August 3–7, 2025, Toronto, ON, Canada
+
+
+   Given the interconnections and inherent spatiotemporal corre-                      Table 1: Description of the benchmark simulation dataset.
+lations among brain regions, it becomes crucial to concurrently
+acquire spatiotemporal features. Therefore, in spatiotemporal fu-                     Dataset Nodes Arcs Sessions (s) TR(s) Frequency(Hz) SNR(dB)
+sion attention, for the output denoised fMRI data X ′ of FA with                       Sim1     5     6       10       1.2      1/200        2
+dimensions 𝑇 × 𝑁 × 𝐷, after acquiring QS,ℎ , KS,ℎ through linear                       Sim2     5     7       10       1.2      1/200        2
+transformation, the corresponding attention weight and brain EC                        Sim3     5     7       10       1.2      1/200        2
+                                                                                       Sim4    10    19       10       1.2      1/200        2
+can be obtained by following formula:
+                                              ⊤
+                                       QS,ℎ KS,ℎ
+                        Eℎ = 𝑠𝑜 𝑓 𝑡𝑚𝑎𝑥 (  √       ),
+                                            𝑑                                         dataset1 [37], which is an extension of the Smith dataset [41].
+                                 𝑇      𝐻                                      (13)   The Smith dataset is generated through dynamic causal models.
+                              1 ∑︁ 1 ∑︁
+                           A=              Eℎ,𝑡 ,                                     However, the Sanchez dataset differs in a significant aspect—it is
+                              𝑇 𝑡 =1 𝐻                                                specifically designed to minimize the impact of non-Gaussian influ-
+                                            ℎ=1
+where Eℎ indicates the attention weight of the ℎ-th head, A repre-                    ences on the high-noise blood oxygen level dependent signals. Each
+sents brain EC in directed graph G estimated by FSTA-EC, in other                     dataset in Sanchez dataset has 60 study subjects and 500 data points
+words, A𝑖 𝑗 symbolizes the effective connectivity from brain region                   per subject. In our experiments, we select the first four simulation
+𝑣 𝑗 to brain region 𝑣𝑖 . We then apply the softmax function to activate               cases from the Sanchez dataset. Specifically, Sim1, Sim2, and Sim3
+the brain EC matrix A. This function normalizes each row of the                       all feature a large loop involving all nodes. Sim1 has a 2-cycle, Sim2
+brain EC matrix A, guaranteeing that the sum of each row is 1. State                  has two 2-cycles with shared nodes, and Sim3 has two 2-cycles
+differently, for a given brain region 𝑣𝑖 , the sum of weighted causal                 without shared nodes, with Sim1, Sim2, and Sim3 consisting of 5
+effects exerted by all other brain regions on brain region 𝑣𝑖 is equal                nodes and 6, 7, and 7 edges, respectively. In contrast, Sim4 presents
+to 1. Subsequently, brain EC matrix A is multiplied by temporal                       a more intricate situation with 10 nodes and 19 edges. Specific
+attention output 𝑍𝑇 to extract spatiotemporal fMRI features:                          information about the simulated fMRI dataset is shown in Table 1.
+                                                                                      Real-resting-state fMRI Dataset. The real-resting-state fMRI
+                                X̂ = Φ(AZT ),                                  (14)   dataset2 consists of 23 samples, each containing 421 data points.
+where Φ(·) stands for a sequence of operations within the FFN mod-                    We consider the seven regions of interest (ROIs) from the medial
+ule. This multiplication operation enables a weighted summation of                    temporal lobe as described in [38], specifically CA1 (Cornu Ammo-
+effectively connected temporal features of brain regions, allowing                    nis 1), CA23DG (Cornu Ammonis 2, 3, and Dentate Gyrus), SUB
+the extraction of spatiotemporal contextual information through                       (Subiculum), ERC (Entorhinal Cortex), BA35 (Brodmann Areas 35),
+brain EC to effectively direct attention towards neighboring brain                    BA36 (Brodmann Areas 36), and PHC (Parahippocampal Cortex).
+region nodes that contain more significant information. Finally, we                   These regions are denoted by the numbers 1 to 7, respectively
+obtain two-dimensional fMRI data 𝑋ˆ ∈ R𝑁 ×𝑇 by
+                                                                                      5.2     Evaluation Metrics
+                                 𝑋ˆ = 𝜓 (⊗X̂),                                 (15)
+                                                                                      To assess the effectiveness of FSTA-EC, we used the following five
+where𝜓 (·) denotes squeeze operation and ⊗ signifies two-dimensional                  evaluation metrics: Precision, Recall, F1, Accuracy, and Structural
+convolution with the kernel size of 1 × 1.                                            Hamming distance (SHD). The detailed descriptions are shown in
+                                                                                      Appendix A.4.
+4.4     Loss Function
+Our formulated loss function encompasses both the prediction loss                     5.3     Parameter Setting and Analysis
+and sparsity loss components, rendering its calculation as follows:
+                                                                                      After FSTA-EC output brain EC matrix A, a threshold 𝜃 is needed
+                         L = ∥𝑋 − 𝑋ˆ ∥ 22 + 𝛼 ∥A𝑖 𝑗 ∥ 1,                       (16)   to make A become a binary matrix. Considering that different
+where 𝛼 is a hyperparameter. The initial term of the equation im-                     parameters are needed for different data, the threshold 𝜃 is set to
+plies the predicted loss of FSTA-EC, while the subsequent term                        be adaptive in this paper, and the threshold 𝜃 can be calculated by:
+represents the sparsity loss of brain EC. The algorithm description                                 𝜃 = 𝑚𝑖𝑛(|A|) + 𝜂 × (𝑚𝑎𝑥 (|A|) − 𝑚𝑖𝑛(|A|)),                  (17)
+and pseudocode can be found in Appendix A.3.
+                                                                                      where 𝜂 is a hyperparameter used to adjust thresholds. Our model
+5     Experimental Setting                                                            implementation is on PyTorch [33] with all experiments conducted
+                                                                                      on Nvidia RTX 3090 (24GB) GPUs. The time complexity of Fourier
+In this section, we introduce the experimental setup from four per-
+                                                                                      attention is 𝑂 (𝑁𝑙𝑜𝑔𝑁 ). This includes the fast Fourier transform
+spectives: data description, evaluation metrics, parameter settings
+                                                                                      (FFT), learnable filter K, inverse fast Fourier transform (IFFT), and
+and analysis, and baseline methods.
+                                                                                      feedforward network (FFN) modules. Meanwhile, the time com-
+                                                                                      plexity of temporal attention is 𝑂 (𝑇 2 ), and the time complexity of
+5.1     Data Description
+                                                                                      spatiotemporal fusion attention is 𝑂 (𝑁 2 ). Therefore, the overall
+Simulated fMRI Dataset. Since there is no standard answer for                         time complexity of spatiotemporal attention is 𝑂 (𝑇 2 + 𝑁 2 ). Overall,
+real-resting-state fMRI dataset, to verify the validity of FSTA-EC
+algorithm, we first perform experiments on high-noise simulated                       1 https://github.com/cabal-cmu/feedbackdiscovery
+
+fMRI dataset. For the simulation dataset, we utilize the Sanchez                      2 https://github.com/shahpreya/MTlnet
+KDD ’25, August 3–7, 2025, Toronto, ON, Canada                                                           Wen Xiong, Jinduo Liu*, Junzhong Ji, and Fenglong Ma
+
+
+Table 2: The mean and variance of the eight methods on the four Sanchez simulated datasets. The best and second-best values
+are highlighted and underlined.
+
+                                                                                    Methods
+        Data        Metrics pwLiNGAM               spDCM                lsGC   ACOCTE     RL-EC           CR-VAE        MetaCAE         FSTA-EC
+                               2010                 2014                2017    2022        2022           2023          2024            (Ours)
+             Precision ↑         0.63±0.00        0.50±0.00       0.67±0.00    0.79±0.05    0.66±0.11    0.53±0.14      0.75±0.09      0.78±0.11
+                Recall ↑         0.83±0.00        0.33±0.00       0.67±0.00    0.67±0.07    0.35±0.04    0.72±0.08      0.50±0.01      0.78±0.11
+        Sim1        F1 ↑         0.71±0.00        0.40±0.00       0.67±0.00    0.73±0.04    0.46±0.05    0.60±0.12      0.60±0.08      0.77±0.09
+             Accuracy ↑          0.84±0.00        0.76±0.00       0.84±0.00    0.88±0.03    0.81±0.09    0.76±0.10      0.84±0.10      0.89±0.04
+                 SHD ↓           4.00±0.00        6.00±0.00       4.00±0.00    3.00±0.66    5.24±0.85    6.24±2.45      4.05±0.52      2.70±1.00
+             Precision ↑          0.30±0.00       0.57±0.00       0.60±0.00    0.67±0.02    0.80±0.17    0.50±0.17      0.50±0.11      0.85±0.15
+                Recall ↑          0.86±0.00       0.57±0.00       0.86±0.00    0.57±0.07    0.57±0.06    0.76±0.05      0.29±0.06      0.87±0.09
+        Sim2        F1 ↑          0.44±0.00       0.57±0.00       0.71±0.00    0.62±0.04    0.66±0.08    0.60±0.03      0.36±0.06      0.85±0.11
+             Accuracy ↑           0.40±0.00       0.76±0.00       0.80±0.00    0.80±0.02    0.84±0.05    0.72±0.04      0.72±0.10      0.91±0.08
+                 SHD ↓           15.00±0.00       6.00±0.00       5.00±0.00    4.96±0.50    4.00±0.43    7.08±0.98      7.00±0.26      2.20±1.94
+             Precision ↑          0.67±0.00       0.50±0.00       0.75±0.00    0.81±0.04    1.00±0.04   0.74±0.04       0.33±0.14      0.96±0.09
+                Recall ↑          0.86±0.00       0.43±0.00       0.86±0.00    0.57±0.15    0.56±0.03   0.90±0.14       0.14±0.18      0.61±0.07
+        Sim3        F1 ↑          0.75±0.00       0.46±0.00       0.80±0.00    0.67±0.03    0.72±0.03   0.81±0.07       0.21±0.11      0.74±0.06
+             Accuracy ↑           0.84±0.00       0.72±0.00       0.87±0.00    0.84±0.03    0.88±0.07   0.87±0.03       0.68±0.09      0.88±0.03
+                 SHD ↓            4.00±0.00       7.00±0.00       3.00±0.00    4.00±0.60    3.07±0.46   3.00±0.87       8.03±0.48      2.95±0.74
+             Precision ↑          0.32±0.00      0.49±0.00 0.25±0.00 0.54±0.05 1.00±0.02                 0.70±0.03 0.53±0.12   0.75±0.13
+                Recall ↑          0.74±0.00      0.89±0.00 0.89±0.00 0.32±0.03     0.42±0.04            0.65±0.03 0.12±0.03    0.59±0.03
+        Sim4        F1 ↑          0.44±0.00      0.63±0.00 0.40±0.00 0.39±0.03     0.59±0.03            0.64±0.03 0.20±0.04 0.66±0.06
+             Accuracy ↑           0.65±0.00      0.80±0.00 0.49±0.00 0.82±0.01     0.88±0.16            0.86±0.01 0.81±0.07 0.88±0.03
+                 SHD ↓           35.00±0.00      20.00±0.00 51.00±0.00 18.37±1.19 12.15±1.59            14.05±1.07 18.86±0.11 11.85±2.76
+
+
+the time complexity of the Fourier spatiotemporal attention (FSTA-                6     Experimental Results and Discussions
+EC) is 𝑂 (𝑁𝑙𝑜𝑔𝑁 + 𝑇 2 + 𝑁 2 ). For the first simulated fMRI dataset,              In the experiments, we first compare state-of-the-art methods using
+training FSTA-EC takes approximately 44 seconds.                                  simulated fMRI data from known ground-truth networks. Then,
+    In the training process of FSTA-EC, the training epoch is 300 and             we demonstrate the practical application of FSTA-EC to publicly
+the batch size is 32. The seed is set to 42 to ensure reproducibility.            available real-resting-state fMRI data, followed by downstream clas-
+We adopt Adam optimizer with the momentum terms 𝛽 1 = 0.90 and                    sification tasks on disease datasets. Finally, we conduct an analysis
+𝛽 2 = 0.98. The embedding size in the input embedding is set to 16                of the model’s modules, hyperparameters, and efficiency.
+and the dropout is configured to 0.2. The attention in STA with 2
+heads.
+
+5.4     Baseline Methods                                                          6.1      Results on Simulated fMRI Dataset
+Seven baseline methods are used for comparison with FSTA-EC,                      In experiments on simulated fMRI datasets with Gaussian noise, we
+which can be categorized into two groups: model-based meth-                       run FSTA-EC and 7 baseline methods 20 times on all subjects in each
+ods and data-driven methods. The baseline methods as follows:                     simulation (group analysis) and calculate the mean and variance
+pwLiNGAM [15], spDCM [10], lsGC [6], ACOCTE [28], RL-EC                           over 20 implementations. The obtained results are presented in
+[29], CR-VAE [22], MetaCAE [16]. The parameter settings for these                 Table 2. Note that some methods yield the same results in multiple
+baseline methods are shown in Table 3.                                            runs, thus the variance is 0. For additional comparative experiments,
+                                                                                  please refer to Appendix A.5.
+   Table 3: Parameter settings of seven baseline methods.                            From the results of Sim1, with the exception of pwLiNGAM,
+                                                                                  ACOCTE, and FSTA-EC, all other methods performed poorly, with
+    Methods Years                           Parameters                            FSTA-EC demonstrating the best overall performance.
+   pwLiNGAM 2010                            method = 1                               Sim2 and Sim3 have an additional 2-cycle compared to Sim1.
+                           nonlinear = 0, two_ state = 0, stochastic = 1,         Specifically, the two 2-cycles of Sim2 share a node, while the two 2-
+      spDCM       2014           centre=1, induced=1, maxit=10                    cycles of Sim3 do not share a node. In Sim2, FSTA-EC outperforms
+       lsGC       2017        cmp = 5, ARorder = 2, normalize = 1                 all other methods across every evaluation metric. In Sim3, CR-
+      ACOCTE      2022          𝛼 = 1.0, 𝛽 = 2.0, 𝑞 0 = 0.98, 𝜌 = 0.2             VAE achieves the best results in Recall and F1. RL-EC achieves
+       RL-EC      2022 nh = 256, heads = 16, stacks = 6, nhdecoder = 16           high Precision; however, its Recall performance is relatively low. In
+                                                                                  terms of MetaCAE’s performance, it shows lower scores across all
+      CR-VAE      2023     context = 20, 𝜆 = 0.1, lr = 0.05,nh = 64
+                                                                                  metrics in Sim2 and Sim3. On the other hand, FSTA-EC outshines
+      MetaCAE     2024     nh  = 64, 𝛼 = 0.05, 𝛽 = 20.0, k = 3, d = 4,
+                       lr1 = 0.02, lr2 = 0.02, lr3 = 0.001, lrmain = 0.002        as it achieves the highest performance across multiple evaluation
+                                                                                  metrics.
+Brain Effective Connectivity Estimation via Fourier Spatiotemporal Attention                                               KDD ’25, August 3–7, 2025, Toronto, ON, Canada
+
+
+
+
+             Figure 2: Boxplots of the eight methods for each evaluation metric on the four Sanchez simulated datasets.
+
+
+
+
+                (a) pwLiNGAM                                      (b) spDCM                             (c) lsGC                           (d) ACOCTE
+
+
+
+
+                   (e) RL-EC                                      (f) CR-VAE                          (g) MetaCAE                          (h) FSTA-EC
+
+
+                         Figure 3: Brain effective connectivity estimated by seven baseline methods and FSTA-EC.
+
+
+   Compared to Sim1, Sim2, and Sim3, Sim4 has 10 nodes. The                                   other baseline methods, we conduct a t-test comparing FSTA-EC
+majority of methods exhibit excellent performance in the first three                          against the remaining baseline methods. The 𝑝-value lower than
+simulations, but their performance is comparatively weaker in                                 0.05 implies a significant difference at a 95% confidence level. The
+Sim4, possibly due to the increased complexity of the network with                            results are shown in Table 4. The results reveal significant disparities
+10 nodes compared to the previous three simulations, which only                               between FSTA-EC and the majority of the methods across all five
+featured 5 nodes. Furthermore, MetaCAE as a small-sample method,                              evaluation metrics.
+does not demonstrate an advantage in group analysis. In particular,
+FSTA-EC still outperforms other baseline methods.                                             6.2    Results on Real-resting-state fMRI Dataset
+   To facilitate a more comprehensive comparison of these meth-
+ods’ performance, we calculate the evaluation metrics of these                                Since none of the existing real-resting-state fMRI data has ground
+methods using four simulated fMRI datasets above and plot the                                 truths for brain EC network, we can only use the existing work [37]
+boxplot, which is depicted in Figure 2. It can be seen that FSTA-EC                           as a reference for evaluating FSTA-EC. We conduct experiments
+outperforms the other methods in F1, Accuracy, and SHD. While                                 utilizing FSTA-EC along with other baseline methods for the left
+RL-EC achieves the highest Precision, this is likely due to its high                          and right hemisphere groups. The resulting EC can be observed in
+Precision but low Recall in Sim3 and Sim4. Although pwLiNGAM                                  Figure 3. In Figure 3, the black lines represent correct connections,
+and lsGC perform well in Recall, they fall short in other evalua-                             the green lines stand for spurious connections, and the red lines
+tion metrics. Overall, FSTA-EC stands out as the best performing                              indicate missing connections.
+method, surpassing the benchmark methods and demonstrating                                       From Figure 3, it is apparent that in the left hemisphere of the
+superior performance.                                                                         brain region, FSTA-EC successfully identifies 12 correct connec-
+                                                                                              tions, generates 2 spurious connections, and fails to detect 5 correct
+Table 4: 𝑝-values obtained from the t-test for FSTA-EC and                                    connections. Similarly, in the right hemisphere, FSTA-EC identi-
+seven baseline methods. Underlined values indicate no sig-                                    fies 10 correct connections, produces no spurious connections, but
+nificant difference at the 95% confidence level.                                              misses 7 correct connections. Compared to FSTA-EC, other meth-
+                                                                                              ods exhibit a significantly higher number of false connections and
+                                                                                              undetected correct connections. In brief, when considering both
+   Methods      Precision         Recall            F1          Accuracy          SHD
+ pwLiNGAM      1.54 × 10 −30   1.10 × 10 −9    9.07 × 10 −13   1.59 × 10 −23   1.73 × 10 −7
+                                                                                              the left and right hemispheres, FSTA-EC excels in both identify-
+   spDCM       2.08 × 10 −16   2.26 × 10 −22   9.34 × 10 −22   2.87 × 10 −21   9.03 × 10 −6   ing the highest number of correct connections and minimizing
+     lsGC      1.18 × 10 −18   6.16 × 10 −8    1.22 × 10 −7    1.88 × 10 −12   7.96 × 10 −6   the generation of spurious connections, setting it apart from other
+  ACOCTE       9.10 × 10 −11   2.76 × 10 −3    7.29 × 10 −6    5.18 × 10 −4    8.41 × 10 −8
+    RL-EC      1.13 × 10 −1    8.20 × 10 −5    2.92 × 10 −7    5.99 × 10 −2    4.33 × 10 −2
+                                                                                              methods.
+  CR-VAE       5.58 × 10 −18   7.84 × 10 −1    6.96 × 10 −2    1.23 × 10 −4    3.20 × 10 −9      Figure 4 presents a visualization of the regions of interest (ROIs)
+  MetaCAE      9.25 × 10 −22   3.56 × 10 −34   1.87 × 10 −28   4.38 × 10 −15   8.54 × 10 −6   in the real fMRI dataset [3], highlighting their close association with
+                                                                                              the hippocampus. These ROIs play a crucial role in establishing
+   T-test results for FSTA-EC and eight baseline methods. To                                  connections with the hippocampus, facilitating the transmission of
+delve deeper into the notable distinctions between FSTA-EC and                                information, and contributing to various related functions. In the
+KDD ’25, August 3–7, 2025, Toronto, ON, Canada                                                         Wen Xiong, Jinduo Liu*, Junzhong Ji, and Fenglong Ma
+
+
+                                                                        caused by the sparsity penalty hyperparameter set too high in the
+                                                                        loss function of FSTA-EC. Consequently, the EC obtained by FSTA-
+                                                                        EC becomes a sparse matrix, leading to the omission of several
+                                                                        connections and reducing the occurrence of spurious connections.
+
+                                                                        6.3      Downstream Tasks (Brain Disease
+                                                                                 Classification using EC networks)
+                                                                        To further validate the effectiveness of FSTA-EC, we utilize brain EC
+                                                                        networks derived from the ADNI3 and ABIDE I4 datasets for down-
+                                                                        stream classification tasks, comparing the performance of FSTA-EC
+                                                                        against other state-of-the-art methods. In the classification exper-
+Figure 4: Visualization of ROIs for real fMRI dataset in the            iment, we can employ the label (AD or HC, ASD or HC) as the
+hippocampal head and hippocampal body [3]. Abbreviation:                groundtruth. If the brain network effective connectivity network
+CA1 (Cornu Ammonis 1), CA2 (Cornu Ammonis 2), CA3                       estimated by a method can be successfully classified, then we think
+(Cornu Ammonis 3), DG (Dentate Gyrus), SUB (Subiculum),                 that this method performs well on effective connectivity estimation.
+ERC (Entorhinal Cortex), BA35 (Brodmann Areas 35), BA36                 In detail, we compare our proposed method FSTA-EC with sev-
+(Brodmann Areas 36), and PHC (Parahippocampal Cortex).                  eral other effective connectivity estimation methods (pwLiNGAM,
+                                                                        spDCM, lsGC, ACOCTE, RL-EC, CR-VAE, MetaCAE) for AD clas-
+                                                                        sification on the ADNI dataset, and all methods employ the same
+subsequent analysis, we focus on selecting key effective connec-        classifier (random forest with 1000 decision trees). We divided the
+tivity to evaluate the performance of each method. Note that the        dataset into 10 parts, nine of them were taken as training data in
+correspondence between the brain EC shown in Figure 3 and the           turn, and one was used as test data for testing. Then all methods
+ROIs is explained in the description of the real-resting-state fMRI     run on the same training data and test data.
+dataset provided in Section 5.1.                                            To analyze the classification performance more comprehensively,
+BA35 ↔ BA36. The Perirhinal Cortex (PRC), situated within an-           we also employ the precision, recall, F1 value to evaluate the per-
+terior medial temporal lobe (MTL), encompasses Brodmann Areas           formance of different brain effective connectivity learning methods.
+35 and 36 (BA35 and BA36) [5]. The PRC is a crucial cortical region     Table 5 and Table 7 show the mean value and the standard devia-
+involved in various cognitive functions, such as episodic memory,       tion of the 10 runs for each method on ADNI dataset and ABIDE I
+semantic memory, and visual perceptual processing systems [46].         dataset.
+Hence, this two-way pathway is of significant importance. As de-
+picted in the figure, it is obvious that the majority of the methods             Table 5: Classification Results on ADNI dataset.
+successfully and accurately estimate this bidirectional pathway.
+BA35 ↔ ERC ↔ SUB ↔ CA1. Apart from BA35 ↔ ERC connec-
+tion in left hemisphere medial temporal lobe, FSTA-EC accurately              Methods              Precision↑           Recall↑               F1↑
+estimates BA35 ↔ ERC ↔ SUB ↔ CA1 in both the left and right                pwLiNGAM               73.39±8.54         73.33±3.33          73.35±4.79
+hemispheres, aligning with the information flow from PRC to the              spDCM                74.82±8.60         72.67±5.31          73.72±6.56
+Entorhinal Cortex (ERC), the Subiculum (SUB) and Cornu Ammonis                 lsGC               77.68±5.62         74.02±5.24          75.80±5.42
+1 (CA1) [43]. Furthermore, pwLiNGAM, ACOCTE, and RL-EC also
+                                                                            ACOCTE                70.82±4.17         68.96±2.91          69.87±3.42
+demonstrate reasonable accuracy in estimating the effective con-
+nectivity of this information flow. However, MetaCAE could only               RL-EC               68.60±4.88         67.15±3.43          67.86±4.02
+correctly estimate the one-way effective connectivity, possibly due         CR-VAE                73.12±7.71         70.67±4.42          70.87±5.61
+to the penalty imposed by the directed acyclic graph, which restricts       MetaCAE               71.32±7.92         70.76±4.14          71.03±5.43
+the model from identifying bidirectional effective connectivities.          FSTA-EC               77.21±6.28         74.67±4.21          75.91±5.04
+CA1 ↔ CA23DG. The connectivity between CA1 and CA23DG
+plays a crucial role in supporting episodic memory and provides
+direct insights into the impact of hydrocortisone on the hippocam-
+pus [39]. FSTA-EC, pwLiNGAM, and RL-EC all accurately estimate
+                                                                        6.4      Model Analysis
+the effective connectivity. Similarly, MetaCAE continues to exhibit     Ablation Study We perform ablation studies on Fourier attention
+limitations by only estimating unidirectional effective connectivity.   (FA), temporal attention (TA), the first residual network (Add) in
+ERC → CA23DG. This pathway serves as the primary connection             FA and the first Add&Norm in FA, with the results presented in
+between the medial temporal lobe cortices and the hippocampus.          Table 8. As can be seen from Table 8, compared with the absence
+However, FSTA-EC fails to capture the connection in the medial          of TA, FA has a significant improvement in all metrics. While TA
+temporal lobes of both the left and right hemispheres. Only CR-VAE      shows a slight decrease in Recall and F1, the other metrics exhibit
+and MetaCAE successfully capture it on both hemispheres, while          enhancements. This further highlights the importance of data de-
+pwLiNGAM and RL-EC capture this connection on one hemisphere.           noising and extraction of spatiotemporal correlations. In addition,
+Other methods, however, do not capture this specific effective con-     3 https://adni.loni.usc.edu/
+
+nectivity. A potential explanation for this discrepancy could be        4 http://preprocessed-connectomes-project.org/abide/
+Brain Effective Connectivity Estimation via Fourier Spatiotemporal Attention                                            KDD ’25, August 3–7, 2025, Toronto, ON, Canada
+
+
+                                               Table 6: Efficiency analysis on Sim1 of Sanchez datasets.
+
+                         Methods             pwLiNGAM           spDCM          lsGC    ACOCTE     RL-EC      CR-VAE       MetaCAE           FSTA-EC
+                  Mem.(MiB/subject)               19.08          13.54         13.73   136.94     32.96        50.13         199.96           25.78
+                   Speed(s/epoch)                  0.27          379.58         1.04    1.97       2.85        0.02           4.48             0.15
+
+
+      Table 7: Classification Results on ABIDE I dataset.                               Table 8: Ablation analysis on the Sim1 of Sanchez datasets.
+
+
+     Methods            Precision↑             Recall↑                F1↑                                                           Metrics
+                                                                                             Variant
+                                                                                                          Precision↑    Recall↑       F1↑      Accuracy↑    SHD↓
+    pwLiNGAM           65.29±9.97           64.13±7.01          64.70±7.99
+                                                                                            Default   0.78±0.11 0.78±0.11 0.77±0.09 0.89±0.04 2.70±1.00
+      spDCM            64.15±9.89           62.88±5.10          63.51±7.73                   w/o FA   0.80±0.16 0.63±0.14 0.69±0.11 0.87±0.05 3.35±1.31
+        lsGC           65.32±8.92           63.01±4.81          64.14±6.80                   w/o TA   0.74±0.12 0.85±0.12 0.78±0.10 0.88±0.05 2.75±1.34
+     ACOCTE            55.34±9.51           55.67±3.66          55.50±6.41                w/o FA&TA   0.63±0.13 0.67±0.07 0.64±0.09 0.82±0.05 4.50±1.36
+                                                                                            w/o Add   0.77±0.16 0.73±0.14 0.75±0.12 0.88±0.05 2.80±1.28
+       RL-EC           55.76±9.98           53.74±5.69          54.73±7.22               w/o Add&Norm 0.74±0.17 0.78±0.12 0.76±0.12 0.87±0.06 3.10±1.14
+     CR-VAE            63.12±9.03           63.33±3.36          63.22±5.89
+     MetaCAE           62.34±9.51           61.67±4.31          62.00±5.93
+     FSTA-EC           65.89±6.41           65.57±3.22          65.72±4.65
+
+
+the Add&Norm mechanism in FA contributes to a noticeable en-
+hancement in the model’s overall performance.
+                                                                                                       (a) Influence of soft threshold hyperparameter 𝜂 .
+Hyperparameter Analysis. We conduct supplementary experi-
+ments on the first simulated fMRI dataset to scrutinize the impact
+of soft threshold and the number of heads with multiple attention
+in STA, as illustrated in Figure 5. For the chosen evaluation metrics,
+larger values for the first four metrics indicate better performance,
+while smaller values for the last metric signify better performance.
+As depicted in Figure 5(a), it is evident that Precision is higher and                                    (b) Influence of the number of heads in STA.
+Recall is lower when the soft threshold hyperparameter 𝜂 exceeds
+0.5; conversely, when 𝜂 is below 0.5, Precision decreases while Re-
+                                                                                        Figure 5: Hyperparameter analysis on the first simulated
+call increases. The F1 score offers a comprehensive balance between
+                                                                                        fMRI dataset, where the starred results are the best results.
+Precision and Recall, showing that both metrics are higher at a soft
+threshold hyperparameter 𝜂 of 0.5. Moreover, For Accuracy and
+SHD, the best performance is achieved when the 𝜂 is 0.5. Hence,                         Then, it employs temporal attention to learn intricate temporal
+after comprehensive consideration, 0.5 is chosen as the final value                     patterns from fMRI time series data and uses spatiotemporal fusion
+for the experimental hyperparameter 𝜂. Turning to Figure 5(b), it is                    attention to capture spatiotemporal features and spatial brain ef-
+notable that within STA, selecting 2 heads for multi-head attention                     fective connectivity among brain regions. Systematic experiments
+results in the highest values for all evaluation metrics.                               validate the effectiveness and practical significance of the FSTA-EC.
+Efficiency analysis. We compare the running time and memory                                The limitation of FSTA-EC is that the inclusion of dot-product
+usage of the baseline methods and FSTA-EC on the first simulated                        attention in the model imposes certain constraints on its comput-
+fMRI dataset, and the results are presented in Table 6. Note that                       ing speed and memory utilization. As a result, there is room for
+pwLiNGAM, spDCM, and lsGC are MATLAB codes, while ACOCTE                                future optimization of the dot product operation, which will further
+is packaged as a jar file. It is evident that FSTA-EC requires signifi-                 enhance its overall performance.
+cantly less memory compared to ACOCTE and the deep learning
+algorithms in the baseline method (RL-EC, CR-VAE, MetaCAE).                             Acknowledgments
+Additionally, its running speed performance is second only to CR-                       The authors thank anonymous reviewers for their valuable com-
+VAE, which may be attributed to the fact that Fourier attention and                     ments and helpful suggestions. This work was supported by Na-
+spatiotemporal attention only have one layer.                                           tional Natural Science Foundation of China (62106009, 62276010),
+                                                                                        sponsored by Beijing Nova Program (20240484635), and R&D Pro-
+7    Conclusion and Future Work                                                         gram of Beijing Municipal Education Commission (KM202210005030,
+This paper introduces a novel method, Fourier spatiotemporal atten-                     KZ202210005009).
+tion, for estimating brain effective connectivity (FSTA-EC). FSTA-
+EC first uses a fast Fourier transform to convert noisy fMRI data into
+frequency domain, extracting global frequency domain features.
+KDD ’25, August 3–7, 2025, Toronto, ON, Canada                                                                             Wen Xiong, Jinduo Liu*, Junzhong Ji, and Fenglong Ma
+
+
+References                                                                                  [25] Fangfu Liu, Wenchang Ma, An Zhang, Xiang Wang, Yueqi Duan, and Tat-Seng
+ [1] Richard Antonello, Aditya Vaidya, and Alexander Huth. 2023. Scaling laws                    Chua. 2023. Discovering Dynamic Causal Space for DAG Structure Learning.
+     for language encoding models in fMRI. In Thirty-seventh Conference on Neural                In Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and
+     Information Processing Systems.                                                             Data Mining. 1429–1440.
+ [2] A Bastos. 2012. DCM for complex-valued data: cross-spectra, coherence and              [26] Jinduo Liu, Lu Han, and Junzhong Ji. 2024. MCAN: multimodal causal adversarial
+     phase-delays. Neuroimage 59, 1 (2012), 439–455.                                             networks for dynamic effective connectivity learning from fMRI and EEG data.
+ [3] Robin de Flores, Solène Demeilliez-Servouin, Elizabeth Kuhn, Léa Chauveau,                  IEEE Transactions on Medical Imaging (2024).
+     Brigitte Landeau, Nicolas Delcroix, Julie Gonneaud, Denis Vivien, Gaël Chételat,       [27] Jinduo Liu, Junzhong Ji, Guangxu Xun, Liuyi Yao, Mengdi Huai, and Aidong
+     Medit-Ageing research group, et al. 2023. Respective influence of beta-amyloid              Zhang. 2020. EC-GAN: Inferring brain effective connectivity via generative ad-
+     and APOE 𝜀 4 genotype on medial temporal lobe subregions in cognitively unim-               versarial networks. In Proceedings of the AAAI Conference on Artificial Intelligence,
+     paired older adults. Neurobiology of Disease 181 (2023), 106127.                            Vol. 34. 4852–4859.
+ [4] Niloufar Delfan, Mohammadreza Shahsavari, Sadiq Hussain, Robertas Damaše-              [28] Jinduo Liu, Junzhong Ji, Guangxu Xun, and Aidong Zhang. 2022. Inferring Effec-
+     vičius, and U Rajendra Acharya. 2024. A Hybrid Deep Spatiotemporal Attention-               tive Connectivity Networks From fMRI Time Series With a Temporal Entropy-
+     Based Model for Parkinson’s Disease Diagnosis Using Resting State EEG Signals.              Score. IEEE Transactions on Neural Networks and Learning Systems 33, 10 (2022),
+     International Journal of Imaging Systems and Technology 34, 4 (2024), e23120.               5993–6006.
+ [5] Song-Lin Ding and Gary W Van Hoesen. 2010. Borders, extent, and topography             [29] Yilin Lu, Jinduo Liu, Junzhong Ji, Han Lv, and Mengdi Huai. 2022. Brain Effective
+     of human perirhinal cortex as revealed using multiple modern neuroanatomical                Connectivity Learning with Deep Reinforcement Learning. In 2022 IEEE Interna-
+     and pathological markers. Human brain mapping 31, 9 (2010), 1359–1379.                      tional Conference on Bioinformatics and Biomedicine (BIBM). IEEE, 1664–1667.
+ [6] Adora M DSouza, Anas Z Abidin, Lutz Leistritz, and Axel Wismüller. 2017. Explor-       [30] Sam Nguyen, Brenda Ng, Alan D Kaplan, and Priyadip Ray. 2020. Attend and
+     ing connectivity with large-scale Granger causality on resting-state functional             decode: 4d fmri task state decoding using attention models. In Machine Learning
+     MRI. Journal of neuroscience methods 287 (2017), 68–79.                                     for Health. PMLR, 267–279.
+ [7] Nico Eisenhauer, Matthew A Bowker, James B Grace, and Jeff R Powell. 2015.             [31] Tan Nguyen, Minh Pham, Tam Nguyen, Khai Nguyen, Stanley Osher, and Nhat
+     From patterns to causal understanding: structural equation modeling (SEM) in                Ho. 2022. Fourierformer: Transformer meets generalized fourier integral theorem.
+     soil ecology. Pedobiologia 58, 2-3 (2015), 65–72.                                           Advances in Neural Information Processing Systems 35 (2022), 29319–29335.
+ [8] Michael C Farruggia, Robert Pellegrino, and Dustin Scheinost. 2022. Functional         [32] Roxana Pamfil, Nisara Sriwattanaworachai, Shaan Desai, Philip Pilgerstorfer,
+     connectivity of the chemosenses: a review. Frontiers in Systems Neuroscience 16             Konstantinos Georgatzis, Paul Beaumont, and Bryon Aragam. 2020. Dynotears:
+     (2022), 865929.                                                                             Structure learning from time-series data. In International Conference on Artificial
+ [9] Karl J Friston. 1994. Functional and effective connectivity in neuroimaging: a              Intelligence and Statistics. PMLR, 1595–1605.
+     synthesis. Human brain mapping 2, 1-2 (1994), 56–78.                                   [33] Adam Paszke, Sam Gross, Francisco Massa, Adam Lerer, James Bradbury, Gregory
+[10] Karl J Friston, Joshua Kahan, Bharat Biswal, and Adeel Razi. 2014. A DCM for                Chanan, Trevor Killeen, Zeming Lin, Natalia Gimelshein, Luca Antiga, et al. 2019.
+     resting state fMRI. Neuroimage 94 (2014), 396–407.                                          Pytorch: An imperative style, high-performance deep learning library. Advances
+[11] Xingbo Fu, Feng Gao, Jiang Wu, Xinyu Wei, and Fangwei Duan. 2019. Spa-                      in neural information processing systems 32 (2019).
+     tiotemporal attention networks for wind power forecasting. In 2019 international       [34] Badri N Patro, Vinay P Namboodiri, and Vijay Srinivas Agneeswaran. 2023.
+     conference on data mining workshops (ICDMW). IEEE, 149–154.                                 SpectFormer: Frequency and Attention is what you need in a Vision Transformer.
+[12] Matthieu Gilson, Gorka Zamora-López, Vicente Pallarés, Mohit H Adhikari, Mario              arXiv preprint arXiv:2304.06446 (2023).
+     Senden, Adrià Tauste Campo, Dante Mantini, Maurizio Corbetta, Gustavo Deco,            [35] Edmund T Rolls, Wei Cheng, Matthieu Gilson, Jiang Qiu, Zicheng Hu, Hongtao
+     and Andrea Insabato. 2020. Model-based whole-brain effective connectivity to                Ruan, Yu Li, Chu-Chung Huang, Albert C Yang, Shih-Jen Tsai, et al. 2018. Effective
+     study distributed cognition in health and disease. Network Neuroscience 4, 2                connectivity in depression. Biological Psychiatry: Cognitive Neuroscience and
+     (2020), 338–373.                                                                            Neuroimaging 3, 2 (2018), 187–197.
+[13] Mengshen He, Xiangyu Hou, Enjie Ge, Zhenwei Wang, Zili Kang, Ning Qiang,               [36] Pedro Sanchez, Xiao Liu, Alison Q O’Neil, and Sotirios A Tsaftaris. 2023. Dif-
+     Xin Zhang, and Bao Ge. 2023. Multi-head attention-based masked sequence                     fusion Models for Causal Discovery via Topological Ordering. In The Eleventh
+     model for mapping functional brain networks. Frontiers in Neuroscience 17 (2023),           International Conference on Learning Representations.
+     1183145.                                                                               [37] Ruben Sanchez-Romero, Joseph D Ramsey, Kun Zhang, Madelyn RK Glymour,
+[14] Shih-Gu Huang, Jing Xia, Liyuan Xu, and Anqi Qiu. 2022. Spatio-temporal                     Biwei Huang, and Clark Glymour. 2019. Estimating feedforward and feedback
+     directed acyclic graph learning with attention mechanisms on brain functional               effective connections from fMRI time series: Assessments of statistical methods.
+     time series and connectivity. Medical Image Analysis 77 (2022), 102370.                     Network Neuroscience 3, 2 (2019), 274–306.
+[15] Aapo Hyvarinen. 2010. Pairwise measures of causal direction in linear non-             [38] Preya Shah, Danielle S Bassett, Laura EM Wisse, John A Detre, Joel M Stein,
+     gaussian acyclic models. In Proceedings of 2nd Asian Conference on Machine                  Paul A Yushkevich, Russell T Shinohara, John B Pluta, Elijah Valenciano, Molly
+     Learning. JMLR Workshop and Conference Proceedings, 1–16.                                   Daffner, et al. 2018. Mapping the structural and functional network architecture
+[16] Junzhong Ji, Zuozhen Zhang, Lu Han, and Jinduo Liu. 2024. MetaCAE: Causal                   of the medial temporal lobe using 7T MRI. Human Brain Mapping 39, 2 (2018),
+     autoencoder with meta-knowledge transfer for brain effective connectivity esti-             851–865.
+     mation. Computers in Biology and Medicine (2024), 107940.                              [39] Brynn E Sherman, Bailey B Harris, Nicholas B Turk-Browne, Rajita Sinha, and
+[17] Xi Jiang, Jiadong Yan, Yu Zhao, Mingxin Jiang, Yuzhong Chen, Jingchao Zhou,                 Elizabeth V Goldfarb. 2023. Hippocampal mechanisms support cortisol-induced
+     Zhenxiang Xiao, Zifan Wang, Rong Zhang, Benjamin Becker, et al. 2023. Charac-               memory enhancements. bioRxiv (2023), 2023–02.
+     terizing functional brain networks via spatio-temporal attention 4D convolutional      [40] Rong Shi, Luyao Wang, Jiehui Jiang, Alzheimer’s Disease Neuroimaging Initiative,
+     neural networks (STA-4DCNNs). Neural Networks 158 (2023), 99–110.                           et al. 2022. An unsupervised region of interest extraction model for tau PET
+[18] Bogoan Kim, Sung-In Kim, Sangwon Park, Hee Jeong Yoo, Hwajung Hong, and                     images and its application in the diagnosis of Alzheimer’s disease. In 2022 44th
+     Kyungsik Han. 2023. RoutineAid: Externalizing Key Design Elements to Sup-                   Annual International Conference of the IEEE Engineering in Medicine & Biology
+     port Daily Routines of Individuals with Autism. In Proceedings of the 2023 CHI              Society (EMBC). IEEE, 2157–2160.
+     Conference on Human Factors in Computing Systems. 1–18.                                [41] Stephen M Smith, Karla L Miller, Gholamreza Salimi-Khorshidi, Matthew Web-
+[19] Shiyong Lan, Yitong Ma, Weikang Huang, Wenwu Wang, Hongyu Yang, and                         ster, Christian F Beckmann, Thomas E Nichols, Joseph D Ramsey, and Mark W
+     Pyang Li. 2022. Dstagnn: Dynamic spatial-temporal aware graph neural network                Woolrich. 2011. Network modelling methods for FMRI. Neuroimage 54, 2 (2011),
+     for traffic flow forecasting. In International conference on machine learning. PMLR,        875–891.
+     11906–11917.                                                                           [42] Ran Tao, Bing Deng, and Yue Wang. 2006. Research progress of the fractional
+[20] Caleb Larson. 2017. An Appreciation of Euler’s Formula. Rose-Hulman Under-                  Fourier transform in signal processing. Science in China Series F 49 (2006), 1–25.
+     graduate Mathematics Journal 18, 1 (2017), 17.                                         [43] Gary W Van Hoesen. 1982. The parahippocampal gyrus: new observations
+[21] James Lee-Thorp, Joshua Ainslie, Ilya Eckstein, and Santiago Ontanon. 2021. Fnet:           regarding its cortical connections in the monkey. Trends in neurosciences 5 (1982),
+     Mixing tokens with fourier transforms. arXiv preprint arXiv:2105.03824 (2021).              345–350.
+[22] Hongming Li, Shujian Yu, and Jose Principe. 2023. Causal recurrent variational         [44] Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones,
+     autoencoder for medical time series generation. arXiv preprint arXiv:2301.06574             Aidan N Gomez, Łukasz Kaiser, and Illia Polosukhin. 2017. Attention is all
+     (2023).                                                                                     you need. Advances in neural information processing systems 30 (2017).
+[23] Kaiming Li, Lei Guo, Jingxin Nie, Gang Li, and Tianming Liu. 2009. Review of           [45] Weichen Wang, Shayan Mirjafari, Gabriella Harari, Dror Ben-Zeev, Rachel Brian,
+     methods for functional brain connectivity detection using fMRI. Computerized                Tanzeem Choudhury, Marta Hauser, John Kane, Kizito Masaba, Subigya Nepal,
+     medical imaging and graphics 33, 2 (2009), 131–139.                                         et al. 2020. Social sensing: assessing social functioning of patients living with
+[24] Yankai Lin, Shiqi Shen, Zhiyuan Liu, Huanbo Luan, and Maosong Sun. 2016.                    schizophrenia using mobile phone sensing. In Proceedings of the 2020 CHI confer-
+     Neural relation extraction with selective attention over instances. In Proceedings          ence on human factors in computing systems. 1–15.
+     of the 54th Annual Meeting of the Association for Computational Linguistics (Volume    [46] Long Xie, John B Pluta, Sandhitsu R Das, Laura EM Wisse, Hongzhi Wang, Lauren
+     1: Long Papers). 2124–2133.                                                                 Mancuso, Dasha Kliot, Brian B Avants, Song-Lin Ding, José V Manjón, et al. 2017.
+Brain Effective Connectivity Estimation via Fourier Spatiotemporal Attention                                                     KDD ’25, August 3–7, 2025, Toronto, ON, Canada
+
+
+                                                                                                                   𝑇 −𝑚−1                                −1
+                                                                                                                                                       𝑇∑︁
+     Multi-template analysis of human perirhinal cortex in brain MRI: Explicitly                                     ∑︁                    2𝜋                               2𝜋
+     accounting for anatomical variability. Neuroimage 144 (2017), 183–202.                          = K 𝑓 ,𝑛,𝑖 (              X𝑡,𝑛,𝑖 𝑒 − 𝑗 𝑇 𝑓 𝑡 +             X𝑡,𝑛,𝑖 𝑒 − 𝑗 𝑇 𝑓 𝑡 )
+[47] Alison W Xin, Dylan Nielson, Karolin Krause, Guilherme Fiorini, Nick Midgley,                                   𝑡 =0                             𝑡 =𝑇 −𝑚
+     Francisco Pereira, and Juan Antonio Lossio-Ventura. [n. d.]. Using Large Language
+                                                                                                                    −1
+                                                                                                                  𝑇∑︁
+     Models to Detect Outcomes in Qualitative Studies on Adolescent Depression. In                                                    2𝜋
+     Artificial Intelligence and Data Science for Healthcare: Bridging Data-Centric AI               = K 𝑓 ,𝑛,𝑖           X𝑡,𝑛,𝑖 𝑒 − 𝑗 𝑇 𝑓 𝑡
+     and People-Centric Healthcare.                                                                                𝑡 =0
+[48] Hong Zhang, Linlong Chen, Jie Cao, Xijun Zhang, Sunan Kan, and Tianxin Zhao.
+     2023. Traffic flow forecasting of graph convolutional network based on spatio-                  = K 𝑓 ,𝑛,𝑖 F (X𝑡,𝑛,𝑖 )
+     temporal attention mechanism. International Journal of Automotive Technology                    = K 𝑓 ,𝑛,𝑖 H𝑓 ,𝑛,𝑖 .
+     24, 4 (2023), 1013–1023.
+[49] Zuozhen Zhang, Junzhong Ji, and Jinduo Liu. 2024. MetaRLEC: Meta-                      Based on the given information, we can conclude that:
+     Reinforcement Learning for Discovery of Brain Effective Connectivity. In Pro-
+     ceedings of the AAAI Conference on Artificial Intelligence, Vol. 38. 10261–10269.                        H̃𝑓 ,𝑛,𝑖 = F ( X̃𝑡,𝑛,𝑖 ) = K 𝑓 ,𝑛,𝑖 H𝑓 ,𝑛,𝑖 .                            (20)
+[50] Zhou Zhao, Qifan Yang, Deng Cai, Xiaofei He, Yueting Zhuang, Zhou Zhao,
+     Qifan Yang, Deng Cai, Xiaofei He, and Yueting Zhuang. 2017. Video Question             By definition, the following equation can be derived:
+     Answering via Hierarchical Spatio-Temporal Attention Networks.. In IJCAI, Vol. 2.
+     8.                                                                                       −1
+                                                                                            𝑇∑︁
+                                                                                                   C𝑚,𝑛,𝑖 X(𝑡 −𝑚) 𝑚𝑜𝑑 𝑇 ,𝑛,𝑖 = X̃𝑡,𝑛,𝑖 = F −1 (K 𝑓 ,𝑛,𝑖 H𝑓 ,𝑛,𝑖 ).                     (21)
+A APPENDIX                                                                                  𝑚=0
+
+A.1 Notations                                                                                      Symbols                                 Meaning
+In this paper, we utilize the uppercase font (e.g., 𝑋 ) to represent                                 𝑋                            original fMRI data matrix
+matrix, and the uppercase calligraphic letters (e.g., X) are used to                                 𝑋ˆ                          predicted fMRI data matrix
+denote three-dimensional (3D) tensor. In order to facilitate readers’                                  𝑄              linear transformation weight matrix of Query
+                                                                                                    𝑊T                              in temporal attention
+comprehension of this article, we provide a summary of the symbols                                                      linear transformation weight matrix of Key
+used throughout the paper, which is presented in Table 9.                                           𝑊T𝐾                             in temporal attention
+                                                                                                                       linear transformation weight matrix of Value
+                                                                                                    𝑊T𝑉                             in temporal attention
+A.2      Proof of Proposition 1                                                                                   linear transformation weight matrix of concatenation
+                                                                                                    𝑊T
+For a 3D tensor X ∈ R𝑇 ×𝑁 ×𝐷 , X𝑡,𝑛,𝑖 denotes the value of the                                                                      in temporal attention
+                                                                                                                   attention weight of the ℎ -th head in spatiotemporal
+embedded fMRI data X in a three-dimensional space at a specific                                      𝐸ℎ                                fusion attention
+time step (𝑡), within a particular brain region (𝑛), and across a                                    𝐴                       brain effective connectivity matrix
+specific dimension (𝑑). Let filter C𝑚,𝑛,𝑖 = F −1 (K 𝑓 ,𝑛,𝑖 ), we have:                               K                     3D learnable filter of Fourier attention
+                                                                                                     X                            3D embedded fMRI data
+                                                   −1
+                                                 𝑇∑︁                                                 H                        3D frequency domain fMRI data
+                                                                      2𝜋
+                K 𝑓 ,𝑛,𝑖 = F (C𝑚,𝑛,𝑖 ) =                C𝑚,𝑛,𝑖 𝑒 − 𝑗 𝑇 𝑓 𝑚 .         (18)                             3D frequency domain fMRI data after applying
+                                                                                                     H̃                               learnable filter K
+                                                 𝑚=0
+   We define cyclic convolution:                                                                     X̃                         3D denoised fMRI data
+                                                                                                    QT,ℎ            3D Query of the ℎ -th head in temporal attention
+                                     −1
+                                   𝑇∑︁
+                                                                                                    KT,ℎ             3D Key of the ℎ -th head in temporal attention
+                       X̃𝑡,𝑛,𝑖 =          C𝑚,𝑛,𝑖 X(𝑡 −𝑚) 𝑚𝑜𝑑 𝑇 ,𝑛,𝑖 ,                (19)           VT,ℎ            3D Value of the ℎ -th head in temporal attention
+                                   𝑚=0                                                                                3D Query of the ℎ -th head in spatiotemporal
+                                                                                                    QS,ℎ                            fusion attention
+where 𝑚𝑜𝑑 signifies integer modulo operation. Then we have the
+                                                                                                                       3D Key of the ℎ -th head in spatiotemporal
+following equation:                                                                                 KS,ℎ                            fusion attention
+                                                                                                     OT             3D output from the concatenation of multi-head
+  H̃𝑓 ,𝑛,𝑖 = F ( X̃𝑡,𝑛,𝑖 )                                                                                                  attention in temporal attention
+                 −1
+               𝑇∑︁                                                                                   ZT                    3D output of temporal attention
+                                    2𝜋
+           =           X̃𝑡,𝑛,𝑖 𝑒 − 𝑗 𝑇 𝑓 𝑡                                                            X̂                           3D predicted fMRI data
+                𝑡 =0                                                                                F (·)                         1D fast Fourier transform
+               𝑇∑︁−1 𝑇∑︁
+                       −1                                                                          F −1 (·)              1D inverse fast Fourier transform
+                                                                 2𝜋
+           =                 C𝑚,𝑛,𝑖 X(𝑡 −𝑚) 𝑚𝑜𝑑 𝑇 ,𝑛,𝑖 𝑒 − 𝑗 𝑇 𝑓 𝑡                                  𝜌 (·)                  layer normalization operation
+                𝑡 =0 𝑚=0                                                                            Φ(·)          a sequence of operations within the feedforward
+                                                                                                                                  network module
+               𝑇∑︁−1                           −1
+                                             𝑇∑︁                                                    𝛾 (·)                     concatenation operation
+                                     2𝜋                                        2𝜋
+           =           C𝑚,𝑛,𝑖 𝑒 − 𝑗 𝑇 𝑓 𝑚           X(𝑡 −𝑚) 𝑚𝑜𝑑 𝑇 ,𝑛,𝑖 𝑒 − 𝑗 𝑇 𝑓 (𝑡 −𝑚)             𝜓 (·)                        squeeze operation
+               𝑚=0                           𝑡 =0                                                    𝑣𝑖                         the 𝑖 -th brain region
+                            −1
+                          𝑇∑︁                                                                        𝑇                       the number of data points
+                                                            2𝜋
+           = K 𝑓 ,𝑛,𝑖            X(𝑡 −𝑚) 𝑚𝑜𝑑 𝑇 ,𝑛,𝑖 𝑒 − 𝑗 𝑇 𝑓 (𝑡 −𝑚)                                 𝑁                      the number of brain regions
+                          𝑡 =0                                                                       𝐷                    the embedding size of fMRI data
+                          𝑇∑︁−1                                                                      𝐻         the number of attention heads in multi-head attention
+                                                            2𝜋                                        𝑗                            imaginary unit
+           = K 𝑓 ,𝑛,𝑖 (           X(𝑡 −𝑚) 𝑚𝑜𝑑 𝑇 ,𝑛,𝑖 𝑒 − 𝑗 𝑇 𝑓 (𝑡 −𝑚) +
+                           𝑡 =𝑚                                                                               Table 9: Summary of notations.
+               𝑚−1
+                                                − 𝑗 2𝜋
+               ∑︁
+                        X(𝑡 −𝑚) 𝑚𝑜𝑑 𝑇 ,𝑛,𝑖 𝑒        𝑇 𝑓 (𝑡 −𝑚)   )
+                𝑡 =0
+KDD ’25, August 3–7, 2025, Toronto, ON, Canada                                                      Wen Xiong, Jinduo Liu*, Junzhong Ji, and Fenglong Ma
+
+
+   Rearranging the above equation into the format of a 3D tensor          brain effective connectivity (EC) learning and other learning tasks.
+yields:                                                                   F1 is a harmonic mean that combines Precision and Recall, provid-
+                     C ∗ X = X̃ = F −1 (K ⊙ H ),                   (22)   ing a balanced assessment of both metrics. Accuracy refers to the
+where ∗ represents cyclic convolution, ⊙ is the element-wise multi-       proportion of samples in the prediction results that are correctly
+plication. Consequently, we can demonstrate that incorporating a          predicted. SHD represents the difference between the learned brain
+learnable filter K into the fast Fourier transform and the inverse fast   EC and ground-truth brain EC. In general, the higher the Precision,
+Fourier transform is equivalent to performing a cyclic convolution        Recall, F1, Accuracy, and the lower the SHD, the better the perfor-
+with the convolution kernel C.                                            mance of the method. The Precision, Recall, F1, Accuracy and SHD
+                                                                          can be calculated as follows:
+A.3     Algorithm Description                                                                                     𝑇𝑃
+The FSTA-EC algorithm consists of two main components: FA and                                       𝑃𝑟𝑒𝑐𝑖𝑠𝑖𝑜𝑛 =                                (23)
+                                                                                                               𝑇𝑃 + 𝐹𝑃
+STA. Algorithm 1 provides a summary of FSTA-EC algorithm. FSTA-                                                  𝑇𝑃
+                                                                                                    𝑅𝑒𝑐𝑎𝑙𝑙 =                                   (24)
+EC employs an encoder-decoder architecture, with FA functioning                                              𝑇𝑃 + 𝐹𝑁
+as encoder and STA as decoder. The FA-Encoder utilizes FFT to                                        2 × 𝑃𝑟𝑒𝑐𝑖𝑠𝑖𝑜𝑛 × 𝑅𝑒𝑐𝑎𝑙𝑙
+                                                                                               𝐹1 =                                            (25)
+transform the high-noise fMRI data into frequency domain and                                           𝑃𝑟𝑒𝑐𝑖𝑠𝑖𝑜𝑛 + 𝑅𝑒𝑐𝑎𝑙𝑙
+applies IFFT to restore the denoised fMRI data back to its original                                            𝑇𝑃 +𝑇𝑁
+                                                                                            𝐴𝑐𝑐𝑢𝑟𝑎𝑐𝑦 =                                         (26)
+physical domain, while concurrently extracting global frequency                                          𝑇𝑃 + 𝐹𝑃 + 𝑇 𝑁 + 𝐹𝑁
+domain features of the fMRI data throughout this procedure. Addi-                                     𝑆𝐻𝐷 = 𝐹 𝑃 + 𝐹 𝑁                          (27)
+tionally, the STA-Decoder captures both the spatiotemporal features       where 𝑇 𝑃, 𝐹 𝑃, 𝑇 𝑁 , and 𝐹 𝑁 denote true positive, false positive, true
+of the fMRI data and the spatial effective connectivity across diverse    negative, and false negative, respectively.
+brain regions in a simultaneous manner.
+                                                                          A.5     Additional Experiments
+Algorithm 1 FSTA-EC                                                       To further highlight the performance of our method, we incorpo-
+Input: fMRI time series data.                                             rated an attention-based approach (MetaRLEC) [49] and a diffusion-
+Output: Brain effective connectivity A.                                   based approach (DiffAN) [36] into our experiments. The results,
+  1: Initialization: Parameters of FA and STA: Ψ𝑓 , Ψ𝑠𝑡 , the training    presented in Table 10, clearly demonstrate the exceptional perfor-
+     epochs 𝐸;                                                            mance of FSTA-EC.
+  2: for 𝑒𝑝𝑜𝑐ℎ = 1 𝑡𝑜 𝐸 do
+                                                                                Table 10: Additional results on simulated datasets.
+  3:   Fourier Attention: Perform embedding and positional en-
+       coding as Eq. ( 1);
+  4:   Convert fMRI data to the frequency domain with FFT as Eq.                                                      Methods
+       (3);                                                                   Data        Metrics       DiffAN       MetaRLEC          FSTA-EC
+  5:   Modify the spectrum by applying a learnable filter K through                                      2023          2024             (Ours)
+       the modulation process as Eq. ( 4);                                         Precision ↑        0.54±0.22       0.67±0.08       0.78±0.11
+  6:   Utilize IFFT to map the denoised fMRI data back to the phys-                   Recall ↑        0.56±0.17       0.35±0.12       0.78±0.11
+       ical domain as Eq.( 5);                                                Sim1        F1 ↑        0.55±0.12       0.46±0.06       0.77±0.09
+                                                                                   Accuracy ↑         0.77±0.10       0.81±0.06       0.89±0.04
+  7:   Spatiotemporal Attention: Get temporal features ZT                              SHD ↓          5.78±2.53       5.13±0.83       2.70±1.00
+       through temporal attention as Eq.( 12);
+                                                                                   Precision ↑        0.54±0.18       0.81±0.06       0.85±0.15
+  8:   Reweight temporal features ZT by brain EC in spatiotem-                        Recall ↑        0.51±0.11       0.57±0.13       0.87±0.09
+       poral fusion attention to acquire spatiotemporal features of           Sim2        F1 ↑        0.52±0.13       0.67±0.10       0.85±0.11
+       fMRI data X̂ as Eq.( 14);                                                   Accuracy ↑         0.73±0.09       0.84±0.05       0.91±0.08
+  9: end for                                                                           SHD ↓          6.75±2.18       4.03±1.63       2.20±1.94
+ 10: Calculate loss and update parameters;                                         Precision ↑        0.57±0.14      0.93±0.14        0.96±0.09
+ 11: return Brain effective connectivity A.                                           Recall ↑        0.52±0.14      0.64±0.08        0.61±0.07
+                                                                              Sim3        F1 ↑        0.54±0.11      0.76±0.09        0.74±0.06
+                                                                                   Accuracy ↑         0.75±0.16      0.84±0.03        0.88±0.03
+                                                                                       SHD ↓          6.33±2.43      2.98±0.82        2.95±0.74
+A.4     Evaluation Metrics                                                         Precision ↑ 0.51±0.10 0.94±0.08 0.75±0.13
+In order to assess the effectiveness of Fourier spatiotemporal at-                    Recall ↑ 0.29±0.05 0.40±0.03 0.59±0.03
+                                                                              Sim4        F1 ↑ 0.37±0.05 0.56±0.05 0.66±0.06
+tention (FSTA-EC), we use the following evaluation metrics: Preci-                 Accuracy ↑ 0.81±0.02 0.88±0.05 0.88±0.03
+sion, Recall, F1, Accuracy and Structural Hamming distance (SHD).                      SHD ↓ 18.95±2.00 12.30±1.97 11.85±2.76
+Among them, Recall and Precision are commonly used metrics in
+
