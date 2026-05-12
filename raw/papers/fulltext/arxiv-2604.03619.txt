@@ -1,0 +1,943 @@
+                                                Can Natural Image Autoencoders Compactly Tokenize fMRI Volumes
+                                                              for Long-Range Dynamics Modeling?
+
+                                                                      Peter Yongho Kim1 *, Juhyeon Park2 *, Jungwoo Park1 ,
+                                                                   Jubin Choi2 , Jungwoo Seo3 , Jiook Cha2,4 , Taesup Moon1,2,5†
+                                                               1
+                                                                 ECE, Seoul National University, 2 IPAI, Seoul National University,
+                                                            3
+                                                              BCS, Seoul National University, 4 Psychology, Seoul National University,
+                                                                        5
+                                                                          ASRI / INMC / AIIS, Seoul National University
+arXiv:2604.03619v1 [cs.CV] 4 Apr 2026
+
+
+
+
+                                                                  {peterkim98, parkjh9229, tsmoon}@snu.ac.kr
+
+
+                                                                    Abstract                                     GT   2D DCAE Recon
+
+                                                                                                                                      3D Volume
+
+
+
+
+                                                                                                      HCP
+                                        Modeling long-range spatiotemporal dynamics in func-
+
+
+
+
+                                                                                                                                                  DCAE
+                                        tional Magnetic Resonance Imaging (fMRI) remains a
+                                        key challenge due to the high dimensionality of the four-
+
+
+
+
+                                                                                                                                                         .
+                                                                                                                                                         ..
+                                                                                                      ADHD-200
+
+
+                                        dimensional signals. Prior voxel-based models, although                                                               only 27
+                                                                                                                                                              tokens!
+                                        demonstrating excellent performance and interpretation ca-
+                                        pabilities, are constrained by prohibitive memory demands
+                                        and thus can only capture limited temporal windows. To        Figure 1. We show that a 2D natural image autoencoder can be
+                                        address this, we propose TABLeT (Two-dimensionally Au-        transferred well to 4D fMRI data (left). Building on this, we
+                                        toencoded Brain Latent Transformer), a novel approach         propose to tokenize a single 3D volume of fMRI only into 27
+                                        that tokenizes fMRI volumes using a pre-trained 2D nat-       tokens, enabling longer spatiotemporal modeling with a simple
+                                        ural image autoencoder. Each 3D fMRI volume is com-           Transformer architecture (right).
+                                        pressed into a compact set of continuous tokens, enabling
+                                        long-sequence modeling with a simple Transformer encoder      has leveraged fMRI to investigate functional connectivity
+                                        with limited VRAM. Across large-scale benchmarks includ-      patterns for tasks such as neurological disorder diagnosis or
+                                        ing the UK-Biobank (UKB), Human Connectome Project            demographic attribute prediction [5, 8, 15–18, 22]. Exist-
+                                        (HCP), and ADHD-200 datasets, TABLeT outperforms ex-          ing approaches can be broadly divided into two categories:
+                                        isting models in multiple tasks, while demonstrating sub-     ROI-based methods and voxel-based methods. ROI-based
+                                        stantial gains in computational and memory efficiency over    methods first define a set of regions of interest (ROIs) based
+                                        the state-of-the-art voxel-based method given the same in-    on anatomical segmentation [23], extract their correspond-
+                                        put. Furthermore, we develop a self-supervised masked         ing time-series signals, and then compute functional con-
+                                        token modeling approach to pre-train TABLeT, which im-        nectivity (FC) matrices as model inputs. Although this ap-
+                                        proves the model’s performance for various downstream         proach is computationally efficient for managing the high
+                                        tasks. Our findings suggest a promising approach for scal-    dimensionality of fMRI data, it has several limitations: per-
+                                        able and interpretable spatiotemporal modeling of brain ac-   formance strongly depends on the choice of ROIs, fine-
+                                        tivity. Our code is available at https://github.com/          grained 3D spatial structures may be lost, and aggressive
+                                        beotborry/TABLeT.                                             compression can discard informative signals. To overcome
+                                                                                                      these limitations, voxel-based methods such as TFF [18]
+                                                                                                      and SwiFT [17] have been proposed. These methods di-
+                                        1. Introduction                                               rectly process raw 4D fMRI data, thereby preserving spa-
+                                                                                                      tial and temporal information, while also allowing detailed
+                                        The human brain is a spatiotemporal dynamic system whose      interpretation as they directly operate on the given image.
+                                        activity can be non-invasively measured using functional      However, due to the massive scale of fMRI volumes, the
+                                        magnetic resonance imaging (fMRI). A large body of work       temporal length that could be simultaneously processed by
+                                          * Equal contribution.                                       the model is severely restricted (e.g., TFF and SwiFT use
+                                          † Corresponding author.                                     only 20 timesteps at once), potentially missing informative
+long-range temporal dynamics, and limiting use for tasks             tokenized fMRI data using self-supervised masked to-
+that require longer-range interactions, such as the infraslow        ken modeling, which can further improve downstream
+BOLD–LFP coupling and global arousal waves that unfold               task performance.
+over tens of seconds [20, 25].
+   In this work, we aim to improve voxel-based fMRI mod-        2. Related Work
+eling by tokenizing fMRI volumes into a compact set of
+                                                                ROI-Based Methods. ROI-based methods parcellate the
+continuous tokens, thereby enabling Transformers [35] to
+                                                                brain into ROIs and average the BOLD signals within
+process substantially longer temporal sequences. To this
+                                                                each. The signals are transformed into FC matrices by
+end, we observed a strong perceptual information preser-
+                                                                computing the correlation between the time series of the
+vation capability of the Deep Compression Autoencoder
+                                                                ROIs. BrainNetCNN [16] treats the FC matrix as a 2D
+(DCAE) [6] and aimed to leverage it, as it effectively tok-
+                                                                image and uses edge-to-edge, edge-to-node, and node-to-
+enizes a 256 × 256 2D natural image into just 64 continuous
+                                                                graph convolutional filters to utilize topological locality
+tokens (a compression ratio of 32). Motivated by this, we
+                                                                in ROI-based networks. Brain Network Transformer [15]
+ask whether a high-performing 2D autoencoder trained on
+                                                                adapts the Transformer architecture to process FC matri-
+natural images can serve as an effective tokenizer for 4D
+                                                                ces as graphs of ROIs. meanMLP [22] is a lightweight
+fMRI data.
+                                                                MLP-based model that applies the same MLP repeatedly
+   Although it may seem counterintuitive, we demonstrate        across parcellated fMRI time-series and averages the re-
+that such an autoencoder can effectively tokenize fMRI          sulting embeddings across time before a final classifica-
+volumes while preserving both fine-grained and high-level       tion layer. Brain-JEPA [8] is a joint-embedding predictive
+functional information. Namely, by rearranging the tokens       architecture (JEPA) model pretrained on parcellated fMRI
+extracted from each 2D slice of a 3D fMRI volume, we            with spatiotemporal masking and gradient-based position-
+compress an entire volume into only 27 continuous tokens,       ing. Even though computationally efficient, they are inher-
+thereby dramatically reducing the input size and enabling       ently limited by the strong pre-processing step that turns
+substantially longer-sequence modeling with a simple            brain signals into FC matrices; it is heavily influenced by
+Transformer encoder-based architecture even with limited        the choice of ROIs, and during the process, structural infor-
+VRAM. We dub our method TABLeT, Two-dimensionally               mation as well as other signals can be discarded.
+Autoencoded Brain Latent Transformer, which achieves            Voxel-Based Methods. Voxel-based methods process 4D
+consistent yet modest improvements compared to voxel-           fMRI volumes, enabling end-to-end learning of spatiotem-
+based baselines on demographic attribute prediction and         poral features without ROI aggregation. TFF [18] operates
+attention-deficit hyperactivity disorder (ADHD) diagnosis       on entire 4D volumes using a two-phase approach: self-
+tasks.                                                          supervised pretraining to reconstruct 3D volumes and fine-
+   Our model drastically saves memory and computation           tuning. It captures fine-grained spatiotemporal dynamics,
+costs compared to the most efficient voxel-based baseline       enabling transfer learning from unlabeled data. SwiFT [17]
+under the same input data scale, allowing much longer se-       extends the Swin Transformer to 4D fMRI volumes with a
+quences to be fed into the model. This unlocks the oppor-       4D window multi-head self-attention mechanism and abso-
+tunity for future use cases that require such long sequences.   lute positional embeddings. Voxel-based methods are free
+Moreover, we demonstrate that self-supervised masked to-        from the issues with ROI-based models; however, they are
+ken modeling on fMRI data can effectively pre-train the         burdened with a higher memory and computation load, as
+model, thereby improving downstream task performance.           they need to deal with high-dimensional data.
+   Our core contributions are summarized as follows:            Self-Supervised Pretraining. Self-supervised learning
+   • We propose a novel tokenization scheme that utilizes       (SSL) has emerged as a powerful pre-training framework
+      a 2D autoencoder, which is pre-trained on natural im-     for vision models, enabling scalable representation learning
+      ages. We then empirically demonstrate that, despite       from unlabeled datasets. MAE [14] introduces an asymmet-
+      the apparent domain mismatch, it can serve as a prac-     ric encoder-decoder architecture, where a high portion of in-
+      tical general-purpose tokenizer for fMRI signals.         put image patches are masked. Visible patches are encoded
+   • Building on this tokenization, we construct a simple       by Vision Transformer (ViT), and the decoder reconstructs
+      Transformer architecture to model substantially longer    the masked patches in pixel space. MAE demonstrated su-
+      temporal sequences than prior state-of-the-art voxel-     perior downstream task transfer, such as classification and
+      based models, leading to performance improvements         segmentation. SimMIM [37] proposes a masked image
+      across multiple tasks based on resting-state fMRI (rs-    modeling (MIM) framework using hierarchical transform-
+      fMRI) datasets. This approach would allow applica-        ers and a simple linear prediction head. VideoMAE [34] ex-
+      tion to tasks that require longer-range interactions.     tends the MAE framework to videos by randomly applying
+   • Furthermore, we show the feasibility of pre-training on    masks on spatio-temporal cubes across spatio-temporal di-
+                                                                                                                                           Downstream Task
+                                          Slice-wise                             𝒁$%&'(, !
+                        Sagittal Slice                         𝒁!
+
+
+
+                    s
+    : Frozen                             Compression                 Reshape
+
+                  ce
+
+
+
+
+                                                         s
+                                                       ce
+               sli
+
+
+
+
+                                                    sli
+               𝐷                                                                                Tokens
+
+
+
+
+                                                  𝐷
+                                         DCAE
+                                                                                             Concat                                    Transformer Encoder
+
+  (𝐷×𝑊×𝐻)
+   3D Frame             Coronal Slice           𝐶ʹ-dim         32𝐶ʹ-dim vector
+                                                vector       𝒁"
+                                                                                                                            ...          ...          ...              ...
+                                         DCAE
+                                                                                                            27𝑇 Tokens
+
+
+
+
+                                                                                                      ...
+                                                             𝒁#                                                                                                                [CLS]
+               𝑊 slices Axial Slice
+                                                                                                            Tokenization                                       ...
+                                                                                                               fMRI
+                                         DCAE
+
+
+
+
+                                                                                                               Time
+         𝐻 slices
+                                                                                                               Series
+
+                                                                                                                           Frame 1     Frame 2       Frame 3         Frame 𝑇
+
+        (a) Tokenization process of a 3D volume using a 2D encoder.                                                                  (b) Overview of TABLeT.
+
+Figure 2. In TABLeT, each frame of the fMRI timeseries is tokenized by a 2D autoencoder, and the tokens are processed by a Transformer.
+
+mensions. The model reconstructs the masked cubes, learn-                                                    much information would be preserved during tokenization.
+ing dynamics, and long-range interactions.                                                                   We compared an off-the-shelf 2D natural image DCAE
+Deep Compression Autoencoder. Deep Compression Au-                                                           (hereafter 2D DCAE) with a 3D DCAE trained directly on
+toencoder (DCAE) [6] introduces an autoencoder frame-                                                        fMRI (hereafter 3D DCAE), as detailed in Sec. 4.4. We note
+work for accelerating high-resolution diffusion models                                                       that fMRI data are timeseries of 3D images, while the 2D
+through extreme spatial compression ratios of up to 128×.                                                    DCAE only operates with 2D images. Therefore, we slice
+DCAE achieves superior reconstruction quality at high                                                        the data into 2D images and feed them into the autoencoder.
+compression levels by residual autoencoding. Residual au-                                                       The 2D DCAE showed comparable information preser-
+toencoding utilizes non-parametric shortcuts that enable the                                                 vation capabilities across both fine-grained spatial details
+model to learn residuals. The encoder downsample blocks                                                      and global functional patterns. Based on this finding, we
+adapt a space-to-channel operation, and the decoder up-                                                      propose to tokenize each 3D volume independently using
+sample blocks use a channel-to-space operation. These                                                        the 2D DCAE encoder, in a slice-wise manner, and ap-
+non-parametric operations effectively preserve information                                                   ply this procedure across the entire fMRI sequence, as de-
+without learned parameters.                                                                                  scribed below.
+3. Method                                                                                                    Tokenization of a 3D Volume with Slicing. Each fMRI
+                                                                                                             frame is a 3D volume X ∈ R1×D×H×W . The single chan-
+3.1. Tokenization of fMRI with 2D Natural Image                                                              nel is first duplicated across three channels to simulate an
+      Autoencoder                                                                                            RGB structure, giving X ∈ R3×D×H×W . One spatial di-
+To enable voxel-based, long-range fMRI dynamics model-                                                       mension is then chosen as the slicing axis, so the volume
+ing, our goal was to design a tokenizer that could substan-                                                  becomes a stack of 2D images. For example, if we slice by
+tially compress fMRI voxels while minimizing information                                                     the depth axis, the volume is treated as D images of shape
+loss. We chose to employ the encoder part of an autoen-                                                      R3×H×W . Each image slice is compressed independently
+                                                                                                                                                  ′ H   W
+coder, since it can handle tokenization while preserving                                                     into a latent representation Z ∈ RC × 32 × 32 , where the fac-
+coarse spatial topology. A straightforward strategy would                                                    tor of 32 is the DCAE’s spatial compression ratio.
+be training an autoencoder directly on fMRI data. However,                                                   Aggregation of 3 Axes. This procedure is repeated for
+this approach is both computationally prohibitive and data                                                   all three slicing axes, producing three latent volumes:
+                                                                                                                              ′  H  W                 ′   D   W
+hungry because training requires large sample sizes that are                                                 ZD ∈ RD×C × 32 × 32 , ZH ∈ RH×C × 32 × 32 , ZW ∈
+                                                                                                               W ×C ′ × 32
+                                                                                                                        D    H
+                                                                                                                           × 32
+rarely available in medical imaging. Moreover, the result-                                                   R                  . As we want to align the three pos-
+ing models often generalize poorly, as fMRI characteristics                                                  sible latent volumes, the latents are grouped and con-
+vary across scanners and acquisition protocols.                                                              catenated along the uncompressed dimension (the slic-
+    Therefore, we propose to directly use an autoencoder                                                     ing axis) by patches of size 32, reshaping them to
+                                                                                                                                                    ′   D   H   W
+trained with natural images, without the need for further                                                    Zpatch,D , Zpatch,H , Zpatch,W ∈ R32C × 32 × 32 × 32 . This
+                                                                                                                     D     H     W
+fine-tuning on medical data. Among existing options, we                                                      yields 32 × 32 × 32 tokens for each slicing variation, where
+adopt DCAE, which achieves high compression rates while                                                      each token corresponds to a position in the downsampled
+maintaining reconstruction fidelity.                                                                         3D grid and has a hidden dimension 32C ′ . The tokens from
+    To check if it would be feasible to use off-the-shelf au-                                                the three variations are then concatenated with the tokens
+toencoders to tokenize fMRI data, we first measured how                                                      from other variations that belong to the same spatial posi-
+                    D    H
+tion, resulting in 32 × 32 ×W  32 tokens per frame with hid-
+                      ′
+den dimension 96C . In our case, H = W = D = 96                                           1
+                                                                                   L=          ||yM − ZM ||1 ,                  (1)
+and C ′ = 32, which means each 3D volume of shape                                       Ω(ZM )
+(1, 96, 96, 96) is tokenized into 27 tokens with an embed-                                ′   D   H   W
+                                                                  in which Z, y ∈ R96C × 32 × 32 × 32 are the input tokens and
+ding dimension of 3072. Finally, we note that tokenization
+                                                                  the predicted tokens, respectively. The subscript M denotes
+is performed only once, and the tokens are cached for later
+                                                                  the set of masked tokens, and Ω counts the number of el-
+use, making its computational cost negligible compared to
+                                                                  ements (thus the number of masked tokens). We used a
+the subsequent training process. We also investigate dif-
+                                                                  masking ratio of 0.5 as the default in our experiments.
+ferent aggregation schemes in Sec. C.3, which shows the
+                                                                      Even though it would be possible to use a typical MIM
+downstream performance is not majorly affected by the spe-
+                                                                  approach by masking the brain volume directly, we chose
+cific aggregation scheme.
+                                                                  MTM as it streamlines the pre-training process by removing
+3.2. TABLeT Model Architecture                                    the need to include the image encoder and decoder.
+                                                                  Masking Strategy. We mask the input tokens with a learn-
+To capture the spatiotemporal dynamics of tokenized               able mask token. Also, instead of masking the tokens in a
+fMRI sequences, we design a simple yet effective Trans-           completely random manner, the same masking pattern from
+former encoder [35], naming the pipeline TABLeT (Two-             a single frame is repeated across different frames, similar
+dimensionally Autoencoded Brain Latent Transformer).              to the tube masking strategy found within VideoMAE [34].
+The architecture is built on a standard Transformer en-           This is a measure to prevent the model from “cheating” by
+coder backbone and integrates several modern compo-               looking at unmasked tokens in the same location from dif-
+nents commonly adopted in large language models [13,              ferent frames.
+24]. In particular, we adopt grouped query attention [1]
+to efficiently handle long sequences, along with the ro-          4. Experimental Results
+tary positional encoding [30]. In addition, we employ
+F.scaled dot product attention from PyTorch                       4.1. Experimental Setting
+[21], which offers both speed and memory savings. Be-             Datasets. We used resting-state fMRI data from 8,178
+fore being fed into the Transformer, fMRI tokens are nor-         middle-aged and older adults from UK-Biobank (UKB)
+malized and projected into a lower-dimensional embedding          [31], from 1,061 healthy young adults in the Human Con-
+space via a linear layer. A [CLS] token is prepended to           nectome Project (HCP) [29], and from 533 children and
+the sequence, followed by an additional normalization step        adolescents, including both individuals diagnosed with
+to enhance training stability. Unless stated otherwise, the       ADHD and healthy controls, included in ADHD-200 [4].
+model is composed of 12 Transformer layers with 14 atten-             For UKB and HCP, we used the preprocessed data pro-
+tion heads and 2 key–value heads, processing sequences of         vided by UK-Biobank [3, 19] and HCP [29], which go
+tokens from 256 frames at once (T = 256). We randomly             through the preprocessing pipeline including bias field re-
+sampled 256 frames from the entire sequence of each sub-          duction, skull-stripping, cross-modality registration, and
+ject at every training iteration, while for validation, we used   spatial normalization to the MNI space [11]. For ADHD-
+all of the frames by partitioning the sequence and averaging      200, we used the fMRIPrep [9, 10] processed data from Bel-
+the outputs across partitions, following Kim et al. [17].         lec et al. [4] and regressed out nuisance variables using co-
+                                                                  sine bases, six motion parameters, and aCompCor compo-
+3.3. Self-supervised Pre-training with Masked To-                 nents. Following Kim et al. [17], we set each fMRI volume
+      ken Modeling                                                to the shape of (96, 96, 96) by cropping out the background
+Taking inspiration from masked image modeling (MIM) ap-           and padding appropriately, and we then applied global min-
+proaches like SimMIM [37], we propose a masked token              max normalization and rescaled it to the [−1, 1] range to
+modeling (MTM) approach to pre-train the Transformer en-          match the input range of the DCAE.
+coder of TABLeT. The key difference is that instead of                We split UKB and HCP using stratified sampling: by age
+masking image pixels or patches, we choose to directly            and sex for UKB, and by age, sex, and intelligence score for
+mask the tokenized representations of the image; starting         HCP. For the ADHD-200 dataset, we performed stratified
+from the tokens created by the 2D DCAE, we randomly               sampling based on diagnosis labels and image acquisition
+mask some of the tokens by replacing them with [MASK]             sites, following Kan et al. [15]. We generated four different
+tokens. From the partially masked input tokens, we task the       random stratified splits, and for all of the splits, the training,
+Transformer encoder to predict the masked tokens by pass-         validation, and test sets were assigned in a 0.7 : 0.15 : 0.15
+ing the output tokens through a linear prediction head that       ratio. For the ADHD-200 dataset, we experimented with
+reconstructs the input tokens. The model is trained through       three random training seeds for each split to ensure reliable
+an L1 loss exclusively on the masked tokens:                      results, given the relatively small size of the dataset.
+Table 1. Performance comparison to baselines on classification and regression tasks. The best results are bolded and the second best results
+are underlined. Standard deviations are provided in Sec. D.
+
+                                                                   UKB                                 ADHD-200
+                     Method                           Sex                         Age                  Diagnosis
+                                             ACC     AUC       F1        MSE     MAE        ρ      ACC AUC       F1
+                     XGBoost                 84.1    0.916    0.830      0.698   0.686    0.553    62.3 0.650 0.555
+                     BrainNetCNN             91.7    0.969    0.912      0.597   0.618    0.647    59.2 0.640 0.545
+                     BNT                     92.4    0.980    0.919      0.540   0.588    0.685    63.6 0.677 0.624
+                     meanMLP                 87.7    0.949    0.919      0.672   0.662    0.586    56.8 0.617 0.532
+                     Brain-JEPA1             86.8    0.943    0.862      0.688   0.669    0.574     –     –       –
+                     TFF (T = 20)            98.3    0.998    0.982      0.440   0.525    0.760    63.3 0.700 0.608
+                     SwiFT (T = 20)          97.4    0.998    0.972      0.366   0.480    0.800    63.3 0.693 0.623
+                     SwiFT (T = 50)          98.1    0.999    0.980      0.364   0.477    0.802    63.9 0.701 0.627
+                     TABLeT (T = 256)        97.7    0.998    0.976      0.340   0.466    0.814    65.8 0.729 0.630
+
+                                                                                  HCP
+                      Method                          Sex                         Age                   Intelligence
+                                             ACC     AUC       F1        MSE     MAE         ρ     MSE MAE           ρ
+                      XGBoost                82.2    0.890    0.837      0.859   0.769     0.296   0.908 0.779 0.292
+                      BrainNetCNN            86.3    0.937    0.866      0.847   0.749     0.372   0.967 0.788 0.286
+                      BNT                    86.3    0.935    0.872      0.794   0.719     0.444   0.920 0.778 0.318
+                      meanMLP                84.5    0.915    0.855      0.846   0.751     0.370   0.887 0.767 0.340
+                      Brain-JEPA             73.9    0.809    0.761      0.814   0.746     0.369   0.959 0.799 0.171
+                      TFF (T = 20)           88.1    0.937    0.892      0.888   0.779     0.246   0.898 0.767 0.312
+                      SwiFT (T = 20)         93.1    0.978    0.937      0.776   0.719     0.450   0.940 0.782 0.297
+                      SwiFT (T = 50)         92.2    0.972    0.929      0.764   0.699     0.460   0.865 0.758 0.354
+                      TABLeT (T = 256)       93.8    0.987    0.943      0.773   0.705     0.473   0.835 0.741 0.392
+
+ Table 2. Performance comparison between TABLeT trained from scratch (TFS) and fine-tuned after masked pre-training (FT) on HCP.
+
+                                                                               HCP
+     Model                          Sex                                       Age                                    Intelligence
+                     ACC          AUC            F1           MSE            MAE              ρ           MSE           MAE              ρ
+     TABLeT TFS     93.8±0.9   0.987±0.003   0.943±0.008   0.773±0.077    0.705±0.038    0.473±0.053   0.835±0.053   0.741±0.028    0.392±0.062
+     TABLeT FT      95.3±1.3   0.986±0.005   0.958±0.011   0.650±0.045    0.655±0.024    0.552±0.032   0.796±0.051   0.732±0.028    0.435±0.046
+
+
+Prediction Targets and Evaluation Metrics. We con-                             For the voxel-based baselines, we adopted TFF [18] and
+sidered sex and age for both UKB and HCP, intelligence                      SwiFT [17], the state-of-the-art voxel-based model. We
+(CogTotalComp-AgeAdj) for HCP, and diagnosis for                            reproduced the original model with 20 input time frames
+ADHD-200. The continuous targets (age, intelligence) are                    (T = 20) for both of them. We also extended SwiFT to
+z-normalized using the training set. Classification tasks                   our hardware limit (T = 50) to test possible gains from a
+were evaluated with accuracy, AUC (Area Under ROC                           longer temporal context; alongside the input time frames,
+Curve), and F1 score. Regression tasks were evaluated with                  the temporal window size was also extended from 4 to 10.
+MAE (Mean Absolute Error), MSE (Mean Squared Error),
+and ρ (Pearson’s correlation).                                              4.2. Main Results
+Baselines. We considered five ROI-based models as our                       Tab. 1 presents experimental results comparing the perfor-
+baseline: XGBoost (eXtreme Gradient Boosting) [7] as a                      mance of different models on a training-from-scratch set-
+standard machine learning baseline, BrainNetCNN [16],                       ting, and the standard deviations are detailed in Sec. D.
+Brain Network Transformer (BNT) [15], meanMLP [22],                         We also compare the performance between SwiFT and
+and Brain-JEPA [8]. For the Brain-JEPA, we trained a                        TABLeT while matching T in Sec. C.1 to compare the two
+model from scratch for a fair comparison. To preprocess                     models in detail.
+the data, we first construct the FC matrix using a total of                    The results demonstrate that TABLeT outperforms base-
+450 ROIs, comprising 400 ROIs from the Schaefer-400 at-                     line methods, including both ROI-based and voxel-based
+las [28] and 50 additional ROIs from the Tian-Scale III                     approaches, across four tasks and three datasets, with only
+atlas [33]. For the XGBoost model, we used the upper-                           1 Since the ADHD-200 dataset contains fMRI data with varying repeti-
+triangular FC matrix as the input. We followed the prepro-                  tion time (TR) values and fewer than 160 frames, the default frame number
+cessing pipeline of Brain-JEPA for its experiments.                         used in Brain-JEPA, we were unable to conduct experiments.
+marginal gains on the HCP-Age task and competitive per-                            GT                    3D DCAE                      2D DCAE
+formance on the UKB-Sex task.
+    Interestingly, the results of SwiFT (T = 20, 50) and
+
+
+
+
+                                                                HCP
+TABLeT indicate a positive association between the number
+of input time frames (T ) and performance, in intelligence
+prediction and ADHD diagnosis, suggesting that model-
+ing longer temporal variability may be particularly advanta-
+geous for these tasks. Sec. 4.6 expands on this observation
+with a more detailed study.
+
+
+
+
+                                                                ADHD-200
+    Although the overall improvement over SwiFT appears
+modest, we believe this is likely due to two factors: first,
+the nature of rs-fMRI, in which signals are recorded while
+subjects are at rest; and second, the tasks considered in our
+study, which primarily rely on structural information and
+may not benefit from longer temporal dependencies.               Figure 3. Visualization of reconstructions from 3D and 2D DCAE.
+    We expect that applying TABLeT to task fMRI data,                             PSNR ( )                SSIM ( )             ||FCorig FCrecon||F ( )
+                                                                                                 1.0
+which contain more temporally dynamic signals, would re-
+                                                                           30                    0.8                      60
+sult in more substantial performance gains over the base-
+                                                                                                 0.6
+lines as it can cover much longer temporal sequences. To                   20                                             40
+                                                                                                 0.4
+support this, we provide preliminary experimental results                  10      3D DCAE       0.2      3D DCAE         20        3D DCAE
+on HBN-Movie [2] in Sec. C.2, where each subject watches                           2D DCAE                2D DCAE                   2D DCAE
+                                                                            0   HCP     ADHD-200 0.0   HCP     ADHD-200    0     HCP     ADHD-200
+two different movies during fMRI acquisition. The results
+suggest that TABLeT benefits more from extended tempo-                     Figure 4. Information preservation of 3D and 2D DCAE.
+ral context compared to the baselines, demonstrating its po-
+tential advantage in settings with highly dynamic stimuli. In    The reconstructions were assessed in two different levels:
+addition, investigating a broader range of tasks to determine    first, we quantified voxel-level reconstruction fidelity using
+which ones can benefit from longer temporal information          PSNR, which reflects the preservation of fine-grained in-
+may provide valuable scientific insights. We believe these       tensity details, and SSIM, which captures structural sim-
+are promising directions for future work.                        ilarity and local spatial patterns. Second, we evaluated
+                                                                 the preservation of high-level functional information by
+4.3. Effect of Pre-training on Downstream Tasks                  comparing the difference in FC matrix between the orig-
+Tab. 2 shows the effectiveness of the masked token pre-          inal fMRI data (FCorig ) and its reconstruction (FCrecon ):
+training strategy described in Sec. 3.3. We first pre-trained    ||FCorig − FCrecon ||F .
+TABLeT on a large UKB dataset with a 9:1 training and                The 3D DCAE was trained with the UKB dataset; a de-
+validation split. We then fine-tuned the model on HCP to         tailed training procedure is provided in Sec. B. To assess
+simulate a transfer learning setting. For fine-tuning, we        generalizability, we deliberately excluded HCP and ADHD-
+only used 10 epochs, which is considerably fewer compared        200 from the training set. The reconstructions from the
+to training from scratch. The results demonstrate that the       three slicing axes were averaged for 2D DCAE.
+pre-training of TABLeT indeed contributes to the improve-            The 2D DCAE moderately outperformed the 3D DCAE
+ment of downstream task performance, albeit with varying         both qualitatively and quantitatively, as shown in Fig. 3 and
+amounts of success depending on the task.                        Fig. 4. This result suggests that the 2D DCAE, pre-trained
+                                                                 on massive, diverse natural image datasets, learns highly ro-
+4.4. Comparison of 2D Natural Image DCAE and                     bust and general-purpose low-level feature extractors (e.g.,
+      3D fMRI-trained DCAE                                       for edges, textures), and in turn is able to generalize well
+To compare the quality of the tokens generated by 2D             into medical images. Moreover, the 2D DCAE also better
+DCAE and 3D DCAE, we evaluate them in two differ-                preserved functional connectivity patterns, indicating that
+ent aspects: reconstruction quality and downstream perfor-       its latent representations retain high-level functional rela-
+mance. The reconstruction quality would serve as a proxy         tionships in the brain.
+of the crucial information preserved in the latent represen-         As a side note, we also attempted to fine-tune the 2D
+tations, while the downstream performance would represent        DCAE with fMRI data while freezing different parts of
+the practical impact of the two.                                 the autoencoder, but discovered that any fine-tuning consis-
+Reconstruction quality. We first compare the quality             tently harmed the reconstruction quality. We presume this
+of the fMRI reconstructions from the two autoencoders.           is because our fMRI dataset is relatively small and homo-
+Table 3. Performance comparison between TABLeT with latents from 3D DCAE and 2D DCAE on HCP and ADHD-200. Standard
+deviations are provided in Sec. D.
+
+                                                               HCP                                                        ADHD-200
+                 Tokenizer           Sex                       Age                    Intelligence                        Diagnosis
+                             ACC    AUC      F1       MSE     MAE       ρ        MSE MAE           ρ                  ACC AUC       F1
+                 3D DCAE     92.2   0.973   0.929     0.767   0.693   0.475      0.869 0.755 0.387                    65.8 0.711 0.644
+                 2D DCAE     93.8   0.987   0.943     0.773   0.705   0.473      0.835 0.741 0.392                    65.8 0.729 0.630
+
+
+                       OOM
+                                                                                                               OOM
+
+
+
+
+                       7.33× memory
+
+
+
+                                                                                               3.80× time
+
+
+
+
+                         (a) Peak memory allocation                                            (b) Training time per epoch
+
+                      Figure 5. Comparison of (a) memory and (b) training time, between TABLeT and SwiFT.
+
+
+geneous compared to the dataset the model is trained on,                 4.6. Additional Ablation Studies
+potentially harming generic filters crucial for the model’s
+                                                                         Effect of Aggregation of Three Axes. We examined the
+generalization capabilities.
+                                                                         effect of axis aggregation to better understand its effect: we
+Downstream Performance. We also compare TABLeT                           compared models trained with fMRI tokens derived from a
+models trained with latents from the 3D DCAE and the 2D                  single axis alongside the model with aggregated tokens. As
+DCAE. The experiment setup is identical to the one detailed              shown in Tab. 4, the performance of TABLeT varies de-
+in Sec. 4.1 and Sec. 4.2. As shown in Tab. 3, both models                pending on the chosen axis for single-axis models. In con-
+achieve comparable performance, with the 2D DCAE mod-                    trast, our aggregated version consistently achieves strong
+erately outperforming the 3D counterpart in most cases.                  performance across tasks, eliminating the dependence on
+   Overall, these results indicate that a 2D DCAE, despite               any particular slicing axis. We chose to aggregate all three
+never being trained on fMRI, generalizes well as a tokenizer             axes instead of using a single axis due to this reliability.
+for 4D fMRI, both in terms of reconstruction fidelity and                Effect of T . As shown in Tab. 1, modeling longer-range
+downstream performance. Given its strong performance,
+alongside the practical benefit of avoiding costly dataset                                                         MAE 0.39                  AUC                             0.6300
+                                                                          0.77                                         0.38     0.725        F1                              0.6275
+collection or additional fine-tuning, we advocate using an                                                             0.37                                                  0.6250
+                                                                          0.76                                                  0.720
+                                                                        MAE
+
+
+
+
+existing 2D DCAE as a training-free tokenizer rather than
+                                                                                                                              AUC
+
+
+
+
+                                                                                                                                                                             0.6225
+                                                                                                                                                                                  F1
+                                                                                                                       0.36
+                                                                          0.75                                         0.35     0.715                                        0.6200
+building and training a dedicated 3D counterpart.                                                                                                                            0.6175
+                                                                                                                       0.34
+                                                                          0.74                                                  0.710                                        0.6150
+                                                                                 50 80     128                      256                 50 80    128                   256
+                                                                                     Number of input time frames                           Number of input time frames
+4.5. Memory and Computational Efficiency
+                                                                                    (a) HCP-Intelligence                                      (b) ADHD-200
+We conduct a quantitative analysis to compare the memory
+and computational efficiency between TABLeT and SwiFT.                   Figure 6. Performance of TABLeT on HCP-Intelligence and
+                                                                         ADHD-200 with varying T .
+To ensure a fair comparison, all tests were performed on
+a single NVIDIA RTX A6000 GPU, and the batch size of                     temporal dynamics can improve performance on the HCP-
+both models was fixed to 4. We were only able to run SwiFT               Intelligence and ADHD diagnosis tasks. To explore this fur-
+up to T = 50 due to memory limitations. At T = 50,                       ther, we varied the T of TABLeT and evaluated the corre-
+compared to SwiFT, TABLeT is 7.33 times more memory                      sponding performance. Interestingly, Fig. 6 reveals a clear
+efficient, and trains 3.8 times faster. With a similar memory            positive trend between performance and T . We believe that
+budget (∼30GB), T can be extended nearly tenfold between                 investigating the relationship between T and model perfor-
+SwiFT (T = 40) and TABLeT (T = 384).                                     mance across diverse tasks represents a promising direction
+Table 4. Effect of the choice of slicing axis and aggregation of the three axes on classification and regression tasks. The best results are
+bolded and the second best results are underlined.
+
+                                                                               UKB
+                        Axis                         Sex                                            Age
+                                    ACC            AUC               F1            MSE             MAE             ρ
+                        Sagittal   97.3±0.9     0.996±0.001      0.971±0.009    0.369±0.015     0.486±0.010   0.796±0.008
+                        Coronal    97.1±0.4     0.996±0.002      0.969±0.004    0.435±0.012     0.525±0.008   0.756±0.009
+                        Axial      97.3±0.4     0.997±0.000      0.971±0.004    0.410±0.020     0.509±0.014   0.771±0.013
+                        All        97.7±0.2     0.998±0.000      0.976±0.002    0.340±0.011     0.466±0.010   0.814±0.009
+
+                                                                               HCP
+                        Axis                         Sex                                            Age
+                                    ACC            AUC               F1            MSE             MAE             ρ
+                        Sagittal   91.3±3.6     0.972±0.017      0.920±0.033    0.783±0.111     0.721±0.041   0.458±0.076
+                        Coronal    93.6±1.7     0.981±0.007      0.941±0.015    0.855±0.053     0.745±0.023   0.376±0.048
+                        Axial      92.3±3.0     0.979±0.008      0.930±0.028    0.748±0.056     0.711±0.015   0.470±0.040
+                        All        93.8±0.9     0.987±0.003      0.943±0.008    0.773±0.077     0.705±0.038   0.473±0.053
+
+                                                       HCP                                        ADHD-200
+                        Axis                       Intelligence                                    Diagnosis
+                                      MSE             MAE                ρ            ACC          AUC          F1
+                        Sagittal   0.842±0.058     0.744±0.028      0.401±0.060      65.8±2.3   0.715±0.026 0.633±0.032
+                        Coronal    0.850±0.057     0.749±0.029      0.381±0.065      63.5±3.1   0.707±0.036 0.621±0.040
+                        Axial      0.896±0.070     0.773±0.033      0.309±0.072      64.3±2.5   0.713±0.022 0.622±0.034
+                        All        0.835±0.053     0.741±0.028      0.392±0.062      65.8±3.5   0.728±0.020 0.630±0.038
+
+
+for future research.                                                           mance while offering substantial reductions in memory and
+                                                                               computation compared to voxel-based baselines. In addi-
+4.7. Interpretation Results                                                    tion, we show that masked token pre-training further en-
+One advantage of voxel-based methods is that the mod-                          hances downstream performance. Our model is based on a
+els are interpretable, since the entire process from voxel                     striking result: a 2D autoencoder trained on natural images
+to prediction is differentiable. To test the interpretabil-                    preserves fMRI structure and functional relationships better
+ity of TABLeT, we used Integrated Gradients (IG) [32]                          than a 3D fMRI-trained autoencoder, enabling efficient tok-
+for visualization of highly contributing areas for sex-                        enization without any domain-specific training. Our model
+classification. We used female test subjects in the HCP-                       opens the opportunity to handle much longer temporal se-
+Sex task who are correctly classified with TABLeT with                         quences for future researchers.
+high confidence (≥ 75%), and computed the IG map                                  Despite these advantages, our study has several limita-
+of the first frame from each subject, then averaged it.                        tions. First, TABLeT tokenizes each frame of the fMRI
+                                                                               time series independently. This process may disrupt subtle
+    Fig. 7 shows that                                                          temporal dynamics. Tokenization strategies that directly in-
+TABLeT mainly focuses on                                                       corporate temporal dependencies, especially in tasks where
+the medial prefrontal gyrus              PCC/PCu
+                                                          mPFC                 fine-grained dynamics are critical, could be explored in the
+(mPFC), posterior cingulate                       Thal.                        future. Second, TABLeT processes all tokens jointly, with-
+cortex (PCC), precuneus                                                        out explicit modeling of their spatial or temporal struc-
+(PCu), and thalamus (Thal.),                                                   ture. Architectures designed to leverage spatial and tem-
+regions commonly impli-                                                        poral alignment between tokens may further enhance the
+cated in brain sex difference                                                  ability to capture the spatiotemporal dynamics inherent in
+literature [12, 26, 27, 36].                                                   fMRI data. Moreover, as discussed in Sec. 4.2, the benefits
+                                              Figure 7. IG map.
+                                                                               of longer temporal modeling vary across tasks, and a sys-
+5. Conclusion & Limitations                                                    tematic understanding of which neuroscientific phenomena
+We introduced TABLeT, a simple and scalable framework                          gain the most remains open.
+that uses a natural-image 2D autoencoder as a training-free                       Nevertheless, we believe our study suggests a promis-
+tokenizer for fMRI volumes, enabling long-range tempo-                         ing approach, bridging natural image processing and medi-
+ral modeling with a lightweight Transformer. Across three                      cal imaging, and enabling scalable, efficient spatiotemporal
+datasets, TABLeT achieved competitive or better perfor-                        modeling of brain activity.
+Acknowledgment                                                         [8] Zijian Dong, Ruilin Li, Yilei Wu, Thuan Tinh Nguyen,
+                                                                           Joanna Chong, Fang Ji, Nathanael Tong, Christopher Chen,
+This work was supported in part by National Research                       and Juan Helen Zhou. Brain-jepa: Brain dynamics foun-
+Foundation of Korea (NRF) grant [No. RS-2025-02263628,                     dation model with gradient positioning and spatiotemporal
+No. RS-202300265406], the Institute of Information &                       masking. Proceedings of the Advances in Neural Informa-
+communications Technology Planning & Evaluation (IITP)                     tion Processing Systems (NeurIPS), 37:86048–86073, 2024.
+grants [RS-2021-II212068, RS-2022-II220113, RS-2022-                       1, 2, 5
+II220959, RS-2021-II211343], the BK21 FOUR Educa-                      [9] Oscar Esteban, Christopher J Markiewicz, Ross W Blair,
+tion and Research Program for Future ICT Pioneers (Seoul                   Craig A Moodie, A Ilkay Isik, Asier Erramuzpe, James D
+National University), funded by the Korean government                      Kent, Mathias Goncalves, Elizabeth DuPre, Madeleine Sny-
+(MSIT), the Ministry of Education [RS-2024-00435727],                      der, et al. fmriprep: a robust preprocessing pipeline for func-
+                                                                           tional mri. Nat. Methods., 16(1):111–116, 2019. 4
+the National Supercomputing Center [KSC-2025-CRE-
+0340], the U.S. Department of Energy’s ASCR Leadership                [10] Oscar Esteban, Rastko Ciric, Karolina Finc, Ross W Blair,
+                                                                           Christopher J Markiewicz, Craig A Moodie, James D Kent,
+Computing Challenge [m4750-2024], and Hyundai Motor
+                                                                           Mathias Goncalves, Elizabeth DuPre, Daniel EP Gomez,
+Chung Mong-Koo Foundation.                                                 et al. Analysis of task-based functional mri data prepro-
+                                                                           cessed with fmriprep. Nat. Protoc., 15(7):2186–2202, 2020.
+References                                                                 4
+ [1] Joshua Ainslie, James Lee-Thorp, Michiel de Jong, Yury           [11] Alan C Evans, D Louis Collins, SR Mills, Edward D
+     Zemlyanskiy, Federico Lebron, and Sumit Sanghai. Gqa:                 Brown, Ryan L Kelly, and Terry M Peters. 3d statistical
+     Training generalized multi-query transformer models from              neuroanatomical models from 305 mri volumes. In 1993
+     multi-head checkpoints. In Proceedings of the Confer-                 IEEE Conference Record Nuclear Science Symposium and
+     ence on Empirical Methods in Natural Language Processing              Medical Imaging Conference (NSS MIC), pages 1813–1817,
+     (EMNLP), pages 4895–4901, 2023. 4                                     1993. 4
+ [2] Lindsay M Alexander, Jasmine Escalera, Lei Ai, Charissa          [12] Bronte Ficek-Tani, Corey Horien, Suyeon Ju, Wanwan Xu,
+     Andreotti, Karina Febre, Alexander Mangone, Natan Vega-               Nancy Li, Cheryl Lacadie, Xilin Shen, Dustin Scheinost,
+     Potler, Nicolas Langer, Alexis Alexander, Meagan Kovacs,              Todd Constable, and Carolyn Fredericks. Sex differences in
+     et al. An open resource for transdiagnostic research in pedi-         default mode network connectivity in healthy aging adults.
+     atric mental health and learning disorders. Sci. Data., 4(1):         Cereb. Cortex., 33(10):6139–6151, 2023. 8
+     170181, 2017. 6, 13                                              [13] Aaron Grattafiori, Abhimanyu Dubey, Abhinav Jauhri, Ab-
+ [3] Fidel Alfaro-Almagro, Mark Jenkinson, Neal K Bangerter,               hinav Pandey, Abhishek Kadian, Ahmad Al-Dahle, Aiesha
+     Jesper LR Andersson, Ludovica Griffanti, Gwenaëlle                   Letman, Akhil Mathur, Alan Schelten, Alex Vaughan,
+     Douaud, Stamatios N Sotiropoulos, Saad Jbabdi, Moises                 et al. The llama 3 herd of models. arXiv preprint
+     Hernandez-Fernandez, Emmanuel Vallee, et al. Image pro-               arXiv:2407.21783, 2024. 4
+     cessing and quality control for the first 10,000 brain imaging   [14] Kaiming He, Xinlei Chen, Saining Xie, Yanghao Li, Piotr
+     datasets from uk biobank. Neuroimage, 166:400–424, 2018.              Dollár, and Ross Girshick. Masked autoencoders are scalable
+     4                                                                     vision learners. In Proceedings of the IEEE/CVF Conference
+ [4] Pierre Bellec, Carlton Chu, Francois Chouinard-Decorte,               on Computer Vision and Pattern Recognition (CVPR), pages
+     Yassine Benhajali, Daniel S Margulies, and R Cameron                  16000–16009, 2022. 2
+     Craddock. The neuro bureau adhd-200 preprocessed reposi-         [15] Xuan Kan, Wei Dai, Hejie Cui, Zilong Zhang, Ying Guo,
+     tory. Neuroimage, 144:275–286, 2017. 4                                and Carl Yang. Brain network transformer. In Proceedings
+ [5] Josue Ortega Caro, Antonio Henrique de Oliveira Fonseca,              of the Advances in Neural Information Processing Systems
+     Syed A Rizvi, Matteo Rosati, Christopher Averill, James L             (NeurIPS), pages 25586–25599, 2022. 1, 2, 4, 5
+     Cross, Prateek Mittal, Emanuele Zappala, Rahul Madhav            [16] Jeremy Kawahara, Colin J Brown, Steven P Miller, Brian G
+     Dhodapkar, Chadi Abdallah, et al. Brainlm: A foundation               Booth, Vann Chau, Ruth E Grunau, Jill G Zwicker, and
+     model for brain activity recordings. In The Twelfth Inter-            Ghassan Hamarneh. Brainnetcnn: Convolutional neural net-
+     national Conference on Learning Representations (ICLR),               works for brain networks; towards predicting neurodevelop-
+     2024. 1                                                               ment. Neuroimage, 146:1038–1049, 2017. 2, 5
+ [6] Junyu Chen, Han Cai, Junsong Chen, Enze Xie, Shang Yang,         [17] Peter Kim, Junbeom Kwon, Sunghwan Joo, Sangyoon Bae,
+     Haotian Tang, Muyang Li, and Song Han. Deep compres-                  Donggyu Lee, Yoonho Jung, Shinjae Yoo, Jiook Cha, and
+     sion autoencoder for efficient high-resolution diffusion mod-         Taesup Moon. Swift: Swin 4d fmri transformer. In Pro-
+     els. In The Thirteenth International Conference on Learning           ceedings of the Advances in Neural Information Processing
+     Representations (ICLR), 2025. 2, 3, 11, 13                            Systems (NeurIPS), pages 42015–42037, 2023. 1, 2, 4, 5, 11
+ [7] Tianqi Chen and Carlos Guestrin. Xgboost: A scalable tree        [18] Itzik Malkiel, Gony Rosenman, Lior Wolf, and Talma
+     boosting system. In Proceedings of the 22nd ACM SIGKDD                Hendler. Self-supervised transformers for fmri representa-
+     International Conference on Knowledge Discovery and Data              tion. In International Conference on Medical Imaging with
+     mining (KDD), pages 785–794, 2016. 5                                  Deep Learning (MIDL), pages 895–913, 2022. 1, 2, 5
+[19] Karla L Miller, Fidel Alfaro-Almagro, Neal K Bangerter,               fanti, Michael P Harms, et al. Resting-state fmri in the hu-
+     David L Thomas, Essa Yacoub, Junqian Xu, Andreas J                    man connectome project. Neuroimage, 80:144–168, 2013.
+     Bartsch, Saad Jbabdi, Stamatios N Sotiropoulos, Jesper LR             4
+     Andersson, et al. Multimodal population brain imaging in         [30] Jianlin Su, Murtadha Ahmed, Yu Lu, Shengfeng Pan, Wen
+     the uk biobank prospective epidemiological study. Nat. Neu-           Bo, and Yunfeng Liu. Roformer: Enhanced transformer with
+     rosci., 19(11):1523–1536, 2016. 4                                     rotary position embedding. Neurocomputing, 568:127063,
+[20] Wen-Ju Pan, Garth John Thompson, Matthew Evan Magnu-                  2024. 4
+     son, Dieter Jaeger, and Shella Keilholz. Infraslow lfp cor-      [31] Cathie Sudlow, John Gallacher, Naomi Allen, Valerie Beral,
+     relates to resting-state fmri bold signals. Neuroimage, 74:           Paul Burton, John Danesh, Paul Downey, Paul Elliott, Jane
+     288–297, 2013. 2                                                      Green, Martin Landray, et al. Uk biobank: an open access re-
+[21] Adam Paszke, Sam Gross, Francisco Massa, Adam Lerer,                  source for identifying the causes of a wide range of complex
+     James Bradbury, Gregory Chanan, Trevor Killeen, Zeming                diseases of middle and old age. PLoS Med., 12(3):e1001779,
+     Lin, Natalia Gimelshein, Luca Antiga, et al. Pytorch: An              2015. 4
+     imperative style, high-performance deep learning library. In     [32] Mukund Sundararajan, Ankur Taly, and Qiqi Yan. Axiomatic
+     Proceedings of the Advances in Neural Information Process-            attribution for deep networks. In Proceedings of the Inter-
+     ing Systems (NeurIPS), 2019. 4                                        national Conference on Machine Learning (ICML), pages
+[22] Pavel Popov, Usman Mahmood, Zening Fu, Carl Yang,                     3319–3328, 2017. 8
+     Vince Calhoun, and Sergey Plis. A simple but tough-to-beat       [33] Ye Tian, Daniel S Margulies, Michael Breakspear, and An-
+     baseline for fmri time-series classification. Neuroimage, 303:        drew Zalesky. Topographic organization of the human sub-
+     120909, 2024. 1, 2, 5                                                 cortex unveiled with functional connectivity gradients. Nat.
+[23] Jonathan D Power, Alexander L Cohen, Steven M Nelson,                 Neurosci., 23(11):1421–1432, 2020. 5
+     Gagan S Wig, Kelly Anne Barnes, Jessica A Church, Ale-           [34] Zhan Tong, Yibing Song, Jue Wang, and Limin Wang.
+     cia C Vogel, Timothy O Laumann, Fran M Miezin, Bradley L              Videomae: Masked autoencoders are data-efficient learn-
+     Schlaggar, et al. Functional network organization of the hu-          ers for self-supervised video pre-training. In Proceedings
+     man brain. Neuron, 72(4):665–678, 2011. 1                             of the Advances in Neural Information Processing Systems
+[24] Qwen, :, An Yang, Baosong Yang, Beichen Zhang, Binyuan                (NeurIPS), pages 10078–10093, 2022. 2, 4
+     Hui, Bo Zheng, Bowen Yu, Chengyuan Li, Dayiheng Liu,             [35] Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszko-
+     Fei Huang, Haoran Wei, Huan Lin, Jian Yang, Jianhong                  reit, Llion Jones, Aidan N Gomez, Łukasz Kaiser, and Il-
+     Tu, Jianwei Zhang, Jianxin Yang, Jiaxi Yang, Jingren Zhou,            lia Polosukhin. Attention is all you need. In Proceedings
+     Junyang Lin, Kai Dang, Keming Lu, Keqin Bao, Kexin                    of the Advances in Neural Information Processing Systems
+     Yang, Le Yu, Mei Li, Mingfeng Xue, Pei Zhang, Qin                     (NeurIPS), 2017. 2, 4
+     Zhu, Rui Men, Runji Lin, Tianhao Li, Tianyi Tang, Tingyu         [36] Susanne Weis, Kaustubh R Patil, Felix Hoffstaedter,
+     Xia, Xingzhang Ren, Xuancheng Ren, Yang Fan, Yang Su,                 Alessandra Nostro, BT Yeo, and Simon B Eickhoff. Sex
+     Yichang Zhang, Yu Wan, Yuqiong Liu, Zeyu Cui, Zhenru                  classification by resting state brain connectivity. Cereb. Cor-
+     Zhang, and Zihan Qiu. Qwen2.5 technical report. arXiv                 tex., 30(2):824–835, 2020. 8
+     preprint arXiv:2412.15115v2, 2025. 4                             [37] Zhenda Xie, Zheng Zhang, Yue Cao, Yutong Lin, Jianmin
+[25] Ryan V Raut, Abraham Z Snyder, Anish Mitra, Dov Yellin,               Bao, Zhuliang Yao, Qi Dai, and Han Hu. Simmim: A simple
+     Naotaka Fujii, Rafael Malach, and Marcus E Raichle. Global            framework for masked image modeling. In Proceedings of
+     waves synchronize the brain’s functional systems with fluc-           the IEEE/CVF conference on Computer Vision and Pattern
+     tuating arousal. Sci. Adv., 7(30):eabf2709, 2021. 2                   Recognition (CVPR), pages 9653–9663, 2022. 2, 4
+[26] Srikanth Ryali, Yuan Zhang, Carlo de Los Angeles, Kaus-
+     tubh Supekar, and Vinod Menon. Deep learning models re-
+     veal replicable, generalizable, and behaviorally relevant sex
+     differences in human functional brain organization. Proc.
+     Natl. Acad. Sci. U.S.A., 121(9):e2310012121, 2024. 8
+[27] Joel Salinas, Elizabeth D Mills, Amy L Conrad, Timothy
+     Koscik, Nancy C Andreasen, and Peg Nopoulos. Sex dif-
+     ferences in parietal lobe structure and development. Gend.
+     Med., 9(1):44–55, 2012. 8
+[28] Alexander Schaefer, Ru Kong, Evan M Gordon, Timothy O
+     Laumann, Xi-Nian Zuo, Avram J Holmes, Simon B Eick-
+     hoff, and BT Thomas Yeo. Local-global parcellation of the
+     human cerebral cortex from intrinsic functional connectivity
+     mri. Cereb. Cortex., 28(9):3095–3114, 2018. 5
+[29] Stephen M Smith, Christian F Beckmann, Jesper Anders-
+     son, Edward J Auerbach, Janine Bijsterbosch, Gwenaëlle
+     Douaud, Eugene Duff, David A Feinberg, Ludovica Grif-
+        Can Natural Image Autoencoders Compactly Tokenize fMRI Volumes
+                      for Long-Range Dynamics Modeling?
+                                                      Appendix
+
+A. Implementation Details
+For the 2D DCAE, we brought the unmodified dc-ae-f32c32-in-1.0 checkpoint provided by Chen et al. [6] for all 2D
+natural image DCAE experiments.
+   All experiments were conducted on the NVIDIA A100-40GB and RTX A6000 GPUs. We used fp16 mixed precision for
+the training of all models except for TFF due to NaN error during training.
+   We used BCEWithLogitsLoss for the classification task, and used pos-weight option for the ADHD task to account
+for class imbalance. We used L1Loss for the regression tasks.
+   For the voxel-based models, TFF, SwiFT, and TABLeT, training was performed by randomly sampling consecutive 3D
+volumes. For evaluation, following Kim et al. [17], we computed the final prediction by averaging the model outputs over all
+possible windows starting from the first frame.
+
+
+Shared Settings We used the following strategy for all of the experiments, unless explicitly stated.
+  • Optimizer: AdamW using a cosine decay learning rate scheduler, with weight decay of 10−2 .
+  • Hyperparameter Search: For the UKB-Sex and HCP-Sex tasks, we searched the hyperparameter based on the
+    validation AUROC for each model. For the UKB-Age, HCP-Age, and HCP-Intelligence tasks, we searched based on
+    the validation MAE. For ADHD, we searched based on the validation loss to consider the pos-weight for the class
+    imbalance.
+  • Early Stopping: We chose the early-stopped model for the BrainNetCNN, BNT, meanMLP, Brain-JEPA, and TFF
+    by default. As we observed that SwiFT and TABLeT are more stable during training, we report results from the final
+    epoch for all tasks.
+
+
+XGBoost We grid searched for hyperparameter tuning of XGBoost for the following.
+  • Maximum depth: Chosen between 3 and 5
+  • Minimal child weight: Chosen between 1 and 7
+  • Gamma: Chosen between 0.0 and 0.4
+  • Learning rate: Chosen between 0.05 and 0.3
+  • Colsample by tree: Chosen between 0.6 and 0.9
+
+
+BrainNetCNN We trained BrainNetCNN with the following setup:
+  • Learning rate: Chosen between 1 × 10−6 and 2 × 10−4
+  • Batch size: 64
+  • Epochs: 100 epochs of training
+
+
+Brain Network Transformer We trained Brain Network Transformer with the following setup:
+  • Learning rate: Chosen between 1 × 10−6 and 2 × 10−4
+  • Batch size: 64
+  • Epochs: 100 epochs of training
+
+
+meanMLP We trained meanMLP with the following setup:
+  • Learning rate: Chosen between 1 × 10−4 and 1 × 10−2
+  • Batch size: 32
+  • Epochs: 100 epochs of training
+Brain-JEPA We trained Brain-JEPA from scratch for fair comparison with the following setup.
+  • Learning rate: Chose between 1 × 10−5 and 7 × 10−4 .
+  • Batch size: 16
+  • Epochs: 50 epochs of training
+
+
+TFF We trained TFF with the following setup:
+  • Phase 1
+       – Learning rate: 3 × 10−3 for UKB, ADHD, and 7 × 10−4 for HCP
+       – Batch size: 4
+       – Epochs: 100 epochs of training
+  • Phase 2
+       – Learning rate: 1 × 10−5 for UKB, ADHD, and chosen between 1 × 10−5 and 1 × 10−6
+       – Batch size: 2
+       – Epochs: 50 epochs of training
+  • Fine-tuning
+       – Learning rate: Chosen between 1 × 10−5 and 1 × 10−6 for UKB and ADHD, chosen between 3 × 10−7 and
+         1 × 10−6 for HCP,
+       – Batch size: 4
+       – Epochs: 10 epochs of training for UKB-Sex, 20 epochs of training for HCP, UKB-Age, and 30 epochs of training
+         for ADHD.
+
+
+SwiFT We trained SwiFT with the following setup:
+  • Learning rate: Chosen between 1 × 10−6 and 5 × 10−5
+  • Batch size: 4
+  • Epochs: 25 epochs of training for UKB, HCP, 30 epochs for ADHD.
+
+
+TABLeT We trained TABLeT with the following setup:
+  • Learning rate: Chosen between 3 × 10−7 and 5 × 10−5
+  • Batch size: 4
+  • Epochs: 50 epochs of training for HCP-Sex, HCP-Intelligence, ADHD, 30 epochs for age regression, 15 epochs for
+    UKB-Sex.
+
+B. Training Details of 3D fMRI-trained DCAE
+
+
+                                                     Validation Loss
+                     0.06                                                      Validation Loss
+                     0.05
+                Loss
+
+
+
+
+                     0.04
+
+
+                     0.03
+
+
+                     0.02
+
+                            0            20            40             60             80       100
+                                                            Epochs
+                                 Figure 8. Validation Loss Curve for Training of 3D DCAE.
+   We developed 3D DCAE by adapting the architecture of 2D DCAE [6] to handle 3D volume inputs. To achieve this, we
+replaced 2D convolutional layers with 3D convolutional layers and adjusted components such as RMS normalization, batch
+normalization, PixelUnshuffle, and PixelShuffle to process 3D data effectively. The model was configured with
+1 input channel, 1024 latent channels, encoder-decoder width of [16, 64, 256, 256, 1024, 1024], and encoder-
+decoder depth of [0, 2, 2, 5, 5, 5], to make the same compression ratio as the 2D DCAE.
+   For training, we utilized a dataset of 8,178 subjects from the UK-Biobank, splitting it into training and validation sets
+with a 9:1 ratio and stratification based on sex and age. The model was trained for 100 epochs with an initial learning rate
+of 4 × 10−5 , which was gradually reduced using ReduceLROnPlateau scheduler. During each epoch, we randomly
+selected a single fMRI frame from the full set of frames for each subject to train the model. The training process used L2
+reconstruction loss and the AdamW optimizer with a weight decay of 1 × 10−4 .
+   As the training curve in Fig. 8 shows, we made every effort to train the 3D DCAE model to achieve the best performance
+and ensure full convergence, for fair comparison.
+
+C. Additional Experimental Results
+C.1. Experiments with Matched T
+We report the performance of TABLeT with T = 20, 50 in Tab. A5 on HCP and ADHD-200. The results demonstrate
+that TABLeT shows comparable performance to SwiFT. Therefore, it proves that TABLeT is able to maintain competitive
+performance even with a reduced number T , highlighting that the performance gain in Tab. 1 is not solely from the increased
+T , but rather from the effectiveness of the proposed method itself.
+
+                            Table A5. Results of experiments with matched T on HCP and ADHD-200.
+
+                                                           HCP                                          ADHD-200
+ Model                           Sex                       Age                  Intelligence            Diagnosis
+                        ACC     AUC      F1       MSE     MAE        ρ     MSE MAE           ρ      ACC AUC       F1
+ SwiFT (T = 20)         93.1    0.978   0.937     0.776   0.719    0.450   0.940 0.782 0.297        63.3 0.693 0.623
+ TABLeT (T = 20)        91.6    0.980   0.923     0.784   0.710    0.460   0.866 0.763 0.340        64.4 0.717 0.621
+ SwiFT (T = 50)         92.2    0.972   0.929     0.764   0.699    0.460   0.865 0.758 0.354        63.9 0.701 0.627
+ TABLeT (T = 50)        93.4    0.986   0.940     0.763   0.704    0.473   0.916 0.778 0.334        64.3 0.710 0.615
+
+
+C.2. HBN-Movie Experiments
+To test on a more temporally dynamic task, we experimented on Healthy Brain Network (HBN)-Movie [2], which includes
+680 subjects and 1,360 fMRI scans where each subject watched two movies. We trained the models to predict which movie
+was being viewed. As shown in Tab. A6, TABLeT achieves performance comparable to SwiFT with the same temporal length
+T , and outperforms with longer T , which demonstrates that TABLeT can handle the temporal dynamics of fMRI data.
+
+                                                Table A6. Results on HBN-Movie.
+
+                                                                    HBN-Movie
+                          Model
+                                                        ACC           AUC          F1
+                          SwiFT (T = 50)              71.7±4.29    0.810±0.040 0.717±0.040
+                          TABLeT (T = 50)             74.7±2.38    0.826±0.033 0.750±0.024
+                          TABLeT (T = 250)            82.1±1.82    0.976±0.014 0.847±0.015
+
+C.3. Axis Aggregation Scheme Variations
+We varied the number of tokens and the latent dimensionality while keeping the total number of values fixed at 27 × 3072 =
+82,944 and setting T = 256. In other words, we changed the number of tokens that are combined together in the token
+aggregation step, where combining a larger number of tokens together leads to a larger token dimensionality while reducing
+the number of total resulting tokens. Since the tokens are only concatenated and rearranged in this step, the total number of
+values are kept constant (82,944). The results are shown in Tab. A7. The results indicate that these adjustments do not lead
+to significant differences in downstream task performance.
+                         Table A7. Results on HCP and ADHD-200 with varying axis aggregation schemes.
+
+                                                                HCP                                   ADHD-200
+             Model          # Token    Dim.                 Intelligence                               Diagnosis
+                                                 MSE           MAE              ρ          ACC          AUC          F1
+             TABLeT           27      3072    0.835±0.053   0.741±0.028    0.392±0.062   65.8±3.50   0.729±0.029 0.630±0.038
+             TABLeT Alt.1      9      9216    0.814±0.044   0.733±0.026    0.416±0.061   65.7±2.74   0.710±0.031 0.632±0.043
+             TABLeT Alt.2      3      27648   0.840±0.093   0.736±0.044    0.401±0.035   65.1±3.59   0.690±0.032 0.636±0.042
+
+
+
+D. Detailed Experimental Results
+We provide the results reported in the manuscript with the standard deviation in Tab. A8, Tab. A9, and Tab. A10.
+
+                                   Table A8. Experimental results with standard deviation on UKB.
+
+                                                                              UKB
+                Method                                 Sex                                         Age
+                                       ACC           AUC            F1             MSE            MAE              ρ
+                XGBoost               84.1±1.7    0.916±0.012   0.830±0.019     0.698±0.013    0.686±0.008    0.553±0.018
+                BrainNetCNN           91.7±0.9    0.969±0.007   0.912±0.009     0.597±0.017    0.618±0.007    0.647±0.012
+                BNT                   92.4±0.9    0.980±0.003   0.919±0.009     0.541±0.016    0.588±0.011    0.685±0.011
+                meanMLP               87.7±1.8    0.949±0.009   0.869±0.020     0.672±0.031    0.662±0.016    0.586±0.027
+                Brain-JEPA            86.8±0.6    0.943±0.004   0.862±0.007     0.688±0.017    0.669±0.008    0.574±0.018
+                TFF (T = 20)          98.3±0.4    0.998±0.001   0.982±0.004     0.440±0.029    0.525±0.015    0.760±0.015
+                SwiFT (T = 20)        97.4±0.3    0.998±0.001   0.972±0.003     0.366±0.005    0.480±0.007    0.800±0.004
+                SwiFT (T = 50)        98.1±0.4    0.999±0.001   0.980±0.005     0.364±0.004    0.477±0.005    0.802±0.003
+                TABLeT (T = 256)      97.6±0.2    0.998±0.000   0.975±0.002     0.340±0.011    0.466±0.010    0.814±0.009
+
+
+
+                Table A9. Experimental results with standard deviation on HCP sex classification and age regression.
+
+                                                                               HCP
+                Method                                 Sex                                          Age
+                                        ACC          AUC             F1             MSE            MAE             ρ
+                XGBoost                82.2±2.5   0.890±0.028    0.837±0.025     0.859±0.074    0.769±0.033   0.296±0.112
+                BrainNetCNN            86.3±4.9   0.937±0.027    0.866±0.049     0.847±0.097    0.749±0.040   0.372±0.097
+                BNT                    86.3±3.0   0.935±0.026    0.872±0.030     0.794±0.051    0.719±0.027   0.444±0.055
+                meanMLP                84.5±2.5   0.915±0.018    0.855±0.028     0.846±0.056    0.751±0.030   0.370±0.087
+                Brain-JEPA             73.9±3.2   0.809±0.018    0.761±0.043     0.814±0.037    0.746±0.009   0.369±0.046
+                TFF (T = 20)           88.1±5.0   0.937±0.055    0.892±0.042     0.888±0.062    0.779±0.036   0.246±0.061
+                SwiFT (T = 20)         93.1±0.5   0.978±0.008    0.937±0.004     0.776±0.043    0.719±0.015   0.450±0.031
+                SwiFT (T = 50)         92.2±1.1   0.972±0.014    0.929±0.010     0.764±0.092    0.699±0.047   0.460±0.071
+                TABLeT (T = 20)        91.6±1.5   0.980±0.007    0.923±0.014     0.784±0.120    0.710±0.046   0.460±0.087
+                TABLeT (T = 50)        93.4±1.3   0.986±0.004    0.940±0.011     0.763±0.069    0.704±0.031   0.473±0.051
+                TABLeT (T = 256)       93.8±0.9   0.987±0.003    0.943±0.008     0.773±0.077    0.705±0.038   0.473±0.053
+                TABLeT (3D DCAE)       92.2±1.7   0.973±0.010    0.929±0.014     0.767±0.118    0.693±0.043   0.475±0.076
+                TABLeT (FT)            95.3±1.3   0.986±0.005    0.958±0.011     0.650±0.045    0.655±0.024   0.552±0.032
+
+
+
+E. Detailed Data Description
+We provide a detailed description of each dataset used in our study in Tab. A11.
+Table A10. Main experimental results with standard deviation on HCP intelligence regression and ADHD diagnosis.
+
+                                              HCP                                   ADHD-200
+      Method                              Intelligence                               Diagnosis
+                               MSE           MAE              ρ          ACC          AUC            F1
+      XGBoost               0.908±0.054   0.779±0.023    0.292±0.099   62.3±2.5    0.650±0.036   0.555±0.031
+      BrainNetCNN           0.967±0.119   0.788±0.044    0.286±0.112   59.2±10.7   0.640±0.095   0.545±0.118
+      BNT                   0.920±0.092   0.778±0.054    0.318±0.083   63.6±5.4    0.677±0.062   0.624±0.057
+      meanMLP               0.887±0.076   0.767±0.028    0.340±0.045   56.8±6.8    0.617±0.067   0.532±0.095
+      Brain-JEPA            0.959±0.091   0.799±0.033    0.171±0.051       –            –             –
+      TFF (T = 20)          0.898±0.022   0.767±0.018    0.312±0.088   63.3±2.3    0.700±0.028   0.608±0.030
+      SwiFT (T = 20)        0.940±0.111   0.782±0.044    0.297±0.080   63.3±3.7    0.693±0.030   0.623±0.033
+      SwiFT (T = 50)        0.865±0.093   0.758±0.046    0.354±0.070   63.9±3.2    0.701±0.032   0.627±0.030
+      TABLeT (T = 20)       0.866±0.074   0.763±0.042    0.340±0.045   64.4±3.0    0.717±0.020   0.621±0.039
+      TABLeT (T = 50)       0.916±0.155   0.778±0.063    0.334±0.102   64.3±2.8    0.710±0.021   0.615±0.037
+      TABLeT (T = 256)      0.835±0.053   0.741±0.028    0.392±0.062   65.8±3.5    0.729±0.029   0.630±0.038
+      TABLeT (3D DCAE)      0.869±0.077   0.755±0.032    0.387±0.078   65.8±1.7    0.711±0.026   0.644±0.022
+      TABLeT (FT)           0.796±0.051   0.732±0.028    0.435±0.046       -            -             -
+
+
+
+
+                     Table A11. Demographic information of the datasets used in our study
+
+                   Category                     UKB                HCP             ADHD -200
+                   Number of subjects           8,178              1,061             533
+                   Sex
+                      Male, n (%)          4,295 (52.5%)       488 (46.0%)         207 (38.8%)
+                      Female, n (%)        3,883 (47.5%)       573 (54.0%)         325 (61.0%)
+                      N/A, n (%)                 –                  –                1 (0.2%)
+                   Age (years)               54.98±7.53         28.79±3.70          11.94±3.40
+                   Intelligence                  –             113.32±20.50              –
+                   Diagnosed, n (%)              –                  –              236 (44.3%)
+

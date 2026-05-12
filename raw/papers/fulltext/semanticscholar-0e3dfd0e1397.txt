@@ -1,0 +1,2125 @@
+Scientific Data                                                                                         https://doi.org/10.1038/s41597-025-06498-0
+
+
+Article in Press
+
+The ASPIRE Research Institute Dataset: Building a
+Foundation for Brain Health Research in the United
+Arab Emirates
+
+Received: 15 May 2025                                Abdalla Z. Mohamed, Ameen Qadi, Amna Dogar, Amal Salah, Aysha Hamkari, Dana
+Accepted: 18 December 2025                           Alkalali, Ghausia Begum, Haidee J. Paterson, Imane Morjane, Omnia Hassanin, Puti
+
+
+
+
+                                                                                                      S
+                                                     Wen, Rawand Benour, Soumen Mohanty, Yvonne Valles, Milos Ljubisavljevic, Youssef
+                                                     Idaghdour, Osama Abdullah, Kartik K. Sreenivasan & Bas Rokers
+
+
+
+                                                                                            ES
+Cite this article as: Mohamed, A.Z.,
+Qadi, A., Dogar, A. et al. The ASPIRE
+Research Institute Dataset: Building a
+                                                                                   PR
+                                                     We are providing an unedited version of this manuscript to give early access to its
+Foundation for Brain Health Research                 findings. Before final publication, the manuscript will undergo further editing. Please
+in the United Arab Emirates. Sci Data                note there may be errors present which affect the content, and all legal disclaimers
+(2025). https://doi.org/10.1038/                     apply.
+                                                                       IN
+
+s41597-025-06498-0
+                                                       If this paper is publishing under a Transparent Peer Review model then Peer
+                                                     Review reports will publish with the final article.
+                                                            LE
+                                                       C
+                                               TI
+                                          R
+                                     A
+
+
+
+
+© The Author(s) 2025. Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International
+License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit
+to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not
+have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this
+article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the
+article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain
+permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
+                                   ARTICLE IN PRESS
+
+The ASPIRE Research Institute Dataset: Building a Foundation for Brain
+
+Health Research in the United Arab Emirates
+
+
+
+Abdalla Z Mohamed1,2, Ameen Qadi1, Amna Dogar1, Amal Salah1, Aysha Hamkari1, Dana
+
+Alkalali1, Ghausia Begum1, Haidee J Paterson1, Imane Morjane 1, Omnia Hassanin1, Puti Wen1,
+
+Rawand Benour1, Soumen Mohanty1, Yvonne Valles1, Milos Ljubisavljevic3,4, Youssef
+
+Idaghdour4,5, Osama Abdullah1, Kartik K Sreenivasan1,6,7, Bas Rokers1,4,6,7
+
+
+
+
+                                                                S
+                                                         ES
+1
+    New York University - Abu Dhabi, Abu Dhabi, Abu Dhabi, United Arab Emirates
+2
+                                                   PR
+    Department of Cognitive Sciences, College of Humanities and Social Sciences, United Arab
+
+Emirates University, Al Ain, United Arab Emirates
+                                           IN
+
+3
+    Department of Physiology, College of Medicine and Health Sciences, United Arab Emirates
+                                    LE
+
+
+
+
+University, Al Ain, United Arab Emirates
+                                 C
+
+
+
+
+4
+    ASPIRE Precision Medicine Research Institute, Abu Dhabi, United Arab Emirates
+                            TI
+
+
+
+
+5
+    Public Health Research Center, New York University - Abu Dhabi, Abu Dhabi, Abu Dhabi,
+                         R
+                      A
+
+
+
+
+United Arab Emirates
+6
+    New York University, New York, United States of America
+7
+    NYUAD Research Institute, New York University Abu Dhabi, PO Box 129188, Abu Dhabi,
+
+United Arab Emirates
+
+
+
+*
+    Corresponding Author: Abdalla Z Mohamed, PhD.
+
+Department of Cognitive Sciences, College of Humanities and Social Sciences, United Arab
+
+Emirates University, Al Ain, United Arab Emirates.
+                                   ARTICLE IN PRESS
+
+Phone: +971 5447 49883
+
+Email: a_mohamed@uaeu.ac.ae
+
+Abstract
+
+Since its founding in 1971, the United Arab Emirates (UAE) has experienced rapid population
+
+growth, urbanization, and increased life expectancy, leading to a rise in health issues common in
+
+developed countries, such as diabetes and cardiovascular disease. These conditions significantly
+
+impact brain health, often contributing to perceptual and cognitive deficits. However, the UAE
+
+and the broader Middle East and North Africa (MENA) region lack large, controlled normative
+
+
+
+
+                                                                S
+neuroimaging data to assess these effects on the brain. To address this gap, the ASPIRE Research
+
+
+
+
+                                                         ES
+Institute (ARI) will recruit a cohort of 1000 Emirati citizens and 1000 non-Emirati residents (18-
+                                                   PR
+60 years-old) and build a comprehensive brain health dataset. Here we document an initial sample
+                                           IN
+
+comprising neuroimaging data from 41 participants (23 males, 18 females; mean age = 25.08 ±
+                                    LE
+
+
+
+
+7.64 years), made available through the Open Science Framework (OSF) website. We outline the
+                                C
+
+
+
+
+study protocol, including MRI and behavioral data acquisition, data management, and
+                           TI
+
+
+
+
+preprocessing workflows. We also provide detailed documentation of the dataset to facilitate use
+                        R
+                     A
+
+
+
+
+by the research community.
+
+
+
+Keywords: Neuroimaging, Magnetic Resonance Imaging (MRI), Brain Health, Population
+
+Diversity, Data Sharing, Middle East
+                                   ARTICLE IN PRESS
+
+Background & Summary
+
+       Since its foundation in 1971, the UAE has experienced rapid advancements in
+
+infrastructure, education, standard of living, and life expectancy 1. The country’s evolving
+
+demographic landscape has led to health challenges common to the developed world, such as high
+
+prevalence rates of diabetes, cardiovascular disease, and obesity. However, the genetic makeup of
+
+the local population differs markedly from those in other developed nations. Consanguinity rates
+
+are an order of magnitude higher in Middle Eastern populations than in Western countries due to
+
+intermarriage and higher levels of relatedness 2, resulting in a substantial burden of regions of
+
+
+
+
+                                                                 S
+homozygosity. At the same time, the UAE represents a unique genetic diversity, as over 85% of
+
+
+
+
+                                                          ES
+the population are expatriates and no single ethnicity constitutes a majority. The UAE also has a
+                                                    PR
+unique set of environmental factors. For example, perhaps owing to its climate, over 90% of the
+                                            IN
+
+population is vitamin D deficient 3–5, which may contribute to the high prevalence of multiple
+                                    LE
+
+
+
+
+sclerosis in the UAE 6. Taken together, these factors create an urgent need to collect and curate
+                                 C
+
+
+
+
+data that can tailor our understanding of health outcomes to the local and regional context.
+                            TI
+
+
+
+
+       This paper describes the ASPIRE Precision Medicine Research Institute Imaging
+                        R
+                     A
+
+
+
+
+normative reference dataset designed to investigate the relationship between brain-based
+
+biomarkers and major health challenges in the UAE, including diabetes, cardiovascular disease,
+
+and obesity. This dataset integrates neuroimaging and behavioral data to identify early markers
+
+and risk factors unique to the UAE population.
+
+       Researchers are increasingly recognizing the value of establishing disease phenotypes
+
+through large-scale population-based studies. This approach is instrumental in identifying imaging
+
+targets for disease diagnosis and prevention 7,8. Modern medical imaging technologies, particularly
+
+magnetic resonance imaging (MRI), have profoundly advanced our understanding of human brain
+                                     ARTICLE IN PRESS
+
+structure and function in health and disease. Indeed, MRI is now recognized as a crucial tool for
+
+early detection of pathological changes, long before clinical symptoms arise 9–12. This early
+
+detection capability is vital for identifying at-risk individuals and tailoring interventions to prevent
+
+or delay disease onset. Medical imaging also plays an essential role in population health studies,
+
+offering a way to monitor the impact of lifestyle and environmental factors on brain health.
+
+        Large-scale population studies and initiatives, such as the Human Connectome Project
+
+(HCP) 7, the UK Biobank 8, the Pediatric Imaging Neurocognition and Genetics (PING) study 13,
+
+the Australian Imaging, Biomarkers and Lifestyle (AIBL) study 14, and the Alzheimer’s Disease
+
+
+
+
+                                                                    S
+Neuroimaging Initiative (ADNI) 15 have yielded valuable insights into health and disease-related
+
+
+
+
+                                                             ES
+imaging phenotypes, genetic markers, and behavioral measures within Western populations.
+                                                      PR
+However, the applicability of these findings to other populations is limited due to genetic diversity,
+                                              IN
+
+environmental exposure, and disease prevalence; human brains exhibit significant variability
+
+among individuals within populations and across different phenotypic categories (e.g., age,
+                                      LE
+
+
+
+
+ethnicity) 16–18.
+                                  C
+                             TI
+
+
+
+
+        We anticipate that the ASPIRE Research Institute Dataset will provide significant benefits
+                         R
+
+
+
+
+for precision medicine strategies in the UAE and offer valuable insights into how prevalent
+                      A
+
+
+
+
+diseases affect brain structure and function. By doing so, we aim to contribute to the global effort
+
+to enhance brain health and promote healthier aging in diverse populations, with a specific focus
+
+on the MENA region.
+
+
+
+Methods
+                                   ARTICLE IN PRESS
+
+Study Overview
+
+       Figure 1 provides an overview of the study protocol. Once participants are confirmed to
+
+meet the eligibility criteria, they proceed to an MRI session, followed by a behavioral assessment.
+
+Following data acquisition, MRI scans are securely transferred and archived on an XNAT
+
+repository (https://www.xnat.org/). The data undergo standardized preprocessing executed via
+
+XNAT’s integration with our high-performance computing infrastructure. From the preprocessed
+
+outputs, we extract image-derived phenotypes (IDPs) across multiple imaging modalities. These
+
+IDPs are then used in association analyses to investigate potential relationships with behavioral
+
+
+
+
+                                                                  S
+measures. Variables such as age, sex, and other factors are available to ensure robust and
+
+
+
+
+                                                          ES
+interpretable results. The database is formatted according to the Brain Imaging Data Structure
+                                                    PR
+(BIDS) standard convention 19, containing structural, diffusion, perfusion, and resting state MRI
+                                            IN
+
+scans, with demographic and behavioral data in separated files.
+                                    LE
+                                 C
+                           TI
+                        R
+                     A
+
+
+
+
+Figure 1. Overview of the ASPIRE Research Institute (ARI) Study Protocol.
+Participants begin by completing informed consent, MRI safety screening, and demographic
+assessments. This is followed by an MRI scanning session and a subsequent behavioral
+assessment. All raw MRI data are securely transferred and stored on the XNAT platform, which
+is integrated with our high-performance computing infrastructure to facilitate automated
+preprocessing workflows.
+
+Participants
+
+       The study is designed to be inclusive of all nationalities and ethnicities who reside in the
+
+UAE. Participants are between 18-60 years old. This study is conducted in compliance with the
+                                   ARTICLE IN PRESS
+
+Helsinki Declaration, and has been approved by the local ethics committee, Human Research
+
+Ethics Committee at New York University Abu Dhabi (NYUAD).
+
+       We intentionally adopted a balanced recruitment strategy comprising 50% Emirati
+
+nationals and 50% expatriate residents. While this does not mirror the national demographic
+
+distribution—where expatriates constitute approximately 85% of the population—this approach
+
+was designed to enhance the scientific utility of the dataset. Emirati nationals possess a unique
+
+genetic and cultural profile that is severely underrepresented in global brain research. Over-
+
+representing this group allows us to capture region-specific neurobiological variation and generate
+
+
+
+
+                                                                 S
+normative benchmarks that are directly relevant to the local population. In contrast, the expatriate
+
+
+
+
+                                                            ES
+population in the UAE includes individuals from ethnic backgrounds (e.g., South Asian, East
+                                                     PR
+Asian, and Caucasian) that are already well represented in international datasets. Including both
+                                            IN
+
+groups enables meaningful cross-cohort comparisons while ensuring that our normative data
+
+reflect the diversity and specificity of the UAE context.
+                                     LE
+
+
+
+
+       We will recruit participants using the NYUAD Intranet platform, social media posts, flyers
+                                 C
+                            TI
+
+
+
+
+distributed at shopping malls, libraries, and coffee shops, and word of mouth. Participants are
+                        R
+
+
+
+
+compensated for their time at AED 60 per hour. All participants provide informed consent.
+                     A
+
+
+
+
+Researchers and radiographers check participant’s eligibility at the screening stage. The inclusion
+
+criteria are: (1) adult individuals who consent to participation; (2) aged between 18 and 60 years
+
+old during the recruitment period; (3) a UAE resident; (4) no known neurological disorders; and
+
+(5) no MRI contraindications (e.g., metal implants, claustrophobia). For individuals uncertain
+
+about their surgical history, the radiographer conducts a risk assessment and, based on their
+
+professional judgment and in accordance with local safety policies and procedures, decides
+
+whether to include or exclude them from the study.
+                                         ARTICLE IN PRESS
+
+             Participants are given the option to share their brain anatomical MRI scans with a certified
+
+radiologist in an accredited clinical facility in the UAE. In the event of incidental findings,
+
+participants are contacted by the hospital for further evaluation.
+
+Demographic information
+
+            We collect basic participant demographic information: age, gender, self-reported
+
+race/ethnicity, and handedness, height and weight.
+
+Visual behavioral measures
+
+            Since measures of visual function may serve as early biomarkers of clinical disorders that
+
+
+
+
+                                                                       S
+are prevalent in the UAE, such as cardiovascular disorders 20, multiple sclerosis 6,21,22, and diabetes
+
+
+
+
+                                                                ES
+20,23,24
+           , participants undergo a battery of tests assessing visual function described next.
+                                                          PR
+            Visual acuity, indicating visual function and health, is assessed using an Early Treatment
+                                                  IN
+
+Diabetic Retinopathy Study (ETDRS) chart (Precision Vision, Woodstock, IL, USA) to detect
+                                          LE
+
+
+
+
+vision changes over time and ensure standardized, reliable measurements for research comparison.
+                                      C
+
+
+
+
+This method, superior to the Snellen chart, measures both monocular and binocular acuity with
+                                 TI
+
+
+
+
+adjustments for corrected or uncorrected vision under uniform chart illumination (85 cd/m2) 25,26.
+                              R
+                          A
+
+
+
+
+Testing occurs at 4 meters, with a closer 2-meter test for those with visual difficulty, and results
+
+are expressed in the Logarithm of the Minimum Angle of Resolution (LogMAR) values, where
+
+positive numbers signify vision loss and negative numbers indicate normal or superior acuity.
+
+            Sighting eye dominance is measured using a modified Miles Test 27. Participants stand
+
+three meters from an eye-level object, form a triangle aperture with their hands, and alternately
+
+open each eye to identify which eye provides a clearer view of the object through the aperture.
+
+            Interpupillary distance (IPD) is measured using an Essilor Digital Corneal Reflection
+
+Pupillometer (Essilor Instruments, Chicago, IL, USA). Participants are instructed to look at a
+                                     ARTICLE IN PRESS
+
+corneal-reflected target light through the pupillometer, allowing for the alignment of corneal
+
+reflections with vertical markers for both eyes to measure monocular pupillary distances in
+
+millimeters.
+
+        Contrast sensitivity, which evaluates the ability to discern between varying levels of
+
+contrast and predicts real-world visual performance, is measured using the Pelli-Robson Contrast
+
+Sensitivity test (Precision Vision, Woodstock, IL, USA). This test, conducted at 1 meter with best-
+
+corrected vision and uniform chart illumination, assesses both monocular and binocular contrast
+
+sensitivity by determining the minimum contrast needed to identify letters of a uniform size. It
+
+
+
+
+                                                                    S
+features rows of letters with decreasing contrast, and participants' scores are based on the lowest
+
+
+
+
+                                                             ES
+contrast level at which they can correctly identify two out of three letters in a triplet, recorded as a
+                                                      PR
+log contrast sensitivity score.
+                                              IN
+
+        Stereoacuity, the resolution of binocular depth perception, is evaluated using the Randot
+
+Stereo Test (Stereo Optical, Chicago, IL, USA), which assesses the ability to discern slight
+                                      LE
+
+
+
+
+differences in position between images seen by each eye. This test, crucial for identifying depth
+                                  C
+                             TI
+
+
+
+
+perception impairments due to conditions like strabismus and amblyopia, comprises ten panels,
+                         R
+
+
+
+
+each featuring three circles, with one being stereoscopic and presenting varying levels of disparity,
+                      A
+
+
+
+
+decreasing from 400 arcseconds in the first panel to 20 arcseconds in the last. Participants wear
+
+polarized glasses and identify the stereoscopic circle from 44 cm away. The stereoacuity score is
+
+based on the smallest disparity that can be judged correctly, measured in seconds of arc.
+
+        Perimetry assesses visual field function and is crucial for detecting visual field loss due to
+
+conditions like glaucoma. We use a custom virtual reality (VR) application, similar in function to
+
+the Humphrey perimeter 28,29. In the test, participants wearing a VR headset fixate on a central
+                                    ARTICLE IN PRESS
+
+cross and indicate the presence of flashing dots in their peripheral vision using a clicker / head
+
+movement.
+
+MRI Data Acquisition
+
+       MRI supports acquisition of several imaging modalities offering complementary
+
+information. We chose specific modalities based on generalizability, automated analysis
+
+feasibility, robust acquisition methods, and time constraints aiming to limit the total scanning time
+
+to one hour. Data is collected using a Siemens Prisma 3T full-body MRI scanner, equipped with a
+
+64-channel head coil. Eye-tracking data during four resting state functional MRI (rsfMRI) scans
+
+
+
+
+                                                                   S
+is collected using the Eyelink 1000 Plus to ensure participants are awake during resting state. The
+
+
+
+
+                                                            ES
+pupil location is calibrated and validated with a 5-point test and each resting state eye data is rated
+                                                      PR
+from 1-to-3 based on data quality, with 1 being low quality and 3 being high quality.
+                                              IN
+
+       Brain Imaging: For each participant, a comprehensive set of scans is acquired, starting
+                                      LE
+
+
+
+with a 3D T1-weighted anatomical scan utilizing the MPRAGE sequence (TR: 2400 ms;
+                                  C
+
+
+
+
+TE:3.45ms; TI: 1000 ms; acceleration factor: 2; flip angle: 8°; 0.8 mm isotropic voxels; matrix
+                             TI
+
+
+
+
+size: 300 × 320 × 208; FOV: 240 mm × 256 mm × 167 mm; 6:38 minutes). This anatomical volume
+                         R
+
+
+
+
+serves as the basis for white/gray matter segmentation and normalization of subsequent scans. To
+                      A
+
+
+
+
+enhance segmentation of cortical and subcortical regions, a 3D T2 fluid-attenuated inversion
+
+recovery (FLAIR) scan is collected (TR: 7000 ms; TE: 396 ms; acceleration factor: 6; 0.8 mm
+
+isotropic voxels; matrix size: 300 × 320 × 208; FOV: 240 mm × 256 mm × 167 mm, 4:56 minutes).
+
+       Additionally, the four rsfMRI scans are acquired using an echo-planar imaging (EPI)
+
+sequence (TR: 700 ms; TE: 39 ms; flip angle: 52°; multiband factor: 8; matrix size: 88 × 88 × 64
+
+mm; 2.4 mm isotropic voxel; FOV: 211 mm × 211 mm × 154 mm; 490 volumes, 5:52 minutes per
+
+scan). Two scans are acquired utilizing an anterior-to-posterior phase encoding direction while the
+                                     ARTICLE IN PRESS
+
+other two scans are acquired with reverse polarity on the phase encoding direction (posterior-to-
+
+anterior) to facilitate susceptibility distortion correction. During rsfMRI, participants are instructed
+
+to keep their eyes fixated on a cross at the center of the screen, and to relax, “internalize your
+
+thoughts, think about your day”.
+
+        To investigate the microstructure of brain white matter, diffusion MRI (dMRI) scans are
+
+collected in the anterior-to-posterior phase encoding direction (TR: 3200 ms; TE: 79 ms; multiband
+
+factor: 3; matrix size: 104 × 104 × 72; 2 mm isotropic voxel; FOV: 210 mm × 210 mm × 144 mm,
+
+5:50 minutes). A multi-shell diffusion scheme is used with b-values of 1000 and 2000 s/mm². 50
+
+
+
+
+                                                                    S
+diffusion-encoding directions are acquired for each shell, in addition to five b=0 s/mm² volumes.
+
+
+
+
+                                                             ES
+An additional reverse-phase direction scan (posterior-to-anterior) with one volume of b = 0 s/mm²
+                                                        PR
+is acquired for susceptibility distortion correction.
+                                              IN
+
+        Arterial spin labeling (ASL) data is acquired using a Pseudo Continuous Arterial Spin
+
+Labeling (pCASL) sequence (TR: 5600 ms; TE: 20 ms; flip angle: 180°; Labeling duration: 1800
+                                      LE
+
+
+
+
+ms; 5 post-labelling delays: 1500 ms, 1600 ms, 1700 ms, 1800 ms, 2000ms; acceleration factor: 2;
+                                    C
+                             TI
+
+
+
+
+matrix size: 62 × 64 × 48 ; resolution: 1.6 × 1.6 × 3 mm voxels; FOV: 100 mm x 102 mm x 144
+                         R
+
+
+
+
+mm; total scan time: 5:43 minutes). Arterial spin labeling measurements were taken twice, once
+                      A
+
+
+
+
+with background suppression of static tissue, and once without for quantification of voxel-wise T1
+
+and M0 values.
+
+MRI Data Quality Control
+
+        All data undergoes conversion from DICOM to NIFTI format in the Brain Imaging Data
+
+Structure       (BIDS)        standard,       facilitated      by        the      dcm2bids         tool
+
+(https://unfmontreal.github.io/Dcm2Bids/3.1.1/), to arrange the imaging data into standard and
+
+modality-specific directories 19.
+                                    ARTICLE IN PRESS
+
+       Subsequently, a comprehensive data quality assessment is conducted utilizing MRIQC 30.
+
+We generate individual and project-level reports for the entire dataset and provide no-reference
+
+image quality metrics (e.g. contrast-to-noise ratio, signal-to-noise ratio, intensity non-uniformity,
+
+head motion, blurred data, etc.). MRIQC generates these reports for different MRI data including
+
+structural (T1w and T2w), diffusion weighted MRI, and functional MRI data. Moreover, our team
+
+of trained researchers conducts a visual inspection of the data to ensure its quality prior to
+
+commencing the preprocessing stage. This meticulous approach guarantees that our research is
+
+built on a solid foundation of high-quality data.
+
+
+
+
+                                                                  S
+MRI Data Preprocessing
+
+
+
+
+                                                           ES
+       The MRI data undergoes preprocessing and analysis employing a suite of software
+                                                     PR
+packages built upon the BIDS format enabling standardized file structures, and shareable and
+                                             IN
+
+reproducible imaging analysis. As our research evolves and new hypotheses emerge, additional
+                                     LE
+
+
+
+software packages may be incorporated to address specific questions.
+
+       Structural data preprocessing: T1 images are processed using fMRIPrep’s 31 anatomical
+                                 C
+                            TI
+
+
+
+
+preprocessing pipeline, including correction for intensity non-uniformity 32, segmentation of tissue
+                         R
+
+
+
+
+classes including cerebrospinal fluid (CSF), white matter (WM), and gray matter (GM) using FSL-
+                     A
+
+
+
+
+FAST 33. The T1 and FLAIR images undergo cortical reconstruction using FreeSurfer recon-all 34.
+
+The output from FreeSurfer is visually inspected to check for segmentation quality, and manually
+
+edited to correct for errors in segmentation. Once corrected, brain surface maps, and cortical and
+
+subcortical segments are generated using a hybrid segmentation algorithm by Mindboggle 35 (Fig.
+
+2). After skull-stripping, the T1-weighted image is normalized to the MNI152 template space. To
+
+align other imaging modalities—such as functional, diffusion, and perfusion MRI scans—these
+                                  ARTICLE IN PRESS
+
+images are first co-registered to the T1 scan. The warp fields generated during the T1-to-MNI
+
+normalization are then applied to transform the co-registered scans into MNI space.
+
+
+
+
+                                                               S
+                                                         ES
+                                                   PR
+                                           IN
+                                   LE
+                                C
+                           TI
+
+
+
+
+Figure 2. Schematic representation of the operational flow for deriving Image-Derived
+Phenotypes (IDPs) from structural MRI data. The IDPs include metrics such as cortical
+                        R
+
+
+
+
+thickness, cortical and subcortical volumes, and cortical surface areas.
+                    A
+
+
+
+
+       fMRI data preprocessing: fMRIPrep (https://fmriprep.org/en/stable/) is used for
+
+preprocessing of fMRI data 31. fMRI data is slice-time corrected, corrected for B0 susceptibility
+
+distortion using FSL-topup 36, motion corrected, skull-stripped, and resampled to an isotropic
+
+resolution of 2 mm3. rsfMRI data is co-registered with the T1-weighted images using bbregister,
+
+which can then be used to generate an individual-based cortical and surface fMRI signal. Finally,
+
+rsfMRI data are normalized to the standard MNI152 space by applying the registration metrics and
+
+deformation (warp) fields obtained during the T1-weighted image normalization process. The
+                                    ARTICLE IN PRESS
+
+rsfMRI data for each subject is further cleaned through the use of independent component analysis
+
+(ICA) algorithm for automatically identifying and removing structured artifacts, using ICA-
+
+AROMA 37. Finally, the fMRI data is temporally filtered with band-pass (f = 0.007 – 0.1 Hz) and
+
+smoothed using a 6-mm Gaussian kernel of full width at half maximum.
+
+       Diffusion weighted imaging (DWI) Preprocessing: DWI preprocessing is performed
+
+using Tractoflow 38 (https://github.com/scilus/tractoflow), as it generates both diffusion measures
+
+and tractography of WM (Fig 3). Briefly, DWI data preprocessing involves denoising, Gibbs
+
+ringing correction, geometric distortion correction, motion and Eddy-current correction, skull
+
+
+
+
+                                                                  S
+stripping and field inhomogeneity correction. Once DWI data are preprocessed, the fiber
+
+
+
+
+                                                           ES
+orientation distribution function (fODF) is generated using constrained spherical deconvolution 39.
+                                                     PR
+Four Diffusion Tensor Imaging (DTI) measures including fractional anisotropy (FA), mean
+                                             IN
+
+diffusivity (MD), radial diffusivity (RD) and axial diffusivity (AD) are computed and HARDI-
+
+derived measures including total apparent fiber density (AFD total) and number of fiber
+                                     LE
+
+
+
+
+orientations (NuFO), is extracted from the fODF. The whole-brain ensemble tractogram is
+                                 C
+                            TI
+
+
+
+
+generated from a fODF map and tracking masks using both the anatomically constrained particle
+                         R
+
+
+
+
+filter tracking algorithm 40, and local tracking with 5 and 2 seeds per voxel respectively. We use
+                     A
+
+
+
+
+the default Tractoflow settings (for complete pipeline description, see 38).
+
+       The structural connectome is estimated using the tck2connectome command in MRtrix3,
+
+which computes the weighted number of streamlines connecting each pair of parcels defined in an
+
+atlas 40. To enhance biological interpretability and reduce methodological biases, several weighting
+
+strategies are applied. First, individual streamline weights are incorporated using the -
+
+tck_weights_in option. Second, the connectome matrix is scaled by streamline length (-
+
+scale_length) to mitigate the inherent bias of probabilistic tractography toward shorter
+                                      ARTICLE IN PRESS
+
+connections. Third, the matrix is further normalized by the inverse of the product of the volumes
+
+of the connected parcels (-scale_invnodevol), correcting for the disproportionate connectivity that
+
+can arise from larger parcel sizes.
+
+
+
+
+                                                                 S
+                                                          ES
+                                                    PR
+                                            IN
+                                      LE
+                                  C
+                            TI
+                         R
+                     A
+
+
+
+
+Figure 3. Schematic diagram of the different preprocessing steps for diffusion weighted
+imaging (DWI). Main steps of preprocessing involve denoising, susceptibility distortion
+correction, diffusion tensor fitting, tractography estimation, and structural connectome measures.
+DWI derived phenotypes include axial (AD), radial (RD), mean diffusivity (MD), and fractional
+anisotropy (FA) for the different white-matter tracts. In addition, we extract tractography-based
+IDPs including tract density and mean fiber length.
+                                   ARTICLE IN PRESS
+
+        Perfusion data preprocessing: ASL data is preprocessed using BASIL 41. To summarize,
+
+ASL data is slice timing corrected, motion corrected with the reference volume set at the median
+
+volume, skull stripped, susceptibility distortion corrected using B0 fieldmap images, and co-
+
+registered to T1. For cerebral blood flow (CBF), we use FSL’s BASIL toolbox, with a Bayesian
+
+model estimation that incorporates spatial regularization and produces a single CBF map 41.
+
+Following computation of the CBF map, BASIL also calculates a GM and WM CBF map with
+
+partial volume correction applied. The final maps are normalized to MNI space to address
+
+anatomical variability among subjects and facilitate group-level analyses.
+
+
+
+
+                                                                  S
+Data Records
+
+
+
+                                                            ES
+        A total of 41 participant datasets (23 males, 18 Females, age = 25.08 ± 7.64 years old) 42
+                                                        PR
+are available as a publicly accessible sample to showcase the scope and structure of the project.
+                                             IN
+
+These   datasets   are hosted     as   an   Open    Science     Framework    (OSF)   repository   -
+                                       LE
+
+
+
+
+https://doi.org/10.17605/OSF.IO/BNXSJ 42. All data are distributed under the Creative Commons
+                                 C
+
+
+
+
+Attribution              4.0                International              Public              License
+                            TI
+
+
+
+
+(https://creativecommons.org/publicdomain/zero/1.0), allowing unrestricted use, distribution, and
+                         R
+                     A
+
+
+
+
+reproduction in any medium, provided the original work is properly cited.
+
+Data organization
+
+        The dataset is organized following the brain imaging data structure (BIDS) specification.
+
+The dataset contains regular BIDS files across 41 participants’ data folders, as well as
+
+a demographics folder.    The    stand-alone    files   offer   an   overview   of   the   dataset:
+
+i) dataset_description.json is a JSON file describing study name, dataset type and authors;
+
+ii) participants.tsv contains participants’ information, such as age, sex, and handedness;
+                                    ARTICLE IN PRESS
+
+iii) participants.json describes the column attributes in participants.tsv; iv) README.md contains
+
+a detailed introduction of the dataset.
+
+       Each participant’s dataset comprised a single session folder labeled ses-01, which included
+
+five subdirectories: anat, dwi, fmap, func, and perf. The anat folder contained high-resolution
+
+structural MRI scans, including FLAIR and T1-weighted (T1w) images in NIfTI format,
+
+accompanied by corresponding .json files detailing scanner specifications, sequence type, and
+
+acquisition parameters such as TR, TE, FOV, and spatial resolution. The dwi folder included the
+
+raw diffusion-weighted imaging data in NIfTI format, a .json file describing the sequence
+
+
+
+
+                                                                    S
+parameters, a .bval file specifying the b-values for each volume, and a .bvec file indicating the
+
+
+
+
+                                                             ES
+gradient directions used during acquisition. The fmap folder contained field map scans used for
+                                                       PR
+distortion correction of both diffusion and functional data. Specifically, dir-AP_epi and dir-
+                                               IN
+
+PA_run01_epi represented forward and reverse phase-encoded scans for correcting distortions in
+
+the fMRI data, while dir-PA_run02_epi was used for distortion correction of the diffusion data.
+                                        LE
+
+
+
+
+The func folder included four resting-state functional MRI scans (task-restingstate_dir-AP_run-
+                                   C
+                             TI
+
+
+
+
+01_bold, task-restingstate_dir-PA_run-01_bold, task-restingstate_dir-AP_run-02_bold, and task-
+                         R
+
+
+
+
+restingstate_dir-PA_run-02_bold), along with their corresponding single-band reference scans to
+                     A
+
+
+
+
+support preprocessing and alignment. The perf folder contained perfusion imaging data acquired
+
+using arterial spin labeling (ASL) sequences, including the perfusion-weighted NIfTI file and its
+
+associated .json metadata file describing the labeling scheme, post-labeling delay, and other
+
+relevant acquisition parameters.
+
+       Behavioral data: The ARI_Behavioral_Data.xlsx file contains demographic, biometric,
+
+and vision-related information for each participant included in this dataset. Each row represents
+
+one   participant,   identified    by     a   unique   participant_id.   The   file   ARI_Behavioral
+                                    ARTICLE IN PRESS
+
+Data_Dictionary.xlsx     contains    the   description   of   the    different   columns    in   the
+
+ARI_Behavioral_Data.xlsx. In the ARI_Behavioral_Data.xlsx, the variable Age records the
+
+participant’s age in years at the time of data collection, and Sex denotes their self-reported
+
+biological sex. Demographic information follows NIH standards, including NIH Race (categorical
+
+race classification) and NIH Hispanic/Latino (indicating whether the participant identifies as
+
+Hispanic or Latino). Additional information about participants’ racial or ethnic identity is included
+
+in Race/Ethnicity Comments (see glossary sheet in the ARI_Behavioral Data_Dictionary.xlsx).
+
+The variable Handedness indicates the participant’s self-reported dominant hand. Physical
+
+
+
+
+                                                                    S
+characteristics are represented by Height (in centimeters) and Weight (in kilograms).
+
+
+
+
+                                                           ES
+       Vision-related variables include Right eye prescription (SPH) and Left eye prescription
+                                                     PR
+(SPH), which record the spherical power (in diopters) for each eye based on the participant’s
+                                             IN
+
+optical prescription. Eye Dominance specifies the dominant eye as determined using the Miles
+
+Test. The variable IPD provides the participant’s interpupillary distance (in millimeters), measured
+                                     LE
+
+
+
+
+three times using an Optical Digital Pupilometer, and IPD Average gives the mean of these three
+                                 C
+                            TI
+
+
+
+
+measurements. The variable Glasses Prescribed indicates whether the participant wears or requires
+                         R
+
+
+
+
+corrective glasses or lenses.
+                     A
+
+
+
+
+       Visual acuity was assessed using the ETDRS protocol at distances of 4 meters and, when
+
+necessary, 2 meters. Measurements were collected under both corrected and uncorrected
+
+conditions for each eye and for binocular vision, and are stored in variables Visual Acuity Right
+
+ETDRS (corrected) 4m, Visual Acuity Right ETDRS (uncorrected) 4m, Visual Acuity Right ETDRS
+
+(uncorrected) 2m, Visual Acuity Left ETDRS (corrected) 4m, Visual Acuity Left ETDRS
+
+(uncorrected) 4m, Visual Acuity Left ETDRS (uncorrected) 2m, Visual Acuity Both ETDRS
+
+(corrected) 4m, Visual Acuity Both ETDRS (uncorrected) 4m, and Visual Acuity Both ETDRS
+                                    ARTICLE IN PRESS
+
+(uncorrected) 2m. These variables represent the participant’s scored visual acuity under each
+
+condition; missing values (NA) indicate instances where testing was not applicable (e.g., if the
+
+participant could not read any letters or did not wear corrective lenses).
+
+       Contrast sensitivity was measured under corrected conditions using the Pelli-Robson test,
+
+with results recorded in Contrast Sensitivity Right PELLIR_N (corrected), Contrast Sensitivity Left
+
+PELLIR_N (corrected), and Contrast Sensitivity Both PELLIR_N (corrected). Stereo vision was
+
+assessed with the Randot Stereo Test, and results are stored in Stereoacuity (corrected).
+
+
+Technical Validation
+
+
+
+
+                                                                  S
+                                                           ES
+Sample size selection
+                                                     PR
+       To ensure adequate statistical power for detecting meaningful relationships, we estimated
+                                             IN
+
+a minimum sample size based on previous literature. A power analysis indicates that a sample of
+
+at least 2000 participants (1000 Emiratis and 1000 non-Emiratis) is necessary to achieve 80%
+                                     LE
+
+
+
+
+power with a significance level set at 0.05 for detecting moderate effect sizes (Cohen's d = 0.5) in
+                                 C
+                            TI
+
+
+
+
+neuroimaging metrics. This sample size also accounts for potential confounding variables,
+                         R
+
+
+
+
+including age, sex, and comorbid conditions, thereby enhancing the robustness of our findings.
+                     A
+
+
+
+
+Furthermore, by incorporating participants with diverse genetic backgrounds, we aim to identify
+
+population-specific variations in neuroimaging correlates, ensuring that our results are
+
+generalizable and relevant across different demographic groups. Ultimately, recruiting a
+
+sufficiently large and diverse cohort allows us to conduct comprehensive multivariate analyses,
+
+revealing significant insights into the interplay between genetics and brain health. Similar
+
+statistical findings have been reported in other projects, including the HCP 43.
+                                    ARTICLE IN PRESS
+
+Proposed Improvements of the current study protocol
+
+       At the completion of data acquisition for 100 participants, we aim to assess our data
+
+collection methods and refine our practices. We have initiated discussions on potential
+
+enhancements to our investigation, focusing on gathering additional information to deepen our
+
+understanding of the population under study. Proposed improvements include implementing new
+
+imaging protocols, and enhancing data collection procedures. These adjustments aim to optimize
+
+the study protocol and enrich the dataset for future stages of data collection. In the following
+
+subsections, we discuss potential improvements that we aim to implement.
+
+
+
+
+                                                                  S
+Changes to the imaging protocol
+
+
+
+
+                                                           ES
+       Firstly, we will consider an MP2RAGE sequence instead of the current MPRAGE
+                                                     PR
+sequence to enhance our capability to estimate the quantitative T1 values 44. The MP2RAGE
+
+sequence consists of an adiabatic inversion pulse, followed by two gradient-echo readout modules
+                                             IN
+
+
+that sample the longitudinal magnetization, to generate two images at two different inversion time
+                                     LE
+
+
+
+
+(TI) points (TI1 and TI2) of the T1 recovery curve 45. In addition, MP2RAGE is a bias free
+                                 C
+                            TI
+
+
+
+
+sequence as compared to MPRAGE, with better contrast to noise ratio 46, which improves
+                         R
+
+
+
+
+structural data analysis and segmentation.
+                     A
+
+
+
+
+       Moreover, we will consider dividing the rsfMRI data acquisition into a pair of forward and
+
+reverse phase scans to be acquired at the start of the MRI session, immediately following the
+
+acquisition of the T1 scan, while the second pair will be collected at the end of the session. This
+
+adjustment may be made in response to the feedback received from participants who expressed
+
+difficulty in remaining awake and fixation during the rsfMRI data collection for a full 20 minutes.
+
+Inclusion of physiological signal collection for improved resting state fMRI processing.
+       When conducting fMRI data analysis, challenges related to head motion and high-
+
+frequency cardiac and respiratory artifacts present significant obstacles, impacting data quality and
+                                    ARTICLE IN PRESS
+
+impeding reliable observations of functional connectivity and activity 47. To address these
+
+challenges, we plan to incorporate the collection of physiological signals, including cardiac and
+
+respiratory signals, during rsfMRI scans. Previous research has demonstrated that regressing out
+
+heart-rate data can improve the temporal signal-to-noise ratio during resting-state scans 48. In cases
+
+where peripheral recordings of physiological signals are unavailable, data-driven approaches like
+
+individual independent component analysis (ICA) and regressing out the noise signal from WM
+
+and CSF regions can serve as effective alternatives for fMRI data denoising 49,50. These
+
+comprehensive strategies aim to optimize data quality and facilitate more accurate interpretations
+
+
+
+
+                                                                  S
+of functional connectivity in our study.
+
+
+
+
+                                                            ES
+Usage Notes
+                                                     PR
+Data handling and storage
+                                             IN
+
+       The confidentiality of participants' research records is rigorously upheld throughout.
+                                     LE
+
+
+
+
+Personally identifiable information, including names and dates of birth, are securely stored in a
+                                  C
+
+
+
+
+master file, accessible exclusively to the Principal Investigator, the study coordinator, and the
+                            TI
+
+
+
+
+radiographers, and identified solely by code numbers. All other research data are securely stored
+                         R
+                     A
+
+
+
+
+in a de-identified format within the NYUAD Data Manager system, ensuring access only through
+
+pre-approved university-assigned credentials, thereby upholding local, state, national, and
+
+international data security standards. The de-identified MRI data, along with supplementary
+
+metadata such as clinical records, textual annotations, survey responses, and behavioral data, are
+
+systematically collated within an XNAT repository. The XNAT platform employs NYUAD's
+
+robust user authentication system and securely stores files on the data management server.
+                                   ARTICLE IN PRESS
+
+Data access and sharing
+
+       The raw data from 41 participants are currently available at 42, as a sample to demonstrate
+
+the potential and quality of the dataset acquired as part of ASPIRE. We also aim to share the final
+
+de-identified phenotypes including IDPs, and behavioral data in phases in accordance with country
+
+data-sharing regulations. This approach will promote research and education in human brain
+
+mapping as well as studies on cultural associations. Users of the ARI database should acknowledge
+
+the original authors and research lab and properly cite the relevant dataset and relevant articles.
+
+Please note that all data sharing agreements are subject to and governed by the laws and regulatory
+
+
+
+
+                                                                 S
+frameworks of the UAE.
+
+
+
+
+                                                          ES
+Relationship to other initiatives nationally and internationally
+                                                    PR
+       Our current study aims to improve understanding of neuroimaging within the Middle
+                                            IN
+
+Eastern population, providing distinct advantages over existing initiatives. We implement a
+                                    LE
+
+
+
+comprehensive imaging approach that covers multiple organ systems, employs a highly multi-
+                                 C
+
+
+
+
+modal brain protocol, and integrates rich existing phenotypic data. All data is collected using the
+                            TI
+
+
+
+
+same MRI scanner, which facilitates data harmonization and reduces potential confounding effects
+                        R
+
+
+
+
+associated with data collected from diverse sites. While the statistical advantages of large sample
+                     A
+
+
+
+
+sizes are evident, our primary goal in enrolling 2000 subjects is to generate prospective imaging
+
+data conducive to identifying early markers and risk factors across a wide spectrum of diseases.
+
+        Over the past two decades, numerous large-scale neuroimaging cohort studies have been
+
+conducted, involving thousands of participants. These include the HCP (n=1200) 7,43, PING study
+
+(n=1000) 13, AIBL Study (n=1100) 14, Maastricht Study (n=10,000) 51, the German National
+
+Cohort (n=30,000) 52, and UK Biobank imaging cohort (n=100,000) 8. These initiatives leverage
+                                    ARTICLE IN PRESS
+
+rich phenotyping to comprehensively investigate brain function and structure with robust statistical
+
+power. However, they predominantly include participants of European descent.
+
+       In contrast, middle eastern families are typically characterized by larger sizes, higher
+
+maternal and paternal ages at conception, and significant levels of endogamy, with consanguinity
+
+rates ranging from 25% to 60%. These rates are typically an order of magnitude higher than the
+
+less than 0.2% consanguinity rate observed in Western countries 2, resulting in a substantial burden
+
+from the higher levels of homozygosity. Therefore, the establishment of the current study is
+
+essential to understand the impact of these factors on brain health in relation to genetic and
+
+
+
+
+                                                                 S
+behavioral changes.
+
+
+
+
+                                                           ES
+                                                    PR
+Declarations
+                                            IN
+
+Ethics approval and consent to participate
+                                     LE
+
+
+
+
+        The project has received ethical approval from the NYUAD Human Research Ethics
+                                 C
+
+
+
+
+Committee(approval number: HRPP-2020-57 & HRPP-2020-91). Any adverse events will be
+                             TI
+
+
+
+
+reported to the ethics committee as required by standard protocol. Participants will be required to
+                        R
+                      A
+
+
+
+
+sign informed consent. All data collected are known to have minimal risk on healthy participants.
+
+Data Availability
+
+       The    data    have   been    deposited    on    the      OSF    and    are   available    at
+
+https://doi.org/10.17605/OSF.IO/BNXSJ.
+
+
+
+Code Availability
+
+       All software packages used for the processing of the data are publicly available. The
+
+neuroimaging data are processed using open-source tools, including DCM2BIDS, MRIQC,
+                                  ARTICLE IN PRESS
+
+fMRIPrep, MRtrix3, FSL, FreeSurfer, Tractflow, and TractSeg. Data organization followed the
+
+BIDS specification. All preprocessing workflows were executed via the XNAT platform, which is
+
+also open-source and available at https://www.xnat.org.
+
+
+
+Competing interests
+
+       The authors report no competing interests.
+
+Authors' contributions
+
+       BR, ML, YI, and OA designed the Project; AS, HJP, OA, designed the MRI protocol;
+
+
+
+
+                                                               S
+AZM, AQ, AH, OH, RB, AD, OA, PW, SM, BR, selected pipelines for MRI data; DA, YV, IM,
+
+
+
+
+                                                          ES
+GB, YI ensured alignment with complementary health research initiatives in the UAE; AZM wrote
+                                                    PR
+the manuscript; AZM, AQ, AH, OH, RB, AD, OA, BR, KKS, DA, YV, IM, GB, YI, KS, SM, PW,
+                                           IN
+
+ML edited and revised the manuscript. All authors reviewed and approved the final version of the
+                                   LE
+
+
+
+
+manuscript.
+                                C
+
+
+
+
+Acknowledgements
+                           TI
+
+
+
+
+              This research is supported by ASPIRE, the technology program management pillar
+                       R
+
+
+
+
+of Abu Dhabi’s Advanced Technology Research Council (ATRC), via the ASPIRE Precision
+                    A
+
+
+
+
+Medicine Research Institute Abu Dhabi (ASPIREPMRIAD) award grant number VRI-20-10.
+
+NYUAD Center for Brain and Health, funded by Tamkeen under NYU Abu Dhabi Research
+
+Institute grant CG012. The UAE Healthy Future Study is supported by Tamkeen under the NYU
+
+Abu Dhabi Research Institute Award to the NYUAD Public Health Research Center (ADHPG-
+
+PHRC). The National Multiple Sclerosis Society UAE provided research support to OA.
+
+     We thank the NYUAD Brain Imaging Core Technology Platform Team and the PHRC team
+
+for support. Additionally, we thank the Computational Research Center Team, especially Jorge
+                                 ARTICLE IN PRESS
+
+Naranjo, Waqqas Zia, Mennatallah Saleh, and Wisam Ali, for their assistance in setting up the
+
+high-performance computing pipelines and managing data storage.
+
+
+
+
+                                                             S
+                                                       ES
+                                                PR
+                                         IN
+                                  LE
+                               C
+                          TI
+                       R
+                   A
+                                 ARTICLE IN PRESS
+
+References
+
+1.   UNDP. Human Development Report 2023-24 | United Nations Development Programme.
+
+     New York; 2024 Mar. Accessed at: https://www.undp.org/arab-states/publications/human-
+
+     development-report-2023-24.
+
+2.   Scott EM, Halees A, Itan Y, et al. Characterization of Greater Middle Eastern genetic
+
+     variation for enhanced disease gene discovery. Nature Genetics; 2016;48:1071–1076.
+
+3.   Al Anouti F, Thomas J, Abdel-Wareth L, Rajah J, Grant WB, Haq A. Vitamin D deficiency
+
+     and sun avoidance among university students at Abu Dhabi, United Arab Emirates.
+
+
+
+
+                                                             S
+     Dermatoendocrinol.; 2011;3:235–239.
+
+
+
+
+                                                       ES
+4.   Abdelgadir EI. Vitamin D Deficiency, the Volume of the Problem in the United Arab
+                                                 PR
+     Emirates. A Cohort from the Middle East. J Endocrinol Diabetes; 2016;3:01–05.
+                                         IN
+
+5.   AlBlooshi S, Al Anouti F, Hijazi R. Knowledge about Vitamin D among Women in the
+                                  LE
+
+
+
+
+     United Arab Emirates. International Journal of Environmental Research and Public Health;
+                              C
+
+
+
+
+     2023;20:1252.
+                         TI
+
+
+
+
+6.   Schiess N, Huether K, Fatafta T, et al. How global MS prevalence is changing: A
+                      R
+                   A
+
+
+
+
+     retrospective chart review in the United Arab Emirates. Mult Scler Relat Disord.;
+
+     2016;9:73–79.
+
+7.   Glasser MF, Smith SM, Marcus DS, et al. The Human Connectome Project’s neuroimaging
+
+     approach. Nature Neuroscience; 2016;19:1175–1187.
+
+8.   Littlejohns TJ, Holliday J, Gibson LM, et al. The UK Biobank imaging enhancement of
+
+     100,000 participants: rationale, data collection, management and future directions. Nature
+
+     Communications; 2020;11:1–12.
+                                  ARTICLE IN PRESS
+
+9.    Pan D, Zeng A, Jia L, Huang Y, Frizzell T, Song X. Early Detection of Alzheimer’s Disease
+
+      Using Magnetic Resonance Imaging: A Novel Approach Combining Convolutional Neural
+
+      Networks and Ensemble Learning. Front Neurosci 2020;14:501050.
+
+10.   Liu L, Dodd S, Hunt RD, et al. Early detection of cerebrovascular pathology and protective
+
+      antiviral immunity by MRI. Elife; 2022;11.
+
+11.   Mohamed AZ, Cumming P, Götz J, Nasrallah F. Tauopathy in veterans with long-term
+
+      posttraumatic stress disorder and traumatic brain injury. Eur J Nucl Med Mol Imaging;
+
+      2019;46:1139–1151.
+
+
+
+
+                                                              S
+12.   Teipel SJ, Grothe M, Lista S, Toschi N, Garaci FG, Hampel H. Relevance of magnetic
+
+
+
+
+                                                        ES
+      resonance imaging for early detection and diagnosis of Alzheimer disease. Med Clin North
+                                                   PR
+      Am; 2013;97:399–424.
+                                          IN
+
+13.   Jernigan TL, Brown TT, Hagler DJ, et al. The Pediatric Imaging, Neurocognition, and
+
+      Genetics (PING) Data Repository. Neuroimage; 2016;124:1149.
+                                   LE
+
+
+
+
+14.   Ellis KA, Bush AI, Darby D, et al. The Australian Imaging, Biomarkers and Lifestyle
+                               C
+                           TI
+
+
+
+
+      (AIBL) study of aging: methodology and baseline characteristics of 1112 individuals
+                       R
+
+
+
+
+      recruited for a longitudinal study of Alzheimer’s disease. Int Psychogeriatr; 2009;21:672–
+                    A
+
+
+
+
+      687.
+
+15.   William J. Jagust et al. The ADNI PET Core. Alzheimers Dement. 2007;6:6930: 221-229.
+
+16.   Deary IJ, Cox SR, Hill WD. Genetic variation, brain, and intelligence differences. Mol
+
+      Psychiatry; 2022;27:335–353.
+
+17.   Chakravarti A. Perspectives on Human Variation through the Lens of Diversity and Race.
+
+      Cold Spring Harb Perspect Biol; 2015;7:a023358.
+                                  ARTICLE IN PRESS
+
+18.   Han Z, Yang G, Liu T, Funahashi S, Zuo XN, Yan T. Enriching population diversity in
+
+      neuroscience. Sci Bull; 2025;70:2560–2564.
+
+19.   Gorgolewski KJ, Auer T, Calhoun VD, et al. The brain imaging data structure, a format for
+
+      organizing and describing outputs of neuroimaging experiments. Scientific Data; 2016;3:1–
+
+      9.
+
+20.   Li Y, Liu Y, Liu S, et al. Diabetic vascular diseases: molecular mechanisms and therapeutic
+
+      strategies. Signal Transduction and Targeted Therapy; 2023;8:1–29.
+
+21.   Petzold A, Chua SYL, Khawaja AP, et al. Retinal asymmetry in multiple sclerosis. Brain;
+
+
+
+
+                                                               S
+      2021;144:224–235.
+
+
+
+
+                                                         ES
+22.   Dhanapalaratnam R, Markoulli M, Krishnan A V. Disorders of vision in multiple sclerosis.
+                                                   PR
+      Clin Exp Optom; 2022;105:3–12.
+                                           IN
+
+23.   Brownie S, Hunter L, Rossiter R, Hills AP, Robb W, Hag-Ali M. Diabetes in the United
+
+      Arab Emirates: the need for valid datasets for health service planning. Lancet Diabetes
+                                   LE
+
+
+
+
+      Endocrinol; 2014;2:535–537.
+                                C
+                          TI
+
+
+
+
+24.   Al-Maskari F, El-Sadig M. Prevalence of diabetic retinopathy in the United Arab Emirates:
+                       R
+
+
+
+
+      A cross-sectional survey. BMC Ophthalmol; 2007;7.
+                    A
+
+
+
+
+25.   Kaiser PK. Prospective Evaluation of Visual Acuity Assessment: A Comparison of Snellen
+
+      Versus ETDRS Charts in Clinical Practice (An AOS Thesis). Trans Am Ophthalmol Soc;
+
+      2009;107:311.
+
+26.   Baker CW, Josic K, Maguire MG, et al. Comparison of Snellen Visual Acuity
+
+      Measurements in Retinal Clinical Practice to Electronic ETDRS Protocol Visual Acuity
+
+      Assessment. Ophthalmology; 2023;130:533–541.
+                                  ARTICLE IN PRESS
+
+27.   Miles WR. Ocular dominance demonstrated by unconscious sighting. J Exp Psychol.
+
+      1929;12:113–126.
+
+28.   Tsapakis S, Papaconstantinou D, Diagourtas A, et al. Visual field examination method using
+
+      virtual reality glasses compared with the Humphrey perimeter. Clinical Ophthalmology;
+
+      2017;11:1431–1443.
+
+29.   Nanti NB, Lenoci J. Comparison of Virtual Reality Visual Field Testing to Humphrey
+
+      Visual Field Testing in an Academic Ophthalmology Practice. Invest Ophthalmol Vis Sci.;
+
+      2021;62:3486–3486.
+
+
+
+
+                                                              S
+30.   Esteban O, Birman D, Schaer M, Koyejo OO, Poldrack RA, Gorgolewski KJ. MRIQC:
+
+
+
+
+                                                        ES
+      Advancing the automatic prediction of image quality in MRI from unseen sites. PLoS One;
+                                                  PR
+      2017;12.
+                                          IN
+
+31.   Esteban O, Markiewicz CJ, Blair RW, et al. fMRIPrep: a robust preprocessing pipeline for
+
+      functional MRI. Nat Methods; 2019;16:111–116.
+                                   LE
+
+
+
+
+32.   Tustison NJ, Avants BB, Cook PA, et al. N4ITK: Improved N3 bias correction. IEEE Trans
+                                C
+                           TI
+
+
+
+
+      Med Imaging. 2010;29:1310–1320.
+                       R
+
+
+
+
+33.   Zhang Y, Brady M, Smith S. Segmentation of brain MR images through a hidden Markov
+                    A
+
+
+
+
+      random field model and the expectation-maximization algorithm. IEEE Trans Med
+
+      Imaging; 2001;20:45–57.
+
+34.   Dale AM, Fischl B, Sereno MI. Cortical surface-based analysis: I. Segmentation and surface
+
+      reconstruction. Neuroimage. 1999;9:179–194.
+
+35.   Klein A, Ghosh SS, Bao FS, et al. Mindboggling morphometry of human brains. PLoS
+
+      Comput Biol; 2017;13:e1005350.
+                                  ARTICLE IN PRESS
+
+36.   Andersson JLR, Skare S, Ashburner J. How to correct susceptibility distortions in spin-echo
+
+      echo-planar images: Application to diffusion tensor imaging. Neuroimage; 2003;20:870–
+
+      888.
+
+37.   Pruim RHR, Mennes M, Buitelaar JK, Beckmann CF. Evaluation of ICA-AROMA and
+
+      alternative strategies for motion artifact removal in resting state fMRI. Neuroimage;
+
+      2015;112:278–287.
+
+38.   Theaud G, Houde JC, Boré A, Rheault F, Morency F, Descoteaux M. TractoFlow: A robust,
+
+      efficient and reproducible diffusion MRI pipeline leveraging Nextflow & Singularity.
+
+
+
+
+                                                               S
+      Neuroimage; 2020;218:116889.
+
+
+
+
+                                                         ES
+39.   Tournier JD, Calamante F, Connelly A. Robust determination of the fibre orientation
+                                                  PR
+      distribution in diffusion MRI: Non-negativity constrained super-resolved spherical
+                                           IN
+
+      deconvolution. Neuroimage; 2007;35:1459–1472.
+
+40.   Girard G, Whittingstall K, Deriche R, Descoteaux M. Towards quantitative connectivity
+                                   LE
+
+
+
+
+      analysis: reducing tractography biases. Neuroimage; 2014;98:266–278.
+                                C
+                          TI
+
+
+
+
+41.   Chappell MA, Groves AR, Whitcher B, Woolrich MW. Variational Bayesian inference for
+                       R
+
+
+
+
+      a nonlinear forward model. IEEE Transactions on Signal Processing; 2009;57:223–236.
+                    A
+
+
+
+
+42.   Mohamed A, Qadi A, Dogar A, et al. The ASPIRE Research Institute Dataset: Building a
+
+      Foundation for Brain Health Research in the United Arab Emirates. OSF; Epub 2025 May
+
+      5. Accessed at: https://doi.org/10.17605/OSF.IO/BNXSJ.
+
+43.   Elam JS, Glasser MF, Harms MP, et al. The Human Connectome Project: A retrospective.
+
+      Neuroimage; 2021;244:118543.
+
+44.   Karakuzu A, Boudreau M, Duval T, et al. qMRLab: Quantitative MRI analysis, under one
+
+      umbrella. J Open Source Softw; 2020;5:2343.
+                                   ARTICLE IN PRESS
+
+45.   Tanner M, Gambarota G, Kober T, et al. Fluid and white matter suppression with the
+
+      MP2RAGE sequence. Journal of Magnetic Resonance Imaging; 2012;35:1063–1070.
+
+46.   Marques JP, Kober T, Krueger G, van der Zwaag W, Van de Moortele PF, Gruetter R.
+
+      MP2RAGE, a self bias-field corrected sequence for improved segmentation and T1-
+
+      mapping at high field. Neuroimage; 2010;49:1271–1281.
+
+47.   Power JD. Temporal ICA has not properly separated global fMRI signals: A comment on
+
+      Glasser et al. (2018). Neuroimage. 2019;197:650–651.
+
+48.   Mohamed AZ, Kwiatek R, Fante P Del, Calhoun VD, Lagopoulos J, Shan ZY. Functional
+
+
+
+
+                                                                 S
+      MRI of the Brainstem for Assessing Its Autonomic Functions: From Imaging Parameters
+
+
+
+
+                                                          ES
+      and Analysis to Functional Atlas. Journal of Magnetic Resonance Imaging; 2024;
+                                                   PR
+      60(5):1880-1891.
+                                            IN
+
+49.   Xifra-Porxas A, Kassinopoulos M, Mitsis GD. Physiological and motion signatures in static
+
+      and time-varying functional connectivity and their subject identifiability. Elife. 2021;10.
+                                    LE
+
+
+
+
+50.   Parkes L, Fulcher B, Yücel M, Fornito A. An evaluation of the efficacy, reliability, and
+                                C
+                           TI
+
+
+
+
+      sensitivity of motion correction strategies for resting-state functional MRI. Neuroimage.
+                        R
+
+
+
+
+      2018;171:415–436.
+                    A
+
+
+
+
+51.   Schram MT, Sep SJS, Van Der Kallen CJ, et al. The Maastricht Study: an extensive
+
+      phenotyping study on determinants of type 2 diabetes, its complications and its
+
+      comorbidities. Eur J Epidemiol; 2014;29:439–451.
+
+52.   Ahrens W, Hoffmann W, Jöckel KH, et al. The German National Cohort: aims, study design
+
+      and organization. Eur J Epidemiol; 2014;29:371–382.
+                                   ARTICLE IN PRESS
+
+Figure Legends:
+
+Figure 1. Overview of the ASPIRE Research Institute (ARI) Study Protocol. Participants
+
+begin by completing informed consent, MRI safety screening, and demographic assessments. This
+
+is followed by an MRI scanning session and a subsequent behavioral assessment. All raw MRI
+
+data are securely transferred and stored on the XNAT platform, which is integrated with our high-
+
+performance computing infrastructure to facilitate automated preprocessing workflows.
+
+
+
+Figure 2. Schematic representation of the operational flow for deriving Image-Derived
+
+
+
+
+                                                                 S
+Phenotypes (IDPs) from structural MRI data. The IDPs include metrics such as cortical
+
+
+
+
+                                                           ES
+thickness, cortical and subcortical volumes, and cortical surface areas.
+                                                      PR
+                                            IN
+
+Figure 3. Schematic diagram of the different preprocessing steps for diffusion weighted
+                                     LE
+
+
+
+
+imaging (DWI). Main steps of preprocessing involve denoising, susceptibility distortion
+                                 C
+
+
+
+
+correction, diffusion tensor fitting, tractography estimation, and structural connectome measures.
+                            TI
+
+
+
+
+DWI derived phenotypes include axial (AD), radial (RD), mean diffusivity (MD), and fractional
+                        R
+                     A
+
+
+
+
+anisotropy (FA) for the different white-matter tracts. In addition, we extract tractography-based
+
+IDPs including tract density and mean fiber length.
+

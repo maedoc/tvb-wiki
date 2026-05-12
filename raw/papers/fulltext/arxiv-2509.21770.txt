@@ -1,0 +1,911 @@
+                                                                                    IEEE TRANSACTIONS AND JOURNALS TEMPLATE              1
+
+
+
+
+ Machine Learning and AI Applied to fNIRS Data
+  Reveals Novel Brain Activity Biomarkers in
+      Stable Subclinical Multiple Sclerosis
+ Sadman Saumik Islam, Bruna Dalcin Baldasso, Davide Cattaneo, Xianta Jiang and Michelle Ploughman
+
+   Abstract—People with Multiple Sclerosis (MS) complain of
+problems with hand dexterity and cognitive fatigue.                                                     I. INTRODUCTION
+
+
+                                                                                 M
+However, in many cases, impairments are subtle and difficult
+to detect. Functional near-infrared spectroscopy (fNIRS) is a                               ANY people with Multiple sclerosis (MS)
+non-invasive neuroimaging technique that measures brain                                     complain of problems about hand dexterity and
+hemodynamic responses during cognitive or motor tasks.                                      cognitive fatigue. However, in many cases,
+We aimed to detect brain activity biomarkers that could                          impairments are subtle and difficult to detect [1]. Early
+explain subjective reports of cognitive fatigue while                            diagnosis and advances in high-efficacy disease-modifying
+completing dexterous tasks and provide targets for future
+brain stimulation treatments. We recruited 15 people with MS                     treatments have led to fewer relapses and better outcomes
+who did not have a hand (Nine Hole Peg Test [NHPT]),                             among people with MS [2]; however, gradual accumulation of
+mobility (fast walking speed), or cognitive (Montreal                            impairment can occur in the absence of relapses [3]. Novel
+Cognitive Assessment) impairment, and 12 age- and sex-                           tools and methods are needed to index impairments, such as
+matched controls. Participants completed two types of hand                       those involving fatigue and hand dexterity, not easily seen by
+dexterity tasks with their dominant hand, single task (NHPT)                     a clinician or outside observer [4] and to define their
+and dual task (NHPT while holding a ball between the fifth
+finger and hypothenar eminence of the same hand). We                             neurological underpinnings.
+analyzed fNIRS data (oxygenated and deoxygenated                                  Coordination of multiple brain regions, including the primary
+hemoglobin levels) using a machine learning framework to                         motor cortex, premotor cortex, supplementary motor area,
+classify MS patients from controls based on their brain                          cerebellum, and basal ganglia, is required for planning,
+activation patterns in bilateral prefrontal and sensorimotor                     executing, and controlling hand movements and integrating
+cortices. The K-Nearest Neighbor classifier achieved an                          sensory feedback [5]–[7]. Among healthy people, there is
+accuracy of 75.0% for single manual dexterity tasks and
+66.7% for the more complex dual manual dexterity tasks.                          often bilateral cortical activation, especially in more complex
+Using explainable AI, we found that the most important brain                     tasks [7] but the hemisphere contralateral to the moving hand
+regions contributing to the machine learning model were the                      is usually more active than the ipsilateral side [7]. People who
+supramarginal/angular gyri and the precentral gyrus                              have a stroke tend to demonstrate ipsilateral activation [8], [9]
+(sensory integration and motor regions) of the ipsilateral                       when attempting to move the paralyzed hand, which is
+hemisphere, with suppressed activity and slower                                  considered a poor prognostic sign [10]–[12]. However, MS
+neurovascular response in the MS group. During both tasks,
+deoxygenated hemoglobin levels were better predictors than                       lesions can be scattered, leading to bilateral deficits and less
+the conventional measure of oxygenated hemoglobin. This                          predictable changes in cortical activation, [13] and such
+nonconventional method of fNIRS data analysis revealed                           network dysfunction could explain why people with MS
+novel brain activity biomarkers that can help develop                            experience cognitive fatigue when completing physical and
+personalized brain stimulation targets.                                          cognitive tasks [14]. Precision rehabilitation that specifically
+                                                                                 targets disrupted brain regions holds promise. For instance,
+  Index Terms— hemodynamics, functional near-infrared
+                                                                                 preliminary trials of brain stimulation techniques such as
+spectroscopy, machine learning, explainable AI, multiple
+sclerosis, cortical, cerebral, motor tasks, manual dexterity,                    transcranial direct current stimulation [15], [16] may improve
+The work was partially supported by Natural Sciences and Engineering Research    MS-related cognitive fatigue; however, the optimal
+Council of Canada (NSERC, Grant No DGECR-2020-00296). The work of                stimulation targets are not currently known. The field of brain
+Michelle Ploughman was partially supported by Canada Research Chairs (950-
+232532), Canadian Institutes for Health Research (173526), Newfoundland and      stimulation requires new methods to identify brain activity
+Labrador Research and Development Corporation (5404.1699.104), Canada            biomarkers that could serve as treatment targets.
+Foundation for Innovation (33621).                                                Recent advances in functional brain imaging techniques have
+Sadman Saumik Islam and Xianta Jiang are with the Department of Computer
+Science, Memorial University of Newfoundland, St. John’s, NL A1B 3X5, Canada.    enabled researchers to investigate brain network dysfunction
+Bruna Dalcin Baldasso and Michelle Ploughman are with the Division of            underlying MS and its associated symptoms [17]–[19].
+Biomedical Science, Memorial University of Newfoundland, St. John’s, NL A1B
+3X5, Canada.                                                                     However, there have been very few studies measuring cortical
+Davide Cattaneo is with the Department of Pathophysiology and Transplantation,   activation during upper limb movement in MS [20]–[22].
+Fondazione Don Carlo Gnocchi, Milan, Italy                                       Some studies suggest that cortical activation is similar to
+biomarker.
+                                                                                                                                   2
+
+
+healthy controls [23] while others report increased bilateral       B. Outcome measures
+recruitment [24]. Functional Near-Infrared Spectroscopy               Nine-Hole Peg Test (NHPT) [35]. The NHPT is a validated
+(fNIRS) uses near-infrared light to measure changes in              tool for assessing upper extremity motor function, which
+cortical blood oxygenation levels [25], [26]; a proxy for neural    involves allocating pegs into holes in a wooden platform and
+activation. Although fNIRS is very useful for detecting brain       removing them individually. Participants completed the task
+activation during motor tasks[27], [28], most studies analyzed      twice with each hand, and the completion time was recorded
+data by taking a conventional route, which is a data-               using a stopwatch. Scores were averaged for each hand.
+reductionist approach that only reports average                       Edinburgh Handedness Inventory (EHI): The EHI is a
+oxyhemoglobin (HbO; an indicator of metabolic demand) and           validated tool for evaluating handedness (Oldfield, 1971),
+in some studies, also deoxyhemoglobin (HbR; an indicator of         which requires participants to indicate their dominant hand
+oxygen utilization) [29], [30]. By evaluating time-related data     during their day-to-day lives. Participants are then categorized
+from every fNIRS channel, Machine Learning (ML) and                 into right-handed, left-handed, or mixed-handed based on their
+Artificial Intelligence (AI) have the potential to counteract       handedness.
+this reductionist approach and expose novel features, patterns,       The Montreal Cognitive Assessment (MoCA): To assess
+and insights that are difficult to find using traditional methods   cognitive impairments, participants completed the MoCA,
+[31]. To date, no studies have employed ML and AI on fNIRS          which tests five domains, including attention, language,
+data in the field of MS.                                            memory, orientation, and visuospatial and executive function.
+ This study employed ML algorithms to classify MS patients          The total score of these domains was 30 points, where scores
+from controls based on fNIRS brain activation patterns during       less than 26 were considered abnormal [33].
+two types of hand movement (single and dual manual                    The Hospital Anxiety and Depression Scale (HADS): The
+dexterity tasks). Importantly, participants had no overt            participants completed the HADS, which consists of 14 items
+cognitive, mobility, or hand impairment. The overarching aim        measuring symptoms of anxiety and depression during the
+was to determine whether explainable AI could be useful in          preceding two weeks. Only the depression subscale score was
+identifying potential brain activity biomarkers that could          considered in this study. Each item is scored from 0 to 3 points,
+inform personalized brain stimulation targets for individuals       summing up to a maximum of 21 points for each subscale [34].
+with MS.                                                              Expanded Disability Status Score (EDSS) was collected from
+                                                                    the participant's medical charts. We used the EDSS (0-10) to
+                         II. METHODS                                measure the level of MS-related disability.
+A. Design and recruitment
+  According to the Declaration of Helsinki, and with the            C. fNIRS System and Optode Array
+approval of the local Health Research Ethics Board                    We used the continuous-wave NIRScoutX® 16 ×16 imaging
+(HREB#2021.005), participants with MS were recruited from a         system (NIRx Medical Technologies, Berlin, Germany), which
+specialized MS neurology clinic and controls through poster         contains 16 LED sources and 16 detectors to collect the fNIRS
+advertisements. After providing informed written consent,           data at a sampling rate of 3.9 Hz. Eight sources and eight
+eligibility was assessed through a screening interview.             detectors (20 channels) were positioned over the motor cortex
+Additionally, health records were reviewed for individuals with     (Figure 1). The probe position on the cap was identified using
+MS. The inclusion criteria for MS participants were 1)              the fNIRS Optode Location Decider (fOLD) program [36], with
+diagnosed with relapsing-remitting MS by a neurologist              sensitivity ranging from 43.1% to 87.4%. Spacers were used to
+following the McDonald criteria [32], 2) relapse-free during the    maintain a consistent gap of 3 cm between sources and
+previous three months, and 3) an Expanded Disability Status         detectors. A set of short-range detectors was attached to the
+Scale (EDSS) score ≤ 3.0, indicating no mobility impairment.        optodes to measure and eliminate data regarding superficial
+All participants were excluded if they were 1) under 18 years of    scalp blood flow. Before testing, head circumference was
+age, 2) diagnosed with any other neurological conditions, 3) had    measured relative to the nasion and the inion; which was used
+untreated cardiovascular disease, which could potentially affect    to calculate each individual's cap size. Probes were calibrated,
+brain hemodynamics, 4) reported hand or arm impairment, or          and each channel was checked for noise and signal quality
+5) scored lower than 26 on the Montreal Cognitive Assessment,       before data recording. The signal was deemed acceptable if the
+which is considered abnormal [33], 5) left-handed, 6) reported      noise level was less than 7.5 dB and the gain was equal to or
+moderate depressive symptoms, scoring more than 10 out of 21        greater than 7. All data recordings were completed using the
+on the depression subscale of the Hospital Anxiety and              NIRStar® collection program (NIRx Medical Technologies,
+Depression Scale [34], or 7) pregnant. Controls were matched        Berlin, Germany).
+by age (±3 years) and sex. Although there was insufficient
+comparable research to complete a sample size calculation, we
+aimed to recruit at least 10 people in each group, having
+complete fNIRS data.
+                                                                                                                                                                                                        3
+
+
+
+
+                                                                                                                                          Rest        Begin    +     END           Rest          Task
+                                                                                                                                                                                                 Rest
+
+                                                                S13
+                                                D11                           D14
+                                                                Fpz
+                                                Fp1                           Fp2
+                                                        AFp1           AFp2
+                                S10                                                                S16
+                                AF7             S11            D12             S14                 AF8
+           F9                                   AF3            AFz             AF4                                     F10
+                                      AFF5h             AFF1          AFF2               AFF6h
+                     F7         D9                                                                             F8
+                                                                                                                                       Fig. 2. Task sequence arranged in a block design. Participants
+                                                                                                   D15
+           FFT9h                F5         S9
+                                           F3
+                                                      D10       S12      D13            S15
+                                                                                        F4
+                                                                                                   F6               FFT10h          executed the task for 20s, followed by 20s of rest. The task order was
+                                                      F1        Fz       F2
+     FT9
+                     FFT7h
+                                FFC5h      FFC3h                               FFC4h          FFC6h
+                                                                                                          FFT8h
+                                                                                                                              F10   randomized for each participant.
+                                                        FFC1h         FFC2h
+               FT7         D4                                                                             D8         FT8
+                                       S2           D1                        D5          S6
+                          FC5                                   FCz                                      FC6
+                                      FC3          FC1                       FC2         FC4
+       FTT9h                                                                                                               FTT10h
+                FTT7h        FCC5h                                                             FCC6h           FTT8h
+                                           FCC3h        FCC1h         FCC2h        FCC4h
+                                                                                                                                    D. Data Analysis
+                        S4            D3           S1                         S5              D7          S8
+           T7                                                   Cz                                                     T8
+                        C5            C3           C1
+                                          CCP1h CCP2h        CCP4h
+                                                                              C2              C4          C6
+                                                                                                                                        1. Preprocessing of fNIRS data: We created a pipeline
+                                           CCP3h                       CCP6h
+                TTP7h        CCP5h
+                                       D2
+                                         S3    CPz
+                                                         D6         S7
+                                                                                 TTP7h
+                                                                                                                                            for preprocessing, which included data filtering, noise
+                                      CP1               CP2
+             TP7
+                     CP5                CP3
+                                  CPP3h CPP1h      CPP2h    CPP4h
+                                                                   CP4      CP6
+                                                                                     TP8                                                    removal, and transformation of light intensity to
+     TF9                 CPP5h
+                 TPP7h
+                                 P3     P1      Pz       P2
+                                                                      CPP6h
+                                                                             TPP8h
+                                                                                            TP10
+                                                                                                                                            hemoglobin concentrations. In the first step of the
+                                                                P4
+           TPP9h
+                          P5
+                                          PPO1h
+                                                                         P6
+                                                                                     TPP10h
+                                                                                                                                            pipeline, short-channel data [25] were used to filter out
+                   P7                              PPO2h                        P8
+
+            P9
+                             PPO5h
+                                     PO3       POz          PO4
+                                                                 PPO6h
+                                                                                      P10
+                                                                                                                                            superficial signals (e.g., scalp blood flow) from the
+                 PPO9h    PO7
+                                         PPO9h      PPO9h
+                                                                       PO8   PPO10h
+                                                                                                                                            fNIRS measurements. Then, the optical intensity was
+                          PO9     POO9h
+                                                O1
+                                                                Oz
+                                                                                   O2
+                                                                                         POO10h          PO10                               converted to HbO and HbR concentrations using the
+                                                      OI1h              OI2h                                                                modified Beer-Lambert law [37]. Both a low-pass
+                                           I1                                           I2
+                                                                Iz                                                                          filter (cut-off frequency of 0.05hz) and a high-pass
+   Fig. 1. Configuration of channels in the fNIRS cap covering two                                                                          filter (cut-off frequency of 0.7hz) were employed to
+regions of interest (ROI) (Channels inside the black box): left motor                                                                       remove cardiac and respiration signals and slow drifts
+cortex (S1-S4 and D1-D4); right motor cortex (S5-S8 and D5-D8). Each                                                                        in the data [38]. The data preprocessing pipeline was
+purple line represents a channel connecting a source to a detector;                                                                         implemented using the MNE-Python [39], [40], an
+sources (S) are indicated by red circles, and detectors (D) are indicated
+                                                                                                                                            open-source package based on Python, designed to
+by green circles.
+                                                                                                                                            explore,      visualize,    and     analyze      human
+D. Procedure                                                                                                                                neurophysiological data such as fNIRS. The version of
+ Participants were instructed to avoid caffeine, alcohol, and                                                                               Python was 3.11.1, and the version for the MNE-
+ smoking for 24 hours prior to the fNIRS laboratory visit. They                                                                             Python library was 1.6.1. Spline and Wavelet methods
+ sat comfortably facing a screen approximately 2.5m away.                                                                                   combined were used to correct the motion artifacts
+ After receiving standardized instructions, the participants                                                                                [41].
+                                                                                                                                        2. Machine Learning Algorithms: We implemented ML
+ conducted a practice trial without wearing the fNIRS caps.
+                                                                                                                                            classification algorithms to differentiate the MS from
+ The cap was then positioned on the head, using the inion as a
+                                                                                                                                            control groups using the HbO and HbR concentrations
+ reference point for accurate probe placement. To prevent
+                                                                                                                                            recorded during the duration of task periods for each
+ excessive environmental light, ambient lights were turned off,                                                                             trial. The channels’ data (HbO and HbR) were used as
+ and blackout curtains were closed.                                                                                                         input features. We used the feature selection algorithm
+  The experiment involved completing two types of motor                                                                                     SelectKbest [42], [43] to help reduce irrelevant or
+ tasks: the single and dual manual dexterity tasks. The single                                                                              redundant features to enhance the accuracy of the ML
+ task required the participant to carry out the NHPT, while                                                                                 models while also reducing the training time and
+ during the dual task, the participant had to simultaneously                                                                                computational        complexity.     Four      different
+ hold a small ball between the fifth finger and hypothenar                                                                                  classification algorithms were chosen based on their
+ eminence of the same dominant hand while completing                                                                                        suitability for handling fNIRS data characteristics,
+ NHPT (NHPT + holding a ball). Each task lasted for 20s,                                                                                    including Random Forest (RF), Support Vector
+ followed by a 20s rest, presented in random order [25].                                                                                    Machine (SVM), K-Nearest Neighbor (KNN), and
+ Instructions were displayed on the screen six seconds before                                                                               Light Gradient Boosting (LightGBM).
+ the start of each task. The rest periods were indicated using                                                                               Random Forest (RF) [44] is an ensemble learning
+ auditory start and stop signals (Figure 2). The stimulus                                                                                   algorithm used for classification and regression tasks
+ presentation was developed and randomized using the                                                                                        in ML. It creates many decision trees during model
+ NIRStim® platform (NIRx Medical Technologies, Berlin,                                                                                      training, extracting each tree's mode (for
+ Germany). Each participant completed 10 task trials                                                                                        classification) or average prediction (for regression).
+ consisting of 5 single task trials and 5 dual task trials in a                                                                             RF is very capable of handling high-dimensional and
+                                                                                                                                            noisy data [45] such as fNIRS, as well as capturing the
+ random order. For the ML models, the input window size was
+                                                                                                                                            nonlinear and complex relationships between the
+ 20 seconds, which was the length of a trial. The evaluation
+                                                                                                                                            features [46].
+ metrics used were Accuracy, Precision, Recall, and F1-Score,
+                                                                                                                                             Support Vector Machine (SVM ): SVM [47] is an ML
+ as described in the section Evaluation criteria and cross-                                                                                 model that can be used for classification or regression
+ validation below.
+                                                                                                                                              4
+
+
+     tasks. It works by finding the hyperplane that                        are mainly averaged into anatomical regions to reduce
+     maximizes the margin between two classes of data                      the high dimensionality of the fNIRS data.
+     points in a high-dimensional space.                                    We further used the Independent Samples T Test
+      K-Nearest Neighbors (KNN): KNN [48] is a                             (two-sided) for the top four most influential channels
+     nonparametric ML model that can be used for                           observed from the SHAP measurement to reveal
+     classification or regression tasks. It works by finding               significant differences in channel importance between
+     the k-closest data points to a given query point and                  the groups: controls and MS. The following values are
+     using the labels or values of those points to predict the             provided for each group: N was the number of
+     query point. KNN can utilize various values of k and                  observations, Mean was the average value of the
+     distance metrics to achieve various levels of                         measurement, and Std. deviation was the standard
+     complexity and accuracy, and it is able to adapt to the               deviation, which measured the variation or dispersion
+     local structure and variability of the fNIRS data.                    of the values.
+      Light Gradient Boosting (LightGBM): LightGBM                          Levene's Test for Equality of Variances assessed
+     [49] is a gradient-boosting library designed to be                    whether the variances of the two groups were equal. A
+     efficient and scalable. It uses histogram-based                       significant result (P < 0.05) suggests unequal
+     algorithms to split the data and optimize the decision                variances.
+     trees. LightGBM is a popular choice for large-scale                    We used a T-test for Equality of Means to compare
+     and sparse datasets such as fNIRS, and it can use                     the means of the two groups. The test was performed
+     different boosting types and learning rates to optimize               under two assumptions: equal variances and unequal
+     performance.                                                          variances. t was the t-value from the t-test. A large
+3.   Cross-participant validation: We used a six-fold cross-               absolute t-value (positive or negative) indicated a
+     participant validation [50] to prevent the overfitting                significant difference between the group means, and a
+     problem and generate more reliable results. In each                   value close to 0 indicated no significant difference.
+     fold validation, 4 participants (2 MS and 2 controls)                 The analysis was carried out in SPSS® (IBM version
+     were used for testing, and the rest for training the                  29.0.2.0).
+     model. This single fold validation process was
+     repeated 6 times to cover all 24 participants tested. To
+     compare the ML models’ performance for the                                                III. RESULTS
+     classification task, we used Accuracy, Precision,
+                                                                    We recruited 27 participants. However, data of two participants
+     Recall, and F1-Score. The formula for the evaluation’s
+                                                                 (one MS patient and one control) were excluded due to corruption
+     metrics is in the Supplementary (Figure A).
+                                                                 in the data. We further excluded one left-handed participant,
+4.   Explainable AI: SHAP (SHapley Additive
+     exPlanations) [51] was used to interpret our best-          leaving 24 participants (13 MS patients and 11 controls). Table I
+     performing model to identify the most relevant              shows the demographic and clinical characteristics of the
+     channels that contributed to the differentiation of MS      remaining participants. The MS patients had very mild or no
+     from controls. The version of SHAP used was 0.44.0.         visible disability, with median Expanded Disability Status Scale
+     SHAP is a game theory-based approach that explains          (EDSS) scores ranging from 0-3. There was no statistically
+     any ML model's output using Shapley values from             significant difference in age between the groups in terms of EDSS
+     game theory, which is a measure of the impact of a          score. For the NHPT score, the MS group had a higher score on
+     feature on the prediction of the model. SHAP ranks the      average (slower performance), though this difference was not
+     model's features by assigning an important value to         statistically significant. In contrast, the MoCA score showed that
+     each feature contributing to its prediction. It can also    the controls scored significantly higher than MS patients (p-value
+     explain the interaction between features. To address        = 0.02).
+     feature interactions, SHAP measures the amount of                                      TABLE I
+     change in prediction when two features are observed            DEMOGRAPHIC AND CLINICAL CHARACTERISTICS OF THE PARTICIPANTS.
+     together instead of individually. In our study, the
+     features of the models were all the channels shown in                         MS (N = 13)       Controls (N = 11)
+                                                                                                                             F          P
+     Figure 1. SHAP ranked the channels by measuring                             Mean        SD      Mean         SD
+                                                                        Age      43.85      9.57     44.36      10.56      0.016       0.9
+     each channel's impact on the ML model's prediction
+                                                                    Years with                        not         not       not        not
+     performance.                                                       MS
+                                                                                 15.15      6.9
+                                                                                                   applicable applicable applicable applicable
+5.   Statistical Analysis: We used the one-way ANOVA                  NHPT
+                                                                                 21.43      3.95    18.94       2.21       3.43        0.07
+     (F-test) to exam the differences between the controls           score (s)
+     and MS group using the traditional data reductionist             MoCA
+                                                                                 26.85      1.52    28.18       1.17       5.65       0.02*
+     method, where all the channels adjacent to S1-S4 were             score
+     averaged into one single region of interest for the left      MS: multiple sclerosis, NHPT: Nine Hole Peg Test, MoCA:
+     hemisphere of the brain, and channels adjacent to S5-       Montreal Cognitive Assessment, SD: Standard Deviation. *
+     S8 were averaged into one region of interest for the        Significantly different p<0.05.
+     right hemisphere of the brain. The individual channels
+                                                                   When comparing brain activation patterns in either the right
+                                                                                                                                             5
+
+
+or left hemispheres using typical statistical methods, there were
+no statistically significant differences between MS and controls
+(Supplementary Table A).
+   The differences in model performance for the classification
+task can be observed in Table II for the single task and Table III
+for the dual task. Table II shows that the KNN and SVM models
+were better for the single task than RF and LightGBM, and
+Table III shows that for the dual task, KNN was the best model,
+and SVM was the worst model. RF and LightGBM had a similar
+performance for the dual task. Therefore, further analysis of
+channel contributions was conducted based on KNN models for
+both tasks.
+
+                             TABLE II
+              CLASSIFICATION MEASURES FOR SINGLE TASK.
+   Classifier Accuracy Precision            Recall      F1-Score
+      RF      66.70%    70.50%             66.70%        62.80%
+   LightGB
+              62.50%    55.20%             62.50%        56.10%
+      M
+     KNN      75.0%*    76.00%             75.00%        71.70%
+     SVM      70.80%    69.40%             70.80%        65.00%
+
+                             TABLE III
+               CLASSIFICATION MEASURES FOR DUAL TASK.
+
+
+    Classifier Accuracy Precision Recall                 F1-Score
+                                                                            Fig. 3. The most impactful HbO and HbR channels for the K-
+        RF        62.50%       60.80%        62.50%       56.10%       nearest neighbor (KNN) model, identified using SHAP, under both
+     LightGB                                                           single-task (a) and dual-task (b) conditions, respectively. Each bar
+                  62.50%       61.10%        62.50%       56.70%       represents the magnitude of the impact on the model, measured by the
+         M                                                             Mean SHAP value, for both HbO (in royal blue) and HbR (in light blue).
+      KNN         66.7%*       75.00%        66.70%       65.00%       The values on top of each bar indicate the exact SHAP values for each
+                                                                       channel. The channels are labeled along with the x-axis, with the y-axis
+       SVM        54.20%       49.70%        54.20%       47.20%       showing the Mean SHAP values.
+   As shown in Figure 3, channel importance analysis (SHAP                Figure 4(b) illustrates the representative brain activity of one
+analysis) shows similar patterns for both tasks, with the HbR of       control and one MS patient during the single task, and Figure
+channel S7-D6 identified as the most important for both task           5(b) illustrates the representative brain activity of one control
+models. Figure 3 shows the top ten channels (HbO and HbR)              and one MS patient during the dual task. For both tasks, we can
+identified by SHAP for the KNN models for both tasks (Single           see a difference in the HbR concentration between the control
+and Dual). Among those ten channels, the top four have a higher        and the MS patient in the same region where the topmost
+magnitude of impact than the rest for both single task (Figure         influential channels are located, according to Figure 3.
+3(a)) and dual task (Figure 3(b)) The top four channels for both
+of the tasks are situated in the ipsilateral cortex (Figure 4(a) and
+Figure 5(a)), and the HbR concentration of those channels has
+more impact on the models, except for the S6-D5 channel for
+the dual task where the HbO concentration of the channel
+(Figure 3(b)) had more impact. The SHAP values are calculated
+using a method from cooperative game theory called Shapley
+values, which fairly distribute the "payout" (model prediction)
+among the "players" (features) [52]. The mean SHAP value is
+each feature's average absolute SHAP value, showing its overall
+importance in the model in Figure 3.
+                                                                                                                                                                                                                                                                                          6
+
+
+
+
+                                                                    S13                                                                                                                                          S13
+                                                    D11                           D14                                                                                                            D11                           D14
+                                                                    Fpz                                                                                                                                          Fpz
+                                                    Fp1                           Fp2                                                                                                            Fp1                           Fp2
+                                                            AFp1           AFp2                                                                                                                          AFp1           AFp2
+                                    S10                                                                S16                                                                       S10                                                                S16
+                                    AF7             S11            D12             S14                 AF8                                                                       AF7             S11            D12             S14                 AF8
+             F9                                     AF3            AFz             AF4                                                                    F9                                     AF3            AFz             AF4
+                                                                                                                            F10                                                                                                                                          F10
+                                          AFF5h             AFF1          AFF2               AFF6h                                                                                     AFF5h             AFF1          AFF2               AFF6h
+                         F7         D9                                                                 D15         F8                                                 F7         D9                                                                 D15         F8
+             FFT9h                  F5         S9         D10       S12       D13           S15                         FFT10h                            FFT9h                  F5         S9         D10       S12       D13           S15                          FFT10h
+                                                                                                       F6                                                                                                                                           F6
+                                               F3         F1        Fz        F2            F4                                                                                              F3         F1        Fz        F2            F4
+                        FFT7h                                                                                  FFT8h                                                 FFT7h                                                                                  FFT8h
+    FT9                             FFC5h      FFC3h                                  FFC4h       FFC6h                                F10       FT9                             FFC5h      FFC3h                                  FFC4h       FFC6h                                F10
+                                                            FFC1h         FFC2h                                                                                                                          FFC1h         FFC2h
+               FT7             D4                                                                             D8         FT8                                FT7             D4                                                                             D8          FT8
+                                            S2          D1                        D5           S6                                                                                        S2         D1                         D5           S6
+                              FC5                                   FCz                                      FC6                                                           FC5                                   FCz                                      FC6
+                                           FC3         FC1                       FC2          FC4                                                                                       FC3         FC1                       FC2          FC4
+     FTT9h                                                                                                                     FTT10h              FTT9h                                                                                                                     FTT10h
+                   FTT7h        FCC5h          FCC3h                                                FCC6h           FTT8h                                       FTT7h          FCC5h        FCC3h                                                FCC6h           FTT8h
+                                                            FCC1h         FCC2h        FCC4h                                                                                                             FCC1h         FCC2h        FCC4h
+                           S4             D3           S1                         S5              D7           S8                                                       S4             D3           S1                         S5              D7           S8
+             T7                                                     Cz                                                       T8                           T7                                                     Cz                                                       T8
+                           C5             C3           C1                         C2              C4           C6                                                       C5             C3           C1                         C2              C4           C6
+                                               CCP3h        CCP1h         CCP2h        CCP4h           CCP6h                                                                                CCP3h        CCP1h         CCP2h        CCP4h           CCP6h
+                   TTP7h        CCP5h                                                                               TTP7h                                       TTP7h        CCP5h                                                                               TTP7h
+                                                       D2                     D6                  S7                                                                                                D2                     D6                  S7
+                                             S3                    CPz                                                                                                                    S3                    CPz
+                              CP5                      CP1                    CP2                CP4         CP6                                                           CP5                      CP1                    CP2                CP4          CP6
+                                            CP3                                                                                                                                          CP3
+                  TP7                                                                                                   TP8                                    TP7                                                                                                    TP8
+                                                 CPP3h      CPP1h        CPP2h        CPP4h                                                                                                   CPP3h      CPP1h        CPP2h        CPP4h
+    TF9                             CPP5h                                                          CPP6h                           TP10           TF9                            CPP5h                                                          CPP6h                           TP10
+                        TPP7h                                                                                  TPP8h                                                  TPP7h                                                                                 TPP8h
+                                               P3         P1        Pz           P2         P4                                                                                              P3         P1        Pz           P2         P4
+             TPP9h                                                                                                      TPP10h                            TPP9h                                                                                                       TPP10h
+                                    P5                                                                  P6                                                                       P5                                                                  P6
+                          P7                                PPO1h         PPO2h                                    P8                                                  P7                                PPO1h         PPO2h                                     P8
+                                         PPO5h                                               PPO6h                                                                                    PPO5h                                               PPO6h
+                                                    PO3            POz                PO4                                   P10                                                                  PO3            POz                PO4                                   P10
+              P9                                                                                                                                           P9
+                        PPO9h        PO7                                                            PO8       PPO10h                                                 PPO9h        PO7                                                            PO8       PPO10h
+                                                          PPO9h           PPO9h                                                                                                                        PPO9h           PPO9h
+                                                    O1                                 O2                                                                                                        O1                                 O2
+                              PO9     POO9h                         Oz                        POO10h          PO10                                                         PO9     POO9h                         Oz                        POO10h          PO10
+
+                                                          OI1h              OI2h                                                                                                                       OI1h              OI2h
+                                               I1                                           I2                                                                                              I1                                           I2
+                                                                    Iz                                                                                                                                           Iz
+
+    a) Black ovals show the most influential channels for the Single task.                                                                         a) Black ovals show the most influential channels for the Dual task.
+                                     (i) Control participant                                                                                                                     (i) Control participant
+                                                                                                                                  µM            0.000 s              2.000 s             4.000 s              6.000 s              8.000 s                10.000 s             µM
+   0.000 s              2.000 s             4.000 s              6.000 s               8.000 s               10.000 s                                                                                                                                                           45.0
+                                                                                                                                   45.0
+                                                                                                                                   30.0                                                                                                                                         30.0
+                                                                                                                                   15.0                                                                                                                                         15.0
+                                                                                                                                   0.0                                                                                                                                          0.0
+                                                                                                                                   -15.0                                                                                                                                        -15.0
+                                                                                                                                   -30.0                                                                                                                                        -30.0
+                                                                                                                                   -45.0                                                                                                                                        -45.0
+
+
+                          Oxyhemoglobin (HbO)                                                                                                                         Oxyhemoglobin (HbO)
+   0.000 s              2.000 s             4.000 s              6.000 s              8.000 s                10.000 s             µM            0.000 s           2.000 s               4.000 s               6.000 s              8.000 s                10.000 s             µM
+                                                                                                                                   45.0                                                                                                                                         45.0
+                                                                                                                                   30.0                                                                                                                                         30.0
+                                                                                                                                   15.0                                                                                                                                         15.0
+                                                                                                                                   0.0                                                                                                                                          0.0
+                                                                                                                                   -15.0                                                                                                                                        -15.0
+                                                                                                                                   -30.0                                                                                                                                        -30.0
+                                                                                                                                   -45.0                                                                                                                                        -45.0
+
+
+                         Deoxyhemoglobin (HbR)                                                                                                                       Deoxyhemoglobin (HbR)
+
+                                     (ii) MS participant                                                                                                                               (ii) MS participant
+   0.000 s              2.000 s             4.000 s              6.000 s               8.000 s               10.000 s             µM            0.000 s              2.000 s             4.000 s              6.000 s              8.000 s                10.000 s             µM
+                                                                                                                                   45.0                                                                                                                                         45.0
+                                                                                                                                   30.0                                                                                                                                         30.0
+                                                                                                                                   15.0                                                                                                                                         15.0
+                                                                                                                                   0.0                                                                                                                                          0.0
+                                                                                                                                   -15.0                                                                                                                                        -15.0
+                                                                                                                                   -30.0                                                                                                                                        -30.0
+                                                                                                                                   -45.0                                                                                                                                        -45.0
+
+                          Oxyhemoglobin (HbO)                                                                                                                          Oxyhemoglobin (HbO)
+   0.000 s              2.000 s             4.000 s              6.000 s              8.000 s                10.000 s             µM            0.000 s           2.000 s               4.000 s               6.000 s              8.000 s                10.000 s             µM
+                                                                                                                                   45.0                                                                                                                                         45.0
+                                                                                                                                   30.0                                                                                                                                         30.0
+                                                                                                                                   15.0                                                                                                                                         15.0
+                                                                                                                                   0.0                                                                                                                                          0.0
+                                                                                                                                   -15.0                                                                                                                                        -15.0
+                                                                                                                                   -30.0                                                                                                                                        -30.0
+                                                                                                                                   -45.0                                                                                                                                        -45.0
+
+                          Deoxyhemoglobin (HbR)                                                                                                                        Deoxyhemoglobin (HbR)
+  b) Brain activity of Single task for (i) a representative control participant                                                                 b) Brain activity of Dual task for (i) a representative control participant
+                   and (ii) a representative MS participant.                                                                                                    and (ii) a representative MS participant.
+
+      Fig. 4. a) Ovals inside the Montage design for the fNIRS cap                                                                                 Fig. 5. a) Ovals inside the Montage design for the fNIRS cap
+represent the most influential channels during the single task; b)                                                                           represent the most influential channels during the dual task; b) represent
+Topographic Maps of brain activity of one individual control (i) and one                                                                     the Topographic Map of brain activity over time of one individual control
+individual MS patient (ii) during the single task. The five trials of the                                                                    (i) and one individual MS patient (ii) during the dual task, the five trials
+single task were averaged into one, and then the plot was generated                                                                          of the dual task were averaged into one, and then the plot was generated
+from 0 to 10 seconds with 2-second intervals, illustrating how brain                                                                         from 0 to 10 seconds with 2 seconds interval illustrating how brain
+activity changes over time. The scale on the right indicates the                                                                             activity changes over time. The scale on the right indicates the
+concentration changes in micromoles per liter (µM).                                                                                          concentration changes in micromoles per liter (µM).
+                                                                                                                                                         7
+
+
+   In terms of differences in cerebral hemodynamics at the level                Figures 6 and 7, accordingly, whereas, in all four channels, we
+of each fNIRS channel during the single task (Table IV), only                   could see that the MS group had noticeably decreased
+two channels were statistically different between groups among                  hemodynamic responses compared to the control group during
+the top four. The MS group had about half the HbR in channel                    the task duration of 20s for both tasks.
+S7-D6 during the single task compared to the controls.
+According to the 10-20 system of EEG anatomical landmarks
+[53], [54], this area corresponds to CP2 and CP4, the
+supramarginal/angular gyri of the right brain hemisphere
+(responsible for sensory integration) when moving the right
+hand during the NHPT. At the same time, MS participants
+showed decreased HbR in channel S5-D6 (ipsilateral to the
+NHPT movement) compared to controls, an area that
+corresponds to the precentral gyrus (responsible for voluntary
+movement). Overall, the results suggest less activation in areas
+responsible for motor commands and multimodal sensory
+integration areas in MS participants in the hemisphere
+ipsilateral to the moving hand.
+
+   The results of the dual task (NHPT + holding a ball) showed
+a similar pattern (Table V), with only two channels being
+statistically different from the top four, with lesser HbR in
+channels S7-D6 and S5-D6 in the MS group. Notably, these
+differences occurred in the hemisphere ipsilateral to the moving
+hand.
+                          TABLE IV
+    RESULTS FOR GROUP STATISTICS USING INDEPENDENT SAMPLES T
+ TEST FOR THE TOP FOUR MOST INFLUENTIAL CHANNELS’ HEMODYNAMIC
+  RESPONSE MEASURES FOR SINGLE TASK BETWEEN TWO GROUPS. N
+           VALUES FOR CONTROLS = 4336 AND MS = 5135.
+                                                                     Mean
+                                      Std.               Two-Sided
+   Channels   Group       Mean                    t                Differenc
+                                    Deviation                p
+                                                                       e
+    S7-D6     Control    1.40E-06   8.68E-06
+                                                5.374     <.001*   8.28E-07
+     HbR       MS        5.78E-07   6.28E-06
+    S6-D7     Control   -3.24E-07   8.01E-06
+                                                0.517      0.605   7.91E-08
+     HbR       MS       -4.03E-07   6.89E-06
+    S7-D7     Control   -9.84E-08   5.90E-06
+                                                0.972      0.331   2.28E-07
+     HbR       MS       -2.36E-07   7.61E-06
+    S5-D6     Control   -6.72E-09   6.53E-06
+                                                2.646      .008*   3.44E-07
+     HbR       MS       -3.51E-07   6.11E-06                                          Fig. 6. Hemodynamic responses over time for the top four most
+                                                                                influential channels in the control and MS groups during the Single Task,
+                                                                                as identified in Table IV. The five trials of the Single Task were averaged
+                          TABLE V                                               into one. Then, the plot was generated for 20 seconds to cover the whole
+    RESULTS FOR GROUP STATISTICS USING INDEPENDENT SAMPLES T                    task duration, illustrating how the hemodynamic response changes over
+ TEST FOR THE TOP FOUR MOST INFLUENTIAL CHANNELS’ HEMODYNAMIC                   time. The units of y-axes are the concentration changes in micromoles
+RESPONSE MEASURES FOR DUAL TASK BETWEEN TWO GROUPS. N VALUES                    per liter (µM). The solid and dashed lines represent the mean
+              FOR CONTROLS = 4336 AND MS = 5135.                                hemodynamic response for the control and MS groups; the shaded
+                                      Std.               Two-Sided   Mean
+                                                                                areas around the lines indicate the standard deviation, reflecting the
+   Channels   Group       Mean
+                                    Deviation
+                                                  t
+                                                             p     Difference
+                                                                                variability within each group.
+
+    S7-D6     Control    1.83E-06   8.66E-06
+                                                5.738     <.001*    8.76E-07
+     HbR       MS        9.54E-07   6.15E-06
+    S7-D7     Control   -9.20E-08   5.86E-06
+                                                1.473      0.141    2.05E-07
+     HbR       MS       -2.97E-07   7.46E-06
+    S6-D5     Control    1.20E-07   8.49E-06
+                                                -0.187     0.852   -3.57E-08
+     HbO       MS        1.55E-07   9.88E-06
+    S5-D6     Control    3.56E-07   7.66E-06
+                                                4.226     <.001*    5.80E-07
+     HbR       MS       -2.24E-07   5.68E-06
+
+
+   Figures 6 and 7 illustrate the mean hemodynamic responses
+of the top four channels across the control and the MS groups
+while performing the single and dual tasks, respectively. The
+results from Tables IV and V were mostly consistent with
+                                                                                                                                               8
+
+
+
+
+     Fig. 7. Visualizes the hemodynamic responses over time for the top
+four most influential channels in the control and MS groups during the
+Dual Task, as identified in Table V. The five trials of the Dual Task were
+averaged into one. Then, the plot was generated for 20 seconds to cover
+the whole task duration, illustrating how the hemodynamic response
+changes over time. The units of y-axes are the concentration changes
+in micromoles per liter (µM). The solid and dashed lines represent the
+mean hemodynamic response for the control and MS groups; the
+shaded areas around the lines indicate the standard deviation, reflecting
+the variability within each group.
+
+   Figure 8 demonstrates a comparison of hemoglobin
+responses (HbO and HbR) between MS patients and the control
+group during single (Figure 8 (a)) and dual (Figure 8 (b)) tasks
+in the supramarginal/angular gyri region. Both tasks showed
+consistent results---the MS group takes, on average, longer than
+the control group to reach peak deoxygenated hemoglobin
+levels (HbR). This suggests that MS patients exhibit a slower
+neurovascular response during complex tasks than controls. We
+also examined the hemoglobin responses in the precentral gyrus
+for the controls and MS. However, the control and the MS
+group did not have any notable differences in reaching the peak
+HbO or the HbR.
+                                                                                  Fig. 8. Comparison of the time to peak hemodynamic responses
+                                                                             (HbO and HbR) for the supramarginal/angular gyri between control and
+                                                                             MS at the individual level during single and dual tasks, with the
+                                                                             supramarginal/angular gyri consisting of channels adjacent to S7,
+                                                                                                                                            9
+
+
+averaging channels S7-D6 and S7-D7. The top two graphs (a) depict the         achieved an accuracy of 75% for the single task and 66.7% for
+single task, while the bottom two graphs (b) illustrate the dual task. Each
+                                                                              the dual task, which is comparable to those reported in the
+graph displays individual participants' time to peak hemodynamic
+response, with blue bars representing the control group and red bars          literature [55]–[57]. As demonstrated in this study, meaningful
+indicating the MS group.                                                      biomarkers were extracted from the complicated and high-
+                                                                              dimensional raw fNIRS data, which are usually difficult for
+                                                                              statistical tests or human specialists to analyze directly.
+                           IV. DISCUSSION                                     B. Suppressed ipsilateral activation during dexterous
+The overarching aim of this study was to determine whether                    tasks in people with MS
+explainable AI could be useful in identifying potential brain                   In healthy individuals, movements of the upper limb of the
+activity biomarkers that could inform personalized brain                      body are controlled mainly through the contralateral
+stimulation targets for individuals with MS. We employed a                    hemisphere [62], but complex motor tasks involving the upper
+robust approach using ML to identify differences in cerebral                  limbs elicit bilateral cortical activation [63], primarily
+hemodynamic responses during two types of manual dexterity                    involving the sensorimotor cortex, premotor cortex, and
+tasks between MS patients and controls and determine the most                 supplementary motor areas of the brain. Previous fNIRS studies
+important channels (brain regions) that contributed to the ML                 confirm that tasks completed with the dominant hand primarily
+model. We report three significant findings. First, the ML/AI                 use the contralateral sensorimotor cortex while recruiting the
+method effectively determined the key fNIRS channels that                     bilateral sensorimotor cortex and premotor cortex as tasks
+contributed to the model’s ability to differentiate MS patients               become complex [64], [65]. Our findings reveal that individuals
+from controls. Second, even among individuals with MS                         with MS have reduced activation in the ipsilateral sensorimotor
+without overt hand or cognitive impairment, they differed from                cortex, despite having comparable performance for NHPT. It is
+controls in cerebral hemodynamic responses in specific fNIRS                  likely that, although our sample of people with MS had no hand
+channels (that corresponded to movement and sensory                           impairment (as measured by the NHPT), in fact, their ipsilateral
+integration) in the hemisphere ipsilateral to the moving hand.                cortical networks were not working in concert with the
+MS patients had lower HbR in the supramarginal/angular gyri                   contralateral hemisphere compared to controls. This suggests
+and the precentral gyrus (sensory integration and motor                       that MS-related neurodegeneration may affect brain function
+regions) of the ipsilateral hemisphere, with suppressed activity              before overt behavioral impairments become evident. Such
+and slower neurovascular response. Finally, we observed that                  findings support the use of neuroimaging biomarkers to detect
+HbR response best distinguished the two groups, which was                     early or subtle changes in motor system function that are not
+contrary to the conventional evaluation of HbO based on                       captured by conventional performance-based tests. These subtle
+previous recommendations and research [41].                                   and covert network inefficiencies may explain why so many
+A. Predicting MS-related changes in brain activity using                      people with MS complain of cognitive fatigue when completing
+ML                                                                            everyday tasks.
+ ML overcomes reductionist data analysis methods such as
+averaging channels within a region of interest or pre-specifying              C. Slowed neurovascular coupling as measured by time-
+the specific fNIRS outcome (HbO/HbR, etc.). The data                          to-peak
+acquired from fNIRS were high-dimensional and in a time                         We show evidence that individuals with MS demonstrate
+sequence. The traditional way of analyzing the data would be                  prolonged time-to-peak HbO and HbR in the ipsilateral
+to reduce the data into a single data point (mean, peak                       sensorimotor cortex and compared to controls, despite having
+HbO/HbR, time to peak, etc.) and analyze the data using typical               comparable performance for NHPT. This delay in the
+statistical approaches [29]. However, this reductionist approach              hemodynamic response is consistent with evidence of disrupted
+resulted in losing vital information inside the data. We show                 neurovascular coupling in MS, where the damage to astrocyte-
+that using this method, there appears to be no differences in                 mediated vasodilation pathways causes a potential delay in
+brain activity between MS and controls (Supplementary Table                   regional cerebral blood flow regulation [66], [67]. The delayed
+A). One of the key advantages of the ML approach was that it                  response to ipsilateral brain activation might reflect exhausted
+handled the multivariate and time-series nature of fNIRS data                 neural compensatory mechanisms due to reduced functional
+[31], thereby preserving valuable temporal information.                       reserve capacity caused by chronic neuroinflammation. ML and
+Building on ML by utilizing SHAP, we identified two key                       Explainable AI were able to identify this ipsilateral
+channels (brain activity biomarkers) from the top four most                   hemodynamic latency in the motor command and multimodal
+influential channels (Figure 3) that were statistically significant           sensory integration brain regions as primary features
+for the single task (Table IV) and the dual task (Table V). When              distinguishing between the MS and control group, a
+looking at the brain activity maps of the MS group and the                    phenomenon that has not been explored in prior investigations
+control group for both tasks in Figures 6 and 7, the difference               of subclinical multiple sclerosis. These abnormalities in the
+in the hemodynamic response for the top four most influential                 subclinical hemodynamics are likely an early biomarker for
+channels over time between the two groups could be observed                   network inefficiency preceding overt functional decline. Such
+clearly. The MS group tends to have a significantly lower                     network inefficiency could contribute to fatigue, a commonly
+activation for all the channels than the control group. Although              reported MS symptom [68]. This emphasizes the need for more
+the traditional approach found no significant difference                      exploration of ipsilateral hemodynamics for individuals with
+between the groups (Supplementary Table A), our ML model                      MS.
+                                                                                                                                            10
+
+
+D. Discovery of Potential Brain Activity Biomarkers                  whether ML and AI approaches reveal unique brain activation
+  Brain stimulation, particularly using transcranial magnetic        patterns when compared to conventional statistical methods,
+stimulation, is an emerging tool to treat cortical network           especially during a wider variety of tasks and disease severity.
+dysfunction that may underly cognitive fatigue. The challenge
+in the field is that there are no evidence-based and consistent                                 VI. CONCLUSION
+stimulation targets. For instance, in a pilot trial, brain           We show that explainable AI, applied to fNIRS data, identified
+stimulation over bilateral prefrontal cortices reduced feelings of   novel brain activity biomarkers that could inform personalized
+fatigue in MS [69] , yet in a larger study, similar stimulation      brain stimulation targets for individuals with MS. Using ML,
+over the left dorsolateral prefrontal cortex provided no benefit     followed by AI, our study identified the differences in cerebral
+[16]. It is quite possible that brain stimulation targets vary       hemodynamic responses during two manual dexterity tasks
+between individuals, and so novel methods to identify treatment      between stable MS patients having no overt impairments and
+targets/biomarkers, such as those examined in the current study,     controls. The most important brain regions contributing to the
+will help individualize future treatments for MS. The use of         ML model were the supramarginal/angular gyri and the
+explainable      AI     identified   novel     targets/biomarkers    precentral gyrus (sensory integration and motor regions) of the
+(supramarginal/angular gyri and precentral gyrus), offering          ipsilateral hemisphere, with suppressed activity and evidence of
+insight into the disrupted neural mechanisms in MS and               slowed neurovascular coupling in the MS group. During both
+opportunities for future research.                                   tasks, HbR, rather than conventional HbO, the concentration of
+E. Usefulness of HbO and HbR as brain activity                       the channels in the ipsilateral side of the brain distinguished
+biomarkers                                                           patients from controls. These new brain stimulation targets offer
+                                                                     insights into the disrupted neural mechanisms in MS and
+  HbO is a measure of the metabolic demand of activated              opportunities for future research and treatment.
+neurons, while HbR is believed to reflect oxygen utilization.
+There is substantial variability in fNIRS chromophore reporting                                   REFERENCES
+with HbO, rather than HbR, the most commonly reported [29].
+                                                                     [1]        R. N. Alonso et al., “Upper Limb Dexterity in Patients with
+Our study revealed a compelling finding that HbR provides a          Multiple Sclerosis: An Important and Underrated Morbidity,” Int. J. MS
+clearer distinction of brain activity during tasks than HbO when     Care, vol. 23, no. 2, pp. 79–84, Mar. 2021, doi: 10.7224/1537-
+analyzed using ML techniques. As mentioned above, previous           2073.2019-083.
+research [58]–[60] utilized a data reductionist approach,            [2]        B. I. Yamout, S. Viswanathan, J. Laurson-Doube, and D.
+                                                                     Sokhi, “Disease-modifying therapies enter the World Health
+specifically Block Averaging [61], where all the trials and rest     Organization Essential Medicines List: A victory now requiring a
+periods are averaged into one trial and one rest period. Due to      roadmap of implementation,” Mult. Scler., vol. 30, no. 1, Jan. 2024, doi:
+this averaging process in the statistical analysis, HbO and HbR      10.1177/13524585231205970.
+might lose their variation in signal and therefore their             [3]        L. Kappos et al., “Contribution of Relapse-Independent
+                                                                     Progression vs Relapse-Associated Worsening to Overall Confirmed
+usefulness as a biomarker.                                           Disability Accumulation in Typical Relapsing Multiple Sclerosis in a
+                                                                     Pooled Analysis of 2 Randomized Clinical Trials,” JAMA Neurol., vol. 77,
+             V. LIMITATIONS AND FUTURE WORK                          no.       9,      pp.        1132–1140,          Sep.      2020,       doi:
+                                                                     10.1001/JAMANEUROL.2020.1568.
+  Although we specifically targeted people with MS who did           [4]        J. S. Graves et al., “Assessment of Upper Extremity Function
+not have cognitive or hand impairment (performing better than        in Multiple Sclerosis: Feasibility of a Digital Pinching Test,” JMIR Form.
+accepted measurement cut-offs), the MS group was slower on           Res., vol. 7, 2023, doi: 10.2196/46521.
+                                                                     [5]        S. Matsuzaki, M. Morihiro, T. Tsubone, and Y. Wada, “Task-
+NHPT (mean 21.43s, SD 3.95) compared to controls (mean               related brain activation during finger tapping and circle drawing
+18.94s, SD 2.21). They also had slightly lower MoCA score            monitored by fNIRS,” BMC Neurosci. 2010 111, vol. 11, no. 1, pp. 1–2,
+compared to the control group. This suggests that a person with      Jul. 2010, doi: 10.1186/1471-2202-11-S1-P87.
+MS may score in the ‘normal’ range on tests that may not be          [6]        T. Kusano et al., “Wrist and finger motor representations
+                                                                     embedded in the cerebral and cerebellar resting-state activation,” Brain
+particularly sensitive, and that better biomarkers are required.     Struct. Funct., vol. 226, no. 7, pp. 2307–2319, Sep. 2021, doi:
+  We examined brain activation during a dominant hand                10.1007/S00429-021-02330-8/FIGURES/6.
+manual dexterity task; however, we did not use                       [7]        J. Bonnal, C. Ozsancak, F. Monnet, A. Valery, F. Prieur, and
+electromyography to examine muscle activation on either hand.        P. Auzou, “Neural Substrates for Hand and Shoulder Movement in
+                                                                     Healthy Adults: A Functional near Infrared Spectroscopy Study,” Brain
+It is possible that some participants may have unintentional         Topogr., vol. 36, no. 4, p. 447, Jul. 2023, doi: 10.1007/S10548-023-
+mirror movement with their non-dominant hand, which we               00972-X.
+would be unaware of and could have influenced brain activity         [8]        H. Reddy et al., “Functional brain reorganization for hand
+patterns. It is important to mention that task performance was       movement in patients with multiple sclerosis: defining distinct effects of
+                                                                     injury and disability,” Brain, vol. 125, no. Pt 12, pp. 2646–2657, Dec.
+closely supervised and preceded by a practice session; however,      2002, doi: 10.1093/BRAIN/AWF283.
+we could not be certain that the non-measured hand remained          [9]        C. M. Cirstea et al., “Handgrip-related activation in primary
+stationary during the tests.                                         motor cortex relates to underlying neuronal metabolism after stroke,”
+  Finally, ML is very dependent on data. If one does not have        Neurorehabil. Neural Repair, vol. 28, no. 5, p. 433, 2014, doi:
+                                                                     10.1177/1545968313516868.
+sufficient data, then the model will suffer from overfitting [70].   [10]       K. B. Wilkins, J. Yao, M. Owen, H. Karbasforoushan, C.
+We believe that any ML model would generalize better if              Carmona, and J. P. A. Dewald, “Limited capacity for ipsilateral
+trained on a larger dataset. Despite the limitations of ML, it was   secondary motor areas to support hand function post-stroke,” J.
+still a very promising approach over the traditional approaches      Physiol., vol. 598, no. 11, pp. 2153–2167, Jun. 2020, doi:
+                                                                     10.1113/JP279377.
+to the analysis of fNIRS data. Future work should consider
+                                                                                                                                                           11
+
+
+[11]        D. J. Serrien, L. H. A. Strens, M. J. Cassidy, A. J. Thompson,        [29]        K. T. Kinder et al., “Systematic review of fNIRS studies reveals
+and P. Brown, “Functional significance of the ipsilateral hemisphere              inconsistent chromophore data reporting practices,” Neurophotonics,
+during movement of the affected hand after stroke,” vol. 190, no. 2, pp.          vol. 9, no. 4, Dec. 2022, doi: 10.1117/1.NPH.9.4.040601.
+425–432, Dec. 2004, doi: 10.1016/J.EXPNEUROL.2004.08.004.                         [30]        H. Obrig and A. Villringer, “Beyond the visible--imaging the
+[12]        P. C. Shih, C. J. Steele, D. Hoepfel, T. Muffel, A. Villringer,       human brain with light,” J. Cereb. Blood Flow Metab., vol. 23, no. 1, pp.
+and B. Sehm, “The impact of lesion side on bilateral upper limb                   1–18, Jan. 2003, doi: 10.1097/01.WCB.0000043472.45775.29.
+coordination after stroke,” J. Neuroeng. Rehabil., vol. 20, no. 1, pp. 1–         [31]        A. Eken, F. Nassehi, and O. Eroğul, “Diagnostic Machine
+13, Dec. 2023, doi: 10.1186/S12984-023-01288-4/FIGURES/4.                         Learning Applications on Clinical Populations using Functional Near
+[13]        L. Bonanno, M. Russo, A. Bramanti, R. S. Calabrò, and S.              Infrared Spectroscopy: A Review,” medRxiv, p. 2023.02.07.23285578,
+Marino, “Functional connectivity in multiple sclerosis after robotic              Sep. 2023, doi: 10.1101/2023.02.07.23285578.
+rehabilitative treatment A case report,” Med. (United States), vol. 98, no.       [32]        A. J. Thompson et al., “Diagnosis of multiple sclerosis: 2017
+17, Apr. 2019, doi: 10.1097/MD.0000000000015047.                                  revisions of the McDonald criteria,” Lancet. Neurol., vol. 17, no. 2, pp.
+[14]        F. Tecchio et al., “Multiple sclerosis fatigue relief by bilateral    162–173, Feb. 2018, doi: 10.1016/S1474-4422(17)30470-2.
+somatosensory cortex neuromodulation,” J. Neurol., vol. 261, no. 8, pp.           [33]        Z. S. Nasreddine et al., “The Montreal Cognitive Assessment,
+1552–1558, 2014, doi: 10.1007/S00415-014-7377-9,.                                 MoCA: a brief screening tool for mild cognitive impairment,” J. Am.
+[15]        S. Ghosh et al., “Non-invasive brain stimulation enhances the         Geriatr. Soc., vol. 53, no. 4, pp. 695–699, 2005, doi: 10.1111/J.1532-
+effect of physiotherapy for balance and mobility impairment in people             5415.2005.53221.X.
+with Multiple Sclerosis.,” Mult. Scler. Relat. Disord., vol. 92, Dec. 2024,       [34]        A. S. Zigmond and R. P. Snaith, “The hospital anxiety and
+doi: 10.1016/j.msard.2024.106149.                                                 depression scale,” Acta Psychiatr. Scand., vol. 67, no. 6, pp. 361–370,
+[16]        L. Charvet et al., “Home-based transcranial direct current            1983, doi: 10.1111/J.1600-0447.1983.TB09716.X.
+stimulation paired with cognitive training to reduce fatigue in multiple          [35]        P. Feys et al., “The Nine-Hole Peg Test as a manual dexterity
+sclerosis,” Sci. Rep., vol. 15, no. 1, Dec. 2025, doi: 10.1038/S41598-            performance measure for multiple sclerosis,” Mult. Scler., vol. 23, no. 5,
+025-88255-2,.                                                                     pp.              711–720,              Apr.             2017,            doi:
+[17]        J. Stojanovic-Radic, G. Wylie, G. Voelbel, N. Chiaravalloti,          10.1177/1352458517690824/ASSET/IMAGES/LARGE/10.1177_13524
+and J. DeLuca, “Neuroimaging and cognition using functional near                  58517690824-FIG1.JPEG.
+infrared spectroscopy (fNIRS) in multiple sclerosis,” vol. 9, no. 2, pp.          [36]        G. A. Zimeo Morais, J. B. Balardin, and J. R. Sato, “FNIRS
+302–311, Jun. 2015, Accessed: Dec. 19, 2023. [Online]. Available:                 Optodes’ Location Decider (fOLD): A toolbox for probe arrangement
+https://link.springer.com/article/10.1007/s11682-014-9307-y                       guided by brain regions-of-interest,” Sci. Rep., vol. 8, no. 1, Dec. 2018,
+[18]        V. Saccà et al., “Evaluation of machine learning algorithms           doi: 10.1038/S41598-018-21716-Z,.
+performance for the prediction of early multiple sclerosis from resting-          [37]        W. B. Baker, A. B. Parthasarathy, D. R. Busch, R. C.
+state FMRI connectivity data,” Brain Imaging Behav., vol. 13, no. 4, pp.          Mesquita, J. H. Greenberg, and A. G. Yodh, “Modified Beer-Lambert law
+1103–1114, Aug. 2019, doi: 10.1007/S11682-018-9926-9.                             for blood flow,” Biomed. Opt. Express, vol. 5, no. 11, p. 4053, Nov. 2014,
+[19]        M. A. Rocca, M. M. Schoonheim, P. Valsasina, J. J. G. Geurts,         doi: 10.1364/BOE.5.004053.
+and M. Filippi, “Task- and resting-state fMRI studies in multiple sclerosis:      [38]        M. A. Yücel et al., “Mayer waves reduce the accuracy of
+From regions to systems and time-varying analysis. Current status and             estimated hemodynamic response functions in functional near-infrared
+future perspective,” vol. 35, p. 103076, Jan. 2022, doi:                          spectroscopy,” Biomed. Opt. Express, vol. 7, no. 8, p. 3078, Aug. 2016,
+10.1016/J.NICL.2022.103076.                                                       doi: 10.1364/BOE.7.003078.
+[20]        G. Boffa et al., “Preserved brain functional plasticity after         [39]        A. Gramfort et al., “MEG and EEG data analysis with MNE-
+upper limb task-oriented rehabilitation in progressive multiple sclerosis,”       Python,” Front. Neurosci., vol. 7, no. 7 DEC, p. 70133, Dec. 2013, doi:
+Eur. J. Neurol., vol. 27, no. 1, pp. 77–84, Jan. 2020, doi:                       10.3389/FNINS.2013.00267/BIBTEX.
+10.1111/ENE.14059.                                                                [40]        “Importing data from fNIRS devices — MNE 1.6.1
+[21]        H. Liu et al., “Effects of task-based mirror therapy on upper         documentation.”
+limb motor function in hemiplegia: study protocol for a randomized                https://mne.tools/stable/auto_tutorials/io/30_reading_fnirs_data.html
+controlled clinical trial,” Trials, vol. 25, no. 1, pp. 1–12, Dec. 2024, doi:     (accessed Jan. 08, 2024).
+10.1186/S13063-024-08081-1/FIGURES/4.                                             [41]        M. A. Yücel et al., “Best practices for fNIRS publications,”
+[22]        M. A. Rocca, F. Romanò, N. Tedone, and M. Filippi,                    Neurophotonics,        vol.       8,   no.     1,     Jan.    2021,      doi:
+“Advanced neuroimaging techniques to explore the effects of motor and             10.1117/1.NPH.8.1.012101.
+cognitive rehabilitation in multiple sclerosis,” J. Neurol., vol. 271, no. 7,     [42]        “SelectKBest      — scikit-learn 1.5.2          documentation.”
+pp. 3806–3848, Jul. 2024, doi: 10.1007/S00415-024-12395-                          https://scikit-
+0/METRICS.                                                                        learn.org/stable/modules/generated/sklearn.feature_selection.SelectK
+[23]        S. Sadot, S. Dreyer-Alster, and A. Kalron, “Supplementary             Best.html (accessed Nov. 19, 2024).
+and Premotor Cortical Activation During Manual Dexterity Involving                [43]        N. Ö. Özcan Şimşek, A. Özgür, and F. Gürgen, “A novel gene
+Motor Imagery in Multiple Sclerosis: A Functional Near-Infrared                   selection method for gene expression data for the task of cancer type
+Spectroscopy Study,” Neurorehabil. Neural Repair, vol. 39, no. 2, 2025,           classification,” Biol. Direct, vol. 16, no. 1, p. 7, Dec. 2021, doi:
+doi: 10.1177/15459683241298260.                                                   10.1186/S13062-020-00290-3.
+[24]        M. Filippi et al., “A functional MRI study of cortical activations    [44]        L. Breiman, “Random forests,” Mach. Learn., vol. 45, no. 1,
+associated with object manipulation in patients with MS,” Neuroimage,             pp. 5–32, Oct. 2001, doi: 10.1023/A:1010933404324/METRICS.
+vol.     21,     no.    3,      pp.    1147–1154,       Mar.    2004,      doi:   [45]        L. Capitaine, R. Genuer, and R. Thiébaut, “Random forests
+10.1016/j.neuroimage.2003.10.023.                                                 for             high-dimensional               longitudinal            data,”
+[25]        W. L. Chen et al., “Functional Near-Infrared Spectroscopy and         https://doi.org/10.1177/0962280220946080, vol. 30, no. 1, pp. 166–184,
+Its Clinical Application in the Field of Neuroscience: Advances and               Aug. 2020, doi: 10.1177/0962280220946080.
+Future Directions,” Front. Neurosci., vol. 14, p. 540710, Jul. 2020,              [46]        G. Fu, X. Dai, and Y. Liang, “Functional random forests for
+Accessed: Dec. 19, 2023. [Online]. Available: www.frontiersin.org                 curve response,” Sci. Reports 2021 111, vol. 11, no. 1, pp. 1–14, Dec.
+[26]        M. A. Rahman, A. B. Siddik, T. K. Ghosh, F. Khanam, and M.            2021, doi: 10.1038/s41598-021-02265-4.
+Ahmad, “A Narrative Review on Clinical Applications of fNIRS,” J. Digit.          [47]        B. Schölkopf, “SVMs - A practical consequence of learning
+Imaging 2020 335, vol. 33, no. 5, pp. 1167–1184, Sep. 2020, doi:                  theory,” IEEE Intell. Syst. Their Appl., vol. 13, no. 4, pp. 18–21, Jul.
+10.1007/S10278-020-00387-1.                                                       1998, doi: 10.1109/5254.708428.
+[27]        R. Nishiyori, S. Bisconti, and B. Ulrich, “Motor Cortex Activity      [48]        L. E. Peterson, “K-nearest neighbor,” Scholarpedia, vol. 4, no.
+During Functional Motor Skills: An fNIRS Study,” Brain Topogr., vol. 29,          2, p. 1883, 2009, doi: 10.4249/SCHOLARPEDIA.1883.
+no. 1, pp. 42–55, Jan. 2016, doi: 10.1007/S10548-015-0443-5.                      [49]        “An Overview of LightGBM.” https://www.avanwyk.com/an-
+[28]        C. Leone, P. Feys, L. Moumdjian, E. D’Amico, M. Zappia, and           overview-of-lightgbm/ (accessed Jan. 08, 2024).
+F. Patti, “Cognitive-motor dual-task interference: A systematic review of         [50]        D. M. Hawkins, S. C. Basak, and D. Mills, “Assessing model
+neural correlates,” Neurosci. Biobehav. Rev., vol. 75, pp. 348–360, Apr.          fit by cross-validation,” J. Chem. Inf. Comput. Sci., vol. 43, no. 2, pp.
+2017, doi: 10.1016/J.NEUBIOREV.2017.01.010.
+                                                                                                                                                      12
+
+
+579–586,                    Mar.                 2003,                   doi:   Healthy Brain through the Window of Multiple Sclerosis,” Neuroimage,
+10.1021/CI025626I/ASSET/IMAGES/LARGE/CI025626IF00006.JPEG.                      vol. 190, p. 46, Apr. 2018, doi: 10.1016/J.NEUROIMAGE.2017.12.081.
+[51]        S. M. Lundberg and S. I. Lee, “A Unified Approach to                [68]       B. D. Baldasso et al., “Disrupted hemodynamic response
+Interpreting Model Predictions,” Adv. Neural Inf. Process. Syst., vol.          within dorsolateral prefrontal cortex during cognitive tasks among
+2017-Decem, pp. 4766–4775, May 2017, Accessed: Apr. 20, 2023.                   people with multiple sclerosis-related fatigue,” PLoS One, vol. 19, no. 6,
+[Online]. Available: https://arxiv.org/abs/1705.07874v2                         p. e0303211, Jun. 2024, doi: 10.1371/JOURNAL.PONE.0303211.
+[52]        “An Introduction to SHAP Values and Machine Learning                [69]       M. A. Chalah, C. Grigorescu, F. Padberg, T. Kümpfel, U.
+Interpretability                        |                       DataCamp.”      Palm, and S. S. Ayache, “Bifrontal transcranial direct current stimulation
+https://www.datacamp.com/tutorial/introduction-to-shap-values-                  modulates fatigue in multiple sclerosis: a randomized sham-controlled
+machine-learning-interpretability?form=MG0AV3 (accessed Nov. 20,                study,” J. Neural Transm., vol. 127, no. 6, pp. 953–961, Jun. 2020, doi:
+2024).                                                                          10.1007/S00702-020-02166-2,.
+[53]        “The 10-20 System for EEG - Electrophysiological Research           [70]       D. M. Hawkins, “The Problem of Overfitting,” J. Chem. Inf.
+Blog, News & Events - TMSi.” https://info.tmsi.com/blog/the-10-20-              Comput. Sci., vol. 44, no. 1, pp. 1–12, Jan. 2004, doi:
+system-for-eeg (accessed Aug. 30, 2024).                                        10.1021/CI0342472/ASSET/IMAGES/MEDIUM/CI0342472E00006.GIF
+[54]        C. L. Scrivener and A. T. Reader, “Variability of EEG electrode     .
+positions and their underlying brain regions: visualizing gel artifacts from
+a simultaneous EEG‐fMRI dataset,” Brain Behav., vol. 12, no. 2, Feb.
+2022, doi: 10.1002/BRB3.2476.
+[55]        J. Yperman et al., “Machine learning analysis of motor evoked
+potential time series to predict disability progression in multiple
+sclerosis,” BMC Neurol., vol. 20, no. 1, Mar. 2020, doi: 10.1186/S12883-
+020-01672-W.
+[56]        W. Hu et al., “Machine learning classification of multiple
+sclerosis patients based on raw data from an instrumented walkway,”
+Biomed. Eng. Online, vol. 21, no. 1, pp. 1–18, Dec. 2022, doi:
+10.1186/S12938-022-00992-X/TABLES/9.
+[57]        H. Khan, R. Khadka, M. S. Sultan, A. Yazidi, H. Ombao, and
+P. Mirtaheri, “Unleashing the potential of fNIRS with machine learning:
+classification of fine anatomical movements to empower future brain-
+computer interface,” Front. Hum. Neurosci., vol. 18, p. 1354143, 2024,
+doi: 10.3389/FNHUM.2024.1354143.
+[58]        R. Johnson, J. Matthews, N. Diawara, and R. Carroll,
+“Statistical Analysis of fNIRS Data: Consideration of Spatial Varying
+Coefficient Model of Prefrontal Cortex Activity Changes During Speech
+Motor Learning in Apraxia of Speech,” Front. Appl. Math. Stat., vol. 6, p.
+529334, Sep. 2020, doi: 10.3389/FAMS.2020.00032/BIBTEX.
+[59]        L. Almulla, I. Al-Naib, I. S. Ateeq, and M. Althobaiti,
+“Observation and motor imagery balance tasks evaluation: An fNIRS
+feasibility study,” PLoS One, vol. 17, no. 3, Mar. 2022, doi:
+10.1371/JOURNAL.PONE.0265898.
+[60]        A. Ghouse, M. Nardelli, and G. Valenza, “fNIRS Complexity
+Analysis for the Assessment of Motor Imagery and Mental Arithmetic
+Tasks,” Entropy 2020, Vol. 22, Page 761, vol. 22, no. 7, p. 761, Jul.
+2020, doi: 10.3390/E22070761.
+[61]        P. W. Dans, S. D. Foglia, and A. J. Nelson, “Data processing
+in functional near-infrared spectroscopy (Fnirs) motor control research,”
+Brain      Sci.,     vol.    11,      no.    5,     May       2021,      doi:
+10.3390/BRAINSCI11050606/S1.
+[62]        J. Diedrichsen, T. Wiestler, and J. W. Krakauer, “Two Distinct
+Ipsilateral Cortical Representations for Individuated Finger Movements,”
+Cereb. Cortex (New York, NY), vol. 23, no. 6, p. 1362, 2012, doi:
+10.1093/CERCOR/BHS120.
+[63]        V. Di Caro, P. Cesari, F. Sala, and L. Cattaneo, “The neural
+bases of the reach–grasp movement in humans: Quantitative evidence
+from brain lesions,” Proc. Natl. Acad. Sci. U. S. A., vol. 122, no. 10, p.
+e2419801122,                    Mar.               2025,                 doi:
+10.1073/PNAS.2419801122/SUPPL_FILE/PNAS.2419801122.SAPP.P
+DF.
+[64]        S. H. Lee, S. H. Jin, and J. An, “The difference in cortical
+activation pattern for complex motor skills: A functional near- infrared
+spectroscopy study,” Sci. Rep., vol. 9, no. 1, p. 14066, Dec. 2019, doi:
+10.1038/S41598-019-50644-9.
+[65]        A. C. de Campos, T. Sukal-Moulton, T. Huppert, K. Alter, and
+D. L. Damiano, “Brain activation patterns underlying upper limb bilateral
+motor coordination in unilateral cerebral palsy: an fNIRS study,” Dev.
+Med. Child Neurol., vol. 62, no. 5, p. 625, May 2020, doi:
+10.1111/DMCN.14458.
+[66]        N. A. Hubbard et al., “Multiple sclerosis-related white matter
+microstructural change alters the BOLD hemodynamic response,” J.
+Cereb. Blood Flow Metab., vol. 36, no. 11, p. 1872, Nov. 2015, doi:
+10.1177/0271678X15615133.
+[67]        M. P. Turner et al., “Preserved Canonicality of the BOLD
+Hemodynamic Response Reflects Healthy Cognition: Insights into the
+

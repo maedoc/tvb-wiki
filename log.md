@@ -404,3 +404,12 @@
 ## [2026-05-12 14:05] Linter: 53 broken links, 14 orphans, 3 stale, 0 empty
 
 ## [2026-05-12 14:09] Audit: 803 issues (53 broken links, 14 orphans, 1 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 28 opaque-refs, 14 thin, 465 missing-links)
+
+## [2026-05-12 14:14] Linter: 45 broken links, 14 orphans, 3 stale, 0 empty
+
+## [2026-05-12 14:18] Audit: 794 issues (45 broken links, 14 orphans, 1 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 28 opaque-refs, 14 thin, 465 missing-links)
+
+## 2026-05-12
+- Improved [[computational-neuroscience]] page: rewrote _preamble section with sourced content from 5 available papers (Jiang 2026, Jordan 2018, Strogatz 1994, Friston 1993, Hater 2026), added 12+ wikilinks, ensured 3+ inline citations per paragraph, split into two dense paragraphs covering microscopic and macroscopic scales plus neuroimaging and multiscale integration
+
+- 2026-05-12: Improved _preamble section of [[tvb-library]] with sourced content about simulation kernel, forward models, and reproducibility frameworks.
