@@ -1,0 +1,2622 @@
+                                        Reconstruction of glymphatic transport fields from subject-specific imaging data,
+                                          with particular emphasis on cerebrospinal fluid flow and tracer conservation
+
+                                         A. Derya Bakilera , Michael J. Johnsona , Michael R.A. Abdelmalikb , Frimpong A. Baidooa , Andrew Badachhapec ,
+                                                               Ananth V. Annapragadac , Thomas J.R. Hughesa , Shaolie S. Hossaina,∗
+                                                   a Oden Institute for Computational Engineering and Sciences, The University of Texas at Austin, Austin, TX 78712, USA
+                                             b Department of Mechanical Engineering, Eindhoven University of Technology, Groene Loper, 5612 AE Eindhoven, The Netherlands
+                                                        c Department of Radiology, Baylor College of Medicine, 1102 Bates Ave, Suite 850, Houston, TX 77030, USA
+arXiv:2605.00730v1 [cs.CE] 1 May 2026
+
+
+
+
+                                        Abstract
+
+                                        The reconstruction of physically valid transport fields from subject-specific imaging data is a fundamental challenge
+
+                                        in image-based computational modeling due to measurement noise, modeling uncertainties, and discretization errors.
+
+                                        Without a methodology to construct models that faithfully reflect the underlying physics, the mechanistic understand-
+
+                                        ing of complex biological systems is inherently limited. In this work, we address this challenge within the context of
+
+                                        the glymphatic system—the brain’s waste-clearance network—where cerebrospinal fluid (CSF) is transported through
+
+                                        perivascular spaces and into the brain parenchyma to facilitate the removal of metabolic waste. We introduce a compu-
+
+                                        tational framework for the high-fidelity reconstruction of subject-specific glymphatic transport fields from spatiotem-
+
+                                        poral imaging data. The formulation utilizes an advection–diffusion model modified by a velocity decomposition that
+
+                                        imposes mass conservation, enabling the recovery of solenoidal (divergence-free) velocity fields from noisy imaging
+
+                                        data through the solution of a constrained inverse problem. The system is discretized using immersed isogeometric
+
+                                        analysis with quadratic B-spline basis functions, which provides inherent regularization of imaging noise and ensures
+
+                                        the continuity of derivatives of the inferred fields. We demonstrate the utility of the framework by obtaining spatially
+
+                                        varying estimates of CSF velocity, diffusivity, and clearance parameters from contrast-enhanced magnetic resonance
+
+                                        imaging data of tracer transport in a mouse brain. Forward simulations using the recovered fields show close agree-
+
+                                        ment with experimental observations, validating the framework’s ability to characterize complex transport dynamics
+
+                                        while preserving physical integrity. This approach provides a generalizable methodology for the robust inference
+
+                                        of physically consistent transport fields from imperfect imaging data, with broad applicability to the image-guided
+
+                                        modeling of biological and engineering systems.
+                                        Keywords: Image-based modeling; Inverse problems; Advection-diffusion; Isogeometric analysis; Divergence-free;
+
+                                        Neurodegenerative disease
+Contents
+
+
+1    Introduction                                                                                                           2
+
+
+2    Forward advection-diffusion model with conservation                                                                    6
+
+     2.1    Governing equations and forward model definition . . . . . . . . . . . . . . . . . . . . . . . . . . .          7
+
+     2.2    Classical and modified advection–diffusion weak forms . . . . . . . . . . . . . . . . . . . . . . . . .         8
+
+     2.3    Numerical discretization and implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .        12
+
+
+3    Reconstruction of a divergence-free velocity field from image data                                                    14
+
+     3.1    Experimental image data and inverse model definition . . . . . . . . . . . . . . . . . . . . . . . . . .       14
+
+            3.1.1     A finite difference approach . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   16
+
+     3.2    Formulation of the inverse problem . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .     18
+
+     3.3    Numerical implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .       20
+
+
+4    Numerical results and discussion                                                                                      22
+
+     4.1    Forward simulations using finite-difference-derived velocity fields . . . . . . . . . . . . . . . . . . .      22
+
+     4.2    Inverse reconstruction of unknown fields and forward validation . . . . . . . . . . . . . . . . . . . .        24
+
+            4.2.1     Comparison with experimental CE-MRI data . . . . . . . . . . . . . . . . . . . . . . . . . .         26
+
+            4.2.2     Sensitivity of inference on calibration window . . . . . . . . . . . . . . . . . . . . . . . . .     28
+
+            4.2.3     Localized boundary efflux vs. global metrics of clearance . . . . . . . . . . . . . . . . . . . .    31
+
+
+5    Conclusion                                                                                                            33
+
+
+Acknowledgments                                                                                                            34
+
+
+ Appendix A             Derivation of inverse operators                                                                    35
+
+
+1. Introduction
+
+     Computational modeling has become an indispensable tool for investigating transport processes in complex bio-
+
+logical systems, enabling systematic interrogation of governing mechanisms and parameters that are otherwise difficult
+
+to isolate or quantify in vivo [1, 2]. Traditional transport models, however, have largely been constrained by assump-
+
+tions of spatial homogeneity and idealized geometry, compromising their physiological realism [3]. Historically,
+
+    ∗ Corresponding author.
+
+     Email address: shossain@oden.utexas.edu (Shaolie S. Hossain)
+
+                                                                2
+these simplifications were primarily driven by the prohibitive computational cost of resolving multiscale anatomical
+
+complexity and the scarcity of high-resolution subject-specific volumetric imaging. Recent advances in medical imag-
+
+ing, coupled with improvements in computational methods and power, have facilitated the shift toward image-based
+
+modeling frameworks that integrate subject-specific information directly into the numerical formulations, enabling
+
+the study of transport processes within physiologically realistic domains. However, the predictive capability of these
+
+models is contingent upon the reliable inverse inference of unknown transport processes and model parameters, such
+
+as velocity, diffusivity and clearance rates, from sparse and noisy experimental imaging observations.
+
+   The recently identified waste-clearance network of the brain, known as the glymphatic system [4], presents a
+
+particularly challenging front for modeling transport, as the fundamental mechanisms governing glymphatic transport
+
+remain a subject of active debate [5, 6]. This network of perivascular spaces facilitates the exchange of cerebrospinal
+
+fluid (CSF) and interstitial fluid (ISF) to eliminate metabolic byproducts, most notably amyloid-beta peptides [7].
+
+Mechanistically, this occurs via multiscale transport involving fluid movement along the narrow channels surrounding
+
+cerebral blood vessels and through the brain tissue, as shown in Fig. 1. Delayed or impaired clearance of these
+
+waste proteins promotes their self-assembly into insoluble fibrils and eventual formation of large amyloid plaques—a
+
+pathological signature widely thought to initiate the neurodegenerative cascade leading to Alzheimer’s disease (AD)
+
+and other neurodegenerative diseases [8–10]. While recent advances have enabled visualization of ventricular CSF
+
+flow dynamics [11], glymphatic transport [12–14], and neurodegenerative biomarkers [15], a comprehensive, brain-
+
+wide quantification of the transport and clearance of these solutes remains elusive.
+
+   Existing computational models are constrained by several key factors, including the simplification of complex
+
+anatomy into idealized 1D or axisymmetric geometries [16]. In addition, the prohibitive cost of resolving intricate
+
+brain structures often necessitates reduced-order or homogenized approximations [17], which attenuate local velocity
+
+peaks and create scale mismatch between the discrete microscopic pathways of fluid transport and the coarse, voxel-
+
+averaged observations captured by clinical imaging [18]. Furthermore, many models rely on the manual fitting of
+
+lumped transport parameters, such as effective tortuosity and pressure gradients, rather than direct inference of these
+
+fields from observed tracer dynamics [19], thereby obscuring local transport heterogeneity and limiting predictive
+
+accuracy. While recent developments in regularized optimal mass transport (rOMT) have enabled 3D visualization
+
+of subject-specific glymphatic trajectories, these models are constrained by two major limitations: the assumption of
+
+spatially uniform, empirically-tuned diffusion, and the generation of velocity fields expressed in arbitrary units that
+
+lack the dimensional scaling necessary for physiological quantification [20, 21].
+
+   Moreover, a consistent, mechanistic description of how waste is effectively taken out from the brain has yet
+
+to be established. Even though models that capture tracer dynamics within the brain exist, the parameters used
+
+                                                           3
+to represent clearance are often only indirectly related to the underlying efflux mechanisms, limiting their physical
+
+interpretability [22, 23]. Establishing a rigorous, anatomically faithful framework for quantitative characterization of
+
+glymphatic transport is therefore of significant interest [24, 25]; yet a persistent modeling gap remains: the reliable
+
+recovery of physically consistent, subject-specific transport fields from imaging data. This challenge arises, in part,
+
+due to the disparate anatomical scales and the subtle pressure gradients involved, which necessitates high-fidelity
+
+numerical representations to resolve the resulting low-velocity regimes.
+
+
+
+
+                                                                 Subarachnoid space
+
+                  Skull
+
+
+
+
+        Periarterial
+        CSF influx
+
+
+                                                                                                                                   Perivenous
+                                                                                                                                   space
+
+
+        Periarterial
+        space
+                                                 Artery                                                             Vein
+
+
+
+
+                                                                                  Glymphatic
+                                                                                   bulk flow
+
+
+
+
+                                     Astrocyte      Astrocytic   AQP4            Neuron        ISF       Cellular
+                                                    endfeet                                              Debris
+                                                                                                                      Perivenous
+                                                                                                                      efflux
+
+
+
+Figure 1: Schematic representation of glymphatic transport and clearance. Cerebrospinal fluid (CSF), produced by the choroid plexus via bulk
+transport from blood, circulates through the subarachnoid space and enters the periarterial spaces of penetrating cortical arteries. CSF enters the
+brain parenchyma via transport mediated largely by aquaporin-4 (AQP4) water channels densely expressed on astrocytic endfeet. This influx
+facilitates the exchange of CSF with interstitial fluid (ISF), generating a bulk flow that traverses the interstitium. The resulting convective current
+flushes metabolic byproducts—including amyloid-beta and tau—toward perivascular spaces surrounding deep draining veins. The waste-laden
+fluid then exits the brain through lymphatic channels for systemic clearance. This work focuses on modeling the transport dynamics within this
+coupled CSF–ISF system. Created with BioRender [26].
+
+
+    Despite the potential of image-based computational models to bridge this gap, ensuring physical consistency when
+
+deriving the unknown transport fields from raw imaging data is a nontrivial task. The calibration of these models
+
+to experimental observations is often complicated by measurement noise, tradeoffs between spatial and temporal
+
+resolution, and the need to sample and discretize continuous fields (e.g., flow) from discrete, voxelized data. As
+
+a result, reconstructed velocity fields frequently reflect experimental artifacts rather than the underlying physics.
+                                                                          4
+Particularly consequential limitations in modeling glymphatic flow are lack of satisfaction of conservation of tracer
+
+concentration and incompressibility of the CSF. Conservation and incompressibility are thus basic hypotheses of our
+
+modeling. Measurement and reconstruction errors in image-derived velocity fields commonly manifest as spurious
+
+divergence of the velocity field, leading to the violation of the conservation of mass. Therefore, enforcing divergence-
+
+free conditions is essential to maintain the integrity of numerical simulations.
+
+   These challenges frame the recovery of subject-specific transport fields as a constrained inverse problem: given
+
+noisy, discrete imaging observations, one must infer continuous, divergence-free velocity and transport fields that re-
+
+main consistent with both the observed data and governing physical laws. Unlike purely data-driven or unconstrained
+
+reconstructions, such inverse formulations enable the systematic incorporation of prior physical knowledge to mitigate
+
+experimental artifacts and enhance physiological fidelity.
+
+   Reconstruction of solenoidal (divergence-free) velocity fields from imaging data has been extensively explored
+
+in cardiovascular applications, particularly using phase-contrast magnetic resonance imaging (PC-MRI) [27]. Estab-
+
+lished numerical approaches include: the projection of extracted velocity fields onto a divergence-free vector basis
+
+using finite difference schemes [28]; the integration of incompressibility constraints into post-processing routines
+
+via normalized convolution and divergence-free radial basis functions [29]; and the application of noise-reduction
+
+frameworks utilizing the divergence-free wavelet transform [30]. However, these methods developed for the high-
+
+momentum hemodynamic environment of cardiovascular flow are not directly applicable to the low-Péclet trans-
+
+port environment of the glymphatic system [16]. In preclinical mouse brain models—the focus of the present
+
+work—glymphatic transport is typically captured via contrast-enhanced MRI (CE-MRI), requiring the inverse re-
+
+construction of velocity fields from tracer evolution, rather than direct phase-velocity encoding available in PC-MRI.
+
+This process is complicated by two main factors: (i) CSF flow [31] is orders of magnitude slower than arterial blood
+
+flow [32], which drastically diminishes the signal-to-noise ratio and exacerbates existing spatiotemporal resolution
+
+limitations; and (ii) enforcing divergence-free constraints within image-based models is non-trivial, as many stan-
+
+dard divergence-free discretizations rely on specialized finite element spaces and boundary-fitting mesh structures
+
+that may necessitate remeshing or geometric simplifications when applied to complex, image-derived domains. These
+
+challenges underscore the need for a robust, mass-conserving numerical framework for the inverse estimation of
+
+subject-specific transport fields and clearance parameters.
+
+   In this work, we present a computational framework for image-guided modeling of glymphatic transport that
+
+integrates divergence-free velocity reconstruction from imaging data with a 3D advection-diffusion formulation. We
+
+adapt the methodology of Hughes and Wells [33]—originally developed to ensure conservation in advection-diffusion
+
+systems derived from Navier–Stokes simulations—to impose the incompressibility of the inferred CSF velocity fields.
+
+                                                              5
+While the Hughes–Wells formulation is conventionally employed to maintain stability in forward solvers, we uniquely
+
+extend its utility to the inverse setting, where it serves as a physics-based regularizer to recover solenoidal fields from
+
+noisy image data. The resulting modified advection-diffusion equation is solved using an immersed finite element
+
+method within an isogeometric analysis (IGA) framework. This immersed approach enables the representation of
+
+complex brain morphology as an embedded object within a non-conforming mesh aligned to the image volume’s
+
+bounding box, thereby bypassing the costly segmentation and mesh-generation steps required by traditional boundary-
+
+conforming methods. The glymphatic and CSF pathways are modeled via spatial heterogeneity in the image-inferred
+
+transport fields, such as velocity and diffusivity. Furthermore, IGA facilitates the projection of these high-dimensional
+
+image data and transport fields onto B-spline basis functions, naturally providing regularization and smoothing. The
+
+smoothing properties of B-splines thus enable a reconstruction that preserves underlying biological variability, in
+
+contrast to voxel averaging which may end up homogenizing local dynamics.
+
+   The proposed framework establishes a physically grounded, subject-specific formulation that assimilates spa-
+
+tiotemporal CE-MRI observations to characterize the physical system while maintaining robustness to experimental
+
+noise and resolution limits. By synthesizing experimental observations with fundamental conservation laws, the
+
+present work achieves a degree of mechanistic insight beyond what is possible through experimental parameteriza-
+
+tion alone. Although demonstrated here for glymphatic clearance, this framework is broadly applicable to a range
+
+of biological and engineering problems requiring the robust recovery of solenoidal advective fields from discrete
+
+experimental data.
+
+   The remainder of the manuscript is organized as follows. Section 2 presents the governing equations for glym-
+
+phatic transport, introducing a modified advection–diffusion formulation designed to ensure mass conservation even
+
+when the advective field is non-solenoidal. Section 3 formulates the constrained inverse problem of recovering un-
+
+known transport parameters from image data. Following a discussion on the inherent limitations of the available
+
+experimental data, the modified formulation is extended to an inverse setting to enable subject-specific parameter
+
+estimation. Section 4 presents numerical results for the full set of approaches developed in this work. Results are
+
+first shown for forward simulations using a baseline image-derived velocity field obtained through finite differencing,
+
+followed by results from the proposed inverse-inference framework for parameter recovery and validation. Finally,
+
+Section 5 provides concluding remarks and outlines potential directions for future research.
+
+
+2. Forward advection-diffusion model with conservation
+
+   In this section, we first present the governing advection–diffusion equations as applied to glymphatic transport.
+
+This is followed by establishing the weak-forms for the conservative, advective, and modified advective forms of the
+
+                                                            6
+advection-diffusion equation. We conclude this section by providing details on the numerical implementation of the
+
+modified advective forward model using immersed IGA and finite elements.
+
+
+2.1. Governing equations and forward model definition
+
+   Let Ω denote the volume of a mouse brain, with the boundary denoted as Γ. The geometry of the brain volume
+
+is obtained by segmenting the brain parenchyma and meninges from contrast-enhanced magnetic resonance imaging
+
+(CE-MRI) tracer data. These tracer experiments involve intrathecal injection of a water-soluble contrast-agent into
+
+the CSF pathways of the mouse brain, followed by serial imaging to monitor the clearance of the tracer through
+
+the glymphatic system. Because endogenous soluble amyloid cannot be tracked in vivo, exogenous contrast agents
+
+are utilized as surrogates to characterize spatiotemporal dynamics of waste transport within the glymphatic system.
+
+Thus, let c(x, y, z, t) denote the concentration of tracer in the CSF, in nM, where nM is nanomolar concentration. The
+
+glymphatic transport of the tracer is then modeled by the following equation
+
+
+        ∂c
+           = ∇ · (D∇c) − ∇ · (cu)          in Ω .                                                                      (1)
+        ∂t
+
+The partial differential equation (PDE) in (1) is an advection-diffusion equation, where D(x, y, z) denotes the diffusivity
+
+of soluble tracer molecules in mm2 /min, and u(x, y, z) denotes the CSF velocity field in mm/min. The clearing out of
+
+the tracer from the brain via the glymphatic drainage pathways is accounted for by the Robin boundary condition
+
+
+        −D ∇c · n = γ c        on Γ ,                                                                                  (2)
+
+
+where n is the outward unit normal vector on Γ, and γ(x, y, z) is the clearance parameter in mm/min, which varies
+
+over Γ. The boundary condition (2) assumes that the diffusive flux of clearing tracer is proportional to the tracer
+
+concentration at that point on the boundary, and that clearance only takes place along the boundary of the domain. A
+
+greater value for the clearance parameter γ indicates higher clearance, and vice versa. Finally, the initial condition
+
+reads
+
+
+        c (x, y, z, 0) = ĉ (x, y, z)   on Ω ,                                                                         (3)
+
+
+where ĉ denotes the image tracer intensity at an initial time instant. The velocity field u is constrained with the zero-
+
+velocity boundary condition, u = 0 on Γ. This is accompanied by the assumption that u is divergence-free. The spatial
+
+variation of the velocity u, diffusivity D, and clearance parameter γ remain to be determined.
+
+
+                                                            7
+2.2. Classical and modified advection–diffusion weak forms
+
+   We begin by defining a residual R(c) by rewriting Eq. (1) as
+
+
+                 ∂c
+      R(c) :=       − ∇ · (D∇c) + ∇ · (cu) = 0 .                                                                            (4)
+                 ∂t
+
+The weak form of the equation in conservative form is then obtained by multiplying the residual form (4) with a test
+
+function w ∈ H 1 (Ω) and integrating over the domain Ω. A weak form, referred to as the standard conservative form
+
+with streamline upwind Petrov-Galerkin (SUPG) [34] stabilization, is to find c ∈ H 1 (Ω) such that the following holds:
+
+∀w ∈ H 1 (Ω),
+
+           Z                Z                          Z                      Z                Z
+      d
+               w c dx +           D ∇ w · ∇c dx +           w ∇ · (cu) dx +       w γ c dΓ +       σ R(c) u · ∇w dx = 0 ,   (5)
+      dt   Ω                  Ω                         Ω                     Γ                Ω
+
+
+where σ is the stabilization parameter defined as
+
+
+                        Pe h
+                               !
+                h                                      |u| h
+      σ :=          min      ,1 ,            Pe h :=                                                                        (6)
+               2|u|      3                              2D
+
+where h is a characteristic length for the element, and Pe h is the element Peclet number. Whether the weak form
+
+in Eq. (5) conserves the quantity c can be checked by first integrating the advective term by parts, and invoking the
+
+zero-velocity boundary condition on u,
+
+           Z                Z                          Z                      Z                Z
+      d
+               w c dx +           D ∇ w · ∇c dx −           ∇w · (cu) dx +        w γ c dΓ +       σ R(c) u · ∇w dx = 0 ,   (7)
+      dt   Ω                  Ω                         Ω                     Γ                Ω
+
+
+and then setting w ≡ 1, since 1 ∈ H 1 (Ω) as well,
+
+           Z            Z
+      d
+               c dx +         γ c dΓ = 0 .                                                                                  (8)
+      dt   Ω              Γ
+
+
+Eq. (8) shows that any change in the total concentration over the domain in time dt must be balanced by whatever is
+
+taken out from the boundaries, demonstrating conservation of c. However, the advective term in the weak form (5),
+
+which contains the divergence of the velocity field u, proves to be problematic for non-solenoidal u. Regions of
+
+positive and negative divergence in u act as spurious sinks and sources in the domain, leading to nonphysical accu-
+
+mulation in some locations and negative concentrations in others, which may result in unbounded growth or decay of
+
+the numerical solution.
+
+   Rewriting the equation in advective form represents a viable alternative formulation, offering improved numerical
+
+                                                                         8
+stability and better behavior under non-divergence-free flow [33]. The weak form in standard advective form with
+
+SUPG stabilization is to find c ∈ H 1 (Ω) such that the following holds: ∀w ∈ H 1 (Ω),
+
+           Z                Z                        Z                   Z                    Z
+      d
+               w c dx +           D ∇ w · ∇c dx +        w u · ∇c dx +           w γ c dx +       σ R(c) u · ∇w dx = 0 ,    (9)
+      dt   Ω                  Ω                      Ω                       Γ                Ω
+
+
+where the following identity has been used,
+
+
+      ∇ · (cu) = (∇ · u) c + u · ∇c ,                                                                                      (10)
+
+
+followed by the assumption that ∇ · u = 0.
+
+   Note that for a solenoidal velocity field, this assumption is true and the conservative form (5) and advective
+
+form (9) are identical. However, velocity fields obtained from image data rarely meet this assumption, leading to the
+
+loss of conservation. To demonstrate this, we set w ≡ 1 in the standard advective form in Eq. (9),
+
+           Z            Z                   Z
+      d
+               c dx +         u · ∇c dx +       γ c dΓ = 0 ,                                                               (11)
+      dt   Ω              Ω                 Γ
+
+
+showing that the concentration c is not conserved unless the second term in Eq. (8) vanishes.
+
+   In order to reconcile the conservation advantage of (5) and the stability advantage of (9), we introduce a multiscale-
+
+inspired decomposition of the velocity as outlined by Hughes and Wells (HW) in [33] to build a stable advection-
+
+diffusion scheme that conserves the quantity c even when the velocity field is non-solenoidal. The velocity field is
+
+decomposed into a “coarse” scale component u, and a “fine” scale component u′ ,
+
+
+      u := u + u′       where        u′ = 0 on Γ ,                                                                         (12)
+
+
+where we have assumed that the fine scale component is zero on the boundaries, or equivalently that u = u on Γ. The
+
+field u can also be interpreted as the measured or data-derived velocity, with u′ representing a correction to u that
+
+ensures a divergence-free velocity field u. Inserting the decomposition (12) into the advective weak form (9) yields
+
+the Hughes-Wells (HW) modified advective weak form, find c ∈ H 1 (Ω) such that the following holds ∀w ∈ H 1 (Ω),
+
+           Z                Z                        Z                   Z               Z
+      d
+               w c dx +           D ∇ w · ∇c dx +        w u · ∇c dx + w u′ · ∇c dx + w γ c dΓ
+      dt   Ω                  Ω
+                                                   ZΩ                Ω
+                                                                         Z                Γ
+                                                                                                                           (13)
+                                                 +    σ R(c) u · ∇w dx +     σ p R p (c) u′ · ∇w dx = 0 ,
+                                                     Ω                              Ω
+
+
+
+
+                                                                         9
+where the residuals are defined as
+
+                 ∂c
+       R(c) :=      − ∇ · (D∇c) + u · ∇c ,
+                 ∂t                                                                                                      (14)
+      R p (c) := u · ∇c ,
+                   ′
+
+
+
+and the stabilization parameters σ and σ p are
+
+                           h 
+              h            Pe                  h      |u| h
+       σ :=        min           , 1 where Pe :=           ,
+             2|u|                 3                          2D
+                              ′h                                                                                       (15)
+               h              Pe                           |u′ | h
+      σ p :=                           , 1 where Pe′ h :=          .
+                                               
+                 ′
+                   min         
+             2|u |                 3                           2D
+
+The term R p (c) is a residual in the following sense: if u was the exact divergence-free velocity field, u′ would be
+
+zero, so u′ itself may be considered a residual, hence so is R p (c). Nevertheless, in practice, u′ , 0, and thus it needs
+
+stabilization. Note that this modification is consistent with Eq. 1, in the sense that the solutions to Eq. (1) also satisfy
+
+Eq. (13) when u is solenoidal. In a manner similar to the previously established standard forms, we check the HW
+
+modified advective weak form (13) for conservation. Recalling the identity given in Eq. (10), we can rewrite the
+
+second and third terms of Eq. (13) such that they now read
+
+           Z              Z                Z                  Z                    Z
+      d
+               w c dx +    D ∇ w · ∇c dx +    w ∇ · (cu) dx −    w (∇ · u) c dx +     w u′ · ∇c dx
+      dt   Ω
+                        ZΩ           Z      Ω
+                                                            Z Ω                     Ω
+                                                                                                                         (16)
+                       + w γ c dΓ +      σ R(c) u · ∇w dx +    σ p R p (c) u · ∇w dx = 0 .
+                                                                            ′
+                            Γ               Ω                             Ω
+
+
+Integrating the third term by parts yields
+
+           Z              Z                      Z                         Z   Z                    Z
+      d
+               w c dx +   D ∇ w · ∇c dx −    ∇w · (c u) dx + w c un dx −         w (∇ · u) c dx +         w u′ · ∇c dx
+      dt   Ω                Ω              Ω
+                        Z           Z                      Z Γ                 Ω                      Ω
+                                                                                                                         (17)
+                       + w γ c dΓ +     σ R(c) u · ∇w dx +   σ p R p (c) u′ · ∇w dx = 0 ,
+                            Γ               Ω                             Ω
+
+
+where un := u · n. The boundary term coming from integration by parts disappears since the zero-velocity boundary
+
+condition on u implies u = u = 0 on Γ, which renders the following alternative form of Eq. (13)
+
+           Z              Z                Z                  Z                     Z
+      d
+               w c dx +    D ∇ w · ∇c dx −    ∇w · (c u) dx −    w (∇ · u) c dx +      w u′ · ∇c dx
+      dt   Ω             Ω                  Ω                  Ω                     Ω
+                        Z            Z                      Z                                                            (18)
+                       + w γ c dΓ +      σ R(c) u · ∇w dx +    σ p R p (c) u′ · ∇w dx = 0 .
+                            Γ               Ω                             Ω
+
+
+
+
+                                                                      10
+Conservation of the quantity c is then checked by setting w ≡ 1 in Eq. (18),
+
+            Z             Z                         Z                     Z
+      d
+                 c dx −       (∇ · u) c dx +               u′ · ∇c dx +       γ c dx = 0 ,                         (19)
+      dt     Ω            Ω                            Ω                  Γ
+
+
+which suggests that for the quantity c to be conserved and Eq. (19) to be identical to Eq. (8), the terms containing the
+
+velocity fields must vanish,
+
+      Z                       Z
+            u′ · ∇c dx −           (∇ · u) c dx = 0 .                                                              (20)
+        Ω                      Ω
+
+
+More generally, the following must hold ∀q ∈ H 1 (Ω),
+
+      Z                       Z
+            u′ · ∇q dx =              (∇ · u) q dx .                                                               (21)
+        Ω                         Ω
+
+
+Eq. (21) provides the key relation to ensure conservation of the developed scheme by allowing for the calculation of a
+
+field u′ for any given velocity field u, which may not necessarily be divergence-free.
+
+Remark. The condition Eq. (21) means that u = u + u′ is weakly divergence-free,
+
+      Z
+            ∇ · (u + u′ ) q dx = 0 ,             ∀q ∈ H 1 (Ω) .                                                    (22)
+        Ω
+
+
+To show that the two conditions (21) and (22) are indeed equivalent, we write Eq. (22) as
+
+      Z                           Z
+            ∇ · u q dx = −                ∇ · u′ q dx ,      ∀q ∈ H 1 (Ω) .                                        (23)
+        Ω                             Ω
+
+
+Integrating the right hand side by parts, and imposing u′ = 0 on Γ, results in Eq. (21).
+
+   What remains is how to solve for u′ given a u. We define the fine scale velocity field u′ to be the gradient of a
+
+scalar field φ, such that u′ = ∇φ. Using this assumption in Eq. (21) yields the weak form for the Poisson problem:
+
+find φ ∈ Z := { ϕ ∈ H 1 (Ω) : Ω ϕ dx = 0 } such that
+                              R
+
+
+      Z                       Z
+            ∇q · ∇φ dx =               (∇ · u) q dx ,       ∀q ∈ Z .                                               (24)
+        Ω                          Ω
+
+
+The space Z for ϕ has been chosen so that the compatibility condition is satisfied for the given Poisson problem with
+
+the Neumann boundary condition ∇φ · n = 0 on Γ. Next, we outline the basics of the numerical implementation of the
+
+weak form using IGA.
+
+                                                                                11
+2.3. Numerical discretization and implementation
+
+    For brevity, we focus on the implementation of the HW modified advective form (13), as the advective form (9)
+
+is a simpler version of the HW modified advective form, and the numerical implementation of the conservative form
+
+has already been given in [35]. For the discretization of the weak form (13), we use a backward Euler scheme in time,
+                                                       ∼
+and Galerkin method in space. We define c n = c(x, tn ) where tn is a time instant t0 = 0 < t1 < t2 < ... < tk = T with
+
+uniform time interval ∆t, such that the time-discretized weak form reads
+            Z                            Z                   Z                   Z
+       1
+                w (cn+1 − c n ) dx +      D ∇ w · ∇cn+1 dx +    w u · ∇cn+1 dx +     w u′ · ∇cn+1 dx
+       ∆t   Ω                           Ω                     Ω                    Ω
+                                       Z               Z                         Z                                       (25)
+                                      + w γ c dΓ +
+                                              n+1
+                                                           σ R(c ) u · ∇w dx +
+                                                                n+1
+                                                                                     σ p R p (cn+1 ) u′ · ∇w dx = 0 .
+                                           Γ               Ω                          Ω
+
+
+    For the discretization in space, we use an immersed finite element method [36]. Let V denote the entire MR image
+
+volume. We create an extension of the problem from Ω to V, since Ω ⊂ V, by introducing an indicator function IΩ
+
+constructed directly from the brain volume segmentation, defined as
+
+           
+           
+                    in Ω,
+           
+           1,
+           
+           
+           
+      IΩ = 
+           
+                                                                                                                        (26)
+                    in V \ Ω.
+           
+           
+           0,
+           
+           
+
+
+The immersed formulation introduces discontinuities in the integrands, which are integrated using a quadrature rule
+
+with adaptive refinement on ∂Ω, consisting of two steps: (i) elements intersecting ∂Ω are subdivided n times using
+
+truncated hierarchical B-splines (THB splines) [37, 38], and (ii) the resulting subelements are generated to accurately
+
+capture ∂Ω, as illustrated in Fig. 2. This approach allows the discretization of c to be defined on a mesh over V,
+
+avoiding the need to create boundary-conforming meshes in Ω. This simplifies mesh generation and enables a smooth
+
+discretization over complex brain geometry. Further details on the numerical implementation may be found in [35].
+
+    The concentration c is approximated in a finite-dimensional space W h ⊂ H 1 (V) composed of quadratic THB-
+
+splines constructed on a hierarchically refined mesh on V. Basis functions with no support in Ω are removed from the
+
+discretization. Let {N j (x)} denote the resulting spline basis; then c is written in terms of unknown coefficients {α j } as
+
+                          X
+      c(x, tn ) ≈ cnh =         αnj N j (x) ,                                                                            (27)
+                            j
+
+
+and the weighting function wh ≈ w is taken to be Ni . Thus, the discretized weak form can be written as a system of
+
+
+
+
+                                                                   12
+Figure 2: A schematic representation of a mouse brain geometry and meshing processes. A sample brain geometry is shown together with the
+immersed IGA mesh, truncated hierarchical B-spline (THB-spline) basis functions, and adaptive quadrature refinement [35].
+
+
+equations
+
+                           "                 #                         "            h                                i        #
+       Li j αn+1
+             j   =             Mi j + Misj       αnj    with    Li j := Mi j + ∆t       Ki j + Ai j + A′i j + Hi j       + S ij ,   (28)
+
+
+where the following arrays are defined as,
+
+                   Z
+       Mi j :=              IΩ Ni N j dx ,
+                  ZV
+       Ki j :=             IΩ D ∇ Ni · ∇N j dx ,
+                  ZV
+       Ai j :=             IΩ Ni (u · ∇N j ) dx ,
+                  ZV
+       A′i j :=            IΩ Ni (u′ · ∇N j ) dx ,                                                                                  (29)
+                    V
+                   Z
+       Hi j :=             γ Ni N j dΓ ,
+                   ZΓ
+       Misj :=       IΩ (σu · ∇Ni ) N j dx ,
+                       V
+                          "Z                  h                       i     Z                                 #
+       S i j := Mi j + ∆t
+                  s
+                               IΩ (σ u · ∇Ni ) u · ∇N j − ∇ · (D∇N j ) dx +   IΩ (σ p u · ∇Ni ) (u · ∇N j ) dx .
+                                                                                       ′          ′
+                                      V                                                                V
+
+
+Assuming we know u, we can solve for φ in Eq. (24) to find the velocity field component u′ . We discretize q h ≈ q by
+
+Ni and φ h ≈ φ by j φ jh N j , so that ∇φ h = j φ jh ∇N j , to obtain the system
+                 P                           P
+
+       Z                                     Z
+               ∇Ni · ∇N j dx φ jh =                  (∇ · u) Ni dx .                                                                (30)
+           Ω                                     Ω
+
+                                                                               13
+Eq. (30) can also be written as the linear system
+
+
+        κi j φ jh = fi ,                                                                                             (31)
+
+
+where
+                  Z
+        κi j :=           ∇Ni · ∇N j dx ,
+                  ZΩ                                                                                                 (32)
+         fi :=            (∇ · u) Ni dx .
+                      Ω
+
+
+Thus, given a field u, the corresponding field u′ = ∇φ h =          j φ j ∇N j can be found by solving the linear system
+                                                                        h
+                                                                P
+
+in Eq. (31) for φ h . The velocity field u would come from one of a variety of sources such as the direct output of
+
+experimental data, the output of numerical simulations with the Navier-Stokes equations (in which case u may not
+
+be pointwise solenoidal) or by solving the inverse problem for a set of experimental data. Section 3 deals with this
+
+question and proposes an inverse modeling framework to solve for u, along with the other unknown parameters in the
+
+model.
+
+
+3. Reconstruction of a divergence-free velocity field from image data
+
+   This section formulates the inverse problem of reconstructing a divergence-free velocity field from image data.
+
+Section 3.1 details the experimental image data utilized in this work and the various constraints inherent to these
+
+datasets. Section 3.2 presents the mathematical framework for solving for the velocity field, along with the other
+
+unknown transport fields (diffusion and clearance), within the previously established finite element environment.
+
+Finally, Section 3.3 describes the numerical implementation of the inverse problem.
+
+
+3.1. Experimental image data and inverse model definition
+
+   In our previous work [35], the diffusivity field was derived from the Apparent Diffusion Coefficient (ADC) map
+
+obtained via Diffusion-Weighted MRI (DW-MRI) of the brain. Furthermore, the clearance parameter was set to zero
+
+on the cranial boundary and non-zero elsewhere. Due to the lack of CE-MRI data, the advective field in [35] was
+
+also derived from available DW-MRI data. In this study, we infer these unknown fields, in particular the advective
+
+field, using CE-MRI data obtained from our own tracer experiment. In the experiment, a soluble tracer is injected
+
+into the cerebrospinal fluid (CSF) pathways of the mouse brain through the cisterna magna. The tracer appears at an
+
+intensity higher than that of the surrounding tissue in MR images, allowing its distribution to be tracked over time as it
+
+travels through the CSF and is cleared from the brain, acting as a surrogate for metabolic waste products. The subject
+
+                                                           14
+is imaged before tracer injection and then at five-minute intervals over several hours post-injection. This produces a
+
+pre–contrast baseline image and a sequence of post-contrast images that captures the dynamic transport and clearance
+
+of the tracer through the glymphatic system. Fig. 3 plots the normalized total tracer intensity at each imaging instance
+
+throughout the experiment. The tracer is injected at time t = 5 mins, producing an initial spike in total signal as the
+
+tracer enters and rapidly fills fluid-filled areas of the brain. Representing the data in this form makes it possible to
+
+identify the time window relevant to glymphatic clearance sufficiently removed from the perturbations to the system
+
+caused by the injection. Glymphatic clearance occurs in the highlighted orange window, where a clear decline in
+
+signal intensity is observed. A subset of the data points in this region, indicated by the green box, is initially selected
+
+for calibration of the unknown parameters, while the remaining points in the orange window are used for validation.
+
+A formal sensitivity analysis regarding the optimal subset and number of calibration points is beyond the scope of the
+
+present study and remains a subject for future investigation. In this work, a five-step calibration window was selected
+
+to ensure that the model (i) captures a sufficient range of clearance without having to deal with overfitting, and (ii)
+
+does not rely on too few data points that it only captures transient or noise-induced behavior.
+
+
+
+
+Figure 3: Normalized total tracer intensity vs. time at each imaging instance of the experiment. The orange box highlights data relevant to the
+glymphatic clearance window. The green box highlights the calibration dataset used in the inverse approach.
+
+
+
+
+                                                                     15
+3.1.1. A finite difference approach
+
+    A common approach for solving the governing PDE in Eq. (1) is to discretize it directly using a finite difference
+
+scheme. After discretization, the resulting operators can be inverted to obtain a velocity field from the image data.
+
+The derivatives in Eq. (1) are discretized using central differences in time and space, where the step size for time is
+
+the imaging time interval, ∆t = 5 minutes, and the step size in space is the voxel size of the images, ∆x, ∆y, ∆z = 0.3
+
+mm. Constructing the finite difference scheme yields a set of equations for each voxel that can be solved for each
+
+of the velocity field components. Although straightforward, this approach poses significant challenges when used
+
+with noisy, real-world imaging data. Fig. 4 illustrates the CE-MRI data from a single time point (in coronal, sagittal,
+
+and axial directions), where the blue region indicates the simulation domain Ω of the brain. In this setting, the
+
+velocity is approximated to be proportional to the temporal gradient of the tracer concentration, calculated as the
+
+difference in concentration over a discrete timestep. However, as shown in the right inset of Fig. 4, the inherent noise
+
+and discretization errors in the imaging data render this voxel-wise differencing procedure unreliable. The resulting
+
+checkerboard plot reveals a non-physical, high-frequency noise distribution in the velocity surrogate, characterized by
+
+a lack of spatial coherence at the voxel level.
+
+Coronal                                               Sagittal                                                      t1 = 18
+
+
+
+
+                                                                                                                    t2 = 19
+  (A)                                                   (A)
+
+
+
+Axial
+
+
+                                                                                                                    t1 - t2
+                                                                                                                                             1
+
+                                                                                                                                             0.5
+
+                                                                                                                                             0
+
+                                                                                                                                             -0.5
+ (A)                                                                                        (A)
+                                                                                                                    Normalized intensity diff.
+
+Figure 4: (Left panel) CE-MRI slices (axial, sagittal, coronal) with the domain of interest shown in blue. (Right panel) The zoomed regions at two
+consecutive time points illustrate the very small intensity changes compared to the underlying noise and coarse resolution. The normalized t1 − t2
+map highlights the noise in the data, showing the limitations of using these image data directly for velocity estimation.
+
+                                                                       16
+                       The HW modified approach introduced in Section 2 allows a velocity field obtained through finite differenc-
+
+ing, despite the shortcomings described above, to be used in forward simulations of glymphatic transport within a
+
+concentration-conserving advection–diffusion scheme. The raw velocity field extracted from the image data using
+
+finite differences, u, and its modification under the current approach, u + u′ , are presented in Fig. 5, in insets (A-C)
+
+and (D-F), respectively. In constructing the system of equations to solve for the advection unknowns using finite
+
+differencing, and in the following forward simulations whose results are given in Section 4.1, the diffusivity and clear-
+
+ance parameters are consistent with those in [35], with one key modification: the diffusivity map derived from the
+
+ADC values has been scaled by a factor of 0.3. This scaling reflects a Stokes-Einstein correction accounting for the
+
+molecular weight and size differences between water molecules, whose diffusivity is reported in the ADC of DW-
+
+MRI, and the tracer molecules used in the experiments. The velocity field obtained from finite differencing exhibits
+
+randomly distributed points of high velocity magnitude, as seen in Fig. 5A. Furthermore, the vector field in Fig. 5B
+
+and the divergence of said vector field in Fig. 5C, reveal that the field generated is not divergence free. Contrary to the
+
+incompressibility expected of the flow, the generated velocity field contains multiple spots of significant positive and
+
+negative divergence, which when used in the conservative form of the advection-diffusion equation, results in spuri-
+
+ous, non-physical sinks and sources across the domain. Fig. 5 (D-F) shows the HW modified velocity field u = u + u′
+
+where the velocity field u from inset A has been used in (30) to obtain u′ . Fig. 5D reveals a much smoother field
+
+compared to Fig. 5A due to the corrective approach. The vector map in Fig. 5E and divergence map in Fig. 5F further
+
+confirm that the advection field no longer contains the large sinks and sources introduced by the non-zero divergence
+
+of the original velocity field, and that u = u + u′ is weakly divergence free.
+
+ Original Velocity Field                                                           Modified Velocity Field
+
+                              A         B                                     C                                D   E                          F
+                       0.25                                               1                             0.25                              1
+
+                                                                       0.8                                                             0.8
+  [mm/min]
+
+
+
+
+                                                                                   [mm/min]
+
+
+
+
+                       0.20                                            0.6                              0.20                           0.6
+
+                                                                       0.4                                                             0.4
+
+                       0.15                                            0.2
+                                                                                                                       Divergence of
+
+
+
+
+                                                                                                        0.15                           0.2
+                                                       Divergence of
+  Velocity Magnitude
+
+
+
+
+                                                                                   Velocity Magnitude
+
+
+
+
+                                                                         0                                                               0
+
+                       0.10                                            -0.2                             0.10                           -0.2
+
+                                                                       -0.4                                                            -0.4
+
+                       0.05                                            -0.6                             0.05                           -0.6
+
+                                                                       -0.8                                                            -0.8
+
+                         0                                               -1                               0                              -1
+
+
+
+
+Figure 5: The velocity field obtained through finite differencing is shown here projected onto the brain geometry and the corresponding B-spline
+mesh on a sagittal slice (black arrow indicates the anterior direction). The left half (A–C) shows the original field u: the velocity magnitude in (A)
+contains scattered peaks likely originating from MRI noise and resolution limits, and the corresponding vector field in (B) is clearly not divergence-
+free, with locally irregular directions, as further illustrated by its divergence map in (C), which portrays non-physical sources and sinks throughout
+the domain. The right half (D–F) shows the modified velocity u = u + u′ : (D) the magnitude, (E) the vector field, and (F) the divergence map.
+
+
+                       These findings from Fig. 5 makes it critical to find a novel strategy to infer u without succumbing to the short-
+                                                                                  17
+comings caused by image noise and discretization. This motivates embedding the HW modified approach directly
+
+within the inverse problem, where it can replace the finite-difference-type velocity estimation of u from image data.
+
+Section 3.2 formulates this inverse problem of recovering the unknown model parameters from the available data on
+
+a finite element framework using the HW modified approach.
+
+
+3.2. Formulation of the inverse problem
+
+   The weak-form finite element formulation established for the forward problem provides a natural basis for the full
+
+inverse problem. This variational framework enables the simultaneous recovery of the velocity field u, the diffusivity
+
+field D and the boundary clearance parameter γ directly from the available spatiotemporal data. Thus, the diffusive
+
+and advective fields, D and u, along with the boundary clearance distribution γ, become the unknowns in the inverse
+
+problem. We can discretize the three unknown fields the same way we discretized concentration c in Eq. (27),
+
+                         ncp
+                         X
+      D     ≈D =  h
+                                D jh N j ,
+                          j=1
+                       ncp
+                       X
+      u     ≈ uhk =            uhjk N j      where uk = u · ek ,                                                    (33)
+                         j=1
+                         ncp
+                         X
+      γ     ≈ γh =              γ jh N j ,
+                         j=1
+
+
+
+where ek are the Cartesian unit vectors in R3 . The basis functions N j are the same basis functions used for the spatial
+
+discretization of c, and ncp is the number of control points in the discretization. For convenience, we introduce a
+
+vector-valued basis N∗ constructed from the scalar basis functions,
+
+
+      N∗jk := N j ek ,             j = 1, . . . , ncp , k = 1, 2, 3.                                                (34)
+
+
+This allows us to write the velocity components in a flattened fashion such that
+
+                                                                                               T
+      ūhvec = ūh11     ···      ūhncp 1   ūh12   ···   ūhncp 2   ūh13   ···    ūhncp 3        ∈ R3ncp ,      (35)
+
+
+so that the velocity field can be written compactly as
+
+                  3ncp
+                  X
+      u ≈ uhk =                      ∗
+                         {ūhvec }m Nmk .                                                                           (36)
+                  m=1
+
+
+
+
+                                                                                18
+We can then define a vector of unknowns Θ to collect all the unknown coefficients,
+
+                             
+              Dh                                    Dh := {Dh1 , . . . , Dhncp }t ,
+                          
+                   h 
+      Θ := ūvec                   where           ūhvec := {uh11 , . . . , uhncp 3 }t ,                                                 (37)
+                            
+                       h 
+                        γ                                   γh := {γ1h , . . . , γnhcp }t .
+
+
+Let cΘn := c ( x, t n , Θ ) denote the concentration of tracer at point x ∈ Ω, time t n , as a function of the parameter set
+
+Θ and satisfying Eq. (13). Furthermore, let ĉ n denote the CE-MRI data at time t n . The minimization problem is
+
+then finding the optimal set of parameters Θ ∗ such that the total difference between the computed and experimental
+
+concentration distributions at timestep tk where t ∈ { t1 , ..., tn , ..., tk } is minimized. In other words, we want to find Θ ∗
+
+such that
+
+                                                                                      Z h
+                                                                      1                                         i2
+      Θ = argmin J (Θ)
+           ∗                         k
+                                                where          k
+                                                             J (Θ) :=                       cΘk − ĉ k               dx .                       (38)
+                                                                      2                Ω
+
+
+We solve Eq. (38) by linearizing cΘk about some point Θ ℓ where ℓ is the iteration number,
+
+                                   ∂cΘk
+      cΘk ≈ cΘk ℓ +                          · ∆Θ          where         Θℓ+1 = Θℓ + ∆Θ ,                                                       (39)
+                                   ∂ Θ Θ=Θ ℓ
+
+so that the minimization problem becomes finding Θ ∗ such that
+
+                                                                                                            ∂cΘk
+                                                                                  Z "                                               #2
+                                                                            1
+      Θ ∗ = argmin J k (Θ)                      where        J k (Θ) =                     cΘk ℓ +                    · ∆Θ − ĉ k        dx .   (40)
+                                                                            2         Ω                     ∂ Θ Θ=Θ ℓ
+
+The functional J k (Θ) as given in Eq. (40) attains its minimum when
+
+
+       ∂J k (Θ)                                               ∂c k                                              ∂cΘk
+                                               Z "                                                      #
+                =0                   ⇒                 cΘk ℓ + Θ                  · ∆Θ − ĉ         k
+                                                                                                            ·             = 0,                  (41)
+        ∂∆Θ                                      Ω            ∂Θ        Θ=Θ ℓ
+                                                                                                                ∂ Θ Θ=Θ ℓ
+
+which when rearranged, yields the system
+
+                  ∂cΘk  ∂c k                                                                            ∂cΘk
+      Z "                                 #                          Z "                        #
+                       ⊗ Θ                            dx · ∆Θ =              ĉ   t
+                                                                                      − cΘk ℓ       ·             dx ,                          (42)
+         Ω        ∂Θ    ∂Θ                    Θ=Θ ℓ                     Ω                               ∂ Θ Θ=Θ ℓ
+
+where ∆Θ is the unknown and needs to be solved for, and the remaining quantities can be derived from the forward
+
+problem being solved until timestep k and by differentiating the forward problem with respect to the input parameters
+
+
+
+
+                                                                                                    19
+Θ. The change of the concentration field at the final timestep k with respect to a change in the parameters Θ is
+
+          ∂ cΘk   ∂ (cΘk ) h X ∂ α jk
+                ≈           =         Nj .                                                                                 (43)
+          ∂Θ        ∂Θ        j
+                                ∂Θ
+
+
+To obtain an expression for Eq. (43), we differentiate the discretized system of the forward problem (28) with respect
+
+to Θ,
+
+
+                 ∂ α jn+1       h                 i ∂ α jn       ∂Li j n+1
+          Li j              =       Mi j + Misj              −        α ,                                                  (44)
+                  ∂Θ                                ∂Θ           ∂Θ j
+
+where Li j , Mi j , and Misj have been defined in Eq. (29) and are independent of the solution α j . For simplicity, we
+
+have assumed that the stabilization term S i j is explicit on iterations of the inverse problem, that is S i j := S i j (Θℓ−1 ).
+
+Defining the stabilization terms to be functions of the set of parameters from the previous iteration in this way allows
+                                                                                                  ∂S i j (Θℓ−1 )
+the derivatives of the stabilization terms with respect to the parameters Θ to disappear, with                   = 0. Note
+                                                                                                       ∂Θ
+                                           ∂ αjn+1
+that L and M are of size ncp × ncp , and           is of size ncp × nΘ , where nΘ is the number of elements in Θ. The
+                                             ∂Θ
+                         ∂Li j n+1
+detailed expression for       α     obtained by differentiating the discretized weak form of the forward problem can be
+                         ∂Θ j
+                                                                                  ∂ αn+1
+                                                                                      j
+found in Appendix A. Thus, Eq. (44) presents a linear system to be solved for            at each timestep of the forward
+                                                                                   ∂Θ
+problem.
+
+
+3.3. Numerical implementation
+
+    Fig. 6 provides a flowchart that outlines the solution algorithm for the inverse problem. For each iteration ℓ over
+
+the parameters Θ, we solve the forward system with inputs Θ for t ∈ {t1 , . . . , tn , . . . , tk }, while solving the system in
+                                       ∂α jk                                ∂ (cΘk ) h
+Eq. (44) at each timestep. Solving for       at the final timestep k yields             via Eq. (43). We can then solve for
+                                       ∂Θm                                    ∂Θ
+∆Θ in Eq. (42), which is the update for the parameters for the next step of iteration. Note that evaluating the residual
+
+J k requires projecting the image data onto the same mesh used for the simulation. This is an additional benefit of the
+
+approach adopted here, since projecting the image data onto the B-spline basis provides a natural smoothing effect
+
+and substantially reduces the noise in the image data, while simultaneously ensuring the smoothness of the parameter
+
+fields.
+
+    The inverse problem is solved using a Newton-Raphson scheme implemented in Python using the Nutils li-
+
+brary [39]. We employ quadratic THB-splines, which provide implicit regularization of the image data due to their
+
+C 1 -continuity, filtering noise. Simulations are performed with a fixed time step of ∆t = 5 minutes. Time accuracy
+
+was checked by systematically refining this time step size. Results presented herein represent converged results with
+
+                                                                             20
+                    Inverse Problem                                                        Forward Problem
+
+                  Loop through iteration steps ℓ                                           Loop through time steps
+
+
+
+
+       Solve forward problem with Θℓ for t ∈ {t1, …, tn, …, tk}                         Solve for α n+1 in L α n+1 = M α n
+
+
+                                                                                                       ∂α n   ∂α n+1
+                                                                                             Update         ←
+                                                                                                       ∂Θ ℓ    ∂Θℓ
+                                  ∂(cΘk ℓ)h   ∂αjk
+                      Compute               =      Nj
+                                   ∂Θ   ℓ     ∂Θℓ
+                                                                                           ∂α n+1      ∂α n+1    ∂α n   ∂L n+1
+                                                                               Solve for          in L        =M      −   α
+                                                                                            ∂Θ ℓ        ∂Θ ℓ     ∂Θℓ ∂Θℓ
+                                              1                    ?
+
+                                              2 ∫Ω
+                                      J k:=        |c k − ck̂ |2dx < tol
+                                                                         YES
+       Check stopping criterion
+
+                                    NO                                                         Update α n ← α n+1
+
+                 Update guess Θ l+1 = Θ l + ΔΘ
+                                       l←l+1
+                                      Θ l:= Θ l+1
+                                                                                                            ∂α k
+                                                                                                     αk ,
+                                                                                                            ∂Θℓ
+
+
+
+                                                          Converged with parameters Θ ℓ
+
+
+            Figure 6: Flowchart for the inverse problem of solving for the unknown fields in the glymphatic transport problem.
+
+
+respect to time step size. Given that the expected residual value is dependent on the inherent noise of the experimental
+
+CE-MRI data, convergence of the inverse algorithm is not defined by a fixed tolerance; instead, the solver terminates
+
+when the objective function reaches a stable plateau, indicating that a local numerical minimum has been attained.
+
+The inverse problem is solved on a mesh of initial size [1.0, 1.0, 1.0] mm, which goes through one level of mesh
+
+refinement, and one level of quadrature refinement at the boundaries. The resultant fields of the inverse problem are
+
+then used in the forward problem which is solved on a finer mesh of [0.5, 0.5, 0.5] mm, with one level of uniform
+
+mesh refinement, and two levels of quadrature refinement at the boundaries. The inverse problem is intentionally
+
+solved on a coarser mesh to manage the size of the linear systems solved at each Newton iteration. The dimensions
+
+of the linear systems in the Newton iterations scale rapidly with mesh refinement, significantly increasing the com-
+
+putational cost per iteration, because the unknowns are the B-spline coefficients of the reconstructed fields. Using a
+
+coarser mesh allows for a faster convergence to the numerical minimum while still capturing the essential features
+
+of the velocity field. Even with the coarser mesh, the ncp ≈ 5000, which makes the number of unknown parameters
+
+inferred 5 × ncp ≈ 25000.
+                                                                      21
+4. Numerical results and discussion
+
+   This section presents numerical results demonstrating the performance of the proposed framework in reconstruct-
+
+ing glymphatic velocity fields. In Section 4.1, we demonstrate the utility of the HW-modified approach by performing
+
+forward transport simulations using velocity fields derived directly from experimental data using finite differences.
+
+Subsequently, Section 4.2 presents the ability of the Newton-based inverse algorithm to recover physically consistent
+
+velocity, diffusivity, and clearance parameters from spatiotemporal MRI data.
+
+
+4.1. Forward simulations using finite-difference-derived velocity fields
+
+   This section presents the results of forward simulations of glymphatic transport with the three different methods
+
+outlined in Sec. 2, using the flawed finite-difference velocity fields illustrated in Fig. 5. The clearance conditions
+
+follow those in [35], while the diffusivity is derived from ADC values scaled by a factor of 0.3 via a Stokes-Einstein
+
+relation to account for tracer-specific molecular properties. The initial condition for the forward simulation is the
+
+tracer intensity distribution at time t = 70 minutes of the experiment, projected onto the same mesh. The forward
+
+problem is run for 120 minutes, with 5 minute time intervals.
+
+   Fig. 7A plots a conservation parameter ∆M over simulation time for the conservative, advective, and HW modified
+
+advective methods. We define the parameter ∆M for the conservation of the quantity c to be
+
+                   "Z                    Z                #          Z
+      ∆M(tn ) :=        chn−1 (x) dx −       chn (x) dx       − ∆t       γ chn (x) dS .                             (45)
+                    Ω                    Ω                           Γ
+
+
+This parameter (45) is essentially the time and space discretized version of the fundamental condition for conservation
+
+given in Eq. (8). Note that the conservation parameter ∆M should be zero at all time points. Fig. 7A shows that
+
+∆M , 0 for the advective form, proving that it does not conserve c, whereas the conservative and HW modified
+
+advective forms do. Fig. 7B displays the maximum (solid) and minimum (dashed) concentration values over time for
+
+the three methods. Since there is no source term, and we start with an initial load of tracer, the maximum concentration
+
+is expected to decrease monotonically, until the point where all of it is cleared from the domain at a sufficiently large
+
+time. Similarly, since concentration is a strictly positive quantity, the minimum concentration over the domain over
+
+all time steps is expected to be greater than or equal to zero. The advective and HW modified advective forms display
+
+these physically correct behaviors. For the conservative form which uses the unmodified velocity field u, this plot
+
+quantitatively confirms that positive and negative divergences occur, revealing its unstable nature as simulation time
+
+increases. Running the forward simulations for a longer time, until t = 5760 minutes, the maximum concentration
+
+for the advective and HW modified advective forms reaches zero, as expected. However, the conservative form yields
+
+
+                                                                          22
+unstable results, with the final concentration values over the domain at time t = 5760 minutes ranging between
+
+−1.27 × 1042 and 2.67 × 1039 , clearly indicative of blow-up, as suggested by earlier timesteps in Fig. 7B.
+
+   A 1000                                                                   B 0.12
+                                                                                                 Solid - Max.               Conservative
+         900
+                                                      Conservative
+                                                      Advective                              0.1 Dashed - Min.                         HW Mod. Adv.
+         800
+                                                      HW Mod. Adv.                                                        0.01
+
+                                                                                           0.08
+         700                                                                                                             0.008
+
+                                                                                                                         0.006
+         600                                                                               0.06
+
+
+
+
+                                                                           max c (min c)
+                                                                                                                         0.004
+
+         500
+                                                                                                                         0.002
+    ΔM
+
+
+
+
+                                                                                           0.04
+         400                      Advective                                                                                 0
+
+                                                                                                       Advective                 102    104   106    108
+         300                                                                               0.02
+
+         200
+                                                                                              0
+         100
+                     Conservative                                                          -0.02
+           0
+
+         -100                 HW Mod. Adv.                                                 -0.04
+                0        20       40        60       80    100       120                           0    20       40       60           80           100    120
+                                       t (minutes)                                                                    t (minutes)
+
+Figure 7: Calculated values for conservation using Eq. (45) vs. time (inset A) and maximum and minimum concentration over the whole domain
+vs. time (inset B). Inset A shows that the advective form does not conserve c, while the conservative and modified advective forms do. Inset B
+shows that the conservative form causes positive and negative instabilities in the concentration field.
+
+
+    The agreement of the results of the three methods using the finite difference derived velocity field with experi-
+
+mental data is shown in Fig. 8. The simulation results for the three methods is displayed at time t = 90 minutes,
+
+together with the segmented CE-MRI data projected onto the computational mesh at the same time. The relative error
+
+between the predicted concentration distribution c n at timestep n, and expected concentration distribution (CE-MRI)
+
+ĉ n is shown below each figure, where the relative error is defined as
+
+                    R h             i2
+                    Ω
+                          chn − ĉ n dx
+         εrel
+           n
+              =         R h i2          .                                                                                                                   (46)
+                             ĉ n   dx
+                         Ω
+
+
+The error is highest for the conservative form, which again exhibits some negative areas of concentration and pro-
+
+nounced areas of accumulation (dark red areas). This is expected because even though the method conserves the
+
+quantity c, the divergence of the uncorrected velocity field u creates sinks and sources in the domain. The HW modi-
+
+fied advective form provides the closest agreement with the experimental data among the three methods. This finding
+
+is significant since it shows that the HW modified advective form works well even when a velocity field obtained
+
+through finite-differences is taken as the experimentally obtained velocity field u.
+
+                                                                       23
+         Tracer distribution at t = 90 mins
+
+                                         Conservative Form           Advective Form               HW Mod. Adv. Form      MRI
+                                  3000
+
+
+                                  2500
+      Tracer Concentration [nM]
+
+
+
+
+                                  2000
+
+
+                                  1500
+
+
+                                  1000
+
+
+                                   500
+
+
+                                     0
+                                          JI = 1.801                  JII = 0.244                 JIII = 0.224           Reference
+
+
+Figure 8: Simulation results for the three methods at time t = 90 minutes, alongside CE-MRI data projected onto the computational mesh at the
+same time point. Arrow indicates anterior direction. Quantities at the bottom show relative error between simulated tracer concentration and image
+tracer concentration at t = 90 minutes, calculated by (46).
+
+
+
+
+    In summary, the conservative form results in a scheme that conserves c, but is unstable in the long run due to
+
+its spurious sinks and sources in the domain, whereas the advective form provides long-term stability, but lacks
+
+conservation. We have demonstrated that the HW modified advective form ensures conservation, and yields the most
+
+accurate and physically consistent results for using image-derived velocity fields in solving the advection diffusion
+
+equation. The three approaches are summarized in Table 1.
+
+     Method                                               Advective Term                              Conservation       Long-Term Stability
+                                                          Z
+     Conservative                                           w ∇· (cu) dx                                     ✓                       X
+                                                            Ω
+                                                          Z
+     Advective                                                  w u·∇c dx                                    X                       ✓
+                                                            Ω
+                                                          Z                    Z
+     HW Mod. Advective                                          w ū·∇c dx +        w u′ ·∇c dx              ✓                       ✓
+                                                            Ω                  Ω
+
+
+                                                       Table 1: Summary of the behavior of three different approaches.
+
+
+
+
+4.2. Inverse reconstruction of unknown fields and forward validation
+
+    Given the promise of the HW modified approach, we embed this formulation directly within an inverse problem
+
+framework to infer the velocity field u. This strategy replaces finite-difference estimation with a finite element-based
+
+inversion that better captures the underlying physics of the experimental observations. For brevity, the implementation
+
+of the inverse problem with the alternative two methods is not included here. The advective, diffusive and clearance
+
+fields obtained by running the inverse problem minimization algorithm outlined in Sec. 3.2 are shown in Fig. 9.
+
+Here, the calibration is done over the five timepoints shown in Fig. 3, and the initial conditions for the three fields
+                                                                                        24
+have been selected based on literature values for the advective and clearance fields, and a scaling of the ADC map.
+
+Once the residual remains unchanged over several successive iterations, as illustrated in Fig. 9A, the optimization is
+
+stopped. Fig. 9B shows a mid-sagittal slice of the converged fields. The top row displays the obtained CSF velocity
+
+field, with the magnitudes (left) and vector map (right). The inferred fields exhibit three key features consistent with
+
+glymphatic clearance. First, compared with the velocity fields obtained in the previous section in Fig. 5, the velocity
+
+field here displays significant improvements, with peak velocities now appearing along the brain’s inferior edges,
+
+where clearance is expected to be the highest [21]. Second, the vector field displays physically realistic, divergence-
+
+free flow patterns with vortices forming around major ventricles. Third, the inferred diffusivity and clearance maps
+
+are consistent with the expected physics and assumptions related to the problem: (i) clearance is negligible along the
+
+superior skull boundary, and (ii) clearance is significantly elevated near the base of the brain, which aligns with the
+
+findings reported in [35].
+
+
+      A                 0.018
+                                                                B
+                                                                    CSF Velocity Mag. [mm/min]
+
+
+
+
+                                                                                                    0.014
+                                                                                                    0.012
+                        0.016                                                                       0.010
+                                                                                                    0.008
+                                                                                                    0.006
+                        0.014                                                                       0.004
+                                                                                                    0.002
+        Residual ( J)
+
+
+
+
+                        0.012
+                                                                                                                 Clearance Parameter [mm/min]
+                                                                     Tracer Diffusivity [mm2/min]
+
+
+
+
+                                                                                                                                                0.010
+                        0.010                                                                       0.012                                       0.009
+                                                                                                    0.010                                       0.008
+                                                                                                                                                0.007
+                                                                                                    0.008                                       0.006
+                                                                                                    0.006                                       0.005
+                        0.008
+                                                                                                                                                0.004
+                                                                                                    0.004                                       0.003
+                                                                                                    0.002                                       0.002
+                                                                                                                                                0.001
+                        0.006
+                                0   2   4     6 8 10 12 14 16
+                                            Iteration no.
+
+
+
+Figure 9: Panel A shows how the residual J k as defined in Eq. (38) changes over iteration steps ℓ until a minimum is reached. Panel B displays
+the converged advective (top), diffusive (bottom) and clearance (bottom) fields. Arrow indicates anterior direction. The boxed quantity in Panel B
+carries the L2 norm of the divergence of the converged advective field, normalized by the volume of the domain V.
+
+
+    The sensitivity of the results in Fig. 9 to the initial conditions are shown in Fig. 10, which displays the residual
+
+trajectory (inset A) and corresponding inferred fields (inset B) obtained with varying initial conditions (ICs). Each
+
+curve corresponds to a complete run of the inverse model in which the initial guess for the indicated field was scaled
+
+
+                                                                                                            25
+by a factor of 10, while the remaining parameters were held at their baseline values. For example, the “Diffusion IC
+
+x 10” curve shows the residual plot for the optimization where the diffusion initial condition used in Fig. 9 was mul-
+
+tiplied by 10, and the advection and clearance initial conditions remained unchanged. The corresponding converged
+
+diffusion field, shown in the labeled inset of Fig. 10B, is representative of the results obtained across all tested ini-
+
+tial conditions. Notably, the converged fields remain nearly identical regardless of the starting point, exhibiting only
+
+negligible variations. This stability is further evidenced by the residual trajectories in Fig. 10, which exhibit nearly
+
+complete overlap. Collectively, these observations suggest that the developed method is insensitive to perturbations
+
+in the initial conditions, provided they remain within the broad vicinity of the physically-informed values originally
+
+selected.
+
+                A 0.020                                    Diffusion IC. x 10
+                                                                                     B                                         Orig. ICs.     Adv. IC. x 10
+                                                           Advection IC. x 10
+                                 0.018                     Clearance IC. x 10
+                                                           Original ICs.                                            0.013
+                                                                                                                    0.012
+                                 0.016
+                                                                                                                    0.011
+                                                                                     Tracer Diffusivity [mm2/min]
+
+
+
+
+                                                                                                                    0.010
+                                                                                                                    0.009
+                 Residual ( J)
+
+
+
+
+                                 0.014
+                                                                                                                    0.008
+                                                                                                                    0.007
+                                 0.012                                                                              0.006   Diff. IC. x 10   Clear. IC. x 10
+                                                                                                                    0.005
+                                                                                                                    0.004
+                                 0.010
+                                                                                                                    0.003
+                                                                                                                    0.002
+
+                                 0.008                                                                              0.001
+
+
+
+                                 0.006
+                                         0   2   4   6     8    10 12    14     16
+                                                         Iteration no.
+
+
+Figure 10: Panel A shows how the residual J as defined in Eq. (38) changes over iteration steps ℓ until a minimum is reached, for each run of
+the inverse problem with varying initial conditions (ICs). Panel B has the diffusivity field obtained with the four different initial conditions: with
+original ICs (top-left, same as Fig. 9), with advective ICs scaled by a factor of 10 (top-right), with diffusion ICs scaled by a factor of 10 (bottom-left)
+and with clearance ICs scaled by a factor of 10 (bottom-right). Arrow indicates anterior direction.
+
+
+
+
+4.2.1. Comparison with experimental CE-MRI data
+
+    Fig. 11 compares the forward simulation results generated using the inferred fields from Fig. 9 against the inde-
+
+pendent experimental validation set. The initial condition at t = 0 for the tracer distribution in the forward problem
+
+is the normalized tracer intensity from the first MRI acquisition time point, as illustrated within the region of interest
+
+in Fig. 3. Fig. 11 displays the CE-MRI data projected onto the computational mesh in the top row, at the designated
+
+timepoints in each column, until t = 85 minutes. The bottom three rows display the simulated tracer distributions at
+
+                                                                                           26
+each timestep on mid-sagittal, mid-coronal, and mid-axial slices of the brain geometry. A qualitative comparison of
+
+the final timestep, specifically along the mid-sagittal plane, reveals strong agreement between the experimental obser-
+
+vations and the simulation results. Most importantly, the simulation captures the locations of both tracer accumulation
+
+and non-accumulation, as well as the relative intensity levels observed in those regions.
+
+    Finally, Fig. 12 provides a quantitative comparison of the experimental data and simulation results. The plot shows
+
+the relative error at each timestep n calculated via (46), and highlights the region corresponding to the calibration data
+
+to demonstrate that the calibration data is a small subset of the whole set. The error increases as the simulation
+
+progresses, which is expected due to the diffusive nature of the problem, however; the highest error remains at 0.1,
+
+which is much lower than any of the finite-difference results shown in Fig. 8. The right inset shows 3D views of the
+
+brain geometry and the concentration distribution at t = 90 minutes, showing that the obtained results look physical
+
+all throughout the domain. The results combined demonstrate the utility of the approach outlined in this work and its
+
+ability to accurately capture the underlying physics of image data.
+
+                                  t = 5 min          t = 25 min             t = 40 min             t = 65 min             t = 85 min
+         CE-MRI
+
+
+
+
+                       Mid-
+                      Sagittal
+
+
+
+
+                       Mid-
+                      Sagittal
+         SIMULATION
+
+
+
+
+                       Mid-
+                      Coronal
+
+
+
+
+                      Mid-Axial
+
+
+
+
+Figure 11: Qualitative comparison of the experimental data and forward simulation results obtained using converged fields from the HW modified-
+inverse approach. Top row corresponds to experimental CE-MRI images of the selected window, projected onto the B-spline mesh used for the
+numerical implementation. Bottom three rows display simulation results from three different slices of the brain. Here, arrows indicate the anterior
+direction.
+
+
+    Fig. 12 shows that the error in the simulation results approximating the experimental behavior increases with
+
+                                                                       27
+                        0.1
+                                                                                     3D - Top View                                                        3D - Bottom View
+                       0.09                                                          t = 90 mins.                                                               t = 90 mins.
+
+                       0.08
+
+                       0.07
+
+                       0.06
+      Relative Error
+
+
+
+
+                       0.05
+
+                       0.04
+
+                       0.03                      Calibration Window
+
+                       0.02
+                                                                                                     (S)                                                            (S)
+                                                                                                                                                              (R)
+                       0.01                                                                                 (A)
+                                                                                                           (R)                                                (A)
+                         0
+                              0   10   20   30    40    50     60     70   80   90       0                   0.2           0.4           0.6            0.8               1.0
+                                                 Time (min.)                                                       Normalized Tracer Signal Intensity
+
+
+
+Figure 12: Quantitative comparison of experimental data and forward simulation results obtained using the converged fields from the HW modified-
+inverse approach (left). Relative error is calculated from Eq. (38), normalized with the total image concentration at each step. 3D views of the
+concentration distribution at t = 90 minutes are shown on the right. Coordinate directions (A: anterior, S: superior, R: right) are indicated.
+
+
+simulation time. This result is expected, because the calibration is performed over the indicated orange window of
+
+five time points. This means that the parameter fields are chosen to best approximate the result of a five-step forward
+
+run, compared to the experimental data at the last timestep of that window.
+
+    While this approach demonstrates the predictive capability of the framework, it remains to be determined whether
+
+calibrating the model against the full experimental dataset would yield superior results. This is of particular importance
+
+for future work incorporating amyloid plaque formation, a key pathological feature that will be essential for extending
+
+this inverse framework to neurodegenerative disease models.
+
+
+4.2.2. Sensitivity of inference on calibration window
+
+    Fig. 13 shows the results of running the inverse algorithm using all the data points in the glymphatic clearance
+
+window shown in Fig. 3, which constitute of 17 timesteps in total. Fig. 13A presents a higher floor for the values of
+
+the residual J k compared to those in Fig. 9. This stems from the requirement to identify a consistent set of advection,
+
+diffusion, and clearance fields that can simultaneously match the experimental data across all time points, a task
+
+significantly more difficult than matching any five-point subset. The converged fields in Fig. 13 exhibit a spatial
+
+profile more closely aligned with physiological expectations compared to those in Fig. 9. Specifically, the advective
+
+field obtained using all the time points in the clearance window is more active around the base of the brain, where most
+
+clearance activity is assumed to take place. Furthermore, the velocity maintains a divergence of similar order, ensuring
+
+the field remains weakly divergence-free. We observe more distinct patterns in the clearance field, and a more subtle
+
+diffusion field. This indicates that as we widen the window for calibration, the influence of the diffusive field decreases
+
+while the advective field becomes more dominant in certain regions of the brain. Nevertheless, it should be noted that
+
+the transport remains diffusion-dominated across all calibrations, even as advective effects become more pronounced
+
+                                                                                        28
+in certain regions. This is further supported by solving the inverse problem for a family of models consisting of
+
+the full formulation in Eq. (13), a diffusion-only model, and an advection-only model. The diffusion-only model
+
+produced reconstructed fields and forward results comparable to the full model, except for its inability to capture
+
+sharper features at earlier timesteps. In contrast, the inverse solver for the advection-only model failed to converge
+
+to any solution in the vicinity of those obtained for the other models, indicating that advection alone is insufficient
+
+to reproduce the observed transport. All these findings together suggest that both advective and diffusive transport,
+
+acting at different scales, play significant roles in glymphatic clearance.
+
+
+       A                0.18
+                                                                 B
+                                                Calib. All TPs
+                                                                     CSF Velocity Mag. [mm/min]
+
+
+
+                                                                                                     0.014
+
+                        0.16                                                                         0.012
+                                                                                                     0.010
+                                                                                                     0.008
+                        0.14                                                                         0.006
+                                                                                                     0.004
+                                                                                                     0.002
+        Residual ( J)
+
+
+
+
+                        0.12
+
+
+
+                        0.10
+                                                                                                                  Clearance Parameter [mm/min]
+                                                                      Tracer Diffusivity [mm2/min]
+
+
+
+
+                                                                                                                                                 0.010
+                                                                                                     0.012                                       0.009
+                        0.08                                                                         0.010                                       0.008
+                                                                                                                                                 0.007
+                                                                                                     0.008                                       0.006
+                                                                                                     0.006                                       0.005
+                        0.06                                                                                                                     0.004
+                                                                                                     0.004                                       0.003
+                                                                                                     0.002                                       0.002
+                                                                                                                                                 0.001
+                        0.04
+                               0   2   4   6 8 10 12 14 16 18
+                                           Iteration no.
+
+
+
+Figure 13: Panel A shows how the residual J k as defined in Eq. (38) changes over iteration steps ℓ until a minimum is reached, using the whole
+set of glymphatic clearance data for the calibration. Panel B displays the converged advective (top), diffusive (bottom left), and clearance (bottom
+right) fields obtained from this calibration. Arrow indicates anterior direction. The boxed quantity in Panel B carries the L2 norm of the divergence
+of the converged advective field, normalized by the volume of the domain V.
+
+
+    Fig. 14 presents the forward-run for the previous calibration using five timepoints, together with the new calibra-
+
+tion results using all timepoints, which converged to the fields in Fig. 13. The graph plots the relative total error at
+
+each timestep between the simulated and experimental data. Clearly, using the full range of data for calibration results
+
+in a better match between simulations and experimental data, especially at later time points, with the total error at
+
+the final time point being almost 20% lower than before. This improvement is also visible qualitatively in Fig. 14;
+
+the simulation that uses the calibrated data from all timepoints is significantly better at capturing certain peaks in the
+
+data, and remains noticeably less diffused as time progresses. The transport dynamics near the injection site are also
+
+captured more accurately, since the calibration now includes timepoints closer to the injection. However, this is not
+
+                                                                                                             29
+necessarily desirable since the tracer injection represents a disturbance to the natural system, and it is the undisturbed
+
+system that we are trying to capture.
+                        0.1
+                                       Calib. All TPs
+                       0.09            Calib. 5 TPs
+
+                       0.08
+
+
+                       0.07
+
+
+                       0.06
+      Relative Error
+
+
+
+
+                       0.05
+
+
+                       0.04
+
+
+                       0.03
+
+
+                       0.02
+
+
+                       0.01
+
+
+                         0
+                              0   10    20   30   40    50   60   70   80   90
+                                              Time (min.)
+
+
+
+Figure 14: Quantitative and qualitative comparison of experimental data and forward simulation results obtained using the converged fields from
+the HW modified inverse approach, for two calibration strategies: using all the timepoint data for calibration, and using a subset of 5 timepoints
+for calibration. The plot shows the relative error over time, computed from Eq. (38) and normalized with the total image concentration at each
+step, using either all time points or a reduced set of five calibration points. Table compares the experimental CE-MRI data (top row) with the
+corresponding simulations obtained from the five-point calibration (middle row) and the full-time-point calibration (bottom row). Each column
+corresponds to a different imaging time within the selected window. Tracer concentration is shown in normalized units
+
+
+    A closeup of the final timestep is shown in Fig. 15. Comparing the two calibration strategies against the experi-
+
+mental data, we again observe that the simulation using all timepoints captures contours and patterns more accurately
+
+than the five-point calibration. Overall, using more timepoints has the advantage of (i) reducing the overall error
+
+across all timesteps, and (ii) producing less diffusive results better capturing sharp features. However, using all time
+
+points in the clearance window requires solving a longer forward problem at each inverse iteration, which increases
+
+the computational cost. Furthermore, for problems where the initial conditions are harder to determine or lack a clear
+
+physical interpretation, widening the calibration window may make convergence more difficult, since the choice of
+
+initial guess may not be equally suitable for both short and long windows. Finally, it should be noted that the glym-
+
+phatic flow considered here is a slow flow, where transport dynamics occur over hours rather than seconds or minutes,
+
+as in faster flows such as blood circulation. Thus, the assumption that the inferred fields are time-independent has a
+
+physical basis, and using more time points for calibration does not violate this assumption. For flows that are expected
+
+to change significantly over the calibration window, however, widening the calibration window may not necessarily
+
+produce better results, and care must be taken in choosing a physically-motivated calibration interval.
+
+    This proposed inverse modeling framework can easily be applied to the alternative two methods outlined in Sec. 2,
+
+whose results are not presented here to avoid diverting the discussion. Using the inverse problem with the conservative
+
+or advective method yields results comparable to the HW modified advective inverse approach when appropriate
+
+                                                                                 30
+                                                        t = 85 mins
+
+
+
+
+                                                                                  CE-MRI
+
+
+
+
+                                                                              Calib. 5 TPs
+
+
+
+
+                                                                             Calib. All TPs
+
+
+
+
+                                                         Normalized Tracer Concentration
+
+Figure 15: Close-up comparison of tracer concentration fields at the final time point (t = 85 min). The experimental CE-MRI data (top) is compared
+with forward simulations obtained using the five-point calibration (middle) and the full-time-point calibration (bottom). Insets highlight selected
+regions to emphasize local differences between experimental and simulated fields for different calibration sets. Tracer concentration is shown in
+normalized units.
+
+
+measures are taken to ensure stability, however the HW modified advective inverse approach still renders the best
+
+overall match to experimental data. Furthermore, in terms of the physicality and the biological interpretability of the
+
+results, the HW modified advective inverse approach is found to be far superior.
+
+
+4.2.3. Localized boundary efflux vs. global metrics of clearance
+
+    Consensus on clearance definitions and values remains elusive in the current literature, characterized by notable
+
+discrepancies across experimental and computational studies. In experimental settings, a global clearance rate k
+
+(1/min) is typically derived from the time evolution of total tracer mass in the domain. As an emergent, state-dependent
+
+quantity that treats the brain as a uniform sink, k is inherently sensitive to the instantaneous spatial distribution and
+
+the initial injection site of tracer, which complicates direct comparisons between subjects or studies. In glymphatic
+
+transport models, a volumetric reaction term (rc) is often added to the strong form (1) to account for clearance [22, 23].
+
+Here, r (1/min) denotes a local reaction rate representing the absorption or appearance of the tracer; however, the
+
+specific biological mechanism this term is meant to represent remains physically ambiguous within the context of
+
+tracer experiments. Physiologically, r represents trans-vascular efflux where tracer is assumed to disappear into the
+
+local capillary bed via the blood-brain barrier (BBB) at every point in the tissue [40]. Thus, in a comprehensive model
+
+of the transport of metabolic waste (e.g. amyloid), this term would account for local receptor-mediated absorption into
+
+                                                                       31
+the bloodstream. However, this volumetric representation does not align with the transport dynamics of our specific
+
+tracer experiment model. In our mouse study, the tracer is administered via the cisterna magna, providing direct
+
+access to the cerebrospinal fluid pathways while largely bypassing the BBB [4]. We therefore assume volumetric
+
+effects are negligible in this context and instead characterize clearance as a predominantly surface phenomenon using
+
+a Robin-type boundary condition (2), thereby explicitly capturing the surface-dominated efflux occurring at the dural
+
+interfaces.
+
+    The spatially varying clearance parameter γ (mm/min) in our Robin-type boundary condition represents the local
+
+solute permeability (or “conductance”) of the brain’s outer membranes to the tracer. Physically, γ provides a mecha-
+
+nistic measure of the solute efflux capacity, quantifying the ease with which metabolic waste can physically exit the
+
+parenchyma into the lymphatic pathways for further drainage [41]. Thus, the clearance parameter γ characterizes an
+
+intrinsic physical property of the drainage anatomy. By inferring the spatially varying values of γ from CE-MRI
+
+data, we can gain insight into locations of high and low drainage, distinguishing between largely "insulated" superior
+
+surfaces and "porous" inferior drainage hotspots. This is clearly seen in our results for the spatially resolved γ field,
+
+shown in Fig. 16 (right), which suggests that high-clearance regions are concentrated in the inferior brain and neck.
+
+This aligns with known anatomical exit routes, such as the cribriform plate and cranial nerves [42], and reflects the
+
+physical capacity of specific drainage pathways.
+                               0.0080
+                                                                                          3D - Top View                                                         3D - Bottom View
+
+
+                                                                                                                                                                                  (boundary)
+       (1/min.)
+
+
+
+
+                               0.0075
+
+
+
+                               0.0070
+       Global clearance rate
+
+
+
+
+                               0.0065
+
+
+
+                               0.0060
+                                                                                                          (S)                                                               (S)
+                                                                                                                                                                      (R)
+                                                                                                                 (A)
+                                                                                                                (R)                                                   (A)
+                               0.0055
+                                     0   10   20   30   40     50     60   70   80   90
+                                                                                               0      0.002              0.004   0.006       0.008    0.010   0.012     0.014 0.015
+                                                        Time (min.)                                                    Clearance Parameter           on   (mm/min)
+
+
+                                                                                                                                     n , calculated
+Figure 16: Comparison of emergent clearance rates and intrinsic boundary permeability. (Left) The effective global clearance rate keff
+via Eq. (47), demonstrates a clear time-dependence as the tracer’s spatial distribution evolves during the forward simulation. (Right) The inferred
+spatial distribution of the clearance parameter γ(x) (mm/min) on the brain boundary Γ. Superior and inferior views reveal localized clearance
+“hotspots” in the brainstem and neck regions. Unlike the time-varying global rate, γ represents an intrinsic, state-independent property of the
+drainage pathways. Coordinate directions (A: anterior, S: superior, R: right) are indicated.
+
+
+    For completeness, and to facilitate comparison with existing works, we note that the present framework can also
+
+
+
+
+                                                                                             32
+yield an equivalent global rate of clearance, keff at any timestep tn ,
+
+                    γ cnh (x) dΓ
+               R
+       n
+      keff =   RΓ                  .                                                                                  (47)
+                    cn (x) dx
+                   Ω h
+
+
+In (47), the numerator represents the total efflux rate (nM mm3 /min) accross the boundary Γ (total amount of tracer
+
+leaving the domain per unit time) at timestep tn , while the denominator represents the total integrated tracer mass
+
+within the domain Ω at timestep tn , with units of nM mm3 . Their ratio defines keff
+                                                                                 n
+                                                                                     as a scalar rate with units of
+
+1/min. Fig. 16 illustrates this global clearance rate alongside the inferred 3D map of the clearance parameter γ.
+
+While the derived quantity keff is a transient metric that evolves based on the tracer distribution, the spatial map of γ
+
+provides a time-invariant, image-inferred signature of the subject’s clearance architecture. Unlike global rates that are
+
+sensitive to the instantaneous concentration field, and thus the specific tracer injection site, γ represents a mechanistic
+
+quantity independent of the tracer’s spatiotemporal state, offering a more robust basis for physiological interpretation
+
+and cross-subject comparison. Note, while γ is treated as a time-invariant parameter in this study consistent with the
+
+stable anatomical state of the brain during a 90-minute imaging session, the framework is mathematically extensible
+
+to time-varying fields. Such an extension would be pertinent for modeling transient physiological events, such as the
+
+circadian fluctuations known to influence glymphatic flux [43].
+
+
+5. Conclusion
+
+    We have presented a modified formulation of the advection–diffusion equation that preserves conservation when
+
+used with experimentally obtained non-solenoidal advective fields. The framework is based on an additive decom-
+
+position of the velocity, which constructs a corrective component for a given, non-physical velocity field obtained
+
+from experimental data or auxiliary simulations. This forward formulation is advantageous in applications where the
+
+provided velocity field is prescribed directly and may not satisfy the divergence-free condition inherent in incom-
+
+pressible flow. The accompanying inverse problem framework allows the unknown, physically grounded transport
+
+fields to be recovered from experimental data using Newton iterations. Within this framework, not only the advective
+
+field but also other transport parameter fields, such as diffusion and clearance, can be simultaneously inferred. The
+
+additive decomposition, together with an IGA implementation on B-spline bases, provides a natural mechanism for
+
+field regularization and for mitigating the effects of image noise. Consequently, the recovered velocity fields weakly
+
+satisfy the divergence-free condition, yielding stable and physically consistent transport predictions. While this study
+
+is focused on glymphatic clearance and its potential links to neurodegenerative diseases such as Alzheimer’s disease,
+
+the methodology remains broadly applicable to biological systems where incompressible flow must be inferred from
+
+                                                             33
+experimental imaging. Future work will focus on refining the selection of calibration data, exploring the effects of
+
+time-varying parameter fields, and incorporating amyloid plaque formation into the reconstruction to predict long-
+
+term deposition patterns, which is accommodated by the model we have presented in [35].
+
+
+Acknowledgments
+
+   Research reported in this publication was supported by the National Institute on Aging (NIA) of the National
+
+Institutes of Health (NIH) under Award Number R21AG080207.
+
+
+
+
+                                                        34
+Appendix A. Derivation of inverse operators
+
+    The details of the terms involved in solving the inverse problem are given here. We can obtain an expression for
+∂Li j n+1
+     α    by defining the derivatives of each operator in Li j with respect to the parameters in Θ,
+∂Θ j
+
+      ∂Li j n+1
+                    "
+                      ∂Ki j   ∂Ai j   ∂A′i j   ∂Hi j
+                                                     #
+           α j = ∆t         +       +        +         α jn+1 .                                                                   (A.1)
+      ∂ Θm            ∂ Θm ∂ Θm ∂ Θm ∂ Θm
+
+Since the advection, diffusion, and boundary clearance operators act independently, each operator has nonzero deriva-
+
+tives only with respect to its own parameter set in Θ. This allows us to reconstruct Eq. (A.1) as
+
+      ∂Li j n+1                ∂Ki j                ∂A′i j                )t
+                                     n+1 ∂Ai j              n+1 ∂Hi j n+1
+                           (
+           α    = ∆t                α ,        α ,
+                                                n+1
+                                                           α ,       α       .                                                    (A.2)
+      ∂ Θm j                   ∂ Dmh j   ∂ umh j    ∂ umh j     ∂ γmh j
+
+Using the definitions of the operators given in Eq. (29), together with the discretization definitions of the unknown
+
+fields (33), we obtain expressions for the derivatives of each operator. The derivative of the diffusion operator Ki j with
+
+respect to the unknowns in the diffusivity field D h reads
+
+                               R                                        R                                  
+      ∂Ki j   ∂Ki j   ∂             V
+                                        IΩ D ∇ Ni · ∇N j dx           ∂        V
+                                                                                   IΩ Dkh Nk ∇ Ni · ∇N j dx
+            ≡       =                                             =                                               ei ⊗ e j ⊗ em
+      ∂Θ      ∂D h                          ∂ Dh                                           ∂ Dmh
+                                                                      Z
+                                                                  =           IΩ δkm Nk ∇ Ni · ∇N j dx ei ⊗ e j ⊗ em              (A.3)
+                                                                          V
+                                                                      Z
+                                                                  =           IΩ ∇ Ni · ∇N j Nm dx ei ⊗ e j ⊗ em .
+                                                                          V
+
+
+The derivative of the advection operator Ai j with respect to the advective field unknowns u h reads
+
+                               R                                    R                           
+      ∂Ai j    Ai j    ∂           I N (u · ∇N j ) dx
+                                 V Ω i
+                                                                  ∂             I N N u dx
+                                                                              V Ω i j,k k
+            ≡        =                                        =                          ei ⊗ e j ⊗ e m
+      ∂Θ      ∂u   h
+                                           ∂uh                                     ∂ umh
+                                                                 R                         
+                                                                ∂ V IΩ Ni N j,k Nnk∗ unh dx
+                                                              =                               ei ⊗ e j ⊗ em
+                                                                          ∂ umh                                                   (A.4)
+                                                                Z
+                                                              =    IΩ δmn Ni N j,k Nnk∗ dx ei ⊗ e j ⊗ em
+                                                                 V
+                                                                Z
+                                                              =                  ∗
+                                                                   IΩ Ni N j,k Nmk  dx ei ⊗ e j ⊗ em .
+                                                                      V
+
+
+To find the derivative of the second advection operator, we must first define A′ in terms of u. Recalling the definition
+
+of A′ , and using Eq. (20) provides a new way of writing A′
+
+                Z
+      A′i j =       IΩ Ni N j (∇ · u) dx ,                                                                                        (A.5)
+                V
+                                                                              35
+whose derivative with respect to Θ we can now calculate as
+
+                                       R                                             R                            
+      ∂ A′i j       ∂ A′i j        ∂        V
+                                                IΩ Ni N j ∇ · u dx                 ∂        V
+                                                                                                IΩ Ni N j uk,k dx
+                ≡              =                                              =                                   ei ⊗ e j ⊗ em
+       ∂Θ           ∂uh                            ∂uh                                             ∂ umh
+                                                                                       R                            
+                                                                                   ∂        V
+                                                                                              IΩ Ni N j N ∗
+                                                                                                         nk,k un
+                                                                                                                h
+                                                                                                                  dx
+                                                                              =                                        ei ⊗ e j ⊗ e m
+                                                                                                  ∂ umh                                 (A.6)
+                                                                                   Z
+                                                                              =             IΩ δmn Ni N j Nnk,k
+                                                                                                            ∗
+                                                                                                                dx ei ⊗ e j ⊗ em
+                                                                                       V
+                                                                                   Z
+                                                                              =                        ∗
+                                                                                            IΩ Ni N j Nmk,k dx ei ⊗ e j ⊗ em .
+                                                                                       V
+
+
+Finally, the derivative of the clearance operator reads
+
+                                       R                                R                               
+      ∂Hi j ∂Hi j ∂                     Γ
+                                                γ Ni N j dx           ∂        Γ
+                                                                                   (γkh Nk ) Ni N j dx
+           ≡     =                                                =                                            ei ⊗ e j ⊗ em
+      ∂Θ     ∂γh                                ∂γh                                        ∂ γmh
+                                                                      Z
+                                                                  =           δkm Nk Ni N j dx ei ⊗ e j ⊗ em                            (A.7)
+                                                                          Γ
+                                                                      Z
+                                                                  =           Ni N j Nm dx ei ⊗ e j ⊗ em .
+                                                                          Γ
+
+
+Collecting the obtained expressions for the derivatives of all operators,
+
+      ∂ Ki j
+                              Z
+               αn+1
+                j   =              IΩ Ni,k Nm N j,k αn+1
+                                                     j   dx ei ⊗ em =: kim ,
+      ∂ Dm   h
+                               V
+
+       ∂ Ai j
+                              Z
+               αn+1 =           ∗
+                         IΩ Ni Nmk N j,k αn+1 dx ei ⊗ em =: aim ,
+       ∂ umh j         V
+                                          j
+                                                                                                                                        (A.8)
+       ∂ A′i j        Z
+               αn+1
+                    =           ∗
+                         IΩ Ni Nmk,k N j αn+1 dx ei ⊗ em =: a′im ,
+       ∂ umh j         V
+                                          j
+
+      ∂ Hi j
+                              Z
+               αn+1
+                j   =              Ni Nm N j αn+1
+                                              j dΓ ei ⊗ em =: him .
+       ∂ γm  h
+                               Γ
+
+
+We can now rewrite Eq. (44) in terms of the new operators (A.8) as
+
+             ∂ αn+1
+                j          h                     i ∂αnj           (                                        )t
+      Li j             =       Mi j + Misj                − ∆t        kim , ( aim + a′im ) , him                 ,                      (A.9)
+             ∂Θm                                   ∂Θm
+
+                                                                              ∂ αn+1
+                                                                                 j                                             ∂αnj
+which renders a system where we can solve for                                               at each timestep n, given
+                                                                                            from the previous timestep, and
+                                                       ∂Θm                             ∂Θm
+the known operators kim , aim , a′im , him , which include the solution of the forward problem at the current timestep.
+
+
+
+
+                                                                                                36
+References
+ [1] S. S. Hossain, S. F. A. Hossainy, Y. Bazilevs, V. M. Calo, T. J. R. Hughes, Mathematical modeling of cou-
+     pled drug and drug-encapsulated nanoparticle transport in patient-specific coronary artery walls, Computational
+     Mechanics 49 (2) (2012) 213–242. doi:10.1007/s00466-011-0633-2.
+ [2] S. S. Hossain, Y. Zhang, X. Liang, F. Hussain, M. Ferrari, T. J. Hughes, P. Decuzzi, In Silico Vas-
+     cular Modeling for Personalized Nanoparticle Delivery, Nanomedicine 8 (3) (2013) 343–357, _eprint:
+     https://doi.org/10.2217/nnm.12.124. doi:10.2217/nnm.12.124.
+     URL https://doi.org/10.2217/nnm.12.124
+ [3] T. Bohr, P. G. Hjorth, S. C. Holst, S. Hrabetová, V. Kiviniemi, T. Lilius, I. Lundgaard, K.-A. Mardal, E. A.
+     Martens, Y. Mori, U. V. Nägerl, C. Nicholson, A. Tannenbaum, J. H. Thomas, J. Tithof, H. Benveniste, J. J. Iliff,
+     D. H. Kelley, M. Nedergaard, The glymphatic system: Current understanding and modeling, iScience 25 (9)
+     (2022) 104987. doi:10.1016/j.isci.2022.104987.
+     URL https://linkinghub.elsevier.com/retrieve/pii/S2589004222012597
+ [4] J. J. Iliff, M. Wang, Y. Liao, B. A. Plogg, W. Peng, G. A. Gundersen, H. Benveniste, G. E. Vates, R. Deane, S. A.
+     Goldman, E. A. Nagelhus, M. Nedergaard, A Paravascular Pathway Facilitates CSF Flow Through the Brain
+     Parenchyma and the Clearance of Interstitial Solutes, Including Amyloid β, Science Translational Medicine
+     4 (147) (2012) 147ra111–147ra111, publisher: American Association for the Advancement of Science. doi:
+     10.1126/scitranslmed.3003748.
+     URL https://www.science.org/doi/full/10.1126/scitranslmed.3003748
+ [5] H. Mestre, Y. Mori, M. Nedergaard, The Brain’s Glymphatic System: Current Controversies, Trends in Neuro-
+     sciences 43 (7) (2020) 458–466. doi:10.1016/j.tins.2020.04.003.
+     URL https://www.cell.com/trends/neurosciences/abstract/S0166-2236(20)30077-1
+ [6] Y. Guo, K. Quirk, D. H. Kelley, J. H. Thomas, Advection and diffusion in perivascular and extracellular spaces
+     in the brain, J R Soc Interface 22 (226) (2025) 20250010. doi:10.1098/rsif.2025.0010.
+ [7] L. M. Hablitz, M. Nedergaard, The Glymphatic System: A Novel Component of Fundamental Neurobiology, J.
+     Neurosci. 41 (37) (2021) 7698–7711. doi:10.1523/JNEUROSCI.0619-21.2021.
+     URL https://www.jneurosci.org/lookup/doi/10.1523/JNEUROSCI.0619-21.2021
+ [8] N. MacAulay, Molecular mechanisms of brain water transport, Nat Rev Neurosci 22 (6) (2021) 326–344, pub-
+     lisher: Nature Publishing Group. doi:10.1038/s41583-021-00454-8.
+     URL https://www.nature.com/articles/s41583-021-00454-8
+ [9] F. R. Buccellato, M. D’Anca, M. Serpente, A. Arighi, D. Galimberti, The Role of Glymphatic System in
+     Alzheimer’s and Parkinson’s Disease Pathogenesis, Biomedicines 10 (9) (2022) 2261, publisher: Multidisci-
+     plinary Digital Publishing Institute. doi:10.3390/biomedicines10092261.
+     URL https://www.mdpi.com/2227-9059/10/9/2261
+[10] S. B. Hladky, M. A. Barrand, The glymphatic hypothesis: the theory and the evidence, Fluids Barriers CNS
+     19 (1) (2022) 9. doi:10.1186/s12987-021-00282-z.
+     URL https://doi.org/10.1186/s12987-021-00282-z
+[11] T. Vikner, K. M. Johnson, R. V. Cadman, T. J. Betthauser, R. E. Wilson, N. Chin, L. B. Eisenmenger, S. C.
+     Johnson, L. A. Rivera-Rivera, CSF dynamics throughout the ventricular system using 4D flow MRI: associations
+     to arterial pulsatility, ventricular volumes, and age, Fluids Barriers CNS 21 (1) (2024) 68. doi:10.1186/
+     s12987-024-00570-4.
+     URL https://doi.org/10.1186/s12987-024-00570-4
+[12] J. J. Iliff, H. Lee, M. Yu, T. Feng, J. Logan, M. Nedergaard, H. Benveniste, Brain-wide pathway for waste clear-
+     ance captured by contrast-enhanced MRI, J. Clin. Invest. 123 (3) (2013) 1299–1309. doi:10.1172/JCI67677.
+     URL http://www.jci.org/articles/view/67677
+                                                         37
+[13] D. S. Lee, M. Suh, A. Sarker, Y. Choi, Brain Glymphatic/Lymphatic Imaging by MRI and PET, Nucl Med Mol
+     Imaging 54 (5) (2020) 207–223. doi:10.1007/s13139-020-00665-4.
+     URL https://doi.org/10.1007/s13139-020-00665-4
+[14] Y. Wu, F. Xu, D. Zhu, A. M. Li, K. Wang, Q. Qin, J. Xu, Cerebrospinal fluid flow within ventricles
+     and subarachnoid space evaluated by velocity selective spin labeling MRI, NeuroImage 309 (2025) 121095.
+     doi:10.1016/j.neuroimage.2025.121095.
+     URL https://linkinghub.elsevier.com/retrieve/pii/S1053811925000977
+[15] A. A. Badachhape, P. K. Working, M. Srivastava, P. Bhandari, I. V. Stupin, L. Devkota, E. A. Tanifum, A. V.
+     Annapragada, K. B. Ghaghada, Pre-clinical dose-ranging efficacy, pharmacokinetics, tissue biodistribution, and
+     toxicity of a targeted contrast agent for MRI of amyloid deposition in Alzheimer’s disease, Sci Rep 10 (1) (2020)
+     16185, publisher: Nature Publishing Group. doi:10.1038/s41598-020-73233-7.
+     URL https://www.nature.com/articles/s41598-020-73233-7
+[16] M. Asgari, D. de Zélicourt, V. Kurtcuoglu, Glymphatic solute transport does not require bulk flow, Sci Rep 6 (1)
+     (2016) 38635. doi:10.1038/srep38635.
+     URL https://www.nature.com/articles/srep38635
+
+[17] A. Solheim, G. Ringstad, P. K. Eide, K.-A. Mardal, Geometry Reduced Order Modeling (GROM) with appli-
+     cation to modeling of glymphatic function, Brain Research Bulletin 231 (2025) 111558. doi:10.1016/j.
+     brainresbull.2025.111558.
+     URL https://linkinghub.elsevier.com/retrieve/pii/S0361923025003703
+[18] K. E. Holter, B. Kehlet, A. Devor, T. J. Sejnowski, A. M. Dale, S. W. Omholt, O. P. Ottersen, E. A. Nagelhus,
+     K.-A. Mardal, K. H. Pettersen, Interstitial solute transport in 3D reconstructed neuropil occurs by diffusion
+     rather than bulk flow, Proceedings of the National Academy of Sciences 114 (37) (2017) 9894–9899. doi:
+     10.1073/pnas.1706942114.
+     URL https://www.pnas.org/doi/full/10.1073/pnas.1706942114
+[19] L. Ray, J. J. Iliff, J. J. Heys, Analysis of convective and diffusive transport in the brain interstitium, Fluids
+     Barriers CNS 16 (1) (2019) 6. doi:10.1186/s12987-019-0126-9.
+     URL https://doi.org/10.1186/s12987-019-0126-9
+[20] S. Koundal, R. Elkin, S. Nadeem, Y. Xue, S. Constantinou, S. Sanggaard, X. Liu, B. Monte, F. Xu, W. Van Nos-
+     trand, M. Nedergaard, H. Lee, J. Wardlaw, H. Benveniste, A. Tannenbaum, Optimal Mass Transport with La-
+     grangian Workflow Reveals Advective and Diffusion Driven Solute Transport in the Glymphatic System, Sci
+     Rep 10 (1) (2020) 1990. doi:10.1038/s41598-020-59045-9.
+     URL https://www.nature.com/articles/s41598-020-59045-9
+[21] H. Benveniste, H. Lee, B. Ozturk, X. Chen, S. Koundal, P. Vaska, A. Tannenbaum, N. D. Volkow, Glymphatic
+     Cerebrospinal Fluid and Solute Transport Quantified by MRI and PET Imaging, Neuroscience 474 (2021) 63–
+     79. doi:10.1016/j.neuroscience.2020.11.014.
+     URL https://linkinghub.elsevier.com/retrieve/pii/S0306452220307302
+[22] V. Vinje, B. Zapf, G. Ringstad, P. K. Eide, M. E. Rognes, K.-A. Mardal, Human brain solute transport quantified
+     by glymphatic MRI-informed biophysics during sleep and sleep deprivation, Fluids Barriers CNS 20 (1) (2023)
+     62. doi:10.1186/s12987-023-00459-8.
+     URL https://doi.org/10.1186/s12987-023-00459-8
+
+[23] X. Chen, H. Benveniste, A. R. Tannenbaum, Unbalanced regularized optimal mass transport with applications
+     to fluid flows in the brain, Sci Rep 14 (1) (2024) 1111. doi:10.1038/s41598-023-50874-y.
+     URL https://www.nature.com/articles/s41598-023-50874-y
+
+
+
+                                                         38
+[24] X.-B. Ding, X.-X. Wang, D.-H. Xia, H. Liu, H.-Y. Tian, Y. Fu, Y.-K. Chen, C. Qin, J.-Q. Wang, Z. Xiang, Z.-X.
+     Zhang, Q.-C. Cao, W. Wang, J.-Y. Li, E. Wu, B.-S. Tang, M.-M. Ma, J.-F. Teng, X.-J. Wang, Impaired meningeal
+     lymphatic drainage in patients with idiopathic Parkinson’s disease, Nat Med 27 (3) (2021) 411–418, publisher:
+     Nature Publishing Group. doi:10.1038/s41591-020-01198-1.
+     URL https://www.nature.com/articles/s41591-020-01198-1
+
+[25] K. Kopeć, D. Koziorowski, S. Szlufik, The Therapeutic Potential of Glymphatic System Activity to Reduce
+     the Pathogenic Accumulation of Cytotoxic Proteins in Alzheimer’s Disease, International Journal of Molecu-
+     lar Sciences 26 (15) (2025) 7552, publisher: Multidisciplinary Digital Publishing Institute. doi:10.3390/
+     ijms26157552.
+     URL https://www.mdpi.com/1422-0067/26/15/7552
+
+[26] A. D. Bakiler, Created in biorender, BioRender.com, https://BioRender.com/4y16xof (2026).
+[27] M. Loecher, S. Kecskemeti, P. Turski, O. Wieben, Comparison of divergence-free algorithms for 3D MRI
+     with three-directional velocity encoding, J Cardiovasc Magn Reson 14 (1) (2012) W64. doi:10.1186/
+     1532-429X-14-S1-W64.
+     URL https://doi.org/10.1186/1532-429X-14-S1-W64
+
+[28] S. M. Song, S. Napel, G. H. Glover, N. J. Pelc, Noise reduction in three-dimensional phase-contrast
+     MR velocity measurementsl, Journal of Magnetic Resonance Imaging 3 (4) (1993) 587–596, _eprint:
+     https://onlinelibrary.wiley.com/doi/pdf/10.1002/jmri.1880030407. doi:10.1002/jmri.1880030407.
+     URL https://onlinelibrary.wiley.com/doi/abs/10.1002/jmri.1880030407
+[29] J. Busch, D. Giese, L. Wissmann, S. Kozerke, Reconstruction of divergence-free velocity fields from cine
+     3D phase-contrast flow measurements, Magnetic Resonance in Medicine 69 (1) (2013) 200–210, _eprint:
+     https://onlinelibrary.wiley.com/doi/pdf/10.1002/mrm.24221. doi:10.1002/mrm.24221.
+     URL https://onlinelibrary.wiley.com/doi/abs/10.1002/mrm.24221
+[30] F. Ong, M. Uecker, U. Tariq, A. Hsiao, M. T. Alley, S. S. Vasanawala, M. Lustig, Robust 4D flow denoising
+     using divergence-free wavelet transform, Magnetic Resonance in Medicine 73 (2) (2015) 828–842, _eprint:
+     https://onlinelibrary.wiley.com/doi/pdf/10.1002/mrm.25176. doi:10.1002/mrm.25176.
+     URL https://onlinelibrary.wiley.com/doi/abs/10.1002/mrm.25176
+[31] H. Mestre, J. Tithof, T. Du, W. Song, W. Peng, A. M. Sweeney, G. Olveda, J. H. Thomas, M. Nedergaard, D. H.
+     Kelley, Flow of cerebrospinal fluid is driven by arterial pulsations and is reduced in hypertension, Nat Commun
+     9 (1) (2018) 4878, publisher: Nature Publishing Group. doi:10.1038/s41467-018-07318-3.
+     URL https://www.nature.com/articles/s41467-018-07318-3
+[32] G. Meng, J. Zhong, Q. Zhang, J. S. J. Wong, J. Wu, K. K. Tsia, N. Ji, Ultrafast two-photon fluorescence imaging
+     of cerebral blood circulation in the mouse brain in vivo, Proceedings of the National Academy of Sciences
+     119 (23) (2022) e2117346119. doi:10.1073/pnas.2117346119.
+     URL https://www.pnas.org/doi/full/10.1073/pnas.2117346119
+
+[33] T. J. Hughes, G. N. Wells, Conservation properties for the Galerkin and stabilised forms of the advec-
+     tion–diffusion and incompressible Navier–Stokes equations, Computer Methods in Applied Mechanics and En-
+     gineering 194 (9-11) (2005) 1141–1159. doi:10.1016/j.cma.2004.06.034.
+     URL https://linkinghub.elsevier.com/retrieve/pii/S0045782504003172
+[34] A. N. Brooks, T. J. R. Hughes, Streamline upwind/Petrov-Galerkin formulations for convection dominated flows
+     with particular emphasis on the incompressible Navier-Stokes equations, Computer Methods in Applied Me-
+     chanics and Engineering 32 (1) (1982) 199–259. doi:10.1016/0045-7825(82)90071-8.
+     URL https://www.sciencedirect.com/science/article/pii/0045782582900718
+
+
+
+                                                        39
+[35] M. J. Johnson, M. R. Abdelmalik, F. A. Baidoo, A. Badachhape, T. J. Hughes, S. S. Hossain, Image-guided
+     subject-specific modeling of glymphatic transport and amyloid deposition, Computer Methods in Applied Me-
+     chanics and Engineering 417 (2023) 116449. doi:10.1016/j.cma.2023.116449.
+     URL https://linkinghub.elsevier.com/retrieve/pii/S004578252300573X
+[36] A. Düster, J. Parvizian, Z. Yang, E. Rank, The finite cell method for three-dimensional problems of solid me-
+     chanics, Computer Methods in Applied Mechanics and Engineering 197 (45-48) (2008) 3768–3782. doi:
+     10.1016/j.cma.2008.02.036.
+     URL https://linkinghub.elsevier.com/retrieve/pii/S0045782508001163
+[37] C. Giannelli, B. Jüttler, S. K. Kleiss, A. Mantzaflaris, B. Simeon, J. Speh, THB-splines: An effective mathe-
+     matical technology for adaptive refinement in geometric design and isogeometric analysis, Computer Methods
+     in Applied Mechanics and Engineering 299 (2016) 337–365. doi:10.1016/j.cma.2015.11.002.
+     URL https://linkinghub.elsevier.com/retrieve/pii/S0045782515003540
+[38] A. Buffa, C. Giannelli, P. Morgenstern, D. Peterseim, Complexity of hierarchical refinement for a class of ad-
+     missible mesh configurations, Computer Aided Geometric Design 47 (2016) 83–92. doi:10.1016/j.cagd.
+     2016.04.003.
+     URL https://linkinghub.elsevier.com/retrieve/pii/S0167839616300449
+[39] J. van Zwieten, G. van Zwieten, W. Hoitinga, Nutils 9.0 (2025). doi:10.5281/zenodo.6006701.
+[40] A. J. Smith, X. Yao, J. A. Dix, B.-J. Jin, A. S. Verkman, Test of the ’glymphatic’ hypothesis demonstrates
+     diffusive and aquaporin-4-independent solute transport in rodent brain parenchyma, eLife 6 (2017) e27679.
+     doi:10.7554/eLife.27679.
+     URL https://doi.org/10.7554/eLife.27679
+[41] A. Aspelund, S. Antila, S. T. Proulx, T. V. Karlsen, S. Karaman, M. Detmar, H. Wiig, K. Alitalo, A dural
+     lymphatic vascular system that drains brain interstitial fluid and macromolecules, Journal of Experimental
+     Medicine 212 (7) (2015) 991–999. doi:10.1084/jem.20142290.
+     URL https://rupress.org/jem/article/212/7/991/41853/A-dural-lymphatic-vascular-system-that-drains
+
+[42] Q. Ma, B. V. Ineichen, M. Detmar, S. T. Proulx, Outflow of cerebrospinal fluid is predominantly through
+     lymphatic vessels and is reduced in aged mice, Nat Commun 8 (1) (2017) 1434.            doi:10.1038/
+     s41467-017-01484-6.
+     URL https://www.nature.com/articles/s41467-017-01484-6
+
+[43] L. Xie, H. Kang, Q. Xu, M. J. Chen, Y. Liao, M. Thiyagarajan, J. O’Donnell, D. J. Christensen, C. Nicholson,
+     J. J. Iliff, T. Takano, R. Deane, M. Nedergaard, Sleep drives metabolite clearance from the adult brain, Science
+     342 (6156) (2013) 373–377. arXiv:https://www.science.org/doi/pdf/10.1126/science.1241224,
+     doi:10.1126/science.1241224.
+     URL https://www.science.org/doi/abs/10.1126/science.1241224
+
+
+
+
+                                                         40
+

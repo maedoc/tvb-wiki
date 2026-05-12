@@ -1,0 +1,2186 @@
+                                         Tau-BNO: Brain Neural Operator for Tau Transport Model
+
+                                          Nuutti Barron1,∗ , Heng Rao2,∗ , Urmi Saha4 , Yu Gu2 , Zhenghao Liu2 , Ge Yu2 ,
+                                                              Defu Yang3 , Ashish Raj1,† , Minghan Chen4,†
+arXiv:2603.08108v2 [cs.CE] 17 Mar 2026
+
+
+
+
+                                           1 Department of Radiology and Biomedical Imaging, University of California San Francisco, USA
+
+                                                   2 College of Computer Science and Engineering, Northeastern University, China
+
+                                                      3 Department of Computer Science, Hangzhou Normal University, China
+
+                                                          4 Department of Computer Science, Wake Forest University, USA
+
+                                                                      ∗ Equal contribution; † Equal co-advising
+
+
+                                                         Corresponding authors: chenm@wfu.edu, ashish.raj@ucsf.edu
+
+
+
+                                          Abstract:
+                                          Mechanistic modeling provides a biophysically grounded framework for studying the spread
+                                          of pathological tau protein in tauopathies such as Alzheimer’s disease and frontotemporal
+                                          dementia. Existing approaches typically model tau propagation as a diffusive process on
+                                          the brain’s structural connectome, reproducing macroscopic spatiotemporal patterns but ne-
+                                          glecting the cellular transport and reaction mechanisms that govern microscale dynamics.
+                                          The Network Transport Model (NTM) was introduced to fill this gap, explaining how region-
+                                          level progression of tau emerges from microscale biophysical processes. However, the NTM
+                                          faces a common challenge for complex models defined by large systems of partial differen-
+                                          tial equations: the inability to perform parameter inference and mechanistic discovery due
+                                          to high computational burden and slow model simulations. To overcome this barrier, we
+                                          propose Tau-BNO, a Brain Neural Operator surrogate framework for rapidly approximating
+                                          NTM dynamics that captures both intra-regional reaction kinetics and inter-regional network
+                                          transport. Tau-BNO combines a function operator that encodes kinetic parameters with a
+                                          query operator that preserves initial state information, while approximating anisotropic trans-
+                                          port through a spectral kernel that retains directionality. Empirical evaluations demonstrate
+                                          high predictive accuracy (R2 ≈ 0.98) across diverse biophysical regimes and an 89% per-
+                                          formance improvement over state-of-the-art sequence models like Transformers and Mamba,
+
+                                                                                         1
+2                                                                                    1 INTRODUCTION
+
+
+      which lack inherent structural priors. By reducing simulation time from hours to seconds,
+      we show that the surrogate model is capable of producing new insights and generating new
+      hypotheses. This framework is readily extensible to a broader class of connectome-based
+      biophysical models, showcasing the transformative value of deep learning surrogates to ac-
+      celerate analysis of large-scale, computationally intensive dynamical systems.
+      Keywords: Network Transport Model, Neural Operator, AI Surrogate, Brain Connectome,
+      Alzheimer’s Disease
+
+
+
+1     Introduction
+
+The accumulation and spread of pathologically toxic tau protein in the brain is a hallmark of neurodegen-
+erative tauopathies such as Alzheimer’s disease (AD) and Frontotemporal Dementia (FTD), characterized
+by an initial spatially sparse accumulation, considered the seed, followed by a stereotyped spread to other
+regions over time [1, 2]. Computational modeling has previously shown that tau spread is mediated by
+the long range neuronal white matter tracts interconnecting brain regions [3–5]. Attempts to capture
+these spread dynamics generally model tau spread as a simple diffusive process on the brain’s structural
+connectome (SC), a graph structure that represents brain regions as nodes, and white matter tract con-
+nections as weighted edges [3, 6–11]. These connectome-based diffusion models have proven effective in
+staging diseases such as AD, predicting disease progression, and have shown promise as tools to uncover
+genes, cell types, and other biomarkers linked to tau spread in the brain [12–15].
+
+However, network diffusion models fail to capture the microscopic biophysical cellular mechanisms by
+which tau protein is transported in the brain, such as active axonal transport via dynein and kinesin motor
+proteins [16–20]. Importantly, the inclusion of transport processes is key to understanding the divergent
+spatial patterning of tau under different seeding and conformational conditions [21, 22]—an aspect that
+has remained inscrutable by previous mathematical models. The Network Transport Model (NTM) [23,
+24] was recently proposed to capture both diffusive spread and microscopic transport mediated spread
+of tau in the brain, linking the biophysical cellular mechanisms mediating tau transport to observed
+spatiotemporal patterns of tau spread at the whole brain level. The mathematical description of NTM is
+provided in section 4. The NTM and related models are an active area of study and represent the next
+stage of advancement in mechanistic modeling of dementias.
+
+Unfortunately, these emerging models pose a formidable computational challenge due to large-scale
+coupled partial differential equations (PDEs). Traditional finite element numerical solvers [25] require
+solving PDEs individually for each parameter configuration, resulting in prohibitively high computational
+                                                                                                            3
+
+
+costs when exploring large parameter spaces. A quasi-static approximation to NTM was proposed to
+achieve numerical feasibility [24]. On a structural connectivity graph of size n × n, it iteratively solves an
+edge-wise problem involving o(n2 ) numerical integration via MATLAB’s ode45, followed by a boundary
+value shooting problem at each node involving o(n) calls to a nonlinear solver, i.e., MATLAB’s fsolve
+function (see [24] for details). The process repeats for each time point. Although this approach repre-
+sents a meaningful advancement, it remains computationally demanding and extremely slow. Even with
+parallelized edge computations, a single 12-month NTM simulation on a 426-region brain parcellation
+takes approximately 10 hours. The slow simulation speed prohibits parameter inference of the NTM on
+empirical data, which can require tens of thousands of forward simulations. Such computational expense
+renders large-scale parameter inference, individualized model fitting, and clinical translation practically
+infeasible, motivating the need for a rapid and scalable surrogate model.
+
+Unlike conventional finite-dimensional prediction tasks in computer vision [26, 27] or natural language
+processing [28, 29], constructing a surrogate model for NTM requires approximating a solution operator
+that maps initial tau concentration fields and kinetic parameters to spatiotemporal trajectories [30]. Each
+configuration of system parameters defines a distinct PDE-governed dynamical system corresponding to
+a unique pathophysiological scenario. Consequently, a robust surrogate entails learning operators over
+infinite-dimensional function spaces rather than finite-dimensional vector mappings typical of conventional
+prediction tasks. Recent advances in operator learning provide a promising proxy for accelerating scientific
+simulation [30–32]. By learning solution operators, these methods enable efficient approximation of PDE
+dynamics across varying initial conditions and parameter regimes without explicit numerical solvers at
+inference time. Architectures such as DeepONet [33], Fourier Neural Operator (FNO) [34], Wavelet
+Neural Operator (WNO) [35, 36], Graph Neural Operator (GNO) [37], and the Geometry-Informed
+Neural Operator (GINO) [38], have demonstrated success in accelerating simulations of complex physical
+systems with intricate geometries, as detailed in Discussion 3.
+
+Despite this progress, existing neural operator frameworks are not directly suited to whole-brain tau
+transport modeling. First, tau propagation involves globally coupled dynamics across n brain regions and
+o(n2 ) structural connections over long temporal horizons, producing a high-dimensional function space
+with structured network dependencies. Most neural operators are designed for regular Euclidean grids
+and struggle to capture such connectome-mediated dynamics. Second, many architectures process initial
+conditions and system parameters jointly within a single operator network. This entanglement limits
+interpretability and reduces generalization across heterogeneous parameter regimes, which is essential for
+individualized disease modeling and parameter inference. Third, graph-based operator designs often rely
+on symmetric nearest-neighbor message passing without explicitly incorporating biologically meaningful
+edge attributes, such as connection strength or transport direction. Consequently, they cannot faithfully
+4                                                                                    1 INTRODUCTION
+
+
+represent the intrinsic directionality of tau transport along axonal projections nor enforce anatomically
+grounded propagation along empirical white matter pathways [3, 21, 23, 39–41].
+
+We introduce Tau-BNO, a specialized neural operator framework for spatiotemporal tau transport across
+the mouse connectome, which addresses these limitations through three key architectural innovations.
+1) Brain Operator Design. Tau-BNO operates natively on irregular structural connectivity graphs,
+enabling operator learning directly over large-scale brain networks rather than regular Euclidean grids.
+The architecture preserves global inter-regional dependencies while maintaining computational scalability
+across high-dimensional network domains. 2) Decoupled State-Dynamics Representation. We in-
+troduce a structured factorization of the operator mapping that distinguishes initial state encoding from
+parameter-driven dynamical evolution. A Query Operator captures regional initial tau concentrations,
+while a Function Operator models the influence of system parameters on regional kinetics and transport
+dynamics. This design enhances interpretability and generalization across heterogeneous conditions and
+diverse parameter regimes. 3) Connectome-Constrained Anisotropic Propagation. Tau-BNO em-
+beds empirical structural connectivity as a biological prior and models asymmetric transport along axonal
+projections. We develop a directed, connectome-constrained graph operator that incorporates weighted
+and directional edge information, enabling realistic representations of anisotropic and directionally biased
+tau propagation dynamics.
+
+Comprehensive ablation studies demonstrate that each architectural component is necessary for accurate
+spatiotemporal prediction of tau transport dynamics. Tau-BNO achieves high predictive fidelity R2 ≈ 0.98
+value and reduces error by 89% over large sequence-modeling approaches such as transformer and mamba,
+highlighting its superior capacity to model biologically grounded tau propagation.
+
+By providing rapid and high-fidelity approximations of the NTM, Tau-BNO functions as an efficient sur-
+rogate simulator that eliminates the computational bottlenecks associated with the previous quasi-static
+formulation. This acceleration renders large-scale parameter inference tractable, enabling systematic fit-
+ting of mechanistic NTM parameters to empirical tau imaging data. This will allow researchers to rapidly
+fit similar models to empirical data to extract patient-specific system coefficients, evaluate heterogeneous
+disease trajectories, and explore how specific cellular mechanisms could be targeted by future therapeutics.
+Beyond predictive accuracy, Tau-BNO enables mechanistic interrogation of tau transport processes. The
+framework supports inference of transport directionality, including anterograde versus retrograde bias,
+aggregation and fragmentation balance, cellular uptake and release rates, and spatial seeding patterns.
+These inferred parameters can be compared across distinct tau strains, linking molecular features such as
+structural conformations and phosphorylation states to macroscopic propagation dynamics. Moreover,
+fitted NTM parameters provide a principled basis for identifying associated biomarkers, including relevant
+                                                                                                        5
+
+
+cell types and gene expression signatures.
+
+The surrogate model is capable of producing new insights and generating new hypotheses. The pro-
+posed Brain Neural Operator framework is a scalable computational foundation for investigating broader
+neuroscientific processes, such as axonal transport dynamics, and readily extensible to a broader class
+of connectome-based biophysical models of neurodegeneration. We anticipate that operator-based sur-
+rogate modeling will become a foundational component of next-generation computational platforms for
+mechanistic neuroscience.
+
+
+
+
+2     Results
+
+We develop Tau-BNO to rapidly generate accurate simulations of the Network Transport Model (NTM)
+across diverse seeding sites and biophysical parameter regimes. The Tau-BNO architecture (Figure 1)
+comprises two complementary components: a Query Operator (QO) for encoding regional initial tau
+concentrations and a Function Operator (FO) for representing kinetic parameters governing transport
+dynamics. These latent representations are subsequently integrated through a Directed Graph Operator
+(DGO), which projects the learned dynamics onto the empirical mouse structural connectome comprising
+426 anatomical regions derived from the mouse mesoscale connectivity atlas (MCA) produced by the
+Allen Institute [42]. To enable efficient graph convolution operations [43] while preserving the direc-
+tional structure inherent in tau transport, we construct three network representations derived from the
+original directed connectome (Figure 2). By jointly leveraging these structural priors, the model recon-
+structs asymmetric transport dynamics and implicitly learns a data-driven directed network that reflects
+physiologically grounded axonal pathways, ensuring accurate modeling of directional tau propagation.
+
+
+
+2.1    Baseline Methods
+
+We benchmarked Tau-BNO against 11 diverse methods spanning six architectural paradigms and five
+neural operator variants. The generated dataset was split into 80% training, 10% validation, and 10%
+testing sets. Each model was tasked with mapping the initial conditions and system parameters {u0 , λ}
+to the spatiotemporal evolution {u1:T } over T time steps. To ensure fair comparison across architectures,
+the system parameters λ were broadcast to match the spatial dimensions of the state variables, providing
+consistent input representations for all models.
+
+Classical baselines included Multi-layer Perceptrons (MLP) [44], Kolmogorov-Arnold Networks (KAN)
+6                                                                                                                                                                                                                            2 RESULTS
+
+
+
+
+    a           Input: !, #-                    b                       Tau Brain Neural Operator                                                                                         c                  $.:0
+                                                                                                                                                                                                   Solution: #
+          Initial Condition !" (#)                                              Regional
+
+
+
+
+                                                                                                                                                                                          Value
+                                                                                Condition                                                                                                         Region !!
+           Tau-seed                                                                                                                                                                               Region !"
+                                                                  Query           $(&)                                                                                                            Region !#
+                                                                                                                                             Spatiotemporal
+
+
+
+
+                                                                                                                                                                            Projector
+                                                                 Operator                     Temporal Dynamics        Directed Graph         Embedding
+                                                                                                     ((&; *)              Operator                       , &
+                                                                 Function
+                                                                 Operator       Regional Kinetics
+                   426 Regions                                                  Function +(&; *)
+                                                                                                                                                                                                                               Time
+    Parameters % = [(# , ($ , (% , (& , (' ]⊤
+                                                                       Fourier Kernel
+                                                     Embedding
+
+
+
+
+                                                                                ℱ(*ℓ )
+           !!
+
+
+
+
+                                                                                                                                                     1st Order
+                                                                         FFT                  iFFT
+
+
+
+
+                                                                                                                                                                                        Graph
+                                                                                                                                                                                        Conv
+               !$
+            !" , !#                       !!
+
+
+                                                                                                                                         Proximity
+                                                                                                                                                                 Symmetry
+                                                                               Differential Kernel                                                                Network
+
+
+
+
+                                                                                                                                                                                                              Graph Fusion
+                                                                                                                                                     2nd Order
+                !% : tau production                                                                         ×# layer
+
+
+
+
+                                                                                                                                                                                        Graph
+                                                                                                                                                                                        Conv
+           ∅
+                                                                  Latent Feature 3(4) Latent Feature 3(4)
+                !$ : aggregate rate                                                                                     Directed Brain                                                                                       Spatiotemporal
+                                                    Kernel Weight
+
+
+
+
+                                                                                       Weight                              Network                   In-Degree Network                                                        Embedding
+        Soluble                   Insoluble
+                                                        5&'()
+
+
+
+
+                                                                    Conv (3, 5%&'( )
+                                                                                        Sum
+                                                                                                Conv (3, ∑5%&'( )
+                                                                                                                                                                                                                                  , &
+            !" : anterograde velocity
+                                                                                                                                                     2nd Order
+
+
+
+
+                                                                                                                                                                                        Graph
+                                                                                                                                                                                        Conv
+                                                                                                                            Latent Feature
+            !# : retrograde velocity
+
+               !! : uptake release rate
+                                                                    Conv, [0](1) −              Conv,- [0](1)               Species Region
+                                                    ∇3(4) ≈                                                                                          Out-Degree Network
+                                                                                         ∆4
+
+
+
+Figure 1: Tau-Brain Neural Operator (Tau-BNO) Architecture. a. Input consists of initial tau
+concentration fields derived from experimentally defined mouse injection sites, together with sampled
+aggregation and fragmentation rate parameters (λf , λγ , λδ , λϵ , λµ ). b. A Query Operator encodes
+regional initial tau concentrations, and a Function Operator encodes kinetic parameters; their interaction
+is passed through a Directed Graph Operator defined on the structural connectome to model asymmetric
+inter-regional transport. c. A learnable projector generates tau spatiotemporal dynamics across all 426
+brain regions.
+2.1 Baseline Methods                                                                                7
+
+
+
+
+Figure 2: Brain network representations for tau transport modeling. a. Original directed MCA
+connectome encoding region-to-region tau transport pathways. b–d. Three derived undirected proxim-
+ity networks capturing complementary topological features: b. first-order symmetric network preserv-
+ing global connectivity structure; c. second-order indegree network emphasizing convergent (afferent)
+connectivity; d. second-order outdegree network emphasizing divergent (efferent) connectivity. Edge
+brightness indicates connection strength. Together, these representations enable graph neural networks
+to recover directional transport dynamics from symmetrized adjacency matrices.
+8                                                                                               2 RESULTS
+
+
+[45], and NeuralODE [46] for continuous-time modeling. We further evaluate state-of-the-art sequence
+modeling architectures, including Transformer [47] and Mamba [48], a recent state space model renowned
+for its strong performance in capturing long range dependencies. Critically, we compared against a family
+of advanced neural operators designed to learn mappings between function spaces, including DeepONet
+[33] as a foundational operator learning architecture, the Fourier neural operator (FNO) [34] with spectral
+convolutions, multiwavelet-based operator models (MWT) [36] and wavelet neural operators (WNO) [35]
+for multi-scale modeling, GINO [38] for irregular geometries, and the localized neural operator (LNO)
+[49], which incorporates differential kernels for fine-grained spatial resolution.
+
+All models were evaluated using three complementary metrics: Root Mean Square Error (RMSE), Mean
+Absolute Error (MAE), and relative ℓ2 error for trajectory prediction. Metrics were computed across
+all 426 brain regions and all temporal sampling points in the held-out test set. For a single trajectory
+variable, the evaluation metrics are defined in Eq. 1, where T denotes the number of time steps.
+
+               v                                                                     qP
+                    T                                T                                  T                2
+                                                                                             ui − ui )
+                                                                                        i=1 (b
+               u
+               u1 X                             1    X
+        RMSE = t        ui − ui )2 ,
+                       (b                 MAE =       |b
+                                                       ui − ui |,      Rel. L2 =       qP                    (1)
+                 T i=1                          T i=1                                       T    2
+                                                                                            i=1 ui
+
+
+
+
+2.2     Performance Evaluation
+
+We benchmarked Tau-BNO against six general architectural baselines and five neural operator variants
+to evaluate the role of operator learning in tau-transport prediction and to assess the performance gains
+achieved by our proposed architecture. All experiments were repeated three times with different random
+seeds, and we report the mean performance with standard deviations across runs. Figure 3 summarizes
+the comparative results. Additional experiments are provided in Supplementary Results.
+
+
+
+2.2.1   Comparison with General Architectures
+
+
+As illustrated in Figure 3a, Tau-BNO demonstrates a decisive advantage over general-purpose archi-
+tectures, achieving an RMSE of 6.922 × 10−6 , with an 89% improvement over the strongest baseline,
+Mamba. Among general architectures, sequence models (Mamba and Transformer) significantly out-
+perform standard MLP-based approaches. Mamba further surpasses the Transformer, likely due to its
+structured state-space formulation, which more effectively captures long-range temporal dependencies in
+extended trajectories than attention-based models with fixed context windows. In contrast, architectures
+lacking explicit spatiotemporal dynamics, including KAN, NeuralODE, and the standard MLP, exhibit
+2.3 Ablation Analysis of Tau-BNO Architecture                                                             9
+
+
+significantly higher error rates. Although KAN leverages the Kolmogorov–Arnold representation theorem
+for functional approximation and NeuralODE models continuous dynamics, neither approach adequately
+captures the high-dimensional (426-region) connectome-mediated transport structure. Despite being de-
+signed for operator learning, DeepONet achieves only marginal improvement over the MLP baseline (7%).
+Its reliance on MLP-based branch and trunk networks limits its ability to model complex inter-regional
+coupling. Collectively, these findings reveal a fundamental limitation of general architectures that operate
+on finite-dimensional vector mappings rather than explicitly learning operators over structured function
+spaces. Tau-BNO’s superior performance demonstrates that accurate modeling of large-scale biological
+transport requires explicit incorporation of spatial graph coupling to capture the geometric structure of
+the underlying PDE solution manifold.
+
+
+
+2.2.2   Comparison with Advanced Neural Operators
+
+
+As illustrated in Figure 3b, Tau-BNO establishes a new state-of-the-art, achieving an RMSE of 6.922 ×
+10−6 and outperforming the leading neural operator baseline (LNO) by 32%. This superior performance is
+consistent across temporal scales: Figure 3d demonstrates that Tau-BNO maintains the lowest absolute
+error throughout the entire trajectory, indicating stable predictive accuracy over long horizons. Operator
+architectures that emphasize localized representations show limitations in modeling the global transport
+dynamics of tau. Wavelet-based operators (WNO, MWT) underperform their Fourier-based counterparts,
+likely due to the locality of wavelet bases, which emphasize high-frequency interactions while attenuating
+the low-frequency spectral components that govern smooth, domain-wide diffusion. Similarly, GINO
+(3.390 × 10−5 ) is constrained by its reliance on local graph message passing, which limits its effective
+receptive field and impedes modeling of long-range dependencies across the connectome. Although
+LNO improves upon FNO through localized differential kernels, it remains inferior to Tau-BNO. This
+gap indicates that incremental refinements of local operators are insufficient for capturing connectome-
+scale transport dynamics. By disentangling regional initial conditions from global kinetic parameters
+and embedding directional graph structure into the operator design, Tau-BNO provides a biologically
+grounded inductive bias that more effectively represents the underlying transport mechanism.
+
+
+
+2.3     Ablation Analysis of Tau-BNO Architecture
+
+To quantify the contribution of each architectural component in Tau-BNO, we performed systematic ab-
+lation studies targeting the Function Operator (FO), Query Operator (QO), and Directed Graph Operator
+(DGO), as well as the two kernel types used within the operator blocks.
+10                                                                                                                                                                                                                                2 RESULTS
+
+
+
+
+                      a ×10          -5      Comparison with General Architectures                ×10-5
+                                                                                                                   b ×10                         -5                           Comparison with Neural Operators                               ×10-5
+
+
+
+
+                                                                                                          MAE
+
+
+
+
+                                                                                                                                                                                                                                                     MAE
+                     20.0                                              RMSE                                                                                                                                                       RMSE
+                                                                       MAE                                17.5                                                                                                                    MAE                4
+                     17.5
+                                                                                                                        4
+                                                                                                          15.0
+                     15.0
+                                                                                                                                                                                                                                                     3
+                                                                                                          12.5
+                     12.5                                                                                               3
+              RMSE
+
+
+
+
+                                                                                                                 RMSE
+                                                                                                          10.0
+                     10.0
+                                                                                                                                                                                                                                                     2
+                                                                                                                        2
+                      7.5                                                                                 7.5
+
+                      5.0                                                                                 5.0
+                                                                                                                        1                                                                                                                            1
+                      2.5                                                                                 2.5
+
+                          0                                                                               0             0                                                                                                                            0
+                                     MLP    KAN     NeuralODE Transf.      Mamba DeepONet Tau-BNO                                                FNO                   MWT                WNO            GINO            LNO         Tau-BNO
+                                                                                           (Ours)                                                                                                                                     (Ours)
+
+                      c                    Tau-BNO Training Progress and Log RMSE Evolution                        d                                         Temporal Evolution of Prediction Absolute Errors
+                                                                                                                                                               Across Four Neural Operators (values×10-5)
+                          Log RMSE
+
+
+
+
+                                                                                                 Mean RMSE
+                                                                                                 Region RMSE                                                                                                                              Tau-BNO
+                     -7
+                                                                                                                                                                                                3.0 Months                                 LNO
+                                                                                                                                                                                   s                                                       FNO
+                     -8                                                                                                                                                          th
+                                                                                                                                                                               on                                                          MWT
+                                                                                                                                                                              M                            1.6
+
+
+
+
+                                                                                                                                                                                                                          1.
+                                                                                                                                                                          5
+                                                                                                                                                                       4.
+
+
+
+
+                                                                                                                                                                                                                             5
+                                                                                                                                                                                                                            M
+                                                                                                                                                                                                                                 on
+                     -9
+
+
+
+
+                                                                                                                                                                                                                                   th
+                                                                                                                                                                                                                                     s
+                                                                                                                                                           onths
+
+
+
+
+                -10
+                                                                                                                                                      6.0 M
+
+
+
+
+                -11                                                                                                                                                                                  0                                   0 Months
+
+
+                -12
+                                                                      Training Epoch                                                                                                                                                     12 Months
+                    0                                           400                      800          1000
+                                                                                                                                                           7.
+
+
+
+
+                                                           RMSE=1.3e-5; MAE=5.3e-6 RMSE=3.3e-6; MAE=2.1e-6 ×10
+                                                                                                                                                             5
+
+
+
+
+                                                                                                              -5
+              RMSE=5.5e-5; MAE=2.8e-5
+                                                                                                                                                                   M
+
+
+
+
+                                                                                                             20.0
+                                                                                                                                                                   on
+                                                                                                                                                                     th
+
+
+
+
+                                                                                                                  17.5                                                                                                       s
+                                                                                                                            Absolute Error Bar
+
+
+
+
+                                                                                                                                                                       s
+
+
+
+
+                                                                                                                                                                                                                          nth
+                                                                                                                  15.0                                                                                                  Mo
+                                                                                                                                                                                       9.0 M                       .5
+                                                                                                                  12.5                                                                                           10
+     Region
+
+
+
+
+                                                                                 Region
+                                                  Region
+
+
+
+
+                                                                                                                                                                                             onths
+                                                                                                                  10.0
+                                                                                                                  7.5
+                                                                                                                  5.0
+                                                                                                                   2.5
+                                                                                                                    0
+          0           2        4 6 8 10 12             0      2    4 6 8 10 12        0   2    4 6 8 10 12
+                              Time (month)                        Time (month)                Time (month)
+
+
+
+
+Figure 3: Performance comparison of Tau-BNO with 11 benchmarking models. a. Quantitative
+evaluation (RMSE, MAE) across six general-purpose architectures, highlighting the limitations of standard
+predictive models for PDE-governed tau transport. b. Comparison among five neural operator variants,
+showing Tau-BNO’s superiority within the operator learning family. c. Training dynamics of Tau-BNO
+over 1000 epochs, showing log-scale RMSE and stable convergence behavior. d. Temporal evolution of
+absolute prediction error for Tau-BNO and three representative neural operators, illustrating sustained
+accuracy across the full trajectory.
+2.3 Ablation Analysis of Tau-BNO Architecture                                                             11
+
+
+2.3.1   Necessity of Modular Decomposition
+
+
+
+Figure 4 quantifies the impact of ablating each architectural component. Eliminating the FO results in
+the most catastrophic performance degradation (RMSE = 1.203 × 10−4 ), confirming that learning tau
+dynamics solely from initial conditions is insufficient. Explicit encoding of kinetic parameters is therefore
+necessary to capture the governing reaction–diffusion processes. Removing the DGO produces a 29%
+increase in RMSE (8.93 × 10−6 ), underscoring the importance of connectome topology for modeling
+inter-regional transport. Without graph propagation, predictions collapse toward spatially independent
+regional dynamics. Notably, this graph-ablated variant still outperforms the strongest baseline (LNO,
+RMSE = 1.014 × 10−5 ) by 12%, highlighting the strength of the decoupled operator design. Ablating
+the Query Operator yields a modest 6% increase in RMSE. This smaller performance degradation likely
+stems from the restricted range of initial condition configurations used during training. However, the
+QO remains essential for generalizing to heterogeneous initial conditions, such as complex disease stages
+where explicit disentanglement of state from dynamics is required to capture non-trivial propagation
+patterns.
+
+
+
+
+2.3.2   Complementarity of Fourier and Differential Kernels
+
+
+
+To evaluate the role of multi-scale spatial representations, we ablated the Fourier and differential kernels
+in both operator blocks. As shown in Figure 4, both components contribute to performance, though with
+differing impact. Removing the Fourier kernel induces a substantial performance penalty (RMSE increased
+by 30%). This finding indicates that spectral representations play a dominant role in modeling the
+spatially coherent, smooth variations of tau concentration fields, effectively capturing global dependencies
+across the continuous brain domain. In contrast, ablating the differential kernel results in a moderate
+8% degradation. This performance asymmetry aligns with the biophysics of tauopathy: the dynamics are
+fundamentally governed by large-scale network diffusion (captured by global Fourier modes), with local
+reaction terms playing a secondary modulatory role (resolved by local differential operators). These results
+support the architectural design of Tau-BNO: decoupling state and kinetic parameters, incorporation of
+connectome topology, and integration of multi-scale spatial operators are all necessary for accurate
+surrogate modeling of large-scale tau transport.
+12                                                                                          2 RESULTS
+
+                                                          RMSE
+                                                          MAE
+                     Tau-BNO
+
+
+                         w/o
+                     Differential
+          Kernel
+         Ablations
+                        w/o
+                       Fourier
+
+
+                     w/o DGO
+
+
+         Modular
+         Ablations     w/o QO
+
+
+
+                       w/o FO
+
+
+                                    0       7×10!"            8×10!"          9×10!"       1×10!#
+
+
+
+Figure 4: Ablation analysis of Tau-BNO architecture. Performance comparison for modular (FO,
+QO, DGO) and kernel (Fourier, differential) ablations.
+
+2.4     Spatiotemporal Prediction Accuracy and Generalization
+
+2.4.1   Robust Generalization Across Diverse Physiological Regimes
+
+Figure 5 presents spatiotemporal error distributions for Tau-BNO and three leading neural operator
+methods across three representative biophysical parameter regimes. These regimes induce qualitatively
+distinct patterns of regional tau accumulation, ranging from rapid, widespread propagation (high antero-
+grade regime) to slower, focal progression (transport-dominated regime), thereby providing a stringent
+test of generalization across diverse physiological conditions. Tau-BNO consistently achieves the lowest
+error across the brain. In standard transport regimes (Figure 5a, b), mean relative error remains below
+1%. Under the high-retrograde stress condition (regime c), our method reduces error by 45–66% relative
+to competing operator models, demonstrating robustness under physiologically extreme configurations.
+
+Tau-BNO demonstrates similarly high prediction accuracy in four additional representative NTM bio-
+physical parameter regimes (Figure 6a). These regimes were selected to probe boundary cases, including
+near-zero production rates, extreme transport asymmetries, elevated kinetic aggregation rates, as well
+as out-of-sample cellular uptake and release rates. The description of biophysical regimes is detailed in
+Supplementary Table 2. These scenarios assess both interpolation within and extrapolation beyond the
+training distribution. Across regimes, predicted regional trajectories (dashed lines) closely follow ground
+truth NTM simulations (solid lines) across all time points, accurately capturing distinct dynamical be-
+haviors including monotonic growth, transient peaks, and regional decline. Additional evaluations across
+2.4 Spatiotemporal Prediction Accuracy and Generalization                                                                                                                                                   13
+
+
+
+
+                                                                                     Tau-BNO                            LNO                              FNO                              MWT
+ a                     Ground Truth        ×10-5                                     RMSE=9.2e-7                      RMSE=1.6e-6                      RMSE=1.5e-6                      RMSE=3.2e-6
+                                            20                                                                                                                                                              0.3
+              400
+                                                   Relative Error
+
+
+
+              300                             15
+                                                                                                                                                                                                            0.2
+
+
+
+
+                                                                                                                                          Region
+
+
+
+
+                                                                                                                                                                           Region
+                                                                    Region
+
+
+
+
+                                                                                                         Region
+     Region
+
+
+
+
+              200                             10
+                                                                                                                                                                                                            0.1
+              100                             5
+
+                0                           0                                                                                                                                                               0.0
+                 0     2    4 6     8 10 12                                  0   2     4 6     8 10 12        0   2     4 6     8 10 12        0   2     4 6     8 10 12        0   2     4 6     8 10 12
+                           Time (months)                                             Time (months)                    Time (months)                    Time (months)                    Time (months)
+ b                                         ×10-4                                     RMSE=2.2e-6                      RMSE=4.0e-6                      RMSE=5.3e-6                      RMSE=4.9e-6
+                                            5                                                                                                                                                               0.5
+              400
+                                                   Relative Error
+
+
+
+
+                                              4                                                                                                                                                             0.4
+              300
+
+
+
+
+                                                                                                                                          Region
+
+
+
+
+                                                                                                                                                                           Region
+                                                                    Region
+
+
+
+
+                                                                                                         Region
+
+
+
+
+                                              3                                                                                                                                                             0.3
+     Region
+
+
+
+
+              200
+                                              2                                                                                                                                                             0.2
+              100                                                                                                                                                                                           0.1
+                                              1
+
+               0                             0                                                                                                                                                              0.0
+                   0   2    4 6     8 10 12                              0       2     4 6     8 10 12        0   2     4 6     8 10 12        0   2     4 6     8 10 12        0   2     4 6     8 10 12
+                           Time (months)                                             Time (months)                    Time (months)                    Time (months)                    Time (months)
+ c                                         ×10-4                                     RMSE=8.2e-5                      RMSE=1.5e-4                      RMSE=2.2e-4                      RMSE=2.4e-4
+                                            20                                                                                                                                                              1.0
+              400
+                                                   Relative Error
+
+
+
+
+                                                                                                                                                                                                            0.8
+                                              15
+              300
+                                                                                                                                          Region
+
+
+
+
+                                                                                                                                                                           Region
+                                                                    Region
+
+
+
+
+                                                                                                         Region
+
+
+
+
+                                                                                                                                                                                                            0.6
+     Region
+
+
+
+
+              200                             10
+                                                                                                                                                                                                            0.4
+              100                             5                                                                                                                                                             0.2
+
+                0                             0                                                                                                                                                             0.0
+                 0     2    4 6     8 10 12                                  0   2     4 6     8 10 12        0   2     4 6     8 10 12        0   2     4 6     8 10 12        0   2     4 6     8 10 12
+                           Time (months)                                             Time (months)                    Time (months)                    Time (months)                    Time (months)
+
+
+
+
+Figure 5: Spatiotemporal prediction accuracy across diverse physiological regimes. Brain
+heatmaps of relative prediction error for Tau-BNO and three neural operator baselines under three rep-
+resentative biophysical regimes. Parameters [λf , λγ , λδ , λϵ , λµ ] denote tau production rate, aggregate
+rate, anterograde transport velocity, retrograde transport velocity, and uptake release rate, respectively.
+a. Transport-only regime (λf = 0): [0.0, 8 × 10−3 , 100, 100, 1.20]. b. High anterograde regime (antero-
+grade dominant transport): [9 × 10−4 , 4.8 × 10−3 , 80.6, 22.6, 0.47]. c. High retrograde regime (elevated
+production, strong retrograde transport): [9.8 × 10−3 , 4.2 × 10−3 , 58.6, 92.5, 0.51]. Color scale denotes
+relative error magnitude. Across regimes, Tau-BNO exhibits consistently lower error than competing
+models.
+14                                                                                         2 RESULTS
+
+
+expanded kinetic parameter configurations are provided in Supplementary Results Trajectory Prediction
+Across Diverse Physiological Regimes.
+
+
+
+
+Figure 6: Prediction accuracy under various and extreme biophysical parameter regimes. a.
+Tau trajectories comparing ground truth NTM simulations (solid lines) and Tau-BNO prediction (dashed
+lines) for four biophysical parameter regimes, aggregated from the 426-region MCA atlas to the 44-
+region DS atlas. Regime specifications are provided in Supplementary Table 2. b. Predicted versus
+ground truth spatial tau concentrations at 4-month intervals under four biophysical parameter regimes.
+Blue dots represent brain regions under the MCA mouse atlas. Insets show glass brain visualizations for
+ground truth (top left) and Tau-BNO (bottom right), with red/orange intensity reflecting regional tau
+concentration.
+
+
+2.4.2   Sustained Predictive Performance Across Timescales
+
+Figure 6 evaluates Tau-BNO’s ability to reproduce spatial tau distributions across 426 brain regions over
+simulation horizons, compared against numerical PDE solutions under diverse NTM kinetic parameter
+2.5 Biophysical Exploration with Tau-BNO                                                               15
+
+
+configurations. Tau-BNO achieves remarkably high R2 values between predicted and ground truth values,
+ranging from 0.967-1.000 in the selected model parameter configurations, even at later time points.
+Although predictive accuracy decreases gradually over time, the degradation remains limited. In the
+most challenging configuration, R2 declines by 0.018 between months 4 and 12 (from 0.986 to 0.968).
+In the best-performing cases, R2 remains at 1.000 across the evaluated time span, indicating sustained
+long-horizon stability. The accompanying glass brain visualizations further corroborate these quantitative
+findings. Across time points and parameter regimes, Tau-BNO predictions (orange) closely replicate
+the spatial distribution of tau accumulation observed in the numerical PDE solutions (red), including
+both dominant high-concentration hubs and more diffuse inter-regional spread. Importantly, regional
+asymmetries and interhemispheric propagation patterns are preserved over time, demonstrating that
+predictive fidelity extends beyond aggregate metrics to anatomically coherent spatial structure.
+
+
+
+2.4.3      High Fidelity Prediction Across Varying Initial Tau Seeding.
+
+
+Figure 7 demonstrates Tau-BNO’s ability to accurately predict NTM solutions under diverse initial tau
+seeding configurations across biophysical regimes 5–7. In these experiments, kinetic parameters are ran-
+domly sampled while seeding locations, magnitudes, and the number of affected regions are systematically
+varied. Figure 7a shows that the model adapts to these heterogeneous initializations, reproducing distinct
+temporal signatures induced by multi-focal versus localized seeding. Figure 7b confirms spatial fidelity:
+glass brain visualizations show that Tau-BNO preserves seed localization and subsequent inter-regional
+propagation patterns, including hemispheric spread and large-scale diffusion structure. Even under rapid
+and widespread regimes, spatial distributions remain anatomically consistent with the numerical solu-
+tions. Together, these results demonstrate robust generalization to heterogeneous initial conditions while
+maintaining spatiotemporal accuracy. Collectively, these experiments establish Tau-BNO as a reliable
+and computationally efficient surrogate for NTM across a broad physiological parameter space and ini-
+tial condition. By maintaining accuracy under extreme parameter regimes, long temporal horizons, and
+heterogeneous seeding conditions, Tau-BNO enables scalable inverse modeling, uncertainty quantifica-
+tion, and parameter inference that would otherwise be computationally prohibitive with traditional PDE
+solvers.
+
+
+
+2.5        Biophysical Exploration with Tau-BNO
+
+To demonstrate the practical applications of the Tau-BNO model in the study of tau propagation in the
+brain, we examined the macroscale effects of modulating microscopic transport and reaction parameters
+16                                                                                         2 RESULTS
+
+
+
+
+Figure 7: Prediction accuracy across various initial seeding conditions. a. Ground truth and Tau-
+BNO predicted tau trajectories under different seeding configurations, aggregated from the 426-region
+MCA atlas to the 44-region DS atlas. Region color legend for tau trajectories follows Figures 6. b. Glass
+brain visualizations showing the seeded regions (top) and resulting spatial tau distributions 3 months
+post-seeding (bottom) across three representative NTM parameter regimes.
+                                                                                                        17
+
+
+in the NTM. Figure 8 shows that altering individual biophysical parameters produces qualitatively distinct
+spatiotemporal patterns of tau propagation. Introducing a retrograde transport bias (top row) acceler-
+ates outward spread from the seed region and increases tau accumulation in distal regions, including
+bilateral CA3. This effect is further amplified when compared directly with anterograde-biased transport
+(second row), where retrograde dominance yields faster interhemispheric propagation, as visualized in
+glass brain representations. Modulating reaction dynamics produces different global and regional signa-
+tures. Decreasing the aggregation rate (third row) and increasing tau production (bottom row) both
+elevate overall tau burden across the brain. However, their spatial effects differ. Increased production
+rapidly redistributes concentration away from the seed region, which ceases to dominate within the first
+two months as other regions exhibit near-logarithmic growth. In contrast, reduced aggregation preserves
+the seed region as the dominant locus of accumulation, while other regions display transient increases
+followed by plateauing behavior. Modulating tau aggregation kinetics has the additional effect of mod-
+ulating tau staging as well. The region ordering by tau concentration and regional tau concentration
+peaks differ by aggregation condition. Under low aggregation condition simulated here, non-seed brain
+regions reach peak tau concentration at region-specific time points between 1-3 months post seeding,
+while the corresponding high-aggregation condition displays a more monotonic increase in regional tau
+trajectories through 12 months.
+
+
+
+
+3     Discussion
+
+Biophysical modeling of tau protein propagation in Alzheimer’s disease has traditionally relied on network
+diffusion approaches that omit microscopic cellular dynamics or on computationally intensive PDE-based
+frameworks requiring repeated numerical solutions for arbitrary parameter configurations. The recent
+network transport model (NTM) represents a major leap forward because, unlike earlier passive diffusion
+models, it incorporates the active axonal transport of tau via molecular motors, the kinetics of protein
+aggregation and fragmentation, and exosome-mediated trans-neuronal release and uptake. However,
+modeling these phenomena requires solving large massively coupled PDEs, which has remained outside
+the realm of practical utility. Recent neural operators show promise for accelerating such simulations, but
+existing architectures do not incorporate the mathematical structure and biological constraints specific
+to neural transport systems.
+
+Tau-BNO addresses this limitation through two key design principles. First, decoupling the encoding
+of initial conditions from kinetic parameters allows the model to respect their distinct biological roles:
+initial conditions specify spatial pathology distributions, whereas kinetic parameters govern transport
+18                                                                                         3 DISCUSSION
+
+
+
+
+Figure 8: Tau-BNO predictions illustrate the macroscale effects of varying microscopic transport pa-
+rameters along the mouse structural connectome. Regional tau trajectories (left) are aggregated from
+the 426-region MCA atlas to the 44-region DS atlas. Glass brain visualizations (right) display spa-
+tial tau distributions at selected time points, with increasing orange intensity indicating higher re-
+gional tau concentration. The baseline prediction (top left) uses parameter vector [λf , λγ , λδ , λϵ , λµ ] =
+[5 × 10−4 , 8 × 10−3 , 10, 10, 2.2]. Increased anterograde and retrograde transport conditions are generated
+by modifying (λδ , λϵ ) to (100, 10) and (10, 100), respectively. Decreased aggregation is modeled with
+λγ = 1 × 10−3 , and increased production with λf = 1 × 10−2 . The blue dot in the baseline glass brain
+denotes the initial seeding location.
+3.1 Tau-BNO provides a rapid and accurate proxy model of tau spread                                     19
+
+
+and diffusion processes operating on different scales. Second, our Directed Graph Operator accounts
+for the directional asymmetry inherent in neural pathways. By fusing multiple symmetric graph projec-
+tions, it approximates directed transport while maintaining computational efficiency, thereby capturing
+spatiotemporal propagation patterns more faithfully.
+
+
+
+3.1    Tau-BNO provides a rapid and accurate proxy model of tau spread
+
+The design choices behind Tau-BNO yield substantial performance gains. Tau-BNO achieves a 32%
+reduction in RMSE compared with state-of-the-art neural operators, with ablation studies revealing
+that the decoupled architecture with the Directed Graph Operator provides a further 12% improvement
+over these baselines. Critically, the model maintains high accuracy under extreme parameter regimes,
+suggesting that it has learned a stable approximation of the underlying solution operator rather than
+overfitting specific training configurations. These findings underscore a broader principle for operator
+learning in biological systems: respecting the mathematical and structural constraints of the underlying
+dynamics can be as important as architectural design choices.
+
+Tau-BNO provides a means to more readily model tau spread in the brain as defined by NTM dynamics,
+removing the need for extensive computational resources required when using numeric approaches to
+solve the associated system of PDEs. Once trained, longitudinal tau simulations can be generated
+within seconds on standard hardware, compared to hours of computation using conventional PDE-based
+solvers. This acceleration makes large-scale parameter exploration and sensitivity analysis computationally
+feasible. Beyond efficiency, Tau-BNO enables systematic investigation of how microscopic biophysical
+parameters shape macroscale tau propagation. By supporting rapid forward simulations across diverse
+parameter regimes, the framework facilitates analysis of transport asymmetries, aggregation dynamics,
+and uptake processes in relation to emergent spatial pathology patterns. Although developed within the
+NTM framework, the broader Brain Neural Operator paradigm is extensible to other connectome-based
+models of neurodegeneration.
+
+
+
+3.2    Tau-BNO produces novel mechanistic insights
+
+Backed by the computational efficiency provided by Tau-BNO, analysis of aggregation dynamics reveal
+that the tau aggregation rate plays a critical role in the global spread rate, staging, and overall burden
+of soluble tau in the brain, as shown in Figure 8. A decreased aggregation rate results in a more rapid
+global spread of tau from the seed region to the rest of the brain, which can be biologically explained by
+20                                                                                         3 DISCUSSION
+
+
+immobile aggregated tau polymers sequestering the amount of tau monomers available to spread, thus
+slowing the overall rate of tau spread. The effect is not as straightforward as simply modulating the time
+scale of tau spread, as tau staging is shown to vary by aggregation conditions as well. The overall soluble
+tau burden is shown to increase under the low aggregation rate condition, which is expected since a lower
+aggregation rate favors a larger proportion of soluble tau monomers in the aggregation-fragmentation
+equilibrium between tau monomers and polymers.
+
+Tau staging and global spread also demonstrate a critical dependence on directional tau transport dy-
+namics. See Figure 8. Retrograde-biased transport (against axonal polarity) regimes demonstrate a
+faster global and inter-hemispheric tau spread in the brain compared to anterograde-biased transport
+regimes (in the direction of axonal polarity). The region ordering by tau concentration throughout the
+simulations also changes depending on the direction of tau transport bias. In contrast, increased tau
+production rate has its greatest influence on the global spread rate and burden of tau, but not region
+ordering (with the exception of the seed region). Together, these results highlight the importance of
+microscopic tau dynamics in capturing spatiotemporal patterns of tau progression that contemporary
+diffusion based models fail to capture. In addition, these analyses highlight Tau-BNO’s capacity to re-
+produce mechanistically distinct propagation signatures arising from specific microscopic transport and
+reaction parameters, enabling previously intractable systematic exploration of how cellular-scale processes
+shape large-scale tau dynamics.
+
+
+
+
+3.3    Utility, Impact and Generalizations
+
+The accurate performance of Tau-BNO makes it an attractive surrogate model. Its practical utility lies in
+finally rendering large-scale parameter inference feasible. This will allow researchers to rapidly fit similar
+models to empirical data to extract patient-specific system coefficients, evaluate heterogeneous disease
+trajectories, and explore how specific cellular mechanisms could be targeted by future therapeutics. By
+successfully approximating complex PDE systems without losing biological interpretability, this work
+showcases the transformative value of deep learning to serve as surrogate for intractable biophysical
+models. Most importantly, the surrogate model is capable of producing new insights and generating
+new hypotheses. Ultimately, the Tau-BNO framework provides a scalable computational foundation for
+investigating broader neuroscientific processes, such as axonal transport dynamics and network-mediated
+disease spread, paving the way for rapid, personalized therapeutic targeting in neurodegenerative diseases.
+The proposed Tau-BNO is intended to be the centerpiece of an emerging effort to create in silico models
+of neurodegenerative processes, that will serve as a computational workbench for future investigators.
+3.4 Related Work                                                                                       21
+
+
+3.4    Related Work
+
+
+
+Neural operator architectures provide a principled framework for learning mappings between infinite-
+dimensional function spaces. DeepONet [33] adopts a branch–trunk architecture that encodes input
+functions and spatiotemporal coordinates separately, learning the solution operator in accordance with
+universal operator approximation theory [50]. The Fourier Neural Operator (FNO) [34] performs global
+spectral convolutions using fast Fourier transforms [51], enabling efficient modeling of long-range inter-
+actions. Wavelet-based variants, including the Multiwavelet-based operator model (MWT) [36] and the
+Wavelet Neural Operator (WNO) [35], introduce multi-resolution representations that jointly capture spa-
+tial and frequency structure [52]. The Localized Neural Operator (LNO) [49] augments operator learning
+with differential kernels to strengthen local spatial modeling. While these approaches have demonstrated
+strong performance for PDE systems defined on structured grids, extending operator learning to irreg-
+ular geometries and network-like domains remains challenging. Graph-based neural operators address
+this limitation by incorporating message-passing mechanisms from graph neural networks [53, 54]. In
+particular, the Graph Neural Operator (GNO) [37] and the Geometry-Informed Neural Operator (GINO)
+[38] replace kernel integration with graph-based propagation, further leveraging Nyström approximations
+[55] to support operator learning on irregular meshes and complex topologies. These developments have
+broadened the applicability of neural operators to systems defined on non-Euclidean domains.
+
+Within computational neuroscience, graph neural networks (GNNs) have been widely applied to brain con-
+nectomics. For example, GNN-based models have been used to study the structure–function relationship
+between structural connectivity (SC) and functional recordings derived from functional magnetic reso-
+nance imaging (fMRI) [56–59] and electroencephalography (EEG) [59]. Such approaches often achieve
+competitive predictive performance relative to neural mass models [60–62], though they typically operate
+as statistical models without explicitly encoding mechanistic transport processes. Similarly, GNNs have
+been employed to forecast tau propagation on structural connectomes [63, 64], yet these models do not
+incorporate the biophysical reaction–transport dynamics underlying mechanistic frameworks such as the
+NTM. Neural operators have more recently been explored in neuroscience applications, including Neural
+Koopman Operators for modeling brain dynamics and cognitive states [65–67], as well as operator-
+learning approaches for biomechanical modeling of traumatic brain injury [68]. However, operator-based
+frameworks that explicitly integrate connectome topology with mechanistic transport dynamics remain
+underdeveloped in neurodegenerative disease modeling. Tau-BNO contributes to this emerging direction
+by combining operator learning with biologically grounded graph structure tailored to neural transport
+systems.
+22                                           4 BIOPHYSICAL TAU TRANSPORT MODEL THEORY
+
+
+3.5     Limitations and Future Directions
+
+
+Several limitations warrant careful consideration. First, our current implementation is trained on mouse
+connectome data, and the Directed Graph Operator encodes topological priors specific to murine neural
+architecture. The substantial anatomical and network-level differences between mouse and human brains
+pose challenges for direct translation to human applications. In addition, mouse datasets generally
+specify ground truth tau seed regions, which are unknown in tau-PET derived human datasets. Future
+work will therefore prioritize adapting Tau-BNO using human connectome datasets and clinically derived
+measurements. Second, our current framework addresses the forward problem of predicting dynamics
+from system parameters, whereas clinical applications often require solving the inverse problem—inferring
+kinetic parameters from observed spatiotemporal tau distributions. Developing an inverse modeling
+framework would transform Tau-BNO from a simulation tool into a diagnostic instrument capable of
+extracting patient-specific system parameters from monitoring data. This could enable earlier detection
+of pathological changes and more precise characterization of disease subtypes. Third, our validation
+relies on synthetic data generated from mechanistic models rather than direct comparison with clinical
+observations. Although these models incorporate established biophysical principles, discrepancies between
+simulated and real-world disease progression may limit translational applicability. Integrating Tau-BNO
+with longitudinal clinical datasets therefore represents a critical next step. The computational speed
+and accuracy with which Tau-BNO approximates the NTM make large-scale empirical inference feasible,
+enabling parameter estimation and model fitting that would otherwise be computationally prohibitive.
+Applying the NTM to observational data using Tau-BNO as a surrogate is an active area of ongoing
+work.
+
+
+
+
+4       Biophysical Tau Transport Model Theory
+
+The Network Transport Model is a biophysical model defined as a set of partial differential equations
+outlined in [24] that explain the macroscopic region-level progression of tau in the brain as a process
+arising from microscopic cellular-level tau dynamics that include tau aggregation and fragmentation,
+diffusion and transport, cellular uptake and release, and spontaneous production processes. The NTM
+thus provides a link between the observed region-level patterns of tau spread and the biophysical cellular
+mechanisms governing tau behavior.
+4.1 Single Neuron Dynamics                                                                                 23
+
+
+4.1    Single Neuron Dynamics
+
+Single cell tau dynamics are described by a compartmental model of a neuron. This compartmental
+model draws from single cell tau dynamics introduced by Torok et al. [21]. Within each compartment of
+the single neuron model are three primary biophysical processes that govern tau pathology: (1) diffusive
+spread and active transport; (2) aggregation and fragmentation of soluble tau monomers and aggregated
+insoluble tau polymers; and (3) the source production of soluble tau in seed regions of the brain. These
+dynamics are described by the following system of partial differential equations (PDEs):
+                                                             
+                       
+                       
+                        φnt = a(x) nx + h(x, m, n) x + Γ(m, n) + Fedge ,
+                       
+                                | {z } | {z }                     | {z }
+                                  diffusion  active transport    production
+                       
+                       
+                       
+                       
+                         φmt = −Γ(m, n),                                                                  (2)
+                       
+                       
+                       
+                         Γ(m, n) = βm − γ1 n2 − γ2 mn
+                       
+                       
+                       
+                       
+                       
+                       |                 {z                  }
+                              aggregation & fragmentation
+
+
+where n(x, t) and m(x, t) are soluble and insoluble tau concentrations, respectively, φ is a scale factor that
+describes the ratio between slow and fast time scales different processes act on, Γ(m, n) is the conversion
+rate between soluble and insoluble tau due to aggregation and fragmentation modulated by the γ1 and γ2
+aggregation rate parameters and the β fragmentation rate parameter, a(x) is the compartment-specific
+diffusivity modulating the rate of tau diffusion, and Fedge denotes a source production term for soluble
+tau. Active transport dynamics are denoted by h and defined as follows:
+                       
+                       −(1 − f )(va (1 + δn)(1 − εm) − vr ))n x ∈ Axonal Compartment
+          h(x, m, n) =                                                                                    (3)
+                       0                                       otherwise .
+
+The δ and ϵ parameters modulate the interaction between tau and the axonal molecular motors, and va
+and vr are baseline anterograde and retrograde velocities of tau transport.
+
+
+
+4.2    Network Transport Model
+
+The Network Transport Model (NTM) extends cellular tau dynamics to the whole brain by applying the
+single neuron compartmental model of tau dynamics outlined by equations 2-3 to edges of the brain’s
+structural connectome (SC) graph. The SC graph is defined as a weighted directed graph where nodes
+represent discrete brain regions as defined by a specified atlas parcellation, and edges represent long
+range white matter tract neurons interconnecting brain regions weighted white matter tract connectivity
+24                                                 4 BIOPHYSICAL TAU TRANSPORT MODEL THEORY
+
+
+strength that is empirically determined from diffusion magnetic resonance imaging (dMRI) tractography
+in humans and viral tracing in mice. To model tau dynamics on the brain’s SC graph, each graph node
+Pi represents the extracellular space in region i, and each directed edge eij represents the intracellular
+space of the neurons connecting nodes Pi to Pj .
+
+The exchange of tau between intracellular and extracellular spaces as modulated by uptake and release
+mechanisms is modeled as a process that occurs on the boundary between SC graph nodes (representing
+extracellular space in region Pi ) and edges (representing intracellular space of white matter tract neurons
+connecting brain regions). For SC graph edge eij , the tau fluxes Jij at nodes Pi and Pj are given by:
+                                   
+                                   Jij (Pi ) = −µi,1 nij (Pi ) + µi,2 Ni ,
+                                                                                                        (4)
+                                   J (P ) = µ n (P ) − µ N .
+                                       ij     j       j,1 ij    j        j,2   j
+
+
+where µi,1 and µi,2 are release and uptake rate parameters between edge eij and node Pi , µj,1 and µj,2
+are release and uptake rate parameters between edge eij and node Pj , Ni and Nj are the extracellular
+concentrations of soluble tau at nodes Pi and Pj , and nij (Pi ) and nij (Pj ) are the concentrations of
+intracellular soluble tau at boundary points along eij with nodes Pi and Pj .
+
+The NTM then captures the concentrations of extracellular soluble and insoluble tau at node Pi , denoted
+Ni and Mi respectively, as follows:
+                        
+                              ′
+                        ϕMi = −Γ(Mi , Ni )
+                        
+                        
+                        
+                                    X
+                          ϕNi′ = V1i        (−cij Jij (Pi ) + cji Jji (Pi )) +Γ(Mi , Ni )               (5)
+                        
+                                    j̸ = i
+                        
+                                    |                 {z                  }
+                        
+                                            incoming tau flux into node Pi
+
+
+where Vi denotes the volume of region Pi , cij is the connectivity edge weight of SC graph edge eij , and
+ϕ << 1 is a small scale constant between slow and fast time scales on which different modeled processes
+occur.
+
+
+
+
+4.3      Quasi Static Approximation
+
+The quasi-static approximation of the NTM leverages the fact that different biophysical processes me-
+diating tau progression occur on vastly different time scales, allowing for fast-acting processes to reach
+a steady state before affecting slower acting tau dynamics in an appreciable way. This steady state
+approximation allows the NTM to be reformulated as a series of ordinary differential equations (ODEs)
+                                                                                                     25
+
+
+to solve the governing system of PDEs, which makes generating simulations of the NTM possible, but
+still extremely computationally intensive and time consuming. The equations governing tau dynamics of
+the quasi-static NTM on SC nodes are given by:
+
+Mi = γ1 Ni2
+       β−γ2 Ni
+                     
+ 1 + 2β−γ2 Ni γ N N ′ = 1 P c (µ̂ n (0, t) − µ̂ N (t)) + c (µ̂ n (L , t) − µ̂ N (t)) 
+      (β−γ2 Ni )2 1 i   i Vi j ij i,1 ij        i,2 i      ji  i,1 ji ji      i,2 i
+                                                                                                    (6)
+where µ̂k = µϕk . For a detailed explanation of the quasi-static NTM and numeric methods used to
+generate simulations, the reader is directed to [24].
+
+
+
+
+5       Methods
+
+In this section, we first formalize the problem and then present the proposed Brain Neural Operator. An
+overview of the method is shown in Figure 1.
+
+
+
+5.1     Operator Learning Framework
+
+5.1.1    Problem Formulation
+
+
+We consider the spatiotemporal evolution of tau transport over a spatial domain Ω ⊂ R and time interval
+T = [0, T ]. Let u : Ω × T → RV denote the state field representing the concentrations of V distinct tau
+species (e.g., soluble and insoluble forms). The dynamics are governed by a parametric system of PDEs:
+                                                           
+                       
+                       
+                        ∂t u(x, t) = Ψτ u(x, t), ∇u(x, t); λ , (x, t) ∈ Ω × T ,
+                       
+                         u(x, 0) = u0 (x),                      x ∈ Ω,                              (7)
+                       
+                       
+                       
+                       B[u](x, t) = 0,                         (x, t) ∈ ∂Ω × T ,
+
+where Ψ is a non-linear differential operator parametrized by a vector λ ∈ Rp (encoding biophysical
+rates such as production, aggregation, and transport velocities), and u0 represents the initial spatial
+distribution. To efficiently predict the system dynamics, we define the exact solution operator S :
+X × Λ → U as the mapping S(u0 , λ) = u(·, ·), which takes an initial condition and a parameter vector
+to the corresponding spatiotemporal trajectory. Our objective is to learn a parametric neural operator
+Nθ ≈ S that directly predicts the solution u across the biophysical parameter space, thereby bypassing
+26                                                                                          5 METHODS
+
+
+the computational cost of iterative numerical solvers.
+
+
+
+
+5.1.2   Neural Operator
+
+
+We realize Nθ as a composition of multi-kernel layers that mix pointwise channel transforms with integral
+and differential kernel operators over the spatial domain. Let Z (ℓ) : Ω → RDℓ be the layer-ℓ feature field.
+Each layer acts as                                                      
+                              (ℓ+1)            (ℓ)            (ℓ)
+                                                                  
+                          Z           (x) = σ Z (x) Wℓ + Kℓ [Z ] (x) + bℓ ,
+
+where Wℓ ∈ RDℓ ×Dℓ+1 is a pointwise linear transform, bℓ ∈ RDℓ+1 is a bias, σ is an activation, and Kℓ is
+a kernel operator acting over Ω.
+
+We use an input lifting network H : RDin → RD0 and an output projection P : RDL → RDout , and set
+
+                               Z (0) = H u0 , λ ,     Nθ (u0 , λ) = P Z (L) .
+                                                                          
+
+
+
+Collecting learnable parameters from neural operator Nθ , we write θ = H, P, {Wℓ , bℓ , Kℓ }L−1
+                                                                      
+                                                                                            ℓ=0 .
+
+
+The Tau-BNO framework is composed of specialized operator blocks, each utilizing a distinct kernel
+configuration to capture multi-scale biological dependencies. For the FO and QO, which are designed to
+model continuous spatiotemporal dynamics, we employ a dual-kernel strategy that combines a Fourier
+integral kernel (KF ) to capture global interaction via spectral convolution with a Differential kernel
+(KD ) enabling explicit modeling of local reaction dynamics and boundary behavior [34, 49]. Conversely,
+the DGO is tailored to the discrete anatomical connectome, utilizing a Graph integral kernel (KE ) to
+aggregate features from topological neighbors and model inter-regional diffusion [37]. Formal definitions
+and mathematical derivations for all kernel operators are detailed in Supplementary Materials Detailed
+Kernel Formulations.
+
+
+
+
+5.1.3   Operator Learning
+
+
+To implement the operator learning framework numerically, we discretize the continuous solution u(x, t)
+onto a finite grid defined by V brain regions and T temporal snapshots. Let u ∈ RV ×T denote the discrete
+                                               b = Nθ (u0 , λ) ∈ RV ×T represent the prediction of the
+ground-truth trajectory matrix. Similarly, let u
+                                                                                          (i)
+neural operator, parametrized by weights θ. Given a training dataset of N samples {(u0 , λ(i) , u(i) )}N
+                                                                                                       i=1 ,
+5.2 Tau-BNO Architecture                                                                                27
+
+
+we optimize θ by minimizing the relative L2 projection error:
+
+                                                  N
+                                                  X u(i) − u
+                                                           b (i)      2
+                                   min L(θ) =                             ,                            (8)
+                                     θ
+                                                  i=1
+                                                           u(i)   2
+
+
+where ∥ · ∥2 denotes the entry-wise L2 norm, and Nθ (·) returns a solution prediction in RV ×T . This
+objective promotes consistent approximation of the underlying solution operator S across varying initial
+conditions and biophysical parameter regimes.
+
+
+
+
+5.2     Tau-BNO Architecture
+
+The Tau-Brain Neural Operator (Tau-BNO) is designed to simulate tau transport dynamics by explicitly
+disentangling local kinetics from global transport. As illustrated in Figure 1, the framework decomposes
+the solution operator into three specialized modules. Unlike standard approaches that conflate these
+factors into a unified latent representation, Tau-BNO processes kinetics and initial condition information
+via independent pathways before fusing them. Formally, the composite operator Nθ is defined as:
+
+                      Nθ = P ◦ G ◦ (R ⊙ Q) = P ◦ G ◦ ((R
+                                                       e ◦ HR ) ⊙ (Q
+                                                                   e ◦ HQ )),                          (9)
+
+where Nθ is our Tau-BNO model, H and P are the lifting neural network and solution trajectory projector.
+The operator G represents the DGO, R is the FO, and Q is the QO.
+
+
+
+5.2.1   Function Operator
+
+
+To extract regional kinetics and better characterize the local dynamical behavior within each brain region,
+we introduce a Function Operator (FO) that learns a mapping from the initial condition u0 ∈ X (Ω; R)
+and system parameters λ ∈ Λ to regional kinetic representations. For a fixed λ, the parameters are
+broadcast to all regions, promoting the sharing of system parameters while allowing regional specific
+kinetic adaptation. Formally, the operator is defined as
+
+               R : X × Λ(Ω; Rp+1 ) −→ YR (Ω; RD ),           r(x) := (R[u0 , λ])(x) ∈ RD .
+
+where Ω denotes the set of n brain regions indexed by x, p represents the number of tau-transport
+parameters, and D is the hidden dimension (fixed across all layers). The Function Operator is constructed
+28                                                                                          5 METHODS
+
+
+as a composition of an input lifting network, a sequence of function kernel layers, and an output projection:
+
+                                 R = PR ◦ MR,L−1 ◦ · · · ◦ MR,0 ◦ HR ,                                  (10)
+
+where HR denotes the input lifting module, PR is the output projection, and each MR,ℓ represents a
+function kernel layer, and the operator consists of L such layers.
+                                                                                 F
+Each layer MR,ℓ integrates two complementary kernels: a Fourier integral kernel KR inspired by the
+                                                   D
+FNO [69] as in Eq. (17) and a differential kernel KR following the LNO [49] formulation in Eq. (18).
+These two kernels are combined additively, resulting in
+                                                                                         
+                                               F                   D
+            MR,ℓ+1 [Z](x) = σ Z (ℓ) (x)WR,ℓ + KR,ℓ [Z (ℓ) ] (x) + KR,ℓ [Z (ℓ) ] (x) + bR,ℓ ,
+                                                                              
+                                                                                                        (11)
+
+where σ is the activation function, and {WR,ℓ , bR,ℓ } represent the learnable affine parameters.
+
+This complementary design ensures that the resulting representation effectively captures global, long-
+range dependencies while simultaneously resolving local dynamics.
+
+
+
+5.2.2   Query Operator
+
+
+To explicitly condition the predicted dynamics on the initial condition, we introduce the Query Operator
+(QO). Unlike the FO, the QO derives a region-specific feature map solely from the u0 . This disen-
+tanglement ensures that the learned dynamics are modulated by the precise initial condition, thereby
+preventing the washout of initial conditions during temporal evolution and improving the identifiability
+of state-dependent trajectories. Given an initial condition u0 ∈ X (Ω; R), the QO produces a regional
+condition embedding:
+
+                    Q : X (Ω; R) −→ YQ (Ω; RD ),            q(x) := (Q[u0 ])(x) ∈ RD .
+
+Architecturally, Q mirrors the Function Operator but uses a HQ : R → RD at the input, focusing
+the capacity on extracting regional cues from u0 rather than predicting kinetics. We realize Q as a
+composition of an input lifting, a stack of L query layers, and an output projection:
+
+                                 Q = PQ ◦ MQ,L−1 ◦ · · · ◦ MQ,0 ◦ HQ ,                                  (12)
+
+where HQ is a linear lifting at each x and PQ represents the output projection that produces the regional
+condition embedding. Each layer MQ,ℓ follows the same architecture as described in Eq. (11).
+5.2 Tau-BNO Architecture                                                                               29
+
+
+Let R[u0 , λ](x) ∈ RD denote the parameter driven regional kinetics produced by the FO. We combine
+the two pathways through a pointwise gated interaction based on the Hadamard (element wise) product:
+
+                                   f (x) := R[u0 , λ](x) ⊙ Q[u0 ](x),                                (13)
+
+yielding the regional temporal dynamics f (x). This design lets the initial condition embedding Q[u0 ]
+modulate the kinetics, thereby preserving identifiability while enabling expressive conditioning.
+
+
+
+
+5.2.3   Directed Graph Operator
+
+
+To model interregional tau transport and diffusion along the brain connectome, we employ a modified
+graph kernel that enables anisotropic, attribute aware message passing on the regional state f (x).
+This kernel captures direction dependent connectivity while modulating interactions by node and edge
+covariates, thereby driving the spatiotemporal evolution of regional dynamics.
+
+To obtain a numerically stable yet expressive operator, we instantiate this kernel via spectral graph con-
+volutions evaluated on multiple symmetric surrogate graphs constructed from the directed connectome.
+This choice is motivated by the classical spectral graph convolution framework [43], which presumes a
+symmetric graph structure so that the Laplacian operator is self adjoint with an orthonormal eigenbasis.
+For a directed adjacency A ∈ Rn×n
+                              ≥0 , the associated Laplacians are generally non-symmetric, leading to
+possibly non-orthogonal eigenvectors. Accordingly, we consider three symmetric surrogates that capture
+distinct structural proximities within the directed connectome [39]. The first-order symmetry proximity
+preserves the direct connectivity of the original graph, while the second-order in-degree and second-order
+out-degree proximities encode second-order inbound and outbound connection patterns, respectively.
+
+Formally, we define the symmetric, in-degree, and out-degree proximity matrices as Asym = (A+A⊤ )/2,
+Ain = A⊤ D−1                  −1 ⊤
+          out A, and Aout = ADin A , respectively, where Din/out are the corresponding degree
+
+matrices. To ensure numerical stability and spectral smoothness, we apply the standard symmetric
+normalization [43] to each surrogate:
+
+                      A    e −1/2 A
+                      b := D      eDe −1/2 ,     A
+                                                 e = A + I,        D
+                                                                   e := diag(A1).
+                                                                             e                       (14)
+
+
+Under this formulation, the spatiotemporal dynamics of tau propagation are modeled by a DGO as:
+
+                                 G = PG ◦ MG,L−1 ◦ · · · ◦ MG,0 ◦ HG ,                               (15)
+30                                                                                                5 METHODS
+
+
+where HG encodes the input embedding and spatial transformation, MG,ℓ denotes a message passing
+module employing three distinct kernel functions corresponding to the three proximity undirected graphs
+(Asym , Ain , Aout ), and PG represents the fusion projector that integrates the multi kernel responses into
+a unified representation of the tau propagation dynamics.
+
+Formally, the operator induces the mapping
+
+         G : YR (Ω; RD ) ⊙ YQ (Ω; RD ) −→ YG (Ω; RD ),        g(x) := (G[f ])(x) ∈ RD , for x ∈ Ω.
+
+
+Let {sym, in, out} denote the indices of the symmetric surrogate proximity graphs constructed from the
+directed adjacency A. Given node wise features Z (ℓ) : Ω → RD at layer ℓ, the message passing module
+acts on Z (ℓ) via three independent branches:
+
+                                                                                ⊤
+               MG,ℓ [Z] (x) := MGsym ,ℓ [Z](x); MGin ,ℓ [Z](x); MGout ,ℓ [Z](x); ∈ R3×D .
+                              
+
+
+                                         (ℓ)                         (0)
+For each k ∈ {sym, in, out}, and Zk (x) with initial input Zk (x) = HG (f (x)), where f is the
+regional temporal dynamics from Eq. (13), the k-th branch performs a neighborhood aggregation on the
+normalized surrogate A
+                     b k in Eq. (14):
+
+                                                                            
+                                          (ℓ)    self    E     (ℓ) 
+                      MGk ,ℓ [Z](x) := σ Zk (x) Wk,ℓ  + Kk,ℓ [Zk ] (x) + bk,ℓ ,
+
+       E     (ℓ) 
+where Kk,ℓ [Zk ] (x) is the graph based integral kernel in Eq. (16).
+
+Given the results from three proximity graphs MGsym ,L−1 [Z](x), MGin ,L−1 [Z](x), and MGout ,L−1 [Z](x),
+we define the output fusion layer as a mapping PG : (Ω; R3×D ) −→ YG (Ω; RD ), where the fusion process
+aggregates the outputs from the three graphs for each node x ∈ Ω:
+
+                                                                   1         X
+        PG MGsym ,L−1 [Z](x), MGin ,L−1 [Z](x), MGout ,L−1 [Z](x) :=                        MGk ,L−1 [Z](x).
+                                                                     3
+                                                                           k∈{sym,in,out}
+
+
+
+
+5.2.4     Trajectory Projection
+
+
+Given the learned spatiotemporal representation, we map it to the target tau trajectory field via a projector
+
+                                      P : YG (Ω; RD ) −→ U(Ω; RT ),
+5.3 Tau Transport Trajectory Data Generation                                                            31
+
+
+where T ∈ Z denotes the length of the target trajectory. The operator P is implemented as a composition
+of linear layers. Consequently, for the representation g ∈ YG (Ω; RD ) produced by the graph operator,
+the predicted trajectory is
+                                        b := P[g] ∈ U(Ω; RT ),
+                                        u
+
+      b (x) ∈ RT gives the predicted time discrete trajectory at location x.
+where u
+
+
+
+
+5.3    Tau Transport Trajectory Data Generation
+
+To train our surrogate for tau propagation dynamics, we generated a comprehensive dataset by numerically
+solving the governing PDEs across diverse physiological parameter regimes. Following the mathematical
+formulation in [21], we simulated tau protein concentration dynamics across 426 brain regions over
+1,071 distinct combinations of initial conditions and transport parameters, yielding a high dimensional
+dataset that captures the complex interplay between network topology and biochemical kinetics. All
+parameters, aside from λf , are randomly sampled from a uniform distribution within a range that is
+deemed biophysically plausible. Tau production rate λf is randomly sampled with a 90% probability
+from a uniform distribution U [0, 0.001] and a 10% probability from a uniform distribution U [0.001, 0.01].
+This is because the range of λf ∈ [0, 0.001] is considered the likely range for most empirical datasets of
+longitudinal tau derived from mouse studies, but a small number of empirical tau mouse datasets show
+larger tau production over time that can be captured in the range of λf ∈ [0.001, 0.01]. Larger values
+of λf tend to dominate the reaction dynamics, diminishing the relative influence of transport rates. For
+both of these reasons, this sampling strategy is employed to bias the model training on smaller values of
+λf .
+
+The SC graph is critical in modeling tau progression because tau has been shown to propagate along
+white matter tracts in the brain, meaning the SC network topology forms a structural backbone on
+which tau spread occurs. As such, the NTM models tau spread as a process occurring on the brain’s
+connectivity network. The SC graph represents brain regions, specified by a preselected brain atlas, as
+graph nodes, and graph edges as neuronal white matter tract connections between regions weighted by
+the experimentally determined connectivity strength. The connectome used in this study is the mouse
+mesoscale connectivity atlas (MCA) from the Allen Institute for Brain Sciences [42], obtained using viral
+tracing methods to determine strength (edge weight) and polarity (edge directionality) of white matter
+tract connections in the brain. The MCA parcellates each hemisphere of the mouse brain into 213 regions,
+resulting in an SC graph consisting of 426 regions in the whole mouse brain. However, for visualization
+purposes, we use a more coarse 44-region parcellation of the mouse brain used as the native space for
+32                                                                                          5 METHODS
+
+
+sampling empirical tau data in Kaufman, et al. [70] referred to here as the ‘DS’ atlas when plotting
+tau trajectories (regional concentration over time). Glass brains utilize the finer-grade MCA atlas used
+in NTM simulations. To convert tau simulations from the 426-region MCA to the 44-region DS atlas
+for visualization, we compute the volume corrected mean tau concentration of all MCA atlas regions
+contained in a single DS atlas region at each simulated time point.
+
+The initial tau seeding patterns for the 1,071 NTM simulations used for training were selected to cor-
+respond to seed injection regions from 12 experimental mouse studies of tau progression: BoludaCBD
+[71], BoludaDSAD [71], DS4 [70], DS6 [70], DS6 110 [70], DS7 [70], DS9 [70], DS9 110 [70], Hurtado
+[72], IbaHippInj [73], IbaStrInj [73], and IbaP301S [74]. Seed regions were randomly selected with equal
+probability from seed regions specified by these 12 studies. The Hurtado study is unique in that mice
+were not injected with tau, instead the mouse model naturally developed tau, and so no ground truth
+seed is known. Instead, the seed regions corresponding to this study are selected as the brain regions
+that contained tau at the earliest measurement (2 months) while maintaining relative tau proportions
+(measurement intensity) between seed regions. As these studies specify seed regions using different, lower
+resolution brain atlases than the MCA, the study specified seed region(s) were matched to region(s) in the
+MCA, generally increasing the number of seed regions under the higher resolution MCA brain atlas. The
+concentration of tau at each seed region is then determined by aggregation and fragmentation dynamics
+of the NTM model, described in Equation 2 assuming a constant tau seed mass across simulations. This
+effectively scales seed tau concentrations depending on the sampled value of λγ . These initial seed tau
+methods were designed to match known seeding patterns in empirical mouse tau datasets that the NTM
+model can be applied to study. When applying this model to human tau-PET data with no known tau
+seeding patterns in future work, the sampling strategy for initial seeded tau will differ to enable our model
+to generalize across more diverse disease onset patterns observed clinically.
+
+
+
+
+5.4    Experimental Setup
+
+
+All models were implemented in PyTorch 2.8 and trained on NVIDIA RTX A6000 GPUs with 48GB
+memory. We employed the AdamW optimizer [75] with model specific learning rates ranging from
+2 × 10−4 to 1 × 10−3 (detailed in Table 1) and a minimum learning rate of 2 × 10−6 . The learning rate
+schedule followed cosine annealing [76] over 1,000 training epochs. Complete implementation details are
+provided in the Supplementary Materials Implementation Details.
+5.4 Experimental Setup                                                                                  33
+
+
+Data and Code Availability
+
+The data and code supporting the findings of this study will be made publicly available upon acceptance
+of the manuscript.
+
+
+
+Author Contributions
+
+N.B. and H.R. contributed equally to this work and co-wrote the original draft of the manuscript. H.R.
+designed and implemented the proposed method, conducted the experiments, and contributed to data
+analysis and visualization. N.B. generated the datasets and contributed to data analysis and visualization.
+U.S., D.Y., Y.G., Z.L., and G.Y. contributed to manuscript revision and provided critical feedback. M.C.
+and A.R. supervised the project and provided overall guidance throughout the study.
+
+
+
+Funding
+
+Declaration of Competing Interests
+
+The authors declare no competing interests.
+
+
+
+Acknowledgments
+
+Supplementary Material
+
+Supplementary Methods
+
+Detailed Kernel Formulations
+
+Integral kernel. A integral kernel can be expressed as
+                                                          Z
+                                 Kℓint [Z (ℓ) ] (x)           κℓ (x, ξ) Z (ℓ) (ξ) dξ,
+                                             
+                                                      =
+                                                          Ω
+34                                                                                            5 METHODS
+
+
+where κℓ : Ω × Ω → RDℓ+1 ×Dℓ is a learnable kernel. This operator performs global aggregation over the
+spatial domain, enabling the layer to capture long-range and anisotropic dependencies.
+
+Graph-based integral kernel. Following [37], we model inter-regional transport and diffusion on the
+brain network. We endow the set of regions Ω with a graph structure. For each node x ∈ Ω, we
+specify a finite neighborhood U (x) ⊆ Ω. Let κℓ : Ω × Ω → RDℓ+1 ×Dℓ be a learnable kernel that maps
+source features to target features while encoding connectivity and edge attributes (e.g., orientation and
+empirically measured tract weights). Given a feature field Z (ℓ) : Ω → RDℓ , the ℓ-th graph-kernel layer is
+the integral transform                                   Z
+                                 KℓE [Z (ℓ) ] (x)                κℓ (x, ξ) Z (ℓ) (ξ) dξ.
+                                           
+                                                    :=                                                    (16)
+                                                         U (x)
+
+
+Fourier-based integral kernel. In many physical systems governed by partial differential equations
+(PDEs), transforming the spatial variables to the Fourier domain via the Fourier transform simplifies
+both analysis and computation, as differential operators become algebraic in the frequency domain [69].
+
+Unlike the graph-based kernel that focuses on spatial connectivity, the Fourier kernel processes the signal
+in terms of its time–harmonic components (sine/cosine waves). By assigning learned weights to these
+components, it enforces temporal smoothness and captures global, long-range patterns, complementing
+the spatial modeling of the graph-based module.
+
+To efficiently capture translation-invariant and temporally coherent regional dynamics, we follow the
+Fourier Neural Operator [34] framework and construct the integral kernel in the spectral domain via the
+Fourier transform F:                                              
+                                  KℓF [Z] (x) = F −1 F(κℓ ), · F(Z) (x),
+                                         
+                                                                                                          (17)
+
+where F(κℓ ) is a learnable spectral multiplier that can be truncated to a predefined finite frequency
+modes to reduce computational cost and impose spectral regularization.
+
+Differential kernel. Following the construction in [49], we obtain a differential kernel layer by con-
+straining and scaling a local convolutional kernel so that it converges to a first-order differential operator.
+On an equidistant grid with spacing h and considering our problem defined on a one-dimensional spatial
+domain, let the kernel Kℓ = (Kℓ )i represent the kernel values at each stride i, with the sum given by
+      P
+K ℓ := i (Kℓ )i . We define the first-order differential kernel as:
+
+                                                  1               
+                                   KℓD [Z] (x) :=
+                                          
+                                                     Conv Kℓ −K ℓ Z (x).
+                                                  h
+5.4 Experimental Setup                                                                                  35
+
+
+Then, as h → 0,
+                                 1               
+                                    Conv Kℓ −K ℓ Z (x) −→ ∇Z(x) · bℓ ,
+                                 h
+where bℓ defines the learnable kernel moments, with ξ representing a spatial coordinate in the region near
+the local coordinate x.
+
+Formally, the differential kernel can be expressed as a convolution as shown in Eq. (18).
+
+                                            1               
+                          KℓD [Z] (x) = lim
+                                 
+                                               Conv Kℓ −K ℓ Z (x) = ∇Z(x) · bℓ .                     (18)
+                                        h→0 h
+
+
+The proof is provided in Supplementary Differential Kernel Proof.
+
+
+
+Implementation Details
+
+
+Table 1 summarizes the architectural configurations for all evaluated models. We categorized methods
+into two groups: General Architectures encompassing standard deep learning approaches (MLP, KAN,
+Neural ODE, Transformer, Mamba, and DeepONet), and Neural Operators including specialized PDE-
+solving architectures (FNO, MWT, WNO, GINO, LNO, and our proposed TauBNO). To ensure statistical
+robustness, all experiments were repeated three times with different random seeds, and we report mean
+performance metrics with standard deviations across runs.
+
+
+Table 1: Architectural specifications and hyperparameters for all evaluated models. L-layer denotes the
+number of layers; FNO modes indicates the number of Fourier modes retained in frequency domain
+methods.
+      Type         Method        L-Layers   Hidden Dim       FNO Modes       LR      Dropout     Act.
+                     MLP            3       [32, 128, 256]      —         2 × 10−4      0.1     GELU
+                     KAN            3       [32, 128, 256]      —         2 × 10−4      0.0     SiLU
+     General      Neural ODE        2             256           —         5 × 10−4      0.0     SiLU
+   Architecture   Transformer       4            256            —         8 × 10−4      0.1     SiLU
+                    Mamba           3            256            —         8 × 10−4      0.1     SiLU
+                   DeepONet        3+3†          256            —         8 × 10−4      0.0     Tanh
+                     FNO           4             64             16        8 × 10−4      0.0     GELU
+                    MWT            2             64             —         8 × 10−4      0.0     ReLU
+     Neural         WNO            4             64             —         8 × 10−4      0.0     GELU
+    Operators       GINO           4             64             16        1 × 10−3      0.0     GELU
+                     LNO           4             64             16        8 × 10−4      0.0     GELU
+                   Tau-BNO       2+2+2‡          64             16        8 × 10−4      0.0     GELU
+   † 3 trunk layers + 3 branch layers
+   ‡ 2 Function operator + 2 Query operator + 2 Directed Graph operator layers
+36                                                                                              5 METHODS
+
+
+Model checkpoints were saved based on validation loss, and we report test set performance using the
+best-performing checkpoint across all runs.
+
+
+
+Biophysical Regimes.
+
+
+The biophysical regimes are presented in Table 2.
+
+
+
+Supplementary Proofs
+
+Differential Kernel Proof
+
+
+Lemma 1 (Differential kernel). For any feature fields Z,
+
+                                         (KℓD [Z])(x) = ∇Z(x) · bℓ .
+
+
+proof.
+
+We will prove that KℓD [Z] (x) = ∇Z(x) · bℓ .
+                          
+
+
+First, we define the convolution of the kernel Kℓ with the feature Z as
+                                                           X
+                                    (ConvKℓ Z)(x) =             (Kℓ )i (x, ξ)Z(ξ).
+                                                            i
+
+
+Next, applying a Taylor expansion around x, we express Z(ξ) as
+
+                                   Z(ξ) = Z(x) + ∇Z(x)(ξ − x) + O(h).
+
+Substituting this into the convolution expression, we get:
+                                             X
+                           (ConvKℓ Z)(x) ≈    (Kℓ )i (x, ξ) [Z(x) + ∇Z(x)(ξ − x)] .
+                                              i
+
+
+By separating the terms, we obtain:
+                   "                 #            "                           #
+                       X                              X
+(ConvKℓ Z)(x) =            (Kℓ )i (x, ξ) Z(x) +           (Kℓ )i (x, ξ)(ξ − x) ∇Z(x) = Z(x) · cℓ + ∇Z(x) · bℓ ,
+                       i                              i
+5.4 Experimental Setup                                                                                                37
+
+
+Table 2: Description of biophysical regimes used to generate NTM simulations in Figures 6 and 7 (LH:
+left hemisphere, RH: right hemisphere).
+                                                    −4 )             −3 )
+                     Seed Region(s)        λf (×10         λγ (×10          λδ   λϵ   λµ         Description
+                                                                                            High production, low
+                                                                                              aggregation, high
+     Biophysical
+                      Field CA1, LH          100              1.0           10 100 2.2      retrograde transport
+      Regime 1
+                                                                                              bias, high cellular
+                                                                                             uptake and release
+                                                                                          Low production, low
+                                                                                            aggregation, low
+     Biophysical
+                      Field CA1, LH           5               1.0           10   10 2.2 dibirectional transport,
+      Regime 2
+                                                                                        high cellular uptake and
+                                                                                                 release
+                                                                                          No production, high
+                                                                                           aggregation, high
+     Biophysical
+                      Field CA1, LH           0               8.0           100 100 3.2 bidirectional transport,
+      Regime 3
+                                                                                        high cellular uptake and
+                                                                                                 release
+                                                                                             No production, high
+                                                                                              aggregation, high
+     Biophysical
+                      Field CA1, LH           0               8.0           100 100 0.2    bidirectional transport,
+      Regime 4
+                                                                                           low cellular uptake and
+                                                                                                    release
+                                                                                           Low production, high
+                     Caudoputamen,                                                             aggregation,
+     Biophysical
+                   Primary motor area;        1.8             7.2           81   18 1.0    anterograde transport
+      Regime 5
+                        both RH                                                            bias, low uptake and
+                                                                                                   release
+                   Medulla, Pons in LH;
+                   Amygdala, Auditory
+                         cortex,                                                               Low production,
+                     Hypothalamus,                                                               intermediate
+     Biophysical     Medulla, Pons,                                                           aggregation, mild
+                                              3.3             4.4           30   64 0.5
+      Regime 6      Posterior parietal                                                      retrograde transport
+                    association area,                                                       bias, low uptake and
+                   Primary motor area,                                                              release
+                   Restrosplenial area,
+                    Thalamic in RH.
+                                                                                           High production, high
+                     Ectorhinal area,
+                                                                                              aggregation, mild
+     Biophysical     Entorhinal area,
+                                              94              7.5           39   74 2.3     retrograde transport
+      Regime 7     Perirhinal area; Each
+                                                                                           bias, high uptake and
+                       in LH & RH.
+                                                                                                   release
+38                                                                                                5 METHODS
+
+
+where
+                                                     X
+                                              cℓ =        (Kℓ )i (x, ξ).
+                                                      i
+                                                           P
+We note that by subtracting the mean value K ℓ =              i (Kℓ )i (x, ξ) from the kernel, we can rewrite cℓ as
+follows:
+                                         X
+                                  cℓ =    (Kℓ )i (x, ξ) − K ℓ (x, ξ) = 0.
+                                          i
+
+For the expression of bℓ , we can define the kernel moments as:
+                                               X
+                                       bℓ =          (Kℓ )i (x, ξ)(ξ − x),
+                                                i
+
+
+where bℓ captures the learned moments of the kernel. Therefore, we conclude that the differential kernel
+converges to the first-order derivative operator, as stated in the theorem.
+
+
+
+Supplementary Results
+
+Trajectory Prediction Across Diverse Physiological Regimes
+
+To evaluate the generalization capacity of Tau-BNO, we tested its performance on ten distinct parame-
+ter configurations across five representative brain regions (as shown in Figure 9). These configurations
+comprehensively sample the physiological parameter space, varying tau production rates, aggregation
+kinetics, and directional transport parameters that govern pathological tau propagation. This analysis
+demonstrates that (i) different parameter combinations produce distinct pathological trajectories match-
+ing diverse tauopathy phenotypes, and (ii) neural operators can efficiently replace traditional PDE solvers
+for exploring high-dimensional parameter spaces in precision medicine. Figure 9 shows that Tau-BNO
+achieves excellent trajectory reconstruction across all regimes, with a mean relative error of 1.6%. By
+combining solver-level accuracy with deep learning efficiency, Tau-BNO opens the door to large-scale
+system parameter exploration and mechanistic investigation of tau propagation dynamics, tasks long
+hindered by the prohibitive cost of repeated PDE solves.
+5.4 Experimental Setup                                                                                                                                                                                                               39
+
+
+
+
+                                   Dorsal premammilary           Nucleus                 Lateral posterior nucleus          Substantia            Dorsal part of the lateral        Truth         Prediction
+                                       nucleus RH              ambiguous RH                of the thalamus RH             innominate LH           geniculate complex LH
+                                                                                                                                                                                  25
+          ×10-4                                         25 ×10-5                                                     30 ×10-5                                                           ×10-5
+   17.5
+   15.0                                                                                                              25                                                           20
+                                                        20
+   12.5                                                                                                              20                                                           15
+                                                        15
+   10.0                                                                                                              15
+    7.5                                                 10                                                                                                                        10
+                                                                                                                     10
+    5.0
+                                                         5                                                                                                                         5
+    2.5                                                                                                               5
+                                                         0                                                                                                                         0
+     0                                                                                                                0
+           0      2    4    6     8         10   12          0        2         4    6     8        10     12             0        2         4    6     8          10     12             0        2         4    6     8   10   12
+                      Time (months)                                            Time (months)                                                Time (months)                                                  Time (months)
+
+          Coefficients set:                                  Coefficients set:                                            Coefficients set:                                             Coefficients set:
+                𝜆! = 1e−2, 𝜆" = 8.0e-3;                              𝜆! = 0.0, 𝜆" = 8.0e-3;                                      𝜆! = 0.0, 𝜆" = 8.0e-3;                                         𝜆! = 0.0, 𝜆" = 8.0e-3;
+            𝜆# = 10.0, 𝜆$ = 10.0, 𝜆% = 2.20;                  𝜆# = 100.0, 𝜆$ = 100.0, 𝜆% = 0.20;                           𝜆# = 100.0, 𝜆$ =100.0, 𝜆% = 1.20;                              𝜆# = 10.0, 𝜆$ = 10.0, 𝜆% = 2.20;
+
+                                                                                    40 ×10-5
+                          30 ×10                                                                                                                       ×10-4
+                                   -5
+
+                                                                                    35                                                             5
+                          25                                                        30                                                             4
+                          20                                                        25
+                                                                                    20                                                             3
+                          15
+                                                                                    15                                                             2
+                          10
+                                                                                    10
+                           5                                                                                                                       1
+                                                                                     5
+                           0                                                         0                                                             0
+                               0        2     4    6     8       10       12              0     2         4    6     8        10       12               0      2         4    6     8        10       12
+                                             Time (months)                                               Time (months)                                                  Time (months)
+                               Coefficients set:                                         Coefficients set:                                             Coefficients set:
+                                     𝜆! = 5.0e−4, 𝜆" = 8.0e-3;                                 𝜆! = 5e−4, 𝜆" = 8.0e-3;                                       𝜆! = 5e−4, 𝜆" = 1.0e-3;
+                                 𝜆# = 10.0, 𝜆$ = 10.0, 𝜆% = 2.20;                         𝜆# = 10.0, 𝜆$ =100.0, 𝜆% = 2.20;                               𝜆# = 10.0, 𝜆$ = 10.0, 𝜆% = 2.20;
+
+
+                          30 ×10-5                                                  30 ×10-5                                                           ×10-5
+
+                          25                                                                                                                     20
+                                                                                    25
+                          20                                                        20                                                            15
+                          15                                                        15
+                                                                                                                                                 10
+                          10                                                        10
+                           5                                                         5                                                             5
+
+                           0                                                         0                                                             0
+                               0        2     4    6     8       10       12              0     2         4    6     8        10       12               0      2         4    6     8        10       12
+                                             Time (months)                                               Time (months)                                                  Time (months)
+                               Coefficients set:                                         Coefficients set:                                             Coefficients set:
+                                       𝜆! = 0.0, 𝜆" = 8.0e-3;                                   𝜆! = 0.0, 𝜆" = 8.0e-3;                                       𝜆! = 5e−4, 𝜆" = 8.0e-3;
+                                𝜆# = 100.0, 𝜆$ = 100.0, 𝜆% = 3.20;                        𝜆# = 100.0, 𝜆$ =100.0, 𝜆% = 2.20;                             𝜆# = 100.0, 𝜆$ = 10.0, 𝜆% = 2.20;
+
+
+
+
+Figure 9: Trajectory predictions across ten diverse physiological regimes. Dashed lines represent
+Tau-BNO predictions; solid lines indicate ground truth trajectories from high-fidelity PDE solutions. The
+model demonstrates robust performance across parameter conditions for five representative brain regions,
+accurately capturing both transient dynamics and steady-state behavior. Each condition represents
+distinct combinations of production rate (λf ), aggregation rate (λγ ), transport parameters (λδ , λϵ ), and
+uptake release rate (λµ ).
+40                                                                                      REFERENCES
+
+
+References
+
+ 1. Braak, H. & Braak, E. Neuropathological stageing of Alzheimer-related changes. Acta Neuropatho-
+     logica 82, 239–259. issn: 00016322 (1991).
+ 2. Braak, H., Alafuzoff, I., Arzberger, T., Kretzschmar, H. & Del Tredici, K. Staging of Alzheimer
+     disease-associated neurofibrillary pathology using paraffin sections and immunocytochemistry. Acta
+     Neuropathologica 112, 389–404. issn: 0001-6322. https://link.springer.com/10.1007/
+     s00401-006-0127-z (Oct. 2006).
+ 3. Raj, A., Kuceyeski, A. & Weiner, M. A network diffusion model of disease progression in dementia.
+     Neuron 73, 1204–1215 (2012).
+ 4. Wu, J. W. et al. Small Misfolded Tau Species Are Internalized via Bulk Endocytosis and Antero-
+     gradely and Retrogradely Transported in Neurons. Journal of Biological Chemistry 288, 1856–1870.
+     issn: 00219258. https://linkinghub.elsevier.com/retrieve/pii/S0021925820465998
+     (Jan. 2013).
+ 5. Katsikoudi, A. et al. Quantitative propagation of assembled human Tau from Alzheimer’s disease
+     brain in microfluidic neuronal cultures. Journal of Biological Chemistry. issn: 1083351X (2020).
+ 6. Fornari, S., Schäfer, A., Jucker, M., Goriely, A. & Kuhl, E. Prion-like spreading of Alzheimer’s
+     disease within the brain’s connectome. Journal of The Royal Society Interface 16, 20190356. issn:
+     1742-5689. https://royalsocietypublishing.org/doi/10.1098/rsif.2019.0356 (Oct.
+     2019).
+ 7. Iturria-Medina, Y. Anatomical Brain Networks on the Prediction of Abnormal Brain States. Brain
+     Connectivity 3, 1–21. issn: 2158-0014. http://www.liebertpub.com/doi/10.1089/brain.
+     2012.0122 (Feb. 2013).
+ 8. Schäfer, A., Mormino, E. C. & Kuhl, E. Network Diffusion Modeling Explains Longitudinal Tau
+     PET Data. Frontiers in Neuroscience 14. issn: 1662-453X. https://www.frontiersin.org/
+     articles/10.3389/fnins.2020.566876/full (Dec. 2020).
+ 9. Weickenmeier, J., Kuhl, E. & Goriely, A. Multiphysics of Prionlike Diseases: Progression and Atro-
+     phy. Physical Review Letters. issn: 10797114. arXiv: 1804.01958 (2018).
+10. Weickenmeier, J., Jucker, M., Goriely, A. & Kuhl, E. A physics-based model explains the prion-like
+     features of neurodegeneration in Alzheimer’s disease, Parkinson’s disease, and amyotrophic lateral
+     sclerosis. Journal of the Mechanics and Physics of Solids 124, 264–281. issn: 00225096 (Mar.
+     2019).
+REFERENCES                                                                                             41
+
+
+11. Bertsch, M., Franchi, B., Tesi, M. C. & Tora, V. The role of Abeta and Tau proteins in Alzheimer’s
+     disease: a mathematical model on graphs. Journal of Mathematical Biology 87, 49. issn: 0303-
+     6812. https://link.springer.com/10.1007/s00285-023-01985-7 (Sept. 2023).
+12. Torok, J., Maia, P. D., Anand, C. & Raj, A. Searching for the cellular underpinnings of the selective
+     vulnerability to tauopathic insults in Alzheimer’s disease. Communications Biology 8, 195 (2025).
+13. Anand, C., Maia, P. D., Torok, J., Mezias, C. & Raj, A. The effects of microglia on tauopathy
+     progression can be quantified using Nexopathy in silico (Nex is) models. Scientific Reports 12,
+     21170 (2022).
+14. Vogel, J. W. et al. Four distinct trajectories of tau deposition identified in Alzheimer’s disease.
+     Nature medicine 27, 871–881 (2021).
+15. Anand, C. et al. Selective vulnerability and resilience to Alzheimer’s disease tauopathy as a function
+     of genes and the connectome. Brain 148, 3679–3693 (2025).
+16. Cuchillo-Ibanez, I. et al. Phosphorylation of tau regulates its axonal transport by controlling its
+     binding to kinesin. The FASEB Journal 22, 3186–3195 (2008).
+17. Rodrı́guez-Martı́n, T. et al. Tau phosphorylation affects its axonal transport and degradation. Neu-
+     robiology of aging 34, 2146–2157 (2013).
+18. Stern, J. L., Lessard, D. V., Hoeprich, G. J., Morfini, G. A. & Berger, C. L. Phosphoregulation of
+     Tau modulates inhibition of kinesin-1 motility. Molecular biology of the cell 28, 1079–1087 (2017).
+19. Dixit, R., Ross, J. L., Goldman, Y. E. & Holzbaur, E. L. Differential regulation of dynein and kinesin
+     motor proteins by tau. Science 319, 1086–1089 (2008).
+20. Chaudhary, A. R., Berger, F., Berger, C. L. & Hendricks, A. G. Tau directs intracellular trafficking
+     by regulating the forces exerted by kinesin and dynein teams. Traffic 19, 111–121 (2018).
+21. Torok, J., Maia, P. D., Verma, P., Mezias, C. & Raj, A. Emergence of directional bias in tau
+     deposition from axonal transport dynamics. PLoS computational biology 17, e1009258 (2021).
+22. Torok, J., Mezias, C. & Raj, A. Directionality bias underpins divergent spatiotemporal progression
+     of Alzheimer-related tauopathy in mouse models. Alzheimer’s & Dementia 21, e70092 (2025).
+23. Tora, V., Torok, J., Bertsch, M. & Raj, A. A network-level transport model of tau progression in the
+     Alzheimer’s brain. Mathematical Medicine and Biology: A Journal of the IMA 42, 212–238 (2025).
+24. Barron, N., Tora, V., Cozzolino, E., Bertsch, M. & Raj, A. Biophysically realistic network-level
+     transport model of tau progression with exosome-mediated release and uptake processes. bioRxiv,
+     2026–01 (2026).
+42                                                                                        REFERENCES
+
+
+25. Zienkiewicz, O. C. & Taylor, R. L. The finite element method set (Elsevier, 2005).
+26. He, K., Zhang, X., Ren, S. & Sun, J. Deep residual learning for image recognition in Proceedings
+     of the IEEE conference on computer vision and pattern recognition (2016), 770–778.
+27. Krizhevsky, A., Sutskever, I. & Hinton, G. E. Imagenet classification with deep convolutional neural
+     networks. Advances in neural information processing systems 25 (2012).
+28. Devlin, J., Chang, M.-W., Lee, K. & Toutanova, K. Bert: Pre-training of deep bidirectional trans-
+     formers for language understanding in Proceedings of the 2019 conference of the North American
+     chapter of the association for computational linguistics: human language technologies, volume 1
+     (long and short papers) (2019), 4171–4186.
+29. Brown, T. et al. Language models are few-shot learners. Advances in neural information processing
+     systems 33, 1877–1901 (2020).
+30. Kovachki, N. et al. Neural operator: Learning maps between function spaces with applications to
+     pdes. Journal of Machine Learning Research 24, 1–97 (2023).
+31. Azizzadenesheli, K. et al. Neural operators for accelerating scientific simulations and design. Nature
+     Reviews Physics 6, 320–328 (2024).
+32. Liu, S. et al. Architectures, variants, and performance of neural operators: A comparative review.
+     Neurocomputing, 130518 (2025).
+33. Lu, L., Jin, P., Pang, G., Zhang, Z. & Karniadakis, G. E. Learning nonlinear operators via DeepONet
+     based on the universal approximation theorem of operators. Nature machine intelligence 3, 218–229
+     (2021).
+34. Li, Z. et al. Fourier neural operator for parametric partial differential equations. arXiv preprint
+     arXiv:2010.08895 (2020).
+35. Tripura, T. & Chakraborty, S. Wavelet neural operator for solving parametric partial differential
+     equations in computational mechanics problems. Computer Methods in Applied Mechanics and
+     Engineering 404, 115783 (2023).
+36. Gupta, G., Xiao, X. & Bogdan, P. Multiwavelet-based operator learning for differential equations.
+     Advances in neural information processing systems 34, 24048–24062 (2021).
+37. Li, Z. et al. Neural operator: Graph kernel network for partial differential equations. arXiv preprint
+     arXiv:2003.03485 (2020).
+38. Li, Z. et al. Geometry-informed neural operator for large-scale 3d pdes. Advances in Neural Infor-
+     mation Processing Systems 36, 35836–35854 (2023).
+REFERENCES                                                                                            43
+
+
+39. Tong, Z., Liang, Y., Sun, C., Rosenblum, D. S. & Lim, A. Directed graph convolutional network.
+     arXiv preprint arXiv:2004.13970 (2020).
+40. Zhang, X., He, Y., Brugnone, N., Perlmutter, M. & Hirn, M. Magnet: A neural network for directed
+     graphs. Advances in neural information processing systems 34, 27003–27015 (2021).
+41. Franzmeier, N. et al. Functional connectivity associated with tau levels in ageing, Alzheimer’s, and
+     small vessel disease. Brain 142, 1093–1107 (2019).
+42. Oh, S. W. et al. A mesoscale connectome of the mouse brain. Nature 508, 207–214 (2014).
+43. Kipf, T. Semi-supervised classification with graph convolutional networks. arXiv preprint arXiv:1609.02907
+     (2016).
+44. Rosenblatt, F. The perceptron: a probabilistic model for information storage and organization in
+     the brain. Psychological review 65, 386 (1958).
+45. Liu, Z. et al. Kan: Kolmogorov-arnold networks. arXiv preprint arXiv:2404.19756 (2024).
+46. Chen, R. T., Rubanova, Y., Bettencourt, J. & Duvenaud, D. K. Neural ordinary differential equa-
+     tions. Advances in neural information processing systems 31 (2018).
+47. Vaswani, A. et al. Attention is all you need. Advances in neural information processing systems 30
+     (2017).
+48. Gu, A. & Dao, T. Mamba: Linear-time sequence modeling with selective state spaces in First
+     conference on language modeling (2024).
+49. Liu-Schiaffini, M. et al. Neural Operators with Localized Integral and Differential Kernels in Inter-
+     national Conference on Machine Learning (2024), 32576–32594.
+50. Chen, T. & Chen, H. Universal approximation to nonlinear operators by neural networks with
+     arbitrary activation functions and its application to dynamical systems. IEEE transactions on neural
+     networks 6, 911–917 (1995).
+51. Cooley, J. W. & Tukey, J. W. An algorithm for the machine calculation of complex Fourier series.
+     Mathematics of computation 19, 297–301 (1965).
+52. Farge, M. et al. Wavelet transforms and their applications to turbulence. Annual review of fluid
+     mechanics 24, 395–458 (1992).
+53. Bruna, J., Zaremba, W., Szlam, A. & LeCun, Y. Spectral networks and locally connected networks
+     on graphs. arXiv preprint arXiv:1312.6203 (2013).
+54. Wu, Z. et al. A comprehensive survey on graph neural networks. IEEE transactions on neural
+     networks and learning systems 32, 4–24 (2020).
+44                                                                                        REFERENCES
+
+
+55. Nyström, E. Über Die Praktische Auflösung von Integralgleichungen mit Anwendungen auf Randw-
+     ertaufgaben. Acta Mathematica 54, 185–204 (1930).
+56. Tang, J., Zhu, T., Zhou, W. & Zhao, W. Graph neural networks for fMRI functional brain networks:
+     A survey. Neural Networks, 108137 (2025).
+57. Xia, J., Chan, Y. H., Girish, D. & Rajapakse, J. C. Interpretable modality-specific and interactive
+     graph convolutional network on brain functional and structural connectomes. Medical Image Analysis
+     102, 103509 (2025).
+58. Wein, S. et al. A graph neural network framework for causal inference in brain networks. Scientific
+     reports 11, 8061 (2021).
+59. Mohammadi, H. & Karwowski, W. Graph neural networks in brain connectivity studies: Methods,
+     challenges, and future directions. Brain Sciences 15, 17 (2024).
+60. David, O. & Friston, K. J. A neural mass model for MEG/EEG:: coupling and neuronal dynamics.
+     NeuroImage 20, 1743–1755 (2003).
+61. Moran, R. J. et al. A neural mass model of spectral responses in electrophysiology. NeuroImage
+     37, 706–720 (2007).
+62. Byrne, Á., O’Dea, R. D., Forrester, M., Ross, J. & Coombes, S. Next-generation neural mass and
+     field modeling. Journal of neurophysiology 123, 726–742 (2020).
+63. Balaji, V. et al. A graph neural network model for the prediction of longitudinal tau aggregation
+     2022.
+64. Dan, T., Dere, M., Kim, W. H., Kim, M. & Wu, G. TauFlowNet: Revealing latent propagation
+     mechanism of tau aggregates using deep neural transport equations. Medical Image Analysis 95,
+     103210 (2024).
+65. Zhou, Z., Dan, T. & Wu, G. Understanding Brain Functional Dynamics Through Neural Koopman
+     Operator with Control Mechanism. IEEE transactions on medical imaging (2025).
+66. Gallos, I. K., Lehmberg, D., Dietrich, F. & Siettos, C. Data-driven modelling of brain activity using
+     neural networks, diffusion maps, and the Koopman operator. Chaos: An Interdisciplinary Journal of
+     Nonlinear Science 34 (2024).
+67. Marrouch, N., Slawinska, J., Giannakis, D. & Read, H. L. Data-driven Koopman operator approach
+     for computational neuroscience. Annals of Mathematics and Artificial Intelligence 88, 1155–1173
+     (2020).
+REFERENCES                                                                                             45
+
+
+68. Agarwal, A., Sarkar, D. R. & Goswami, S. Real-Time Brain Biomechanics Prediction with Neural Op-
+     erators: Toward Clinically Deployable Traumatic Brain Injury Models. arXiv preprint arXiv:2510.03248
+     (2025).
+69. Bahouri, H. Fourier analysis and nonlinear partial differential equations (Springer, 2011).
+70. Kaufman, S. K. et al. Tau prion strains dictate patterns of cell pathology, progression rate, and
+     regional vulnerability in vivo. Neuron 92, 796–812 (2016).
+71. Boluda, S. et al. Differential induction and spread of tau pathology in young PS19 tau transgenic
+     mice following intracerebral injections of pathological tau from Alzheimer’s disease or corticobasal
+     degeneration brains. Acta neuropathologica 129, 221–237 (2015).
+72. Hurtado, D. E. et al. Aβ accelerates the spatiotemporal progression of tau pathology and augments
+     tau amyloidosis in an Alzheimer mouse model. The American journal of pathology 177, 1977–1988
+     (2010).
+73. Iba, M. et al. Synthetic tau fibrils mediate transmission of neurofibrillary tangles in a transgenic
+     mouse model of Alzheimer’s-like tauopathy. Journal of Neuroscience 33, 1024–1037 (2013).
+74. Iba, M. et al. Tau pathology spread in PS19 tau transgenic mice following locus coeruleus (LC)
+     injections of synthetic tau fibrils is determined by the LC’s afferent and efferent connections. Acta
+     neuropathologica 130, 349–362 (2015).
+75. Loshchilov, I. & Hutter, F. Decoupled Weight Decay Regularization in International Conference on
+     Learning Representations (2019).
+76. Loshchilov, I. & Hutter, F. SGDR: Stochastic Gradient Descent with Warm Restarts in International
+     Conference on Learning Representations (2017).
+

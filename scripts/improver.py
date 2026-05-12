@@ -422,10 +422,10 @@ def build_writer_prompt(filepath: str) -> str:
         if os.path.exists(source_path):
             try:
                 with open(source_path, 'r', encoding='utf-8') as f:
-                    src_content = f.read()[:1500]  # reduced from 2000
+                    src_content = f.read()[:1000]  # reduced from 1500
                 # Append full-text excerpt if available
                 src_slug = os.path.basename(source_path)[:-3]
-                ft = get_fulltext(src_slug, max_chars=1500)  # reduced from 2000
+                ft = get_fulltext(src_slug, max_chars=1000)  # reduced from 1500
                 if ft:
                     src_content += f"\n\n--- FULL TEXT EXCERPT ({src_slug}) ---\n{ft}"
                 source_texts.append(f"--- SOURCE: {source} ---\n{src_content}")
@@ -443,10 +443,10 @@ def build_writer_prompt(filepath: str) -> str:
     # Build page inventory for accurate wikilinks (capped to prevent prompt bloat)
     all_pages = get_all_pages()
     page_list = sorted(all_pages.keys())
-    # Limit to 20 most relevant pages to keep prompts under 2000 tokens
-    page_inventory = '\n'.join(f'  - {s}' for s in page_list[:20])
-    if len(page_list) > 20:
-        page_inventory += f"\n  ... and {len(page_list) - 20} more pages"
+    # Limit to 10 most relevant pages to keep prompts under 1500 tokens
+    page_inventory = '\n'.join(f'  - {s}' for s in page_list[:10])
+    if len(page_list) > 10:
+        page_inventory += f"\n  ... and {len(page_list) - 10} more pages"
 
     page_type = metadata.get('type', 'concept')
     is_concept = page_type == 'concept'
@@ -743,9 +743,9 @@ def improve_page(filepath: str) -> tuple[bool, str]:
             if os.path.exists(source_path):
                 try:
                     with open(source_path, 'r', encoding='utf-8') as f:
-                        src_content = f.read()[:1500]  # reduced from 2000
+                        src_content = f.read()[:1000]  # reduced from 1500
                     src_slug = os.path.basename(source_path)[:-3]
-                    ft = get_fulltext(src_slug, max_chars=1500)  # reduced from 2000
+                    ft = get_fulltext(src_slug, max_chars=1000)  # reduced from 1500
                     if ft:
                         src_content += f"\n\n--- FULL TEXT EXCERPT ({src_slug}) ---\n{ft}"
                     source_texts.append(f"--- SOURCE: {source} ---\n{src_content}")
@@ -762,10 +762,10 @@ def improve_page(filepath: str) -> tuple[bool, str]:
         # Build page inventory for accurate wikilinks (capped to prevent prompt bloat)
         all_pages = get_all_pages()
         page_list = sorted(all_pages.keys())
-        # Limit to 20 most relevant pages to keep prompts under 2000 tokens
-        page_inventory = '\n'.join(f'  - {s}' for s in page_list[:20])
-        if len(page_list) > 20:
-            page_inventory += f"\n  ... and {len(page_list) - 20} more pages"
+        # Limit to 10 most relevant pages to keep prompts under 1500 tokens
+        page_inventory = '\n'.join(f'  - {s}' for s in page_list[:10])
+        if len(page_list) > 10:
+            page_inventory += f"\n  ... and {len(page_list) - 10} more pages"
 
         writer_prompt = f"""You are improving ONE SECTION of a TVB Wiki page about whole-brain modeling and computational neuroscience.
 

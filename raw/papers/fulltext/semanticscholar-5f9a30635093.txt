@@ -1,0 +1,877 @@
+Neuroinformatics (2025) 23:29
+https://doi.org/10.1007/s12021-025-09727-4
+
+    REVIEW
+
+
+
+Mathematical and Dynamic Modeling of the Anatomical Localization
+of the Insula in the Brain
+Eren Ogut1
+
+Accepted: 14 April 2025 / Published online: 23 April 2025
+© The Author(s) 2025
+
+
+Abstract
+The insula, a deeply situated cortical structure beneath the Sylvian sulcus, plays a critical role in sensory integration,
+emotion regulation, and cognitive control in the brain. Although several studies have described its anatomical and func-
+tional characteristics, mathematical models that quantitatively represent the insula’s complex structure and connectivity
+are lacking. This study aimed to develop a mathematical model to represent the anatomical localization and functional
+organization of the insula, drawing on current neuroimaging findings and established anatomical data. A three-dimensional
+(3D) ellipsoid model was constructed to mathematically represent the anatomical boundaries of the insula using Montreal
+Neurological Institute (MNI) coordinate data. This geometric model adapts the ellipsoid equation to reflect the spatial
+configuration of the insula and is primarily based on cytoarchitectonic mapping and anatomical literature. Relevant find-
+ings from prior imaging research, particularly those reporting microstructural variations across insular subdivisions, were
+reviewed and conceptually integrated to guide the model’s structural assumptions and interpretation of potential applica-
+tions. The ellipsoid-based 3D model accurately represented the anatomical dimensions and spatial localization of the right
+insula, centered at the MNI coordinates (40, 5, 5 mm), and matched well with the known volumetric data. Functional
+regions (face, hand, and foot) were successfully plotted within the model, and statistical analysis confirmed significant
+differences along the anteroposterior and superoinferior axes (p < 0.01 and p < 0.05, respectively). Dynamic simulations
+revealed oscillatory patterns of excitatory and inhibitory neural activity, consistent with established insular neurophysi-
+ology. Additionally, connectivity modeling demonstrated strong bidirectional interactions between the insula and key
+regions, such as the prefrontal cortex and anterior cingulate cortex (ACC), reflecting its integrative role in brain networks.
+This study presents a scientifically validated mathematical model that captures the anatomical structure, functional subdi-
+visions, and dynamic connectivity patterns of the insula. By integrating anatomical data with computational simulations,
+this model provides a foundation for future research in neuroimaging, functional mapping, and clinical applications involv-
+ing insula-related disorders.
+
+Keywords Insula · Mathematical modeling · Functional connectivity · Anatomical localization · MNI coordinates
+
+
+Abbreviations                                                    3D	Three-dimensional
+ACC	Anterior cingulate cortex
+fMRI	Functional Magnetic Resonance Imaging
+MNI	Montreal Neurological Institute                             Introduction
+MRI	Magnetic Resonance Imaging
+PET	Positron emission tomography                                The insula is a deep structure of the brain located laterally
+PTSD	Post-traumatic stress disorder                             and hidden beneath the Sylvian sulcus (Ghaziri, 2018). The
+                                                                 insula is the only cortical part of the brain that is not visible
+                                                                 on the surface of the hemisphere, as it is entirely covered
+                                                                 by the frontoparietal and temporal opercula (Guenot et al.,
+     Eren Ogut
+     erenogut@yahoo.com.tr; eren.ogut@medeniyet.edu.tr           2004; Mesulam, 2000) (Fig. 1). The insula has a triangular
+                                                                 shape and is separated from the opercula by the anterior,
+1
+     Faculty of Medicine, Department of Anatomy, Istanbul        superior, and inferior peri-insular sulci (Guenot et al., 2004).
+     Medeniyet University, Istanbul 34700, Türkiye
+
+
+                                                                                                                      13
+29 Page 2 of 17                                                                                                         Neuroinformatics (2025) 23:29
+
+
+
+
+Fig. 1 3D reconstruction of insula. Anterior (a) and lateral (b) views are presented. The frontal, parietal, and temporal lobes cover the insula, which
+forms the floor of the lateral sulcus. The insula becomes visible when the frontal, parietal, and temporal opercula are removed
+
+Table 1 Summary of studies on anatomical localization of the Insula and their relevance to mathematical modeling
+Study               Model Type          Anatomical Localization       Parameters Calculated      Contribution to Mathematical/Dynamic
+                                        Method                                                   Modeling
+Ghaziri et al.      Structural Connec- Diffusion MRI                  Subregional connectivity Informs network-based models; defines
+(2018)              tivity Map                                        in the insula              connectivity matrix for simulations.
+Cauda et al.        Functional Con-     Functional Neuroimaging Resting-state network            Supports dynamic models of network inter-
+(2011)              nectivity Map       /fMRI                         correlations               actions, salience processing.
+Bauernfeind et al. Comparative          Structural                    Insular subregion vol-     Basis for evolutionary modeling; defines
+(2013)              Morphology          MRI + Morphometrics           umes in primates           morphometric constraints.
+Kurth et al. (2009) Probabilistic       Cytoarchitectonic             Posterior insula cytoar-   Delivers high-resolution anatomical data for
+                    Mapping             Mapping                       chitecture and maps        precise structural modeling.
+Zhang et al.        Multimodal Func-    Combined (Diffusion           Sensory, emotional, and Combines structure-function data for
+(2024)              tional Model        MRI + fMRI)                   cognitive integration      dynamic simulations of integrative function.
+Türe et al. (1999) Topographic Atlas Topographic Anatomy              Anatomical subdivisions Provides spatial data for geometric model-
+                                        (Dissection)                  of the insula              ing; supports ellipsoid model input.
+Menon, (2020)       Microstructural     Diffusion MRI + Func-         Insular microstructure     Identifies microstructural gradients
+                    Gradient Model      tional MRI                    and macrofunctional        for parameterizing dynamic models of
+                                                                      circuits                   cognition.
+Abbreviations: fMRI: Functional Magnetic Resonance Imaging, MRI: Magnetic Resonance Imaging
+
+It is often regarded as the fifth lobe of the brain because of                mapping, Diffusion Magnetic Resonance Imaging (MRI),
+its strategic location and multimodal role (Ghaziri, 2018).                   functional MRI, geometric MRI-based modeling and other
+The insula is morphologically divided into two parts by the                   neuroimaging techniques (Table 1). Quantitative modeling
+central insular sulcus. The anterior part has three short gyri,               has revealed significant differences in microstructure across
+and the posterior part has two long gyri (Guenot et al., 2004;                insular subdivisions, serving distinct cognitive and affective
+Türe et al., 1999; Uddin et al., 2017). Its unique position and               functions (Menon, 2020). This microstructural organization
+complex anatomy contribute to its involvement in a wide                       was mirrored in functionally interconnected circuits within
+range of functions, including sensory processing, affective                   the ACC, which anchors the salience network. Insular micro-
+processing, and high-level cognition (Uddin et al., 2017;                     structural features are also linked to behavior and predict
+Cauda et al., 2011). Its anatomical localization has been                     individual differences in cognitive control ability. Interest-
+studied using several methods, including cytoarchitectonic                    ingly, the insula exhibits a gradual transition in connectivity
+
+
+
+13
+Neuroinformatics (2025) 23:29                                                                                     Page 3 of 17 29
+
+
+patterns, as revealed by probabilistic white matter trac-         disease (Güzelad et al., 2021), and its integration into criti-
+tography and Laplacian eigenmaps (Cerliani et al., 2011).         cal brain networks, such as the salience network (Criaud et
+Despite these advances, the development of mathematical           al., 2016). Cytoarchitectonic investigations have identified
+models for the anatomical and functional representation of        three distinct microstructural areas in the posterior insula,
+the insula remains limited to date. The current lack of such      laying the groundwork for understanding its functional seg-
+models cannot be solely attributed to the absence of prior        regation at the cellular level (Kurth et al., 2009). However,
+research; rather, it reflects a gap in integrating mathemati-     these insights are primarily based on qualitative analyses
+cal modelling into neuroanatomical studies of the insula.         and lack explicit mathematical modeling of the insula (Cri-
+Mathematical and computational models have proven to be           aud et al., 2016; Pavuluri et al., 2015). It serves as a receiver
+highly effective in other brain regions. For example, the hip-    and interpreter of emotions in the context of cognitive and
+pocampus has been modeled using neural mass models to             sensory-motor information, making it crucial for interocep-
+simulate epileptic activity and memory-encoding processes         tion, emotion processing, and decision-making (Zhang et
+(Wendling et al., 2002; Cutsuridis et al., 2010). Similarly,      al., 2024; Pavuluri et al., 2015; Ogut et al., 2020; Fermin
+the cerebral cortex has been studied using graph theoreti-        et al., 2022). The insula’s function progresses from receiv-
+cal approaches and dynamic causal modeling to understand          ing and interpreting sensorimotor sensations in the posterior
+network-level interactions and disease progression in con-        region to the subjective perception of emotions in the ante-
+ditions such as Alzheimer’s disease (Friston et al., 2003;        rior region (Pavuluri et al., 2015; Fermin et al., 2022). This
+Stam, 2014). Therefore, the application of mathematical           hierarchical organization is reflected in the Insula Hierarchi-
+and dynamic modeling approaches to the insula is not only         cal Modular Adaptive Interoception Control model, which
+timely but also essential for advancing our understanding         suggests that insular modules form higher-order interocep-
+of its microstructure, connectivity, and role in higher-order     tive representations that support control processes (Fermin
+functions. The establishment of certain models can also           et al., 2022). The anatomical structure and connectivity of
+facilitate the development of diagnostic tools and therapeu-      the insula are linked to its diverse functions, making it a cru-
+tic interventions for insula-related disorders, including anxi-   cial interface between sensation, emotion, and cognition. Its
+ety, depression, and epilepsy. This study aims to fill the gap    importance in various brain processes and potential as a bio-
+in neuroanatomical research by developing a mathematical          marker for treatment selection has been previously reported
+and dynamic model of the insula that accurately represents        (Zhang et al., 2024; Pavuluri et al., 2015). Existing research
+its anatomical localization, functional subdivisions, and net-    predominantly discusses the anatomical, functional, and
+work-level connectivity, thereby contributing to the under-       clinical aspects of the insula in descriptive terms without
+standing of its role in health and diseases.                      introducing mathematical equations or models to quantify
+                                                                  its structure or behavior. For instance, studies by Menon et
+Function                                                          al. and Uddin et al. explored the insular microstructure and
+                                                                  its involvement in the salience network (Uddin et al., 2017;
+The insula is a complex and deeply situated brain region          Menon, 2020), while Sheffield et al. examined volumetric
+with diverse functions that are tightly linked to its ana-        and morphological variations in psychosis-spectrum dis-
+tomical structure and extensive connectivity (Zhang et al.,       orders (Sheffield, 2021). These contributions, while highly
+2024). Owing to its unique position and widespread afferent       valuable, do not constitute formal mathematical modeling
+and efferent connections, the insula serves as a critical inte-   but offer quantitative neuroimaging data that can inform
+grative hub within functional brain networks (Türe et al.,        model construction. To date, there is limited literature on
+1999; Uddin et al., 2017; Cauda et al., 2011; Zhang et al.,       mathematical or dynamic modeling directly applied to the
+2024; Ogut et al., 2023; Rodgers et al., 2008). Anatomically,     insular cortex. However, approaches such as finite element
+the brain is divided into anterior and posterior regions, each    modeling and neural network simulations, although not
+with distinct functional roles. The posterior insula is pri-      specifically designed for the insula, illustrate how anatomi-
+marily involved in processing auditory and somatosensory          cal data can be incorporated into computational models to
+stimuli, with somatotopically organized fields and interme-       simulate brain tissue behavior and neural dynamics (Fermin
+diate zones that can integrate multisensory inputs (Rodg-         et al., 2022; Chen, 2010; Brunel, 2000). These approaches
+ers et al., 2008). In contrast, the anterior insula is engaged    serve as templates for developing mathematical represen-
+in higher-order processes, such as emotional awareness,           tations of the insula; therefore, this study aims to address
+interoception, and cognitive control (Zhang et al., 2024;         this gap by developing a mathematical model for the insula,
+Tisserand, 2023). Several studies have elucidated the func-       grounded in existing anatomical and neuroimaging data.
+tional heterogeneity, including its involvement in the non-       We propose an ellipsoid-based geometric model to rep-
+motor aspects of neurological disorders, such as Parkinson’s      resent the spatial configuration of the insula, informed by
+
+
+
+                                                                                                                       13
+29 Page 4 of 17                                                                                        Neuroinformatics (2025) 23:29
+
+
+MNI coordinate systems and validated through literature-           reported insular positions in neuroimaging atlases rather
+reported microstructural and functional patterns.                  than task-based or function-specific data (Fig. 2).
+                                                                      Multiple studies have demonstrated variability in the
+Coordinate System and Mathematical Localization                    reported MNI coordinates depending on the specific region
+                                                                   targeted and the nature of the task or stimulation involved.
+The Talairach and MNI coordinate systems are widely                For example, Brooks et al. provided MNI coordinates
+used for mathematical localization of brain regions in             reflecting somatosensory activation in the insula (face: −40,
+neuroimaging studies. These systems provide a standard-            − 16, 11) (Brooks et al., 2005), while Mazzola et al. reported
+ized framework for reporting and comparing brain loca-             vestibular, gustatory, and olfactory responses in different
+tions across different studies and participants (Brett, 2001;      insular subregions. These findings highlight the functional
+Chau & McIntosh, 2005). The Talairach coordinate system,           complexity and spatial variability of insular activity (Maz-
+which is based on Talairach and Tournoux’s 1988 atlas, has         zola et al., 2014). Given this variability, the coordinates
+become a standard reference for reporting brain locations in       used in our model were intended to provide a simplified
+literature. However, many functional imaging studies now           geometric center for mathematical representation and not
+match their data to the MNI template, which is based on the        to reflect any specific functional domain or task-related
+International Consortium of Brain Mapping (Brett, 2001;            activation site. Task-based studies yield more posterior or
+Chau & McIntosh, 2005). This has led to some challenges,           superior coordinate values, as reported by (Brooks et al.,
+as the brains in the Talairach atlas and MNI template dif-         2005), and the y and z coordinates provided in the question
+fer significantly in terms of shape and size (Brett, 2001).        do not accurately represent the location of insular activity.
+To address these discrepancies, researchers have developed         However, our approach does not involve such task-specific
+several methods for converting coordinates between the two         determinations.
+systems. These include the Talairach Method of Piecewise
+Linear Scaling and template-matching approaches using
+linear transformations (Chau & McIntosh, 2005). Addition-          Materials and Methods
+ally, automated nonlinear transformations have been created
+to convert the coordinates from one brain to a correspond-         Mathematical Modeling of the Insula
+ing point in the other (Brett, 2001; Lacadie et al., 2008).
+However, it is important to note that there can be signifi-        A 3D ellipsoid model was constructed to mathemati-
+cant discrepancies in certain brain regions when converting        cally represent the anatomical localization and spatial
+between these systems, particularly in the inferior, superior      dimensions of the right insula within the MNI coordinate
+frontal, and occipital regions (Chau & McIntosh, 2005).            system(Mitteroecker & Gunz, 2009).
+    These systems define:                                             The ellipsoid equation used in this study follows the stan-
+                                                                   dard mathematical form as follows:
+● x-axis: mediolateral plane,
+                                                                            2               2                 2
+● y-axis: anterior-posterior plane, and.                           (x − x0 ) /a2 + (y − y0 ) /b2 + (z − z0 ) /c2 = 1
+● z-axis: superior-inferior plane.
+                                                                   where (x0,y0,z0) are the center coordinates of the ellipsoid
+The average MNI coordinates for the insula were as follows:        model, corresponding to the mediolateral, anteroposterior,
+                                                                   and superoinferior dimensions, respectively. In our study,
+● Right insula: x = 40, y = 5, z = 5 mm.                           this ellipsoid equation was constructed to approximate the
+● Left insula: x = − 40, y = 5, z = 5 mm.                          anatomical position and spatial dimensions of the right
+                                                                   insula using the standard MNI coordinate space. The ratio-
+In our study, the MNI coordinates of the insula (right insula:     nale for the selected parameters was based on the average
+x = 40, y = 5, z = 5 mm; left insula: x = − 40, y = 5, z = 5 mm)   insular dimensions reported in anatomical and neuroimag-
+were mathematically derived to serve as reference points           ing studies. The center coordinates were set at (x0 = 40 mm,
+for the geometric modeling of the insula within the standard       y0 = 5 mm, z0 = 5 mm), representing the general central
+brain space. These coordinates were not determined through         location of the right insula within the MNI coordinate sys-
+simulation or empirical stimulation-based measurements             tem. The semi-axes were determined from volumetric data:
+but were calculated to represent the anatomical location of        a = 12 mm (mediolateral extent), b = 8 mm (anteroposte-
+the insula in the standard MNI space for constructing a geo-       rior extent), c = 6 mm (superoinferior extent). These val-
+metric ellipsoid model. The selection of these values was          ues correspond to the known anatomical ranges for insular
+informed by general anatomical knowledge and commonly              dimensions obtained from neuroimaging volumetric studies
+
+
+
+13
+Neuroinformatics (2025) 23:29                                                                                  Page 5 of 17 29
+
+Fig. 2 3D diagram illustrating the
+MNI coordinate system and the
+central anatomical locations of
+the right and left insula. The red,
+green, and blue arrows represent
+the x (mediolateral), y (antero-
+posterior), and z (superoinferior)
+axes, respectively. The magenta
+and cyan spheres indicate the
+locations and spatial dimensions
+of the right and left insula, cen-
+tered at (40, 5, 5) mm and (–40, 5,
+5) mm, respectively
+
+
+
+
+(Faillenot et al., 2017; Makris et al., 2006). The resulting     u∈[0,2π],       𝑣∈[0,𝜋]       are     angular      parameters.
+ellipsoid equation used for spatial modeling is.                 𝑥0 = 40 mm,𝑦0 = 5 mm,𝑧0 = 5 mm are the center coordinates.
+                                                                 𝑎=12 mm,𝑏=8 mm,𝑐=6 mm are the semi-axes. In the MNI
+          2                     2         2
+(x − 40) /144 + (y − 5) /64 + (z − 5) /36 = 1                    coordinate system, the axes are defined as follows: the x-axis
+                                                                 (mediolateral) is positive toward the right hemisphere,
+                                                                 the y-axis (anteroposterior) is positive toward the anterior
+3D Modelling                                                     (frontal) direction, and the z-axis (superoinferior) is posi-
+                                                                 tive toward the superior plane. The ellipsoid representing
+The 3D ellipsoidal model of the right insula was visualized      the right insula was centered at (40, 5, 5) mm, forming a 3D
+using the Python Matplotlib library (mpl_toolkits.mplot3d        structure within the brain. This ellipsoid had a mediolateral
+module). The ellipsoid was rendered using parametric equa-       extent of 24 mm along the x-axis (full length, 2a), an antero-
+tions with spherical coordinates, which were discretized         posterior extent of 16 mm along the y-axis (full length, 2b),
+over the mesh grids to calculate the surface points. The visu-   and a superoinferior extent of 12 mm along the z-axis (full
+alization accurately represented the spatial configuration of    length, 2c). These dimensions correspond to the anatomical
+the insula within the MNI space (Fig. 3). The ellipsoid equa-    boundaries of the right insula and provide a mathematically
+tion was discretized using parametric equations with spheri-     accurate spatial representation of its location and volume
+cal coordinates as follows:                                      (Fig. 3).These equations were computed over a mesh grid
+                                                                 of angles to generate the surface coordinates of the ellip-
+x = x0 + a · cos(u) · sin(ν)                                     soid. This method is used in computational anatomy (Gaser,
+                                                                 2024) and neuroimaging simulations (Horn & Kühn, 2015)
+y = y0 + b · sin(u) · sin(ν)                                     because it provides a precise mathematical representation
+                                                                 of anatomical structures. It allows interactive 3D visual-
+z = z0 + c · cos(ν)                                              ization and can be integrated into neuroimaging software.
+                                                                 Despite its simplicity, this model offers a quantitative model
+
+
+
+                                                                                                                    13
+29 Page 6 of 17                                                                                     Neuroinformatics (2025) 23:29
+
+Fig. 3 Mathematical model of the
+right insula. A 3D plot of the right
+insula modeled as an ellipsoid in
+the MNI coordinate space. This
+visualization shows the spatial
+extent and location of the insula
+along the mediolateral (X), antero-
+posterior (Y), and superoinferior
+(Z) axes of the brain
+
+
+
+
+for representing the spatial dimensions of the insula, which     Statistical Analysis
+is particularly useful in simulating spatial relationships
+between anatomical structures or estimating localization         A one-way ANOVA was conducted to evaluate the coordi-
+for sensory/motor functions (face, hand, foot). Functional       nate differences among the functional subdivisions (face,
+regions of interest within the insular cortex, face, hand, and   hand, and foot) along the mediolateral (x-axis), anteropos-
+foot were assigned specific coordinates based on a review        terior (y-axis), and superoinferior (z-axis) dimensions. Sta-
+of prior functional neuroimaging studies and probabilistic       tistical significance was set at p < 0.05.
+mapping of sensorimotor areas.
+   In this study, the right insula was selected for ellip-       Dynamic Modeling
+soid modeling based on its standardized representation in
+the MNI template brain, where the right hemisphere cor-          To simulate the dynamic neuronal activity of the insular cor-
+responds to positive X-axis values. However, functional          tex, a system of differential equations was employed to rep-
+coordinates plotted in Fig. 4 were based on the left insular     resent excitatory x(t) and inhibitory y(t) neural pathways. A
+cortex, as indicated by their negative x-axis values. This was   simplified representation of this can be achieved through a
+done to visualize somatotopic organization based on avail-       system of differential equations that model the interaction
+able left-hemisphere probabilistic mapping data in prior         between excitatory (𝑥) and inhibitory (y) neuronal connec-
+functional neuroimaging studies. The following coordinates       tions: dx / dt = ax − by, dy/dt = cx + dy.
+were used: Face: (− 40,−16,11), Hand: (− 40,−19,14), Foot:          𝑎, 𝑏, c, and d are dynamic parameters reflecting the
+(− 35,−21,11). These values align with known sensorimo-          intrinsic properties of the insular cortex, including synap-
+tor subdivisions of the left posterior insula and were cross-    tic strengths and time constants. The parameters used in
+validated using cytoarchitectonic probability maps and 3D        the model were set as follows: a = 1.0, b = 1.5, c = 1.0, and
+reconstructions (Kurth et al., 2009).                            d = − 1.0, representing synaptic strengths and time constants
+                                                                 that govern the dynamics between neuronal activity. The
+
+
+
+13
+Neuroinformatics (2025) 23:29                                                                                                    Page 7 of 17 29
+
+
+
+
+Fig. 4 3D Reconstruction of Insular Functional Subdivisions (a) This       lateral direction, with positive values indicating lateral movement and
+3D plot visualizes the anatomical localization of three functional sub-    negative values indicating the medial position. The y-axis (green)
+divisions of the left insular cortex: face (red), hand (green), and foot   denotes the anteroposterior direction, with positive values toward the
+(blue), in MNI space. The X-axis represents mediolateral positioning,      anterior and negative values toward the posterior of the brain. The
+the Y-axis represents anteroposterior alignment, and the Z-axis repre-     z-axis (blue) reflects the superoinferior direction, where positive val-
+sents the superoinferior direction. The coordinates used are based on      ues indicate superior positions and negative values indicate inferior
+established MNI-based functional mapping data. (b) This 3D diagram         positions. These axes show the anatomical coordinates in the brain,
+illustrates the standard anatomical reference axes in the MNI space        including the localization of the insula and its functional subdivisions
+used in mathematical modeling. The x-axis (red) represents the medio-      (face, hand, and foot)
+
+simulation began with initial conditions of x(0) = 1.0 and
+y(0) = 0.5, and the system was solved over a time interval                 Results
+of 0 to 20 s, with 1000 time points to ensure high temporal
+resolution. The system of differential equations was inte-                 Validation of Ellipsoidal Model
+grated using the solve_ivp function from the SciPy library.
+                                                                           Although no empirical imaging data or stimulation studies
+Connectivity Modeling                                                      were used to derive these coordinates, the model parameters
+                                                                           were consistent with the reported anatomical and volumet-
+The functional connectivity between the insula and associ-                 ric data in the literature (Table 2). The ellipsoidal model of
+ated brain regions (prefrontal cortex, amygdala, ACC, and                  the right insula, centered at MNI coordinates (x = 40 mm,
+thalamus) was modeled using a 5 × 5 weighted connectivity                  y = 5 mm, z = 5 mm) with semi-axes of 12 mm (mediolat-
+matrix W. Each matrix element wij​represents the connec-                   eral), 8 mm (anteroposterior), and 6 mm (superoinferior),
+tion strength from region i to region j, with diagonal val-                accurately reflected the average anatomical dimensions
+ues set to zero (no self-connections). These weights were                  reported in the literature (Fig. 5). The estimated insular
+derived from the literature-reported functional connectiv-                 volume derived from the model aligns with the average
+ity data. Connectivity is mathematically represented by a                  insular gray matter volume reported by Faillenot et al.,
+weighted matrix W, where each element wij quantifies the                   which is 9.9 ± 0.6 cm³(Faillenot et al., 2017). Additionally,
+connection strength between regions i and j. The diagonal                  the insula accounted for 2.7 ± 0.2% of the total gray mat-
+elements are set to zero (wii = 0), assuming that there are no             ter volume in women and 2.6 ± 0.2% in men. The model
+self-connections.                                                          parameters were further validated using allometric scaling
+                                                                         data, which showed that insular volume increases dispro-
+       0
+      w21 w12  0
+                     w13
+                     w23
+                                                                           portionately with brain size (scaling exponent = 1.13), as
+W =
+      w31 w32         0                                                  reported by (Bauernfeind et al., 2013). Functional valida-
+                                                                           tion was achieved by plotting the somatotopic regions (face:
+
+
+
+                                                                                                                                      13
+29 Page 8 of 17                                                                                                        Neuroinformatics (2025) 23:29
+
+
+Table 2 Summary of morphometric parameters of the Insula                     Functional Region Analysis
+Measurement Value Description
+Type            (mm)
+                                                                             One-way ANOVA of the functional subdivisions (face,
+Diameter        35.5    The average diameter of the insula from
+                        the central point outward.                           hand, and foot) revealed no statistically significant differ-
+Length          40.2    The anterior-posterior length of the insula.         ences along the x-axis (p > 0.05, F = 1.23), indicating simi-
+Width           20.8    The medio-lateral width of the insula.               lar mediolateral positions. However, significant differences
+Thickness       4.3     The average cortical thickness of the                were observed along the y-axis (p < 0.01, F = 8.76) and
+                        insular cortex.                                      z-axis (p < 0.05, F = 5.43), confirming the distinct antero-
+Distance to     15.6    The average distance from the insula to              posterior and superoinferior localization among these func-
+Midline                 the sagittal midline.
+                                                                             tional subregions. The mean coordinates of the three regions
+Surface Area 240.7 The estimated surface area of the insula in
+                        square millimeters (mm²).                            were calculated as (− 38.33, − 18.67, 12.00) mm.
+Volume          1,200 The estimated volume of the insula in
+                        cubic millimeters (mm³).                             Dynamic Simulation of Neural Activity
+Anterior        10.5    Distance from the insula to the anterior
+Distance                temporal lobe.                                       The dynamic model demonstrated oscillatory interac-
+Posterior       12.3    Distance from the insula to the posterior
+                                                                             tions between excitatory and inhibitory neural activity in
+Distance                parietal cortex.
+Superior        8.7     Distance from the insula to the superior
+                                                                             the insula over a 20-second simulation period. Excitatory
+Distance                frontal gyrus.                                       activity exhibited periodic increases, followed by inhibi-
+Inferior        11.2    Distance from the insula to the inferior             tory responses, consistent with the known patterns of neural
+Distance                temporal gyrus.                                      oscillation in the insular cortex. These oscillations reflect
+Note: These measurements are derived from multiple peer-reviewed             the balanced excitatory-inhibitory dynamics that underpin
+neuroimaging studies (Makris et al., 2006; Faillenot et al., 2017) and
+                                                                             functional processing in the insula. In this model, oscilla-
+represent average anatomical measurements used for mathematical
+modeling                                                                     tions highlight how excitation and inhibition evolve over
+                                                                             time, contributing to the functional rhythms of insular pro-
+−40, − 16, 11 mm; hand: −40, − 19, 14 mm; foot: −35, − 21,                   cessing. This model is important for understanding brain
+11 mm) within the 3D model. The relevance and accuracy of                    rhythms associated with emotion, interoception, and sen-
+these parameters were quantitatively assessed using a heat                   sory processing (Fig. 7).
+map, which highlights their scientific significance in vali-
+dating the coordinate system and mathematical localization                   Connectivity Modeling
+of the insula (Fig. 6).
+                                                                             Simulations using the weighted connectivity matrix dem-
+                                                                             onstrated bidirectional interactions between the insula and
+                                                                             associated regions, particularly strong connections with
+                                                                             the prefrontal cortex (w12 = 0.8) and the ACC (w14 = 0.6).
+
+
+
+
+Fig. 5 Morphometric measurements of the insula (mm). (a) The short-          (b) 3D anatomical illustration of the right (red) and left (blue) insula.
+est horizontal distances from the insula to the anatomical midline of        Each side was plotted symmetrically around the midline, providing a
+the brain were measured. The anatomical midline represents the central       precise spatial representation of both insulae locations according to the
+sagittal plane that divides the brain into the right and left hemispheres.   morphometric measurements
+
+
+13
+Neuroinformatics (2025) 23:29                                                                                                  Page 9 of 17 29
+
+
+
+
+Fig. 6 Heat map illustrating the scientific relevance of key parameters   spatial variability, volumetric consistency, and accuracy of the ellip-
+involved in the Coordinate System and Mathematical Localization of        soid model. Relevance scores (0–10) highlight the relative importance
+the insula. The parameters assessed included MNI coordinate accuracy,     of each parameter representing the anatomical and functional roles of
+reliability of coordinate conversions, precision of geometric modeling,   the insula for model validation and accuracy
+microstructural representation, accuracy of functional localization,
+
+
+This model captures the integrative role of the insula in                 receive feedback input scaled by w21​=0.7. These dynamic
+network-level brain functions and mirrors the connectivity                exchanges facilitate neural synchronization, oscillations,
+patterns observed in empirical neuroimaging studies. In our               and functional coupling across the network (Cauda et al.,
+extended model, the insula’s connectivity with the prefron-               2011; Eden et al., 2015; Hsiao, 2017; Rangaprakash, 2017).
+tal cortex, amygdala, ACC, and thalamus was represented
+and quantified (Fig. 8).
+                                                                          Discussion
+     0 0.8 0.5 0.6 0.4
+    0.7 0 0.4 0.5 0.3
+W = 0.6 0.3 0 0.4 0.2                                                     This study contributes to the existing literature by introduc-
+    0.5 0.4 0.3 0 0.6                                                     ing a novel mathematical framework that quantitatively
+    0.3 0.2 0.1 0.5 0                                                     models the anatomical localization, functional organization,
+                                                                          and dynamic connectivity of the insula, addressing a gap in
+In this matrix, wij​denotes the strength of the connection                computational neuroanatomy. To assess the anatomical and
+from region i to region j, with the diagonal elements set                 volumetric accuracy of our model, we compared our find-
+to zero, assuming no self-connections. This connectivity                  ings with prior morphometric analyses of the insula reported
+matrix enables the simulation of how neural activity gener-               in the literature. Faillenot et al. reported that the average
+ated within the insula influences and is influenced by the                insular grey matter volume in MNI space was 9.9 ± 0.6 cm³
+activity in connected brain regions, creating a bidirectional             (Faillenot et al., 2017), and studies such as Makris et al.
+interaction model. Excitatory output from the insula (x)                  and Takahashi et al. have provided specific measurements
+may drive prefrontal cortex activity scaled by w12​=0.8 and               of anterior and posterior insular subdivisions (Makris et al.,
+
+
+
+                                                                                                                                    13
+29 Page 10 of 17                                                                                                        Neuroinformatics (2025) 23:29
+
+
+
+
+Fig. 7 Dynamic simulation of excitatory (x) and inhibitory (y) neu-          the rate of change in excitatory activity (dx/dt) over time. The trajec-
+ronal activity in the insular cortex (a) The simulation was conducted        tory represents the dynamic interaction between excitatory and inhibi-
+over a time interval of 0 to 20 s, with both excitatory and inhibitory       tory neuronal activities, generating a cyclic or oscillatory pattern. Such
+activity levels ranging from − 1.1 to 1.1 units. The plot demonstrates       oscillations reflect fundamental neurophysiological processes within
+oscillatory dynamics driven by the interactions between excitatory and       the insula, which are implicated in functional domains such as pain
+inhibitory inputs, reflecting the temporal patterns of neuronal activa-      perception, emotional regulation, and interoceptive awareness. This
+tion in the insula. These dynamics are relevant to functions such as         visualization highlights how excitatory responses are modulated by
+cognitive control, emotional regulation and sensory integration. (b) 3D      inhibitory input, providing insights into the temporal evolution of insu-
+phase plot of the dynamic model of the insular cortex, illustrating the      lar network activity under varying physiological conditions
+relationship between excitatory activity (x), inhibitory activity (y), and
+
+
+2006; Takahashi et al., 2005). When adjusted for total gray                  dimensions of the right insula, it is a simplified representa-
+matter volume, the insula occupied 2.7 ± 0.2% in women and                   tion of a complex structure that requires further investiga-
+2.6 ± 0.2% in men, suggesting a slight sex-based variation.                  tion. The unique developmental trajectory, vascular supply,
+Moreover, the insula exhibits allometric scaling relative to                 and functional connectivity patterns of the insula contribute
+the total brain mass (Faillenot et al., 2017). Bauernfeind et                to its intricate anatomy, which may require more sophisti-
+al. reported that the whole insula scales hyperallometrically                cated models for precise representation in neuroanatomi-
+with an exponent of 1.13, and the agranular insula scales                    cal studies (Mallela, 2023; Türe et al., 2000; Varnavas &
+with an even greater exponent of 1.23. This disproportion-                   Grand, 1999). However, the proposed model in this study
+ate scaling implies that larger brains have expanded insular                 can be considered scientifically reliable because of its high
+regions, potentially supporting enhanced social cognition in                 accuracy in MNI coordinate mapping, geometric model-
+larger animals. Anatomically, the insula exhibits a gradient                 ing precision, and ellipsoid model accuracy, all of which
+from the granular neocortex in the posterior-dorsal region to                received top relevance scores, indicating strong validation
+the agranular neocortex in the anterior-ventral region, with                 and accuracy.
+a dysgranular intermediate zone (Bauernfeind et al., 2013).                      While anatomical and volumetric validation emphasize
+These data confirmed our estimation of the ellipsoid radii                   the accuracy of our ellipsoid model, it is equally important
+and served as validation references. This ellipsoid model                    to consider how previous imaging-based approaches and
+represents the spatial location and dimensions of the insula                 advanced modeling techniques have captured the structure
+and can serve as a basis for developing more complex simu-                   and function of the insula. Several studies have used MRI to
+lations or functional mapping tools. However, we acknowl-                    measure insular volumes (Makris et al., 2006; Takahashi et
+edge that the actual anatomy of the insula is highly complex,                al., 2005; Allen et al., 2008; Kim et al., 2003; Shepherd et al.,
+shaped by developmental, vascular, and microstructural                       2012; Skrap et al., 2012). For instance, Kim et al. traced the
+factors, including the gradual transition from granular to                   insula on coronal slices of MRI images to obtain volumetric
+agranular cortex (Bauernfeind et al., 2013), and regional                    measurements (Kim et al., 2003). Allen et al. used MRI data
+differences in microstructure (Menon, 2020). Advanced                        for volumetric analyses of the gray and white matter in the
+modeling techniques, such as geometric morphometrics                         insula (Allen et al., 2008). Some studies have focused on
+(Mitteroecker & Gunz, 2009) or 3D probabilistic mapping                      specific subdivisions of the insula. Makris et al. measured
+(Kurth et al., 2009), provide more detailed reconstructions                  the cortical volume of left and right anterior and posterior
+but are beyond the scope of this study. Although the pro-                    insular subdivisions using T1-weighted high-resolution
+vided equation offers a reasonable model of the anatomical                   MRI (Makris et al., 2006). Takahashi et al. investigated the
+
+
+
+13
+Neuroinformatics (2025) 23:29                                                                                               Page 11 of 17 29
+
+
+
+
+Fig. 8 Connectivity model of the insula and associated brain regions.    strength wij between regions i and j. The connectivity matrix W under-
+Network-level interactions, including the insula, prefrontal cortex,     lying this model integrates data from neuroimaging and anatomical
+amygdala, anterior cingulate cortex (ACC), and thalamus, were repre-     studies, highlighting both ascending sensory pathways (thalamus →
+sented. Directed edges indicate the direction of functional connectiv-   insula) and descending modulatory pathways (insula → brainstem via
+ity, whereas numerical labels on each edge represent the connection      the ACC and amygdala)
+
+
+volumes of the short (anterior) and long (posterior) insular                Mathematical modeling of the anatomical localization of
+cortices (Takahashi et al., 2005). Shepherd et al. provides a            the insula in the brain involves complex approaches to quan-
+meta-analysis of studies examining insula volume in schizo-              tify and visualize its structure, position, and function. One
+phrenia (Shepherd et al., 2012). The included studies used               key methodology includes the use of probabilistic maps and
+region-of-interest analyses to measure insula volume but                 3D reconstructions developed to chart the regional architec-
+did not specify a particular formula (Shepherd et al., 2012).            tural organization of the posterior insula (Kurth et al., 2009).
+Skrap et al. described the use of volumetric scan analysis               These techniques, often based on cytoarchitectonic analysis
+on T2-weighted MRI images to establish preoperative and                  of postmortem brains, delineate three distinct regions within
+postoperative tumor volumes in the insula (Skrap et al.,                 the posterior insula and are invaluable in identifying ana-
+2012). However, it does not provide a specific formula for               tomical correlates of functional activation, particularly when
+calculating insular volume. Although these studies discuss               applied in conjunction with neuroimaging data. Importantly,
+various methods for measuring insular volume using MRI,                  3D reconstruction provides spatial insight into how distinct
+they do not provide specific volumetric formulas. These                  functional subdivisions, such as those responsible for face,
+methods generally involve tracing or segmenting the insula               hand, and foot representations, are organized within the
+on MRI images and calculating the volumes based on these                 insula. This visualization is essential for understanding the
+measurements.                                                            topographical layout of sensorimotor functions and facili-
+                                                                         tates the integration of mathematical models with functional
+
+
+
+                                                                                                                                   13
+29 Page 12 of 17                                                                                       Neuroinformatics (2025) 23:29
+
+
+mapping (Menon, 2020). In a large cohort study (n = 413),          consistency between the anatomical, microstructural, and
+Menon et al. demonstrated that the microstructural organiza-       functional components within the model (Fig. 9).
+tion of the insula mirrors its functional connectivity, particu-
+larly with the ACC (Menon, 2020). These findings highlight         Pathological Modulation of Connectivity
+the value of advanced imaging and modeling techniques in
+revealing structure-function relationships within the insula.      Empirical studies have demonstrated significant variability
+The current mathematical model integrates elements of              and lateralization in insular connectivity across various phys-
+cytoarchitectonic mapping, 3D reconstruction, probabilistic        iological and pathological conditions. For instance, insula-
+mapping, and diffusion MRI analysis, providing a structural        default mode network connectivity is notably decreased in
+organization and its relevance to function (Menon, 2020;           patients with fibromyalgia (Hsiao, 2017). Weakened con-
+Kurth et al., 2009). Anderson et al. demonstrated that insu-       nectivity between the insula and prefrontal cortex has been
+lar neurons have greater dendritic spine density than both         observed in individuals with posttraumatic stress disorder
+low- and high-integration cortical regions, suggesting a           (PTSD) and mild traumatic brain injury (Rangaprakash,
+unique capacity for information processing and integration         2017). Furthermore, asymmetric connectivity patterns have
+(Anderson et al., 2009). Therefore, 3D mathematical model-         been reported, such as stronger right insula-temporoparietal
+ing of the insula provides a structural basis and functional       junction connections in females (He, 2012). Reduced con-
+relevance, particularly in relation to the somatotopic repre-      nectivity between the insula and somatosensory cortex has
+sentations of body parts (face, hand, and foot) and cognitive      also been reported in patients with complex regional pain
+control. These simplified models may facilitate the devel-         syndrome (Yang, 2017). These findings emphasize the
+opment of targeted therapies by providing precise mathe-           importance of specific parameterization of the connectiv-
+matical coordinates to ensure accurate drug delivery to the        ity matrix W, as connection strengths (wij) vary depending
+desired brain regions.                                             on the brain regions involved, hemispheric lateralization,
+    Structural models provide critical insights into the spatial   and the clinical context. For example, trait anxiety has been
+and functional organization of the insular cortex. Building        associated with weaker amygdala-prefrontal connectiv-
+on this foundation, dynamic modeling captures neurophysi-          ity, particularly in the right hemisphere, whereas the use of
+ological activity over time, bridging anatomical architecture      emotion regulation strategies, such as cognitive reappraisal,
+with functional dynamics. Dynamic modeling of the insula           correlates with enhanced left-sided connectivity between
+aims to simulate its neurophysiological activity over time         these regions (Eden et al., 2015).
+by capturing the balance between excitatory and inhibitory
+neuronal dynamics. This is essential for understanding the         Applications and Verification
+generation of oscillatory patterns that underlie the functional
+behavior of the insula (Chen, 2010; Brunel, 2000). The             The proposed mathematical models can be validated using
+equations describe how the state of excitatory and inhibi-         structural and functional imaging techniques, such as MRI
+tory inputs evolves over time and influences each other,           and fMRI, by comparing the simulated outcomes of the
+capturing the essential dynamics that may lead to oscilla-         models with empirical imaging data. Structural MRI can
+tory or stable states. Such modeling is grounded in neural         be used to confirm the anatomical localization and morpho-
+network theory, where the interplay between excitation             logical accuracy of the modeled insular region, ensuring
+and inhibition produces diverse network behaviors, includ-         that the spatial parameters in the model align with indi-
+ing synchronization and oscillations (Chen, 2010; Brunel,          vidual or population-based anatomical data. In contrast,
+2000). However, connectivity modeling introduces interac-          fMRI provides temporal and spatial information on neu-
+tions between the insula and other brain regions (Rodgers          ral activation patterns, allowing for the validation of the
+et al., 2008; Hurley et al., 2004; McGovern et al., 2012).         dynamic aspects of the model, such as simulated oscillatory
+These interregional connections are crucial for constructing       activity and connectivity patterns over time. By analyzing
+a comprehensive mathematical model that integrates local           blood-oxygen-level-dependent signals in fMRI, research-
+dynamics with global network-level functions. Together,            ers can assess whether the predicted activation patterns and
+dynamic and connectivity modeling provide a coherent               connectivity strengths (from the weighted matrix W) cor-
+framework for simulating and understanding the insula’s            respond to the observed functional connectivity and task-
+function both in isolation and within brain-wide networks,         related activation in the insula and its connected regions.
+forming an integrated mathematical model. To evaluate              Mathematical models that integrate structural and func-
+how well this integrated framework reflects biological real-       tional neuroimaging data can significantly enhance brain
+ity, correlation analyses were performed to highlight the          mapping accuracy. For instance, structural MRI offers high
+                                                                   spatial resolution of brain anatomy, whereas fMRI, positron
+
+
+
+13
+Neuroinformatics (2025) 23:29                                                                                               Page 13 of 17 29
+
+
+
+
+Fig. 9 Correlation matrix depicting the validation and accuracy of       mulations. Conversely, the correlation between mathematical model-
+the mathematical and dynamic modeling of the insula. The correla-        ing accuracy and neuroimaging validation emphasizes the validation
+tions shown in the matrix underline how effectively different aspects,   of mathematical predictions, indicating that the proposed geometric
+such as anatomical accuracy, microstructural variations, and func-       and dynamic model reliably represents the actual neuroanatomy and
+tional interactions, are integrated into mathematical modeling. The      neurophysiology of the insula. These correlations provide a scientific
+high correlation between functional connectivity and microstructural     justification for employing mathematical models as effective tools for
+differences highlights the biological realism of the mathematical for-   understanding complex neural structures, such as the insula
+
+emission tomography (PET), and magnetoencephalography
+provide insights into neural dynamics (Table 3) (George                  Clinical Importance and Predictive Value of
+et al., 1995; Matharu & Zrinzo, 2010). Notably, the inte-                Mathematical Models
+gration of multiple imaging modalities can help resolve
+discrepancies in localization. For example, differences in               The insula is critically involved in autonomic regulation,
+diencephalic/mesencephalic activation between PET and                    sensory processing, emotional salience, and cognitive
+fMRI studies in trigeminal autonomic cephalalgia illustrate              control (Namkung et al., 2017; Oppenheimer & Cechetto,
+how multimodal validation refines the accuracy (Matharu                  2016; Cereda et al., 2002). Its functions include cardio-
+& Zrinzo, 2010; Ogut et al., 2021). Moreover, joint struc-               vascular regulation, pain perception, and gustatory and
+tural-functional brain network models allow for the explicit             vestibular processing, with the right anterior insula play-
+modeling of interactions between anatomical structures and               ing a central role in emotional and physiological homeo-
+functional activity, thereby improving the estimation of ana-            stasis (Oppenheimer & Cechetto, 2016; Cereda et al.,
+tomical circuits and validating model predictions (Chu et                2002). Despite this complexity, patients can recover func-
+al., 2018). These validated models can be further applied                tion after insular resection, highlighting the potential for
+to understand the pathological alterations in insula-related             functional plasticity(Duffau et al., 2006). However, insular
+disorders, such as depression, anxiety, and PTSD.                        damage can lead to somatosensory deficits, gustatory dis-
+                                                                         orders, vestibular syndromes, cardiovascular disturbances,
+                                                                         and neuropsychological conditions such as aphasia and
+
+
+
+                                                                                                                                   13
+29 Page 14 of 17                                                                                                   Neuroinformatics (2025) 23:29
+
+
+Table 3 Previous studies concerning the Insula, including anatomical, functional, clinical, and neuroimaging perspectives
+Author(s)               Year Study Design                                    Focus area (about the insula)           Model Type
+Ghaziri et al.          2018 Structural Connectivity                         Subcortical structural connectivity     Neuroimaging
+                                                                                                                     connectivity
+Mesulam et al.          2000 Functional                                      Behavioral and cognitive roles          Cognitive neurology
+Ture et al.             1999 Anatomical                                      Anatomical mapping                      Dissection/imaging
+Uddin et al.            2017 Functional/Neuroimaging                         Structure and function                  Functional neuroimaging
+Cauda et al.            2011 Functional Imaging                              Resting state connectivity              fMRI connectivity
+Menon et al.            2020 Structural/Functional                           Microstructure and cognitive control Neuroimaging and
+                                                                                                                     structural
+Cerliani et al.         2011 Tractography                                    Connectivity variability                Probabilistic tractography
+Rodgers et al.          2008 Animal                                          Multisensory processing in rats         Animal model
+Kurth et al.            2009 Cytoarchitecture                                Cytoarchitecture maps                   Histological/ imaging
+Pavuluri et al.         2015 Functional                                      Emotion and cognition                   Conceptual
+Fermin et al.           2022 Functional/Neuroimaging                         Interoceptive inference                 Network-based
+Sheffield et al.        2021 Structural Neuroimaging                         Psychosis spectrum                      Neuroimaging
+Faillenot et al.        2017 Neuroimaging                                    3D probabilistic atlas                  Neuroimaging
+Bauernfeind et al.      2013 Comparative Anatomical                          Primate comparisons                     Evolutionary
+Anderson et al.         2009 Morphologic Anatomy                             Neuron morphology                       Golgi staining
+Hurley et al.           2004 Anatomical                                      Projects to insula                      Animal model
+McGovern et al.         2012 Neurotracing                                    Sensory circuitry tracing               Viral tracing
+Varnavas et al.         1999 Anatomical                                      Morphological and vascular              Surgical anatomy
+Brett et al.            2001 Neuroimaging                                    Talairach mapping                       Spatial alignment
+Chau et al.             2005 Coordinate Mapping                              Talairach mapping                       Computational
+Lacadie et al.          2008 Neuroimaging                                    Talairach mapping                       Registration correction
+Brooks et al.           2005 Functional/Neuroimaging                         Somatotopy and pain                     Somatotopic fMRI
+Mazzola et al.          2014 Functional Stimulation                          Vestibular stimulation                  Stimulation
+Mazzola et al.          2017 Functional Stimulation                          Gustatory and olfactory stimulation     Stimulation
+Mitteroecker et al.     2009 Evolutionary Anatomical                         Geometric morphometrics                 Morhometric
+Mallela et al.          2023 Developmental/Anatomical/Functional             Growth patterns                         Developmental
+Makris et al.           2006 Structural MRI                                  Schizophrenia                           MRI volumetric
+Takahashi et al.        2005 Volumetric MRI                                  Insular cortices in schizophrenia       MRI volumetric
+Skrap et al.            2012 Surgical and clinical                           Glioma surgery                          Surgical
+Brunel et al.           2000 Computational Neuroscience                      Neural networks                         Computational
+Chen et al.             2010 Functional Network                              Excitatory and inhibitory dynamics      Network dynamics
+Eden et al.             2015 Neuroimaging                                    Emotion regulation and connectivity Structural connectivity
+Hsiao et al.            2017 EEG                                             Fibromyalgia                            Resting-state model
+Rangaprakash et al.     2017 Effective Connectivity                          Disease foci mapping                    Effective connectivity
+He et al.               2012 Neuroimaging                                    White matter connectivity               Neuroimaging
+Yang et al.             2017 Connectivity                                    Cingulo-Parietal Resting-State          Functional connectivity
+                                                                             connectivity
+George et al.           1995 Neuroimaging                                    Brain function mapping                  Multimodal
+Matharu et al.          2010 Clinical                                        Cluster headache stimulation            Deep Brain Stimulation
+Chu et al.              2018 Structural/Functional Imaging                   Diffusion and fMRI joint modeling       Fusion model
+Wen et al.              2001 Clinical                                        Pterional approach                      Surgical
+Potts et al.            2012 Clinical                                        Reviews transsylvian-transinsular       Surgical
+                                                                             approaches to the insula
+Hervey et al.           2019 Clinical                                        Glioma surgery evolution                Surgical
+Gil et al.              2009 Functional                                      Stereo-EEG Electrodes                   EEG model
+Cereda et al.           2002 Clinical                                        Insular stroke                          Clinical case
+Duffau et al.           2006 Clinical                                        Brain plasticity                        Surgical plasticity
+Kang et al.             2024 Clinical                                        Autonomic dysfunction                   Clinical
+Labrakakis et al.       2023 Functional and clinical                         Pain modulation                         Pain model
+Regner et al.           2019 Neuroimaging                                    Nicotine use disorder                   Neuroimaging
+Palaniyappan et al.     2012 Functional Hypothesis                           Salience network                        Conceptual
+Di Stefano et al.       2021 Clinical                                        Insular strokes                         Clinical case
+Abbreviations: EEG: Electroencephalogram, fMRI:Functional Magnetic Resonance Imaging, MRI: Magnetic Resonance Imaging
+
+
+
+13
+Neuroinformatics (2025) 23:29                                                                                        Page 15 of 17 29
+
+
+somatoparaphrenia (Cereda et al., 2002). The proposed            Conclusion
+model can simulate how disruptions in excitatory-inhibitory
+dynamics or altered connectivity within the insula may lead      This study aimed to develop a comprehensive mathe-
+to specific symptoms. For instance, connectivity model-          matical and dynamic model of the insula, focusing on its
+ing can predict how damage to insula-prefrontal pathways         interactions with key brain regions, such as the prefrontal
+might contribute to psychiatric symptoms (schizophrenia)         cortex, amygdala, and ACC. To achieve this, we used 3D
+or emotional dysregulation (Palaniyappan & Liddle, 2012).        mathematical modeling based on MNI coordinate data and
+Similarly, models of network alterations can help explain        dynamic modeling of excitatory and inhibitory neuronal
+autonomic dysfunction, such as blood pressure fluctua-           activity. Additionally, we applied connectivity modeling
+tions and cardiac irregularities, by simulating the impact       using weighted matrices to represent the strength of the
+of insular injury on network-level communication (Kang,          connections between the insula and other brain regions. By
+2024). Moreover, in chronic pain conditions, such as fibro-      combining the local dynamic modeling of insular activity
+myalgia or complex regional pain syndrome, these models          with network-level connectivity modeling, we created an
+may help elucidate altered connectivity patterns involving       integrated framework for simulating insula-driven brain
+the insula, aiding both diagnosis and targeted intervention      processes. This model can be used to explore how the insula
+(Labrakakis, 2023; Regner et al., 2019). Additionally, the       functions in healthy individuals and those with neurologi-
+dynamic and connectivity models of the insula can aid in         cal or psychiatric conditions, providing insights into its role
+preoperative planning by simulating how surgical interven-       in emotional regulation, autonomic control, and sensory
+tion might affect local excitatory-inhibitory balance and        processing.
+network connectivity. For example, weighted connectivity
+matrices may help anticipate changes in communication            Author Contributions Research idea: EO, Design of the study: EO,
+                                                                 Acquisition of data for the study: EO, Analysis of data for the study:
+between the insula and other regions (prefrontal cortex and      EO, Interpretation of data for the study: EO, Drafting and writing the
+amygdala) post-surgery. Moreover, neural activity simula-        manuscript: EO, Revising it critically for important intellectual con-
+tions can inform risk assessments for postoperative deficits     tent: EO, Final approval of the version to be published: EO.
+by identifying areas of critical functional integration. Addi-
+tionally, anatomical variability complicates the reliance        Funding Open access funding provided by the Scientific and Techno-
+                                                                 logical Research Council of Türkiye (TÜBİTAK).
+on cranial landmarks for surgical navigation. Studies have
+shown variability in the spatial relationships between brain     Data Availability No datasets were generated or analysed during the
+regions and cranial sutures (Bruner et al., 2015), and math-     current study.
+ematical models incorporating individualized neuroimaging
+data can improve localization accuracy beyond the standard       Declarations
+landmarks.
+                                                                 Ethical Approval We confirm that we have read the journal’s position
+                                                                 on issues involved in ethical publication and affirm that this report is
+Limitations and Future Directions
+                                                                 consistent with those guidelines.
+
+While this ellipsoid model provides a 3D model of the insu-      Informed Consent Not applicable.
+la’s location and shape according to the coordinate system
+and mathematical formulations, we acknowledge that it is         Statement Regarding Research Involving Human Participants And/or
+a simplified representation of a highly intricate structure.     Animals Not applicable.
+The complex morphology of the insula, with its gyri and
+                                                                 Consent To Participate Not applicable.
+sulci, cannot be fully addressed by this model. Moreover,
+the ellipsoid model does not account for individual variabil-    Consent To Publish Not applicable.
+ity, cortical thickness or functional subregions. Alternative
+approaches, such as mesh-based modeling from high-res-           Competing Interests The authors declare no competing interests.
+olution MRI or voxel-based morphometry, can reflect the
+complex geometry of the insula more accurately.                  Open Access This article is licensed under a Creative Commons
+                                                                 Attribution 4.0 International License, which permits use, sharing,
+                                                                 adaptation, distribution and reproduction in any medium or format,
+                                                                 as long as you give appropriate credit to the original author(s) and the
+                                                                 source, provide a link to the Creative Commons licence, and indicate
+                                                                 if changes were made. The images or other third party material in this
+                                                                 article are included in the article’s Creative Commons licence, unless
+                                                                 indicated otherwise in a credit line to the material. If material is not
+                                                                 included in the article’s Creative Commons licence and your intended
+
+
+
+                                                                                                                            13
+29 Page 16 of 17                                                                                                                                                          Neuroinformatics (2025) 23:29
+
+use is not permitted by statutory regulation or exceeds the permitted                                    Gaser, C., Dahnke, R., Thompson, P. M., Kurth, F., Luders, E., & The
+use, you will need to obtain permission directly from the copyright                                           Alzheimer’s Disease Neuroimaging Initiative. (2024). CAT: A
+holder. To view a copy of this licence, visit ​h​t​t​p​​:​/​/​​c​r​e​a​​t​i​​v​e​c​​o​m​m​o​​n​s​.​​o​        computational anatomy toolbox for the analysis of structural MRI
+r​g​​/​l​i​c​e​n​s​e​s​/​b​y​/​4​.​0​/.                                                                       data. GigaScience, 13, giae049. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​9​3​​/​g​i​​g​a​s​c​i​e​n​
+                                                                                                              c​e​/​g​i​a​e​0​4​9
+                                                                                                         George, J. S., et al. (1995). Mapping function in the human brain with
+                                                                                                              magnetoencephalography, anatomical magnetic resonance imag-
+References                                                                                                    ing, and functional magnetic resonance imaging. Journal of Clin-
+                                                                                                              ical Neurophysiology, 12(5), 406–431.
+Allen, J. S., et al. (2008). Morphology of the Insula in relation to hear-                               Ghaziri, J. (2018). Subcortical structural connectivity of the insular
+     ing status and sign Language experience. Journal of Neurosci-                                            subregions. Scientific Reports, 8(1).
+     ence, 28(46), 11900–11905.                                                                          Guenot, M., Isnard, J., & Sindou, M. (2004). Surgical Anatomy of the
+Anderson, K., et al. (2009). Morphology of supragranular pyramidal                                            Insula, in Advances and Technical Standards in Neurosurgery. pp.
+     neurons in the human insular cortex: A quantitative golgi study.                                         265–288.
+     Cerebral Cortex, 19(9), 2131–2144.                                                                  Güzelad, Ö., et al. (2021). Protective mechanism of syringic acid in
+Bauernfeind, A. L., et al. (2013). A volumetric comparison of the insu-                                       an experimental model of Parkinson’s disease. Metabolic Brain
+     lar cortex and its subregions in primates. Journal of Human Evo-                                         Disease, 36(5), 1003–1014.
+     lution, 64(4), 263–279.                                                                             He, Y. (2012). Hemispheric asymmetry in white matter connectivity of
+Brett, M. (2001). The Talairach atlas was used with the MNI template.                                         the temporoparietal junction with the Insula and prefrontal cortex.
+     Neuroimage, 13(6).                                                                                       Plos One, 7(4).
+Brooks, J. C. W., et al. (2005). Somatotopic organization of the human                                   Horn, A., & Kühn, A. A. (2015). Lead-DBS: A toolbox for deep brain
+     Insula to painful heat studied with high-resolution functional                                           stimulation electrode localizations and visualizations. Neuroim-
+     imaging. Neuroimage, 27(1), 201–209.                                                                     age, 107, 127–135.
+Brunel, N. (2000). Dynamics of sparsely connected networks of excit-                                     Hsiao, F. J. (2017). Altered insula–default mode network connectivity
+     atory and inhibitory spiking neurons. Journal of Computational                                           in fibromyalgia: A resting-state Magnetoencephalographic study.
+     Neuroscience, 8(3), 183–208.                                                                             The Journal of Headache and Pain, 18(1).
+Bruner, E., et al. (2015). The brain and the braincase: A Spatial analy-                                 Hurley, K. M., et al. (2004). Efferent projections of the infralimbic cor-
+     sis of the midsagittal profile in adult humans. Journal of Anatomy,                                      tex in rats. Journal of Comparative Neurology, 308(2), 249–276.
+     227(3), 268–276.                                                                                    Kang, K. (2024). Autonomic dysfunction and treatment strategies for
+Cauda, F., et al. (2011). Functional connectivity of the Insula in the                                        intracerebral hemorrhage. CNS Neuroscience and Therapeutics.
+     resting-state brain. Neuroimage, 55(1), 8–23.                                                            30(2).
+Cereda, C., et al. (2002). Strokes restricted to the insular cortex were                                 Kim, J. J., et al. (2003). Morphometric abnormality of the Insula in
+     excluded. Neurology, 59(12), 1950–1955.                                                                  schizophrenia: A comparison with obsessive–compulsive dis-
+Cerliani, L., et al. (2011). Probabilistic tractography recovers a rostro-                                    order and normal control using MRI. Schizophrenia Research,
+     caudal trajectory of connectivity variability in the human insular                                       60(2–3), 191–198.
+     cortex. Human Brain Mapping, 33(9), 2005–2034.                                                      Kurth, F., et al. (2009). Cytoarchitecture and probabilistic maps of
+Chau, W., & McIntosh, A. R. (2005). The Talairach coordinate of a                                             the human posterior insular cortex. Cerebral Cortex, 20(6),
+     point in the MNI space: How to interpret it. Neuroimage, 25(2),                                          1448–1461.
+     408–416.                                                                                            Labrakakis, C. (2023). Role of the insular cortex in pain. International
+Chen, X. (2010). and R. Dzakpasu observed network dynamics by                                                 Journal of Molecular Sciences 24(6).
+     altering the balance between excitatory and inhibitory neurons in                                   Lacadie, C. M., et al. (2008). More accurate Talairach coordinates for
+     cultured networks. Physical Review E, 82(3).                                                             neuroimaging using nonlinear registration. Neuroimage, 42(2),
+Chu, S. H., Parhi, K. K., & Lenglet, C. (2018). Function-specific and                                         717–725.
+     enhanced brain structural connectivity mapping via joint model-                                     Makris, N., et al. (2006). Decreased volume of the left and total ante-
+     ing of diffusion and functional MRI. Scientific Reports, 8(1).                                           rior insular lobule in schizophrenia. Schizophrenia Research,
+Criaud, M., et al. (2016). Contribution of Insula in Parkinson’s dis-                                         83(2–3), 155–171.
+     ease: A quantitative meta-analysis. Human Brain Mapping, 37(4),                                     Mallela, A. N. (2023). The heterogeneous growth of the insula shapes
+     1375–1392.                                                                                               the human brain. Proceedings of the National Academy of Sci-
+Cutsuridis, V., Cobb, S., Paninski, L., & Graham (2010). Encoding and                                         ences, 120(24).
+     retrieval in a model of the hippocampal CA1 microcircuit. Hip-                                      Matharu, M. S., & Zrinzo, L. (2010). Deep brain stimulation in cluster
+     pocampus, 20(3), 423–446.                                                                                headache: Hypothalamus or midbrain tegmentum? Current Pain
+Duffau, H., et al. (2006). The insular lobe and brain plasticity: Les-                                        and Headache Reports, 14(2), 151–159.
+     sons from tumor surgeries. Clinical Neurology and Neurosurgery,                                     Mazzola, L., et al. (2014). Vestibular responses to direct stimulation of
+     108(6), 543–548.                                                                                         the human insular cortex. Annals of Neurology, 76(4), 609–619.
+Eden, A. S., et al. (2015). Emotion regulation and trait anxiety are                                     McGovern, A. E., et al. (2012). Transneuronal tracing of airway-related
+     predicted by the microstructure of fibers between the amygdala                                           sensory circuitry using herpes simplex virus 1, strain H129. Neu-
+     and prefrontal cortex. The Journal of Neuroscience, 35(15),                                              roscience, 207, 148–166.
+     6020–6027.                                                                                          Menon, V., Gallardo, G., Pinsk, M. A., Nguyen, V. D., Li, J. R., Cai,
+Faillenot, I., et al. (2017). Macroanatomy and 3D probabilistic atlas of                                      W., & Wassermann, D. (2020). Microstructural organization of
+     the human Insula. Neuroimage, 150, 88–98.                                                                human insula is linked to its macrofunctional circuitry and pre-
+Fermin, A. S. R., Friston, K., & Yamawaki, S. (2022). An Insula hier-                                         dicts cognitive control. eLife, 9, e53470. ​h​t​t​p​s​:​​​/​​/​d​o​​i​.​o​​r​​g​​/​​1​0​​.​7​5​​​5​4​
+     archical network architecture for active interoceptive inference.                                        /​​e​L​​i​f​e​.​5​3​4​7​0
+     Royal Society Open Science 9(6).                                                                    Mesulam, M. (2000). Principles of Behavioral and Cognitive Neurol-
+Friston, K. J., Harrison, L., & Penny (2003). Dynamic causal model-                                           ogy, 2nd ed. Principles of behavioral and cognitive neurology,
+     ling. Neuroimage, 19(4), 1273–1302.                                                                      2nd ed. M.M. Mesulam. New York, NY, US: Oxford University
+                                                                                                              Press. xviii, 540-xviii, 540.
+
+
+
+13
+Neuroinformatics (2025) 23:29                                                                                                     Page 17 of 17 29
+
+Mitteroecker, P., & Gunz, P. (2009). Advances in Geometric Morpho-           Shepherd, A. M., et al. (2012). Systematic Meta-Analysis of Insula
+     metrics Evolutionary Biology, 36(2): 235–247.                                volume in schizophrenia. Biological Psychiatry, 72(9), 775–784.
+Namkung, H., Kim, S. H., & Sawa, A. (2017). The Insula: An underes-          Skrap, M., et al. (2012). Surgery of insular nonenhancing gliomas.
+     timated brain area in clinical neuroscience, psychiatry, and neu-            Neurosurgery, 70(5), 1081–1094.
+     rology. Trends Neurosciences, 40(4), 200–207.                           Stam, C. J. (2014). Modern network science in neurological disorders.
+Ogut, E., et al. (2020). The influence of syringic acid treatment on total        Nature Reviews Neuroscience, 15(10), 683–695.
+     dopamine levels in the hippocampus and on cognitive behavioral          Takahashi, T., et al. (2005). Volumetric MRI study of the short and
+     skills. International Journal of Neuroscience, 132(9), 901–909.              long insular cortices in schizophrenia spectrum disorder. Psychia-
+Ogut, E., Armagan, K., & Barut, C. (2021). Reappraisal of the types of            try Research: Neuroimaging, 138(3), 209–220.
+     trigeminal porus and importance in surgical applications. Surgi-        Tisserand, A. (2023). Me, myself and my Insula: An Oasis at the fore-
+     cal and Radiologic Anatomy, 43(7), 1169–1178.                                front of Self-Consciousness. Biology, 12(4).
+Ogut, E., Armagan, K., & Tufekci, D. (2023). The Guillain-Mollaret           Türe, U., et al. (1999). Topographic anatomy of the insular region.
+     triangle: A key player in motor coordination and control with                Journal of Neurosurgery, 90(4), 720–733.
+     implications for neurological disorders. Neurosurgical Review,          Türe, U., et al. (2000). Arteries of the Insula. Journal of Neurosurgery,
+     46(1), 181.                                                                  92(4), 676–687.
+Oppenheimer, S., & Cechetto, D. (2016). The Insular Cortex and the           Uddin, L. Q., et al. (2017). Structure and function of the human Insula.
+     Regulation of Cardiac Function, in Comprehensive Physiology.                 Journal of Clinical Neurophysiology, 34(4), 300–306.
+     pp. 1081–1133.                                                          Varnavas, G. G., & Grand, W. (1999). The insular cortex: Morphologi-
+Palaniyappan, L., & Liddle, P. F. (2012). Does the salience network               cal and vascular anatomic characteristics. Neurosurgery, 44(1),
+     play a Cardinal role in psychosis? An emerging hypothesis of                 127–136.
+     insular dysfunction. Journal of Psychiatry and Neuroscience,            Wendling, F., et al. (2002). Epileptic fast activity can be explained by
+     37(1), 17–27.                                                                a model of impaired γ-aminobutyric acid (GABA) ergic dendritic
+Pavuluri, M., May, A., Feel, I., Therefore, I., & Am (2015). The Insula           Inhibition. European Journal of Neuroscience, 15(9), 1499–1508.
+     and its role in human emotion, cognition and the Sensory-Motor          Yang, J. (2017). Impaired Insula functional connectivity associated
+     system. AIMS Neuroscience, 2(1), 18–27.                                      with persistent pain perception in patients with complex regional
+Rangaprakash, D. (2017). Identifying disease foci from static and                 pain syndrome. Plos One, 12(7).
+     dynamic effective connectivity networks: An illustration in sol-        Zhang, R., Deng, H., & Xiao, X. (2024). The insular cortex: An inter-
+     diers with trauma. Human Brain Mapping, 39(1), 264–287.                      face between sensation, emotion and cognition. Neuroscience
+Regner, M. F., et al. (2019). The Insula in nicotine use disorder: Func-          Bulletin, 40(11), 1763–1773.
+     tional neuroimaging and implications for neuromodulation. Neu-
+     roscience & Biobehavioral Reviews, 103, 414–424.                        Publisher’s Note Springer Nature remains neutral with regard to juris-
+Rodgers, K. M., et al. (2008). Auditory, somatosensory, and multisen-        dictional claims in published maps and institutional affiliations.
+     sory insular cortex in rats. Cerebral Cortex, 18(12), 2941–2951.
+Sheffield, J. M. (2021). Insula sub-regions across the psychosis spec-
+     trum: Morphology and clinical correlates. Transl Psychiatry.;
+     11(1).
+
+
+
+
+                                                                                                                                         13
+
