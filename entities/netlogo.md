@@ -41,3 +41,9 @@ Researchers interested in [[personalized-brain-modeling]] sometimes use NetLogo 
 ## Related Software
 
 NetLogo's agent-based paradigm shares conceptual foundations with other modeling frameworks, though implementation details differ substantially. [[NEST]] and [[Brian]] provide greater physiological detail for [[spiking-neural-networks]], [[Neuroml]] offers a standardized format for exchanging neuron and network specifications, and [[NeuroLib]] implements neural mass approaches within a Python framework. For researchers combining abstract network exploration with data-driven whole-brain modeling, NetLogo serves as a valuable conceptual laboratory preceding implementation in more biophysically constrained platforms like [[TVB]].
+
+## References
+
+1. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
+3. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, Petra Ritter. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)

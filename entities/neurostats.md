@@ -43,3 +43,7 @@ Furthermore, NeuroStats can be used to analyze the **parameter sensitivity** of 
 ## Related Software
 
 NeuroStats shares conceptual overlap with several other neuroimaging analysis platforms. [[brainstat]] provides similar statistical functionality with a focus on surface-based neuroimaging analysis, while [[nilearn]] offers machine learning tools for neuroimaging data in Python. The [[brain-connectivity-toolbox]] (BCT) provides graph-theoretic network analysis functions, and [[bctpy]] offers a Python implementation of the same functionality. For connectivity analysis in Python, [[mne-connectivity]] provides complementary tools for [[eeg]] and [[meg]] data, and [[brainpy]] offers neural simulation and analysis capabilities.
+
+## References
+
+1. (authors unknown). *NeuroStatX*.

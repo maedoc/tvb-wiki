@@ -48,4 +48,4 @@ For parameter estimation in the context of whole-brain modeling, Jaxley's approa
 
 ## References
 
-1. Deistler, Michael and Kadhim, Kyra L and Pals, Matthijs and Beck, Jonas and Huang, Ziwei and Gloeckler, Manuel and Lappalainen, Janne K and Schröder, Cornelius and Berens, Philipp and Goncalves, Pedro J and Macke, Jakob H. *Jaxley: differentiable simulation enables large-scale training of detailed biophysical models of neural dynamics*. Nature Methods. [DOI](https://doi.org/10.1038/s41592-025-02895-w)
+1. Deistler, Michael and Kadhim, Kyra L and Pals, Matthijs and Beck, Jonas and Huang, Ziwei and Gloeckler, Manuel and Lappalainen, Janne K and Schröder, Cornelius and Berens, Philipp and Goncalves, Pedro J and Macke, Jakob H. *Jaxley: differentiable simulation enables large-scale training of detailed biophysical models of neural dynamics*. Nature Methods. [DOI](](https://doi.org/10.1038/s41592-025-02895-w))

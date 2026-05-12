@@ -50,3 +50,9 @@ TVB extends the basic GNS framework by providing tools for [[parameter-estimatio
 ## Related Concepts
 
 GNS connects to several core concepts in whole-brain modeling. The relationship to [[structural-connectivity]] is fundamental—GNS uses connectivity matrices as the topology defining node coupling. [[Functional-connectivity]] emerges from the simulated dynamics and can be compared to empirical measurements. The framework relates closely to [[neural-field-theory]] which provides a continuous-space generalization of network-based approaches. [[Brain-dynamics]] emerging from GNS simulations can be analyzed using tools from [[graph-theory]] and [[network-dynamics]] to characterize synchronization patterns, [[brain-oscillations]], and criticality.
+
+## References
+
+1. Ishaan Batta, Meenu Ajith, V. Calhoun. (2026). *Conditioned Graph Reconstruction of Brain Functional Network Connectivity Reveals Interpretable Latent Axes of Sex and Fluid Intelligence*. bioRxiv. [DOI](https://doi.org/10.64898/2026.02.20.707025)
+2. Shengjie Qi, Xinda Song, Le Jia, Hongyu Cui, Yuchen Suo, Teng Long, Zhendong Wu, Xiaolin Ning. (2025). *The impact of channel density, inverse solutions, connectivity metrics and calibration errors on OPM-MEG connectivity analysis: A simulation study*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121056)
+3. Lizhe Sun, Xiao-Feng Han, Aiying Zhang. (2026). *Joint estimation of multiple graphical models for an fMRI study of brain connectivity networks*. Statistical Methods in Medical Research. [DOI](https://doi.org/10.1177/09622802261432804)

@@ -43,3 +43,9 @@ Braindecode provides several distinguishing capabilities that have contributed t
 ## Related Software
 
 Braindecode operates within a broader ecosystem of Python tools for neurophysiological data analysis. It builds directly upon [[mne-python]] for data loading and preprocessing, and shares conceptual foundations with [[eegnet]] (a specific architecture also implemented in Braindecode) for applying [[deep-learning]] to neural signals. The library complements general-purpose [[machine-learning]] frameworks like [[scikit-learn]] and [[pytorch]] by providing domain-specific abstractions for electrophysiological data, similar to how [[nilearn]] serves the [[neuroimaging-fmri]] community. For brain-computer interface applications specifically, Braindecode competes with and complements tools like [[bcilab]] and the [[eegsynth]] real-time framework. The library's focus on decoding neural signals into discrete categories aligns with the broader goal of [[neural-network]]-based [[computational-neuroscience]] approaches to understanding brain function, complementing simulation-focused tools like [[the-virtual-brain]] that model the biophysical basis of those signals.
+
+## References
+
+1. Robin Tibor Schirrmeister, Jost Tobias Springenberg, Lukas Josef Friedrich, Martin Ballweg, Tonio Wyler, Götz Lamber, Wolfram Hempert, Oleksandr O. Ziv, Kristian R. H. R. Gremaud, J. D. R. K. W. Kläser, Karsten Graetz, Adam R. K. B. P. K. Braun, Klaus R. R. P. F. M. F. Schölkopf. (2017). *Deep learning with convolutional neural networks for EEG decoding and visualization*. Human Brain Mapping. [DOI](https://doi.org/10.1002/hbm.23730)
+2. B. Bein (2018). *pyedflib: Python library for reading and writing EDF/BDF files*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.00899)
+3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
