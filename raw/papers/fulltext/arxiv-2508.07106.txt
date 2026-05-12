@@ -1,0 +1,827 @@
+                                        BrainATCL: Adaptive Temporal Brain Connectivity Learning for Functional Link
+                                                              Prediction and Age Estimation
+                                                     Yiran Huang1 , Amirhossein Nouranizadeh1 , Christine Ahrends 2 , Mengjia Xu 1 *
+                                                                                           1
+                                                                                        New Jersey Institute of Technology
+                                                                                             2
+                                                                                               University of Oxford
+                                                                          {yh87, an857, mx6}@njit.edu, christine.ahrends@ndcn.ox.ac.uk
+
+
+                                                                    Abstract                                 brain regions reveal structured, large-scale networks asso-
+arXiv:2508.07106v1 [cs.LG] 9 Aug 2025
+
+
+
+
+                                                                                                             ciated with behavior, cognition, aging, and neurological or
+                                          Functional Magnetic Resonance Imaging (fMRI) is an imag-           psychiatric conditions (Biswal et al. 1995; Shen 2015; Smith
+                                          ing technique widely used to study human brain activity.           et al. 2013b). Functional brain connectivity can be mod-
+                                          fMRI signals in areas across the brain transiently synchro-
+                                          nise and desynchronise their activity in a highly structured
+                                                                                                             eled from fMRI signals as either static functional connectiv-
+                                          manner, even when an individual is at rest. These functional       ity (sFC) or dynamic functional connectivity (dFC) (Power
+                                          connectivity dynamics may be related to behaviour and neu-         et al. 2011). sFC assumes constant interactions between
+                                          ropsychiatric disease. To model these dynamics, temporal           brain regions throughout the fMRI scan, and is usually
+                                          brain connectivity representations are essential, as they re-      measured by the Pearson or partial correlation. Significant
+                                          flect evolving interactions between brain regions and provide      works utilize sFC to study brain abnormalities linked to
+                                          insight into transient neural states and network reconfigura-      various brain diseases, e.g., Alzheimer’s disease (Xu et al.
+                                          tions. However, conventional graph neural networks (GNNs)          2020, 2021; Baker et al. 2024) or Autism Spectrum Disor-
+                                          often struggle to capture long-range temporal dependencies         der (Zhang et al. 2022). However, as human brain transitions
+                                          in dynamic fMRI data. To address this challenge, we pro-           through dynamic functional states, dFC has emerged as a
+                                          pose BrainATCL, an unsupervised, nonparametric framework
+                                          for adaptive temporal brain connectivity learning, enabling
+                                                                                                             powerful alternative to sFC by capturing time-varying in-
+                                          functional link prediction and age estimation. Our method          teractions between brain regions, offering insights into tran-
+                                          dynamically adjusts the lookback window for each snapshot          sient neural states and network reconfigurations (Ahrends
+                                          based on the rate of newly added edges. Graph sequences are        and Vidaurre 2025).
+                                          subsequently encoded using a GINE-Mamba2 backbone to                  Capturing temporal dynamics in dFCs remains challeng-
+                                          learn spatial-temporal representations of dynamic functional
+                                          connectivity in resting-state fMRI data of 1,000 participants
+                                                                                                             ing due to variability from sampling errors, physiological ar-
+                                          from the Human Connectome Project. To further improve              tifacts, and arousal fluctuations, amplified by the low signal-
+                                          spatial modeling, we incorporate brain structure and function-     to-noise ratio inherent in fMRI (Laumann, Snyder, and Grat-
+                                          informed edge attributes, i.e., the left/right hemispheric iden-   ton 2024). Recent advances in dFC modeling primarily fall
+                                          tity and subnetwork membership of brain regions, enabling          into three categories: 1) Mode/Component decomposition-
+                                          the model to capture biologically meaningful topological pat-      based methods, which model dFC by decomposing sig-
+                                          terns. We evaluate our BrainATCL on two tasks: functional          nals or discrete-time connectivity patterns into interpretable
+                                          link prediction and age estimation. The experimental results       bases, using techniques like temporal covariance EVD
+                                          demonstrate superior performance and strong generalization,        (eigenvalue decomposition) (Alteriis et al. 2025), principle
+                                          including in cross-session prediction scenarios.                   component analysis (PCA) (Leonardi et al. 2013), Fisher
+                                                                                                             kernel (Ahrends, Woolrich, and Vidaurre 2025), and the
+                                        Code —                                                               Koopman operator (Turja, Styner, and Wu 2023). These
+                                          https://github.com/neuro-researcher123/dynamic-fc                  methods often assume linearity and may struggle to gener-
+                                                                                                             alize across datasets. 2) Clustering-based methods, which
+                                                                                                             segment time-varying FC matrices into discrete brain states
+                                                             1     Introduction                              using methods like k-means (van der Horn et al. 2024) or
+                                        Functional magnetic resonance imaging (fMRI) mea-                    deep clustering (Spencer and Goodfellow 2022). However,
+                                        sures brain activity non-invasively via blood-oxygen-level-          these methods struggle to capture smooth or overlapping
+                                        dependent (BOLD) signals, serving as a key neuroimag-                transitions between dynamic connectivity states and reply
+                                        ing technique for studying neural processes and support-             on ad-hoc parameters. 3) Graph-based dynamic modeling,
+                                        ing disease diagnosis (Perovnik et al. 2023; Biswal and Ud-          which integrate static graph neural networks (GNNs) with
+                                        din 2025). In resting-state fMRI, where no explicit task is          different temporal modules, such as temporal convolutional
+                                        performed, spontaneous synchrony and desynchrony across              networks (TCNs) (Gadgil et al. 2020; Azevedo et al. 2022),
+                                                                                                             recurrent neural networks (RNNs) (Cao et al. 2022; Tang
+                                           * Corresponding Author                                            et al. 2025), attention-based transformers (Kim, Ye, and Kim
+2021; Yu et al. 2024; Wang et al. 2024a), to capture complex    approaches often suffer from high computational cost with
+spatiotemporal dynamics of dFCs.                                quadratic complexity.
+   Despite the strong expressive power, existing methods           State space models (SSMs) (Gu, Goel, and Ré 2021),
+mostly rely on fixed context windows, suffer from high com-     particularly advanced Mamba model (Dao and Gu 2024),
+putational overhead, and overlook neuroscience-informed         have gained increasing interest for their linear complex-
+node and edge attributes – limiting generalizability across     ity and efficiency compared to transformers (Vaswani et al.
+subjects or sessions. They also struggle to capture long-       2017). Several studies have attempt to apply Mamba for dFC
+range temporal dependencies, hindering accurate and scal-       modeling, e.g., Brain-GM (Wang et al. 2024b) marks the
+able modeling of spatio-temporal patterns in dFCs. How-         first integration of the state space model into dynamic brain
+ever, the recent introduction of Mamba (Dao and Gu 2024), a     graph representation learning; FST-Mamba (Wei, Abrol, and
+state-space model (SSM) with linear complexity, presents a      Calhoun 2025) is designed for high-dimensional dFC fea-
+promising direction for efficient and scalable sequence mod-    tures that can learn dynamic connectivity patterns and pre-
+eling. More related works on SSM can be found from sec-         dict biological and cognitive outcomes. (Zrimek, Mourchid,
+tion 2.                                                         and Hassouni 2025)’s method learns dynamic spatial con-
+   In this work, to integrate neuroscience-inspired priors,     nections, adjusting the graph structure based on temporal
+long-range temporal modeling, and adaptive mechanisms           variations in movement. However, most existing methods
+to improve the accuracy and robustness of dFC analysis,         rely on fixed temporal windows and overlook neuroscience-
+we propose BrainATCL, an unsupervised, nonparametric            informed edge priors, motivating our adaptive framework
+framework for adaptive temporal brain connectivity repre-       development with dynamic context selection and biologi-
+sentation learning from resting-state fMRI data. It consists    cally grounded edge features
+of four key innovations: (1) Adaptive determination of the
+temporal lookback window at each time point based on the                            3    Methodology
+rate of newly formed links, enabling the model to capture
+meaningful transitions in functional connectivity. (2) Incor-   3.1   Data Preparation
+poration of structure- and function-informed edge attributes,   fMRI preprocessing: we used resting-state fMRI record-
+i.e., hemispheric identity and subnetwork membership, to        ings of 1,001 healthy subjects (aged 22-35) from the Young
+enhance spatial representations and capture biologically        Adult S1200 release of the Human Connectome Project
+meaningful topological patterns. (3) Encoding of adaptively     (Van Essen et al. 2013; Smith et al. 2013a). Briefly, data
+generated graph sequences via the GINE-Mamba2 back-             were acquired on a 3T MRI scanner. For each participant,
+bone, which integrates edge-aware spatial message passing       resting-state functional scans were acquired in four sessions
+with efficient long-range temporal modeling to learn expres-    of 14 mins 33 sec duration each, using multiband echo pla-
+sive temporal graph embeddings. (4) Evaluation of the pro-      nar imaging (EPI) at an acceleration factor of 8, a repe-
+posed BrainATCL framework on two different tasks, func-         tition time (TR) of 0.72 sec, and a spatial resolution of
+tional link prediction (in both within and cross-session set-   2 × 2 × 2mm. The data were preprocessed as described in
+tings) and age estimation, using the Human Connectome           (Smith et al. 2013a) using minimal spatial preprocessing fol-
+Project (HCP) dataset including 1,000 subjects. Experimen-      lowed by ICA-based temporal preprocessing and high-pass
+tal results demonstrate its effectiveness and strong general-   filtering using a 2000 sec cut-off. Since the voxel-level time-
+izability in modeling dFCs, outperforming both static and       courses are too high-dimensional, we parcellated the brain
+dynamic graph learning baselines.                               using the Schaefer parcellation (Schaefer et al. 2018) with
+                                                                100 regions of interest (ROIs). We chose this relatively low-
+                   2   Related Work                             dimensional parcellation, since estimating dFC from more
+Graph neural networks (GNNs) have emerged as a power-           fine-grained parcellations can lead to overfitting (Ahrends
+ful tool for both spatial and temporal graph modeling via       et al. 2022). Timecourses were extracted as the first prin-
+incorporating conventional sequence models such as recur-       cipal component within each ROI. Timecourses from eight
+rent neural networks (Xu, Singh, and Karniadakis 2022),         ROIs were removed as noise z-score > 6, resulting in 92
+long-short term memory (LSTM) (Tang et al. 2025), and           ROIs. The input to our experiment is the BOLD time se-
+(Wang et al. 2025) further incorporate a diffusion connec-      ries of N = 92 brain regions for P = 1000 subjects over
+tion strategy and adaptive self-attention fusion to enhance     T = 1200 time steps, and each subject has Q = 4 imag-
+the GNN-LSTM model stability and spatiotemporal repre-          ing sessions. Hence, we denote the entire time series by
+sentation. Recently, transformers have shown great potential    X ∈ RN ×P ×Q×T . All detailed symbols and their descrip-
+for temporal graph modeling via the self-attention mech-        tions are provided in Appendix Table A1.
+anism (Varghese et al. 2024). (Yu et al. 2024) develop a        Sliding window-based dFC construction: we compute the
+brain graph transformer to capture long-range dependen-         Pearson correlation coefficient between pairs of brain re-
+cies within brain networks. (Wang et al. 2024a) incorporated    gions with a sliding window of length w and stride s. Each
+the node-level attention algorithm for information aggrega-     resulting FC matrix is preprocessed by zeroing the diagonal
+tion on ROI-based brain graphs. (Kan et al. 2022) propose       and thresholding off-diagonal entries with τ to retain only
+a brain network transformer that models brain graphs with       strong connections using threshold τ in order to characterize
+fixed node order and connection profiles and introduce an       the temporal dynamic patterns of dFC. Since the choice of
+orthonormal clustering readout. However, attention-based        threshold τ directly influences the temporal graph structure
+Figure 1: Pipeline for dFC construction and adaptive graph sequence generation. (a) The original 4D fMRI BOLD signals
+X ∈ RN ×P ×Q×T X (N , P , Q, T represent the total number of brain regions of interest, subjects, imaging sessions, and time
+points, respectively). (b) We construct dFC Gp,q as a graph sequence of length K for subject p and session q, all subjects’ dFC
+set is denoted as G. (c) For training the models, we designed adaptive lookback strategy as a function of the temporal novelty
+index (Eq. 1) as a heuristic to determine temporal context Dkp,q dynamically for each graph snapshot at time step k, see detailed
+computation of adaptive lookback ℓp,q k in Section 3.3.
+
+
+
+and its dynamic properties, selecting an appropriate value is       age prediction. Specifically, the goal of dynamic link pre-
+essential. A larger τ yields more dynamic graphs with higher        diction is to use its embedding matrix Hp,q to predict the
+edge turnover, while a smaller τ produces smoother graphs           next state of the graph sequence Gp,q              p,q
+                                                                                                           K , i.e., ÂK = g(H
+                                                                                                                                 p,q
+                                                                                                                                     ).
+that may retain more noise. The impact of different τ values        Here, g : R  N ×D
+                                                                                        → {0, 1}    N ×N
+                                                                                                         is the link prediction func-
+on model performance is discussed in Section 4.4. To further
+                                                                    tion, and Âp,q
+                                                                                 K  is the estimated   adjacency  matrix of the graph
+understand how τ affects the temporal dynamics of graphs,
+                                                                    at time step K.
+we provide an in-depth analysis in Appendix A.
+                                                                       Moreover, our aim is to employ the learned embeddings
+   Additionally, each subject who has participated in the
+                                                                    to predict the age of the corresponding subject. This is a
+imaging process has a set of demographic and behavioral
+                                                                    dynamic graph regression task where the information con-
+data, each of which is constant over time, such as the sub-
+                                                                    tained in the graph sequence Gp,q is used to predict the sub-
+ject’s age and gender. For each subject p, we treat this infor-
+                                                                    ject’s age y p ∈ R+ , i.e., ŷ p = r(Hp,q ), where r : RN ×D →
+mation as the corresponding target variables and represent
+                                                                    R+ is the regression function.
+them by the vector yp ∈ RB , where B in the number of
+target variables.
+   The resulting data is a set of all discrete-time dynamic
+                                                                    3.3   The Proposed BrainATCL Framework
+graphs for each subject p and session q denoted by G =              In our proposed BrainATCL framework, we approach dFC
+{Gp,q |p ∈ {0, . . . , 1000}, q ∈ {0, . . . , 3}}, where Gp,q =     representation learning and downstream machine learning
+(Gp,q            p,q         p,q
+    0 , . . . , Gk , . . . GK−1 ), k is the sequence index and      tasks in two phases followed by data preprocessing illus-
+K = ⌊ 1200−w        ⌋ + 1. Note that each functional connectiv-     trated in Fig. 1. The workflow of our BrainATCL is shown
+               s
+ity graph is represented by its corresponding adjacency, node       in Fig. 2 and consists of three main components.
+and edge feature matrices coupled with their target variables,
+                                                                    Novelty-based adaptive lookback computation. One of
+Gp,q
+  k    = (Xp,q           p,q    p,q p
+                 k , Ak , Ek , y ), where Xk
+                                                  p,q
+                                                      ∈ RN ×FV ,
+  p,q         M ×FE            p,q        N ×N                      the main components of our method is the adaptive compu-
+Ek ∈ R                and Ak ∈ {0, 1}           , and FV , FE are   tation of the temporal context for each static graph within
+the number of input node and edge features, respectively.           the dynamic functional connectivity. We define the tempo-
+                                                                    ral context as the set of historical graphs prior to each static
+3.2   Problem Definition                                            graph within the graph sequence. We characterize the tem-
+The goal of our work is to learn dFC representations that           poral context of each static graph Gp,q k using the adaptive
+effectively and efficiently encode their spatiotemporal infor-      lookback number ℓp,q k , which indicates the number of past
+mation. Mathematically, the goal is to learn an embedding           relevant graphs for the static graph corresponding to subject
+function f that maps an arbitrary graph sequence Gp,q ∈ G           p in session q at time step k. We are motivated to compute
+into an embedding matrix Hp,q = f (Gp,q ) ∈ RN ×D , where           the temporal context for each static graph during data pre-
+each row corresponds to a node embedding vector of dimen-           processing to introduce an inductive bias that alleviates the
+sion D.                                                             need for the model to learn the relevant historical context.
+   The learned embeddings Hp,q will be used for two down-              Our intuition is based on the novelty index of the dynamic
+stream machine learning tasks: dynamic link prediction and          graph, defined as the average ratio of new edges at each time
+                 BrainATCL                     Spatial Representation                                             Temporal Pattern
+
+
+
+
+                                                                                   GINEConv
+                                                                                    Network
+
+
+
+
+                                                                                                                                          Contrastive triplet loss
+                                                             Hemisphere (L/R) +
+                                                              Edge Attributes:
+                                                               Subnetwork ID
+
+
+
+
+                                                                                                       Mamba2
+                                                    ⋮                                 ⋮
+
+
+
+
+                                                                                   GINEConv
+                                                                                    Network
+                a)                                                                                                           Negative
+                                                                                                                             Sampling
+
+
+                Downstream Tasks               Link Prediction
+
+                                                        BrainATCL                             MLP                            BCELoss
+
+
+
+
+                                                                                  Pooling
+                                                                                                                 Multiple
+
+
+
+
+                                                                                                Conv
+                                                                                   Mean
+                                                        BrainATCL                                                               MSELoss
+                                                                                                                Regressors
+                b)                             Age Estimation
+
+
+Figure 2: Illustration of our proposed BrainATCL framework for adaptive temporal brain connectivity embedding and two
+downstream tasks. (a) The BrainATCL is trained by minimizing the contrastive triplet loss. It combines a GINEConv-based
+GNN to encode structural information with edge attributes, followed by a Mamba-2 model for temporal aggregation across the
+graph sequence. The output of Mamba-2 is fed to linear layers to represent each node as a multivariate Gaussian distribution.
+(b) After pre-training the BrainATCL, the input graph sequence is processed and its node embeddings are passed to the link
+prediction classifier and age prediction regressor, respectively. These downstream task models are trained separately via mini-
+mizing the binary cross-entropy (BCE) and mean-squared error (MSE) losses.
+
+
+step:                                                                             novelty indices, we compute the (B + 1)-quantiles as:
+                                                                                   αbp,q = Quantile np,q              p,q   b
+                                                                                                                              
+                          K−1                                                                            0 , . . . , nK−1 ; B , b = {0, . . . , B},
+                        1 X |Ek \ Ekseen |                                                                                                       (2)
+                 nk =                      ,                     (1)
+                        K      |Ek |                                              so α0p,q and αB p,q
+                                                                                                      are equal to the minimum and maximum
+                             k=0
+                                                                                  novelty indices in the sequence, respectively. To compute the
+                                                                                  adaptive lookback for each time step k of the dynamic graph
+where Ek represents the set of edges at time step k, and                          Gp,q , we first find the unique bin index b ∈ 0, . . . , B − 1 to
+Ekseen represents the set of edges observed in previous time                      which the corresponding novelty index belongs:
+steps 0, . . . , k − 1.
+                                                                                                                    αbp,q ≤ np,q  p,q
+                                                                                                                             k < αb+1 ,                              (3)
+   We aim to compute the lookback number ℓp,q   k as a func-
+tion of the novelty index such that the dynamic graph is                          and assign the adaptive lookback value ℓp,q
+                                                                                                                          k as follows:
+assigned a shorter lookback at time steps with rapid novel                                               p,q
+                                                                                                        ℓk = ℓmax − b.                                               (4)
+changes and a longer lookback at time steps where the graph
+evolves more slowly. This intuition is supported by the ob-                       Thus, graphs with the lowest novelty index (b = 0) receive
+servation that a dynamic graph undergoing frequent novel                          the longest lookback value ℓp,q  k   = ℓmax, while those with
+changes behaves similarly to a sequence of random graphs,                         the highest novelty index (b = B − 1) receive the shortest
+making historical context less relevant, whereas slow vari-                       lookback value ℓp,q
+                                                                                                  k = ℓmin.
+ations in the graph indicate that its structure depends on a                         We determine an adaptive lookback number for each dy-
+longer historical context. We employ the novelty index of the                     namic graph, resulting in the final dataset. D structured as
+dynamic graph to quantify structural variations and compute                       follows:
+the lookback number as a function of this index.                                        
+                                                                                                                             ℓmax ≤ k ≤ K 
+                                                                                                                                                   
+   Specifically, let (np,q             p,q
+                                                                                        
+                          0 , . . . , nK−1 ) be the sequence                      D = Dkp,q = Gp,q          , . . . , Gp,q
+                                                                                                                           
+                                                                                                     k−ℓp,q            k     p ∈ {0, . . . , 1000}
+of novelty indices for the dynamic graph Gp,q =                                                        k                                          
+                                                                                                                             q ∈ {0, . . . , 3}
+(Gp,q           p,q
+   0 , . . . , GK−1 ), where each novelty index is computed                                                                                       (5)
+as defined in Eq. 1. We begin with a desired range of look-
+back values, [ℓmin , ℓmax ], so that B = ℓmax − ℓmin + 1 is the                   Encoding of dFCs via GINE-Mamba. In the first step
+number of discrete lookback values. Given the sequence of                         of modeling, we employ a contrastive learning approach to
+encode the spatial and temporal information contained in                        the reference node as negative samples ifar . Reference nodes
+the dynamic functional connectivity graph into the embed-                       and their corresponding positive and negative samples form
+ding vector space. Inspired by previous work (Bojchevski                        a set of triplets Tkp,q = (i, inear , ifar ) | i ∈ Gp,q
+                                                                                                                                    k used in the
+and Günnemann 2017; Parmanand Pandey et al. 2024), we                          contrastive representation learning.
+model each node in the graph sequence as a multivariate                            The contrastive loss function aims to minimize the dis-
+Gaussian distribution by parameterizing its mean vector and                     tance between the embeddings of adjacent nodes while
+covariance matrix. Specifically, for each static graph at time                  maximizing the distance between the embeddings of non-
+step k in the graph sequence, we encode its structural in-                      adjacent nodes. We define the contrastive loss for the graph
+formation using a graph neural network composed of L                            sequence sample Dkp,q as:
+GINEConv (Hu et al. 2019) layers:
+                                                                                                1          X       X                               far
+    {p,q},l
+                 
+                           {p,q},l−1                                             LDkp,q =                            [E   2
+                                                                                                                              (i, inear ) + e−E(i,i ) ]
+   zk,i     = hθl (1 + ϵ) zk,i                                                              ℓp,q
+                                                                                             k + 1 Gp,q ∈D p,q T p,q
+                                                                                                       k       k   k
+                   X               {p,q},l−1            (6)                                                                          (9)
+              +           ReLU zk,i          + ep,q
+                                                  k,ji   ,
+                                                                                where the energy function E computes the Kullback-Leibler
+                    j∈Nkp,q (i)
+                                                                                divergence between the corresponding Gaussian distribution
+where p and q are indicators of the subject and session, re-                    representations of the input nodes, i.e.,
+spectively. zp,q,l
+               k,i ∈ R
+                               Dl
+                                  is the lth layer’s structural embed-                      E(i, j) = KL(N (µi , Σi )||N (µj , Σj )).              (10)
+ding of node i at time step k, ϵ is a learnable parameter,
+l = 1, . . . , L is the number of GINEConv layers, Nkp,q (i)                    The loss objective of the BrainATCL is the sum of em-
+is the set of node i’s neighbors in the graph sequence at                       bedding   losses over all graph sequence samples: L =
+time step k, and ep,q
+                                                                                P
+                         k,ji is the edge feature vector of edge ji at
+                                                                                    L
+                                                                                  D Dk
+                                                                                        p,q .
+
+time step k. Note that the input to the first layer is the node
+                                                                                Evaluation on downstream prediction tasks. Once the
+feature vector, i.e., zp,q,0  k,i   = xp,q
+                                         k,i . To incorporate biologi-          pre-trained BrainATCL is optimized using contrastive learn-
+cally meaningful spatial priors into the model, we encode                       ing, we embed the dynamic functional connectivity graph
+structure- and function-informed edge attributes by leverag-                    and use the embeddings in downstream machine learning
+ing the hemispheric identity and subnetwork membership of                       tasks. As defined earlier, we are interested in two main su-
+the nodes connected by each edge. Specifically, for every                       pervised tasks: dynamic link prediction and age prediction.
+edge ji, we obtain the hemisphere and subnetwork labels                            For the link prediction task, we represent each edge as the
+of both endpoint nodes, embed these categorical labels into                     concatenation of the mean vectors of its corresponding end-
+learnable vectors, and concatenate them to form the final                       point node embeddings and feed this representation to a mul-
+edge attribute.
+   After encoding the structural information of static graphs                   tilayer perceptron (MLP), i.e., Âp,q                    p,q
+                                                                                                                  k+1,ij = MLP([µk,i ||µk,j ]).
+                                                                                                                                               p,q
+
+within the graph sequence Dkp,q = Gp,q                  , . . . , Gp,q          Here, Âp,q
+                                                                       
+                                                 k−ℓp,q            k     , we            k+1,ij represents the probability of observing the
+                                                    k
+obtain a sequence of embeddings for each node in the graph,                     edge (i, j) at time step k + 1 for subject p andsession q,
+i.e., (zp,q,L                p,q,L                         p,q                  given the sequence of graphs (Gp,q        , . . . , Gp,q  . The MLP
+        k−ℓp,q ,i , . . . , zk,i ) for time steps k − ℓk , . . . , k. In-                                         k−ℓp,q
+                                                                                                                      k
+                                                                                                                                      k
+spired by recent advances in state-space models for sequence                    is optimized by minimizing the binary cross-entropy loss
+modeling (Gu and Dao 2023; Dao and Gu 2024), we employ                          between the predictions and the ground-truth edges of the
+the Mamba2 model to encode the temporal evolution of struc-                     graph at the next time step.
+tural embeddings into spatiotemporal embeddings.                                   In a similar manner, we utilize the mean of each node’s
+                                   {p,q},L           {p,q},L
+                                                                                Gaussian distribution as its embedding for the age predic-
+            hp,q
+             k,i = Mamba2(zk−ℓp,q ,i , . . . , zk,i            ).        (7)    tion task. For each graph sequence, we use a MeanPooling
+                                       k
+                                                                                layer to aggregate the embeddings of all nodes and a
+   The spatiotemporal embeddings hp,q k, i ∈ RDemb are                          Conv layer to extract temporal features across time into
+then fed into two separate linear layers to compute the mean                    a single graph-level embedding and pass it through a
+and covariance of each node:                                                    Regressor layer to compute the predicted age, i.e., ŷ p =
+                  µp,q             p,q                                          Regressor(Conv(MeanPooling({µp,q        k,i }i∈Gk ))). The re-
+                                                                                                                                    p,q
+                   k,i = Linearµ (hk,i )
+                   p,q                                                   (8)    gression model is trained by minimizing the mean squared
+                       = ELU Linearσ (hp,q
+                                            
+                  σk,i                 k,i ) .                                  error between the predictions and the ground-truth age val-
+                                                                                ues.
+   The mean and variance vectors µp,q                   p,q
+                                              k,i and σ k,i are in
+RDemb and characterize the Gaussian distribution that rep-                                     4    Experimental Results
+resents node i’s embedding        in the graph sequence    Dkp,q =
+  Gp,q                p,q 
+                            as N µp,q           p,q                            4.1   Dataset
+    k−ℓp,q , . . . , Gk            k,i , diag(σ k,i ) .
+   We train the BrainATCL by optimizing a contrastive                           We evaluated our approach on the HCP young adult dataset
+triplet loss. For each reference node i of the static graph Gp,qk               for two tasks: temporal link prediction and age prediction.
+in the graph sequence Dkp,q , we extract its direct neighbors                   In the link prediction task, we select the first 100 subjects
+as positive samples inear and the nodes two hops away from                      to train the BrainATCL and conduct the link prediction task.
+      0.8                                                0.8                                                                      0.8
+      0.7
+                                                         0.7                                                                      0.7
+      0.6
+      0.5                                                0.6                                                                      0.6
+                                    MAP (Within)                                                               MAP (Within)                     MAP (Within)
+      0.4                           MRR (Within)                                                               MRR (Within)                     MRR (Within)
+                                                         0.5                                                                      0.5
+      0.3                           MAP (Cross)                                                                MAP (Cross)                      MAP (Cross)
+                                    MRR (Cross)                                                                MRR (Cross)                      MRR (Cross)
+      0.2                                                0.4                                                                      0.4
+              0.3        0.4         0.5        0.6            32            64                                 128        256          5            10            20            30
+                         Threshold ( )                                Embedding Size (Demb)                                                           Stride (s)
+            0.80                                                      1.0                                     0.70                                                        1.0
+                                                          Adaptive                                                                                            Adaptive
+
+
+
+
+                                                                              Average Novelty over Subjects
+
+
+
+
+                                                                                                                                                                                  Average Novelty over Subjects
+            0.75                                          Lookback 1                                          0.65                                            Lookback 1
+                                                                      0.8                                                                                                 0.8
+                                                          Lookback 2                                                                                          Lookback 2
+            0.70
+                                                          Lookback 3                                          0.60                                            Lookback 3
+
+
+                                                                                      MRR Score
+MAP Score
+
+
+
+
+            0.65                                          Lookback 4 0.6                                                                                      Lookback 4 0.6
+                                                          Avg Novelty                                         0.55                                            Avg Novelty
+            0.60                                                      0.4                                                                                                 0.4
+                                                                                                              0.50
+            0.55
+                                                                            0.2                               0.45                                                              0.2
+            0.50
+            0.45s = 10    s = 20      s = 30       s = 40           s = 500.0                                 0.40s = 10      s = 20        s = 30        s = 40        s = 500.0
+                 (444)     (224)       (148)          (112)          (92)                                          (444)      (224)         (148)         (112)          (92)
+                         Stride (s) (Graph sequence length)                                                                Stride (s) (Graph sequence length)
+Figure 3: The Top panel shows ablation study on the effect of hyperparameters (threshold, embedding size and stride) on
+within-session (blue) and cross-session (red) temporal link prediction performance in terms of MAP (solid lines) and MRR
+(dashed lines). Solid/dashed lines denote the mean performance, while the shaded areas correspond to the standard deviation
+across five runs. The bottom panel shows MAP and MRR scores across different lookback strategies and stride sizes for the
+link prediction task. The red dashed line shows the average novelty score (over 100 subjects) corresponding to each stride
+setting. The x-axis denotes the stride size (s), with the number of temporal graphs per subject indicated in parentheses.
+
+
+The trained model is then used to generate dynamic func-                                                      given the temporal gap between the four sessions of each
+tional connectivity (dFC) graph embeddings for a separate                                                     subject, we exclude the first ℓmax graphs at the beginning of
+set of 100 subjects (not used in training the BrainATCL),                                                     each session when computing the adaptive lookback. This
+which are subsequently used for the age prediction task.                                                      prevents the model from referencing graphs across session
+                                                                                                              boundaries, thereby maintaining semantic consistency.
+4.2            Implementation Details                                                                            Downstream task setting: (1) For the temporal link pre-
+In our experiments, we train our BrainATCL model in two                                                       diction task, we trained an MLP classifier consists of one
+different settings:                                                                                           hidden layer with ReLU activation, as defined in Section 3.3,
+   Within-session setting: each of the four sessions for ev-                                                  to predict whether a pair of nodes is connected based on
+ery subject is split based on timestamps: the first 70% of                                                    their embeddings. The classifier was trained to minimize the
+each session is used for training, the next 10% for valida-                                                   weighted binary cross-entropy loss using an Adam optimizer
+tion, and the remaining 20% for testing. The training seg-                                                    with a learning rate of 1e-3 and evaluated using MAP and
+ments from all sessions and all subjects are concatenated to                                                  MRR. For this task, each subject’s data was split into train/-
+form the final training set; similarly, validation and test seg-                                              validation/test sets along the temporal dimension, following
+ments are concatenated to form their respective sets.                                                         the same split setting used for training the BrainATCL. The
+   Cross-session setting: we use the first two sessions of                                                    reported MAP and MRR scores are averaged over all test
+each subject for our model training, the 3rd session for vali-                                                graphs to evaluate embedding quality. (2) For the age esti-
+dation, and the 4th session for testing. All timepoints within                                                mation task, we ensured that subjects with familial relation-
+a session are used according to the assigned split. Moreover,                                                 ships (e.g., twins) were assigned to the same dataset partition
+                                       Within-session                                          Cross-session
+      Model                Link Prediction             Age Prediction            Link Prediction               Age Prediction
+                        MAP ↑           MRR ↑        MAE ↓       MSE ↓        MAP ↑           MRR ↑          MAE ↓        MSE ↓
+     GCN      0.2738 (0.0021) 0.2249 (0.0012) 3.09 (0.15) 13.72 (1.67)     0.2743 (0.0007) 0.2256 (0.0001) 3.62 (0.002) 17.24 (0.87)
+  GraphSAGE   0.3084 (0.0671) 0.2485 (0.0498) 3.31 (0.62) 15.58 (5.29)     0.3088 (0.0689) 0.2509 (0.0514) 3.58 (0.55) 17.52 (4.36)
+     GAT      0.3576 (0.0042) 0.1931 (0.0025) 3.19 (0.41) 15.14 (2.68)     0.3466 (0.0007) 0.1820 (0.0002) 3.22 (0.001) 15.79 (0.25)
+      GIN     0.3937 (0.0089) 0.2959 (0.0121) 3.15 (0.07) 14.70 (1.23)     0.3829 (0.0077) 0.2848 (0.0107) 3.06 (0.35) 14.49 (3.61)
+   GCN-GRU    0.2986 (0.0035) 0.2394 (0.0028) 3.12 (0.22) 14.63 (0.73)     0.2875 (0.0011) 0.2283 (0.0001) 3.40 (0.14) 15.21 (0.52)
+GraphSAGE-GRU 0.4161 (0.0041) 0.3752 (0.0061) 3.25 (0.41) 16.85 (3.93)     0.4050 (0.0020) 0.3641 (0.0044) 3.56 (0.39) 18.22 (4.43)
+   GAT-GRU    0.3728 (0.0048) 0.2158 (0.0278) 3.06 (0.05) 13.60 (0.26)     0.3617 (0.0036) 0.2047 (0.0262) 3.31 (0.19) 16.11 (2.16)
+   GIN-GRU    0.3721 (0.0053) 0.2476 (0.0037) 2.91 (0.39) 10.89 (2.15)     0.3610 (0.0061) 0.2365 (0.0193) 2.98 (0.45) 11.56 (2.65)
+    VGRNN     0.3955 (0.0047) 0.2650 (0.0034) 3.29 (0.07) 16.21 (0.63)     0.3844 (0.0043) 0.2539 (0.0102) 3.57 (0.05) 17.45 (0.51)
+ TransformerG2G 0.6362 (0.0094) 0.5477 (0.0043) 2.87 (0.41) 12.18 (2.86) 0.6232 (0.0046) 0.5379 (0.0032) 3.02 (0.45) 13.44 (3.09)
+  GDG-Mamba     0.7165 (0.0037) 0.5978 (0.0014) 2.81 (0.42) 12.18 (2.57) 0.7196 (0.0013) 0.5966 (0.0007) 2.82 (0.41) 11.93 (3.04)
+   BrainATCL    0.7630 (0.0017) 0.6217 (0.0010) 2.83 (0.38) 11.89 (2.70) 0.7567 (0.0004) 0.6196 (0.0003) 2.80 (0.38) 11.65 (2.81)
+
+Table 1: Benchmarking BrainATCL against multiple baselines for temporal link and age prediction under both within-session
+and cross-session settings. MAP and MRR are used to evaluate temporal link prediction performance, while MAE and MSE
+are used for age prediction. Reported values are means with standard deviations shown in parentheses. BrainATCL consistently
+outperforms all baselines across both downstream tasks and settings, compared with both static and temporal models. All com-
+parisons are conducted under the same experimental configuration (stride=10, window=100, embedding=128, threshold=0.5,
+adaptive lookback).
+
+
+(training or testing) to avoid data leakage. This guarantees        size 10 for the final model comparison. This setup provides
+that related individuals do not appear in both sets simultane-      a strong balance between within-session and cross-session
+ously during model training and evaluation. We use a sep-           performance, yielding high MAP and MRR scores across
+arate set of 100 subjects that are not involved in the link         both evaluation scenarios.
+estimation experiments to avoid information leakage. The               Under this optimal configuration, we proceed to eval-
+data is split at the subject level, with 80% of the subjects        uate the performance of our proposed BrainATCL model
+used for training and 20% for testing. All available sessions       against a comprehensive set of baselines (both classical
+are included for each subject. Results are averaged over five       and recent graph-based models) on temporal link and age
+runs, each with a different random 80/20 train-test split. See      prediction. “Within-session” and “cross-session” indicate
+Appendix C for more implementation details.                         the two training setups used for BrainATCL evaluation.
+                                                                    As shown in Table 1, BrainATCL achieves the best per-
+4.3   Evaluation Tasks and Metrics                                  formance across both MAP (0.7567) and MRR (0.6196),
+We assess the performance of BrainATCL on temporal link             significantly outperforming all other baselines. The base-
+prediction task using two standard metrics – mean average           lines include general graph neural networks - GCN (Kipf
+precision (MAP) and mean reciprocal rank (MRR). See Ap-             2016) GAT (Hamilton, Ying, and Leskovec 2017), Graph-
+pendix B for detailed definitions. For age estimation task,         SAGE (Veličković et al. 2017), GIN (Xu et al. 2018)),
+the evaluation metrics are mean absolute error (MAE) and            GNN-RNNs variants (GCN-GRU, GAT-GRU, GIN-GRU,
+mean square error (MSE), reported as both the mean and              GraphSAGE-GRU) (Seo et al. 2018; Chen, Wang, and Xu
+standard deviation across five runs. We adopted five regres-        2022), a dynamic graph variational method (VGRNN) (Ha-
+sion models for age prediction: ElasticNet, Ridge, Lasso,           jiramezanali et al. 2019), and two state-of-the-art tempo-
+Random Forest, and Support Vector Regression (SVR). For             ral graph models: TransformerG2G (Varghese et al. 2024)
+each model, we perform grid search to identify the optimal          and GDG-Mamba (Pandey et al. 2024). Notably, while
+hyperparameters. The model with the best performance is             GDG-Mamba performs competitively, however, BrainATCL
+selected based on validation results.                               achieves better performance through the integration of bi-
+                                                                    ologically meaningful edge attributes and a novelty-aware
+4.4   Results                                                       adaptive lookback mechanism.
+We conduct an ablation study under two training setups,
+systematically varying key hyperparameters such as look-                                 5    Conclusion
+back window, threshold, embedding size, and stride length.
+As shown in Fig. 3, both the mean and variance of MAP               Dynamic functional connectivity analysis faces challenges
+and MRR scores are reported for each configuration. Based           from fixed context windows and the limited integration of
+on this comparison, we select the configuration with thresh-        neuroscience-informed priors. To address these issues, we
+old 0.5, embedding size 128, adaptive lookback, and stride          propose BrainATCL, an unsupervised and adaptive frame-
+work that dynamically adjusts temporal context based on         Biswal, B.; Zerrin Yetkin, F.; Haughton, V. M.; and Hyde,
+temporal novelty index and incorporates biologically mean-      J. S. 1995. Functional connectivity in the motor cortex of
+ingful edge attributes to enhance spatial modeling. Experi-     resting human brain using echo-planar MRI. Magnetic res-
+ments on HCP data demonstrate its strong performance and        onance in medicine, 34(4): 537–541.
+generalizability across both link prediction and age estima-    Biswal, B. B.; and Uddin, L. Q. 2025. The history and fu-
+tion tasks. One limitation of the current framework is the      ture of resting-state functional magnetic resonance imaging.
+lack of end-to-end training between the embedding model         Nature, 641(8065): 1121–1131.
+and downstream tasks. In future work, we plan to enhance
+                                                                Bojchevski, A.; and Günnemann, S. 2017. Deep gaussian
+the adaptivity of the framework by aligning temporal context
+                                                                embedding of graphs: Unsupervised inductive learning via
+selection more directly with brain activity dynamics, and to
+                                                                ranking. arXiv preprint arXiv:1707.03815.
+explore the identification of individual-specific brain modes
+during the resting state.                                       Cao, P.; Wen, G.; Liu, X.; Yang, J.; and Zaiane, O. R.
+                                                                2022. Modeling the dynamic brain network representation
+                                                                for autism spectrum disorder diagnosis. Medical & Biologi-
+                   Acknowledgment                               cal Engineering & Computing, 60(7): 1897–1913.
+This work is supported in part by DOE SEA-CROGS project         Chen, J.; Wang, X.; and Xu, X. 2022. GC-LSTM: Graph
+(DESC0023191), AFOSR project(FA9550-24-1-0231), and             convolution embedded LSTM for dynamic network link pre-
+the Grace Hopper AI Research Institute (GHAIRI) Seed            diction. Applied Intelligence, 52(7): 7513–7528.
+Grant at NJIT. We also thank the computing resources pro-
+vided by the High Performance Computing (HPC) facility          Dao, T.; and Gu, A. 2024. Transformers are ssms: General-
+at NJIT. Christine Ahrends is supported by the Carlsberg        ized models and efficient algorithms through structured state
+Foundation (CF23-1716). We would like to acknowledge            space duality. arXiv preprint arXiv:2405.21060.
+Usama Pervaiz for his contribution to data curation. Data       Gadgil, S.; Zhao, Q.; Pfefferbaum, A.; Sullivan, E. V.; Adeli,
+were provided by the Human Connectome Project, WU-              E.; and Pohl, K. M. 2020. Spatio-temporal graph convolu-
+Minn Consortium (Principal Investigators: David Van Es-         tion for resting-state fMRI analysis. In International con-
+sen and Kamil Ugurbil; 1U54MH091657) funded by the 16           ference on medical image computing and computer-assisted
+NIH Institutes and Centers that support the NIH Blueprint       intervention, 528–538. Springer.
+for Neuroscience Research; and by the McDonnell Center          Gu, A.; and Dao, T. 2023. Mamba: Linear-time se-
+for Systems Neuroscience at Washington University.              quence modeling with selective state spaces. arXiv preprint
+                                                                arXiv:2312.00752.
+                       References                               Gu, A.; Goel, K.; and Ré, C. 2021. Efficiently modeling
+Ahrends, C.; Stevner, A.; Pervaiz, U.; Kringelbach, M. L.;      long sequences with structured state spaces. arXiv preprint
+Vuust, P.; Woolrich, M. W.; and Vidaurre, D. 2022. Data and     arXiv:2111.00396.
+model considerations for estimating time-varying functional     Hajiramezanali, E.; Hasanzadeh, A.; Narayanan, K.;
+connectivity in fMRI. NeuroImage, 252: 119026.                  Duffield, N.; Zhou, M.; and Qian, X. 2019. Variational graph
+Ahrends, C.; and Vidaurre, D. 2025. Dynamic functional          recurrent neural networks. Advances in neural information
+connectivity. In fMRI Techniques and Protocols, 333–375.        processing systems, 32.
+Springer.                                                       Hamilton, W.; Ying, Z.; and Leskovec, J. 2017. Inductive
+                                                                representation learning on large graphs. Advances in neural
+Ahrends, C.; Woolrich, M. W.; and Vidaurre, D. 2025. Pre-
+                                                                information processing systems, 30.
+dicting individual traits from models of brain dynamics ac-
+curately and reliably using the Fisher kernel. eLife, 13:       Hu, W.; Liu, B.; Gomes, J.; Zitnik, M.; Liang, P.; Pande,
+RP95125.                                                        V.; and Leskovec, J. 2019. Strategies for pre-training graph
+                                                                neural networks. arXiv preprint arXiv:1905.12265.
+Alteriis, G. d.; Sherwood, O.; Ciaramella, A.; Leech, R.;
+Cabral, J.; Turkheimer, F. E.; and Expert, P. 2025. DySCo:      Kan, X.; Dai, W.; Cui, H.; Zhang, Z.; Guo, Y.; and Yang, C.
+A general framework for dynamic functional connectivity.        2022. Brain Network Transformer. arXiv:2210.06681.
+PLoS Computational Biology, 21(3): e1012795.                    Kim, B.-H.; Ye, J. C.; and Kim, J.-J. 2021. Learning dy-
+Azevedo, T.; Campbell, A.; Romero-Garcia, R.; Passamonti,       namic graph representation of brain connectome with spatio-
+L.; Bethlehem, R. A.; Lio, P.; and Toschi, N. 2022. A           temporal attention. Advances in Neural Information Pro-
+deep graph neural network architecture for modelling spatio-    cessing Systems, 34: 4314–4327.
+temporal dynamics in resting-state functional MRI data.         Kipf, T. 2016. Semi-Supervised Classification with Graph
+Medical Image Analysis, 79: 102471.                             Convolutional Networks. arXiv preprint arXiv:1609.02907.
+Baker, C.; Suárez-Méndez, I.; Smith, G.; Marsh, E. B.;        Laumann, T. O.; Snyder, A. Z.; and Gratton, C. 2024. Chal-
+Funke, M.; Mosher, J. C.; Maestú, F.; Xu, M.; and Pan-         lenges in the measurement and interpretation of dynamic
+tazis, D. 2024. Hyperbolic graph embedding of MEG brain         functional connectivity. Imaging Neuroscience, 2: 1–19.
+networks to study brain alterations in individuals with sub-    Leonardi, N.; Richiardi, J.; Gschwind, M.; Simioni, S.; An-
+jective cognitive decline. IEEE journal of biomedical and       noni, J.-M.; Schluep, M.; Vuilleumier, P.; and Van De Ville,
+health informatics, 28(12): 7357–7368.                          D. 2013. Principal components of functional connectivity:
+a new approach to study dynamic brain connectivity during         van der Horn, H. J.; Ling, J. M.; Wick, T. V.; Dodd, A. B.;
+rest. NeuroImage, 83: 937–950.                                    Robertson-Benta, C. R.; McQuaid, J. R.; Zotev, V.; Vakhtin,
+Pandey, A. P.; Varghese, A. J.; Patil, S.; and Xu, M.             A. A.; Ryman, S. G.; Cabral, J.; et al. 2024. Dynamic func-
+2024. A Comparative Study on Dynamic Graph Embed-                 tional connectivity in pediatric mild traumatic brain injury.
+ding based on Mamba and Transformers. arXiv preprint              Neuroimage, 285: 120470.
+arXiv:2412.11293.                                                 Van Essen, D. C.; Smith, S. M.; Barch, D. M.; Behrens, T. E.;
+Parmanand Pandey, A.; Varghese, A. J.; Patil, S.; and Xu, M.      Yacoub, E.; Ugurbil, K.; Consortium, W.-M. H.; et al. 2013.
+2024. A Comparative Study on Dynamic Graph Embedding              The WU-Minn human connectome project: an overview.
+based on Mamba and Transformers. arXiv e-prints, arXiv–           Neuroimage, 80: 62–79.
+2412.                                                             Varghese, A. J.; Bora, A.; Xu, M.; and Karniadakis, G. E.
+Perovnik, M.; Rus, T.; Schindlbeck, K. A.; and Eidelberg, D.      2024. TransformerG2G: Adaptive time-stepping for learn-
+2023. Functional brain networks in the evaluation of patients     ing temporal graph embeddings using transformers. Neural
+with neurodegenerative disorders. Nature Reviews Neurol-          Networks, 172: 106086.
+ogy, 19(2): 73–90.                                                Vaswani, A.; Shazeer, N.; Parmar, N.; Uszkoreit, J.; Jones,
+                                                                  L.; Gomez, A. N.; Kaiser, Ł.; and Polosukhin, I. 2017. At-
+Poursafaei, F.; Huang, S.; Pelrine, K.; and Rabbany, R.
+                                                                  tention is all you need. Advances in neural information pro-
+2022. Towards better evaluation for dynamic link predic-
+                                                                  cessing systems, 30.
+tion. Advances in Neural Information Processing Systems,
+35: 32928–32941.                                                  Veličković, P.; Cucurull, G.; Casanova, A.; Romero, A.; Lio,
+                                                                  P.; and Bengio, Y. 2017. Graph attention networks. arXiv
+Power, J. D.; Cohen, A. L.; Nelson, S. M.; Wig, G. S.;            preprint arXiv:1710.10903.
+Barnes, K. A.; Church, J. A.; Vogel, A. C.; Laumann, T. O.;
+Miezin, F. M.; Schlaggar, B. L.; et al. 2011. Functional net-     Wang, J.; Dvornek, N. C.; Duan, P.; Staib, L. H.; Ventola, P.;
+work organization of the human brain. Neuron, 72(4): 665–         and Duncan, J. S. 2024a. STNAGNN: Data-driven Spatio-
+678.                                                              temporal Brain Connectivity beyond FC. arXiv preprint
+                                                                  arXiv:2406.12065.
+Schaefer, A.; Kong, R.; Gordon, E. M.; Laumann, T. O.;
+                                                                  Wang, J.; Lang, J.; Yang, L.-Z.; and Li, H. 2024b. Learn-
+Zuo, X.-N.; Holmes, A. J.; Eickhoff, S. B.; and Yeo, B. T.
+                                                                  ing dynamic brain network representation based on graph
+2018. Local-global parcellation of the human cerebral cor-
+                                                                  mamba architecture. In 2024 IEEE International Confer-
+tex from intrinsic functional connectivity MRI. Cerebral
+                                                                  ence on Bioinformatics and Biomedicine (BIBM), 5143–
+cortex, 28(9): 3095–3114.
+                                                                  5150. IEEE.
+Seo, Y.; Defferrard, M.; Vandergheynst, P.; and Bresson, X.
+                                                                  Wang, T.; Ding, Z.; Chang, Z.; Yang, X.; Chen, Y.; Li, M.;
+2018. Structured sequence modeling with graph convolu-
+                                                                  Xu, S.; and Wang, Y. 2025. A novel graph neural network
+tional recurrent networks. In International conference on
+                                                                  framework for resting-state functional MRI spatiotemporal
+neural information processing, 362–373. Springer.
+                                                                  dynamics analysis. Physica A: Statistical Mechanics and its
+Shen, H. H. 2015. Resting-state connectivity. Proceedings of      Applications, 669: 130582.
+the National Academy of Sciences, 112(46): 14115–14116.           Wei, Y.; Abrol, A.; and Calhoun, V. D. 2025. Hierarchi-
+Smith, S. M.; Beckmann, C. F.; Andersson, J.; Auerbach,           cal spatio-temporal state-space modeling for fmri analysis.
+E. J.; Bijsterbosch, J.; Douaud, G.; Duff, E.; Feinberg, D. A.;   In International Conference on Research in Computational
+Griffanti, L.; Harms, M. P.; et al. 2013a. Resting-state fMRI     Molecular Biology, 86–98. Springer.
+in the human connectome project. Neuroimage, 80: 144–             Xu, K.; Hu, W.; Leskovec, J.; and Jegelka, S. 2018.
+168.                                                              How powerful are graph neural networks? arXiv preprint
+Smith, S. M.; Vidaurre, D.; Beckmann, C. F.; Glasser, M. F.;      arXiv:1810.00826.
+Jenkinson, M.; Miller, K. L.; Nichols, T. E.; Robinson, E. C.;    Xu, M.; Sanz, D. L.; Garces, P.; Maestu, F.; Li, Q.; and Pan-
+Salimi-Khorshidi, G.; Woolrich, M. W.; et al. 2013b. Func-        tazis, D. 2021. A graph Gaussian embedding method for
+tional connectomics from resting-state fMRI. Trends in cog-       predicting Alzheimer’s disease progression with MEG brain
+nitive sciences, 17(12): 666–682.                                 networks. IEEE Transactions on Biomedical Engineering,
+Spencer, A. P.; and Goodfellow, M. 2022. Using deep clus-         68(5): 1579–1588.
+tering to improve fMRI dynamic functional connectivity            Xu, M.; Singh, A. V.; and Karniadakis, G. E. 2022.
+analysis. NeuroImage, 257: 119288.                                DynG2G: An efficient stochastic graph embedding method
+Tang, J.; Chen, J.; Hu, M.; Hu, Y.; Zhang, Z.; and Xiao, L.       for temporal graphs. IEEE Transactions on Neural Networks
+2025. Diagnosis of Autism Spectrum Disorder (ASD) by              and Learning Systems, 35(1): 985–998.
+Dynamic Functional Connectivity Using GNN-LSTM. Sen-              Xu, M.; Wang, Z.; Zhang, H.; Pantazis, D.; Wang, H.; and
+sors, 25(1).                                                      Li, Q. 2020. A new graph Gaussian embedding method for
+Turja, M. A.; Styner, M.; and Wu, G. 2023. Deep-                  analyzing the effects of cognitive training. PLoS computa-
+GraphDMD: Interpretable Spatio-Temporal Decomposition             tional biology, 16(9): e1008186.
+of Non-linear Functional Brain Network Dynamics. In In-           Yu, S.; Jin, S.; Li, M.; Sarwar, T.; and Xia, F. 2024. Long-
+ternational Conference on Medical Image Computing and             range brain graph transformer. Advances in Neural Informa-
+Computer-Assisted Intervention, 358–368. Springer.                tion Processing Systems, 37: 24472–24495.
+Zhang, H.; Song, R.; Wang, L.; Zhang, L.; Wang, D.; Wang,          C. Implementation Details
+C.; and Zhang, W. 2022. Classification of brain disorders          We use 5 NVIDIA A100 GPUs with 8GB of memory
+in rs-fMRI via local-to-global graph neural networks. IEEE         each. Our model is implemented using the mamba-ssm li-
+transactions on medical imaging, 42(2): 444–455.                   brary (Dao and Gu 2024). The Mamba2 temporal module is
+Zrimek, Z.; Mourchid, Y.; and Hassouni, M. E. 2025.                configured with hidden dimension dmodel = 96, state dimen-
+DynSTG-Mamba: Dynamic Spatio-Temporal Graph                        sion dstate = 64, convolution kernel size dconv = 4, and head
+Mamba with Cross-Graph Knowledge Distillation for Gait             dimension set to 16. Our models were trained for 50 epochs
+Disorders Recognition. arXiv:2503.13156.                           using the AdamW optimizer with a weight decay of 8e-5.
+                                                                   The learning rate was adjusted based on the generated graph
+                                                                   sequences and varied between 1e-6 and 1e-7 across differ-
+                         Appendix                                  ent experimental settings. To regularize the model during
+                                                                   training, a dropout rate of 0.38 was applied after the Mamba
+A. Impact of Threshold τ on Temporal Graph                         block. To prevent overfitting, we also employed early stop-
+Dynamics                                                           ping with a patience of 5 epochs.
+                                                                      For the baseline model TransformerG2G, the input se-
+To better understand how the choice of threshold τ influ-          quence of graph embeddings with adaptive lookback is first
+ences the dynamic properties of the constructed temporal           projected to a d-dimensional space using a linear layer,
+graphs, we analyze the edge evolution across time using the        where we set d = 256. The model consists of 8 encoder
+Temporal Edge Appearance (TEA) plot (Poursafaei et al.             layers, each with a single attention head. A tanh activation
+2022). The TEA plot quantifies, at each time point, the pro-       is applied in the nonlinear layer following the encoder, and
+portion of newly appearing edges compared to the previous          the resulting representation is further projected to the Demb -
+graph snapshot, thereby offering a visual measure of tem-          dimensional space, consistent with our BrainATCL architec-
+poral variability. Fig. A1 shows how the choice of thresh-         ture. In the nonlinear projection head, we apply an ELU ac-
+old τ affects the temporal dynamics of functional connec-          tivation function. The TransformerG2G model is optimized
+tivity graphs. When τ is too small, the resulting graphs are       using the Adam optimizer with a fixed learning rate of 1e-6
+overly dense and smooth, capturing many weak or noisy              across all datasets.
+connections. This leads to a large number of repeated edges           For the GDG-Mamba baseline, we adopt the same training
+across time and consequently a lower average novelty score.        setup as used for our proposed BrainATCL model. For all
+In contrast, when τ is too large, each graph contains very         adaptive lookback settings, we set ℓmin = 1 and ℓmax = 4.
+few edges, making the connectivity patterns highly sparse             In the age estimation stage, we generate a temporal em-
+and more dynamic, but potentially less stable. Thresholds          bedding for each subject by concatenating the graph embed-
+around 0.4 and 0.5 provide a good balance, capturing mean-         dings from all sessions. Before feeding these subject-level
+ingful changes while avoiding excessive noise. We further          temporal embeddings into the age regression model, we ap-
+validate this observation in our ablation study, which shows       ply a dimensionality reduction module to extract compact
+that performance is sensitive to τ , and based on these results,   subject-level representations. Given an input tensor of shape
+we select τ = 0.5 for our final model.                             (P, K, N, Demb ), where P is the number of subjects, K is
+                                                                   the number of temporal graphs per subject, N is the number
+B. Evaluation Metrics                                              of brain regions, and Demb is the embedding dimension, we
+                                                                   first perform mean pooling over the region dimension to ob-
+(1) Mean Average Precision (MAP): For each query node              tain a tensor of shape (P, K, Demb ). The resulting sequence
+q, predictions are ranked in descending order by their pre-        is then passed through a 1D convolutional network consist-
+dicted probabilities. The average precision (AP ) is calcu-        ing of two convolutional layers with ReLU activations and
+lated using Eq. 1, where P (k) is the precision at rank k, and     an adaptive average pooling layer to aggregate temporal in-
+rel(k) is 1 if the k-th item is relevant. The final M AP is the    formation into a fixed-size vector. For the K-dimensional
+mean of AP values across all nodes in Q.                           representation, since it combines four sessions, we also ex-
+                                                                   perimented with an alternative approach in which we first
+                                             n                     averaged the four sessions before applying the convolutional
+       1 X                            1 X                          module. In addition, we tested removing the first 20% of
+MAP =      AP (q);           AP (q) =     [P (k) × rel(k)]
+      |Q|                             m                            graphs from each session, as the initial segment often con-
+              q∈Q                           k=1
+                                                          (1)      tains substantial noise and fluctuations. We selected the best-
+(2) Mean Reciprocal Rank (MRR): M RR is the average                performing configuration as the final result. Finally, a fully
+of reciprocal ranks of the first relevant prediction for each      connected layer maps the output to a 256-dimensional repre-
+query node q, as shown in Eq. 2. Unlike M AP , which con-          sentation, which is then used for downstream age prediction.
+siders all relevant items, M RR focuses on the rank of the            We also compared BrainATCL against several static and
+first correct prediction.                                          dynamic GNNs for link prediction and age estimation
+                                                                   tasks. Static GNNs include GCN (Kipf 2016), GraphSAGE
+                                                                   (Hamilton, Ying, and Leskovec 2017), GAT (Veličković
+                               1 X 1
+                    MRR =                                   (2)    et al. 2017), and GIN (Xu et al. 2018). Dynamic GNNs
+                              |Q|  kq                              comprise compositions of static GNNs with gated recurrent
+                                   q∈Q
+Figure A1: Temporal Edge Appearance (TEA) plots for subject 10, session 1 under different threshold values. For each time
+point, the blue bars indicate the number of repeated edges (i.e., edges that have appeared in any previous time point), while the
+orange bars represent newly appeared edges. The red line shows the novelty index at each time point, quantifying the proportion
+of new edges relative to total edges. The average novelty across the time series is reported in the title of each subplot.
+
+
+units, GCN-GRU, GraphSAGE-GRU, GAT-GRU, and GIN-
+GRU (Chen, Wang, and Xu 2022; Seo et al. 2018), as well
+as the variational graph recurrent neural network (VGRNN)
+(Hajiramezanali et al. 2019).
+   Both static and dynamic GNNs were trained end-to-end
+for both tasks. For static GNNs, the input is a static graph
+Gp,q                                              p,q
+  k , and the target is either the next graph Gk+1 or the sub-
+             p
+ject’s age y . For dynamic GNNs, the input is a graph se-
+quence of fixed lookback size four, (Gp,q                p,q
+                                          k−4 , . . . , Gk ), with
+the same targets.
+   For age estimation, we warm-started the encoder parame-
+ters using those from the corresponding link prediction mod-
+els. Each static GNN consists of two message-passing lay-
+ers, which in the dynamic models are followed by a single-
+layer GRU. All networks use ReLU activation functions. For
+link prediction, a two-layer MLP predicts the probability of
+edge existence, and for age estimation, a single linear layer
+maps the representations to real values. All models use a
+hidden dimension of Demb = 128. Training was done with
+batch size 256 using the ADAM optimizer (learning rate
+10−3 , weight decay 5 × 10−4 ), and early stopping on the
+validation set was employed to prevent overfitting.
+    Table A1: List of Symbols and Their Descriptions
+
+Symbol        Description
+N             Number of nodes
+M             Number of edges
+P             Number of subjects
+Q             Number of sessions
+T             Number of time steps in BOLD time series
+X             BOLD time series
+w             Window size for computing the Pearson correla-
+              tion coefficient
+s             Stride size for computing the Pearson correlation
+              coefficient
+G             Set of all dynamic functional connectivity graphs
+Gp,q          Dynamic functional connectivity graph for subject
+              p and session q
+K             Number of static graphs in the dynamic functional
+              connectivity
+Gp,q
+ k            Static graph for subject p and session q at time step
+              k
+Xp,q
+ k            Node feature matrix for subject p and session q at
+              time step k
+Ep,q
+ k            Edge feature matrix for subject p and session q at
+              time step k
+Ap,q
+ k            Adjacency matrix for subject p and session q at
+              time step k
+yp , y p      Target variable vector and scalar for subject p
+FV            Number of node features
+FE            Number of edge features
+f             Embedding function
+Hp,q          Node embedding matrix for subject p and session
+              q
+Âp,q
+  K           Predicted adjacency matrix for subject p and ses-
+              sion q at time step K
+g             Link prediction function
+r             Age prediction function
+  {p,q},l
+zk,i          lth layer’s spatial embedding vector of node i for
+              subject p, session q and time index k
+Nkp,q (i)     Set of neighbors of node i for subject p and session
+              q at time step k
+ep,q
+ k,ji         Feature vector of edge (j, i) for subject p and ses-
+              sion q at time step k
+L             Number of GINEConv layers
+hp,q
+ k,i          Hidden state of Mamba2 for node i at time step k
+              corresponding to subject p and session q
+µp,q    p,q
+ k,i , σk,i   Mean and standard deviation of Gaussian distribu-
+              tion corresponding to the embeddings of node i at
+              time step k for subject p and session q
+Demb          Embedding dimension size
+E(i, j)       Energy function that computes KL divergence be-
+              tween embeddings of nodes i and j
+L             Loss function for BrainATCL’s training
+LDp,q         Embedding loss corresponding to the sample Dkp,q
+   k
+np,q
+ k            Novelty index of the graph Gp,qk
+B             Number of discrete lookback values and number
+              of quantile bins
+αbp,q         The bth quantile of novelty index for subject p and
+              session q
+ℓp,q
+ k            Adaptive lookback number for the graph Gp,q    k
+Dkp,q         Graph sequence sample with adaptive lookback
+              corresponding to subject p, session q and time step
+              k
+

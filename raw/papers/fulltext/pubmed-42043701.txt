@@ -1,0 +1,897 @@
+Annals of Biomedical Engineering                                                                                           BIOMEDICAL
+                                                                                                                           ENGINEERING
+https://doi.org/10.1007/s10439-026-04127-4                                                                                 SOCIETY
+
+
+    ORIGINAL ARTICLE
+
+
+
+Multimodal Graphical Network Analysis of Small‑for‑Gestational‑Age
+in Preterm Infants: Integrating Neonatal Brain Volume, Structural
+Connectivity, and Early Neurodevelopmental Outcome
+Se Hyun Lee1 · Yong Hun Jang2 · Hyuna Kim2 · Gang Yi Lee2 · Hyun Ju Lee3,4 · Hyun Ho Kim5
+
+Received: 13 November 2025 / Accepted: 29 March 2026
+© The Author(s) 2026
+
+
+Abstract
+Purpose Infants born Small-for-gestational-age (SGA) face heightened risks for cognitive and language impairments. The
+neurobiological mechanisms underlying these deficits remain unclear. This study aimed to identify multimodal neuroimag-
+ing biomarkers associated with fetal growth restriction and to characterize network-level associations linking SGA to early
+neurodevelopmental vulnerability using a data-driven graph-based framework.
+Methods In this prospective cohort of 186 preterm infants, near-term brain magnetic resonance imaging (MRI) and Bayley-III
+developmental assessments were analyzed. Multimodal imaging features—including volumetric indices from T2-weighted
+MRI and diffusion metrics from diffusion tensor imaging—were integrated with perinatal data. A sparse partial-correlation
+network was estimated using the Graphical Lasso algorithm (λ optimized via cross-validation) to infer conditional depend-
+encies among features. Variables directly connected to birthweight Z-scores were identified as candidate biomarkers and
+validated for SGA classification and developmental outcomes using logistic regression and correlation analyses.
+Results Network analysis identified eight neuroanatomical correlates of birthweight Z-scores, including increased cerebro-
+spinal fluid (CSF) volume; elevated axial, mean, and radial diffusivity in the left inferior longitudinal fasciculus (ILFL);
+higher axial diffusivity in the inferior fronto-occipital fasciculus; and altered degree centrality in the right precentral and
+posterior cingulate cortices (PCC). Logistic regression revealed CSF volume and ILFL diffusivity as independent predictors
+of SGA. Infants with language delay showed trend-level increases in ILFL diffusivity and reduced PCC centrality after FDR
+correction, suggesting possible associations between microstructural and connectomic alterations and language vulnerability.
+Conclusion By integrating volumetric and diffusion MRI with graph-based modeling, this study uncovers latent neuro-
+biological markers of SGA and provides clinically interpretable biomarkers for early risk stratification and individualized
+intervention.
+
+Keywords Small-for-gestational-age · Diffusion tensor imaging · Graphical network analysis · Neonatal brain connectivity ·
+Language development delay · Multimodal MRI biomarkers
+
+
+
+Associate Editor Joel Stitzel oversaw the review of this article.
+
+                                                                    4
+* Hyun Ho Kim                                                           Hanyang Institute of Bioscience and Biotechnology, Hanyang
+  gushkrs@gmail.com                                                     University, Seoul, Republic of Korea
+                                                                    5
+1                                                                       Department of Pediatrics, Seoul St. Mary’s Hospital, College
+     Jeonbuk National University Medical School, Jeonju,
+                                                                        of Medicine, The Catholic University of Korea, Seoul,
+     Republic of Korea
+                                                                        Republic of Korea
+2
+     Department of Translational Medicine, Hanyang University
+     Graduate School of Biomedical Science and Engineering,
+     Seoul, Republic of Korea
+3
+     Department of Pediatrics, Hanyang University
+     Hospital, Hanyang University College of Medicine,
+     222‑1, Wangsimni‑ro, Seongdong‑gu, Seoul 04763,
+     Republic of Korea
+
+
+                                                                                                                       Vol.:(0123456789)
+                                                                                                                   S. H. Lee et al.
+
+
+Introduction                                                   clinical, volumetric, and diffusion-based features into a
+                                                               unified network, central nodes and edges can be identified
+Small-for-gestational-age (SGA) refers to infants whose        as potential biomarkers. These may elucidate mechanistic
+birthweight falls below the 10th percentile for their ges-     pathways linking early growth restriction to altered brain
+tational age [1–3, 3]. The prevalence of SGA is notably        organization and guide the development of targeted inter-
+higher in low-resource settings [1, 4, 5]. SGA commonly        ventions [45–47].
+results from intrauterine growth restriction (IUGR) caused        This study integrates perinatal clinical data, volumetric
+by placental dysfunction or maternal factors [6–9]. These      MRI, and DTI-derived features within a graph-based frame-
+infants are at elevated risk for neonatal complications and    work to identify neuroimaging biomarkers associated with
+long-term neurodevelopmental impairments, including            SGA and language delay at 2 years of age. By modeling
+cognitive, language, and motor deficits [10–13]. Even          direct conditional associations, we aim to reveal key path-
+full-term SGA infants without overt clinical complications     ways—both structural and statistical—that connect early
+demonstrate significant delays in cognitive and language       growth restriction to brain-based phenotypes.
+development as early as two years of age [14–17]. Such
+impairments may persist into adolescence, manifesting as
+academic difficulties, executive dysfunction, and attention-   Materials and Methods
+related problems [18–22].
+    A major limitation in current clinical practice is that    Study Design and Population
+conventional neuroimaging often appears normal in SGA
+neonates, despite subtle abnormalities in brain develop-       This prospective cohort study initially enrolled 211 pre-
+ment [23–25]. Standard magnetic resonance imaging              term neonates admitted to the Neonatal Intensive Care Unit
+(MRI) and cranial ultrasound lack the sensitivity to detect    (NICU) of Hanyang University Hospital between 2017 and
+microstructural alterations in white matter or delayed mat-    2021. Twenty-five infants were excluded due to brain injury
+uration [26, 27]. However, diffusion tensor imaging (DTI)      (n = 8), hypothermia treatment (n = 1), metabolic disorders
+enables in vivo assessment of microstructural brain organi-    (n = 1), or poor image quality and motion artifacts dur-
+zation. DTI metrics—such as fractional anisotropy (FA),        ing MRI analysis (n = 15). The final analysis included 186
+mean diffusivity (MD), axial diffusivity (AD), and radial      infants.
+diffusivity (RD)—offer indirect measures of myelination,          Inclusion criteria required successful acquisition of MRI
+fiber organization, and axonal integrity [28–31], however,     data with both T2-weighted and DTI sequences between 35
+analyzing these measures in isolation may overlook the         and 44 weeks postmenstrual age (PMA) and completion of
+complex interplay between neuroimaging and clinical vari-      neurodevelopmental evaluation using the Bayley Scales of
+ables. Growth restriction interacts with gestational age,      Infant and Toddler Development, Third Edition (BSID-III),
+sex, perinatal factors, and brain-based measures in nonlin-    at 18–24 months corrected age [48–57]. Clinical variables
+ear ways [32–34]. Therefore, understanding these multidi-      included gestational age, birth weight, Z-score based on the
+mensional relationships requires analytical methods that       Fenton growth chart, sex, Apgar scores, maternal age, and
+capture conditional dependencies among diverse variables       PMA at MRI. Birthweight Z-scores were analyzed both as a
+rather than relying solely on pairwise correlations [35–38].   binary classifier for SGA status and as a continuous variable
+    Network-based analytical frameworks have recently          for modeling [1, 56–61]. Neurodevelopmental outcomes
+emerged as effective tools for characterizing complex          across cognitive, language, motor, and socioemotional
+interdependencies among neuroimaging and clinical fea-         domains were evaluated using BSID-III [58–65].
+tures. Structural connectivity derived from diffusion ten-        The study protocol was approved by the Institutional
+sor imaging (DTI) tractography conceptualizes the brain        Review Board of Hanyang University Hospital (IRB No.
+as an interconnected network, with nodes representing          201901019), and written informed consent was obtained
+anatomical regions and edges representing white matter         from all parents prior to enrollment. All procedures adhered
+connections [39–42]. Beyond anatomical connectivity, sta-      to the ethical standards outlined in the Declaration of Hel-
+tistical network models such as graphical network analysis     sinki. The overall study design and participant flow, includ-
+(GNA) estimate conditional dependencies among multi-           ing inclusion and exclusion criteria, are illustrated in Fig. 1.
+modal features, including DTI metrics, volumetric indi-           A total of 211 preterm infants (< 37 weeks’ gestational
+ces, and clinical parameters [33, 43, 44]. This approach       age) admitted to the Neonatal Intensive Care Unit (NICU)
+accounts for indirect associations and mitigates confound-     of Hanyang University Hospital between 2017 and 2021
+ing effects, offering a more accurate multivariate represen-   were initially screened. Twenty-five infants were excluded
+tation of neurodevelopmental mechanisms. By integrating        due to brain injury (n = 8), hypothermia treatment (n = 1),
+                                                               metabolic disorders (n = 1), or poor image quality and
+Multimodal Graphical Network Analysis of Small‑for‑Gestational‑Age in Preterm Infants:…
+
+Fig. 1  Study design and partici-
+pant flow
+
+
+
+
+motion artifacts during magnetic resonance imaging (MRI)                   protection was applied, and continuous physiological moni-
+acquisition (n = 15). The final cohort comprised 186 pre-                  toring was performed throughout the examination.
+term infants who underwent MRI at near-term-equivalent                        T2-weighted images were processed using the Morpho-
+age (35–44 weeks’ postmenstrual age). Inclusion criteria                   logically Adaptive Neonatal Tissue Segmentation (MAN-
+required the availability of both T2-weighted and diffu-                   TiS) pipeline to obtain normalized volumes of nine brain
+sion-weighted MRI sequences at term-equivalent age and                     regions: gray matter, white matter, CSF, deep gray matter,
+neurodevelopmental evaluation using the Bayley Scales of                   hippocampus, amygdala, cerebellum, brainstem, and total
+Infant and Toddler Development, Third Edition (BSID-III),                  brain volume (TBV) [66]. All regional volumes were nor-
+at 18–24 months’ corrected age.                                            malized to TBV to account for interindividual differences in
+                                                                           head size [49, 67].
+MRI Acquisition and Preprocessing                                             DTI preprocessing was performed using the FMRIB Soft-
+                                                                           ware Library (FSL, v6.0). Motion and eddy-current distor-
+Brain MRI was performed using a Siemens 3-T MAG-                           tions were corrected using the eddy_correct tool, followed
+NETOM TrioTim MRI system (Siemens, Erlangen, Ger-                          by voxel-wise tensor fitting using dtifit [68–70]. This pro-
+many) equipped with a 12-channel circularly polarized                      duced scalar maps of fractional anisotropy (FA), mean dif-
+volume extremity coil. All images were acquired using a                    fusivity (MD), AD, and radial diffusivity (RD). These maps
+three-dimensional T1-weighted magnetization-prepared                       were used to extract tract-specific microstructural measures
+rapid gradient echo sequence with the following parameters:                from 27 major white matter tracts defined in a neonatal atlas
+isotropic voxel size of 0.9 × 0.9 × 0.9 mm, field of view of               [70–72], yielding 108 microstructural features per subject.
+192 mm, repetition time of 2100 ms, echo time of 3.39 ms,                  Typically, well-organized white matter exhibits higher FA
+and flip angle of 9°.                                                      and lower diffusivity values (AD, RD, MD), indicative of
+   Infants were scanned during natural sleep using a feed-                 greater fiber coherence, myelination, and axonal integrity.
+and-wrap protocol without pharmacological sedation. Ear                    The complete list of tracts used for feature extraction is
+                                                                                                                      S. H. Lee et al.
+
+provided in Supplementary Table 1 (Online Resource 1).
+Whole-brain probabilistic tractography was performed using
+PROBTRACKX2 on the preprocessed DTI data to gener-
+ate individual-level 90 × 90 structural connectivity matrices
+based on neonatal Automated Anatomical Labeling (AAL)
+parcellation [33, 73, 74]. Connection strength between
+brain regions was quantified as the streamline count-based
+probability. These matrices served as inputs for subsequent
+graph-theoretical analyses.
+   An overview of the entire multimodal analysis work-
+flow—from MRI acquisition and preprocessing to feature
+integration and statistical modeling—is presented in Fig. 2.
+   All MRI scans were visually inspected for motion artifacts
+by an experienced pediatric neuroradiologist. Diffusion data
+underwent slice-wise and volume-wise quality assessment,
+and datasets with excessive motion artifacts were excluded
+prior to analysis. Atlas-to-subject registration accuracy was
+visually verified by two independent raters, and cases with
+evident misregistration were excluded prior to connectivity
+matrix construction to ensure anatomical alignment fidelity.
+   The overall pipeline depicts the sequential processes of
+data acquisition, preprocessing, and analysis. T2-weighted
+and diffusion tensor imaging (DTI) scans were obtained
+at near-term-equivalent age (35–44 weeks’ postmenstrual
+age) and preprocessed for skull stripping, motion correc-
+tion, and spatial normalization. Volumetric brain metrics
+were derived using the Morphologically Adaptive Neona-
+tal Tissue Segmentation (MANTiS) pipeline, while diffu-
+sion parameters—fractional anisotropy (FA), mean diffu-
+sivity (MD), axial diffusivity (AD), and radial diffusivity
+(RD)—were extracted from major white matter tracts. All
+imaging-derived and clinical variables were combined into
+a unified multimodal dataset. Graphical network analysis
+(GNA) was performed using the Graphical Lasso method
+to estimate a sparse partial-correlation network, capturing
+direct conditional relationships among variables. Features      Fig. 2  Multimodal neuroimaging and analytical workflow
+directly connected to birthweight Z-scores were identified
+as small-for-gestational-age (SGA)-related biomarkers and
+subsequently validated through logistic regression and cor-     (v) was linearly registered to each infant’s native b0 image
+relations with developmental outcomes.                          (i) using a transformation matrix (T). In the subject’s native
+                                                                space, the corresponding fractional anisotropy (FA) map (iii)
+Connectivity Analysis                                           and fiber tractography map (iv) were generated. The UNC
+                                                                atlas label map (vi) was then transformed into the native
+To characterize the network organization of the neonatal        space (vii) using the inverse transformation (T⁻1). Finally,
+brain, both global and local graph-theoretical measures         a structural connectivity matrix (viii) was created by inte-
+were computed using the Graph-Theoretical Network               grating probabilistic tractography outputs from FSL PROB-
+Analysis (GRETNA) toolbox, following standard preproc-          TRACKX (iv) with the registered UNC atlas label map in
+essing protocols for thresholding and normalization [75].       native space (vii). Here, T denotes the spatial transformation
+The complete process of constructing structural connectiv-      matrix, and T⁻1 represents its inverse transformation.
+ity matrices—from atlas registration and tractography to            Global connectivity metrics included global efficiency
+matrix generation—is illustrated in Fig. 3.                     (GE), local efficiency (LE), clustering coefficient (CP),
+   The b0 image from the single-subject template in the         shortest path length (LP), and small-worldness (SW) [32,
+University of North Carolina (UNC) neonatal atlas space         75]. These indices summarize the integrative and segregative
+Multimodal Graphical Network Analysis of Small‑for‑Gestational‑Age in Preterm Infants:…
+
+
+
+
+Fig. 3  Schematic representation of structural network construction
+
+
+
+properties of the brain network: higher GE may reflect                        Particular attention was given to the posterior cingulate
+stronger global integration; higher LE may reflect greater                 cortex (PCC), a central hub in the default mode network.
+local fault tolerance; lower CP corresponds to more efficient              Previous studies have shown that PCC connectivity predicts
+communication; shorter LP suggests more direct informa-                    cognitive and attentional outcomes in both term and preterm
+tion transfer; and higher SW represents an optimal balance                 populations [78–81]. Based on its integrative functional role,
+between integration and segregation [34].                                  this study specifically investigated binary degree centrality
+   Furthermore, seven nodal-level (local) graph metrics were               (DCb) of the PCC in relation to SGA status.
+computed for each of the 90 brain regions defined according
+to the AAL atlas [75], as detailed in Supplementary Table 2                GNA
+(Online Resource 2), resulting in 630 features per subject.
+These included weighted and binary degree centrality (DCw,                 To address the complexity of multivariate associations,
+DCb), betweenness centrality (BCb), nodal clustering coef-                 GNA—a sparse partial-correlation modeling approach—was
+ficient (NCp), nodal path length (NLp), nodal efficiency                   employed to identify conditional dependencies among het-
+(Ne), and nodal LE (NLe). Higher DC may reflect stronger                   erogeneous features. This method estimates the structure of
+integration at a given node; elevated BCb suggests hub-like                an inverse covariance matrix, isolating direct, non-spurious
+importance for communication; greater NCp denotes higher                   relationships while shrinking weaker connections toward
+local modular clustering; shorter NLp reflects faster access               zero.
+to other nodes; and higher Ne and NLe represent enhanced                      All features were standardized using Z-score normaliza-
+global and LE, respectively [76, 77].                                      tion before modeling. Conditional dependencies were esti-
+   All connectivity metrics were derived using the GRETNA                  mated via the Graphical Lasso algorithm [82, 83], which
+toolbox, which performs graph-theoretical computations on                  computes partial correlations between variables while
+probabilistic structural connectivity matrices. Graphs were                applying L1 regularization to eliminate weak edges. The
+thresholded proportionally to maintain consistent network                  regularization parameter (λ) was evaluated across 100 loga-
+density across subjects, ensuring comparability of network                 rithmically spaced values (0.001–1.0) using 10-fold cross-
+measures. Individual-level metric values were then included                validation, and the optimal λ was selected as the value mini-
+in subsequent multivariate analyses.                                       mizing the Bayesian Information Criterion (BIC) [84, 85].
+                                                                                                                    S. H. Lee et al.
+
+   Birthweight Z-score was modeled as a continuous meas-          Results
+ure representing SGA severity. A subject-level network
+graph was then constructed, and features directly connected       Clinical and Demographic Group Comparison
+to the birthweight Z-score node were identified as candidate
+biomarkers. Edge colors indicated the direction of associa-       The final analysis included 186 preterm neonates (53.8%
+tion: blue for positive and red for negative correlations [34].   male), with a mean gestational age of 29.52 ± 3.55 weeks
+                                                                  and birth weight of 1,362.88 ± 587.02 grams. The average
+Statistical Analysis                                              birthweight Z-score was 0.13 ± 1.24. MRI was performed at
+                                                                  a mean postmenstrual age (PMA) of 38.2 ± 2.6 weeks, and
+To assess the significance of the candidate features, binary      the average 5-min Apgar score was 6.24 ± 1.93.
+logistic regression was performed using SGA status as the            Comparisons between SGA and non-SGA infants showed
+dependent variable, with GNA-identified features as predic-       that the SGA group (n = 25) had significantly higher gesta-
+tors [86]. Results were reported as odds ratios (ORs) with        tional age, postmenstrual age at MRI, and 5-minute Apgar
+95% confidence intervals (CIs) and corresponding p-values.        score, but lower birth weight and birthweight Z-score than
+Language delay (BSID-III language score < 85) was com-            the non-SGA group (n = 161). No significant differences in
+pared between groups using independent t-tests. Associa-          maternal age, education level, sex distribution, or Bayley-III
+tions between tract-specific diffusivity metrics and language     neurodevelopmental scores (cognitive, language, motor, and
+delay were further examined to determine clinical relevance       social-emotional composites) were observed, as shown in
+[87–89].                                                          Table 1. Furthermore, the prevalence of severe bronchopul-
+    To mitigate the risk of spurious associations arising         monary dysplasia did not significantly differ between the
+from high-dimensional feature space (n = 762), the Graphi-        two groups.
+cal Lasso framework inherently applies L1 regularization to
+estimate a sparse precision matrix, thereby reducing indirect     GNA
+and weak associations. Subsequent p-values from regres-
+sion analyses were interpreted in an exploratory context.         To investigate the interrelationships between imaging and
+The regularization parameter (λ) was evaluated across 100         clinical variables, GNA was performed using continuous
+logarithmically spaced values (0.001–1.0) using 10-fold           birthweight Z-scores as an indicator of growth status. The
+cross-validation, and the optimal λ was selected as the value     resulting sparse partial-correlation network revealed eight
+minimizing the Bayesian Information Criterion (BIC).              variables that demonstrated direct conditional association
+    Adjusted logistic regression models included gestational      with the birthweight Z-score, as summarized in Table 2. The
+age at birth, sex, postmenstrual age at MRI acquisition, and      optimal regularization parameter (λ) selected via 10-fold
+severe bronchopulmonary dysplasia (BPD) status to account         cross-validation was 0.056, resulting in a sparse precision
+for potential confounding effects on brain development.           matrix with 842 non-zero edges. After FDR correction, all
+    To evaluate model generalizability and mitigate over-         eight identified variables remained statistically significant
+fitting, 10-fold stratified cross-validation was performed.       (q < 0.05).
+Model performance was assessed using the area under the              Among the identified variables, CSF volume and dif-
+receiver operating characteristic curve (AUC), sensitivity,       fusivity metrics in the left inferior longitudinal fasciculus
+and specificity. Mean AUC values across folds are reported.       (ILFL)—specifically AD, MD, and RD—exhibited posi-
+The corresponding ROC curve is presented in Supplemen-            tive partial correlations with birthweight Z-scores, indicat-
+tary Figure S2 (Online Resource 4).                               ing that lower Z-scores (more severe growth restriction)
+    Group comparisons for language outcomes were                  were associated with higher diffusivity values [90–92].
+restricted to GNA-identified features and were therefore          Similarly, axial diffusivity in the inferior fronto-occipital
+considered hypothesis-driven analyses.                            fasciculus (AD_IFOL) and degree centrality in the right
+    To control for multiple comparisons across the 762            precentral gyrus (DCb_PreCGR) were positively corre-
+features evaluated in the graphical network analysis, false       lated with lower Z-scores [93–97]. In contrast, PMA at
+discovery rate (FDR) correction was applied using the             MRI and binary degree centrality in the left posterior
+Benjamini–Hochberg procedure. Adjusted q-values were              cingulate cortex (DCb_PCLL) were negatively correlated
+calculated for all partial correlations, and q < 0.05 was con-    with Z-score [77–79, 98–100]. An overview of the GNA
+sidered statistically significant. Results not surviving FDR      framework, including the network structure and condi-
+correction were interpreted as trend-level findings.              tional dependencies, is illustrated in Fig. 4.
+                                                                     The overall analytical framework is illustrated in Fig. 4.
+                                                                  A sparse precision matrix network was estimated using
+Multimodal Graphical Network Analysis of Small‑for‑Gestational‑Age in Preterm Infants:…
+
+Table 1  Comparison of perinatal, maternal, and neurodevelopmental characteristics between small-for-gestational-age and non-small-for-gesta-
+tional-age infants
+Variables                                         Total (N = 186)            Non-SGA (N = 161)          SGA (N = 25)               P-value
+
+Gestational age (week)                            29.52 ± 3.55               28.94 ± 3.49               31.69 ± 2.91                 < 0.001
+Birth weight (g)                                  1362.88 ± 587.02           1401.27 ± 632.89           1218.21 ± 333.95               0.016
+Birthweight Z-score                               0.15 ± 1.23                0.55 ± 1.00                − 1.46 ± 0.62                < 0.001
+Sex (Male)                                        100 (53.8%)                88 (54.7%)                 12 (48.0%)                     0.473
+PMA at MRI (week)                                 37.83 ± 2.17               37.54 ± 2.04               38.90 ± 2.30                   0.002
+Maternal age (year)                               33.71 ± 4.06               33.69 ± 4.15               33.82 ± 3.77                   0.855
+Maternal education level                          40 (21.5%)                 31 (19.5%)                 9 (36%)                        0.912
+< High school                                     146 (78.5%)                130 (80.5%)                16 (64%)
+≥ College
+5-minute Apgar score                              6.24 ± 1.93                6.12 ± 2.07                6.68 ± 1.21                    0.003
+Cognitive score                                   99.97 ± 14.34              99.56 ± 14.84              101.51 ± 12.31                 0.404
+Language score                                    92.49 ± 13.05              92.80 ± 12.98              91.33 ± 13.45                  0.545
+Motor score                                       100.9 ± 15.15              101.65 ± 14.34             98.05 ± 17.79                  0.248
+Social-emotional score                            102.79 ± 18.67             104.00 ± 18.02             98.24 ± 20.56                  0.127
+Severe bronchopulmonary dysplasia                 19 (10.2%)                 17 (10.6%)                 2 (8.0%)                       0.821
+
+Data are presented as mean ± standard deviation (SD). All p-values were calculated using the Mann–Whitney U test for demographic and clini-
+cal variables. A p-value < 0.05 was considered statistically significant
+SGA, small-for-gestational-age; MRI, magnetic resonance imaging; PMA, postmenstrual age
+Bold values indicate statistical significance (P < 0.05)
+
+
+Table 2  Partial-correlation coefficients between birthweight percen-        Logistic Regression of GNA‑Derived Features
+tile and selected clinical, structural, and connectivity variables identi-
+fied through graphical network analysis
+                                                                             To assess the predictive significance of the features identi-
+Variables             Partial correlation       P-value         Q-value      fied through GNA, a multivariate logistic regression was
+PMA at MRI            − 0.146                   0.023           0.045
+                                                                             conducted using binary SGA status as the dependent vari-
+CSF Volume            0.157                     0.015           0.040
+                                                                             able (Table 3). Among the eight GNA-derived variables,
+AD_IFOL               0.122                     0.045           0.045
+                                                                             five demonstrated statistically significant associations
+AD_ILFL               0.172                     0.009           0.036
+                                                                             with SGA classification. Higher CSF volume (OR = 1.676,
+MD_ILFL               0.135                     0.003           0.024
+                                                                             p = 0.004), ILFL MD (OR = 1.839, p = 0.023), and ILFL
+RD_ILFL               0.128                     0.041           0.045
+                                                                             RD (OR = 1.529, p = 0.024) were linked to increased odds
+DCb_PreCGR​           0.124                     0.045           0.045
+                                                                             of SGA status [86, 90]. Conversely, greater PMA at MRI
+DCb_PCLL              − 0.127                   0.042           0.045
+                                                                             acquisition was associated with a reduced likelihood of SGA
+                                                                             classification (OR = 0.612, p = 0.002).
+CSF, cerebrospinal fluid; AD_IFOL, axial diffusivity in the left infe-
+rior fronto-occipital fasciculus; AD_ILFL, axial diffusivity in the left     Classification Performance and Cross‑Validation
+inferior longitudinal fasciculus; MD_ILFL, mean diffusivity in the
+left inferior longitudinal fasciculus; RD_ILFL, radial diffusivity in
+the left inferior longitudinal fasciculus; DCb_PreCGR​, binary degree        To evaluate model generalizability, 10-fold cross-validation
+centrality in the right precentral gyrus; DCb_PCLL, binary degree            was performed for the adjusted logistic regression model
+centrality in the left posterior cingulate cortex                            predicting SGA status. The mean area under the receiver
+Bold values indicate statistical significance (P < 0.05)                     operating characteristic curve (AUC) was 0.809 (95% CI:
+                                                                             0.73–0.88). At the optimal Youden index threshold, sensi-
+Graphical Lasso to model conditional dependencies among                      tivity was 76.0% and specificity was 78.2%, indicating good
+762 multimodal features (Fig. 4B). Features directly con-                    discrimination performance. The optimal regularization
+nected to the birthweight percentile Z-score were identified                 parameter (λ = 0.056), selected based on minimum BIC, is
+within the network structure, forming a Z-score–centered                     illustrated in Supplementary Figure S1 (Online Resource 3).
+subnetwork (Fig. 4C).                                                        The ROC curve derived from 10-fold stratified cross-valida-
+                                                                             tion is shown in Supplementary Figure S2 (Online Resource
+                                                                             4), demonstrating robust classification performance.
+                                                                                                               S. H. Lee et al.
+
+Fig. 4  Graphical network
+analysis (GNA) framework and
+identification of Z-score–associ-
+ated features. A Multimodal
+feature integration including
+clinical variables, volumetric
+measures, white matter integrity
+metrics, and global/local con-
+nectivity indices (total n = 762).
+B Sparse precision network
+estimated using Graphical Lasso
+to model conditional depend-
+encies among all features. C
+Subnetwork of features directly
+connected to the birthweight
+percentile Z-score. The lower
+panels provide enlarged views
+of (B) and (C) to improve
+visualization clarity. Edge
+colors represent the direction of
+partial correlation (blue: posi-
+tive; red: negative), and edge
+thickness reflects the magnitude
+of association. The birthweight
+Z-score node is highlighted with
+a yellow border to denote the
+primary outcome variable
+
+
+
+
+Comparison of SGA‑Associated Features                          101]. Specifically, the delayed group showed higher AD
+by Language Outcome                                            in both the left inferior fronto-occipital fasciculus (AD_
+                                                               IFOL: 1.7 ± 0.1 vs 1.6 ± 0.1 × 10⁻3; p = 0.024) and the left
+To examine the neurodevelopment relevance of SGA-              ILFL (AD_ILFL: 1.8 ± 0.1 vs 1.7 ± 0.1 × 10⁻3; p = 0.013),
+related biomarkers, selected imaging features were com-        as well as higher mean diffusivity (MD_ILFL: 1.5 ± 0.1
+pared between infants with and without language delay,         vs 1.4 ± 0.1 × 10⁻ 3 ; p = 0.021) and radial diffusivity
+as assessed by the BSID-III at 18–24 months corrected          (RD_ILFL: 1.4 ± 0.1 vs 1.3 ± 0.1 × 10⁻3; p = 0.030) in the
+age (Table 4). After FDR correction, diffusivity meas-         left ILFL [93, 95, 102]. Similarly, DCb in the left PCC
+ures in the ILFL and IFOL as well as PCC centrality            (DCb_PCLL) was nominally lower in the delayed group
+(DCb_PCLL) showed trend-level rather than statistically        (21.96 ± 5.77 vs 27.60 ± 12.18; p = 0.039) [78]. However,
+significant associations with language delay (q ≈ 0.06).       these associations remained at trend level after FDR cor-
+Effect size estimates indicated small-to-moderate group        rection. No significant group differences were found for
+differences, suggesting that microstructural alterations       PMA at MRI, CSF volume, or DCb in the right precentral
+in ventral language pathways may contribute to language        gyrus (p = 0.551, 0.632, and 0.385, respectively). These
+vulnerability despite reduced statistical significance after   findings suggest that microstructural alterations in ven-
+correction. Among the 49 infants with language delay,          tral language pathways may be associated with language
+the delayed group showed nominally higher ILFL diffu-          vulnerability, but require further validation in larger lon-
+sivity values than infants without language delay [87, 88,     gitudinal cohorts [30, 93–95, 103, 104].
+Multimodal Graphical Network Analysis of Small‑for‑Gestational‑Age in Preterm Infants:…
+
+Table 3  Logistic regression         Variables             Unadjusted                                    Adjusted
+analysis of clinical, structural,
+and connectivity variables                                 OR            95% CI            P-value       OR           95% CI             P-value
+associated with small-for-
+gestational-age status in preterm    PMA at MRI            0.648         0.472–0.890          < 0.001    0.612        0.445–0.841        0.002
+infants                              CSF Volume            1.581         1.125–2.222            0.048    1.676        1.182–2.377        0.004
+                                     AD_IFOL               0.722         0.515–1.012            0.079     –                –              –
+                                     AD_ILFL               0.538         0.361–0.801            0.003     –                –              –
+                                     MD_ILFL               1.683         1.135–2.496            0.012    1.839        1.202–2.812        0.023
+                                     RD_ILFL               1.512         1.054–2.168            0.026    1.529        1.079–2.166        0.024
+                                     DCb_PreCGR​           0.649         0.436–0.964            0.04      –                –              –
+                                     DCb_PCLL              0.794         0.527–0.981            0.006    0.691        0.497–0.961        0.008
+
+                                     CSF, cerebrospinal fluid; AD_IFOL, axial diffusivity in the left inferior fronto-occipital fasciculus; AD_
+                                     ILFL, axial diffusivity in the left inferior longitudinal fasciculus; MD_ILFL, mean diffusivity in the left
+                                     inferior longitudinal fasciculus; RD_ILFL, radial diffusivity in the left inferior longitudinal fasciculus;
+                                     DCb_PreCGR​, binary degree centrality in the right precentral gyrus; DCb_PCLL, binary degree centrality
+                                     in the left posterior cingulate cortex; OR, odds ratio; CI, confidence interval; %ICV, percentage of intracra-
+                                     nial volume
+                                     Unadjusted and adjusted logistic regression analyses were performed. Adjusted logistic regression mod-
+                                     els included gestational age at birth, sex, postmenstrual age at MRI acquisition (term-equivalent age at
+                                     scan), and severe bronchopulmonary dysplasia (BPD) status as covariates. Each adjusted logistic regression
+                                     model included one candidate predictor together with the four prespecified covariates. For imaging predic-
+                                     tors, the adjusted models included gestational age at birth, sex, postmenstrual age at MRI acquisition, and
+                                     severe bronchopulmonary dysplasia status. For PMA at MRI, the adjusted model included gestational age
+                                     at birth, sex, and severe bronchopulmonary dysplasia status
+                                     A p-value < 0.05 was considered statistically significant. A sensitivity analysis excluding infants with
+                                     severe BPD yielded similar effect estimates (e.g., CSF volume OR = 1.641, MD_ILFL OR = 1.783, RD_
+                                     ILFL OR = 1.468, DCb_PCLL OR = 0.705) and did not materially alter the direction or statistical signifi-
+                                     cance of the associations.
+                                     Bold values indicate statistical significance (P < 0.05)
+
+
+
+Table 4  Group comparison            Variables                  Language outcome
+of key clinical, structural, and
+connectivity variables between                                  Normal              Delayed             P-value        Q-value        Effect size
+infants with normal (N = 137)                                                                                                         (Cohen’s d)
+and delayed (N = 49) language
+outcomes                             PMA at MRI                 38.00 ± 2.32        37.81 ± 2.17        0.551          0.630          0.10
+                                     CSF Volume                  0.151 ± 0.017       0.162 ± 0.014      0.632          0.632          0.08
+                                     AD_IFOL (×10⁻3)             1.6 ± 0.1           1.7 ± 0.1          0.024          0.060          0.38
+                                     AD_ILFL (×10⁻3)             1.7 ± 0.1           1.8 ± 0.1          0.013          0.060          0.41
+                                     MD_ILFL (×10⁻3)             1.4 ± 0.1           1.5 ± 0.1          0.021          0.060          0.39
+                                     RD_ILFL (×10⁻3)             1.3 ± 0.1           1.4 ± 0.1          0.030          0.060          0.36
+                                     DCb_PreCGR​                25.80 ± 8.79        23.32 ± 6.22        0.385          0.513          0.15
+                                     DCb_PCLL                   27.60 ± 12.18       21.96 ± 5.77        0.039          0.062          0.35
+
+                                     CSF, cerebrospinal fluid; AD_IFOL, axial diffusivity in the left inferior fronto-occipital fasciculus; AD_
+                                     ILFL, axial diffusivity in the left inferior longitudinal fasciculus; MD_ILFL, mean diffusivity in the left
+                                     inferior longitudinal fasciculus; RD_ILFL, radial diffusivity in the left inferior longitudinal fasciculus;
+                                     DCb_PreCGR​, binary degree centrality in the right precentral gyrus; DCb_PCLL, binary degree centrality
+                                     in the left posterior cingulate cortex. Effect sizes (Cohen’s d) were computed using pooled standard devia-
+                                     tions
+                                     Bold values indicate statistical significance (P < 0.05)
+                                                                                                                 S. H. Lee et al.
+
+
+Discussion                                                      percentile and highlight the effectiveness of GNA in char-
+                                                                acterizing complex neurodevelopmental interactions.
+Neurobiological Correlates of SGA                                  Our multimodal analysis may reflect that SGA neonates—
+                                                                despite the absence of overt brain injury—display consist-
+This study sought to identify neuroimaging biomarkers           ent structural and connectivity abnormalities [108–110].
+associated with SGA status and subsequent language delay        These include increased CSF volume, diffusivity changes
+by integrating multimodal data within a unified analytical      in the ILFL, and reduced nodal centrality in the PCC. Each
+framework. Using GNA, we modeled conditional depend-            of these findings aligns with prior research linking fetal
+encies among clinical, structural, and connectivity-derived     growth restriction to neurodevelopmental immaturity [108,
+features in a cohort of preterm neonates. From 762 total        111–115]. Consistent with our findings, earlier DTI studies
+features, GNA identified a subset of key variables—             have reported widespread white matter alterations in SGA
+including diffusivity measures in the ILFL, CSF volume,         infants compared with their appropriate-for-gestational-age
+and PCC connectivity—that were strongly associated with         peers. In particular, elevated RD and MD values have been
+growth restriction and neurodevelopmental outcomes.             documented in associative tracts such as the ILF—a path-
+Notably, abnormalities in the left inferior longitudinal fas-   way essential for integrating visual input with language pro-
+ciculus (ILFL) emerged as a potential exploratory marker        cessing and early semantic development. Altered diffusivity
+linking SGA status and language vulnerability. Identi-          within this tract has been associated with language delay and
+fied through graphical network analysis and validated           semantic deficits in both infants and adults with neurodevel-
+via multivariable logistic regression, elevated diffusivity     opmental disorders [93, 116–118].
+measures (AD, MD, RD) within the ILFL were consist-                Elevated AD, MD, and RD within the ILFL likely
+ently associated with growth restriction. The exploratory       reflect delayed myelination and reduced fiber coherence,
+language-delay findings suggest that microstructural alter-     consistent with altered maturation trajectories observed
+ations within this tract may represent a possible associa-      in growth-restricted infants. As a core component of the
+tion between fetal growth restriction and later language        ventral language network, the ILF supports semantic
+vulnerability, warranting further validation. To the best       processing and visual–language integration, rendering it
+of our knowledge, this is the first study to apply GNA          particularly vulnerable to intrauterine growth restriction
+to neonatal MRI data for SGA stratification, represent-         [116]. Given its early developmental trajectory and role in
+ing a novel application in neonatal imaging that captures       ventral language processing, the ILFL may be particularly
+intricate inter-feature relationships often overlooked by       sensitive to the effects of fetal growth restriction.
+conventional analyses [105–107]. These findings support            Reduced PCC centrality provides additional insight into
+the potential of network-based imaging analytics for early      the network-level disruptions associated with SGA status.
+risk detection in neonatal populations. Importantly, the        The PCC is a key hub within the default mode network
+identified imaging markers remained significantly associ-       and plays a central role in internally directed cognition and
+ated with SGA status after adjustment for conventional          attentional control [78, 79]. Decreased degree centrality
+perinatal risk factors, including gestational age, sex, PMA     in this region may reflect alterations in structural network
+at MRI, and BPD. This indicates that the observed asso-         organization rather than direct measures of functional
+ciations are not fully explained by degree of prematurity       information integration [79, 112, 115].
+alone. The persistence of associations after multivariable         Increased CSF volume also emerged as a hallmark
+adjustment indicates that the observed microstructural          of altered brain maturation in SGA neonates. Although
+and network-level alterations are not solely attributable       CSF volume was associated with SGA status, it was not
+to degree of prematurity, but may reflect distinct neurode-     directly linked to language delay, suggesting that global
+velopmental patterns related to fetal growth restriction.       brain growth alterations may not fully account for domain-
+   Similarly, positive associations between AD_IFOL             specific neurodevelopmental vulnerability. Prior studies
+and DCb_PreCGR with lower birthweight Z-scores sug-             similarly report enlarged ventricles, widened extracerebral
+gest more widespread microstructural and network-level          spaces, and reduced overall brain tissue volume in SGA
+disruptions in SGA infants. Conversely, higher PMA and          or IUGR populations [108, 119]. Although these volu-
+increased DCb_PCLL were negatively correlated with              metric differences are not necessarily pathological, they
+SGA severity, underscoring the potential protective influ-      may reflect deviations from normative neurodevelopmen-
+ence of maturational advancement and enhanced integra-          tal trajectories and highlight the widespread influence of
+tive network efficiency. Collectively, these findings reveal    intrauterine growth restriction on brain morphology [120].
+a distributed network of interdependent clinical, structural,      Although the 5-minute Apgar score showed a signifi-
+and connectivity features associated with birthweight           cant group-level difference in univariate comparisons, it
+                                                                did not demonstrate a direct conditional association with
+Multimodal Graphical Network Analysis of Small‑for‑Gestational‑Age in Preterm Infants:…
+
+birthweight Z-score in the graphical network analysis.                     among predictors and do not resolve the conditional
+Because GNA identifies multivariate conditional depend-                    dependency structure that defines relationships in high-
+encies rather than simple between-group differences, Apgar                 dimensional biological systems. Consequently, they may
+score was not retained among the features directly linked                  capture redundant or indirect associations driven by shared
+to birthweight percentile and was therefore not included in                covariance rather than isolating direct neurobiological
+subsequent regression models.                                              couplings. Conventional regression approaches would
+   Given the cross-sectional design, causal relationships                  require extensive dimensionality reduction or stepwise
+cannot be inferred, and longitudinal validation is required.               variable selection when handling 762 variables, potentially
+   Taken together, these results support the interpretation                introducing bias and overlooking indirect associations. In
+that SGA may represent more than a somatic growth defi-                    contrast, GNA estimates conditional dependencies within
+cit—it encompasses network-level alterations in brain organ-               a unified multivariate framework, allowing identification
+ization. Although CSF expansion was the most prominent                     of direct associations while accounting for inter-feature
+structural correlate of SGA classification, language delay                 covariance.
+showed trend-level associations with the integrity of the                      In contrast, this study implemented a fully integrated,
+ILFL, suggesting a possible association that warrants fur-                 high-dimensional analytical framework encompassing
+ther validation rather than a confirmed pathway linking early              DTI-derived microstructural metrics, tractography-based
+growth restriction to later cognitive vulnerability.                       connectivity matrices, volumetric indices, and graph-the-
+                                                                           oretical network parameters within a unified feature space
+Implications for Language Delay                                            (762 variables per subject). Following the Graphical Lasso
+                                                                           algorithm, we estimate a sparse precision matrix 𝜃 = Σ−1
+The finding that altered ILFL diffusivity was observed in                  (the inverse of the covariance matrix). The optimization
+both SGA and language-delayed infants suggests a poten-                    objective is defined as follows:
+tial exploratory link between early growth restriction and                              �                           �
+later neurocognitive vulnerability, although this relationship             𝜃̂ = arg min trace(Σ𝜃) − log �𝜃� + 𝜆‖𝜃‖1
+                                                                                   𝜃∈Θ
+remained at trend level after FDR correction. This result
+aligns with previous evidence that ILF microstructure at                   where λ denotes the L1-regularization parameter, opti-
+term predicts expressive and receptive language outcomes                   mized through 10-fold cross-validation to minimize the
+in early childhood [87, 116, 121]. These findings highlight                BIC [82, 83, 122]. This formulation suppresses weak
+that even before overt developmental delays are observable,                or spurious edges while preserving direct, biologically
+neuroimaging can detect early disruptions in white mat-                    meaningful associations among multimodal variables.
+ter pathways supporting language. Although CSF volume                         This approach differs fundamentally from conventional
+did not correlate directly with language delay, its consist-               feature selection pipelines—such as stepwise regression,
+ent association with SGA status suggests that it may serve                 correlation filtering, or PCA-based loadings—which iden-
+as a nonspecific marker of overall developmental risk. In                  tify marginal effects without accounting for inter-feature
+contrast, DTI-based tract-specific indices, such as ILF diffu-             dependencies. In neuroimaging terms, GNA enables the
+sivity, provide more domain-specific predictive information                isolation of direct anatomical–clinical relationships (e.g.,
+relevant to language and cognition [88, 93]. Importantly,                  between ILF diffusivity and birthweight Z-score) while
+ILFL diffusivity and CSF volume remained independently                     controlling for confounders such as gestational age or TBV
+associated with SGA status after adjustment for gestational                [105].
+age, sex, PMA at MRI, and BPD, suggesting incremental                         Beyond its mathematical rigor, the framework inte-
+value beyond conventional perinatal risk factors.                          grates multiple spatial and representational scales of neo-
+                                                                           natal brain organization:
+Feature Selection and Methodological Novelty
+                                                                               (1) Microstructural integrity: FA, MD, AD, and RD
+Most previous neonatal neuroimaging studies examin-                            from 27 major white matter tracts.
+ing SGA or preterm populations have relied on univari-                         (2) Volumetric morphology: regional brain volumes
+ate or region-of-interest analyses—such as voxel-wise                          normalized to TBV.
+group comparisons of FA or MD—to identify localized                            (3) Network topology: global and nodal graph-theoretical
+abnormalities [110, 121]. Others have used multivariate                        measures derived from 90 × 90 probabilistic connectivity
+approaches such as regression, principal component analy-                      matrices (e.g., efficiency, SW, degree, and betweenness).
+sis (PCA), and feature importance ranking (e.g., random
+forest). However, these techniques assume independence                       This multiscale integration enabled detection of cross-
+                                                                           domain interactions rarely explored in neonatal research,
+                                                                                                                           S. H. Lee et al.
+
+such as coupling between tract-specific diffusivity and          may have been subject to limited events-per-variable ratios,
+nodal centrality within language-related regions [32, 105,       potentially affecting model stability and generalizability.
+106, 112].                                                       Therefore, these findings should be interpreted cautiously
+   Conceptually, our framework introduces two major              and require validation in larger cohorts. A key objective for
+innovations.                                                     subsequent studies is to identify which SGA infants are most
+                                                                 vulnerable to long-term neurodevelopmental deficits and to
+  First, it introduces conditional-network feature selection,    determine which neural circuits retain plasticity for potential
+  which identifies latent neurobiological pathways often         intervention.
+  missed by conventional univariate or correlation-based            Furthermore, the cross-sectional design precludes infer-
+  analyses.                                                      ence regarding longitudinal causality between SGA status,
+  Second, it establishes a regularized multiscale integration    structural brain alterations, and later neurodevelopmental
+  scheme that preserves interpretability while maintaining       outcomes.
+  computational stability in ultra–high-dimensional feature
+  spaces.
+                                                                 Conclusion
+   To the best of our knowledge, this is the first applica-
+tion of GNA-based precision-matrix modeling to neonatal
+                                                                 SGA status is associated with neurodevelopmental vulner-
+MRI data for SGA biomarker identification. This approach
+                                                                 ability that extends beyond low birth weight. In this study,
+enhances reproducibility, interpretability, and scalability,
+                                                                 GNA was applied to a cohort of preterm infants to integrate
+providing a foundation for future multimodal extensions—
+                                                                 DTI, volumetric, and connectomic data, modeling condi-
+such as resting-state functional MRI, quantitative suscep-
+                                                                 tional dependencies across 762 multimodal features. Key
+tibility mapping, and the integration of genomic or envi-
+                                                                 biomarkers associated with SGA included increased CSF
+ronmental covariates. Ultimately, this analytic architecture
+                                                                 volume, altered diffusivity in the ILFL, and reduced PCC
+represents a shift from descriptive group-level statistics
+                                                                 centrality. ILF abnormalities showed exploratory, trend-level
+toward structured conditional dependency modeling in early
+                                                                 associations with later language delay, warranting further
+brain development, supporting individualized risk stratifica-
+                                                                 validation in longitudinal cohorts. The GNA framework,
+tion and precision intervention for growth-restricted infants
+                                                                 implemented via Graphical Lasso, offers a potentially scal-
+[123].
+                                                                 able and interpretable framework for integrating heteroge-
+                                                                 neous neuroimaging data, providing a foundation for preci-
+Limitations and Future Work                                      sion diagnostics and targeted early interventions in at-risk
+                                                                 neonatal populations.
+This single-center, prospective study focused exclusively on
+preterm neonates who met stringent imaging and follow-up
+criteria, which may limit the generalizability of the findings   Author Contributions S.H.L. conceptualized the study, conducted data
+to broader populations. Although GNA successfully mod-           analysis, and drafted the manuscript. H.J.L. and H.H.K. supervised the
+                                                                 study and provided critical revisions. Y.H.J., H.K., and G.Y.L. assisted
+eled conditional dependencies across multimodal features,
+                                                                 in data preprocessing and neuroimaging analysis. All authors reviewed
+categorical clinical variables were excluded to preserve         and approved the final version of the manuscript.
+computational stability, potentially omitting relevant con-
+textual information. Furthermore, the study’s cross-sectional    Funding This research was supported by the Bio & Medical Tech-
+                                                                 nology Development Program of the National Research Foundation
+design restricted evaluation of longitudinal changes in neu-
+                                                                 funded by the Korean government (MSIT) (RS-2025-00553891). This
+roimaging biomarkers over time. Future research should           research was funded by the National Research Foundation of Korea
+expand to larger, multicenter cohorts encompassing diverse       (NRF) grant funded by the Korean Government (MSIT), grant number
+SGA etiologies and incorporate longitudinal neuroimag-           RS-2023-NR077125. This work was also supported by a grant from
+                                                                 the Korea Health Technology R&D Project through the Korea Health
+ing to track developmental trajectories. Integrating addi-
+                                                                 Industry Development Institute (KHIDI), funded by the Ministry of
+tional imaging modalities—such as resting-state functional       Health and Welfare, Republic of Korea (RS-2025-02313278).
+MRI and advanced diffusion models (e.g., neurite orienta-
+tion dispersion and density imaging)—alongside genetic,          Data Availability The datasets generated during and/or analyzed dur-
+                                                                 ing the current study are available from the corresponding author upon
+metabolic, and environmental data could enhance predic-
+                                                                 reasonable request.
+tive precision. Although the Graphical Lasso framework
+reduces false-positive connections through regularization,       Declarations
+the possibility of residual multiple-comparison bias can-
+not be entirely excluded. Given the relatively small num-        Competing interests The authors declare no competing interests.
+ber of SGA cases (n = 25), the logistic regression analyses
+Multimodal Graphical Network Analysis of Small‑for‑Gestational‑Age in Preterm Infants:…
+
+Ethics Approval This study was approved by the Institutional Review                 9. Parra-Saavedra, M., et al. Placental findings in late-onset SGA
+Board of Hanyang University Hospital (IRB No. 201901019). Written                      births without Doppler signs of placental insufficiency. Placenta.
+informed consent was obtained from all parents or legal guardians.                     34(12):1136–1141, 2013.
+                                                                                   10. Nüsken, E., et al. Intrauterine growth restriction: need to improve
+Consent to Participate Written informed consent was obtained from                      diagnostic accuracy and evidence for a key role of oxidative
+all parents or legal guardians of the participating infants included in                stress in neonatal and long-term sequelae. Cells. 13(6):501, 2024.
+the study.                                                                         11. Savchev, S., et al. Neurodevelopmental outcome of full-term
+                                                                                       small-for-gestational-age infants with normal placental function.
+Consent to Publish Written consent for publication of anonymized                       Ultrasound Obstet. Gynecol. 42(2):201–206, 2013.
+data and images was obtained from all parents or legal guardians. No               12. Lin, C. Y., et al. The impact of small-for-gestational-age status
+identifying information is included in this manuscript.                                on the outcomes in very-low-birth-weight (VLBW) premature
+                                                                                       infants: a prospective cohort study in Taiwan. Front Pediatr.
+Informed Consent All procedures involving human participants were                      11:1209765, 2023.
+conducted in accordance with institutional and national ethical stand-             13. Benítez-Marín, et al. Brain sparing effect on neurodevelopment in
+ards, as well as with the 1964 Helsinki Declaration and its later amend-               children with intrauterine growth restriction: a systematic review.
+ments. Written informed consent for participation and publication was                  Children, Basel. 8(9):745, 2021.
+obtained from the parents or legal guardians of all infants included               14. Naz, S., et al. Neurodevelopment assessment of small for gesta-
+in this study. All data were anonymized prior to analysis to protect                   tional age children in a community-based cohort from Pakistan.
+participant confidentiality.                                                           Arch. of Dis. in Child. 108(4):258–263, 2023.
+                                                                                   15. Girsen, A. I., et al. Association between small-for-gestational
+                                                                                       age and neurocognitive impairment at two years of corrected age
+Open Access This article is licensed under a Creative Commons Attri-
+                                                                                       among infants born at preterm gestational ages: a cohort study.
+bution 4.0 International License, which permits use, sharing, adapta-
+                                                                                       J. Perinatol. 37(8):958–962, 2017.
+tion, distribution and reproduction in any medium or format, as long
+                                                                                   16. Vohr, B. R., C. G. Coll, and W. Oh. Language development of
+as you give appropriate credit to the original author(s) and the source,
+                                                                                       low-birthweight infants at two years. Dev. Med. Child Neurol.
+provide a link to the Creative Commons licence, and indicate if changes
+                                                                                       30(5):608–615, 1988.
+were made. The images or other third party material in this article are
+                                                                                   17. Padilla, N., et al. Intrinsic functional connectivity in preterm
+included in the article's Creative Commons licence, unless indicated
+                                                                                       infants with fetal growth restriction evaluated at 12 months cor-
+otherwise in a credit line to the material. If material is not included in
+                                                                                       rected age. Cereb Cortex. 27(10):4750–4758, 2017.
+the article's Creative Commons licence and your intended use is not
+                                                                                   18. Naz, S., et al. Neurodevelopment assessment of small for gesta-
+permitted by statutory regulation or exceeds the permitted use, you will
+                                                                                       tional age children in a community-based cohort from Pakistan.
+need to obtain permission directly from the copyright holder. To view a
+                                                                                       Arch. Dis. Child. 108(4):258–263, 2023.
+copy of this licence, visit http://​creat​iveco​mmons.​org/​licen​ses/​by/4.​0/.
+                                                                                   19. Martinussen, M., et al. Cerebral cortex thickness in 15-year-old
+                                                                                       adolescents with low birth weight measured by an automated
+                                                                                       MRI-based method. Brain. 128(Pt 11):2588–2596, 2005.
+                                                                                   20. Martinussen, M., et al. Segmental brain volumes and cognitive
+                                                                                       and perceptual correlates in 15-year-old adolescents with low
+References                                                                             birth weight. J. Pediatr. 155(6):848-853.e1, 2009.
+                                                                                   21. Fieß, A., et al. Adults born small for gestational age at term have
+  1. Lee, A. C., et al. National and regional estimates of term and pre-               thinner peripapillary retinal nerve fiber layers than controls. Eye
+     term babies born small for gestational age in 138 low-income and                  and Brain. 14:127–135, 2022.
+     middle-income countries in 2010. Lancet Glob. Health. 1(1):e26-               22. Nordgård, M., et al. Executive functions in adults born small for
+     36, 2013.                                                                         gestational age at term: a prospective cohort study. Scientific Rep.
+  2. Osuchukwu, O.O. and D.J. Reed. Small for Gestational Age                          15(1):3702, 2025.
+     (Archived). In: StatPearls. Copyright © 2025, Treasure Island                 23. Rogne, T., et al. Fetal growth, cognitive function, and brain
+     (FL): StatPearls Publishing LLC, 2025.                                            volumes in childhood and adolescence. Obstet. Gynecol.
+  3. Hokken-Koelega, A. C. S., et al. International Consensus Guide-                   125(3):673–682, 2015.
+     line on Small for Gestational Age: Etiology and Management                    24. Sanz-Cortes, M., et al. Automatic quantitative MRI texture analy-
+     From Infancy to Early Adulthood. Endocr. Rev. 44(3):539–565,                      sis in small-for-gestational-age fetuses discriminates abnormal
+     2023.                                                                             neonatal neurobehavior. PLoS ONE.8(7):e69595, 2013.
+  4. Morris, R.K., et al., 2024. Investigation and care of a small‐for‐            25. Roufaeil, C., A. Razak, and A. Malhotra. Cranial ultrasound
+     gestational‐age fetus and a growth restricted fetus (Green‐top                    abnormalities in small for gestational age or growth-restricted
+     Guideline No. 31). BJOG: An International Journal of Obstetrics                   infants born over 32 weeks gestation: a systematic review and
+     & Gynaecology, 131(9): e31–e80.                                                   meta-analysis. Brain Sci. 12(12):1713, 2022.
+  5. Black, R. E. Global prevalence of small for gestational age births.           26. Takatani, T., et al. Brain morphometric changes in children born
+     Nestle Nutr. Inst. Workshop Ser. 81:1–7, 2015.                                    as small for gestational age without catch up growth. Frontiers
+  6. Katz, J., et al. Prevalence of small-for-gestational-age and its                  in Neurosci. 18:1441563, 2024.
+     mortality risk varies by choice of birth-weight-for-gestation ref-            27. Malhotra, A., et al. Detection and assessment of brain injury in
+     erence population. PLoS ONE.9(3):e92074, 2014.                                    the growth-restricted fetus and neonate. Pediatr. Res. 82(2):184–
+  7. Sharma, D., S. Shastri, and P. Sharma. Intrauterine growth                        193, 2017.
+     restriction: antenatal and postnatal aspects. Clin. Med. Insights             28. Fleiss, B., et al. Knowledge gaps and emerging research areas in
+     Pediatr. 10:67–83, 2016.                                                          intrauterine growth restriction-associated brain injury. Frontiers
+  8. Tiagha, R., et al. Intrauterine growth restriction (IUGR) and                     in Endocr. 10:188, 2019.
+     placental insufficiency: mechanisms and management. The New                   29. Qiu, A., S. Mori, and M. I. Miller. Diffusion tensor imaging for
+     Indian J. of OBGYN. 11:199–204, 2025.                                             understanding brain development in early life. Annu. Rev. Psy-
+                                                                                       chol. 66:853–876, 2015.
+                                                                                                                                   S. H. Lee et al.
+
+30. Alexander, A. L., et al. Diffusion tensor imaging of the brain.      53. Lowe, J., et al. Do Bayley-III composite scores at 18–22 months
+    Neurother. 4(3):316–329, 2007.                                           corrected age predict full-scale IQ at 6–7 years in children born
+31. Chang, E. H., et al. The role of myelination in measures of white        extremely preterm? The J. of Pediatr.263:113700, 2023.
+    matter integrity: combination of diffusion tensor imaging and        54. Pogribna, U., et al. Perinatal clinical antecedents of white mat-
+    two-photon microscopy of CLARITY intact brains. Neuroimag.               ter microstructural abnormalities on diffusion tensor imaging in
+    147:253–261, 2017.                                                       extremely preterm infants. PLOS ONE.8(8):e72974, 2013.
+32. Bergamino, M., R. R. Walsh, and A. M. Stokes. Free-water             55. Padilla, N., et al. Brain growth gains and losses in extremely
+    diffusion tensor imaging improves the accuracy and sensitiv-             preterm infants at term. Cereb. Cortex. 25(7):1897–1905,
+    ity of white matter analysis in Alzheimer’s disease. Sci. Rep.           2014.
+    11(1):6990, 2021.                                                    56. Zhang, X. H., et al. Predictive value of cranial ultrasound for
+33. Rubinov, M., and O. Sporns. Complex network measures of brain            neurodevelopmental outcomes of very preterm infants with
+    connectivity: uses and interpretations. Neuroimag. 52(3):1059–           brain injury. Chin. Med. J. (Engl). 131(8):920–926, 2018.
+    1069, 2010.                                                          57. Zubiaurre-Elorza, L., et al. Thalamic changes in a preterm sam-
+34. Smith, S. M., et al. Network modelling methods for FMRI. Neu-            ple with periventricular leukomalacia: correlation with white-
+    roimag. 54(2):875–891, 2011.                                             matter integrity and cognitive outcome at school age. Pediatr.
+35. Bullmore, E., and O. Sporns. Complex brain networks: graph               Res. 71(1):354–360, 2012.
+    theoretical analysis of structural and functional systems. Nat Rev   58. Gui, L., et al. Longitudinal study of neonatal brain tissue vol-
+    Neurosci. 10(3):186–198, 2009.                                           umes in preterm infants and their ability to predict neurode-
+36. Epskamp, S., et al. The Gaussian graphical model in cross-sec-           velopmental outcome. Neuroimag. 185:728–741, 2019.
+    tional and time-series data. Multivar. Behav. Res. 53(4):453–480,    59. Lee, A. C. C., et al. National and regional estimates of term
+    2018.                                                                    and preterm babies born small for gestational age in 138 low-
+37. van den Heuvel, M. P., and O. Sporns. A cross-disorder con-              income and middle-income countries in 2010. The Lancet
+    nectome landscape of brain dysconnectivity. Nat. Rev. Neurosci.          Glob. Health. 1(1):e26–e36, 2013.
+    20(7):435–446, 2019.                                                 60. Fenton, T. R., and R. S. Sauve. Using the LMS method to
+38. Hevey, D. Network analysis: a brief overview and tutorial. Health        calculate z-scores for the Fenton preterm infant growth chart.
+    Psychol. and Behav. Med. 6(1):301–328, 2018.                             Eur. J. Clin. Nutr. 61(12):1380–1385, 2007.
+39. Borsboom, D., et al. Network analysis of multivariate data in        61. Fenton, T. R., et al. Validating the weight gain of preterm
+    psychological science. Nature Rev. Methods Primers. 1(1):58,             infants between the reference growth curve of the fetus and
+    2021.                                                                    the term infant. BMC Pediatr. 13(1):92, 2013.
+40. Hagmann, P., et al. DTI mapping of human brain connectiv-            62. Fenton, T. R., S. Elmrayed, and B. N. Alshaikh. Fenton third-
+    ity: statistical fibre tracking and virtual dissection. Neuroimag.       generation growth charts of preterm infants without abnormal
+    19(3):545–554, 2003.                                                     fetal growth: a systematic review and meta-analysis. Paediatr.
+41. Sporns, O. Structure and function of complex brain networks.             and Perinatal Epidemiol. 39(6):543–555, 2025.
+    Dialogues Clin. Neurosci. 15(3):247–262, 2013.                       63. Fenton, T. R., and J. H. Kim. A systematic review and meta-
+42. Sporns, O. Graph theory methods: applications in brain networks.         analysis to revise the Fenton growth chart for preterm infants.
+    Dialogues Clin. Neurosci. 20(2):111–121, 2018.                           BMC Pediatr. 13(1):59, 2013.
+43. Gong, G., et al. Mapping anatomical connectivity patterns of         64. Fenton, T. R., S. Elmrayed, and B. N. Alshaikh. Fenton third-
+    human cerebral cortex using in vivo diffusion tensor imaging             generation growth charts of preterm infants without abnormal
+    tractography. Cereb. Cortex. 19(3):524–536, 2008.                        fetal growth: a systematic review and meta-analysis. Paediatr.
+44. Epskamp, S., and E. I. Fried. A tutorial on regularized partial          Perinat. Epidemiol. 39(6):543–555, 2025.
+    correlation networks. Psychol. Methods. 23(4):617–634, 2018.         65. Yazici, A., et al. Comparison of different growth curves in the
+45. Hevey, D. Network analysis: a brief overview and tutorial. Health        assessment of extrauterine growth restriction in very low birth
+    Psychol. Behav. Med. 6(1):301–328, 2018.                                 weight preterm infants. Arch. de Pédiatrie. 30(1):31–35, 2023.
+46. Bassett, D. S., and O. Sporns. Network neuroscience. Nature          66. Kim, Y. J., et al. Impact of size at birth and postnatal growth
+    Neurosci. 20(3):353–364, 2017.                                           on metabolic and neurocognitive outcomes in prematurely born
+47. Sporns, O. Foreword. In: Fundamentals of Brain Network Analy-            school-age children. Sci. Rep. 11(1):6836, 2021.
+    sis, edited by A. Fornito, A. Zalesky, and E. T. Bullmore. San       67. Beare, R. J., et al. Neonatal brain tissue classification with
+    Diego: Academic Press, 2016, pp. 13–15.                                  morphological adaptation and unified segmentation. Front
+48. Farahani, F. V., W. Karwowski, and N. R. Lighthall. Application          Neuroinform. 10:12, 2016.
+    of graph theory for identifying connectivity patterns in human       68. Ahn, S. H., and S. A. Kim. Assessment of preterm infants using
+    brain networks: a systematic review. Frontiers in Neurosci.              the Bayley-III scales in korea. Ann. Rehabil. Med. 41(5):843–
+    13:558, 2019.                                                            850, 2017.
+49. Brouwer, M. J., et al. Preterm brain injury on term-equivalent       69. Roalf, D. R., et al. The impact of quality assurance assess-
+    age MRI in relation to perinatal factors and neurodevelopmental          ment on diffusion tensor imaging outcomes in a large-scale
+    outcome at two years. PLoS ONE.12(5):e0177128, 2017.                     population-based cohort. Neuroimag. 125:903–919, 2016.
+50. Parikh, N. A., et al. Perinatal risk and protective factors in the   70. Baxter, L., et al. Functional and diffusion MRI reveal the neu-
+    development of diffuse white matter abnormality on term-equiv-           rophysiological basis of neonates’ noxious-stimulus evoked
+    alent age magnetic resonance imaging in infants born very pre-           brain activity. Nat. Commun. 12(1):2744, 2021.
+    term. J. Pediatr. 233:58-65.e3, 2021.                                71. de Bruïne, F. T., et al. Tractography of developing white matter
+51. Romberg, J., et al. MRI-based brain volumes of preterm infants           of the internal capsule and corpus callosum in very preterm
+    at term: a systematic review and meta-analysis. Arch. of Dis. in         infants. Eur. Radiol. 21(3):538–547, 2011.
+    Child. - Fetal and Neonatal Ed. 107(5):520–526, 2022.                72. Kaur, S., et al. Reliability and repeatability of quantitative trac-
+52. Shim, S. Y., S. J. Cho, and E. A. Park. Neurodevelopmental out-          tography methods for mapping structural white matter con-
+    comes at 18–24 months of corrected age in very low birth weight          nectivity in preterm and term infants at term-equivalent age.
+    infants with late-onset sepsis. J. Korean Med. Sci.36(35):e205,          PLOS ONE.9(1):e85807, 2014.
+    2021.
+Multimodal Graphical Network Analysis of Small‑for‑Gestational‑Age in Preterm Infants:…
+
+ 73. Calixto, C., et al. A detailed spatiotemporal atlas of the white          95. Herbet, G., I. Zemmoura, and H. Duffau. Functional anatomy
+     matter tracts for the fetal brain. Proc. Natl. Acad. Sci. U S                 of the inferior longitudinal fasciculus: from historical reports to
+     A.122(1):e2410341121, 2025.                                                   current hypotheses. Frontiers in Neuroanat. 12:12–17, 2018.
+ 74. Tymofiyeva, O., et al. Towards the “baby connectome”: map-                96. Conner, A.K., et al., A connectomic atlas of the human cere-
+     ping the structural connectivity of the newborn brain. PLoS                   brum-chapter 13: tractographic description of the inferior fronto-
+     ONE.7(2):e31029, 2012.                                                        occipital fasciculus. Oper. Neurosurg, 2018. 15(suppl_1): p.
+ 75. Jaimes, C., et al. Probabilistic tractography-based thalamic                  S436–s443.
+     parcellation in healthy newborns and newborns with congeni-               97. Giampiccolo, D., G. Herbet, and H. Duffau. The inferior
+     tal heart disease. J. Magn. Reson. Imaging. 47(6):1626–1637,                  fronto-occipital fasciculus: bridging phylogeny, ontogeny and
+     2018.                                                                         functional anatomy. Brain. 148(5):1507–1525, 2025.
+ 76. Wang, J., et al. GRETNA: a graph theoretical network analy-               98. Nogueira, P. A., et al. From classic models to new pathways:
+     sis toolbox for imaging connectomics. Front Hum. Neurosci.                    unraveling the anatomy and function of the inferior fronto-
+     9:386, 2015.                                                                  occipital fasciculus in language processing. Frontiers in Psy-
+ 77. Bullmore, E., and O. Sporns. Complex brain networks: graph                    chol. 16:1561482, 2025.
+     theoretical analysis of structural and functional systems.                99. Wanni Arachchige, P. R., et al. Structural connectivity changes
+     Nature Rev. Neurosci. 10(3):186–198, 2009.                                    in the motor execution network after stroke rehabilitation.
+ 78. van den Heuvel, M. P., and O. Sporns. Rich-club organization                  Restor. Neurol. Neurosci. 39(4):237–245, 2021.
+     of the human connectome. J. Neurosci. 31(44):15775–15786,                100. Hu, Y., et al. Changes in degree centrality and functional con-
+     2011.                                                                         nectivity after the first cycle of neoadjuvant chemotherapy
+ 79. Leech, R., and D. J. Sharp. The role of the posterior cingulate               in newly diagnosed breast cancer: a longitudinal study. Dis.
+     cortex in cognition and disease. Brain. 137(Pt 1):12–32, 2014.                Markers. 2022:8270100, 2022.
+ 80. Smyser, C. D., et al. Longitudinal analysis of neural network            101. Chi, S., et al. Sensorimotor network connectivity correlates
+     development in preterm infants. Cereb.al Cortex. 20(12):2852–                 with motor improvement after repetitive transcranial magnetic
+     2862, 2010.                                                                   stimulation in patients with Parkinson’s disease. Parkinsonism
+ 81. Doria, V., et al. Emergence of resting state networks in the pre-             and Relat. Disord.106:105218, 2023.
+     term human brain. Proceedings of the National Academy of Sci-            102. Xiao, Y., et al. Longitudinal changes in resting-state fMRI from
+     ences. 107(46):20015–20020, 2010.                                             age 5 to age 6years covary with language development. Neuro-
+ 82. De Asis-Cruz, J., et al. Functional properties of resting state net-          imag. 128:116–124, 2016.
+     works in healthy full-term newborns. Sci. Rep. 5(1):17755, 2015.         103. Houston, J., et al. White matter language pathways and lan-
+ 83. Friedman, J., T. Hastie, and R. Tibshirani. Sparse inverse covari-            guage performance in healthy adults across ages. Front Neu-
+     ance estimation with the graphical lasso. Biostat. 9(3):432–441,              rosci. 13:1185, 2019.
+     2008.                                                                    104. Figley, C. R., et al. Potential pitfalls of using fractional ani-
+ 84. Hallac, D., et al., Network Inference via the Time-Varying Graph-             sotropy, axial diffusivity, and radial diffusivity as biomark-
+     ical Lasso. 2017.                                                             ers of cerebral white matter microstructure. Front Neuro-
+ 85. Zhang, J., Y. Yang, and J. Ding. Information criteria for model               sci.15:799576, 2021.
+     selection. WIREs Computational Stat.15(5):e1607, 2023.                   105. Madden, D. J., et al. Diffusion tensor imaging of cerebral white
+ 86. Dallakyan, A. graphiclasso: Graphical lasso for learning sparse               matter integrity in cognitive aging. Biochim. Biophys. Acta.
+     inverse-covariance matrices. The Stata J. 22(3):625–642, 2022.                1822(3):386–400, 2012.
+ 87. Rahardja, D., et al. Confidence intervals for the odds ratio of two      106. Mohammadi, H., and W. Karwowski. Graph neural networks in
+     independent binomial proportions using data with one type of                  brain connectivity studies: methods, challenges, and future direc-
+     misclassification. J. of Stat. and Manag. Syst. 19:259–268, 2016.             tions. Brain Sci. 15(1):17, 2024.
+ 88. Valavani, E., et al. Language function following preterm birth:          107. Jiao, Y., et al. Deep graph learning of multimodal brain networks
+     prediction using machine learning. Pediatr. Res. 92(2):480–489,               defines treatment-predictive signatures in major depression. Mol.
+     2022.                                                                         Psychiatry. 30(9):3963–3974, 2025.
+ 89. Sket, G. M., et al. Neonatal white matter maturation is associated       108. Zhang, Y., et al. Multi-modal graph neural network for early
+     with infant language development. Frontiers in Human Neurosci.                diagnosis of Alzheimer’s disease from sMRI and PET scans.
+     13:205–213, 2019.                                                             Computers in Biol. and Med.164:107328, 2023.
+ 90. Baldoli, C., et al. Maturation of preterm newborn brains: a fMRI-        109. Miller, S. L., P. S. Huppi, and C. Mallard. The consequences of
+     DTI study of auditory processing of linguistic stimuli and white              fetal growth restriction on brain structure and neurodevelopmen-
+     matter development. Brain Struct. Funct. 220(6):3733–3751,                    tal outcome. J. Physiol. 594(4):807–823, 2016.
+     2015.                                                                    110. Sanz-Cortés, M., et al. Abnormal brain microstructure and
+ 91. Lemola, S., et al. Effects of gestational age on brain volume and             metabolism in small-for-gestational-age term fetuses with normal
+     cognitive functions in generally healthy very preterm born chil-              umbilical artery Doppler. Ultrasound in Obstet. and Gynecol.
+     dren during school-age: a voxel-based morphometry study. PLoS                 36(2):159–165, 2010.
+     ONE.12(8):e0183519, 2017.                                                111. Padilla, N., et al. Intrinsic functional connectivity in preterm
+ 92. Benavides, A., et al. Sex-specific alterations in preterm brain.              infants with fetal growth restriction evaluated at 12 months cor-
+     Pediatr. Res. 85(1):55–62, 2019.                                              rected age. Cereb. Cortex. 27(10):4750–4758, 2016.
+ 93. Goyal, M., et al. Differential linear brain growth patterns in pre-      112. Batalle, D., et al. Long-term reorganization of structural brain
+     term neonates based on birth gestational age and steroid expo-                networks in a rabbit model of intrauterine growth restriction.
+     sure: a retrospective chart review. PLOS ONE.20(6):e0323454,                  Neuroimag. 100:24–38, 2014.
+     2025.                                                                    113. Muñoz-Moreno, E., et al. Structural brain network reorganization
+ 94. Shin, J., et al. Inferior longitudinal fasciculus’ role in visual pro-        and social cognition related to adverse perinatal condition from
+     cessing and language comprehension: a combined MEG-DTI                        infancy to early adolescence. Front Neurosci. 10:560, 2016.
+     study. Front Neurosci. 13:875, 2019.                                     114. Wu, B. A., et al. Effects of fetal growth restriction on the peri-
+                                                                                   natal neurovascular unit and possible treatment targets. Pediatr.
+                                                                                   Res. 95(1):59–69, 2024.
+                                                                                                                                        S. H. Lee et al.
+
+115. Quezada, S., et al. Development of the cerebral cortex and the        121. Dudink, I., et al. Altered trajectory of neurodevelopment associ-
+     effect of the intrauterine environment. J. Physiol. 596(23):5665–          ated with fetal growth restriction. Exp. Neurol.347:113885, 2022.
+     5674, 2018.                                                           122. Shin, J., et al. Inferior longitudinal fasciculus’ role in visual pro-
+116. Fischi-Gómez, E., et al. Structural brain connectivity in school-          cessing and language comprehension: a combined MEG-DTI
+     age preterm infants provides evidence for impaired networks                study. Frontiers in Neurosci. 13:875, 2019.
+     relevant for higher order cognitive skills and social cognition.      123. Foygel, R. and M. Drton, Extended Bayesian Information Crite-
+     Cereb. Cortex. 25(9):2793–2805, 2014.                                      ria for Gaussian Graphical Models. arXiv preprint arXiv:​1011.​
+117. Herbet, G., I. Zemmoura, and H. Duffau. Functional anatomy                 6640, 23, 2010.
+     of the inferior longitudinal fasciculus: from historical reports to   124. Cui, H., et al. BrainGB: A benchmark for brain network anal-
+     current hypotheses. Front Neuroanat. 12:77, 2018.                          ysis with graph neural networks. IEEE Trans. Med. Imaging.
+118. Ivanova, M. V., et al. Diffusion-tensor imaging of major white             42(2):493–506, 2023.
+     matter tracts and their role in language processing in aphasia.
+     Cortex. 85:165–181, 2016.                                             Publisher's Note Springer Nature remains neutral with regard to
+119. Wang, K., et al. The left inferior longitudinal fasciculus supports   jurisdictional claims in published maps and institutional affiliations.
+     orthographic processing: Evidence from a lesion-behavior map-
+     ping analysis. Brain and Lang.201:104721, 2020.
+120. Morsing, E., et al. Brain volumes and developmental outcome
+     in childhood following fetal growth restriction leading to very
+     preterm birth. Front Physiol. 9:1583, 2018.
+

@@ -1,0 +1,944 @@
+                                                                                                                           TYPE Original Research
+                                                                                                                           PUBLISHED 03 June 2025
+                                                                                                                           DOI 10.3389/fphar.2025.1562102
+
+
+
+
+                                                    Functional ultrasound imaging
+OPEN ACCESS                                         and prewhitening analysis reveal
+EDITED BY
+Francisco Lopez-Munoz,
+Camilo José Cela University, Spain
+                                                    MK-801-induced disruption of
+REVIEWED BY
+Arnim Johannes Gaebler,
+                                                    brain network connectivity
+University Hospital RWTH Aachen, Germany
+Asmaa ShamsEldeen,
+Cairo University, Egypt
+                                                    Erik Hakopian 1, Argishti E. Stepanian 1, Shan Zhong 1,2,
+*CORRESPONDENCE
+                                                    Koﬁ A. Agyeman 2,3, Nancy Zepeda 4, Kevin Wu 4, Charles Liu 2,4,5,6,
+Vassilios Christopoulos,                            Darrin J. Lee 2,4,5,6 and Vassilios Christopoulos 2,3,4,5,*
+  vchristo@usc.edu
+                                                    1
+                                                    Department of Neuroscience, University of California Riverside, Riverside, CA, United States, 2Department
+RECEIVED 16 January 2025
+                                                    of Biomedical Engineering, University of Southern California, Los Angeles, CA, United States, 3Department
+ACCEPTED 02 April 2025
+                                                    of Bioengineering, University of California Riverside, Riverside, CA, United States, 4Department of
+PUBLISHED 03 June 2025
+                                                    Neurological Surgery, Keck School of Medicine, University of Southern California, Los Angeles, CA,
+CITATION                                            United States, 5Neurorestoration Center, Keck School of Medicine, University of Southern California, Los
+Hakopian E, Stepanian AE, Zhong S,                  Angeles, CA, United States, 6Rancho Los Amigos National Rehabilitation Center, Downey, CA, United States
+Agyeman KA, Zepeda N, Wu K, Liu C, Lee DJ and
+Christopoulos V (2025) Functional ultrasound
+imaging and prewhitening analysis reveal MK-
+801-induced disruption of brain                     Background: Disruption of N-methyl-D-aspartate receptor (NMDAR) activity
+network connectivity.                               within the septohippocampal network - a critical circuit that includes the
+Front. Pharmacol. 16:1562102.
+doi: 10.3389/fphar.2025.1562102
+                                                    hippocampus, medial prefrontal cortex (mPFC) and other nuclei - is believed
+                                                    to contribute to learning and memory impairments. Although animal models
+COPYRIGHT
+© 2025 Hakopian, Stepanian, Zhong, Agyeman,
+                                                    using the NMDAR antagonist Dizocilpine (MK-801) replicate cognitive deﬁcits
+Zepeda, Wu, Liu, Lee and Christopoulos. This is     associated with memory and learning disorders, the direct effects of MK-801 on
+an open-access article distributed under the        brain network connectivity have not been well characterized.
+terms of the Creative Commons Attribution
+License (CC BY). The use, distribution or           Objective: This study aims to explore the effects of MK-801 on brain network
+reproduction in other forums is permitted,
+provided the original author(s) and the
+                                                    connectivity using functional ultrasound imaging (fUSI) and apply time series
+copyright owner(s) are credited and that the        analysis methods to mitigate potential statistical confounds in functional
+original publication in this journal is cited, in   connectivity assessments.
+accordance with accepted academic practice.
+No use, distribution or reproduction is             Methods: fUSI was employed to assess changes in cerebral blood volume (CBV) and
+permitted which does not comply with these
+terms.
+                                                    network connectivity in MK-801-treated mice. To account for the nonstationarity
+                                                    and autocorrelation inherent in fUSI time series, an AutoRegressive Integrated
+                                                    Moving Average (ARIMA) model was applied to stabilize the mean and remove
+                                                    autocorrelation, ensuring more reliable signal analysis.
+                                                    Results: Our analysis revealed that MK-801 signiﬁcantly disrupts functional
+                                                    connectivity (FC) across key brain regions, including the hippocampus, mPFC,
+                                                    and striatum. We also demonstrated that removing autocorrelation from the fUSI
+                                                    time series mitigates the risk of spurious associations, enhancing the reliability of
+                                                    network analysis.
+                                                    Conclusion: This study demonstrates the importance of accounting for
+                                                    nonstationarity in fUSI time series to improve the accuracy of brain network
+                                                    connectivity analysis. Our ﬁndings indicate that MK-801-induced NMDAR
+                                                    inhibition disrupts connectivity both within and outside the septohippocampal
+                                                    circuit, offering new insights into the neural mechanisms underlying cognitive
+                                                    deﬁcits in disorders affecting memory and learning.
+
+                                                    KEYWORDS
+
+                                                    functional ultrasound imaging (fUSI), brain network connectivity, prewhitening analysis,
+                                                    MK-801, NMDAR inhibition, memory, learning, neuropsychiatric disorders
+
+
+
+
+Frontiers in Pharmacology                                                  01                                                                 frontiersin.org
+Hakopian et al.                                                                                                           10.3389/fphar.2025.1562102
+
+
+
+
+1 Introduction                                                                  that removes autocorrelation and temporal dependencies from time
+                                                                                series to ensure statistical validity–illustrating the importance of
+     Cognitive deﬁcits in learning and memory are common features               rendering data stationary before assessing FC. We demonstrated
+of various neuropsychiatric and neurological disorders. One                     that, without prewhitening, fUSI time series of recorded regions of
+prominent hypothesis links these impairments to reduced activity                interest (ROIs) exhibit strong autocorrelation and non-stationarity,
+of the N-methyl-D-aspartate receptor (NMDAR) (Lee and Zhou,                     violating fundamental assumptions of correlation analysis and
+2019; Krystal et al., 1994; Newcomer et al., 1999; Clayton et al., 2002;        potentially misrepresenting the true associations between the
+Liu et al., 2019). Dizocilpine (MK-801), a potent non-competitive               ROIs. Overall, the results showed that MK-801 not only reduces
+NMDAR antagonist, is widely used in animal studies to investigate               the activity of brain regions within and outside the
+memory and learning disorders and cognitive dysfunction (McLamb                 septohippocampal network, but also disrupts the FC between
+et al., 1990; Pitkänen et al., 1995; van der Staay et al., 2011;                them as a function of time.
+Wiescholleck and Manahan-Vaughan, 2012). By binding within
+the NMDAR channel and inhibiting calcium ion inﬂux, MK-801
+disrupts NMDA receptor-mediated neurotransmission, leading to                   2 Materials and methods
+transient deﬁcits in learning, memory, and other cognitive processes.
+     The effects of MK-801 extend to speciﬁc neural circuits,                   2.1 Animal acquisition and surgical
+particularly the septohippocampal network (Crown et al., 2024).                 procedures
+This network, which includes the hippocampus, medial prefrontal
+cortex (mPFC), septum, cholinergic and GABAergic projections                        Sixteen male C57BL/6 mice, aged between 8 and 12 weeks, were
+from the septal area to the hippocampus, plays an important role in             procured from Charles River Laboratories (Hollister, CA) and
+learning and memory processes (Khakpai et al., 2013a). By blocking              stratiﬁed into two principal experimental cohorts: a vehicle
+NMDAR activity, MK-801 disrupts normal synaptic transmission                    control group receiving saline administration (n = 8), and a
+between the medial septum and hippocampus, impairing theta                      treatment group receiving MK-801 (n = 8; 1.5 mg/kg). Prior to
+oscillations that are essential for hippocampal function (Abad-                 experimental procedures, the mice were anesthetized with 5%
+Perez et al., 2023). Additionally, NMDAR inhibition alters                      isoﬂurane, delivered in a carrier gas mixture comprised of oxygen
+inhibition alters neurotransmitter levels, including acetylcholine              and nitrous oxide in a 1:2 ratio and then maintained at a constant
+and GABA, further exacerbating deﬁcits in spatial learning and                  rate (1.5%–2%) through surgery and data acquisition. Body
+memory (Gonzalez et al., 1994). Perturbations in NMDAR function                 temperature was regulated throughout recordings by placing
+within the septohippocampal network have been implicated in                     animals on an electric heating pad. Hair on the cranial region of
+cognitive dysfunctions associated with various neuropsychiatric                 each mouse was removed using a commercially available depilatory
+disorders (Jodo, 2013).                                                         cream (Nair, Pharmapacks). All procedures were approved by the
+     Given the critical role of the septohippocampal network in                 University of Southern California, Institutional Animal Care and
+cognitive functions and its sensitivity to NMDAR modulation,                    Use Committee (IACUC #21006).
+this network provides an ideal model for exploring the neural
+mechanisms underlying cognitive impairments linked to
+NMDAR dysfunction (Khakpai et al., 2013b). Recently, we                         2.2 Data acquisition
+showed that intraperitoneal (i.p.) injection of MK-801 in mice
+signiﬁcantly reduces hemodynamic signals of areas within                            Power Doppler (pD) images were obtained using the Iconeus
+(i.e., hippocampus and mPFC) and outside the septohippocampal                   One scanner (Iconeus, Paris, France). Image acquisition was
+network (Crown et al., 2024). These ﬁndings align with clinical                 performed using a linear ultrasound transducer array (fUSI
+studies showing reduced neural activity in the hippocampus and                  probe) with 128 channels, operating at a center frequency of
+prefrontal cortex of patients with schizophrenia (MacDonald et al.,             15.6 MHz and a pitch of 0.1 mm. This methodology enables a
+2006; Gur and Gur, 2010; Bedford et al., 2012).                                 large ﬁeld of view (12.8 mm width, 10 mm depth and 400 µm
+     Building on our previous study, we examined the effects of MK-             plane thickness) with a spatial resolution of 100 µm × 100 µm in-
+801 on functional connectivity (FC) between brain regions within                plane. The transducer was mounted on a motorized system and
+and outside the septohippocampal network using functional                       placed on the intact skull and skin along a sagittal plane on the
+ultrasound imaging (fUSI) technology (Tanter and Fink, 2014;                    right side to image areas within and outside the
+Macé et al., 2011). fUSI visualizes neural activity by mapping                  septohippocampal network (Figure 1A). A typical pD vascular
+local changes in cerebral blood volume (CBV), which are                         map from a representative animal is illustrated in Figure 2A.
+indirectly linked to neuronal activity through neurovascular                    Within this sagittal plane, we recorded activity from six distinct
+coupling. This modality offers high resolution, broad spatial                   ROIs: hippocampus, mPFC, striatum, thalamus, hypothalamus
+coverage, and exceptional sensitivity, enabling the capture of                  and pallidum (Figure 2B). Note that other regions that are part of
+dynamic brain processes with precision. In this study, we made                  the septohippocampal network, such as the medial septal nucleus
+two key contributions: (1) we demonstrated that MK-801 disrupts                 (MSN) were not recorded, since they were not accessible from the
+dynamic FC among key brain regions, including the mPFC,                         selected 2D imaging plane. The experimental protocol consisted
+hippocampus, and striatum, which are critical for memory,                       of a 5-min baseline recording, followed by an i. p. injection of
+learning, and higher-order cognitive functions and (2) we                       either 0.2 cc of saline or 1.5 mg/kg of MK-801 (Figure 1B). The i.
+introduced the pre-whitening analysis on fUSI data–an approach                  p. injection was administered using a butterﬂy needle. To
+
+
+
+Frontiers in Pharmacology                                                  02                                                          frontiersin.org
+Hakopian et al.                                                                                                                   10.3389/fphar.2025.1562102
+
+
+
+
+   FIGURE 1
+   Experimental setup for investigating the effects of MK-801 on functional connectivity in the mouse brain using fUSI. (A) Top-down view of the
+   mouse brain illustration with the yellow line indicating the sagittal imaging plane used for data acquisition. The diagram includes a schematic of the
+   ultrasound probe placement on the mouse skull and the experimental setup, featuring an anesthetized mouse secured in a stereotaxic frame under the
+   Iconeus One motorized system. (B) Timeline of the experimental protocol. Following a 5-minute baseline recording, mice received an i.p. injection
+   of either saline (control) or MK-801 (1.5 mg/kg). fUSI data were continuously acquired for an additional 40 minutes post-injection.
+
+
+
+
+   FIGURE 2
+   Plane selection and ROI extraction for fUSI analysis. (A) Representative power Doppler (pD) image showing the normalized signal intensity across the
+   sagittal imaging plane. (B) Schematic illustration of the six ROIs analyzed in this study: hippocampus (1), striatum (2), pallidum (3), thalamus (4),
+   hypothalamus (5), and medial prefrontal cortex (mPFC) (6). (C) ROI masks overlaid on the pD image as deﬁned through the Iconeus One system’s
+   automatic region selection tool. Acronyms in the image represent: (R) HPF: right hippocampal formation; (R) mPFC: right medial prefrontal cortex;
+   (R) STR: right striatum; (R) TLM: right thalamus; (R) HYT: right hypothalamus; and (R) PDM: right pallidum. The different colors of the ROI masks are
+   randomly assigned by the software solely to visually distinguish between adjacent brain regions and have no functional signiﬁcance. Scale bar indicates 10
+   mm in the dorsal-ventral axis.
+
+
+
+
+minimize the risk of motion artifacts from the injection, the                      2.3 Plane selection and imaging
+butterﬂy needle was inserted prior to the recording session.
+Images were recorded uninterrupted for an additional 40 min                            The target image plane was determined by co-registering a 3D
+post-injection, allowing us to capture dynamic CBV changes in                      fUSI whole-brain image of each mouse to a standard Allen Mouse
+response to drug administration. This approach was informed by                     Brain Common Coordinate Framework brain atlas utilizing
+previous studies showing that the concentration of MK-801 in                       dedicated software available with the Iconeus One scanner. This
+the brain peaks approximately 40–60 min post-injection                             enabled the identiﬁcation and extraction of the 6 ROIs (Figure 2C).
+Wegener et al. (2011).                                                             The probe was ﬁxed steadily throughout experiments on a
+
+
+
+Frontiers in Pharmacology                                                     03                                                                 frontiersin.org
+Hakopian et al.                                                                                                               10.3389/fphar.2025.1562102
+
+
+
+
+motorized system with the ﬁeld of view transverse and intersecting           rank (i). The critical threshold for signiﬁcance at each rank was
+the co-registered sagittal plane. The imaging data were acquired             calculated according to Equation 1.
+through the compounding of 200 frames, captured at a frame rate of                                                           i
+500 Hz. This process employed 11 tilted plane waves, incrementally                                   critical thresholdi      ×α                       (1)
+                                                                                                                             n
+separated by 2°, spanning from −10° to +10°. The acquisition
+sequence was executed at a pulse repetition frequency (PRF) of                   Where n represents the total number of comparisons (6 ROIs)
+5.5 kHz, employing real-time continuous acquisition of successive            and α  0.05.
+blocks. Each block consisted of 400 ms of compounded plane wave                  Subsequently, we performed a dynamic FC analysis between the six
+images, followed by a 600 ms pause between pulses.                           recorded ROIs for the two groups of animals. To characterize the
+                                                                             temporal evolution of FC patterns, we implemented a two-stage
+                                                                             analytical approach. First, we divided the 45-min recording period
+2.4 Data pre-processing                                                      into nine non-overlapping 5-min windows to visualize the
+                                                                             progressive changes in network FC [i.e., rolling functional
+     The Iconeus One acquisition system generated pD images pre-             connectivity (RFC)] over time (Figure 5). For each window, we
+processed with built-in phase-correlation based sub-pixel motion             computed the Pearson correlation matrices between all ROI pairs for
+registration and singular-value-decomposition (SVD) based clutter            each animal, providing a snapshot of the network dynamics at different
+ﬁltering algorithms Ledoux et al. (1997). These algorithms were used         time intervals. Prior to averaging across animals, we applied the Fisher
+to separate tissue signal from blood signal to obtain pD images.             r-to-Z transformation - Z  0.5 × ln((1 + r)/(1 − r)) - to each
+Potential physiological and motion artifacts were addressed through          correlation coefﬁcient to normalize their distribution. The ﬁnal
+the adoption of rigid motion correction techniques, which have               correlation matrix for each window was obtained by averaging
+proven effective in fUSI and other neuroimaging modalities Stringer          these Z-transformed values across all eight animals within each
+and Pachitariu (2019). These motion correction techniques were               experimental group and then converting the results back to the
+integrated with high-frequency ﬁltering algorithms to suppress               correlation domain via the inverse Fisher transformation.
+noise-related artifacts. Speciﬁcally, a low-pass ﬁlter with a                    In addition to the 5-min window analysis, we implemented an
+normalized passband frequency of 0.02 Hz and a stopband                      RFC approach with ﬁner temporal resolution to quantitatively assess
+attenuation of 60 dB was implemented. This ﬁlter incorporated a              temporal changes in functional connectivity. This approach used 60-
+delay compensation mechanism to mitigate any temporal                        s non-overlapping windows to calculate the Pearson correlation
+distortions introduced by the ﬁltering process itself, thereby               coefﬁcient r(t) between pairs of prewhitened time series across the
+facilitating the effective removal of high-frequency ﬂuctuations             entire recording duration (2,700 s), Equation 2.
+from the pD signal data.
+                                                                                                        k +Δt
+                                                                                                     tit    (x(i) − xk )(y(i) − yk )
+                                                                                         r(k)  
+                                                                                                           k
+                                                                                                                                                        (2)
+                                                                                                   tk +Δt                  tk +Δt
+                                                                                                 itk (x(i) − xk )2 it     k
+                                                                                                                                  (y(i) − yk )2
+2.5 Statistical analysis tools
+                                                                                 Where
+     All analysis was performed using MATLAB 9.12.0.1927505
+(R2022a) to 24.1.0.2537033 (R2024). We ﬁrst calculated the                      • r(k) is the Pearson correlation coefﬁcient at the k-th 60-
+normalized percent change in CBV (ΔCBV) relative to baseline                      second window.
+measurements—deﬁned as the average signal during the initial                    • tk is the start time of the k-th window.
+5 min prior to saline or MK-801 injection—for the time series of                • Δt  60 seconds is the window duration.
+each ROI. To evaluate the effects of treatment (MK-801 vs. saline),             • xk and yk are the mean values of x and y in the
+ROIs, and time on ΔCBV, we performed a three-way mixed analysis                   interval [tk , tk + Δt].
+of variance (ANOVA). Treatment (MK-801 vs. saline) served as the
+between-subject factor, while time and brain regions (6 ROIs) served              Following the previous analytical approach, we applied the Fisher
+as the within-subjects factor. For the time factor, we compared the          r-to-Z transformation to normalize the distribution of correlation
+mean ΔCBV values from two distinct periods: the baseline period              coefﬁcients. To characterize the trends in correlation changes over
+(average of ﬁrst 5 min pre-injection) and the ﬁnal period (average of        time, we ﬁtted a linear regression model to the Z-transformed
+last 5 min of the 40-min post-injection recording) for each ROI in           correlation values, allowing us to identify and quantify any
+each animal. This analysis was conducted using data from eight               signiﬁcant patterns or progressive shifts in connectivity throughout
+animals per treatment group.                                                 the experiment. We chose non-overlapping windows to ensure
+     To further elucidate the magnitude of the drug effects between          statistical independence between observations, which is crucial for
+different ROIs, we performed a post hoc pairwise t-test analysis             the validity of subsequent regression analyses.
+comparing baseline (0–5 min) and ﬁnal period (40–45 min) of                       This analysis provided eight slopes per ROI pair (corresponding
+recordings for each ROI in both treatment groups. Statistical                to the eight animals) in each experimental group. We then conducted
+signiﬁcance was assessed using paired t-tests (two-tailed,                   two-sample independent t-tests directly comparing the distributions
+α  0.05) for each ROI. To control for multiple comparisons, we              of these slopes (MK-801 slopes versus saline slopes) for each ROI pair.
+implemented the Benjamini–Hochberg (BH) false discovery rate                 This approach speciﬁcally tested whether the rate of connectivity
+(FDR) correction procedure. For each experimental group, p-values            change over time differed signiﬁcantly between treatment groups for
+were ordered from lowest to highest, with each p-value assigned a            each pair of ROIs. The resulting t-scores provided a standardized
+
+
+
+Frontiers in Pharmacology                                               04                                                                   frontiersin.org
+Hakopian et al.                                                                                                                        10.3389/fphar.2025.1562102
+
+
+
+
+   FIGURE 3
+   Transformation of non-stationary hippocampal CBV time series into stationary time series using ARIMA model. (A) Raw hippocampal CBV time series
+   data from a representative MK-801-treated mouse (left panel), exhibiting non-stationary with respect to mean and variance pattern with an overall
+   decreasing trend. The corresponding autocorrelation function (ACF) and partial auto-correlation function (PACF) plots (right panel) demonstrate
+   signiﬁcant autocorrelation across multiple lags, indicating strong temporal dependencies in the non-prewhitened data. (B) First-order differenced,
+   ARIMA(0,1,0), hippocampal CBV time series data (left panel), showing improved stationarity with a more consistent mean and variance across the series.
+   The ACF and PACF plots (right panel) reveal a reduction in autocorrelation compared to the raw data, but signiﬁcant correlations still persist at certain lags.
+   (C) ARIMA(7,1,9) prewhitened hippocampal CBV time series data (left panel), demonstrating a stationary process with constant mean (μ ≈ 0) and variance
+                                                                                                                                                    (Continued )
+
+
+
+
+Frontiers in Pharmacology                                                        05                                                                   frontiersin.org
+Hakopian et al.                                                                                                                      10.3389/fphar.2025.1562102
+
+
+
+
+   FIGURE 3 (Continued)
+   across the series. The corresponding ACF and PACF plots (right panel) show a dramatic reduction in autocorrelation, with the majority of lags falling
+   within the conﬁdence interval (red lines). This indicates that the ARIMA(7,1,9) model successfully captures and removes the temporal dependencies
+   present in the raw hippocampal CBV time series data, resulting in a more stationary and uncorrelated process suitable for subsequent analyses.
+
+
+
+measure of the differential effects of MK-801 versus saline on the                         By ﬁne-tuning these parameters, we can forecast future time
+trajectory of functional connectivity dynamics. Negative t-scores                     points (yt ) based on their preceding values (yt−p ). This process
+indicated a greater connectivity decrease in the MK-801 group                         explicitly incorporates the autocorrelation structure present in the
+compared to the saline group. To control for multiple comparisons                     data. While ARIMA models are widely recognized as a standard tool
+across all ROI pairs, we applied BH procedure for FDR correction.                     for time series analysis, we include a brief overview here to clarify the
+                                                                                      speciﬁc methodology applied in our analysis.
+
+2.6 Prewhitening the pD time series                                                   2.6.1 Integration (I)
+                                                                                           Forecasting models, including ARIMA, rely on the fundamental
+     Initial inspection of the motion-corrected pD time series from the six           assumption of statistical consistency in the input data, meaning that
+ROIs revealed pronounced nonstationarity in the mean and strong                       these models require the time series to exhibit constant mean and
+autocorrelation. This was demonstrated by plotting the CBV changes                    variance over time. To meet these criteria and stabilize a time series,
+alongside the AutoCorrelation Function (ACF) and Partial                              we employ differencing, which involves calculating the changes
+AutoCorrelation Function (PACF) histograms for a representative                       between consecutive observations to remove trend and seasonality.
+ROI (i.e., hippocampus) from a typical animal (Figure 3A). To                              Notably, the “integrated” component d of the ARIMA model
+calculate the Pearson correlation coefﬁcient r between time series, it                indicates the number of times the differencing operation must be
+is essential to ensure that individual series are stationary and non-                 applied to achieve consistency in the mean and variance of the time
+autocorrelated (Box et al., 2015; Priestley, 1971; Granger and Newbold,               series. To verify the effectiveness of differencing, we used the
+1974; Haugh, 1976). Ensuring stationarity and removing autocorrelation                Augmented Dickey-Fuller (ADF) test, which assesses the
+from the series is crucial for obtaining valid correlation results, as failing        presence of a unit root in the differenced data. A non-signiﬁcant
+to do so may lead to spurious correlations that do not accurately reﬂect              result indicates the absence of a unit root, conﬁrming that the series
+the true relationship between the time series. A notable example from                 has reached the desired stationarity. This ensures that the data is
+econometrics illustrates the issue of spurious correlations, where a study            now appropriate for the subsequent ARIMA modeling steps.
+initially reported spurious results Coen et al. (1969), which were later                   Figure 3B (left panel) shows the hippocampal ΔCBV for the
+corrected using prewhitening techniques Box and Newbold (1971).                       representative animal after applying integration - i.e., differencing.
+Recently, in neuroscience, the problem of spurious correlations arising               The integration successfully removed the trend, centering the mean
+from nonstationary time series has gained recognition, pointing out the               ΔCBV around zero while having constant variance throughout the
+necessity of appropriate preprocessing methods (Cordes et al., 2001;                  series. However, while integration improved stationarity, it did not
+Christova et al., 2011; Christopoulos et al., 2012b; Christopoulos et al.,            fully eliminate autocorrelation in the residuals. The ACF and PACF
+2012a; Zalesky et al., 2014; Sakellaridi et al., 2015).                               plots (Figure 3B, right panel) reveal a reduction in autocorrelation
+     The solution to this issue, pioneered by researchers such as Box,                compared to the raw data (Figure 3A, right panel). Nevertheless,
+Priestley, and Granger (Box et al., 1978; Priestley, 1971; Granger and                several statistically signiﬁcant autocorrelations persist, particularly at
+Newbold, 1974), involves transforming each univariate time series                     the initial lags. This is especially important for our application, as we
+into a stationary and non-autocorrelated form by appropriately                        aim to evaluate synchronous correlations between ROIs (i.e., lag = 0).
+modeling the series and extracting the residuals, also known as
+“innovations”. The correlation between the innovations represents                     2.6.2 Autoregressive (AR) component
+the true relationship between two time series, free from spurious                         The AR component of the ARIMA model captures the
+effects caused by nonstationarity and autocorrelation (Box et al.,                    dependency of the current observation on its past values. In an
+1978; Jenkins and Watts, 1968; Granger and Newbold, 1974). This                       AR process, each data point is predicted as a linear combination of
+preprocessing step, known as “prewhitening”, typically involves                       its previous observations, plus a random error term. The general
+ﬁtting an AutoRegressive Integrated Moving Average (ARIMA)                            form of an AR(p) model, where p is the order of the autoregressive
+model Box et al. (2015). The ARIMA model combines three key                           process, can be expressed as:
+components: AutoRegressive (AR), Integrated (I), and Moving                                    ARp: yt  ω + ϕ1 yt−1 + ϕ2 yt−2 + / + ϕp yt−p + εt            (3)
+Average (MA), represented by the parameters p, d, and q,
+respectively. This approach enables modeling complex time series                          Here, yt is the value of the series at time t, ω is the constant
+by accounting for various temporal dependencies:                                      (intercept) term, yt−1 , yt−2 , . . . , yt−p are the lagged values of the
+                                                                                      series, ϕ1 , ϕ2 , . . . , ϕp are the weights of each lag, and εt is the error
+  1. The AR(p) component models the dependency on past values.                        term (white noise) at time t .
+  2. The I(d) component achieves constant mean and variance                               Selection of the appropriate order p is typically based on analyzing
+     through sequential differencing.                                                 the PACF as it measures the direct correlation between an observation
+  3. The MA(q) component accounts for the dependency on past                          yt and a lag of itself yt−k , while controlling for the effects of
+     forecast errors.                                                                 intermediate lags. In practice, the PACF values at each lag
+
+
+
+Frontiers in Pharmacology                                                        06                                                                 frontiersin.org
+Hakopian et al.                                                                                                              10.3389/fphar.2025.1562102
+
+
+
+
+correspond to the coefﬁcients of AR models of increasing order                     inferred from past values of yt or past errors. It is assumed to be
+(Equation 3), where each coefﬁcient represents the direct effect of                independently and identically distributed (i.i.d) with zero mean and
+that lag when controlling for all shorter lags such that the PACF at lag           constant variance, i.e., εt ~ N (0, σ 2 )
+k is equivalent to the coefﬁcient ϕk in an AR(k) model. For example:
+                                                                                   2.6.5 Model selection
+   • PACF at lag 1 is ϕ1 in AR(1): yt  ω + ϕ1 yt−1 + εt                                The identiﬁcation of an appropriate ARIMA(p, d, q) model is
+   • PACF at lag 2 is ϕ2 in AR(2): yt  ω + ϕ1 yt−1 + ϕ2 yt−2 + εt                 crucial for effective prewhitening across multiple time series. To
+   • PACF at lag 3 is ϕ3 in AR(3): yt  ω + ϕ1 yt−1 + ϕ2 yt−2 +                    ensure consistency and facilitate valid comparisons in subsequent
+     ϕ3 yt−3 + εt                                                                  analyses, we aimed to identify a single ARIMA model that could be
+                                                                                   uniformly applied across all time series to effectively remove their
+    By identifying the lag at which PACF values become                             autocorrelation structure. This decision aligns with common
+insigniﬁcant, we can estimate the appropriate order p for our                      practices in neuroscience research aiming to minimize
+AR model.                                                                          preprocessing variability that could complicate the interpretation
+                                                                                   of FC results (Christova et al., 2011; Christopoulos et al., 2012b;
+2.6.3 Moving averages (MA) component                                               Sakellaridi et al., 2015).
+    The moving average component is mathematically very similar                         For each time series, we ﬁrst identiﬁed multiple candidate
+to the AR model (Equation 3) such that:                                            ARIMA models by calculating the Bayesian Information
+        MAq:       yt  ω + θ1 εt−1 + θ2 εt−2 + / + θq εt−q + εt     (4)         Criterion (BIC) for various combinations of autoregressive (p)
+                                                                                   and moving average (q) orders. Having observed that a
+      Where yt is the observed value at time t, ω is a constant term,              differencing order of d = 1 successfully achieved statistical
+θ1 , θ2 , . . . , θq are the MA coefﬁcients at each lag, εt is the error           consistency (explained in section 2.6.1) across all time series, we
+term at time t, and q is the order of the MA process. The key                      maintained this integration order throughout the model selection
+difference between Equation 3 and Equation 4 is that while the                     process. The range of p and q and values was determined
+AR model predicts a time point based on weighted past                              individually for each time series by observing the cutoff of
+observations, the MA model uses weighted past forecast errors                      signiﬁcant lags in their respective PACF and ACF plots (see
+to model the present time point. Hence, MA models the                              Sections 2.6.2, 2.6.3 for details on AR and MA order selection,
+dependence on past unobserved white noise error terms,                             respectively). For each time series, we retained the three ARIMA
+representing random shocks Christova et al. (2011). In the                         speciﬁcations yielding the lowest BIC scores.
+context of the fUSI analysis, MA can capture short-term                                 These candidate models were then systematically evaluated
+ﬂuctuations and measurement errors in CBV changes that are                         across all time series to identify a single speciﬁcation that could
+not explained by the overall trend or the AR component. This is                    effectively remove autocorrelation throughout the entire dataset.
+particularly relevant for modeling transient changes in CBV that                   The effectiveness of autocorrelation removal was assessed using
+may not persist over longer time scales. Incorporating the MA                      critical bounds deﬁned by Equation 7.
+component into the ARIMA model enables a more thorough                                                              1.96
+representation of the temporal dynamics in FC, which can                                                       ±                              (7)
+                                                                                                                   (T − d)
+enhance the accuracy of the connectivity estimates.
+                                                                                   where T represents the length of the time series and d is the
+2.6.4 ARIMA model                                                                  degree of differencing. A time lag was considered to have non-
+    After determining the appropriate integration, AR and MA                       signiﬁcant autocorrelation if it fell within these bounds. For
+processes, we combine Equation 3 and Equation 4 to construct                       each candidate model, we computed the total number of
+the general ARIMA model. The comprehensive equation for the                        lags across all time series that became insigniﬁcant after
+ARIMA model is expressed as:                                                       applying the ARIMA transformation. This quantitative
+                                                                                   assessment was combined with visual inspection of the
+      yt  ω + ϕ1 yt−1 + / + ϕp yt−p + θ1 εt−1 + / + θq εt−q + εt      (5)
+                                                                                   resulting ACF and PACF plots to evaluate the effectiveness
+     The ARIMA model encapsulates the autocorrelation structure                    of autocorrelation removal.
+inherent in the time series data (Equation 5). Consequently, we                         Through this comprehensive evaluation process, we identiﬁed
+obtain the stationary and nonautocorrelated residuals                              ARIMA(7,1,9) as the speciﬁcation that consistently reduced
+(i.e., “innovations”) by subtracting the ARIMA model’s                             autocorrelation across all time series while maintaining uniform
+predictions from the original time series. This process can be                     transformation properties. Using this model, we computed the
+expressed as a rearrangement of Equation 5:                                        residuals for each time series according to Equation 6. The
+                                                                                   effectiveness of this model is demonstrated in Figure 3C, using
+                                   p           q
+                            ⎝ω +  ϕ yt−i +  θj εt−j ⎞
+                                                      ⎠                            the representative hippocampal CBV time series, which shows both
+                  εt  yt − ⎛       i                                  (6)
+                                  i1         j1
+                                                                                   stationary behavior in the transformed time series (left panel) and
+                                                                                   successful removal of autocorrelation as evidenced by the ACF and
+where εt represents the residuals at time t, yt is the original time series        PACF plots (right panel). This uniﬁed approach ensured that
+at time t, and the terms within the parentheses constitute the ARIMA               subsequent correlation analyses would be conducted on
+model. Note that εt is called “innovation” because it represents the               comparably transformed data, maintaining the validity of our FC
+unpredictable “shock” or “new information” at time t that cannot be                assessments.
+
+
+
+Frontiers in Pharmacology                                                     07                                                          frontiersin.org
+Hakopian et al.                                                                                                                   10.3389/fphar.2025.1562102
+
+
+
+
+   FIGURE 4
+   Effects of saline and MK-801 administration on percent CBV changes (% pD change) across multiple brain regions. The time courses of mean
+   percent CBV changes across six ROIs are shown for saline (blue) and MK-801 (red) groups (n = 8 mice per group). The shaded areas represent the standard
+   error of the mean. Time is displayed in seconds, with the injection (saline or MK-801) occurring at t = 300s (dashed vertical line). The last 5 minutes of
+   recording, highlighted in yellow, were used for the spider plot analysis. The spider plot summarizes the mean % pD change during the ﬁnal 5 minutes
+   for each ROI in both groups.
+
+
+
+
+3 Results                                                                          (F5,84  5.691,     p  0.00014),   and    time     (F1,84  69.459,
+                                                                                   p  1.296 × 10−12 ). Moreover, we observed signiﬁcant two-way
+3.1 MK-801 reduces cerebral blood volume                                           interactions between treatment and time (F1,84  17.997,
+across multiple brain regions                                                      p < 0.0001), ROI and time (F5,84  4.0395, p  0.0024), and
+                                                                                   treatment and ROI (F5,84  3.307, p  0.0089). Notably, there
+    Consistent with our previous ﬁndings Crown et al. (2024), MK-                  was a signiﬁcant three-way interaction among treatment, ROI,
+801 administration signiﬁcantly reduced CBV across multiple ROIs                   and time (F5,84  3.307, p  0.0089). These results indicate that
+within 40 min after injection compared to saline-treated controls,                 MK-801 not only inﬂuenced different brain regions to varying
+with the hippocampus showing the most pronounced decrease                          extents but also that the progression of these effects over the 40-
+(Figure 4). To quantify these observations, we conducted a three-                  min post-injection period varied signiﬁcantly across regions.
+way mixed ANOVA with treatment (MK-801 vs. saline) as between-                         To further elucidate the magnitude of the drug effects across
+subjects factor, and time (ﬁrst 5 min vs. last 5 min) and ROIs as the              different ROIs, we performed pairwise t-tests comparing pre-
+within-subjects factors. The analysis revealed signiﬁcant main effects             injection (initial 5 min) and post-injection (ﬁnal 5 min) periods
+for all factors: treatment (F1,84  40.515, p  9.836 × 10−9 ), ROI                for each ROI in both treatment groups. This analysis revealed that
+
+
+
+Frontiers in Pharmacology                                                     08                                                                 frontiersin.org
+Hakopian et al.                                                                                                                    10.3389/fphar.2025.1562102
+
+
+
+
+   FIGURE 5
+   Rolling functional connectivity (RFC) in saline and MK-801 groups of animals. The recorded period is divided into nine non-overlapping 5-minute
+   windows, showing baseline (Window 1, pre-injection) and post-injection dynamics (Windows 2-9). Network diagrams display nodes representing six
+   brain regions: hippocampus (1), striatum (2), pallidum (3), thalamus (4), hypothalamus (5), and medial prefrontal cortex (mPFC) (6). Edges indicate average
+   FC strength across mice using Fisher-transformed Pearson correlation coefﬁcient values. In the saline group (top row), network connectivity
+   remains relatively stable with consistent inter-regional connections throughout the recordings. In contrast, the MK-801 group (bottom row) shows
+   progressive degradation of network connectivity post-injection, resulting in sparse connectivity in later windows. All connectivity values are derived from
+   prewhitened time series data.
+
+
+
+
+MK-801 administration led to signiﬁcant decreases in ΔCBV across                    network underwent a dramatic transformation, with most
+all examined brain regions (p ≤ 0.0406), with the hippocampus                       connections substantially weakened and only sparse, isolated
+showing the strongest response (~23% decrease, Figure 4, spider                     connections remaining between particular pairs of ROIs. The
+plot), consistent with its known sensitivity to NMDAR antagonism                    divergence between groups became most striking in the ﬁnal
+(Li et al., 2016; Neuhäusel and Gerevich, 2024). The mPFC also                      temporal window (40–45 min post-injection). While the saline
+exhibited notable changes (~13% decrease), suggesting that                          group maintained a relatively robust and interconnected network
+NMDAR antagonism has far-reaching effects on higher-order                           structure, the MK-801 group displayed a disrupted connectivity
+cognitive processes. In contrast, saline-treated animals showed no                  landscape, with minimal interactions between ROIs. This
+signiﬁcant changes in any ROI, conﬁrming the speciﬁcity of the                      progressive desynchronization of the network suggests that the
+observed effects to MK-801 treatment.                                               impact of MK-801 on brain connectivity is not an immediate
+                                                                                    event but rather a time-dependent process. The gradual nature of
+                                                                                    this connectivity breakdown potentially reﬂects the progressive
+3.2 Functional connectivity analysis reveals                                        disruption of NMDA receptor-dependent synaptic processes
+differential effects of MK-801 on brain                                             across neural networks, illustrating the complex and temporally
+network dynamics                                                                    nuanced effects of NMDAR antagonism on brain functional
+                                                                                    architecture.
+    Following the prewhitening procedure, we examined the                                To systematically assess the differential effects of MK-801 on
+temporal evolution of FC by segmenting the 45-min recording                         network organization compared to the saline control, we examined
+period into distinct temporal epochs. The recordings were                           the temporal dynamics of functional connectivity across treatment
+partitioned into nine consecutive 5-min windows, with the ﬁrst                      groups. For each ROI pair and each animal (N = 8 per group), we
+window representing baseline activity and windows 2-9 capturing                     quantiﬁed the rate of change of the functional connectivity by
+post-injection dynamics (Figure 5). This analysis revealed striking                 computing the slope of RFC using linear regression. We then
+differences in network reorganization between saline and MK-801                     compared the resulting slope distributions between the MK-801
+groups. In the saline group, we observed relatively stable                          and saline groups using two-sample independent t-tests to evaluate
+connectivity patterns across the recordings characterized by                        whether the rate of connectivity change over time differed
+moderate to strong connections between most ROI pairs                               signiﬁcantly between the two groups. The t-score provides a
+(indicated by red edges). Although some ﬂuctuations were                            standardized measure of the differences in connectivity
+observed, the overall network architecture was largely maintained                   trajectories between the two groups. Based on previous ﬁndings
+throughout the recording period. In contrast, the MK-801 group                      (Figure 5), we anticipated a reduction in functional connectivity
+exhibited a markedly different temporal progression. During the                     following MK-801 administration. Therefore, we compared the MK-
+baseline period (Window 1), the connectivity patterns exhibited                     801 group to the saline group, interpreting negative t-scores as
+strengths comparable to those observed in the saline                                indicating a greater connectivity decrease in the MK-801
+group. However, a progressive and systematic degradation of                         group (Figure 6).
+network connectivity became apparent following MK-801                                    The analysis revealed profound differences in network
+administration. The deterioration was most pronounced at                            connectivity dynamics between the MK-801 and saline groups.
+Windows 5-6 (25–30 min post-injection), characterized by a                          All t-scores were negative, indicating a greater reduction in
+strong reduction in both the number and strength of connections                     functional connectivity over time in the MK-801 group
+between ROIs. By Windows 7-8 (35–40 min post-injection), the                        compared to the saline group. The most pronounced treatment-
+
+
+
+Frontiers in Pharmacology                                                      09                                                                 frontiersin.org
+Hakopian et al.                                                                                                                  10.3389/fphar.2025.1562102
+
+
+
+
+   FIGURE 6
+   Network representation of differential functional connectivity changes between MK-801 and saline treatments. The network depicts the t-values
+   derived from two-sample independent t-tests directly comparing the distributions of connectivity change slopes between MK-801 and saline groups. For
+   each ROI pair, the t-test evaluated whether the rate of connectivity degradation over time differed signiﬁcantly between treatment groups (8 slopes per
+   group, one per animal). The network consists of six nodes, each representing an ROI: hippocampus (Hipp), striatum (Str), pallidum (Pal), thalamus
+   (Thal), hypothalamus (Hyp), and medial prefrontal cortex (mPFC). Edges represent the t-statistics, with darker blue edge colors indicating more negative
+   t-values and thus stronger reduction of functional connectivity across time in the MK-801 group compared to the saline group. All observed t-scores
+   were negative, with signiﬁcant differences observed in hippocampus-mPFC (t = -3.86), mPFC-hypothalamus (t = -3.12), hippocampus-striatum
+   (t = -2.95), striatum-hypothalamus (t = -2.73), striatum-mPFC (t = -2.70), and thalamus-mPFC (t = -2.64) connections.
+
+
+
+
+induced differences in connectivity degradation were observed in                  to the inﬂuence of MK-801. In particular, the pallidum exhibited
+pathways involving the hippocampus, mPFC, and striatum.                           notable stability, with its connections to other brain regions showing
+Speciﬁcally, the strongest differential effects were detected in                  no statistically signiﬁcant differences between the two animal
+connections       between     the    hippocampus       and     mPFC               groups. Similarly, the thalamus showed relative resistance to MK-
+(t-score = −3.86), hypothalamus and mPFC (t-score = −3.12),                       801, with only its connection to the mPFC exhibiting signiﬁcant
+and hippocampus and striatum (t-score = −2.95).                                   changes following MK-801 administration (t = −2.64). This pattern
+    Notably, the mPFC exhibited consistently strong decoupling                    of selective vulnerability offers key insights into the circuit-speciﬁc
+across all circuits in the MK-801 group, except for the pallidum. The             effects of NMDAR antagonism, notably disrupting connectivity in
+most pronounced treatment-related differences (i.e., MK-801 vs.                   hippocampal and prefrontal regions essential for learning, memory,
+saline) were observed in the reduction of connectivity with the                   and executive function, while largely preserving pallidal- and
+hippocampus (t-score = −3.86). Similarly, the striatum showed a                   thalamic-based circuit.
+signiﬁcantly steeper decline in connectivity following MK-801
+administration compared to saline group across multiple
+pathways, including those involving the hippocampus                               4 Discussion
+(t-score = −2.95), hypothalamus (t-score = −2.73) and mPFC
+(t-score = −2.70). These ﬁndings provide direct statistical                           The current study offers signiﬁcant insights into the effects of
+evidence that MK-801 administration induces a signiﬁcantly                        MK-801 on brain functional connectivity using fUSI technology. By
+greater and progressive disruption of functional connectivity                     recording high-resolution functional images from anesthetized mice
+compared to saline, with particularly pronounced effects on                       and applying a prewhitening technique to eliminate spurious
+limbic-cortical circuits involved in cognitive processing.                        correlations, we investigated the time-dependent reorganization
+    On the other hand, some interactions showed less pronounced                   of neural networks following MK-801 administration. The results
+differences between the two groups, suggesting a relative resilience              indicated that MK-801 disrupts functional connectivity across
+
+
+
+
+Frontiers in Pharmacology                                                    10                                                                 frontiersin.org
+Hakopian et al.                                                                                                         10.3389/fphar.2025.1562102
+
+
+
+
+multiple brain regions, primarily affecting a network involving the           mPFC-striatum connection enables the regulation of goal-directed
+mPFC, hippocampus, and striatum. These ﬁndings enhance our                    versus habitual actions (Corbit, 2018; Balleine and O’Doherty,
+understanding of how NMDAR hypofunction alters brain-wide                     2010). The disruption in striatum connectivity, particularly with
+connectivity, particularly within circuits associated with cognitive          the hippocampus and mPFC can impair goal-directed behavior,
+disorders that affect memory and learning.                                    memory, decision-making process, and cognitive ﬂexibility, leading
+                                                                              to maladaptive behaviors often observed in neuropsychiatric
+                                                                              disorders such as addiction, schizophrenia, and obsessive-
+4.1 MK-801 causes reduction of CBV signal                                     compulsive disorder (Saxena et al., 1998; Graybiel and Rauch,
+                                                                              2000; Sigurdsson and Duvarci, 2016; Meyer-Lindenberg et al.,
+     Our results showed that MK-801 administration caused a                   2002; Benetti et al., 2009; Henseler et al., 2010).
+signiﬁcant reduction in CBV across multiple regions, with the                      Interestingly, pallidum-based circuits exhibited remarkable
+hippocampus and mPFC showing the most pronounced effects.                     resilience to MK-801 administration, showing no signiﬁcant
+These ﬁndings align with previous studies that have reported                  differences in functional connectivity changes compared to saline
+hippocampus and mPFC as particularly sensitive to NMDAR                       administration. This pattern of selective resilience aligns with
+antagonism, given their reliance on NMDA receptor-mediated                    previous research indicating that the globus pallidus exhibits a
+synaptic transmission for proper functioning (Li et al., 2016;                minimal metabolic response to NMDAR antagonists compared to
+Neuhäusel and Gerevich, 2024; Crown et al., 2024). The                        other brain regions Miyamoto et al. (2000). Such regional speciﬁcity
+pronounced impact on the hippocampus may reﬂect its high                      may be attributed to differences in NMDAR subunit composition,
+density of NMDAR expression, which are crucial for synaptic                   receptor density, or the unique architecture of pallidal circuitry,
+plasticity and memory formation Yang et al. (2022). This                      suggesting that NMDAR antagonism impacts neural networks in a
+contrasts with regions like the thalamus and pallidum, where                  heterogeneous manner.
+differences in receptor density and synaptic architecture may lead                 While our study predominantly identiﬁed time dependent MK-
+to more subtle responses to NMDAR antagonists. Additionally, the              801-induced decreases in functional connectivity between key regions
+signiﬁcant CBV reduction observed in mPFC is also indicative of its           such as the hippocampus, mPFC, and striatum, other studies reported
+critical role in integrating information across cortical and                  diverse ﬁndings regarding circuit-speciﬁc connectivity alterations in
+subcortical regions, processes that rely heavily on NMDAR                     schizophrenia models. Recent multi-modal analysis of NMDAR
+activity Wang et al. (2013).                                                  dysfunction in schizophrenia has reported increased connectivity
+                                                                              between striato-pallido-thalamic and cortical regions of the
+                                                                              auditory-sensory-motor network Gaebler et al. (2023).
+4.2 MK-801 induces time-dependent                                             Furthermore, other NMDAR antagonist agents such as
+network disruption                                                            Traxoprodil, have been found to increase hippocampal-prefrontal
+                                                                              coupling Becker et al. (2019), while ketamine has been shown to
+     In addition to regional brain activity reduction, the main ﬁnding        enhance functional connectivity of the ventral striatum/nucleus
+in our study is that MK-801 administration disrupted the functional           accumbens and ventromedial prefrontal cortex Dandash et al.
+connectivity across brain regions. Statistical comparison between             (2015). Conversely, other studies, along with ours, have observed
+treatment groups revealed that MK-801 administration consistently             impairements in the network, including reduced hippocampal
+induced signiﬁcantly greater degradation of functional connectivity           functional connectivity and decoupling of the medial temporal,
+over time compared to saline, with the most pronounced effects                sensorimotor, frontoparietal and lateral-temporal networks
+observed among pathways involving the hippocampus, mPFC, and                  (Samudra et al., 2015; Peer et al., 2017).
+striatum. The hippocampus-mPFC pathway, which showed the                           These apparent discrepancies may reﬂect important differences
+strongest treatment-induced disruption, plays a crucial role in               in species-speciﬁc network organization, the effects of acute versus
+integrating memory with executive control, facilitating top-down              chronic NMDAR hypofunction, variations in the dose and type of
+regulation and cognitive ﬂexibility (Preston and Eichenbaum, 2013;            agents used, or differences in methodological approaches to
+Friedman and Robbins, 2022; Malik et al., 2022). Studies have shown           connectivity analysis. Importantly, the high dose of MK-801
+that the mPFC interacts with hippocampus for rapid learning and               employed in our study, along with pharmacological differences
+memory consolidation, supporting decision-making processes that               between the various NMDAR antagonists and modulators used
+require recalling appropriate actions or emotional responses in               in other studies, may be particularly inﬂuential factors. Notably,
+speciﬁc contexts Euston et al. (2012). The signiﬁcant differential            the implementation of prewhitening techniques to address non-
+disruption of the hippocampus-mPFC pathway can therefore                      stationarity may reveal functional relationships obscured in
+explain memory and learning impairments commonly observed                     traditional correlation analyses. Furthermore, the opposite
+in NMDAR dysfunction models.                                                  directionality of connectivity changes may be network-speciﬁc,
+     Additionally, the striatum, which has a key role in reward               wherein NMDAR antagonism disrupts the excitatory/inhibitory
+processing Cox and Witten (2019), habit formation Yin and                     balance differently across distinct neural circuits. These
+Knowlton (2006) and action selection Markowitz et al. (2018),                 complementary ﬁndings suggest that NMDAR hypofunction does
+interacts with the mPFC Howland et al. (2022); Wilhelm et al.                 not produce uniform effects across brain networks but instead
+(2023) and hippocampus Ross et al. (2011). The hippocampus-                   triggers a complex interplay of hyper- and hypo-connectivity,
+striatum pathway supports the integration of spatial and contextual           collectively contributing to the cognitive impairments observed in
+memory with reward-based behavior Ross et al. (2011), while the               neuropsychiatric disorders.
+
+
+
+Frontiers in Pharmacology                                                11                                                          frontiersin.org
+Hakopian et al.                                                                                                               10.3389/fphar.2025.1562102
+
+
+
+
+4.3 Genetic insights into NMDAR                                                   these issues, ensuring a more accurate assessment of pairwise FC
+dysfunction in neurological and                                                   analysis. This is particularly important for studying dynamic brain
+psychiatric disorders                                                             connectivity, where temporal ﬂuctuations can confound results. Our
+                                                                                  analysis shows that prewhitening improves the reliability of FC metrics,
+     Recent advances have signiﬁcantly enhanced our understanding                 with a signiﬁcant reduction in spurious correlations compared to non-
+of the NMDAR hypothesis in a range of neurological and psychiatric                prewhitened data. This methodological advance demonstrates the
+disorders Mota Vieira et al. (2020). This hypothesis has gained                   necessity of preprocessing steps like prewhitening when
+considerable support through the identiﬁcation of both common                     investigating FC in both experimental and clinical settings, offering
+and rare genetic variants associated with the NMDAR signaling                     a robust solution to the challenges posed by non-stationary pD signals.
+pathway. Notably, an increasing number of variants in the GRIN
+genes, which encode subunits of the NMDAR, have been identiﬁed
+in patients with diverse neurological and psychiatric conditions,                 4.5 Limitations of the current study and
+including autism spectrum disorder, epilepsy, intellectual disability,            future directions
+attention-deﬁcit/hyperactivity disorder, and schizophrenia (Platzer
+and Lemke, 2018; Myers et al., 2019). Among these, the GRIN2A                          One potential limitation of our study is the use of isoﬂurane
+gene, encoding the GluN2A subunit of the NMDAR, has emerged as                    anesthesia, which is a known vasodilator that can impact cerebral
+a signiﬁcant contributor to disorders such as schizophrenia (Singh                blood volume (CBV) and ﬂow (CBF) (Masamoto and Kanno, 2012;
+et al., 2022; Trubetskoy et al., 2022) and the epilepsy spectrum                  Franceschini et al., 2010). Isoﬂurane also modulates NMDA and
+(Lemke et al., 2013; Samanta, 2023). The Allen Mouse Brain Atlas                  GABA receptors McAuliffe et al. (2009), potentially interacting with
+reveals pronounced GRIN2A expression in both the hippocampal                      the effects of MK-801 on NMDAR function. Previous studies have
+formation and isocortex, particularly in medial prefrontal regions.               shown that isoﬂurane can alter functional connectivity patterns,
+This can explain the increased sensitivity of these regions to                    particularly in thalamocortical and cortico-cortical connections,
+NMDAR antagonism observed in our study, where the                                 with these effects varying based on anesthesia depth (Grandjean
+hippocampus and mPFC exhibited the most substantial CBV and                       et al., 2014; Bukhari et al., 2017). However, since both control and
+functional connectivity reduction. These genetic ﬁndings                          MK-801-treated groups underwent identical anesthesia
+complement and extend pharmacological models such as the one                      protocols, the between-group differences in our study can
+employed in our study, providing converging evidence for NMDAR                    primarily be attributed to MK-801 administration.
+dysfunction as a central mechanism in a broad range of neurological               Additionally, since our study was conducted in anesthetized
+and psychiatric disorders.                                                        animals, we were unable to observe the behavioral effects of
+                                                                                  MK-801 and directly link them to changes in brain activity and
+                                                                                  connectivity. Given that MK-801 affects regions involved in
+4.4 The importance for prewhitening the                                           memory and learning, future studies should involve awake,
+power doppler time series                                                         behaving animals performing memory- and learning-
+                                                                                  associated tasks, such as novel object recognition and the
+    Functional connectivity studies often rely on correlating time                Barnes Maze. These studies should incorporate fUSI
+series data that have undergone various preprocessing steps, such as              recordings to correlate behavioral changes with brain activity
+ﬁltering, adjustment, smoothing, and averaging. However, an                       and connectivity alterations. Additionally, a future awake-
+important aspect of time series data, such as their internal                      behaving experiment would also be valuable in isolating the
+structure - speciﬁcally nonstationarity and autocorrelation - has                 speciﬁc effects of MK-801 from those potentially inﬂuenced by
+not always been fully considered. When correlations are calculated                anesthesia. Furthermore, while we explored connectivity changes
+without accounting for these factors, there is a risk that the resulting          in key brain regions, such as the hippocampus and mPFC, we
+values may reﬂect a mix of unrelated inﬂuences, such as the intrinsic             were unable to assess the potential effects of MK-801
+properties of the time series, external factors, and the true relationship        administration on other regions within the septohippocampal
+between the two series, rather than providing an accurate                         network, including the nucleus accumbens (NAc), amygdala, and
+representation of their actual association Haugh (1976). It is worth              medial septal nucleus (MSN), as these areas were not accessible in
+quoting from Granger and Newbold’s study Granger and Newbold                      the selected sagittal 2-dimensional imaging plane. Future studies
+(1974) in 1974: “We ﬁnd it very curious that whereas virtually every              will involve the newly developed 3-dimensional ultrasonic
+textbook on econometric methodology contains explicit warnings of the             probes, such as matrix arrays and raw column arrays (RCA)
+dangers of autocorrelated errors, this phenomenon crops up so                     (Rabut et al., 2019; Sauvage et al., 2020; Bertolo et al., 2021) to
+frequently in well-respected applied work” (Granger and Newbold,                  generate volumetric images of the mouse brain providing access
+1974, p. 111). This observation points out the persistent importance of           to all areas of the septohippocampal network. Furthermore, the
+properly addressing autocorrelation in time series analysis.                      current study implements only a single-dose protocol of MK-801,
+    A key contribution of the current study is the introduction of a              which may not fully capture the dose-dependent effects of the
+prewhitening approach to fUSI data analysis, which transforms the                 agent. Given the established dose-dependent effects of MK-801
+recorded pD signal into a stationary process by removing time-                    on hippocampal theta and gamma oscillations Saunders et al.
+dependent trends and periodicities. We show that the raw pD time                  (2012), it is important for future studies to evaluate how different
+series exhibit non-stationarities that, if unaddressed, can lead to               doses affect CBV and functional connectivity in the recorded
+spurious correlations. By implementing prewhitening, we mitigate                  brain areas. Overall, despite the limitations, our study provides
+
+
+
+Frontiers in Pharmacology                                                    12                                                             frontiersin.org
+Hakopian et al.                                                                                                                                            10.3389/fphar.2025.1562102
+
+
+
+
+direct evidence that MK-801 disrupts connectivity between key                                       draft, Writing – review and editing, Data curation, Formal
+brain regions involved in learning, memory and other higher-                                        Analysis, Investigation, Methodology, Validation, Visualization.
+order cognitive functions. These ﬁndings offer valuable insights
+into the neural basis of cognitive impairments associated with
+various neuropsychiatric disorders and open new avenues for                                         Funding
+future research into targeted interventions.
+                                                                                                        The author(s) declare that ﬁnancial support was received for the
+                                                                                                    research and/or publication of this article. Keck School of Medicine
+Data availability statement                                                                         Dean’s Pilot Funding Program (DL). NIMH: 1K08MH121757-
+                                                                                                    01A1 Mentored Clinician Scientist development award (DL).
+    The original contributions presented in the study are included in                               Neurorestoration Center at the University of Southern California
+the article/supplementary material, further inquiries can be directed                               (CL). The Marlan and Rosemary Bourns College of Engineering at
+to the corresponding author.                                                                        the University of California Riverside through start-up funding
+                                                                                                    (VC). The University of California Leadership Excellence through
+                                                                                                    Advanced Degrees (UC LEADS) Program at the University of
+Ethics statement                                                                                    California, Riverside (EH).
+
+    The animal study was approved by University of Southern
+California, Institutional Animal Care and Use Committee                                             Conﬂict of interest
+(IACUC $\#$ 21006). The study was conducted in accordance
+with the local legislation and institutional requirements.                                              The authors declare that the research was conducted in the
+                                                                                                    absence of any commercial or ﬁnancial relationships that could be
+                                                                                                    construed as a potential conﬂict of interest.
+Author contributions
+    EH: Conceptualization, Data curation, Formal Analysis,                                          Generative AI statement
+Investigation, Visualization, Writing – original draft,
+Writing – review and editing. AS: Writing – original draft,                                             The author(s) declare that no Generative AI was used in the
+Writing – review and editing. SZ: Writing – original draft,                                         creation of this manuscript.
+Writing – review and editing. KA: Writing – original draft,
+Writing – review and editing. NZ: Writing – original draft,
+Writing – review and editing, Data curation. KW: Data curation,                                     Publisher’s note
+Writing – original draft, Writing – review and editing. CL: Funding
+acquisition Writing – original draft, Writing – review and editing,                                     All claims expressed in this article are solely those of the authors
+Conceptualization. DL: Conceptualization, Writing – original draft,                                 and do not necessarily represent those of their afﬁliated organizations,
+Writing – review and editing, Funding acquisition, Project                                          or those of the publisher, the editors and the reviewers. Any product
+administration, Resources, Supervision. VC: Conceptualization,                                      that may be evaluated in this article, or claim that may be made by its
+Funding acquisition, Resources, Supervision, Writing – original                                     manufacturer, is not guaranteed or endorsed by the publisher.
+
+
+References
+  Abad-Perez, P., Molina-Payá, F. J., Martínez-Otero, L., Borrell, V., Redondo, R. L.,               Box, G. E. P., Hunter, W. G., and Hunter, J. S. (1978). Statistics for experimenters. New
+and Brotons-Mas, J. R. (2023). Theta/gamma co-modulation disruption after nmdar                     York: Wiley.
+blockade by mk-801 is associated with spatial working memory deﬁcits in mice.
+                                                                                                      Box, G. E. P., Jenkins, G. M., Reinsel, G. C., and Ljung, G. M. (2015). Time series
+Neuroscience 519, 162–176. doi:10.1016/j.neuroscience.2023.03.022
+                                                                                                    analysis: forecasting and control. John Wiley and Sons.
+  Balleine, B., and O’Doherty, J. (2010). Human and rodent homologies in action
+                                                                                                      Box, G. E. P., and Newbold, P. (1971). Some comments on a paper of coen, gomme
+control: corticostriatal determinants of goal-directed and habitual action.
+                                                                                                    and kendall. J. R. Stat. Soc. Ser. A General. 134, 229–240. doi:10.2307/2343873
+Neuropsychopharmacology 35, 48–69. doi:10.1038/npp.2009.131
+                                                                                                      Bukhari, Q., Schroeter, A., Cole, D. M., and Rudin, M. (2017). Resting state
+  Becker, R., Gass, N., Kußmaul, L., Schmid, B., Scheuerer, S., Schnell, D., et al. (2019).
+                                                                                                    fmri in mice reveals anesthesia speciﬁc signatures of brain functional networks
+NMDA receptor antagonists traxoprodil and lanicemine improve hippocampal-
+                                                                                                    and their interactions. Front. neural circuits 11 (5), 5. doi:10.3389/fncir.2017.
+prefrontal coupling and reward-related networks in rats. Psychopharmacology 236,
+                                                                                                    00005
+3451–3463. doi:10.1007/s00213-019-05310-3
+                                                                                                       Christopoulos, V. N., Boeff, D. V., Evans, C. D., Crowe, D. A., Amirikian, B.,
+  Bedford, N. J., Surguladze, S., Giampietro, V., Brammer, M. J., and David, A. S. (2012).
+                                                                                                    Georgopoulos, A., et al. (2012a). A network analysis of developing brain cultures.
+Self-evaluation in schizophrenia: an fmri study with implications for the understanding
+                                                                                                    J. Neural Eng. 9, 046008. doi:10.1088/1741-2560/9/4/046008
+of insight. BMC Psychiatry 12, 106. doi:10.1186/1471-244X-12-106
+                                                                                                      Christopoulos, V. N., Leuthold, A. C., and Georgopoulos, A. P. (2012b).
+  Benetti, S., Mechelli, A., Picchioni, M., Broome, M., Williams, S., and McGuire, P.
+                                                                                                    Spatiotemporal neural interactions underlying continuous drawing movements as
+(2009). Functional integration between the posterior hippocampus and prefrontal
+                                                                                                    revealed by magnetoencephalography. Exp. Brain Res. 222, 159–171. doi:10.1007/
+cortex is impaired in both ﬁrst episode schizophrenia and the at risk mental state.
+                                                                                                    s00221-012-3208-3
+Brain 132, 2426–2436. doi:10.1093/brain/awp098
+                                                                                                      Christova, P., Lewis, S. M., Jerde, T. A., Lynch, J. K., and Georgopoulos, A. P. (2011).
+  Bertolo, A., Nouhoum, M., Cazzanelli, S., Ferrier, J., Mariani, J. C., Kliewer, A., et al.
+                                                                                                    True associations between resting fmri time series based on innovations. J. neural Eng. 8,
+(2021). Whole-brain 3d activation and functional connectivity mapping in mice using
+                                                                                                    046025. doi:10.1088/1741-2560/8/4/046025
+transcranial functional ultrasound imaging. J. Vis. Exp. 168, e62267. doi:10.3791/62267
+
+
+
+
+Frontiers in Pharmacology                                                                      13                                                                           frontiersin.org
+Hakopian et al.                                                                                                                                                 10.3389/fphar.2025.1562102
+
+
+
+
+  Clayton, D. A., Grosshans, D. R., and Browning, M. D. (2002). Aging and surface                       Ledoux, L. A. F., Brands, P. J., and Hoeks, A. P. G. (1997). Reduction of the clutter
+expression of hippocampal nmda receptors. J. Biol. Chem. 277, 14367–14369. doi:10.                    component in Doppler ultrasound signals based on singular value decomposition: a
+1074/jbc.C200074200                                                                                   simulation study. Ultrason. imaging 19, 1–18. doi:10.1177/016173469701900101
+  Coen, P. J., Gomme, E. D., and Kendall, M. G. (1969). Lagged relationships in                         Lee, G., and Zhou, Y. (2019). NMDAR hypofunction animal models of schizophrenia.
+economic forecasting. J. R. Stat. Soc. Ser. A General. 132, 133–163. doi:10.2307/2343782              Front. Mol. Neurosci. 12, 185. doi:10.3389/fnmol.2019.00185
+  Corbit, L. H. (2018). Understanding the balance between goal-directed and habitual                    Lemke, J. R., Lal, D., Reinthaler, E. M., Steiner, I., Nothnagel, M., Alber, M., et al.
+behavioral control. Curr. Opin. Behav. Sci. 20, 161–168. doi:10.1016/j.cobeha.2018.                   (2013). Mutations in grin2a cause idiopathic focal epilepsy with rolandic spikes. Nat.
+01.010                                                                                                Genet. 45, 1067–1072. doi:10.1038/ng.2728
+   Cordes, D., Haughton, V. M., Arfanakis, K., Carew, J. D., Turski, P. A., Moritz, C. H.,              Li, J. T., Su, Y. A., Wang, H. L., Zhao, Y. Y., Liao, X. M., Wang, X. D., et al. (2016).
+et al. (2001). Frequencies contributing to functional connectivity in the cerebral cortex             Repeated blockade of NMDA receptors during adolescence impairs reversal learning
+in “resting-state” data. AJNR Am. J. Neuroradiol. 22, 1326–1333.                                      and disrupts gabaergic interneurons in rat medial prefrontal cortex. Front. Mol.
+                                                                                                      Neurosci. 9, 17. doi:10.3389/fnmol.2016.00017
+ Cox, J., and Witten, I. B. (2019). Striatal circuits for reward learning and decision-
+making. Nat. Rev. Neurosci. 20, 482–494. doi:10.1038/s41583-019-0189-2                                  Liu, J., Chang, L., Song, Y., Li, H., and Wu, Y. (2019). The role of nmda receptors in
+                                                                                                      alzheimer’s disease. Front. Neurosci. 13, 43. doi:10.3389/fnins.2019.00043
+  Crown, L. M., Agyeman, K. A., Choi, W., Zepeda, N., Iseri, E., Pahlavan, P., et al.
+(2024). Theta-frequency medial septal nucleus deep brain stimulation increases                          MacDonald, S. W., Nyberg, L., and Bäckman, L. (2006). Intra-individual variability in
+neurovascular activity in mk-801-treated mice. Front. Neurosci. 18, 1372315. doi:10.                  behavior: links to brain structure, neurotransmission and neuronal activity. Trends
+3389/fnins.2024.1372315                                                                               Neurosci. 29, 474–480. doi:10.1016/j.tins.2006.06.011
+  Dandash, O., Harrison, B. J., Adapa, R., Gaillard, R., Giorlando, F., Wood, S. J., et al.             Macé, E., Montaldo, G., Cohen, I., Baulac, M., Fink, M., and Tanter, M. (2011).
+(2015). Selective augmentation of striatal functional connectivity following NMDA                     Functional ultrasound imaging of the brain. Nat. Methods 8, 662–664. doi:10.1038/
+receptor antagonism: implications for psychosis. Neuropsychopharmacology 40,                          nmeth.1641
+622–631. doi:10.1038/npp.2014.210
+                                                                                                        Malik, R., Li, Y., Schamiloglu, S., and Sohal, V. S. (2022). Top-down control of
+   Euston, D. R., Gruber, A. J., and McNaughton, B. L. (2012). The role of medial                     hippocampal signal-to-noise by prefrontal long-range inhibition. Cell 185,
+prefrontal cortex in memory and decision making. Neuron 76, 1057–1070. doi:10.1016/                   1602–1617.e17. doi:10.1016/j.cell.2022.04.001
+j.neuron.2012.12.002
+                                                                                                        Markowitz, J. E., Gillis, W. F., Beron, C. C., Neufeld, S. Q., Robertson, K., Bhagat, N.
+   Franceschini, M. A., Radhakrishnan, H., Thakur, K., Wu, W., Ruvinskaya, S., Carp, S.,              D., et al. (2018). The striatum organizes 3d behavior via moment-to-moment action
+et al. (2010). The effect of different anesthetics on neurovascular coupling. Neuroimage              selection. Cell 174, 44–58.e17. doi:10.1016/j.cell.2018.04.019
+51, 1367–1377. doi:10.1016/j.neuroimage.2010.03.060
+                                                                                                        Masamoto, K., and Kanno, I. (2012). Anesthesia and the quantitative evaluation of
+  Friedman, N. P., and Robbins, T. W. (2022). The role of prefrontal cortex in cognitive              neurovascular coupling. J. Cereb. Blood Flow and Metabolism 32, 1233–1247. doi:10.
+control and executive function. Neuropsychopharmacology 47, 72–89. doi:10.1038/                       1038/jcbfm.2012.50
+s41386-021-01132-0
+                                                                                                        McAuliffe, J. J., Loepke, A. W., Miles, L., Joseph, B., Hughes, E., and Vorhees, C. V.
+  Gaebler, A. J., Fakour, N., Stöhr, F., Zweerings, J., Taebi, A., Suslova, M., et al. (2023).        (2009). Desﬂurane, isoﬂurane, and sevoﬂurane provide limited neuroprotection against
+Functional connectivity signatures of NMDAR dysfunction in schizophrenia-                             neonatal hypoxia-ischemia in a delayed preconditioning paradigm. Anesthesiology 111,
+integrating ﬁndings from imaging genetics and pharmaco-fmri. Transl. Psychiatry                       533–546. doi:10.1097/ALN.0b013e3181b060d3
+13, 59. doi:10.1038/s41398-023-02344-2
+                                                                                                        McLamb, R. L., Williams, L. R., Nanry, K. P., Wilson, W. A., and Tilson, H. A. (1990).
+  Gonzalez, M. I., Sinha, A., Burchﬁeld, S. R., Moore, K. E., and Pepeu, G. (1994).                   Mk-801 impedes the acquisition of a spatial memory task in rats. Pharmacol. Biochem.
+NMDA receptor antagonists decrease gaba outﬂow from the septum and increase                           Behav. 37, 41–45. doi:10.1016/0091-3057(90)90038-j
+acetylcholine outﬂow from the hippocampus: a microdialysis study. J. Neurosci. 14,
+                                                                                                        Meyer-Lindenberg, A., Miletich, R. S., Kohn, P. D., Esposito, G., Carson, R. E.,
+1358–1365. doi:10.1523/JNEUROSCI.14-03-01358.1994
+                                                                                                      Quarantelli, M., et al. (2002). Reduced prefrontal activity predicts exaggerated striatal
+  Grandjean, J., Schroeter, A., Batata, I., and Rudin, M. (2014). Optimization of                     dopaminergic function in schizophrenia. Nat. Neurosci. 5, 267–271. doi:10.1038/nn804
+anesthesia protocol for resting-state fmri in mice based on differential effects of
+                                                                                                        Miyamoto, S., Leipzig, J. N., Lieberman, J. A., and Duncan, G. E. (2000). Effects of
+anesthetics on functional connectivity patterns. Neuroimage 102, 838–847. doi:10.
+                                                                                                      ketamine, mk-801, and amphetamine on regional brain 2-deoxyglucose uptake in freely
+1016/j.neuroimage.2014.08.043
+                                                                                                      moving mice. Neuropsychopharmacology 22, 400–412. doi:10.1016/S0893-133X(99)
+   Granger, C. W. J., and Newbold, P. (1974). Spurious regressions in econometrics.                   00127-X
+J. Econ. 2, 111–120. doi:10.1016/0304-4076(74)90034-7
+                                                                                                         Mota Vieira, M., Nguyen, T. A., Wu, K., Badger, J. D. n., Collins, B. M., Anggono, V.,
+  Graybiel, A. M., and Rauch, S. L. (2000). Toward a neurobiology of obsessive-                       et al. (2020). An epilepsy-associated grin2a rare variant disrupts camkii phosphorylation
+compulsive disorder. Neuron 28, 343–347. doi:10.1016/s0896-6273(00)00113-6                            of glun2a and nmda receptor trafﬁcking. Cell Rep. 32, 108104. doi:10.1016/j.celrep.2020.
+                                                                                                      108104
+  Gur, R. E., and Gur, R. C. (2010). Functional magnetic resonance imaging in
+schizophrenia. Dialogues Clin. Neurosci. 12, 333–343. doi:10.31887/DCNS.2010.12.3/                      Myers, S. J., Yuan, H., Kang, J. Q., Tan, F. C. K., Traynelis, S. F., and Low, C. M. (2019).
+rgur                                                                                                  Distinct roles of grin2a and grin2b variants in neurological conditions. F1000Research 8,
+                                                                                                      F1000 Faculty Rev-1940–1940. doi:10.12688/f1000research.18949.1
+  Haugh, L. D. (1976). Checking the independence of two covariance-stationary time
+series: a univariate residual cross-correlation approach. J. Am. Stat. Assoc. 71, 378–385.              Neuhäusel, T. S., and Gerevich, Z. (2024). Sex-speciﬁc effects of subchronic NMDA
+doi:10.2307/2285318                                                                                   receptor antagonist mk-801 treatment on hippocampal gamma oscillations. Front.
+                                                                                                      Neurosci. 18, 1425323. doi:10.3389/fnins.2024.1425323
+  Henseler, I., Falkai, P., and Gruber, O. (2010). Disturbed functional connectivity
+within brain networks subserving domain-speciﬁc subcomponents of working memory                         Newcomer, J. W., Farber, N. B., Jevtovic-Todorovic, V., Selke, G., Melson, A. K.,
+in schizophrenia: relation to performance and clinical symptoms. J. Psychiatric Res. 44,              Hershey, T., et al. (1999). Ketamine-induced NMDA receptor hypofunction as a model
+364–372. doi:10.1016/j.jpsychires.2009.09.003                                                         of memory impairment and psychosis. Neuropsychopharmacology 20, 106–118. doi:10.
+                                                                                                      1016/S0893-133X(98)00067-0
+  Howland, J. G., Ito, R., Lapish, C. C., and Villaruel, F. R. (2022). The rodent medial
+prefrontal cortex and associated circuits in orchestrating adaptive behavior under                      Peer, M., Prüss, H., Ben-Dayan, I., Paul, F., Arzy, S., and Finke, C. (2017). Functional
+variable demands. Neurosci. Biobehav. Rev. 135, 104569. doi:10.1016/j.neubiorev.                      connectivity of large-scale brain networks in patients with anti-NMDA receptor
+2022.104569                                                                                           encephalitis: an observational study. Lancet Psychiatry 4, 768–774. doi:10.1016/
+                                                                                                      S2215-0366(17)30330-9
+ Jenkins, G. M., and Watts, D. G. (1968). Spectral analysis and its applications.
+Oakland, CA: Holden Day.                                                                                Pitkänen, M., Sirviö, J., MacDonald, E., Niemi, S., Ekonsalo, T., and Riekkinen Sr, P.
+                                                                                                      (1995). The effects of d-cycloserine and mk-801 on the performance of rats in two
+  Jodo, E. (2013). The role of the hippocampo-prefrontal cortex system in
+                                                                                                      spatial learning and memory tasks. Eur. Neuropsychopharmacol. 5, 457–463. doi:10.
+phencyclidine-induced psychosis: a model for schizophrenia. J. Physiology-Paris 107,
+                                                                                                      1016/0924-977x(95)80004-l
+434–440. doi:10.1016/j.jphysparis.2013.06.002
+                                                                                                        Platzer, K., and Lemke, J. R. (2018). “Grin2b-related neurodevelopmental disorder.
+  Khakpai, F., Nasehi, M., Haeri-Rohani, A., Eidi, A., and Zarrindast, M. R. (2013a).
+Septo-hippocampo-septal loop and memory formation. Basic Clin. Neurosci. 4                                                                       ®
+                                                                                                      Updated 2021 Mar 25,” in GeneReviews . M. P. Adam, J. Feldman, and G. M. Mirzaa
+                                                                                                      (Seattle (WA): University of Washington, Seattle), 1993–2025.
+(5), 5–23.
+                                                                                                        Preston, A. R., and Eichenbaum, H. (2013). Interplay of hippocampus and prefrontal
+  Khakpai, F., Zarrindast, M. R., Nasehi, M., Haeri-Rohani, A., and Eidi, A. (2013b).
+                                                                                                      cortex in memory. Curr. Biol. 23, R764–R773. doi:10.1016/j.cub.2013.05.041
+The role of glutamatergic pathway between septum and hippocampus in the memory
+formation. EXCLI J. 12, 41–51.                                                                          Priestley, M. B. (1971). Fitting relationships between time series. Bull. Inst. Int.
+                                                                                                      Statistics 38, 1–27.
+   Krystal, J. H., Karper, L. P., Seibyl, J. P., Freeman, G. K., Delaney, R., Bremner, J. D.,
+et al. (1994). Subanesthetic effects of the noncompetitive NMDA antagonist, ketamine,                   Rabut, C., Correia, M., Finel, V., Pezet, S., Pernot, M., Defﬁeux, T., et al. (2019). 4d
+in humans: psychotomimetic, perceptual, cognitive, and neuroendocrine responses.                      functional ultrasound imaging of whole-brain activity in rodents. Nat. Methods 16,
+Archives general psychiatry 51, 199–214. doi:10.1001/archpsyc.1994.03950030035004                     994–997. doi:10.1038/s41592-019-0572-y
+
+
+
+
+Frontiers in Pharmacology                                                                        14                                                                               frontiersin.org
+Hakopian et al.                                                                                                                                             10.3389/fphar.2025.1562102
+
+
+
+
+  Ross, R. S., Sherrill, K. R., and Stern, C. E. (2011). The hippocampus is functionally              Tanter, M., and Fink, M. (2014). Ultrafast imaging in biomedical ultrasound. IEEE
+connected to the striatum and orbitofrontal cortex during context dependent decision                Trans. ultrasonics, Ferroelectr. Freq. control 61, 102–119. doi:10.1109/TUFFC.2014.
+making. Brain Res. 1423, 53–66. doi:10.1016/j.brainres.2011.09.038                                  6689779
+   Sakellaridi, S., Christova, P., Christopoulos, V., Leuthold, A. C., Peponis, J., and               Trubetskoy, V., Pardiñas, A. F., Qi, T., Panagiotaropoulou, G., Awasthi, S., Bigdeli, T.
+Georgopoulos, A. P. (2015). Neural mechanisms underlying the exploration of small                   B., et al. (2022). Mapping genomic loci implicates genes and synaptic biology in
+city maps using magnetoencephalography. Exp. Brain Res. 233, 3187–3200. doi:10.                     schizophrenia. Nature 604, 502–508. doi:10.1038/s41586-022-04434-5
+1007/s00221-015-4387-5
+                                                                                                      van der Staay, F. J., Rutten, K., Erb, C., and Blokland, A. (2011). Effects of the
+  Samanta, D. (2023). Grin2a-related epilepsy and speech disorders: a comprehensive                 cognition impairer mk-801 on learning and memory in mice and rats. Behav. Brain Res.
+overview with a focus on the role of precision therapeutics. Epilepsy Res. 189, 107065.             220, 215–229. doi:10.1016/j.bbr.2011.01.052
+doi:10.1016/j.eplepsyres.2022.107065
+                                                                                                      Wang, M., Yang, Y., Wang, C. J., Gamo, N. J., Jin, L. E., Mazer, J. A., et al. (2013).
+  Samudra, N., Ivleva, E. I., Hubbard, N. A., Rypma, B., Sweeney, J. A., Clementz, B. A.,           NMDA receptors subserve persistent neuronal ﬁring during working memory in
+et al. (2015). Alterations in hippocampal connectivity across the psychosis dimension.              dorsolateral prefrontal cortex. Neuron 77, 736–749. doi:10.1016/j.neuron.2012.12.032
+Psychiatry Res. 233, 148–157. doi:10.1016/j.pscychresns.2015.06.004
+                                                                                                      Wegener, N., Nagel, J., Gross, R., Chambon, C., Greco, S., Pietraszek, M., et al. (2011).
+   Saunders, J. A., Gandal, M. J., and Siegel, S. J. (2012). NMDA antagonists recreate              Evaluation of brain pharmacokinetics of (+) mk-801 in relation to behaviour. Neurosci.
+signal-to-noise ratio and timing perturbations present in schizophrenia. Neurobiol. Dis.            Lett. 503, 68–72. doi:10.1016/j.neulet.2011.08.012
+46, 93–100. doi:10.1016/j.nbd.2011.12.049
+                                                                                                      Wiescholleck, V., and Manahan-Vaughan, D. (2012). Pde4 inhibition enhances
+  Sauvage, J., Porée, J., Rabut, C., Férin, G., Flesch, M., Rosinski, B., et al. (2020). 4d         hippocampal synaptic plasticity in vivo and rescues mk801-induced impairment of
+functional imaging of the rat brain using a large aperture row-column array. IEEE                   long-term potentiation and object recognition memory in an animal model of
+Trans. Med. Imaging 39, 1884–1893. doi:10.1109/TMI.2019.2959833                                     psychosis. Transl. Psychiatry 2, e89. doi:10.1038/tp.2012.17
+  Saxena, S., Brody, A. L., Schwartz, J. M., and Baxter, L. R. (1998). Neuroimaging and               Wilhelm, M., Sych, Y., Fomins, A., Alatorre Warren, J. L., Lewis, C., Serratosa
+frontal-subcortical circuitry in obsessive-compulsive disorder. Br. J. Psychiatry Suppl.            Capdevila, L., et al. (2023). Striatum-projecting prefrontal cortex neurons support
+35, 26–37. doi:10.1192/s0007125000297870                                                            working memory maintenance. Nat. Commun. 14, 7016. doi:10.1038/s41467-023-
+                                                                                                    42777-3
+  Sigurdsson, T., and Duvarci, S. (2016). Hippocampal-prefrontal interactions in
+cognition, behavior and psychiatric disease. Front. Syst. Neurosci. 9, 190. doi:10.                   Yang, X., Gong, R., Qin, L., Bao, Y., Fu, Y., Gao, S., et al. (2022). Trafﬁcking of NMDA
+3389/fnsys.2015.00190                                                                               receptors is essential for hippocampal synaptic plasticity and memory consolidation.
+                                                                                                    Cell Rep. 40, 111217. doi:10.1016/j.celrep.2022.111217
+  Singh, T., Poterba, T., Curtis, D., Akil, H., Al Eissa, M., Barchas, J. D., et al. (2022).
+Rare coding variants in ten genes confer substantial risk for schizophrenia. Nature 604,              Yin, H. H., and Knowlton, B. J. (2006). The role of the basal ganglia in habit
+509–516. doi:10.1038/s41586-022-04556-w                                                             formation. Nat. Rev. Neurosci. 7, 464–476. doi:10.1038/nrn1919
+  Stringer, C., and Pachitariu, M. (2019). Computational processing of neural                         Zalesky, A., Fornito, A., Cocchi, L., Gollo, L. L., and Breakspear, M. (2014). Time-
+recordings from calcium imaging data. Curr. Opin. Neurobiol. 55, 22–31. doi:10.                     resolved resting-state brain networks. Proc. Natl. Acad. Sci. U. S. A. 111, 10341–10346.
+1016/j.conb.2018.11.005                                                                             doi:10.1073/pnas.1400181111
+
+
+
+
+Frontiers in Pharmacology                                                                      15                                                                            frontiersin.org
+

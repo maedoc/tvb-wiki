@@ -1,0 +1,492 @@
+                                             Dynamic Functional Connectivity Features for
+                                           Brain State Classification: Insights from the Human
+                                                          Connectome Project
+                                                            Valeriya Kirova                                    Dzerassa Kadieva                                  Daniil Vlasenko
+                                                   AI and Digital Science Institute                 Institute for Cognitive Neuroscience              Institute for Cognitive Neuroscience
+                                                           HSE University                                       HSE University                                    HSE University
+                                                          Moscow, Russia                                       Moscow, Russia                                    Moscow, Russia
+                                                        0000-0001-5333-8425                                 0009-0006-7848-596X                                0009-0002-4867-2896
+arXiv:2510.05325v1 [q-bio.NC] 6 Oct 2025
+
+
+
+
+                                                        Isak B. Blank                                                                Fedor Ratnikov
+                                           Institute for Cognitive Neuroscience                                             AI and Digital Science Institute
+                                                       HSE University                                                               HSE University
+                                                      Moscow, Russia                                                               Moscow, Russia
+                                                    0009-0007-1833-9511                                                 fratnikov@hse.ru, 0000-0003-0762-5583
+
+
+
+
+                                              Abstract—We analyze functional magnetic resonance imaging                     functional connections between them. This approach enables
+                                           (fMRI) data from the Human Connectome Project (HCP) to                           a deeper investigation into the nature of cognitive states by
+                                           match brain activities during a range of cognitive tasks. Our                    revealing both local and global connections in brain activity.
+                                           findings demonstrate that even basic linear machine learning
+                                           models can effectively classify brain states and achieve state-of-               The use of network-based methods for analyzing fMRI data
+                                           the-art accuracy, particularly for tasks related to motor functions              not only allows for the exploration of characteristics of func-
+                                           and language processing. Feature importance ranking allows to                    tional brain networks but also their topology using machine
+                                           identify distinct sets of brain regions whose activation patterns                learning (ML) techniques [4]–[6]. We will employ linear ML
+                                           are uniquely associated with specific cognitive functions. These                 methods for the classification task.
+                                           discriminative features provide strong support for the hypothesis
+                                           of functional specialization across cortical and subcortical areas                  The brain contains specific regions and networks that play
+                                           of the human brain.                                                              a key role in classifying and processing various states (emo-
+                                              Additionally, we investigate the temporal dynamics of the                     tional, cognitive, perceptual, etc.). It relies on a combination of
+                                           identified brain regions, demonstrating that the time-dependent                  activity across different regions and their interactions. In this
+                                           structure of fMRI signals are essential for shaping functional                   study, we apply ML to identify key brain regions involved
+                                           connectivity between regions: uncorrelated areas are least im-
+                                           portant for classification. This temporal perspective provides                   in task execution. This research is based on fMRI data from
+                                           deeper insights into the formation and modulation of brain neural                the Human Connectome Project (HCP), specifically the HCP
+                                           networks involved in cognitive processing.                                       1200 Subject Release [9]. The description of the experiments
+                                              Index Terms—fMRI, brain states, regression, time series                       is presented in Section IV-G. This approach will provide a
+                                                                                                                            deeper understanding of the brain’s functional organization.
+                                                                     I. I NTRODUCTION                                          The goals of our research is to demonstrate that classical
+                                              Modern neuroimaging techniques, such as fMRI, enable the                      ML methods effectively handle the classification of fMRI data,
+                                           investigation of brain activity in real time, opening new av-                    even with a limited amount of data (as shown in Section III).
+                                           enues for studying cognitive processes. However, the analysis                    The second goal: to identify key brain regions that are most
+                                           of fMRI data represents a complex challenge due to its high-                     important for classification and show that each brain state is
+                                           dimensional and dynamic nature. In recent years, increasing                      associated with a unique set of such regions, and to provide
+                                           attention has been paid to the application of network-based                      an interpretation of the resulting sets (as demonstrated in Sec-
+                                           data representation methods to describe functional connections                   tion IV). Identifying the most discriminative neurofunctional
+                                           between different brain regions [1]–[3].                                         features — representing distinct brain regions—is essential for
+                                              These methods allow for modelling the brain as a network,                     elucidating the relationship between regional neural activity
+                                           where nodes represent brain regions and edges represent                          and the cognitive or behavioral states under investigation.
+                                                                                                                            These features correspond to brain areas whose activation
+                                              The work was supported by the grant for research centers in the field of AI   patterns most strongly contribute to classification accuracy.
+                                           provided by the Ministry of Economic Development of the Russian Federation
+                                           in accordance with the agreement 000000C313925P4E0002 and the agreement             Furthermore, we aim to demonstrate that temporal dynamics
+                                           with HSE University № 139-15-2025-009.                                           critically shape functional connectivity between core brain
+regions, while also identifying region pairs whose interac-             By focusing on the mean activity values, we aim to demon-
+tions remain unaffected by time-dependent variations (see            strate that each brain state is associated with a unique network
+Section IV-D for detailed discussion).                               of regional activations, which can serve as a reliable signature
+                                                                     for classification.
+                     II. DATA DESCRIPTION
+                                                                                  III. B RAIN STATES CLASSIFICATION
+   A dataset obtained using fMRI, which describes brain
+activity during the performance of various cognitive tasks,            Formally, we construct a multi-class classification model
+was utilized. The fMRI data were collected from 581 healthy          that maps a feature vector ⃗xmean , to a set of probabilities for
+participants from the HCP. The sample included both men and          that vector to represent each of s brain state classes:
+women aged between 22 and 35 years. Participants performed                                        
+                                                                                                    p1 (⃗xmean )
+                                                                                                                 
+a series of tasks [10] designed to activate different cortical and                     ⃗xmean →         ···     ,
+subcortical brain networks. For each type of scan, two runs                                         ps (⃗xmean )
+were conducted: one with right-to-left (RL) phase encoding
+and the other with left-to-right (LR) phase encoding. In total,      where pc (⃗xmean ) = p(state = c | ⃗xmean ), and s = 14 classes
+seven different tasks were performed. Three of these tasks           again correspond to distinct brain states.
+were completed in one session, while the remaining four were            We begin with the simplest ML approach – linear models –
+performed in another session.                                        to classify brain states, motivated by several key factors related
+   Each of these tasks was designed to activate specific neural      to both our data characteristics and analytical goals. Their in-
+networks, enabling researchers to analyze the functional orga-       terpretability allows direct examination of weights highlighting
+nization of the brain and its response to various cognitive and      important brain regions, while their efficiency with moderate-
+emotional stimuli. A brief description of the experiments and        sized fMRI datasets helps prevent overfitting. These models
+the corresponding state labels is provided in the supplementary      demonstrate particular robustness to noise, maintaining reli-
+material.                                                            able performance despite common artifacts in neuroimaging
+                                                                     data. Their computational simplicity enables rapid processing
+                            TABLE I                                  of high-dimensional neural data without sacrificing predic-
+           T WO BRAIN STATES FOR EACH COGNITIVE TASK                 tive accuracy. Furthermore, linear models provide a flexible
+      Cognitive Task         State Name 1         State Name 2
+                                                                     foundation that can be extended to capture more complex
+     Working Memory               0-back              2-back         relationships when needed. This approach aligns well with
+          Gambling                 Win                 Loss          established neuroscientific theory suggesting that cognitive
+         Motor Task         Left hand or foot   Right hand or foot
+    Language Processing            Story               Math
+                                                                     processes emerge from linear combinations of regional brain
+      Social Cognition      Random motion       Mental interaction   activations.
+    Relational Processing        Relation           Similarity          We conducted a comprehensive analysis of linear ML mod-
+    Emotion Processing           Neutral               Fear
+                                                                     els for multiclass classification of brain states using fMRI data.
+                                                                     Our evaluation revealed that all linear models achieved high
+   Thus, we have a total of s = 14 states, each corresponding        classification accuracy, with most models clustering around
+to a specific type of cognitive task, and 8134 units of fMRI         0.9 accuracy as shown in Table II. These results demonstrate
+data.                                                                that linear approaches retain competitive performance for brain
+   Structure of fMRI data unit. We defined the total number          state classification, suggesting their continued relevance in
+of brain regions as r = 379 . For each brain region, we have a       fMRI decoding tasks despite advances in nonlinear methods.
+time series of length l describing brain activity over the time         We chose logistic regression with a One-vs-All (OvA)
+interval. Thus, each fMRI data unit is represented as an activity    strategy to achieve the main goals of our research. This choice
+matrix X of size r × l, where each line ⃗xi = (xi1 , . . . , xil )   is motivated by the importance of being able to clearly dis-
+corresponds to the activity of the i-th brain region over a time     tinguish each brain state from all others during classification.
+interval of length l. Each element xij of the activity matrix        Technically, in the OvA approach, multiclass classification is
+X corresponds to the activity level of the i-th brain region at      performed by training s independent binary classifiers, one
+time point j.                                                        for each brain state class c = {1, ..., s}. Each such classifier is
+   Data preprocessing. We apply standardization to the data,         trained to distinguish one brain state class c from all others by
+transforming the values such that their distribution has a mean      computing a corresponding weight vector w     ⃗ c = (w1 , . . . , wr ).
+of 0 and a standard deviation of 1. We represented each activity     This vector represents the contribution of each feature —
+matrix X by the averaged activity values across brain regions.       corresponding to the mean activity of a specific brain region
+For each brain region i = {1, ..., r} we calculate the mean          — to the identification of brain state c. This directly enables
+value xi of the time series ⃗xi . Thus, for each activity matrix     us to analyse the contribution of individual brain regions to
+X , we obtain a vector of mean activity values across all brain      the discrimination of each specific state from all others, which
+regions, which will be used in further analysis:                     is a key requirement for neurobiological interpretation.
+                                                                        The classification results for each brain state class are
+                      ⃗xmean = (x1 , ..., xr ).                      summarised in Table III. For each brain state class, we report
+                          TABLE II
+          ACCURACY OF LINEAR CLASSIFICATION MODELS
+
+                         Model                Accuracy
+              Passive-Aggressive Classifier     0.84
+             SGD Classifier with Log Loss       0.85
+                       Perceptron               0.85
+                   Linear SVM (OvR)             0.85
+                Linear SVM (LibLinear)          0.88
+                 L1-Logistic Regression         0.89
+                 L2-Logistic Regression         0.89
+             One-vs-All Linear Regression       0.90
+            Multinomial Logistic Regression     0.90
+               RBF Kernel SVM (OvR)             0.90
+                     Ridge Classifier           0.90
+             Linear Discriminant Analysis       0.92
+
+
+                                                                           Fig. 1. Accuracy plot depending on the number of features.
+                             TABLE III
+                C LASSIFICATION REPORT WITH OVA
+
+               Brain state        Accuracy    Samples                  To analyse the dependence of model accuracy on the number
+                  Neutral           0.88        120                 of used features, we applied the following approach: we
+                    Fear            0.87        124                 iteratively removed features, starting from the least significant
+                    Loss            0.78        108
+                    Win             0.85        117                 ones. At each iteration, we retrained the model on the reduced
+                    Math            0.97        120                 feature set, re-ranked the remaining features by their updated
+                    Story           0.96        104                 absolute weights, and evaluated per-class performance using
+             Random motion          0.97        125
+             Mental interaction     0.95         99                 the True Positive Rate (TPR or Recall). We chose TPR
+                   0-back           0.83        127                 because it directly measures how feature reduction impacts
+                   2-back           0.78         98                 the model’s ability to detect all instances of each class. As
+              Left hand/foot        0.92        129
+              Right hand/foot       0.99        116                 TPR quantifies the proportion of target examples correctly
+                 Similarity         0.79        124                 identified, it is critical for our task where missing true positives
+                  Relation          0.88        116                 is unacceptable. The TPR values (averaged across classes)
+                                                                    were recorded and visualized on the Fig. 1, with the X-axis
+                                                                    showing the number of remaining features and the Y -axis
+both the class-specific accuracy and the actual number of           showing the corresponding accuracy.
+test samples. The total test set size is 1627 measurements.            This graph clearly demonstrates that feature selection can be
+The model’s Accuracy of 0.9 (from Table II) indicates it            performed without significant loss of accuracy up to a certain
+correctly predicted 90%, meaning approximately 1464 correct         limit. However, as the number of features is further reduced,
+predictions.                                                        the model begins to lose its ability to classify adequately,
+   We highlight the high precision of the states — left hand or     highlighting the importance of selecting the right number of
+foot, and right hand or foot, math, story, mental interaction,      features to maintain a balance between model simplicity and
+random motion — which correspond to experiments in Motor            its quality.
+Task for mapping brain motor regions, Language Processing
+for studying brain areas involved in language comprehension         B. Significant brain regions selection
+and arithmetic processing, and Social Cognition for identi-
+fying neural mechanisms of social interaction and intention            We begin with the complete set of significant brain re-
+recognition.                                                        gions and iteratively remove features in descending order of
+                                                                    importance, as determined by absolute weight values. After
+    IV. S IGNIFICANT BRAIN REGIONS IDENTIFICATION                   each removal step, we: (1) evaluate the model’s true positive
+   To identify the most significant brain regions that contribute   rate (TPR), and (2) re-rank the remaining features based
+the most to the classification of different brain states, we        on their updated weights in the refined model. If the TPR
+employ the following approach.                                      drops by more than a specified threshold ( we tested for
+                                                                    5% and 10%) relative to the maximum value observed prior
+A. Analysis of model accuracy dependency on the number of           to feature elimination, the last removed feature is restored
+used brain regions                                                  and the procedure terminates. This criterion ensures that
+   For each brain state class c = {1, ..., s}, we rank the          feature elimination continues only while the TPR remains
+features – averaged brain regions signals ⃗xmean , according        within acceptable limits. This method allows us to retain key
+to the absolute values of their corresponding weights in            brain regions that significantly impact the model’s TPR while
+⃗ c = (w1 , . . . , wr ). This procedure established a distinct
+w                                                                   eliminating less significant features, minimizing the loss in
+feature importance ranking for each brain state class.              classification quality.
+        Fig. 2. The graphs of cardinality of the top features sets.
+
+
+
+  As a result, for each brain state class c ∈ {1, ..., s}, we
+obtain an informative set of significant brain regions:
+Mc = {i | i is the index of significant brain region for class c},               Fig. 3. The Jaccard coefficient matrix J heatmap.
+
+which will be further analyzed.
+    Fig. 2 presents the distribution of significant brain regions     The Jaccard coefficient matrix J is a symmetric matrix of size
+set sizes across different classes at accuracy reduction thresh-      s × s. This matrix allows us to assess the degree of overlap
+olds of 5% and 10%. The results demonstrate substantial inter-        between significant brain regions across different brain state
+class variability in the number of brain regions required for         classes.
+effective classification.                                                Furthermore, Fig. 3 shows that the sets of significant
+    Classes exhibiting high classification accuracy consistently      brain regions Mi , corresponding to brain states with high
+show compact sets of significant brain regions at both thresh-        classification accuracy, hardly overlap. This indicates that for
+olds, indicating that these brain states are characterized by         each brain state, the model has identified a unique set of
+specific, localized neural activity patterns that facilitate robust   regions whose mean activity is most significantly associated
+discrimination. Conversely, states with lower classification          with that state. However, there are also sets whose elements are
+accuracy require substantially larger feature brain regions for       similar in composition. This occurs when these sets approach
+characterization. This pattern holds true at both examined            the comprehensive coverage of the HCP MMP atlas (r =
+thresholds, suggesting that these brain states lack clearly iden-     379 regions), resulting in reduced specificity of significant
+tifiable focal signatures. Instead, their neural representations      region identification. Under these conditions, the distinctive
+appear to involve distributed activity across multiple cortical       contributions of individual regions become less discernible,
+areas, necessitating integration of information from broader          complicating the interpretation of their functional roles in brain
+neural networks for accurate classification.                          state classification.
+                                                                         The proposed approach not only allows us to identify the
+C. Uniqueness of significant brain regions sets                       most significant brain regions for each condition but also
+   Our analysis will utilize feature sets generated at a 5%           reveals the relationship between the number of significant
+accuracy drop threshold. To quantify the similarity between           brain regions and classification accuracy. For states with high
+the sets of significant brain regions corresponding to different      classification accuracy, distinct activation patterns emerge in
+brain state classes, we compute the Jaccard coefficient for each      specific brain regions, clearly delineating the neural signatures
+pair of classes i and j. The Jaccard coefficient is computed as       associated with each condition. This highlights the importance
+the ratio of the intersection of sets to the union of sets:           of analysing the spatial structure of brain activation to un-
+                       |Mi ∩ Mj |                                     derstand the neurobiological mechanisms underlying different
+      J(Mi , Mj ) =                , i, j ∈ {1, 2, . . . , s}.        states.
+                       |Mi ∪ Mj |
+The Jaccard coefficient ranges between [0, 1], where 1 in-            D. Analysis of the importance of temporal dynamics of sig-
+dicates that the sets are identical, 0 indicates that the sets        nificant brain regions
+have no common elements. By pairwise comparing the sets
+of significant brain regions, we construct a Jaccard coefficient         For the classes with high classification accuracy — math,
+matrix:                                                               story, random motion, mental interaction, left hand or foot,
+                                                                      and right hand or foot — our sequential analysis focuses on
+          J = {J(Mi , Mj )},           i, j ∈ {1, 2, . . . , s}.      these six brain conditions. We focus on such classes because
+                                                                                   2. We construct the correlation matrix corr(xi , xj ), where
+                                                                               i, j ∈ Mc are the indices of the selected significant brain
+                                                                               regions of the extracted time series, where each element
+                                                                               represents the Pearson correlation coefficient between two time
+                                                                               series.
+                                                                                   Constructing correlation matrices of time series allows us to
+                                                                               study the relationship between the activities of different brain
+                                                                               regions that have been identified as significant for each state c.
+                                                                               Pearson correlation coefficients show how closely the activity
+                                                                               of one region changes relative to another within a single
+                                                                               observation. High correlation values may indicate synchronous
+ Fig. 4. Distributions of time series correlation of top and least features.   activation of regions, which could suggest their functional
+                                                                               relationship in the context of the given brain state.
+                                                                                   For each pair (i, j) of significant brain regions indices i, j ∈
+the small number of significant brain regions indicates the                    Mc we construct
+presence of clearly defined and localized patterns of brain                                              Pc (corr(xi , xj ))
+activation that play a key role in the formation of these states.
+   One of the main tasks of our analysis is to verify the                      – the distributions of the Pearson correlation coefficients
+significance of the temporal structure in identifying functional               between time series of significant brain regions i, j ∈ Mc
+connections between brain regions. We work with fMRI data,                     for all activity matrices of class c.
+where each significant region is represented by a time series.                    Analysing the distributions allows us to assess the stability
+By studying the correlations between these time series, we aim                 and nature of interactions between pairs of brain regions within
+to determine whether temporal dynamics significantly con-                      a single state. For example, if the distribution of correlation
+tribute to the formation of functional connections or whether                  coefficients between two regions shows a consistently high
+these connections can be identified based on averaged or static                value, this may indicate their systematic co-activation. In
+characteristics of activity.                                                   contrast, a wide or sparse distribution may suggest variability
+   We analyze the correlations between the time series of                      in the connection between these regions.
+highly informative brain regions, selected based on their
+contribution to the classification model. We compute the                       F. Constructing distributions of correlations of shuffled time
+distribution of pairwise correlations among these regions to                   series of significant brain regions
+assess the degree of their synchronized dynamics. Similarly,                      In the original data, the time series of significant brain
+we select low-weight regions — in the same number as the                       regions {xi1 , xi2 , . . . , xit } reflect the dynamic activity of
+top features — and construct the correlation distribution of                   specific brain regions, and their temporal dependencies play
+their time series. Fig. 4 shows both distributions: the first                  an important role in the formation of functional patterns and
+corresponds to the most informative features, while the second                 interactions between regions. To what extent is the temporal
+shows the least informative ones.                                              structure significant in identifying functional connections be-
+   To quantitatively assess the difference between these dis-                  tween brain regions? To answer this question, we perform the
+tributions, we treat them as representing two distinct classes:                following steps.
+class 0 for the top features and class 1 for the low-weight                       In each extracted subset of time series {xi1 , xi2 , . . . , xit },
+features. We then construct an ROC curve by comparing TPR                      we shuffle all time series to create a control dataset where
+and FPR across varying thresholds. The resulting AUC = 0.7                     the temporal structure of brain region activity is completely
+confirms that the correlation distribution of top features offers              disrupted, and the original dependencies within the time series
+stronger class separation.                                                     are eliminated. Critically, this shuffling preserves all statistical
+   To analyze in more depth the importance of temporal                         properties of the individual time series—such as mean, vari-
+structure in functional connections between significant brain                  ance, and higher-order moments—while only destroying the
+regions, we perform the following steps, as described in                       temporal dynamics and dependencies between time points.
+sections IV-E, IV-F, IV-G.
+                                                                                  To denote the shuffled values of the time series we introduce
+E. Constructing Distributions of Correlations of Time Series                   the following notation:
+of significant brain regions
+                                                                                                 xshuffled
+                                                                                                  i        = (xπ(1) , . . . , xπ(l) ),
+   For each activity matrix X corresponding to brain state class
+c, we perform the following steps.                                             where π : {1, 2, . . . , l} → {1, 2, . . . , l} is a random permuta-
+   1. We extract the time series {xi1 , xi2 , . . . , xit } for signif-        tion of the time point indices.
+icant brain regions, where the region indices belong to the                       In the shuffled series there is no temporal structure, which
+set                                                                            eliminates the influence of dynamic coordination between
+                     Mc = {i1 , i2 , . . . , it }.                             brain regions.
+  Similarly to the previous section, we construct                     confirming the hypothesis that the temporal dynamics of brain
+                                                                      activity are a key factor in forming functional interactions
+                 P shuffled (corr(xshuffled
+                                   i        , xshuffled
+                                               j        ))
+                                                                      between brain regions.
+— the distribution of the Pearson correlation coefficients
+                                                                                             V. C ONCLUSION
+between the shuffled time series of significant brain regions
+i, j ∈ Mc for all activity matrices of class c.                          We analyzed fMRI data reflecting brain activity during
+                                                                      various cognitive tasks. By averaging the activation values
+G. Analysis of the significance of temporal structure                 for each brain region, we applied machine learning methods
+   We compare the distributions of original and shuffled time         to demonstrate that each cognitive state is characterized by a
+series to determine which properties of temporal activity are         unique pattern of brain activity.
+truly critical for the formation of functional patterns asso-            Our work highlights the relevance and applicability of
+ciated with brain states. To analyse the differences between          classical machine learning algorithms for fMRI data analy-
+distributions and assess the influence of temporal structure on       sis, especially in scenarios with limited data and a strong
+correlation coefficients, we perform the following analysis for       need for interpretability. All classical classification methods
+each significant brain regions pair (i, j) where i, j ∈ Mc .          demonstrated high performance, particularly for states related
+We conduct a Kolmogorov-Smirnov (KS) test to compare: the             to motor functions and speech processing. For some categories,
+distribution of Pearson correlation coefficients from original        accuracy reached nearly 100%, indicating highly distinctive
+time series of significant brain regions, versus the distribution     and expressive brain activity patterns associated with these
+from shuffled time series. Formally, the KS test examines the         states.
+hypothesis that the two distributions originate from the same            A key part of the study was identifying brain regions
+underlying population.                                                whose activity was most closely associated with specific
+   The KS test statistic is defined as:                               tasks. For each cognitive state, we determined a unique set
+                                                                      of features representing brain areas significantly involved in
+               Di,j = sup F (r) − F shuffled (r) ,
+                           r                                          the corresponding type of cognitive activity. An analysis of
+where                                                                 model accuracy depending on the number of features used
+                  F (r) = P (corr(xi , xj ) ≤ r)                      showed that high classification accuracy often required only a
+                                                                      relatively small number of significant features. This suggests
+is the correlation distribution function of the original time         the presence of specific brain regions that are crucial for
+series,                                                               forming these states, enabling accurate classification.
+                                                                         Further analysis using the Jaccard coefficient confirmed that
+         F shuffled (r) = P corr(xshuffled , xshuffled
+                                                           
+                                  i           j        )≤r
+                                                                      feature sets for highly classifiable states were unique, empha-
+is the correlation distribution function of the shuffled time         sizing their specificity and functional uniqueness. These results
+series.                                                               support the hypothesis that each brain state is characterized
+   Based on the value of the test statistic Di,j and the corre-       by its own distinctive pattern of activity shaped by specialized
+sponding p-value, we can assess the significance of the differ-       neural network processes.
+ences between the distributions. We set the significance level           Moreover, the set of most significant features aligns with
+at α = 0.03. If the p-value is less than α, the null hypothesis of    existing neuroscientific research on brain functions, confirming
+equal distributions is rejected, indicating significant differences   that our findings correspond to regions associated with each
+in the correlation structure between the original and shuffled        state in the literature. This demonstrates that our machine
+time series for a given pair of features i and j in class c.          learning-based approach effectively identifies neural corre-
+   Thus, for each pair of features i and j within class c, we         lates of cognitive states, confirming the robustness of our
+obtain the KS statistic Di,j and the corresponding p-value,           methodology. Therefore, our study not only reinforces existing
+allowing us to evaluate the significance of differences in the        knowledge through data-driven analysis but also provides a
+correlation structure.                                                solid foundation for further exploration of complex brain
+   The KS test results demonstrate that for nearly all feature        activation patterns.
+pairs (i, j) in each class, the p-values were significantly              For the states with high classification accuracy, we demon-
+below the chosen significance threshold of α = 0.03. Upon             strated the importance of temporal dynamics in brain activity
+evaluating all significant regions associated with high-accuracy      for establishing functional connectivity. We showed that brain
+classes, none of the feature pairs showed p-values above              regions with a high contribution to classification exhibited
+the predefined significance level α. This confirms that the           stronger temporal correlations than those with minimal con-
+distributions of correlation coefficients from original time          tribution. To further analyze the role of temporal structure
+series are statistically distinct from those derived from shuffled    in these correlations, we disrupted the temporal dynamics of
+time series. This suggests that the temporal structure of the         the time series and computed correlation distributions for the
+data plays a crucial role in shaping the functional connections       shuffled data.
+between brain regions. Disrupting the temporal structure by              A Kolmogorov–Smirnov test confirmed significant differ-
+shuffling the data leads to substantial changes in correlation,       ences between the correlation coefficient distributions of the
+original and shuffled time series, with p-values close to zero     arithmetic problems. The tasks alternated, and the block dura-
+for most feature pairs. This indicates that disrupting the         tions were adjusted to ensure equal completion times, allowing
+temporal structure leads to substantial changes in correlation     comparison of brain activity during language processing and
+patterns, supporting the hypothesis that the temporal dynamics     numerical operations.
+of brain activity play a key role in shaping functional interac-      Social Cognition (Theory of Mind). Participants were
+tions between brain regions.                                       shown short video clips where geometric shapes (squares,
+   The obtained results can be utilized for further exploration    circles, triangles) either interacted with each other or moved
+of the neurobiological mechanisms underlying cognitive pro-        randomly. After each video, participants evaluated whether
+cesses. The proposed approach enables effective analysis of        the shapes had intentions and were interacting or whether
+both spatial and temporal dynamics of brain activity, identi-      their movements were random. This task allowed researchers
+fying significant regions and their interactions. This makes it    to study brain areas associated with understanding social
+a valuable tool for studying the neural basis of cognitive pro-    interactions and recognizing intentions.
+cesses and the functional organization of the brain, especially       Relational Processing. This task involved analyzing rela-
+in scenarios with limited data.                                    tionships between objects on the screen. In one condition,
+                                                                   participants determined which characteristic (shape or texture)
+             VI. S UPPLEMENTARY M ATERIAL                          differentiated object pairs and assessed whether this distinction
+                                                                   applied to another pair. In the control condition, they simply
+   Description of tasks completed in the fMRI scanner.             identified whether the lower object matched one of the upper
+   Working Memory. This task was designed to study short-          objects based on a given criterion. This task helped researchers
+term memory and information retention processes. Participants      study the brain’s ability to perform comparative analysis and
+were shown blocks of images depicting places, tools, faces,        identify relationships between objects.
+and body parts. Each run included blocks from four types of           Emotion Processing. Participants were shown faces dis-
+stimuli, with half of the blocks performed with a 2-back task      playing fear or anger, as well as neutral figures, and had to
+requiring memory retention, and the other half with a 0-back       choose one of two faces or figures that matched the presented
+task for comparison. The 2-back task required participants to      stimulus. Task blocks alternated with fixation blocks, allowing
+remember the sequence of images and determine whether the          researchers to assess brain activity during emotional stimulus
+current image matched the one shown two steps earlier. The         processing compared to neutral conditions.
+0-back task only required participants to identify whether the
+current image matched a given target. Task blocks alternated                                ACKNOWLEDGMENT
+with fixation blocks, where participants looked at a cross on         This research is supported in part through computational
+the screen, allowing researchers to track brain activity changes   resources of HPC facilities at HSE University.
+in the absence of cognitive load.
+   Gambling Task: This task simulated decision-making pro-                                      R EFERENCES
+cesses under uncertainty and risk. Participants played a card       [1] Wang J., Zuo X., He Y. (2010). Graph-based network analysis of resting-
+game in which they had to guess whether the number on                   state functional MRI. Front. Syst. Neurosci., 4.
+a hidden card was higher or lower than 5. Depending on              [2] Richiardi J., Eryilmaz H., Schwartz S., Vuilleumier P., Van De Ville D.
+                                                                        (2011). Decoding brain states from fMRI connectivity graphs. NeuroIm-
+their answer, they could win (green upward arrow with ”1”),             age, 56(2), 616-626.
+lose (red downward arrow with ”0.50”), or receive no reward         [3] Takerkart S., Auzias G., Thirion B., Ralaivola L. (2014). Graph-Based
+(neutral outcome). The task was divided into blocks dominated           Inter-Subject Pattern Analysis of fMRI Data. PLOS ONE, 9(8), e104586.
+                                                                    [4] Li X., Zhou Y., Dvornek N., et al. (2021). BrainGNN: Interpretable Brain
+by either winning or losing outcomes, enabling researchers to           Graph Neural Network for fMRI Analysis. Medical Image Analysis, 74,
+examine how the brain responds to reward anticipation and               102233.
+loss.                                                               [5] Saeidi M., Karwowski W., Farahani F.V., et al. (2022). Decoding Task-
+                                                                        Based fMRI Data with Graph Neural Networks, Considering Individual
+   Motor Task. This task was aimed at mapping motor areas               Differences. Brain Sciences, 12(8), 1094.
+of the brain. Participants were presented with visual cues          [6] Bessadok A., Mahjoub M.A., Rekik I. (2023). Graph Neural Networks in
+instructing them to perform movements such as tapping their             Network Neuroscience. IEEE Trans. Pattern Anal. Mach. Intell., 45(5),
+                                                                        5833-5848.
+fingers on the left or right hand, squeezing their toes, or         [7] C.-J. Lin, T. Keerthi et al. (2008). “Recent Advances of Large-Scale
+moving their tongue. Movement blocks lasted 12 seconds, and             Linear Classification”.
+each of the two runs contained 13 blocks, including tongue,         [8] A. Y. Ng & M. I. Jordan (2002). On Discriminative vs. Generative
+                                                                        Classifiers: A comparison of logistic regression and Naive Bayes.
+hand, and foot movements, as well as fixation blocks. These             Advances in Neural Information Processing Systems 14 (NIPS 2001).
+tasks help identify motor cortex areas activated in response to     [9] Elam, J.S., Glasser, M.F., Harms, M.P., Sotiropoulos, S.N., An-
+different types of movements.                                           dersson, J.L., Burgess, G.C., Curtiss, S.W., Oostenveld, R., Larson
+                                                                        Prior, L.J., Schoffelen, J.M., Hodge, M.R., Cler, E.A., Marcus, D.M.,
+   Language Processing. This task aimed to study language               Barch, D.M., Yacoub, E., Smith, S.M., Ugurbil, K., Van Essen,
+comprehension and arithmetic processing. In the story blocks,           D.C., . The human connectome project: A retrospective 244, 118543.
+participants listened to short narratives, such as adaptations          doi:10.1016/j.neuroimage.2021.118543.
+                                                                   [10] Barch D.M., Burgess G.C., Harms M.P., et al. (2013). Function in the
+of Aesop’s fables, and then answered questions about the                human connectome: Task-fMRI and individual differences in behavior.
+story content. In the math blocks, participants solved verbal           NeuroImage, 80, 169-189.
+[11] Barch, D.M., Burgess, G.C., Harms, M.P., Petersen, S.E., Schlaggar,            [35] Quirmbach F., Limanowski J. (2022). A crucial role of the frontal
+     B.L., Corbetta, M., Glasser, M.F., Curtiss, S., Dixit, S., Feldt, C., Nolan,        operculum in task-set dependent visuomotor performance monitoring.
+     D., Bryant, E., Hartley, T., Footer, O., Bjork, J.M., Poldrack, R., Smith,          eNeuro, 9(2), ENEURO.0524-21.2021.
+     S., Johansen-Berg, H., Snyder, A.Z., Van Essen, D.C., . Function in the
+     human connectome: Task-fMRI and individual differences in behavior
+     80, 169–189. doi:10.1016/j.neuroimage.2013.05.033.
+[12] Sundermann B., Pfleiderer B. (2012). Functional connectivity profile of
+     the human inferior frontal junction: involvement in a cognitive control
+     network. BMC Neuroscience, 13, 119.
+[13] Jääskeläinen I.P., Klucharev V., Panidi K., Shestakova A.N. (2020).
+     Neural Processing of Narratives: From Individual Processing to Viral
+     Propagation. Front. Hum. Neurosci., 14, 253.
+[14] Jääskeläinen I.P., Sams M, Glerean E, Ahveninen J. Movies and narra-
+     tives as naturalistic stimuli in neuroimaging. NeuroImage, 2021.
+[15] Ylinen A., Hannula-Sormunen M., McMullen J., et al. (2024). Atten-
+     uated processing of task-irrelevant speech and other auditory stimuli:
+     fMRI evidence from arithmetic tasks. European Journal of Neuro-
+     science, 60(12), 7124-7147.
+[16] Rosenberg-Lee M., Chang T.T., Young C.B., Wu S., Menon V. (2011).
+     Functional dissociations between four basic arithmetic operations in the
+     human posterior parietal cortex. Neuropsychologia, 49(9), 2592-2608.
+[17] Andres M., Pelgrims B., Michaux N., Olivier E., Pesenti M. (2011).
+     Role of distinct parietal areas in arithmetic: An fMRI-guided TMS study.
+     NeuroImage, 54(4), 3048-3056.
+[18] Salillas E., Piccione F., di Tomasso S., et al. (2021). Neurofunctional
+     Components of Simple Calculation: A Magnetoencephalography Study.
+     Cerebral Cortex, 31(2), 1149-1162.
+[19] Pitzalis S., Sereno M.I., Committeri G., et al. (2010). Human V6: The
+     Medial Motion Area. Cerebral Cortex, 20(2), 411-424.
+[20] Siman-Tov T., Gordon C.R., Avisdris N., et al. (2022). The rediscovered
+     motor-related area 55b emerges as a core hub of music perception.
+     Commun Biol, 5, 1104.
+[21] Rech F., Herbet G., Gaudeau Y., et al. (2019). A probabilistic map of
+     negative motor areas of the upper limb and face: a brain stimulation
+     study. Brain, 142(4), 952-965.
+[22] Bizley J.K., King A.J. (2008). Visual-auditory spatial processing in
+     auditory cortical neurons. Brain Research, 1242, 24-36.
+[23] Bourguignon M., Baart M., Kapnoula E.C., Molinaro N. (2020). Lip-
+     Reading Enables the Brain to Synthesize Auditory Features of Unknown
+     Silent Speech. Journal of Neuroscience, 40(5), 1053-1065.
+[24] Belyk M., Brown S., Lim J., Kotz S.A. (2017). Convergence of semantics
+     and emotional expression within the IFG pars orbitalis. NeuroImage,
+     156, 240-248.
+[25] Bisley J.W., Mirpour K., Arcizet F., Ong W.S. (2011). The role of the
+     lateral intraparietal area in orienting attention and visual search. Eur J
+     Neurosci., 33(11), 1982-90.
+[26] Willems R.M., Özyürek A., Hagoort P. (2007). When Language Meets
+     Action: The Neural Integration of Gesture and Speech. Cerebral Cortex,
+     17(10), 2322-2333.
+[27] Ardila A., Bernal B., Rosselli M. (2017). Should Broca’s area include
+     Brodmann area 47?. Psicothema, 29(1), 73-77.
+[28] Erickson L.C., Rauschecker J.P., Turkeltaub P.E. (2017). Meta-analytic
+     connectivity modeling of the human superior temporal sulcus. Brain
+     Struct Funct, 222(1), 267-285.
+[29] Ricci P.T., Zelkowicz B.J., Nebes R.D., Meltzer C.C., Mintun M.A.,
+     Becker J.T. (1999). Functional Neuroanatomy of Semantic Memory:
+     Recognition of Semantic Associations. NeuroImage, 9(1), 88-96.
+[30] Leech R., Smallwood J. (2019). The posterior cingulate cortex: Insights
+     from structure and function. In: Vogt B.A. (Ed.), Handbook of Clinical
+     Neurology, Elsevier, 166, 73-85.
+[31] Hardwick R.M., Rottschy C., Miall R.C., Eickhoff S.B. (2013). A
+     quantitative meta-analysis and review of motor learning in the human
+     brain. NeuroImage, 67, 283-297.
+[32] Kim S.G., Ashe J., Hendrich K., et al. (1993). Functional magnetic reso-
+     nance imaging of motor cortex: hemispheric asymmetry and handedness.
+     Science, 261(5121), 615-617.
+[33] Newton J.M., Sunderland A., Gowland P.A. (2005). fMRI signal de-
+     creases in ipsilateral primary motor cortex during unilateral hand move-
+     ments are related to duration and side of movement. NeuroImage, 24(4),
+     1080-1087.
+[34] Verstynen T., Diedrichsen J., Albert N., Aparicio P., Ivry R.B. (2005).
+     Ipsilateral motor cortex activity during unimanual hand movements
+     relates to task complexity. Journal of Neurophysiology, 93(3), 1209-
+     1222.
+

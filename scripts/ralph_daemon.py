@@ -414,7 +414,7 @@ AGENT_MAX_WORKERS = {
 _agent_executors = {}  # agent_name -> ThreadPoolExecutor
 _agent_futures = {}     # agent_name -> Future
 _agent_start_times = {}  # agent_name -> datetime of last launch
-FUTURE_TIMEOUT = 300  # 5 min max per agent run before force-cancel (was 30 min)
+FUTURE_TIMEOUT = 600  # 10 min max per agent run before force-cancel (accommodates PI_TIMEOUT * MAX_RETRIES)
 
 def _run_agent_async(agent_name: str, runner) -> bool:
     """Run an agent in a background thread. Returns immediately.

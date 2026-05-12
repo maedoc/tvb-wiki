@@ -1,0 +1,915 @@
+Functional Brain Networks Develop from a ‘‘Local to
+Distributed’’ Organization
+Damien A. Fair1.*, Alexander L. Cohen2., Jonathan D. Power2, Nico U. F. Dosenbach2, Jessica A. Church2,
+Francis M. Miezin2,3, Bradley L. Schlaggar2, Steven E. Petersen4*
+1 Behavioral Neuroscience Department, Oregon Health and Science University, Portland, Oregon, United States of America, 2 Department of Neurology, Washington
+University School of Medicine, St. Louis, Missouri, United States of America, 3 Department of Radiology, Washington University School of Medicine, St. Louis, Missouri,
+United States of America, 4 McDonnell Center for Higher Brain Functions, Washington University School of Medicine, St. Louis, Missouri, United States of America
+
+
+
+     Abstract
+     The mature human brain is organized into a collection of specialized functional networks that flexibly interact to support
+     various cognitive functions. Studies of development often attempt to identify the organizing principles that guide the
+     maturation of these functional networks. In this report, we combine resting state functional connectivity MRI (rs-fcMRI),
+     graph analysis, community detection, and spring-embedding visualization techniques to analyze four separate networks
+     defined in earlier studies. As we have previously reported, we find, across development, a trend toward ‘segregation’ (a
+     general decrease in correlation strength) between regions close in anatomical space and ‘integration’ (an increased
+     correlation strength) between selected regions distant in space. The generalization of these earlier trends across multiple
+     networks suggests that this is a general developmental principle for changes in functional connectivity that would extend
+     to large-scale graph theoretic analyses of large-scale brain networks. Communities in children are predominantly arranged
+     by anatomical proximity, while communities in adults predominantly reflect functional relationships, as defined from adult
+     fMRI studies. In sum, over development, the organization of multiple functional networks shifts from a local anatomical
+     emphasis in children to a more ‘‘distributed’’ architecture in young adults. We argue that this ‘‘local to distributed’’
+     developmental characterization has important implications for understanding the development of neural systems
+     underlying cognition. Further, graph metrics (e.g., clustering coefficients and average path lengths) are similar in child and
+     adult graphs, with both showing ‘‘small-world’’-like properties, while community detection by modularity optimization
+     reveals stable communities within the graphs that are clearly different between young children and young adults. These
+     observations suggest that early school age children and adults both have relatively efficient systems that may solve similar
+     information processing problems in divergent ways.
+
+  Citation: Fair DA, Cohen AL, Power JD, Dosenbach NUF, Church JA, et al. (2009) Functional Brain Networks Develop from a ‘‘Local to Distributed’’
+  Organization. PLoS Comput Biol 5(5): e1000381. doi:10.1371/journal.pcbi.1000381
+  Editor: Olaf Sporns, Indiana University, United States of America
+  Received January 30, 2009; Accepted April 1, 2009; Published May 1, 2009
+  Copyright: ß 2009 Fair et al. This is an open-access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted
+  use, distribution, and reproduction in any medium, provided the original author and source are credited.
+  Funding: This work was supported by National Institutes of Health grants NS053425 (BLS), NS41255 and NS46424 (SEP), and NS062489 (ALC), National Science
+  Foundation IGERT grant 0548890 (ALC), the John Merck Scholars Fund, the Burroughs-Wellcome Fund, the Dana Foundation, and the Ogle Family Fund (BLS), and
+  the Washington University Chancellor’s Graduate Fellowship and UNCF/Merck Graduate and Postgraduate Science Research Fellowship (DAF). The funders had no
+  role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.
+  Competing Interests: The authors have declared that no competing interests exist.
+  * E-mail: damien.fair@aya.yale.edu (DAF); sep@npg.wustl.edu (SEP)
+  . These authors contributed equally to this work.
+
+
+
+Introduction                                                                             In addition to fMRI activation studies, the relatively new and
+                                                                                      increasingly utilized method of resting state functional connectivity
+   The mature human brain is both structurally and functionally                       MRI (rs-fcMRI) allows for a complementary examination of the
+specialized, such that discrete areas of the cerebral cortex perform                  functional relationships between regions across development.
+distinct types of information processing. These areas are organized                   Resting state fcMRI is based on the discovery that spontaneous
+into functional networks that flexibly interact to support various                    low-frequency (,,0.1 Hz) blood oxygen level dependent (BOLD)
+cognitive functions. Studies of development often attempt to                          signal fluctuations in sometimes distant, but functionally-related
+identify the organizing principles that guide the maturation of                       grey matter regions, show strong correlations at rest [11]. These
+these functional networks. [1–6].                                                     low frequency BOLD fluctuations appear to relate to spontaneous
+   A major portion of the work investigating the nature of                            neural activity [11–13]. In effect, rs-fcMRI evaluates regional
+functional human brain development is based on results from                           interactions that occur when a subject is not performing an explicit
+functional magnetic resonance imaging (fMRI) studies. By examin-                      task (i.e., subjects are ‘‘at rest’’) [11,12,14–23]. To date, rs-fcMRI
+ing the differences in the fMRI activation profile of a particular brain              has been used in several domains to examine systems-level
+region between children, adolescents, and adults, the developmental                   organization of motor [11], memory [24,25], attention [26], and
+trajectory of that region’s involvement in a cognitive task can be                    task control systems [21,22,27].
+outlined [3,5,7–10]. These experiments have been crucial to our                          In addition, because rs-fcMRI does not require active
+current understanding of typical and atypical brain development.                      engagement in a behavioral task, it unburdens experimental
+
+
+        PLoS Computational Biology | www.ploscompbiol.org                         1                                May 2009 | Volume 5 | Issue 5 | e1000381
+                                                                                                    Brain Develops from Being ‘‘Local to Distributed’’
+
+
+
+  Author Summary                                                               Spontaneous correlated activity within brain networks
+                                                                               develops over age
+  The first two decades of life represent a period of                             In two prior developmental studies, we used rs-fcMRI to
+  extraordinary developmental change in sensory, motor,                        examine the development of the task control and cerebellar
+  and cognitive abilities. One of the ultimate goals of                        functional networks [22] and, separately, the default mode network
+  developmental cognitive neuroscience is to link the
+                                                                               [32]. The first study, addressing functional connectivity changes
+  complex behavioral milestones that occur throughout this
+  time period with the equally intricate functional and                        within and between the two task control networks and the cerebellar
+  structural changes of the underlying neural substrate.                       network [22], showed that the structure of these networks differed
+  Achieving this goal would not only give us a deeper                          between children and adults in several ways (see [22]). In general,
+  understanding of normal development but also a richer                        many of the specific changes showed trends of decreases in short-
+  insight into the nature of developmental disorders. In this                  range functional connections (i.e., correlations between regions close
+  report, we use computational analyses, in combination                        in space) and increases in long-range functional connections (i.e.,
+  with a recently developed MRI technique that measures                        correlations between regions more distant in space). We suggested
+  spontaneous brain activity, to help us to understand the                     that these global developmental processes support the maturation of
+  principles that guide the maturation of the human brain.                     a dual-control system and its functional connections with the
+  We find that brain regions in children communicate with                      cerebellar network [22]. These results have now been replicated in a
+  other regions more locally but that over age communica-                      developmental resting connectivity study targeting sub-regions of the
+  tion becomes more distributed. Interestingly, the efficiency                 anterior cingulate [34].
+  of communication in children (measured as a ‘small world’                       The development of the default mode network was indepen-
+  network) is comparable to that of the adult. We argue that                   dently examined in a separate analysis [32]. In children, the
+  these findings have important implications for under-
+                                                                               default mode network was only sparsely functionally connected.
+  standing both the maturation and the function of neural
+                                                                               Many regions were relatively isolated with few or no functional
+  systems in typical and atypical development.
+                                                                               connections to other default mode regions. Over age, correlations
+                                                                               within the default mode network increased and by adulthood it
+design, subject compliance, and training demands. Thus, rs-fcMRI               had matured into a fully integrated system. Interestingly, as
+is becoming a frequently used tool for examining changes in                    opposed to the task-control and cerebellar networks, very few
+network structure in disease [28–31], in aging [24,29], and across             short-range functional connections involving the default mode
+development [22,32–35].                                                        network regions existed in children. Hence the numerous strong
+                                                                               short-range functional connections that decreased with age when
+                                                                               investigating the dual control networks were not seen within the
+Resting-state fcMRI identifies separable brain networks in
+                                                                               default network. In fact, some connections such as the functional
+adults                                                                         connection between the ventromedial prefrontal cortex (vmPFC;
+   In previous work regarding task-level control in adults, we                 23, 39, 22) and anterior medial prefrontal cortex (amPFC; 1, 54,
+applied rs-fcMRI to a set of regions derived from an fMRI meta-                21) regions, which are fairly close in space (i.e., short-range at
+analysis that included studies of control-demanding tasks. This                ,2.7 cm), had a substantial increase in correlation strength over
+analysis revealed that brain regions exhibiting different combinations         development [32].
+of control signals across many tasks are grouped into distinct ‘‘fronto-          The observation that different analyses suggested different
+parietal’’ and ‘‘cingulo-opercular’’ functional networks [21,36] (see          developmental features suggests a need for a more nuanced and
+Table 1 and Figure 1). Based on functional activation profiles of
+                                                                               integrated characterization of the development of functional
+these regions characterized in the previous fMRI study, the fronto-
+                                                                               networks. The goal of this manuscript is to employ several
+parietal network appears to act on a shorter timescale, initiating and
+                                                                               different network analysis tools to provide such a characterization.
+adjusting top-down control. In contrast, the cingulo-opercular
+                                                                               Visualization techniques such as spring embedding, and quanti-
+network operates on a longer timescale providing ‘‘set-initiation’’
+                                                                               tative measures, including ‘small world’ metrics and community
+and stable ‘‘set-maintenance’’ for the duration of task blocks [37].
+                                                                               detection algorithms, will be applied to these networks in an
+   Along with these two task control networks [21,36], a set of
+                                                                               attempt to identify principles for the changes observed across
+cerebellar regions showing error-related activity across tasks [36]
+                                                                               development.
+formed a separate cerebellar network (Figure 1). In adults, the
+                                                                                  Because of the overlapping and sometimes inconsistent use of
+cerebellar network is functionally connected with both the fronto-
+                                                                               terminology between neuroscience and the computational scienc-
+parietal and cingulo-opercular networks [21,22]. These functional
+                                                                               es, we will briefly define two terms for the purposes of this paper.
+connections may represent the pathways involved in task level
+                                                                               The term ‘‘networks’’ will be used in the typical cognitive
+control that provide feedback information to both control
+                                                                               neuroscience formulation: a group of functionally related brain
+networks [22,36].
+                                                                               regions (as described above). The overall collection of regions
+   Another functional network, and one of the most prominent sets
+                                                                               (encompassing all four ‘‘networks’’) will be referred to as the
+of regions to be examined with rs-fcMRI, is the ‘‘default mode
+                                                                               ‘‘graph.’’
+network’’. The default mode network (frequently described as
+being composed of the bilateral posterior cingulate/precuneus,
+inferior parietal cortex, and ventromedial prefrontal cortex) was              Results
+first characterized by a consistent decrease in activity during goal-
+                                                                               Spring-embedded visualization in combination with
+directed tasks compared to baseline [38,39]. Resting-state fcMRI
+analyses have repeatedly shown that these regions, along with                  functional connectivity suggests that regions are linked
+associated medial temporal regions, are correlated at rest in adults           more locally in childhood and are more distributed in
+[15,16,32,40]. While the distinct function of the default mode                 adulthood
+network is often linked to internally directed mental activity [39],              Graph theory analyses were applied to 210 subjects, aged 7–31,
+this notion continues to be debated [25,32,41–44].                             to investigate the emergence of temporal correlations in sponta-
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                   2                            May 2009 | Volume 5 | Issue 5 | e1000381
+                                                                                                     Brain Develops from Being ‘‘Local to Distributed’’
+
+
+
+ Table 1. Regions, coordinates, and properties.
+
+
+ Regions of Interest (ROI)                                  ROI Abbreviations     Coordinates                    Functional Network     Network Color
+                                                                                  x         y         z
+
+ dorsolateral prefrontal cortex                             dlPFC                 243       22        34         Fronto_Parietal        Yellow
+ dorsolateral prefrontal cortex                             dlPFC                 43        22        34         Fronto_Parietal        Yellow
+ Frontal                                                    frontal               241       3         36         Fronto_Parietal        Yellow
+ Frontal                                                    frontal               41        3         36         Fronto_Parietal        Yellow
+ mid cingulate cortex                                       mCC                   0         229       30         Fronto_Parietal        Yellow
+ inferior parietal lobule                                   IPL                   251       251       36         Fronto_Parietal        Yellow
+ inferior parietal lobule                                   IPL                   51        247       42         Fronto_Parietal        Yellow
+ intraparietal sulcus                                       IPS                   231       259       42         Fronto_Parietal        Yellow
+ intraparietal sulcus                                       IPS                   30        261       39         Fronto_Parietal        Yellow
+ Precuneus                                                  Precun                29        272       37         Fronto_Parietal        Yellow
+ Precuneus                                                  Precun                10        269       39         Fronto_Parietal        Yellow
+ anterior Prefrontal Cortex                                 aPFC                  228       51        15         Cingulo_Opercular      Black
+ anterior Prefrontal Cortex                                 aPFC                  27        50        23         Cingulo_Opercular      Black
+ anterior insula/frontal operculum                          aI/fO                 235       14        5          Cingulo_Opercular      Black
+ anterior insula/frontal operculum                          aI/fO                 36        16        4          Cingulo_Opercular      Black
+ dorsal anterior cingulate/medial superior frontal cortex   dACC/msFC             21        10        46         Cingulo_Opercular      Black
+ superior frontal cortex                                    ant thal              212       215       7          Cingulo_Opercular      Black
+ anterior thalamus                                          ant thal              10        215       8          Cingulo_Opercular      Black
+ anterior thalamus                                          amPFC                 1         54        21         Default                Red
+ ventromedial prefrontal cortex                             vmPFC                 23        39        22         Default                Red
+ superior frontal cortex                                    sup frontal           214       38        52         Default                Red
+ superior frontal cortex                                    sup frontal           17        37        52         Default                Red
+ inferior temporal                                          inf templ             261       233       215        Default                Red
+ inferior temporal                                          inf templ             65        217       215        Default                Red
+ parahippocampal                                            parahippo             222       226       216        Default                Red
+ parahippocampal                                            parahippo             25        226       214        Default                Red
+ posterior cingulate cortex                                 pCC                   22        236       37         Default                Red
+ lateral parietal                                           latP                  247       267       36         Default                Red
+ lateral parietal                                           latP                  53        267       36         Default                Red
+ retro splenial                                             retro splen           3         251       8          Default                Red
+ lateral cerebellum                                         lat cereb             232       266       229        Cerebellar             Blue
+ lateral cerebellum                                         lat cereb             31        261       229        Cerebellar             Blue
+ inferior cerebellum                                        inf cereb             219       278       233        Cerebellar             Blue
+ inferior cerebellum                                        inf cereb             18        280       233        Cerebellar             Blue
+
+ doi:10.1371/journal.pcbi.1000381.t001
+
+
+neous BOLD activity between regions of the default mode,                        procedure, each functional connection between a pair of nodes is
+cerebellar, and two task-control networks. For this initial analysis,           treated as a spring with a spring constant related to the strength of
+average age-group matrices were created using a sliding boxcar                  the specific correlation. The entire system of pair-wise regional
+grouping of subjects in age-order (i.e., group1: subjects 1–60,                 functional connections is then iteratively allowed to relax to the
+group2: subjects 2–61, group3: subjects 3–62, etc.). This generated             lowest global energetic state, i.e., groups of nodes that are strongly
+a series of groups with average ages ranging from 8.48 years to                 interconnected will be placed close together even if anatomically
+25.58 years. Each of the groups’ average correlation matrices was               distant.
+converted into a graph, with correlations between regions greater                  By creating spring embedded graphs for each of the sliding
+than or equal to 0.1 considered as functionally connected.                      boxcar groups in age-order, a movie representation can be made
+   In a first analysis, we used a visualization algorithm commonly              that shows the development of the network relationships (from
+used in graph theoretic analyses known as spring embedding that                 average age 8.48 to 25.48 years) (Video S1). The panels in Figure 2
+aids in the qualitative interpretation of graphs (Figure 2 and Video            provide snapshots from child, adolescent, and adult average ages
+S1) [45]. In spring embedding, the positions of the nodes (i.e.,                in this movie. In both Figure 2 and Video S1, each node is color-
+regions) in a graph are based solely on the strength and pattern of             coded in two ways: the outer border represents the general
+functional connections instead of their anatomical locations. In this           anatomical location (i.e., cerebral lobe) of the node; the inner core
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                    3                              May 2009 | Volume 5 | Issue 5 | e1000381
+                                                                                                Brain Develops from Being ‘‘Local to Distributed’’
+
+
+
+
+Figure 1. Anatomical location of regions shown in Table 1. Regions are colored by network membership (red – default mode network; black –
+cingulo-opercular network; yellow – fronto-parietal network; blue – cerebellar network) and shown on an inflated cortical surface represention.
+doi:10.1371/journal.pcbi.1000381.g001
+
+color represents the coding by ‘‘function’’ as defined by a large           mode network. Over age, however, the functional connections
+number of fMRI studies.                                                     between default mode network regions mature and the network
+    One of the primary observations from the movie relates to this          integrates into a highly correlated system in adults (Figure 2B and
+anatomical-functional distinction. In children, regions appear to           Video S1) (also see [32]). We note that these results were not
+be largely arranged by anatomical proximity. This arrangement               specific to the 60-subject boxcar, and persist with smaller subject
+can be seen in Figure 2 and Video S1 where, in children, regions            boxcars as well (see Video S2).
+can be readily grouped by cerebral lobe (outline colors of spheres
+in Figure 2 and Video S1). Over age, as functional connections              Quantitative modularity analysis confirms the qualitative
+mature, the node arrangements change such that anatomically                 observations
+close regions are now largely distributed across the graph layout, in          The qualitative observations noted above can be quantified
+a pattern more aligned with the mature networks’ functional                 using community structure detection tools. Using such an
+properties (core colors of spheres in Figure 2) [21,36–39]. Thus,           approach is particularly important because of the bias inherent
+across development, local clusters of regions ‘‘segregate’’ from one        in relying on qualitative methods for deciding whether groups of
+another and ‘‘integrate’’ into more distributed adult functional            regions that appear to be clustered are indeed clustered, and
+relationships with more distant regions.                                    because of the a priori definitions of each network. As stated by
+    A group of regions in the frontal cortex provides a particularly        Newman:
+salient example of segregation. Frontal cortex contains regions
+that, in adults, are members of each of the task-control networks
+(e.g., dlPFC, frontal, dACC/msFC) and the default network (e.g.,               ‘‘A good division of a graph into communities is not merely
+vmPFC, amPFC). As can be seen in Figure 2A (and Video S1),                     one in which there are few edges between communities; it is
+extensive correlations exist between most of these frontal regions in          one in which there are fewer than expected edges between
+childhood (see blue cloud Figure 2A). Over the developmental                   communities. If the number of edges between two groups is
+window afforded by the current dataset, some of these strong                   only what one would expect on the basis of random chance,
+‘‘frontal-frontal’’ correlations begin to weaken. With increasing              then few thoughtful observers would claim this constitutes
+age, regions in the frontal cluster segregate into 3 separate                  evidence of meaningful community structure. On the other
+functional networks.                                                           hand, if the number of edges between groups is significantly
+    Accompanying this segregation is strong integration within the             less than we expect by chance, or equivalently if the number
+functional networks. The default mode network provides the                     within groups is significantly more, then it is reasonable to
+clearest example. As illustrated in Figure 2B (and in Video S1),               conclude that something interesting is going on [46].’’
+correlations between regions of the default mode network are weak
+(or absent) in children (red cloud, Figure 2B). Just as functional             Among the many methods used to detect communities in
+connections between the set of frontal regions are related to their         graphs, the modularity optimization algorithm of Newman is one
+anatomical proximity in children, the regions of the default mode           of the most efficient and accurate to date [46]. This method uses
+network are each functionally connected to anatomical neighbors,            modularity, a quantitative measure of the observed versus
+and not to other members of the anatomically dispersed default              expected intra-community connections, as a means to guide
+
+
+      PLoS Computational Biology | www.ploscompbiol.org                 4                           May 2009 | Volume 5 | Issue 5 | e1000381
+                                                                                                    Brain Develops from Being ‘‘Local to Distributed’’
+
+
+
+
+Figure 2. Over age the graph architecture matures from a ‘‘local’’ organization to a ‘‘distributed’’ organization. In this figure we show
+the dynamic development and interaction of positive correlations between the two task control networks, the default network, and cerebellar
+network using spring embedding. The figure highlights the segregation of local, anatomically clustered regions and the integration of functional
+networks over development. A and B represent individual screen shots (at average ages 8.48, 13.21, and 25.48 years) of dynamic movies (Video S1) of
+the transition in the network architecture from child to adult ages. Nodes are color coded by their adult network profile (core of the nodes) and also
+by their anatomical location (node outlines). Black – cingulo-opercular network; Yellow – fronto-parietal network; Red – default network; Blue –
+cerebellar network; Light blue – frontal cortex; Grey – parietal cortex; Green - temporal cortex, Pink – cerebellum, Light pink – thalamus. Connections
+with r$0.1 were considered connected. (A) In children regions are largely organized by their anatomical location, but over age anatomically clustered
+regions segregate. The cluster of frontal regions (highlighted in light blue) best demonstrates this segregation. (B) In children the more distributed
+adult functional networks are in many ways disconnected. Over development the functional networks integrate. The isolated regions of the default
+mode network in childhood (highlighted in light red) that coalesce into a highly correlated network best illustrate this integration. Over age node
+organization shifts from the ‘‘local’’ arrangement in children to the ‘‘distributed’’ organization commonly observed in adults.
+doi:10.1371/journal.pcbi.1000381.g002
+
+
+assignments of nodes into communities. We applied the modular-                Over development, functional connections seem to
+ity optimization algorithm to the group connectivity matrices                 evolve progressively along a ‘‘local to distributed’’
+derived from the sliding boxcars described above.
+                                                                              organizational axis
+   Measures of modularity (Q) were high, and did not show large
+changes across the age range (Figure 3A and Figure S1 and                         As previously reported [22,34], the segregation of closely
+Figure S2). This result was not dependent on any particular                   apposed regions and the integration of distributed functional
+threshold (Figure S1). Although comparable community struc-                   networks is associated with a general decrease in correlation
+ture was detected at all ages examined, the components of the                 strength between regions close in space and an increase in
+communities varied by age. As per our qualitative approach                    correlation strength between many regions distant in space. This
+described above, in children, region clusters were largely                    trend is shown in Figure 5 and also Figure S4. Long-range
+arranged by cerebral lobe; while in adults, regions were largely              functional connections tend to be weak, but increase over time
+clustered by their adult functional properties (Figure 4A). Again,            (warm colors above the diagonal in Figure 5C and 5D and
+this result was not unique to any particular threshold (Figure 4B             Figure S4C and S4D), integrating distant regions into functional
+and 4C) or size of boxcar (Figure S3). We do note, however, that              networks. Short-range functional connections tend to be stronger
+limited data points (i.e., subjects) are available between the ages           (i.e., higher correlation strength) in children, yet those regions
+of 16 and 19 years (see Materials and Methods) and that our                   that do change predominantly become weaker over age (cool
+estimate of the specific transitions within this period should be             colors below the diagonal in Figure 5A and 5B and Figure S4A
+interpreted with care.                                                        and S4B).
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                  5                             May 2009 | Volume 5 | Issue 5 | e1000381
+                                                                                                  Brain Develops from Being ‘‘Local to Distributed’’
+
+
+
+
+Figure 3. Modularity and ‘small world’ topology remain constant over age. In this figure a modularity optimization algorithm is applied,
+and average clustering coefficients and average path lengths are calculated for each average matrix of the ‘sliding boxcar’ across age (see Materials
+and Methods). A threshold of r$0.1 was applied to the matrices before calculations were performed and denotes connected versus non-connected
+region pairs (see Materials and Methods). (A) From childhood through adulthood modularity (Q) remains high and constant. This result is not
+dependent on a specific threshold as shown in Figure S1. (Note: All age graphs to the right the asterisk show 100% graph connectedness, meaning
+there is a path between every node in the network. Graphs to the left of the asterisk are 78% graph connected, on average. For details see Materials
+and Methods and Figure S1). (B) Relative to equivalent lattice and random networks, average clustering coefficients remain high across age and do
+not appear to be different between children and adults. (C) Relative to equivalent lattice and random networks, average path lengths remain low
+across age and do not appear to be different between children and adults. High clustering coefficients and short path lengths suggest a ‘small world’
+organization that does not change across the age range studied here. 95% confidence intervals are also plotted for clustering coefficients and path
+lengths for the generated random graphs.
+doi:10.1371/journal.pcbi.1000381.g003
+
+
+  However, there are some interesting nuances to this trend that             average path length of a graph. The clustering coefficient
+deserve mention. For instance, not all short-range functional                measures how well connected the neighbors of a node are to
+connections decrease in strength over age (Figure 5A and 5B and              one another. The average path length measures the average
+Figure S4A and S4B). While few, some of the short-range functional           minimum number of steps needed to go between any two nodes.
+connections, typically those in the same network, increase in strength       Lattices, optimized for local processes, have high average
+over age (Figure 5A and Figure S4A). Similarly, although many long-          clustering coefficients but long average path lengths. Conversely,
+range functional connections increase in strength, many others do            random graphs, which have no preference for short-range
+not statistically change across development (Figure 5C and,5D and            connections, have low average clustering coefficients and short
+Figure S4C and S4D, grey connections).                                       average path lengths, making them well suited for communication
+                                                                             between distant nodes. One of Watts & Strogatz’s key insights was
+‘Small world’ network properties are present in both                         that by randomly rewiring a relatively small number of
+children and adults                                                          connections in a lattice graph (i.e., introducing a few long-range
+   In a seminal 1998 paper, Watts and Strogatz noted that the                connections), a graph could retain its high average clustering
+topology of many complex systems can be described as ‘‘small                 coefficient, but dramatically reduce its average path length,
+world’’, a type of graph architecture that efficiently permits both          thereby enabling efficient short- and long-range processes. It is
+local and distributed processing. Graphs with a regular, lattice-like        this hybrid graph topology (i.e., high clustering coefficients and
+structure have abundant short-range connections, but no long-                short path lengths) that matches the observed ‘‘small world’’
+range connections. Local interactions are thus efficient, but                networks in many complex systems [47].
+distributed processes involving distant nodes require the traversal             As previously reported [21,48,49], relative to comparable lattice
+of many intermediate connections. Conversely, completely                     and completely random graphs, the adult graph architecture
+randomly connected graphs are fairly efficient at transferring               showed high clustering coefficients and short path lengths,
+distant or long-range signals across a network, but they are poor at         consistent with the ‘small world’ architecture (Figure 3B and
+local, short-range information transfer.                                     3C). Interestingly for these networks, in children (i.e., as early as
+   Watts and Strogatz, and others, often describe ‘‘small world’’            age 8), these metrics were quite similar to adults (Figure 3B and
+properties with two metrics: the average clustering coefficient and          3C), and over age there was very little change in path lengths and
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                 6                             May 2009 | Volume 5 | Issue 5 | e1000381
+                                                                                                      Brain Develops from Being ‘‘Local to Distributed’’
+
+
+
+
+Figure 4. Despite high modularity in both children and adults, community assignments change over age. As in Figure 3, a modularity
+algorithm was applied to each matrix of the sliding boxcar across age (A) and with varying thresholds (B, C). Region legends are color coded by
+anatomy on the left and by adult functional network on the right (colors match Figure 2). (A) The left side of the box represents the community
+assignments for the youngest subjects (i.e., subjects 1–60), and the right side of the box represents the community assignments for the oldest
+subjects (i.e., subjects 151–210) - an age scale is presented at the top. As can be seen in the left of panel A, the modularity algorithm divided regions
+into communities arranged by anatomical proximity. Over age this organization transitions into modules arranged by adult functional properties. For
+this central panel a threshold of r$0.1 was used to denote connected versus non-connected region pairs. (B) Community assignments of the
+youngest boxcar (subjects 1–60), at thresholds ranging from 0 to 0.20. Regardless of threshold regions are largely organized by anatomical proximity
+in this youngest age group. (C) Community assignments of the oldest boxcar (subjects 151–210), at thresholds ranging from 0 to 0.20. Regardless of
+threshold regions are largely organized by adult function in this oldest group.
+doi:10.1371/journal.pcbi.1000381.g004
+
+clustering coefficients relative to comparable random and lattice               these results were not dependent on any particular threshold
+graphs. It was originally anticipated that path lengths would                   (Figure S5). We note that while the results shown here are largely
+decrease over age as long-range anatomical connections were                     descriptive, the error bars provided in Figure 3B and 3C
+added. Yet even at the youngest ages examined, path length was                  constructed from random graphs underscores the difference
+already quite short, near those of random graphs. Importantly,                  between random configurations and the observed trends.
+
+
+
+
+Figure 5. The ‘‘local to distributed’’ maturation is supported by a general decrease in functional connections between regions close
+in space, an increase in functional connection between regions distant in space, and the maintenance of several short and long-
+range connections that do not change with age. In this figure, functional connections are divided based on distance. Short-range functional
+connections are in (A,B), long-range functional connections (C,D) (y-axis, adult r-values; x-axis child r-values). Warm colors represent functional
+connections that are significantly greater in adults than children. Cool colors represent functional connections that are significantly greater in children
+than adults. Functional connections that do not significantly change with age are plotted in grey. As can be seen in (A,B), the majority of short-range
+functional connections that significantly change with age tend to decrease. The majority of long-range functional connections (C,D) that significantly
+change with age increase over time. However, many long and short-range functional connections do not significantly change over age (grey). In
+addition, while few, some long and short-range functional connections go against the general trend of short-range connections ‘‘growing down’’ and
+long-range functional connections ‘‘growing up.’’ See Figure S2 for an extended version of this figure, which includes a visualization of these
+functional connections on a semi-transparent brain.
+doi:10.1371/journal.pcbi.1000381.g005
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                    7                              May 2009 | Volume 5 | Issue 5 | e1000381
+                                                                                                 Brain Develops from Being ‘‘Local to Distributed’’
+
+
+
+Discussion                                                                  to a distributed solution? Under the current proposal, it is not clear
+                                                                            then why resting state functional connectivity would change so
+   The combination of graph theoretic analyses and rs-fcMRI                 dramatically over the reported age range. One could argue that
+allowed for the examination of the dynamic relationships                    the general experiential environment and processing demands
+between multiple networks over development. In the current                  systematically change to encourage increasing use of long-range,
+manuscript, we examined four networks - the cingulo-opercular,              distributed processing relationships. We believe, however, that at
+fronto-parietal, cerebellar, and default mode networks. As                  least part of the explanation lies in the interaction of these
+illustrated by qualitative observations in Figure 2 (and Video              ‘‘environmental demands’’ with maturational changes of the
+S1) and modularity analysis in Figure 4, locally organized groups           neural substrate.
+of regions ‘‘segregate’’ over development into multiple distrib-               By approximately 9 months of age the elaboration of most, if
+uted adult functional networks, while the functional networks               not all, short and long-range axonal connections between brain
+themselves ‘‘integrate.’’ These results support the hypothesis that         regions is thought to be complete [61]. However, synapse
+functional brain development proceeds from a ‘‘local’’ to                   formation, the tuning of synaptic weights, synaptic pruning, and
+‘‘distributed’’ organization. However, despite the ‘‘local to               myelination all have unique developmental timecourses that
+distributed’’ developmental trend, ‘small world’ organizational             extend further into development. For instance, from approxi-
+properties are present in both 7–9 year old child and adult graph           mately 30 weeks gestation through the first two postnatal years
+architecture.                                                               there is substantial growth in the number of synaptic contacts
+   In the following section, these results are discussed considering        throughout the cortex [62]. This growth is followed by a
+two postulates: (1) the temporal pattern of spontaneous activity            protracted period of synaptic pruning that reaches adult levels in
+measured by rs-fcMRI represents a history of repeated co-                   the late second decade of life [63–65]. Importantly, pruning is
+activation between regions, and (2) the brain attempts to use the           selective, not random. Pruning is also largely activity dependent,
+most efficient processing pathways available when faced with                and is considered critical in the differentiation of distinct functional
+specific processing demands.                                                areas [56,66,67].
+                                                                               Another commonly referenced postnatal event is myelination.
+rs-fcMRI may reflect an interaction between the maturing                    As with synaptic pruning, myelination continues to occur through
+neural substrate and the use of efficient pathways for                      young adulthood. Increased myelination is thought to proceed
+general task completion                                                     from primary sensory and motor regions to association areas [68–
+    As early as 1875 spontaneous synchronized neural activity has           71], roughly following the hierarchical organization introduced by
+been used to study various aspects of adult brain organization [50–         Felleman and Van Essen [72] (Note that while the most frequently
+53]. However, despite the passing of over 130 years since its initial       referenced neuroanatomical changes that occur throughout
+use, there remains uncertainty as to the role of intrinsic                  development have been highlighted here, there are several others
+spontaneous brain activity in brain function. In adults, spontane-          that deserve consideration [62,73–75]).
+ous correlated activity has been suggested to be important for                Changes in the neural substrate over development may
+gating information flow [54], building internal representations             lead to more efficient neural pathways for general task
+[43,44,54], and maintaining mature network relationships                    completion. Considering the continually changing nature of
+[43,44,54]. Much less work has been done in regards to                      the neural substrate over development, a context for changes in rs-
+development, but there are suggestions that spontaneous activity            fcMRI can be created. For instance, as previously mentioned,
+is important for the establishment of early cortical patterns (e.g.,        increased signal propagation through the addition of a myelin
+ocular dominance columns) [55–58] and may over time represent               sheath likely allows for more efficient communication between
+(in a Hebbian sense) a history of repeated co-activation between            distant regions [22,32,34,76]. Such facilitated communication may
+regions [21,22,27,32,34,59,60]. Within this framework, the                  promote interactions between brain regions that, previously, had
+changes in the correlation structure of spontaneous activity over           substantially less efficient communication, allowing for a more
+development seen in this report may provide insight regarding the           effective ‘‘solution’’ to any particular set of processing demands. In
+arrangement by which brain regions are communicating in                     addition, as new, more efficient, pathways become prominent,
+children compared to adults.                                                older inefficient connections likely decrease in use, leading to
+    If we consider the previously mentioned postulates, our results         experience/activity-dependent decreases of specific area-area
+suggest that, typically, the most efficient way for children to             connection strengths.
+respond to processing demands is to utilize more ‘‘local’’ level               In other words, as myelination continues through development
+interactions as compared to adulthood. That is, in childhood there          and allows for more effective long-distance neural pathways,
+is, relatively greater co-activation of anatomically proximal regions       repeated co-activation becomes more prevalent between many
+than for adults with similar processing demands. A clear example            distant regions, and less so between many locally aligned regions,
+of this is seen in Brown et al. [3], where identical task performance       thus changing synaptic efficiencies. The statistical histories of such
+on lexical processing tests strongly activates a large set of visual        interactions, stored as relative synaptic weights, are then revealed
+regions in children, but strong visual activation is much more              via rs-fcMRI, and would lead to the ‘‘local to distributed’’
+restricted in adults. These relationships may be reflected in               organization principle seen here.
+correlated spontaneous activity measured via rs-fcMRI. The                     It is important to note, however, that improved communication
+correlations in our youngest children would then represent the              between distant regions (via myelination) would not necessarily
+anatomical and spontaneous activity-defined initial regional                cause a wholesale decrease in connections that were originally
+relationships plus 7 years of experience-dependent Hebbian                  organized locally. Many of these local connections likely continue
+processes tuning these developing connections.                              to contribute to the most efficient ‘‘solution’’ for any particular task
+  Changes in the neural substrate occur concurrently with                   and remain in use. In fact, the change in dynamics may actually
+changes in resting state functional connectivity. If the                    contribute to distinct local connections increasing with time. This
+correlations we find in children already represent 7 years of               possibility may underlie the increases in strength of specific short-
+experience-driven tuning, why should additional experience lead             range connections seen in Figure 5 and Figure S2.
+
+
+      PLoS Computational Biology | www.ploscompbiol.org                 8                            May 2009 | Volume 5 | Issue 5 | e1000381
+                                                                                                  Brain Develops from Being ‘‘Local to Distributed’’
+
+
+   Along the same lines, as Fuster [77] has pointed out, we note             already a significant number of long-range short cuts present.
+that myelination is not an indispensable property of utilized axons.         These long-range functional connections are likely responsible for
+Unmyelinated axonal connections are still quite capable of                   the relatively short path lengths in the child group. We anticipate
+transmitting information. For this reason, the first 7 years of              that if the developmental trajectory of short and long-range
+experience dependent statistical learning may indeed result in               functional connections were extended to younger ages, fewer long-
+increases in long distance functional connections well before                range ‘short-cut’ functional connections would be present, and
+mature myelination is in place, an idea consistent with the short            more short-range functional connections would exist. Hence, the
+average path lengths found in even the youngest networks we                  path lengths at these younger ages (,7 years old) would likely be
+examined (Figure 3). Thus, it is not surprising that some long-              longer. Nevertheless, by 8 years old, the networks already display
+distant functional connections are present in children and do not            ‘small world’ properties similar to those of adult networks,
+statistically change with age (Figure 5 and Figure S2).                      indicating that efficient graph structures are already in place for
+   We note that recent results in the aging literature suggest that          both local and distant processing, though they are organized
+many of the trajectories observed in the current manuscript                  differently than in later development.
+continue inversely with advancing age [24,78]. That is, with aging,             While we identified small world properties in both child and
+the functional organization, revealed via rs-fcMRI, becomes less             adult graphs, the size of the graph is relatively small with only 34
+distributed and more local. Thus the dynamic interactions we                 nodes. Therefore, it is possible that with an increased number of
+describe here likely continue as part of normal senescence [78].             nodes the specific results identified here will change, a possibility
+                                                                             that will be addressed in further studies.
+The results presented here are consistent with other
+views of functional brain development                                        Need for generalization to other regions and modalities
+   The ‘‘local to distributed’’ organizing principle resonates with             The regions used in the present analyses were all derived from
+recent suggestions that perceptual and cognitive development                 adult imaging studies. It seems likely that additional regions may
+involve the simultaneous segregation and integration of informa-             be included in one or more of these networks in childhood. In
+tion processing streams [1,22,76,79,80]. For instance, the                   addition, individual differences with regards to the regions and
+‘‘interactive specialization’’ hypothesis advanced by Johnson and            networks chosen likely exist. Future work that includes regions
+colleagues, is consistent with these findings [1,81–83]. Johnson             derived from studies using a child population and obtaining the
+points out that cortical regions and pathways have biased                    functional connections within subjects from individually defined
+information processing properties at birth due to anatomic                   functional areas may refine the networks and developmental
+connectivity, yet they are much less selective than in adults (i.e.,         timecourses presented here [84].
+they are ‘‘broadly tuned’’).                                                    Of note, resting-state functional connectivity has been reported
+   Interactive specialization predicts that shortly after birth, large       to be constrained by anatomical distance (i.e., correlations between
+sets of regions and pathways will be partially active during specific        regions decrease as a function of distance following an inverse square
+task conditions, However, as these pathways interact and compete             law) [85]. Thus, if a shift in this general bias occurred with
+with each other throughout development, selected regions will                development, then it is feasible that some of the changes seen here
+come online, be maintained, or become selectively activated or               could be related to such a shift. With this said, the specificity of the
+                                                                             connection changes observed over age, the number of connections
+‘‘tuned’’ as particular pathways dominate for specific task
+                                                                             that run opposite to the general trends, and the similarity of the
+demands. Thus, regional specialization relies on the evolving
+                                                                             distance relationship in connectivity between children and adults
+and continuous interactions with other brain regions over
+                                                                             when plotting all possible connections (see Figure S6), all suggest that
+development. If one extends this framework to the network level,
+                                                                             the majority of changes observed here are not related to changes in
+the increases, decreases, and maintenance of correlation strengths
+                                                                             this bias. In addition, while there are now reports suggesting that
+seen between regions may reflect ‘‘specialization’’ of specific neural
+                                                                             changes observed over development with blood oxygen level
+pathways to form the functional networks seen in adults.
+                                                                             dependent (BOLD) fMRI are not the product of changes in
+                                                                             hemodynamic response mechanisms over age [86,87], differences in
+Graph analysis suggests that small world properties are                      the hemodynamic response function between children and adults
+present in late childhood                                                    could conceivably affect our results [88].
+   The ‘‘local to distributed’’ developmental trajectory, discussed             A limitation of rs-fcMRI in general is the restricted frequency
+above, seems to be driven by an abundance of local, short range              distribution that can be examined. rs-fcMRI is used to measure
+connections that generally decrease in strength over age as well as          correlations in a very low frequency range, typically below 0.1 Hz.
+distant, long range connections that generally increase in strength          Dynamic changes in correlations in other frequency distributions
+over age. Given the more prevalent short-range connections in                could exist (for example see [89]). It is also possible that there are
+children, we expected a more lattice-like structure, with high               undetected developmental changes in power across frequency
+clustering coefficients and relatively high path lengths. The results,       bands orthogonal to the changes visualized here. The combination
+however, clearly indicated that path lengths were near those of              of other imaging and psychometric techniques with rs-fcMRI will
+equivalent random graphs, and that the child functional networks             likely help address these considerations. Characterizing additional
+are already organized as small world networks.                               networks and how these changes map onto behavior will also help
+   This result can be explained in the context of the re-wiring              further characterize functional brain development. Specifically,
+procedure discussed by Watts and Strogatz [47]. Randomly                     future work that demonstrates a direct relationship between
+rewiring a small percentage of local connections in a lattice has a          behavior and the developmental trajectory seen here with rs-
+mild linear effect on clustering coefficients, but a highly non-linear       fcMRI, is presently needed to confirm (or reject) many of the
+effect on path lengths. This is to say, that by rewiring a small             theories presented here and elsewhere. Importantly, consideration
+fraction of a lattice’s connections, substantial drops in path lengths       of these issues need not be limited to developmental studies, but
+can be seen, with almost no change in the clustering coefficient. In         should be considered whenever investigators compare groups with
+late childhood, as shown in Figure 5 and Figure S2, there are                rs-fcMRI.
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                 9                            May 2009 | Volume 5 | Issue 5 | e1000381
+                                                                                                     Brain Develops from Being ‘‘Local to Distributed’’
+
+
+   Nonetheless, the general results presented here represent a                 the correlation preprocessing. These pre-processing steps likely
+strong set of hypotheses to be tested in broader domains and                   decrease or remove developmental changes in correlations driven
+larger-scale brain graphs. First, that by age 8 years, regional                by changes in respiration and heart rate over age.
+relationships, as defined by rs-fcMRI, are organized as small-
+world-like networks, which, relative to adults, emphasize local                Extraction of resting state timeseries
+connections. Second, that for the same regions, adult networks                    Resting state (fixation) data from 210 subjects (66 aged 7–9; 53
+show similar network metrics but with regional relationships that              aged 10–15; 91 aged 19–31) were included in the analyses. For
+have a longer-range, more distributed structure reflecting adult               each subject at least 555 seconds (9.25 minutes) of resting state
+functional histories. In other words, the modular structure of large-          BOLD data were collected. 34 previously published regions
+scale brain networks will change with age, but even school age                 comprising 4 functional networks (i.e., cingulo-opercular, fronto-
+children will show relatively efficient processing architecture.               parietal, cerebellar, and default networks; see Table 1 and Figure 1)
+                                                                               were used in this analysis [16,21,22,37]. For each region, a resting
+Materials and Methods                                                          state timeseries was extracted separately for each individual. For
+                                                                               10 adult subjects, resting data was continuous. For the remaining
+Subjects                                                                       200 subjects, resting periods were extracted from between task
+   Subjects were recruited from Washington University and the                  periods in blocked or mixed blocked/event-related design studies
+local community. Participants were screened with a questionnaire               [22]. These concatenated-extracted rest periods were shown to be
+to ensure that they had no history of neurological/psychiatric                 equivalent to continuous resting data in a recent study describing
+diagnoses or drug abuse. Informed consent was obtained from all                this method [23]. In addition, several previous findings using this
+subjects in accordance with the guidelines and approval of the                 technique [21,22,32] have now been replicated using continuous
+Washington University Human Studies Committee.                                 resting blocks [27,33,34] and other continuous resting data [89].
+
+Data acquisition and pre-processing                                            Generation of average group correlation matrices across
+   fMRI data were acquired on a Siemens 1.5 Tesla MAGNE-
+                                                                               development
+TOM Vision system (Erlangen, Germany). Structural images were
+                                                                                  To examine the functional connections within and between the
+obtained using a sagittal magnetization-prepared rapid gradient
+                                                                               large set of regions used in this manuscript we chose to use graph
+echo (MP-RAGE) three-dimensional T1-weighted sequence
+(TE = 4 ms, TR = 9.7 ms, TI = 300 ms, flip angle = 12 deg, 128                 theory. Graph theory is particularly well suited to study large-scale
+slices with 1.256161 mm voxels). Functional images were                        systems organization across development, but requires the data be
+obtained using an asymmetric spin echo echo-planar sequence                    organized into specific correlation matrices. To do this, for each of
+sensitive to blood oxygen level-dependent (BOLD) contrast                      the 210 subjects, the resting state BOLD timeseries from each
+(volume TR = 2.5 sec, T2* evolution time = 50 ms, a = 90u, in-                 region was correlated with the timeseries from every other region,
+plane resolution 3.7563.75 mm). Whole brain coverage was                       creating 210 square correlation matrices (34634). Average group
+obtained with 16 contiguous interleaved 8 mm axial slices                      matrices were then created using a sliding boxcar grouping of
+acquired parallel to the plane transecting the anterior and                    subjects in age-order (i.e., group1: subjects 1–60, group2: subjects
+posterior commissure (AC-PC plane). Steady state magnetization                 2–61, group3: subjects 3–62, … group151: subjects 151–210), thus
+was assumed after 4 frames (,10 s).                                            generating a series of groups with average ages ranging from 8.48
+   Functional images were first processed to reduce artifacts                  years old to 25.48 years old with each group composed of 60
+[23,90]. These steps included: (i) removal of a central spike caused           subjects. Average correlation coefficients (r) for each group were
+by MR signal offset, (ii) correction of odd vs. even slice intensity           generated from the subjects’ individual matrices using the
+differences attributable to interleaved acquisition without gaps, (iii)        Schmidt-Hunter method for meta-analyses of r-values
+correction for head movement within and across runs and (iv)                   [21,85,93]. In cases when the terms ‘‘child’’ or ‘‘adult’’ are used,
+within run intensity normalization to a whole brain mode value of              the matrices or results referred to are the first and last of the sliding
+1000. Atlas transformation of the functional data was computed                 boxcar groups respectively, i.e., the child group is the youngest 60
+for each individual via the MP-RAGE scan. Each run then was                    subjects, with an average age of 8.48 years old, and the adult
+resampled in atlas space (Talairach and Tournoux, 1988) on an                  group is the oldest 60 subjects, with an average age of 25.48 years
+isotropic 3 mm grid combining movement correction and atlas                    old.
+transformation in one interpolation [91,92]. All subsequent
+operations were performed on the atlas-transformed volumetric                  Spring-embedded graph theoretic layout and
+timeseries.                                                                    visualization
+                                                                                  To generate a dynamic representation of the functional
+rs-fcMRI pre-processing                                                        connections between regions across development, each of the
+   For rs-fcMRI analyses as previously described [16,23], several              groups’ correlation matrices was converted into a thresholded
+additional preprocessing steps were used to reduce spurious                    graph, such that correlations higher than r$0.1 were considered
+variance unlikely to reflect neuronal activity (e.g., heart rate and           connections, while correlations lower than the threshold were not
+respiration). These steps included: (1) a temporal band-pass filter            connections.
+(0.009 Hz,f,0.08 Hz) and spatial smoothing (6 mm full width at                    For our initial analyses [21,22,32] graphs in child and adult
+half maximum), (2) regression of six parameters obtained by rigid              groups were presented in either a pseudo-anatomical fashion or in
+body head motion correction, (3) regression of the whole brain                 their actual 3D positions (in Talairach space). Here we add
+signal averaged over the whole brain, (4) regression of ventricular            another representation often used in graph theory - spring
+signal averaged from ventricular regions of interest (ROIs), and (5)           embedding. In this procedure, a spring constant is added to all
+regression of white matter signal averaged from white matter                   of the connections in the network allowing for the pairwise
+ROIs. Regression of first order derivative terms for the whole                 regional connections to relax to their lowest energetic state. The
+brain, ventricular, and white matter signals were also included in             algorithm applied in the present analysis is known as Kamada-
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                  10                             May 2009 | Volume 5 | Issue 5 | e1000381
+                                                                                                   Brain Develops from Being ‘‘Local to Distributed’’
+
+
+Kawai [45] - one of the most commonly used strategies for                      robustness of the community assignments was also tested using a
+displaying graph network data. In brief, each functional                       different information theoretic procedure implemented by Meila,
+connection between a pair of nodes is treated as a spring with a               [95], which utilizes the measure ‘variation of information (VOI)’
+spring constant related to the strength of the specific correlation.           (see Figure S7 and also [96]). All calculations were performed in
+The nodes are then randomly placed in a plane, which places high               MATLAB (The Mathworks, Inc., Natick, MA).
+strain on the ‘‘spring-loaded’’ connections. The algorithm then
+iteratively adjusts the positions of each node to reduce the total             Characterization of connection length versus the change
+energy of the system to a minimum. As the pair-wise connections                in correlation strength over development
+relax to their lowest energetic states the ‘‘natural’’ configuration of           To characterize the relationship between connection length and
+the network is revealed. By observing multiple ‘‘spring embedded’’             the change in correlation strength over development, we split all
+graphs across the subjects in age-order, approximately represent-              561 possible connections into 4 groups based on vector distance.
+ing a 6 month temporal sliding box car (i.e., group1: subjects 1–60,           Since using vector distance as an approximate for connectional
+group2: subjects 2–61, etc.), a movie representation can be made
+                                                                               distance is much more inconsistent when comparing ROIs across
+that shows the development of the full system (see Video S1). The
+                                                                               the midline, only intrahemispheric connections or connections to
+interpolations, algorithm application, and movie production were
+                                                                               midline structures (i.e., within 5 mm of the midline) were
+performed using MATLAB (The Mathworks, Natick, MA) and
+                                                                               examined. These connections were then sorted by connection
+SoNIA (Social Network Image Animator) [94].
+                                                                               length and plotted on a graph where the x-axis corresponds to the
+                                                                               child correlation strengths and the y-axis corresponds to the adult
+Modularity analysis                                                            correlation strengths (Figure 5 and Figure S2). On both the graphs
+   Communities for our graph were detected with the modularity                 (Figure 5) and the cortical surfaces (Figure S2), the color of the
+optimization method of Newman [46]. The modularity, or Q, of a                 lines denotes the strength of correlation. Significant differences
+graph is a quantitative measure of the number of edges found                   seen in Figure 5 and Figure S2 were obtained via direct
+within communities versus the number predicted in a random                     comparison between children (the youngest 60 children out of
+graph with equivalent degree distribution. A positive Q indicates              210 total subjects; age 7.01–9.67; average age 8.48) and adults (the
+that the number of intra-community edges exceeds those predicted               oldest 60 adults out of 210 total subjects; age 22.47–31.39; average
+statistically. A wide range of Q may be found for a graph,                     age 25.48). Two-sample two-tailed t-tests (assuming unequal
+depending on how nodes are assigned to communities. The set of                 variance; p#0.05) were performed on all potential connections
+node assignments that returns the highest Q is the optimal                     that passed the above criteria. Fischer z transformation was
+community structure sought by the modularity optimization                      applied to the correlation coefficients to improve normality for the
+algorithm, which follows a recursive two-step process. First, a                random effects analysis. To account for multiple comparisons the
+modularity matrix similar to a Laplacian is constructed from the               Benjamini and Hochberg False Discovery Rate [97] was applied.
+nodes in question, comparing observed versus expected edges. If                Connections that were significantly different between groups, but
+this matrix has a positive eigenvalue, the eigenvector of the largest          r,0.1 in both groups, were not displayed.
+eigenvalue is used to split the nodes into two subgraphs, and Q is
+calculated. Second, nodes are swapped individually between the
+two subgraphs to see if an increase in Q can be found. Once a                  ‘Small world’ characterization
+maximal Q is found from these swaps, the process is repeated on                   The small-world metrics were calculated according to descrip-
+the subgraphs. At any point in this process, if the matrix has no              tions by Watts and Strogatz [47]. In the main manuscript,
+positive eigenvalues, or if a proposed split does not increase Q, the          calculations were performed on the group average correlation
+subgraph is set aside, and defines a community. To detect                      matrices thresholded at 0.10 and converted to binary matrices (for
+communities in our networks over a range of ages, we used the                  analysis across varying thresholds see Figure S3). For each matrix
+sliding boxcar group average correlation matrices described above              across age, the average clustering coefficient and average path
+in ‘‘Generation of average group correlation matrices across                   lengths were compared to those values in lattices with equivalent N
+development.’’ With weights retained, the modularity optimization              (number of nodes) and K (number of connections). To ensure that
+algorithm was applied to each matrix along the sliding boxcar. A               our matrices also differed from random graphs, 100 random
+range of thresholds was explored to define connections for these               graphs with equivalent degree distributions were also created.
+calculations (see Figure 4 and Figure S1). Any particular threshold            From these graphs mean average path lengths and clustering
+did not change the conclusions presented in the main manuscript.               coefficients were calculated. These metrics are presented in
+A threshold of 0.10 was chosen to display in the main manuscript               Figure 3 and Figure S3. All calculations were performed in
+because it balances two principles: (1) eliminating a multitude of             MATLAB (The Mathworks, Natick, MA).
+weak correlations, which may obscure more physiologically
+relevant correlations, and (2) retaining high graph connectedness,             Supporting Information
+so that communities arise from partitioning and not thresholding.
+Graph connectedness captures the extent of nodes fragmented                    Figure S1 Modularity remains relatively high across age and
+from the main graph due to increasing thresholds. It is defined for            does not differ between children and adults across differing
+a graph of N nodes as the mean of an NxN matrix, where cell i,j is             thresholds. Blue dots represent modularity and red dots represent
+1 if a path exists between node i and node j (self-connections are             graph connectedness. A graph in which there is a path between all
+allowed), and is 0 otherwise. A graph in which all nodes can reach             nodes represents 100% graph connectedness, whereas a fragment-
+each other has 100% graph connectedness, whereas a fragmented                  ed network in which some nodes cannot reach the rest has a lower
+network in which some nodes cannot reach the rest has a lower                  graph connectedness (see Materials and Methods for details). (A)
+connectedness. The modularity optimization analysis returned a                 Modularity across age as presented in Figure 3 of the main
+set of community assignments for the nodes, as well as the Q of the            manuscript. (B) Modularity across thresholds for children. (C)
+graph with those assignments. The group assignments for the                    Modularity across thresholds for adults.
+nodes were converted to colors and are displayed in Figure 4. The              Found at: doi:10.1371/journal.pcbi.1000381.s001 (0.50 MB TIF)
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                  11                           May 2009 | Volume 5 | Issue 5 | e1000381
+                                                                                                               Brain Develops from Being ‘‘Local to Distributed’’
+
+
+Figure S2    Scatterplot of modularity as a function of age. Each                      means, which are plotted as error bars. (A) VOI over a range of
+point in the graph represents the modularity calculated for each                       alpha in the youngest boxcar and equivalent random graphs. (B)
+individual subject. A threshold of r$0.1 was applied to each                           VOI over a range of alpha in the oldest boxcar and equivalent
+subject’s matrices before calculations were performed and denotes                      random graphs. Compared to random graphs the community
+connected versus non-connected region pairs (see Materials and                         assignments in both children and adults are significantly robust.
+Methods).                                                                              Found at: doi:10.1371/journal.pcbi.1000381.s007 (0.43 MB TIF)
+Found at: doi:10.1371/journal.pcbi.1000381.s002 (0.35 MB TIF)
+                                                                                       Video S1 Over age, the graph architecture matures from a
+Figure S3 Reducing the boxcar size does not substantially alter                        ‘‘local’’ organization to a ‘‘distributed’’ organization. This movie
+community assignments over age. The same procedure as                                  shows the dynamic development and interaction of positive
+presented in Figure 4 with the boxcar reduced to (A) 40 subjects                       correlations between the two task control networks, the default
+and (B) 20 subjects.                                                                   network, and cerebellar network using spring embedding. The
+Found at: doi:10.1371/journal.pcbi.1000381.s003 (4.65 MB TIF)                          figure highlights the segregation of local, anatomically clustered
+Figure S4 An extended version of Figure 5, which includes a                            regions and the integration of functional networks over develop-
+visualization of these connections represented on a semi-                              ment. This is the full movie that Figure 3 is based on in the main
+transparent brain.                                                                     text. Nodes are color coded by there adult network profile (core of
+Found at: doi:10.1371/journal.pcbi.1000381.s004 (4.69 MB TIF)                          the nodes) and also by there anatomical location (node outlines).
+                                                                                       Black - cingulo-opercular network; Yellow - fronto-parietal
+Figure S5 Clustering coefficients and path lengths do not differ
+                                                                                       network; Red - default network; Blue - cerebellar; Light blue -
+between children and adults across differing thresholds with
+                                                                                       frontal cortex; Grey - parietal cortex; Green - temporal cortex,
+respect to comparable lattice and random graphs. For children all
+                                                                                       Pink - cerebellum, Light pink - thalamus. At the beginning of the
+parameters across thresholds were calculated from the first 60
+subjects in age order (i.e., subjects 1–60, average age 8.48). For                     movie (i.e. in children) regions are largely organized by their
+adults, all parameters across thresholds were calculated from the                      anatomical location, but over age anatomically clustered regions
+last 60 subjects in age order (i.e., subjects 151–210, average age                     segregate. The cluster of frontal regions (light blue outlines) best
+25.48. (A) Clustering Coefficients across thresholds for children                      demonstrates this segregation. In addition, at the beginning of the
+compared to equivalent lattice and random networks. (B) Path                           movie (i.e., in children) the more distributed adult functional
+lengths across thresholds for children compared to equivalent                          networks (core colors of nodes) are in many ways disconnected;
+lattice and random graphs. (C) Clustering Coefficients across                          however, over development the functional networks integrate. The
+thresholds for adults compared to equivalent lattice and random                        isolated regions of the default network in childhood (Red) that
+graphs. (D) Path lengths across thresholds for adults compared to                      coalesce into a highly correlated network best illustrate this
+equivalent lattice and random graphs. At all thresholds examined,                      integration. Over age node organization shifts from the ‘‘local’’
+both children and adults show relatively high clustering coefficients                  arrangement in children to the ‘‘distributed’’ organization
+and low path lengths, consistent with ‘small world’ topology.                          commonly observed in adults.
+Found at: doi:10.1371/journal.pcbi.1000381.s005 (0.59 MB TIF)                          Found at: doi:10.1371/journal.pcbi.1000381.s008 (9.68 MB
+                                                                                       MP4)
+Figure S6 Connection strength as a function of distance for all
+possible connections is similar between children and adults. The                       Video S2 Reducing the boxcar size to 40 subjects does not
+relationship of correlation as a function of distance is described by                  change qualitative patterns observed with the 60 subject boxcar.
+the inverse square law, r,1/D2, as reported in [85] for all possible                   The same procedure as presented in Figure 3 and Video S1 is
+connections in children (blue) and adults (red).                                       presented here with the boxcar reduced to 40 subjects.
+Found at: doi:10.1371/journal.pcbi.1000381.s006 (0.71 MB TIF)                          Found at: doi:10.1371/journal.pcbi.1000381.s009 (9.62 MB
+                                                                                       MPG)
+Figure S7 Variation of information (VOI) in observed and
+equivalent random networks subjected to perturbation alpha. VOI
+is a measure of how much information is not shared between two                         Acknowledgments
+sets of community assignments and allows for the quantification of                     We thank Marcus Raichle, Steven M. Nelson, Alecia C. Vogel, and
+network robustness (see [95] and [96]). Values of 0 indicate                           Adriana Hernandez for technical assistance and helpful discussions, and
+identical community assignments, and values of 1 indicate                              Mark McAvoy and Abraham Z. Snyder for help with data analysis.
+maximally different community assignments. To assess the stability
+of community assignments, the edges of a network are randomized                        Author Contributions
+with probability alpha to perturb the network, and the VOI
+                                                                                       Conceived and designed the experiments: DAF ALC BLS SEP. Performed
+between the original and perturbed networks are calculated over a
+                                                                                       the experiments: DAF ALC JDP. Analyzed the data: DAF ALC JDP.
+range of alpha. An equivalent random network was generated for                         Contributed reagents/materials/analysis tools: DAF ALC JDP NUFD JAC
+comparison. The entire perturbation process was repeated 50                            FMM BLS SEP. Wrote the paper: DAF ALC JDP BLS SEP.
+times to obtain mean VOI values and standard errors of the
+
+References
+ 1. Johnson MH (2001) Functional brain development in humans. Nat Rev                   5. Luna B, Thulborn KR, Munoz DP, Merriam EP, Garver KE, et al. (2001)
+    Neurosci 2: 475–483.                                                                   Maturation of widely distributed brain function subserves cognitive develop-
+ 2. Moses P, Roe K, Buxton RB, Wong EC, Frank LR, et al. (2002) Functional                 ment. Neuroimage 13: 786–793.
+    MRI of global and local processing in children. Neuroimage 16: 415–424.             6. Fair DA, Brown TT, Petersen SE, Schlaggar BL (2006) A comparison of analysis
+ 3. Brown TT, Lugar HM, Coalson RS, Miezin FM, Petersen SE, et al. (2005)                  of variance and correlation methods for investigating cognitive development
+    Developmental changes in human cerebral functional organization for word               with fMRI. Dev Neuropsychol 30: 531–546.
+    generation. Cereb Cortex 15: 275–290.                                               7. Schlaggar BL, Brown TT, Lugar HM, Visscher KM, Miezin FM, et al. (2002)
+ 4. Casey BJ, Galvan A, Hare TA (2005) Changes in cerebral functional                      Functional neuroanatomical differences between adults and school-age children
+    organization during cognitive development. Curr Opin Neurobiol 15: 239–244.            in the processing of single words. Science 296: 1476–1479.
+
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                          12                                May 2009 | Volume 5 | Issue 5 | e1000381
+                                                                                                                      Brain Develops from Being ‘‘Local to Distributed’’
+
+
+ 8. Durston S, Davidson MC, Tottenham N, Galvan A, Spicer J, et al. (2006) A shift           37. Dosenbach NU, Fair DA, Cohen AL, Schlaggar BL, Petersen SE (2008) A dual-
+    from diffuse to focal cortical activity with development. Dev Sci 9: 1–8.                    networks architecture of top-down control. Trends Cogn Sci 12: 99–105.
+ 9. Crone EA, Wendelken C, Donohue S, van Leijenhorst L, Bunge SA (2006)                     38. Shulman GL, Fiez JA, Corbetta M, Buckner RL, Miezin FM, et al. (1997)
+    Neurocognitive development of the ability to manipulate information in working               Common blood flow changes across visual tasks: II. Decreases in cerebral cortex.
+    memory. Proc Natl Acad Sci U S A 103: 9315–9320.                                             J Cogn Neurosci 9: 648–663.
+10. Gaillard WD, Hertz-Pannier L, Mott SH, Barnett AS, LeBihan D, et al. (2000)              39. Raichle ME, MacLeod AM, Snyder AZ, Powers WJ, Gusnard DA, et al. (2001)
+    Functional anatomy of cognitive development: fMRI of verbal fluency in                       A default mode of brain function. Proc Natl Acad Sci U S A 98: 676–682.
+    children and adults. Neurology 54: 180–185.                                              40. Fransson P (2005) Spontaneous low-frequency BOLD signal fluctuations: an
+11. Biswal B, Yetkin FZ, Haughton VM, Hyde JS (1995) Functional connectivity in                  fMRI investigation of the resting-state default mode of brain function hypothesis.
+    the motor cortex of resting human brain using echo-planar MRI. Magn Reson                    Hum Brain Mapp 26: 15–29.
+    Med 34: 537–541.                                                                         41. Mason MF, Norton MI, Van Horn JD, Wegner DM, Grafton ST, et al. (2007)
+12. Nir Y, Hasson U, Levy I, Yeshurun Y, Malach R (2006) Widespread functional                   Wandering minds: the default network and stimulus-independent thought.
+    connectivity and fMRI fluctuations in human visual cortex in the absence of                  Science 315: 393–395.
+    visual stimulation. Neuroimage 30: 1313–1324.                                            42. Gilbert SJ, Dumontheil I, Simons JS, Frith CD, Burgess PW (2007) Comment
+13. Leopold DA, Murayama Y, Logothetis NK (2003) Very slow activity fluctuations                 on ‘‘Wandering minds: the default network and stimulus-independent thought’’.
+    in monkey visual cortex: implications for functional brain imaging. Cereb Cortex             Science 317: 43; author reply 43.
+    13: 422–433.                                                                             43. Raichle ME, Snyder AZ (2007) A default mode of brain function: a brief history
+14. Lowe MJ, Mock BJ, Sorenson JA (1998) Functional connectivity in single and                   of an evolving idea. Neuroimage 37: 1083–1090.
+    multislice echoplanar imaging using resting-state fluctuations. Neuroimage 7:            44. Buckner RL, Vincent JL (2007) Unrest at rest: default activity and spontaneous
+    119–132.                                                                                     network correlations. Neuroimage 37: 1091–1096.
+15. Greicius MD, Krasnow B, Reiss AL, Menon V (2003) Functional connectivity in              45. Kamada K, Kawai S (1989) An algorithm for drawing general undirected
+    the resting brain: a network analysis of the default mode hypothesis. Proc Natl              graphs. Inf Process Lett 31: 7–15.
+    Acad Sci U S A 100: 253–258.                                                             46. Newman ME (2006) Modularity and community structure in networks. Proc
+16. Fox MD, Snyder AZ, Vincent JL, Corbetta M, Van Essen DC, et al. (2005) The                   Natl Acad Sci U S A 103: 8577–8582.
+    human brain is intrinsically organized into dynamic, anticorrelated functional           47. Watts DJ, Strogatz SH (1998) Collective dynamics of ‘small-world’ networks.
+    networks. Proc Natl Acad Sci U S A 102: 9673–9678.                                           Nature 393: 440–442.
+17. Beckmann CF, DeLuca M, Devlin JT, Smith SM (2005) Investigations into                    48. Sporns O, Zwi JD (2004) The small world of the cerebral cortex. Neuroinfor-
+    resting-state connectivity using independent component analysis. Philos                      matics 2: 145–162.
+    Trans R Soc Lond B Biol Sci 360: 1001–1013.                                              49. Sporns O, Honey CJ (2006) Small worlds inside big brains. Proc Natl Acad
+18. Salvador R, Suckling J, Schwarzbauer C, Bullmore E (2005) Undirected graphs                  Sci U S A 103: 19219–19220.
+    of frequency-dependent functional connectivity in whole brain networks. Philos           50. Berger H (1929) Uber das electrenkephalogramm des menschen. Arch Psychiatr
+    Trans R Soc Lond B Biol Sci 360: 937–946.                                                    Nervenkr 87: 527–570.
+19. Achard S, Salvador R, Whitcher B, Suckling J, Bullmore E (2006) A resilient,             51. Berger H (1933) Uber das electrenkephalogramm des menschen. Arch Psychiatr
+    low-frequency, small-world human brain functional network with highly                        NervenkrBr 100: 301–320.
+    connected association cortical hubs. J Neurosci 26: 63–72.                               52. Caton R (1875) The electric currents of the brain. Br Med J 2: 278.
+20. Damoiseaux JS, Rombouts SA, Barkhof F, Scheltens P, Stam CJ, et al. (2006)               53. Swartz BE, Goldensohn ES (1998) Timeline of the history of EEG and
+    Consistent resting-state networks across healthy subjects. Proc Natl Acad                    associated fields. Electroencephalogr Clin Neurophysiol 106: 173–176.
+    Sci U S A 103: 13848–13853.                                                              54. Varela F, Lachaux J-P, Rodriguez E, Martinerie J (2001) The brainweb: phase
+21. Dosenbach NU, Fair DA, Miezin FM, Cohen AL, Wenger KK, et al. (2007)                         synchronization and large-scale integration. Nat Rev Neurosci 2: 229–239.
+    Distinct brain networks for adaptive and stable task control in humans. Proc Natl        55. Katz LC, Crowley JC (2002) Development of cortical circuits: lessons from
+    Acad Sci U S A 104: 11073–11078.                                                             ocular dominance columns. Nat Rev Neurosci 3: 34–42.
+22. Fair DA, Dosenbach NUF, Church JA, Cohen AL, Brahmbhatt S, et al. (2007)                 56. Luo L, O’Leary DD (2005) Axon retraction and degeneration in development
+    Development of distinct control networks through segregation and integration.                and disease. Annu Rev Neurosci 28: 127–156.
+    Proc Natl Acad Sci U S A 104: 13507–13512.                                               57. Price DJ, Kennedy H, Dehay C, Zhou L, Mercier M, et al. (2006) The
+23. Fair DA, Schlaggar BL, Cohen AL, Miezin FM, Dosenbach NU, et al. (2007) A                    development of cortical connections. Eur J Neurosci 23: 910–920.
+    method for using blocked and event-related fMRI data to study ‘‘resting state’’          58. Sur M, Leamey CA (2001) Development and plasticity of cortical areas and
+    functional connectivity. Neuroimage 35: 396–405.                                             networks. Nat Rev Neurosci 2: 251–262.
+24. Andrews-Hanna JR, Snyder AZ, Vincent JL, Lustig C, Head D, et al. (2007)                 59. Miltner WH, Braun C, Arnold M, Witte H, Taub E (1999) Coherence of
+    Disruption of large-scale brain systems in advanced aging. Neuron 56: 924–935.               gamma-band EEG activity as a basis for associative learning. Nature 397:
+25. Hampson M, Driesen NR, Skudlarski P, Gore JC, Constable RT (2006) Brain                      434–436.
+    connectivity related to working memory performance. J Neurosci 26:                       60. Bi G, Poo M (1999) Distributed synaptic modification in neural networks
+    13338–13343.                                                                                 induced by patterned stimulation. Nature 401: 792–796.
+26. Fox MD, Corbetta M, Snyder AZ, Vincent JL, Raichle ME (2006) Spontaneous                 61. Conel JL (1939–1963) The Postnatal Development of the Human Cerebral
+    neuronal activity distinguishes human dorsal and ventral attention systems. Proc             Cortex. Cambridge, MA: Harvard University Press.
+    Natl Acad Sci U S A 103: 10046–10051.                                                    62. Levitt P (2003) Structural and functional maturation of the developing primate
+27. Seeley WW, Menon V, Schatzberg AF, Keller J, Glover GH, et al. (2007)                        brain. J Pediatr 143: S35–S45.
+    Dissociable intrinsic connectivity networks for salience processing and executive        63. Huttenlocher PR (1979) Synaptic density in human frontal cortex -
+    control. J Neurosci 27: 2349–2356.                                                           developmental changes and effects of aging. Brain Res 163: 195–205.
+28. Church JA, Fair DA, Dosenbach NUF, Cohen AL, Miezin FM, et al. (2009)                    64. Huttenlocher PR, Dabholkar AS (1997) Regional differences in synaptogenesis
+    Control networks in pediatric Tourette Syndrome show immature and                            in human cerebral cortex. J Comp Neurol 387: 167–178.
+    anomalous patterns of functional connectivity. Brain 132: 225–238.                       65. Huttenlocher PR, de Courten C, Garey LJ, Van der Loos H (1982)
+29. Greicius MD, Srivastava G, Reiss AL, Menon V (2004) Default-mode network                     Synaptogenesis in human visual cortex—evidence for synapse elimination
+    activity distinguishes Alzheimer’s disease from healthy aging: evidence from                 during normal development. Neurosci Lett 33: 247–252.
+    functional MRI. Proc Natl Acad Sci U S A 101: 4637–4642.                                 66. Ebbesson SO (1980) The parcellation theory and its relation to interspecific
+30. Castellanos FX, Margulies DS, Kelly AMC, Uddin LQ, Ghaffari M, et al. (2008)                 variability in brain organization, evolutionary and ontogenetic development, and
+    Cingulate-precuneus interactions: a new locus of dysfunction in adult attention-             neuronal plasticity. Cell Tissue Res 213: 179–212.
+    deficit/hyperactivity disorder. Biol Psychiatry 63: 332–337.                             67. Greenough WT, Black JE, Wallace CS (1987) Experience and brain
+31. Just MA, Cherkassky VL, Keller TA, Kana RK, Minshew NJ (2007) Functional                     development. Child Dev 58: 539–559.
+    and anatomical cortical underconnectivity in autism: evidence from an FMRI               68. Brody BA, Kinney HC, Kloman AS, Gilles FH (1987) Sequence of central
+    study of an executive function task and corpus callosum morphometry. Cereb                   nervous system myelination in human infancy. I. An autopsy study of
+    Cortex 17: 951–961.                                                                          myelination. J Neuropathol Exp Neurol 46: 283–301.
+32. Fair DA, Cohen AL, Dosenbach NU, Church JA, Miezin FM, et al. (2008) The                 69. Flechsig PE Anatomie des Menschlichen Gehirn und Ruckenmarks, auf
+    maturing architecture of the brain’s default network. Proc Natl Acad Sci U S A               Myelogenetischer Grundlage, Thieme G, editor.
+    105: 4028–4032.                                                                          70. Paus T, Collins DL, Evans AC, Leonard G, Pike B, et al. (2001) Maturation of
+33. Fransson P, Skiold B, Horsch S, Nordell A, Blennow M, et al. (2007) Resting-                 white matter in the human brain: a review of magnetic resonance studies. Brain
+    state networks in the infant brain. Proc Natl Acad Sci U S A 104: 15531–15536.               Res Bull 54: 255–266.
+34. Kelly AM, Di Martino A, Uddin LQ, Shehzad Z, Gee DG, et al. (2008)                       71. Sowell ER, Trauner DA, Gamst A, Jernigan TL (2002) Development of cortical
+    Development of anterior cingulate functional connectivity from late childhood to             and subcortical brain structures in childhood and adolescence: a structural MRI
+    early adulthood. Cereb Cortex 19: 640–657.                                                   study. Dev Med Child Neurol 44: 4–16.
+35. Lin W, Zhu Q, Gao W, Chen Y, Toh CH, et al. (2008) Functional connectivity               72. Felleman DJ, Van Essen DC (1991) Distributed hierarchical processing in the
+    MR imaging reveals cortical functional connectivity in the developing brain.                 primate cerebral cortex. Cereb Cortex 1: 1–47.
+    AJNR Am J Neuroradiol 29: 1883–1889.                                                     73. Fair DA, Schlaggar BL (2008) Brain Development. In: Haith MM, Benson JB,
+36. Dosenbach NU, Visscher KM, Palmer ED, Miezin FM, Wenger KK, et al.                           eds (2008) Encyclopedia of Brain Development. San Diego, CA: Academic
+    (2006) A core system for the implementation of task sets. Neuron 50: 799–812.                Press.
+
+
+
+        PLoS Computational Biology | www.ploscompbiol.org                               13                                 May 2009 | Volume 5 | Issue 5 | e1000381
+                                                                                                                   Brain Develops from Being ‘‘Local to Distributed’’
+
+
+74. Cowan WM, Fawcett J, O’Leary DDM, Stanfield BB (1984) Regressive events in            87. Wenger KK, Visscher KM, Miezin FM, Petersen SE, Schlaggar BL (2004)
+    neurogenesis. Science 225: 1258–1265.                                                     Comparison of sustained and transient activity in children and adults using a
+75. Lidow MS, Goldman-Rakic PS, Rakic P (1991) Synchronized overproduction of                 mixed blocked/event-related fMRI design. Neuroimage 22: 975–985.
+    neurotransmitter receptors in diverse regions of the primate cerebral cortex.         88. D’Esposito M, Deouell LY, Gazzaley A (2003) Alterations in the BOLD fMRI
+    Proc Natl Acad Sci U S A 88: 10218–10221.                                                 signal with ageing and disease: a challenge for neuroimaging. Nat Rev Neurosci
+76. Luna B, Sweeney JA (2004) The emergence of collaborative brain function:                  4: 863–872.
+    FMRI studies of the development of response inhibition. Ann N Y Acad Sci              89. Srinivasan R (1999) Spatial structure of the human alpha rhythm: global
+    1021: 296–309.                                                                            correlation in adults and local correlation in children. Clin Neurophysiol 110:
+77. Fuster JM (2003) Cortex and Mind: Unifying Cognition. Oxford University                   1351–1362.
+    Press.                                                                                90. Miezin F, Maccotta L, Ollinger J, Petersen S, Buckner R (2000) Characterizing
+78. Meunier D, Achard S, Morcom A, Bullmore E (2009) Age-related changes in                   the hemodynamic response: effects of presentation rate, sampling procedure,
+    modular organization of human brain functional networks. Neuroimage 44:                   and the possibility of ordering brain activity based on relative timing.
+    715–723.                                                                                  Neuroimage 11: 735–759.
+79. Fair DA, Brown TT, Petersen SE, Schlaggar BL (2006) fMRI reveals novel
+                                                                                          91. Lancaster JL, Glass TG, Lankipalli BR, Downs H, Mayberg H, et al. (1995) A
+    functional neuroanatomy in a child with perinatal stroke. Neurology 67:
+                                                                                              modality-independent approach to spatial normalization of tomographic images
+    2246–2249.
+                                                                                              of the human brain. Hum Brain Mapp 3: 209–223.
+80. Bunge SA, Wright SB (2007) Neurodevelopmental changes in working memory
+                                                                                          92. Snyder AZ (1996) Difference image vs. ratio image error function forms in PET-
+    and cognitive control. Curr Opin Neurobiol 17: 243–250.
+81. Johnson MH (2000) Functional brain development in infants: elements of an                 PET realignment. In: Myer R, Cunningham VJ, Bailey DL, Jones T, eds (1996)
+    interactive specialization framework. Child Dev 71: 75–81.                                Quantification of Brain Function Using PET. San Diego, CA: Academic Press.
+82. Johnson MH (2000) Cortical specialization for higher cognitive functions:                 pp 131–137.
+    beyond the maturational model. Brain Cogn 42: 124–127.                                93. Field AP (2001) Meta-analysis of correlation coefficients: a Monte Carlo
+83. Johnson MH, Munakata Y (2005) Processes of change in brain and cognitive                  comparison of fixed- and random-effects methods. Psychol Methods 6: 161–180.
+    development. Trends Cogn Sci 9: 152–158.                                              94. Bender-deMoll S, McFarland DA (2006) The art and science of dynamic
+84. Cohen AL, Fair DA, Dosenbach NU, Miezin FM, Dierker D, et al. (2008)                      network visualization. JJ Soc Struct 7: 2.
+    Defining functional areas in individual human brains using resting functional         95. Meila M (2007) Comparing clusterings - an information based distance.
+    connectivity MRI. Neuroimage 41: 45–57.                                                   J Multivar Anal 98: 873–895.
+85. Salvador R, Suckling J, Coleman MR, Pickard JD, Menon D, et al. (2005)                96. Karrer B, Levina E, Newman ME (2008) Robustness of community structure in
+    Neurophysiological architecture of functional magnetic resonance images of                networks. Phys Rev E Stat Nonlin Soft Matter Phys 77: 046119.
+    human brain. Cereb Cortex 15: 1332–1342.                                              97. Benjamini Y, Hochberg Y (1995) Controlling the false discovery rate: a practical
+86. Kang HC, Burgund ED, Lugar HM, Petersen SE, Schlaggar BL (2003)                           and powerful approach to multiple testing. J R Stat Soc B 57: 289–300.
+    Comparison of functional activation foci in children and adults using a common
+    stereotactic space. Neuroimage 19: 16–28.
+
+
+
+
+        PLoS Computational Biology | www.ploscompbiol.org                            14                                 May 2009 | Volume 5 | Issue 5 | e1000381
+

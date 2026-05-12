@@ -1,0 +1,1105 @@
+                                                BLEG: LLM Functions as Powerful fMRI Graph-Enhancer
+                                                            for Brain Network Analysis
+
+                                                  Rui Dong          Zitong Wang        Jiaxing Li      Weihuang Zheng              Youyong Kong*
+                                                                    School of Computer Science and Engineering, Southeast University
+                                              {dongrui 0427,220242336,jiaxing li,zhengweihuang,kongyouyong}@seu.edu.cn
+arXiv:2604.07361v2 [cs.LG] 10 Apr 2026
+
+
+
+
+                                                               Abstract
+                                                                                                        GNN-based methods              LLM methods
+
+                                         Graph Neural Networks (GNNs) have been widely
+                                         used in diverse brain network analysis tasks based
+                                         on preprocessed functional magnetic resonance                                                   LLM
+                                                                                                                             GNN
+                                         imaging (fMRI) data. However, their performances                   Limited Performance
+                                                                                                                                         No LLM for neurograph
+                                                                                                                                           Large training cost
+                                         are constrained due to high feature sparsity and
+                                         inherent limitations of domain knowledge within                                                        Downstream Tasks
+                                                                                                                                                  Gender Classification
+                                         uni-modal neurographs. Meanwhile, large lan-                                                                Major Depressive
+                                                                                                                                                             Disorder
+                                         guage models (LLMs) have demonstrated power-                                  LLM                             ……
+                                                                                                                    enhancement
+                                         ful representation capabilities. Combining LLMs
+                                                                                                                                     Our method
+                                         with GNNs presents a promising direction for brain
+                                         network analysis. While LLMs and MLLMs have
+                                         emerged in neuroscience, integration of LLMs with
+                                         graph-based data remains unexplored. In this                  Figure 1. A illustration of our method. GNN-based
+                                         work, we deal with these issues by incorporat-                methods have limited performance. LLM methods re-
+                                                                                                       quire great training cost. Our method aims to enhance
+                                         ing LLM’s powerful representation and generaliza-
+                                                                                                       GNN’s performance with much less training cost.
+                                         tion capabilities. Considering great cost for di-
+                                         rectly tuning LLMs, we instead function LLM as
+                                         enhancer to boost GNN’s performance on down-                  firmed BLEG’s superiority. Code can be available
+                                         stream tasks. Our method, namely BLEG, can                    at https://github.com/KamonRiderDR/BLEG.
+                                         be divided into three stages. We firstly prompt
+                                         LLM to get augmented texts for fMRI graph data,
+                                                                                                       1. Introduction
+                                         then we design a “LLM-LM” instruction tuning
+                                         method to get enhanced textual representations at             Brain network analysis holds significant impor-
+                                         a relatively lower cost. GNN is trained together              tance for investigating intrinsic mechanisms of hu-
+                                         for coarsened alignment. Finally we finetune an               man brains and diagnosing neurological diseases.
+                                         adapter after GNN for given downstream tasks.                 Deep learning-based methods have emerged as the
+                                         Alignment loss between LM and GNN logits is de-               predominant approach for brain network analysis,
+                                         signed to further enhance GNN’s representation.               demonstrating superior performance for different
+                                         Extensive experiments on different datasets con-              tasks (gender classification [36], major depressive
+                                                                                                       disorder diagnosis [6], autism spectrum disorder di-
+                                           * Corresponding author                                      agnosis [13], etc). Among these approaches, graph
+
+
+                                                                                                   1
+neural networks (GNNs) have achieved remarkable             of LLMs with GNN-based neuroscience tasks. In-
+success [10, 17, 37]. By operating message pass-            stead of using LLM as a decoder, we regard LLM
+ing mechanism on fMRI-derived brain networks,               as an enhancer, hoping to utilize its embeddings to
+GNN can effectively exploit their intrinsic topo-           enhance GNN’s representation learning (shown in
+logical features [3, 26]. Current GNN approaches            Fig. 1). However, directly tuning for LLM is costly.
+mainly focus on two directions: (a) designing pow-          Thus, we design a novel framework which real-
+erful modules to capture finer features (DTN [44],          izes Language-Enhanced Graph Neural Network
+A-GCL [48], BrainNPT [15], etc). (b) enhancing              for Brain Network Analysis (BLEG). Our BLEG
+model interpretability (BrainGNN [20], IBGNN                can be divided into three stages: (1) We prompt
+[5], ContrastPool [42], etc).                               LLM to generate augmented text description data
+   Despite their success, performances of these             for input graph. Each brain graph is prompted as
+methods are constrained by inherent limitations in          text format. (2) We tune a smaller LM based on the
+brain graph data. Limited sample size [47] and              text-graph dataset from previous stage. GNN en-
+sparse feature for preprocessed neurograph hin-             coder is also trained for coarse alignment. (3) We
+der further capability for data-driven deep learning        conduct supervised fine-tuning on GNN for differ-
+methods [40, 45]. Meanwhile, brain network data             ent downstream tasks. Logits from tuned LM is
+are inherently confined to certain neuroimaging             utilized for fine-grained alignment.
+data, which lacks domain knowledge that is not ex-              Besides, we provide a theoretical analysis to
+plicitly encoded in imaging data. These features are        demonstrate effectiveness of BLEG. By using LLM
+further sparsified by preprocessing pipeline, lead-         and LM as an enhancer, GNN can learn bet-
+ing to certain information loss; both factors jointly       ter representation beneficial for given downstream
+constrain GNN-based brain network analysis. In              tasks. Extensive experiments on various real-world
+short, These inherent data limitations together pose        datasets to illustrate BLEG’s superior performance
+challenges for more accurate GNN-based brain net-           on different tasks (ASD diagnosis, MDD diagnosis,
+work analysis.                                              etc). To the best of our knowledge, this is the first
+   Meanwhile, the emergence of large language               attempt to improve GNN brain networks’ perfor-
+models (LLMs) has achieved remarkable success               mance by exploring LLM methods. Notably, here
+in Natural Language Processing (NLP) domain, for            only fMRI data is used while our BLEG is data-
+their exceptional representation reasoning and gen-         agnostic and model-agnostic, and we believe that
+eralization capabilities [1, 9]. Existing LLM meth-         it provides new insight for both research and real-
+ods for neuroscience and brain network analysis             scene applications.
+mainly directly utilize LLMs’ capabilities for dif-
+ferent tasks which focus on single text modality            2. Related Works
+(e.g. BioGPT [25], BioBERT [18]). They ei-                  GNN-based Brain network analysis. Graph
+ther employ multimodal language models for data             neural networks (GNNs) follow message pass-
+from different modalities to help diagnosis [2, 29],        ing mechanism which aggregates its neighborhood
+including medical images (e.g. MedBLIP [2],                 nodes before updating the value of its node feature
+LLaVA-Med [19]), electrophysiological recordings            (GCN [17], GAT [37], GraphSAGE [10]). GNN-
+(e.g. BrainBERT [38]) and structured clinical data          based methods in neuroscience can be mainly di-
+[16, 50]. However, cases are more complex when              vided into two categories: (a) Designing mod-
+dealing with graph data, which contains both node           ules to capture deeper features within brain graphs
+and structure features. Currently, exploration of           [35, 44]. A-GCL employs adversarial module to
+LLM applications into graph-based brain network             enhance GNN’s performance [48]. BrainNPT uses
+analysis remains unexplored, and a combination of           transformer as backbone to capture long-range fea-
+LLMs and brain GNNs deserves further research.              tures [15]. (b) Enhancing model interpretabil-
+   Hence, in this paper, we pioneer the integration         ity. BrainGNN is a classical interpretable brain
+
+
+                                                        2
+                                                ROI#1
+                                                                                                                                                                                                                                     Neuroimaging Data
+                                                                                                                                                                                                                                          preprocessing
+                                                ROI#2
+                                                                                                    Pearson
+                                                ROI#3                                                                                              threshold
+                                                                                                   Correlation
+                                                   …                      ……
+                                                ROI#90
+
+
+
+
+                                                                                                                              𝑿𝑭𝑪                                 𝑨𝑭𝑪                                 𝒢!" = (𝑨𝑭𝑪 , 𝑿𝑭𝑪 )
+                       fMRI                       Bold signal series
+
+
+
+      1 LLM-enhanced fMRI graph text generation                                                                                         2 Graph-text aligned instruction tuning
+                                                                       LLM Outputs
+                                                                                                                                                                                                                                           "analysis"              : "The data
+
+                                                                      "analysis"           : "The data
+                                                                                                                                                                                                                                           shows strong self-connections
+                                                                                                                                                                                                                                           (strength = 1.0) across multiple brain
+                                                                                                                                                                  GNN
+
+
+
+
+                                                                                                                                                                                                             Language Model
+                                                                      shows strong self-connections                                                                                                                                        regions Key regions include frontal,
+      [Node 1]-(0.2)-[Node 2]
+      [Node 5]-(0.4)-[Node 2]
+                                                                      (strength = 1.0) across multiple brain                     𝒢𝑭𝑪                                                  Graph                                                parietal, and temporal lobes"
+                                                                      regions Key regions include frontal,
+      [Node 1]-(0.6)-[Node 6]                                         parietal, and temporal lobes"                                                                                   Tokens
+      [Node 3]-(1.0)-[Node 7]
+                                                                                                                                                                                                                                            "key_features": ["High
+
+
+
+
+                                                                                                                                                                                                     LoRA
+                                     LLM
+               ……
+                                                                       "key_features": ["High                                                                                                                                               intra-regional connectivity strength (1.0)",
+        BrainGraph                                                     intra-regional connectivity strength                                                                                                                                 "Involvement of frontal, parietal, and
+          (Text format)                                                (1.0)", "Involvement of frontal, parietal,
+                                                                                                                                    You are an experienced                                                                                  temporal lobes","Repetition of specific
+                                                                       and temporal lobes","Repetition of                                                                                                                                   regions" ]
+
+
+
+
+                                                                                                                                                                        tokenizer
+                                                                       specific regions" ]                                          neuroscientist.
+               Template：                                                                                                                        ......
+               Description：
+                                                                      "Conclusion": "The                                            Please give a detailed
+                                                                                                                                                                                                                                           "Conclusion": "The pattern
+               Task：                                                  pattern of high intra-regional                                                                                                                                       of high intra-regional
+                                                                                                                                    description of the input                         Prompt
+               Request：                                               connectivity,suggests a                                                                                                                                              connectivity,suggests a classification
+                                                                                                                                                                                     Tokens
+                                                                      classification of female                                      fMRI graph.                                                                                            of female
+
+     Prompt Template
+
+
+
+                                                                                              l     Analysis l
+                                                                                                         l
+                                                                                                                    Conclusion
+                                                                                                               Key_features
+                                                                                                                                            The prediction of
+                                                                                                                                            the given graph is:
+                                                                                                                                                                                    3 LM-aided Supervised Finetuning
+                                                         Graph Tokens                                  Text Tokens                       Prompt Tokens                                                                        for downstream GNN
+     Textual Analysis           Fine-tuned LM
+                                                                                                                                                                                    𝒁𝒯         𝒁𝒢           𝒁𝒯                𝒁𝒢
+    Analysis                                                   GN
+                   Conclusion
+
+       Key_features
+                                                                N
+                                                              logit
+                                                                s
+                                                                                      Language Model
+                                                                                               ......
+                                                                                                                                                                                    LLM logits                                                       Downstream Tasks
+                                                                                                                                                                                                                                                          Gender Classification
+                                                                                                                                                                                                                                                                Major Depressive
+                                   GNN                    i                                       adapter                           readout                                                                                   classifier
+                                                                                                                                                                                                                                                                        Disorder
+    𝒢𝑭𝑪                                                                                                                                                                                         GNN logits                                                         ……
+
+
+
+
+Figure 2. The overall framework of BLEG. (1) We prompt LLM to generate augmented text data for input graph. (2) A
+smaller LM is trained through instruction tuning based on generated textual data. GNN is trained together for coarsened
+alignment. (3) GNN tuning for certain tasks. Logit from LM is utilized to boost GNN’s representations.
+
+
+graph neural network [20]. IBGNN employs GNN                                                                                                        3. Methodology
+backbone and generator for explanation [5]. Con-
+trastPool is a differentiable graph pooling method                                                                                                  In this section, we will discuss more details of
+which can realize explainable classification.                                                                                                       BLEG. As is shown in Fig. 2, BLEG can be di-
+                                                                                                                                                    vided into three stages: (a) We firstly conduct aug-
+                                                                                                                                                    mented text-graph dataset by prompting LLM for
+LLM methods in neuroscience. Based on pre-                                                                                                          every fMRI brain graph. (b) Then we finetune a
+trained LMs (GPT, BERT), methods like BioGPT                                                                                                        smaller LM based on the conducted dataset through
+[25], BioBERT [18] train a medical language                                                                                                         instruction tuning. We also train a GNN model
+model from medical datasets like Pubmed. Mean-                                                                                                      for coarse-grained text-graph alignment. And fi-
+while, the advent of multimodal LLMs (MLLMs)                                                                                                        nally (c) we perform supervised fine-tuning for
+can utilze information from other modalities to                                                                                                     given downstream task on pretrained GNN. We add
+capture complementary features. LLaVA-Med re-                                                                                                       a trainable adapter while keeping GNN weights
+alizes a large Language-and-Vision assistant for                                                                                                    frozen. Alignment loss is designed between GNN
+biomedicine [19]. MMGPL [29] designs graph                                                                                                          and LM logits for fine-grained alignment.
+prompt for fMRI images for better text-image fu-
+sion. Other methods consider using more modal-                                                                                                      3.1. Notations
+ities (video [31], structured clinical data [50])                                                                                                   Brain graph datasets are preprocessed from func-
+and new model architectures (Mixture-of-Experts,                                                                                                    tional magnetic resonance imaging (fMRI, also
+MoE) for scalability [16].                                                                                                                          write as FC). Pipeline for Data preprocessing is
+
+
+                                                                                                                                           3
+shown in Fig. 2. AAL template is employed for               and possible downstream tasks. Design for prompts
+FC data, and finally we denote brain network as             of input graph is challenging which may consider
+Gi = {Xi , Ai , Vi , Ei }, where nodes Vi represents        topological information during graph-text transfor-
+different brain regions in the brain while edges Ei         mation [33, 49]. Unlike other graph learning tasks,
+represents the connectivity between two brain re-           brain networks have more concrete medical mean-
+gions. Xi denotes node features for each region             ings, where Eij stands for connection strength be-
+and Ai denotes adjacency matrix. The dataset can            tween region i and region j. On the other hand,
+be written as D = {Gi , yi }N i=1 , where yi ∈ {0, 1}       brain graph is sparser compared to other graph
+which stands for different tasks (gender classifica-        data, with a limited number of edges. Thus, for
+tion, MDD diagnosis, ASD diagnosis, etc). In gen-           its structure prompt, we consider modifying graph
+eral, Brain network analysis can be seen as a graph         as “Node[i]-x-Node[j]” format for each Eij , where
+classification task:                                        x means its connection strength. For node feature,
+                                                            we consider its mean value (X d → X 1 ). Struc-
+             F(Gi ) = GNN(Gi ) → yˆi             (1)
+                                                            ture prompt and feature prompt together make PiG .
+    F can be any deep learning method and we                For query PiQ , we require LLM output json format
+hope to learn an optimal function to predict y.             data containing analysis, key features and conclu-
+Here we use GNN as our F(·), whose message                  sion for input FC graph.
+passing function can be written as Eq. 2, where                 These different prompts together make our
+hli is the representation for node vi in l-th layer,        prompt: (PiD , PiG , PiQ ) → Pi , which is used as
+AGG(·) stands for the aggregation of its neighbor-          LLM’s input. Here we select Deepseek-v3 [21] as
+hood nodes Ni , and UPDATE(·) means the update              our LLM API. For each Gi , we feed corresponding
+operation of hi .                                           Pi into LLM and get response (Ti ):
+ hl+1
+  i   = UPDATE(hli , AGG({hlj |j ∈ Ni })) (2)                                 Ti = LLM(Pi )                  (3)
+3.2. LLM-enhanced text data generation
+                                                            Data verification and refinement. For each brain
+The core idea of this stage is to leverage LLM’s ca-        network Gi , we get its LLM-enhanced text data.
+pability for downstream GNN. However, for neu-              To further improve quality of LLM generation,
+roscience, text data is limited where data forms as         we utilize LLM (QwQ-32B [34]) for judgment
+graph. Meanwhile, regular manual process for cre-           and refinement. Quality of Ti is measured and
+ating such text data for each brain network is time-        scored from different dimensions (professional ex-
+consuming and requires too much human labor.                pressions, content relevance, generation repetition).
+Thus, we propose to fully utilize existing LLMs             Ti with lower scores are then refined by LLM. Re-
+to generate augmented textual information for each          maining generations are corrected via professional
+brain network graph.                                        medical experts. Here that we don’t focus on de-
+Prompt design. Compared to other graphs like so-            sign of data verification process, which can be left
+cial networks, fMRI-based FC graphs have more               as future work. Finally, we curate a high-quality
+medical meanings, where each node stands for spe-           text-enhanced graph dataset: Di′ ← (Gi , Ti ).
+cific brain regions while edge weights represent
+connection strengths between two brain regions.             3.3. Graph-text aligned instruction tuning
+Thus, we design a prompt suited for input graph             Directly training for LLM is extremely challeng-
+Gi . Formally, for given Gi , our designed prompt           ing, which requires great expense for training.
+consists of three parts: description PiD , graph data       Meanwhile, some LLMs like GPT4, Deepseek-v3
+(PiG ) and query (PiQ ). PiD depicts basic medi-            only provides generated text, while in some cases
+cal information from given brain network, includ-           LLM embeddings are necessary. Here, we choose
+ing which dataset it belongs to, preprocess tem-            to tune a smaller language model (LM) instead of
+plate, names of each brain region in neuroscience           directly tuning LLM [12]. For enhanced graph-text
+
+
+                                                        4
+data-pair (Gi , Ti ), we feed them into LM for tuning.
+However, there exists certain modality gap between                         ZGi = READOUT(Norm(Zi + XGi ))                (8)
+graph and text representations on high-dimensional
+manifold space. Encouraged by LLaVA [22], we                          Finally ZGi is fed into a trainable classification head
+                                                                  for prediction, with cross-entropy loss used for model op-
+use GNN’s embeddings and textual embeddings to-
+                                                                  timization (LCE ).
+gether as LM’s input. As is shown in Fig. 2,
+                                                                      To further enhance GNN’s ability to capture text-
+we keep both GNN encoder and LM trainable to
+                                                                  augmented representation, we introduce an auxiliary
+achieve coarsened alignment between graph and                     alignment loss (Lalign ) between text (ZTi ) and graph
+text embeddings.                                                  logits (ZGi ). ZTi is obtained through tuned LM, the in-
+    Hi = LM(XGi , XTi ) = LM(fϕ (Gi ), XTi )            (4)       put is the same format as Eq. 4, where XQ   i is about give
+                                                                  the prediction result of the input brain network. We add a
+    For tuning method for GNN and LM, here we                     cls token at the end of each input sequence whose out-
+use instruction tuning. LM generates answers                      put logit is used as ZTi for fine-grained graph-text align-
+(XA ) for given graph data (XG ) and question (XQ ).              ment. For implementation of Lalign , we use MSE(·) for
+Questions are queries requiring LM to make de-                    alignment at high manifold dimension (Eq. 9).
+tailed description on given brain network. The an-                                                                 2
+                                                                                         N
+swers are from the augmented text generated by                                       1 X        ZGi    ZTi
+                                                                          Lalign =               G
+                                                                                                     −                   (9)
+LLM from previous stage, Generally, the input em-                                    N i=1      Zi 2   ZTi 2
+                                                                                                                   2
+beddings from Eq. 4 can be written as follows:
+           Xi = concat(fϕ (Gi ), XQ    A                             The overall loss function is composed of LCE and
+                                  i , Xi )              (5)
+                                                                  Lalign , weighted by coefficient α ∈ (0, 1):
+   LM instruction tuning is trained through auto-
+regressive loss, and we only compute loss func-
+                                                                                   L = LCE + α · Lalign                 (10)
+tion and optimize models based on answer tokens,
+which can be formatted as Eq. 6:
+                       L
+                       Y
+  p(XA |XG , XQ ) =          pθ (xi |XG , XQ,<i , XA,<i )         4. Theoretical Analysis
+                       i=1
+                                                  (6)             The main idea of theoretical analysis is that through LLM
+   Through graph-text aligned LM instruction tuning,              and LM as enhancer, the performance of GNN will be
+we can obtain textual representations for given brain             improved for given downstream tasks as its representa-
+graph at a much smaller training cost.                            tions contains augmented text information which is use-
+3.4. LM-aided finetuning for GNN                                  ful for downstream classification.
+
+The final stage of BLEG is LM-aided supervised finetun-
+ing for different downstream tasks. LM logit is utilized to       Theorem 4.1 (Complementary Representations from
+assist downstream GNN for better representation. To be            LM for GNN) We define representation from original
+specific, we save weights of GNN encoder and LM after             GNN (XG ) and fine-tuned LM (XT ), LM-distilled GNN
+                                                                                                  ′
+instruction tuning and keep them frozen in this stage. As         representation is denoted as XG . Downstream label rep-
+is shown in Fig. 2, we add a trainable adapter after frozen       resentation is denoted as Y. Given above assumptions, we
+                                                                                ′
+GNN, which is a two-layer FFN (denote as gφ ) for im-             have: I(XG ; Y ) − I(XG , XT ; Y ) ≤ C ·ϵ, where C is
+plementation. The embeddings of graph embeddings can                                                   ′
+                                                                  a constant and ϵ > 0. Thus for I(XG ; Y ) and I(XG ; Y ),
+be formatted as:                                                       ′
+                                                                  I(XG ; Y ) > I(XG ; Y ).
+                   Zi = fϕ ◦ gφ (Gi )                   (7)
+                N ×d
+    For Zi ∈ R        , we use READOUT(·) function to                Proof can be found in Appendix. Theorem. E.1 shows
+get graph-level logits (ZGi ). The READOUT function in-           that through BLEG, GNN can capture complementary
+corporates residual connection along with batch normal-           information from LM, which enhances its capability for
+ization (Eq. 8).                                                  downstream tasks.
+
+
+                                                              5
+Table 1. Comparison results on public datasets. We run 10 times for each model and record the corresponding average
+acc ± std (%). The best results are marked bold, and second best underline.
+
+                                   HCP                            ADHD                            MDD                           ABIDE
+      Methods              ACC             SEN             ACC             SEN             ACC            SEN             ACC            SEN
+      GCN             64.03 ± 1.21     55.51 ± 2.88    66.74 ± 1.47    31.83 ± 2.33     62.38 ± 0.37   70.88 ± 1.94    69.14 ± 0.84   64.07 ± 2.20
+      GAT             65.72 ± 0.67     60.91 ± 3.26    66.56 ± 0.30    32.31 ± 1.56     63.05 ± 0.35   69.30 ± 2.16    68.79 ± 0.74   63.83 ± 3.23
+      GraphSAGE       66.87 ± 0.32     61.32 ± 2.71    67.80 ± 0.37    31.52 ± 2.54     63.29 ± 0.27   69.48 ± 1.53    70.74 ± 0.89   65.52 ± 2.81
+      GraphTrans      67.46 ± 0.55     62.71 ± 3.17    67.00 ± 0.37    31.85 ± 2.54     63.37 ± 0.27   68.31 ± 1.93    68.41 ± 1.20   62.79 ± 2.75
+      BrainGNN        66.46 ± 2.12     62.92 ± 2.45    67.16 ± 2.01    32.75 ± 3.31     63.25 ± 1.06   68.91 ± 2.76    70.03 ± 1.69   62.80 ± 4.19
+      IBGNN           64.72 ± 1.04     55.98 ± 4.01    65.59 ± 0.49    30.84 ± 2.92     63.07 ± 0.29   68.38 ± 2.47    66.02 ± 1.18   61.31 ± 3.61
+      BrainNPT        67.78 ± 1.53     60.67 ± 1.34    67.84 ± 2.11    32.18 ± 2.19     63.81 ± 0.77   69.55 ± 3.07    68.80 ± 1.10   59.52 ± 3.05
+      THFCN           67.29 ± 1.74     59.82 ± 2.84    66.73 ± 1.40    33.01 ± 3.69     62.41 ± 0.67   66.59 ± 2.17    66.93 ± 1.29   62.37 ± 2.27
+      ContrastPool    68.10 ± 1.74     63.59 ± 1.21    65.10 ± 0.82    35.92 ± 4.21     64.05 ± 0.47   66.22 ± 3.68    69.89 ± 0.88   66.71 ± 2.79
+      TAPE            69.32 ± 1.41     63.80 ± 2.93    67.41 ± 1.06    36.59 ± 2.11     64.12 ± 0.82   68.50 ± 2.79    70.43 ± 0.95   66.64 ± 2.95
+      OFA             71.00 ± 0.82     63.04 ± 2.42    68.22 ± 0.70    39.72 ± 1.94     62.97 ± 1.21   68.55 ± 2.40    69.72 ± 1.48   65.93 ± 3.11
+      BLEG (Ours)     71.21 ± 0.91     68.27 ± 3.39    69.41 ± 0.53    41.11 ± 2.10     65.63 ± 0.48   71.12 ± 2.97    72.21 ± 0.80   67.16 ± 2.30
+      ∆ GCN              7.18 ↑          12.76 ↑          2.67 ↑          9.28 ↑           3.25 ↑         0.24 ↑          3.07 ↑         3.09 ↑
+
+
+Table 2. Comparison results on private dataset. We run 10 times for each model and record the corresponding average
+acc ± std (%). The best results are marked bold, and second best underline.
+
+      Methods        GCN       GraphTrans        BrainGNN        BrainNPT      ContrastPool      BLEG (medium)        BLEG (large)    Qwen3-8B
+      ACC       71.79 ± 1.07     70.50 ± 0.73    71.06 ± 1.05   70.25 ± 1.55     71.11 ± 0.73      75.38 ± 0.63        75.21 ± 1.01   75.82 ± 0.77
+      SEN       85.70 ± 2.46     86.07 ± 1.84    84.00 ± 1.81   83.00 ± 1.59     86.85 ± 1.94      87.03 ± 0.89        86.77 ± 1.27   87.03 ± 1.58
+      SPE       50.60 ± 5.41     50.92 ± 3.03    48.77 ± 2.12   49.21 ± 3.30     52.55 ± 3.91      58.31 ± 2.72        58.50 ± 1.93   58.81 ± 2.00
+      F1        78.50 ± 0.67     78.43 ± 0.49    77.18 ± 1.92   77.27 ± 0.74     78.43 ± 0.49      79.35 ± 1.66        80.78 ± 1.72   79.81 ± 1.58
+      AUC       68.15 ± 1.71     65.70 ± 1.16    66.39 ± 0.61   67.53 ± 1.03     68.70 ± 1.16      70.77 ± 1.16        70.78 ± 1.24   69.43 ± 2.03
+
+
+
+
+5. Experiments                                                                   work methods (BrainNPT [15], THFCN [35] and Con-
+                                                                                 trastPool [42]). (c) LLM-GNN methods: TAPE [12]
+5.1. Experimental settings                                                       and OFA [23]. Code implementations of all methods are
+Datasets. Our experiments were performed on four                                 taken from their original papers.
+public real-world brain network datasets: Autism Brain                           Experimental settings. For LLM, we select Deepseek-
+Imaging Data Exchange (ABIDE, 618 subjects) [7], Hu-                             v3 to generate augmented text data. We select BioGPT-
+man Connectsome Project (HCP, 1039 subjects) [36],                               base as our instruction tuning LM, whose parameter is
+Attention Deficit Hyperactivity Disorder (ADHD, 938                              347M in total. For GNN encoder. We choose a 3-layer
+subjects) [4] and Rest-meta-MDD (MDD, 2165 subjects)                             GCN. Our model is implemented in PYG and trained on
+dataset. We also use one private dataset zhongdaxinxi-                           RTX Titans with 24GB memory. For instruction tun-
+ang (short as ZDXX, 520 subjects), which is collected                            ing, we tune our LM and GNN on four public datasets
+from Zhongda Hospital of Southeast University, the Sec-                          whose number of total sample is 4760 and tuning epoch
+ond Affiliated Hospital of Xinxiang Medical University                           is from 3 to 5. For supervised fine-tuning, the total train-
+and Hangzhou Hospital. Due to data privacy concerns,                             ing epoch is 150 with 50 as early stopping. More details
+in first and second stage, we only use public datasets for                       of our model can refer to Appendix.
+text generation and LM instruction tuning. More details                              We evaluate models’ performance on five metrics: ac-
+of the datasets can be found in Appendix.                                        curacy (ACC), sensitivity (SEN), specificity (SPE), f1
+Baselines. We select nine representative baselines for                           score (F1) and ROC-AUC (AUC), where higher value
+comparison, which can mainly be divided into two types:                          means better performance. We record ACC and SEN
+(a) GNNs based methods, including GCN [17], GAT                                  for public datasets, while all five metrics on zhongdax-
+[37], GraphSAGE [10] and GraphTrans [41]. (b) Brain                              inxiang. For evaluation on all the methods, we use 10-
+Network based methods, including classical methods                               fold cross validation on ten random runs and record mean
+(BrainGNN [20] and IBGNN [5]) and latest brain net-                              value and standard deviation.
+
+
+                                                                           6
+5.2. Comparison results                                            Table 3. k-shot few-shot experiments. We run ten times
+                                                                   and record average accuracy.
+Comparison results on public datasets. Comparison
+results on public four datasets are presented in Tab. 1.                                                        k                  HCP                               zhongdaxinxiang
+                                                                          Methods
+The results show that our BLEG outperforms all other                                          Ntest                       1         2                  5             1      2      5
+
+methods on all the datasets. Compared to GCN which                                                   50               55.00        57.00              56.30     52.00       49.00     53.00
+                                                                          BrainGNN                  100               51.00        54.50              57.00     52.00       48.50     50.00
+also works as our backbone, the maximum improvement                                                 LD                47.88        48.75              50.81     45.56       55.62     53.43
+of ACC can be 7.18 ↑ on HCP dataset. It also exceeds                                                 50               57.00        56.00              59.00     53.00       52.50     54.50
+                                                                          BrainNPT                  100               56.00        52.50              55.50     52.40       51.00     50.00
+SOTA brain network analysis method (ContrastPool) at                                                LD                56.41        56.40              57.46     48.76       55.63     55.13
+3.11 ↑ on ACC.                                                                                       50               61.00        59.00              60.30     58.00       58.50     60.00
+Comparison results on private dataset. Comparison                         BLEG                      100               58.50        57.50              59.00     54.50       54.00     56.00
+                                                                                                    LD                56.81        56.64              57.53     52.23       56.01     56.52
+results on private dataset zhongdaxinxiang are presented
+in Tab. 2. Here we select two additional LMs with larger
+parameters for tuning: BioGPT-1.5B and Qwen3-8B. We                plot following figures (Fig. 4 (a) - (b)). The results
+employ Low-Rank Adaptation (LoRA) during training                  demonstrate that the optimal value of α for achieving
+[14]. BLEG also achieves best results on all evaluation            highest accuracy varies across different datasets. On the
+metrics, although we did not use it for augmented-text             other hand, despite variations in different α, BLEG con-
+generation and instruction tuning. Its maximum accuracy            sistently outperforms other methods (BrainGNN, Brain-
+improvement over vanilla GCN reaches 4.03 ↑.                       NPT) in most cases, further demonstrating the effective-
+                                                                   ness of LM-aided representation enhancement.
+5.3. Few-shot experiment results
+                                                                              68
+                                                                                                   ABIDE                                      76
+                                                                                                                                                             zhongdaxinxiang
+LLMs have shown remarkable performance in few-shot
+                                                                              66                                                              74
+learning settings. Thus, to further illustrate capability of                  64                                                              72
+                                                                   accuracy
+
+
+
+
+                                                                                                                                   accuracy
+BLEG, we construct few-shot splitting of datasets and                         62                                                              70
+                                                                              60                                                              68
+test BLEG’s performance in few-shot cases.                                                                          BrainNPT                                                        BrainNPT
+                                                                              58                                                              66
+    We first set a train ratio to gradually decrease num-                                                           BrainGNN                                                        BrainGNN
+                                                                              56                                    BLEG                      64                                    BLEG
+ber of training samples for given dataset. As is shown                        54 10    20     30    40     50        60       70              62 10     20      30     40     50     60    70
+                                                                                            few shot ratio (%)                                                few shot ratio (%)
+in Fig. 4, we set training ratio from 10% to 70%. We
+set a fixed validation size (10%) and the rest data is for                            Figure 4. Few shot results on different ratios.
+test. Results from Fig. 4 show that compared to other
+methods (GNN-based BrainGNN and transformer-based
+BrainNPT), BLEG can always show a leading advantage.               5.5. Empirical studies
+    We also conduct k-shot experiments on BLEG. For                We conduct biomarker visualization of brain regions
+given dataset, we randomly select k samples from each              for empirical studies. We average embeddings after
+label as training set (k ∈ {1, 2, 5}). For testing set,            GNN encoder for all samples and statistically analyze
+we select 50, 100 and rest data (LD ) for each label re-           and visualize the top 10 brain regions. The results are
+spectively. As is shown in Tab. 3, BLEG outperforms                shown in Fig. 3. Visualizations for top 10 regions in
+other methods under extreme few-shot cases. The results            ABIDE dataset are: Precuneus (L), Precuneus (R), Infe-
+demonstrate BLEG’s superiority under few-shot scenes.              rior parietal, but supramarginal and angular gyri, which
+                                                                   are consistent with findings in [27], Superior frontal
+5.4. Ablation studies & Sensitivity analyses                       gyrus and medial orbital which show additional abnor-
+We conduct ablation studies to analyze whether each sub-           malities between HC and ASD patients [39], Amyg-
+module of BLEG works. We directly train our GCN on                 dala (L) and Amygdala (R) whose atypical activation
+downstream tasks to verify effectiveness of Lalign . We            can occur between patients [28], Heschl gyrus which is
+also test performance for vanilla BioGPT to verify if in-          positively related to ASD symptoms [46], Anterior cin-
+struction tuning stage works. The results in Fig. 4 (f)            gulate, paracingulate gyri and Parahippocampal gyrus,
+shows that w/o align loss, accuracy of BLEG will wit-              which are consistent with studies in [11]. For ZDXX
+ness a great decrease. Meanwhile, Lalign on BioGPT                 dataset, brain regions like Posterior cingulate gyrus, Pre-
+w/o tuning will also influence model’s performance.                cuneus, Anterior cingulate and paracingulate gyri which
+    For sensitivity analyses, we record BLEG’s accuracy            are among top-10 values indicate their relations to ex-
+under different align loss coefficient (α ∈ [0.2, 0.7]) and        cessive fluctuations of FC in DMN-related regions [24].
+
+
+                                                               7
+                             
+                                                          + & 3                                                            
+                                                                                                                                               ] K R Q J G D [ L Q [ L D Q J                                               Ablation on BLEG
+                                                                                                                                                                                                                75
+                                                                                                                       
+                                                                                                                                                                                                        70
+                                                                                                                       
+       D F F X U D F \
+
+
+
+
+                                                                                                     D F F X U D F \
+
+
+
+
+                                                                                                                                                                                                     accuracy
+                                                                                                                                                                                                                65
+                                                                                                                       
+                                                                                                                                                                                                        60
+                                                                            * & 1                                                                                        * & 1                                                            w/o align loss
+                                                                                % U D L Q * 1 1                                                                                  % U D L Q * 1 1                55                                w/o tuning LM
+                                                                                                                       
+                                                                                % / ( *                                                                                          % / ( *                                                          BLEG
+                                                                                                                                                                    50
+                                                                                                                                                                                                                     HCP      ABIDE        ADHD       zhongdaxinxiang
+                                                                                                                                                                                                                                 dataset
+                                                    (a)                                                                                               (b)                                                                         (c)
+
+
+
+
+                                                    (d)                                                                                               (e)                                                                         (f)
+
+Figure 3. (a)–(b) k-shot experiments on different datasets. (c) Ablation studies on different datasets. (d) Biomarker
+visualizations on ABIDE, (e) ADHD and (f) zhongdaxinxiang datasets.
+
+
+Other top-10 regions are consistent with prior findings                                                                                                        brain network analysis. As is shown in Fig. 7, compared
+regarding identification of salient brain regions [8, 30].                                                                                                     to vanilla Qwen, tuned LLM can generate more profes-
+                                                                                                                                                               sional analysis on unseen private data, with more con-
+   Qwen3 8B (w/o tuning)                                                                                                                                       fidence for brain disease diagnosis judgment (MDD). It
+   analysis: The brain connectivity patterns show some features that have been loosely associated with depression in
+   previous research, but could also occur in other conditions or even healthy individuals. The connections appear
+                                                                                                                                                               suggests a promising future of BLEG for further explain-
+   particularly strong in areas related to emotion processing and self-referential thinking.
+   key_features:
+                                                                                                                                                               able and generalizable brain network analysis. Modern
+             ["Increased connections in frontal brain regions",
+             "Stronger links between emotional processing areas",
+                                                                                                                                                               LM have the ability to capture deeper domain-specific
+             "Changes in the brain's default network",],
+   conclusion: While these connectivity patterns resemble some findings seen in depression studies, they are not                                               knowledge from public datasets which can lead to better
+   unique to depression and could have multiple explanations. The results should be considered alongside other clinical
+   information rather than as definitive evidence of any particular condition.                                                                                 performance on private dataset.
+   predcition: MDD
+   certainty: 1-low
+
+   Qwen3-8B (with tuning)
+   analysis: The fMRI graph analysis based on AAL template reveals a globally hyperconnected network with uniform
+   edge weights (1.0). The findings demonstrate:
+   1) Prefrontal dominance (bilateral superior frontal gyrus, medial prefrontal);
+   2) Limbic hyperactivity (amygdala);
+                                                                                                                                                               6. Conclusion
+   3) Default mode network overconnectivity (posterior cingulate, precuneus)
+   key_features:
+             ["Prefrontal hyperconnectivity (AAL 0/1: bilateral superior frontal, AAL 10: medial prefrontal)",
+             "Limbic dysregulation (AAL 32/33: bilateral amygdala, AAL 56: left hippocampus)",
+                                                                                                                                                               In this work, we propose BLEG, a novel method that
+             "DMN overintegration (AAL 10: medial prefrontal, AAL 16: posterior cingulate, AAL 28: precuneus)"],
+   conclusion: The network profile supports MDD diagnosis with three key biomarkers: 1) Global hyperconnectivity
+                                                                                                                                                               functions LLM as a powerful enhancer to boost GNN’s
+   with loss of network modularity, 2) Prefronto-limbic circuit dysregulation, and 3) DMN overintegration. These
+   findings correlate with core depressive symptoms while suggesting potential treatment targets.
+                                                                                                                                                               performance in brain network analysis. Instead of di-
+   prediction: MDD
+   certainty: 3-high
+                                                                                                                                                               rectly training LLMs, we adopt a LLM-LM paradigm
+                                                                                                                                                               to leverage enhanced textual representations more effi-
+                                                                                                                                                               ciently. LM-aided SFT further enhances GNN’s capabil-
+ Figure 5. Text generation for ZDXX dataset from LM.                                                                                                           ity for downstream tasks. Extensive experiments on five
+                                                                                                                                                               datasets demonstrate effectiveness of BLEG, including
+5.6. Text generation for LM                                                                                                                                    different few-shot experiments which confirmed BLEG’s
+Here we mainly utilize LLM as enhancer which func-                                                                                                             great generalization. Our BLEG is a first attempt to lever-
+tions in embedding level. Yet we also select Qwen3-8B                                                                                                          age LLM with GNN-based brain network analysis and
+for tuning which has great capability of instruction fol-                                                                                                      we think it can provide new insight for both research and
+lowing. The aim is to explore possibility of interpretable                                                                                                     real-world medical diagnose applications.
+
+
+                                                                                                                                                        8
+Acknowledgement                                                   B.2. Prompt Example for Tuned LM
+                                                                       (Qwen3-8B)
+This work is supported by National Natural Science
+Foundation of China (Grant No.62471133). This work                In this work we mainly utilize LLM as enhancer which
+is also supported by the Big Data Computing Center of             functions in embedding level to assist GNNs. Yet we also
+Southeast University.                                             conduct instruction tuning on Qwen3-8B which has great
+                                                                  capability of instruction following. The aim is to ex-
+A. Related Works                                                  plore possibility of interpretable brain network analysis
+                                                                  through brain network based instruction tuning. Prompt
+In this section we give a detailed description on the base-       design of this part in shown in Append. E and results are
+lines in our comparison experiments.                              listed in Experiments part.
+• GCN [17]: Based on message passing mechanism,
+   GCN aggregates the neighborhoods and then updates              C. Details for Datasets
+   the value of the node.
+• GAT [37]: Via adding Attention to nodes, GAT up-                fMRI preprocessing and dataset construction. Prepro-
+   dates the value by calculating attention scores of the         cess for fMRI data in shown in Fig. 8. The Data Prepro-
+   neighborhood nodes.                                            cessing Assistant for Resting-State Function (DPARSF)
+• GraphSAGE [10]: GraphSAGE samples multi-hop                     MRI tookit [32] is utilized for fMRI preprocessing. Then
+   neighborhood nodes and update its embedding, which             the average time series are computed for each brain re-
+   is efficient in inductive training.                            gion with AAL template. Pearson correlation is then
+• GraphTrans [41]: GraphTrans is a transformer-based              calculated as function matrix, which denotes the feature
+   GNN method for graph-level tasks. It uses learn-               matrix for FC (XF C ). Its adjacency matrix (AF C ) is
+   able GNN encoders before transformer layer to capture          obtained by thresholding a certain proportional quantiza-
+   structure information.                                         tion on the function matrix.
+• BrainGNN [20]: BrainGNN is a graph neural network               Textual dataset details. Total sample of textual datasets
+   method specifically designed for capturing the func-           is equal to total number of public datasets in Tab. 4 which
+   tional connectivity patterns between brain regions.            is 4760. The average length of input is 147.8 with output
+• IBGNN [5]: IBGNN is an interpretable framework                  response length 103.4. For LLM generation evaluation
+   to analyze disorder-specific Regions of Interest (ROIs)        and refinement, we follow practice from Qwen3 [43] and
+   and prominent connections.                                     prompt LLM as judge to refine outputs from different di-
+• BrainNPT [15] BrainNPT is a pre-trained                         mensions. Note that evaluation for LLM output is still a
+   transformer-based GNN method that learns gen-                  opening yet challenging problem, especially in medical
+   eral brain graph feature representations through               domain where accuracy of output is of extreme impor-
+   pre-training.                                                  tance. Our results prove that LLM output can have posi-
+• THFCN [35]: THFCN enhances peroformance of                      tive impact on GNNs from latent representation level and
+   functional connectivity networks by incorporating              validation for LLM generation are left as future work.
+   high-order features through hypergraph-based mani-             More dataset details. Details for datasets can be found
+   fold regularization.                                           in Tab. 4. ABIDE dataset is for Autism Spectrum Disor-
+• ContrastPool [42]: ContrastPool is the latesst con-             der diagnosis (ASD). ADHD is a public dataset which fo-
+   trastive graph pooling method designed for inter-              cuses on Attention Deficit and Hyperactive Disorder dis-
+   pretable classification of brain networks.                     ease (ADHD). HCP dataset is for gender classification.
+                                                                  Rest-meta-MDD and zhongdaxinxiang datasets deal with
+B. Prompt Examples                                                Major Depressive Disorder diagnosis (MDD). HC in Tab.
+                                                                  4 means controls compared to patients (ASD, MDD,
+B.1. Prompt Example for Augmented Text                            ADHD).
+      Generation
+Here we provide an example for input FC brain network             D. Details for Experimental Settings
+Gi . Corresponding PiD , PiG , PiQ are shown in Fig. 6.
+We also list following response from LLM. We take one             More training details in instruction tuning stage can be
+graph from ABIDE dataset just as an example (shown in             found in Tab. 5, including training arguments, LM set-
+Fig. 7).                                                          tings and GCN encoder settings.
+
+
+                                                              9
+                                         [    ]:0.5                                      [   ] - 0.8 - [   ]
+                                         [    ]:0.1                                      [   ] - 0.6 - [   ]
+                                                                                                               𝓟𝑮𝒊
+                              Node                              Edge
+                              feature:                          feature:
+                                         [    ]:0.7                                      [   ] - 0.2 - [   ]
+                                             ……                                         ……
+
+                              You are an experienced neuroscience researcher. Now please give a description
+                              of the fMRI graph data from {dataset} dataset. The task is {task}. The         𝓟𝑫
+                                                                                                              𝒊
+                              result is '{label1}' or '{label2}'. Data is preprocessed through AAL template.         𝓟𝒊
+                              Name of different Brain Regions can be: {template}.
+
+   𝒢𝑭𝑪                        Please analyze the pattern of data and output should be within 60 words like                      LLM API
+                              format below:
+                                  "analysis": "analysis for result",
+                                  "key_features":
+                                       "feature 1",
+                                       "feature 2",                                                             𝑸
+                                       ......
+                                                                                                               𝓟𝒊
+                                  "conclusion": "conclusion, should be related to task"
+                              An example is as follows: {example}
+
+
+
+                                         Figure 6. Prompt design for given FC graph.
+
+
+
+
+                                                                    𝑸
+                           𝓟𝑮𝒊               𝓟𝑫
+                                              𝒊                 𝓟𝒊
+       𝒢𝑭𝑪
+                                             prompt                                                LLM               Response
+
+   {
+       "analysis": "The fMRI graph data from the ABIDE dataset, preprocessed using
+   the AAL template, shows extensive connectivity patterns across multiple brain
+   regions. The connections are uniformly strong (strength=1.0), indicating robust
+   functional interactions. Key regions involved include the prefrontal cortex,
+   temporal lobes, and subcortical structures, which are known to be implicated in
+   ASD.",
+       "key_features": [
+           "High connectivity in prefrontal regions (e.g., regions 3, 5, 9, 11, 15)",
+           "Strong temporal lobe connections (e.g., regions 22, 23, 30, 31)",
+           "Subcortical involvement (e.g., regions 64, 65, 72, 74)",
+           "Widespread interhemispheric connections (e.g., regions 0-72, 0-74)"
+       ],
+       "conclusion": "The observed hyperconnectivity in prefrontal and temporal
+   regions, along with subcortical involvement, suggests atypical neural integration
+   in ASD. These patterns can serve as discriminative features for classifying ASD
+   vs. HC, with potential biomarkers in prefrontal-temporal-subcortical circuits."
+   }
+
+
+                      Figure 7. An example for prompt response from LLM of ABIDE dataset.
+
+
+   More training details in supervised fine-tuning stage                        E. Proof of Theorem
+can be found in Tab. 6, including training arguments,
+adapter settings and hyper-parameter searching space.                           Definition E.1 For original GNN, we define its repre-
+                                                                                sentation as XG . For tuning LM, its representation is de-
+                                                                                noted as XT . Similarly, for the embeddings of BLEG
+
+
+                                                                           10
+                                            FC Data Preprocessing
+                          ROI#1
+
+                          ROI#2
+                                                  Pearson
+                          ROI#3
+                                                 Correlation                        threshold
+                            …         ……
+                          ROI#90
+
+
+
+
+         fMRI             Bold signal series                       𝑿𝑭𝑪                              𝑨𝑭𝑪          𝒢𝐹𝐶 = (𝑨𝑭𝑪 , 𝑿𝑭𝑪 )
+
+
+                         Figure 8. Preprocess of fMRI data and construction for FC dataset.
+
+                                               Table 4. More details of datasets.
+
+    Datasets                            Tasks                   Samples        Nodes (|V|)          Classes      Categories
+    ABIDE                      ASD diagnosis                       618              90                   2      {HC, ASD}
+    ADHD                      ADHD diagnosis                       938              90                   2     {HC, ADHD}
+    HCP                      Gender classification                1039              90                   2    {Male, Female}
+    Rest-meta-MDD              MDD diagnosis                      2165              90                   2      {HC, MDD}
+    zhongdaxinxiang                MDD diagnosis                  520               90                   2     {HC, MDD}
+
+
+                                      Types                    Parameters                       Values
+                                                               Epochs                           5
+                                                               Dataset Length                 4760
+                           Training Arguments
+                                                               Batch Size                      32
+                                                               Learning Rate                5 × 10−5
+                                                               Model                     BioGPT
+                                   LM Settings                 Parameters             347M (1.57GB)
+                                                               Hidden                     1024
+                                                               Layers                      3
+                                                               Norm                  BatchNorm()
+                                   GCN Settings
+                                                               Activate                 GeLU()
+                                                               Dropout                    0.3
+
+
+                                    Table 5. Hyper-parameter settings for instruct-tuning.
+
+
+where a distillation loss is added between two embed-                     information to describe correlations between two repre-
+                                                     ′
+ding, we define LM-aided GNN representation as XG .                       sentations. For XG , we assume I(XT ; Y |XG ) > 0.
+And for given downstream task, its label information is
+                                                                          Assumption E.2 Here we use LCE and Lalign respec-
+denoted as Y .
+                                                                          tively to optimize the model. And we assume follow-
+                                                                                                                                   ′
+                                                                          ing error bounds between different logits: E(||XG −
+Assumption E.1 We leverage text information by fine-                                                  ′
+                                                                          XT ||2 ) ≤ δ12 , E(||XG − XG ||2 ) ≤ δ22 , where δ1 , δ2 > 0.
+tuning LM based on LLM. For downstream label repre-
+sentation Y and LM representation XT , we use mutual                         The first assumption states that LM contains comple-
+
+
+                                                                   11
+                         Types                 Parameters                                    Values
+                                               Epochs                                        150
+                                               Early Stop                                     50
+                 Training Arguments            Batch Size                               [32, 64, 128]
+                                               Learning Rate                          [0.0005, 0.0001]
+                                               Weight Decay                              [0, 0.0001]
+                                               LoRA rank                                      64
+                                               Layers                                         2
+                                               Norm                                  BatchNorm()
+                   Adapter Settings
+                                               Activate                                  GeLU()
+                                               Dropout                            [0.1, 0.2, 0.3, 0.4, 0.5]
+                                               Alignment Function                     MSELoss()
+              Hyper-parameter Settings         α                             [0.0, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
+                                               Few-shot ratio                [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
+
+
+                              Table 6. Hyper-parameter settings for supervised fine-tuning.
+
+
+mentary information of GNN that is useful for down-
+stream tasks. This assumption is guaranteed by LLM’s                     ′
+                                                                                                    h           ′
+                                                                                                                           i
+powerful capability of representation. Moreover, finetun-          I(XG ; Y ) − I(XG ; Y ) = EXG′ DKL (P (Y |XG )∥P (Y ))
+ing a smaller LM can also capture these useful text rep-                                             h                     i
+                                                                                              −EXG DKL (P (Y |XG )∥P (Y ))
+resentation, which is already proved in TAPE [12]. The
+second assumption states that via loss function as con-                                                             (12)
+                  ′      ′
+straints, (XG , XG ), (XG , XT ) are aligned within certain            Again with Assumption E.2, we derive upper bound
+error bounds.                                                      for different mutual information:
+
+                                                                        (         ′
+                                                                             I(XG ; Y ) − I(XG ; Y ) ≤ C2 · δ2
+Theorem E.1 Complementary Representations from                                           ′                                (13)
+LM for GNN. We define representation from original                          I(XT ; Y |XG ) ≤ C1 · δ1
+GNN (XG ) and fine-tuned LM (XT ), LM-distilled GNN
+                                ′                                     Where C1 , C2 are two constants.
+representation is denoted as XG . Downstream label rep-
+                                                                      For I(XG , XT ; Y ), we have:
+resentation is denoted as Y. Given above assumptions, we
+              ′
+have: I(XG ; Y ) − I(XG , XT ; Y ) ≤ C ·ϵ, where C is
+                                      ′                               I(XG , XT ; Y ) = I(XG ; Y ) + I(XT ; Y |XG )       (14)
+a constant and ϵ > 0. Thus for I(XG ; Y ) and I(XG ; Y ),
+     ′
+I(XG ; Y ) > I(XG ; Y ).                                              Thus we have:
+
+                                                                                         ′                         ′
+                                                                                                 h                       i
+    Considering Assumption. E.2, and for model denoted             I(XG , XT ; Y ) − I(XG ; Y ) = I(XG ; Y ) − I(XG ; Y )
+as fθ , Pθ (Y |X) prs with respect to X. Then we have:
+                                                                                                       + I(XT ; Y |XG )
+                                                                                                                          (15)
+                                                                      Then according to Eq. 13, we have:
+  sup ∥Pθ (Y |X1 ) − Pθ (Y |X2 )∥ ≤ L · ∥X1 − X2 ∥                                                     ′
+    Y                                                                −C2 · δ2 ≤ I(XG ; Y ) − I(XG ; Y ) ≤ C2 · δ2         (16)
+                                                      (11)
+                          ′
+   Then here for XG , XG , we have:                                   Eq. 15 can be written as:
+
+
+                                                              12
+                                                                       Prompt of tuned LM (Qwen3-8B)
+                                                                    # Task Description
+                         ′
+                                                                   You are an experienced neuroscience researcher.
+   I(XG , XT ; Y ) − I(XG ; Y ) ≤                                  Now please give a description of the fMRI graph
+                               ′                                   data from dataset dataset. The task is task. The
+            I(XG ; Y ) − I(XG ; Y ) + I(XT ; Y |XG )               result is ’{label1}’ or ’{label2}’. Data is prepro-
+                                                 (17)              cessed through AAL template. Name of different
+                                                                   Brain Regions can be: {template}
+   Combining Eq. 13, 16 and 17, we can derive:                      # Requirements
+                                                                   1. Input data introduction: Raw input data
+                                                                   whose format is {Data introduction}
+                                                                   2. Analysis requirement: Your analysis should
+                                                                   be accurate and every conclusion must be sup-
+                                           ′                       ported by direct proof from input data.
+−C2 · δ2 ≤ I(XG , XT ; Y ) − I(XG ; Y ) ≤ C1 · δ1 + C2 · δ2
+                                                                    # Output Format Your output should strict
+                                       ′
+      ⇒ I(XG , XT ; Y ) − I(XG ; Y ) ≤ C1 · δ1 + C2 · δ2           obey a json data whose structure is as follows:
+                                               (18)
+                                                                   {
+   We denote C · ϵ ← (C1 · δ1 + C2 · δ2 ), then we have:
+                                                                         “analysis”: “analysis for result”,
+                                                                         “key features”:
+
+                                   ′                                          “feature 1”,
+         I(XG , XT ; Y ) − I(XG ; Y ) ≤ C · ϵ      (19)                       “feature 2”,
+                                                                              ...
+                                                                         “prediction”: “prediction of the data, must
+                                                                   be aligned with task type”,
+   Further, according to Assumption E.1 and definition                   “certainty”: “Confidence of your predic-
+of mutual information, we have:                                    tion, a value between [1, 5]”
+
+                                                                   }
+
+                                                                    # Input Data
+                                                                   - raw data: {Data}
+I(XG , XT ; Y ) = I(XG ; Y )+I(XT ; Y |XG ) > I(XG ; Y )
+                                                  (20)
+
+   Finally by combining Eq. 19 and Eq. 20, we have:             F. Broader Impacts
+                                                                F.1. Ethical Statements
+                                                                For private dataset zhongdaxinxiang, it is from Affili-
+                     ′
+                I(XG ; Y ) > I(XG ; Y )            (21)         ated ZhongDa Hospital of Southeast University and the
+                                                                Second Affiliated Hospital of Xinxiang Medical Univer-
+                                                                sity. 245 patients with a diagnosis of MDD and 275
+                                                                age, gender and education level-matched healthy con-
+   Which means that through LM as enhancer, GNN can             trols (HC) were recruited. All the participants com-
+capture complementary information, leading to bigger            pleted a semi-structured clinical interview for DSM-IV
+value for mutual information between embeddings and             Axis Disorders(SCID-I/P), clinician Version with two se-
+downstream tasks.                                               nior psychiatrists. They also had an identical assessment
+
+
+                                                           13
+protocol,including review of medical history and demo-                sition our method as an assistant rather than direct de-
+graphic inventory.                                                    cision maker for doctors. We fully acknowledge that
+    Further, the research protocol was approved by the                many of these complexities must be addressed before
+institutional ethics committee, and all participants pro-             real-world deployment; however, covering every con-
+vided written informed consent. To safeguard privacy,                 tingency is, at present, beyond the reach of any sin-
+both raw and processed data are stored exclusively on in-             gle AI approach. We therefore contend that a more
+ternal servers and we use them just for researh but not               effective and safer strategy is to treat our AI diagnostic
+practical deployment. We did not use any LLM APIs to                  model as an auxiliary instrument. In practice, doctors
+direct analysis or transmit the data. Moreover, all subject           can inject domain-specific clinical knowledge such as
+identifiers were irreversibly removed, research person-               regional epidemiology or demographic traits which re-
+nel themselves have no access to these identity records,              quires little extra human labol (e.g. minor dataset ad-
+thereby precluding any possibility of personal informa-               justments or prompt tuning of the LLM) to achieve
+tion leakage.                                                         scenario-adaptive diagnostic results. These outputs
+    The original MRI and questionnaire data are not pub-              then inform, rather than override, doctors’ final deci-
+licly available due to privacy or confidentiality restric-            sion. In short, while our work makes a constructive ex-
+tions. The code used for the analyses is available in the             ploration in improving downstream performance and
+supplementary materials. All data are available upon rea-             interpretability, it is ultimately designed to relieve hu-
+sonable request from the corresponding author.                        man’s labol and assist rather than replace human med-
+    For public datasets, we strictly adhered to their re-             ical judgment.
+spective usage agreements. All preprocessing pipelines
+follow official procedures provided by the dataset main-            G. Future Works
+tainers, and every evaluation metric employed in our
+                                                                    Although our novel attempt to enhance brain GNNs with
+study is fully aligned with the official benchmark set-
+                                                                    LLMs has demonstrated promising results, BLEG still
+tings.
+                                                                    have space for improvement. Prompt design is crucial
+F.2. More Dataset Discussions                                       in fully activating strengths of LLMs and different LLM
+                                                                    can have different generations. Efficient Training for LM
+We discuss more about possible negative social impacts.             can also influence final performance. As our BLEG is a
+As part of the research in this paper deals with the di-            general pipeline, we conclude our future work as follows:
+agnosis of depression (on a real-world private dataset),            (a) More powerful LLM selection and GNN design. (b)
+it is necessary to elaborate here on the possible negative          More efficient prompt design and textual dataset gener-
+social impacts of this work, despite the fact that all the          ation, as well as generated data verification and refine-
+current work is at the stage of scientific research and has         ment. (c) Other distillation strategies for better represen-
+not been put to practical use. Including but not limited            tations.
+to:
+• Incorrect diagnosis. AI methods must have the possi-              References
+   bility of error, which cannot be avoided, but an incor-
+   rect diagnosis will have a significant impact on indi-            [1] Josh Achiam, Steven Adler, Sandhini Agarwal,
+   viduals and society. Therefore, AI tools can only be                  Lama Ahmad, Ilge Akkaya, Florencia Leoni Ale-
+   used as a diagnostic aid, not as a decision maker, and                man, Diogo Almeida, Janko Altenschmidt, Sam
+   the final decision should still be made by the doctor.                Altman, Shyamal Anadkat, et al. Gpt-4 technical
+• Leakage of privacy information. In depression dataset,                 report. arXiv preprint arXiv:2303.08774, 2023. 2
+   the identity information of the subjects is highly pri-           [2] Qiuhui Chen and Yi Hong. Medblip: Bootstrapping
+   vate, and the leakage of identity information will also               language-image pre-training from 3d medical im-
+   have unpredictable and significant impact on individ-                 ages and texts. In Proceedings of the Asian Confer-
+   uals and society. Therefore, in this work, we have                    ence on Computer Vision, pages 2404–2420, 2024.
+   completely hidden the subjects’ identifying informa-                  2
+   tion (which is also not visible to the staff in the study         [3] Jonathan D Cohen, Nathaniel Daw, Barbara En-
+   group) as a way of preventing the leakage of private                  gelhardt, Uri Hasson, Kai Li, Yael Niv, Ken-
+   information.                                                          neth A Norman, Jonathan Pillow, Peter J Ramadge,
+• Role of BLEG in real-world diagnosis. Finally we po-                   Nicholas B Turk-Browne, et al. Computational ap-
+
+
+                                                               14
+     proaches to fmri analysis. Nature neuroscience, 20          [12] Xiaoxin He, Xavier Bresson, Thomas Laurent,
+     (3):304–313, 2017. 2                                             Adam Perold, Yann LeCun, and Bryan Hooi. Har-
+ [4] ADHD-200 consortium. The adhd-200 consortium:                    nessing explanations: Llm-to-lm interpreter for en-
+     a model to advance the translational potential of                hanced text-attributed graph representation learn-
+     neuroimaging in clinical neuroscience. Frontiers                 ing. arXiv preprint arXiv:2305.19523, 2023. 4,
+     in systems neuroscience, 6:62, 2012. 6                           6, 12
+ [5] Hejie Cui, Wei Dai, Yanqiao Zhu, Xiaoxiao Li, Li-           [13] Tomoya Hirota and Bryan H King. Autism spec-
+     fang He, and Carl Yang. Interpretable graph neu-                 trum disorder: a review. Jama, 329(2):157–168,
+     ral networks for connectome-based brain disorder                 2023. 1
+     analysis. In International Conference on Medi-              [14] Edward J. Hu, Yelong Shen, Phillip Wallis, Zeyuan
+     cal Image Computing and Computer-Assisted In-                    Allen-Zhu, Yuanzhi Li, Shean Wang, Lu Wang, and
+     tervention, pages 375–385. Springer, 2022. 2, 3,                 Weizhu Chen. Lora: Low-rank adaptation of large
+     6, 9                                                             language models, 2021. 7
+ [6] Lulu Cui, Shu Li, Siman Wang, Xiafang Wu,                   [15] Jinlong Hu, Yangmin Huang, Nan Wang, and
+     Yingyu Liu, Weiyang Yu, Yijun Wang, Yong Tang,                   Shoubin Dong. Brainnpt: Pre-training transformer
+     Maosheng Xia, and Baoman Li. Major depressive                    networks for brain network classification. IEEE
+     disorder: hypothesis, mechanism, prevention and                  Transactions on Neural Systems and Rehabilitation
+     treatment. Signal transduction and targeted ther-                Engineering, 2024. 2, 6, 9
+     apy, 9(1):30, 2024. 1
+                                                                 [16] Songtao Jiang, Tuo Zheng, Yan Zhang, Yeying
+ [7] Adriana Di Martino, Chao-Gan Yan, Qingyang                       Jin, Li Yuan, and Zuozhu Liu. Med-moe: Mix-
+     Li, Erin Denio, Francisco X Castellanos, Kaat                    ture of domain-specific experts for lightweight
+     Alaerts, Jeffrey S Anderson, Michal Assaf, Su-                   medical vision-language models. arXiv preprint
+     san Y Bookheimer, Mirella Dapretto, et al. The                   arXiv:2404.10237, 2024. 2, 3
+     autism brain imaging data exchange: towards a
+     large-scale evaluation of the intrinsic brain archi-        [17] Thomas N Kipf and Max Welling. Semi-supervised
+     tecture in autism. Molecular psychiatry, 19(6):                  classification with graph convolutional networks.
+     659–667, 2014. 6                                                 In International Conference on Learning Represen-
+                                                                      tations (ICLR), 2017. 2, 6, 9
+ [8] Selene Gallo, Ahmed El-Gazzar, Paul Zhutovsky,
+     Rajat M Thomas, Nooshin Javaheripour, Meng Li,              [18] Jinhyuk Lee, Wonjin Yoon, Sungdong Kim,
+     Lucie Bartova, Deepti Bathula, Udo Dannlowski,                   Donghyeon Kim, Sunkyu Kim, Chan Ho So, and
+     Christopher Davey, et al. Functional connectivity                Jaewoo Kang. Biobert: a pre-trained biomedical
+     signatures of major depressive disorder: machine                 language representation model for biomedical text
+     learning analysis of two multicenter neuroimaging                mining. Bioinformatics, 36(4):1234–1240, 2020. 2,
+     studies. Molecular Psychiatry, 28(7):3013–3022,                  3
+     2023. 8                                                     [19] Chunyuan Li, Cliff Wong, Sheng Zhang, Naoto
+ [9] Aaron Grattafiori, Abhimanyu Dubey, Abhinav                      Usuyama, Haotian Liu, Jianwei Yang, Tristan Nau-
+     Jauhri, Abhinav Pandey, Abhishek Kadian, Ah-                     mann, Hoifung Poon, and Jianfeng Gao. Llava-
+     mad Al-Dahle, Aiesha Letman, Akhil Mathur, Alan                  med: Training a large language-and-vision assis-
+     Schelten, Alex Vaughan, et al. The llama 3 herd of               tant for biomedicine in one day. Advances in Neural
+     models. arXiv preprint arXiv:2407.21783, 2024. 2                 Information Processing Systems, 36:28541–28564,
+[10] Will Hamilton, Zhitao Ying, and Jure Leskovec.                   2023. 2, 3
+     Inductive representation learning on large graphs.          [20] Xiaoxiao Li, Yuan Zhou, Nicha Dvornek, Muhan
+     In Advances in Neural Information Processing Sys-                Zhang, Siyuan Gao, Juntang Zhuang, Dustin
+     tems (NeurIPS), pages 1024–1034, 2017. 2, 6, 9                   Scheinost, Lawrence H Staib, Pamela Ventola, and
+[11] Teruo Hashimoto, Susumu Yokota, Yutaka Mat-                      James S Duncan. Braingnn: Interpretable brain
+     suzaki, and Ryuta Kawashima. Intrinsic hippocam-                 graph neural network for fmri analysis. Medical
+     pal functional connectivity underlying rigid mem-                Image Analysis, 74:102233, 2021. 2, 3, 6, 9
+     ory in children and adolescents with autism spec-           [21] Aixin Liu, Bei Feng, Bing Xue, Bingxuan Wang,
+     trum disorder: A case–control study. Autism, 25                  Bochao Wu, Chengda Lu, Chenggang Zhao,
+     (7):1901–1912, 2021. 7                                           Chengqi Deng, Chenyu Zhang, Chong Ruan, et al.
+
+
+                                                            15
+     Deepseek-v3 technical report.         arXiv preprint        [31] Khaled Saab, Tao Tu, Wei-Hung Weng, Ryutaro
+     arXiv:2412.19437, 2024. 4                                        Tanno, David Stutz, Ellery Wulczyn, Fan Zhang,
+[22] Haotian Liu, Chunyuan Li, Qingyang Wu, and                       Tim Strother, Chunjong Park, Elahe Vedadi, et al.
+     Yong Jae Lee. Visual instruction tuning. Ad-                     Capabilities of gemini models in medicine. arXiv
+     vances in neural information processing systems,                 preprint arXiv:2404.18416, 2024. 3
+     36:34892–34916, 2023. 5                                     [32] Xiao-Wei Song, Zhang-Ye Dong, Xiang-Yu Long,
+[23] Hao Liu, Jiarui Feng, Lecheng Kong, Ningyue                      Su-Fang Li, Xi-Nian Zuo, Chao-Zhe Zhu, Yong
+     Liang, Dacheng Tao, Yixin Chen, and Muhan                        He, Chao-Gan Yan, and Yu-Feng Zang. Rest: a
+     Zhang. One for all: Towards training one graph                   toolkit for resting-state functional magnetic reso-
+     model for all classification tasks, 2024. 6                      nance imaging data processing. PloS one, 6(9):
+[24] Yicheng Long, Hengyi Cao, Chaogan Yan, Xiao                      e25031, 2011. 9
+     Chen, Le Li, Francisco Xavier Castellanos,                  [33] Jiabin Tang, Yuhao Yang, Wei Wei, Lei Shi, Lixin
+     Tongjian Bai, Qijing Bo, Guanmao Chen, Ningx-                    Su, Suqi Cheng, Dawei Yin, and Chao Huang.
+     uan Chen, et al. Altered resting-state dynamic func-             Graphgpt: Graph instruction tuning for large lan-
+     tional brain networks in major depressive disorder:              guage models. In Proceedings of the 47th Inter-
+     Findings from the rest-meta-mdd consortium. Neu-                 national ACM SIGIR Conference on Research and
+     roImage: Clinical, 26:102163, 2020. 7                            Development in Information Retrieval, pages 491–
+[25] Renqian Luo, Liai Sun, Yingce Xia, Tao Qin,                      500, 2024. 4
+     Sheng Zhang, Hoifung Poon, and Tie-Yan Liu.                 [34] Qwen Team. Qwq-32b: Embracing the power of
+     Biogpt: generative pre-trained transformer for                   reinforcement learning, 2025. Accessed:2025-09-
+     biomedical text generation and mining. Briefings                 22. 4
+     in bioinformatics, 23(6):bbac409, 2022. 2, 3
+                                                                 [35] Yingzhi Teng, Kai Wu, Jing Liu, Yifan Li, and
+[26] Andrea I Luppi, Helena M Gellersen, Zhen-Qi Liu,                 Xiangyi Teng. Constructing high-order functional
+     Alexander RD Peattie, Anne E Manktelow, Ram                      connectivity networks with temporal information
+     Adapa, Adrian M Owen, Lorina Naci, David K                       from fmri data. IEEE Transactions on Medical
+     Menon, Stavros I Dimitriadis, et al. Systematic                  Imaging, 2024. 2, 6, 9
+     evaluation of fmri data-processing pipelines for
+                                                                 [36] David C Van Essen, Stephen M Smith, Deanna M
+     consistent functional connectomics. Nature Com-
+                                                                      Barch, Timothy EJ Behrens, Essa Yacoub, Kamil
+     munications, 15(1):4745, 2024. 2
+                                                                      Ugurbil, Wu-Minn HCP Consortium, et al. The
+[27] Aarthi Padmanabhan, Charles J Lynch, Marie
+                                                                      wu-minn human connectome project: an overview.
+     Schaer, and Vinod Menon. The default mode
+                                                                      Neuroimage, 80:62–79, 2013. 1, 6
+     network in autism. Biological Psychiatry: Cog-
+     nitive Neuroscience and Neuroimaging, 2(6):476–             [37] Petar Veličković, Guillem Cucurull, Arantxa
+     486, 2017. 7                                                     Casanova, Adriana Romero, Pietro Liò, and Yoshua
+[28] Mahie Patil, Nofel Iftikhar, and Latha Ganti. Neu-               Bengio. Graph attention networks. In International
+     roimaging insights into autism spectrum disorder:                Conference on Learning Representations (ICLR),
+     Structural and functional brain. Health Psychology               2018. 2, 6, 9
+     Research, 12:123439, 2024. 7                                [38] Christopher Wang, Vighnesh Subramaniam,
+[29] Liang Peng, Songyue Cai, Zongqian Wu, Huifang                    Adam Uri Yaari, Gabriel Kreiman, Boris Katz,
+     Shang, Xiaofeng Zhu, and Xiaoxiao Li. Mmgpl:                     Ignacio Cases, and Andrei Barbu. Brainbert: Self-
+     Multimodal medical data analysis with graph                      supervised representation learning for intracranial
+     prompt learning. Medical Image Analysis, 97:                     recordings.     arXiv preprint arXiv:2302.14367,
+     103225, 2024. 2, 3                                               2023. 2
+[30] Daniel Porta-Casteràs, Marta Cano, Joan A Cam-             [39] Charles SE Weston. Four social brain regions,
+     prodon, Colleen Loo, Diego Palao, Carles Soriano-                their dysfunctions, and sequelae, extensively ex-
+     Mas, and Narcı́s Cardoner.            A multimetric              plain autism spectrum disorder symptomatology.
+     systematic review of fmri findings in patients                   Brain sciences, 9(6):130, 2019. 7
+     with mdd receiving ect.         Progress in Neuro-          [40] Peter Wills and François G Meyer. Metrics for
+     Psychopharmacology and Biological Psychiatry,                    graph comparison: a practitioner’s guide. Plos one,
+     108:110178, 2021. 8                                              15(2):e0228728, 2020. 2
+
+
+                                                            16
+[41] Zhanghao Wu, Paras Jain, Matthew Wright, Aza-                     Jie Wen, Di Hu, et al. Multimodal fusion on
+     lia Mirhoseini, Joseph E Gonzalez, and Ion Stoica.                low-quality data: A comprehensive survey. arXiv
+     Representing long-range context for graph neural                  preprint arXiv:2404.18947, 2024. 2
+     networks with global attention. Advances in neural           [48] Shengjie Zhang, Xiang Chen, Xin Shen, Bohan
+     information processing systems, 34:13266–13279,                   Ren, Ziqi Yu, Haibo Yang, Xi Jiang, Dinggang
+     2021. 6, 9                                                        Shen, Yuan Zhou, and Xiao-Yong Zhang. A-
+[42] Jiaxing Xu, Qingtian Bian, Xinhang Li, Aihu                       gcl: Adversarial graph contrastive learning for fmri
+     Zhang, Yiping Ke, Miao Qiao, Wei Zhang, Wei                       analysis to diagnose neurodevelopmental disorders.
+     Khang Jeremy Sim, and Balázs Gulyás. Contrastive                Medical Image Analysis, 90:102932, 2023. 2
+     graph pooling for explainable classification of brain        [49] Yizhuo Zhang, Heng Wang, Shangbin Feng,
+     networks. IEEE Transactions on Medical Imaging,                   Zhaoxuan Tan, Xiaochuang Han, Tianxing He, and
+     2024. 2, 6, 9                                                     Yulia Tsvetkov. Can llm graph reasoning gener-
+[43] An Yang, Anfeng Li, Baosong Yang, Beichen                         alize beyond pattern memorization? In Findings
+     Zhang, Binyuan Hui, Bo Zheng, Bowen Yu, Chang                     of the Association for Computational Linguistics:
+     Gao, Chengen Huang, Chenxu Lv, Chujie Zheng,                      EMNLP 2024, pages 2289–2305, 2024. 4
+     Dayiheng Liu, Fan Zhou, Fei Huang, Feng Hu,                  [50] Wenhao Zheng, Liaoyaqi Wang, Dongshen Peng,
+     Hao Ge, Haoran Wei, Huan Lin, Jialong Tang,                       Hongxia Xu, Yun Li, Hongtu Zhu, Tianfan Fu, and
+     Jian Yang, Jianhong Tu, Jianwei Zhang, Jianxin                    Huaxiu Yao. Multimodal clinical trial outcome pre-
+     Yang, Jiaxi Yang, Jing Zhou, Jingren Zhou, Jun-                   diction with large language models. arXiv preprint
+     yang Lin, Kai Dang, Keqin Bao, Kexin Yang,                        arXiv:2402.06512, 2024. 2, 3
+     Le Yu, Lianghao Deng, Mei Li, Mingfeng Xue,
+     Mingze Li, Pei Zhang, Peng Wang, Qin Zhu, Rui
+     Men, Ruize Gao, Shixuan Liu, Shuang Luo, Tian-
+     hao Li, Tianyi Tang, Wenbiao Yin, Xingzhang Ren,
+     Xinyu Wang, Xinyu Zhang, Xuancheng Ren, Yang
+     Fan, Yang Su, Yichang Zhang, Yinger Zhang, Yu
+     Wan, Yuqiong Liu, Zekun Wang, Zeyu Cui, Zhenru
+     Zhang, Zhipeng Zhou, and Zihan Qiu. Qwen3 tech-
+     nical report, 2025. 9
+[44] Xi Yang, Yan Jin, Xiaobo Chen, Han Zhang, Gang
+     Li, and Dinggang Shen. Functional connectivity
+     network fusion with dynamic thresholding for mci
+     diagnosis. In Machine Learning in Medical Imag-
+     ing: 7th International Workshop, MLMI 2016, Held
+     in Conjunction with MICCAI 2016, Athens, Greece,
+     October 17, 2016, Proceedings 7, pages 246–253.
+     Springer, 2016. 2
+[45] Jia Yi, Huilin Jiang, Xiaoyong Wang, and Yong
+     Tan. A comprehensive review on sparse represen-
+     tation and compressed perception in optical image
+     reconstruction. Archives of Computational Meth-
+     ods in Engineering, 31(5):3197–3209, 2024. 2
+[46] Anyi Zhang, Lin Liu, Suhua Chang, Le Shi, Peng
+     Li, Jie Shi, Lin Lu, Yanping Bao, and Jiajia
+     Liu. Connectivity-based brain network supports re-
+     stricted and repetitive behaviors in autism spectrum
+     disorder across development. Frontiers in psychia-
+     try, 13:874090, 2022. 7
+[47] Qingyang Zhang, Yake Wei, Zongbo Han, Huazhu
+     Fu, Xi Peng, Cheng Deng, Qinghua Hu, Cai Xu,
+
+
+                                                             17
+

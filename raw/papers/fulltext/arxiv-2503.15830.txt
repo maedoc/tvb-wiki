@@ -1,0 +1,1576 @@
+                                                                                                                                                                                           1
+
+
+
+
+                                                     Alignment of Continuous Brain Connectivity
+                                                          Martin Cole, Yang Xiang, Will Consagra, Anuj Srivastava, Xing Qiu and Zhengwu Zhang
+
+
+
+                                              Abstract—Brain networks are typically represented by adja-                    Due to the varying sizes and shapes of the brains, alignment
+                                           cency matrices, where each node corresponds to a brain region.                is necessary for performing group-wise analysis for a popula-
+                                           In traditional brain network analysis, nodes are assumed to                   tion of brain networks. The current literature largely overlooks
+                                           be matched across individuals, but the methods used for node
+                                           matching often overlook the underlying connectivity information.              the problem of aligning brain networks as the task becomes
+                                           This oversight can result in inaccurate node alignment, leading               computationally prohibitive with a large number of nodes
+                                           to inflated edge variability and reduced statistical power in                 [5]–[8]. In contrast, most existing methodologies employ a
+arXiv:2503.15830v1 [stat.ME] 20 Mar 2025
+
+
+
+
+                                           downstream connectivity analyses. To overcome this challenge,                 different approach, where a predefined atlas is warped into
+                                           we propose a novel framework for registering high-resolution                  each individual brain to pinpoint nodes or regions of interest
+                                           continuous connectivity (ConCon), defined as a continuous func-
+                                           tion on a product manifold space—specifically, the cortical                   (ROIs) [9]. This approach assumes that the defined node
+                                           surface—capturing structural connectivity between all pairs of                matches the same brain region across individuals. However,
+                                           cortical points. Leveraging ConCon, we formulate an optimal dif-              this approach suffers from two significant issues. First, the
+                                           feomorphism problem to align both connectivity profiles and cor-              choice of the atlas is often arbitrary, and there is no universally
+                                           tical surfaces simultaneously. We introduce an efficient algorithm            accepted standard atlas for brain connectivity analysis [10],
+                                           to solve this problem and validate our approach using data from
+                                           the Human Connectome Project (HCP). Results demonstrate that                  [11]. This lack of consensus can lead to inconsistencies in
+                                           our method substantially improves the accuracy and robustness                 analysis [12]. Second, the atlas warping process typically does
+                                           of connectome-based analyses compared to existing techniques.                 not incorporate connectivity information, which can lead to
+                                              Index Terms—Structural Connectivity, Continuous Connectiv-                 node misalignment and inflated variances across subjects, di-
+                                           ity, Network Alignment, Cortical Surfaces, Diffeomorphism                     minishing the effectiveness of subsequent statistical analyses.
+                                                                                                                            In this work, we introduce a new approach to brain network
+                                                                                                                         alignment that overcomes the aforementioned challenges by
+                                                                                                                         using a continuous connectivity (ConCon) model, a recent
+                                                                    I. I NTRODUCTION                                     representation of the brain connectivity [13]–[16]. Let S1 and
+                                              Image registration or alignment is a fundamental step for                  S2 be the left and right white surfaces, respectively (as shown
+                                                                                                                         in Fig. 1 Panel B), and let Ω    e = S1 ∪ S2 . Different from
+                                           a variety of biomedical imaging analysis tasks [1]. In this
+                                           paper, we consider brain networks and their alignment. The                    traditional ROI-based connectivity, a ConCon f defines the
+                                                                                                                         connection strength between any pair of points (x, y) ∈ Ω×  e Ω, e
+                                           brain network is often represented as an adjacency matrix
+                                           A ∈ RV ×V , where V represents the number of nodes.                           i.e., f (x, y) is a continuous and symmetric function defined
+                                                                                                                         on Ω×e Ω.e For simplicity, we study only SC and its registration
+                                           There are mainly two types of brain networks, functional
+                                           connectivity (FC) and structural connectivity (SC), depending                 and leave the extension to FC for future work.
+                                           on how the connectivity strengths are defined in the adjacency
+                                           matrix A. For FC, one can compute the connection strength                     A. Background on ConCon
+                                           based on the Pearson correlation between the averaged blood-
+                                                                                                                            Using dMRI and structural MRI (i.e., T1-weighted MRI),
+                                           oxygen-level-dependent (BOLD) signals for a pair of nodes.
+                                                                                                                         tractography can be performed to infer the underlying white
+                                           The BOLD signals are obtained from functional magnetic
+                                                                                                                         matter pathways that connect different brain regions [17]. Dif-
+                                           resonance imaging (fMRI). In contrast, SC is derived from
+                                                                                                                         fusion MRI measures the random motion of water molecules
+                                           diffusion MRI (dMRI), and it quantifies the degree to which
+                                                                                                                         in tissue, which is more restricted along the direction of
+                                           brain regions are interconnected by white matter fiber bundles.
+                                                                                                                         white matter fiber bundles due to their organized, cable-like
+                                           Both SC and FC serve as crucial biomarkers in understanding
+                                                                                                                         structure. Tractography uses this directional information to
+                                           how the brain works under various conditions [2]–[4].
+                                                                                                                         computationally reconstruct these fiber bundles as stream-
+                                             Martin Cole and Yang Xiang contributed equally to this work. Please         lines—continuous, three-dimensional curves that trace the
+                                           correspond to Dr. Zhengwu Zhang at zhengwu zhang@unc.edu.                     estimated paths of white matter tracts from one brain region to
+                                           Martin Cole is with the Department of Psychiatry, University of Rochester,    another. These streamlines represent the trajectories of axonal
+                                           Rochester, NY 14627 USA.
+                                           Yang Xiang and Zhengwu Zhang are with the Department of Statistics and        connections within the brain’s white matter. Collectively, the
+                                           Operations Research, University of North Carolina at Chapel Hill, Chapel      resulting streamlines form the structural connectivity, provid-
+                                           Hill, NC 27599 USA.                                                           ing a map of how different brain regions are physically linked.
+                                           Will Consagra is with the Department of Statistics, University of South
+                                           Carolina, Columbia, SC 29208 USA.                                             Fig. 1 Panel (A) shows the streamlines obtained from a random
+                                           Anuj Srivastava is with Department of Statistics, Florida State University,   HCP subject.
+                                           Tallahassee, FL 32306 USA.                                                       In practice, to ensure the streamlines have ending points on
+                                           Xing Qiu is with the Department of Biostatistics and Computational Biology,                         e we utilized the surface-enhanced trac-
+                                           University of Rochester, Rochester, NY 14627 USA.                             the cortical surface Ω,
+                                                                                                                         tography (SET) algorithm [18]. Denote the pair of endpoints
+                                                                                                                                                         2
+
+
+
+                                                                                  B. Alignment of ConCon Functions
+                                                                                     Let {f1 , . . . , fN } be the set of observed ConCon functions
+                                                                                  derived from N subjects on the individual white surfaces
+                                                                                  e 1, . . . , Ω
+                                                                                  Ω            e N . Given that these white surfaces exhibit varying
+                                                                                  shapes and folding patterns, it becomes essential to determine
+                                                                                  the correspondence between fi (x, y) for x, y ∈ Ω                e i and
+                                                                                                                e j in order to compare fi and fj .
+                                                                                  fj (x′ , y ′ ) for x′ , y ′ ∈ Ω
+                                                                                     We now discuss two possible ways of aligning ConCon
+                                                                                  functions f1 and f2 on Ω         e1 × Ωe 1 and Ω e2 × Ω
+                                                                                                                                        e 2 , respectively.
+                                                                                  The first way is to deform the domains to a template surface
+                                                                                  e µ and map any data on the individual domain to the template
+                                                                                  Ω
+                                                                                  domain Ω      e µ . This idea has been previously used in [22]
+                                                                                  for jointly modeling brain shape and functional connectivity.
+                                                                                  However, the deformation of Ω         e i to a template considers only
+                                                                                  its shape information. Without considering the connectivity
+                                                                                  features encoded in fi , the method only provides a suboptimal
+                                                                                  alignment of the connectivity.
+Fig. 1: Panel A shows the tractography of a random subject, panel                    The second way is to keep the shape of Ω          e i untouched but
+(B) shows where the tractography intersects with the cortical surface,            change its parameterization to align the ConCon functions.
+and panel (C) shows the ConCon matrix of a random subject and the                 More specifically, since the white surfaces are homeomorphic
+projection of a single column onto the cortical surface.
+                                                                                  2-spheres, we can parameterize points on Sj using spherical
+                                                                                  coordinates, and thus fi (x, y) becomes functions defined on
+                           e and define the set of ending points for              Ω × Ω for Ω = S21 ∪ S22 . This parameterization process
+(p̃1 , p̃2 ), where p̃i ∈ Ω,
+                              e as Õi = {(p̃1 , p̃1 ), · · · , (p̃ni , p̃ni )}   establishes an initial correspondence between f1 and f2 , i.e.,
+streamlines connecting Ω                            1 2            1      2       f1 (x, y) is matched with f2 (x, y) for x, y ∈ Ω . The alignment
+for subject i. Here ni is the total number of streamlines
+                                                                                  of f2 to f1 is now to find an optimal reparameterization or
+connecting cortical surface Ω̃. Since S1 and S2 are homeomor-
+                                                                                  warping function γΩ such the warped f2 denoted as (f2 ∗ γΩ )
+phic to S2 , we parametrize them using spherical coordinates.
+                                                                                  (whose precise definition will be given later) is best matched
+Let (p1 , p2 ) be the image of (p̃1 , p̃2 ) on S21 ∪ S22 under the
+                                                                                  with f1 , where γΩ is a diffeomorphism of Ω.
+homomorphism, then we can denote the set of parameterized
+                                                                                     Formulating the brain connectivity alignment using the latter
+endpoints as Oi = {(p11 , p12 ), . . . , (pn1 i , pn2 i )}, and Oi ⊂ Ω × Ω
+                                                                                  method has many advantages over the other way: 1) It directly
+and Ω = S21 ∪ S22 .
+                                                                                  aligns the connectivity data, and no other features are involved
+   The endpoints set O completely describes the surface con-                      in confounding the alignment process; 2) the original surface
+nectivity pattern generated by the estimated streamlines from                     Ω̃i is unchanged, and we can easily and accurately map any
+SET. In the ConCon framework, the endpoints O are modeled                         statistical findings back to the original surface to interpret the
+as a realization of a stochastic point process on Ω × Ω with an                   findings; and 3) it formulates the brain connectivity alignment
+unknown but integrable intensity function f ∗ : Ω×Ω → [0, ∞)                      problem into a functional data alignment problem, enabling
+[15], [16], [19], [20]. This function is defined as follows: for                  us to borrow ideas from existing solutions to solve this
+any two measurable regions E1 ⊂ Ω and E2 ⊂ Ω, denote                              challenging problem [23].
+N (E1 , E2 ) as the number of streamlines ending in (E1 , E2 ),
+then f ∗ satisfies the following equation:
+                               Z Z                                                C. Our Approach
+            E [N (E1 , E2 )] =           f ∗ (x, y) dx dy < ∞.              (1)      We work on the second method to align brain networks.
+                                 E1    E2                                         Once the brain networks are represented using ConCon func-
+Associated with intensity function f ∗ is density function f                      tions, existing methods from functional data alignment can be
+defined by:                                                                       adapted to our situation. For example, [24] form the functional
+                            f ∗ (x, y)                                            alignment problem on [0, 1] as finding Γ[0,1] (t)’s in the form
+                f=R R ∗                    ,                                          R t (v)          R 1 (v)
+                            f (u, v) du dv                                        of 0 |gi (s)|p ds/ 0 |gi (s)|p ds (with v = 0 and p = 1 as
+                       Ω Ω
+                                                                                  recommended values) so that gi ◦ Γ[0,1] ’s are aligned, where
+which normalizes f ∗ . This latent function f is referred to as                   gi : [0, 1] 7→ R. [25] uses moment-based matching for aligning
+ConCon and is the object of interest in this work.                                1D functions on [0, 1]. [26] and [27] use a square-root velocity
+   Crucially, the ConCon representation is resolution agnostic                    function (SRVF) to align and analyze the shapes of curves, i.e.,
+and does not rely on a pre-defined brain atlas and so avoids                      g : [0, 1] 7→ Rn . More recently, the Fisher-Rao Riemannian
+the previously mentioned issues resulting from ROI-based                          metric has been used to separate the phase and amplitude
+connectivity. Moreover, it has been demonstrated that ConCon                      parts of 1D functional data on [0, 1] in [28]. Alignment of
+is a more powerful representation for a variety of population-                    functional data on the manifold, i.e., g : [0, 1] 7→ M where
+based neuroscience analyses, including trait prediction and                       M is a nonlinear manifold, has been investigated in [29]–
+group-wise hypothesis testing [21].                                               [31]. However, the ConCon function f is defined on a product
+                                                                                                                                      3
+
+
+
+manifold domain Ω × Ω, which is significantly different from
+the previous works.
+   For simplicity, we utilize a much simpler domain Ω = [0, 1]
+to discuss the problem and derive all theoretical and computa-
+tional tools for solving the alignment problem on [0, 1]×[0, 1].
+We then extend the solution to domains S2 and S21 ∪ S22 . We
+refer to our method as mEtric-based coNtinuous COnnectiv-
+ity REgistration (ENCORE). Our main contributions can be
+summarized as follows:
+                                                                     Fig. 2: Panel A shows a simulated ConCon function f , panel B
+  1) To the best of our knowledge, this is the first study           shows a randomly generated warping function γ for Ω = [0, 1], and
+     to formulate brain network registration as a problem of         panel (c) shows the warped ConCon (f ∗ γ).
+     aligning functional data on a product manifold. While
+     [13] represents an early exploration in this direction, our
+                                                                                                     R R
+     approach is significantly more comprehensive in scope               integration P (E1 , E2 ) = E1 E2 f (x, y)dxdy describes
+     and methodology.                                                    the connection strength between E1 and E2 .
+  2) We develop an efficient and fast gradient-based algo-             • f ◦ γ̃(x, y) ≡ f (γ(x), γ(y)) - a compact notation for
+     rithm in ENCORE to optimize the alignment of cortical               applying an element γ ∈ Γ[0,1] to warp ConCon func-
+     surfaces based on connectivity patterns. This alignment             tions. Elements of Γ[0,1] define the following mapping on
+     facilitates improved brain network registration, enabling           this domain: γ̃ : [0, 1] × [0, 1] → [0, 1] × [0, 1], (x, y) 7→
+     more robust statistical analyses.                                   (γ(x), γ(y)). Therefore a compact notation can be ob-
+  3) Through extensive simulations and real-world data anal-             tained f ◦ γ̃(x, y) ≡ f (γ(x), γ(y)).
+     yses, we demonstrate the effectiveness of ENCORE in
+                                                                       Considering the constraints associated with ConCons, we
+     aligning brain networks.
+                                                                     propose the following natural group action of Γ[0,1] on FI :
+   The remainder of the paper is organized as follows. In
+Section II, we introduce ConCon alignment on Ω = [0, 1]
+                                                                                       (f ∗ γ) = (f ◦ γ̃)γ̇(x)γ̇(y).
+and extend the method to Ω = S2 in Section III, followed
+by an extension to Ω = S21 ∪ S22 in Section IV. In Section           Under this action, we can easily show that all constraints
+V, we present a method for defining a template from a set            of f ∈ FI get preserved. The value f (x, y) represents the
+of ConCon functions. We then provide extensive simulation            probability density of the streamline connections between x
+studies in Section VI and real-data analyses in Section VII.         and y. A warping γ will stretch or squeeze the underlying
+Finally, we conclude the paper in Section VIII.                      domain, thereby altering the corresponding density. Fig. 2
+                                                                     panel (A) shows an f ∈ FI , panel (B) shows a simulated
+          II. C ON C ON A LIGNMENT ON Ω = [0, 1]                     γ ∈ Γ and panel (C) shows the warped function (f ∗ γ).
+                                                                        Now, let us formulate the registration problem. With the
+   We start with Ω = [0, 1] and define the following notations       warping action defined, the registration between f1 and f2
+to help formulate the research problem.                              can be formulated as a problem to find a γ ∈ Γ[0,1] such that
+  • Γ[0,1] - the set of boundary-preserving diffeomorphisms          (f2 ∗γ) is optimally matched with f1 . To solve it, we face two
+    on [0, 1]. A function γ ∈ Γ[0,1] satisfies the following         important problems: a) how to quantify the matching between
+    conditions: it is a mapping from [0, 1] to [0, 1] with           (f2 ∗ γ) and f1 , and b) how to find a γ ∗ ∈ Γ[0,1] to optimize
+    γ(0) = 0 and γ(1) = 1, and γ is invertible and both              the criterion defined in a).
+    γ and its inverse are smooth. The elements of Γ[0,1] form           The problem a) relates to finding an appropriate metric
+    a group, i.e., 1) for any γ1 , γ2 ∈ Γ[0,1] , their composition   to quantify the difference between f2 and f1 . For example,
+    γ1 ◦ γ2 ∈ Γ[0,1] ; 2) for any γ ∈ Γ[0,1] , its inverse           the simplest way to compute the distance between two func-
+    γ −1 ∈ Γ[0,1] ; and 3) the identity function γid (x) = x         tions is to use RRthe standard L2 distance for functions, i.e.,
+    is an element in Γ[0,1] .                                        ∥f1 − f2 ∥= ( (f1 − f2 )2 dxdy)1/2 . However, it is easy
+  • FI - the set of ConCon functions on [0, 1] × [0, 1]. For f       to show that in general, the action of γ does not preserve
+    in FI , it has to satisfy several constraints: 1) the symme-     the L2 distance in FI : using the same warping function γ,
+    try constraint: f (x, y) = f (y, x); 2) the non-negativity       ∥f1 (x, y) − f2 (x, y)∥ ≠ ∥(f1 ∗ γ) − (f2 ∗ γ)∥. This lack of
+    constraint: Rf (x,
+                     R y) ≥ 0; and 3) the constant integration       isometry is problematic because we wish the distance between
+    constraint: Ω Ω f (x, y)dxdy = C, where C denotes a              two ConCon functions is kept invariant before and after the
+    constant. The condition 1) implies that the connectivity         registration (warping). Since fi ’s are PDFs, another potential
+    is undirectional, 2) implies that the connection strength        choice is the Kullback-Leibler (KL) divergence. However, the
+    between any pair of nodes is always non-negative, and 3)         KL divergence is not a proper distance because it is not
+    implies that we have normalized the ConCons to remove            symmetric, meaning that KL(f1 , f2 ) ̸= KL(f2 , f1 ) , which
+    the scaling confounding. In this paper, we let C = 1,            is problematic in the context of registration.
+    and the ConCon function is a probability density function           It turns out that if we apply simple square-root transforma-
+    (PDF), and for two disjoint regions E1 , E2 ⊂ Ω, the             tion to functions in FI , the warping action will preserve the
+                                                                                                                                         4
+
+
+
+
+                     action on FI                                        See the proof in Supplementary S1. This isometry property
+             f                               (f ∗ γ)                  forms an important foundation for our ConCon registration
+                                                                      problem. We can just use dR (·, ·) as the energy function
+     Q(f )                                       Q((f ∗ γ))           to quantify the matching between f1 and f2 , e.g., denote
+                                                                      H(f1 , f2 ) = dR (q1 , q2 ). To align f2 to f1 , we simply fix f1
+                     action on QI                                     and find the optimal γ ∗ to warp f2 to minimize the energy
+             q                              (q ∗ γ)
+                                                                      function, i.e.,
+Fig. 3: A commutative diagram to represent the relationship between                    γ ∗ = arg min H(f1 , (f2 ∗ γ)).
+functions f ∈ FI , functions q ∈ QI , and their respective group                                 γ∈Γ[0,1]
+actions by an element of γ from Γ[0,1] .                              We can also show that if γ ∗ is the optimal warping to align
+                                                                      f2 to f1 , then (γ ∗ )−1 is the optimal warping to align f1 to f2 .
+                                                                      That is, the solution is inverse consistent. To further simplify
+desired isometry property. This fact will be made evident in
+                                                                      the optimization problem, we consider the ambient space of
+the following sections.
+                                                                      QI , the symmetric functions on Ω × Ω, and use the standard
+                                                                      L2 distance in the ambient space to define the optimization
+A. Square-Root Representation of ConCon                               problem:
+   Instead of directly working with the function f , we define        γ ∗ = arg min H(f1 , (f2 ∗γ)); H(f1 , (f2 ∗γ)) = ∥q1 −(q2 ∗γ)∥2 .
+a square-root transformation of f with the mapping:                         γ∈Γ[0,1]
+                              (√                                                                                               (4)
+                                  s,       if s ≥ 0                   It is easy to show that the two optimization problems are
+         Q : R → R, Q(s) =        √                        (2)
+                                − −s,      otherwise.                 equivalent since one minimizes the arc length, and the other
+                                                                      minimizes the chord length.
+Note that for functions in FI there is no negative values.
+Applying the Q mapping, our new function space is defined
+as                                                                    C. Deriving the Gradient of H
+            QI ≡ {q(x, y) = Q (f (x, y)) | f ∈ FI } .        (3)         For Ω = [0, 1], ENCORE’s optimization problem can
+                                           RR                         be easily solved using dynamic programming (DP) [26].
+Since
+RR      f integrates to one, we have           q(x, y)2 dxdy =
+                                                                      However, when the domain becomes more complex, e.g.,
+    f (x, y)dxdy = 1. That is, the q function is an element
+                                                                      Ω = S2 , the DP algorithm no longer works. Here we propose
+of the positive orthant S∞ . The q function is also referred to
+                                                                      a gradient-based approach that can be easily extended to more
+as the half density of f , and from the half density, we can
+                                                                      complex domains.
+easily obtain the full density using f (x, y) = q(x, y)2 . Since
+                                                                         We first derive the gradient of our cost function H in (4).
+S∞ is a unit sphere, it has a very nice geometry. With the L2
+                                                                      Let [q] = {(q ∗ γ), for γ ∈ Γ[0,1] } denote the orbit of q ∈ FI
+Riemannian metric, the distance between two elements g1 , g2
+                                                                      under all warping actions. We define the function
+on S∞ can be quantified as                                                                                   p      p
+                                    ZZ                                           Φ(γ)(x, y) = (q ◦ γ̃(x, y)) γ̇(x) γ̇(y)           (5)
+                                 −1
+              dR (g1 , g2 ) = cos (    g1 g2 dxdy).
+                                                                      as a mapping from Γ[0,1] to [q]. Let Tγid (Γ[0,1] ) be the tangent
+Since QI ⊂ S∞ , we use the same metric to quantify the                space of the space of diffeomorphisms Γ[0,1] at γid (the
+distanceRRbetween two functions q1 and q2 in QI : dR (q1 , q2 ) =     identity warp). Specifically, for the case where Ω = [0, 1],
+cos−1 ( q1 q2 dxdy).                                                  we have Tγid (Γ[0,1] ) = {b : [0, 1] → R | b(0) =
+                                                                      0, b(1) = 0, b is a smooth function}. Assuming that we have
+                                                                      an orthonormal basis for Tγid (Γ), denoted as {b1 , b2 , . . . }, we
+B. Warping Invariant Riemannian Distance between Q-
+                                                                      can derive the gradient of the cost function H as
+transformed ConCons
+                                                                                           ∞
+                                                                                           X                   M
+                                                                                                               X
+   If a ConCon function is warped (or reparameterized), e.g.,
+                                                                                  ∇H =           (∇bi H)bi ≈         (∇bi H)bi ,      (6)
+(f ∗ γ), then the corresponding Q-function
+                                  p      p can be derived as:                              i=1                 i=1
+(q ∗ γ) = Q((f ∗ γ̃)) = (q ◦ γ̃) γ̇(x) γ̇(y). In fact, this
+denotes an action of group Γ[0,1] on Qp I from p
+                                               the right side:        for some large M , where ∇bi H represents the directional
+QI × Γ[0,1] 7→ QI by (q ∗ γ) = (q ◦ γ̃) γ̇(x) γ̇(y). Figure           derivative of H along the direction bi ∈ Tγid (Γ[0,1] ). To derive
+3 illustrates two different possible paths to get a warped q          ∇bi H, we start with the derivative of Φ in Eq. (5).
+function. We then can derive that under the Q-transformation,         Lemma II.2. The differential map of Φ : Γ[0,1] → [q], evalu-
+the action of warping under the L2 Riemannian metric is an            ated at γid , is a linear transformation dΦγid : Tγid (Γ[0,1] ) →
+isometry.                                                             Tq ([q]), and is defined by the equation
+Lemma II.1. For any two ConCon functions f1 , f2 , and their                                       h                 i b(x)
+corresponding Q-transformed functions q1 and q2 , with the                   (dΦγid (b))(x, y) = ∂q(x,y)
+                                                                                                      ∂x
+                                                                                                             ∂q(x,y)
+                                                                                                               ∂y       b(y)
+simple L2 Riemannian metric, we have dR (q1 , q2 ) = dR ((q1 ∗                                                                       (7)
+                                                                                                         q(x, y)               
+γ), (q2 ∗ γ)).                                                                                         +           ḃ(x) + ḃ(y) ,
+                                                                                                            2
+                                                                                                                                         5
+
+
+
+where b ∈ Tγid (Γ[0,1] ), and ḃ is its first derivative.               these incremental warps, ultimately leading to the desired
+                                                                        alignment. The step size parameter σ (also referred to as the
+  The proof can be found in Supplementary S2. We
+                                                                        learning rate in the literature) controls the magnitude of each
+can now specify the tangent space Tq ([q]) which
+                                                                        update, balancing convergence speed and stability.
+can be identified through Lemma II.2, i.e., the set
+{dΦγid (b1 ), dΦγid (b2 ), . . . | bi ∈ Tγid (Γ[0,1] )}. The elements
+of this set span the space Tq ([q]), forming a basis, but not                      III. C ON C ON ALIGNMENT ON Ω = S2
+necessarily an orthonormal one since the mapping dΦγid is
+not an isometry.                                                           Considering applications for the human brain, we need to
+Theorem II.3. The directional derivative of H in the direction          adapt Algorithm 1 for the domain Ω = S2 . While the core idea
+bi ∈ Tγid (Γ[0,1] ) is given by                                         remains similar, we face several theoretical and computational
+                                                                        challenges to extend the algorithm from the simple 1D interval
+         ∇bi H = −2 ⟨q1 (x, y) − q2 (x, y), dΦγid (bi )⟩ ,              to a non-linear manifold domain. To facilitate this extension,
+                                                                        we first revisit the foundational concepts. Subsequently, we
+where dΦγid (bi ) is defined through Lemma II.2.
+                                                                        will delve into the computational methodologies required to
+  The proof of Theorem II.3 is in Supplementary S3.                     run Algorithm 1 to align ConCon functions on the product
+                                                                        space Ω × Ω = S2 × S2 .
+D. Alignment Through Composition of Simple Warpings                        Let γ ∈ ΓS2 be a diffeomorphism from S2 to S2 , where ΓS2
+                                                                        is the set of all such diffeomorphisms. Let FS2 be the set of
+   With these results in hand, we now circle back to our                all PDFs defined on S2 × S2 . Fig. 5 shows two examples of
+primary objective of minimizing the function H utilizing a              γ as vector fields. The warping action (f ∗ γ) for an f ∈ F
+gradient descent algorithm. At each iteration, our goal is to           is now defined as
+determine an incremental γ within Γ[0,1] to bring down H
+according to its gradient. That is, in each step,
+                                             PMwe have the dif-                        (f ∗ γ) = (f ◦ γ̃)|Jγ (x)||Jγ (y)|,
+ferential of H, approximated by ∇H = i=1 (∇bi H)bi and
+evaluated at γid through Theorem II.3, giving us an element             where we have γ̃ : S2 ×S2 → S2 ×S2 : (x, y) 7→ (γ(x), γ(y)),
+in Tγid (Γ[0,1] ). With ∇H, we define the incremental warp as           Jγ (x) denoting the Jacobian matrix of γ at x, and |Jγ (x)|
+expγid (σ∇H) with a small step size σ, where expγid is the              denoting its determinate. While the Q-transformation remains
+exponential map on Γ[0,1] evaluated at γid . For Ω = [0, 1],            the same, the corresponding
+                                                                                          p        pQ-function for (f ∗ γ) is given as
+expγid (σ∇H) = γid + σ∇H. Denoting the incremental group                (q ∗ γ) = (q ◦ γ̃) |Jγ (x)| |Jγ (y)|. We denote the set of all
+element by γk for the k-th iteration, and cumulative group              such Q-functions as QS2 . To align two ConCon PDFs, we still
+element by γ (k) , we have γ (k) = γ (k−1) ◦ γk . Algorithm 1           use the objective function in Eq. (4), but are searching for the
+presents the algorithm for this method.                                 optimal γ ∗ from the diffeomorphisms in ΓS2 .
+
+Algorithm 1 Align ConCons with Ω = [0, 1]]
+  Input: f1 , f2 and their Q-transformations q1 and q2                  A. Gradient Derivation
+  Set k = 1, γ (1) = γid , and a small positive constant ϵ and
+  step size σ.                                                            To derive the gradient ∇H, we first extend Lemma II.2 for
+                                                                        Ω = S2 .
+  while ||∇H||> ϵ do
+      q2′ ← (q2 ∗ γ (k) )                                               Lemma III.1. The differential of Φ : ΓS2 7→ [q] evaluated
+      Compute ∇H using Eq. (6) with q1 and q2′                          at the identity warp, γid , is a linear transformation dΦγid :
+      Compute the incremental warp γk ← expγid (σ∇H)                    Tγid (ΓS2 ) 7→ Tq ([q]), and is defined by the equation
+      Compute overall warp γ (k+1) ← γ (k) ◦ γk
+      k ←k+1                                                                                    h                       i      
+                                                                                                    ∂q(x,y)   ∂q(x,y)     b(x)
+                                                                          (dΦγid (b))(x, y) =
+  end while                                                                                           ∂x        ∂y         b(y)
+Here expγid is the exponential map on Γ[0,1] evaluated at γid ,                                       q(x, y)                      
+                                                                                                       +        ∇ · b(x) + ∇ · b(y) ,
+i.e., expγid (σ∇H) = γid + σ∇H.                                                                           2
+                                                                                                                                      (8)
+                                                                        where ∇ · b is the divergence of the vector field b ∈ Tγid (ΓS2 ).
+   The proposed Algorithm 1 breaks a complex alignment
+problem into a series of simpler subproblems, making the                   The proof is presented in Supplementary S4. With Lemma
+overall optimization process more manageable. Instead of                III.1, we now can replace the directional derivative ∇bi H for
+computing a single, potentially complicated warping function            bi ∈ Tγid (ΓS2 ) in Theorem II.3 with:
+to align f2 to f1 , we iteratively update the transformation
+using incremental warping functions γk . Each incremental                       ∇bi H = −2 ⟨q1 (x, y) − q2 (x, y), dΦγid (bi )⟩ ,
+warp is determined by the gradient descent step, ensuring a
+gradual and controlled deformation. The final warping function          where we have x and y on S2 , dΦγid (bi ) is defined in Eq. (8),
+γ ∗ = γ (k) is obtained through successive compositions of              bi is a vector field in Tγid (ΓS2 ).
+                                                                                                                                          6
+
+
+
+B. Orthonormal Basis for Tγid (ΓS2 )                                      Selecting Spherical Grid for Computation. In practice,
+   To compute the Pdifferential of H via the approxi-                  the ConCon function f and its Q-transformation q are realized
+mation ∇H ≈
+                        M                                              only at a set of discrete locations {(xi , xj )} for (xi , xj ) ∈
+                        i=1 (∇bi H) bi , we require a basis
+for the tangent space Tγid (ΓS2 ) = {b : S2 →                          Ω × Ω, with i, j = 1, 2, . . . , V . For Ω = S2 , it is necessary to
+T (S2 ) |b is a smooth tangent vector field on S2 }. Following         define a grid over the sphere. We choose to generate this grid
+the approach in [32], [33], we construct an orthonormal basis          by recursively subdividing an icosahedron and projecting the
+for this space using spherical harmonics.                              vertices onto the unit sphere. This method of surface triangu-
+   Let Ylm : S2 → C denote the complex spherical harmonic              lation, known as an icosphere [34], has several advantageous
+of degree l and order m (with m = 0, . . . , l). These functions,      properties compared with the one used in [32], [33]:
+which play a role analogous to the Fourier basis on the circle,           1) Vertices on an icosphere are approximately evenly dis-
+form a complete orthonormal system for L2 (S2 ). In particular,               tributed. In other words, the density of vertices is no
+each Ylm is defined as                                                        greater around the poles than any other part of the
+                    s                                                         grid. This is different from uniform sampling on a
+          m            2l + 1 (l − m)! m                                      polar coordinate system [32], [33], and makes both
+        Yl (θ, ϕ) =                     P (cos θ) eimϕ ,
+                         4π (l + m)! l                                        deformation and interpolation easier.
+where Plm denotes the associated Legendre polynomials.                    2) Vertices in lower resolutions icospheres are subsets of
+   By taking the real and imaginary parts of Ylm (noting that                 those in higher resolutions. As such, changing resolu-
+Im(Yl0 ) = 0) for all l and m, we obtain a collection of real-                tions is easy, and it is possible to work with different
+valued functions {ψi (θ, ϕ)} that form an orthonormal basis                   resolutions from coarse to fine to get more accurate
+for L2 (S2 ). For example, an ordering might be:                              registrations.
+                                                                       The number of subdivisions G of the icosphere determines
+ψ0 = Y00 ,    ψ1 = Y10 ,    ψ2 = Re(Y11 ),     ψ3 = Im(Y11 ), . . .
+                                                                       the number of vertices V in the grid according to the formula
+with the index i running over 0, . . . , (l + 1)2 − 1 (excluding       V = 4G (10) + 2. For example, when G = 1, the grid has
+the nonexistent imaginary parts for m = 0).                            42 vertices, when G = 4, there are 2562 vertices, and when
+   To change the function basis {ψi } to a basis for the               G = 7 there are 163, 842 vertices. In this paper, we work with
+tangent space Tγid (ΓS2 ), we use the gradient operator. By            G = 4 and refer to this grid as ico4.
+definition, the gradient of a scalar function on S2 yields a              Interpolation of ConCon Function f . Given f evaluated
+tangent vector field. In standard spherical coordinates, with          at V 2 discrete vertices on a grid, it will be necessary to
+θ ∈ [0, π] (the elevation) and ϕ ∈ [0, h2π) (the azimuth), i     the   evaluate f (x, y) at any other point (x, y) ∈ S2 × S2 using
+gradient is expressed as ∇ψi (θ, ϕ) = ∂ψ      i
+                                                ,   1 ∂ψi
+                                                             . Next,   interpolation. For this, we use barycentric interpolation, an
+                                            ∂θ    sin θ ∂ϕ
+                                       ∇ψi                             efficient algorithm that extends the concept of linear interpola-
+we normalize these gradients:η̃i = ∥∇ψ      . The set B = {η̃i }
+                                         i∥                            tion to higher-dimensional simplices. This interpolation is one
+thus forms an orthonormal basis for the subspace of Tγid (ΓS2 )
+                                                                       of the most time-consuming steps in our algorithm. We have
+consisting of gradient vector fields. However, this subspace
+                                                                       carefully designed an accurate and fast bi-variate interpolation
+accounts for only half of Tγid (ΓS2 ).
+                                                                       presented in Supplementary S5.
+   To obtain the remaining half of the basis, we define a rota-
+                                                                          Computation of γ’s Jacobian. The Jacobian of the warping
+tion operation. For any tangent vector v on S2 , let ∗v denote
+                                                                       function γ is needed for evaluating the warping group action.
+the vector obtained by rotating v counterclockwise by π/2 (as
+                                                                       Let γ : S2 → S2 , where S2 is normally parameterized by
+seen from outside theh sphere). Applying
+                                       i this to the gradients
+                       1 ∂ψi      ∂ψi                                  spherical coordinates (θ, ϕ) ∈ [0, π] × [0, 2π). However, we
+gives ∗∇ψi (θ, ϕ) = sin θ ∂ϕ , − ∂θ . After normalizing, we            can use Cartesian coordinates or a vector field to represent
+                 ∗∇ψi
+define η̃i∗ = ∥∗∇ψ   i∥
+                        . The collection B ∗ = {η̃i∗ } provides        γ. Actually, the Cartesian coordinate representation has many
+the remaining orthonormal basis elements. Hence, the union             advantages, including that it avoids singularities when sin θ =
+B ∪ B ∗ forms a complete orthonormal basis for Tγid (ΓS2 ) [32],       0. We use function Ψ to map between spherical and Cartesian
+[33].                                                                  coordinates:
+   Finally, for any b ∈ Tγid (ΓS2 ), the quantity ∇ · b is simply                                 
+                                 2                                                     sin θ cos ϕ                                    
+given by either ∇ · ∥ψ∇ψi
+                            = ∇     ψi   −li (li +1)ψi
+                                                       for η̃i ∈ B,                                                         cos−1 (z)
+                         i∥    ∥ψi ∥ =       ∥ψi ∥                       Ψ(θ, ϕ) =  sin θ sin ϕ  , Ψ−1 (x, y, z) =                     .
+where −li (li + 1)ψi is from the Laplacian of the spherical                                                               tan−1 (y/x)
+                                                                                          cos θ
+harmonic ψi , or 0 for η̃i∗ ∈ B ∗ .
+                                                                       For a given γ and a point (θ, ϕ) ∈ S2 , the warped point’s
+C. Computation and Implementation Details                              spherical coordinate is given by (θ̃, ϕ̃) = γ(θ, ϕ). The Jacobian
+   Algorithm (1) now can be used to find the best warping to           of γ is computed using a two-sided finite difference scheme in
+align two ConCon functions on S2 × S2 . However, there are             the tangent space TΨ(θ,ϕ) (S2 ) with its determinant given by:
+still a few computational challenges to handle, e.g., how to                                                ∂ θ̃     1 ∂ θ̃
+represent the ConCon function f in the code, how to apply                                                   ∂θ     sin θ ∂ϕ
+                                                                                       |Jγ(θ,ϕ) |= sin θ̃                     .
+the warping group action to f to get (f ∗ γ), and how to                                                    ∂ ϕ̃     1 ∂ ϕ̃
+                                                                                                            ∂θ     sin θ ∂ϕ
+compute the Jacobian of a given γ. In this subsection, we will
+introduce our solutions to these computational challenges.             Details of the computation are provided in Supplementary S6.
+                                                                                                                                            7
+
+
+
+Spatial Derivative of q : S2 × S2 → R≥0 . One im-                       Algorithm 2 Align ConCons for Ω = Ω1 ∪ Ω2
+portant quantity required in Lemma III.1           is the directional     Input: f1 , f2 and their Q-transformations q1 and q2
+                        h                    ib(x)
+derivative of q(x, y):    ∂q(x,y)    ∂q(x,y)
+                                                       . This is com-     Set k = 0, γ 1(0) = γ 2(0) = γid , a small constant ϵ and step
+                            ∂x         ∂y        b(y)                     size δ
+puted using finite differences along predefined orthonormal
+          (1)    (2)                          (1)   (2)                   while ||∇Hγ 1 ||> ϵ and ||∇Hγ 2 ||> ϵ do
+bases {wx , wx } for Tx (S2 ) and {wy , wy } for Ty (S2 ).
+                              (1) (1)        (2) (2)                          q2′ ← (q2 ∗ γ (k) ) where γ (k) = (γ 1(k) , γ 2(k) )
+Representing b(x) = ax wx + ax wx and b(y) =                                                         PM
+ (1) (1)       (2) (2)                                                        Compute ∇Hγ 1 =           i=1 (∇bi Hγ 1 )bi using Eq. S.8
+ay wy + ay wy , the total directional derivative is given
+           (1)      (1)          (2)     (2)               (1) (1)        based on q1 and q2′ . And compute ∇Hγ 2 similarly.
+by dqx (wx , y)ax + dqx (wx , y)ax + dqy (x, wy )ay +
+         (2) (2)                                                              Compute incremental warp γk1 ← expγid (δ∇Hγ 1 ) and
+dqy (x, wy )ay , where dqx and dqy are approximated via the
+                                                                          similarly γk2
+exponential map and barycentric interpolation with a small ϵ.
+                                                                              Update overall warp γ 1(k+1) ← γ 1(k) ◦ γk1 and similarly
+Details are provided in Supplementary S7.
+                                                                          γ 2(k+1)
+                                                                                   .
+               IV. E XTENSION TO Ω = S21 ∪ S22                                k ←k+1
+                                                                          end while
+  In our application, the domain of interest for cortical surface
+registration contains two hemispheres. As such, the tools de-           Here expγid is the exponential map on ΓS2 evaluated at γid .
+veloped above need to be expanded to work with Ω = Ω1 ∪Ω2 ,
+where Ω1 ∩ Ω2 = ∅, and Ω1 denotes the left hemisphere and
+Ω2 denotes the right hemisphere. The diffeomorphism γ can
+now be written as:
+                          (
+                            γ 1 (x) if x ∈ Ω1
+                 γ(x) =
+                            γ 2 (x) if x ∈ Ω2 .
+And we can redefine the mapping Φ in Eq. (5) as:
+Φ(γ)(x, y) =
+ 1                    p           p
+
+  q(γ (x), γ 1 (y)) |Jγ 1 (x)| |Jγ 1 (y)|, if x ∈ Ω1 , y ∈ Ω1
+q(γ 2 (x), γ 1 (y)) |J 2 (x)|p|J 1 (y)|, if x ∈ Ω , y ∈ Ω
+                      p
+                                                        2         1
+                       p γ         p γ
+
+  q(γ 1
+         (x), γ 2
+                  (y))   |J 1 (x)|  |J 2 (y)|, if x ∈ Ω 1 , y ∈ Ω 2     Fig. 4: The left panel shows the resulting γ̂ after iteration I=3,
+
+ 2                    p γ         p γ
+   q(γ (x), γ (y)) |Jγ 2 (x)| |Jγ 2 (y)|, if x ∈ Ω2 , y ∈ Ω2 .
+                2                                                       I=6, I=10, after converging, and the true γ for a random simulated
+                                                                 (9)    case for Ω = [0, 1]. For context, the L2 norm between γ and γ̂ for
+Assuming that q(x, y) is continuous and differentiable when             each iteration is 0.086, 0.054, 0.033, 0.005, respectively, and 0.136
+                                                                        between γ and identity. The right panel shows the corresponding cost
+x and y are in different sub-domains, then each of the cases            function after each iteration.
+in Eq. (9) can be solved as before. As such, the theory
+remains unchanged. In finding the optimal warping function
+to align ConCon functions, we propose an iterative procedure            orbits {[qj ]}; (2) We find the center element in [µ] w.r.t. {qj }
+where the warp for each hemisphere is updated individually,             and select it as the template. However, if we suspect that the
+i.e., we first fix γ 2 and derive the gradient w.r.t. γ 1 . The         sample of connectivity functions includes some outliers, we
+directional derivative of H in Eq. (6) w.r.t. γ 1 in the direction      can choose to use the median of {[qj ]} instead of the mean
+bi ∈ Tγid (ΓS2 ) is carefully derived in Supplementary S8.              [35], [36]. In Supplementary S9, we present the full ENCORE
+Similarly, we can derive the directional derivative of H w.r.t.         algorithm with the following three modules: 1) finding [µ], 2)
+γ 2 with γ 1 fixed. Algorithm 2 presents a detailed procedure           finding the center of [µ] w.r.t. {qj } and 3) a complete algorithm
+to align f2 to f1 on Ω × Ω with their Q-transformations q1              for ConCon alignment.
+and q2 , respectively.
+                                                                                           VI. S IMULATION S TUDY
+   V. D EFINING A T EMPLATE FOR P OPULATION - BASED                        To demonstrate the efficacy of Algorithm 1, we conduct a
+                     R EGISTRATION                                      simulation study for Ω = [0, 1]. The one-dimensional case is
+   The final ingredient for a full registration algorithm is            simpler to visualize and provides helpful intuition regarding
+the definition of a template. The goal of this registration             how registration works in more complicated domains.
+framework is to align the ConCon functions f1 , ..., fN in such            Simulate Warping Functions. We simulate γ ∈ Γ[0,1] in
+a way that similar features are matched as closely as possible          the following way: 1) simulate γ̇(xk ) ∼ Uniform(0, 1) at uni-
+between functions. In order to do this, we need to find a mean          formly spaced points xk ∈ [0, 1] for k = 1, 2, . . . , K, 2) take
+function, or ‘template’, that minimises the warping necessary           the normalized cumulative sum of the discrete   Pk observations
+to bring each of the functions into alignment. We will approach         γ̇(xk ) to generate a discrete γ, i.e., γ(xk ) = i=1 γ̇(xi ), and
+this via two steps: (1) given a set of N connectivity functions         3) finally, we make γ(x) continuous through shape-preserving
+{fj ∈ F | j = 1, 2, . . . , N } and their Q-mapped representa-          piece-wise cubic interpolation [37]. Panel B of Fig. 2 shows
+tions {qj ∈ Q | j = 1, 2, . . . , N }, we find the mean [µ] of the      an example of a simulated warping function.
+                                                                                                                                       8
+
+
+
+   Simulate ConCon Functions. To simulate ConCon func-                 the streamline endpoints Oi . Finally, a point process model in
+tions, we start with simulating points on [0, 1] × [0, 1] and          [15] was used to estimate the intensity function f ∗ (defined in
+then apply the kernel density estimation method to estimate            Eqn. (1)) from Oi , alongside the normalized ConCon function
+the underlying
+      n           ConCon functions f . More specifically, let
+                  io                                                   f . These ConCon functions are represented as 5124 × 5124
+Pi =      i−1 i
+              ,      be the elements of the discrete parcellation      adjacency matrices based on the ico4 spherical grid described
+           p    p
+of the domain Ω = [0, 1] into p = 200 distinct parcels. Then,          in Section III-C.
+analogous to real brain structural connectivity, we generate              We used the ENCORE algorithm presented in Section V to
+a set of point pairs {(uj , vj )}, for j = 1, 2, . . . , 20, 000,      first compute a template ConCon from 200 randomly chosen
+with (uj , vj ) representing the two ending points of the j-th         subjects. The computed template is displayed in Supplemen-
+fiber connection. Panel A of Fig. 2 shows one example of a             tary Fig. S2 panel (A), which is used as the template to align
+simulated ConCon function and Panel C shows an example                 other ConCon functions. For each ConCon f , we obtained
+of the warped Concon. We simulate N=10, 20, 40, 80 such                warped ConCon functions (f ∗ γ) along with the warping
+ConCon functions using the parameters given in Supplemen-              functions γ for the left and right hemispheres. Both (f ∗ γ)
+tary Table S1, apply the simulated γs, then run our entire             and γ are stored for further analysis.
+ENCORE pipeline to estimate the γ̂ −1 functions that recover              In this study, we compare ENCORE with several estab-
+the originally simulated ConCon Rfunctions. We then evaluate           lished cortical surface alignment techniques: MSMAll [41],
+                                    1
+the results using the L2 norm ( 0 |γ(t) − γ̂(t)|2 dt)1/2 . Fig.        MSMSulc [41], FreeSurfer [39], and S3Reg [42]. MSMAll
+4 shows the evolution of γ̂ when running ENCORE on                     (Multimodal Surface Matching All) aligns cortical surfaces
+one of the randomly generated ConCon functions. Further                using a combination of multimodal features, such as sul-
+examples of warping functions and their estimates are shown            cal depth, curvature, and myelin maps. MSMSulc, a variant
+in Supplementary Fig. S1. The results of the simulation study,         of MSM, relies solely on sulcal depth to drive alignment.
+as shown in Table I, demonstrate that our method is able to            FreeSurfer performs surface registration using features like
+reliably estimate the warping functions required for accurate          cortical thickness and curvature and is widely used for its
+registration.                                                          robust preprocessing and anatomical accuracy. S3Reg is a
+                                                                       deep learning method, and it aligns cortical surfaces across
+                  TABLE I: Simulation Results                          individuals using univariate features at each vertex. Since
+           N=10            N=20            N=40            N=80
+                                                                       S3Reg (Superfast Spherical Surface Registration) operates on
+  A    0.059 (0.005)   0.058 (0.007)   0.057 (0.008)   0.058 (0.014)   univariate features, we performed registrations separately us-
+  B    0.251 (0.062)   0.226 (0.043)   0.214 (0.051)   0.221 (0.051)   ing sulcal depth and cortical thickness as inputs. Additionally,
+Population mean (standard deviation in parenthesis) of the L2 norm     we derived a novel feature, TotalConn, defined as the sum of
+between, (A) γ and γ̂, and (B) γ and γid , for varying population      connectivity values at each vertex (i.e., the row sum of the
+size.
+                                                                       ConCon matrix), and used it for registration.
+
+
+                                                                       B. Computational Cost and Robustness Analysis
+   VII. R EAL B RAIN C ONNECTOME DATA A LIGNMENT
+                                                                          We implemented the ENCORE algorithm using a com-
+A. Dataset and Competing Methods                                       bination of MATLAB and C++, together with the publicly
+   We mainly used data from the Human Connectome Project               available libigl C++ libraries. With careful use of vectorization
+(HCP), which is a milestone dataset for mapping human brain            to eliminate all but essential loops from the code, strict mem-
+connectomics. The data used in this paper were obtained from           ory management (accessing array elements directly through
+the ConnectomeDB website, which consists of preprocessed               pointers and in contiguous blocks) within the C++ routines,
+T1-weighted and diffusion MRI (dMRI) images from the HCP               and libigl data structures, the code runs at a competitive speed
+Young Adult dataset. Information about image acquisition and           to other registration methods. On average, using an Intel CPU
+dMRI preprocessing steps can be found in [38]. Briefly, imag-          (2.50 GHz) with 5GB of RAM, it takes 40 seconds to register
+ing was conducted on the 3T Siemens Connectome scanner in              a pair of ConCon with the ico4 grid. It takes approximately 20
+Erlangen, Germany. High-resolution T1-weighted anatomical              minutes to calculate a template from 200 ConCon functions.
+images were obtained at 0.7 mm isotropic resolution. Diffusion         The template estimation procedure could be made quicker, but
+imaging was performed with 90 diffusion directions at three            it is currently slow due to the necessity to load and unload
+nonzero b-values (1,000, 2,000, and 3,000 s/mm2 ) and 1.25             connectomes individually during the iterative process in order
+mm isotropic resolution.                                               to keep the memory demands reasonably low.
+   The data were then processed using the SBCI pipeline                   We also tested the robustness of the template-building
+[15], a state-of-the-art dMRI preprocessing pipeline. SBCI             and alignment process. We ran the template-building process
+constructs cortical surfaces and their spherical parameteriza-         with another 200 randomly selected subjects from HCP and
+tions via FreeSurfer [39]. It then estimates white matter fiber        obtained a different template. The second template is displayed
+tracts, commonly referred to as streamlines in the literature,         in Supplementary Fig. S2 panel (B), and one can see that it
+connecting cortical surfaces using surface-enhanced tractogra-         looks very similar to the first template. Moreover, we randomly
+phy [40]. On average, approximately 500,000 streamlines were           selected one HCP subject and aligned the subject to both
+generated per subject. Fig. 1, panel B, shows one example of           templates. Fig. 5 panel (A) shows the γ 1 ’s (warping function
+                                                                                                                                           9
+
+
+
+
+Fig. 5: Panel (A): Two warping functions (displayed here as vector
+fields) for the left hemisphere generated by the ENCORE method
+using two templates (see Figure S2) for a randomly selected HCP
+subject. Each template is built based on 200 randomly selected
+subjects. Panel (B): Element-wise difference in variance between
+ENCORE and MSMAll (ENCORE - MSMAll) for 200 randomly                 Fig. 6: Reconstruction error of structural connectomes registered
+selected HCP subjects.                                               with MSMAll and ENCORE in 100 HCP participants. Dashed lines
+                                                                     represent individual reconstruction errors, while solid lines denote the
+                                                                     median error.
+for the left hemisphere) obtained by using the two templates.
+Here, the warping functions are displayed as vector fields, and
+we can see that the two vector fields are very similar to each       meaningful information. Our results demonstrate that connec-
+other, indicating the robustness of the template-building and        tomes registered with ENCORE exhibit significantly lower
+ConCon alignment processes in ENCORE. We also studied the            reconstruction errors than those registered with MSMAll. This
+angle between the vector fields, considering only vectors with       enhanced efficiency implies that fewer PCs are needed to ex-
+amplitudes above the average. Across the left hemispheres            plain more variance, thereby benefiting downstream analyses
+of 100 randomly selected subjects, the mean angle is 20.22           and potentially reducing unwanted noise in the data.
+degrees with a standard deviation of 2.85 degrees.
+                                                                     D. Exploration of Estimated Diffeomorphisms
+C. Exploration of Aligned Structural Connectomes                        The warping functions produced by ENCORE provide
+   When ConCon functions are well aligned, we expect their           insight into the amount of energy required to align brain
+variance to be reduced. Here, we compared the cross-sectional        networks across subjects. A larger deformation indicates poor
+(element-wise) variance for MSMAll and ENCORE methods                alignment of specific regions, while a smaller deformation
+with 200 randomly selected subjects. Note that according to          suggests that connectivity is already well aligned. In this study,
+the validation results in Section VII-E, MSMAll is the best          we aim to investigate the areas where ENCORE expends more
+method among all competitors in aligning major fiber bundle’s        or less energy during alignment. Given that warping func-
+endpoints. Limited by space, we present results comparing            tions encode alignment deformation information, we present
+ENCORE to MSMAll in this and the next subsections. Fig.              the average magnitude of deformation across 200 randomly
+5 panel (B) shows the variance difference between ENCORE             selected subjects. Fig. 7 shows the mean translation distance
+and MSMAll (ENCORE - MSMAll). By examining the result,               for each vertex resulting from the warping functions applied
+we see that in most regions, the connectome variance gets            to the population to align to the template.
+reduced compared with the non-connectivity-based alignment              The results reveal distinct patterns of deformation across
+method (i.e., MSMAll), demonstrating that ENCORE is more             the cortex, providing insight into the inter-individual vari-
+effective in aligning the ConCons.                                   ability in brain network alignment. Our results indicate that
+   In another experiment, we compared ENCORE with MS-                task-related regions, including task-positive and task-negative
+MAll regarding the efficiency of connectome representation           networks, exhibit significantly larger deformations compared
+after registration. Here, we employed a conventional Func-           to sensory and motor areas. This suggests that higher-order
+tional Principal Component Analysis (FPCA) method. For 100           cognitive regions, which are involved in executive function, at-
+randomly selected ConCons, FPCA was performed separately             tention, and internally directed thought, require more extensive
+on ConCons registered with MSMAll and those aligned using            transformations to achieve alignment across individuals. The
+ENCORE. We then reconstruct the connectomes using an                 high deformation in these regions likely reflects their greater
+increasing number of PCs and quantify the reconstruction             anatomical and functional variability, shaped by developmental
+error—defined as the mean integrated squared error between           trajectories and experience-driven plasticity [43], [44]. In con-
+the original and reconstructed connectomes for each subject.         trast, sensory cortices, such as the auditory and visual regions,
+Fig. 6 presents the reconstruction error versus the number of        display smaller deformation magnitudes, reinforcing the idea
+PCs. A lower reconstruction error using fewer PCs indicates          that these areas are evolutionarily conserved and exhibit stable
+that the leading components capture a greater proportion of          functional architectures across individuals due to genetic and
+                                                                                                                                                              10
+
+
+
+
+Fig. 7: The Left panel shows the mean magnitude of deformation
+(measured as the mean distance each vertex is translated by the
+warping functions), and the right shows the regions of interest.
+
+                        Left Hemisphere Deformation       Right Hemisphere Deformation
+                   4                                  4                                  Fig. 9: Shows the Dice coefficients for five major fiber bundles across
+Deform Magnitude
+
+
+
+
+                                                                                         different registration methods.
+                   3                                  3
+
+                   2                                  2
+
+                   1                                  1
+                                                                                            For validation, we selected 50 randomly chosen subjects
+                                        l
+                          ory nsory isua k Pos Neg
+                                                                           l
+                                                             ory nsory isua k Pos Neg
+                                                                                         and extracted five major fiber bundles: bilateral Middle Lon-
+                       dit                                dit
+                   Au        Se    V
+                                        Ta
+                                           s
+                                             Ta
+                                                sk    Au        Se    V
+                                                                           Ta
+                                                                              s
+                                                                                Ta
+                                                                                   sk    gitudinal Fasciculus (MdLF), Inferior and Superior Longi-
+                               Brain Regions                      Brain Regions          tudinal Fasciculus (ILF, SLF), Frontal Aslant Tract (FAT),
+Fig. 8: Shows the magnitude of deformation in each parcellation                          and Anterior Cingulate Cortex (CG An). Supplementary Fig.
+area (measured as the distance each vertex in the parcellation area is                   S3 shows these fiber bundles from one HCP subject. These
+translated by the warping functions)                                                     bundles were chosen based on their representation of key
+                                                                                         brain pathways and their sufficient streamline density, which
+                                                                                         allows for a reliable computation of Dice coefficients. We
+environmental constraints [45], [46]. Additionally, hemispheric                          calculated the Dice coefficient to quantify endpoint overlap
+differences in deformation magnitudes suggest that functional                            for each fiber bundle across all subject pairs after applying
+specialization may influence alignment variability, with the left                        different alignment techniques. This resulted in seven 50 ×
+hemisphere showing slightly greater deformations in frontal                              50 upper triangular matrices of Dice scores, corresponding to
+lobe regions. The observed deformation patterns provide new                              different registration methods, including MSM-based methods
+insights into the neurobiological constraints shaping cortical                           (e.g., MSMsulc using sulcal depth and MSMall using multiple
+connectivity and have broader implications for understanding                             cortical features), S3Reg-based methods (e.g., S3RegSulc us-
+individual differences in cognition, neurodevelopment, and                               ing sulcal depth, S3RegThickness using cortical thickness, and
+neurological disorders.                                                                  S3RegTotalConn using total connectivity), FreeSurfer registra-
+                                                                                         tion, and ENCORE. Among these methods, S3RegTotalConn
+E. Validation of ENCORE Alignment                                                        utilizes the total connectivity derived from ConCon at each
+                                                                                         vertex as the registration feature.
+   To validate the accuracy of ENCORE’s alignment, we assess
+whether the endpoints of major fiber bundles become better                                  Fig. 9 presents the Dice scores for the selected fiber bundles
+aligned after applying the method. Specifically, we evaluate                             across different registration methods. The results indicate that
+the overlap of fiber bundle endpoints across subjects and com-                           ENCORE consistently outperforms other methods, yielding
+pare the performance of ENCORE to other commonly used                                    higher Dice scores across all bundles. Notably, CG An, SLF,
+registration methods. Our hypothesis is that well-registered                             and MdLF exhibit the largest improvements, highlighting
+connectomes will exhibit higher endpoint agreement across                                ENCORE’s ability to align higher-order association pathways,
+subjects, as measured by the Dice similarity coefficient.                                which are known for their high inter-individual variability due
+   To achieve this, we use RecoBundlesX, a multi-atlas white                             to cognitive specialization and developmental plasticity. The
+matter bundle segmentation framework, to extract major fiber                             CG An, a key hub in the default mode network, the SLF,
+bundles from individual subjects. RecoBundlesX is an en-                                 critical for attention and language, and the MdLF, involved in
+hanced version of the Recobundles algorithm [47], incorpo-                               auditory and language processing, all show improved align-
+rating multi-parameter fusion to improve bundle segmentation                             ment, reducing anatomical discrepancies. By better preserving
+accuracy and robustness. This approach allows for more pre-                              these complex connections, ENCORE enhances group-level
+cise and reliable extraction of white matter pathways across                             comparisons in neuroimaging studies and improves the reli-
+subjects. The segmentation was performed using the Scilpy                                ability of structural connectivity analyses in both health and
+[48] pipeline.                                                                           disease.
+                                                                                                                                                                       11
+
+
+
+F. Statistical Analysis of Aligned ConCon Functions                                           high-resolution connectivity profiles. By employing a square-
+   To evaluate the effectiveness of ENCORE for brain connec-                                  root transformation and an isometry-preserving group action
+tivity’s downstream statistical analysis, we assess its ability to                            under the L2 metric, we developed an iterative algorithm
+improve trait prediction using ConCon data from the HCP.                                      for optimizing the alignment. We validated the theoretical
+Specifically, we focus on two cognitive traits: Oral Reading                                  foundations of ENCORE by first testing it on a simplified 1D
+Recognition and the Picture Vocabulary Test, both of which                                    domain (Ω = [0, 1]) before extending it to manifold domains
+assess language-related abilities and are influenced by brain                                 (Ω = S21 ∪ S22 ) for real-world applications.
+connectivity patterns. The goal is to compare ENCORE’s pre-                                      Applied to HCP data, ENCORE consistently reduced inter-
+dictive performance against other commonly used registration                                  subject connectivity variability, improved the efficiency of
+methods for connectivity data.                                                                connectome representation, and enhanced the alignment of
+   For each trait, we randomly selected 400 subjects and ob-                                  major fiber bundle endpoints, as evidenced by higher Dice
+tained aligned connectivity matrices using different registration                             similarity coefficients. Additionally, the estimated warping
+methods. Additionally, we also exprimented to incorporate                                     functions provided insight into inter-individual variability, with
+information from the estimated warping functions in ENCORE                                    greater deformations observed in task-related cognitive regions
+to examine its contribution to prediction accuracy. We employ                                 compared to sensory-motor areas, highlighting the neurobio-
+Principal Component Regression (PCR) as our predictive                                        logical basis of connectivity differences. In downstream sta-
+framework for simplicity, where the model’s tuning parameters                                 tistical analyses, ENCORE improved trait prediction accuracy
+were determined using 5-fold cross-validation in the 70%                                      for language-related cognitive measures, further demonstrating
+training data. The selected model was evaluated based on                                      its potential for neuroimaging applications.
+the 30% testing data. Performance was evaluated based on                                         An efficient implementation of ENCORE is available
+the correlation between observed and predicted values in 100                                  at https://github.com/sbci-brain/ConCon Alignment. While
+repeated runs.                                                                                ENCORE shares conceptual similarities with MSM and
+   Fig. 10 illustrates the prediction results. We can see that                                FreeSurfer, it offers key advantages: (1) alignment based on
+ENCORE can enhance predictive accuracy compared to other                                      high-resolution connectivity patterns, (2) inverse consistency,
+registration methods for these traits. When the warping infor-                                and (3) strict diffeomorphic warping functions—all of which
+mation was included, the prediction could be further improved,                                are critical properties in image registration. Given its simple
+indicating that the warping function also carries information                                 cost function, the ENCORE framework is well-suited for
+about these traits. These results suggest that ENCORE not                                     extension to a deep learning (DL)-based approach to accelerate
+only improves connectome alignment but also enhances the                                      inference. However, challenges remain in training DL models
+ability to extract meaningful individual differences in cognitive                             to handle high-resolution connectivity warping and ensuring
+traits, reinforcing its value for downstream statistical analyses                             that outputted warping functions remain diffeomorphic.
+in neuroimaging research.
+
+                            Oral Reading Recognition Test           Picture Vocabulary Test                                R EFERENCES
+                    0.4                                     0.3
+                                                                                               [1] A. W. Toga and P. M. Thompson, “The role of image registration in
+                    0.3                                     0.2
+                                                                                                   brain mapping,” Image and vision computing, vol. 19, no. 1-2, pp. 3–
+      Correlation
+
+
+
+
+                    0.2                                     0.1                                    24, 2001.
+                    0.1                                         0                              [2] O. Sporns, G. Tononi, and R. Kötter, “The human connectome: a
+                                                                                                   structural description of the human brain,” PLoS computational biology,
+                                                        -0.1
+                        0                                                                          vol. 1, no. 4, p. e42, 2005.
+                                                                                               [3] D. C. Van Essen and D. M. Barch, “The human connectome in health
+                              +p E
+
+
+
+
+                                                                      +p E
+                       CO C r
+
+
+
+
+                                                               CO C r
+                                    se
+
+
+
+
+                                                                            se
+                           M ulc
+
+                       Re eg l
+
+
+
+
+                                                                      SM c
+                                                               Re eg l
+                            hi lc
+
+
+
+
+                                                                    hi lc
+                            ee s
+
+
+
+
+                                                                    ee s
+                     S3 S3R Al
+
+
+
+
+                                                             S3 S3R Al
+                     EN EN urfe
+
+
+
+
+                                                             EN EN urfe
+
+
+
+
+                                                                                                   and psychopathology,” World Psychiatry, vol. 14, no. 2, p. 154, 2015.
+                          Fr nes
+
+
+
+
+                                                                  Fr nes
+                                                                            l
+                          RE OR
+
+
+
+
+                                                                  RE OR
+                                                                         Su
+                         gT Su
+
+
+
+
+                                                                 gT Su
+                                 ha
+
+
+
+
+                                                                         ha
+                                 S
+                              SM
+
+
+                              ck
+
+
+
+
+                                                                      ck
+                             SM
+
+
+
+
+                                                                     SM
+                               S
+
+
+
+
+                                                                       S
+
+
+
+
+                                                                                               [4] J. S. Elam, M. F. Glasser, M. P. Harms, S. N. Sotiropoulos, J. L.
+                                                                    M
+                    M
+
+
+
+
+                                                            M
+
+
+
+
+                                                                                                   Andersson, G. C. Burgess, S. W. Curtiss, R. Oostenveld, L. J. Larson-
+                                                                                                   Prior, J.-M. Schoffelen et al., “The human connectome project: a
+                               (a)                                              (b)                retrospective,” NeuroImage, vol. 244, p. 118543, 2021.
+                                                                                               [5] S. Gold and A. Rangarajan, “A graduated assignment algorithm for
+Fig. 10: Prediction results for the Oral Reading Recognition Test                                  graph matching,” IEEE Transactions on pattern analysis and machine
+(a) and the Picture Vocabulary Test (b) using different registration                               intelligence, vol. 18, no. 4, pp. 377–388, 1996.
+methods.                                                                                       [6] B. Jiang, J. Tang, C. Ding, Y. Gong, and B. Luo, “Graph matching
+                                                                                                   via multiplicative update algorithm,” Advances in neural information
+                                                                                                   processing systems, vol. 30, 2017.
+                                                                                               [7] L. Chen, Z. Gan, Y. Cheng, L. Li, L. Carin, and J. Liu, “Graph optimal
+                            VIII. C ONCLUSION AND D ISCUSSION                                      transport for cross-domain alignment,” in International Conference on
+                                                                                                   Machine Learning. PMLR, 2020, pp. 1542–1553.
+   In this work, we introduced ENCORE (mEtric-based coN-                                       [8] B. Yi, K. O’Connor, K. McGoff, and A. B. Nobel, “Alignment and
+                                                                                                   comparison of directed networks via transition couplings of random
+tinuous COnnectivity REgistration), a novel framework for                                          walks,” arXiv preprint arXiv:2106.07106, 2021.
+aligning brain structural connectivity using a continuous con-                                 [9] M. A. de Reus and M. P. Van den Heuvel, “The parcellation-based
+nectivity representation. Unlike traditional atlas-based methods                                   connectome: limitations and extensions,” Neuroimage, vol. 80, pp. 397–
+that rely on predefined ROIs and neglect connectivity patterns                                     404, 2013.
+                                                                                              [10] A. Messé, “Parcellation influence on the connectivity-based structure–
+during alignment, ENCORE formulates brain network registra-                                        function relationship in the human brain,” Human Brain Mapping,
+tion as an optimal diffeomorphism problem, directly aligning                                       vol. 41, no. 5, pp. 1167–1180, 2020.
+                                                                                                                                                                12
+
+
+
+[11] N. V. Bryce, J. C. Flournoy, J. F. G. Moreira, M. L. Rosen, K. A.            [34] P. Schneider and D. H. Eberly, Geometric tools for computer graphics.
+     Sambook, P. Mair, and K. A. McLaughlin, “Brain parcellation selection:            Elsevier, 2002.
+     An overlooked decision point with meaningful effects on individual           [35] P. T. Fletcher, S. Venkatasubramanian, and S. Joshi, “The geometric
+     differences in resting-state functional connectivity,” NeuroImage, vol.           median on riemannian manifolds with application to robust atlas esti-
+     243, p. 118487, 2021.                                                             mation,” NeuroImage, vol. 45, no. 1, pp. S143–S152, 2009.
+[12] A. Zalesky, A. Fornito, I. H. Harding, L. Cocchi, M. Yücel, C. Pantelis,    [36] S. Kurtek, J. Su, C. Grimm, M. Vaughan, R. Sowell, and A. Srivastava,
+     and E. T. Bullmore, “Whole-brain anatomical networks: does the choice             “Statistical analysis of manual segmentations of structures in medical
+     of nodes matter?” Neuroimage, vol. 50, no. 3, pp. 970–983, 2010.                  images,” Computer Vision and Image Understanding, vol. 117, no. 9,
+[13] B. Gutman, C. Leonardo, N. Jahanshad, D. Hibar, K. Eschenburg,                    pp. 1036–1050, 2013.
+     T. Nir, J. Villalon, and P. Thompson, “Registering cortical surfaces         [37] Y. Ma, X. Zhou, and W. Wu, “A stochastic process model for time
+     based on whole-brain structural connectivity and continuous connectivity          warping functions,” arXiv preprint arXiv:2201.09970, 2022.
+     analysis,” Med Image Comput Comput Assist Interv, vol. 17, no. 3, pp.        [38] M. F. Glasser, S. N. Sotiropoulos, J. A. Wilson, T. S. Coalson, B. Fischl,
+     161–168, 2014.                                                                    J. L. Andersson, J. Xu, S. Jbabdi, M. Webster, J. R. Polimeni et al., “The
+[14] D. Moyer, B. A. Gutman, J. Faskowitz, N. Jahanshad, and P. M.                     minimal preprocessing pipelines for the human connectome project,”
+     Thompson, “Continuous representations of brain connectivity using                 Neuroimage, vol. 80, pp. 105–124, 2013.
+     spatial point processes,” Medical Image Analysis, vol. 41, pp. 32 – 39,      [39] B. Fischl, M. I. Sereno, and A. M. Dale, “Cortical surface-based
+     2017.                                                                             analysis: II: inflation, flattening, and a surface-based coordinate system,”
+[15] M. Cole, K. Murray, E. St-Onge, B. Risk, J. Zhong, G. Schifitto,                  Neuroimage, vol. 9, no. 2, pp. 195–207, 1999.
+     M. Descoteaux, and Z. Zhang, “Surface-based connectivity integration:        [40] E. St-Onge, A. Daducci, G. Girard, and M. Descoteaux, “Surface-
+     An atlas-free approach to jointly study functional and structural connec-         enhanced tractography (set),” NeuroImage, vol. 169, pp. 524–539, 2018.
+     tivity,” Human Brain Mapping, vol. 42, no. 11, pp. 3481–3499, 2021.          [41] E. C. Robinson, S. Jbabdi, M. F. Glasser, J. Andersson, G. C. Burgess,
+[16] S. Mansour, C. Seguin, R. E. Smith, and A. Zalesky, “Connectome spa-              M. P. Harms, S. M. Smith, D. C. Van Essen, and M. Jenkinson, “Msm: a
+     tial smoothing (css): Concepts, methods, and evaluation,” NeuroImage,             new flexible framework for multimodal surface matching,” Neuroimage,
+     vol. 250, p. 118930, 2022.                                                        vol. 100, pp. 414–426, 2014.
+[17] F. Zhang, A. Daducci, Y. He, S. Schiavi, C. Seguin, R. E. Smith,             [42] F. Zhao, Z. Wu, F. Wang, W. Lin, S. Xia, D. Shen, L. Wang, and G. Li,
+     C.-H. Yeh, T. Zhao, and L. J. O’Donnell, “Quantitative mapping of                 “S3reg: superfast spherical surface registration based on deep learning,”
+     the brain’s structural connectivity using diffusion mri tractography: A           IEEE Transactions on Medical Imaging, vol. 40, no. 8, pp. 1964–1976,
+     review,” NeuroImage, vol. 249, p. 118870, 2022.                                   2021.
+[18] E. St-Onge, A. Daducci, G. Girard, and M. Descoteaux, “Surface-              [43] M. A. Frost and R. Goebel, “Measuring structural–functional corre-
+     enhanced tractography (set),” NeuroImage, vol. 169, pp. 524–539, 2018.            spondence: spatial variability of specialised brain regions after macro-
+[19] D. Moyer, B. A. Gutman, J. Faskowitz, N. Jahanshad, and P. M.                     anatomical alignment,” Neuroimage, vol. 59, no. 2, pp. 1369–1381,
+     Thompson, “Continuous representations of brain connectivity using                 2012.
+     spatial point processes,” Medical image analysis, vol. 41, pp. 32–39,        [44] S. Mueller, D. Wang, M. D. Fox, B. T. Yeo, J. Sepulcre, M. R. Sabuncu,
+     2017.                                                                             R. Shafee, J. Lu, and H. Liu, “Individual variability in functional
+[20] W. Consagra, M. Cole, and Z. Zhang, “Analyzing brain structural                   connectivity architecture of the human brain,” Neuron, vol. 77, no. 3,
+     connectivity as continuous random functions,” in International Confer-            pp. 586–595, 2013.
+     ence on Medical Image Computing and Computer-Assisted Intervention.          [45] M. F. Glasser, T. S. Coalson, E. C. Robinson, C. D. Hacker, J. Harwell,
+     Springer, 2022, pp. 276–285.                                                      E. Yacoub, K. Ugurbil, J. Andersson, C. F. Beckmann, and M. Jenkinson,
+[21] W. Consagra, M. Cole, X. Qiu, and Z. Zhang, “Continuous and atlas-free            “A multi-modal parcellation of human cerebral cortex,” Nature, vol. 536,
+     analysis of brain structural connectivity,” arXiv: stat.CO, 2023.                 no. 7615, pp. 171–178, 2016.
+[22] E. Lila and J. A. Aston, “Functional random effects modeling of brain        [46] E. M. Gordon, T. O. Laumann, A. W. Gilmore, D. J. Newbold, D. J.
+     shape and connectivity,” The Annals of Applied Statistics, vol. 16, no. 4,        Greene, J. J. Berg, M. Ortega, C. Hoyt-Drazen, C. Gratton, H. Sun et al.,
+     pp. 2122–2144, 2022.                                                              “Precision functional mapping of individual human brains,” Neuron,
+[23] A. Srivastava and E. P. Klassen, Functional and shape data analysis.              vol. 95, no. 4, pp. 791–807, 2017.
+     Springer, 2016, vol. 1.                                                      [47] E. Garyfallidis, M.-A. Côté, F. Rheault, J. Sidhu, J. Hau, L. Petit,
+[24] X. Liu and H.-G. Müller, “Functional convex averaging and synchroniza-           D. Fortin, S. Cunanne, and M. Descoteaux, “Recognition of white
+     tion for time-warped random curves,” Journal of the American Statistical          matter bundles using local and global streamline-based registration and
+     Association, vol. 99, no. 467, pp. 687–699, 2004.                                 clustering,” NeuroImage, vol. 170, pp. 283–295, 2018.
+[25] G. M. James, “Curve alignment by moments,” The Annals of Applied             [48] E. St-Onge, K. G. Schilling, and F. Rheault, “Bundleseg: A versatile,
+     Statistics, vol. 1, no. 2, pp. 480 – 501, 2007.                                   reliable and reproducible approach to white matter bundle segmentation,”
+[26] A. Srivastava, E. Klassen, S. H. Joshi, and I. H. Jermyn, “Shape analysis         in International Workshop on Computational Diffusion MRI. Springer,
+     of elastic curves in Euclidean spaces,” IEEE Transactions on Pattern              2023, pp. 47–57.
+     Analysis and Machine Intelligence, vol. 33, no. 7, pp. 1415–1428, 2010.
+[27] S. H. Joshi, E. Klassen, A. Srivastava, and I. Jermyn, “A novel repre-
+     sentation for Riemannian analysis of elastic curves in rn,” in 2007 IEEE
+     conference on computer vision and pattern recognition. IEEE, 2007,
+     pp. 1–7.
+[28] A. Srivastava, W. Wu, S. Kurtek, E. Klassen, and J. S. Marron,
+     “Registration of functional data using fisher-rao metric,” arXiv preprint
+     arXiv:1103.3817, 2011.
+[29] Z. Zhang, J. Su, E. Klassen, H. Le, and A. Srivastava, “Rate-invariant
+     analysis of covariance trajectories,” Journal of Mathematical Imaging
+     and Vision, vol. 60, pp. 1306–1323, 2018.
+[30] Z. Zhang, E. Klassen, and A. Srivastava, “Phase-amplitude separation
+     and modeling of spherical trajectories,” Journal of Computational and
+     Graphical Statistics, vol. 27, no. 1, pp. 85–97, 2018.
+[31] Z. Zhang and B. Saparbayeva, “Amplitude mean of functional data on s
+     2 and its accurate computation,” Journal of Mathematical Imaging and
+     Vision, vol. 64, no. 9, pp. 1010–1028, 2022.
+[32] S. Kurtek, E. Klassen, J. C. Gore, Z. Ding, and A. Srivastava, “Elastic
+     geodesic paths in shape space of parameterized surfaces,” IEEE Trans-
+     actions on Pattern Analysis and Machine Intelligence, vol. 34, no. 9,
+     pp. 1717–1730, 2011.
+[33] S. Kurtek, E. Klassen, Z. Ding, S. W. Jacobson, J. L. Jacobson, M. J.
+     Avison, and A. Srivastava, “Parameterization-invariant shape compar-
+     isons of anatomical surfaces,” IEEE Transactions on Medical Imaging,
+     vol. 30, no. 3, pp. 849–858, 2010.
+                                                                                                                                                                                    13
+
+
+
+
+                                                                                  Supplemental Materials
+
+                                                                                             S1. P ROOF OF L EMMA II.1 RR
+                                           Proof. The proof is straightforward. On the left, we have dL2 (q1 , q2 ) = cos−1 ( q1 (x, y)q2 (x, y)dxdy). And on the right,
+                                                                                                   ZZ
+                                                                                               −1
+                                                                 dL2 ((q1 ∗ γ), (q2 ∗ γ)) = cos (     (q1 ∗ γ)(q2 ∗ γ)dxdy)
+                                                                                                   ZZ
+                                                                                          = cos−1 (   (q1 ◦ γ̃)(q2 ◦ γ̃)γ̇(x)γ̇(y)dxdy)
+                                                                                                   ZZ
+                                                                                                                                                                     (S.1)
+                                                                                          = cos−1 (   q1 (γ(x), γ(y))q2 (γ(x), γ(y))γ̇(x)γ̇(y)dxdy)
+arXiv:2503.15830v1 [stat.ME] 20 Mar 2025
+
+
+
+
+                                                                                                   ZZ
+                                                                                               −1
+                                                                                          = cos (     q1 (x̃, ỹ)q2 (x̃, ỹ)dx̃dỹ)
+
+                                                                                                 = dL2 (q1 , q2 ).
+
+
+                                                                                             S2. P ROOF OF L EMMA II.2
+                                           Proof. Let γ̄p : [−ϵ, ϵ] × [0, 1] → [0, 1], denoted as γ̄p (t, x), be a differentiable path in Γ[0,1] , passing through γid at time
+                                           t = 0. Furthermore, let the velocity of γ̄p at t = 0 be given by the tangent velocity function b ∈ Tγid (Γ[0,1] ). As such, the
+                                           path satisfies the initial conditions:
+                                                                                             ∂γ̄p (t, x)          ∂γ̄p (t, x)             ∂γ̄p (t, x)
+                                                                     γ̄p (0, x) = γid (x),                   = 1,                 = b(x),             = ḃ(x).
+                                                                                                ∂x       t=0          ∂t      t=0           ∂x∂t t=0
+                                           Since γ̄p (t, ·) is a path in Γ[0,1] , Φ(γ̄p (t, ·)) is the corresponding path in [q]. Furthermore, since the initial velocity of γ̄p is b,
+                                           the initial velocity of the corresponding path in [q] is dΦγid (b). And so, let u = γ̄p (t, x), v = γ̄p (t, y), differentiating Φ with
+                                           respect to t gives
+                                                                                                                              r              s              !
+                                                                        d                     d                                  ∂γ̄p (t, x) ∂γ̄p (t, y)
+                                                                          Φ(γ̄p )(x, y) =           q(γ̄p (t, x), γ̄p (t, y))
+                                                                       dt                     dt                                      ∂x             ∂y
+                                                                                                                      r               s
+                                                                                              ∂q(u, v) ∂γ̄p (t, x) ∂γ̄p (t, x) ∂γ̄p (t, y)
+                                                                                          =
+                                                                                                 ∂u            ∂t            ∂x              ∂y
+                                                                                                                         r               s
+                                                                                                 ∂q(u, v) ∂γ̄p (t, y) ∂γ̄p (t, x) ∂γ̄p (t, y)
+                                                                                             +
+                                                                                                    ∂v           ∂t            ∂x               ∂y
+                                                                                                                                                         s              !
+                                                                                                       1                                     ∂γ̄p (t, x) ∂γ̄p (t, y)
+                                                                                             + q                   q(γ̄p (t, x), γ̄p (t, y))
+                                                                                                     ∂ γ̄p (t,x)                               ∂x∂t            ∂y
+                                                                                                 2       ∂x
+                                                                                                                                             r                          !
+                                                                                                       1                                        ∂γ̄p (t, x) ∂γ̄p (t, y)
+                                                                                             + q                   q(γ̄p (t, x), γ̄p (t, y))
+                                                                                                 2
+                                                                                                     ∂ γ̄p (t,y)                                    ∂x        ∂y∂t
+                                                                                                       ∂y
+
+                                           via the chain rule. Substituting in all the initial conditions, gives
+                                                                          d                      ∂q (x, y)          ∂q (x, y)
+                                                                             Φ(γ̄p )(x, y)|t=0 =           b(x) +             b(y)
+                                                                          dt                         ∂x                ∂y
+                                                                                                    1                              1
+                                                                                                 + (q (γid (x), γid (y)) ḃ(x) + (q (γid (x), γid (y)) ḃ(y)
+                                                                                                    2                              2
+                                                                                                 h                   i      
+                                                                                                                                 q(x, y)               
+                                                                                                   ∂q(x,y)   ∂q(x,y)   b(x)
+                                                                                               =     ∂x        ∂y
+                                                                                                                               +           ḃ(x) + ḃ(y)
+                                                                                                                        b(y)         2
+                                                                                               = dΦγid (b)(x, y)
+                                           for b ∈ Tγid (Γ[0,1] ).
+                                                                                                                                                14
+
+
+
+                                                           S3. P ROOF OF T HEOREM II.3             q             q
+                                                                                                     ∂ γ̄p (t,x)   ∂ γ̄p (t,y)
+Proof. With a bit abuse of notation, let Φ(γ̄p )(x, y) = (q2 ∗ γ̄p ) = q2 (γ̄p (t, x), γ̄p (t, y))       ∂x            ∂y      . With t ∈ (−ϵ, ϵ),
+γ̄p (t, x) forms a differentiable path in Γ[0,1] , passing through γid at time t = 0. Furthermore, let the velocity of γ̄p at t = 0
+be given by the tangent velocity function b ∈ Tγid (Γ[0,1] ). As such, the path satisfies the initial conditions:
+                                                  ∂γ̄p (t, x)          ∂γ̄p (t, x)             ∂γ̄p (t, x)
+                       γ̄p (0, x) = γid (x),                      = 1,                 = b(x),             = ḃ(x).
+                                                     ∂x       t=0          ∂t      t=0           ∂x∂t t=0
+We can rewrite the cost function in Equation (4) as
+                                                                                Z Z
+                                                                           2                                        2
+                            H(f1 , (f2 ∗ γ̄p )) = ∥q1 − Φ(γ̄p )∥ =                          (q1 (x, y) − Φ(γ̄p )(x, y)) dxdy.
+                                                                                    Ω   Ω
+Taking the derivative w.r.t. t at t = 0, we get,
+                                                           Z Z
+                                   d                                              d
+                                      H(γ̄p )     =                                  Φ(γ̄p )(x, y)|t=0 dxdy
+                                                                     −2 (q1 − Φ(γid ))
+                                   dt         t=0         Ω Ω                    dt
+                                                                                                       
+                                                                                   d
+                                                       = −2 q1 (x, y) − q2 (x, y), Φ(γ̄p )(x, y)|t=0 .
+                                                                                   dt
+By substituting in the result from Lemma II.2, we get the desired result.
+                                                S4. P ROOF OF L EMMA III.1
+Proof. Let γ̄p : [−ϵ, ϵ] × S2 → S2 be a mapping γ̄p (t, x) forming a differentiable path in ΓS2 , passing through γid at time
+t = 0. Furthermore, let the velocity of γ̄p at t = 0 be given by a tangent velocity field b ∈ Tγid (ΓS2 ). As such, the path
+satisfies the following initial conditions:
+                                                                ∂γ̄p (t, x)
+                              γ̄p (t, x)         =γid (x), det                  = |Jγid (x)|= 1,
+                                           t=0                     ∂x       t=0                  
+                                                   ∂γ̄p (t, x)                ∂       ∂γ̄p (t, x)
+                                                                   = b(x),        det                   = ∇ · b(x),                         (S.2)
+                                                       ∂t      t=0            ∂t         ∂x         t=0
+where ∇ · b is the divergence of the velocity vector field b. The proof follows in the same way as for Lemma II.2 , except for
+the last term in the initial conditions, which is given by
+                                                      (1)               
+                                                    ∂ γ̄p     ∂ γ̄p(1)
+                   ∂         γ̄p (t, x)        ∂
+                         det                  = det  ∂ γ̄∂θ(2) ∂ ∂ϕ
+                                                                  γ̄p(2)
+                                                                         
+                   ∂t            ∂x       t=0  ∂t          p
+                                                                     ∂θ        ∂ϕ       t=0
+                                                        ∂γ̄ (1) ∂γ̄ (2)          (1)  (2)
+                                                                               ∂γ̄p ∂γ̄p
+                                                                                                      (2)   (1)
+                                                                                                    ∂γ̄p ∂γ̄p   ∂γ̄p ∂γ̄p 
+                                                                                                                     (2)   (1)
+                                                            p         p
+                                                   =                       +                    −             −
+                                                         ∂θ∂t ∂ϕ               ∂θ ∂ϕ∂t              ∂θ∂t ∂ϕ      ∂θ ∂ϕ∂t t=0
+                                                        ∂  ∂γ̄                 ∂  ∂γ̄p 
+                                                               (1)                      (2)
+                                                                 p
+                                                   =                          +
+                                                     ∂θ     ∂t            t=0   ∂ϕ ∂t       t=0
+                                                     ∂ (1)      ∂ (2)
+                                                   =    b +       b
+                                                     ∂θ        ∂ϕ
+                                                   = ∇ · b.
+
+
+                                  S5. I NTERPOLATION OF f AND q ON S2 :A D ETAILED E XPLANATION
+   Given that the function f is evaluated at V 2 vertices on a grid, our goal is to interpolate f (x, y) for any (x, y) ∈ S2 × S2 .
+We achieve this using barycentric interpolation, which extends the idea of linear interpolation to simplices (e.g., triangles),
+making it well suited for our spherical grid.
+1. Barycentric Interpolation in the x-Direction
+   Setup: Consider a triangle ∆x1 x2 x3 with vertices x1 , x2 , and x3 . For a fixed y (say, y1 ), we assume that the values
+f (x1 , y1 ), f (x2 , y1 ), and f (x3 , y1 ) are known.
+   Subtriangle Areas: For any point x ∈ ∆x1 x2 x3 , let
+                                                                A1 (x) = Area(∆x x2 x3 ),
+                                                                A2 (x) = Area(∆x1 x x3 ),
+                                                                A3 (x) = Area(∆x1 x2 x),
+and denote the total area by
+                                                           Ax = A1 (x) + A2 (x) + A3 (x),
+                                                                                                                               15
+
+
+
+which is the area of ∆x1 x2 x3 .
+  Interpolation Formula: The barycentric interpolation for the fixed y1 is then given by:
+                                               A1 (x)f (x1 , y1 ) + A2 (x)f (x2 , y1 ) + A3 (x)f (x3 , y1 )
+                                f (x, y1 ) =                                                                .
+                                                                          Ax
+2. Extending to Bi-variate Interpolation
+   Interpolation in y: Next, perform a similar interpolation in the y-direction. Consider a triangle ∆y1 y2 y3 with vertices y1 ,
+y2 , and y3 . For any point y ∈ ∆y1 y2 y3 , define:
+                                                         A1 (y) = Area(∆y y2 y3 ),
+                                                         A2 (y) = Area(∆y1 y y3 ),
+                                                         A3 (y) = Area(∆y1 y2 y),
+with total area
+                                                     Ay = A1 (y) + A2 (y) + A3 (y).
+  Combined Interpolation: First, interpolate in the x-direction for each fixed y-vertex:
+                                        A1 (x)f (x1 , yi ) + A2 (x)f (x2 , yi ) + A3 (x)f (x3 , yi )
+                         f (x, yi ) =                                                                ,   i = 1, 2, 3.
+                                                                   Ax
+Then, interpolate in the y-direction:
+                                                 A1 (y)f (x, y1 ) + A2 (y)f (x, y2 ) + A3 (y)f (x, y3 )
+                                  f (x, y) =                                                            .
+                                                                         Ay
+3. Matrix Formulation
+   The two-step interpolation can be compactly expressed in matrix form. Define the normalized area vectors:
+                                                   A (x)             A1 (y) 
+                                                              1
+                                                             xA                        Ay
+                                                         2 (x)                 A2 (y) 
+                                                  Axx =  AA x
+                                                                ,        Ayy =  A  y
+                                                                                         ,
+                                                             A3 (x)                 A3 (y)
+                                                              Ax                     Ay
+
+and let B be the 3 × 3 matrix:                                                           
+                                                    f (x1 , y1 ) f (x2 , y1 ) f (x3 , y1 )
+                                               B = f (x1 , y2 ) f (x2 , y2 ) f (x3 , y2 ) .
+                                                    f (x1 , y3 ) f (x2 , y3 ) f (x3 , y3 )
+Then the interpolation for f (x, y) can be written as:
+                                                           f (x, y) = AT
+                                                                       yy B Axx .
+
+                               S6. C OMPUTATION OF γ’ S JACOBIAN : D ETAILED D ERIVATION .
+   The warping function is defined as γ : S2 → S2 , where the sphere S2 is parameterized by spherical coordinates (θ, ϕ) ∈
+[0, π] × [0, 2π). In our implementation, we represent γ in Cartesian coordinates via the mapping Φ such that
+                                                                          
+                                                               sin θ cos ϕ
+                                                                          
+                                                  Ψ(θ, ϕ) =  sin θ sin ϕ  ,
+                                                                           cos θ
+and its inverse                                                                         !
+                                                                           cos−1 (z)
+                                                    Ψ−1 (x, y, z) =                         .
+                                                                         tan−1 (y/x)
+
+Thus, the warped spherical coordinate of (θ, ϕ) is given by (θ̃, ϕ̃) = γ(θ, ϕ), under the spherical coordinate.
+Tangent Space and Orthonormal Basis
+  To compute the Jacobian of γ, we differentiate along an orthonormal basis for the tangent space TΨ(θ,ϕ) (S2 ). A natural
+choice is given by                                                          
+                                                     cos θ cos ϕ − sin ϕ
+                                dΨ      1 dΨ
+                                    ,             =  cos θ sin ϕ cos ϕ  ≡ (w(θ) w(ϕ) ).                            (S.3)
+                                 dθ sin θ dϕ
+                                                         − sin θ        0
+                                                                                                                                  16
+
+
+
+Numerical Approximation via Finite Differences
+   For numerical stability, the partial derivatives of the warped spherical coordinates (θ̃, ϕ̃) are approximated using a two-sided
+finite difference scheme. Specifically,
+                                                  "                                                  #T
+                              ∂ θ̃   1 ∂ θ̃
+                              ∂θ   sin θ ∂ϕ       1   γ(expΨ(θ,ϕ) (δ w(θ) )) − γ(expΨ(θ,ϕ) (−δ w(θ) ))
+                                           ≈                                                            ,                   (S.4)
+                              ∂ ϕ̃   1 ∂ ϕ̃      2δ γ(expΨ(θ,ϕ) (δ w(ϕ) )) − γ(expΨ(θ,ϕ) (−δ w(ϕ) ))
+                                ∂θ         sin θ ∂ϕ
+
+where expΨ(θ,ϕ) (·) denotes the exponential map on S2 .
+   In our implementation, γ is also represented as a vector field defined on a discrete triangular mesh, e.g., γ(x) : S2 → Tx (S2 ),
+we apply parallel transport during interpolation to ensure that the resulting vectors remain in the tangent plane. A closed-form
+expression for parallel transport on S2 is provided in [1].
+Jacobian Determinant via Change of Basis
+   The Jacobian Jγ(θ,ϕ) of the diffeomorphism γ is an invertible linear mapping between the tangent spaces T(θ,ϕ) (S2 ) and
+T(θ̃,ϕ̃) (S2 ). To compute its determinant, we change the basis from the spherical coordinates (θ, ϕ) to the orthonormal tangent
+basis {w(θ) , w(ϕ) }, and then back to spherical coordinates. This yields
+                                                                 ∂ θ̃ ∂ θ̃ !           
+                                                        1   0       ∂θ   ∂ϕ     1     0
+                                         |Jγ(θ,ϕ) | =
+                                                        0 sin θ̃    ∂ ϕ̃ ∂ ϕ̃   0 sin1 θ
+                                                                                  ∂θ     ∂ϕ
+                                                                       ∂ θ̃     1 ∂ θ̃
+                                                                       ∂θ     sin θ ∂ϕ
+                                                            = sin θ̃                     .
+                                                                       ∂ ϕ̃     1 ∂ ϕ̃
+                                                                       ∂θ     sin θ ∂ϕ
+
+Here, the left and right matrices perform the necessary change of basis to and from the orthonormal tangent space. Importantly,
+by computing derivatives in the directions w(θ) and w(ϕ) rather than directly in (θ, ϕ), we avoid singularities when sin θ = 0.
+                                        S7. S PATIAL D ERIVATIVE OF q : S2 × S2 → R≥0            
+                                                                                             b(x)
+  To compute the directional derivative of q(x, y) : S × S → R≥0 along the vector field
+                                                       2   2
+                                                                                                   , as required in Lemma III.1,
+                                                                                             b(y)
+                                             (1)   (2)
+we use a finite difference approach. Let {wx , wx } be an orthonormal basis for the tangent space Tx (S2 ). Any vector b(x)
+can then be written as
+                                                  b(x) = a(1)  (1)    (2) (2)
+                                                          x wx + ax wx ,
+                   (1)       (2)
+with coefficients ax and ax .
+  Under this basis, the partial derivative of q(x, y) with respect to x can be represented as
+                                           ∂q(x, y) h                                   i
+                                                       = dqx (wx(1) , y) dqx (wx(2) , y) ,
+                                                ∂x
+where each directional derivative is defined by
+                                                            1                                
+                                     dqx (wx(i) , y) := lim    q(expx (ϵ wx(i) ), y) − q(x, y) .
+                                                        ϵ→0 ϵ
+
+Here, expx denotes the exponential map at x on S2 , which maps a tangent vector to a point on the sphere. In practice, we
+                           (i)
+approximate q(expx (ϵ wx ), y) by choosing a small ϵ and performing barycentric interpolation, as described previously.
+                                                                                                    (1)  (2)
+   Similarly, the partial derivative with respect to y can be computed using an orthonormal basis {wy , wy } for Ty (S2 ), with
+the corresponding expression
+                                             ∂q(x, y) h                                 i
+                                                       = dqy (x, wy(1) ) dqy (x, wy(2) ) ,
+                                                ∂y
+                          (1)        (1)       (2)    (2)
+and coefficients b(y) = ay wy + ay wy .                                    
+                                                                      b(x)                      (1)    (1)          (2)    (2)
+  Thus, the total directional derivative along the vector field               is given by dqx (wx , y)ax + dqx (wx , y)ax +
+                                                                       b(y)
+         (1) (1)            (2) (2)
+dqy (x, wy )ay + dqy (x, wy )ay .
+                                                S8. E XTENSION TO Ω = S21 ∪ S22
+  In our application, the domain of interest for cortical surface registration comprises two hemispheres. Therefore, the methods
+developed above must be extended to work on the domain
+                                                                       Ω = Ω1 ∪ Ω2 ,
+                                                                                                                                  17
+
+
+
+where Ω1 ∩ Ω2 = ∅, with Ω1 = S2 representing the left hemisphere and Ω2 = S2 representing the right hemisphere. In this
+setting, the diffeomorphism γ is defined piecewise as
+                                                       (
+                                                         γ 1 (x) if x ∈ Ω1 ,
+                                                γ(x) =
+                                                         γ 2 (x) if x ∈ Ω2 .
+  We then redefine the mapping Φ from Eq. (5) as follows:
+                                                          p          p
+                                      
+                                      q(γ 1
+                                             (x), γ 1
+                                                      (y))  J γ 1 (x)  Jγ 1 (y),       if x ∈ Ω1 , y ∈ Ω1 ,
+                                      
+                                      
+                                      
+                                                          p          p
+                                      q(γ 2 (x), γ 1 (y)) Jγ 2 (x) Jγ 1 (y),          if x ∈ Ω2 , y ∈ Ω1 ,
+                         Φ(γ)(x, y) =                      p          p                                                       (S.5)
+                                      
+                                      q(γ 1 (x), γ 2 (y)) Jγ 1 (x) Jγ 2 (y),          if x ∈ Ω1 , y ∈ Ω2 ,
+                                      
+                                      
+                                      
+                                      q(γ 2 (x), γ 2 (y))pJ 2 (x)pJ 2 (y),
+                                      
+                                                                                       if x ∈ Ω2 , y ∈ Ω2 .
+                                                              γ         γ
+
+  Assuming that q(x, y) is continuous and differentiable even when x and y lie in different subdomains, each of the cases in
+Eq. (S.5) can be treated as before. Consequently, the underlying theory remains unchanged. In practice, when determining the
+optimal warping function to align with the ConCon functions, we propose an iterative procedure in which the warp for each
+hemisphere is updated individually.
+  Note that the first and last cases in Eq. (S.5) depend independently on γ 1 and γ 2 , whereas the middle two cases are
+symmetric. Therefore, we can define the differential of Φ with respect to each warping function separately.
+Lemma S8.1. Let the domain Ω = Ω1 ∪ Ω2 , and γ ∈ ΓΩ . The differential of Φ : ΓΩ → [q], while holding γ 2 as fixed and
+given and evaluated at the identity warp γid 1
+                                               , is given by
+                                                                                               
+                                  ∂q(x,y)          ∂q(x,y)          q(x,y)
+                               
+                                    ∂x    b(x)  +     ∂y   b(y) +     2      ∇ · b(x) + ∇ · b(y)  , if x, y ∈ Ω1 ,
+                               
+                               
+                               
+                                ∂q(x,y) b(x) + q(x,y) ∇ · b(x),
+                                     ∂x                2                                             if x ∈ Ω1 , y ∈ Ω2 ,
+            (dΦγid
+                1 (b))(x, y) =                                                                                               (S.6)
+                               
+                                  ∂q(x,y)
+                                           b(y)  +  q(x,y)
+                                                           ∇ · b(y),                                 if x ∈  Ω   , y ∈ Ω   ,
+                               
+                                    ∂y               2                                                        2         1
+                               
+                               
+                               0,                                                                   otherwise.
+Here, ∇ · b denotes the divergence of the vector field b ∈ Tγid
+                                                             1 (ΓS2 ). The differential of Φ while holding γ
+                                                                                                             1
+                                                                                                               fixed is defined
+analogously.
+Proof. Let
+                                                       γ̄p : [−ϵ, ϵ] × (Ω) → Ω
+be a mapping that defines a differentiable path in ΓΩ passing through γid   1
+                                                                              at t = 0 with γ 2 fixed; that is, γ̄p (0, u) = γid
+                                                                                                                              1
+                                                                                                                                 (u)
+for u ∈ Ω1 . The proof for the first case (when x, y ∈ Ω1 ) follows similarly to Lemmas II.2 and III.1 .
+   For the second and third cases, let u be any point in Ω. If we fix γ 2 to the identity, then for any u ∈ Ω2 the velocity of γ̄p
+at t = 0 is zero. Hence, for u ∈ Ω2 the path satisfies the following initial conditions:
+                                                              2
+                                           γ̄p (t, u)|t=0 = γid (u),                                                          (S.7)
+                                         ∂γ̄p (t, u)
+                                     det                  = |Jγid
+                                                                2 (u)|= 1,
+                                             ∂u       t=0                             
+                                         ∂γ̄p (t, u)               ∂       ∂γ̄p (t, u)
+                                                          = 0,         det                   = 0.
+                                             ∂t       t=0         ∂t          ∂u         t=0
+
+Since the velocity of γ̄p at t = 0 is given by b ∈ Tγid
+                                                     1 (ΓS2 ) when u ∈ Ω1 , the result can be derived easily as in the previous
+
+case.
+  Combining these results, we can now define the continuous connectivity registration algorithm by employing the derivative
+of the cost function with respect to the warp function for each hemisphere separately. The directional derivative of the cost
+function H with respect to γ 1 in the direction bi ∈ Tγid
+                                                       1 (ΓS2 ) is given by
+
+
+                                 Z      Z       n                       o
+                    ∇bi Hγ 1 =                   q1 (x, y) − q2 (x, y)
+                                  x∈Ω1 y∈Ω1
+                                   h                       i                                             
+                                      ∂q2 (x,y)   ∂q2 (x,y)    bi (x)     q2 (x, y) 
+                                 ×       ∂x           ∂y
+                                                                        +            ∇ · bi (x) + ∇ · bi (y)   dx dy
+                                                               bi (y)         2
+                                   Z       Z      n                       o
+                                 +                  q1 (x, v) − q2 (x, v)
+                                     x∈Ω1   v∈Ω2
+                                                                                                                                      18
+
+
+                                                                                
+                                         ∂q2 (x, v)
+                                 ×                  bi (x) + q2 (x, v) ∇ · bi (x) dx dv.                                          (S.8)
+                                            ∂x
+                  S9. A LGORITHMS FOR D EFINING A T EMPLATE FOR P OPULATION - BASED R EGISTRATION
+1) Center of {[qj ]}
+   To find a template, the intuitive approach would be to take the cross-sectional mean of the functions fj ∈ F. However, this
+would be a poor estimator of the mean because we do not have a distance in C that is invariant to warping. Instead, we can
+take the mean of the orbits {[qj ]} which live in the the quotient space S = S∞ /Γ. We have already defined a distance between
+elements q1 , q2 ∈ S∞ in section II-A. Since the group Γ acts isometrically on S∞ , under appropriate regularity conditions the
+distance defined on S∞ descends via the quotient map to induce a well-defined Riemannian structure on the quotient space S.
+As such, we can define the Karcher mean [2] of points in S as
+                                                                      N
+                                                                      X
+                                                      [µ] = arg min         d([q], [qj ])2 ,                                      (S.9)
+                                                              [q]∈S   j=1
+
+where d([q], [qj ]) = minγ1 ,γ2 ∈Γ cos−1 (⟨(q ∗ γ1 ), (qj ∗ γ2 )⟩). Unfortunately, there is no analytic form to solve (S.9), and it must
+instead be solved using an iterative algorithm [3], [4] presented in Algorithm 1.
+
+Algorithm 1 Karcher mean of {[qj ]}
+  Initialise µ as one of qj ’s.
+  Set k = 0, and ϵ1 , ϵ2 to be small positive values
+  while ||v̄||> ϵ1 do
+      Align each qj to µk , and denote them as q̃j
+      For each j = 1, 2, . . . , N compute vi ← logµk (q̃i )
+                                             1 PN
+      Compute the average direction v̄ ←             vi
+                                             N i=1
+      Update µk+1 ← expµk (ϵ2 v̄)
+      k ←k+1
+  end while
+The final orbit [µk ] is considered as [µ], and the exponential and logarithmic maps are defined on S∞ .
+
+   The mean estimate can be susceptible to outliers, as such, it may be desirable to take the median for the template instead.
+An algorithm for finding the median is very similar to the gradient-based approach to finding the mean [5]. After getting the
+template orbit, we will want to select an element µ ∈ [µ] that is in some way optimal.
+2) Center of the Orbit [µ]
+   Following on from [3], [6], we assume that the mean of the warping functions needed to align the connectivity functions in
+a sample should be (close to) the identity, i.e. E{γ(x)} = x for x ∈ Ω. So then, we find the template µ∗ from [µ] as follows.
+Definition S9.1. For a given set of functions q1 , q2 , ..., qN ∈ Q, and orbit, [µ] ∈ S, define the element µ∗ as the center of [µ]
+with respect to the set {qj } if the warping functions γj ∈ Γ, where γj = arg minγ∈Γ ∥µ∗ − (qj ∗ γ)∥2 , have the Karcher mean
+γid .
+The algorithm to find the center of the orbit is presented in [3], but we will state it here in a more general form.
+
+Algorithm 2 The center of a orbit [µ] w.r.t. the set {qj }
+  1) For each qj ∈ Q, find the warping functions γj ∈ Γ by solving γj = arg minγ∈Γ ∥µ − (qj ∗ γ)∥2 using Algorithm 2 in
+     the main text.
+  2) Compute the Karcher mean γ̄p of all γj using Algorithm (1), where the exponential and logarithmic maps are on Γ
+     instead of S, and we initialise the algorithm using γid .
+  3) The center of [µ] w.r.t. {qj } is given by µ∗ = (µk ∗ γ̄p−1 ), where µk is the output from Algorithm 2 in the main text.
+
+3) A complete registration algorithm for connectivity functions
+   Now we have all the elements we need for a complete registration algorithm for connectivity functions, which we present
+in Algorithm (3).
+                                      S10. M ORE R ESULTS FOR S IMULATION S TUDY
+                                                                                                                                         19
+
+
+
+
+Algorithm 3 Registration of ConCon Functions
+  1) Given functions f1 , f2 , . . . , fN ∈ F, compute q1 , q2 , . . . , qN ∈ Q using the Q map (Equation (3) in the main text).
+  2) Compute the Karcher mean (or median) orbit [µ] of [q1 ], [q2 ], . . . , [qN ] ∈ S using Algorithm (1).
+  3) Find the center of [µ] w.r.t. {[qj ]} using Algorithm (2); call it µ∗ .
+  4) For each qj ∈ Q, find the warping functions γj∗ ∈ Γ by solving γj∗ = arg minγ∈Γ ∥µ∗ − (qj ∗ γ)∥2 using Algorithm 2 in
+     the main text.
+  5) Compute the aligned connectivity functions fj∗ = (fj ∗ γj∗ ).
+  6) Return the template µ∗ , the warping functions {γj∗ }, and the aligned functions {fj∗ }.
+
+
+
+
+Fig. S1: Shows 7 randomly selected warping functions from the simulation and their estimates, demonstrating that ENCORE works well
+regardless of the shape of the warping function.
+
+
+
+
+                                                        N        µ1      µ2     σ2
+                                                       2500     0.1     0.9     0.5
+                                                       2500     0.1     0.3     0.5
+                                                       2500     0.5     0.6     0.4
+                                                       2500     0.2     0.6     0.2
+                                                       8000     0.55    0.95    0.3
+                                                       2000     0.4     0.8     0.6
+TABLE I: For simulated ConCon functions, we generated six sets of endpoints, each set containing N endpoint pairs from normal distributions
+with means µ1 , µ2 , and variance σ 2 .
+                                                                                                                                                             20
+
+
+
+                                              S11. M ORE R ESULTS FOR R EAL DATA A NALYSIS
+
+                                                                0.1                                                                                    0.1
+
+                                                                0.09                                                                                   0.09
+
+                                                                0.08                                                                                   0.08
+
+                                                                0.07                                                                                   0.07
+
+                                                                0.06                                                                                   0.06
+
+                                                                0.05                                                                                   0.05
+
+                                                                0.04                                                                                   0.04
+
+                                                                0.03                                                                                   0.03
+
+                                                                0.02                                                                                   0.02
+
+                                                                0.01                                                                                   0.01
+
+                                                                0                                                                                      0
+     500 1000 1500 2000 2500 3000 3500 4000                                                 500 1000 1500 2000 2500 3000 3500 4000
+                   Index                                                                                  Index
+                                     (A)                                                                          (B)
+
+                               Fig. S2: Shows the templates generated from different groups of selected subjects.
+
+
+
+
+Fig. S3: Shows the five major fiber bundles: bilateral Middle Longitudinal Fasciculus (MdLF), Inferior and Superior Longitudinal Fasciculus
+(ILF, SLF), Frontal Aslant Tract (FAT), and Anterior Cingulate Cortex (CG An) used in the DICE analysis.
+
+                                                                     R EFERENCES
+[1] Z. Zhang, E. Klassen, and A. Srivastava, “Phase-amplitude separation and modeling of spherical trajectories,” Journal of Computational and Graphical
+    Statistics, vol. 27, no. 1, pp. 85–97, 2018.
+[2] H. Karcher, “Riemannian center of mass and mollifier smoothing,” Communications on pure and applied mathematics, vol. 30, no. 5, pp. 509–541, 1977.
+[3] A. Srivastava, W. Wu, S. Kurtek, E. Klassen, and J. S. Marron, “Registration of functional data using fisher-rao metric,” arXiv preprint arXiv:1103.3817,
+    2011.
+[4] S. Kurtek, J. Su, C. Grimm, M. Vaughan, R. Sowell, and A. Srivastava, “Statistical analysis of manual segmentations of structures in medical images,”
+    Computer Vision and Image Understanding, vol. 117, no. 9, pp. 1036–1050, 2013.
+[5] P. T. Fletcher, S. Venkatasubramanian, and S. Joshi, “The geometric median on riemannian manifolds with application to robust atlas estimation,”
+    NeuroImage, vol. 45, no. 1, pp. S143–S152, 2009.
+[6] S. Kurtek, E. Klassen, J. C. Gore, Z. Ding, and A. Srivastava, “Elastic geodesic paths in shape space of parameterized surfaces,” IEEE Transactions on
+    Pattern Analysis and Machine Intelligence, vol. 34, no. 9, pp. 1717–1730, 2011.
+
