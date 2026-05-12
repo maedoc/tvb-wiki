@@ -1,0 +1,1240 @@
+                                           SIMBA: Scalable Image Modeling using a Bayesian Approach,
+                                           A Consistent Framework for Including Spatial Dependencies in
+                                                                                     fMRI Studies
+arXiv:2511.12825v1 [stat.ME] 16 Nov 2025
+
+
+
+
+                                                             Yuan Zhong1 , Gang Chen2 , Paul A. Taylor2 , Jian Kang1∗
+                                                              1 Department of Biostatistics, University of Michigan, Ann Arbor, USA
+
+                                            2 Scientific and Statistical Computing Core, National Institute of Mental Health, NIH, Bethesda, MD, USA
+
+                                                                             ∗ Correspondence: jiankang@umich.edu
+
+
+
+
+                                                                                    November 18, 2025
+
+
+                                           Keywords: Bayesian spatial model, functional magnetic resonance imaging (fMRI), Gaussian process
+                                           (GP), variational inference (VI), kernel approximation, image-on-scalar regression
+
+                                                 Abstract:    Bayesian spatial modeling provides a flexible framework for whole-brain fMRI
+                                                 analysis by explicitly incorporating spatial dependencies, overcoming the limitations of tra-
+                                                 ditional massive univariate approaches that lead to information waste. In this work, we
+                                                 introduce SIMBA, a Scalable Image Modeling using a Bayesian Approach, for group-level
+                                                 fMRI analysis, which places Gaussian process (GP) priors on spatially varying functions to
+                                                 capture smooth and interpretable spatial association patterns across the brain volume. To
+                                                 address the significant computational challenges of GP inference in high-dimensional neu-
+                                                 roimaging data, we employ a low-rank kernel approximation that enables projection into a
+                                                 reduced-dimensional subspace. This allows for efficient posterior computation without sacri-
+                                                 ficing spatial resolution, and we have developed efficient algorithms for this implemented in
+                                                 Python that achieve fully Bayesian inference either within minutes using the Gibbs sampler
+                                                 or within seconds using mean-field variational inference (VI). Through extensive simulation
+                                                 studies, we first show that SIMBA outperforms competing methods in estimation accuracy,
+                                                 activation detection sensitivity, and uncertainty quantification, especially in low signal-to-
+                                                 noise settings. We further demonstrate the scalability and interpretability of SIMBA in
+
+                                                                                               1
+2                                                                                     1 INTRODUCTION
+
+
+      large-scale task-based fMRI applications, analyzing both volumetric and cortical surface data
+      from the NARPS and ABCD studies.
+
+
+
+
+1     Introduction
+
+Functional magnetic resonance imaging (fMRI) has emerged as one of the most widely used neuroimaging
+techniques for noninvasive mapping of brain activity. In typical task-based fMRI studies, participants are
+scanned while performing specific cognitive or motor tasks, with the primary goal of identifying brain
+regions that are activated in response to the experimental conditions and often response contrasts.
+By measuring blood-oxygen-level-dependent (BOLD) signals, fMRI provides rich spatial and temporal
+information on brain function. These data are indexed by spatial locations, which can be represented
+either in a volumetric format, where responses are measured at voxels across the three-dimensional brain
+volume, or in a cortical surface format, where responses are mapped onto two-dimensional surface meshes
+of the cortex. In both cases, these spatial locations can be denoted using three-dimensional coordinates
+to describe their relative positions within the brain volume.
+
+Traditional task-based fMRI analysis studies operate in a massive univariate analysis (MUA) framework.
+First, a time series regression model is independently fitted to each spatial location on single-participant
+data to obtain estimated coefficients associated with task effects or contrasts between different conditions.
+These coefficients comprise the individual-specific effect estimates or contrast maps, which are then used
+for subsequent or group-level analyses to map brain activations. Then, MUA is applied at the group level,
+where each spatial location is treated independently, and univariate hypothesis tests such as t-tests or
+general linear models (GLMs) are applied at each location. This approach is often followed by multiple
+testing adjustment procedures of statistic values, such as family-wise error (FWE) rate adjustment or
+false discovery rate (FDR) control. Although MUA is computationally efficient and widely used in popular
+neuroimaging software such as FSL (FMRIB Software Library; Jenkinson et al. (2012)), SPM (Statistical
+Parametric Mapping; Ashburner (2012)), and AFNI (Analysis of Functional NeuroImages; Cox (1996)),
+it has critical limitations. MUA results in information waste by ignoring spatial correlations and common
+information shared across voxels, as it assumes independence across spatial locations and lacks model
+flexibility. They also operate solely on statistical values, ignoring the importance of the effect estimates
+from modeling (Chen et al., 2017). Furthermore, multiple testing adjustment methods commonly applied
+in MUA pipelines often cause information loss by producing binary decisions rather than providing full
+inference on the magnitude and uncertainty of activation effects (Chen et al., 2019; Marchini & Presanis,
+2004).
+                                                                                                         3
+
+
+To address these limitations, it is crucial to account for the spatial dependence inherent in fMRI data,
+within a consistent and appropriate statistical modeling framework. Bayesian models with spatial priors
+provide a principled approach to encode this dependence, allowing models to borrow strength across
+neighboring locations and improve both model performance and interpretability. Popular methods include
+conditional autoregressive (CAR) models and Gaussian Markov random fields (GMRFs), which impose
+local spatial smoothness through sparse precision matrices (Descombes et al., 1998; Mejia et al., 2020;
+Sidén et al., 2017; Woolrich et al., 2004; Zhang et al., 2016). Other extensions incorporate mixture
+models with Dirichlet process clustering to account for latent spatial heterogeneity (Jbabdi et al.,
+2009; Zhang et al., 2016). More recently, Gaussian process (GP) priors have gained more attention in
+neuroimaging as a flexible method to model globally smooth spatial functions, with various applications
+in modeling activation regions, individual-specific effects, and spatially structured residual noise (Lin
+et al., 2024; Whiteman et al., 2024).
+
+In general, Bayesian spatial models face significant computational challenges in whole-brain fMRI anal-
+yses, primarily due to the high dimensionality of the data, with the number of spatial locations often
+exceeding 105 . Fully Bayesian inference via Markov chain Monte Carlo (MCMC) sampling becomes
+computationally infeasible, especially when accounting for spatial dependence across the entire brain.
+To mitigate this issue, some studies have focused on region-based analyses, either restricting inference
+to small regions of interest (ROIs) (Hartvig & Jensen, 2000) or averaging voxel-level effects within
+predefined anatomical regions (Chen et al., 2019), both of which sacrifice the fine spatial resolution
+inherent in voxel-wise fMRI data.
+
+To improve scalability, approximate inference methods have been widely explored. Many studies adopt
+variational inference (VI), which offers a computationally efficient alternative to MCMC by approximating
+the posterior through optimization (Penny et al., 2005; Sidén et al., 2017; Zhang et al., 2016). Another
+useful direction is based on the integrated nested Laplace approximation (INLA). Mejia et al. (2020)
+introduced spatial Bayesian GLMs that combine INLA with GMRF priors, taking advantage of sparse
+precision matrices to achieve substantial computational gains. This approach has been shown to deliver
+accurate posterior estimates and can scale to tens of thousands of voxels or surface vertices with runtimes
+on the order of hours. However, because GMRF priors are defined through the sparsity structure of the
+precision matrix, the induced spatial dependence is limited to local neighborhoods. This restriction
+makes them well-suited for local smoothing but less flexible for capturing global or long-range spatial
+correlations.
+
+GP priors offer a powerful alternative for modeling globally smooth and spatially varying effects. However,
+exact inference under GP priors involves dense covariance matrix inversions with computational complexity
+4                                                                                      1 INTRODUCTION
+
+
+O(V 3 ) and memory cost O(V 2 ), where V is the number of spatial locations. This makes traditional
+MCMC approaches infeasible for whole-brain fMRI analyses, particularly for Hamiltonian Monte Carlo
+(HMC) methods commonly used in software like Stan (Carpenter et al., 2017) and PyMC (Salvatier
+et al., 2016).   Whiteman et al. (2024) proposed a two-stage MCMC-based framework using Vecchia
+approximations for cortical surface fMRI data.        Lin et al. (2024) developed a population-weighted
+image-on-scalar regression method using low-rank GP kernel approximations, with a maximum likelihood
+estimation method for parameter estimation instead of Bayesian inference. Despite these advances, there
+remains a lack of a unified, fully Bayesian framework capable of performing computationally efficient
+inference across the whole brain volume using GP priors.
+
+To address these challenges, we propose a Scalable Image Model using a Bayesian Approach (SIMBA)
+for modeling spatial effects in group-level fMRI analysis. This is a unified Bayesian modeling framework
+with GP priors that can efficiently perform whole-brain level analysis on fMRI data. The SIMBA model
+explicitly targets effect estimation at each spatial location across the brain volume, while simultaneously
+incorporating participant-specific effects and spatially correlated residuals. This framework allows for
+flexible and statistically consistent modeling of inter-participant variability with spatial dependencies,
+while also enabling posterior predictive checks as a principled method for validating model fit and assessing
+the adequacy of spatial inferences, such as goodness of fit, detection of systematic misfit, assumption
+checking, sensitivity to priors, and model comparisons (Gabry et al., 2019).
+
+To reduce computational complexity in the implementation of this method, we adopt a low-rank ap-
+proximation of the GP covariance kernel, projecting the high-dimensional spatial functions to a lower-
+dimensional subspace. Our approach shares a similar kernel decomposition and model reparameterization
+strategy with Lin et al. (2024), extending it to full Bayesian inference and allowing for more flexible kernel
+choices. We implement efficient posterior inference through both Gibbs sampling and variational infer-
+ence, enabling whole-brain Bayesian spatial inference at voxel-level resolution within minutes or seconds.
+This makes our method feasible for high-dimensional fMRI data, which has previously been unattainable
+in standard neuroimaging practice. We demonstrate the performance of our approach through three
+example cases: first, with simulation studies where results can be compared with known results; and
+then with real fMRI volumetric data from the Neuroimaging Analysis Replication and Prediction Study
+(NARPS) (Botvinik-Nezer et al., 2020) in a whole brain analysis and finally with a gray matter-focused
+analysis of real data from the Adolescent Brain Cognitive Development (ABCD) study (Casey et al.,
+2018) to identify cortical activation patterns.
+
+The remainder of this paper is organized as follows. In Section 2, we introduce the SIMBA framework
+and the corresponding prior specifications. In Section 3, we demonstrate the kernel approximation,
+                                                                                                                    5
+
+
+model reparameterization, and Bayesian inference algorithms, including the Gibbs sampler and variational
+inference. In Section 4, we present simulation studies that evaluate model performance, followed by a
+real data application in Section 5 on task-based fMRI volumetric data from the NARPS project and
+cortical gray matter surface data from the ABCD study. We conclude with a discussion in Section 6.
+
+
+
+
+2     Methods
+
+2.1     Model Specification
+
+Suppose fMRI data are collected from N individuals, each measured on V spatial locations across the
+brain. Let S = {sv }Vv=1 ⊂ Rd denote the d-dimensional coordinates of the spatial locations of the
+volumetric voxels or surface vertices. For simplicity of notation, we refer to all locations as voxels
+indexed by v throughout. Additionally, while we use a single index to label voxels, the original geometric
+spatial structure is maintained and used within the modeling process.
+
+We denote yi (sv ) as the observed image response at the spatial location sv and let xij represent the
+j-th covariate for participant i, such as demographic or clinical information, with i = 1, . . . , N and
+j = 0, . . . , J. The proposed SIMBA model is specified as:
+
+                           J
+                           X                J
+                                            X
+              yi (sv ) =         xij αj +         xij βj (sv ) + ηi (sv ) + ϵi (sv ),   ϵi (sv ) ∼ GP(0, σϵ2 K).   (1)
+                           j=0              j=0
+
+
+We include xi0 = 1 for all i = 1, . . . , N to model the global intercept α0 and the spatially varying
+intercept β0 (sv ) for baseline brain activity patterns. Here, αj represents the global effect of the jth
+covariate shared across all locations, and βj (sv ) captures the spatially varying population-level effect of
+the same covariate at location sv . Participant-specific deviations from the voxel-level population effect are
+represented by ηi (sv ), and ϵi (sv ) denotes spatial noise, which is assumed to follow a zero-mean Gaussian
+process with a covariance kernel K and unknown kernel variance σϵ2 . To ensure model identifiability, we
+                        PN                                                 PV
+impose the constraints:    i=1 ηi (sv ) = 0 for all v = 1, . . . , V , and  v=1 βj (sv ) = 0 for j = 0, . . . , J.
+Our primary parameter of interest is the voxel-level effect αj + βj (sv ) for j = 0, . . . , J, which combines
+both the global and spatial varying association between the intercept or the j-th covariate and brain
+activities.
+
+For each global effect αj , we assign a normal prior with mean zero and an unknown variance σα2 , denoted
+as αj ∼ N (0, σα2 ). We incorporate spatial information by assigning GP priors with zero mean and the
+6                                                                                                                 2 METHODS
+
+
+same predefined covariance function K(·, ·) as for the residuals ϵi (sv ) to the latent spatial functions
+βj (·) ∼ GP(0, σβ2 K) and ηi (·) ∼ GP(0, ση2 K). For computational simplicity, we assume a shared
+covariance kernel K across all three latent spatial functions, while allowing for different kernel variances
+σβ2 , ση2 and σϵ2 to capture varying degrees of spatial variation across the respective model components. In
+practice, different kernels could be specified for the individual-level effects ηi (sv ) if desired. The choice of
+kernel function determines the smoothness of spatially varying functions and spatial correlations across
+voxels. In this work, we use a Matérn kernel, which is widely adopted in spatial statistical modeling in
+fMRI studies (Mejia et al., 2020; Sidén et al., 2021) due to its flexibility in controlling both correlation
+range and smoothness. Details on the kernel construction and approximation strategies are provided
+in Section 2.2. We place half-Cauchy priors on the unknown standard deviations as σα , σβ , ση , σϵ ∼
+C + (A), where A = 100 induces weakly informative priors. To enable efficient posterior sampling with
+conjugate priors, we reparameterize the half-Cauchy prior using the inverse gamma (IG) distribution as
+σα2 ∼ IG( 21 , a1α ), σβ2 ∼ IG( 12 , a1β ), ση2 ∼ IG( 12 , a1η ), σϵ2 ∼ IG( 21 , a1ϵ ), where aα , aβ , aη , aϵ ∼ IG( 21 , A12 ). This
+hierarchical formulation preserves conjugacy in the posterior computations while retaining the desirable
+heavy-tailed shrinkage property of the half-Cauchy prior.
+
+
+
+
+2.2      Kernel approximation
+
+A key challenge in applying GP priors to whole-brain fMRI data lies in the computational cost. Inference
+using GP priors requires the inversion of dense covariance matrices, which incurs O(V 3 ) in complexity.
+This makes standard GP inference infeasible for voxel-level analysis, where V often exceeds 100,000.
+To address this, we adopt a low-rank approximation strategy based on the Nyström method (Nyström,
+1930). This approach not only significantly reduces computational complexity but also preserves the
+flexibility to incorporate any parametric covariance kernel.
+
+Let KV = K(S, S) ∈ RV ×V denote the Gram matrix over all spatial locations S. We select L ≪ V
+inducing points SL ⊂ S (a process described below in Sec. 3.1), and define the reduced matrices
+KL = K(SL , SL ) ∈ RL×L ,             KV,L = K(S, SL ) ∈ RV ×L . Following the Nyström method approximation
+strategy, the full kernel can be approximated as KV ≈ KV,L KL−1 KV,L
+                                                                 ⊤
+                                                                     , where the inducing points serve
+as a representative set that captures the dominant spatial structure, enabling a computationally efficient
+representation of the kernel.
+
+In the next step, we represent this approximated matrix KV through a spectral decomposition for subse-
+quent model inference. We first compute the Cholesky decomposition KL = RL RL⊤ , where RL ∈ RL×L is
+a lower triangular matrix. Plugging this into the Nyström expression yields: KV ≈ KV,L RL−⊤ RL−1 KV,L
+                                                                                                   ⊤
+                                                                                                       =
+                                                                                                                7
+
+
+K
+eK             e = KV,L R−⊤ ∈ RV ×L . We then apply singular value decomposition (SVD) on K
+   e ⊤ , where K                                                                           e to
+                         L
+get Ke = ΨDU ⊤ where Ψ ∈ RV ×L is an orthonormal matrix, i.e. Ψ⊤ Ψ = IL , where IL ∈ RL×L is the
+L-dimensional identity matrix. D ∈ RL×L is a diagonal matrix containing the singular values of K,
+                                                                                               e and
+U ∈ RL×L is another orthonormal matrix. Then the approximated kernel can be written as KV ≈ ΨΛΨ⊤
+with Λ = D2 = diag(λ1 , . . . , λL ), which aligns with the kernel decomposition in Mercer’s theorem. The
+obtained matrices Ψ and Λ, which contain the approximated basis functions and their corresponding
+eigenvalues from the spectral decomposition, are then used to reparameterize the regression model for-
+mulation, as described in Section 3.1. For the kernel approximation of the individual-specific deviations
+ηi (·), we consider a smaller number Lη ≪ L of basis functions to prevent overfitting and reduce computa-
+tional cost, resulting in a lower-rank approximation characterized by Ψ̃ ∈ RV ×Lη and Λ̃ ∈ RLη ×Lη derived
+in the same manner as above, but with Lη inducing points instead. In practice, setting Lη = ⌊0.1L⌋ is
+typically sufficient to capture individual spatial variation while maintaining computational efficiency and
+preventing overfitting.
+
+We apply this kernel decomposition to represent the spatially varying coefficients β j , η i , ϵi ∈ RV in
+vector form via the Karhunen–Loève (KL) expansion. The spatially varying components in the model
+can be expressed as β j = ΨΛ1/2 θ βj , η i = Ψ̃Λ̃1/2 θ ηi , ϵi = ΨΛ1/2 θ ϵi , where {θ βj }Jj=1 , {θ ηi }N
+                                                                                                         i=1 , and
+{θ ϵi }N
+       i=1 represent the L-dimensional basis coefficient vectors for the population-level, individual-level,
+and residual spatial effects, respectively.
+
+To allow for flexible spatially varying coefficients, we assign independent normal priors with mean zero
+and unknown variances for each spatial component, denoted by θ βj ∼ N (0, IL σβ2 ), θ ηi ∼ N (0, IL ση2 ),
+and θ ϵil ∼ N (0, IL σϵ2 ).
+
+
+
+
+3     Posterior Computation
+
+3.1     Model reparameterization
+
+To achieve scalable Bayesian inference, we reformulate the proposed model in a low-dimensional subspace
+induced by the kernel approximation described in Section 2.2. Let yi ∈ RV denote the vector of observed
+image responses for participant i, and let xi ∈ RJ+1 be the vector of intercept and J covariates. Then,
+Model (1) can be expressed in vectorized form as:
+
+           yi = x⊤        ⊤
+                 i α1V + xi θ β Λ
+                                  1/2 ⊤
+                                     Ψ + θ ηi Λ̃1/2 Ψ̃⊤ + ϵi ,     ϵi ∼ N (0, σϵ2 K),   K ≈ ΨΛΨ⊤ ,            (2)
+8                                                                       3 POSTERIOR COMPUTATION
+
+
+where 1V ∈ RV is a vector of all ones, α ∈ RJ+1 is the vector for common covariate effects shared
+by all locations, θ β ∈ R(J+1)×L contains the basis coefficients for the population-level effects after KL
+expansion, and θ ηi ∈ RLη contains coefficients for the participant-specific effects. Here, Ψ ∈ RV ×L and
+Λ ∈ RL×L represent the approximated orthonormal basis functions and the associated eigenvalues from
+the low-rank kernel approximation described in Section 2.2.
+
+Direct inference in the original space remains computationally prohibitive due to the large dimension
+V.   To avoid this bottleneck, we reparameterize the model by projecting the data onto the low-
+dimensional subspace. Specifically, we define the projection matrices: Φ = ΨΛ−1/2 ∈ RV ×L ,           Φη =
+Λ̃1/2 Ψ̃⊤ ΨΛ−1/2 ∈ RLη ×L , and compute the transformed response vector for participant i as y
+                                                                                             ei = yi⊤ Φ ∈
+RL . Under this reparameterization, the model becomes:
+
+                        ei = x⊤
+                        y                ⊤
+                              i α1V Φ + xi θ β + θ ηi Φη + e
+                                                           ϵi ,   ϵi ∼ N (0, σϵ2 IL ).
+                                                                  e                                     (3)
+
+This transformation reduces the original high-dimensional regression problem into a much lower-dimensional
+multivariate regression with only L outcomes per participant. As a result, posterior inference requires only
+operations involving matrices of size L or Lη , rather than V . This reparameterization (Lin et al., 2024)
+effectively circumvents costly matrix inversions and enables efficient, vectorized posterior computations
+within the Bayesian framework.
+
+The number of basis functions L used in the low-rank kernel approximation is a critical hyperparameter
+in our model. It controls both the approximation accuracy and computational efficiency. A larger value of
+L allows the model to capture more detailed spatial variability, which is necessary for recovering complex
+activation patterns in fMRI data. However, including more basis functions increases computational costs
+and may lead to overfitting, especially when the data contains substantial noise. Conversely, selecting
+too few basis functions may result in underfitting, failing to adequately represent the true underlying
+spatial structure and the important activation signals. As an additional practical consideration in the
+mechanics of identifying a reasonable basis size, a different value of L defines a different approximated
+kernel and thereby a different likelihood function, particularly on the transformed data space. As a result,
+common Bayesian model selection criteria such as the widely applicable information criterion (WAIC) or
+the deviance information criterion (DIC) are not well-suited in our case, because the likelihood functions
+are not directly comparable across models with different numbers of basis functions.
+
+Therefore, we have developed the following approach to select the number of basis functions L. We
+first define an upper bound Lmax ≤ V , which is determined by the available computational capacity.
+We then compute the covariance matrix KLmax ∈ RLmax ×Lmax using the selected kernel function with
+hyperparameters empirically estimated from the data. From this truncated representation, we obtain the
+3.2 Gibbs sampler                                                                                                        9
+
+
+leading eigenvalues (λl )Ll=1  and choose a candidate range of L where the cumulative variance Ll=1 λl
+                           max
+                                                                                               P
+
+explains between 80% and 98% of the total variance Ll=1
+                                                        P max
+                                                               λl . Within this range of L, we perform
+a grid search based on predictive performance evaluated via leave-one-out cross-validation (LOOCV).
+Specifically, we compute the voxel-wise predictive mean squared error (PMSE) by leaving out one par-
+ticipant at a time and using the fitted model from the remaining participants to predict the response.
+This approach allows us to select the value of L that yields the best predictive accuracy without relying
+on likelihood comparisons.
+
+
+
+
+3.2     Gibbs sampler
+
+With the reparameterized model in (3) and prior specifications, all model parameters are assigned inde-
+pendent conjugate priors, enabling efficient posterior inference via Gibbs sampling. Specifically, all model
+parameters can be sampled directly from their full conditional distributions. The full set of parameters
+includes: Θ = {(αj )Jj=0 , (θ β )Jj=0 , (θ ηi )N      2    2    2    2
+                                               i=1 , σα , σβ , ση , σϵ , aα , aβ , aη , aϵ }. Detailed derivations of these
+conditional posteriors are provided in the Supplementary Materials.
+
+A key advantage of our formulation is that it avoids high-dimensional matrix inversions typically required
+in GP-based models. For models that include only an intercept term, the posterior covariance matrix
+of θ β is diagonal, allowing for vectorized independent sampling of each coefficient in the L-dimensional
+vector. This structure significantly simplifies posterior computation. When additional covariates are
+included, the size of the posterior covariance of θ β grows in quadratic order with the number of covariates
+J, but remains low-dimensional and computationally tractable, since in real applications J is typically
+small. For the individual-specific basis coefficients θ ηi , we can consider Φη as the design matrix, and
+then the posterior is multivariate normal distribution with a covariance matrix in RLη ×Lη . Since we
+set Lη ≪ L ≪ V , the dimensionality remains low, and posterior sampling remains efficient by using
+Cholesky decomposition on the posterior precision matrix.
+
+The total per-iteration computational complexity of our Gibbs sampler is O(N LLη +L3η ), with a memory
+cost of O(V L). This demonstrates a significant improvement from the original complexity of O(V 3 ) in
+time and O(V 2 ) in memory, which is achieved by low-rank kernel approximation and model reparameter-
+ization. The full Gibbs sampling algorithm is implemented in the Python module PyTorch (Ansel et al.,
+2024) to leverage fast tensor operations and potential GPU acceleration. In practice, we run multiple
+MCMC chains with different initial values and assess convergence using the Gelman–Rubin diagnostic
+(Gelman & Rubin, 1992) on conditional log-likelihoods.
+10                                                                  4 SIMULATION AND VALIDATION
+
+
+3.3    Variational Inference
+
+While Gibbs sampling offers exact posterior inference under our model formulation, it can still be memory-
+consuming to store thousands of posterior samples with high-dimensional voxels or basis functions. To
+further improve computational efficiency, we in addition develop a variational inference (VI) approach as
+an alternative to MCMC-based methods.
+
+Variational inference approximates the true posterior distribution by a simpler, tractable family of dis-
+tributions, transforming the problem of sampling into an optimization task. Specifically, we adopt a
+mean-field variational family that assumes mutual independence among model parameters. The vari-
+ational distribution factorizes as: q(Θ) = M
+                                           Q
+                                             m=1 q(θm ) where θm represents a parameter in Θ. Each
+variational factor has a closed-form full conditional distribution derived from the conjugate prior, as
+discussed in Section 3.2.
+
+We optimize the evidence lower bound (ELBO) by performing coordinate ascent variational inference
+(CAVI). In each iteration, we update each variational factor in closed form while holding others fixed,
+using the analytical updates derived from the conjugacy of the model. This ensures that each step is
+computationally efficient and scalable, requiring only matrix operations involving low-dimensional quan-
+tities of size L or Lη . The computational cost per iteration of the VI algorithm is comparable to that of
+the Gibbs sampler. However, VI typically converges in fewer iterations than MCMC, making it advanta-
+geous for large-scale applications requiring faster posterior approximations. Full derivations of variational
+posterior distributions are included in the Supplementary Materials.
+
+
+
+
+4     Simulation and validation
+
+4.1    Ex. 1: Simulated data
+
+To test the proposed model, we created synthetic datasets based on a single brain slice from a binary
+brain mask. These contain 4,999 brain voxels and represent a realistic fMRI image spatial structure. We
+evaluate the performance of our proposed model under both Gibbs sampling and variational inference
+algorithms, compared to alternative competing methods.
+
+The simulated data follow Model (1) with J = 1 covariate. The true spatially varying intercept β0 (·)
+and covariate effect β1 (·) are each defined to be sparse and consist of two localized geometric regions
+with smoothly decaying effect sizes, as illustrated in Figure 1. In this study, we set α0 = α1 = 0 to
+4.1 Ex. 1: Simulated data                                                                                  11
+
+
+ensure comparability with competing methods. The individual-level effects {ηi (sv )}ni=1 are independently
+drawn from a standard normal distribution. To assess model performance under different signal-to-
+noise ratio (SNR) conditions, we simulate datasets under two noise levels σϵ = {2, 5}, corresponding
+to SNR={0.3, 0.05}. Under these settings, we also examine different sample sizes by considering two
+scenarios with number of individuals N = {50, 200}. The setting with low SNR and small sample size
+roughly mirrors our real fMRI data applications. Each simulation scenario is replicated with 100 datasets,
+each with the same fixed model parameters and different randomization seeds.
+
+We evaluate the proposed SIMBA model using each of the Gibbs and variational inference (VI) implemen-
+tations, and we also compare these to two existing approaches within the neuroimaging field. The first
+is the classical general linear model (GLM), which performs massive univariate regression independently
+at each spatial location and is a commonly used baseline in traditional fMRI analyses. This method does
+not incorporate spatial correlation or participant-level effects ηi (sv ), and we use the classical Benjamini-
+Hochberg procedure for multiple-testing correction (Benjamini & Hochberg, 1995) at FDR = 0.05.
+The second comparison method is a Bayesian multi-level model (BML), which is adapted from Model
+(16) in Chen et al. (2019). Although the original formulation was designed for region-level analysis, we
+extend the modeling implementation to voxel-level resolution to facilitate a more direct comparison. In
+contrast to GLM, BML borrows strength across spatial locations through hierarchical priors, enabling
+partial pooling of information across both individuals and spatial locations. However, the BML method
+does not incorporate spatial correlations in the prior structure and models participant-level variability as
+constant across voxels. While the original BML model in AFNI is implemented using Hamiltonian Monte
+Carlo (HMC) sampling, in this voxelwise implementation we have adopted a Gibbs sampling formulation
+to improve computational efficiency and ensure a consistent comparison with our proposed method.
+
+To evaluate modeling performance, we estimate the accuracy of the true spatial effects using the mean
+squared error (MSE) between the estimated and true main effects. In addition, we examine the activation
+region selection performance, which represents the ability to correctly identify the spatial locations with
+true non-zero effect by true positive rate (TPR) and suppress false detections in regions with no signal,
+as shown in the estimated FDR. For a unified assessment of significance across both frequentist and
+Bayesian methods, we follow the approach proposed in Taylor et al. (2023), which converts the frequentist
+adjusted p-values and Bayesian posterior probability of positive effect P + = P (βj (·) > 0) to a ”statistical
+evidence” measure Es with a range of [−1, 1]. Specifically, for frequentist modeling, Es = (1 − p) for
+positive effects and Es = −(1 − p) for negative effects; for Bayesian modeling, Es = 2(P + − 0.5) for
+all posterior probabilities P + . For the purpose of counting true and false positives in these simulations,
+a voxel is referred to as ”statistically significant” if |Es | > 0.95, corresponding to strong evidence of
+a positive or negative effect. Finally, we evaluate the uncertainty quantification of each method by
+12                                                                   4 SIMULATION AND VALIDATION
+
+
+computing the empirical coverage rates of the true parameters, based on either confidence intervals or
+credible intervals, respectively.
+
+For BML and SIMBA-Gibbs methods, we independently run three MCMC chains, each with 4,000 burn-in
+iterations and 1,000 posterior samples for inference. For the proposed SIMBA model, we used a Matérn
+kernel with a length scale of 0.3, which was empirically estimated from the data. The number of basis
+functions L used in the low-rank kernel approximation was selected for each scenario based on the lowest
+PMSE from LOOCV, as described in Section 3.1. Here, the selected values of L ranged from 90 to 160
+across different simulation settings, and we set Lη = ⌊0.1L⌋ as mentioned previously to avoid overfitting
+and save computation costs. Empirically, we found that the estimation accuracy of the population-
+level main effects was not sensitive to the choice of Lη . For the simulation scenario where N = 200
+and L = 160, the proposed SIMBA takes approximately 10 seconds per 1, 000 iterations using the
+Gibbs sampler and less than 1 second using the VI algorithm, demonstrating substantial computational
+efficiency.
+
+Table 1 summarizes the evaluation metrics for our proposed SIMBA model in comparison to alternative
+methods. Across all simulation scenarios, the SIMBA model consistently outperforms competing ap-
+proaches. Specifically, SIMBA achieves the lowest mean squared error (MSE) and near-nominal coverage
+rates close to 95%, illustrating accurate effect estimation. Both SIMBA implementations using Gibbs
+sampling and VI yield higher true positive rates (TPR) compared to the GLM and BML methods, while
+maintaining a low FDR below 0.05, indicating increased power for detecting true activations. In one
+scenario (N = 200, σϵ = 2), BML achieves a slightly higher TPR, but also leads to substantially higher
+false signals.
+
+Figure 1 illustrates the estimated spatial effects and selection of activation regions for all four methods,
+compared against the true “significant” activation patterns (first column); each subfigure shows one
+representative simulation scenario from the full dataset, with a given noise level. Although the GLM and
+BML methods recover part of the activation regions, their estimates are noisy and spatially scattered,
+with notable false detections. In contrast, SIMBA more accurately reconstructs the activation regions
+with smooth spatially varying effects and effectively suppresses noise outside the true activation areas.
+The SIMBA estimates closely match the ground truth in magnitude of the effect sizes and regions
+with nonzero effects, demonstrating its superior ability to recover smooth spatial signals. These results
+demonstrate the advantages of incorporating principled spatial priors via Gaussian process modeling for
+voxel-wise inference, particularly in low signal-to-noise regimes.
+4.1 Ex. 1: Simulated data                                                                               13
+
+
+
+
+                                           (a) N = 200, σϵ = 2
+
+
+
+
+                                           (b) N = 200, σϵ = 5
+
+
+
+
+Figure 1: Comparison of estimated spatial effects and activation region selection across methods under
+two noise levels. Each row displays a map of the true spatial effect of either β0 (·) or β1 (·), as well as
+the corresponding estimates from each method. The non-gray shapes show the distinct ”significant”
+activation regions, defined to be where |Es | > 0.95.
+14                                                                4 SIMULATION AND VALIDATION
+
+
+
+
+Table 1: Evaluation results for simulation studies comparing mean squared error, true positive rate,
+false discovery rate, and coverage. Values are reported as mean percent, with standard deviations in
+parentheses, over 100 simulated datasets. The best-performing value(s) for each simulation is highlighted
+in bold.
+
+             N    σϵ            GLM           BML      SIMBA-Gibbs       SIMBA-VI
+                                         Mean Squared Error (MSE)
+            50     2        9.3 (0.2)     6.8 (0.1)        1.2 (0.0)      1.1 (0.0)
+                   5       48.5 (0.8)    14.7 (0.1)        2.6 (0.2)      1.9 (0.1)
+           200     2        2.6 (0.0)     2.3 (0.0)        0.6 (0.0)      0.5 (0.0)
+                   5       13.5 (0.2)     8.0 (0.3)        1.4 (0.2)      1.2 (0.1)
+                                          True Positive Rate (TPR)
+            50     2       61.0 (1.0)    66.2 (1.0)       89.0 (0.9)     89.5 (0.9)
+                   5        4.3 (1.0)     1.5 (0.5)       54.3 (2.0)     58.2 (1.7)
+           200     2       87.6 (0.5)    92.3 (0.4)       91.9 (0.4)     91.9 (0.5)
+                   5       51.3 (1.1)    58.7 (1.1)       82.9 (0.9)     84.1 (0.9)
+                                         False Discovery Rate (FDR)
+            50     2        5.1 (0.8)    13.0 (1.0)        6.4 (0.6)      6.5 (0.5)
+                   5        5.5 (3.2)     9.9 (6.5)        0.0 (0.0)      0.0 (0.1)
+           200     2        4.5 (0.6)    20.5 (0.8)        4.0 (0.3)      4.0 (0.3)
+                   5        4.5 (0.8)    10.9 (1.0)        2.9 (0.4)      3.3 (0.5)
+                                                   Coverage
+            50     2       94.6 (0.2)    93.6 (0.2)       97.8 (0.1)     98.4 (0.1)
+                   5       94.5 (0.2)    92.0 (0.3)       99.7 (0.2)    100.0 (0.0)
+           200     2       94.8 (0.2)    94.8 (0.2)       98.9 (0.1)     99.1 (0.0)
+                   5       94.9 (0.2)    94.1 (0.3)       98.6 (0.2)     99.2 (0.1)
+                                                                                                         15
+
+
+5     Real data applications
+
+5.1    Ex.2: Neuroimaging Analysis Replication and Prediction Study
+
+We evaluate the proposed SIMBA model in a group-level analysis using publicly available task-based fMRI
+data from the Neuroimaging Analysis Replication and Prediction Study (NARPS) (Botvinik-Nezer et al.,
+2020). The NARPS project was a large-scale initiative designed to assess variability across neuroimaging
+analysis pipelines and evaluate reproducibility among research teams, which was also later re-examined
+separately in Taylor et al. (2023). Both the unprocessed fMRI data and the results of the participating
+analysis teams have conveniently been made publicly available.
+
+The dataset includes volumetric fMRI data collected during a mixed-gambles task, in which participants
+were asked to accept or reject monetary gambles with varying potential gains and losses. Each stimulus
+trial consists of a gain–loss pair, and participants would respond on a four-point scale (strongly/weakly
+accept/reject). In this study, we focus on the “equal range” group (N = 54 scanned participants), where
+the possible gain and loss values in the trials have the same value range.
+
+Preprocessing was conducted using standardized pipelines incorporating FreeSurfer’s recon-all (Fischl &
+Dale, 2000) for anatomical parcellation and AFNI’s afni proc.py (Cox, 1996; Reynolds et al., 2024) for
+full participant-level processing and voxel-level contrast generation, as described in Taylor et al. (2023).
+Participant-level contrast regression coefficients were estimated using a massive univariate time series
+regression model with a temporal structure of ARMA(1, 1) for the residuals at each voxel, with the gain
+and loss values treated as continuous amplitude modulators. The corresponding regression coefficients
+quantify the percentage of BOLD signal change per dollar. Specifically, we focus on the marginal effect of
+gain (in units of BOLD percent signal change per dollar) in this study. After participant-level processing
+and quality control using afni proc.py’s QC HTML and gen ss review table.py (Taylor et al. (2024); see
+Taylor et al. (2023) for details on criteria applied here) the final dataset included voxel-level contrasts
+from 47 individuals, each with V = 222,230 voxels across the brain. In this example, we consider an
+intercept at the group level without including additional covariates.
+
+We compare our SIMBA model using both the Gibbs sampler and VI algorithm to the classical GLM
+and the BML models. We evaluate voxel-level effect estimates, activation detection of suprathreshold
+regions, and model fitting to the observed data. The activation threhsold is defined using the same
+statistical evidence measure Es introduced in Section 4. In this analysis of real fMRI data, we define the
+Bayesian posterior probability of positive intercept effect as P + = P (α0 + β0 (·) > 0), which includes
+the global intercept effect. For the GLM, voxel-wise activation is determined by t-tests with multiple
+16                                                                        5 REAL DATA APPLICATIONS
+
+
+
+
+                             Comparison of Model Results in Ex. 2 (NARPS)
+                                                  (a) GLM
+
+
+
+
+                                                  (b) BML
+
+
+
+
+                                              (c) SIMBA-Gibbs
+
+
+
+
+                                               (d) SIMBA-VI
+
+
+
+
+Figure 2: Comparison among voxel-level effect estimation in GLM, BML, and our proposed SIMBA on
+various axial slices of fMRI results. The overlay colors show the effect sizes, and statistical information is
+used to threshold the data in the ”highlight” style (Allen et al., 2012; Taylor et al., 2023): suprathreshold
+regions are opaque and outlined, with other regions fading with decreasing statistical value.
+5.1 Ex.2: Neuroimaging Analysis Replication and Prediction Study                                      17
+
+
+testing adjustment at a false discovery rate of 0.05. The quality of model fit is further assessed using
+posterior predictive checks (PPCs) (Gabry et al., 2019; Gelman et al., 1996), by comparing predictive
+and observed data distributions across voxels and participants.
+
+For the Gaussian process prior in our proposed model, we adopt a Matérn kernel with a length scale of
+0.1, which was empirically estimated from the pairwise correlations of a subset of spatial locations. To
+implement the low-rank kernel approximation, we select L = 1,200 basis functions, chosen based on both
+the PMSE from LOOCV evaluation and the optimal PPC coverage of the observed data distribution. For
+the Bayesian models, we run three MCMC chains with different initializations, each for 5,000 iterations
+with 4,000 burn-in samples.
+
+All computations are performed on a single CPU using an Apple Silicon M3 chip with 18 GB RAM.
+The SIMBA model using the Gibbs sampler achieves a runtime of approximately 25 seconds per 1,000
+iterations, while SIMBA’s VI algorithm converges in approximately 5 seconds. This represents a sub-
+stantial reduction in computational cost compared to the previous BML method (Model (16) in Chen
+et al. (2019)), which used an HMC-based sampling algorithm and required approximately 30 minutes
+per 1,000 iterations for four MCMC chains, using 48 CPUs to analyze 360 brain regions (as opposed to
+>200,000 voxels, in the SIMBA cases) and 47 participants.
+
+Figure 2 compares voxel-level effect estimates and activation region estimation results from the three
+models. Overlay colors show the effect estimates in units of BOLD percent signal change per dollar.
+Following the ”highlight, don’t hide” visualization strategy proposed by Allen et al. (2012) and used in
+Taylor et al. (2023), we outline suprathreshold regions and display them with full opacity, while sub-
+threshold areas are faded to preserve spatial context rather than being hard-thresholded. Both the GLM
+and BML models yield scattered selected voxels without spatial regularity, while BML show decreased
+effect magnitudes from the global shrinkage through shared prior variance. As shown in Figure 2, the
+GLM approach only detects a few voxels with strong statistical evidence after FDR-based multiple test-
+ing adjustment, indicating limited statistical power. In contrast, the proposed SIMBA model obtains
+structured and spatially continuous patterns, suggesting improved power in detecting task-related effects
+and better alignment with known brain structures. Importantly, SIMBA does not artificially inflate sta-
+tistical evidence, since regions with large effect sizes under GLM analysis are also captured by SIMBA,
+suggesting that the improvement comes from more efficient use of spatial information. This observation
+further highlights that FDR-based corrections in MUA may be overly conservative, discarding biologically
+meaningful effects.
+
+Finally, the PPC curves provide an important quantitative validation of our proposed framework. Figure 3
+shows 150 posterior draws of predictive data distributions (yellow lines) along with the observed data
+18                                                                      5 REAL DATA APPLICATIONS
+
+
+density (black line) for each method. The closely matching distributions in Figure 3c and 3d indicate
+that SIMBA better captures the distribution features of the data than the competing approaches. This
+shows the ability of the SIMBA model to learn the complex spatial characteristics of fMRI data via the
+Gaussian process prior.
+
+          Comparison of PPC curves in Ex. 2 (NARPS)
+
+
+
+
+        (a) GLM                    (b) BML                (c) SIMBA-Gibbs              (d) SIMBA-VI
+
+Figure 3: Posterior predictive checking curves for real fMRI data (Ex. 2, NARPS). The yellow lines
+represent 150 posterior draws of predictive data distribution and the black line shows the observed data
+density for all voxels. Having a larger overlap and centering of posterior draws over the observed data
+fit (black line) suggests better model fit. Here, the SIMBA models have much better posterior check
+results than the other two models.
+
+
+
+
+5.2    Ex. 3: Adolescent Brain Cognitive Development Study
+
+To further evaluate the efficacy of our proposed model, we additionally apply SIMBA to analyze the
+relationships between cortical gray matter surface fMRI data and clinical covariates from the Adolescent
+Brain Cognitive Development (ABCD) study in Release 4.0. The ABCD study is a large, multi-site
+longitudinal initiative aimed at understanding brain development from childhood through adolescence
+and identifying its biological and environmental determinants (Casey et al., 2018). In this case, we
+provide an example of investigating the relationship between cognitive function and brain activity during
+working memory tasks using n-back cortical surface fMRI data. Specifically, we analyze the 2-back versus
+0-back contrast results (which are measured in units of z-statistics), derived from the fMRI data collected
+at 21 study sites in the baseline study cohort.
+
+The cortical surface data are stored on two-dimensional meshes, which contain V = 29,696 and V =
+29,716 spatial locations for the left and right hemispheres, respectively. In the present analysis, we
+represent these vertices using their three-dimensional geometric coordinates to capture spatial positions
+in the brain, but we do not explicitly incorporate surface topology or mesh adjacency into the modeling
+framework (see the Discussion for future extensions with surface datasets). The processed dataset
+includes N = 2,497 individuals with complete imaging and covariate information for analysis. Our
+5.2 Ex. 3: Adolescent Brain Cognitive Development Study                                                                  19
+
+
+group-level model specification1 includes one spatially varying intercept along with J = 4 covariates: the
+general cognitive ability component score (Sripada et al., 2020), which is our primary predictor, and the
+psychiatric diagnostic score, age, and sex. For BML and SIMBA-Gibbs models, we ran 4,000 burn-in
+iterations with 1,000 posterior samples in three MCMC chains. The SIMBA model takes approximately
+14 minutes for Gibbs sampling and 1.4 minutes for the VI algorithm to converge.
+
+                        Comparison of Cross-Site PMSEs in Real Data (Ex. 3: ABCD)
+
+
+
+
+                  (a) Left hemisphere                                             (b) Right hemisphere
+Figure 4: Cross-site prediction mean squared errors (MSEs) for single-site analyses on the ABCD cortical
+surface fMRI data, shown separately for the left hemisphere (left) and right hemisphere (right).
+
+
+In multi-site neuroimaging studies, scanner differences, acquisition protocols, and site-specific demo-
+graphics can introduce variability that challenges model generalization. To evaluate whether the model
+produces stable and accurate estimates that can be generalized across study sites, we adopt a cross-site
+prediction framework. For each site, we fit the model using only its data, then predict imaging outcomes
+for participants from all other sites. We evaluate the performance by the out-of-site prediction MSEs
+as an external validation metric. Figure 4 presents the cross-site prediction MSEs for both hemispheres
+among the baseline cohort. Across both hemispheres, the GLM typically shows the highest prediction
+MSE and the largest variability across sites, indicating limited generalizability. BML mostly performs
+better than GLM, but it is generally outperformed by our proposed SIMBA methods. Both SIMBA
+models with Gibbs sampler and VI implementations achieve consistently lower or comparable MSEs in
+nearly all sites. These results demonstrate that SIMBA better captures the spatial structure to achieve
+more accurate and stable estimation results and cross-site predictions, highlighting its robustness to site
+heterogeneity. Similar to Ex. 2, we compare the posterior model fitting on both left and right hemi-
+spheres by examining the corresponding PPC curves. Figure 5 shows 100 posterior draws of predictive
+data distributions (yellow lines) along with the observed data density (black line) for each method. The
+matching distributions in Figure 5c and 5d illustrate that both Gibbs and VI implementations in SIMBA
+more accurately capture data variability than the GLM and BML counterparts, further highlighting the
+   1
+     Note that our primary interest in the present work is testing the model approach with a realistic setup of fMRI data;
+to address specific questions of detailed brain function and cognitive ability in practice, one would need to perform a more
+rigorous procedure for covariate selection, such as through a causal inference framework.
+20                                                                     5 REAL DATA APPLICATIONS
+
+
+robustness of SIMBA in modeling whole-brain spatial patterns of regression effects in large-scale fMRI
+data.
+
+
+
+        Comparison of PPC curves on left (top) and right (bottom) hemisphere in Ex. 3 (ABCD)
+
+
+
+
+         (a) GLM                   (b) BML                (c) SIMBA-Gibbs             (d) SIMBA-VI
+Figure 5: Posterior predictive checking curves for real fMRI data (Ex. 3, ABCD) on left (top row)
+and right (bottom row) hemispheres. The yellow lines represent 100 posterior draws of predictive data
+distribution, and the black line shows the observed data density for all voxels. Having a larger overlap
+and centering of posterior draws over the observed data fit (black line) suggests better model fit. Here,
+the SIMBA models have better posterior check results than the other two models.
+
+
+
+
+In Figure 6, we visualize the estimated associations between brain activity and cognitive function across
+both hemispheres using Nilearn (Nilearn contributors, 2025). Results are again thresholded at |Es | >
+0.95. In this case, the extent of positive and negative regions are broadly similar across models (likely
+due to the large number of participants in this study), but detailed features differ. Compared with
+other models, SIMBA produces more spatially contiguous activation patterns with smooth boundaries
+and fewer very small islands, which makes them more interpretable. Notably, positive associations with
+the cognitive scores are observed in the dorsal attention network, fronto-parietal network, and salience
+network, which are the brain regions well known for supporting attentional control, cognitive flexibility,
+and integration of task-relevant information that are also align with established findings (Gordon et
+al., 2016; Menon, 2011). Negative associations are identified in the cingulo-opercular, default mode,
+and parieto-occipital networks, consistent with suppression of task-irrelevant processes during working
+memory tasks.
+                                                                                                        21
+
+                             Comparison of Model Results in Ex. 3 (ABCD)
+
+                GLM                BML            SIMBA-Gibbs            SIMBA-VI
+
+
+    Left
+
+
+
+
+ Right
+
+
+Figure 6: Estimated associations and selected activation regions between fMRI data and cognitive scores
+in the ABCD study for the left and right hemispheres. The values represent the expected change in the
+2-back versus 0-back contrast (expressed as z-statistics) for a one-unit increase in cognitive score, while
+holding all other demographic information.
+
+
+
+6      Discussion and Conclusion
+
+In this work, we propose SIMBA, a fully Bayesian spatial hierarchical model for whole brain analysis of
+task-based fMRI data. Our framework models population-level covariate effects and individual-specific
+deviations using Gaussian process priors, capturing spatially smooth and structured associations patterns
+across the brain. To mitigate the computational challenges of GP-based modeling for high-dimensional
+neuroimaging data, we utilize low-rank kernel approximation and a reparameterized representation that
+enables scalable posterior inference. We develop both a Gibbs sampling algorithm and an alternative
+based on variational inference, demonstrating relatively accurate posterior estimation and significant
+gains in computational efficiency. Comparing these two implementations of SIMBA, the variational
+inference method shows significantly reduced computational runtime, with similar and in several cases
+slightly improved model performance.
+
+Through simulation studies, we show that the proposed SIMBA model outperforms classical voxel-wise
+GLM (i.e., a MUA) with standard FDR adjustment and BML models with information pooling in both
+estimation accuracy and signal detection power. This was quantitatively assessed using key relevant
+metrics, including both true positive and false discovery rates. Importantly, SIMBA typically had the
+leading counts for both simultaneously. SIMBA has the advantages of pooling spatial information at
+multiple scales, and, unlike standard MUA-based approaches, incorporates effect estimates (rather than
+being limited to solely adjusting statistics). Our model appears to more accurately reconstruct true
+spatial effects while also being more robust to the presence of noise.
+22                                                                  6 DISCUSSION AND CONCLUSION
+
+
+Applications to real task-based fMRI datasets from the NARPS and ABCD studies further highlight the
+efficacy of SIMBA. Across both whole brain and cortical data, SIMBA identifies interpretable associations
+patterns that align with established findings, while also achieving improved model fitting that more
+align with true data distribution examined by PPC curves and predictive performance in out-of-sample
+evaluation metrics. These results demonstrate that SIMBA offers an accurate and computationally
+efficient approach for large-scale spatial modeling in neuroimaging, providing a powerful tool for detecting,
+quantifying, and interpreting brain activities across the whole brain volume.
+
+One limitation of our proposed method is that the estimated effects are highly dependent on the choice
+of kernel functions. Although the Matérn kernel is widely used for modeling associations functions, a
+parametric kernel function could still limit its flexibility. Exploring more flexible or nonparametric ker-
+nel representations could potentially improve the ability to capture complex, spatially varying functions
+in brain activity. Additionally, our use of low-rank kernel approximation is critical for computational
+scalability but inevitably introduces approximation error. While cross-validation helps in selecting an ap-
+propriate number of basis functions, an over-truncation may lead to underfitting, whereas including more
+bases increases computation demands or overfitting. In addition, for computational purposes, our model
+reparametrization requires the assumption that the main spatially varying effects share the same kernel
+structure with the spatial noise. This may limit the ability to capture different spatial dependence struc-
+tures that could exist across these spatial components. Extending the model to incorporate more flexible
+or adaptive kernels would enhance its expressiveness but would also lead to additional computational
+costs.
+
+Another limitation arises in our current treatment of surface-based cortical gray matter fMRI data.
+Although the method is applied to data stored as meshes, we currently rely on geometric distances
+between vertices rather than explicitly modeling surface topology. This choice does not fully explore
+the rich structural information of surface-based data. Future work will aim to extend the framework to
+explicitly incorporate cortical surface topology into spatial dependencies, enabling more accurate modeling
+of brain activity on cortical manifolds.
+
+There are several potential extensions of this work in both methodology and application that are worth
+exploring. Integrating SIMBA into the AFNI software suite would greatly increase its accessibility and
+practical utility for the neuroimaging community for a scalable Bayesian image regression pipeline. Work
+is currently underway for developing a command line tool for such distribution. Methodologically, one di-
+rection is to extend the SIMBA framework to incorporate within-individual or repeated-measures variables,
+enabling richer modeling of longitudinal task-based designs. Another is to account for measurement error
+in the response variable, for example by incorporating voxel-wise standard errors from participant-level
+                                                                                                       23
+
+
+analysis directly into the model. Finally, SIMBA could be adapted for voxel-level test–retest reliability
+estimation, providing a principled Bayesian approach to quantifying reproducibility in fMRI studies.
+
+
+
+
+Data and Code Availability
+
+The NARPS datasets are publicly available online https://www.narps.info/analysis.html. We include
+the processed NARPS data and simulated data under an OSF directory stored at https://osf.io/2d6t8/
+?view only=933dc9343ebb4a13b9ee5b921bf46279. The ABCD dataset can be accessed with permission
+from https://abcdstudy.org. The codebase for the SIMBA model and analysis scripts can be found at
+https://github.com/y1zhong/apaper simba.
+
+
+
+
+Author Contributions
+
+Y.Z: Methodology, software, formal analysis, visualization, writing—original draft preparation; G.C.:
+Methodology, conceptualization, writing—review and editing. P.A.T.: Methodology, visualization, writ-
+ing—review and editing; J.K: Conceptualization, methodology, supervision, writing—review and editing.
+
+
+
+
+Funding
+
+JK was partially supported by NIH R01DA048993 and NIH R01MH105561.
+
+JK and YZ was partially supported by NSF IIS2123777.
+
+GC and PT were supported by the NIMH Intramural Research Programs (ZICMH002888) of the NIH
+(HHS, USA).
+
+
+
+
+Declaration of Competing Interests
+
+The authors declare that they have no known competing financial interests in this paper.
+24                                                                           6 DISCUSSION AND CONCLUSION
+
+
+Acknowledgements
+
+This research was supported in part by the Intramural Research Program of the National Institutes of
+Health (NIH). The contributions of the NIH authors were made as part of their official duties as NIH
+federal employees, are in compliance with agency policy requirements, and are considered Works of the
+United States Government. However, the findings and conclusions presented in this paper are those of
+the author(s) and do not necessarily reflect the views of the NIH or the U.S. Department of Health and
+Human Services.
+
+
+
+
+Supplementary Material
+
+This supplementary document includes details of the posterior distributions of the full set of parameters:
+Θ = {(αj )Jj=0 , (θ β )Jj=0 , (θ ηi )N      2    2    2    2
+                                     i=1 , σα , σβ , ση , σϵ , aα , aβ , aη , aϵ }, that are used to draw samples from Gibbs
+sampling algorithm in Section 3.2, and the variational distributions with the ELBO function in Section
+3.3. The full code are implemented in Pytorch and included in the GitHub repository https://github.
+com/y1zhong/apaper simba.
+
+
+
+
+Gibbs sampler
+
+Given the reparameterized model in (3) and the specifications of the conjugate priors, we present the
+posterior distributions for each parameter below. Denote 1V Φ = Φ.
+                                                                e
+The full conditional distribution of each αj , for j = 0, . . . , J is
+
+                                                       
+                              αj | rest ∼ N µαj , ναj ;
+                                           PN 2 e 2             !−1
+                                             i=1  x ij ∥Φ∥F   1
+                                    ναj =                   + 2
+                                                  σϵ2        σα
+                                                       N
+                                                1 X
+                                    µαj = ναj · 2          yi − x ⊤
+                                                      xij (e                       e⊤
+                                                                  i θ β − θ ηi Φη )Φ .
+                                               σϵ i=1
+                                                                                               25
+
+
+The full conditional distribution of each θ βj for j = 0, . . . , J is
+
+                                                      
+                             θ βj | rest ∼ N µβj , Σβj ;
+                                            PN 2            !−1
+                                              i=1 xij    1
+                                    Σβj =             + 2       IL
+                                               σϵ2       σβ
+                                                      N
+                                               1 X
+                                   µβj = Σβj · 2          yi − x ⊤
+                                                     xij (e      i αΦ − θ ηi Φη )
+                                                                    e
+                                              σϵ i=1
+
+The full conditional distribution of each θ ηi for i = 1, . . . , N is
+
+                             θ ηi | rest ∼ N (µηi , Σηi ) ;
+                                                          !−1
+                                            Φη Φ⊤ η     1
+                                    Σηi =           + 2
+                                              σϵ2     ση
+                                                                          
+                                                  1          ⊤ e      ⊤
+                                    µηi = Σηi        e i − x i αΦ − x i θ β
+                                                     y                         Φ⊤
+                                                                                η
+                                                σϵ2
+
+
+
+
+The full conditional distribution of each variance parameter is
+                                                                                             
+                 1 + NL 1            ⊤ e       ⊤                 1                        1   1
+ σϵ2 | rest ∼ IG        , ∥e                                 2
+                              yi − xi αΦ − xi θ β − θ ηi Φη ∥2 +      , aϵ | rest ∼ IG 1, 2 + 2
+                    2       2                                    aϵ                      A   σϵ
+                             PN                 !
+                                         2
+                                                                                
+                 1 + N Lη      i=1 ∥θηi ∥2   1                          1      1
+ ση2 | rest ∼ IG          ,                +      , aη | rest ∼ IG 1, 2 + 2
+                     2            2          aη                         A     ση
+
+
+                                        PJ           2
+                                                            !                            !
+                        1 + (J + 1)L       j=0 ∥θβj ∥2   1                        1   1
+         σβ2 | rest ∼ IG             ,                 +        aβ | rest ∼ IG 1, 2 + 2
+                              2                2         aβ                      A    σβ
+                                   PJ        2
+                                                     !
+                                       j=0 αj
+                                                                                   
+          2             1+J +1                    1                           1   1
+         σα | rest ∼ IG          ,             +       , aα | rest ∼ IG 1, 2 + 2
+                            2           2        aα                          A   σα
+26                                                                           6 DISCUSSION AND CONCLUSION
+
+
+Mathematical details in VI algorithm
+
+
+
+
+Under the framework of mean field variational inference, we approximate the posterior distributions using
+
+                                M
+                                Y
+       p(Θ|X, Y) ≈ q(Θ) =           q(zm )
+                                m=1
+                                  J
+                                                        !   N
+                                                                         !
+                                 Y                          Y
+                            =          q(αj )q(θ βj )             q(θ ηi ) q(σβ2 )q(ση2 )q(σϵ2 )q(aβ )q(aη )q(aϵ )
+                                 j=0                        i=1
+
+
+For any m-th latent variable, the optimal q(zm ) is given by:
+
+                                q(zm ) ∝ exp {E−m [logp(zm |z−m , X, Y)]} .
+
+With derivation, we state the distributions under q(·) for each parameter as below:
+
+                                           
+                   αj | rest ∼ N µαj , ναj ;
+                                PN 2 e 2                    !−1
+                                       x
+                                  i=1 ij  ∥ Φ∥F      1
+                         να j =           2
+                                                +
+                                   Eq (σϵ )       Eq (σα2 )
+                                              N
+                                       1 X
+                        µαj = ναj ·      2
+                                                      yi − x ⊤
+                                                 xij (e                                  e⊤
+                                                             i Eq (θ β ) − Eq (θ ηi )Φη )Φ
+                                    Eq (σϵ ) i=1
+
+
+
+                                             
+                  θ βj | rest ∼ N µβj , Σβj ;
+                                 PN 2                    !−1
+                                   i=1  x ij      1
+                         Σβj =               +               IL
+                                  Eq (σϵ2 )    Eq (σβ2 )
+                                                   N
+                                                                                            !
+                                           1 X
+                        µβj = Σβj                          yi − x ⊤
+                                                      xij (e      i Eq (α)Φ − Eq (θ ηi )Φη )
+                                                                          e
+                                        Eq (σϵ2 ) i=1
+REFERENCES                                                                                                     27
+
+
+
+
+                     θ ηi | rest ∼ N (µηi , Σηi ) ;
+                                                       !−1
+                                   Φη Φ⊤η        1
+                           Σηi =            +
+                                   Eq (σϵ2 ) Eq (ση2 )
+                                                                              
+                                           1 
+                           µηi = Σηi             ei − xi Eq (α)Φ − xi Eq (θ β ) Φ⊤
+                                                 y      ⊤      e    ⊤
+                                                                                  η
+                                       Eq (σϵ2 )
+
+
+
+
+                                                                                                          
+                              1 + NL 1                             e − x⊤ θ β − θ η Φη ∥2 + 1
+                                                                                              
+             σϵ2 | rest ∼ IG          , Eq ∥e      yi − x ⊤  i  α  Φ        i           i   2
+                                 2        2                                                     Eq (aϵ )
+                                                 
+                                 1          1
+            aϵ | rest ∼ IG 1, 2 +
+                                 A      Eq (σϵ2 )
+                                            PN                                    !
+                                                                 2
+                              1 + N L η           E  q (∥θ η   ∥ 2 )          1
+            ση2 | rest ∼ IG             ,     i=1            i
+                                                                     +
+                                  2                  2                   Eq (aη )
+                                                 
+                                 1          1
+            aη | rest ∼ IG 1, 2 +
+                                 A      Eq (ση2 )
+                                                 PJ                     2
+                                                                                          !
+                              1 + (J +   1)L        j=0   E q (∥θ   β  ∥
+                                                                      j 2
+                                                                          )        1
+            σβ2 | rest ∼ IG                   ,                             +
+                                    2                       2                   Eq (aβ )
+                                                  !
+                                  1         1
+            aβ | rest ∼ IG 1, 2 +
+                                 A      Eq (σβ2 )
+                                            PJ              2
+                                                                                !
+                              1 + J +  1        j=0 E  q (αj  )           1
+            σα2 | rest ∼ IG               ,                      +
+                                  2                 2                 Eq (aα )
+                                                 
+                                 1          1
+            aα | rest ∼ IG 1, 2 +
+                                 A      Eq (σα2 )
+
+
+
+
+References
+
+Allen, E. A., Erhardt, E. B., & Calhoun, V. D. (2012). Data visualization in the neurosciences: Overcoming
+       the curse of dimensionality. Neuron, 74 (4), 603–608. https://doi.org/https://doi.org/10.1016/
+       j.neuron.2012.05.001
+28                                                                                          REFERENCES
+
+
+Ansel, J., Yang, E., He, H., Gimelshein, N., Jain, A., Voznesensky, M., Bao, B., Bell, P., Berard, D.,
+       Burovski, E., Chauhan, G., Chourdia, A., Constable, W., Desmaison, A., DeVito, Z., Ellison,
+       E., Feng, W., Gong, J., Gschwind, M., . . . Chintala, S. (2024). PyTorch 2: Faster Machine
+       Learning Through Dynamic Python Bytecode Transformation and Graph Compilation. 29th ACM
+       International Conference on Architectural Support for Programming Languages and Operating
+       Systems, Volume 2 (ASPLOS ’24). https://doi.org/10.1145/3620665.3640366
+Ashburner, J. (2012). Spm: A history. Neuroimage, 62 (2), 791–800.
+Benjamini, Y., & Hochberg, Y. (1995). Controlling the false discovery rate: A practical and powerful
+       approach to multiple testing. Journal of the Royal statistical society: series B (Methodological),
+       57 (1), 289–300.
+Botvinik-Nezer, R., Holzmeister, F., Camerer, C. F., Dreber, A., Huber, J., Johannesson, M., Kirchler,
+       M., Iwanir, R., Mumford, J. A., Adcock, R. A., et al. (2020). Variability in the analysis of a single
+       neuroimaging dataset by many teams. Nature, 582 (7810), 84–88.
+Carpenter, B., Gelman, A., Hoffman, M. D., Lee, D., Goodrich, B., Betancourt, M., Brubaker, M., Guo,
+       J., Li, P., & Riddell, A. (2017). Stan: A probabilistic programming language. Journal of statistical
+       software, 76, 1–32.
+Casey, B. J., Cannonier, T., Conley, M. I., Cohen, A. O., Barch, D. M., Heitzeg, M. M., Soules, M. E.,
+       Teslovich, T., Dellarco, D. V., Garavan, H., et al. (2018). The Adolescent Brain Cognitive Develop-
+       ment (ABCD) study: Imaging acquisition across 21 sites. Developmental Cognitive Neuroscience,
+       32, 43–54.
+Chen, G., Taylor, P. A., & Cox, R. W. (2017). Is the statistic value all we should care about in neu-
+       roimaging? Neuroimage, 147, 952–959.
+Chen, G., Xiao, Y., Taylor, P. A., Rajendra, J. K., Riggins, T., Geng, F., Redcay, E., & Cox, R. W.
+       (2019). Handling multiplicity in neuroimaging through Bayesian lenses with multilevel modeling.
+       Neuroinformatics, 17, 515–545.
+Cox, R. W. (1996). AFNI: Software for analysis and visualization of functional magnetic resonance
+       neuroimages. Computers and Biomedical research, 29 (3), 162–173.
+Descombes, X., Kruggel, F., & Von Cramon, D. Y. (1998). Spatio-temporal fMRI analysis using Markov
+       random fields. IEEE transactions on medical imaging, 17 (6), 1028–1039.
+Fischl, B., & Dale, A. M. (2000). Measuring the thickness of the human cerebral cortex from magnetic
+       resonance images. Proceedings of the National Academy of Sciences, 97 (20), 11050–11055.
+Gabry, J., Simpson, D., Vehtari, A., Betancourt, M., & Gelman, A. (2019). Visualization in Bayesian
+       workflow. Journal of the Royal Statistical Society Series A: Statistics in Society, 182 (2), 389–402.
+Gelman, A., Meng, X.-L., & Stern, H. (1996). Posterior predictive assessment of model fitness via realized
+       discrepancies. Statistica sinica, 733–760.
+REFERENCES                                                                                             29
+
+
+Gelman, A., & Rubin, D. B. (1992). Inference from iterative simulation using multiple sequences. Sta-
+       tistical science, 7 (4), 457–472.
+Gordon, E. M., Laumann, T. O., Adeyemo, B., Huckins, J. F., Kelley, W. M., & Petersen, S. E. (2016).
+       Generation and evaluation of a cortical area parcellation from resting-state correlations. Cerebral
+       cortex, 26 (1), 288–303.
+Hartvig, N. V., & Jensen, J. L. (2000). Spatial mixture modeling of fMRI data. Human brain mapping,
+       11 (4), 233–248.
+Jbabdi, S., Woolrich, M. W., & Behrens, T. E. J. (2009). Multiple-subjects connectivity-based parcellation
+       using hierarchical Dirichlet process mixture models. NeuroImage, 44 (2), 373–384.
+Jenkinson, M., Beckmann, C. F., Behrens, T. E., Woolrich, M. W., & Smith, S. M. (2012). Fsl. Neu-
+       roimage, 62 (2), 782–790.
+Lin, Z., Si, Y., & Kang, J. (2024). Latent subgroup identification in image-on-scalar regression. The
+       annals of applied statistics, 18 (1), 468.
+Marchini, J., & Presanis, A. (2004). Comparing methods of analyzing fMRI statistical parametric maps.
+       Neuroimage, 22 (3), 1203–1213.
+Mejia, A. F., Yue, Y., Bolin, D., Lindgren, F., & Lindquist, M. A. (2020). A Bayesian general linear
+       modeling approach to cortical surface fMRI data analysis. Journal of the American Statistical
+       Association, 115 (530), 501–520.
+Menon, V. (2011). Large-scale brain networks and psychopathology: A unifying triple network model.
+       Trends in cognitive sciences, 15 (10), 483–506.
+Nilearn contributors. (2025). Nilearn. https://doi.org/10.5281/zenodo.8397156
+Nyström, E. J. (1930). Über die praktische auflösung von integralgleichungen mit anwendungen auf
+       randwertaufgaben.
+Penny, W. D., Trujillo-Barreto, N. J., & Friston, K. J. (2005). Bayesian fMRI time series analysis with
+       spatial priors. NeuroImage, 24 (2), 350–362.
+Reynolds, R. C., Glen, D. R., Chen, G., Saad, Z. S., Cox, R. W., & Taylor, P. A. (2024). Processing,
+       evaluating, and understanding fMRI data with afni proc.py. Imaging Neuroscience, 2, imag-2–
+       00347. https://doi.org/10.1162/imag a 00347
+Salvatier, J., Wiecki, T. V., & Fonnesbeck, C. (2016). Probabilistic programming in Python using PyMC3.
+       PeerJ Computer Science, 2, e55.
+Sidén, P., Eklund, A., Bolin, D., & Villani, M. (2017). Fast Bayesian whole-brain fMRI analysis with
+       spatial 3D priors. NeuroImage, 146, 211–225.
+Sidén, P., Lindgren, F., Bolin, D., Eklund, A., & Villani, M. (2021). Spatial 3D matérn priors for fast
+       whole-brain fMRI analysis. Bayesian Analysis, 16 (4), 1251–1278.
+30                                                                                        REFERENCES
+
+
+Sripada, C., Rutherford, S., Angstadt, M., Thompson, W. K., Luciana, M., Weigard, A., Hyde, L. H.,
+       & Heitzeg, M. (2020). Prediction of neurocognition in youth from resting state fMRI. Mol.
+       Psychiatry, 25 (12), 3413–3421.
+Taylor, P. A., Glen, D. R., Chen, G., Cox, R. W., Hanayik, T., Rorden, C., Nielson, D. M., Rajendra,
+       J. K., & Reynolds, R. C. (2024). A set of fMRI quality control tools in afni: Systematic, in-
+       depth, and interactive QC with afni proc.py and more. Imaging Neuroscience, 2, imag-2–00246.
+       https://doi.org/10.1162/imag a 00246
+Taylor, P. A., Reynolds, R. C., Calhoun, V., Gonzalez-Castillo, J., Handwerker, D. A., Bandettini, P. A.,
+       Mejia, A. F., & Chen, G. (2023). Highlight results, don’t hide them: Enhance interpretation,
+       reduce biases and improve reproducibility. Neuroimage, 274, 120138.
+Whiteman, A. S., Johnson, T. D., & Kang, J. (2024). Bayesian inference for group-level cortical surface
+       image-on-scalar regression with Gaussian process priors. Biometrics, 80 (4), ujae116.
+Woolrich, M. W., Behrens, T. E., & Smith, S. M. (2004). Constrained linear basis sets for HRF modelling
+       using variational Bayes. NeuroImage, 21 (4), 1748–1761.
+Zhang, L., Guindani, M., Versace, F., Engelmann, J. M., & Vannucci, M. (2016). A spatiotemporal
+       nonparametric Bayesian model of multi-subject fMRI data.
+
