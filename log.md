@@ -363,3 +363,16 @@
 ## [2026-05-12 12:57] Linter: 44 broken links, 14 orphans, 2 stale, 0 empty
 
 ## [2026-05-12 13:01] Audit: 793 issues (44 broken links, 14 orphans, 1 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 28 opaque-refs, 14 thin, 465 missing-links)
+
+## [2026-05-12 13:04] Linter: 44 broken links, 14 orphans, 2 stale, 0 empty
+
+## [2026-05-12 13:25] Improve: popeye _preamble (Sources: semanticscholar-cb501cd33451, glean-github, semanticscholar-6295d2445697)
+
+- Added _preamble section with substantive content contextualizing popeye within network neuroscience and fMRI analysis
+- Integrated 3 source papers with inline citations
+- Added wikilinks: [[fmri]], [[functional-connectivity]], [[neuroimaging]], [[whole-brain-modeling]], [[neural-mass-models]]
+- Updated frontmatter: updated date to 2026-05-12, added source references
+
+## [2026-05-12 13:09] Audit: 794 issues (44 broken links, 14 orphans, 1 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 28 opaque-refs, 14 thin, 465 missing-links)
+
+## [2026-05-12 13:28] Linter: 44 broken links, 14 orphans, 2 stale, 0 empty

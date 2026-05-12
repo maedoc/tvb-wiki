@@ -440,10 +440,13 @@ def build_writer_prompt(filepath: str) -> str:
         with open(SCHEMA_PATH, 'r') as f:
             schema = f.read()
 
-    # Build page inventory for accurate wikilinks
+    # Build page inventory for accurate wikilinks (capped to prevent prompt bloat)
     all_pages = get_all_pages()
     page_list = sorted(all_pages.keys())
-    page_inventory = '\n'.join(f'  - {s}' for s in page_list)
+    # Limit to 100 most relevant pages to keep prompts under 3000 tokens
+    page_inventory = '\n'.join(f'  - {s}' for s in page_list[:100])
+    if len(page_list) > 100:
+        page_inventory += f"\n  ... and {len(page_list) - 100} more pages"
 
     page_type = metadata.get('type', 'concept')
     is_concept = page_type == 'concept'
@@ -756,10 +759,13 @@ def improve_page(filepath: str) -> tuple[bool, str]:
             with open(SCHEMA_PATH, 'r') as f:
                 schema = f.read()
 
-        # Build page inventory for accurate wikilinks
+        # Build page inventory for accurate wikilinks (capped to prevent prompt bloat)
         all_pages = get_all_pages()
         page_list = sorted(all_pages.keys())
-        page_inventory = '\n'.join(f'  - {s}' for s in page_list)
+        # Limit to 100 most relevant pages to keep prompts under 3000 tokens
+        page_inventory = '\n'.join(f'  - {s}' for s in page_list[:100])
+        if len(page_list) > 100:
+            page_inventory += f"\n  ... and {len(page_list) - 100} more pages"
 
         writer_prompt = f"""You are improving ONE SECTION of a TVB Wiki page about whole-brain modeling and computational neuroscience.
 

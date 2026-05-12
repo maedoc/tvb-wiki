@@ -1,0 +1,1078 @@
+                                                Functional Connectivity-Guided Band Selection for Motor Imagery
+                                                                   Brain-Computer Interfaces
+                                                                                   Natália Araújo do Carmo1 and Aarthy Nagarajan2
+
+
+                                               Abstract— Reliable control in motor imagery brain-computer              EEG provides a direct measurement of neural activity with
+                                           interfaces (MI-BCIs) requires the precise decoding of user-                 high temporal precision, but its spatial resolution is limited to
+                                           specific neural rhythms, which vary significantly across indi-              synchronous populations of neurons whose electrical fields
+                                           viduals. The Common Spatial Pattern (CSP) algorithm is a
+                                           cornerstone of MI-BCI decoding, yet its performance depends                 disperse through the scalp before detection by electrodes [5].
+arXiv:2605.00746v1 [q-bio.NC] 1 May 2026
+
+
+
+
+                                           strongly on the spectral range of the input EEG data. Although              In addition, EEG is highly susceptible to biological artifacts
+                                           Filter Bank CSP (FBCSP) extends this as a data-driven decod-                such as electromyograms (EMGs) and electrooculograms
+                                           ing framework, its frequency sub-bands are predefined rather                (EOGs), which must be identified and removed prior to
+                                           than selected using subject-specific physiological criteria. This           feature extraction [6].
+                                           paper presents a proof-of-concept study of static functional con-
+                                           nectivity (FC)-guided band selection for MI-BCI, demonstrated                  A highly effective paradigm for BCI control is motor
+                                           using a conventional FBCSP-based pipeline. The proposed                     imagery (MI), which corresponds to the mental process of
+                                           method identifies the most discriminative spectral bands by                 imagining a movement without physically executing it. MI
+                                           calculating phase-based connectivity across four sensorimotor               is particularly useful because it activates many of the same
+                                           channels using wPLI, PLV, and PLI. Nine bands in a 4-40 Hz                  areas and pathways as physical movement execution [7].
+                                           filter bank are ranked by the effect size of their hemispheric
+                                           coupling differences and pruned to the top K bands for feature              Specifically, MI induces event-related desynchronizations
+                                           extraction and classification via FBCSP and a Support Vector                (ERDs), which are reductions in the amplitude of µ (8-
+                                           Regressor. This framework was tested for K values ranging                   12 Hz) and β (~13-30 Hz) rhythms in the sensorimotor
+                                           from 1 to 8 across the BCI Competition IV-2a (n = 9) and                    cortex [8], [9]. Successful extraction and decoding of these
+                                           OpenBMI (n = 54) datasets. Performance was benchmarked                      ERDs enables the creation of closed-loop MI-BCI systems
+                                           against standard nine-band FBCSP and random ablation to
+                                           determine the minimum number of bands (K ∗ ) required to                    [10]. In these systems, user-specific algorithms translate MI
+                                           maintain accuracy within a ±2% baseline equivalence zone.                   into output commands while providing sensory feedback,
+                                           Results show FC-guided selection can outperform random                      thus stimulating bidirectional neural adaptation and activity-
+                                           ablation and achieve near-baseline performance while reducing               dependent plasticity that can be leveraged for control and
+                                           required CSP fits by 22.2% to 77.8%. PLV enables the most                   rehabilitation [11]–[13].
+                                           aggressive dimensionality reduction by prioritizing the µ and
+                                           low-β ranges, while wPLI demonstrates superior inter-session                   From a computational perspective, the success of an
+                                           robustness by mitigating volume conduction. These findings                  MI-BCI is highly dependent on its feature extraction and
+                                           establish FC-guided selection as a principled and interpretable             classification algorithms [14]. The Common Spatial Pattern
+                                           alternative to heuristic filter bank designs.                               (CSP) algorithm is a well-established and effective technique
+                                                                 I. INTRODUCTION                                       for this purpose [11], [15], [16]. CSP optimizes spatial filters
+                                                                                                                       to maximize the variance of EEG signals for one class
+                                              Brain-computer interfaces (BCIs) are systems that acquire                of MI while minimizing it for another, making it highly
+                                           signals from neural activity and translate them into desired                effective in isolating ERD patterns. However, the efficacy of
+                                           commands without using the usual output pathways of the                     standard CSP is highly dependent on the spectral range of the
+                                           nervous system [1]. This technology has a wide range of                     input EEG data [17]. Because the reactive frequency ranges
+                                           potential applications, from communication channels for                     of µ and β rhythms vary between individuals, applying
+                                           patients with locked-in syndrome to advanced rehabilitation                 a broad, standardized bandpass filter often degrades CSP
+                                           tools [2]. The basic structure of a BCI can be described as a               performance.
+                                           series of steps: signal acquisition, feature extraction, feature               To address CSP’s spectral selectivity, the Filter Bank
+                                           translation, and the execution of commands by an output                     Common Spatial Pattern (FBCSP) algorithm was developed
+                                           device, all of which are controlled by an operating protocol                [18]. FBCSP bandpass-filters EEG into multiple frequency
+                                           [1], [3]. Among the various available neuroimaging meth-                    bands, extracts CSP features from each of them, and then
+                                           ods, electroencephalography (EEG) is the most commonly                      selects the most discriminative band-CSP pairs across the
+                                           used for signal acquisition due to its non-invasive nature,                 spectrum. Despite its widespread adoption and success as a
+                                           portability, ease of use, and relatively inexpensive cost [4].              data-driven framework, standard FBCSP has an important
+                                             *This work was not supported by any organization                          limitation: the sub-bands in its filter-bank are predefined
+                                             1 Natália Araújo do Carmo is with the College of Science, University of
+                                                                                                                       rather than selected using subject-specific physiological cri-
+                                           Notre Dame, Notre Dame, IN 46556, USA. Email: naraujod@nd.edu               teria [19], [20]. This presents an opportunity to streamline the
+                                             2 Aarthy Nagarajan is with the College of Engineering and with the Lucy
+                                           Family Institute for Data and Society, University of Notre Dame, Notre      feature extraction pipeline. By incorporating subject-specific
+                                           Dame, IN 46556, USA. Email: anagaraj@nd.edu                                 neurophysiological characteristics earlier in the process, it
+may be possible to target the most discriminative bands                              II. METHODOLOGY
+before spatial filtering even occurs.
+                                                                  A. Datasets
+   In this paper, we present a proof-of-concept study of
+static phase-based functional connectivity (FC)-guided band          Two publicly available datasets were used to measure the
+selection for MI-BCI, demonstrated using a conventional           performance of the proposed method.
+FBCSP pipeline. Phase-based FC captures the temporal syn-            1) BCI Competition IV Dataset 2a: For initial evaluations,
+chronization between spatially distributed neural populations     we used Dataset 2a Continuous Multi-class Motor Imagery
+[21], [22]. Metrics such as the weighted Phase Lag Index          from BCI Competition IV [15]. EEG signals were recorded
+(wPLI), Phase Locking Value (PLV), and Phase Lag Index            from nine healthy subjects using 22 Ag/AgCl electrodes.
+(PLI) quantify the degree to which different regions of the       Each participant performed four-class motor imagery (left
+sensorimotor network communicate during motor imagery             hand, right hand, feet, and tongue) in two separate sessions
+tasks [23]–[26]. By evaluating phase synchrony, FC adds a         on different days. Signals were captured at a sampling rate
+network-level dimension of neurophysiological information         of 250 Hz and processed using a 0.5-100 Hz bandpass filter.
+that can facilitate the selection of the most discriminative      Three EOG channels were also sampled at 250 Hz.
+spectral bands in a filter bank.                                     This study utilized only the first session, as it contained
+   Although existing literature has explored functional con-      class labels for all trials. Data loading was limited to left- and
+nectivity in MI-BCIs, FC is most commonly utilized as an          right-hand trials as the proposed method is focused on binary
+additional feature family [19], [27]–[30]. In these paradigms,    motor imagery classification. Epochs were extracted over a
+FC metrics are typically concatenated with CSP spatial fea-       window from 0.5 to 2.5 seconds after the onset of the visual
+tures to form an expanded, multi-modal feature vector prior       cue as presented in the original FBCSP implementation [18].
+to classification. While this approach successfully integrates    Signals from the EOG channels were removed to reduce
+complementary neural information, it inherently increases         noise. This dataset will be referred to as BCIC IV-2a.
+the dimensionality of the overall feature space, which may           2) Korea University OpenBMI: In this study, only the
+introduce additional computational demands and increase the       MI paradigm from the Korea University OpenBMI dataset
+risk of overfitting the classifier.                               [20] was used. EEG signals were recorded from 54 healthy
+                                                                  subjects using 62 Ag/AgCl electrodes placed according to
+    To leverage functional connectivity without inflating the
+                                                                  the International 10-20 system. Each participant performed
+feature space, we propose using FC as a neurophysiolog-
+                                                                  binary-class MI (left and right hand) in two sessions. Signals
+ically informed, subject-specific band selection criterion.
+                                                                  were captured at a sampling rate of 1,000 Hz. Four EMG
+This approach identifies spectral bands exhibiting MI-related
+                                                                  channels were also sampled at 1,000 Hz.
+network connectivity to rank and prune the filter bank prior
+                                                                     To reduce computational demand, the EEG signals were
+to FBCSP spatial filtering. This targeted selection paradigm
+                                                                  downsampled to 250 Hz. Data loading was limited to 21
+allows the FBCSP algorithm to process the most highly
+                                                                  channels within the sensorimotor cortex (Fz, FC5, FC3, FC1,
+synchronized frequencies, thus reducing the required spatial
+                                                                  FC2, FC4, FC6, C5, C3, C1, Cz, C2, C4, C6, CP5, CP3, CP1,
+filter optimizations.
+                                                                  CPz, CP2, CP4, CP6). Epochs were extracted over a window
+   The FC-based band selection framework was evaluated in         from 1.0 to 3.5 seconds after visual cue onset to avoid initial
+the BCI Competition IV-2a (n = 9) and OpenBMI (n = 54)            visual evoked potentials from stimulus presentation and to
+datasets. The contributions of this work are as follows:          exclude late-trial cognitive anticipation, thereby isolating the
+                                                                  most stable period of MI. The two sessions were evaluated
+  • We introduce a novel, neurophysiologically grounded,          both independently and in combination. This dataset will be
+    and subject-specific band selection method that utilizes      referred to as OpenBMI.
+    phase-based functional connectivity to rank and prune
+    frequency bands prior to FBCSP spatial filtering.
+                                                                  B. Proposed Method
+  • We demonstrate that FC-guided band selection can
+    reduce the required spatial filter optimizations by 22.2 to      To establish functional connectivity as a viable mechanism
+    77.8% while maintaining classification accuracy within        for subject-specific frequency band selection, this proof-of-
+    a ±2% equivalence zone of a standard nine-band                concept study integrates an FC-guided selection framework
+    FBCSP baseline.                                               into a standard FBCSP pipeline, as illustrated in Algorithm 1.
+  • We statistically verify that FC-guided pruning signif-        The FBCSP component was implemented using the reference
+    icantly outperforms random ablation in several eval-          code from [18].
+    uated configurations, most notably within PLV-based              The method was evaluated using a 10-fold cross-validation
+    pipelines.                                                    framework. To prevent information leakage, the FC-based
+  • We provide a systematic comparison of phase-based             frequency band ranking and selection were performed strictly
+    metrics, suggesting that PLV maximizes dimensionality         within the training set of each fold. In the first stage,
+    reduction by consistently selecting canonical µ and low-      data were partitioned into training and testing sets. The
+    β rhythms, while wPLI offers superior inter-session           training data were then decomposed into nine frequency
+    robustness by mitigating volume conduction.                   bands ranging from 4 to 40 Hz at 4 Hz intervals.
+Algorithm 1 Proposed FC-Based Band Selection and Clas-
+sification Pipeline
+Input: Raw EEG data D, Set of bands B, Number of
+     selected bands K, Boolean MIBIF
+Output: Mean cross-validation accuracy Acc
+  1: Dpre ← Preprocess(D)
+  2: Acclist ← []
+  3: for f old ← 1 to 10 do
+  4:     Dtrain , Dtest ← Split(Dpre , f old)
+  5:     for each band b ∈ B do
+  6:         Compute FC on Dtrain
+  7:         Calculate CL and CR for each trial                  Fig. 1. Spatial distribution of EEG channels included in the experimental
+  8:         Compute coupling difference ∆C = CL − CR            pipeline for the (a) BCIC IV-2a and (b) OpenBMI datasets. The specific
+  9:         Calculate ML , MR , and Spooled from ∆C distri-     channels and edges (pairwise connections) utilized for FC calculations are
+                                                                 highlighted in red for the left hemisphere, and blue for the right hemisphere.
+     butions                                                     The evaluated edges were C3-Cz and C3-FCz/Fz for the left hemisphere,
+10:          Compute modified Cohen’s d for band b               and C4-Cz and C4-FCz/Fz for the right. Because FCz was unavailable in
+11:      end for                                                 the OpenBMI dataset, Fz was used in its place.
+12:      Branked ← Sort B by descending order of d
+13:      B ∗ ← Select top K bands from Branked
+                                                                 [36].
+14:      Ftrain , Ftest ← Extract FBCSP features using B ∗
+15:      if MIBIF is True then                                      Following the computation of functional connectivity
+16:          Apply MIBIF selection to Ftrain and Ftest           scores, the training data were grouped by MI class (left- vs.
+17:      end if                                                  right-hand). For every trial within each class, the connectivity
+18:      M ← Train SVM(Ftrain , labelstrain )                    scores were then averaged across the left hemisphere channel
+19:      Accf old ← Evaluate(M, Ftest )                          pairs and right hemisphere channel pairs, yielding a mean
+20:      Append Accf old to Acclist                              connectivity score for each hemisphere. Subsequently, for
+21: end for
+                                                                 every trial within each MI class, a coupling difference value
+22: Acc ← Mean(Acclist )
+                                                                 (∆C) was defined as:
+23: return Acc                                                                               ∆C = CL − CR
+
+                                                                 where CL and CR represent the mean connectivity of the left
+   1) Channel Selection: Four EEG channels were selected         and right hemispheres, respectively. Under a simple lateral-
+to compute functional connectivity. In both datasets, three      ization assumption based on the contralateral nature of motor
+primary motor cortex channels were utilized: C3 (left hemi-      control, left- and right-hand MI might be expected to yield
+sphere), Cz (midline), and C4 (right hemisphere). To capture     negative and positive ∆C values, respectively. However,
+frontal midline activity, FCz was used for BCIC IV-2a;           because this strict sign convention is not always guaranteed
+however, due to its absence in the OpenBMI dataset, Fz was       in phase-based FC, our approach relied on the magnitude
+selected.                                                        of class separation rather than on the specific sign of ∆C.
+   2) Frequency Band Ranking and Selection: For each             For each band, the feature evaluated for class discrimination
+frequency band, functional connectivity scores were calcu-       was the per-trial hemispheric coupling difference ∆C. To
+lated using the spectral_connectivity_time func-                 quantify how strongly the distributions of ∆C differ between
+tion from the MNE-Connectivity package [31]–[33]. As             left- and right-hand MI, the magnitude of the effect size was
+illustrated in Fig. 1, connectivity was evaluated in pairwise    calculated using a modified Cohen’s d:
+fashion: C3-Cz, C3-FCz/Fz, C4-Cz, and C4-FCz/Fz.                                                   |ML − MR |
+   The primary metric used for functional connectivity cal-                                  d=
+                                                                                                    Spooled + ϵ
+culations was weighted Phase Lag Index (wPLI), with Phase
+Locking Value (PLV) and Phase Lag Index (PLI) included as        where ML and MR represent the mean ∆C for left- and right-
+exploratory comparisons. wPLI was chosen as the primary          hand MI, respectively, and p Spooled denotes the pooled stan-
+metric because it best balances robustness to volume conduc-     dard deviation computed as (s2L + s2R )/2. A small constant,
+tion with sensitivity to non-zero-lag interactions [23]. PLV     ϵ = 10−12 was added to the denominator to ensure numerical
+was included as a liberal benchmark; although highly suscep-     stability by preventing division by zero. By calculating the
+tible to zero-lag volume conduction, it remains sensitive to     absolute value in the numerator, the final band score d
+MI-related synchrony and has been widely used in existing        captures the magnitude of the effect. Thus, larger d scores
+MI-BCI research [19], [27], [34], [35]. Conversely, PLI          imply bands that are more discriminative between MI classes.
+was utilized as a strictly conservative baseline that strongly   Within each fold, the nine frequency bands were evaluated
+suppresses volume conduction, verifying the robustness of        and ranked in descending order based on their calculated
+connectivity patterns at the cost of reduced sensitivity [26],   d score. Finally, the top K most discriminative bands were
+selected to be passed on to the FBCSP algorithm, where            bands K ∗ needed to reach an equivalent mean classification
+K serves as the experimental hyperparameter governing the         accuracy to the nine-band baseline. To achieve this, we cal-
+number of selected bands.                                         culated the accuracy delta for each K, which was defined as
+   3) Feature Extraction and Classification: The FBCSP            the difference between the mean accuracy at that K and the
+algorithm [18] was then applied to the selected subset of         mean baseline accuracy such that ∆ = AccK − Accbaseline .
+K frequency bands to extract discriminative, subject-specific     Thus, a negative delta means below-baseline performance.
+spatial features. The extracted features were passed to a         We established an equivalence zone of ±2% relative to the
+Support Vector Regressor (SVR) implemented in scikit-learn        mean baseline accuracy and determined that an equivalent
+[37], utilizing a Radial Basis Function (RBF) kernel. The         performance was reached if the entire 95% confidence in-
+kernel coefficient was set to γ = ’auto’, while all other         terval (CI) of the mean fell within the ±2% equivalence
+hyperparameters were kept at their default values. Finally,       zone. The 95% CIs were calculated from the subject-level
+a mean testing accuracy was computed across the 10 folds          accuracy deltas using a nonparametric percentile bootstrap
+to evaluate overall performance.                                  method with 9,999 resamples.
+                                                                      2) Comparison to Random Ablation: To determine
+C. Experimental Design                                            whether the proposed FC-guided selection significantly out-
+   To evaluate the proposed method, independent experimen-        performed random chance, classification performance for
+tal runs were conducted across all subjects using each of         each value of K was compared against the random ablation
+the three FC metrics (wPLI, PLV, and PLI). For OpenBMI,           using a one-sided Wilcoxon signed-rank test. To control for
+the two recording sessions had separate experimental runs.        the family-wise error rate across multiple comparisons, all p-
+For each FC metric, the hyperparameter K (the number              values were adjusted using the Holm-Bonferroni correction.
+of selected frequency bands) was evaluated iteratively from           3) Quantification of Computational Efficiency: To quan-
+K = 1 to K = 8. Furthermore, each configuration was               tify the efficiency gained through FC-guided band selection,
+tested both with and without the Mutual Information-based         computational savings were evaluated based on the reduction
+Best Individual Feature (MIBIF) algorithm [18] selecting for      in spatial filter optimizations. The baseline FBCSP pipeline
+four features. While the FC-guided band selection acts as a       processes nine frequency bands, while our proposed FC-
+macro-level filter to identify neurophysiologically relevant      guided method restricts feature extraction only to the top
+frequency bands, FBCSP still extracts multiple spatial fea-       K ∗ bands. Consequently, this approach reduces the training
+tures per band. MIBIF acts as a secondary, micro-level noise      compute load by requiring fewer CSP fits and generating
+reduction layer to select the four most discriminative CSP        a smaller intermediate feature space. The number of CSP
+features. The pipeline was tested with and without MIBIF          filter pairs was fixed at m = 2 for all experiments, so the
+to demonstrate whether the proposed static FC-guided band         intermediate feature space was reduced from the 36-feature
+selection is powerful enough to stand on its own or if it works   baseline down to 4K ∗ . In configurations where MIBIF was
+best as a two-stage feature selection pipeline with MIBIF.        utilized, this space was further reduced to 4 features.
+   1) Baselines and Ablation Studies: To demonstrate that             4) Band Selection Stability: To evaluate the stability of
+FC-guided band selection can lead to comparable classifi-         the FC-guided band selection, the mean selection frequency
+cation accuracy with a reduced feature space and to verify        of each frequency band was analyzed. The selection ratio
+its physiological relevance, the proposed method was bench-       of each of the nine bands across the 10 cross-validation
+marked against two comparators:                                   folds was computed per subject and subsequently aver-
+   • Standard FBCSP Baseline: A standard nine-band                aged over K = 1 through 8. Because the selection ratios
+      FBCSP pipeline utilizing all frequency bands in the 4-40    are bounded continuous variables, non-parametric statistical
+      Hz range was evaluated both with and without MIBIF          methods were employed. A Friedman test was first conducted
+      to establish the standard performance baseline.             to determine if there were significant differences in selection
+   • Random Selection Ablation: To ensure that the per-           frequency across the nine bands. If statistical significance
+      formance of the proposed method was explicitly due to       was found (p < 0.05), post-hoc pairwise comparisons were
+      FC guidance rather than simply a reduced parameter          performed using Wilcoxon signed-rank tests. To control for
+      space, a random ablation study was conducted with           Type I error rates across multiple comparisons, all post-hoc
+      and without MIBIF. For each value of K and each             p-values were adjusted using the Benjamini-Hochberg False
+      fold, bands were selected at random over 20 iterations.     Discovery Rate (FDR) correction.
+      The classification accuracies from these 20 random
+      draws were averaged to yield a single representative        E. Neurophysiological Interpretability
+      accuracy per fold. Then, the classification accuracies         To evaluate the neurophysiological relevance of the fre-
+      were averaged across the 10 folds to determine the          quency bands selected by the FC-guided pipeline, we visu-
+      subject-level performance.                                  alized the spatial activation patterns of the best- and worst-
+                                                                  performing subjects in the OpenBMI dataset. We focused on
+D. Statistical Analysis                                           the two most robust metrics identified in our analysis: wPLI
+  1) Comparison to Baseline: The primary goal of the              and PLV. Subjects were evaluated strictly within a single
+analysis was to identify the minimum number of frequency          configuration (Session 2, K = 7 bands, without MIBIF) to
+                                                                                                TABLE I
+ensure an independent evaluation without the confounding
+                                                                           N INE - BAND BASELINE ACCURACY (%) ( MEAN ± SD).
+effects of secondary feature selection. For these subjects, the
+"Top" and "Worst" bands were defined as the most and least                                         BCIC IV-2a           OpenBMI
+frequently selected bands, respectively, across the 10 cross-                                       (n = 9)             (n = 54)
+validation folds.                                                           MIBIF (4 features)    84.10 ± 16.59       68.60 ± 17.61
+   We extracted the spatial patterns from the CSP filters using             No MIBIF              85.41 ± 14.59       67.61 ± 17.68
+the Haufe transform, defined as:
+                       A = Σx W Σŝ−1
+                                                                   required to retain near-baseline classification performance,
+where Σx is the covariance matrix of the filtered EEG data,        and second, to establish whether the proposed FC-guided
+W is the unmixing matrix of CSP filters, and Σŝ is the            selection significantly outperforms random band ablation.
+covariance matrix of the latent sources [38]. This transforms         As demonstrated in Table II, the PLV-guided method
+the backward decoding weights into physiologically inter-          reached baseline equivalence retaining only 2 to 3 frequency
+pretable source activations. Computations were performed           bands (K ∗ = 2 with MIBIF, K ∗ = 3 without) in the BCIC
+using the mne.decoding.CSP module in MNE-Python                    IV-2a dataset. In contrast, PLI and wPLI required retaining
+[31], which natively extracts these forward-model patterns.        nearly the entire filter bank (6 to 8 bands) to achieve near-
+   For each cross-validation fold, the data were filtered to       baseline performance. Furthermore, Fig. 2 illustrates that the
+the target band and CSP was fitted strictly on the training        mean classification accuracy with PLV never decreased by
+epochs. Because the mathematical sign of CSP eigenvec-             more than 5% from the baseline, even at K = 1, while
+tors is arbitrary, directly averaging patterns across folds        PLI and wPLI exhibited a greater reduction in accuracy at
+causes destructive interference. We resolved this using a          low K. PLV thus achieved the baseline equivalence plateau
+sign-alignment protocol: the spatial pattern from the first        much faster than the other metrics. This rapid stabilization
+fold served as a template, and for subsequent folds, the           highlights the parsimony and non-inferiority of the PLV-
+pattern’s polarity was inverted if its Pearson correlation coef-   guided approach rather than superiority over the baseline,
+ficient with the template was negative. Furthermore, because       as it allows for aggressive dimensionality reduction while
+CSP components do not guarantee a fixed class order, we            retaining near-baseline performance.
+explicitly mapped components to specific motor tasks by
+projecting the training data through the fitted filters and                                    TABLE II
+computing the class-conditional variances. The component                    M INIMUM BANDS (K ∗ ) FOR BASELINE E QUIVALENCE
+maximizing the variance ratio between left-hand and right-                               (BCIC IV-2 A , n = 9)
+hand MI was assigned to left-hand MI, while the component
+minimizing this ratio was assigned to right-hand MI. Finally,                       FC Metric     Feature Selection     K∗
+the aggregated spatial patterns were plotted with dynamically                       wPLI          MIBIF†                 7
+computed, strictly symmetric colormap limits centered at                                          No MIBIF               7
+zero.                                                                               PLV           MIBIF†                 2∗
+                                                                                                  No MIBIF               3∗
+                       III. RESULTS                                                 PLI           MIBIF†                 6
+A. Baseline Classification Performance                                                            No MIBIF               8
+                                                                   The ∗ indicates configurations where the proposed method significantly
+   The nine-band baseline classification accuracies for each       outperformed the random ablation (padj < 0.05), as detailed in table IV.
+dataset are presented in Table I. The baseline accuracy was        The † indicates that MIBIF was used to select 4 features. Bolded K ∗ value
+84.10% ± 16.59% for BCIC IV-2a with MIBIF, 85.41%                  denotes the minimum value of K ∗ achieved.
+± 14.59% for BCIC IV-2a without MIBIF, 68.60% ±
+17.61% for OpenBMI with MIBIF, and 67.61% ± 17.68%                    This trend generalizes to the larger OpenBMI dataset,
+for OpenBMI without MIBIF. The large standard deviations           although less dramatically (Table III). Notably, the minimum
+and the difference in means across the two datasets reveal         number of bands (K ∗ ) required to reach baseline equivalence
+the high inter-subject variability in MI-BCI performance.          with the PLV metric is higher for OpenBMI compared to
+In addition, the application of MIBIF resulted in marginal         BCIC IV-2a (increasing from 2 to 3 bands up to 5 to 6
+differences in average accuracy across both datasets. Given        bands). While wPLI and PLI required a consistently high
+the large standard deviations, MIBIF does not appear to            number of bands across both datasets (6 to 8), PLV’s ability
+provide a substantial performance gain, suggesting it serves       to aggressively prune spectral bands was attenuated in the
+primarily as a secondary dimensionality reduction tool rather      larger cohort. This difference likely reflects the increased
+than a primary driver of baseline accuracy in these FBCSP          inter-subject variability and broader signal diversity inherent
+pipelines.                                                         in a much larger cohort (n = 54 versus n = 9), requiring
+                                                                   the retention of more spectral information to maintain near-
+B. Comparison with Baseline and Ablation                           baseline performance at the population level. Despite this
+   The following analyses have two primary objectives: first,      attenuation, the PLV-guided method again reached baseline
+to determine the minimum number of frequency bands (K ∗ )          equivalence using the fewest bands (K ∗ = 6 with MIBIF,
+                                                                                                            TABLE III
+                                                                                          M INIMUM BANDS (K ∗ ) FOR BASELINE E QUIVALENCE
+                                                                                                       (O PEN BMI, n = 54)
+
+                                                                                       FC        Feature        Session 1    Session 2    Combined
+                                                                                       Metric    Selection         K∗           K∗          K∗
+                                                                                       wPLI      MIBIF†             7            6∗           6∗∗
+                                                                                                 No MIBIF           7            7            7
+                                                                                       PLV       MIBIF†             6∗∗          7            6∗
+                                                                                                 No MIBIF           5∗∗          7∗           5∗∗
+                                                                                       PLI       MIBIF†             7            7∗           7∗
+                                                                                                 No MIBIF           6∗           8            6∗
+                                                                                 The ∗ and ∗∗ indicate configurations where the proposed method signifi-
+                                                                                 cantly outperformed the random ablation, where ∗ : padj < 0.05 and ∗∗ :
+                                                                                 padj < 0.001, as detailed in table V. The † indicates that MIBIF was used
+                                                                                 to select 4 features. Bolded K ∗ values denote the minimum value of K ∗
+                                                                                 achieved within each respective session.
+
+
+
+
+Fig. 2. Accuracy delta as a function of the number of selected frequency
+bands (K) across three FC metrics: (a) wPLI, (b) PLV, and (c) PLI with
+BCIC IV-2a data (n = 9 subjects). Each panel compares the classification
+performance using pipelines with and without MIBIF selection of four
+features. For a given K, gray points represent subject-specific accuracies,
+while red markers and blue points with error bars denote the mean and
+median (with 95% bootstrap CIs) accuracies, respectively. The green shaded
+region indicates the ±2% baseline equivalence zone. Purple arrows highlight
+K ∗ , defined as the smallest K where the CI of the mean delta is fully within
+the equivalence zone. The lowest values of K ∗ are obtained using PLV.
+
+
+
+K ∗ = 5 without for the combined sessions), compared to
+the 6 to 7 bands required by wPLI and PLI. Similarly, the
+mean classification accuracy with PLV never decreased by
+more than 5% from baseline, even at K = 1, whereas PLI
+and wPLI exhibited more substantial reduction in accuracy
+at low K (Fig. 3). However, when analyzing performance
+by individual session, wPLI demonstrated the highest inter-
+session stability, as K ∗ either decreased or remained constant
+from session 1 to session 2 (Table III).
+   On the BCIC IV-2a dataset, FC-guided selection strictly
+dominated random ablation only when it aggressively pruned
+the bands (Table IV). The PLV method with MIBIF (K ∗ =
+                                                                                 Fig. 3. Accuracy delta as a function of the number of selected frequency
+2) achieved 83.84% accuracy compared to a random accuracy                        bands (K) across three FC metrics: (a) wPLI, (b) PLV, and (c) PLI with
+of 73.21% (padj < 0.05), a performance advantage of                              the combined sessions of OpenBMI data (n = 54 subjects). Each panel
+10.63%. Without MIBIF (K ∗ = 3), PLV had an accuracy of                          compares the classification performance using pipelines with and without
+                                                                                 MIBIF selection of four features. For a given K, gray points represent
+84.84% compared to a random accuracy of 76.45% (padj <                           subject-specific accuracies, while red markers and blue points with error
+0.05), a performance advantage of 8.39%. For wPLI and                            bars denote the mean and median (with 95% bootstrap CIs) accuracies, re-
+PLI, where K ∗ remained high (6 to 8), performance did not                       spectively. The green shaded region indicates the ±2% baseline equivalence
+                                                                                 zone. Purple arrows highlight K ∗ , defined as the smallest K where the CI
+significantly differ from random ablation. At high K ∗ values,                   of the mean delta is fully within the equivalence zone. The lowest value of
+random selection is nearly mathematically identical to FC-                       K ∗ is obtained with PLV without MIBIF.
+guided selection, causing the performance of the proposed
+method and random ablation to naturally converge.
+                            TABLE IV
+                                                                                         cally significant performance advantage over random band
+ S TATISTICAL C OMPARISON OF THE P ROPOSED M ETHOD VS . R ANDOM
+                                                                                         ablation. This ensures that the reported computational effi-
+               A BLATION AT K ∗ (BCIC IV-2 A , n = 9)
+                                                                                         ciency is driven by the extraction of informative functional
+ FC       Feature            FC Mean     Random Mean     ∆ FC vs                         connectivity rather than arbitrary dimensionality reduction.
+                        K∗                                             W       padj
+ Metric   Selection          Acc (%)       Acc (%)      Random (%)                          In the BCIC IV-2a dataset, PLV was the only metric that
+ wPLI     MIBIF†         7     83.58         83.30          0.28      22.0    0.5449
+          No MIBIF       7     85.08         83.74          1.34      36.0    0.1934
+                                                                                         significantly outperformed random ablation. By isolating the
+ PLV      MIBIF†         2     83.84         73.21         10.63      44.0    0.0234∗    most discriminative information into just 2 or 3 bands, PLV
+          No MIBIF       3     84.84         76.45         8.39       44.0    0.0234∗
+                                                                                         greatly reduced the spatial filtering computations of FBCSP,
+ PLI      MIBIF†         6     83.90         82.38          1.52      39.0    0.1094
+          No MIBIF       8     85.42         84.75          0.67      32.0    0.3008     achieving a 77.8% reduction in required CSP fits when paired
+Results are based on a one-sided Wilcoxon signed-rank test (H1 : Method >                with MIBIF (K ∗ = 2) and a 66.7% reduction by itself (K ∗ =
+Random). The reported p-values were adjusted for multiple comparisons                    3). In the OpenBMI dataset, while multiple FC metrics
+using the Holm-Bonferroni method. The ∗ denotes statistical significance                 yielded statistically significant classification accuracies at
+(padj < 0.05). The † indicates that MIBIF was used to select 4 features.
+                                                                                         K ∗ , PLV enabled the most substantial compute savings. It
+                                                                                         provided a 44.4% reduction in CSP training computations
+                                                                                         without MIBIF (K ∗ = 5), surpassing the savings offered by
+   In the combined OpenBMI sessions, FC-guided selection                                 wPLI and PLI. When paired with MIBIF, PLV provided an
+significantly outperformed random selection for all methods                              equal reduction in CSP fits as wPLI with MIBIF and PLI
+except wPLI without MIBIF (Table V). PLV demonstrated                                    without MIBIF, achieving 33.3% in compute savings (K ∗ =
+the highest margins of improvement over random ablation                                  6). The lowest reduction in CSP training computations was
+(1.91%, padj < 0.01 with MIBIF, and 2.70%, padj < 0.01                                   22.2%, which was achieved by PLI with MIBIF (K ∗ = 7).
+without). Although the accuracy advantages were narrower                                 These results demonstrate that FC-guided band selection
+on this dataset, the highly significant p-values suggest that                            can reduce the computational costs of model training while
+FC-guided selection consistently extracts more informative                               preserving classification accuracy.
+features compared to random chance across a large subject
+pool.                                                                                                              TABLE VI
+                                                                                          C OMPUTATIONAL S AVINGS FOR C ONFIGURATIONS O UTPERFORMING
+                            TABLE V                                                                            R ANDOM A BLATION
+ S TATISTICAL C OMPARISON OF THE P ROPOSED M ETHOD VS . R ANDOM
+                      A BLATION AT K ∗ (O PEN BMI, n = 54)                                                  FC         Feature        Baseline            Compute
+                                                                                           Dataset                                                K∗
+                                                                                                            Metric     Selection       Bands              Savings
+ FC
+ Metric
+          Feature
+          Selection
+                        K∗
+                             FC Mean
+                             Acc (%)
+                                        Random Mean
+                                          Acc (%)
+                                                        ∆ FC vs
+                                                       Random (%)
+                                                                      W        padj        BCIC IV-2a       PLV        MIBIF†             9         2       77.8%
+                                                                                           (n = 9)                     No MIBIF           9         3       66.7%
+                                       Session 1
+ wPLI     MIBIF†         7    67.09         66.17         0.92       1023.0   0.0550                        wPLI       MIBIF†             9         6       33.3%
+          No MIBIF       7    65.96         65.10         0.86       995.5    0.0595
+ PLV      MIBIF†         6    67.80         65.19         2.61       1243.0   0.0001∗∗     OpenBMI          PLV        MIBIF†             9         6       33.3%
+          No MIBIF       5    66.57         63.30         3.27       1231.0   0.0002∗∗     (n = 54)                    No MIBIF           9         5       44.4%
+ PLI      MIBIF†         7    67.19         66.17         1.02        964.5   0.0595                        PLI        MIBIF†             9         7       22.2%
+          No MIBIF       6    65.74         64.31         1.43       1076.5   0.0222∗
+                                                                                                                       No MIBIF           9         6       33.3%
+                                       Session 2
+ wPLI     MIBIF†         6    68.44         66.64         1.80       1099.5   0.0127∗    This table exclusively reports configurations demonstrating significant per-
+          No MIBIF       7    68.04         67.10         0.94       939.0    0.0595     formance gains over random ablation (detailed in Tables IV and V). Compu-
+ PLV      MIBIF†         7    68.59         67.69         0.90       1005.0   0.0595     tational savings indicate the percentage reduction in CSP filter optimizations
+          No MIBIF       7    68.09         67.10         0.99       1014.0   0.0370∗
+                                                                                         versus the nine-band baseline, defined explicitly as 100 × (9 − K ∗ )/9. The
+ PLI      MIBIF†         7    68.67         67.69         0.98       1033.5   0.0489∗    † indicates that MIBIF was used to select 4 features.
+          No MIBIF       8    67.89         68.10         -0.21      658.0    0.6946
+                                  Combined Sessions
+ wPLI     MIBIF†         6    67.40         65.92         1.48       1194.0   0.0008∗∗
+          No MIBIF       7    67.00         66.10         0.90       1017.0   0.0550
+                                                                                         C. Band Selection Stability
+ PLV      MIBIF†         6    67.83         65.92         1.91       1176.0   0.0013∗       To investigate whether the FC metrics consistently pri-
+          No MIBIF       5    66.85         64.15         2.70       1195.5   0.0008∗∗
+ PLI      MIBIF†         7    67.93         66.93         1.00       1072.5   0.0225∗    oritize the same neurophysiological features, we analyzed
+          No MIBIF       6    66.69         65.28         1.41       1147.0   0.0032∗
+                                                                                         band selection stability across cross-validation folds and
+Results are based on a one-sided Wilcoxon signed-rank test (H1 : Method >                subjects. This analysis specifically focused on session 2
+Random). The reported p-values were adjusted for multiple comparisons                    of the OpenBMI dataset (n = 54). Session 2 was cho-
+using the Holm-Bonferroni method. The ∗ and ∗∗ denote statistical signif-
+icance, where ∗ : padj < 0.05 and ∗∗ : padj < 0.001. The † indicates that                sen because it represents an independent evaluation phase
+MIBIF was used to select 4 features.                                                     recorded on a separate day, providing a more rigorous
+                                                                                         representation of potential real-world testing conditions. We
+   Ultimately, the ability to retain a small number of in-                               selected the wPLI and PLV metrics for this analysis since
+formative frequency bands through FC-guided selection di-                                wPLI demonstrated the highest inter-session stability and
+rectly translates into substantial computational savings dur-                            PLV consistently achieved the lowest required band threshold
+ing model training and feature extraction. Table VI details                              (K ∗ ).
+the relative computational savings achieved by the proposed                                 Fig. 4 illustrates these selection patterns by comparing
+method with the configurations that demonstrated a statisti-                             both the subject-level and population-level consistency of
+band selection with wPLI and PLV alongside their overall                                                                                   of significance suggests a highly dispersed selection pattern
+mean selection frequencies. The heatmaps highlight band                                                                                    across the 4-40 Hz frequency spectrum. In contrast, PLV
+selection ratios at K = 2, 3, and 6 to provide a represen-                                                                                 exhibited highly significant differences in band preference
+tative view of band prioritization across different levels of                                                                              (χ2 (8) = 55.77, p < 0.001). Post-hoc FDR-corrected
+dimensionality reduction. Specifically, K = 2 and K = 3                                                                                    Wilcoxon signed-rank tests revealed that the 12-16 Hz band
+demonstrate band selection stability where selections are                                                                                  was selected significantly more often than all eight other
+furthest from random chance. The value K = 6 then                                                                                          frequency bands (padj < 0.05 for all pairwise comparisons).
+illustrates how those selection patterns evolve as the subsets                                                                             Additionally, the 8-12 Hz band was selected significantly
+approach the optimal K ∗ thresholds.                                                                                                       more often than the lower 4-8 Hz band and most of the
+                                                                                                                                           higher frequency bands above 16 Hz. The complete list
+ (a)        K = 2 (Chance: 0.22)                                            K = 3 (Chance: 0.33)                                           of post-hoc pairwise comparisons for PLV is detailed in
+                                                                                                            1.0
+                                                                                                                                           Appendix Table VII. These results collectively indicate that
+                                                                                                                                           PLV selection is heavily concentrated in the µ (8-12 Hz) and
+Subject
+
+
+
+
+                                                          Subject
+
+
+
+
+                                                                                                                                           low-β (12-16 Hz) ranges, whereas wPLI selection is much
+                                                                                                            0.8
+                                                                                                                                           more dispersed. This concentrated selection suggests that the
+                                                                                                                                           PLV metric tends to prioritize frequency bands traditionally
+
+
+
+
+                                                                                                              Selection Ratio (10 Folds)
+                                                                                                            0.6
+      4-8
+
+                 2
+               -16
+               -20
+               -24
+               -28
+               -32
+               -36
+               -40
+
+
+
+                                                                4-8
+
+                                                                             2
+                                                                           -16
+                                                                           -20
+                                                                           -24
+                                                                           -28
+                                                                           -32
+                                                                           -36
+                                                                           -40
+             8-1
+
+
+
+
+                                                                         8-1
+
+
+
+
+                                                                                                                                           associated with motor imagery [8], [39], [40]. Furthermore,
+            12
+            16
+            20
+            24
+            28
+            32
+            36
+
+
+
+
+                                                                        12
+                                                                        16
+                                                                        20
+                                                                        24
+                                                                        28
+                                                                        32
+                                                                        36
+                  Band (Hz)                                                       Band (Hz)
+            K = 6 (Chance: 0.67)                          1.0       Overall Mean Selection Frequency                                       qualitative observation of the heatmaps in Fig. 4 reinforces
+                                                                                                            0.4                            this population-level stability. For PLV, high selection ratios
+                                                          0.8
+                                   Mean Selection Ratio
+
+
+
+
+                                                          0.6
+                                                                                                                                           visually align vertically across the most frequently selected
+Subject
+
+
+
+
+                                                                                                            0.2                            bands for the majority of subjects. The wPLI heatmaps
+                                                          0.4
+                                                                                                                                           instead show dark cells spread irregularly across the 4-40
+                                                          0.2
+                                                                                                            0.0                            Hz frequency spectrum. PLV also demonstrates higher intra-
+                                                          0.0
+                                                                                                                                           subject stability by repeatedly selecting the same specific
+      4-8
+
+                 2
+               -16
+               -20
+               -24
+               -28
+               -32
+               -36
+               -40
+
+
+
+                                                                4-8
+
+                                                                             2
+                                                                           -16
+                                                                           -20
+                                                                           -24
+                                                                           -28
+                                                                           -32
+                                                                           -36
+                                                                           -40
+             8-1
+
+
+
+
+                                                                         8-1
+            12
+            16
+            20
+            24
+            28
+            32
+            36
+
+
+
+
+                                                                        12
+                                                                        16
+                                                                        20
+                                                                        24
+                                                                        28
+                                                                        32
+                                                                        36
+
+
+
+
+                  Band (Hz)                                                       Band (Hz)
+                                                                                                                                           bands across folds for individual subjects more consistently
+ (b)        K = 2 (Chance: 0.22)                                            K = 3 (Chance: 0.33)
+                                                                                                                                           than wPLI.
+                                                                                                            1.0
+                                                                                                                                           D. Neurophysiological Interpretability
+Subject
+
+
+
+
+                                                          Subject
+
+
+
+
+                                                                                                            0.8
+                                                                                                                                              To validate that the FC-guided pipeline selects frequency
+                                                                                                                                           bands with interpretable neurophysiological relevance, we vi-
+                                                                                                              Selection Ratio (10 Folds)
+
+
+
+
+                                                                                                                                           sualized the spatial activation patterns for the best- and worst-
+                                                                                                            0.6
+      4-8
+
+                 2
+               -16
+               -20
+               -24
+               -28
+               -32
+               -36
+               -40
+
+
+
+                                                                4-8
+
+                                                                             2
+                                                                           -16
+                                                                           -20
+                                                                           -24
+                                                                           -28
+                                                                           -32
+                                                                           -36
+                                                                           -40
+             8-1
+
+
+
+
+                                                                         8-1
+            12
+            16
+            20
+            24
+            28
+            32
+            36
+
+
+
+
+                                                                        12
+                                                                        16
+                                                                        20
+                                                                        24
+                                                                        28
+                                                                        32
+                                                                        36
+
+
+
+
+                  Band (Hz)                                                       Band (Hz)                                                performing subjects in the OpenBMI dataset. We continued
+            K = 6 (Chance: 0.67)                          1.0       Overall Mean Selection Frequency                                       to focus on the wPLI and PLV metrics. To strictly isolate the
+                                                                                                            0.4
+                                                          0.8                a                                                             pipeline’s raw feature-selection capabilities on an evaluation
+                                   Mean Selection Ratio
+
+
+
+
+                                                                        b
+                                                                                           bc                                              session, we restricted this visualization to session 2 without
+                                                          0.6                    cde bcd
+Subject
+
+
+
+
+                                                                                                de de cde   0.2
+                                                          0.4       e                                                                      MIBIF. Under these specific conditions, both metrics had
+                                                          0.2
+                                                                                                                                           K ∗ = 7, which was also selected for visualization. Because
+                                                          0.0
+                                                                                                            0.0                            both FC metrics yielded two subjects with perfect (100.0%)
+                                                                                                                                           classification accuracy with the chosen configurations, Sub-
+      4-8
+
+                 2
+               -16
+               -20
+               -24
+               -28
+               -32
+               -36
+               -40
+
+
+
+                                                                4-8
+
+                                                                             2
+                                                                           -16
+                                                                           -20
+                                                                           -24
+                                                                           -28
+                                                                           -32
+                                                                           -36
+                                                                           -40
+             8-1
+
+
+
+
+                                                                         8-1
+            12
+            16
+            20
+            24
+            28
+            32
+            36
+
+
+
+
+                                                                        12
+                                                                        16
+                                                                        20
+                                                                        24
+                                                                        28
+                                                                        32
+                                                                        36
+
+
+
+
+                  Band (Hz)                                                       Band (Hz)
+                                                                                                                                           ject 36 was randomly selected to represent the top performers
+                                                                                                                                           for both. Conversely, the worst-performing subjects achieved
+Fig. 4. Stability of frequency band selection guided by (a) wPLI and (b)
+PLV with session 2 of OpenBMI (n = 54 subjects). wPLI was selected for
+                                                                                                                                           below-chance accuracies of 40.0% for PLV and 47.0% for
+highest inter-session stability and PLV was selected for lowest K ∗ . Session                                                              wPLI.
+2 was selected because it represents an independent evaluation phase. The                                                                     PLV is sensitive to all phase-locked activity, including
+first three panels illustrate subject-level band selection ratios across 10 cross-
+validation folds for K = 2, 3, and 6. Subjects (n = 54) on the y-axis are
+                                                                                                                                           zero-lag connectivity, which makes it well-suited for cap-
+sorted in descending order based on their baseline classification accuracy                                                                 turing highly synchronized, localized cortical dipoles. This
+in session 2. The bottom-right panel displays the overall mean selection                                                                   is evident in the spatial patterns of the best-performing PLV
+frequency for each band, aggregated across K = 1 through 8. Error bars
+denote 95% CIs. Pairwise statistical differences are denoted using a compact
+                                                                                                                                           subject (Fig. 5(a)). For this subject, PLV-guided selection
+letter display above the error bars. Frequency bands that do not share a                                                                   identified the 8-12 Hz band (µ) as a discriminative feature in
+common letter are significantly different (padj < 0.05), assessed via a                                                                    100.0% of the cross-validation folds. The resulting topogra-
+Friedman test followed by post-hoc FDR-corrected Wilcoxon signed-rank
+tests.
+                                                                                                                                           phies revealed dense focal activation over the contralateral
+                                                                                                                                           sensorimotor cortices for left- and right-hand MI, centered
+   Analysis of the overall selection frequencies revealed a                                                                                around the C4 and C3 electrodes, respectively. Furthermore,
+distinct disparity in band prioritization between the two                                                                                  the pipeline successfully ignored uninformative features: the
+metrics. The Friedman test indicated no significant difference                                                                             36–40 Hz band (γ-range) was not selected in any of the
+in the overall selection frequency of bands using wPLI-                                                                                    CV folds and exhibited only faint, dispersed topographic
+guided selection (χ2 (8) = 10.06, p = 0.261). This lack                                                                                    patterns.
+   This stands in contrast with the worst-performing PLV
+subject (Fig. 5(b)), whose lack of clear sensorimotor later-
+alization is visually apparent. Here, the pipeline defaulted
+to a high-frequency range, selecting the 36–40 Hz band (γ-
+range) 100.0% of the time. The resulting spatial patterns are
+bilateral, scattered, and lack any C3/C4 lateralization. This
+indicates that in the absence of a strong task-modulated µ-
+rhythm, the classifier was forced to rely on non-informative
+high-frequency noise, resulting in chance-level performance.
+These findings indicate that PLV’s primary strength lies
+in its ability to identify and leverage highly lateralized
+sensorimotor µ-rhythms to achieve superior performance and
+interpretability.
+   In contrast to PLV, the CSP spatial patterns in the bands
+selected by wPLI appear more spatially distributed and less
+focal. For the best-performing wPLI subject (Fig. 6(a)), the
+pipeline identified the 12-16 Hz (low-β range) as a discrim-
+inative feature in 100.0% of CV folds. The spatial patterns
+in this band exhibit a distributed structure that appears less
+dominated by a discrete sensorimotor focus. Notably, the
+visual difference between the spatial topographies of the top
+and the worst band (28-32 Hz, selected in only 30.0% of
+CV folds) is less pronounced than in the PLV results for the
+same subject. Combined with the high performance of this
+subject, this suggests that the discriminative structure of the
+frequency bands selected by wPLI is more distributed and
+less dominated by sensorimotor focus and lateralization.
+   The topomaps for the worst-performing wPLI subject
+(Fig. 6(b)) provide context for the lower classification ac-
+curacy observed. Although the pipeline consistently selected
+the 24–28 Hz band in 100.0% of CV folds, the resulting
+CSP patterns do not show a clear task-specific discriminative
+sensorimotor structure. This suggests weaker class-separating
+variance, which aligns with the near-chance performance
+recorded for this subject.
+
+E. Summary of Main Findings
+   FC-guided band selection successfully preserves near-
+baseline classification accuracy with fewer frequency bands,
+yielding substantial computational savings compared to the
+traditional nine-band FBCSP approach. PLV enables the
+most aggressive dimensionality reduction by demonstrat-
+ing high intra-subject and inter-subject band selection sta-       Fig. 5. PLV topomaps for the OpenBMI dataset (n = 54) during session 2.
+                                                                   Panels depict the subjects with the (a) highest (Subject 36) and (b) lowest
+bility and consistently isolating canonical motor imagery          (Subject 48) mean classification accuracies, evaluated at K ∗ = 7 with
+bands. Topographic analysis suggests that this performance         no MIBIF. Topomaps visualize CSP spatial patterns. For each specified
+is achieved by PLV’s ability to prioritize frequency bands         frequency band, a CSP model was fit across all trials to distinguish left- and
+                                                                   right-hand motor imagery. Color gradients correspond to the spatial weights
+with focal contralateral spatial patterns that allow for strong    of the extreme CSP components (representing the distinct classes) mapped
+class-separating variance. In contrast, wPLI’s band selections     onto 21 selected motor cortex electrode locations. Within each panel, the
+are much more dispersed across the 4-40 Hz spectrum and            upper and lower topomaps display the most and least frequently selected
+                                                                   frequency bands, respectively. Band selection frequencies were aggregated
+correspond to more distributed spatial structures with less        across the 10 cross-validation folds. The upper topomaps display the most
+sensorimotor focus. Despite this dispersion, wPLI demon-           frequently selected band for each subject: 8-12 Hz (selected 100.0% of the
+strates superior inter-session stability, successfully maintain-   time) for Subject 36, and 36-40 Hz (100.0%) for Subject 48. The lower
+                                                                   topomaps display the least frequently selected band for each subject: 36-40
+ing or decreasing the required band thresholds (K ∗ ) across       Hz (0.0%) for Subject 36, and 12-16 Hz (30.0%) for Subject 48.
+recording days. Nonetheless, broader inter-subject variabil-
+ity naturally attenuates dimensionality reduction rates, as
+evidenced by the larger OpenBMI dataset requiring the
+                                                                                 retention of more spectral information to maintain baseline
+                                                                                 equivalence compared to the smaller BCIC IV-2a cohort.
+                                                                                                      IV. DISCUSSION
+                                                                                    The findings of this study establish a proof of concept that
+                                                                                 functional connectivity can serve as a principled, subject-
+                                                                                 specific criterion to reduce the FBCSP filter bank while
+                                                                                 preserving near-baseline performance. By leveraging the
+                                                                                 neurophysiological relationships captured by FC metrics, this
+                                                                                 approach provides a systematic and interpretable alternative
+                                                                                 to exhaustive or heuristic frequency band selection. The re-
+                                                                                 sults demonstrate that, in many cases, this targeted selection
+                                                                                 preserves near-baseline performance and significantly out-
+                                                                                 performs random ablation, ensuring that the retained bands
+                                                                                 are genuinely discriminative rather than arbitrarily chosen.
+                                                                                    Among the metrics evaluated, PLV emerged as the
+                                                                                 strongest candidate for aggressive dimensionality reduction.
+                                                                                 As evidenced by the analysis of band selection stability,
+                                                                                 PLV consistently isolated bands within the µ and low-β
+                                                                                 ranges, which are canonically associated with motor im-
+                                                                                 agery [8], [39], [40]. This concentrated selection highlights
+                                                                                 physiological interpretability as a major advantage of the
+                                                                                 proposed method, as topographic analysis revealed that, in
+                                                                                 high-performance subjects, PLV prioritized bands with focal
+                                                                                 contralateral CSP patterns. However, it is possible that PLV’s
+                                                                                 consistency in selecting the 12-16 Hz (low-β) and 8-12
+                                                                                 Hz (µ) bands is heavily influenced by volume conduction.
+                                                                                 Because the evaluated channel pairs are physically adjacent
+                                                                                 on the scalp, the strong localized event-related desynchro-
+                                                                                 nization of the µ and β rhythms likely spreads to the
+                                                                                 midline electrodes. Since PLV does not penalize this zero-lag
+                                                                                 phase synchrony, it may be prioritizing these bands based
+                                                                                 on localized signal spread rather than long-range network
+                                                                                 communication. Conversely, while wPLI yielded much more
+                                                                                 dispersed band selection, choosing bands with distributed
+                                                                                 CSP spatial patterns, it demonstrated greater inter-session
+                                                                                 robustness in terms of K ∗ . Because wPLI suppressed zero-
+                                                                                 lag interactions to mitigate volume conduction, its dispersed
+                                                                                 band selection pattern may reflect more subtle, time-lagged
+                                                                                 functional connectivity, which may explain why it generally
+                                                                                 requires a higher K ∗ to achieve near-baseline performance.
+                                                                                 This suggests that while wPLI may not facilitate the same
+                                                                                 degree of dimensionality reduction as PLV, it may capture
+Fig. 6. wPLI topomaps for the OpenBMI dataset (n = 54) during session 2.
+Panels depict the subjects with the (a) highest (Subject 36) and (b) lowest      more robust networks that persist across recording sessions.
+(Subject 10) mean classification accuracies, evaluated at K ∗ = 7 with              The generalizability of these findings is contextualized
+no MIBIF. Topomaps visualize CSP spatial patterns. For each specified            by the differences observed between the two datasets. In
+frequency band, a CSP model was fit across all trials to distinguish left- and
+right-hand motor imagery. Color gradients correspond to the spatial weights      the smaller BCIC IV-2a dataset (n = 9), the PLV-guided
+of the extreme CSP components (representing the distinct classes) mapped         pipeline achieved baseline equivalence with as few as 2 to
+onto 21 selected motor cortex electrode locations. Within each panel, the        3 frequency bands. However, in the larger OpenBMI dataset
+upper and lower topomaps display the most and least frequently selected
+frequency bands, respectively. Band selection frequencies were aggregated        (n = 54), the minimum number of bands (K ∗ ) required
+across the 10 cross-validation folds. The upper topomaps display the most        for near-baseline performance with PLV increased to 5 or 6,
+frequently selected band for each subject: 12-16 Hz (selected 100.0% of          reflecting the broader inter-subject variability inherent in a
+the time) for Subject 36, and 24-28 Hz (100.0%) for Subject 10. The lower
+topomaps display the least frequently selected band for each subject: 28-32      larger cohort. Nonetheless, the practical significance of this
+Hz (30.0%) for Subject 36, and 20-24 Hz (20.0%) for Subject 10.                  FC-guided framework remains considerable even when the
+                                                                                 degree of dimensionality reduction is less aggressive. For
+                                                                                 instance, while the OpenBMI dataset required a higher K ∗
+                                                                                 than BCIC IV-2a, reaching baseline performance with K ∗ =
+                                                                                             TABLE VII
+5 or K ∗ = 6 still translates to a 44.4% or 33.3% reduction
+                                                                      P OST- HOC PAIRWISE COMPARISONS FOR PLV BAND SELECTION
+in CSP training fits, respectively. This suggests that FC-
+                                                                                               FREQUENCIES
+guided frequency band selection provides a principled path
+to computational savings without sacrificing classification                 Comparison (Hz)      Adjusted p-value    Significance
+performance. Such savings can be meaningful for practical
+                                                                            12–16 vs 16–20           < 0.001              **
+MI-BCI applications, where minimizing calibration times                     12–16 vs 20–24            0.002                *
+and reducing computational overhead are essential.                          12–16 vs 24–28            0.002                *
+   While these findings demonstrate the feasibility of FC-                  12–16 vs 28–32           < 0.001              **
+                                                                            12–16 vs 32–36           < 0.001              **
+guided band selection, several limitations must be acknowl-                 12–16 vs 36–40           < 0.001              **
+edged. First, the novelty of this approach is primarily in-                 12–16 vs 4–8             < 0.001              **
+cremental, as it integrates established FC metrics into a                   12–16 vs 8–12             0.015                *
+                                                                            16–20 vs 20–24            0.315
+well-known FBCSP architecture rather than proposing a                       16–20 vs 24–28            0.237
+fundamentally new decoding paradigm. Second, the success                    16–20 vs 28–32            0.573
+and degree of band reduction are highly dependent on the                    16–20 vs 32–36            0.399
+                                                                            16–20 vs 36–40            0.573
+specific FC metric utilized. The values of K ∗ and the signifi-             16–20 vs 4–8              0.130
+cance over random ablation were variable across FC metrics,                 16–20 vs 8–12             0.015               *
+datasets, and recording sessions. Third, the inter-subject                  20–24 vs 24–28            0.496
+                                                                            20–24 vs 28–32            0.272
+variability, which is particularly evident in the OpenBMI                   20–24 vs 32–36            0.073
+dataset, indicates that while FC-guided selection is subject-               20–24 vs 36–40            0.176
+specific, it cannot entirely overcome the "BCI illiteracy"                  20–24 vs 4–8              0.019               *
+                                                                            20–24 vs 8–12             0.176
+[20] or inherent performance ceilings observed in certain                   24–28 vs 28–32            0.021               *
+users. Finally, the current methodology was developed and                   24–28 vs 32–36            0.015               *
+validated exclusively within an FBCSP framework. Whether                    24–28 vs 36–40            0.077
+                                                                            24–28 vs 4–8              0.008               *
+FC-guided band selection can be effectively extended to                     24–28 vs 8–12             0.320
+other contemporary motor imagery decoders, such as deep                     28–32 vs 32–36            0.320
+learning architectures [41], [42], remains an open question                 28–32 vs 36–40            0.676
+                                                                            28–32 vs 4–8              0.066
+and represents a critical direction for future research.                    28–32 vs 8–12             0.017               *
+                                                                            32–36 vs 36–40            0.833
+                    V. CONCLUSIONS                                          32–36 vs 4–8              0.237
+   This study establishes a successful proof of concept for                 32–36 vs 8–12             0.013               *
+                                                                            36–40 vs 4–8              0.215
+subject-specific frequency band selection within MI-BCI                     36–40 vs 8–12             0.015               *
+FBCSP pipelines using band-specific phase-based functional                  4–8 vs 8–12               0.002               *
+connectivity. The proposed framework demonstrates that            Post-hoc comparisons for FC-guided band selection frequencies with session
+near-baseline classification accuracy can be preserved while      2 of the OpenBMI dataset (n = 54). A Friedman test revealed significant
+                                                                  differences across bands (χ2 (8) = 55.770, p < 0.001). Pairwise compar-
+achieving a 22.2 to 77.8% reduction in the required CSP           isons were assessed using Wilcoxon signed-rank tests with FDR correction
+spatial filter fits across the evaluated configurations. While    (Benjamini-Hochberg). Significant results (padj < 0.05) are bolded. The
+the PLV metric enables the most aggressive dimensionality         * and ** denote statistical significance, where *: padj < 0.05 and **:
+                                                                  padj < 0.001.
+reduction by consistently selecting bands in the µ and low-β
+ranges with strong lateralized CSP patterns, the wPLI metric
+provides superior inter-session robustness by mitigating the
+                                                                                              R EFERENCES
+influence of volume conduction. Although the degree of
+dimensionality reduction is attenuated by the high inter-          [1] J. R. Wolpaw, N. Birbaumer, D. J. McFarland, G. Pfurtscheller, and
+subject variability inherent in larger cohorts, the static FC-         T. M. Vaughan, “Brain-computer interfaces for communication and
+                                                                       control,” Clinical Neurophysiology, vol. 113, pp. 767–791, June 2002.
+guided approach significantly outperformed random band             [2] L. F. Nicolas-Alonso and J. Gomez-Gil, “Brain computer interfaces,
+ablation in several configurations. These findings suggest that        a review,” Sensors (Basel, Switzerland), vol. 12, pp. 1211–1279, Jan.
+static FC-based band selection offers a systematic alternative         2012.
+                                                                   [3] D. J. McFarland and J. R. Wolpaw, “EEG-based brain-computer inter-
+to heuristic filter bank designs, providing a potential avenue         faces,” Current Opinion in Biomedical Engineering, vol. 4, pp. 194–
+for less computationally expensive and more interpretable              200, Dec. 2017.
+MI-BCI pipelines. Future work should explore the generaliz-        [4] J. J. Shih, D. J. Krusienski, and J. R. Wolpaw, “Brain-computer
+                                                                       interfaces in medicine,” Mayo Clinic Proceedings, vol. 87, pp. 268–
+ability of these FC-guided criteria within other contemporary          279, Mar. 2012.
+decoding architectures, such as deep learning and geometry-        [5] M. X. Cohen, “Where does EEG come from and what does it mean?,”
+based models.                                                          Trends in Neurosciences, vol. 40, pp. 208–218, Apr. 2017.
+                                                                   [6] D. J. McFarland, W. A. Sarnacki, T. M. Vaughan, and J. R. Wolpaw,
+                        APPENDIX                                       “Brain-computer interface (BCI) operation: signal and noise during
+                                                                       early training sessions,” Clinical Neurophysiology, vol. 116, pp. 56–
+A. Supplementary Statistical Tables                                    62, Jan. 2005.
+                                                                   [7] B. Pelgrims, N. Michaux, E. Olivier, and M. Andres, “Contribution
+                                                                       of the primary motor cortex to motor imagery: A subthreshold TMS
+                                                                       study,” Human Brain Mapping, vol. 32, pp. 1471–1482, Nov. 2010.
+ [8] C. Neuper and G. Pfurtscheller, “Event-related dynamics of cortical              signals based on functional brain network,” Journal of Neural Engi-
+     rhythms: frequency-specific features and functional correlates,” Inter-          neering, vol. 16, p. 026032, Feb. 2019.
+     national Journal of Psychophysiology, vol. 43, pp. 41–58, Dec. 2001.        [31] E. Larson et al., “MNE-Python,” Aug. 2024.
+ [9] J. Barone and H. E. Rossiter, “Understanding the role of sensorimotor       [32] A. Gramfort et al., “MEG and EEG data analysis with MNE-Python,”
+     beta oscillations,” Frontiers in Systems Neuroscience, vol. 15, May              Frontiers in Neuroscience, vol. 7, p. 267, Dec. 2013.
+     2021.                                                                       [33] A. Li et al., “mne-connectivity,” Mar. 2026.
+[10] M. M. Shanechi, “Brain-machine interfaces from motor to mood,”              [34] Y. Wang, B. Hong, X. Gao, and S. Gao, “Phase synchrony measure-
+     Nature Neuroscience, vol. 22, pp. 1554–1564, Oct. 2019.                          ment in motor cortex for classifying single-trial EEG during motor
+[11] J. Müller-Gerking, G. Pfurtscheller, and H. Flyvbjerg, “Designing                imagery,” in 2006 International Conference of the IEEE Engineering
+     optimal spatial filters for single-trial EEG classification in a movement        in Medicine and Biology Society, pp. 75–78, Aug. 2006.
+     task,” Clinical Neurophysiology, vol. 110, pp. 787–798, May 1999.           [35] V. Gonuguntla, Y. Wang, and K. C. Veluvolu, “Phase synchrony
+[12] G. Pfurtscheller, C. Brunner, A. Schlögl, and F. H. Lopes da Silva,              in subject-specific reactive band of EEG for classification of motor
+     “Mu rhythm (de)synchronization and EEG single-trial classification               imagery tasks,” in 2013 35th Annual International Conference of
+     of different motor imagery tasks,” NeuroImage, vol. 31, pp. 153–159,             the IEEE Engineering in Medicine and Biology Society (EMBC),
+     May 2006.                                                                        pp. 2784–2787, July 2013.
+[13] K. K. Ang and C. Guan, “EEG-based strategies to detect motor                [36] N. Leeuwis, S. Yoon, and M. Alimardani, “Functional connectivity
+     imagery for control and rehabilitation,” IEEE Transactions on Neural             analysis in motor-imagery brain computer interfaces,” Frontiers in
+     Systems and Rehabilitation Engineering, vol. 25, pp. 392–401, Apr.               Human Neuroscience, vol. 15, Oct. 2021.
+     2017.                                                                       [37] F. Pedregosa et al., “Scikit-learn: Machine learning in Python,” Journal
+                                                                                      of Machine Learning Research, vol. 12, pp. 2825–2830, 2011.
+[14] F. Lotte et al., “A review of classification algorithms for EEG-
+                                                                                 [38] S. Haufe, F. Meinecke, K. Görgen, S. Dähne, J.-D. Haynes,
+     based brain-computer interfaces: a 10 year update,” Journal of Neural
+                                                                                      B. Blankertz, and F. Bießmann, “On the interpretation of weight
+     Engineering, vol. 15, p. 031005, Apr. 2018.
+                                                                                      vectors of linear models in multivariate neuroimaging,” NeuroImage,
+[15] M. Tangermann et al., “Review of the BCI competition IV,” Frontiers
+                                                                                      vol. 87, pp. 96–110, Feb. 2014.
+     in Neuroscience, vol. 6, p. 55, July 2012.
+                                                                                 [39] G. Pfurtscheller and C. Neuper, “Motor imagery activates primary
+[16] A. Miladinović et al., “Performance of EEG motor-imagery based                  sensorimotor area in humans,” Neuroscience Letters, vol. 239, pp. 65–
+     spatial filtering methods: A BCI study on stroke patients,” Procedia             68, Dec. 1997.
+     Computer Science, vol. 176, pp. 2840–2848, Jan. 2020.                       [40] Y. Jeon, C. S. Nam, Y.-J. Kim, and M. C. Whang, “Event-related
+[17] K. K. Ang, Z. Y. Chin, C. Wang, C. Guan, and H. Zhang, “Filter bank              (de)synchronization (ERD/ERS) during motor imagery tasks: Im-
+     common spatial pattern algorithm on BCI competition IV datasets 2a               plications for brain-computer interfaces,” International Journal of
+     and 2b,” Frontiers in Neuroscience, vol. 6, p. 39, Mar. 2012.                    Industrial Ergonomics, vol. 41, pp. 428–436, Sept. 2011.
+[18] K. K. Ang, Z. Y. Chin, H. Zhang, and C. Guan, “Filter bank common           [41] N. Padfield, J. Zabalza, H. Zhao, V. Masero, and J. Ren, “EEG-
+     spatial pattern (FBCSP) in brain-computer interface,” in 2008 IEEE               based brain-computer interfaces using motor-imagery: Techniques and
+     International Joint Conference on Neural Networks (IEEE World                    challenges,” Sensors, vol. 19, p. 1423, Mar. 2019.
+     Congress on Computational Intelligence), pp. 2390–2397, June 2008.          [42] Z. Tayeb et al., “Validating deep neural networks for online decoding
+[19] H. Darvishi, A. Mohammadi, M. H. Maghami, M. Sadeghi, and                        of motor imagery movements from EEG signals,” Sensors, vol. 19,
+     M. Sawan, “EEG-driven arm movement decoding: Combining con-                      p. 210, Jan. 2019.
+     nectivity and amplitude features for enhanced brain-computer interface
+     performance,” Bioengineering, vol. 12, p. 614, June 2025.
+[20] M.-H. Lee et al., “EEG dataset and OpenBMI toolbox for three BCI
+     paradigms: an investigation into BCI illiteracy,” GigaScience, vol. 8,
+     p. giz002, May 2019.
+[21] L. Marzetti, A. Basti, F. Chella, A. D’Andrea, J. Syrjälä, and
+     V. Pizzella, “Brain functional connectivity through phase coupling of
+     neuronal oscillations: A perspective from magnetoencephalography,”
+     Frontiers in Neuroscience, vol. 13, Sept. 2019.
+[22] I. Daly, S. J. Nasuto, and K. Warwick, “Brain computer interface
+     control via functional connectivity dynamics,” Pattern Recognition,
+     vol. 45, pp. 2123–2136, June 2012.
+[23] M. Vinck, R. Oostenveld, M. van Wingerden, F. Battaglia, and
+     C. M. A. Pennartz, “An improved index of phase-synchronization for
+     electrophysiological data in the presence of volume-conduction, noise
+     and sample-size bias,” NeuroImage, vol. 55, pp. 1548–1565, Apr. 2011.
+[24] J.-P. Lachaux, E. Rodriguez, J. Martinerie, and F. J. Varela, “Measuring
+     phase synchrony in brain signals,” Human Brain Mapping, vol. 8,
+     no. 4, pp. 194–208, 1999.
+[25] R. Bruña, F. Maestú, and E. Pereda, “Phase locking value revisited:
+     teaching new tricks to an old dog,” Journal of Neural Engineering,
+     vol. 15, p. 056011, July 2018.
+[26] C. J. Stam, G. Nolte, and A. Daffertshofer, “Phase lag index: Assess-
+     ment of functional connectivity from multi channel EEG and MEG
+     with diminished bias from common sources,” Human Brain Mapping,
+     vol. 28, pp. 1178–1193, Nov. 2007.
+[27] H. Wang, X. Xu, Y. Yin, Z. Li, and Z. Zhang, “Diverse feature
+     blend based on filter-bank common spatial pattern and brain functional
+     connectivity for multiple motor imagery detection,” IEEE Access,
+     vol. 8, pp. 168331–168341, Aug. 2020.
+[28] X. Li, H. Fan, H. Wang, and L. Wang, “Common spatial patterns
+     combined with phase synchronization information for classification
+     of EEG signals,” Biomedical Signal Processing and Control, vol. 52,
+     pp. 248–256, July 2019.
+[29] I. Siviero, G. Menegaz, and S. F. Storti, “Functional connectivity
+     and feature fusion enhance multiclass motor-imagery brain-computer
+     interface performance,” Sensors, vol. 23, p. 7520, Jan. 2023.
+[30] Q. Ai et al., “Feature extraction of four-class motor imagery EEG
+

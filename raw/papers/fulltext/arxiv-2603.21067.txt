@@ -1,0 +1,2780 @@
+                                                 A Bayesian Framework for Quantifying
+                                                  Association Between Functional and
+                                                   Structural Data in Neuroimaging
+
+                                                                        Sakul Mahat ∗
+arXiv:2603.21067v1 [stat.ME] 22 Mar 2026
+
+
+
+
+                                                      Department of Statistics, Texas A&M University
+                                                                             and
+                                                                      Sharmistha Guha
+                                                      Department of Statistics, Texas A&M University
+                                                                             and
+                                                                       Jessica Bernard
+                                             Department of Psychological & Brain Sciences, Texas A&M University
+
+                                                                                   March 24, 2026
+
+
+                                                                                        Abstract
+
+                                                     Structural and functional neuroimaging modalities provide distinct yet complemen-
+                                                 tary windows into brain organization. Structural imaging characterizes the anatomy
+                                                 and microstructure of neural tissue, elucidating the physical architecture that supports
+                                                 brain function. Functional imaging, in contrast, captures dynamic patterns of neural
+                                                 activity and connectivity, revealing how information is processed and transmitted
+                                                 across brain regions in real time. Together, these modalities offer a more complete
+                                                 picture of brain organization than either could provide alone. Recent advances in
+                                                 multimodal neuroimaging have led to a growing body of work on joint modeling of
+                                                 structural and functional data, with the goal of deepening our understanding of the
+                                                 neurological processes that arise from their interplay. Much of this literature operates
+                                                 under the assumption of a strong association between brain structure and function,
+                                                 and exploits this relationship to improve prediction and interpretability. However,
+                                                 relatively little attention has been given to developing rigorous, statistically principled
+                                                 frameworks for formally testing hypotheses about the strength and nature of these
+                                                 associations. Existing approaches typically rely on simple correlation-based measures
+                                                 or heuristic integration strategies, which may fail to capture the complex dependencies
+                                                 and structured variability inherent in neuroimaging data, particularly when func-
+                                                 tional data are represented as brain networks and structural data as region-specific
+                                                 anatomical measures. In this work, we address this gap by developing an explicit
+                                             ∗
+                                              The authors gratefully acknowledge the advanced computing resources provided by the Texas A&M
+                                           Department of Statistics Arseven Computing Cluster.
+
+
+                                                                                             1
+     Bayesian hypothesis testing framework for quantifying associations between structural
+     and functional neuroimaging data. Our approach first constructs functional brain
+     networks from fMRI data, then integrates them with structural measurements through
+     a hierarchical Bayesian model derived from complementary modalities. The Bayesian
+     formulation provides a coherent probabilistic framework that naturally accommodates
+     two types of datasets with different structures, incorporates prior knowledge, and
+     yields full posterior uncertainty quantification. Through extensive empirical studies,
+     we demonstrate that the proposed method achieves excellent performance in detecting
+     associations under a wide range of settings, including varying signal-to-noise ratios,
+     different numbers of brain regions, and diverse sets of structural imaging measures.
+
+Keywords: Multimodal neuroimaging, Bayesian hypothesis testing, Brain connectivity,
+Structure-function association, Spike-and-slab priors, Latent factor models.
+
+
+
+
+                                               2
+1    Introduction
+
+Structural and functional neuroimaging provide complementary perspectives on the or-
+
+ganization and operation of the human brain. Structural modalities such as structural
+
+magnetic resonance imaging (sMRI) and diffusion tensor imaging (DTI) characterize gray
+
+matter morphology, cortical thickness, white matter integrity, and microstructural proper-
+
+ties, yielding detailed maps of the brain’s physical architecture (Ashburner & Friston 2000).
+
+Functional modalities, most notably functional MRI (fMRI), capture time-varying patterns
+
+of blood-oxygen-level-dependent (BOLD) signal fluctuations, which are used to infer neural
+
+activation and inter-regional coupling at rest or during tasks (Ogawa et al. 1990, Smith et al.
+
+2013). Together, these modalities offer a more holistic view of brain organization: structural
+
+measures describe the anatomical scaffold, whereas functional data reveal the dynamic
+
+activity and communication/connectivity that this scaffold supports (Park & Friston 2013).
+
+Over the last decade, there has been substantial interest in jointly modeling structural
+
+and functional neuroimaging data to investigate how brain architecture shapes functional
+
+dynamics. Correlation-based and network-analytic studies have shown that structural
+
+connectivity constrains functional interactions at both global and regional scales, with white
+
+matter pathways supporting and limiting patterns of functional connectivity (Honey et al.
+
+2010, Hermundstad et al. 2013, Honey et al. 2009). Multivariate statistical techniques,
+
+including multivariate regression, canonical correlation analysis, and related fusion methods,
+
+have been employed to identify shared components and joint patterns of variability across
+
+modalities (Sui et al. 2012, Calhoun & Sui 2016). Graph-theoretical approaches have further
+
+enabled comparison of structural and functional brain networks in terms of modularity,
+
+efficiency, and hub structure (Bullmore & Sporns 2009). More recently, machine learning
+
+frameworks, including multi-kernel learning and deep neural network models, have been
+
+proposed to leverage cross-modal features for improved prediction of clinical or cognitive
+
+
+                                              3
+outcomes (Kawahara et al. 2017, Parisot et al. 2018).
+
+Within supervised learning, multimodal integration has been explored in scalar-on-image,
+
+image-on-scalar, and image-on-image regression frameworks, all aimed at fusing informa-
+
+tion across imaging modalities to address complex biomedical questions. Image-on-scalar
+
+regression treats imaging data (from multiple modalities) as responses and develops joint
+
+models that relate these outcomes to subject-level clinical and biological predictors. Recent
+
+work has, for example, jointly regressed structural and functional measures on brain-related
+
+phenotypes to identify regions associated with cognitive disorders, neurodegeneration, or
+
+aging trajectories (Gutierrez et al. 2025, Rodriguez-Acosta et al. 2025).
+
+In contrast, most supervised frameworks treat multimodal imaging as predictors rather
+
+than responses, leading to scalar-on-image regression settings. For example, Xue et al.
+
+(2018), Gutierrez et al. (2024), Guha et al. (2024) develop methods for scalar-on-multimodal-
+
+predictor regression, allowing nonlinear relationships between a scalar response and high-
+
+dimensional imaging predictors. Image-on-image regression has also been considered to
+
+develop predictive models of one imaging modality based on others; for example, Guo et al.
+
+(2022), Ma et al. (2023) propose Bayesian regression models that predict a single response
+
+image from multiple image predictors, providing a principled way to interpolate or impute
+
+imaging modalities.
+
+Parallel to these statistical approaches, generative deep learning methods have attracted
+
+increasing attention for multimodal neuroimaging. Such models seek to synthesize structural
+
+or functional images conditional on covariates (e.g., diagnosis, age) or other imaging
+
+modalities, using architectures such as conditional GANs, variational autoencoders and
+
+Monte Carlo dropout architecture (Suzuki 2017, Lei et al. 2025, Jeon et al. 2025, Coombes
+
+et al. 2015, Bowles et al. 2018, Wolterink et al. 2017), leading to tools offering powerful
+
+predictive capabilities.
+
+
+                                             4
+The overarching philosophy behind multimodal data integration is that shared information
+
+across modalities can be exploited to improve inference, prediction, or both. However, most
+
+existing frameworks are designed primarily for predictive modeling or for joint representation
+
+learning under an implicit assumption of association, rather than for formal inference on the
+
+strength and nature of structural–functional relationships. As a result, conclusions about
+
+structure–function coupling are frequently based on heuristic thresholds (e.g., magnitude of
+
+loadings, empirical correlations) rather than on statistically principled probabilistic measures
+
+of association.
+
+Several studies have attempted to quantify structure–function relationships using simple
+
+correlations, similarity metrics, or low-rank linear projections (Honey et al. 2010, Hermund-
+
+stad et al. 2013, Mišić et al. 2016). While informative, these approaches can be limited in
+
+their ability to capture nonlinear and higher-order dependencies, especially when functional
+
+data are graph-valued (network connectivity) and structural data are heterogeneous (e.g., a
+
+mix of volumetric, cortical thickness, and diffusion-based metrics). Moreover, many existing
+
+methods for testing cross-modal association vectorize each modality (Sui et al. 2009, Correa
+
+et al. 2010), thereby ignoring the inherent spatial, network, or topological structure of the
+
+data and potentially reducing power or interpretability.
+
+Motivated by these gaps, we develop a fully Bayesian framework to quantify the strength
+
+of association between structural and functional data. The central idea is to represent
+
+functional brain connectivity as a graph whose nodes correspond to anatomically defined
+
+regions of interest (ROIs) and whose edges capture pairwise correlations in fMRI time
+
+series between ROIs. This graph representation preserves the topological structure of
+
+functional interactions while allowing integration with region-specific structural variables,
+
+such as ROI-level measures extracted from T1- and T2-weighted structural MRI scans. Our
+
+model introduces a shared set of latent vectors that simultaneously capture two key sources
+
+
+
+                                               5
+of dependence: (a) the transitivity and community structure inherent in the functional
+
+connectivity network, reflecting the tendency of ROIs with strong mutual connections
+
+to also connect to common neighbors; (b) the covariation among structural measures
+
+across ROIs, enabling joint modeling of anatomy and connectivity within a unified latent
+
+space. By coupling the latent representation of structural and functional modalities, our
+
+approach provides a coherent Bayesian framework for testing associations at multiple levels.
+
+Specifically, it enables (i) ROI-level inference, where each structural variable can be tested
+
+for association with the corresponding node’s connectivity profile in the functional graph,
+
+and (ii) global inference, which assesses the overall strength of association between the
+
+entire set of structural and functional measurements. The Bayesian formulation not only
+
+facilitates principled testing but also yields full posterior uncertainty quantification, ensuring
+
+interpretable inference.
+
+
+
+2     Multi-Modal Imaging Data To Study Brain Func-
+
+      tional & Structural Association
+
+Data Collection: This article focuses on a multi-modal human neuroimaging data from the
+
+Lifespan Cognitive and Motor Neuroimaging Laboratory at Texas A&M University,
+
+College Station. The data set, collected first-hand by co-author Bernard, originates from
+
+a longitudinal study of 138 healthy adults (age 35-86, mean age 57, 54% female) tracking
+
+changes in brain and behavior with age. The final analytical cohort included 126 participants
+
+after removing individuals with incomplete or low-quality data. For each participant, the
+
+dataset comprises functional and structural/anatomical neuroimaging scans, together with
+
+subject-specific clinical and behavioral assessments. Eligibility for this study was contingent
+
+on the absence of specific medical conditions. Subjects were deemed ineligible if they had a
+
+documented history of neurological or psychiatric disorders (including stroke, depression, or
+
+                                                6
+anxiety). Exclusion was also based on contraindications to the magnetic resonance imaging
+
+environment, such as metallic implants or an inability to tolerate the procedure.
+
+Participants were scanned using a 3.0 Tesla Siemens Magnetom Verio scanner fitted with
+
+a 32-channel head coil. The collection of high-resolution structural images involved a
+
+7-minute T1-weighted MPRAGE sequence and a 5.5-minute T2-weighted sequence, both
+
+providing 0.8 mm3 isotropic voxels and accelerated with a multiband factor of 2 (TRs of 2400
+
+ms and 3200 ms, respectively). Following scans to obtain brain structural images, resting-
+
+state brain functional activity was measured through four separate blood oxygen level
+
+dependent (BOLD) fMRI runs, each using a rapid sampling rate (TR = 720 ms) and high
+
+acceleration (multiband = 8) to capture 488 brain volumes with 2.5 mm3 voxels. The imaging
+
+parameters were adapted from established standards set by the Human Connectome Project
+
+(Harms et al. (2018)) and the University of Minnesota’s Center for Magnetic Resonance
+
+Research to ensure alignment with best practices for data sharing and reproducibility. The
+
+preprocessing pipeline mirrored the approach established in recent work on this dataset
+
+by Hicks et al. (2023) and Ballard et al. (2022). Initially, the raw DICOM images were
+
+transformed into the NIFTI format and structured according to the Brain Imaging Data
+
+Structure (BIDS, version 1.6.0) using the bidskit docker container. To enable distortion
+
+correction, B0 field maps were generated by extracting a single volume from two BOLD
+
+images with opposing phase-encoding directions, a task performed with the FSL split tool
+
+(Jenkinson et al. (2012)). Finally, the complete dataset underwent comprehensive anatomical
+
+and functional preprocessing via fMRIPrep (https://fmriprep.org/), an automated workflow
+
+that prepares neuroimaging data for statistical analysis.
+
+Brain Functional and Structural Data: The regions of interest (ROIs) were defined
+
+according to six established large-scale brain networks following Jackson & Bernard (2023):
+
+the default mode, frontoparietal, control, emotion, motor, and a subcortical cerebellar–basal
+
+
+
+                                             7
+ganglia network. From these networks, a set of 69 ROIs was delineated to ensure that the
+
+functional data were spatially aligned with the corresponding structural segmentations. For
+
+each participant, BOLD fMRI time series were extracted from these 69 ROIs (illustrated
+
+in Figure 1), yielding the functional neuroimaging measurements. Structural information
+
+on the volume of each ROI was derived from T1- and T2-weighted sequences, which
+
+were likewise summarized at each ROI. The functional Montreal Neurological Institute
+
+(MNI) coordinates reported in Jackson & Bernard (2023) were anatomically labeled using
+
+MRIcroGL by mapping them to regions in the Automated Anatomical Labeling (AAL)
+
+atlas (Tzourio-Mazoyer et al. 2002).
+
+Subject-Level Measures: To quantify fine motor function, participants completed the
+
+Purdue Pegboard task (Lawson 2019). This test involved manipulating pegs, washers, and
+
+cylinders on a pegboard under four conditions, each repeated four times. The conditions
+
+included: (1) placing pegs with the right hand, (2) with the left hand, (3) with both hands
+
+simultaneously, and (4) an assembly task requiring alternating hands. Performance was
+
+scored by averaging the number of items completed in each condition. A total score across
+
+all conditions was then calculated for each participant to create a single behavioral measure,
+
+referred to as the Aggregate Pegboard Score (APS).
+
+Aims of the Data Analysis. The primary objective of this article is to develop and
+
+apply a statistical framework that evaluates the overall association between structural
+
+and functional imaging modalities, while adjusting for a behavioral predictor (APS). As
+
+a structural measure, we use the volume for each ROI, and functional data are used to
+
+construct a brain network over ROIs. Within this framework, we seek to quantify the
+
+strength of structure-function associations in a probabilistic fashion, that is, to estimate the
+
+posterior probability of association between the two modalities after accounting for subject-
+
+level covariates. This probability-of-association formulation yields a direct and interpretable
+
+
+
+                                               8
+measure of evidence for structure-function coupling at both global and feature-specific
+
+scales.
+
+
+
+3     Model Formulation
+
+3.1       Notations
+
+Consider a brain parcellation into V regions of interest (ROIs) R1 , ..., RV defined according
+
+to a given brain atlas. For subject i = 1, ..., N , let {fi,1 (t), ..., fi,V (t)}, t = t1 , ..., tT ,
+
+denote the BOLD fMRI time series recorded from each ROI. We construct the functional
+
+connectivity graph for subject i denoted Ai ∈ RV ×V , where the V nodes correspond to
+
+the ROIs. The edge weight ai,v,v′ quantifies the strength of association between regions Rv
+
+and Rv′ and is given by the Fisher z-transformed Pearson correlation between the time
+
+series (fi,v (t1 ), ..., fi,v (tT ))T and (fi,v′ (t1 ), ..., fi,v′ (tT ))T . By construction, the connectivity
+
+graph is undirected and has no self-loops, so ai,v,v′ = ai,v′ ,v and ai,v,v = 0. Similarly, let
+
+Yi ∈ RV ×P represent the structural data for subject i, where yi,v,k is the measurement
+
+of kth structural variable (k = 1, ..., P ) at ROI Rv . Thus, for each subject, we observe
+
+two complementary data sources, the functional connectivity matrix Ai encoding pairwise
+
+associations between ROIs; and the structural feature matrix Yi , containing multiple
+
+anatomical or microstructural measures for each ROI. We also record a covariate xi ∈ R
+
+representing a subject-specific behavioral characteristic, namely the APS.
+
+This section presents the proposed modeling framework, including the latent space formu-
+
+lation for graph connectivity and structural variables, the prior structure, the inferential
+
+quantities used to assess associations, and details of posterior computation.
+
+
+
+
+                                                      9
+3.2      Latent Space Model for Brain Connectivity Graph and Struc-
+
+         tural Variables
+
+We adopt a conditionally random effects model with shared latent effects to characterize
+
+the association between brain connectivity graphs and structural variables. The key idea is
+
+to introduce ROI-specific latent factors that drive both brain connectivity and structural
+
+variation, thereby creating a principled mechanism for linking the two modalities and testing
+
+association.
+
+Brain Connectivity Graph Model. The observed connectivity ai,v,v′ between regions
+
+Rv and Rv′ for the ith subject is modeled as a function of ROI-specific latent variables:
+
+               ai,v,v′ = µi + xi βx,G + h(η i,v , η i,v′ , λ) + ϵi,v,v′ ,      ϵi,v,v′ ∼ N (0, σ 2 ),            (1)
+
+where µi is the subject-specific intercept, βx,G ∈ R denotes the coefficient for the subject-
+
+specific behavioral covariate (APS), η i,v = (ηi,v,1 , . . . , ηi,v,R )T and η i,v′ = (ηi,v′ ,1 , . . . , ηi,v′ ,R )T
+
+are the R-dimensional latent factors corresponding to the ROIs Rv and Rv′ , respectively,
+
+λ = (λ1 , . . . , λR )T is a vector of inclusion variables, with λr = 0 signifying exclusion of
+
+the r-th latent dimension from explaining connectivity, h(·) encodes the functional form
+
+through which ROI-level latent factors and inclusion indicators shape the edge strengths,
+
+and σ 2 is the variance of idiosyncratic errors.
+
+Structural Variables Model. The structural data are modeled in a way that shares ROI-
+
+specific latent factors with the brain connectivity model, thus enabling direct assessment of
+
+structural–functional associations. For subject i, the structural measurement of variable k
+
+at ROI Rv , denoted by yi,v,k , is given by,
+
+               yi,v,k = θi,k + xi βx,S + g(η i,v , αi,k , ω k ) + δi,v,k ,      δi,v,k ∼ N (0, ϕ2k ),            (2)
+
+
+where θi,k is the subject- and variable-specific intercept, βx,S ∈ R denotes the coefficient for
+
+the subject-specific behavioral covariate (APS), αi,k = (αi,k,1 , . . . , αi,k,R )T is a structural
+
+                                                         10
+variable-specific latent factor for each subject, and ω k = (ωk,1 , . . . , ωk,R )T are the inclusion
+
+variables for the dimensions of latent factors. Here, g(·) defines how ROI-level latent factors,
+
+variable-specific latent factors, and inclusion indicators combine to explain variability in
+
+yi,v,k , and ϕ2k is the variance of idiosyncratic errors. By sharing the ROI-specific latent
+
+factors η i,v across the two models, the framework directly links structural variables with
+
+functional connectivity, thereby facilitating both ROI-level and global association tests
+
+across modalities, as elaborated in the following sections.
+
+Choice of h(·) and g(·). To characterize the relationship between latent factors and the
+
+observed data, we adopt a bilinear interaction structure (Athreya et al. 2018, Guha &
+
+Rodriguez 2021) for both functions. Specifically,
+
+
+                                     R
+                                     X                                                        R
+                                                                                              X
+           h(η i,v , η i,v′ , λ) =         ηi,v,r ηi,v′ ,r λr ,    g(η i,v , αi,k , ω k ) =         ηi,v,r αi,k,r ωk,r ,   (3)
+                                     r=1                                                      r=1
+
+
+In the graph model, the bilinear construction of h(·) is well-suited to capture important
+
+topological features of graphs such as transitivity, clustering, and community organization,
+
+which are hallmark properties of brain connectivity graphs. In the structural model,
+
+g(·) allows structural variables to be explained through the alignment of variable-specific
+
+latent factors with the same latent dimensions that govern connectivity. This enables the
+
+framework to jointly represent how anatomical measurements covary with graph structure
+
+across subjects. The bilinear structure in (3) naturally ensures that if λr = 0, r-th latent
+
+dimension does not contribute to graph connectivity, while if ωk,r = 0 the same dimension
+
+does not explain variability in the k-th structural variable.
+
+
+
+3.3     Hierarchical Prior Specification
+
+To complete the model formulation, we specify priors for latent factors, regression coeffi-
+
+cients, and inclusion variables. All priors are chosen to balance flexibility, sparsity, and
+
+                                                                  11
+computational tractability.
+
+All latent factors, baseline intercepts, and coefficients associated with demographic and
+
+clinical covariates are assigned Gaussian priors, thereby allowing the observed data to drive
+
+inference on subject- and region-specific effects. In particular, the intercept for the graph
+
+model µi , and the structural variable-specific intercepts θi,k for each subject are given N (0, 1)
+
+priors. ROI-specific latent factors η i,v , as well as structural variable-specific latent factors
+
+αi,k are assigned N (0, ση2 IR ) and N (0, σα2 IR ) priors, respectively. The coefficients for the
+
+behavioral covariate (APS), βx,G and βx,S , each follow a standard normal prior.
+
+A central feature of the model is the ability to automatically select relevant latent dimensions
+
+that explain structural–functional associations. To this end, we place spike-and-slab priors
+
+on the inclusion variables.
+
+Prior on graph model inclusion variable. Each interaction parameter λr is expressed
+
+as
+
+                                λr ∼ γr N (0, τr−1 ) + (1 − γr )δ0 ,                           (4)
+
+where γr ∈ {0, 1} is the inclusion indicator for the r-th latent dimension. The prior
+
+distribution γr ∼ Bernoulli(πλ ) determines whether a dimension contributes to connectiv-
+
+ity. Precision parameters are drawn from τr ∼ Gamma(q 3(r−1) , q 2(r−1) ), which encourages
+
+shrinkage of higher-order latent dimensions.
+
+Prior on structural model inclusion variable. Analogously, each structural variable
+
+activates a subset of latent dimensions through
+
+                                                 −1
+                              ωk,r ∼ ψk,r N (0, νk,r ) + (1 − ψk,r )δ0 ,                       (5)
+
+
+with inclusion indicators ψk,r         ∼    Bernoulli(πψ,k ).       The precision terms follow
+
+νk,r ∼ Gamma(q 3(r−1) , q 2(r−1) ), allowing structural modalities to selectively engage
+
+relevant latent dimensions, creating flexibility across variables and subjects.
+
+                                                 12
+Hyperpriors for mixing probabilities and variance parameters. The inclusion
+
+probabilities are given Beta hyperpriors, πλ ∼ Beta(aλ , bλ ) and πψ,k ∼ Beta(aψ , bψ ), which
+
+adaptively regulate sparsity both at the latent dimension level and across structural modali-
+
+ties. All variance components, σ 2 , ϕ2k , ση2 , σα2 , are assigned conjugate Inverse-Gamma priors,
+
+IG(a, b).
+
+
+
+3.4    Global and Local Association between Brain Connectivity
+
+       Graph and Structural Variables
+
+A central scientific objective is to quantify the extent of shared latent structure between
+
+graph connectivity and structural modalities. To this end, we consider two levels of testing:
+
+(a) Local association testing evaluates the degree of association between each individual
+
+structural variable and the graph, thereby identifying structural features that share latent
+
+dimensions with functional connectivity; (b) Global association testing evaluates the joint
+
+association across all structural variables and the graph, thereby quantifying the overall
+
+strength of structural-functional dependence.
+
+Local association testing. Let γ = (γ1 , . . . , γR )T denote the R-dimensional vector
+
+of inclusion indicators corresponding to latent dimensions in the graph model, and let
+
+ψ k = (ψk,1 , . . . , ψk,R )T denote the corresponding inclusion indicators for the k-th structural
+
+variable. We define the local association metric for the structural variable k as
+
+
+                                      AL,k (γ, ψ k ) = γ T ψ k .                                (6)
+
+
+This simple inner product measures the number of latent dimensions jointly active in both
+
+the graph model (γr = 1) and the k-th structural variable (ψk,r = 1). Hence, a larger value of
+
+the posterior probability P (AL,k (γ, ψ k ) > 0|data) indicates that the k-th structural variable
+
+shares more latent structure with the functional graph, while P (AL,k (γ, ψ k ) > 0|data) = 0
+
+
+                                                 13
+implies that no dimensions are shared. Local testing thus pinpoints which structural
+
+variables drive functional connectivity through overlapping latent representations.
+
+
+
+
+Figure 1: Overview of the proposed Bayesian framework. Functional MRI time series are
+
+summarized as functional connectivity networks with edges ai,v,v′ (connecting ROIs Rv and
+
+Rv′ ), and structural MRI data provide ROI-wise structural measures yi,v,k at ROI Rv . Both
+
+modalities are linked through shared latent factors ηi,v . A Gibbs sampler is used to obtain
+
+the joint posterior over all parameters, from which we derive a global association measure AG
+
+(overall coupling across modalities) and local association measures AL,k (modality-specific
+
+structure–function coupling).
+
+
+
+Global association testing. Let Ψr denote a P × P diagonal matrix with the k-th
+
+diagonal entry ψk,r , and let δψ,r = det(I − Ψr ) denote the indicator of the residual structure
+
+after excluding latent dimension r from all structural variables. Collecting these across
+
+dimensions, define δ ψ = (δψ,1 , . . . , δψ,R )T . The global association metric is then defined as
+
+
+                                   AG (γ, ψ) = γ T (1R − δ ψ ).                                 (7)
+
+                                                14
+This metric counts the number of latent dimensions that are simultaneously active in the
+
+graph model (γr = 1) and in at least one structural variable model (ψk,r = 1, for some k).
+
+A value of P (AG > 0|data) = 0 indicates modality-specific structure with no shared latent
+
+factors, while P (AG > 0|data) > 0 implies the presence of shared latent dimensions that
+
+jointly explain functional connectivity and structural attributes.
+
+
+
+3.5    Identifiability Considerations
+
+As is typical in latent variable models, the latent factors η i,v and αi,k are identifiable only up
+
+to orthogonal transformations, and parameters such as λr and ωk,r are identifiable only up
+
+to sign and scale. However, the AG and AL,k statistics, depending only on binary inclusion
+
+indicators, are invariant to such transformations and remain interpretable. Proposition 1
+
+describes a result confirming this fact.
+
+Proposition 1 (Invariance of AG and AL,k ). The statistics AL,k and AG are invariant
+
+under signed permutation and scaling transformations.
+
+                             PR                         PR             QP
+Proof. Note that, AL,k =       r=1 γr ψk,r and AG =      r=1 γr [1 −    k=1 (1 − ψk,r )].   Therefore,
+
+both statistics depend on the zero-nonzero structure of the pairs (λr , ωk,r ). Permutation
+
+only relabels coordinates of γ and ψ k vectors; since AL,k and AG are summations over
+
+all r, their values are invariant to reordering. Similarly, scaling by c ̸= 0 preserves the
+
+zero-nonzero structure of the pair (λr , ωk,r ).
+
+
+
+
+3.6    Posterior Computation
+
+The posterior distributions of the proposed model parameters are analytically intractable,
+
+but conditional distributions for each block of parameters are available in closed form due
+
+
+
+                                                   15
+to the conjugate hierarchical prior structure. This enables efficient Gibbs sampling for
+
+posterior inference, where parameters are updated iteratively from their full conditional
+
+distributions. The explicit forms of these full conditionals are presented in Appendix A.
+
+After discarding burn-in iterations, we obtain posterior samples {γ (1) , . . . , γ (F ) } and
+   (1)       (F )
+{ψ k , . . . , ψ k }, k = 1, . . . , P , for the latent inclusion indicators corresponding to the graph
+
+and structural variables. These posterior draws are then used to compute probabilities
+
+for both local and global association metrics. The posterior probability that the local
+
+association metric AL,k takes a specific value s is estimated by the Monte Carlo proportion
+
+of samples for which the realized value equals s:
+
+                                                   F
+                                               1 X                       (f )
+                      P (AL,k = s | data) =           I(AL,k (γ (f ) , ψ k ) = s),
+                                               F f =1
+
+where I(·) denotes the indicator function. This provides a direct probabilistic statement
+
+about the strength of association between the graph and the k-th structural variable.
+
+Similarly, the global association metric AG is evaluated at each posterior draw. The
+
+posterior probability of AG taking a particular value s is given by
+
+                                                   F
+                                               1 X
+                         P (AG = s | data) =          I(AG (γ (f ) , ψ (f ) ) = s).
+                                               F f =1
+
+This yields an interpretable measure of evidence for global structural–functional association
+
+across all modalities.
+
+While the main emphasis of the model is on testing associations between structural and
+
+functional modalities, the framework also supports predictive inference. We note that because
+
+the model includes subject-specific parameters (µi , θi,k , η i,v , αi,k ), prediction for new (out-
+
+of-sample) subjects is not directly available from the fitted model. We therefore evaluate
+
+predictive performance via a node-holdout scheme, in which structural measurements yi,v∗ ,k
+
+at a subset of ROIs are masked prior to model fitting. For each posterior draw f = 1, . . . , F ,
+                                             (f )        (f )        (f )   (f )      (f )   (f )2
+predictive samples are generated as N (θi,k + xiT β x,S + g(η i,v∗ , αi,k , ω k ), ϕk ), where the
+
+                                                    16
+posterior distribution of η i,v∗ is informed by the observed functional connectivity edges
+
+ai,v∗ ,v′ rather than by the masked structural data. Details of this evaluation are presented
+
+in Section 4.
+
+
+
+4     Simulation Studies
+
+To assess the performance of our proposed Bayesian hierarchical model for the joint analysis
+
+of brain connectivity graphs and structural data, we carried out a comprehensive simulation
+
+study under a range of settings. The primary goal was to evaluate the model’s ability to
+
+accurately estimate both the local association metrics {AL,k : k = 1, ..., P } and the global
+
+association metric AG , which together quantify the dependence between graph connectivity
+
+and structural measurements. In addition, we examined the model’s predictive accuracy in
+
+terms of offering point prediction and predictive uncertainty for graph edges and structural
+
+data, and compare the performance with marginal models that analyze graph and structural
+
+data separately.
+
+
+
+4.1     Data Simulation and Evaluation Criteria
+
+In each simulation scenario, we generated synthetic datasets according to the graph and
+
+structural models in Eq. (1), (2), and (3), with N = 200 subjects and V = 25 brain
+
+regions. Latent factors ηi,v , structural variable specific factors αi,k , structural variable
+
+specific intercept θi,k , and subject-specific intercept for the graph model µi were sampled
+
+from their respective prior distributions, setting the dimension of both ηi,v and αi,k to
+
+R∗ = 5. To systematically evaluate model performance, we varied several key parameters:
+
+    • Number of structural variables: P ∈ {3, 5}.
+
+    • True global association: A∗G ∈ {0, 2, 4}, where 0 indicates no global association
+
+
+
+                                             17
+      between structural and graph data, with stronger dependence at larger values.
+
+  • Signal-to-noise ratio (SNR): To examine robustness under different data quality
+
+      conditions, we varied the SNR for both network and structural components, defined as
+
+                             Var(η ⊤
+                                   i,v ∆η i,v ′ )                          Var(η ⊤
+                                                                                 i,v Ωk αi,k )
+                SNRgraph =                        ,    SNRstructural,k =                       ,
+                                    σ2                                            ϕ2k
+
+     where ∆ = diag(λ1 , . . . , λR ) and Ωk = diag(ωk,1 , . . . , ωk,R ). Datasets were generated
+
+      under three regimes: High (SNR 4–8), Moderate (SNR 1–2), and Very Low (SNR
+
+      0.2–0.5) by scaling the noise variances while holding the signal magnitudes fixed.
+
+This simulation framework encompasses six distinct settings, each examined under high,
+
+moderate, and very low signal-to-noise ratio (SNR) conditions. In order to mirror the signal
+
+characteristics typically observed in neuroimaging studies, we emphasize moderate SNR
+
+values, which represent the most common and informative regime, while avoiding scenarios
+
+with unrealistically high SNR. Very low SNR settings are included primarily to identify
+
+the point at which model performance deteriorates, though we do not expect the model to
+
+capture meaningful associations in these cases.
+
+The simulations vary systematically in the number of structural variables, the extent of
+
+cross-modality associations, and the level of SNR. This comprehensive design allows us
+
+to assess the joint model’s ability to recover local and global association metrics across a
+
+spectrum of realistic data-generating conditions. For each simulation scenario, the joint
+
+model is fit using latent dimensionalities R = 5 and R = 10, enabling evaluation of how the
+
+choice of latent space size influences model performance. Combining six foundational data
+
+settings with two choices of R results in a total of 12 simulation scenarios, as detailed in
+
+Table 1. To further ensure the robustness and reproducibility of our results, each scenario
+
+is replicated 20 times.
+
+We estimated the posterior distribution of the global association metric AG and visualized
+
+
+                                                  18
+Table 1: Summary of the 12 simulation scenarios. Each scenario is evaluated under three
+
+SNR regimes (high, moderate, and very-low).
+
+
+                Scenarios 1–6 (P = 3)                Scenarios 7–12 (P = 5)
+
+          Sim     P   Rfit   A∗G    A∗L,k      Sim    P    Rfit   A∗G          A∗L,k
+
+            1     3    5      0    (0, 0, 0)    7      5    5      0       (0, 0, 0, 0, 0)
+
+            2     3    5      2    (2, 2, 2)    8      5    5      2       (2, 2, 2, 2, 2)
+
+            3     3    5      4    (4, 4, 4)    9      5    5      4       (4, 4, 4, 4, 4)
+
+            4     3    10     0    (0, 0, 0)   10      5   10      0       (0, 0, 0, 0, 0)
+
+            5     3    10     2    (2, 2, 2)   11      5   10      2       (2, 2, 2, 2, 2)
+
+            6     3    10     4    (4, 4, 4)   12      5   10      4       (4, 4, 4, 4, 4)
+
+
+these results using dotplots. Due to the large number of local association metrics AL,k
+
+for k = 1, ..., P , it is impractical to plot each individually. To succinctly summarize the
+
+posterior distributions of AL,k , we assess estimation accuracy using the absolute deviation
+
+(AD)
+
+                                                                  R
+           AD(AL,k ) = |E(AL,k ) − A∗L,k |, where E(AL,k ) =
+                                                                  X
+                                                                        r ∗ P (AL,k = r)     (8)
+                                                                  r=0
+
+
+Here, E(AL,k ) denotes the posterior mean of AL,k , and A∗L,k is the true value under the
+
+data-generating process. This metric reflects the difference between the estimated posterior
+
+mean and the actual local association for each k = 1, ..., P . By jointly evaluating posterior
+
+probabilities of AG and absolute deviations AD(AL,k ), we systematically characterize the
+
+posterior distributions of both global and local association metrics, providing a rigorous
+
+assessment of the model’s ability to recover true underlying associations.
+
+To further evaluate the advantage of jointly modeling graph and structural data, we compared
+
+our proposed approach with a competing baseline strategy in which the structural modality
+
+                                               19
+is analyzed independently. Specifically, we compared the joint model against a separate
+
+structural-only model, which is estimated in isolation without sharing latent factors with
+
+the graph data. Using the node-holdout scheme described in Section 4, we then compared
+
+the mean squared predictive error (MSPE) for the masked structural nodes, and quantified
+
+imputation uncertainty through the coverage and length of 95% predictive intervals. This
+
+comparison highlights how exploiting shared structure across modalities in the joint model
+
+can substantially improve node-level imputation accuracy. Because the joint model allows
+
+the observed edges in the graph modality to inform the missing structural measurements,
+
+it yields superior recovery of the masked data compared to the structural-only model,
+
+particularly when the degree of association between the two modalities is strong.
+
+
+
+4.2    Study of Global and Local Association Metrics
+
+Figure 2 presents the estimated posterior probabilities P (AG = r) for each possible value
+
+r = 1, .., R across various simulation scenarios in the high SNR setting. The results reveal
+
+a consistently clear pattern: the posterior probability corresponding to the true value,
+
+P (AG = A∗G ), is overwhelmingly dominant and approaches 1 in every scenario. This
+
+reflects both the model’s high confidence and precise accuracy in detecting the true global
+
+association strength when the signal is strong. Notably, P (AG = A∗G ) serves as a direct
+
+measure of uncertainty, indicating that the model reliably and decisively identifies the true
+
+value with minimal ambiguity in its inference. Furthermore, the model’s performance under
+
+high SNR demonstrates robustness; it remains unaffected by the total number of structural
+
+variables included in the data, as well as by the choice of latent dimensionality (R = 5 or
+
+R = 10). This resilience suggests that the method is stable and reliable across a broad
+
+range of realistic neuroimaging conditions.
+
+
+
+
+                                              20
+      0                                         0                                        0                                         0
+                                                1                                                                                  1
+      1                                         2                                        1                                         2
+                                                3                                                                                  3
+ AG   2                                         4                                        2                                         4
+
+
+
+
+                                          AG
+
+
+
+
+                                                                                    AG
+
+
+
+
+                                                                                                                             AG
+                                                5                                                                                  5
+      3                                         6                                        3                                         6
+                                                7                                                                                  7
+      4                                         8                                        4                                         8
+                                                9                                                                                  9
+      5                                        10                                        5                                        10
+          0   0.2   0.4   0.6   0.8   1             0   0.2   0.4   0.6   0.8   1            0   0.2   0.4   0.6   0.8   1             0   0.2   0.4   0.6   0.8   1
+
+
+      0                                         0                                        0                                         0
+                                                1                                                                                  1
+      1                                         2                                        1                                         2
+                                                3                                                                                  3
+      2                                         4                                        2                                         4
+ AG
+
+
+
+
+                                          AG
+
+
+
+
+                                                                                    AG
+
+
+
+
+                                                                                                                             AG
+                                                5                                                                                  5
+      3                                         6                                        3                                         6
+                                                7                                                                                  7
+      4                                         8                                        4                                         8
+                                                9                                                                                  9
+      5                                        10                                        5                                        10
+          0   0.2   0.4   0.6   0.8   1             0   0.2   0.4   0.6   0.8   1            0   0.2   0.4   0.6   0.8   1             0   0.2   0.4   0.6   0.8   1
+
+
+      0                                         0                                        0                                         0
+                                                1                                                                                  1
+      1                                         2                                        1                                         2
+                                                3                                                                                  3
+      2                                         4                                        2                                         4
+ AG
+
+
+
+
+                                          AG
+
+
+
+
+                                                                                    AG
+
+
+
+
+                                                                                                                             AG
+                                                5                                                                                  5
+      3                                         6                                        3                                         6
+                                                7                                                                                  7
+      4                                         8                                        4                                         8
+                                                9                                                                                  9
+      5                                        10                                        5                                        10
+          0   0.2   0.4   0.6   0.8   1             0   0.2   0.4   0.6   0.8   1            0   0.2   0.4   0.6   0.8   1             0   0.2   0.4   0.6   0.8   1
+
+
+
+
+Figure 2: Dotplots present the posterior distributions of AG across the twelve simulation
+
+scenarios under high SNR conditions. On the y-axis, the red point indicates the true value
+
+of AG . The layout assigns the first column to scenarios 1–3, the second to 4–6, the third to
+
+7–9, and the fourth to 10–12. Across all scenarios, the posterior probability that AG matches
+
+its true value is close to 1, underscoring the robust accuracy of the proposed method.
+
+
+
+A similar pattern emerges under moderate SNR, as illustrated in Figure 3. Here too,
+
+P (AG = A∗G ) is maximized, and model performance is unaffected by either the complexity
+
+of the data or the latent space size. These findings are particularly relevant given that
+
+high and moderate SNR settings closely match the signal quality encountered in typical
+
+neuroimaging studies.
+
+
+
+
+                                                                                21
+      0                                         0                                        0                                         0
+                                                1                                                                                  1
+      1                                         2                                        1                                         2
+                                                3                                                                                  3
+ AG   2                                         4                                        2                                         4
+
+
+
+
+                                          AG
+
+
+
+
+                                                                                    AG
+
+
+
+
+                                                                                                                             AG
+                                                5                                                                                  5
+      3                                         6                                        3                                         6
+                                                7                                                                                  7
+      4                                         8                                        4                                         8
+                                                9                                                                                  9
+      5                                        10                                        5                                        10
+          0   0.2   0.4   0.6   0.8   1             0   0.2   0.4   0.6   0.8   1            0   0.2   0.4   0.6   0.8   1             0   0.2   0.4   0.6   0.8   1
+
+
+      0                                         0                                        0                                         0
+                                                1                                                                                  1
+      1                                         2                                        1                                         2
+                                                3                                                                                  3
+      2                                         4                                        2                                         4
+ AG
+
+
+
+
+                                          AG
+
+
+
+
+                                                                                    AG
+
+
+
+
+                                                                                                                             AG
+                                                5                                                                                  5
+      3                                         6                                        3                                         6
+                                                7                                                                                  7
+      4                                         8                                        4                                         8
+                                                9                                                                                  9
+      5                                        10                                        5                                        10
+          0   0.2   0.4   0.6   0.8   1             0   0.2   0.4   0.6   0.8   1            0   0.2   0.4   0.6   0.8   1             0   0.2   0.4   0.6   0.8   1
+
+
+      0                                         0                                        0                                         0
+                                                1                                                                                  1
+      1                                         2                                        1                                         2
+                                                3                                                                                  3
+      2                                         4                                        2                                         4
+ AG
+
+
+
+
+                                          AG
+
+
+
+
+                                                                                    AG
+
+
+
+
+                                                                                                                             AG
+                                                5                                                                                  5
+      3                                         6                                        3                                         6
+                                                7                                                                                  7
+      4                                         8                                        4                                         8
+                                                9                                                                                  9
+      5                                        10                                        5                                        10
+          0   0.2   0.4   0.6   0.8   1             0   0.2   0.4   0.6   0.8   1            0   0.2   0.4   0.6   0.8   1             0   0.2   0.4   0.6   0.8   1
+
+
+
+
+Figure 3: Dotplots present the posterior distributions of AG across the twelve simulation
+
+scenarios under moderate SNR conditions. On the y-axis, the red point indicates the true
+
+value of AG . The layout assigns the first column to scenarios 1–3, the second to 4–6, the
+
+third to 7–9, and the fourth to 10–12. Across all scenarios, the posterior probability that
+
+AG matches its true value is close to 1, underscoring the robust accuracy of the proposed
+
+method.
+
+
+
+As the signal-to-noise ratio decreases, particularly in the very low SNR setting, the model
+
+performs well by correctly signaling the absence of a global association between the connec-
+
+tivity graph and structural variables, as evidenced in the first row of Figure 4. However,
+
+when the true strength of association increases (i.e., A∗G = 2 or 4), the model’s ability
+
+to recover the correct association deteriorates markedly. In these scenarios, the posterior
+
+probability assigned to incorrect values, P (AG ̸= A∗G ), exceeds that assigned to the true
+
+value, highlighting a substantial decline in inference accuracy caused by the limited signal.
+
+
+
+
+                                                                                22
+      0                                         0                                        0                                         0
+                                                1                                                                                  1
+      1                                         2                                        1                                         2
+                                                3                                                                                  3
+ AG   2                                         4                                        2                                         4
+
+
+
+
+                                          AG
+
+
+
+
+                                                                                    AG
+
+
+
+
+                                                                                                                             AG
+                                                5                                                                                  5
+      3                                         6                                        3                                         6
+                                                7                                                                                  7
+      4                                         8                                        4                                         8
+                                                9                                                                                  9
+      5                                        10                                        5                                        10
+          0   0.2   0.4   0.6   0.8   1             0   0.2   0.4   0.6   0.8   1            0   0.2   0.4   0.6   0.8   1             0   0.2   0.4   0.6   0.8   1
+
+
+      0                                         0                                        0                                         0
+                                                1                                                                                  1
+      1                                         2                                        1                                         2
+                                                3                                                                                  3
+      2                                         4                                        2                                         4
+ AG
+
+
+
+
+                                          AG
+
+
+
+
+                                                                                    AG
+
+
+
+
+                                                                                                                             AG
+                                                5                                                                                  5
+      3                                         6                                        3                                         6
+                                                7                                                                                  7
+      4                                         8                                        4                                         8
+                                                9                                                                                  9
+      5                                        10                                        5                                        10
+          0   0.2   0.4   0.6   0.8   1             0   0.2   0.4   0.6   0.8   1            0   0.2   0.4   0.6   0.8   1             0   0.2   0.4   0.6   0.8   1
+
+
+      0                                         0                                        0                                         0
+                                                1                                                                                  1
+      1                                         2                                        1                                         2
+                                                3                                                                                  3
+      2                                         4                                        2                                         4
+ AG
+
+
+
+
+                                          AG
+
+
+
+
+                                                                                    AG
+
+
+
+
+                                                                                                                             AG
+                                                5                                                                                  5
+      3                                         6                                        3                                         6
+                                                7                                                                                  7
+      4                                         8                                        4                                         8
+                                                9                                                                                  9
+      5                                        10                                        5                                        10
+          0   0.2   0.4   0.6   0.8   1             0   0.2   0.4   0.6   0.8   1            0   0.2   0.4   0.6   0.8   1             0   0.2   0.4   0.6   0.8   1
+
+
+
+
+Figure 4: Dotplots display the posterior distributions of AG for each of the twelve simulation
+
+scenarios under very low SNR conditions. The red point on the y-axis marks the true value
+
+of AG . The arrangement places scenarios 1–3 in the first column, 4–6 in the second, 7–9 in
+
+the third, and 10–12 in the fourth. In these low-signal settings, the method has difficulty
+
+assigning the highest posterior probability to the true value of AG when A∗G is nonzero,
+
+that is, as the true strength of association increases, the model’s recovery performance
+
+diminishes.
+
+
+
+Moreover, this decline in performance is further exacerbated as the latent dimensionality
+
+parameter R increases, despite the true value being R∗ = 5. Under very low SNR, the
+
+model struggles even more with higher latent space dimensions, suggesting that excessive
+
+model complexity amplifies estimation uncertainty and reduces reliability in the presence of
+
+weak signal. These findings emphasize the challenges inherent in association recovery under
+
+adverse signal conditions and underscore the importance of aligning model complexity with
+
+available data quality.
+
+
+                                                                                23
+     Table 2: Absolute deviation of local associations AD(ALK ) across Low, Medium, and High
+
+     SNR levels. Each cell is P -dimensional showing AD(AL,k ) values for k = 1, .., P . Smaller
+
+     values indicate better recovery of the true local association. The model shows recovery with
+
+     high accuracy for most simulation scenarios.
+
+
+Sim P Rfitted     A∗L,k        Low SNR: AD(AL,k )             Med SNR: AD(AL,k )             High SNR: AD(AL,k )
+
+1     3    5     (0,0,0)          (0.81, 0.32, 0.21)             (0.28, 0.11, 0.12)             (0.01, 0.02, 0.03)
+
+2     3    5     (2,2,2)          (1.91, 1.85, 0.58)             (0.31, 0.23, 0.83)             (0.02, 0.21, 0.13)
+
+3     3    5     (4,4,4)          (3.90, 3.95, 3.96)             (0.91, 0.35, 0.91)             (0.10, 0.20, 0.19)
+
+4     3    10    (0,0,0)          (0.71, 0.67, 0.91)             (0.21, 0.12, 0.19)             (0.01, 0.02, 0.01)
+
+5     3    10    (2,2,2)          (1.97, 1.97, 1.97)             (1.12, 0.55, 0.97)             (0.12, 0.11, 0.20)
+
+6     3    10    (4,4,4)          (3.00, 2.99, 3.90)             (2.75, 1.20, 1.33)             (0.09, 0.06, 0.02)
+
+7     5    5    (0,0,0,0,0) (1.12, 2.13, 1.11, 0.99, 1.31) (0.91, 0.88, 1.23, 0.78, 0.56) (0.02, 0.09, 0.11, 0.08, 0.02)
+
+8     5    5    (2,2,2,2,2) (1.63, 2.86, 2.78, 2.11, 2.12) (1.01, 1.01, 0.12, 0.11, 0.98) (0.01, 0.02, 0.01, 0.01, 0.01)
+
+9     5    5    (4,4,4,4,4) (3.20, 2.10, 3.89, 0.82, 0.92) (1.15, 0.36, 0.71, 0.91, 0.21) (0.01, 0.21, 0.01, 0.09, 0.12)
+
+10    5    10   (0,0,0,0,0) (1.13, 2.22, 1.29, 1.12, 2.21) (0.82, 0.15, 0.25, 0.13, 0.11) (0.01, 0.01, 0.09, 0.08, 0.01)
+
+11    5    10   (2,2,2,2,2) (1.99, 1.95, 1.98, 1.78, 1.89) (1.01, 1.01, 1.57, 0.89, 0.93) (0.01, 0.06, 0.12, 0.31, 0.01)
+
+12    5    10   (4,4,4,4,4) (3.40, 2.76, 3.90, 2.19, 3.11) (0.89, 0.21, 1.10, 0.98, 0.99) (0.01, 0.12, 0.09, 0.98, 0.21)
+
+
+
+
+Table 2 presents the accuracy of estimating the local association metric AL,k for each
+
+k = 1, ..., P . In high SNR scenarios, the accuracy metric remains nearly zero, indicating
+
+highly precise recovery of the true local association values A∗L,k . As the SNR decreases,
+
+estimation accuracy declines. Moderate SNR regimes still yield reasonable identification
+
+of the true local associations, while very low SNR conditions result in noticeably elevated
+
+accuracy scores, reflecting increased estimation error.
+
+Under very low SNR, this deterioration becomes increasingly pronounced as the true local
+
+association strength grows (i.e., with larger A∗L,k ). Furthermore, estimation challenges in
+
+these low-signal settings are exacerbated when the latent dimensionality is misspecified (e.g.,
+
+                                                       24
+when R = 10 while the ground truth is R∗ = 5), leading to higher errors in estimating A∗L,k .
+
+It is important to note that such latent space misspecification has a negligible effect in
+
+moderate and high SNR scenarios, where the model’s recovery of local associations remains
+
+robust.
+
+
+
+4.3       Predictive Inference via Node-Holdout Imputation
+
+As described in Section 4, we evaluate predictive performance by masking structural
+
+measurements yi,v∗ ,k at a random subset of nodes for each subject and comparing the joint
+
+model against a structural-only baseline. Under the joint model, the shared latent factor
+
+ηi,v∗ is informed by the observed functional connectivity edges ai,v∗ ,v′ , whereas the separate
+
+model must rely entirely on the prior.
+
+If the modalities are globally independent (i.e., A∗G = 0), both the joint and separate
+
+models should yield comparable mean squared prediction errors (MSPEs). However, when
+
+an association is present (A∗G > 0), the joint model should achieve better predictive
+
+performance, along with improved characterization of predictive uncertainty. Accordingly,
+
+we exclude simulation settings with A∗G = 0 (namely, scenarios 1, 4, 7 and 10), and focus
+
+our comparison on scenarios where A∗G > 0, specifically, scenarios 2, 3, 5, 6, 8, 9, 11 and 12,
+
+across high, moderate, and very-low SNR levels.
+
+Figure 5 illustrates the average predictive performance for structural node-holdout imputa-
+
+tion across varying SNR regimes. The joint model consistently outperforms the separate
+
+structural-only model, achieving a lower MSPE and significantly narrower predictive in-
+
+tervals across all simulated scenarios. This performance gap is a direct consequence of
+
+the joint model’s ability to leverage the observed functional connectivity edges (ai,v∗ ,v′ )
+
+to inform the posterior distribution of the shared latent factor ηi,v∗ for the held-out node.
+
+In contrast, the separate model, lacking access to the network modality, is forced to rely
+
+
+                                              25
+                                                                                         0.98
+       6       Model:            Joint         Separate
+               SNR:          High             Moderate          Low                                                                                               8
+
+
+
+
+                                                                       95% PI Coverage
+                                                                                         0.96
+
+
+
+
+                                                                                                                                                  95% PI Length
+       4                                                                                                                                                          6
+MSPE
+
+
+
+
+                                                                                                                                                                  4
+       2                                                                                 0.94
+
+
+
+                                                                                                                                                                  2
+
+       0                                                                                 0.92
+            2
+
+                     3
+
+                             5
+
+                                    6
+
+                                              8
+
+                                                     9
+                                                           11
+
+                                                                  12
+
+
+
+
+                                                                                                 2
+
+                                                                                                         3
+
+                                                                                                              5
+
+                                                                                                                      6
+
+                                                                                                                           8
+
+                                                                                                                                   9
+                                                                                                                                        11
+
+                                                                                                                                             12
+
+
+
+
+                                                                                                                                                                       2
+
+                                                                                                                                                                               3
+
+                                                                                                                                                                                    5
+
+                                                                                                                                                                                            6
+
+                                                                                                                                                                                                 8
+
+                                                                                                                                                                                                         9
+                                                                                                                                                                                                              11
+
+                                                                                                                                                                                                                      12
+           m
+
+                 m
+
+                         m
+
+                                  m
+
+                                         m
+
+                                                  m
+
+
+
+
+                                                                                                m
+
+                                                                                                     m
+
+                                                                                                             m
+
+                                                                                                                  m
+
+                                                                                                                          m
+
+                                                                                                                               m
+
+
+
+
+                                                                                                                                                                      m
+
+                                                                                                                                                                           m
+
+                                                                                                                                                                                   m
+
+                                                                                                                                                                                        m
+
+                                                                                                                                                                                                m
+
+                                                                                                                                                                                                     m
+                                                         m
+
+                                                                m
+
+
+
+
+                                                                                                                                   m
+
+                                                                                                                                         m
+
+
+
+
+                                                                                                                                                                                                             m
+
+                                                                                                                                                                                                                   m
+       Si
+
+                Si
+
+                        Si
+
+                              Si
+
+                                         Si
+
+                                                Si
+
+
+
+
+                                                                                            Si
+
+                                                                                                    Si
+
+                                                                                                         Si
+
+                                                                                                                 Si
+
+                                                                                                                      Si
+
+                                                                                                                              Si
+
+
+
+
+                                                                                                                                                                  Si
+
+                                                                                                                                                                          Si
+
+                                                                                                                                                                               Si
+
+                                                                                                                                                                                       Si
+
+                                                                                                                                                                                            Si
+
+                                                                                                                                                                                                    Si
+                                                      Si
+
+                                                             Si
+
+
+
+
+                                                                                                                                   Si
+
+                                                                                                                                        Si
+
+
+
+
+                                                                                                                                                                                                         Si
+
+                                                                                                                                                                                                                 Si
+                         (a) MSPE                                                          (b) 95 % PI Coverage                                                        (c) 95 % PI Length
+
+
+Figure 5: Structural node-holdout imputation: (a) MSPE, (b) 95% PI Coverage, and
+
+(c) 95% PI Length for Joint and Separate models across associated scenarios (A∗G > 0),
+
+evaluated under high (blue), moderate (green), and low (orange) SNR levels. Results are
+
+averaged over 20 replications.
+
+
+on the hierarchical prior distribution for the held-out latent factors, η i,v∗ ∼ N (0, ση2 I).
+
+Furthermore, as shown in Figure 5b, the joint model maintains nominal 95% coverage even
+
+while providing significantly greater predictive precision. This indicates that the reduction
+
+in interval length (Figure 5c) is not achieved through overconfidence, but rather through a
+
+genuine gain in information afforded by the cross-modality borrowing of strength. While the
+
+predictive advantage is most pronounced in high and moderate SNR conditions, the joint
+
+model remains superior even in low SNR settings, where the network topology provides a
+
+critical stabilizing signal that is otherwise absent in the structural-only approach.
+
+The distributional characteristics of the prediction error and interval efficiency are further
+
+detailed in Figures 6 and 7. As demonstrated by the MSPE boxplots in Figure 6, the joint
+
+model consistently yields a lower median error and significantly reduced dispersion compared
+
+to the separate model. This reduction in variance across replications suggests that the joint
+
+
+
+                                                                                                                 26
+                                                                                             2.2                                                                          1.6
+                            Joint        Separate                                                       Joint        Separate                                                        Joint        Separate
+
+
+
+                 4.4
+                                                                                             1.8                                                                          1.2
+
+
+
+
+                                                                                                                                                        MSPE (High SNR)
+                                                                            MSPE (Med SNR)
+MSPE (Low SNR)
+
+
+
+
+                 4.0                                                                         1.4                                                                          0.8
+
+
+
+
+                 3.6                                                                         1.0                                                                          0.4
+                        2
+
+                                3
+
+                                     5
+
+                                             6
+
+                                                  8
+
+                                                          9
+                                                               11
+
+                                                                       12
+
+
+
+
+                                                                                                    2
+
+                                                                                                            3
+
+                                                                                                                 5
+
+                                                                                                                         6
+
+                                                                                                                              8
+
+                                                                                                                                      9
+                                                                                                                                           11
+
+                                                                                                                                                   12
+
+
+
+
+                                                                                                                                                                                 2
+
+                                                                                                                                                                                         3
+
+                                                                                                                                                                                              5
+
+                                                                                                                                                                                                      6
+
+                                                                                                                                                                                                           8
+
+                                                                                                                                                                                                                   9
+                                                                                                                                                                                                                        11
+
+                                                                                                                                                                                                                                12
+                       m
+
+                            m
+
+                                    m
+
+                                         m
+
+                                                 m
+
+                                                      m
+
+
+
+
+                                                                                                   m
+
+                                                                                                        m
+
+                                                                                                                m
+
+                                                                                                                     m
+
+                                                                                                                             m
+
+                                                                                                                                  m
+
+
+
+
+                                                                                                                                                                                m
+
+                                                                                                                                                                                     m
+
+                                                                                                                                                                                             m
+
+                                                                                                                                                                                                  m
+
+                                                                                                                                                                                                          m
+
+                                                                                                                                                                                                               m
+                                                              m
+
+                                                                    m
+
+
+
+
+                                                                                                                                          m
+
+                                                                                                                                                m
+
+
+
+
+                                                                                                                                                                                                                       m
+
+                                                                                                                                                                                                                             m
+                   Si
+
+                           Si
+
+                                Si
+
+                                        Si
+
+                                             Si
+
+                                                     Si
+
+
+
+
+                                                                                               Si
+
+                                                                                                       Si
+
+                                                                                                            Si
+
+                                                                                                                    Si
+
+                                                                                                                         Si
+
+                                                                                                                                 Si
+
+
+
+
+                                                                                                                                                                            Si
+
+                                                                                                                                                                                    Si
+
+                                                                                                                                                                                         Si
+
+                                                                                                                                                                                                 Si
+
+                                                                                                                                                                                                      Si
+
+                                                                                                                                                                                                              Si
+                                                          Si
+
+                                                                  Si
+
+
+
+
+                                                                                                                                      Si
+
+                                                                                                                                              Si
+
+
+
+
+                                                                                                                                                                                                                   Si
+
+                                                                                                                                                                                                                           Si
+                            (a) Low SNR                                                                 (b) Med SNR                                                                  (c) High SNR
+
+
+Figure 6: Distribution of MSPE for structural node-holdout imputation across 20 replications
+
+under (a) low, (b) medium, and (c) high SNR. Boxplots compare the Joint model (pink)
+
+and Separate model (green) across associated scenarios (A∗G > 0).
+
+
+framework provides a more robust and stable imputation mechanism; whereas the separate
+
+model’s predictions are highly sensitive to the sparsity of the structural data, the joint
+
+model regularizes the imputation of missing nodes through the subject-specific connectivity
+
+structure. This gain in predictive efficiency is most evident in Figure 7, where the 95% PI
+
+lengths for the joint model are substantially tighter than those of the separate model across
+
+all SNR levels. In the high SNR regime, the separate model exhibits nearly double the
+
+interval width of the joint model in several scenarios, reflecting a high degree of predictive
+
+waste caused by ignoring the network-informed latent structure. Even as the signal-to-noise
+
+ratio decreases, the joint model maintains its advantage in uncertainty quantification. These
+
+results collectively demonstrate that by integrating multimodal information into a shared
+
+latent space, the joint model achieves a more concentrated posterior for missing structural
+
+values, resulting in imputations that are both more accurate and more precise than those
+
+produced by isolated modeling.
+
+
+
+
+                                                                                                                     27
+                                                                                                                                                                                                   5
+                          8.4        Joint        Separate                                                              Joint        Separate                                                               Joint        Separate
+
+
+
+
+                                                                                                                                                                        95% PI Length (High SNR)
+                                                                                     95% PI Length (Med SNR)
+95% PI Length (Low SNR)
+
+                          8.1                                                                                                                                                                      4
+                                                                                                               5
+
+
+
+                          7.8                                                                                                                                                                      3
+
+
+                                                                                                               4
+                          7.5
+                                                                                                                                                                                                   2
+
+
+
+                          7.2
+                                 2
+
+                                         3
+
+                                              5
+
+                                                      6
+
+                                                           8
+
+                                                                   9
+                                                                        11
+
+                                                                                12
+
+
+
+
+                                                                                                                    2
+
+                                                                                                                            3
+
+                                                                                                                                 5
+
+                                                                                                                                         6
+
+                                                                                                                                              8
+
+                                                                                                                                                      9
+                                                                                                                                                           11
+
+                                                                                                                                                                   12
+
+
+
+
+                                                                                                                                                                                                        2
+
+                                                                                                                                                                                                                3
+
+                                                                                                                                                                                                                     5
+
+                                                                                                                                                                                                                             6
+
+                                                                                                                                                                                                                                  8
+
+                                                                                                                                                                                                                                          9
+                                                                                                                                                                                                                                               11
+
+                                                                                                                                                                                                                                                       12
+                                m
+
+                                     m
+
+                                             m
+
+                                                  m
+
+                                                          m
+
+                                                               m
+
+
+
+
+                                                                                                                   m
+
+                                                                                                                        m
+
+                                                                                                                                m
+
+                                                                                                                                     m
+
+                                                                                                                                             m
+
+                                                                                                                                                  m
+
+
+
+
+                                                                                                                                                                                                       m
+
+                                                                                                                                                                                                            m
+
+                                                                                                                                                                                                                    m
+
+                                                                                                                                                                                                                         m
+
+                                                                                                                                                                                                                                 m
+
+                                                                                                                                                                                                                                      m
+                                                                       m
+
+                                                                             m
+
+
+
+
+                                                                                                                                                          m
+
+                                                                                                                                                                m
+
+
+
+
+                                                                                                                                                                                                                                              m
+
+                                                                                                                                                                                                                                                    m
+                            Si
+
+                                    Si
+
+                                         Si
+
+                                                 Si
+
+                                                      Si
+
+                                                              Si
+
+
+
+
+                                                                                                               Si
+
+                                                                                                                       Si
+
+                                                                                                                            Si
+
+                                                                                                                                    Si
+
+                                                                                                                                         Si
+
+                                                                                                                                                 Si
+
+
+
+
+                                                                                                                                                                                                   Si
+
+                                                                                                                                                                                                           Si
+
+                                                                                                                                                                                                                Si
+
+                                                                                                                                                                                                                        Si
+
+                                                                                                                                                                                                                             Si
+
+                                                                                                                                                                                                                                     Si
+                                                                   Si
+
+                                                                           Si
+
+
+
+
+                                                                                                                                                      Si
+
+                                                                                                                                                              Si
+
+
+
+
+                                                                                                                                                                                                                                          Si
+
+                                                                                                                                                                                                                                                  Si
+                                     (a) Low SNR                                                                            (b) Med SNR                                                                     (c) High SNR
+
+
+Figure 7: Distribution of 95% PI lengths for structural node-holdout imputation across 20
+
+replications under (a) low, (b) medium, and (c) high SNR. Joint model (pink) and Separate
+
+model (green) are compared across associated scenarios (A∗G > 0).
+
+
+
+
+5                               Application to Multi-Modal Brain Imaging Data
+
+We apply the proposed joint modeling framework to brain structural and functional data
+
+from N = 126 participants in order to assess the strength of association between the two
+
+imaging modalities, after accounting for subject-level covariates. The functional component
+
+consists of network-valued data derived from BOLD fMRI time series across 69 ROIs,
+
+leading to an undirected graph with 69 nodes, represented by a 69 × 69 symmetric adjacency
+
+matrix. The structural component comprises brain volume of each ROI extracted from T1-
+
+and T2-weighted scans. For each subject, we also include the APS Score as a behavioral
+
+predictor.
+
+We fit the joint model under several choices of the latent dimension, R ∈ {5, 10, 15}, and
+
+compare its performance to that of a corresponding “solo” structural model that treats
+
+the modality in isolation. For each specification, we summarize posterior inference via (i)
+
+
+                                                                                                                                     28
+the posterior probability of the global association metric being nonzero, P (AG > 0|Data),
+
+and (ii) predictive performance for the structural data using the node-holdout imputation
+
+framework. Predictive performance is evaluated using the mean squared prediction error
+
+(MSPE), 95% predictive interval (PI) coverage, and the average length of the 95% PIs.
+
+Notably, since we have only one structural measure (P = 1), the local association metric
+
+AL,1 coincides with the global association metric AG , and we therefore report only AG .
+
+Dotplots in Figure 8 summarize the posterior distribution of the global association metric AG
+
+for different choices of the latent dimension R. For each value of R, we obtain P (AG > 0) ≈ 1,
+
+indicating overwhelming evidence for a nontrivial association between the structural and
+
+functional modalities. Moreover, across all values of R, the posterior mass is concentrated
+
+at AG = 3, so that P (AG = 3 | Data) is the largest among the possible association levels.
+
+We also observe that P (AG = 3 | Data) increases with the latent dimension, yielding
+
+the strongest posterior support for AG = 3 when R = 15. This behavior is expected: a
+
+larger R allows the model to capture more complex shared variation between the structural
+
+and functional data by accommodating a richer low-rank dependence structure. As R
+
+increases, the model can more flexibly represent cross-modal covariance patterns, leading to
+
+a clearer separation between weaker and stronger association regimes. Consequently, the
+
+posterior more confidently assigns probability to the highest association level (AG = 3) in
+
+higher-dimensional latent spaces, reflecting an enhanced ability to detect and characterize
+
+the underlying structure–function coupling. The result stabilizes when R increases above
+
+15, and is not shown.
+
+Table 3 presents the node-holdout predictive performance on real neuroimaging data across
+
+varying latent dimensions. The Joint model uniformly outperforms the Separate approach
+
+across all evaluated ranks, demonstrating the clear advantage of leveraging shared cross-
+
+modal information for network imputation. While the Separate model’s predictive error and
+
+
+                                              29
+                                                      10                                            15
+     5                                                                                              14
+                                                       9                                            13
+                                                       8                                            12
+     4
+                                                                                                    11
+                                                       7                                            10
+     3                                                 6                                             9
+                                                                                                     8
+AG
+
+
+
+
+                                                 AG
+
+
+
+
+                                                                                               AG
+                                                       5
+                                                                                                     7
+     2                                                 4                                             6
+                                                       3                                             5
+                                                                                                     4
+     1                                                 2                                             3
+                                                       1                                             2
+     0                                                                                               1
+                                                       0                                             0
+
+         0.0   0.2     0.4   0.6   0.8    1.0              0.0   0.2   0.4   0.6   0.8   1.0             0.0   0.2     0.4   0.6   0.8   1.0
+
+
+
+
+                     (a) R = 5                                     (b) R = 10                                    (c) R = 15
+
+
+Figure 8: Dotplots of the global association indicator AG across latent dimensions R. The
+
+result shows P (AG = 3) is high consistently for different values of R indicating reliable
+
+inference in identifying strong structural-functional data association.
+
+
+uncertainty metrics remain stagnant regardless of the latent dimension, the Joint framework
+
+exhibits sensitivity to the chosen rank. It achieves its optimal point-prediction accuracy
+
+at the lowest evaluated rank, with performance slightly stabilizing at higher dimensions.
+
+Crucially, irrespective of the latent dimension, the Joint model provides superior uncertainty
+
+quantification, consistently yielding narrower predictive intervals while maintaining empirical
+
+coverage closer to the nominal target.
+
+Table 3: Node-holdout predictive performance on real neuroimaging data across latent
+
+dimensions R ∈ {5, 10, 15}. Bold values indicate the superior model.
+
+
+                                                R=5                          R = 10                      R = 15
+
+                       Metric            Joint   Separate              Joint       Separate    Joint           Separate
+
+                       MSPE              0.512        0.628            0.567        0.628      0.568                 0.629
+
+                       Length            2.835        2.997            2.880        2.998      2.847                 2.998
+
+                       Coverage          0.948        0.941            0.949        0.939      0.945                 0.941
+
+
+
+
+                                                                        30
+6     Conclusion and Future Work
+
+In this paper, we proposed a Bayesian joint modeling framework for quantifying the associ-
+
+ation between functional neuroimaging data, expressed in the form of a brain network over
+
+ROIs, and multivariate structural measures over ROIs, with an application to multimodal
+
+neuroimaging data. Our approach is designed to test for structure–function association,
+
+while flexibly borrowing information across modalities through a shared low-rank latent
+
+representation. The model accommodates subject-level behavioral covariates, such as the
+
+Aggregate Pegboard score, and yields interpretable probability-of-association summaries
+
+that directly quantify evidence for structure–function coupling. Empirical results from
+
+the neuroimaging application indicate overwhelming evidence for a nontrivial association
+
+between structural and functional modalities, which appears to be robust to the choice
+
+of model tuning parameters (e.g., dimensions of the latent factors), reflecting the model’s
+
+enhanced ability to capture complex shared variation in richer latent spaces. Comparisons
+
+between joint modeling of structural and functional data, and solo models further demon-
+
+strate that joint modeling improves predictive performance for both network and structural
+
+outcomes, as evidenced by lower mean squared prediction error and shorter or comparable
+
+predictive intervals.
+
+Several promising directions for future research emerge from this work. First, on the
+
+methodological front, it would be valuable to extend the proposed framework to include
+
+additional imaging modalities (e.g., diffusion MRI, task-based fMRI, or molecular imaging),
+
+enabling comprehensive multi-modal integration within a unified probabilistic model and
+
+allowing for pairwise association testing between imaging modalities. Second, broadening
+
+the current cross-sectional approach to longitudinal or developmental data would make it
+
+possible to study how structure-function associations change over time or during disease
+
+progression. Lastly, there is a need to develop scalable inference algorithms suited for very
+
+
+                                             31
+high-dimensional networks and large cohorts, potentially drawing on techniques such as
+
+variational inference, stochastic gradient MCMC, or distributed computation.
+
+
+
+A      Full Posterior Conditionals
+
+This section provides details of posterior computation for all parameters in the Bayesian
+
+hierarchical model. For brevity, the conditionals below omit the covariate terms xi βx,G and
+
+xi βx,S ; when covariates are present, each residual is adjusted accordingly.
+
+                                     ⊤
+                     ai,v,v′ = µi + ηi,v ∆ηi,v′ + ϵi,v,v′ ,     ϵi,v,v′ ∼ N (0, σ 2 ),
+
+                                       ⊤
+                      yi,v,k = θi,k + ηi,v Ωk αi,k + δi,v,k ,    δi,v,k ∼ N (0, ϕ2k ),
+
+                         ∆ = diag(λ1 , . . . , λR ),    Ωk = diag(ωk,1 , . . . , ωk,R ).
+
+
+We use the following parametrization for the updates of parameters γr and ψk,r : we rewrite
+
+the model as a = w + Kλr + ϵ (for γr ) or y = w + Kωk,r + δ (for ψk,r ), where a ∈ RN m ,
+
+y ∈ RN V , with m = V (V2−1) . Vectors a and y are formed by stacking all subjects i = 1, . . . , N ,
+
+and all pairs v < v ′ (for a), or all voxels v (for y). Corresponding design matrix K stacks the
+
+terms involving ηi,v,r , ηi,v′ ,r (for λr ) or ηi,v,r , αi,k,r (for ωk,r ), while w collects contributions
+
+from all remaining parameters (e.g., µi , θi,k , λr′ , ωk,r′ , with r′ ̸= r).
+
+
+Priors are specified as:
+
+
+
+
+                                                       32
+                  ηi,v ∼ N (0, ση2 I),                αi,k ∼ N (0, σα2 I),
+
+                    µi ∼ N (0, 1),                θi,k ∼ N (0, 1),
+
+     σ 2 , ϕ2k , ση2 , σα2 ∼ Inverse-Gamma(a, b),
+
+            λr | γr ∼ N (0, τr−1 ),                   γr ∼ Bern(πλ ),                  τr ∼ Gamma(q 3(r−1) , q 2(r−1) ),
+
+                             −1
+        ωk,r | ψk,r ∼ N (0, νk,r ),                   ψk,r ∼ Bern(πψ,k ),                  νk,r ∼ Gamma(q 3(r−1) , q 2(r−1) ),
+
+                    πλ ∼ Beta(aλ , bλ ),                         πψ,k ∼ Beta(aψ , bψ ).
+
+
+The hierarchical model specified above leads to straightforward Gibbs sampling with full
+
+conditionals obtained as following:
+
+  • ηi,v | − ∼ N (µi,v , Σi,v )
+                                                                                                                  −1
+                  1 P                          ⊤  P 1                     ⊤   1
+     Σi,v =       σ2 v ′ ̸=v ∆ηi,v ′ (∆ηi,v ′ ) +  k ϕ2 Ωk αi,k (Ωk αi,k ) + ση2 I
+                                                      k
+                                                                                                                    
+                         1 P                                  P 1
+     µi,v = Σi,v         σ2 v ′ ̸=v (ai,v,v ′ − µi )∆ηi,v ′ +  k ϕ2 (yi,v,k − θi,k )Ωk αi,k
+                                                                  k
+
+
+
+  • αi,k | − ∼ N (µαi,k , Σαi,k )
+                                                                   −1
+                     1 P   ⊤       ⊤         1
+     Σαi,k =        ϕ2k v Ωk ηi,v ηi,v Ωk + σα2 I
+
+                                                                         
+                               1 P   ⊤
+     µαi,k = Σαi,k            ϕ2k v Ωk ηi,v (yi,v,k − θi,k )
+
+                                  
+  • µi | − ∼ N               B 1
+                                               A = V (Vσ−1)/2                  B = σ12                            ⊤
+                                                                                               v<v ′ (ai,v,v ′ − ηi,v ∆ηi,v ′ )
+                                                                                            P
+                              ,
+                             A A
+                                       ,                 2    + 1,
+                                    
+                              B 1                                                                     ⊤
+  • θi,k | − ∼ N                                A = ϕV2 + 1,              B = ϕ12        v (yi,v,k − ηi,v Ωk αi,k )
+                                                                                       P
+                               ,
+                              A A
+                                           ,
+                                                             k                     k
+                    
+                             
+                       B    1
+                    N Arr , Ar ,                 γr = 1
+                    
+                    
+  • λr | − ∼
+                    
+                    
+                    0,                           γr = 0
+                    
+                    
+
+
+     Ar = σ12                                            2
+                  P P
+                     i       v<v ′ (ηi,v,r ηi,v ′ ,r )       + τr
+                                                                                                              
+     Br = σ12                                             ai,v,v′ − µi −
+                  P P                                                          P
+                     i       v<v ′ ηi,v,r ηi,v ′ ,r                            r′ ̸=r λr′ ηi,v,r′ ηi,v ′ ,r′
+
+                              πλ ·N (a|w,σ 2 I+τr−1 KK ⊤ )
+  • P (γr = 1 | −) = π ·N a|w,σ2 I+τ −1 KK ⊤ +(1−π )·N (a|w,σ2 I)
+                      λ  (           r        )       λ
+
+
+
+                                                                          33
+               
+                                                   
+                       1                        1
+               Gamma 2 + q 3(r−1) , q 2(r−1) + 2 λ2r ,
+               
+               
+                                                                                         γr = 1
+  • τr | − ∼
+               
+                                       
+               Gamma q 3(r−1) , q 2(r−1) ,                                               γr = 0
+               
+               
+
+
+  • πλ | − ∼ Beta (aλ +                           bλ + R −
+                                    P                            P
+                                       r γr ,                       r γr )
+                   
+                            
+                      Bk,r 1
+                   N A , A     ,                     ψk,r = 1
+                   
+                   
+                             k,r        k,r
+  • ωk,r | − ∼
+                   
+                   
+                   0,                                ψk,r = 0
+                   
+                   
+
+
+     Ak,r = ϕ12                                   2
+                   P P
+                    i    v (ηi,v,r αi,k,r )           + νk,r
+               k
+
+
+
+     Bk,r = ϕ12          v (yi,v,k − θi,k −               r′ ̸=r ωk,r′ ηi,v,r′ αi,k,r′ ) · ηi,v,r αi,k,r
+                   P P                                  P
+                    i
+               k
+
+                                                                      −1
+                                                  πψ,k ·N (y|w,ϕ2k I+νk,r KK ⊤ )
+  • P (ψk,r = 1 | −) = π                                −1
+                                   ψ,k ·N   (y|w,ϕ2k I+νk,r KK ⊤ )+(1−πψ,k )·N (y|w,ϕ2k I)
+                   
+                                                         
+                           1                        1 2
+                   Gamma 2 + q 3(r−1) , q 2(r−1) + 2 ωk,r
+                   
+                   
+                                                            ,                              ψk,r = 1
+  • νk,r | − ∼
+                   
+                                           
+                   Gamma q 3(r−1) , q 2(r−1) ,                                             ψk,r = 0
+                   
+                   
+
+
+  • πψ,k | − ∼ Beta (aψ +                               bψ + R −
+                                      P                                 P
+                                            r ψk,r ,                      r ψk,r )
+
+                                                                                                                                   
+  • σ 2 | − ∼ Inverse-Gamma a + N V (V4 −1) , b + 12                                                                ⊤
+                                                                                                   (ai,v,v′ − µi − ηi,v ∆ηi,v′ )2
+                                                                                    P P
+                                                                                      i    v<v ′
+
+                                                                                                                         
+                                                                                                        ⊤
+  • ϕ2k | − ∼ Inverse-Gamma a + N2V , b + 12                                        v (yi,v,k − θi,k − ηi,v Ωk αi,k )
+                                                                                                                      2
+                                                                        P P
+                                                                            i
+
+                                                                                                  
+                                                                                        ⊤
+  • ση2 | − ∼ Inverse-Gamma a + N V2 R , b + 12
+                                                                         P P
+                                                                                i    v ηi,v ηi,v
+
+                                                                                                   
+                                                                                        ⊤
+  • σα2 | − ∼ Inverse-Gamma a + N P2 R , b + 21
+                                                                         P P
+                                                                                i    k αi,k αi,k
+
+
+
+
+References
+Ashburner, J. & Friston, K. J. (2000), ‘Voxel-based morphometry—the methods’, Neuroim-
+
+  age 11(6), 805–821.
+
+Athreya, A., Fishkind, D. E., Tang, M., Priebe, C. E., Park, Y., Vogelstein, J. T., Levin,
+
+  K., Lyzinski, V., Qin, Y. & Sussman, D. L. (2018), ‘Statistical inference on random dot
+
+  product graphs: a survey’, Journal of Machine Learning Research 18(226), 1–92.
+
+                                                                   34
+Ballard, H. K., Jackson, T. B., Symm, A. C., Hicks, T. H. & Bernard, J. A. (2022), ‘Age-
+
+  related differences in functional network segregation in the context of sex and reproductive
+
+  stage’, Human Brain Mapping 44(5), 1949–1963.
+
+Bowles, C., Chen, L., Guerrero, R., Bentley, P., Gunn, R., Hammers, A., Dickie, D. A.,
+
+  Hernández, M. V., Wardlaw, J. & Rueckert, D. (2018), ‘Gan augmentation: Augmenting
+
+  training data using generative adversarial networks’, arXiv preprint arXiv:1810.10863 .
+
+Bullmore, E. & Sporns, O. (2009), ‘Complex brain networks: graph theoretical analysis of
+
+  structural and functional systems’, Nature reviews neuroscience 10(3), 186–198.
+
+Calhoun, V. D. & Sui, J. (2016), ‘Multimodal fusion of brain imaging data: a key to
+
+  finding the missing link (s) in complex mental illness’, Biological psychiatry: cognitive
+
+  neuroscience and neuroimaging 1(3), 230–244.
+
+Coombes, B., Basu, S., Guha, S. & Schork, N. (2015), ‘Weighted score tests implementing
+
+  model-averaging schemes in detection of rare variants in case-control studies’, Plos one
+
+  10(10), e0139355.
+
+Correa, N. M., Adali, T., Li, Y.-O. & Calhoun, V. D. (2010), ‘Canonical correlation analysis
+
+  for data fusion and group inferences’, IEEE Signal Processing Magazine 27(4), 39–50.
+
+Guha, S. & Rodriguez, A. (2021), ‘Bayesian regression with undirected network predictors
+
+  with an application to brain connectome data’, Journal of the American Statistical
+
+  Association 116(534), 581–593.
+
+Guha, S., Rodriguez-Acosta, J. & Dinov, I. D. (2024), ‘A bayesian multiplex graph classifier
+
+  of functional brain connectivity across diverse tasks of cognitive control’, Neuroinformatics
+
+  22(4), 457–472.
+
+Guo, C., Kang, J. & Johnson, T. (2022), ‘A spatial bayesian latent factor model for
+
+  image-on-image regression’, Biometrics 78(1), 72–84.
+
+                                              35
+Gutierrez, R., Guhaniyogi, R. & Scheffler, A. (2024), ‘Regression with structured features
+
+  at multiple scales to the study of general cognition in children’.
+
+Gutierrez, R., Scheffler, A., Guhaniyogi, R., Gorno-Tempini, M. L., Mandelli, M. L. &
+
+  Battistella, G. (2025), ‘Multiobject data integration in the study of primary progressive
+
+  aphasia’, The Annals of Applied Statistics 19(4), 3282–3303.
+
+Harms, M. P., Somerville, L. H., Ances, B. M., Andersson, J., Barch, D. M., Bastiani,
+
+  M., Bookheimer, S. Y., Brown, T. B., Buckner, R. L., Burgess, G. C., Coalson, T. S.,
+
+  Chappell, M. A., Dapretto, M., Douaud, G., Fischl, B., Glasser, M. F., Greve, D. N.,
+
+  Hodge, C., Jamison, K. W., Jbabdi, S., Kandala, S., Li, X., Mair, R. W., Mangia, S.,
+
+  Marcus, D., Mascali, D., Moeller, S., Nichols, T. E., Robinson, E. C., Salat, D. H., Smith,
+
+  S. M., Sotiropoulos, S. N., Terpstra, M., Thomas, K. M., Tisdall, M. D., Ugurbil, K.,
+
+  van der Kouwe, A., Woods, R. P., Zöllei, L., Van Essen, D. C. & Yacoub, E. (2018),
+
+ ‘Extending the human connectome project across ages: Imaging protocols for the lifespan
+
+  development and aging projects’, NeuroImage 183, 972–984.
+
+Hermundstad, A. M., Bassett, D. S., Brown, K. S., Aminoff, E. M., Clewett, D., Freeman,
+
+  S., Frithsen, A., Johnson, A., Tipper, C. M., Miller, M. B. et al. (2013), ‘Structural
+
+  foundations of resting-state and task-based functional connectivity in the human brain’,
+
+  Proceedings of the National Academy of Sciences 110(15), 6169–6174.
+
+Hicks, T. H., Magalhães, T. N., Ballard, H. K., Jackson, T. B., Cox, S. J. & Bernard, J. A.
+
+  (2023), ‘Network segregation in aging females and evaluation of the impact of sex steroid
+
+  hormones’, Frontiers in Human Neuroscience 17.
+
+Honey, C. J., Sporns, O., Cammoun, L., Gigandet, X., Thiran, J.-P., Meuli, R. & Hag-
+
+  mann, P. (2009), ‘Predicting human resting-state functional connectivity from structural
+
+  connectivity’, Proceedings of the National Academy of Sciences 106(6), 2035–2040.
+
+
+
+                                             36
+Honey, C. J., Thivierge, J.-P. & Sporns, O. (2010), ‘Can structure predict function in the
+
+  human brain?’, Neuroimage 52(3), 766–776.
+
+Jackson, T. B. & Bernard, J. A. (2023), ‘Cerebello-basal ganglia networks and cortical
+
+  network global efficiency’, The Cerebellum 22, 588–600.
+
+Jenkinson, M., Beckmann, C. F., Behrens, T. E., Woolrich, M. W. & Smith, S. M. (2012),
+
+  ‘Fsl’, NeuroImage 62(2), 782–790.
+
+Jeon, Y., Guhaniyogi, R. & Scheffler, A. (2025), ‘Deep generative modeling with spatial and
+
+  network images: An explainable ai (xai) approach’, arXiv preprint arXiv:2505.12743 .
+
+Kawahara, J., Brown, C. J., Miller, S. P., Booth, B. G., Chau, V., Grunau, R. E., Zwicker,
+
+  J. G. & Hamarneh, G. (2017), ‘Brainnetcnn: Convolutional neural networks for brain
+
+  networks; towards predicting neurodevelopment’, NeuroImage 146, 1038–1049.
+
+Lawson, I. (2019), ‘Purdue pegboard test’, Occupational Medicine 69(5), 376–377.
+
+Lei, B., Guhaniyogi, R., Chandra, K., Scheffler, A. & Mallick, B. (2025), ‘Inva: Integrative
+
+  variational autoencoder for harmonization of multi-modal neuroimaging data’, arXiv
+
+  preprint arXiv:2402.02734 .
+
+Ma, G., Zhao, B., Abu-Amara, H. & Kang, J. (2023), ‘Bayesian image-on-image regression
+
+  via deep kernel learning gaussian processes’, arXiv preprint arXiv:2311.05649 .
+
+Mišić, B., Betzel, R. F., De Reus, M. A., Van Den Heuvel, M. P., Berman, M. G., McIntosh,
+
+  A. R. & Sporns, O. (2016), ‘Network-level structure-function relationships in human
+
+  neocortex’, Cerebral Cortex 26(7), 3285–3296.
+
+Ogawa, S., Lee, T.-M., Kay, A. R. & Tank, D. W. (1990), ‘Brain magnetic resonance imaging
+
+  with contrast dependent on blood oxygenation.’, proceedings of the National Academy of
+
+  Sciences 87(24), 9868–9872.
+
+
+
+                                            37
+Parisot, S., Ktena, S. I., Ferrante, E., Lee, M., Guerrero, R., Glocker, B. & Rueckert, D.
+
+  (2018), ‘Disease prediction using graph convolutional networks: application to autism
+
+  spectrum disorder and alzheimer’s disease’, Medical image analysis 48, 117–130.
+
+Park, H.-J. & Friston, K. (2013), ‘Structural and functional brain networks: from connections
+
+  to cognition’, Science 342(6158), 1238411.
+
+Rodriguez-Acosta, J., Guha, S., Bernard, J., Magalhaes, T., McOwen, K. et al. (2025),
+
+  ‘Bayesian data fusion of network graphs and spatially correlated node attributes’.
+
+Smith, S. M., Vidaurre, D., Beckmann, C. F., Glasser, M. F., Jenkinson, M., Miller,
+
+  K. L., Nichols, T. E., Robinson, E. C., Salimi-Khorshidi, G., Woolrich, M. W. et al.
+
+  (2013), ‘Functional connectomics from resting-state fmri’, Trends in cognitive sciences
+
+  17(12), 666–682.
+
+Sui, J., Adali, T., Pearlson, G. D. & Calhoun, V. D. (2009), ‘Canonical correlation analysis
+
+  for feature-based fusion of biomedical imaging modalities and its application to detection of
+
+  associative networks in schizophrenia’, IEEE Transactions on Medical Imaging 28(1), 142–
+
+  150.
+
+Sui, J., Adali, T., Yu, Q., Chen, J. & Calhoun, V. D. (2012), ‘A review of multivariate
+
+  methods for multimodal fusion of brain imaging data’, Journal of neuroscience methods
+
+  204(1), 68–81.
+
+Suzuki, K. (2017), ‘Overview of deep learning in medical imaging’, Radiological physics and
+
+  technology 10(3), 257–273.
+
+Tzourio-Mazoyer, N., Landeau, B., Papathanassiou, D., Crivello, F., Etard, O., Delcroix,
+
+  N., Mazoyer, B. & Joliot, M. (2002), ‘Automated anatomical labeling of activations in
+
+  spm using a macroscopic anatomical parcellation of the mni mri single-subject brain’,
+
+  NeuroImage 15(1), 273–289.
+
+
+                                              38
+Wolterink, J. M., Dinkla, A. M., Savenije, M. H., Seevinck, P. R., van den Berg, C. A. &
+
+  Išgum, I. (2017), Deep mr to ct synthesis using unpaired data, in ‘International workshop
+
+  on simulation and synthesis in medical imaging’, Springer, pp. 14–23.
+
+Xue, W., Bowman, F. D. & Kang, J. (2018), ‘A bayesian spatial model to predict disease
+
+  status using imaging data from various modalities’, Frontiers in neuroscience 12, 184.
+
+
+
+
+                                            39
+

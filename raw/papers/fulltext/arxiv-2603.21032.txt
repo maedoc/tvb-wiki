@@ -1,0 +1,1547 @@
+                                           Integrative Predictor-Dependent Learning of Network
+                                               Data and Spatially Correlated Nodal Attributes for
+                                                             Multimodal Brain Imaging in Aging
+arXiv:2603.21032v1 [stat.AP] 22 Mar 2026
+
+
+
+
+                                                 Jose Rodriguez-Acosta∗               Sharmistha Guha∗                Jessica Bernard†
+                                                                Thamires Magalhaes†                 Kaitlin McOwen†
+
+
+
+                                                                                        Abstract
+
+                                                    This article introduces a predictor-dependent joint modeling framework for network
+                                                 data obtained from multiple subjects over a shared set of nodes with spatial co-ordinates
+                                                 and spatially correlated attributes defined at these nodes. The proposed framework is
+                                                 highly flexible, allowing for concurrent inference on nodes significantly associated with
+                                                 a predictor, spatial associations of nodal attributes across nodes, and the regression
+                                                 relationship between a predictor and an edge connecting a pair of nodes or a specific
+                                                 nodal attribute. Empirical results, as demonstrated in simulation studies, indicate a
+                                                 superior performance of the proposed approach due to accounting for network structure
+                                                 and spatial correlation in the data simultaneously. The proposed methodology analyzes
+                                                 multimodal brain imaging data collected first-hand in the coauthor’s Lifespan Cogni-
+                                                 tive and Motor Neuroimaging Laboratory, with a focus on integrating structural and
+                                                 functional information. It examines brain connectivity, represented as a connectome
+                                                 network across regions of interest (ROIs) derived from functional magnetic resonance
+                                                 imaging (fMRI), while simultaneously incorporating ROI-specific attributes obtained
+                                                 from structural MRI data, for each subject. Subject-specific aging-related features
+                                                 and the spatial locations of each ROI are also incorporated into the analysis. This
+                                           1
+                                               Department of Statistics, Texas A&M University
+                                           2
+                                               Department of Psychological and Brain Sciences, Texas A&M University
+
+
+                                                                                            1
+     comprehensive framework facilitates robust inference on the associations between pre-
+     dictors and brain connectivity patterns, the spatial relationships among ROI-specific
+     attributes, and the regression relationships involving edges or ROI-specific attributes
+     with aging-related predictors. By integrating these diverse data sources, the approach
+     provides a deeper understanding of the complex interplay between brain structure,
+     function, aging-related changes, and external predictors. As a model-based Bayesian
+     approach, it provides uncertainty quantification for all inferences, offering robust and
+     reliable results, particularly in scenarios with limited sample size.
+
+
+Keywords: functional magnetic resonance imaging, gaussian processes, network models,
+structural magnetic resonance imaging, variable selection
+
+
+
+
+                                                 2
+1     Introduction
+    This article develops a unified predictor-dependent learning framework designed to jointly
+analyze networks and spatially correlated nodal attributes across multiple subjects. The mo-
+tivation for this methodological advancement arises from a clinical study focused on under-
+standing brain function and structure associated with aging in subjects. The study collects
+multi-modal neuroimaging data for each participant, including (a) functional brain network
+information and (b) brain structural information. The functional brain network information
+considers each region-of-interest (ROI) as a network node and quantifies connectivity (op-
+erationalized as the Pearson’s correlation across timeseries) between pairs of network nodes
+using the blood oxygen-level dependent (BOLD) signal collected at rest (absence of task).
+This is measured using functional magnetic resonance imaging (fMRI). Brain structural in-
+formation is derived from structural MRI (sMRI) and is represented as a ROI or node-specific
+attribute, termed the structural attribute, which displays spatial correlations across ROIs.
+Spatial co-ordinates of ROIs are also available for the study. Thereafter, using a common
+brain atlas for all subjects, we segment the human brain into different ROIs. The study
+integrates information from both brain network connectivity and brain structural attributes
+to achieve two primary objectives: (o1) draw inference on brain ROIs significantly related
+to aging; and (o2) estimate the regression relationship between the network and structural
+attributes with each predictor.
+    Broadly, the literature addresses the joint modeling of networks and nodal attributes
+through three distinct approaches. One approach focuses on modeling the network structure
+conditional on nodal attributes, capturing how relationships among nodes are formed based
+on these attributes, a process referred to as “selection.” Models of selection are typically
+constructed by regressing a network edge on node-specific attributes, employing tools such as
+Exponential Random Graph Models (ERGMs) [Holland and Leinhardt, 1981, Robins et al.,
+2007] or mixed-effects generalized linear models [Wasserman and Anderson, 1987, Holland
+et al., 1983, Hoff et al., 2002, Hoff, 2005]. Another approach involves models of nodal
+attributes and their association, conditional on the network structure. These models seek
+to understand how relationships impact the attributes of nodes in a network, a phenomenon
+
+
+                                              3
+referred to as “influence” or “contagion.” Models of contagion typically involve regressing
+nodal attributes on those of other nodes in the network, with methods including simultaneous
+autoregressive (SAR) models [Lin, 2010] and threshold models [Watts and Dodds, 2009],
+among others [Christakis and Fowler, 2007, Fowler and Christakis, 2008, Shoham et al.,
+2015]. Since distinguishing between selection and contagion is a challenging problem, a third
+set of approaches simultaneously models both networks and nodal attributes. These joint
+models often assume a bilinear representation of network edges with node-specific latent
+effects, either modeling these latent effects alongside nodal attributes [Fosdick and Hoff,
+2015], or utilizing a shared set of latent effects [Guhaniyogi and Rodriguez, 2020, Zhang
+et al., 2022] to jointly model the network and nodal attributes.
+   Our approach diverges from existing literature on joint modeling of network and nodal
+attributes in several critical aspects. First, the existing literature is predominantly unsu-
+pervised, meaning that the joint modeling of networks and nodal attributes often involves
+predictors at the node or edge level, but typically omits subject-level predictors. Addition-
+ally, the primary objective of this literature revolves around drawing inferences on whether
+the network and nodal attributes are independent across all nodes. For instance, Fosdick
+and Hoff [2015] develop a likelihood ratio testing framework to determine independence be-
+tween the network and nodal attributes at all nodes. Guhaniyogi and Rodriguez [2020]
+develop a Bayesian testing framework to examine independence between the network and
+nodal attributes when they jointly co-evolve over time. In contrast, our inferential focus
+is distinct, centered on making inferences regarding network nodes significantly associated
+with a subject-level predictor of interest, jointly learned from both the network and nodal
+attributes. Thus, while prior studies have often focused on statistical testing or inference
+regarding network and nodal attribute relationships, this article addresses a different infer-
+ential goal. Second, since much of the existing literature in this domain primarily draws
+motivation from social networks, the spatial coordinates of the nodes are generally not avail-
+able. Consequently, the existing literature does not take into account spatial associations
+between nodal attributes in the joint modeling of network and nodal attributes.
+   This article addresses these identified gaps in the current literature by introducing a
+novel Bayesian framework that jointly models network structures and nodal attributes as
+
+
+                                              4
+responses to subject-level predictors. The corresponding regression coefficients for subject-
+level predictors are termed network coefficients and structural coefficients, respectively. To
+address inferential goals (o1) and (o2), we develop a Bayesian hierarchical model with a
+joint prior linking these coefficients. A low-rank structure is used for network coefficients,
+representing each edge as a bilinear function of node-specific latent variables connecting the
+edge. The goal (o1) of identifying influential network nodes is embedded within a nonlin-
+ear variable selection framework wherein a node-specific latent variable and the structural
+coefficient for the specific node are jointly assigned a spike-and-slab prior. The spike-and-
+slab prior involves node-specific latent activation indicators, which are shared among both
+sets of coefficients, and are instrumental in identifying influential nodes. Specifically, when
+a node’s activation indicator is zero, both its attribute and all connected edges are unre-
+lated to the predictor, marking it uninfluential. This shared prior also allows information
+borrowing between the two response types. To capture spatial correlation among nodal at-
+tributes (relevant for (o2)), we introduce Gaussian process priors for spatial random effects
+in the regression model for the nodal attributes. The proposed framework facilitates efficient
+Bayesian computation, enables precise uncertainty quantification in identifying influential
+nodes crucial for the study of aging with multi-modal neuroimaging data, accounts for spa-
+tial correlation between nodal attributes, and produces well-calibrated interval estimates for
+regression coefficients.
+   While our method is designed to achieve inferential goals (o1) and (o2) through predictor-
+dependent joint modeling of networks and nodal attributes, it also contributes substantially
+to the literature of Bayesian regression with multi-modal image responses having diverse
+structures. Existing approaches typically view images as objects, such as tensors, functions,
+or networks, and focus on single-object response regression [Zeng et al., 2024, Guha and
+Rodriguez, 2021]. In the presence of multiple images, the existing literature often ignores re-
+lationships between multiple objects and their shared structure across modalities, which can
+lead to inaccurate and noise-sensitive inference [Calhoun and Sui, 2016]. Recent literature
+has emphasized joint modeling of multi-modal imaging data, which has led to the literature
+on joint regression of multiple images. For example, recent work in joint structural-functional
+neuroimaging adopts this framework to regress multiple brain imaging outcomes on cognitive
+
+
+                                              5
+or clinical measures, thereby identifying common and modality-specific patterns associated
+with disease, aging, or behavior in a statistically principled manner [Gutierrez et al., 2025].
+Parallel to these statistical approaches, generative deep learning methods have attracted in-
+creasing attention for multimodal neuroimaging. Such models seek to synthesize structural
+or functional images conditional on covariates (e.g., diagnosis, age) or other imaging modal-
+ities, using architectures such as conditional GANs, and variational autoencoders [Suzuki,
+2017, Bowles et al., 2018, Wolterink et al., 2017]. These tools offer powerful predictive and
+simulation capabilities, but often provide limited interpretability and formal uncertainty
+quantification. In fact, to the best of our knowledge, there is still a lack of a Bayesian
+framework that jointly regresses network and nodal attributes on predictors, with a goal of
+addressing the key objective of node identification, while incorporating spatial correlation
+among nodal features.
+    The subsequent sections of the article are organized as follows. Section 2 describes the
+motivating multi-modal neuroimaging dataset on aging. Section 3 presents the model de-
+velopment and prior structures to learn the predictor-dependent association between the
+network and nodal attributes. The computation of the posterior distribution is discussed
+in Section 4. Empirical investigations of the model under various simulation scenarios are
+provided in Section 5. Section 6 describes the joint analysis of fMRI and sMRI data, demon-
+strating the effective performance of our approach compared to its competitors. Lastly,
+Section 7 concludes the article.
+
+
+2     Multi-modal Neuroimaging Data on Aging
+2.1    Data Description
+    We use the proposed methodology to analyze multi-modal human neuroimaging data
+collected first-hand by co-author Bernard and colleagues within the Lifespan Cognitive
+and Motor Neuroimaging Laboratory at Texas A&M University, College Station. These
+data are from a sample of 138 healthy, independently living adults between the ages of 35
+and 86 years (mean age: 57 years; 54% female). All participants were recruited as part of
+a longitudinal study of brain and behavior across adulthood and aging. After exclusions
+
+
+
+                                              6
+for incomplete data or noise, we were left with a sample of 126 individuals for the analyses
+conducted here. As part of this longitudinal study, all participants completed behavioral
+and neuroimaging data collection sessions. Exclusion criteria were the following: a history
+of neurological disease, stroke, or formal diagnosis of psychiatric illness (e.g., depression or
+anxiety), contraindications for the brain imaging environment (metal implants in the body,
+claustrophobia, inability to lay flat for an extended period of time), and the use of hormone
+therapy (HTh) or hormonal contraceptives including intrauterine devices (IUDs), possible
+use of continuous birth control (oral), and no history of hysterectomy in the past 10 years.
+   Participants underwent structural and resting-state MRI using a Siemens Magnetom Ve-
+rio 3.0 Tesla scanner with a 32-channel head coil. Structural MRI included a high-resolution
+T1-weighted 3D magnetization prepared rapid gradient multi-echo (MPRAGE) scan (TR
+= 2400 ms; acquisition time = 7 minutes; voxel size = 0.8 mm3 ) and a high-resolution
+T2-weighted scan (TR = 3200 ms; acquisition time = 5.5 minutes; voxel size = 0.8 mm3 ),
+both with a multiband acceleration factor of 2. Resting-state imaging comprised four blood-
+oxygen-level-dependent (BOLD) functional connectivity (fMRI) scans with a multiband fac-
+tor of 8, 488 volumes, TR of 720 ms, and 2.5 mm3 voxels. Scanning protocols were adapted
+from the Human Connectome Project [Harms et al., 2018] and the Center for Magnetic
+Resonance Research at the University of Minnesota to ensure future data sharing and repro-
+ducibility.
+   All preprocessing steps follow the recent work on this dataset as described in Hicks et al.
+[2023] and Ballard et al. [2022]. The images were converted from DICOM to NIFTI for-
+mat and organized according to the Brain Imaging Data Structure (BIDS, version 1.6.0)
+using the bidskit docker container (https://github.com/jmtyszka/bidskit). A single
+volume was extracted from two oppositely coded BOLD images to estimate B0 field maps
+using the split tool from the FMRIB Software Library (FSL) package [Jenkinson et al.,
+2012]. Subsequently, anatomical and functional images were preprocessed using fMRIPrep
+(https://fmriprep.org/), which involves a series of automated procedures to prepare fMRI
+data for further analysis. This includes aligning the functional volume with the anatomical
+image for accurate spatial registration, correcting motion to account for participant move-
+ment during image acquisition, correcting fieldmap distortions caused by the non-uniform
+
+
+                                               7
+Figure 1: Figure illustrates the whole-brain network, highlighting the subnetworks through
+red nodes.
+
+
+magnetic field, segmenting the anatomical image into distinct tissues (e.g., gray matter,
+white matter, cerebrospinal fluid (CSF)), stripping the skull from the anatomical image
+to improve segmentation quality and reduce artifacts, normalizing the data to a common
+space for cross-participant or cross-study comparisons, aligning motion-corrected functional
+volumes with the normalized anatomical image for functional-anatomical integration, and
+applying spatial smoothing to enhance the signal-to-noise ratio and reduce artifacts. We
+continued the rest of the analyses using the CONN toolbox (version 21a) [Whitfield-Gabrieli
+and Nieto-Castanon, 2012].
+Brain network data. Regions of interest (ROIs) were defined based on well-known cortical
+networks, following the networks used in Jackson and Bernard [2023], which included the
+default mode network, frontal-parietal network, control network, emotion network, motor
+network, and a subcortical cerebellar-basal ganglia network. This resulted in a total of 75
+ROIs. However, to ensure alignment with structural segmentations (described below), 6
+ROIs were excluded, resulting in a final set of 69 ROIs. These 69 ROIs within the cortical
+and subcortical networks are marked in red in Figure 1. For each participant we extracted
+a time series for each of the 69 ROIs, and they were cross-correlated with one another using
+bivariate analyses. The result was a correlation matrix for each participant. As with the
+preprocessing above, this was completed using the CONN toolbox (version 21a) [Whitfield-
+Gabrieli and Nieto-Castanon, 2012].
+Structural data. Alongside the resting-state correlation matrices, we also quantified brain
+
+
+                                             8
+structural information associated with each ROI. Functional MNI coordinates from Jackson
+and Bernard [2023] used in the analyses described above were matched to structural regions
+through the use of MRIcroGL and the AAL atlas [Tzourio-Mazoyer et al., 2002].
+Subject-level attributes. All participants completed the Purdue Pegboard task [Lawson,
+2019], which allows quantification of fine motor function and dexterity. This task uses a
+pegboard with two columns of 25 holes and a tray with four cups (pegs, cylinders, washers,
+pegs). Participants complete four conditions: Unimanual (Right & Left): place pegs
+into one column using one hand; each hand tested separately for 30 seconds; Bimanual:
+place pegs into both columns simultaneously using both hands for 30 seconds; Assembly:
+Assemble peg-washer-cylinder-washer using alternating hands for 60 seconds. Each condition
+is repeated four times. Performance is measured by counting pegs placed (unimanual),
+pairs completed (bimanual), and total pieces assembled (assembly), then averaged across
+repetitions. The behavioral attribute is the total score across all conditions of the Purdue
+Pegboard test for each participant, referred to as the Aggregate Pegboard Score (APS).
+Scientific goals of the data analysis. The primary scientific objective of this study is to
+identify brain regions of interest (ROIs) that are significantly linked to cognitive and motor
+aging. To achieve this, we represent Z-transformed correlation matrices across all ROIs as a
+brain network and treat the structural volumes of all ROIs as spatially-varying, node-specific
+outcomes. We then develop a novel statistical methodology (described in the following
+sections) to capture their predictor-specific (Aggregate Pegboard Score) joint dependence,
+accounting for race, sex, and age. The proposed method enables identification of regions that
+most strongly predict motor performance, while also quantifying the statistical uncertainty
+of these findings.
+
+
+3     Model Formulation and Prior Structure
+    Assume that the data is obtained over n subjects, and let Gi denote the network data for
+the ith subject, i = 1, ..., n. We assume that the set of networks {Gi : i = 1, .., n} is defined
+over a common set of nodes denoted by N = {N (s1 ), ..., N (sV )}, where |N | = V represents
+the number of nodes and s1 , ..., sV are the spatial locations of the nodes. The network Gi is
+represented by a V × V adjacency matrix Y i ∈ RV ×V , where the entry yi (u, v) at position
+
+
+                                               9
+(u, v) signifies the strength of association between nodes N (su ) and N (sv ) for the ith subject,
+u, v = 1, ..., V . This article concentrates specifically on undirected networks without self-
+relationships, a characteristic considered scientifically meaningful for the networks derived
+from fMRI data in Section 6. This implies that the adjacency matrix Y i is symmetric,
+and its diagonal entries are zero. Let zi (sv ) ∈ R represent the attribute observed at node
+N (sv ) for subject i, xi ∈ Rp denote the predictors of interest, and wi ∈ Rq be the auxiliary
+predictors. In the context of the motivating scientific problem in Section 2, race, age and
+sex are the auxiliary predictors, while the Aggregate Pegboard Score (APS) is the predictor
+of interest.
+
+3.1     A Joint Model for Network and Nodal Attributes Incorporat-
+        ing Spatial Information
+   The following model is developed to effectively and flexibly characterize the relationship
+between the network, the predictors of interest xi , and auxiliary predictors wi :
+
+                                                          p                       q
+                                                          X                       X
+                  E[yi (u, v)|xi , wi ] = G(µy +                βk (u, v)xi,k +         γj,y wi,j ),        (1)
+                                                          k=1                     j=1
+
+
+where γ1,y , ..., γq,y are the coefficients for the auxiliary predictors, µy is the intercept and
+βk (u, v) is the coefficient determining the relationship between the (u, v)th edge and the kth
+predictor of interest. Here, G(·) is an appropriate link function corresponding to the network
+edge. For example, when network edges are continuous, we can set G(·) to be the identity
+link function, leading to
+
+                            p                       q
+                            X                       X
+         yi (u, v) = µy +         βk (u, v)xi,k +         γj,y wi,j + ϵi (u, v), ϵi (u, v) ∼ N (0, τy2 ),   (2)
+                            k=1                     j=1
+
+
+where τy2 is the error variance. The nodal attribute is assumed to be continuous and is
+spatially correlated over network nodes. To account for its relationship with the covariates
+after accounting for spatial correlation, a series of conditionally independent models are
+
+
+
+
+                                                      10
+proposed over i = 1, ..., n,
+
+                                           p                    q
+                                           X                    X
+                        zi (sv ) = µz +          αk (v)xi,k +         γj,z wi,j + δi (sv ),         (3)
+                                           k=1                  j=1
+
+
+where µz is the intercept, αk (v) is the coefficient corresponding to the predictors of interest,
+γ1,z , ..., γq,z are the coefficients for the auxiliary predictors, and δi (sv ) is the spatially depen-
+dent random effect accounting for the correlation structure of the nodal attribute over the
+nodes.
+
+3.2      Prior Structure
+   In this section, we describe the construction of the prior structure on model coefficients,
+with particular emphasis on coefficients β = {βk (u, v) : k = 1, .., p; 1 ≤ u ̸= v ≤ V },
+α = {αk (v) : k = 1, ..., p; v = 1, ..., V }, and functions {δi (·) : i = 1, .., n}. To this end,
+we formulate a joint prior for the coefficients β = {βk (u, v) : k = 1, .., p; 1 ≤ u ̸= v ≤ V }
+and α = {αk (v) : k = 1, ..., p; v = 1, ..., V }, establishing a predictor-dependent associa-
+tion between the network and the nodal attribute, while taking into account the network’s
+topology. The construction of the joint prior on β and α addresses: (a) identification of
+nodes associated with a predictor, incorporating uncertainty; and (b) efficient computation
+of the posterior based on the proposed prior. Furthermore, a prior structure is imposed on
+functions {δi (·) : i = 1, .., n} which is crucial for introducing spatially dependent correlation
+among the attribute over nodes. A detailed construction of prior distributions for β, α and
+{δi (·) : i = 1, .., n} is provided below.
+Joint prior construction on coefficients β and α. In the construction of a joint prior
+on β and α, we first introduce a low-rank structure of the coefficient βk (u, v) as
+
+                               R
+                               X
+                 βk (u, v) =         λk,r θk,r (u)θk,r (v), βk (u, u) = 0, 1 ≤ u ̸= v ≤ V.          (4)
+                               r=1
+
+
+Here θ k (v) = (θk,1 (v), ..., θk,R (v))T ∈ RR , for k = 1, ..., p, is a collection of R-dimensional
+latent variables, one for each node and each predictor of interest, and λk,r ∈ {−1, 0, 1}
+determines if the rth summand in (4) is relevant in model fitting. Since the choice of R is
+
+
+                                                       11
+arbitrary, allowing λk,r to be 0 protects the model from over-fitting. The λk,r ’s are assigned
+a Multinomial-Dirichlet prior given by,
+
+
+                λk,r ∼ πk,1,r I(λk,r = 0) + πk,2,r I(λk,r = 1) + πk,3,r I(λk,r = −1),
+
+                (πk,1,r , πk,2,r , πk,3,r ) ∼ Dirichlet(rξ , 1, 1), ξ > 1.                       (5)
+
+
+   The low-rank formulation in (4) is motivated by multiple considerations, including the
+well-documented presence of transitivity effects in network data [Albert and Barabási, 2002].
+Specifically, if the edges between node N (su ) and both N (sv ) and N (sv′ ) are strongly
+associated with the kth predictor, then, due to transitivity, it is likely that the edge between
+N (sv ) and N (sv′ ) is also influential. Such patterns of interdependence among edges are
+commonly observed in real-world networks. A low-rank structure on the coefficient matrix
+B k = ((βk (u, v)))Vu,v=1 naturally accommodates these effects. By modeling B k as a product of
+low-dimensional latent factors, the model implicitly assumes that edge influences are driven
+by node-specific latent traits. This induces a shared structure across rows and columns of
+B k , leading to correlated patterns in edge importance and capturing the transitivity often
+exhibited in complex networks [Rodriguez-Acosta et al., 2025].
+   Moreover, the low-rank formulation allows direct inference on network nodes through the
+node-specific latent vectors θ k (1), ..., θ k (V ), which can be interpreted as the positions of the
+nodes in a latent space, with the strength of association or edge between nodes N (su ) and
+N (sv ) being controlled by the inner product or the angular distance between the vectors
+θ k (u) and θ k (v). The assumed low-rank structure additionally offers parsimony by reducing
+the number of estimable parameters from pV (V − 1)/2 to pV R, typically with R ≪ V .
+   Depending on λk,r ’s, the node specific latent variables θ k (v)’s may become unidenti-
+fiable. For example, when λk,r = 1 for all r = 1, .., R, βk (u, v) = θ k (u)T Λk θ k (v) =
+(Oθ k (u))T Λk (Oθ k (v)), for any orthogonal matrix O. While this implies that posterior infer-
+ence on θ k (v)’s may not always be meaningful, our focus is on the event {θ k (v) = 0, αk (v) =
+0} for each k, which is identifiable (since 0-valued latent vectors are invariant to orthogonal
+transformations) and is critical to drawing inference on the nodes related to the k-th predic-
+tor of interest. Indeed, θ k (v) and αk (v) capture the strength of association between the kth
+
+
+                                                    12
+predictor of interest and the network structure and nodal attributes, respectively.
+   In particular, the kth predictor of interest xi,k is unrelated to the node N (sv ), if both
+θ k (v) = 0 and αk (v) = 0. We view the problem of identifying influential nodes as a
+high-dimensional variable selection problem and formulate variable selection prior distri-
+butions on θ k (v) and αk (v) jointly. In particular, a spike-and-slab prior is assigned jointly
+on (αk (v), θ k (v)T )T as below,
+
+                                                                                      i.i.d.
+            (αk (v), θ k (v)T )T |ηv,k ∼ ηv,k N (0, Lk ) + (1 − ηv,k )δ0 , ηv,k ∼ Ber(∆k )                      (6)
+
+
+where ηv,k is the activation indicator shared by bothαk (v) and θ k (v),
+                                                                       and Lk is a covariance
+                                                                    Lk,11 Lk,12
+matrix of order (R + 1) × (R + 1), where Lk =                                      . Here Lk,11 and Lk,22
+                                                            Lk,22   LTk,12
+are prior variances for αk (v) and θ k (v) for the slab components, respectively, and Lk,12
+is the prior covariance between αk (v) and θ k (v). Notably, ηv,k = 0 implies that the kth
+predictor of interest is unrelated to the node N (sv ), i.e., the node N (sv ) is uninfluential.
+The parameter ∆k corresponds to the probability of the nonzero mixture component in (6).
+Apart from drawing inference on influential nodes using {ηv,k : v = 1, ..., V ; k = 1, ..., p}, (6)
+is instrumental in the construction of predictor dependent association between the network
+and the nodal attribute. In fact, the predictor-dependent covariance between the attribute
+at node N (sv ) and network latent effect for node N (sv ) corresponding to all predictors is
+given by a R × p dimensional matrix
+
+
+       Cov (zi (sv ), [θ 1 (v) : · · · : θ p (v)]) = xi,1 ∆1 LT1,12 : · · · : xi,p ∆p LTp,12 , i = 1, ..., n.
+                                                                                           
+                                                                                                                (7)
+
+
+Here, the kth column represents the correlation between the network latent effect and the
+nodal attribute at the vth node.
+   Previous work by Fosdick and Hoff [2015] focuses on the unsupervised joint modeling
+of a single network and its nodal attributes. Their method simultaneously models node-
+specific latent effects and nodal attributes with a multivariate Gaussian distribution. In this
+formulation, the node-specific latent effects and nodal attributes for all nodes are inferred
+to be independent if and only if the cross-covariance matrix of the multivariate Gaussian
+
+
+                                                        13
+distribution is zero. They conduct inference on the cross-covariance matrix using a likelihood
+ratio test. Guhaniyogi and Rodriguez [2020] and Zhang et al. [2022] extend this approach
+to impose dependence between network and nodal attributes through shared latent effects.
+    While our proposed approach shares some similarities with the aforementioned literature
+in jointly modeling the network’s node-specific latent effects θ k (v) and the coefficients αk (v)
+for the nodal attribute, it differs in several fundamental aspects. The primary distinction
+lies in the nature of joint learning. In our framework, joint learning is predictor-dependent,
+focusing on the simultaneous estimation of coefficients for both the main predictors of interest
+and the auxiliary predictors.
+    Another key difference concerns the inferential objective. Our method is designed to
+identify network nodes associated with a predictor, leveraging joint information from both
+the network structure and the nodal attribute. Our approach accounts for the dependence
+between the network and the nodal attribute but does not focus on hypothesis testing to
+assess their dependence. In contrast, Guhaniyogi and Rodriguez [2020] and Zhang et al.
+[2022] primarily aim to detect independence between the network and the nodal attribute
+across all nodes simultaneously. Their methods are primarily applied to social networks,
+where inferential frameworks typically do not consider the spatial locations of nodes. In
+contrast, our framework explicitly incorporates spatial associations between nodal attributes
+across nodes, as elaborated in the next section.
+Prior construction on δi (·). To impose a spatially dependent correlation structure on the
+nodal attribute across nodes, we assign a Gaussian process prior with a correlation kernel
+κ(·, ·; ζ) and spatial variance τz2 , denoted by δi (·) ∼ GP (0, τz2 κ(·, ·; ζ)), independently over
+i = 1, ..., n. The prior construction implies that Cov(zi (su ), zi (sv )) = τz2 κ(su , sv ; ζ), where ζ
+is the length-scale parameter controlling the degree of spatial correlation between the nodal
+attribute at nodes N (su ) and N (sv ). We employ the widely used exponential covariance
+kernel given by κ(su , sv ; ζ) = exp(−ζ||su − sv ||). A discrete uniform prior is set for ζ. The
+covariance matrix Lk is assigned a IW(ν, ΣL ) prior. The prior specification is completed
+by assigning τy2 , τz2 ∼ IG(a, b) and placing flat priors on µy , µz , γ1,y , ..., γq,y , γ1,z , ..., γq,z , i.e.,
+f (µy ), f (µz ), f (γ1,y ), ..., f (γq,y ), f (γ1,z ), ..., f (γq,z ) ∝ 1.
+
+
+
+                                                              14
+                                                               Predictors k = 1, . . . , p
+           µy                       Samples i = 1, . . . , n
+                                                                                       Nodes v = 1, . . . , V
+
+
+                                                  Yi                                          θ k (v)     =     θk,1 (v)   θk,2 (v)    ...     θk,R (v)
+           τy2
+
+
+                                                                                                                                                               Latent Coordinate r = 1, . . . , R
+
+                 Aux. Predictors j = 1, . . . , q                                                                λk,1        λk,2      ...      λk,R                π1,k,r       π2,k,r       π3,k,r
+                                 γj,y
+
+
+
+
+                     Samples i = 1, . . . , n                      Samples i = 1, . . . , n
+                                                                                                                           Nodes v = 1, . . . , V
+
+                                 wi,j                                           xi,k                      Lk                           ηv,k               ∆k
+
+
+
+
+                                 γj,z
+
+
+
+
+                               Nodes v = 1, . . . , V
+           µz                       Samples i = 1, . . . , n                     Nodes v = 1, . . . , V
+
+
+                                                zi (sv )                                      αk (v)
+           τz2
+
+
+
+           ζ
+                                                  sv
+
+
+
+
+Figure 2: Diagram of the dependencies between observations (red), predictors (orange),
+latent variables (teal), and parameters (violet).
+
+
+4     Posterior Computation
+    Although Sections 3.1 and 3.2 present a model formulation and prior construction that
+do not permit a closed-form full posterior distribution of the parameters, all parameters have
+closed-form full conditional distributions. Consequently, the model computation is carried
+out using a Gibbs sampler. The full conditional distributions to perform Markov Chain
+Monte Carlo (MCMC) sampling are provided in the supplementary material.
+    Due to rapid convergence of the MCMC sampler, it is executed for a total of 500 iter-
+ations, with the initial 200 iterations discarded as burn-in, and the inference is based on
+the remaining 300 post burn-in iterations. Across all simulation scenarios, an average effec-
+tive sample size of 235 is observed, indicating relatively uncorrelated post burn-in MCMC
+samples.
+    Our code is implemented exclusively using R without using any C++, Fortran, or Python
+interface. The computations are conducted on a cluster computing server containing two
+AMD EPYC 7763 processors with a combined 128 cores and 256 threads, along with 1 TB
+
+                                                                                               15
+of RAM. Multiple replications of the model are executed in parallel architecture using the
+R packages doparallel and foreach. The average computation time for running 500 MCMC
+iterations with V = 20 is 30 minutes across all simulations.
+    To provide the posterior probability of node N (sv ) being influentially associated with
+the kth predictor of interest, we calculate the empirically estimated P (ηv,k = 1|Data), ex-
+                    (f )         (1)            (F )
+pressed as F1 Ff=1 ηv,k . Here, ηv,k , . . . , ηv,k represent the F post burn-in MCMC samples.
+             P
+
+Node N (sv ) is considered influentially related to the kth predictor if the empirically esti-
+mated posterior probability surpasses 0.5, in accordance with the median probability rule for
+variable selection [Barbieri and Berger, 2004]. However, this cutoff may be revised should a
+more compelling, scientifically validated cutoff become available for the specific problem un-
+der consideration. The posterior distributions of αk (v) and βk (u, v) are empirically estimated
+from the post burn-in MCMC samples of {αk (v)(f ) : v = 1, .., V }, {θ k (v)(f ) : v = 1, .., V }
+        (f )
+and {λk,r : r = 1, .., R}. Additionally, we provide an empirical estimation of the spatial
+correlation between the nodal attribute at different nodes. For this purpose, from post burn-
+                     (f )2     (f )                                    (f )
+in samples ζ (f ) , τz       , µz , {αk (v)(f ) : k = 1, . . . , p}, {γj,z : j = 1, . . . , q}, f = 1, . . . , F , we
+draw posterior predictive samples (zi (sv )(f ) , . . . , zi (sv )(f ) )T for i = 1, . . . , n. For any pair of
+locations sv and sv′ , v, v ′ = 1, .., V , an empirical correlation coefficient is then computed to
+estimate the decay of spatial correlation over spatial distance ||sv − sv′ ||.
+
+
+5      Simulation Studies
+    In this section, we evaluate the performance of our proposed method and compare it with
+several competing approaches across a range of simulation scenarios. This will allow us to
+assess the method’s accuracy in identifying influential nodes, its ability to estimate predictor
+coefficients corresponding to both network and nodal attributes, and its effectiveness in
+capturing spatial correlations between attributes across different network nodes. It will also
+highlight the importance of accounting for the network structure, joint modeling of network
+and nodal attributes, and spatial correlations of attributes over nodes.
+Simulated Data Generation. The simulation study sets the number of predictors of inter-
+est p = 1 and the number of auxiliary predictors q = 2. For the ith sample, the predictor of
+interest xi , and the auxiliary predictors wi are drawn from N (0, 1) and N (0, I q ), respectively.
+
+
+                                                          16
+    Let ∆∗ be the true probability of node inclusion, with the quantity (1−∆∗ ) being referred
+to as the node sparsity parameter. The node inclusion indicators, η1∗ , ..., ηV∗ , are drawn from
+Ber(∆∗ ). The true node-specific latent
+                                     network
+                                             effect and the true predictor coefficient for
+                                    α∗ (v)
+nodal attributes are drawn together       from ηv∗ N (0, L∗ ) + (1 − ηv∗ )δ0 , , for v = 1, ..., V ,
+                                     ∗
+                                    θ (v)
+where R is the true latent dimension and L∗ is sampled from IW (R∗ + 2, I R∗ +1 ). For all
+       ∗
+
+
+simulations, we set R∗ = 4. The network coefficient corresponding to the edge connecting
+the uth and vth nodes, β ∗ (u, v), is constructed from the uth and vth node-specific latent
+effects as β ∗ (u, v) = θ ∗ (u)T θ ∗ (v), for 1 ≤ u < v ≤ V . We also set β ∗ (u, v) = β ∗ (v, u)
+and β ∗ (v, v) = 0 to satisfy symmetry with zero diagonal entries for the network coefficient
+matrix.
+    For i = 1, .., n, we simulate the network edge yi (u, v), following equation (2) with p = 1,
+q = 2 and β(u, v), γj,y , µy and τy2 replaced by their true values β ∗ (u, v), γj,y
+                                                                                ∗
+                                                                                    , µ∗y and τy2∗ ,
+respectively. To simulate the nodal attributes, three-dimensional spatial coordinates for the
+V nodes, s∗1 , ..., s∗V , are first sampled from N (0, I). Then, the true correlated spatial effects
+δ ∗i = (δi∗ (s1 ), ..., δi∗ (sV ))T are simulated from N (0, τz2∗ Σ∗ ), where Σ∗ is a V × V matrix with
+the (u, v)th entry given by exp(−ζ ∗ ||su −sv ||). Here, ζ ∗ is the scale parameter that determines
+the range of spatial dependence among nodal attributes across the nodes in the simulated
+data. Subsequently, for i = 1, .., n, the nodal attribute zi (sv ) is simulated following (3) with
+α(v), γj,z , µz and δi (sv ) replaced by their true values α∗ (v), γj,z
+                                                                    ∗
+                                                                        , µ∗z and δi∗ (sv ), respectively.
+Simulation Scenarios. Our extensive simulation studies reveal that the performance of our
+approach is influenced by the true node sparsity and scale parameter controlling the range
+of spatial dependence. Hence, we use various combinations of node sparsity (1 − ∆∗ ) and
+the scale parameter ζ ∗ , as specified in Table 1. In all simulations, we set τy2∗ = 1, τz2∗ = 9,
+γ ∗y = (γ1,y
+         ∗      ∗ T
+             , γ2,y ) = (0.2, 0.5)T and γ ∗z = (γ1,z
+                                                 ∗      ∗ T
+                                                     , γ2,z ) = (0.1, 0.4)T , µ∗y = µ∗z = 0.
+
+                        Scenario      1       2     3     4      5      6      7
+                         1 − ∆∗      0.8     0.7   0.7   0.5    0.5    0.4    0.3
+                           ζ∗        0.05    0.1   0.2   0.1    0.2   0.05   0.05
+
+Table 1: Simulation scenarios varying the node sparsity (1 − ∆∗ ) and spatial scale parameter
+ζ ∗.
+
+
+
+                                                    17
+Competitors. A comparison of our proposed method, referred to as the spatial joint model ,
+against several competing methods reveals the critical importance of its key features: its
+ability to account for network structure, jointly model network and nodal attributes, and
+capture spatial correlations of attributes across nodes. The first competitor, referred to as the
+independent network model, involves separately fitting models (2) and (3). Comparison with
+the independent network model will allow for assessment of the impact of jointly estimating
+these models. The second competitor, referred to as the independent tensor model, similarly
+involves independent modeling of each object, but instead of fitting (2), it treats the network
+outcome as a V × V tensor, and fits a tensor response regression using the TRES package
+in R [Zeng et al., 2021]. We employ (3) for modeling nodal attributes for this competitor.
+This competitor will assess both the efficacy of joint modeling and the impact of violating
+the symmetry assumption on the network outcome. The next competitor, referred to as
+the non-spatial joint model, fits our joint model but assumes no spatial association between
+nodal attributes over nodes. This will assess the utility of accounting for spatial correlation
+of nodal attributes in modeling.
+Metrics of Comparison. We estimate the probability of a node being influential, P (ηv =
+1|Data), to assess the accuracy of node selection for our model and the competitors. To
+assess the efficacy of our method versus the competitors in coefficient estimation and un-
+certainty quantification, we calculate the scaled mean squared error (MSE) of the estimated
+coefficients for the network and node-specific components of the model and acquire the cov-
+erage and length of 95% credible intervals for these quantities. The MSE will be calculated
+     b − β ∗ ||2
+   ||β                                                       b − α∗ ||2
+                                                           ||α
+as       ∗ 2     for the network model coefficients and as              for the node-specific
+      ||β ||                                                  ||α∗ ||2
+model coefficients, where β b and α
+                                  b represent point estimates for β and α, respectively. For
+the Bayesian models, these point estimates are the posterior means of the quantities, while
+for the tensor learning method, the network coefficients are calculated through a frequen-
+tist point estimate. We obtain the length and coverage of posterior 95% credible intervals
+averaged over edge coefficients from the post burn-in MCMC samples. For the frequen-
+tist competitors, we compute the coverage and length of the confidence intervals with an
+asymptotic coverage of 95%.
+
+
+
+                                               18
+5.1     Simulation Results
+5.1.1    Node Selection
+
+    Table 2 shows the results of node selection across the seven different simulation combina-
+tions for the spatial joint model, the non-spatial joint model, and the independent network
+model. The entries in the table contain the estimated posterior probabilities P (ηv = 1|Data)
+for v = 1, ..., 20. The independent tensor model is not designed to offer node selection prob-
+abilities.
+    The results demonstrate that, across the seven combinations, the spatial joint model
+accurately determines whether a node is influential or non-influential in each case, using a
+threshold of 0.5 to assess significance. The only exception is a false negative in Scenario 6,
+which was also misidentified by the other models. In all other cases, the posterior proba-
+bilities of truly influential nodes are high, with those of non-influential nodes being smaller
+and in many cases close to 0. There is a little more uncertainty in Scenarios 1 and 2, which
+correspond to high levels of node sparsity. The non-spatial joint model demonstrates com-
+petitive performance with the spatial joint model except in Scenarios 2, 4, and 6, where it
+has one false positive, one false positive, and two false negatives respectively. Under these
+scenarios, the non-spatial model makes errors due to not accounting for the strong spatial
+correlation among nodal attributes. The independent network model incurs two additional
+misclassifications compared to the non-spatial joint model in Scenario 1, and generally incurs
+little higher uncertainties (i.e., little higher P (ηv = 1|Data)) for un-influential nodes. This
+highlights the benefits of incorporating further network information and performing joint
+modeling of the data for node selection, particularly when the level of node sparsity in the
+network is higher.
+
+
+
+
+                                              19
+        Scen. 1      Scen. 2      Scen. 3      Scen. 4      Scen. 5      Scen. 6      Scen. 7                  Scen. 1      Scen. 2      Scen. 3      Scen. 4      Scen. 5      Scen. 6      Scen. 7
+Node 1 − ∆∗ = 0.8 1 − ∆∗ = 0.7 1 − ∆∗ = 0.7 1 − ∆∗ = 0.5 1 − ∆∗ = 0.5 1 − ∆∗ = 0.4 1 − ∆∗ = 0.3        Node 1 − ∆∗ = 0.8 1 − ∆∗ = 0.7 1 − ∆∗ = 0.7 1 − ∆∗ = 0.5 1 − ∆∗ = 0.5 1 − ∆∗ = 0.4 1 − ∆∗ = 0.3
+       ζ ∗ = 0.05   ζ ∗ = 0.1    ζ ∗ = 0.2    ζ ∗ = 0.1    ζ ∗ = 0.2    ζ ∗ = 0.05   ζ ∗ = 0.05               ζ ∗ = 0.05   ζ ∗ = 0.1    ζ ∗ = 0.2    ζ ∗ = 0.1    ζ ∗ = 0.2    ζ ∗ = 0.05   ζ ∗ = 0.05
+ 1       0.0588      0.0196       0.0000        1.0000       1.0000        1.0000       1.0000          1       0.0652      0.1957       0.0000        1.0000       1.0000        1.0000       1.0000
+ 2       0.0980       1.0000      0.1176       0.0784        0.6863        1.0000       1.0000          2       0.1087       1.0000      0.0435       0.0435        0.7174        1.0000       1.0000
+ 3       0.0196      0.2353       0.0000        1.0000      0.0588         1.0000       1.0000          3       0.0217      0.6087       0.0000        1.0000      0.0217         1.0000       1.0000
+ 4       0.0784      0.0000        1.0000      0.0196        1.0000       0.0000        1.0000          4       0.0435      0.0217        1.0000      0.0435        1.0000       0.0000        1.0000
+ 5       0.0196      0.0196        1.0000      0.0000        1.0000        1.0000       1.0000          5       0.0000      0.0217        1.0000      0.0000        1.0000        1.0000       1.0000
+ 6        1.0000      1.0000       1.0000      0.0000        1.0000       0.0000       0.0000           6        1.0000     1.0000        1.0000      0.0217        1.0000       0.0000       0.0000
+ 7       0.0000       1.0000      0.0000        1.0000      0.0196         1.0000       1.0000          7       0.0000       1.0000      0.0000        1.0000      0.0000         1.0000       1.0000
+ 8       0.0000      0.0000        1.0000      0.1373       0.0980         1.0000       1.0000          8       0.0000      0.1739        1.0000      0.1739       0.1087         1.0000       1.0000
+ 9       0.2157      0.0588        1.0000      0.0000       0.0392         0.9412       1.0000          9       0.1522      0.2174        1.0000      0.0217       0.0652         0.3913       1.0000
+ 10      0.0000       1.0000       1.0000       1.0000      0.0588        0.0000       0.0000           10      0.1522       1.0000       1.0000       1.0000      0.0217        0.0000       0.0000
+ 11      0.0392      0.2353       0.0000       0.0392       0.2941        0.0196       0.0000           11      0.0217      0.3478       0.0000       0.0000       0.3261        0.0000       0.0000
+ 12       1.0000     0.0588       0.0000        1.0000       1.0000        1.0000       1.0000          12       1.0000     0.0000       0.0000        1.0000       1.0000        1.0000       1.0000
+ 13      0.4314       1.0000      0.0000        1.0000      0.0000        0.0196       0.0000           13      0.4565       1.0000      0.0000        1.0000      0.0217        0.0000       0.0000
+ 14       1.0000      1.0000      0.0000        1.0000      0.0392         1.0000       1.0000          14       1.0000      1.0000      0.0000        1.0000      0.0217         1.0000       1.0000
+ 15      0.0196      0.0000       0.0196        1.0000       1.0000        0.0980       1.0000          15      0.0217      0.0652       0.0000        1.0000       1.0000        0.0652       1.0000
+ 16      0.0588      0.0000       0.0000       0.0196        1.0000        1.0000       1.0000          16      0.0652      0.0652       0.0000       0.0435        1.0000        1.0000       1.0000
+ 17      0.0000      0.0000       0.0588        1.0000       1.0000       0.0392       0.0000           17      0.0217      0.0217       0.0217        1.0000       1.0000       0.0000       0.0000
+ 18      0.0392      0.0196       0.0000        1.0000      0.0588        0.0392       0.0000           18      0.0217      0.0652       0.0000        1.0000      0.0435        0.0000       0.0000
+ 19      0.0196      0.0196       0.0000       0.4314       0.1176        0.0000        1.0000          19      0.0217      0.0870       0.0217       0.5435       0.2174        0.0000        1.0000
+ 20       0.5882     0.0588       0.0000       0.0588        0.9020        1.0000       1.0000          20       0.5870     0.0652       0.0000       0.0435        0.9783        1.0000       1.0000
+
+                         (a) Spatial Joint Model                                                                            (b) Non-spatial Joint Model
+                                                          Scen. 1      Scen. 2      Scen. 3      Scen. 4      Scen. 5      Scen. 6      Scen. 7
+                                                  Node 1 − ∆∗ = 0.8 1 − ∆∗ = 0.7 1 − ∆∗ = 0.7 1 − ∆∗ = 0.5 1 − ∆∗ = 0.5 1 − ∆∗ = 0.4 1 − ∆∗ = 0.3
+                                                         ζ ∗ = 0.05   ζ ∗ = 0.1    ζ ∗ = 0.2    ζ ∗ = 0.1    ζ ∗ = 0.2    ζ ∗ = 0.05   ζ ∗ = 0.05
+                                                    1      0.0732      0.0000       0.0000        1.0000       1.0000        1.0000       1.0000
+                                                    2      0.5610       1.0000      0.0488       0.2439        0.6098        1.0000       1.0000
+                                                    3      0.0732      0.3659       0.0000        1.0000      0.0732         1.0000       1.0000
+                                                    4      0.4634      0.0000        1.0000      0.0976        1.0000       0.0000        1.0000
+                                                    5      0.0732      0.0000        1.0000      0.0244        1.0000        1.0000       1.0000
+                                                    6       1.0000      1.0000       1.0000      0.0244        1.0000       0.0244       0.0000
+                                                    7      0.0244       1.0000      0.0000        1.0000      0.0244         1.0000       1.0000
+                                                    8      0.0732      0.0244        1.0000      0.2439       0.0976         1.0000       1.0000
+                                                    9      0.1951      0.0244        1.0000      0.0244       0.0488         1.0000       1.0000
+                                                   10      0.1951       1.0000       1.0000       1.0000      0.0488        0.0244       0.0000
+                                                   11      0.0732      0.1951       0.0000       0.0488       0.1707        0.0000       0.0000
+                                                   12       1.0000     0.0244       0.0000        1.0000       1.0000        1.0000       1.0000
+                                                   13      0.3659       1.0000      0.0000        1.0000      0.0000        0.0000       0.0000
+                                                   14       1.0000      1.0000      0.0000        1.0000      0.0488         1.0000       1.0000
+                                                   15      0.0244      0.0000       0.0244        0.9268       0.9756        0.1463       1.0000
+                                                   16      0.1951      0.0000       0.0244       0.0488        1.0000        1.0000       1.0000
+                                                   17      0.0244      0.0244       0.1220        1.0000       1.0000       0.0000       0.0000
+                                                   18      0.1220      0.0000       0.0000        1.0000      0.0976        0.0000       0.0000
+                                                   19      0.0488      0.0244       0.0244       0.4878       0.0976        0.0244        1.0000
+                                                   20       0.4146     0.0000       0.0244       0.0244        0.8049        1.0000       1.0000
+
+                                                                    (c) Independent Network Model
+
+Table 2: Node selection results for V = 20 nodes under the seven simulation scenarios.
+We show the posterior probability of each node being active for spatial joint model, non-
+spatial joint model and independent network model. The colored cells correspond to the
+truly influential nodes. The table shows excellent node identification by the spatial joint
+model and competitive performance by non-spatial joint model except in Scenarios 2, 4, and
+6, and the independent network model except in Scenario 1. The node selection results are
+not available for independent tensor learning by design.
+
+
+5.1.2           Estimation of Regression Coefficients
+
+      Figure 3 presents circos plots comparing the true and estimated association strengths
+β(u, v) between influential nodes across selected simulation scenarios. For the sake of brevity,
+results are shown only for Scenarios 1, 4, and 7, which represent a broad spectrum of node
+sparsity levels, corresponding to true node sparsity values of 0.8, 0.5, and 0.3, respectively. In
+all cases, the estimated associations closely mirror the true values, highlighting the method’s
+strong ability to recover node relationships across varying degrees of sparsity.
+
+
+
+                                                                                                  20
+      (a) Truth (Scenario 1)          (b) Truth (Scenario 4)         (c) Truth (Scenario 7)
+
+
+
+
+    (d) Estimated (Scenario 1)      (e) Estimated (Scenario 4)     (f) Estimated (Scenario 7)
+
+Figure 3: Circos plots illustrating the true and estimated covariate-dependent associations
+between influential network nodes, as captured by the network coefficients under Scenario 1
+(1 − ∆∗ = 0.8, ζ ∗ = 0.05), Scenario 4 (1 − ∆∗ = 0.5, ζ ∗ = 0.1), and Scenario 7 (1 − ∆∗ =
+0.3, ζ ∗ = 0.05). The top row displays the true network coefficients between influential
+network nodes, while the bottom row shows the corresponding estimates obtained from the
+proposed model. Across all scenarios, the model demonstrates highly accurate recovery of
+the underlying associations.
+
+
+   Figure 4 presents a comparative assessment of coefficient estimation for our method
+and its competitors. Figure 4(a) demonstrates that our method consistently achieves lower
+scaled MSE values when estimating β ∗ across all simulation scenarios. Among competing
+methods, the independent tensor model performs the worst in most cases, except in Scenario
+7, where node sparsity is at its lowest. This is likely due to its inability to account for the
+symmetric structure of the network. The independent network model performs comparably
+to our approach in high-sparsity settings (Scenarios 1, 2, and 3), but as sparsity decreases, it
+begins to lag behind the spatial joint model. The non-spatial joint model generally exhibits
+inferior performance, except in Scenarios 1 and 5, where node sparsity is at relatively high
+and mid-levels, respectively. These findings underscore the advantages of incorporating
+spatial correlation among nodes in the model. Notably, when node sparsity is low and
+
+
+                                               21
+spatial correlation is high (Scenarios 6 and 7), our approach significantly outperforms all
+competitors. Collectively, these comparisons highlight the benefits of our joint modeling
+framework, which effectively accounts for network structure and spatial correlation among
+nodes, leading to superior coefficient estimation, particularly under low-sparsity (e.g., 1 −
+∆∗ = 0.3, 0.4) and higher spatial correlations (e.g., ζ ∗ = 0.05).
+
+      0.300
+
+      0.100
+                                                                                                             0.5
+                                                                           Model                                                                                                            Model
+MSE
+
+
+
+
+                                                                                                       MSE
+      0.030                                                                 Indep. Network Model                                                                                             Indep. Network Model
+                                                                            Indep. Tensor Model                                                                                              Non−Spatial Joint Model
+                                                                            Non−Spatial Joint Model                                                                                          Spatial Joint Model
+      0.010                                                                 Spatial Joint Model
+                                                                                                             0.3
+
+      0.003
+                                                                                                             0.2
+              1       2        3        4        5        6        7                                               1         2          3          4          5          6          7
+          1−∆*=0.8 1−∆*=0.7 1−∆*=0.7 1−∆*=0.5 1−∆*=0.5 1−∆*=0.4 1−∆*=0.3                                       1−∆*=0.8   1−∆*=0.7   1−∆*=0.7   1−∆*=0.5   1−∆*=0.5   1−∆*=0.4   1−∆*=0.3
+           ζ*=0.05  ζ*=0.1   ζ*=0.2   ζ*=0.1   ζ*=0.2   ζ*=0.05  ζ*=0.05                                        ζ*=0.05    ζ*=0.1     ζ*=0.2     ζ*=0.1     ζ*=0.2     ζ*=0.05    ζ*=0.05
+
+                               Combination                                                                                               Combination
+
+        (a) Scaled MSE of estimating the entries of β                                                          (b) Scaled MSE of estimating the entries of α
+
+Figure 4: Scaled MSE for estimating the predictor coefficients corresponding to the network
+outcome and nodal attributes across the seven simulation combinations. We present results
+for the proposed spatial joint model along with those of its competitors: independent tensor
+model, independent network model, and non-spatial joint model. Since the independent
+tensor model and independent network model fit the same model for nodal attributes, they
+will offer identical results in estimating α∗ . Hence, only results for the independent network
+model are presented in Figure 4b. The results show the overall superior performance of the
+spatial joint model in coefficient estimation.
+
+        Focusing on the point estimation of predictor coefficients for nodal attributes, Figure 4(b)
+reports scaled MSE for each method across the seven simulation scenarios. The spatial joint
+model consistently achieves the lowest MSE among all competitors. Both spatial and non-
+spatial joint models show slight increase in MSE as node sparsity decreases. In contrast, the
+independent network model shows relatively stable but higher MSE across scenarios. These
+results highlight the advantages of incorporating spatial correlation through joint modeling,
+particularly under varying sparsity and spatial dependence.
+        When evaluating the uncertainty quantification of the network coefficients in our spatial
+joint model, Figure 5(a) indicates that all interval coverages meet or exceed the nominal
+95% level. In contrast, the independent tensor model consistently exhibits interval coverage
+below 95%. Additionally, both the independent network model and the non-spatial joint
+model demonstrate lower coverage in scenarios 6 and 7, where sparsity is at its lowest and
+
+                                                                                                      22
+                         1.000
+ 95% Interval Coverage
+
+
+
+
+                                                                                                                                    95% Interval Length
+                                                                                                                                                          0.4
+                         0.975
+                                                                                                         Model                                            0.3                                                                            Model
+                                                                                                          Indep. Network Model                                                                                                            Indep. Network Model
+                         0.950                                                                            Indep. Tensor Model                                                                                                             Indep. Tensor Model
+                                                                                                          Non−Spatial Joint Model                         0.2                                                                             Non−Spatial Joint Model
+                                                                                                          Spatial Joint Model                                                                                                             Spatial Joint Model
+                         0.925
+                                                                                                                                                          0.1
+
+                         0.900
+                                   1          2          3       4          5         6          7                                                              1         2          3          4          5          6          7
+                               1−∆*=0.8 1−∆*=0.7 1−∆*=0.7 1−∆*=0.5 1−∆*=0.5 1−∆*=0.4 1−∆*=0.3                                                               1−∆*=0.8   1−∆*=0.7   1−∆*=0.7   1−∆*=0.5   1−∆*=0.5   1−∆*=0.4   1−∆*=0.3
+                                ζ*=0.05  ζ*=0.1   ζ*=0.2   ζ*=0.1   ζ*=0.2   ζ*=0.05  ζ*=0.05                                                                ζ*=0.05    ζ*=0.1     ζ*=0.2     ζ*=0.1     ζ*=0.2     ζ*=0.05    ζ*=0.05
+
+                                                         Combination                                                                                                                  Combination
+
+                               (a) Coverage of 95% Credible Interval for β                                                                                      (b) Length of 95% Credible Interval for β
+ 95% Interval Coverage
+
+
+
+
+                                                                                                                                    95% Interval Length
+                         0.9
+                                                                                                                                                          0.8
+                         0.8                                                                             Model                                                                                                                           Model
+                                                                                                          Indep. Network Model                                                                                                            Indep. Network Model
+                                                                                                          Non−Spatial Joint Model                         0.6                                                                             Non−Spatial Joint Model
+                         0.7
+                                                                                                          Spatial Joint Model                                                                                                             Spatial Joint Model
+
+                         0.6
+                                                                                                                                                          0.4
+
+                         0.5
+                               1          2          3          4          5          6          7                                                              1         2          3          4          5          6          7
+                           1−∆*=0.8    1−∆*=0.7   1−∆*=0.7   1−∆*=0.5   1−∆*=0.5   1−∆*=0.4   1−∆*=0.3                                                      1−∆*=0.8   1−∆*=0.7   1−∆*=0.7   1−∆*=0.5   1−∆*=0.5   1−∆*=0.4   1−∆*=0.3
+                            ζ*=0.05     ζ*=0.1     ζ*=0.2     ζ*=0.1     ζ*=0.2     ζ*=0.05    ζ*=0.05                                                       ζ*=0.05    ζ*=0.1     ζ*=0.2     ζ*=0.1     ζ*=0.2     ζ*=0.05    ζ*=0.05
+
+                                                      Combination                                                                                                                     Combination
+
+                               (c) Coverage of 95% Credible Interval for α                                                                                      (d) Length of 95% Credible Interval for α
+
+Figure 5: Average length and coverage of 95% credible intervals for Bayesian competitors
+and 95% confidence intervals for frequentist competitors for β and α. The results show close
+to nominal coverage and overall shorter interval lengths for the spatial joint model, with
+most prominent advantages under scenarios 6 and 7, corresponding to low node sparsity and
+high spatial correlation.
+
+
+spatial correlation is at its highest. The interval lengths, as shown in Figure 5(b), reveal that
+our model achieves these high coverage levels with intervals that are comparable in width, or
+even narrower, than those of competing approaches. This further underscores the advantages
+of joint modeling, which effectively accounts for network structure and incorporates spatial
+correlation among nodes.
+                          For uncertainty quantification of α, Figures 5(c) and 5(d) show the 95% interval coverages
+and lengths across simulation scenarios. The spatial joint model achieves near-nominal cov-
+erage in high-sparsity settings (Scenarios 1-3), with coverage declining as sparsity decreases
+(Scenarios 4-7). The spatial joint model yields interval lengths comparable to the non-spatial
+joint model in scenarios 1-5, but produces narrower intervals when spatial correlation is high
+and node sparsity is low, due to its ability to incorporate spatial structure among nodal
+attributes. The independent network model produces narrower credible intervals for α, con-
+
+
+                                                                                                                                23
+sistent with its notable under-coverage. This stems from its failure to incorporate network
+information when estimating the relationship between nodal attributes and the predictor.
+
+5.1.3                        Estimating Spatial Correlation Between Nodal Attributes
+
+
+               1.0
+
+
+
+
+                                                                                       0.75                                                             0.75
+
+               0.8
+ Correlation
+
+
+
+
+                                                                         Correlation
+
+
+
+
+                                                                                                                                          Correlation
+                                                 Estimated Correlation                                            Estimated Correlation                                               Estimated Correlation
+                                                 True Correlation                      0.50                       True Correlation                      0.50                          True Correlation
+
+
+
+               0.6
+
+                                                                                       0.25
+                                                                                                                                                        0.25
+
+
+
+
+                     0   1     2   3     4   5                                                1    2    3     4                                                1   2   3      4   5
+                              Distance                                                            Distance                                                         Distance
+
+(a) Scenario 7: 1 − ∆∗ = 0.3, ζ ∗ =(b) Scenario 2: 1 − ∆∗ = 0.7, ζ ∗ =(c) Scenario 5: 1 − ∆∗ = 0.5, ζ ∗ =
+0.05                               0.1                                0.2
+
+Figure 6: Each plot displays the spatial correlations estimated by our model against spatial
+distance, with the true exponential correlation function overlaid for reference. Results are
+shown for different values of the spatial scale parameter: ζ ∗ = 0.05, 0.1, 0.2. Across all
+settings, the estimated correlations closely follow the underlying trend of the true spatial
+correlation as distance increases.
+
+               Figure 6 plots the estimated spatial correlation between any pair of locations and presents
+these correlations as a function of distance between the pair of locations. The true correla-
+tion function over distance is overlaid for reference. We present results for Scenarios 7, 2,
+and 5, corresponding to true spatial scale parameters ζ ∗ = 0.05, 0.1, and 0.2, respectively,
+representing a wide range of spatial scale. In all three cases, the estimated spatial correla-
+tions successfully capture the overall trend of the true correlations. For a smaller value of
+ζ ∗ = 0.05, where spatial correlation decreases more gradually as the distance between loca-
+tions increases, the estimation process becomes more challenging. This results in a slight
+underestimation of spatial correlations at larger distances. However, for ζ ∗ = 0.1, 0.2, this
+effect is negligible. Overall, a key strength of the proposed framework is its ability to in-
+corporate spatial correlation between nodal attributes while simultaneously capturing their
+relationship with the network outcome, representing a novel contribution of our methodology.
+
+
+
+                                                                                                             24
+6     Analysis of Neuroimaging Data
+    The proposed spatial joint model is used to analyze the neuroimaging dataset described
+in Section 2. Of the 69 regions of interest (ROIs), 33 regions are identified as significantly
+associated with the Aggregate Pegboard Score (APS) derived from the Purdue Pegboard
+Task. Figure 7 highlights cortical and subcortical ROIs that show significant associations
+with the behavioral measure. A list of the significant ROIs is provided in Table 1 of the
+supplementary material. The identified regions include several areas within the caudate and
+putamen, motor cortical areas, posterior cingulate cortex, and frontal cortical regions. This
+pattern is consistent with neurobiological expectations, as these regions are critically involved
+in motor planning, execution, and coordination - functions that are directly engaged by the
+Purdue Pegboard Task used in the analysis [Picard and Strick, 2001].
+    Motor cortical areas are essential for executing motor movements like those required in
+the Purdue Pegboard Task, while the caudate and putamen are established components of
+motor networks and play a key role in motor function [Doyon et al., 2009, Robinson et al.,
+2009, Di Martino et al., 2008]. These subcortical structures are central to motor circuits
+and are known to be affected by aging and age-related neurodegenerative diseases [Seidler
+et al., 2010, Bo et al., 2014, Bell et al., 2014]. Their presence in our findings supports current
+understanding of motor system organization and age-related changes, further demonstrating
+the relevance and utility of our novel modeling approach. More broadly, as illustrated in
+Figure 7, both the motor and cerebellar-basal ganglia networks emerge as key components
+identified by our analysis - consistent with their well-established roles in motor behavior and
+coordination.
+
+
+
+
+                                               25
+Figure 7: The blue dots in the cortical and subcortical networks indicate the regions that
+are significantly associated with the Aggregate Pegboard Score.
+
+
+   In parallel, the involvement of frontal regions aligns with expectations for tasks engaging
+cognitive functions [Courtney et al., 1998]. These nodes span both the frontal parietal
+and cognitive control networks. Although the Aggregate Pegboard Score combines motor
+and cognitive components, the assembly task in the Purdue Pegboard Test likely draws
+on working memory to sequence actions, which corresponds to the activation of prefrontal
+regions highlighted by our model. These findings are consistent with the more prominent
+involvement of associated cognitive networks.
+   Interestingly, several nodes within the default mode network are also implicated, primarily
+within frontal and parietal cortical areas. While the default mode network is traditionally
+associated with self-directed thought and is typically “turned off” during task performance, it
+has nonetheless been linked to cognitive functioning in aging populations [Andrews-Hanna
+et al., 2007]. Its involvement here underscores its broader role in supporting behavioral
+performance, even in task-focused settings. Finally, only one region in the emotion network
+is found to significantly predict behavior when considering both structural and functional
+data. This limited contribution highlights the specificity of our proposed approach. Since the
+Purdue Pegboard Task primarily engages motor and cognitive systems rather than emotional
+processing, we would not expect broad involvement of emotion-related regions. The fact
+that these areas are largely excluded from the model’s selected predictors suggests that
+our method accurately identifies brain regions most relevant to the task, while effectively
+filtering out those not functionally aligned with motor and cognitive performance. Thus, by
+
+
+                                              26
+employing the proposed approach, the model identifies a set of brain regions that align closely
+with established literature on motor and cognitive function as well as current knowledge
+of functional neuroanatomy. Importantly, it achieves this with functional specificity while
+providing principled uncertainty quantification.
+
+
+
+
+Figure 8: Circos plot depicting the estimated network coefficients among the 33 ROIs iden-
+tified as influential.
+
+
+   Focusing now on the estimation of network coefficients, we note that our model and prior
+formulation in equations (4) and (6) implies β(u, v) = 0 whenever either the uth or vth ROI is
+deemed uninfluential. The estimated nonzero network coefficients β(u, v) between influential
+ROIs are visualized in the circos plot in Figure 8. The plot highlights strong associations
+between the Aggregate Pegboard Score (APS) and the interconnections between the mesial
+
+                                              27
+prefrontal cortex and a subset of ROIs. The connections between the pre-supplementary
+motor area also exhibit prominent relationships with APS.
+
+6.1    Predictive Inference
+    Although predictive inference for network and nodal attributes is not the primary focus of
+this study, we report results for predicting both the edges between ROIs in the connectivity
+network and the structural attributes at the ROIs to assess the performance of the competing
+models. Table 3 shows that the spatial joint model, non-spatial joint model, and independent
+network model all deliver competitive performance, while the independent tensor model
+yields less accurate point prediction and significant under-coverage due to quite narrow
+predictive intervals. Moreover, the spatial joint model achieves nominal coverage, while the
+others exhibit mild under-coverage. Overall, the spatial joint model emerges as a robust tool
+for inference on influential nodes, regression coefficients, spatial dependencies among nodal
+attributes, and predictive outcomes.
+
+                                    fMRI Network Edges               Nodal Attributes
+            Model                MSPE Coverage Length           MSPE Coverage Length
+     Spatial Joint Model         0.9971   0.9417   4.0025       0.8152   0.9515    3.6091
+   Non-Spatial Joint Model       1.0019   0.9347   3.8836       0.8202   0.9387    3.4832
+ Independent Network Model       1.0037   0.9316   3.8382       0.8204   0.9310    3.3615
+  Independent Tensor Model       1.1006   0.3200   0.8391         —        —          —
+
+Table 3: MSPE and 95% prediction interval coverages and lengths for prediction of the fMRI
+network edges and structural data. The prediction results of the Independent Tensor Model
+on the nodal attributes are the same as those of the Independent Network Model.
+
+
+
+7     Conclusion and Future Work
+    This article is motivated by resting-state functional MRI (fMRI) and structural MRI
+(sMRI) data collected in the Cognitive and Motor Aging Neuroimaging Laboratory at Texas
+A&M University, with the scientific aim of identifying brain regions significantly associated
+with cognitive and motor aging. A brain connectome is constructed from the fMRI data,
+where ROIs serve as network nodes, and sMRI measurements at each ROI are treated as
+node-specific attributes. A composite measure of cognitive and motor function, the Aggre-
+gate Pegboard Score (APS), is used as a subject-level predictor in the analysis. To jointly
+
+                                              28
+analyze these data, we develop a predictor-dependent modeling framework that jointly learns
+the structure of the brain network and nodal attributes. The proposed model enables in-
+ference on influential brain regions related to cognitive and motor aging and estimates the
+effect of predictors on both network and nodal attributes. Spatial information on ROIs is
+explicitly incorporated to capture spatially varying associations in nodal attributes. The
+empirical results indicate that the new method can offer improved performance over exist-
+ing alternatives, highlighting the benefits of integrating network topology, joint modeling
+of network and nodal attributes, and spatial correlation among nodal attributes over ROIs.
+Our framework identifies scientifically meaningful ROIs associated with cognitive and motor
+aging. Future work will be directed toward modeling more complex, non-linear dependen-
+cies among brain networks, nodal attributes, and subject-level covariates. We propose the
+development of an interpretable deep learning framework capable of estimating the underly-
+ing regression function while retaining the interpretability crucial for identifying influential
+network nodes.
+
+
+Acknowledgments
+   Portions of this research were conducted with the advanced computing resources provided
+by Texas A&M Department of Statistics Arseven Computing Cluster.
+
+
+References
+R. Albert and A. L. Barabási. Statistical mechanics of complex networks. Rev. Mod. Phys.,
+  74:47–97, Jan 2002. doi: 10.1103/RevModPhys.74.47. URL https://link.aps.org/doi/
+  10.1103/RevModPhys.74.47.
+
+J. R. Andrews-Hanna, A. Z. Snyder, J. L. Vincent, C. Lustig, D. Head, M. Raichle, and
+  R. L. Buckner. Disruption of large-scale brain systems in advanced aging. Neuron, 56(5):
+  924–935, 2007. ISSN 0896-6273. doi: 10.1016/j.neuron.2007.10.038.
+
+H. K. Ballard, T. B. Jackson, A. C. Symm, T. H. Hicks, and J. A. Bernard. Age-related
+  differences in functional network segregation in the context of sex and reproductive stage.
+  Human Brain Mapping, 44(5):1949–1963, 2022. doi: 10.1002/hbm.26184.
+
+
+                                              29
+M. M. Barbieri and J. O. Berger. Optimal predictive model selection. The Annals of
+  Statistics, 32(3):870–897, 2004.
+
+P. T. Bell, M. Gilat, C. O’Callaghan, D. A. Copland, M. J. Frank, S. J. Lewis, and J. M.
+  Shine. Dopaminergic basis for impairments in functional connectivity across subdivisions
+  of the striatum in parkinson’s disease. Human Brain Mapping, 36(4):1278–1291, Nov 2014.
+  doi: 10.1002/hbm.22701.
+
+J. Bo, C.-M. Lee, Y. Kwak, S. J. Peltier, J. A. Bernard, M. Buschkuehl, S. M. Jaeggi, J. L.
+  Wiggins, J. Jonides, C. S. Monk, and R. D. Seidler. Lifespan differences in cortico-striatal
+  resting state connectivity. Brain Connectivity, 4(3):166–180, 2014. doi: 10.1089/brain.
+  2013.0155. PMID: 24575740.
+
+C. Bowles, L. Chen, R. Guerrero, P. Bentley, R. Gunn, A. Hammers, D. A. Dickie, M. V.
+  Hernández, J. Wardlaw, and D. Rueckert. Gan augmentation: Augmenting training data
+  using generative adversarial networks. arXiv preprint arXiv:1810.10863, 2018.
+
+V. D. Calhoun and J. Sui. Multimodal fusion of brain imaging data: A key to finding the
+  missing link(s) in complex mental illness. Biological Psychiatry: Cognitive Neuroscience
+  and Neuroimaging, 1(3):230–244, 2016. ISSN 2451-9022. doi: 10.1016/j.bpsc.2015.12.005.
+  Brain Connectivity in Psychopathology.
+
+N. A. Christakis and J. H. Fowler. The spread of obesity in a large social network over 32
+  years. n engl j med, 2007(357):370–379, 2007.
+
+S. M. Courtney, L. Petit, J. M. Maisog, L. G. Ungerleider, and J. V. Haxby. An area
+  specialized for spatial working memory in human frontal cortex. Science, 279(5355):1347–
+  1351, 1998. doi: 10.1126/science.279.5355.1347.
+
+A. Di Martino, A. Scheres, D. Margulies, A. Kelly, L. Uddin, Z. Shehzad, B. Biswal, J. Wal-
+  ters, F. Castellanos, and M. Milham. Functional connectivity of human striatum: A
+  resting state fmri study. Cerebral Cortex, 18(12):2735–2747, 04 2008. ISSN 1047-3211.
+  doi: 10.1093/cercor/bhn041.
+
+
+
+                                             30
+J. Doyon, P. Bellec, R. Amsel, V. Penhune, O. Monchi, J. Carrier, S. Lehéricy, and H. Be-
+  nali. Contributions of the basal ganglia and functionally related brain structures to mo-
+  tor learning. Behavioural Brain Research, 199(1):61–75, 2009. ISSN 0166-4328. doi:
+  10.1016/j.bbr.2008.11.012. Special issue on the role of the basal ganglia in learning and
+  memory.
+
+B. K. Fosdick and P. D. Hoff. Testing and modeling dependencies between a network and
+  nodal attributes. Journal of the American Statistical Association, 110(511):1047–1056,
+  2015.
+
+J. H. Fowler and N. A. Christakis. Dynamic spread of happiness in a large social network:
+  longitudinal analysis over 20 years in the framingham heart study. British Medical Journal,
+  337:a2338, 2008.
+
+S. Guha and A. Rodriguez. Bayesian regression with undirected network predictors with an
+  application to brain connectome data. Journal of the American Statistical Association,
+  116(534):581–593, 2021.
+
+R. Guhaniyogi and A. Rodriguez. Joint modeling of longitudinal relational data and exoge-
+  nous variables. Bayesian Analysis, 15(2):477–503, 2020.
+
+R. Gutierrez, A. Scheffler, R. Guhaniyogi, M. L. Gorno-Tempini, M. L. Mandelli, and G. Bat-
+  tistella. Multiobject data integration in the study of primary progressive aphasia. The
+  Annals of Applied Statistics, 19(4):3282–3303, 2025.
+
+M. P. Harms, L. H. Somerville, B. M. Ances, J. Andersson, D. M. Barch, M. Bastiani, S. Y.
+  Bookheimer, T. B. Brown, R. L. Buckner, G. C. Burgess, T. S. Coalson, M. A. Chappell,
+  M. Dapretto, G. Douaud, B. Fischl, M. F. Glasser, D. N. Greve, C. Hodge, K. W. Jamison,
+  S. Jbabdi, S. Kandala, X. Li, R. W. Mair, S. Mangia, D. Marcus, D. Mascali, S. Moeller,
+  T. E. Nichols, E. C. Robinson, D. H. Salat, S. M. Smith, S. N. Sotiropoulos, M. Terpstra,
+  K. M. Thomas, M. D. Tisdall, K. Ugurbil, A. van der Kouwe, R. P. Woods, L. Zöllei,
+  D. C. Van Essen, and E. Yacoub. Extending the human connectome project across ages:
+  Imaging protocols for the lifespan development and aging projects. NeuroImage, 183:
+  972–984, 2018. ISSN 1053-8119. doi: 10.1016/j.neuroimage.2018.09.060.
+
+                                             31
+T. H. Hicks, T. N. Magalhães, H. K. Ballard, T. B. Jackson, S. J. Cox, and J. A. Bernard.
+  Network segregation in aging females and evaluation of the impact of sex steroid hormones.
+  Frontiers in Human Neuroscience, 17, Feb 2023. doi: 10.3389/fnhum.2023.1059091.
+
+P. D. Hoff. Bilinear mixed-effects models for dyadic data. Journal of the American Statistical
+  Association, 100(469):286–295, 2005.
+
+P. D. Hoff, A. E. Raftery, and M. S. Handcock. Latent space approaches to social network
+  analysis. Journal of the American Statistical Association, 97(460):1090–1098, 2002.
+
+P. W. Holland and S. Leinhardt. An exponential family of probability distributions for
+  directed graphs. Journal of the American Statistical Association, 76(373):33–50, 1981.
+  doi: 10.1080/01621459.1981.10477598.
+
+P. W. Holland, K. B. Laskey, and S. Leinhardt. Stochastic blockmodels: First steps. Social
+  Networks, 5(2):109–137, 1983. ISSN 0378-8733. doi: 10.1016/0378-8733(83)90021-7.
+
+T. B. Jackson and J. A. Bernard. Cerebello-basal ganglia networks and cortical network
+  global efficiency. The Cerebellum, 22:588–600, 2023. doi: 10.1007/s12311-022-01418-z.
+
+M. Jenkinson, C. F. Beckmann, T. E. Behrens, M. W. Woolrich, and S. M. Smith. Fsl.
+  NeuroImage, 62(2):782–790, 2012. ISSN 1053-8119. doi: 10.1016/j.neuroimage.2011.09.
+  015.
+
+I. Lawson. Purdue pegboard test. Occupational Medicine, 69(5):376–377, 2019.
+
+X. Lin. Identifying peer effects in student academic achievement by spatial autoregressive
+  models with group unobservables. Journal of Labor Economics, 28(4):825–860, 2010.
+
+N. Picard and P. L. Strick. Imaging the premotor areas. Current Opinion in Neurobiology,
+  11(6):663–672, 2001. doi: 10.1016/S0959-4388(01)00266-5.
+
+G. Robins, T. Snijders, P. Wang, M. Handcock, and P. Pattison. Recent developments
+  in exponential random graph (p*) models for social networks. Social Networks, 29(2):
+  192–215, 2007.
+
+
+                                             32
+S. Robinson, G. Basso, N. Soldati, U. Sailer, J. Jovicich, L. Bruzzone, I. Kryspin-Exner,
+  H. Bauer, and E. Moser. A resting state network in the motor control circuit of the basal
+  ganglia. BMC Neuroscience, 10, 2009. doi: 10.1186/1471-2202-10-137.
+
+J. Rodriguez-Acosta, S. Guha, S. Gailliot, and A. Williams. Supervised learning with inter-
+  and intra-dependence in multilayer networks with applications in security systems analysis.
+  Technometrics, pages 1–14, 2025.
+
+R. D. Seidler, J. A. Bernard, T. B. Burutolu, B. W. Fling, M. T. Gordon, J. T. Gwin,
+  Y. Kwak, and D. B. Lipps. Motor control and aging: Links to age-related brain struc-
+  tural, functional, and biochemical effects. Neuroscience & Biobehavioral Reviews, 34(5):
+  721–733, 2010. ISSN 0149-7634. doi: 10.1016/j.neubiorev.2009.10.005. Special Section:
+  Dopaminergic Modulation of Lifespan Cognition.
+
+D. A. Shoham, R. Hammond, H. Rahmandad, Y. Wang, and P. Hovmand. Modeling social
+  norms and social influence in obesity. Current Epidemiology Reports, 2(1):71–79, 2015.
+
+K. Suzuki. Overview of deep learning in medical imaging. Radiological physics and technology,
+  10(3):257–273, 2017.
+
+N. Tzourio-Mazoyer, B. Landeau, D. Papathanassiou, F. Crivello, O. Etard, N. Delcroix,
+  B. Mazoyer, and M. Joliot. Automated anatomical labeling of activations in spm using a
+  macroscopic anatomical parcellation of the mni mri single-subject brain. NeuroImage, 15
+  (1):273–289, 2002. ISSN 1053-8119. doi: 10.1006/nimg.2001.0978.
+
+S. Wasserman and C. Anderson. Stochastic a posteriori blockmodels: Construction and
+  assessment. Social Networks, 9(1):1–36, 1987. ISSN 0378-8733. doi: 10.1016/0378-8733(87)
+  90015-3.
+
+D. J. Watts and P. Dodds. Threshold models of social influence. The Oxford Handbook of
+  Analytical Sociology, pages 475–497, 2009.
+
+S. L. Whitfield-Gabrieli and A. Nieto-Castanon. Conn: A functional connectivity toolbox
+  for correlated and anticorrelated brain networks. Brain connectivity, 2 3:125–41, 2012.
+
+
+                                               33
+J. M. Wolterink, A. M. Dinkla, M. H. Savenije, P. R. Seevinck, C. A. van den Berg, and
+  I. Išgum. Deep mr to ct synthesis using unpaired data. In International workshop on
+  simulation and synthesis in medical imaging, pages 14–23. Springer, 2017.
+
+J. Zeng, W. Wang, and X. Zhang. TRES: An R package for tensor regression and envelope
+  algorithms. Journal of Statistical Software, 99(12):1–31, 2021. doi: 10.18637/jss.v099.i12.
+
+Z. Zeng, M. Li, and M. Vannucci. Bayesian image-on-scalar regression with a spatial global-
+  local spike-and-slab prior. Bayesian Analysis, 19(1):235–260, 2024.
+
+X. Zhang, G. Xu, and J. Zhu. Joint latent space models for network data with high-
+  dimensional node variables. Biometrika, 109(3):707–720, 2022.
+
+
+
+
+                                             34
+Supplementary File: Integrative Predictor-Dependent
+Learning of Network Data and Spatially Correlated
+ Nodal Attributes for Multimodal Brain Imaging in
+                                       Aging
+
+
+
+                                       Abstract
+
+    This supplementary material consists of two sections. Section 1 outlines the full
+ conditional distributions of the model parameters used for Gibbs sampling. Section 2
+ contains the list of regions of interest (ROIs) identified by the proposed spatial joint
+ model as being significantly associated with the Aggregate Pegboard Score.
+
+
+
+
+                                            1
+1      Full Conditional Distributions
+    The following full conditional distributions are presented for the case of p = 1.
+Let y i = (yi (u, v) : 1 ≤ u < v ≤ V )T be the vector of upper triangular entries of
+                                             e = (β(u, v) : 1 ≤ u < v ≤ V )T be the
+the i-th network adjacency matrix, Y i , and β
+vector of upper triangular entries of the network adjacency matrix B, both of size
+                                  e = (α(1), ..., α(V ))T , z i = (zi (s1 ), ..., zi (sV ))T ,
+h = V (V − 1)/2. Furthermore, let α
+γ y = (γ1,y , ..., γq,y )T , and γ z = (γ1,z , ..., γq,z )T . Lastly, let Σ ∈ RV ×V be a matrix
+whose (u, v)-th entry is exp(−ζ||su − sv ||). Then,
+                   1                                    τ2
+    • µy |− ∼ N ( 1Th ni=1 (y i − βx
+                          P           e i − 1h wT γ ), y ).
+                                                  i y
+                 nh                                     nh
+                                                                            τz2
+                                                                                
+                          1           −1 Pn
+    • µz |− ∼ N                     T
+                                   1 Σ     i=1 (z i − αx
+                                                                T
+                                                      e i − 1V wi γ z ), T −1     .
+                   n1TV Σ−1 1V V                                        n1V Σ 1V
+    • γ y | − ∼ N (µγ y , Σγ y ) ,
+                       τy2 Pn
+                          ( i=1 wi wTi )−1 and µγ y = Σγ y τ12 ni=1 wi 1Th (y i − 1h µy − βx
+                                                               P
+      where Σγ y =                                                                        e i ).
+                       h                                     y
+
+
+    • γ z | − ∼ N (µγ z , Σγ z ) ,
+                            τz2
+                                ( ni=1 wi wTi )−1 and µγ z = Σγ z τ12 ni=1 wi 1TV Σ−1 (z i −
+                                 P                                    P
+      where Σγ z =       T   −1
+                        1V Σ 1V                                     z
+
+      1V µz − αx
+              e i ).
+                           hn     1 Pn
+    • τy2 | − ∼ IG(a +        ,b+                   e i − 1h wT γ )T (y − 1h µy − βx
+                                       (y − 1h µy − βx                            e i−
+                            2     2 i=1 i                     i y      i
+
+      1h wTi γ y )).
+                                                                                                      
+                      nV      1 Pn
+    • τz2 |− ∼ IG a +    ,b +        (z i − 1  µ
+                                              V z − αx  i − 1  w T γ )T Σ−1 (z − 1 µ − αx
+                                                              V i z           i   V z     i − 1  w Tγ ) .
+                                                                                                V i z
+                              2 i=1
+                                                    e                                  e
+                       2
+    • ∆ | − ∼ Beta(a∆ + Vv=1 ηv , b∆ + V − Vv=1 ηv ).
+                         P                   P
+
+    • L|− ∼ IW (ν + #{v : ηv = 1}, ΣL + v:ηv =1 ξ v ξ Tv ),
+                                          P
+
+      where ξ v = (α(v), θ(v)T )T .
+
+    • (π1,r , π2,r , π3,r ) | − ∼ Dirichlet(rξ + I(λr = 0), 1 + I(λr = 1), 1 + I(λr = −1)).
+                  
+                      0      w.p. p1,r ,
+                  
+                  
+                  
+                  
+                  
+                  
+    • λr | − ∼ 1             w.p. p2,r ,
+                  
+                  
+                  
+                  
+                  −1 w.p. p3,r ,
+                  
+
+                         π1,r ni=1 N (y i | 1h µy + β
+                              Q                      e (λr =0) xi + 1h wT γ , τ 2 I h )
+                                                                        i y y
+      where p1,r =                                                                      ,
+                                                       S
+               π2,r ni=1 N (y i | 1h µy + β
+                     Q                       e (λr =1) xi + 1h wT γ , τ 2 I h )
+                                                                  i y y
+      p2,r =                                                                    ,
+                                             S
+
+                                                2
+                  Qn                       e (λr =−1) xi + 1h wT γ , τ 2 I h )
+           π3,r    i=1 N (y i | 1h µy + β                 i             y   y
+  p3,r =                                                               ,
+                                     S
+  and S = π1,r ni=1 N (y i | 1h µy + β
+              Q                       e (λr =0) xi + 1h wT γ , τ 2 I h )
+                                                            i y y
+         Qn                       (λr =1)
+    +π2,r i=1 N (y i | 1h µy + βe         xi + 1h wTi γ y , τy2 I h )
+                                e (λr =−1) xi + 1h wT γ , τ 2 I h ).
+    +π3,r ni=1 N (y i | 1h µy + β
+         Q
+                                                      i y y
+            (λr =c)
+  Here, β
+        e              is the vector, β,
+                                      e obtained when setting λr = c, in Λ, where
+
+  c ∈ {−1, 0, 1}.
+
+
+                                                            (v)
+• For the update of ξ v = (α(v), θ(v)T )T , let y i               = (yi (1, v), ..., yi (v − 1, v), yi (v, v +
+                                       (v)   (v)
+  1), ...yi (v, V ))T ∈ RV −1 , with y
+                                     e i = y i − µy 1V −1 − γ Ty wi 1V −1 and zei (sv ) =
+  zi (sv ) − µz − γ Tz wi .
+
+  Furthermore, define θ (−v) = (θ(1), ..., θ(v − 1), θ(v + 1), ..., θ(V ))T ∈ R(V −1)×R
+         (v) iid
+  and ei    ∼ N (0V −1 , τy2 I V −1 ).
+                                                                          
+                             z  (s   )                        x       0 T
+                               i v
+                    (v)                ∈ RV and Ai =  i               R     ∈ RV ×(R+1) .
+                             e
+  Moreover, let f i = 
+                                 (v)                                   (−v)
+                               y
+                               ei                           0V −1 xi θ      Λ
+                                                   
+                          (v)
+                        f                             A
+                        1                          1
+                        .                          . 
+  Lastly, let f (v) =  ..  ∈ RnV and A =  ..  ∈ RnV ×(R+1) .
+                                                   
+                          (v)
+                        fn                            An
+                                                                                              
+                                                                                τz2      T
+                                                                                       0V −1
+  Then f (v) = Aξ v +e  e(v) , where e  e(v) ∼ N (0nV , Σf ), with Σf = I n ⊗                 .
+                                                                                       2
+                                                                               0V −1 τy I V −1
+  Hence,
+
+
+                              ξ v | − ∼ ηv N (µξv , Σξv ) + (1 − ηv )δ0 ,
+
+  where Σξv = (AT Σ−1   −1 −1
+                   f A+L )    and µξv = Σξv AT Σ−1
+                                                f f
+                                                    (v)
+                                                        .
+                                                                   ∆N (f (v) | 0nV , ALAT + Σf )
+• ηv | − ∼ Ber(∆ηv ), where ∆ηv =                                                                                .
+                                              ∆N (f (v) | 0nV , ALAT + Σf ) + (1 − ∆)N (f (v) | 0nV , Σf )
+• For ζ, over the grid, ζ1 , ..., ζg ,
+                         Qn
+                                               e i +1V wT
+                               N (z i |1V µz +αx                 2
+                                                         i γ z ,τz Σ(ζl ))
+  P (ζ = ζl |−) = Pg       i=1
+                            Qn
+                                  N   (z  |1 µ  +αx   +1  w  T γ ,τ 2 Σ(ζ )) ,   l = 1, ..., g,
+                        m=1   i=1        i V z    e i   V    i z z         m
+
+  where Σ(ζl ) is the resulting Σ matrix when ζ = ζl .
+
+
+
+
+                                                   3
+     2     Selected Regions of Interest (ROIs)
+         Table 1 lists the 33 ROIs identified by the proposed spatial joint model as being
+     significantly associated with the Aggregate Pegboard Score, along with the cortical or
+     subcortical networks they belong to.
+
+                           ROI                      Cortical/Subcortical Network
+                  Left dorsal caudate              Cerebellar-basal ganglia network
+                 Right dorsal caudate              Cerebellar-basal ganglia network
+             Left ventral rostral putamen          Cerebellar-basal ganglia network
+             Right ventral rostral putamen         Cerebellar-basal ganglia network
+                 Right cerebellar crusII           Cerebellar-basal ganglia network
+              Left dorsal caudal putamen           Cerebellar-basal ganglia network
+             Right dorsal caudal putamen           Cerebellar-basal ganglia network
+              Left dorsal rostral putamen          Cerebellar-basal ganglia network
+             Right dorsal rostral putamen          Cerebellar-basal ganglia network
+                    Left frontal gyrus                 Frontal-parietal network
+                   Right frontal gyrus                 Frontal-parietal network
+                Medial cingulate cortex                Frontal-parietal network
+              Left inferior parietal lobule            Frontal-parietal network
+                  Left anterior insula                     Control network
+                  Right anterior insula                    Control network
+            Dorsal anterior cingulate cortex               Control network
+             Right superior frontal cortex              Default mode network
+               Posterior cingulate cortex               Default mode network
+              Right lateral parietal cortex             Default mode network
+                     Retro Splenial                     Default mode network
+              Posterior cingulate cortex2                 Emotion network
+                Mesial prefrontal cortex                    Motor network
+            Pre-supplementary motor area                    Motor network
+               Supplementary motor area                     Motor network
+              Left lateral premotor cortex                  Motor network
+           Left dorsolateral premotor cortex                Motor network
+          Left ventral lateral premotor cortex              Motor network
+                Left sensorimotor cortex                    Motor network
+               Right sensorimotor cortex                    Motor network
+               Left primary motor cortex                    Motor network
+              Right primary motor cortex                    Motor network
+           Left primary sensorimotor cortex                 Motor network
+          Right primary sensorimotor cortex                 Motor network
+
+Table 1: List of the 33 ROIs selected by the proposed spatial joint model and their associated
+cortical or subcortical networks.
+
+
+
+
+                                               4
+

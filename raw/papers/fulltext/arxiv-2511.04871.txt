@@ -1,0 +1,1711 @@
+                                           Clinical-ComBAT: a diffusion-weighted MRI
+                                          harmonization method for clinical applications
+                                        Gabriel Girard1,2 , Manon Edde1,2 , Félix Dumais1,2 , Yoan David1 ,
+arXiv:2511.04871v1 [cs.CV] 6 Nov 2025
+
+
+
+
+                                        Matthieu Dumont3 , Guillaume Theaud3 , Jean-Christophe Houde3 ,
+                                        Arnaud Boré2 , Maxime Descoteaux2,3 , and Pierre-Marc Jodoin1,2
+                                         1
+                                           Videos & Images Theory and Analytics Lab (VITAL), Department of Computer
+                                                    Science, Université de Sherbrooke, Sherbrooke (Qc), Canada
+                                         2
+                                           Sherbrooke Connectivity Imaging Lab (SCIL), Department of Computer Science,
+                                                         Université de Sherbrooke Sherbrooke (Qc), Canada
+                                                          3
+                                                            Imeka Solutions inc, Sherbrooke (Qc), Canada
+
+
+                                                                      November 10, 2025
+
+                                                                              Abstract
+                                                 Diffusion-weighted magnetic resonance imaging (DW-MRI) derived
+                                             scalar maps are effective for assessing neurodegenerative diseases and mi-
+                                             crostructural properties of white matter in large number of brain con-
+                                             ditions. However, DW-MRI inherently limits the combination of data
+                                             from multiple acquisition sites without harmonization to mitigate scanner-
+                                             specific biases. While the widely used ComBAT method reduces site
+                                             effects in research, its reliance on linear covariate relationships, homo-
+                                             geneous populations, fixed site numbers, and well populated sites con-
+                                             strains its clinical use. To overcome these limitations, we propose Clinical-
+                                             ComBAT, a method designed for real-world clinical scenarios. Clinical-
+                                             ComBAT harmonizes each site independently, enabling flexibility as new
+                                             data and clinics are introduced. It incorporates a non-linear polynomial
+                                             data model, site-specific harmonization referenced to a normative site,
+                                             and variance priors adaptable to small cohorts. It further includes hy-
+                                             perparameter tuning and a goodness-of-fit metric for harmonization as-
+                                             sessment. We demonstrate its effectiveness on simulated and real data,
+                                             showing improved alignment of diffusion metrics and enhanced applica-
+                                             bility for normative modeling.
+
+                                          Keywords: Harmonization, Diffusion-weighted MRI, White matter, Com-
+                                        BAT
+
+
+
+
+                                                                                  1
+1    Introduction
+Neuroimaging studies increasingly use multicenter Diffusion-weighted MRI (DW-
+MRI) data along with normative modeling [1, 2, 3, 4, 5]. Normative modeling is a
+framework designed to map the general trend and variability of a reference pop-
+ulation, facilitating statistical analyses for individual participants with specific
+diseases. The detection of subtle brain variations requires large datasets to en-
+sure robust and sufficient statistical power. However, it is well-established that
+DW-MRI data is influenced by site-specific acquisition biases, making cross-
+scanner and cross-protocol comparisons of DW-MRI data unreliable without
+appropriate data harmonization. Such discrepancies, known as batch effects
+[6, 7], arise from various technical variability, including software updates, scan-
+ner drift, differences in MRI manufacturer, acquisition protocols, field strength,
+and hardware variability [8, 9, 10, 11, 12].
+    The objective of harmonization is to derive a transfer function between two or
+more sites to eliminate batch effects while preserving covariate expressions, such
+as age and sex. Although various harmonization methods have been proposed
+[13, 14, 15, 16, 9, 17, 18], many are tailored to specific contexts and may not be
+suitable for routine clinical practice, which comes with its own set of challenges.
+For example, data from day-to-day clinical practice often originate from patients
+with a broad spectrum of diseases and symptoms, unlike clinical studies and
+academic research, which typically involve carefully selected participants with
+consistent profiles. Additionally, clinical and academic research protocols are
+meticulously optimized to achieve the best possible results, with participants
+spending extended time in scanners to ensure high signal-to-noise ratio (SNR),
+and scanners across sites usually being from the same vendor. This contrasts
+with the situation in a network of diverse clinics, where acquisition protocols,
+clinical practices, and hardware vary significantly.
+    Currently, the predominant method for DW-MRI harmonization is ComBAT
+[15, 19]. Unlike other approaches that harmonize the raw diffusion signal [20, 14,
+18], ComBAT focuses on harmonizing DW-MRI scalar maps such as Fractional
+Anisotropy (FA) and Mean Diffusivity (MD) maps [21, 15, 22], as well as other
+features such as cortical thickness and gray matter regions [23, 24]. ComBAT
+employs a Bayesian framework to learn the additive and multiplicative biases
+of each site, coupled with a linear model that captures the effects of covariates
+(see Section 2 and the supplementary materials for more mathematical details).
+    Despite its popularity, ComBAT has limitations. As such, over the years,
+several derived versions of ComBAT have been proposed to improve the origi-
+nal approach. Most of these improved versions tackle the core assumptions of
+ComBAT. For instance, ComBAT-GAM [25] counters the linear assumption of
+ComBAT using spline-based generalized additive models (GAM). M-ComBAT
+[26] harmonizes data to a specific reference (or target) site rather than a global
+average. B-ComBAT [26] employs Monte Carlo bootstrapping to robustly es-
+timate ComBAT’s parameters, whereas Longitudinal ComBAT [27] integrates
+intra-subject temporal information. CoVBat [13] additionally corrects for co-
+variance effects besides variance and mean.
+
+
+                                         2
+    While ComBAT is effective in clinical trials and academic research settings, it
+is not directly applicable to everyday clinical practice as documented by [28]. In
+these settings, participants (human or otherwise) undergo specific interventions
+according to a predetermined research plan [29], with data collected at multiple
+sites following strict protocols. Moreover, they may also encompass retrospec-
+tive research on public datasets [30, 31, 32, 33, 34, 35, 36, 37, 38]. ComBAT
+generally harmonizes all sites simultaneously, an approach that suits a fixed
+number of sites but falls short in a dynamic clinic network where the number
+of participants and acquisition sites expand over time. Additionally, ComBAT
+presupposes a linear distribution of data with respect to its covariates, which is
+often not the case [28]. Moreover, inter-site variability in regression parameters,
+such as differences in age-related effects, cannot be captured by the single re-
+gression model used in ComBAT [28]. This limitation may cause the ComBAT’s
+model to generalize poorly to unseen data, particularly when trained on a small
+subject sample or when the subjects cover only a narrow range of covariate
+values (e.g. subjects with limited age range) [28].
+    These limitations necessitate a specialized harmonization approach for clin-
+ical settings, which we introduce as Clinical-ComBAT, a mathematical refor-
+mulation of the original ComBAT method. Clinical-ComBAT builds on years
+of practical experience harmonizing DW-MRI data across hundreds of hetero-
+geneous sites, where direct application of ComBAT proved impractical. The
+method addresses these challenges through a simplified data model, polynomial
+modeling of data, and site-specific harmonization using a normative reference
+site. Like M-ComBAT [26] and Pairwise-ComBAT [28], it aligns each site with
+a well-populated reference, avoiding complications associated with increasing
+site numbers. The large normative population enables integration of new priors
+during model fitting, accurate estimation of the polynomial order, and the use
+of goodness-of-fit metrics to assess harmonization quality.
+    This study compares Clinical-ComBAT with ComBAT [15] across four datasets,
+including three real-world cohorts and one synthetic dataset. Harmonization
+was applied to the mean diffusivity (MD) and the fractional anisotropy (FA),
+obtained from Diffusion Tensor Imaging (DTI), and to apparent fiber density
+[39] derived from the fiber Orientation Distribution Function (fODF) obtained
+from Constrained Spherical Deconvolution [40, 41]. Performance was evaluated
+across 42 white matter bundles from the IIT Human Brain Atlas v.5.0 and the
+white matter skeleton mask [42].
+    The main advances of Clinical-ComBAT over ComBAT can be summarized
+as follows:
+  1. introduction of a new data formulation model,
+  2. integration of a non-linear polynomial basis function at the core of the
+     model,
+  3. adoption of a revised Bayesian framework for estimating harmonization
+     parameters,
+  4. use of a quality control harmonization method
+
+
+                                       3
+    5. implementation of an automatic hyperparameter tuning strategy.
+All these contributions are summarized into four algorithms (c.f. the Supple-
+mentary Materials) and a ready-to-use publicly available code.
+
+
+2     Methods
+2.1     ComBAT fundamentals
+ComBAT is a harmonization method initially devised for genomics to counter
+batch effects [19]. Its effectiveness in mitigating MRI acquisition effects in
+scalar maps from DW-MRI was subsequently demonstrated [15]. Despite its
+widespread use, the theoretical underpinnings and implementation of ComBAT
+can be perplexing.
+    Let Y = {Y1 , Y2 , ..., YI } represent a set of I physical MRI sites, where Yi =
+{Yi1 , Yi2 , ..., YiJi } are a set of Ji participants whose brain has been scanned with
+the MRI machine i. In voxel-wise harmonization, these participant’s MR images
+are usually non-linearly registered to a common space, such as the MNI space
+[15]. It’s important to note that the number of participants Ji is site dependent,
+as their number varies from one site to another. Each scalar map Yij can be
+expressed as Yij = [yij1 , yij2 , ..., yijv ], where v is the number of voxels (or region)
+in the common space and yijv ∈ R.
+    To mitigate site-specific biases, ComBAT employs a linear model for the
+data formation of each voxel (or regions) v as follows:
+
+                          yijv = αv + ⃗xTij β⃗v + γiv + δiv ϵijv ,                    (1)
+
+where αv is the model intercept of the overall population across all sites, xij is
+a vector of covariates, βv is the regression coefficient vector, γiv and δiv are the
+additive and multiplicative effects of site i, and ϵijv is a random independent
+Gaussian noise with ϵijv ∼ N (0, σv2 ). It is crucial to recognize that ComBAT
+assumes the regression vector βv (i.e. the slope of the population) is constant for
+all sites. The primary goal of ComBAT is to eliminate the site-specific additive
+and multiplicative biases (respectively γiv and δiv ) ensuring that the harmonized
+population profile conforms to the model
+                            ComBAT
+                           yijv    = αv + ⃗xTij β⃗v + ϵijv .                          (2)
+
+    Since the parameters of the model αv , βv , γiv and δiv are a priori unknown,
+they must be empirically estimated from the data Y . Whenever these parame-
+ters can be accurately estimated (namely α̂v , βˆv , γ̂iv , and δ̂iv ), the harmonized
+        harm
+values yijv   can be computed as follows:
+
+                   harm
+                             yijv − α̂v − ⃗xTij β̂v − γ̂iv
+                  yijv  =                                    + α̂v + ⃗xTij β̂v .      (3)
+                                         δ̂iv
+
+
+
+                                                4
+    A straightforward approach to estimating these five parameters is the Lo-
+cation and Scale (L/S) method [19] that we detailed in section S.1 of the Sup-
+plementary Material. While effective, this method has notable limitations in
+presence of small populations. These are typically mitigated by the Bayesian
+formulation of ComBAT whose mathematical details can be found in section S.2
+of the Supplementary Material as well as in previous publications [28, 19, 15].
+
+2.2     Clinical-ComBAT Data Formation Model
+Clinical-ComBAT introduces several key modifications to the original ComBAT
+framework, specifically designed to better address the requirements of clinical
+practice. The reader shall refer to Figure 1 for a step-by-step illustration of
+Clinical-ComBAT.
+    Its primary objective is to enable reliable comparison of patient data against
+a normative model, a cornerstone of clinical applications. A distinctive fea-
+ture of Clinical-ComBAT lies in its strategy of harmonizing each site with a
+designated reference site. Similar sitewise harmonization strategies have been
+proposed in methods such as M-ComBAT [26] and Pairwise-ComBAT [28].
+In this context, harmonization reduces to aligning the data from a moving
+site, DM v = {(yM 1v , ⃗xM 1 ), . . . , (yM N v , ⃗xM N )}, with that of a reference site,
+DRv = {(yR1v , ⃗xR1 ), . . . , (yRN v , ⃗xRN )}. Clinical-ComBAT assumes that the
+reference site contains a sufficiently large and diverse healthy control (HC) pop-
+ulation to establish a robust normative model. This assumption relies on the
+diversity of the reference cohort, which should span a wide age range, include
+both handedness profiles, and ensure a balanced representation of genders.
+    The sitewise harmonization approach in Clinical-ComBAT addresses two
+challenges. First, it avoids the complexity of needing to harmonize an ever-
+growing number of sites simultaneously, as each site is harmonized indepen-
+dently. Second, it resolves the problem with ComBAT, which could inadver-
+tently modify the harmonization parameters for already calibrated sites when
+applied indiscriminately to a new site.
+    Additionally, sitewise harmonization simplifies the data formation equation
+used in ComBAT (c.f. Eq. 1). At the core of most ComBAT methods is the
+assumption that each dataset includes two additive biases (a population bias αv
+and a site bias γiv ) and two multiplicative biases (a population bias σv and a
+site bias δiv ). These four parameters are intended to represent the variations of
+each site from an overall unbiased reference (yet normative) population. Since
+Clinical-ComBAT independently harmonizes each moving site to a reference site,
+the data formation model can be streamlined to two biases. To do so, Clinical-
+ComBAT combines the αv + γiv additive biases of Eq. (1) into a single sitewise
+additive bias, denoted as biv , where i ∈ {M, R} is the index for the moving (M)
+and the reference (R) site. Additionally, because the multiplication of a normally
+distributed variable ϵijv ∼ N (0, σv2 ) by δiv still results in a normal distribution
+with variance (σv δiv )2 , our model adopts a single multiplicative bias, denoted
+as div . Compared to Eq. (1), these modifications lead to a simplified sitewise
+
+
+
+                                            5
+Figure 1: Clinical-ComBAT harmonization process for aligning a moving site to
+a reference site. a) Raw data distributions from the reference (black) and moving
+(green) sites. b) data after Clinical-ComBAT harmonization. c) Step-by-step
+illustration of the Clinical-ComBAT procedure. Scatter plots show the reference
+(black) and moving (green) data. Step 1 consists of fitting a regression model
+to both the reference and moving site data following Eq.(8) and (13). In Step
+2, the site-specific covariate effects and intercept are removed from the moving
+site data. Step 3 applies a variance correction to align the data dispersion with
+that of the reference site. In Step 4, the adjusted data are transformed to match
+the reference site distribution. Steps 2,3, and 4 derive from Eq.(18).
+
+
+data formation model:
+                           yijv = biv + ⃗xij β⃗v + div ϵ,                     (4)
+where i ∈ {M, R} and ϵijv ∼ N (0, 1).
+   Moreover, Clinical-ComBAT introduced nonlinearity in the model. This
+
+
+                                         6
+nonlinearity is achieved using a polynomial basis function of positive degree P ,
+expressed as
+                            φ(x⃗ij ) = (⃗xTij · ⃗xij + 1)P ,                 (5)
+denoted as φ⃗ ij for notation simplicity. Notably, regardless of the degree P , the
+expansion of this polynomial always includes a constant term, which allows the
+additive bias biv to be effectively integrated into it. Consequently, the data
+formation equation is revised to:
+                                    ⃗ Tij β⃗iv + div ϵijv .
+                             yijv = φ                                          (6)
+
+Here, each site is characterized by a specific set of weights β ⃗iv , along with a
+single multiplicative bias div and an additive bias that is incorporated into the
+β⃗iv vector.
+
+2.3    Harmonization Fit
+With the sitewise harmonization framework of Clinical-ComBAT and according
+to Eq. (6), the harmonization of a moving site M onto a target normative
+reference R requires the estimation of four terms: two weight vectors β⃗M v and
+β⃗Rv and two multiplicative biases dM v and dRv .
+
+Reference site parameters β⃗Rv , d2Rv β   ⃗Rv is computed like ComBAT, by
+maximizing a likelihood Gaussian distribution of the reference data. Doing so
+boils down to minimizing the following L2 loss function [43, 44]
+                                     JR
+                    ⃗             1 X
+                    βRv = arg max               ⃗ TRj β⃗Rv )2 ,
+                                        (yRjv − φ                              (7)
+                               ⃗ JR
+                               β    j=1
+
+that one can solve with a close form solution:
+                            β⃗Rv = (ΦTR ΦR )−1 ΦTR YRv ,                       (8)
+where ΦR is a matrix containing the concatenated covariate vectors φ   ⃗ Rj of all
+reference participants, and YRv is a vector containing the values yRjv of the
+reference site. While this formulation resembles the L/S ComBAT method [19],
+Clinical-ComBAT relies solely on the reference site data, whereas L/S ComBAT
+incorporates data from all sites.
+    Similarly, with the hypothesis that the reference site is well populated, the
+estimation of d2Rv does not require a Bayesian prior as in ComBAT [15]. Instead,
+d2Rv can be estimated following a maximum likelihood, which is a simpler alter-
+native to ComBAT’s iterative solution required by the use of an inverse gamma
+prior (c.f. Supplementary Material S.2). Instead, d2Rv is obtained following a
+maximum likelihood of a Gaussian distribution which leads to the calculation
+of the simple variance of the rectified data [44], i.e.
+                                      J
+                                      R
+                                   1 X
+                         d2Rv =                ⃗ TRv β⃗Rv )2 .
+                                        (y T − φ                               (9)
+                                  JR j=1 jv
+
+
+                                           7
+Moving site parameters β⃗M v , d2M v Since the moving site may contain a
+limited number of data, we proceed with the estimation of β⃗v and dM v with
+a maximum a posteriori (MAP) formulation. Unlike ComBAT which models
+β⃗M v with a likelihood distribution, Clinical-ComBAT models it with a posterior
+distribution involving the product of a Gaussian likelihood and prior:
+                      P (β⃗M v |DM v ) ∝ P (DM v |β⃗M v )P (β⃗M v )           (10)
+where DM v = {YM v , XM } contains the list of all values and covariates of the
+moving site at location v (e.g. voxel or region) and where
+
+                         P (DM v |β⃗M v ) = N (ΦTM β⃗iv , Σl ),               (11)
+
+                               P (β⃗M v ) = N (β⃗iv , Σ0 ).                   (12)
+The goal of the prior is to make sure β⃗M v does not differ too much from β⃗Rv ,
+the regression weights of the reference site. This is critically important when a
+moving site accounts for a low number of participants. Maximizing the posterior
+P (β⃗M v |DM v ) leads to the following close-form solution:
+
+                 β⃗M v = (ΦTM ΦM + ⃗λT I)−1 (ΦTM Y
+                                                 ⃗M v + ⃗λT β⃗Rv ),           (13)
+
+where I is the identity matrix and ⃗λ ∈ Rp+ is an hyperparameter regularization
+vector -please refer to section S3 of the Supp mat for the proof.
+   Eq(13) comes with an intuitive flavor. For ⃗λ = ⃗0, the regression of β⃗M v is a
+maximum likelihood estimation as in Eq. (8). As the regularization increases,
+more weight is put on β⃗Rv , and, when ⃗λ is large enough, β⃗M v ≈ β
+                                                                   ⃗Rv .
+                                   2
+   Clinical-ComBAT estimated dM v with a posterior given by
+                      P (d2M v |zM v ) ≈ P (zM v |d2M v )P (d2M v ),          (14)
+where zM v is the set of all rectified values of the moving site, namely zM v =
+yM jv − φ
+        ⃗Mjβ ⃗M v ∀j. Like ComBAT, the likelihood distribution follows a Gaus-
+sian distribution. However, Clinical-ComBAT uses a prior Gamma distribution
+(instead of an inverse Gamma for ComBAT) :
+                          P (zM v |d2M v ) = N (0, d2M v )                    (15)
+                          P (λM v ) = G(λM v , a0 , b0 ),                     (16)
+where λM v = d21      is the inverse of the variance [45]. By incorporating the
+                 Mv
+variance of the reference site d2Rv in the Gamma prior, maximizing the posterior
+leads to the following solution:
+
+                                      JM dˆ2M v    νd2Rv
+                            d2M v =             +        ,                    (17)
+                                      JM + ν      JM + ν
+where JM is the number of data in the moving site, dˆ2M v is the empirical variance
+                                  PJM
+of the rectified moving site: J1M j=1            ⃗ TM j β⃗M v )2 and ν ∈ R+ is a
+                                        (yM jv − φ
+hyperparameter -c.f. Section S.3 of the Supplementary Material for the proof.
+
+
+                                            8
+    This equation comes with a strikingly intuitive flavor. When the moving site
+lacks data, indicated by JM = 0, the variance of the moving site d2M v defaults
+to match the previously-estimated variance of the reference site d2Rv . As the
+quantity of data of the moving site increases, d2M v transitions to a weighted
+average between dˆ2M v and d2Rv . At some point, if JM = ν, d2M v becomes the
+exact average between dˆ2M v and d2Rv . Beyond this point, when JM ≫ ν, d2M v
+closely approximates to dˆ2M v . In addition to its simplicity, Eq. (17) does not
+require an iterative process as in ComBAT and has the reference site variance
+as a prior instead of data taken across other regions of the brain.
+    Please note that the procedure for estimating the four(4) harmonization
+parameters {d2M v , β⃗M v , d2Rv , β⃗Rv } is summarized in the Clinical-ComBAT-Fit
+algorithm presented in section S.4 of the Supplementary Material.
+
+2.4    Harmonization Process
+Once the four parameters {d2M v , β⃗M v , d2Rv , β⃗Rv } have been estimated, the data
+from the moving site can be harmonized with the reference site as follows:
+                                 yM jv − β⃗M
+                                           T
+                                             vφ
+                                              ⃗Mj 2
+                  C−ComBAT
+                ŷM jv     =            2        dRv + β⃗Rv
+                                                         T
+                                                             ⃗ TRj .
+                                                            +φ                     (18)
+                                       dM v
+    Figure 1 depicts step-by-step the harmonization procedure of Clinical-ComBAT.
+Together, these steps produce a harmonized dataset in which the moving site is
+aligned with the reference site. The harmonization procedure is summarized in
+the Clinical-ComBAT-Apply algorithm presented in section S.4 of the Supple-
+mentary Material.
+
+2.5    Goodness-of-Fit Quality Control
+To assess harmonization quality, we compute a population overlap score, mea-
+suring the degree of overlap between the data of the reference site DRv and that
+of the harmonized moving dataset D̂M v . This is achieved by rectifying both
+populations using the reference parameter vector β   ⃗Rv (c.f. Fig. 1 Step 2 for an
+illustration of the rectification of the moving site):
+
+               zRjv    = yRjv − φ⃗ TRj β⃗Rv               ⃗ TRj ) ∈ DRv ,
+                                                 ∀(yRjv , φ                        (19)
+              ẑM jv              ⃗ TM j β⃗Rv
+                       = ŷM jv − φ                        ⃗ TM j ) ∈ DM v .
+                                                ∀(ŷM jv , φ                       (20)
+    This rectification process, by removing the effect of the covariates, allows
+assuming that zijv is independent of the data vector φ    ⃗ ij and that P (zRjv |⃗
+                                                                                 φRj ) =
+                         ⃗
+P (zRjv ) and P (ẑM jv |ϕM j ) = P (ẑM jv ) two Gaussian distributions following the
+ComBAT assumption.
+    The distance between univariate Gaussian distribution functions is computed
+using the Bhattacharyya distance dB [28]:
+
+                              1 (µR − µM )2  1   σ 2 + σM
+                                                        2
+                       dB =       2    2    + ln( R       ),                       (21)
+                              4 σR + σ M     2    2σR σM
+
+                                           9
+where µR , µM are the mean and σR , σM the standard deviation of the rectified
+reference and moving sites. The goodness-of-fit QC procedure is summarized in
+the Harmonization-QC algorithm in section S.4 of the Supplementary Material.
+
+2.6    Hyperparameter Auto-tuning
+ Clinical-ComBAT introduces a hyperparameter vector ⃗λ in Eq.(13), which con-
+ trols the degree to which the moving-site weights β⃗M v deviate from the reference-
+ site weights β⃗Rv . At one extreme, when ⃗λ → ∞,  ⃗ the moving-site weights con-
+ verge to those of the reference site (β⃗M v ≈ β⃗Rv ). At the other extreme, when
+⃗λ → ⃗0, β⃗M v aligns closely with the moving-site data. An excessively large ⃗λ may
+ result in underfitting, whereas an overly small ⃗λ can lead to overfitting, partic-
+ ularly when the polynomial degree P in Eq.(5) is high, or when the moving
+ dataset is small, includes outliers, or spans a narrow age range [28].
+     The goal of the auto-tuning is to identify the appropriate ⃗λ vector that
+ ensures the moving curve aligns closely with the reference curve while accurately
+ representing the moving data. As illustrated in Figure 2, it uses four distance
+ measures between the two curves. The first two measures, dmin and dmax
+ represent the minimum and maximum distances between the curves across the
+ age values present in the moving data:
+
+                    dmin   =   | min β⃗Rv
+                                       T
+                                          ⃗ j − β⃗M
+                                          φ       T
+                                                     ⃗ j | ∀jxM ,
+                                                    vφ                         (22)
+                   dmax    =   | max β⃗ φ
+                                       T
+                                       Rv ⃗ j − β⃗ φ
+                                                Mv
+                                                  T
+                                                     ⃗ j | ∀jxM .              (23)
+
+Here, xM denotes the set of covariates at the moving site. The other two
+distances, d1 and d2 , are the minimum and maximum inter-curve distances
+across the full age range.
+    The optimization of ⃗λ can be expressed as follows:
+
+             ⃗λ = arg min sign(dmin 1 − d1 ) + sign(d2 − dmax τ ) + 2,         (24)
+                       ⃗
+                       λ            τ
+
+where τ ≧ 1 is a predefined value, and the sign(x) function is defined as 1 if
+x ≥ 0, -1 otherwise. Note that when τ = 1, the optimized ⃗λ vector results in a
+moving curve perfectly parallel to the reference curve. A suitable ⃗λ vector can
+be found by incrementally increasing its value until the conditions of Eq. (24)
+are satisfied.
+    The auto-tuning procedure is summarized in the Hyperparameter auto-tuning
+is section S.4 of the Supplementary Material.
+
+2.7    Data and Processing
+Experiments comparing Clinical-ComBAT to ComBAT for DW-MRI-derived
+metric harmonization were conducted on four datasets. The first one is the
+Cambridge Centre for Ageing Neuroscience (CamCAN) dataset [32, 36], which
+serves as the reference site. All reference subjects were acquired at the same
+
+
+                                        10
+Figure 2: Example of two model fits using a third-degree polynomial (P = 3).
+Black dots and their fitted curve correspond to the reference Cam-CAN dataset,
+while red dots represent 10 synthetic moving data points. Left: the moving
+model with ⃗λ = 0 overfits the data and diverges outside the 60–80 age range.
+Right: the auto-tuned model (⃗λ = 32762) does not deviate too much from the
+reference model.
+
+
+MRI machine (Siemens 3T TIM Trio MRI machine). The 441 HC, aged 18–87
+years old, correspond to the subset of subjects acquired before the scanner up-
+grade. The DW-MRI protocol includes 60 gradient directions evenly distributed
+across two b-values (1000 and 2000 s/mm2 and three non-diffusion-weighted
+measurements, with a 2 × 2 × 2 mm3 image resolution. The second datasets
+are National Institute of Mental Health (NIMH) Intramural Healthy Volunteer
+Dataset [46]. The NIMH dataset is composed of 119 HC, aged 18–71 years old.
+The DW-MRI data were acquired at b = 1, 000s/mm2 for 48 uniformly dis-
+tributed gradient directions (2 × 2 × 2 mm3 , General Electric 3T MRI machine).
+The third and forth dataset are from the Track-TBI Network [47] (site A and
+site B) with 55 HC and 104 Traumatic brain injury (TBI) patients, aged 19-68.
+The DW-MRI protocol included 64 b = 1, 300s/mm2 , with the image resolution
+set to 2.7 × 2.7 × 2.7 mm3 . Site A (University of Washington) was acquired on
+the Philips 3T MRI machine, and Site B (University of Texas at Austin) was
+acquired on a Siemens 3T MRI machine. The NIMH and Track-TBI dataset
+were used as moving sites.
+    The image processing was performed using the Tractoflow pipeline [48, 49,
+50] for all subjects. T1-weighted images were registered to both the MNI tem-
+plate [51] and to DW-MRI data using ANTs [52]. Diffusion Tensor Imag-
+ing (DTI) maps (FA, MD) and the apparent fiber density map [39], derived
+from the fiber Orientation Distribution Function (fODF) obtained from Con-
+strained Spherical Deconvolution [40, 41], were registered to the MNI template
+using the computed transformations. DW-MRI images with b-values below
+
+
+
+                                      11
+b = 1200s/mm2 were used to compute the Diffusion Tensors, and b-values above
+b = 700s/mm2 were used to compute the fODFs. The fODFs were generated
+using a spherical harmonics order of 8 and a standardized response function [40]
+for all subjects (15, 4, 4) x 104 ms/µm2 . The IIT Atlas (v.5.0) [42] was aligned to
+the MNI template [52], and mean MD, FA, and AFD values for each of the 42
+bundles and the white matter skeleton mask were computed using the streamline
+density map.
+    The last dataset is called Modified-CamCAN [28]. It is a synthetic dataset
+based on the 441 healthy controls from the original CamCAN cohort, with
+altered mean diffusivity (MD) values. Controlled additive and multiplicative
+biases were introduced according to:
+
+                       yijv = A · biv + S · ⃗xij β⃗v + M · div ϵ               (25)
+
+where A ∈ R is a shift in the mean, S ∈ R modulates covariate effects (slope),
+and M ∈ R scales the residual variance [28].
+
+
+3     Results
+This section presents a series of four experiments. Unless otherwise mentioned,
+through these experiments we used a prior ν of 5 for the estimation of the
+moving site variance (c.f. Eq.17) a polynomial degree of P = 2 (c.f. Eq.(5)) and
+a value of τ = 2 for the auto-tuning (c.f. Eq.24). All white matter bundles and
+metrics were independently harmonized.
+
+3.1    Harmonization Performances
+Figure 3 compares the mean diffusivity (MD) harmonization using Clinical-
+ComBAT (right), ComBAT (center), and non-harmonized data (left) with a
+Bhattacharyya distance (DB ) value at the bottom left of each plot. The plots
+of the top three rows illustrate data from moving sites (colored) overlaid on
+the CamCAN reference site (black) distribution within the white matter skele-
+ton mask. The misalignment of non-harmonized distributions with the refer-
+ence highlights the necessity of harmonization. ComBAT improves alignment
+but bias remains. The slope is not properly corrected for the NIMH site for
+the age range 40 to 60 years old. The multiplicative bias is overcorrected for
+the Track TBI site A, and undercorrected for Track TBI site B. In contrast,
+Clinical-ComBAT provides a more accurate bias correction, yielding a distri-
+bution closer to the reference site. The bottom row of Figure 3 quantifies this
+improvement, showing DB histograms for 42 bundles before and after harmo-
+nization. While both methods reduce DB , Clinical-ComBAT achieves lower
+values, enhancing cross-site alignment in healthy controls. Similar trends are
+observed for Fractional Anisotropy (FA) and Apparent Fiber Density (AFD),
+shown in Supplementary Figures.
+
+
+
+
+                                          12
+Figure 3: Harmonization of mean diffusivity (MD) using Clinical-ComBAT and
+ComBAT for the NIMH site (green), and Track-TBI site A (blue) and site B
+(cyan). The top three rows show harmonized white matter skeleton masks with
+corresponding DB values, where orange dots indicate TBI subjects. The bottom
+row presents stacked histograms of DB across all white matter bundles and sites.
+Lower DB values indicate closer alignment with the reference site, underscoring
+both the necessity of harmonization and the superior performance of Clinical-
+ComBAT over ComBAT.
+
+
+3.2    Site-Specific Regression Parameters
+A key advantage of Clinical-ComBAT is its use of site-specific regression pa-
+rameters, enabling harmonization in scenarios where the single shared model
+
+
+                                      13
+across site of ComBAT fails. This is demonstrated in Figure 4, where the slope
+of the moving data was artificially varied from 0 (no age effect) to 2 (ampli-
+fied age effect). It presents the harmonization performance of ComBAT and
+Clinical-ComBAT on synthetic mean diffusivity (MD) data. Figure 4a) shows
+the distributions of target and moving site data before and after harmonization
+for a modified slope in the moving site. ComBAT fails to adequately correct for
+slope-induced bias, as shown by high Root Mean Squared Error (RMSE), partic-
+ularly when the slope diverges from the reference (S = 0). In contrast, Clinical-
+ComBAT successfully aligns the moving site data to the reference across all
+slope conditions. Figures 4b–4c illustrate harmonization under combined simu-
+lated biases. While ComBAT improves cross-site alignment, Clinical-ComBAT
+yields superior correction, particularly in Figure 4c, where the simulated data
+include a slope bias. Figure 4d) summarizes RMSE across a range of slope
+(S = [0, 2]) and multiplicative (M = [0.25, 1.75]) biases. Clinical-ComBAT
+maintains RMSE below 9.4 × 10−7 across all conditions, while ComBAT pro-
+vides its best performances only within S = [0.75, 1.25] and M = [0.75, 1.50],
+with performance degrading under more pronounced biases.
+
+3.3     Harmonization of Unseen Data
+Clinical-ComBAT estimates harmonization parameters from the available data
+(training) of a moving site and applies them to new, unseen subjects (test).
+This situation is at the core of a day-to-day clinical practice, as new subjects
+are scanned every day. To address the challenges of limited healthy control
+data and potential extrapolation beyond the observed covariate range (e.g.,
+age), Clinical-ComBAT incorporates priors from the reference site to regularize
+both regression parameters and variance estimation.
+
+3.3.1   Limited Number of Subjects
+Figure 5 illustrates the harmonization performance of ComBAT and Clinical-
+ComBAT on synthetic mean diffusivity (MD) data under limited number of
+subjects. Figure 5a) shows the target site data (black) and the raw moving
+site data (red) with simulated slope (S = 0.75), multiplicative (M = 1.50),
+and additive (A = 0.90) biases. Figure 5b) reports RMSE as a function of the
+number of randomly sampled training subjects selected from a pool of 341 (30
+repetitions). The RMSE is computed over 100 unseen test subjects. The curves
+indicate the mean, and shaded areas represent one standard deviation. By fit-
+ting the moving data independently, Clinical-ComBAT manages to outperform
+ComBAT. This is especially visible when the number of subject is superior to
+twenty.
+    Figure 6 illustrates the effect of sample size on harmonization performance
+for ComBAT and Clinical-ComBAT on in-vivo data. In Figure 6a), the harmo-
+nization of mean diffusivity (MD) of the arcuate fasciculus left bundle is shown
+for 10, 20, and 30 training subjects (black dots) from the NIMH site, and the
+green percentiles represent the corresponding test set. Clinical-ComBAT yields
+
+
+                                       14
+Figure 4: Synthetic mean diffusivity (MD) data harmonization performance
+of ComBAT and Clinical-ComBAT. a–c) Distributions of target and moving
+site data before and after harmonization under different simulated biases: a)
+slope bias; b) combined multiplicative and additive biases; c) combined slope,
+multiplicative, and additive biases. d) Root Mean Squared Error (RMSE) of
+ComBAT and Clinical-ComBAT for increasing slope and multiplicative bias.
+
+
+improved percentile alignment with the reference site, particularly in slope es-
+timation. Figure 6b) presents the mean and standard deviation of the DB
+across 42 bundles for both training and test sets. Clinical-ComBAT consis-
+tently achieves lower DB on test data, indicating more robust harmonization
+with a limited number of healthy controls.
+
+3.3.2   Limited Age Range
+In some cases, the training data may be limited to a narrow age range, with
+unseen data falling outside that range. It is therefore critical to use a harmoniza-
+tion model that generalizes well. Figure 7 shows the harmonization performance
+of ComBAT and Clinical-ComBAT on synthetic MD data when training is re-
+stricted to a limited age range. The test set includes 100 randomly selected
+subjects and the remaining 341 subjects are use for generation training sets.
+Figure 7a) displays the target site data (black) and raw moving site data (red)
+
+
+                                        15
+Figure 5: Harmonization performance of ComBAT and Clinical-ComBAT on
+synthetic mean diffusivity (MD) data of the white matter skeleton mask, with
+limited amount of training data. The test set comprises 100 randomly selected
+subjects, and the remaining 341 subjects are used to generate training sets. a)
+Target site data (black) and raw moving site data (red) under simulated biases:
+slope S = 0.50, multiplicative M = 1.25, and additive A = 1.10. b) Root Mean
+Squared Error (RMSE) across increasing numbers of randomly sampled training
+subjects. Each condition was repeated 30 times. The curves show mean RMSE
+and shaded areas represent one standard deviation.
+
+
+of the white matter skeleton mask under simulated biases (S = 1, M = 1.50,
+A = 0.90). Figure 7b) reports RMSE across training sets restricted to a ±10-
+year age window, plotted as a function of the window center. The lines show
+the mean across all 42 bundles, and the shaded area represent one standard
+deviation. Clinical-ComBAT results are shown for τ = 1.75. Clinical-ComBAT
+uses the reference slope as a prior to provide a more reliable model outside the
+training age window, outperforming ComBAT.
+
+3.4     Effect of the Bayesian Priors
+3.4.1   Variance prior
+Figure 8 illustrates the effect of Clinical-ComBAT’s variance prior (ν) on mean
+diffusivity (MD) in the right corticospinal tract (CST) bundle using a limited
+number of HCs. We selected ten randomly sampled HCs from the Track-TBI
+dataset (site B) and tested different values of the variance prior parameter (see
+Eq. 17). This parameter controls the weight of the prior on the variance es-
+timation of the moving site (d2M v ). ComBAT (Figure 8b) estimates variance
+using empirical Bayes, requiring simultaneous harmonization of all regions or
+voxels. In contrast, Clinical-ComBAT leverages the well-populated reference
+site to estimate the variance while accounting for the number of available sub-
+
+
+                                       16
+Figure 6: Impact of the number of samples on Harmonization (MD). (a) The
+ComBAT and Clinical-ComBAT harmonized moving site (NIMH, arcuate fas-
+ciculus left bundle) data using 10, 20 and 30 samples (black dots). The test
+data (89 subjects, green percentiles) were harmonized using the model trained
+on a subset of independent samples. The DB are reported for the test data.
+(b) Bhattacharyya distances across all bundles (42) for training samples ranging
+from 5 to 30. The color dotted lines show the DB when harmonizing with all
+data (119 subjects) for ComBAT (orange) and Clinical-ComBAT (cyan).
+
+
+jects in the moving site, thereby enabling independent harmonization of regions
+or voxels. Furthermore, it supports single-region harmonization without com-
+promising performance.
+    In Figure 8c, setting ν = 0 underestimates d2M v , leading to an insufficient
+correction of the multiplicative bias, as indicated by the wider percentile lines
+compared to the reference site. With ν = 5 and ν = 10 (Figures 8d and 8e),
+Clinical-ComBAT aligns d2M v with d2Rv . However, at ν = 100 (Figure 8f) d2M v is
+overestimated due to excessive reliance on the reference prior. A high ν with few
+moving site subjects effectively fixes d2M v to d2Rv , preventing proper correction
+of the multiplicative bias.
+
+3.4.2   Covariate Prior
+Figure 9 illustrates the importance of the Clinical-ComBAT hyperparameter
+auto-tuning when dealing with a moving site whose HC subjects spans a limited
+age range (21-63 years old). It shows the effects of various λ values with a fixed
+ν = 5 using polynomial models of order P = 1 to P = 4. Although a fixed λ = 10
+shows a good model fit (green line) within the moving site’s age range, the model
+quickly diverges as the age deviates from the input data. A polynomial degree of
+P = 2 or P = 3 with auto-tuning τ = 2 provides a good balance, closely fitting
+the available data while yielding reasonable extrapolations. Higher polynomial
+degrees (P = 3 and P = 4) require auto-tuning for usability beyond the input
+
+
+                                        17
+Figure 7: Harmonization performance of ComBAT and Clinical-ComBAT on
+synthetic mean diffusivity (MD) data of the with limited age range training
+data. The test set comprises 100 randomly selected subjects, and the remaining
+341 subjects are used to generate training sets. a) Target site data (black) and
+raw moving site data (red) of the white matter skeleton mask under simulated
+biases: slope S = 1, multiplicative M = 1.50, and additive A = 0.90. b) Root
+Mean Squared Error (RMSE) when training subjects are restricted to a ±10-year
+age window. The plot show the mean RMSE for each window (center) across
+the 42 bundles. The shaded area represent one standard deviation. Clinical-
+ComBAT results are shown for τ = 1, 75.
+
+
+data range. While higher τ values improve extrapolation, they reduce fit quality
+within the data range due to the stronger prior. Overall, data models estimated
+with τ = 2 and τ = 1.25 are suitable for the harmonization of moving site
+subjects of all ages.
+
+
+4    Discussion
+Clinical-ComBAT improves harmonization performance across a range of bias
+scenarios and data limitations compared to ComBAT [15]. In ComBAT, the
+regression parameter βv in is identical across all sites. Clinical-ComBAT in-
+troduces a subtle but crucial modification by adding a site index i, resulting
+in βiv . This adjustment allows each site to have its own regression parameter,
+which is essential for addressing site-specific variations. This site-specific re-
+gression parameters allow Clinical-ComBAT to correct slope-related biases that
+ComBAT fails to address (Figs. 3 and 4). Moreover, Clinical-ComBAT shows
+superior generalization to unseen data, outperforming ComBAT with limited
+sample sizes (Figs. 5 and 6) and restricted age ranges scenarios (Fig. 7), com-
+mon in clinical datasets. This robustness is enabled by the integration of priors
+from the reference site, which stabilize parameter estimation in challenging set-
+
+
+                                       18
+Figure 8: Harmonization with Clinical-ComBAT of a limited number of ten
+healthy control subjects from the Track TBI dataset (site B) on the mean dif-
+fusivity (MD) of the right Corticospinal Tract (CST) bundle. (a) show the
+non-harmonized data, with ten randomly selected HC used for harmonization
+highlighted with the green circle markers. The harmonization with ComBAT
+is shown in (b). (c-f) show the harmonization with Clinical-ComBAT using in-
+creasing ν values (c.f Eq. 17). With ν = 0, the standard deviation of the moving
+site is overestimated and overcorrected. With ν = 5 and ν = 10, results show
+the standard deviation of the moving site aligned with the standard deviation
+of the reference site. (f) shows an underestimation of the standard deviation
+due to an excessively strong a priori (ν = 100).
+
+
+
+
+                                      19
+Figure 9: Clinical-ComBAT model fit for the mean diffusivity (MD) of the white
+matter skeleton mask of Track TBI site A, using reference site a priori with and
+without automatic hyperparameter tuning with polynomial order P=1 to 4.
+The first row shows the fitted model using a fixed λ = 10. The second and third
+rows show the fitted model using automatic hyperparameter tuning (τ = 2, and
+τ = 1.25, respectively)
+
+
+tings. Furthermore, the adaptive regularization of variance (ν) and regression
+coefficients (τ ) provides a flexible framework that supports accurate extrapola-
+tion (Figs. 8 and 9). Together, these features position Clinical-ComBAT as a
+reliable harmonization approach for normative modeling applications in hetero-
+geneous multi-site clinical cohorts. Moreover, the improved alignment provided
+by Clinical-ComBAT may facilitate the delineation of pathological subjects from
+the reference population.
+    In this study, we used the Cambridge Centre for Ageing and Neuroscience
+(CamCAN) dataset [32, 36] as the reference site to demonstrate the potential
+of Clinical-ComBAT. This dataset was chosen primarily for its large sample of
+healthy controls spanning a wide age range (18–87 years). In future work, other
+datasets, particularly those providing richer DW-MRI acquisitions, could be
+used to enable harmonization of additional diffusion metrics. More broadly, the
+DW-MRI community may eventually converge on a standard reference dataset,
+
+
+                                       20
+facilitating direct comparability of reported values across studies, thereby im-
+proving reproducibility and reducing site-related biases.
+
+4.1    Limitations and Recommendations
+Clinical-ComBAT leverages prior information from a well-characterized refer-
+ence site to stabilize parameter estimation when moving site data are sparse
+or incomplete. Low values of the hyperparameter τ constrain the regression
+coefficients to those of the reference site, effectively fixing the model shape and
+estimating only the intercept. Similarly, high values of ν fix the moving site
+variance to that of the reference site. While these priors enable extrapolation
+and prevent overfitting, they may introduce bias if the true distribution of the
+moving site differs substantially in variance or covariate effects. Nonetheless, we
+believe extrapolating from the reference site is preferable to relying on poorly
+estimated parameters, especially in underpowered scenarios. The harmoniza-
+tion model should be retrained as additional moving site data become available,
+allowing for refinement of site-specific parameters and improved accuracy.
+    In practice, we recommend selecting the polynomial degree for modeling
+based on the reference site, choosing the minimal order that ensures a good fit
+(e.g., based on Bhattacharyya distance). For mean diffusivity (MD), fractional
+anisotropy (FA), and apparent fiber density (AFD), a second-order polynomial
+(P = 2) is typically sufficient. Regarding variance estimation, our results sug-
+gest setting ν = 5, which allows d2M v to be primarily data-driven when sufficient
+observations are present, while gradually incorporating the reference prior in
+low-data scenarios. For the regression prior, a value of τ = 2 offers a robust
+balance between model flexibility and extrapolation. Lower τ values risk over-
+constraining the model, while higher values may produce unstable predictions.
+
+
+5     Conclusion
+This study introduces Clinical-ComBAT, an adaptation of the widely used Com-
+BAT method designed to address key limitations in diffusion MRI harmonization
+for clinical applications. As summarized in Table 1, Clinical-ComBAT has nine
+key differences with the original ComBat method.
+    While ComBAT effectively reduces site-related biases, its assumptions, such
+as linear covariate relationships, large sample requirements, and fixed site num-
+bers, limit its applicability in real-world clinical settings. Clinical-ComBAT
+overcomes these constraints by incorporating a polynomial data model and a
+new mathematical formulation for estimating the harmonization parameters
+taylored to site-specific harmonization to a normative reference, and a vari-
+ance prior tailored for small sample sizes. Unlike ComBAT, which harmonizes
+all bundles (or voxels, or regions) simultaneously, Clinical-ComBAT processes
+each independently. This independence allows for increasing the number of
+bundles without altering harmonization parameters for existing ones, and en-
+ables single-bundle harmonization without degrading performance. Our results
+
+
+                                        21
+ Table 1: The nine (9) differences between Clinical-ComBAT and ComBAT.
+
+                    Clinical-ComBAT                             ComBAT
+ Type of har-       Pairwise harmonization between a mov-       Group harmonization between a set of
+ monization         ing site and a well-populated reference     two or more sites
+                    site
+ Data forma-        New data formation model, Eq. (6), with     Data formation model of Eq. (1) with two
+ tion model         one additive and one multiplicative bias    additive and two multiplicative biases
+ Model param-       Model parameter vector β ⃗iv is site spe-   Model parameter vector β   ⃗v is shared
+ eters              cific                                       across all sites
+ Model type         Non-linear model, Eq. (5)                   Linear model, Eq. (2)
+ Variance      of   Variance d2Rv computed via maximum          Variance of each site computed via max-
+ reference site     likelihood, Eq. (9)                         imum a posteriori with inverse-Gamma
+                                                                prior, Eq. (S.18)
+ Parameter es-      Moving site parameters β ⃗M v computed      Parameters β  ⃗v computed via ordinary
+ timation           via MAP using moving-site data and a        maximum likelihood pooling data from
+                                                       ⃗Rv
+                    prior on reference-site parameters β        all sites (Eq. (S.1))
+                    (Eq. (13))
+ Variance    of     Variance d2M v computed via MAP us-         Variance of each site computed via max-
+ moving site        ing a Gamma prior conditioned on d2Rv       imum a posteriori with inverse-Gamma
+                    (Eq. (17))                                  prior, Eq. (S.18)
+  Quality
+                    Includes a QC module evaluating good-       No quality control module
+  control
+                    ness of fit between target and harmonized
+                    moving site (Algo. 3)
+ Hyperpara-         Some hyperparameters (e.g., ⃗λ and ν0 )     No hyperparameter auto-tuning
+ meter tuning       automatically estimated via auto-tuning
+                    algorithm (Algo. 4)
+
+
+
+demonstrate that Clinical-ComBAT improves harmonization quality, particu-
+larly in datasets with limited healthy controls, reducing residual biases and
+better aligning diffusion metrics with the reference distribution. These findings
+highlight the method’s potential to enhance cross-site comparability in clinical
+studies, ultimately improving the detection and interpretation of disease-related
+abnormalities.
+
+
+Data and Code Availability
+All MRI dataset used in this work are publicly available. The source code and
+documentation of the Clinical-ComBAT method is available at github.com/
+scil-vital/clinical-ComBAT/.
+
+
+Author Contributions
+GG contributed to conceptualization, methodology, software development, and
+writing of the original draft. ME contributed to methodology, software devel-
+opment, and visualization. FD contributed to conceptualization, methodology,
+and software development. MD and GT contributed to data curation. YD
+contributed to software development. JCH contributed to supervision. AB
+
+
+                                             22
+contributed to software development and data curation. MD contributed to
+conceptualization, supervision, and funding acquisition. PMJ contributed to
+conceptualization, methodology, writing of the original draft, supervision, and
+funding acquisition.
+
+
+Acknowledgement
+This research was partially funded by the Consortium québécois sur la découverte
+du médicament (CQDM) and the Canadian NSERC discovery grants RGPIN-
+2023-04584 and RGPIN-2020-04818. This research was also enabled by support
+provided by the Digital Research Alliance of Canada.
+
+
+Declaration of Competing Interests
+Matthieu Dumont, Guillaume Theaud, Jean-Christophe Houde, Maxime De-
+scoteaux and Pierre-Marc Jodoin report membership and employment with
+Imeka Solutions inc.
+   Gabriel Girard, Manon Edde, Félix Dumais, Matthieu Dumont, Guillaume
+Theaud, Yoan David, Jean-Christophe Houde, Maxime Descoteaux and Pierre-
+Marc Jodoin have a patent pending for the Clinical-ComBAT method: (2024)
+Harmonization of diffusion MRI, USPTO Serial No.63/709,998.
+
+
+References
+ [1] M. Di Biase, Y. Tian, R. Bethlehem, J. Seidlitz, A. Alexander-Bloch,
+     B. Yeo, and A. Zalesky, “Mapping human brain charts cross-sectionally and
+     longitudinally,” Proceedings of the National Academy of Sciences, vol. 120,
+     5 2023.
+ [2] A. F. Marquand, I. Rezek, J. Buitelaar, and C. F. Beckmann, “Under-
+     standing heterogeneity in clinical cohorts using normative models: Beyond
+     case-control studies,” Biological Psychiatry, vol. 80, pp. 552–561, 10 2016.
+ [3] S. Rutherford, P. Barkema, I. F. Tso, C. Sripada, C. F. Beckmann, H. G.
+     Ruhe, and A. F. Marquand, “Evidence for embracing normative modeling,”
+     eLife, vol. 12, 3 2023.
+ [4] S. Verdi, A. F. Marquand, J. M. Schott, and J. H. Cole, “Beyond the
+     average patient: how neuroimaging models can address heterogeneity in
+     dementia,” Brain, vol. 144, pp. 2946–2953, 11 2021.
+
+ [5] J. E. Villalón-Reina, C. A. Moreau, T. M. Nir, N. Jahanshad, A. Maillard,
+     D. Romascano, B. Draganski, S. Lippé, C. E. Bearden, S. M. Kia, A. F.
+     Marquand, S. Jacquemont, and P. M. Thompson, “Multi-site normative
+     modeling of diffusion tensor imaging metrics using hierarchical bayesian
+
+
+                                        23
+    regression,” in Medical Image Computing and Computer Assisted Interven-
+    tion (MICCAI), pp. 207–217, 2022.
+ [6] J. T. Leek, R. B. Scharpf, H. C. Bravo, D. Simcha, B. Langmead, W. E.
+     Johnson, D. Geman, K. Baggerly, and R. A. Irizarry, “Tackling the
+     widespread and critical impact of batch effects in high-throughput data,”
+     Nature Reviews Genetics, vol. 11, pp. 733–739, 10 2010.
+ [7] M. S. Pinto, R. Paolella, T. Billiet, P. V. Dyck, P.-J. Guns, B. Jeurissen,
+     A. Ribbens, A. J. den Dekker, and J. Sijbers, “Harmonization of brain
+     diffusion mri: Concepts and methods,” Frontiers in Neuroscience, vol. 14,
+     5 2020.
+
+ [8] S. Cetin-Karayumak, F. Zhang, R. Zurrin, T. Billah, L. Zekelman,
+     N. Makris, S. Pieper, L. J. O’Donnell, and Y. Rathi, “Harmonized diffusion
+     mri data and white matter measures from the adolescent brain cognitive
+     development study,” Scientific Data, vol. 11, p. 249, 2 2024.
+ [9] F. Hu, A. A. Chen, H. Horng, V. Bashyam, C. Davatzikos, A. Alexander-
+     Bloch, M. Li, H. Shou, T. D. Satterthwaite, M. Yu, and R. T. Shinohara,
+     “Image harmonization: A review of statistical and deep learning methods
+     for removing batch effects and evaluation metrics for effective harmoniza-
+     tion,” NeuroImage, vol. 274, p. 120125, 7 2023.
+[10] K. M. Huynh, G. Chen, Y. Wu, D. Shen, and P.-T. Yap, “Multi-site harmo-
+     nization of diffusion mri data via method of moments,” IEEE Transactions
+     on Medical Imaging, vol. 38, pp. 1599–1609, 7 2019.
+[11] D. Moyer, G. V. Steeg, C. M. W. Tax, and P. M. Thompson, “Scanner
+     invariant representations for diffusion mri harmonization,” Magnetic Res-
+     onance in Medicine, vol. 84, pp. 2174–2189, 10 2020.
+
+[12] K. G. Schilling, C. M. Tax, F. Rheault, C. Hansen, Q. Yang, F.-C. Yeh,
+     L. Cai, A. W. Anderson, and B. A. Landman, “Fiber tractography bun-
+     dle segmentation depends on scanner effects, vendor effects, acquisition
+     resolution, diffusion sampling scheme, diffusion sensitization, and bundle
+     segmentation workflow,” NeuroImage, vol. 242, p. 118451, 11 2021.
+
+[13] A. A. Chen, J. C. Beer, N. J. Tustison, P. A. Cook, R. T. Shinohara,
+     and H. Shou, “Mitigating site effects in covariance for machine learning
+     in neuroimaging data,” Human Brain Mapping, vol. 43, pp. 1179–1195, 3
+     2022.
+[14] A. D. Luca, S. C. Karayumak, A. Leemans, Y. Rathi, S. Swinnen, J. Gooi-
+     jers, A. Clauwaert, R. Bahr, S. B. Sandmo, N. Sochen, D. Kaufmann,
+     M. Muehlmann, G.-J. Biessels, I. Koerte, and O. Pasternak, “Cross-site
+     harmonization of multi-shell diffusion mri measures based on rotational in-
+     variant spherical harmonics (rish),” NeuroImage, vol. 259, p. 119439, 10
+     2022.
+
+
+                                      24
+[15] J.-P. Fortin, D. Parker, B. Tunç, T. Watanabe, M. A. Elliott, K. Ruparel,
+     D. R. Roalf, T. D. Satterthwaite, R. C. Gur, R. E. Gur, R. T. Schultz,
+     R. Verma, and R. T. Shinohara, “Harmonization of multi-site diffusion
+     tensor imaging data,” NeuroImage, vol. 161, pp. 149–170, 11 2017.
+[16] H. Horng, A. Singh, B. Yousefi, E. A. Cohen, B. Haghighi, S. Katz, P. B.
+     Noël, R. T. Shinohara, and D. Kontos, “Generalized combat harmonization
+     methods for radiomic features with multi-modal distributions and multiple
+     batch effects,” Scientific Reports, vol. 12, p. 4493, 3 2022.
+[17] F. Hu, A. Lucas, A. A. Chen, K. Coleman, H. Horng, R. W. Ng, N. J. Tusti-
+     son, K. A. Davis, H. Shou, M. Li, R. T. Shinohara, and T. A. D. N. Ini-
+     tiative, “Deepcombat: A statistically motivated, hyperparameter-robust,
+     deep learning approach to harmonization of neuroimaging data,” bioRxiv,
+     p. 2023.04.24.537396, 4 2023.
+[18] H. Mirzaalian, L. Ning, P. Savadjiev, O. Pasternak, S. Bouix,
+     O. Michailovich, G. Grant, C. Marx, R. Morey, L. Flashman, M. George,
+     T. McAllister, N. Andaluz, L. Shutter, R. Coimbra, R. Zafonte, M. Cole-
+     man, M. Kubicki, C. Westin, M. Stein, M. Shenton, and Y. Rathi, “Inter-
+     site and inter-scanner diffusion mri data harmonization,” NeuroImage,
+     vol. 135, pp. 311–323, 7 2016.
+[19] W. E. Johnson, C. Li, and A. Rabinovic, “Adjusting batch effects in mi-
+     croarray expression data using empirical bayes methods,” Biostatistics,
+     vol. 8, pp. 118–127, 1 2007.
+[20] S. C. Karayumak, S. Bouix, L. Ning, A. James, T. Crow, M. Shenton,
+     M. Kubicki, and Y. Rathi, “Retrospective harmonization of multi-site diffu-
+     sion mri data acquired with different acquisition parameters,” NeuroImage,
+     vol. 184, pp. 180–200, 1 2019.
+[21] S. Cetin-Karayumak, M. A. D. Biase, N. Chunga, B. Reid, N. Somes,
+     A. E. Lyall, S. Kelly, B. Solgun, O. Pasternak, M. Vangel, G. Pearlson,
+     C. Tamminga, J. A. Sweeney, B. Clementz, D. Schretlen, P. V. Viher,
+     K. Stegmayer, S. Walther, J. Lee, T. Crow, A. James, A. Voineskos, R. W.
+     Buchanan, P. R. Szeszko, A. K. Malhotra, R. Hegde, R. McCarley, M. Ke-
+     shavan, M. Shenton, Y. Rathi, and M. Kubicki, “White matter abnormal-
+     ities across the lifespan of schizophrenia: a harmonized multi-site diffusion
+     mri study,” Molecular Psychiatry, vol. 25, pp. 3208–3219, 12 2020.
+[22] A. H. Zhu, T. M. Nir, S. Javid, J. E. Villalon-Reina, A. L. Rodrigue, L. T.
+     Strike, G. I. de Zubicaray, K. L. McMahon, M. J. Wright, S. E. Medland,
+     J. Blangero, D. C. Glahn, P. Kochunov, A. K. Håberg, P. M. Thomp-
+     son, N. Jahanshad, and A. D. N. Initiative, “Lifespan reference curves for
+     harmonizing multi-site regional brain white matter metrics from diffusion
+     mri,” bioRxiv : the preprint server for biology, 3 2024.
+
+
+
+                                       25
+[23] J.-P. Fortin, N. Cullen, Y. I. Sheline, W. D. Taylor, I. Aselcioglu, P. A.
+     Cook, P. Adams, C. Cooper, M. Fava, P. J. McGrath, M. McInnis, M. L.
+     Phillips, M. H. Trivedi, M. M. Weissman, and R. T. Shinohara, “Har-
+     monization of cortical thickness measurements across scanners and sites,”
+     NeuroImage, vol. 167, pp. 104–120, 2 2018.
+[24] J. Radua, E. Vieta, R. Shinohara, P. Kochunov, Y. Quidé, M. J. Green,
+     C. S. Weickert, T. Weickert, J. Bruggemann, T. Kircher, I. Nenadić, M. J.
+     Cairns, M. Seal, U. Schall, F. Henskens, J. M. Fullerton, B. Mowry, C. Pan-
+     telis, R. Lenroot, V. Cropley, C. Loughland, R. Scott, D. Wolf, T. D. Sat-
+     terthwaite, Y. Tan, K. Sim, F. Piras, G. Spalletta, N. Banaj, E. Pomarol-
+     Clotet, A. Solanes, A. Albajes-Eizagirre, E. J. Canales-Rodrı́guez, S. Sarro,
+     A. D. Giorgio, A. Bertolino, M. Stäblein, V. Oertel, C. Knöchel, S. Borg-
+     wardt, S. du Plessis, J.-Y. Yun, J. S. Kwon, U. Dannlowski, T. Hahn,
+     D. Grotegerd, C. Alloza, C. Arango, J. Janssen, C. Dı́az-Caneja, W. Jiang,
+     V. Calhoun, S. Ehrlich, K. Yang, N. G. Cascella, Y. Takayanagi, A. Sawa,
+     A. Tomyshev, I. Lebedeva, V. Kaleda, M. Kirschner, C. Hoschl, D. Tome-
+     cek, A. Skoch, T. van Amelsvoort, G. Bakker, A. James, A. Preda, A. Wei-
+     deman, D. J. Stein, F. Howells, A. Uhlmann, H. Temmingh, C. López-
+     Jaramillo, A. Dı́az-Zuluaga, L. Fortea, E. Martinez-Heras, E. Solana,
+     S. Llufriu, N. Jahanshad, P. Thompson, J. Turner, T. van Erp, D. Glahn,
+     G. Pearlson, E. Hong, A. Krug, V. Carr, P. Tooney, G. Cooper, P. Rasser,
+     P. Michie, S. Catts, R. Gur, R. Gur, F. Yang, F. Fan, J. Chen, H. Guo,
+     S. Tan, Z. Wang, H. Xiang, F. Piras, F. Assogna, R. Salvador, P. McKenna,
+     A. Bonvino, M. King, S. Kaiser, D. Nguyen, and J. Pineda-Zapata, “In-
+     creased power by harmonizing structural mri site differences with the com-
+     bat batch adjustment method in enigma,” NeuroImage, vol. 218, p. 116956,
+     9 2020.
+[25] R. Pomponio, G. Erus, M. Habes, J. Doshi, D. Srinivasan, E. Mamourian,
+     V. Bashyam, I. M. Nasrallah, T. D. Satterthwaite, Y. Fan, L. J. Launer,
+     C. L. Masters, P. Maruff, C. Zhuo, H. Völzke, S. C. Johnson, J. Fripp,
+     N. Koutsouleris, D. H. Wolf, R. Gur, R. Gur, J. Morris, M. S. Albert, H. J.
+     Grabe, S. M. Resnick, R. N. Bryan, D. A. Wolk, R. T. Shinohara, H. Shou,
+     and C. Davatzikos, “Harmonization of large mri datasets for the analysis
+     of brain imaging patterns throughout the lifespan,” NeuroImage, vol. 208,
+     p. 116450, 3 2020.
+[26] R. Da-ano, I. Masson, F. Lucia, M. Doré, P. Robin, J. Alfieri, C. Rousseau,
+     A. Mervoyer, C. Reinhold, J. Castelli, R. D. Crevoisier, J. F. Rameé,
+     O. Pradier, U. Schick, D. Visvikis, and M. Hatt, “Performance comparison
+     of modified combat for harmonization of radiomic features for multicenter
+     studies,” Scientific Reports, vol. 10, p. 10248, 6 2020.
+[27] J. C. Beer, N. J. Tustison, P. A. Cook, C. Davatzikos, Y. I. Sheline, R. T.
+     Shinohara, and K. A. Linn, “Longitudinal combat: A method for har-
+     monizing longitudinal multi-scanner imaging data,” NeuroImage, vol. 220,
+     p. 117129, 10 2020.
+
+
+                                       26
+[28] P.-M. Jodoin, M. Edde, G. Girard, F. Dumais, G. Theaud, M. Dumont,
+     J.-C. Houde, Y. David, and M. Descoteaux, “Combat harmonization: Chal-
+     lenges and best practices,” submitted, 2025.
+[29] N. W. Chew, G. K. Lee, B. Y. Tan, M. Jing, Y. Goh, N. J. Ngiam, L. L. Yeo,
+     A. Ahmad, F. A. Khan, G. N. Shanmugam, A. K. Sharma, R. Komalkumar,
+     P. Meenakshi, K. Shah, B. Patel, B. P. Chan, S. Sunny, B. Chandra, J. J.
+     Ong, P. R. Paliwal, L. Y. Wong, R. Sagayanathan, J. T. Chen, A. Y. Y.
+     Ng, H. L. Teoh, G. Tsivgoulis, C. S. Ho, R. C. Ho, and V. K. Sharma,
+     “A multinational, multicentre study on the psychological outcomes and
+     associated physical symptoms amongst healthcare workers during covid-19
+     outbreak,” Brain, Behavior, and Immunity, vol. 88, pp. 559–565, 8 2020.
+[30] P. S. Aisen, R. C. Petersen, M. C. Donohue, A. Gamst, R. Raman, R. G.
+     Thomas, S. Walter, J. Q. Trojanowski, L. M. Shaw, L. A. Beckett, C. R.
+     Jack, W. Jagust, A. W. Toga, A. J. Saykin, J. C. Morris, R. C. Green,
+     and M. W. Weiner, “Clinical core of the alzheimer’s disease neuroimaging
+     initiative: Progress and plans,” Alzheimer’s {&} Dementia, vol. 6, pp. 239–
+     246, 5 2010.
+[31] J. K. Yue, M. J. Vassar, H. F. Lingsma, S. R. Cooper, D. O. Okonkwo,
+     A. B. Valadka, W. A. Gordon, A. I. R. Maas, P. Mukherjee, E. L. Yuh,
+     A. M. Puccio, D. M. Schnyer, G. T. Manley, T.-T. Investigators, S. S.
+     Casey, M. Cheong, K. Dams-O’Connor, A. J. Hricik, E. E. Knight, E. S.
+     Kulubya, D. K. Menon, D. J. Morabito, J. L. Pacheco, and T. K. Sinha,
+     “Transforming research and clinical knowledge in traumatic brain injury
+     pilot: Multicenter implementation of the common data elements for trau-
+     matic brain injury,” Journal of Neurotrauma, vol. 30, pp. 1831–1844, 11
+     2013.
+[32] M. A. Shafto, L. K. Tyler, M. Dixon, J. R. Taylor, J. B. Rowe, R. Cu-
+     sack, A. J. Calder, W. D. Marslen-Wilson, J. Duncan, T. Dalgleish, R. N.
+     Henson, C. Brayne, and F. E. Matthews, “The cambridge centre for age-
+     ing and neuroscience (cam-can) study protocol: a cross-sectional, lifespan,
+     multidisciplinary examination of healthy cognitive ageing,” BMC Neurol-
+     ogy, vol. 14, p. 204, 12 2014.
+[33] B. H. Menze, A. Jakab, S. Bauer, J. Kalpathy-Cramer, K. Farahani,
+     J. Kirby, Y. Burren, N. Porz, J. Slotboom, R. Wiest, L. Lanczi, E. Gerstner,
+     M.-A. Weber, T. Arbel, B. B. Avants, N. Ayache, P. Buendia, D. L. Collins,
+     N. Cordier, J. J. Corso, A. Criminisi, T. Das, H. Delingette, C. Demi-
+     ralp, C. R. Durst, M. Dojat, S. Doyle, J. Festa, F. Forbes, E. Geremia,
+     B. Glocker, P. Golland, X. Guo, A. Hamamci, K. M. Iftekharuddin, R. Jena,
+     N. M. John, E. Konukoglu, D. Lashkari, J. A. Mariz, R. Meier, S. Pereira,
+     D. Precup, S. J. Price, T. R. Raviv, S. M. S. Reza, M. Ryan, D. Sarikaya,
+     L. Schwartz, H.-C. Shin, J. Shotton, C. A. Silva, N. Sousa, N. K. Subbanna,
+     G. Szekely, T. J. Taylor, O. M. Thomas, N. J. Tustison, G. Unal, F. Vasseur,
+     M. Wintermark, D. H. Ye, L. Zhao, B. Zhao, D. Zikic, M. Prastawa,
+
+
+                                       27
+    M. Reyes, and K. V. Leemput, “The multimodal brain tumor image seg-
+    mentation benchmark (brats),” IEEE Transactions on Medical Imaging,
+    vol. 34, pp. 1993–2024, 10 2015.
+[34] C. Sudlow, J. Gallacher, N. Allen, V. Beral, P. Burton, J. Danesh,
+     P. Downey, P. Elliott, J. Green, M. Landray, B. Liu, P. Matthews, G. Ong,
+     J. Pell, A. Silman, A. Young, T. Sprosen, T. Peakman, and R. Collins,
+     “Uk biobank: An open access resource for identifying the causes of a wide
+     range of complex diseases of middle and old age,” PLOS Medicine, vol. 12,
+     p. e1001779, 3 2015.
+[35] S. Bakas, H. Akbari, A. Sotiras, M. Bilello, M. Rozycki, J. S. Kirby, J. B.
+     Freymann, K. Farahani, and C. Davatzikos, “Advancing the cancer genome
+     atlas glioma mri collections with expert segmentation labels and radiomic
+     features,” Scientific Data, vol. 4, p. 170117, 9 2017.
+[36] J. R. Taylor, N. Williams, R. Cusack, T. Auer, M. A. Shafto, M. Dixon,
+     L. K. Tyler, Cam-CAN, and R. N. Henson, “The cambridge centre for age-
+     ing and neuroscience (cam-can) data repository: Structural and functional
+     mri, meg, and cognitive data from a cross-sectional adult lifespan sample,”
+     NeuroImage, vol. 144, pp. 262–269, 1 2017.
+[37] T. L. Jernigan, S. A. Brown, and G. J. Dowling, “The adolescent brain
+     cognitive development study,” Journal of Research on Adolescence, vol. 28,
+     pp. 154–156, 3 2018.
+[38] A. C. Nugent, A. G. Thomas, M. Mahoney, A. Gibbons, J. Smith,
+     A. Charles, J. S. Shaw, J. D. Stout, A. M. Namyst, A. Basavaraj, E. Earl,
+     D. Moraczewski, E. Guinee, M. Liu, T. Riddle, J. Snow, S. Japee, M. An-
+     drews, A. Pavletic, S. Sinclair, V. Roopchansingh, P. A. Bandettini, and
+     J. Chung, “”the nimh healthy research volunteer dataset”,” 2024.
+[39] D. Raffelt, J. D. Tournier, S. Rose, G. R. Ridgway, R. Henderson,
+     S. Crozier, O. Salvado, and A. Connelly, “Apparent fibre density: A novel
+     measure for the analysis of diffusion-weighted magnetic resonance images,”
+     NeuroImage, vol. 59, pp. 3976–3994, 2012.
+
+[40] M. Descoteaux, E. Angelino, S. Fitzgibbons, and R. Deriche, “Regular-
+     ized, fast, and robust analytical q-ball imaging.,” Magnetic resonance
+     in medicine : official journal of the Society of Magnetic Resonance in
+     Medicine / Society of Magnetic Resonance in Medicine, vol. 58, pp. 497–
+     510, 9 2007.
+
+[41] J.-D. Tournier, F. Calamante, and A. Connelly, “Robust determination
+     of the fibre orientation distribution in diffusion mri: non-negativity con-
+     strained super-resolved spherical deconvolution.,” NeuroImage, vol. 35,
+     pp. 1459–1472, 5 2007.
+
+
+
+                                      28
+[42] X. Qi and K. Arfanakis, “Regionconnect: Rapidly extracting standardized
+     brain connectivity information in voxel-wise neuroimaging studies,” Neu-
+     roImage, vol. 225, p. 117462, 1 2021.
+[43] C. M. Bishop, Pattern Recognition and Machine Learning, vol. 16. Springer,
+     2006.
+
+[44] R. O. Duda, P. E. Hart, and D. G. Stork, Pattern Classification. Wiley
+     Interscience, 2001.
+[45] A. Gelman, J. B. Carlin, H. S. Stern, D. B. Dunson, A. Vehtari, and D. B.
+     Rubin, Bayesian Data Analysis. Chapman and Hall/CRC, 11 2013.
+
+[46] A. C. Nugent, A. G. Thomas, M. Mahoney, A. Gibbons, J. T. Smith, A. J.
+     Charles, J. S. Shaw, J. D. Stout, A. M. Namyst, A. Basavaraj, E. Earl,
+     T. Riddle, J. Snow, S. Japee, A. J. Pavletic, S. Sinclair, V. Roopchansingh,
+     P. A. Bandettini, and J. Chung, “The nimh intramural healthy volunteer
+     dataset: A comprehensive meg, mri, and behavioral resource,” Scientific
+     Data 2022 9:1, vol. 9, pp. 1–10, 8 2022.
+[47] P. J. McMahon, A. Hricik, J. K. Yue, A. M. Puccio, T. Inoue, H. F.
+     Lingsma, S. R. Beers, W. A. Gordon, A. B. Valadka, G. T. Manley, D. O.
+     Okonkwo, the TRACK-TBI investiga, S. S. Casey, S. R. Cooper, K. Dams-
+     O’Connor, D. K. Menon, M. D. Sorani, E. L. Yuh, P. Mukherjee, D. M.
+     Schnyer, and M. J. Vassar, “Symptomatology and functional outcome in
+     mild traumatic brain injury: Results from the prospective track-tbi study,”
+     Journal of Neurotrauma, vol. 31, pp. 26–33, 1 2014.
+[48] G. Theaud, J.-C. Houde, A. Boré, F. Rheault, F. Morency, and M. De-
+     scoteaux, “Tractoflow: A robust, efficient and reproducible diffusion
+     mri pipeline leveraging nextflow {&} singularity,” NeuroImage, vol. 218,
+     p. 116889, 9 2020.
+[49] M. Jenkinson, C. F. Beckmann, T. E. J. Behrens, M. W. Woolrich, and
+     S. M. Smith, “Fsl.,” NeuroImage, vol. 62, pp. 782–90, 8 2012.
+[50] E. Garyfallidis, M. Brett, B. Amirbekian, A. Rokem, S. V. D. Walt, M. De-
+     scoteaux, I. Nimmo-smith, and D. Contributors, “Dipy, a library for the
+     analysis of diffusion mri data,” Frontiers in Neuroinformatics, vol. 8, pp. 1–
+     5, 2014.
+[51] V. Fonov, A. Evans, R. McKinstry, C. Almli, and D. Collins, “Unbiased
+     nonlinear average age-appropriate brain templates from birth to adult-
+     hood,” NeuroImage, vol. 47, p. S102, 7 2009.
+[52] B. B. Avants, N. Tustison, and G. Song, “Advanced normalization tools
+     (ants),” Insight J, vol. 2, pp. 1–35, 2009.
+
+
+
+
+                                        29
+Supplementary Material
+6    Location and Scale (L/S) ComBAT
+Follow up of section 2.1 in the paper, L/S ComBAT (c.f. section 2.3 of [19])
+estimates the parameters α̂v ,β̂v , γ̂iv and δ̂iv following a maximum likelihood of
+Gaussian distributions. As such, the regression vector β̂v and the intercept α̂v
+are obtained with an ordinary least-square approach. This involves pooling data
+from every location v (voxel or brain region) and from every patient j across all
+sites i, and use the usual regression solution [43]:
+
+                              [α̂v , β̂v ]T = (X T X)−1 X T yv ,                    (26)
+
+where X is the matrix of covariate vectors from every participant across all
+sites, and yv is a vector containing the metric associated with location v for
+every participant in all sites. According to this framework, the global intercept
+α̂v represents the average feature value at location v for all images across all
+sites, excluding the effect of covariates, namely
+                                       1 X
+                               α̂v =         (yijv − xTij β̂v ),                    (27)
+                                       JI ij
+
+where JI is the total number of subjects across all sites.
+    The additive and multiplicative site-specific biases γ̂iv and δ̂iv are determined
+by taking the mean and variance of the rectified value at location v for all images
+acquired at site i:
+                                       1 X
+                              γ̂iv =        (yijv − α̂v − xTij β̂v ),               (28)
+                                       Ji j
+
+                   2         1 X
+                 δ̂iv =            (yijv − α̂v − xTij β̂v − γ̂iv )2 .               (29)
+                          Ji − 1 i
+
+    Once these parameters estimated (namely α̂v , βˆv , γ̂iv , and δ̂iv ), the harmo-
+              harm
+nized values yijv  can be computed as follows (Eq(3) in the paper):
+
+                  harm
+                              yijv − α̂v − ⃗xTij β̂v − γ̂iv
+                 yijv  =                                      + α̂v + ⃗xTij β̂v .   (30)
+                                           δ̂iv
+    The reader shall note that when the total number of images JI acquired
+across all sites is sufficiently large, the maximum likelihood estimate of β̂v and
+α̂v from Eqs 26 and 27 can be considered unbiased. However, for any site i with
+a low number of acquired images (a common scenario in clinical practice) γ̂iv
+and δ̂iv are biased and thus should not be relied upon. One common solution
+to that problem is to estimate γ̂iv and δ̂iv following a Bayesian maximum a
+posteriori formulation while keeping as is Eq(26) and (27) for estimating β̂v and
+α̂v [15, 19, 28]. Details on the Bayesian formulation are provided in section S.2.
+
+
+                                                  30
+7    ComBAT
+Follow up of section 2.1 in the paper. For a step-by-step explanation, please re-
+fer to figure 1 of [28]. This section explains the Bayesian approach of ComBAT
+for estimating the harmonization parameters α̂v , βˆv , γ̂iv , σ̂v , and δ̂iv . To do
+so, ComBAT begins by standardizing the data, which involves subtracting the
+population intercept, regression weight and variance, represented mathemati-
+cally as
+                                     yijv − α̂v − xTij β̂v
+                             zijv =                        ,                     (31)
+                                             σ̂v
+where the variance is determined with the usual empitical equation:
+                              1 X
+                     σ̂v2 =         (yijv − α̂v − xTij β̂v − γ̂iv )2 ,          (32)
+                              JI ij
+
+and γ̂iv is calculated following Eq (28).
+                                                        ∗
+    At this stage, the bias of each site is denoted as γiv and the variance of each
+         2∗
+site is δiv . These two variables are estimated by maximizing their posterior
+distributions rather than their likelihood distributions. According to Bayes’
+                              ∗        2∗
+theorem, the posteriors of γiv   and δiv  can be expressed as
+                         ∗          2∗              ∗     2∗      ∗
+                     P (γiv |ziv , δiv ) ∝ P (ziv |γiv , δiv )P (γiv ),         (33)
+                         2∗         ∗               ∗     2∗      2∗
+                     P (δiv |ziv , γiv ) ∝ P (ziv |γiv , δiv )P (δiv ),         (34)
+where
+                                    ∗     2∗         ∗     2∗
+                           P (ziv |γiv , δiv ) = N (γiv , δiv ),                (35)
+                                      ∗
+                                  P (γiv ) = N (µi , τi2 ),                     (36)
+                                      2∗
+                                  P (δiv ) = IG(λi , θi ),                      (37)
+are a Gaussian likelihood, a Gaussian prior and an inverse Gamma prior, re-
+spectively.
+   The hyperparameters of the prior distributions µi , τi2 , λi , and θi are esti-
+mated based on the moment of these distributions. Specifically, µi and τi2 are
+derived from the first and second moment of a Gaussian distribution, namely
+                          1X ∗                      1 X ∗
+                  µ̄i =       γ̂         τ̄i2 =          (γ̂ − µ̄i )2           (38)
+                          v v iv                  V − 1 v iv
+
+                                                                  ∗
+                                                                     = J1i j zijv
+                                                                          P
+    where V is the number of brain regions (or voxels) and γ̂iv
+is the region-wise and sitewise model intercept of the standardized data and
+should not be confused with γ̂iv from Eq (28).
+    To estimate λi and θi , one must
+                                   P first calculate   the voxel-wise and sitewise
+                                                ∗ 2
+                       2∗
+standardized variance δiv   = Ji1−1 j (zijv − γ̂iv ) . This variance shall not be
+                 2                                                      2∗
+confused with δ̂iv from Eq ( 29). The
+                                   P empirical  mean andPvariance of δiv   across
+                                 1     2∗       2     1       2∗        2
+all voxels is computed as ḠI = V   v δiv and S̄I = V −1  v (δiv − ḠI ) . Then,
+
+
+                                             31
+by equating ḠI and V̄i2 to the first and second theoretical moments of the inverse
+gamma distribution, we get
+                               θi                           θi2
+                     Ḡi =                 S̄i2 =                       ,               (39)
+                             λi − 1                  (λi − 1)2 (λi − 2)
+which can be rearranged to estimate the two hyperparameters,
+                                               Ḡ2i + 2S̄i2
+                                      λ̄i =                                             (40)
+                                                    S̄i2
+
+                                         Ḡ3i + GS ¯ 2i
+                                   θ̄i =                .                               (41)
+                                              S̄i2
+    Now that the hyperparameters of the likelihood and prior distributions have
+been estimated, by expanding Eqs (33) and (34) and integrating them with
+Eqs (38) and (39), we arrive at the mathematical expectation of the posterior
+                                              ∗       2∗
+distributions, which yields the estimates of γiv and δiv :
+                                                                ∗
+                        ∗        ∗          2∗        Ji τ̂i2 γ̂iv     2∗
+                                                                   + δ̄iv µ̄i
+                      γ̄iv = Ê(γiv |ziv , δiv )=               2     2∗
+                                                                                        (42)
+                                                          Ji τ̄i + δ̄iv
+                                                                              ∗ 2
+                                                  θ̄i + 21 j (zijv − γ̄iv
+                                                            P
+                   2∗       2∗          ∗
+                                                                               )
+                 δ̄iv = Ê(δiv |zijv , γiv )=
+                                            Ji
+                                                                                    .   (43)
+                                            2 + λ̄i − 1
+                                                      ∗        2∗
+    Given the interdependency of Eqs (42) and (43), γ̄iv and δ̄iv are computed
+through an iterative process. This starts with a reasonable initial value for
+  2∗          2∗                                    ∗                                2∗
+δ̄iv (e.g., δ̂iv ), followed by the calculation of γiv , and then re-estimation of δ̄iv
+                     ∗
+using the new γiv value, and so forth. This cycle is repeated until convergence
+is achieved.
+     Once all ComBAT parameters have been empirically estimated, data har-
+monization is performed as follows:
+                     ComBAT           σ̂v            ∗
+                    yijv    =           ∗
+                                           (zijv − γ̄iv ) + σ̂v + xTij β̂v .            (44)
+                                      δ̄iv
+   The reader shall notice that this harmonization function is different from
+that of L/S Combat in Eq. (30).
+
+
+8     Maximum a posteriori for the estimation of
+      the moving site parameter β⃗M v
+As mentioned in Section 2.3, β  ⃗M v is estimated by maximizing the posterior
+                ⃗
+distribution P (βM v | DM v ) where DM v = {YM v , XM } contains the list of all
+values and covariables of the moving site M at location v. Following Bayes’
+theorem, one can reformulate the posterior as
+
+                        ⃗M v | DM v ) =       P (DM v | β⃗M v ) P (β⃗M v )
+                     P (β                                                  ,            (45)
+                                                     P (DM v )
+
+                                                32
+where P (DM v | β⃗M v ) is the likelihood pdf, P (β⃗M v ) is the prior pdf, and P (DM v )
+is the evidence. Since P (DM v ) is independent from the to-be-optimized param-
+eters β⃗M v , it can be considered a multiplicative factor and thus
+                      P (β⃗M v | DM v ) ∝ P (DM v | β⃗M v ) P (β⃗M v ).                 (46)
+   Since both P (DM v | β⃗M v ) and P (β⃗M v ) are Gaussian distributions (see Eqs. (11)
+and (12) in the paper), the posterior is also Gaussian. Starting with the likeli-
+hood pdf of the entire population DM v ,
+                                            JM
+                                            Y
+                      P (DM v | β⃗M v ) =            ⃗ M j , yM jv | β⃗M v ),
+                                                  P (ϕ                                  (47)
+                                            j=1
+
+             ⃗ M j , yM jv | β
+and since P (ϕ               ⃗M v ) is Gaussian for each data point,
+                               JM
+                                                                                !
+                               Y     1          (yM jv − β⃗M
+                                                           T ⃗
+                                                             v ϕM j )
+                                                                     2
+          P (DM v | β⃗M v ) =     √       exp −            2                        ,   (48)
+                              j=1
+                                    2π σM               2σM
+
+which simplifies to
+                                                                      
+                                             JM
+                              1           1  X
+   P (DM v | β⃗M v ) =     2 )JM /2
+                                    exp− 2      (yM jv − β⃗M
+                                                            T ⃗
+                                                              v ϕM j )
+                                                                      2
+                                                                         .              (49)
+                       (2πσM             2σM j=1
+
+   The prior distribution is also Gaussian, with a mean vector of β⃗Rv (Eq. 12)
+and covariance Σ0 :
+                                                                            
+                      1                  1 ⃗
+   P (β⃗M v ) =                  exp   −   (β M v − ⃗Rv )T Σ−1 (β
+                                                    β       0
+                                                                ⃗M v − β⃗Rv ) . (50)
+                (2π)P/2 |Σ0 |1/2         2
+    Multiplying Eqs. (49) and (50), the posterior becomes
+                                                                                      
+                              JM
+   ⃗M v | DM v ) ∝ exp− 1                              1 ⃗
+                              X
+                                           ⃗T ϕ
+                                  (yM jv − β    ⃗     2          ⃗ T −1 ⃗         ⃗ 
+P (β                       2                 M v M j ) − (βM v − βRv ) Σ0 (βM v − βRv ) .
+                         2σM  j=1
+                                                        2
+                                                                                        (51)
+   Maximizing Eq. (51) is equivalent to minimizing its negative log:
+                     JM
+⃗M v = arg min    1 X                           1 ⃗
+β                  2     (yM jv − β⃗M
+                                    T ⃗       2          ⃗ T −1 ⃗         ⃗
+                                      v ϕM j ) + (βM v − βRv ) Σ0 (βM v − βRv )
+            ⃗M v 2σM
+            β                                   2
+                     j=1
+                                                                                  (52)
+and assuming Σ0 is diagonal, the equation reduces to
+                 "J                                                            #
+                  X M
+
+ β⃗M v = arg min      (yM jv − β⃗ ϕ
+                                 T ⃗ M j ) + ⃗λ (β⃗M v − β⃗Rv ) (β⃗M v − β⃗Rv ) , (53)
+                                    Mv
+                                          2    T               T
+             ⃗M v
+             β      j=1
+
+with ⃗λ ∈ RP + a vector of hyperparameters. By forcing ∇β⃗M v L(β⃗M v ) = 0, one
+arrives at
+                 β⃗M
+                   T       T      ⃗ T −1 (ΦT Y
+                     v = (ΦM ΦM + λ I)
+                                             ⃗       ⃗T ⃗
+                                            M M v + λ βRv ),                (54)
+which corresponds to Eq. (13) in the paper.
+
+
+                                             33
+Maximum a posteriori of the moving site variance
+parameter d2M v
+As mentioned in Section 2.3, the moving site variance d2M v is estimated by
+maximizing the posterior distribution P (d2M v | ZM v ), where ZM v = {zM jv =
+        ⃗T β
+yM jv − ϕ    ⃗
+          M j M v , ∀j}. Following Bayes’ theorem:
+
+                                            P (ZM v | d2M v )P (d2M v )
+                     P (d2M v | ZM v ) =                                .           (55)
+                                                   P (ZM v )
+
+   Since ZM v is a zero-centered Gaussian with variance d2M v , we assume that
+                                       JM
+                                                                            !
+                                                         2
+                                       Y      1         zM jv
+                 P (ZM v | d2M v ) =       √       exp − 2                      .   (56)
+                                       j=1
+                                             2πdMv      2d Mv
+
+
+     If we use a Gamma function as the prior P (d2M v ) with τ = 1/d2M v , we
+get that the prior of the variance of the moving site is driven by the unbiased
+estimation of the variance of the reference site computer by Eq.(9). This leads
+to :
+                                  ba0
+                         P (τ ) = 0 τ a0 −1 exp(−b0 τ ).                   (57)
+                                 Γ(a0 )
+    Since the posterior is the product of a Gaussian and a Gamma distribution,
+it remains Gamma-distributed with parameters
+                                                             J
+                                                             M
+                                 JM                       1X
+                     an = a0 +      ,        bn = b0 +         z2 .
+                                  2                       2 j=1 M jv
+
+   Thus the MAP estimate of τ is
+                                  1        a0 + JM /2
+                          τ=          =                     ,                       (58)
+                                d2M v   b0 + 21 ΣJj=1
+                                                   M   2
+                                                      zM jv
+                                                | {z }
+                                                       JM dˆ2M v
+
+
+leading to
+                                           2b0 + JM dˆ2M v
+                               d2M v =                     ,                        (59)
+                                             2a0 + JM
+and, by setting a0 = ν0 /2 and b0 = d2T v ν0 /2, the last equation simplifies to
+
+                                        ν0 d2T v   JM dˆ2M v
+                           d2M v =               +           ,                      (60)
+                                       ν0 + J M    ν0 + JM
+which corresponds to Eq. (17) in the paper.
+
+
+
+
+                                             34
+9     Clinical-ComBAT algorithms
+Algorithm 1: Clinical-ComBAT-Fit
+ Input:
+ DT v = {(yT 1v , ⃗xT 1 ), . . . , (yT NT v , ⃗xT JT )} ;         // Target site data
+ DM v = {(yM 1v , ⃗xM 1 ), . . . , (yM NM v , ⃗xM JM )} ;         // Moving site data
+ P, ⃗λ, ν0 ;                                                       // Hyperparameters
+ Output:
+ {d2M v , β⃗M v , d2T v , β
+                          ⃗T v } ;                        // Harmonization parameters
+
+    Target site parameters:
+    ⃗ T j ← (⃗xT · ⃗xT j + 1)P ∀j
+    ϕ                                                                      Eq. (19)
+               Tj
+    ΦT ← stack all vectors ϕ   ⃗ T j into a matrix
+    ⃗          T      −1 T
+    βT v ← (ΦT ΦT ) ΦT YT v                                                Eq. (23)
+                PJT             ⃗ T β⃗T v )2
+    d2 ← 1
+     Tv       JT       (yT jv − ϕ
+                     j=1              Tj                                   Eq. (24)
+
+    Moving site parameters:
+    ϕ⃗ M j ← (⃗xT · ⃗xM j + 1)P ∀j                                         Eq. (19)
+                Mj
+    ΦM ← stack all vectors ϕ   ⃗ M j into a matrix
+    β⃗M v ← (ΦM ΦM + ⃗λ I) (ΦTM YM v + ⃗λT β⃗T v )
+                T          T  −1
+                                                                           Eq. (28)
+                 PJM
+    dˆ2 ← 1
+     Mv    JM       j=1(yM jv − ϕ⃗ T β⃗M v )2
+                                        Mj
+     2     JM dˆ2M v    ν d2T v
+    dM v ← JM +ν0 + JM0 +ν     0
+                                                                           Eq. (32)
+
+    return {d2M v , β⃗M v , d2T v , β⃗T v }
+
+
+
+
+Algorithm 2: Clinical-ComBAT-Apply
+ Input:
+ DM v = {(yM 1v , ⃗xM 1 ), . . . , (yM NM v , ⃗xM JM
+                                                   ′ )} ;      // Moving site data
+ P ;                                                             // Hyperparameter
+    2     ⃗          2   ⃗
+ {dM v , βM v , dT v , βT v } ;                          // Precomputed parameters
+ Output:
+ {ŷM 1v , . . . , ŷM JM v } ;                               // Harmonized values
+
+                      ′
+    for j = 1 . . . JM  do
+        ⃗
+       ϕM j ← (⃗xM j · ⃗xM j + 1)P
+                     T
+                                                                           Eq. (19)
+                  (y   −β⃗T ϕ ⃗   )
+          ŷM jv ← M jv d2 M v M j d2T v + β⃗TT v ϕ
+                                                  ⃗T j                     Eq. (21)
+                         Mv
+
+
+    return {ŷM 1v , ŷM 2v , . . . , ŷM JM v }
+
+
+
+
+                                                   35
+Algorithm 3: Harmonization-Qc (with Bhattacharya Distance)
+ Input:
+ D̂M v = {(ŷM 1v , ⃗xM 1 ), . . . , (ŷM NM v , ⃗xM JM′ )} ;       // Harmonized data
+ DT v = {(yT 1v , ⃗xT 1 ), . . . , (yT NT v , ⃗xT JT )} ;          // Target site data
+ thr ;                                                                    // Threshold
+ β⃗T v ;                                                      // Target site parameter
+ Output:
+ dB ;                                                         // Bhattacharya Distance
+
+ Data rectification:
+                       ⃗T β
+ ZT = {zT jv = yT jv − ϕ     ⃗               ⃗T
+                         T j T v | ∀(yT jv , ϕT j ) ∈ DT v }
+                         ⃗  T ⃗
+ ZM = {ẑM jv = ŷM jv − ϕM j βT v | ∀(ŷM jv , ϕ⃗ T ) ∈ D̂M v }
+                                                   Mj
+
+ Compute the Bhattacharyya distance:
+ µT = mean(ZT ), σT2 = var(ZT )
+                    2
+ µM = mean(ZM ), σM   = var(ZM )
+                     2          2   2
+ dB = 14 (µσT2−µM)             σT +σM
+              +σ 2
+                   + 21 ln     2σT σM
+             T   M
+
+
+ return dB
+
+
+
+
+                                          36
+Algorithm 4: Hyperparameter Auto-Tuning
+  Input:
+  DT v = {(yT 1v , ⃗xT 1 ), . . . , (yT NT v , ⃗xT JT )} ;         // Target site data
+  DM v = {(yM 1v , ⃗xM 1 ), . . . , (yM NM v , ⃗xM JM )} ;         // Moving site data
+  P, ν0 , τ1 , τ2 , k, λmin ;                                       // Hyperparameters
+  Output:
+ ⃗λ ;                                                      // Harmonization parameters
+
+ Initialization of ⃗λ:
+ {d2M v , β⃗M v , d2T v , β
+                          ⃗T v } ← ClinicalComBAT-Fit(P, ⃗0, ν0 , DT v , DM v )
+          ⃗ [0]
+          β
+ ⃗λ0 ←     Tv
+          ⃗T v
+          β
+ f ound ← F alse
+ λ ← λmin
+
+ while f ound = F alse do
+   ⃗λ ← λ · ⃗λ0
+    {d2M v , β⃗M v , d2T v , β⃗T v } ← ClinicalComBAT-Fit(P, ⃗λ, ν0 , DT v , DM v )
+    Compute dmin , dmax , d1 , d2
+    if sign(dmin τ1 − d1 ) + sign(d2 − dmax τ2 ) + 2 = 0             Eq. (35) then
+        f ound ← T rue
+    else
+        λ←λ×k ;                     // k > 1 is the multiplicative step size
+
+ return ⃗λ
+
+
+10    Supplementary Figures
+
+
+
+
+                                          37
+Figure 10: Harmonization of fractional anisotropy (FA) using Clinical-ComBAT
+and ComBAT for the NIMH site (green), and Track-TBI site A (blue) and site
+B (cyan). The top three rows show harmonized white matter skeleton masks
+with corresponding DB values, where orange dots indicate TBI subjects. The
+bottom row presents stacked histograms of DB across all white matter bundles
+and sites. Lower DB values indicate closer alignment with the reference site,
+underscoring both the necessity of harmonization and the superior performance
+of Clinical-ComBAT over ComBAT.
+
+
+
+
+                                     38
+Figure 11: Harmonization of Apparent Fiber Density (AFD) using Clinical-
+ComBAT and ComBAT for the NIMH site (green), and Track-TBI site A (blue)
+and site B (cyan). The top three rows show harmonized white matter skeleton
+masks with corresponding DB values, where orange dots indicate TBI subjects.
+The bottom row presents stacked histograms of DB across all white matter bun-
+dles and sites. Lower DB values indicate closer alignment with the reference
+site, underscoring both the necessity of harmonization and the superior perfor-
+mance of Clinical-ComBAT over ComBAT.
+
+
+
+
+                                      39
+

@@ -1,0 +1,1517 @@
+                                          Bayesian brain mapping: a population-informed framework for
+                                           personalized functional network topography and connectivity
+                                          Nohelia Da Silva Sanchez*1 , Diego Derman, PhD*1 , Saige Rutherford, PhD1 , Damon D.
+                                             Pham1 , Ellyn R. Butler, MS2 , Mary Beth Nebel3 , and Amanda F. Mejia, PhD1
+                                                                 1
+                                                               Department of Statistics, Indiana University
+                                                           2
+                                                            Department of Psychology, Northwestern University
+                                            3
+                                              Center for Neurodevelopmental and Imaging Research, Kennedy Krieger Institute
+arXiv:2602.01551v2 [stat.AP] 4 May 2026
+
+
+
+
+                                          *Contributed equally
+
+
+
+                                          Co-author e-mail addresses: ellynbutler2027@u.northwestern.edu, nebel@kennedykrieger.org,
+                                          afmejia@iu.edu, dderman@iu.edu, ndasilv@iu.edu
+
+
+
+                                          ORCIDs: E.R.B. (0000-0001-6316-6444), A.F.M. (0000-0002-4312-8974), D.D. (0000-0002-6895-
+                                          9248)
+
+
+
+                                          Corresponding author: Diego Derman
+                                          E-mail: dderman@iu.edu
+
+
+
+
+                                                                                     1
+                                         Abstract
+
+   The spatial topography of functional brain organization is increasingly recognized to play
+an important role in cognition and disease. Accounting for individual differences in func-
+tional topography is also crucial for accurately distinguishing spatial and temporal aspects
+of functional brain connectivity. Yet, accurate estimation of personalized functional brain
+networks from functional magnetic resonance imaging (fMRI) without extensive scanning
+remains challenging due to high noise levels. Here, we describe Bayesian Brain Mapping
+(BBM), a technique for personalized functional topography and connectivity informed by
+population information. BBM relies on population-derived priors on both spatial topography
+of networks and between-network functional connectivity to guide subject-level estimation
+and combat noise. These priors are based on existing spatial templates, such as parcella-
+tions or continuous network maps, providing correspondence to those templates. Yet BBM
+is highly flexible, avoiding strong spatial or temporal constraints and allowing for overlap
+between networks and heterogeneous patterns of engagement. BBM is designed for single-
+subject analysis, making it computationally efficient and translatable to clinical settings.
+Here, we describe the BBM model and illustrate the use of the BayesBrainMap R pack-
+age to construct population-derived priors, fit the model, and perform inference to identify
+engagements. A demo is provided in an accompanying Github repo. We also share priors
+derived from the Human Connectome Project and provide code to support the construction
+of priors from different data sources, lowering the barrier to adoption of BBM for studies of
+individual brain organization.
+
+
+
+
+                                             2
+1    Introduction
+
+The functional organization of the brain is highly individualized, both in terms of the spatial
+
+configuration (Gordon et al., 2017a; Braga and Buckner, 2017; Cui et al., 2020) and temporal
+
+dynamics (Finn et al., 2015) of functional brain networks. Individual features of functional
+
+network topography have been shown to be predictive of a range of individual characteristics
+
+and conditions including cognition, disease severity, psychopathology, socio-economic status, and
+
+neurodevelopment (Bijsterbosch et al., 2018; Kong et al., 2019; Bijsterbosch et al., 2019; Cui
+
+et al., 2022; Li et al., 2022; Keller et al., 2023; Lynch et al., 2024; Butler et al., 2025; Pang
+
+et al., 2026; Herzberg et al., 2024; Zhao et al., 2024). Thus, functional network topography is
+
+a potentially valuable source of information derived from neuroimaging data for the assessment
+
+of disease progression and evaluating the mechanisms underlying treatment efficacy.
+
+Extracting functional topography accurately at the individual level has historically relied on
+
+collecting hours of resting-state functional magnetic resonance imaging (fMRI) from each par-
+
+ticipant (Braga and Buckner, 2017; Gordon et al., 2017b; Xue et al., 2021). These precision
+
+neuroimaging studies have been crucial in revealing the existence, nature, and extent of individ-
+
+ual differences in functional topography. However, translational goals, including using functional
+
+topography and connectivity features as biomarkers and for personalized treatment, depend on
+
+extracting these features accurately from moderate amounts of data feasible to collect in clinical
+
+settings.
+
+Another motivation for extracting individualized functional topography from standard-duration
+
+scans is its relevance to measurement of FC, i.e. the temporal synchrony between regions of the
+
+brain. The use of group parcellations or network maps misaligned to the individual’s functional
+
+topography can lead to biased FC estimates due to mixing of signals from distinct functional
+
+areas (Smith et al., 2011; Bijsterbosch et al., 2018, 2019; Butler et al., 2026). Thus, true
+
+differences in functional topography can be misinterpreted as differences in FC. A potential
+
+ramification is that real relationships between behavioral or phenotypic measures and functional
+
+topography may be incorrectly attributed to FC. If prediction is the main objective, such mixing
+
+of underlying features may not be highly consequential. But if we aim to understand the brain
+
+mechanisms behind certain behaviors or disease states, rather than simply predict them, it is
+
+
+                                                3
+crucial to disentangle differences in spatial topography from differences in temporal engagement
+
+and connectivity (Harrison et al., 2020).
+
+To extract individualized or “personalized” functional networks (PFNs) from typical duration
+
+subject-level fMRI data, hierarchical Bayesian models have proven an effective approach. These
+
+models reduce noise by combining information from multiple subjects, while respecting indi-
+
+vidual differences and ensuring correspondence between individuals. Hierarchical models have
+
+been successfully applied in the context of parcellation (Kong et al., 2019, 2021), probabilistic
+
+functional modes (PROFUMO) (Harrison et al., 2015; Farahibozorg et al., 2021), and indepen-
+
+dent component analysis (ICA) (Guo and Tang, 2013; Mejia et al., 2020). Importantly, these
+
+methods have been shown to perform well using a modest amount of data per individual, po-
+
+tentially avoiding the need to collect prolonged or repeated fMRI sessions in individuals. This
+
+makes them highly attractive in contexts where extensive subject-level scanning is not feasible,
+
+including clinical settings where it presents a financial and physical burden for patients.
+
+In addition to the importance of accounting for individual differences in functional topography,
+
+there is growing evidence for the existence and relevance of overlapping functional architecture
+
+among brain systems or networks (Power et al., 2013; Gratton et al., 2018; Faskowitz et al., 2020;
+
+Hermosillo et al., 2024). This favors “soft” parcellations allowing for overlap between functional
+
+networks over traditional “hard” parcellations (Li et al., 2018; Dadi et al., 2020; Bijsterbosch
+
+et al., 2023). Examples of soft parcellation approaches include spatial ICA (Beckmann and
+
+Smith, 2004), temporal ICA (Smith et al., 2012), PROFUMO (Harrison et al., 2015), non-
+
+negative matrix factorization (Li et al., 2017), gradients (Margulies et al., 2016), and dictionaries
+
+of functional modes (Dadi et al., 2020). All of these methods use assumptions or constraints to
+
+make estimation feasible, though they differ in the specific choice of constraint. For instance,
+
+spatial ICA encourages statistical independence between network maps, leading to relatively
+
+little overlap between networks. PROFUMO and temporal ICA allow for greater spatial overlap
+
+but encourage temporal independence between networks, resulting in low FC between networks
+
+(Pervaiz et al., 2020). Relaxing these constraints, while continuing to provide sufficient model
+
+guidance for estimation accuracy and alignment of features across individuals, may permit both
+
+the temporal and spatial features of functional brain organization to be more fully expressed.
+
+
+
+                                                 4
+Here, we present Bayesian Brain Mapping (BBM), a pragmatic and flexible hierarchical Bayesian
+
+technique for producing PFNs without strong constraints on the spatial or temporal structure
+
+of the networks. BBM begins with a template, which can be either a group parcellation or a set
+
+of continuous network maps. That template is used as the basis for population-derived priors
+
+on spatial topography and FC, which are then used to inform subject-level estimation of those
+
+same features. BBM is a generalization of template ICA (Mejia et al., 2020), which uses group
+
+ICA maps as the template, but BBM allows for parcellations, ICA maps, PROFUMO modes,
+
+and other types of network maps as the template.
+
+In this work, we describe BBM, illustrate its use, and provide resources to facilitate its adoption.
+
+We have three primary goals. First, we demonstrate the use of the BayesBrainMap R package,
+
+which includes functions for establishing population-derived priors and for fitting subject-level
+
+models to estimate individual functional topography and connectivity. Second, we illustrate
+
+the flexibility of BBM to work with various choices of template, including parcellations and
+
+continuous network maps, and how the priors relax the more constrained templates. Finally,
+
+we share high-quality priors derived from the Human Connectome Project (HCP) (Van Essen
+
+et al., 2013) using a variety of templates, along with instructions and code to replicate those
+
+priors. The priors can be directly adopted to apply BBM to studies of healthy young adults, or
+
+our pipeline can be adapted to produce custom priors based on other templates or populations.
+
+A comprehensive demo available on Github accompanies this manuscript and provides further
+
+details, examples, and visualizations.
+
+
+
+2    Methods
+
+Figure 1 illustrates the BBM framework. First, the selected template is used to construct
+
+population-derived priors for the functional topography of and FC between networks. The
+
+network priors encode inherent population variability in the boundaries, configuration, and
+
+overlap of networks, effectively relaxing any strong constraints of the template. Second, the priors
+
+are used to guide and inform estimation in a subject-level Bayesian model to obtain posterior
+
+estimates of individual functional topography and FC, as well as measures of uncertainty that
+
+can be used for inference. Note that there is no need to fit a large multi-subject hierarchical
+
+
+                                                 5
+Figure 1: Overview of Bayesian Brain Mapping. The two main steps are (1) prior
+estimation and (2) model fitting, both implemented in the BayesBrainMap R package.
+
+
+model. The ability to analyze data from a single subject at a time makes BBM highly pragmatic,
+
+computationally efficient, parallelizable, and feasible in clinical settings.
+
+The BBM population-derived priors reduce noise while retaining signal, resulting in more reli-
+
+able and accurate personalized functional network maps and the FC between them (Mejia et al.,
+
+2020, 2023, 2025). An important feature of the functional topography priors is that the popula-
+
+tion variance of each network varies across the brain, generally showing greater inter-individual
+
+differences in regions of high engagement, and greater similarity across subjects in background
+
+regions where engagement is low (Figure 1). This allows individual differences to be expressed
+
+where they exist, while reducing noise in background regions through shrinkage. Due to the
+
+continuous, whole-brain nature of BBM network maps, noise reduction in background regions
+
+of one network also indirectly contributes to estimation of signal in the same area of the brain
+
+in other networks.
+
+BBM includes an optional population-derived prior on the FC between networks to encode pop-
+
+ulation trends and variability in FC, which shrinks the subject-level FC toward the population
+
+mean to alleviate sampling error and stabilize within-subject fluctuations. It is well-established
+
+that Bayesian shrinkage is beneficial for reliable FC estimation (Ledoit and Wolf, 2004; Su et al.,
+
+2009; Chen et al., 2010; Varoquaux et al., 2010; Shou et al., 2014; Mejia et al., 2015; Dai et al.,
+
+2017; Mejia et al., 2018; Rahim et al., 2019; Pervaiz et al., 2020; Honnorat and Habes, 2022).
+
+
+
+                                                  6
+However, the inverse-Wishart distribution, a common choice of parametric prior for FC due
+
+to its conjugacy with the multivariate Normal distribution (Honnorat et al., 2019; Harrison
+
+et al., 2020; Mejia et al., 2025), has limited ability to capture population variance patterns. We
+
+recently developed a novel informative prior for correlation matrices based on Cholesky factoriza-
+
+tion, which accurately captures population variance in FC and outperforms the inverse-Wishart
+
+for FC estimation (Mejia et al., 2025).
+
+In this section, we describe and illustrate the two main steps in BBM: prior estimation and
+
+model fitting. We first present the Bayesian model. We then describe how we derive the
+
+priors, illustrating the process using HCP data. Our HCP-derived priors are freely available for
+
+download, and we share our code so it can be adapted to other contexts. Finally, we illustrate
+
+the application of BBM to several individuals from the HCP. All of the techniques described
+
+here are implemented in the BayesBrainMap R package, and code for the analyses presented are
+
+available via Github (https://github.com/statMINDlab/BBM-demo).
+
+
+
+2.1   Hierarchical Bayesian model
+
+
+For a given subject, let ytv be the preprocessed BOLD fMRI time series at location v and time
+
+point t. The BBM model assumes the BOLD time series can be linearly deconstructed into
+
+contributions from a set of networks. The model is similar to ICA and other source separation
+
+models, but without strong temporal or spatial constraints.
+
+                              Q
+                              X
+                      ytv =         atq sqv + etv = a⊤
+                                                     t sv + etv ,   etv ∼ N (0, τv2 )          (1)
+                              q=1
+
+                      sqv = s0qv + δqv ,                  2
+                                             δqv ∼ N (0, σqv )                                 (2)
+
+                       at ∼ N (0, G),        G ∼ p(G)                                          (3)
+
+
+
+At level (1) of the model, sqv is the spatial engagement of network q at location v, and atq is the
+
+temporal activation of network q at time t. The vectors at and sv combine those values across
+
+all Q networks. The scale of the residual white noise etv is allowed to vary spatially. In ICA
+
+and other blind source separation analyses of fMRI data, it is common to include additional
+
+
+
+                                                     7
+components to capture structured noise from head motion and other sources. In BBM, these are
+
+not included in the model but are automatically estimated and removed beforehand, as described
+
+in Mejia et al. (2020). In addition, we recommend decomposition-based denoising, such as ICA-
+
+FIX (Griffanti et al., 2014) or ICA-AROMA (Pruim et al., 2015), to reduce structured noise
+
+prior to model fitting as this has been shown to improve performance across methods (Harrison
+
+et al., 2020).
+
+Level (2) of the model incorporates the population-derived prior on the spatial topography in
+
+sqv , where the population mean s0qv and variance σqv
+                                                   2 are considered known, and the deviation
+
+
+terms δqv represent individual differences (Mejia et al., 2020). Spatial dependencies in δqv can be
+
+modeled via a multivariate spatial prior for additional accuracy and power, though at a higher
+
+computational cost (Mejia et al., 2023).
+
+Level (3) of the model incorporates a population-derived prior on the FC between networks and
+
+is optional. This is accomplished by assuming a multivariate Normal prior on at with mean
+
+zero and covariance G, and assuming a population-derived hyperprior on G (Mejia et al., 2025).
+
+Note that we constrain each column of the mixing matrix to unit variance (for identifiability, as
+
+often required in blind source separation), so Cov(at ) ≡ Cor(at ). Hence, the covariance of at
+
+is equal to the Pearson correlation between the time courses of each network and represents the
+
+between-network FC. We provide two choices for the FC prior: the conjugate inverse-Wishart
+
+distribution, which is also used in PROFUMO (Harrison et al., 2020), or a novel Cholesky prior
+
+developed for this model to more accurately encode population variance patterns (Mejia et al.,
+
+2025). The conjugate prior allows for faster computation, while the Cholesky prior improves
+
+performance but is more computationally demanding, since it requires sampling from the prior.
+
+Even with the Cholesky prior, model fitting is quite feasible compared with large hierarchical
+
+models.
+
+
+
+2.2    Population-derived priors
+
+
+Here, we describe the construction of population-derived priors using training data from the
+
+HCP and illustrate the process via the BayesBrainMap R package. All steps are detailed in
+
+a demo available at https://github.com/statMINDlab/BBM-demo. The HCP-derived priors
+
+
+                                                8
+    GSR                              Network Maps                            Parcellations
+                     GICA 15     GICA 25 GICA 50 PROFUMO 12                 Yeo 17 MSC 17
+    With GSR            ✓           ✓        ✓       ✓                        ✓        ✓
+    Without GSR         ✓           ✓        ✓       ✓                        ✓        ✓
+
+   Table 1: Templates used for construction of HCP-derived priors available through OSF.
+
+
+themselves are available through Open Science Framework (OSF) as described in the Github repo
+
+README. These priors can be directly utilized for application of BBM to analyze healthy young
+
+adults. While we do not advise applying HCP-derived priors directly to study individuals from
+
+clearly distinct populations, such as children, the elderly, or individuals with known neurological
+
+conditions, our workflow can be replicated using the process and scripts provided to produce
+
+priors for other populations.
+
+We consider several different choices of template, including parcellations and continuous network
+
+maps (Table 1). For each template, we build priors with and without global signal regression
+
+(GSR), since the decision to use GSR remains the subject of debate. As templates, we use the
+
+17-network Yeo parcellation (Yeo et al., 2011), the Midnight Scan Club (MSC) group parcella-
+
+tion (Gordon et al., 2017b), HCP-derived group ICA maps with 15 to 50 components (Smith
+
+et al., 2013), and group-level PROFUMO modes (Harrison et al., 2020). Note that whether
+
+the template is a hard parcellation or continuous, the BBM priors and individual functional
+
+topography maps are always continuous.
+
+We first select a high-quality/low-motion, balanced training sample to ensure reliable and rep-
+
+resentative priors. Starting from the full HCP sample of N = 1206 subjects, we apply several
+
+filters. First, we exclude subjects with insufficient scan duration (< 10 min) after dropping
+
+the first 15 volumes and excluding volumes with excessive head motion, based on a lagged and
+
+filtered version of framewise displacement (FD) appropriate for multiband data (Power et al.,
+
+2019; Pham et al., 2023) with a threshold of 0.5mm. Second, we exclude any remaining related
+
+subjects, retaining the first eligible subject per family after motion and scan-duration filtering.
+
+Finally, we balance sex within each age group by randomly downsampling the overrepresented
+
+sex so that males and females are equally represented within each age bin. After applying all
+
+filters, our final sample contains 348 subjects. Both runs from the first visit were then used to
+
+train the population-derived priors. Note that priors can also be trained using a single run per
+
+
+                                                9
+subject, in which case each run is split down the middle to produce two pseudo runs.
+
+We now briefly describe the process of deriving the priors, all steps of which are implemented in
+
+the BayesBrainMap function estimate_prior(). For more details, see the Github demo that
+
+accompanies this manuscript. For each training subject and session, dual regression (Beckmann
+
+et al., 2009) is used with the chosen template to produce a noisy set of time courses and spatial
+
+maps.1 Those test-retest spatial engagement maps and time courses are then used to estimate
+
+the parameters for the topography and FC priors in the BBM model, as we now describe.
+
+Estimation of the topography prior in level (2) of the model is straightforward. Consider a
+
+single location v and network q, we aim to estimate the population mean s0qv and the population
+          2 . Dropping the q and v subscripts momentarily, let x
+variance σqv                                                    ij be the dual regression
+
+estimate of spatial engagement for training subject i at session j. The prior mean s0 is simply
+                                                      ¯. The prior variance σ 2 is estimated based
+estimated as the mean over all subjects and sessions, x̄
+
+on a simple measurement error model:
+
+
+                                                                ind
+                                       xij = zi + eij ,      eij ∼ (0, σe2 )
+                                            ind
+                                         zi ∼ (µ, σ 2 ),
+
+
+where zi represent the true, noise-free spatial engagement, and the residuals eij are assumed
+
+independent of zi . Our intended prior variance is the between-subject variance of the underlying
+
+engagements, σ 2 , while σe2 represents noise levels in the dual regression maps. The variance terms
+
+in this model can be estimated using standard variance decomposition techniques or iterative
+
+estimation procedures for linear mixed effects models.
+
+Estimation of the FC prior in level (3) of the BBM model is based on the Q × Q Pearson
+
+correlation matrices of the dual regression network time series. As described above, two options
+
+for the prior are available: the inverse-Wishart, which is conjugate but has limited flexibility
+
+to capture population variance patterns, and a novel informative prior for correlation matrices
+   1
+    For templates that are parcellations, we use a modified version of dual regression: note that if network maps
+were binary and non-overlapping, then the first step of dual regression would produce the mean time series within
+each parcel as the corresponding time series. If group parcels are misaligned to an individual, this will result in
+mixing signals from multiple networks. To allow for some misalignment between the subject-specific networks
+and the parcels, we simply compute the median rather than the mean within each parcel. The second step of
+dual regression then proceeds as usual, as a multiple linear regression modeling the fMRI time series at each
+location as a function of the network time series to produce a map of engagement for each network.
+
+
+                                                        10
+based on Cholesky factorizations, which we recently developed. See Mejia et al. (2025) for details
+
+of the estimation procedure for both priors.
+
+A large training sample from a publicly available resource like the HCP is ideal for prior esti-
+
+mation, as long as the focal subject or study to be analyzed comes from a similar population.
+
+However, it is sometimes desirable to build a customized prior for the specific population or
+
+context of a given study. In that case, it is possible to use a holdout set which has been done
+
+successfully in previous studies (Gaddis et al., 2022; Derman et al., 2025). This holdout set
+
+should be large enough to accurately estimate prior parameters, ideally 100 or more, or at least
+
+several dozen. It is also possible to use the same subjects for prior estimation and subsequent
+
+subject-level analysis (Butler et al., 2025), an approach known as empirical Bayes (EB). While
+
+EB comes with a risk of overfitting, it also allows for using all of the available data for training,
+
+generally resulting in more accurate priors, which may be considered worth the tradeoff.
+
+It is vital to visually inspect the prior mean and variance maps to assess the level of noise
+
+present. Besides a large training sample, avoiding over-processing of the training data can also
+
+reduce noise levels in the priors. Strategies to avoid over-processing include using lenient or data-
+
+driven volume censoring, parsimonious nuisance regression/denoising, and high-pass instead of
+
+band-pass filtering (Pham et al., 2023; Bright et al., 2017; Tong et al., 2019).
+
+
+
+2.3   Fitting the single-subject model
+
+
+Once the priors have been estimated, the BBM model can be fit to one or more fMRI sessions
+
+from a single individual to estimate functional brain topography and FC. Model fitting is im-
+
+plemented in the BayesBrainMap function fit_BBM() through an iterative procedure based on
+
+expectation-maximization (Mejia et al., 2020, 2023) or variational Bayes (Mejia et al., 2025),
+
+depending on the specific model. This function produces point estimates (i.e., posterior means)
+
+of the subject-specific spatial maps and FC matrices, as well as measures of uncertainty (i.e.,
+
+posterior variances or samples) to facilitate inference.
+
+Finally, areas of significant engagement for each network are identified using posterior inference
+
+with the function id_engagements(), which by default applies false discovery rate (FDR) mul-
+
+tiple comparisons correction. Because the BBM framework has relatively high power to detect
+
+                                                 11
+non-zero engagements, we can specify a minimum effect size of interest for inference. Since the
+
+spatial maps are in arbitrary units, we draw inspiration from a common method for threshold-
+
+ing group ICA maps, where values over z standard deviations above the mean across space are
+
+commonly displayed, while values below this are considered negligible and suppressed. Follow-
+
+ing this logic, we set a minimum effect size for inference as the prior mean value corresponding
+
+to z standard deviations above the mean. The id_engagements() function allows the user to
+
+specify z, or to provide multiple values for z to produce a nested set of significant engagements
+
+of different strengths (illustrated in Figure 5).
+
+In the Github demo that accompanies this manuscript, we illustrate the use of the fit_BBM()
+
+and id_engagements() functions to analyze several individual participants from the HCP.
+
+
+
+3     Results
+
+3.1   Priors relax spatial constraints of templates and allow network overlap
+
+
+Prior means on the spatial network topography for several networks from the Yeo17 template are
+
+shown in Figure 2. As a hard parcellation, the template is constrained to have no overlap between
+
+networks. By contrast, the prior reflects the engagement of the network in the training sample,
+
+with no constraint to encourage or enforce spatial independence. This additional flexibility allows
+
+the template networks to extend beyond their original boundaries, suggesting the presence of
+
+regions that engage in multiple networks and/or individual differences in network boundaries.
+
+Arrows indicate areas that differ markedly between the template parcels and the prior mean
+
+maps. For instance, in the Default A network, bilateral, roughly symmetric temporal lobe
+
+engagement is seen in the prior, whereas the template parcel only includes right-hemisphere
+
+temporal lobe engagement. Another noteworthy example is engagement of Broca’s area and
+
+other areas commonly associated with language in the temporal parietal network, while the cor-
+
+responding parcel is constrained to the temporal lobe. The prior mean for this network is similar
+
+to patterns often seen in networks characterized by strong engagement in the superior tempo-
+
+ral gyrus and the temporal parietal junction when using ICA, PROFUMO, or other network
+
+estimation methods that allow for overlap between networks.
+
+
+                                                    12
+                        Template                             Prior Mean
+        ContA
+       DefaultA
+       DorsAttnA
+       SomMotA
+       TempPar
+       VisCent
+
+
+
+
+Figure 2: HCP-derived spatial topography priors for Yeo17 template. Six exemplar
+networks are shown. While the parcels are constrained to have no overlap, the prior mean maps
+for each network show expansion beyond the parcel boundaries, indicating overlapping network
+engagement.
+
+
+
+
+                                             13
+The pairwise spatial overlap between networks for different templates and their corresponding
+
+priors is shown in Appendix Figure S.1. Overlap is quantified using the Dice coefficient. For
+
+continuous network templates and prior means, we first threshold the maps at a z-score of ±2
+
+(where the z-score is based on the mean and standard deviation of the prior mean map across
+
+all vertices), following a common practice for thresholding group ICA maps to isolate areas of
+
+engagement. The parcellation templates, by definition, have zero overlap between networks,
+
+yet their corresponding priors exhibit substantial overlap between certain networks. Network
+
+maps based on PROFUMO exhibit the most overlap, reflecting a key feature of that method,
+
+and the degree of overlap is similar in the template and the prior. To a slightly lesser degree,
+
+the GICA template and prior also exhibit overlap. This illustrates that spatial independence in
+
+ICA does not prohibit spatial overlap, as is sometimes assumed.2 Still, the GICA prior mean
+
+maps exhibit somewhat stronger overlap than the GICA templates, suggesting a relaxation of
+
+the spatial constraints in the ICA model.
+
+
+
+3.2    Different templates produce similar network topography priors
+
+
+Spatial topography priors for a default mode network component from various templates are
+
+shown in Figure 3. Similar features are seen across the different priors, even though the templates
+
+are based on distinct model assumptions. The prior variance maps show that individual variation
+
+in engagement is greatest in areas of high average engagement, reflecting differences in the
+
+configuration, size, and distribution of networks across individuals. The low prior variance
+
+in background areas, where true population variability is low, will result in a high degree of
+
+regularization in these areas for the corresponding networks. Higher prior variance in areas of
+
+engagement, by contrast, will allow for individual features to be expressed. Furthermore, due
+
+to the additive nature of the decomposition, noise reduction in background areas of certain
+
+networks will indirectly improve estimation of engagement in other networks corresponding to
+
+the same physical location.
+   2
+    On the contrary, non-overlap implies anti-correlation, so non-correlated spatial maps will tend do exhibit
+overlap. Consider this from a probability perspective: disjoint events are never independent, since the occurrence
+of one event precludes occurrence of the other.
+
+
+
+
+                                                       14
+     PROFUMO       Template                 Prior Mean                 Prior SD
+      (Q = 12)
+     GICA15
+     (Q = 15)
+     (Q = 17)
+      Yeo17
+     (Q = 17)
+      MSC
+     GICA25
+     (Q = 25)
+
+
+
+
+Figure 3: HCP-derived spatial topography priors for a default mode network com-
+ponent from various templates. Templates include two parcellations (Yeo17 and MSC) and
+two types of network maps (ICA and PROFUMO) and are ordered from lowest to highest reso-
+lution (number of networks). The specific networks displayed are PROFUMO mode 8, GICA15
+component 2, Yeo17 Default A, MSC Default, and GICA25 IC 2. Template maps are displayed
+on an arbitrary scale, while the scale of the priors is inversely proportional to the template
+resolution Q, given the additive nature of the BBM decomposition.
+
+
+
+
+                                             15
+                   Population                  Cholesky                Inverse-Wishart
+    Mean
+    SD
+
+
+
+
+Figure 4: Example of the BBM functional connectivity (FC) prior. Results shown
+here correspond to the Yeo17 template; results for other templates are displayed in Appendix
+Figure S.2. The first column shows the element-wise empirical mean and standard deviation
+(SD) within the training set, which is used to establish the priors. The second and third columns
+show the element-wise mean and SD based on the Cholesky and the inverse-Wishart priors. The
+population mean is captured by both priors. However, the inverse-Wishart prior fails to capture
+the element-wise population variance patterns, given that distribution’s limited flexibility. The
+Cholesky prior, which we developed for BBM, accurately captures the element-wise population
+variance patterns.
+
+
+
+
+                                               16
+3.2.1    BBM FC prior accurately captures population variance patterns
+
+
+The FC priors in BBM are illustrated in Figure 4 for the Yeo17 template and in Appendix
+
+Figure S.2 for other templates. The element-wise empirical mean and standard deviation within
+
+the training set, representing population tendencies and variability, are shown in the first col-
+
+umn. The second two columns show the corresponding values based on the two choices of FC
+
+prior in BBM: the permuted Cholesky prior described in Mejia et al. (2025) and the conjugate
+
+inverse-Wishart (IW), which is also used in PROFUMO (Harrison et al., 2020). While both
+
+priors capture the population mean, only the Cholesky prior accurately captures the population
+
+variance. This is because the IW distribution for covariance matrices includes a single scalar
+
+parameter that moderates the variance across the matrix, so that the element-wise variance is
+
+monotonically related to the element-wise mean. In BBM, this parameter is chosen to minimize
+
+the difference between the population and prior element-wise variance, but with a constraint
+
+that the prior variance should not be less than the population variance anywhere. This avoids
+
+an overly informative prior, which would result in too much shrinkage towards the group and loss
+
+of relevant individual information. Due to this limitation of the inverse-Wishart distribution,
+
+the IW FC prior tends to have much higher variance for many FC edges compared with the
+
+population, resulting in unnecessarily weak shrinkage. The Cholesky prior, by contrast, is more
+
+informative while not being overly informative. This theoretically maximizes accuracy of FC
+
+estimates, and has indeed been shown to produce more reliable and individualized estimates of
+
+between-network FC (Mejia et al., 2025). Improved estimation of the temporal component of
+
+the BBM model may also have downstream benefits for estimation of spatial topography, since
+
+the temporal and spatial components are estimated iteratively.
+
+
+
+3.3     Illustration of BBM for personalized network topography and inference
+
+
+Figure 5 shows example personalized functional network topography maps produced by applying
+
+BBM to analyze data from one HCP subject, using the population-derived priors based on the
+
+Yeo17 template. A single network is shown corresponding to the Default A parcel. The posterior
+
+mean provides an estimate of engagement in the network at every vertex, while the posterior
+
+standard deviation represents uncertainty around that estimate. Binary maps of statistically
+
+
+                                               17
+                             Prior Mean                   Prior SD
+
+
+
+
+      Posterior Mean              Posterior SD               Engagements
+
+
+
+
+Figure 5: Example individual BBM spatial engagement maps. A single HCP subject
+was analyzed using BBM with population-derived priors based on the Yeo17 template. The BBM
+posterior mean and standard deviation for a network corresponding to the Yeo17 DefaultA parcel
+are shown, along with areas of statistically significant engagement. Significance is based on the
+Bayesian equivalent of a hypothesis test with α = 0.05 and Bonferroni correction within each
+network. A range of effect size thresholds are specified based on σ, the standard deviation of the
+prior mean map. This is analogous to the common practice of thresholding group ICA maps at
+a certain number of standard deviations from the mean to isolate the main areas of engagement.
+
+
+
+
+                                                 18
+significant engagement are produced based on the posterior mean and standard deviation, using
+
+the Bayesian equivalent of a hypothesis test. A range of “null hypotheses” based on different
+
+minimum effect sizes of interest are tested against, resulting in nested sets of significantly engaged
+
+vertices. The ability to specify a minimum effect size gives the researcher flexibility to focus
+
+on locations that exhibit intense network engagement, or to consider all vertices that exhibit
+
+non-zero engagement. The researcher can also consider a range of minimum effect sizes, as we
+
+have done here, to distinguish between levels of engagement.
+
+
+
+3.4   Computational demands of BBM
+
+
+Prior estimation based on the templates listed in Table 1 was completed for the HCP population
+
+of 348 subjects in an average of 155 minutes per template, with peak memory usage of 126 GB.
+
+All calculations were performed using 48 concurrent threads on an Intel Xeon W 2.7 GHz
+
+processor running macOS Tahoe 26.2. The number of subjects in the sample, the number of
+
+volumes in each scan, and the number of vertices will directly affect the computational demands
+
+of estimate_prior().
+
+It is worth noting that this calculation needs to be performed only once for each training dataset.
+
+For representative populations, priors can ideally be shared through a repository (OSF in the
+
+present study), thereby eliminating the need for repeated prior estimations and allowing users
+
+to proceed directly to the fit_BBM() function, which fits the model to individual data for the
+
+focal subject(s) of the study.
+
+
+
+4     Discussion
+
+In this paper we have described and illustrated Bayesian brain mapping (BBM), a personal-
+
+ized functional brain network mapping technique that leverages population information through
+
+population-derived priors for highly reliable network topography and between-network FC es-
+
+timation. Those priors use established network maps or parcellations as templates, producing
+
+individual-specific analogues of known networks. The priors relax constraints of the template, al-
+
+lowing for overlap between networks and differential engagement within networks. The powerful
+
+
+                                                 19
+noise reduction properties of the priors facilitate reliable estimation of individualized functional
+
+topography with moderate scan duration, mitigating the need for extensive scanning of individu-
+
+als (Mejia et al., 2020; Derman, 2026). We also provide resources to facilitate its implementation,
+
+including a demo illustrating the BayesBrainMap R package functions for prior estimation, model
+
+fitting, and inference, as well as HCP-derived priors based on a range of templates.
+
+BBM lowers the barrier to personalized functional brain network mapping by reducing required
+
+scan duration through noise-mitigating informative priors, while avoiding heavy computational
+
+demands associated with multi-subject hierarchical models. Furthermore, once the priors have
+
+been established, model estimation is fast and parallelizable over multiple subjects. For experi-
+
+ments involving healthy adults, the HCP-derived priors we provide here can be applied directly,
+
+saving time and simplifying the analysis pipeline. For studies of other populations, our pipeline
+
+can be adapted to produce priors using other publicly available resources or data from the focal
+
+study.
+
+Several limitations of the current BBM framework should be noted. First, priors should only
+
+be applied to study individuals coming from the same or similar populations. As such, the
+
+HCP-derived priors we share should not be utilized for the study of populations other than
+
+healthy young adults, such as children or the elderly. Other large publicly available datasets
+
+available facilitate the use of BBM for certain populations including Alzheimer’s disease (Mueller
+
+et al., 2005), adolescents (Casey et al., 2018), infants (Edwards et al., 2022), and many others.
+
+However, for studies of rarer populations it may be difficult to achieve samples large enough
+
+to construct accurate BBM priors with the current prior estimation methods. Second, BBM
+
+is currently designed for application to a single population; studies involving multiple groups
+
+typically construct priors based on equal representation from each group, but a mixture distri-
+
+bution would arguably better represent the population in this context. Third, BBM does not
+
+currently incorporate harmonization for multi-site datasets, which is a limitation for consor-
+
+tium datasets like the Alzheimer’s Disease Neuroimaging Initiative (Mueller et al., 2005) or the
+
+Autism Brain Imaging Data Exchange (Di Martino et al., 2014). Finally, while it is possible
+
+to incorporate spatial priors into BBM for added accuracy and power (Mejia et al., 2023), the
+
+current implementation is computationally intensive, limiting its practical utility.
+
+
+
+                                                20
+Several areas of future work are planned to address these limitations and extend the capabili-
+
+ties of BBM. These include transfer learning to adapt priors to new populations without large
+
+training samples, algorithms for computationally efficient spatial modeling to enhance accuracy
+
+and power, inclusion of covariates and nuisance effects such as site and scanner, and mixture
+
+priors for heterogeneous populations. All extensions will be implemented in the BayesBrainMap
+
+R package as they are developed. We also plan to derive and share topography and connectivity
+
+priors from other publicly available resources to facilitate the use of Bayesian brain mapping for
+
+personalized functional brain mapping in a wider variety of populations.
+
+
+
+5    Conclusion
+
+Bayesian brain mapping (BBM) provides a scalable, flexible, and computationally convenient
+
+framework for personalized functional brain network mapping. BBM employs population-derived
+
+priors corresponding to established network maps to mitigate noise, thus enhancing accuracy
+
+and power while reducing scan duration requirements. Several resources accompanying this
+
+manuscript, including the BayesBrainMap R package, pre-estimated HCP-derived priors, and
+
+user-friendly demos, lower the barrier to adoption of BBM for personalized functional network
+
+mapping. The BBM framework and these openly available resources serve to make precision
+
+functional mapping accessible across a wider range of research and clinical contexts.
+
+
+
+6    Acknowledgments
+
+This work was supported in part by the National Institutes of Health through the National
+
+Institute on Aging [Grant No. R01 AG083919 (to A.F.M.)], the National Institute of Men-
+
+tal Health’s National Research Service Award [Grant No. F31 MH140552 (to E.R.B.)], and
+
+the National Science Foundation Graduate Research Fellowship [Grant No. DGE-2234667 (to
+
+E.R.B.)].
+
+
+
+
+                                               21
+References
+
+Beckmann, C. F., Mackay, C. E., Filippini, N., and Smith, S. M. (2009). Group comparison of
+
+  resting-state fMRI data using multi-subject ICA and dual regression. Neuroimage, 47(Suppl
+
+  1):S148.
+
+Beckmann, C. F. and Smith, S. M. (2004). Probabilistic independent component analysis for
+
+  functional magnetic resonance imaging. IEEE transactions on medical imaging, 23(2):137–152.
+
+Bijsterbosch, J., Woolrich, M., Glasser, M., Robinson, E., Beckmann, C., Van Essen, D., Harri-
+
+  son, S., and Smith, S. (2018). The relationship between spatial configuration and functional
+
+  connectivity of brain regions. eLife, 7:e32992.
+
+Bijsterbosch, J. D., Beckmann, C. F., Woolrich, M. W., Smith, S. M., and Harrison, S. J.
+
+  (2019). The relationship between spatial configuration and functional connectivity of brain
+
+  regions revisited. Elife, 8:e44890.
+
+Bijsterbosch, J. D., Farahibozorg, S.-R., Glasser, M. F., Van Essen, D., Snyder, L. H., Woolrich,
+
+  M. W., and Smith, S. M. (2023). Evaluating functional brain organization in individuals and
+
+  identifying contributions to network overlap. Imaging Neuroscience, 1:1–19.
+
+Braga, R. M. and Buckner, R. L. (2017). Parallel interdigitated distributed networks within the
+
+  individual estimated by intrinsic functional connectivity. Neuron, 95(2):457–471.
+
+Bright, M. G., Tench, C. R., and Murphy, K. (2017). Potential pitfalls when denoising resting
+
+  state fMRI data using nuisance regression. NeuroImage, 154:159–168.
+
+Butler, E. R., Alloy, L. B., Pham, D. D., Samia, N. I., Nusslock, R., and Mejia, A. F. (2026).
+
+  Utility and validity of group atlas versus personalized functional network approaches for de-
+
+  pressive constructs. bioRxiv.
+
+Butler, E. R., Samia, N. I., Mejia, A. F., Pham, D. D., Pines, A., and Nusslock, R. (2025).
+
+  Sex differences in response to violence: role of salience network expansion and connectivity
+
+  on depression. Translational Psychiatry, 15(1):427.
+
+Casey, B. J., Cannonier, T., Conley, M. I., Cohen, A. O., Barch, D. M., Heitzeg, M. M.,
+
+  Soules, M. E., Teslovich, T., Dellarco, D. V., Garavan, H., et al. (2018). The adolescent
+
+                                               22
+  brain cognitive development (abcd) study: imaging acquisition across 21 sites. Developmental
+
+  cognitive neuroscience, 32:43–54.
+
+Chen, Y., Wiesel, A., Eldar, Y. C., and Hero, A. O. (2010). Shrinkage algorithms for mmse
+
+  covariance estimation. IEEE transactions on signal processing, 58(10):5016–5029.
+
+Cui, Z., Li, H., Xia, C. H., Larsen, B., Adebimpe, A., Baum, G. L., Cieslak, M., Gur, R. E.,
+
+  Gur, R. C., Moore, T. M., et al. (2020). Individual variation in functional topography of
+
+  association networks in youth. Neuron, 106(2):340–353.
+
+Cui, Z., Pines, A. R., Larsen, B., Sydnor, V. J., Li, H., Adebimpe, A., Alexander-Bloch, A. F.,
+
+  Bassett, D. S., Bertolero, M., Calkins, M. E., et al. (2022). Linking individual differences in
+
+  personalized functional network topography to psychopathology in youth. Biological psychia-
+
+  try, 92(12):973–983.
+
+Dadi, K., Varoquaux, G., Machlouzarides-Shalit, A., Gorgolewski, K. J., Wassermann, D.,
+
+  Thirion, B., and Mensch, A. (2020). Fine-grain atlases of functional modes for fmri anal-
+
+  ysis. NeuroImage, 221:117126.
+
+Dai, T., Guo, Y., Initiative, A. D. N., et al. (2017). Predicting individual brain functional
+
+  connectivity using a bayesian hierarchical model. NeuroImage, 147:772–787.
+
+Derman, D. (2026). Individual-level characterization of the developing brain using advanced
+
+  statistical methods. ProQuest Dissertations and Theses, No. 3295466483.
+
+Derman, D., Pham, D. D., Mejia, A. F., and Ferradal, S. L. (2025). Individual patterns of
+
+  functional connectivity in neonates as revealed by surface-based Bayesian modeling. Imaging
+
+  Neuroscience, 3:imag_a_00504.
+
+Di Martino, A., Yan, C.-G., Li, Q., Denio, E., Castellanos, F. X., Alaerts, K., Anderson, J. S.,
+
+  Assaf, M., Bookheimer, S. Y., Dapretto, M., et al. (2014). The autism brain imaging data
+
+  exchange: towards a large-scale evaluation of the intrinsic brain architecture in autism. Molec-
+
+  ular psychiatry, 19(6):659.
+
+Edwards, A. D., Rueckert, D., Smith, S. M., Abo Seada, S., Alansary, A., Almalbis, J., Allsop,
+
+  J., Andersson, J., Arichi, T., Arulkumaran, S., Bastiani, M., Batalle, D., Baxter, L., Bozek, J.,
+
+                                                23
+  Braithwaite, E., Brandon, J., Carney, O., Chew, A., Christiaens, D., Chung, R., Colford, K.,
+
+  Cordero-Grande, L., Counsell, S. J., Cullen, H., Cupitt, J., Curtis, C., Davidson, A., Deprez,
+
+  M., Dillon, L., Dimitrakopoulou, K., Dimitrova, R., Duff, E., Falconer, S., Farahibozorg,
+
+  S. R., Fitzgibbon, S. P., Gao, J., Gaspar, A., Harper, N., Harrison, S. J., Hughes, E. J.,
+
+  Hutter, J., Jenkinson, M., Jbabdi, S., Jones, E., Karolis, V., Kyriakopoulou, V., Lenz, G.,
+
+  Makropoulos, A., Malik, S., Mason, L., Mortari, F., Nosarti, C., Nunes, R. G., O’Keeffe, C.,
+
+  O’Muircheartaigh, J., Patel, H., Passerat-Palmbach, J., Pietsch, M., Price, A. N., Robinson,
+
+  E. C., Rutherford, M. A., Schuh, A., Sotiropoulos, S., Steinweg, J., Teixeira, R. P. A. G.,
+
+  Tenev, T., Tournier, J. D., Tusor, N., Uus, A., Vecchiato, K., Williams, L. Z. J., Wright, R.,
+
+  Wurie, J., and Hajnal, J. V. (2022). The developing human connectome project neonatal data
+
+  release. Frontiers in Neuroscience, 16:886772.
+
+Farahibozorg, S.-R., Bijsterbosch, J. D., Gong, W., Jbabdi, S., Smith, S. M., Harrison, S. J., and
+
+  Woolrich, M. W. (2021). Hierarchical modelling of functional brain networks in population
+
+  and individuals from big fMRI data. NeuroImage, 243:118513.
+
+Faskowitz, J., Esfahlani, F. Z., Jo, Y., Sporns, O., and Betzel, R. F. (2020). Edge-centric
+
+  functional network representations of human cerebral cortex reveal overlapping system-level
+
+  architecture. Nature neuroscience, 23(12):1644–1654.
+
+Finn, E. S., Shen, X., Scheinost, D., Rosenberg, M. D., Huang, J., Chun, M. M., Papademetris,
+
+  X., and Constable, R. T. (2015). Functional connectome fingerprinting: identifying individuals
+
+  using patterns of brain connectivity. Nature neuroscience, 18(11):1664–1671.
+
+Gaddis, A., Lidstone, D., Nebel, M., Griffiths, R., Mostofsky, S., Mejia, A., and Barrett, F.
+
+  (2022). Psilocybin induces spatially constrained alterations in thalamic functional organizaton
+
+  and connectivity. Neuroimage, 260:119434.
+
+Gordon, E. M., Laumann, T. O., Adeyemo, B., and Petersen, S. E. (2017a). Individual variability
+
+  of the system-level organization of the human brain. Cerebral cortex, 27(1):386–399.
+
+Gordon, E. M., Laumann, T. O., Gilmore, A. W., Newbold, D. J., Greene, D. J., Berg, J. J.,
+
+  Ortega, M., Hoyt-Drazen, C., Gratton, C., Sun, H., et al. (2017b). Precision functional
+
+  mapping of individual human brains. Neuron, 95(4):791–807.
+
+
+                                               24
+Gratton, C., Sun, H., and Petersen, S. E. (2018). Control networks and hubs. Psychophysiology,
+
+  55(3):e13032.
+
+Griffanti, L., Salimi-Khorshidi, G., Beckmann, C. F., Auerbach, E. J., Douaud, G., Sexton,
+
+  C. E., Zsoldos, E., Ebmeier, K. P., Filippini, N., Mackay, C. E., et al. (2014). ICA-based
+
+  artefact removal and accelerated fMRI acquisition for improved resting state network imaging.
+
+  Neuroimage, 95:232–247.
+
+Guo, Y. and Tang, L. (2013). A hierarchical model for probabilistic independent component
+
+  analysis of multi-subject fMRI studies. Biometrics, 69(4):970–981.
+
+Harrison, S. J., Bijsterbosch, J. D., Segerdahl, A. R., Fitzgibbon, S. P., Farahibozorg, S.-R.,
+
+  Duff, E. P., Smith, S. M., and Woolrich, M. W. (2020). Modelling subject variability in the
+
+  spatial and temporal characteristics of functional modes. NeuroImage, 222:117226.
+
+Harrison, S. J., Woolrich, M. W., Robinson, E. C., Glasser, M. F., Beckmann, C. F., Jenkinson,
+
+  M., and Smith, S. M. (2015). Large-scale probabilistic functional modes from resting state
+
+  fmri. NeuroImage, 109:217–231.
+
+Hermosillo, R. J., Moore, L. A., Feczko, E., Miranda-Domínguez, Ó., Pines, A., Dworetsky, A.,
+
+  Conan, G., Mooney, M. A., Randolph, A., Graham, A., et al. (2024). A precision functional
+
+  atlas of personalized network topography and probabilities. Nature neuroscience, 27(5):1000–
+
+  1013.
+
+Herzberg, M. P., Nielsen, A. N., Brady, R., Kaplan, S., Alexopoulos, D., Meyer, D., Arora, J.,
+
+  Miller, J. P., Smyser, T. A., Barch, D. M., Rogers, C. E., Warner, B. B., Smyser, C. D., and
+
+  Luby, J. L. (2024). Maternal prenatal social disadvantage and neonatal functional connectivity:
+
+  Associations with psychopathology symptoms at age 12 months. Developmental Psychology,
+
+  60(9):1562–1579.
+
+Honnorat, N., Adeli, E., Zhao, Q., Pfefferbaum, A., Sullivan, E. V., and Pohl, K. (2019). Co-
+
+  variance shrinkage for dynamic functional connectivity. In International Workshop on Con-
+
+  nectomics in Neuroimaging, pages 32–41. Springer.
+
+Honnorat, N. and Habes, M. (2022). Covariance shrinkage can assess and improve functional
+
+  connectomes. NeuroImage, 256:119229.
+
+                                               25
+Keller, A. S., Pines, A. R., Shanmugan, S., Sydnor, V. J., Cui, Z., Bertolero, M. A., Barzilay,
+
+  R., Alexander-Bloch, A. F., Byington, N., Chen, A., et al. (2023). Personalized functional
+
+  brain network topography is associated with individual differences in youth cognition. Nature
+
+  communications, 14(1):8411.
+
+Kong, R., Li, J., Orban, C., Sabuncu, M. R., Liu, H., Schaefer, A., Sun, N., Zuo, X.-N., Holmes,
+
+  A. J., Eickhoff, S. B., et al. (2019). Spatial topography of individual-specific cortical networks
+
+  predicts human cognition, personality, and emotion. Cerebral cortex, 29(6):2533–2551.
+
+Kong, R., Yang, Q., Gordon, E., Xue, A., Yan, X., Orban, C., Zuo, X.-N., Spreng, N., Ge,
+
+  T., Holmes, A., et al. (2021). Individual-specific areal-level parcellations improve functional
+
+  connectivity prediction of behavior. Cerebral Cortex, 31(10):4477–4500.
+
+Ledoit, O. and Wolf, M. (2004). A well-conditioned estimator for large-dimensional covariance
+
+  matrices. Journal of multivariate analysis, 88(2):365–411.
+
+Li, H., Satterthwaite, T. D., and Fan, Y. (2017). Large-scale sparse functional networks from
+
+  resting state fmri. NeuroImage, 156:1–13.
+
+Li, X., Gan, J. Q., and Wang, H. (2018). Collective sparse symmetric non-negative matrix fac-
+
+  torization for identifying overlapping communities in resting-state brain functional networks.
+
+  NeuroImage, 166:259–275.
+
+Li, Y., Liu, A., Fu, X., Mckeown, M. J., Wang, Z. J., and Chen, X. (2022). Atlas-guided parcel-
+
+  lation: Individualized functionally-homogenous parcellation in cerebral cortex. Computers in
+
+  Biology and Medicine, 150:106078.
+
+Lynch, C. J., Elbau, I. G., Ng, T., Ayaz, A., Zhu, S., Wolk, D., Manfredi, N., Johnson, M.,
+
+  Chang, M., Chou, J., et al. (2024). Frontostriatal salience network expansion in individuals
+
+  in depression. Nature, 633(8030):624–633.
+
+Margulies, D. S., Ghosh, S. S., Goulas, A., Falkiewicz, M., Huntenburg, J. M., Langs, G., Bezgin,
+
+  G., Eickhoff, S. B., Castellanos, F. X., Petrides, M., et al. (2016). Situating the default-mode
+
+  network along a principal gradient of macroscale cortical organization. Proceedings of the
+
+  National Academy of Sciences, 113(44):12574–12579.
+
+
+                                                26
+Mejia, A. F., Bolin, D., Spencer, D. A., and Eloyan, A. (2025). Leveraging population infor-
+
+  mation in brain connectivity via bayesian ica with a novel informative prior for correlation
+
+  matrices. Biostatistics, 26(1):kxaf022.
+
+Mejia, A. F., Bolin, D., Yue, Y. R., Wang, J., Caffo, B. S., and Nebel, M. B. (2023). Template
+
+  independent component analysis with spatial priors for accurate subject-level brain network
+
+  estimation and inference. Journal of Computational and Graphical Statistics, 32(2):413–433.
+
+Mejia, A. F., Nebel, M. B., Barber, A. D., Choe, A. S., Pekar, J. J., Caffo, B. S., and Lindquist,
+
+  M. A. (2018). Improved estimation of subject-level functional connectivity using full and
+
+  partial correlation with empirical bayes shrinkage. NeuroImage, 172:478–491.
+
+Mejia, A. F., Nebel, M. B., Shou, H., Crainiceanu, C. M., Pekar, J. J., Mostofsky, S., Caffo,
+
+  B., and Lindquist, M. A. (2015). Improving reliability of subject-level resting-state fmri
+
+  parcellation with shrinkage estimators. NeuroImage, 112:14–29.
+
+Mejia, A. F., Nebel, M. B., Wang, Y., Caffo, B. S., and Guo, Y. (2020). Template independent
+
+  component analysis: Targeted and reliable estimation of subject-level brain networks using big
+
+  data population priors. Journal of the American Statistical Association, 115(531):1151–1177.
+
+Mueller, S. G., Weiner, M. W., Thal, L. J., Petersen, R. C., Jack, C., Jagust, W., Trojanowski,
+
+  J. Q., Toga, A. W., and Beckett, L. (2005). The Alzheimer’s Disease Neuroimaging Initiative.
+
+  Neuroimaging Clinics, 15(4):869–877.
+
+Pang, C., Sun, X., Zhao, J., Liang, X., Sun, L., Lin, Q., Sun, J., Lu, X., Dong, Q., Zhang,
+
+  L., et al. (2026). Personalized functional topography–based multisite brain age prediction
+
+  modeling reveals divergent neurodevelopment in major depression. Proceedings of the National
+
+  Academy of Sciences, 123(11):e2519586123.
+
+Pervaiz, U., Vidaurre, D., Woolrich, M. W., and Smith, S. M. (2020). Optimising network
+
+  modelling methods for fmri. NeuroImage, 211:116604.
+
+Pham, D. D., McDonald, D. J., Ding, L., Nebel, M. B., and Mejia, A. F. (2023). Less is more:
+
+  balancing noise reduction and data retention in fmri with data-driven scrubbing. NeuroImage,
+
+  270:119972.
+
+
+                                               27
+Power, J. D., Lynch, C. J., Silver, B. M., Dubin, M. J., Martin, A., and Jones, R. M. (2019).
+
+  Distinctions among real and apparent respiratory motions in human fmri data. NeuroImage,
+
+  201:116041.
+
+Power, J. D., Schlaggar, B. L., Lessov-Schlaggar, C. N., and Petersen, S. E. (2013). Evidence
+
+  for hubs in human functional brain networks. Neuron, 79(4):798–813.
+
+Pruim, R. H., Mennes, M., van Rooij, D., Llera, A., Buitelaar, J. K., and Beckmann, C. F.
+
+  (2015). Ica-aroma: A robust ica-based strategy for removing motion artifacts from fmri data.
+
+  Neuroimage, 112:267–277.
+
+Rahim, M., Thirion, B., and Varoquaux, G. (2019). Population shrinkage of covariance (posce)
+
+  for better individual brain functional-connectivity estimation. Medical image analysis, 54:138–
+
+  148.
+
+Shou, H., Eloyan, A., Nebel, M. B., Mejia, A., Pekar, J. J., Mostofsky, S., Caffo, B., Lindquist,
+
+  M. A., and Crainiceanu, C. M. (2014). Shrinkage prediction of seed-voxel brain connectivity
+
+  using resting state fmri. NeuroImage, 102:938–944.
+
+Smith, S. M., Miller, K. L., Moeller, S., Xu, J., Auerbach, E. J., Woolrich, M. W., Beckmann,
+
+  C. F., Jenkinson, M., Andersson, J., Glasser, M. F., et al. (2012). Temporally-independent
+
+  functional modes of spontaneous brain activity. Proceedings of the National Academy of Sci-
+
+  ences, 109(8):3131–3136.
+
+Smith, S. M., Miller, K. L., Salimi-Khorshidi, G., Webster, M., Beckmann, C. F., Nichols,
+
+  T. E., Ramsey, J. D., and Woolrich, M. W. (2011). Network modelling methods for fmri.
+
+  Neuroimage, 54(2):875–891.
+
+Smith, S. M., Vidaurre, D., Beckmann, C. F., Glasser, M. F., Jenkinson, M., Miller, K. L.,
+
+  Nichols, T. E., Robinson, E. C., Salimi-Khorshidi, G., Woolrich, M. W., et al. (2013). Func-
+
+  tional connectomics from resting-state fmri. Trends in cognitive sciences, 17(12):666–682.
+
+Su, S.-C., Caffo, B., Garrett-Mayer, E., and Bassett, S. S. (2009). Modified test statistics by
+
+  inter-voxel variance shrinkage with an application to f mri. Biostatistics, 10(2):219–227.
+
+
+
+
+                                               28
+Tong, Y., Hocke, L. M., and Frederick, B. B. (2019). Low frequency systemic hemodynamic
+
+  “noise” in resting state BOLD fMRI: Characteristics, causes, implications, mitigation strate-
+
+  gies, and applications. Frontiers in Neuroscience, 13.
+
+Van Essen, D. C., Smith, S. M., Barch, D. M., Behrens, T. E., Yacoub, E., Ugurbil, K., WU-Minn
+
+  HCP Consortium, et al. (2013). The WU-Minn Human Connectome Project: An overview.
+
+  NeuroImage, 80:62–79.
+
+Varoquaux, G., Gramfort, A., Poline, J.-B., and Thirion, B. (2010). Brain covariance selection:
+
+  better individual functional connectivity models using population prior. Advances in neural
+
+  information processing systems, 23.
+
+Xue, A., Kong, R., Yang, Q., Eldaief, M. C., Angeli, P. A., DiNicola, L. M., Braga, R. M.,
+
+  Buckner, R. L., and Yeo, B. T. (2021). The detailed organization of the human cerebellum es-
+
+  timated by intrinsic functional connectivity within the individual. Journal of neurophysiology,
+
+  125(2):358–384.
+
+Yeo, B. T., Krienen, F. M., Sepulcre, J., Sabuncu, M. R., Lashkari, D., Hollinshead, M., Roffman,
+
+  J. L., Smoller, J. W., Zöllei, L., Polimeni, J. R., et al. (2011). The organization of the human
+
+  cerebral cortex estimated by intrinsic functional connectivity. Journal of neurophysiology.
+
+Zhao, S., Su, H., Cong, J., Wen, X., Yang, H., Chen, P., Wu, G., Fan, Q., Ma, Y., Xu, X., Hu,
+
+  C., Li, H., Keller, A., Pines, A., Chen, R., and Cui, Z. (2024). Hierarchical individual variation
+
+  and socioeconomic impact on personalized functional network topography in children. BMC
+
+  Medicine, 22(1):556.
+
+
+
+
+                                                29
+                                 Template                     Prior Mean
+
+
+
+
+               Yeo17
+               MSC
+               GICA15
+               PROFUMO
+
+
+
+
+Figure S.1: Dice overlap matrices comparing each template with its prior mean. Yeo17 and
+MSC used hard labels; GICA and PROFUMO maps were thresholded at |z| ≥ 2 before comput-
+ing Dice. For MSC, GICA and PROFUMO, the networks were matched to the Yeo17 networks
+based on spatial overlap, so that the network ordering of the matrices is approximately consis-
+tent across templates.
+
+                                              30
+                          Yeo17                               MSC
+
+
+
+
+                         GICA15                           PROFUMO
+
+
+
+
+Figure S.2: Functional connectivity (FC) priors for various templates. The empirical element-
+wise population mean of FC across the prior training sample is shown. The empirical population
+mean and variance are not used directly in the BBM model. Rather, the inverse-Wishart or
+permuted Cholesky prior is built based on the FC training samples.
+
+
+
+
+                                             31
+
