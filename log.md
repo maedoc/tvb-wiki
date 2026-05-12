@@ -2,6 +2,7 @@
 
 ## 2026-05-12
 - Improved [[neurostats]] page: clarified it's a category of statistical analysis frameworks (NeuroStatX, BrainStat), expanded with 12+ wikilinks, added relationship to TVB for model validation and parameter estimation, added source reference to NeuroStatX package
+- Improved [[popeye]] page: rewrote _preamble section with sourced content from 5 available papers, added 10+ wikilinks, corrected citation formats to use raw/papers/SLUG.md syntax, removed unsupported technical claims about pRF capabilities
 
 ## 2026-05-11
 - Improved [[lfpykit]] page: replaced placeholder content with comprehensive description of LFPykit library, added technical details on forward models (point source, line source, four-sphere head model), included relationship to TVB for multi-scale modeling, added references to linden-2014 and hagen-2018 papers
@@ -376,3 +377,5 @@
 ## [2026-05-12 13:09] Audit: 794 issues (44 broken links, 14 orphans, 1 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 28 opaque-refs, 14 thin, 465 missing-links)
 
 ## [2026-05-12 13:28] Linter: 44 broken links, 14 orphans, 2 stale, 0 empty
+
+## [2026-05-12 13:32] Linter: 44 broken links, 14 orphans, 2 stale, 0 empty
