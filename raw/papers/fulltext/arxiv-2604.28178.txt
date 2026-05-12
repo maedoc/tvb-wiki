@@ -1,0 +1,681 @@
+                                         LLM as Clinical Graph Structure Refiner: Enhancing Representation Learning in
+                                                                    EEG Seizure Diagnosis
+
+                                                                         Lincan Li1 , Zheng Chen2 , Yushun Dong1∗
+                                                 1
+                                                   Department of Computer Science, Florida State University, 2 SANKEN, The University of Osaka
+                                                                  {ll24bb,yushun.dong}@fsu.edu, chenz@sanken.osaka-u.ac.jp
+
+
+                                                                       Abstract                             diagnosis and treatment [Benbadis et al., 2020]. EEG records
+arXiv:2604.28178v1 [cs.AI] 30 Apr 2026
+
+
+
+
+                                                                                                            electrical activity across multiple brain regions using an array
+                                                  Electroencephalogram (EEG) signals are vital for          of electrodes, providing valuable information about both nor-
+                                                  automated seizure detection, but their inherent           mal and abnormal brain states. However, analyzing EEG data
+                                                  noise makes robust representation learning chal-          remains a significant challenge, as it is usually contaminated
+                                                  lenging. Existing graph construction methods,             by noise, artifacts, and inter-patient variability [Saba-Sadiya
+                                                  whether correlation-based or learning-based, of-          et al., 2021; Aldahr et al., 2022]. Furthermore, seizure events
+                                                  ten generate redundant or irrelevant edges due to         vary greatly in duration, frequency, and spatial manifestation
+                                                  the noisy nature of EEG data. This significantly          across individuals. Traditional EEG analysis methods, such
+                                                  impairs the quality of graph representation and           as manual inspection or basic signal processing techniques,
+                                                  limits downstream task performance. Motivated             are time-consuming and prone to human error [Rani et al.,
+                                                  by the remarkable reasoning and contextual un-            2024]. While recent deep learning approaches have improved
+                                                  derstanding capabilities of large language models         performance, they usually struggle to effectively model the
+                                                  (LLMs), we explore the idea of using LLMs as              rich semantic context and higher-order relationships between
+                                                  graph edge refiners. Specifically, we propose a           EEG channels. These limitations make it difficult to distin-
+                                                  two-stage framework: we first verify that LLM-            guish meaningful patterns from noise or redundancy, high-
+                                                  based edge refinement can effectively identify and        lighting the need for more advanced techniques with stronger
+                                                  remove redundant connections, leading to signif-          reasoning and contextual understanding capabilities, which
+                                                  icant improvements in seizure detection accuracy          large language models possess.
+                                                  and more meaningful graph structures. Building
+                                                  on this insight, we further develop a robust solu-           Specifically, existing graph learning-based EEG seizure
+                                                  tion where the initial graph is constructed using a       detection methods mainly fall into two categories: those that
+                                                  Transformer-based edge predictor and multilayer           construct graphs using pairwise correlation or similarity be-
+                                                  perceptron, assigning probability scores to poten-        tween EEG channels, and those that adopt dynamic or data-
+                                                  tial edges and applying a threshold to determine          driven approaches to learn graph structures from data [Ho
+                                                  their existence. The LLM then acts as an edge             and Armanfard, 2023; Tang et al., 2022; Tang et al., 2023a].
+                                                  set refiner, making informed decisions based on           In the former, the graph is typically predefined based on
+                                                  both textual and statistical features of node pairs       statistical measures such as normalized cross-correlation or
+                                                  to validate the remaining connections. Extensive          mutual information between channel pairs, and then kept
+                                                  experiments on TUSZ dataset demonstrate that our          fixed throughout model training [Ho and Armanfard, 2023;
+                                                  LLM-refined graph learning framework not only             Tang et al., 2022]. In the latter, more recent works at-
+                                                  enhances task performance but also yields cleaner         tempt to learn or adapt graph connectivity directly from the
+                                                  and more interpretable graph representations.             data using neural network-based mechanisms, such as at-
+                                                                                                            tention modules or state space models [Tang et al., 2023a;
+                                                                                                            Dong and Kluger, 2023]. However, both categories suffer
+                                         1       Introduction                                               from the same fundamental limitation: the noisy and variable
+                                         Accurate epileptic seizure detection is a critical task in both    nature of EEG signals makes it difficult to construct accurate
+                                         clinical and research fields. Epilepsy affects millions of peo-    and robust graphs. Whether based on correlation, similar-
+                                         ple worldwide, and accurate identification of seizure events       ity, or data-driven learning, the resulting graphs often con-
+                                         is essential for timely diagnosis, effective treatment, and im-    tain redundant, spurious, or even erroneous edges, which can
+                                         proved patient quality of life [Begley et al., 2022]. Electroen-   mislead graph neural networks (GNNs) and degrade both rep-
+                                         cephalogram (EEG) signals are the primary data source for          resentation learning and seizure detection performance. Al-
+                                         monitoring brain activities, playing a central role in epilepsy    though some methods have attempted to alleviate this issue,
+                                                                                                            most still lack explicit and principled mechanisms to refine
+                                             ∗
+                                                 Yushun Dong is the corresponding author.                   graph connectivity and remove task-irrelevant connections.
+In contrast, LLM-based graph structure learning offers pow-       among EEG electrodes [Bhandari et al., 2024]. Early re-
+erful reasoning and contextual understanding, enabling more       search primarily adopted static graph representations, where
+intelligent and interpretable edge refinement that addresses      the connectivity between electrodes is predefined according
+the core weaknesses of previous approaches.                       to physical locations or simple statistical criteria [Klepl et
+   Therefore, improving the quality of graph structures be-       al., 2024]. For example, [Zhao et al., 2021] constructs static
+comes essential for advancing EEG seizure detection. An           graphs by calculating Pearson correlation matrices for EEG
+effective graph should capture true neural interactions while     channel pairs and applying thresholds to define edges be-
+suppressing the redundant or noisy connections that mislead       tween highly correlated channels. [Wang et al., 2020] trans-
+graph representation learning [Yu et al., 2026]. Nevertheless,    forms EEG signals into the frequency domain using Fast
+most existing approaches lack the structural learning and se-     Fourier Transform, treating each electrode as a node and es-
+mantic understanding abilities needed to refine these connec-     tablishing connections based on the Visibility Graph rule. De-
+tions. Large language models (LLMs) have demonstrated re-         spite their simplicity, static graph-based approaches struggle
+markable capabilities in reasoning, contextual understanding,     to reflect the dynamic and evolving relationships among EEG
+and integrating diverse information sources [Cui et al., 2024].   channels, as they rely on fixed graph structures. This limita-
+These strengths make LLMs well-suited for graph edge re-          tion has motivated the development of dynamic graph repre-
+finement, as they can more effectively distinguish between        sentation learning methods that more effectively capture the
+meaningful and irrelevant connections based on both statisti-     spatial-temporal nature of EEG networks.
+cal and semantic evidence. By leveraging LLMs for graph              Depending on how dynamic connectivity is defined and
+structure learning, it becomes possible to construct graphs       updated, existing dynamic graph learning strategies for EEG
+that are not only more accurate and robust, but also more in-     signals can be grouped into three categories: (i) Correlation-
+terpretable and aligned with underlying physiological mech-       based Graph Construction, (ii) Learnable Graph Construc-
+anisms. This motivates our work to explore LLM-based edge         tion, and (iii) Generative Graph Construction. Correlation-
+refinement as a promising direction for addressing the key        based methods[Tang et al., 2022; Tao et al., 2022; Xu et
+limitations of existing methods in EEG seizure detection. Our     al., 2024] build dynamic graphs by computing channel cor-
+main contributions are summarized in the following:               relations (e.g., Pearson or cross-correlation) over sliding time
+                                                                  windows, but these only reflect surface-level statistical rela-
+    • We propose a novel framework that leverages large lan-
+                                                                  tionships and are easily affected by noise, resulting in un-
+      guage models (LLMs) as tools for clinical graph struc-
+                                                                  stable graph structures. Learnable graph construction meth-
+      ture refinement, overcoming the limitations of existing
+                                                                  ods [Huang et al., 2025; Li et al., 2024] enable adaptive graph
+      methods in clinical graph representation learning and
+                                                                  connectivity by leveraging attention mechanisms or mask
+      contextual understanding.
+                                                                  learning during training, which increases modeling flexibil-
+    • We establish a comprehensive benchmark for LLM-             ity. However, these methods typically lack explicit physio-
+      based clinical graph structure refinement, systematically   logical grounding and treat graph evolution as a byproduct
+      evaluating a range of state-of-the-art general-purpose      of optimization, making it difficult to accurately model the
+      LLMs as structural judges. This benchmark reveals the       temporal dynamics of neural activity during seizures or to in-
+      varying reasoning capabilities, consistency, and robust-    tegrate domain knowledge about seizure propagation. Gen-
+      ness of different LLMs in clinical graph reasoning.         erative graph construction methods embed graph generation
+    • Comprehensive experimental evaluations are conducted        modules within neural networks, dynamically synthesizing
+      on TUSZ benchmark, demonstrating that our method            graph structures from latent EEG representations. Notable
+      significantly improves both seizure detection perfor-       examples include self-supervised learning [Ho and Arman-
+      mance and the quality of learned graph representations.     fard, 2023; Weng et al., 2024] and diffusion modeling ap-
+                                                                  proaches [Chen et al., 2022; Shu et al., 2024; Xu et al., 2026],
+   The remainder of this article is organized as follows: Sec-    which aim to model the spatial and temporal dynamics of
+tion 2 reviews related works, including graph learning-based      EEG networks. While such data-driven methods are highly
+EEG seizure detection, and LLM applications in epilepsy di-       flexible and adaptive, they often lack physical interpretabil-
+agnosis and treatment. Section 3 introduces the proposed          ity and physiological plausibility, and may produce neural
+two-stage framework for graph structure learning and edge         connections that are not biologically meaningful. Moreover,
+refinement. In Section 4, we conduct comprehensive exper-         these approaches frequently overlook the inherent direction-
+iments to evaluate seizure detection performance, and estab-      ality and spatiotemporal aspects of neural signal propagation
+lish a benchmark for LLM-based clinical graph structure re-       in epileptic seizures, thus limiting their ability to fully capture
+finement. Finally, Section 5 concludes this paper.                the underlying pathological mechanisms.
+
+2     Related Works                                               2.2   LLM Applications in Epilepsy Diagnosis
+                                                                  Existing LLM-based EEG seizure diagnosis methods can
+2.1    Graph Representation Learning for EEG                      be broadly categorized into two types. The first category
+       Seizure Detection                                          is LLM-enhanced Clinical Text Analysis, which encom-
+Graph representation learning has emerged as a powerful ap-       passes the majority of existing studies. These works re-
+proach for EEG-based seizure detection, as it enables the         quire large amounts of natural language as training cor-
+modeling of complex, non-Euclidean spatial dependencies           pus, such as electronic medical records and expert diag-
+nostic narratives. For instance, one early study leveraged        3.2   Basic Graph Representation Learning using
+LLMs to predict seizure recurrence risk in children by analyz-          Transformer-based Edge Predictor
+ing clinical notes [Beaulieu-Jones et al., 2023]; subsequent      In the first stage of our framework, we aim to construct an
+research introduced specialized models to interpret seizure       initial graph that captures the potential relationships between
+semiology text for epileptogenic zone localization [Yang et       EEG channels. Given the sequential EEG data from N chan-
+al., 2024]; other efforts explored automatic classification of    nels, denoted as Xτ = {x1τ , x2τ , . . . , xnτ }, where xiτ ∈ Rτ
+seizure types from narrative case reports [Kerr et al., 2025],    represents the time series recorded at channel i at time τ , we
+as well as the extraction of seizure frequency and related        employ a Transformer encoder to extract informative feature
+attributes from clinical documentation using fine-tuned lan-      representations for each channel.
+guage models [Abeysinghe et al., 2025]. More recent work          Feature Encoding with Transformer: Each EEG channel’s
+assessed the performance of general-purpose LLMs like GPT         time series xiτ is first passed through a Transformer encoder,
+series in distinguishing seizure types based on patient self-     which models both local and global temporal dependencies
+reported descriptions [Ford et al., 2025; Mishra et al., 2025].   within the signal. The output is an embedding vector for each
+These approaches, however, demand not only EEG sequence           node (channel), denoted as:
+data but also extensive auxiliary datasets and detailed expert
+annotations, which pose significant challenges for clinical im-                hiτ = Transformer(xiτ ),      hiτ ∈ Rd         (1)
+plementation. Collecting such data and granular labels is         where d is the dimension of the learned embedding.
+costly and time-consuming, and the resulting large input size     Edge Probability Prediction: For each pair of channels
+can considerably increase algorithmic inference time.             (i, j), we concatenate their embeddings hiτ and hjτ to form
+   The second category encompasses a smaller set of re-           a joint representation zτij :
+search, which directly focuses on EEG signal modeling
+with large-scale language models. In this line of work,                               zτij = [hiτ ; hjτ ] ∈ R2d               (2)
+researchers have proposed to use self-supervised pretrain-           This concatenated feature is then fed into a two-layer MLP
+ing [Jiang et al., 2024b] to obtain EEG signal large mod-         to predict the probability that an edge connection exists be-
+els, developed neural tokenization methods to map EEG data        tween channel i and channel j:
+into discrete embeddings compatible with LLMs [Kim et
+                                                                                           ⊤
+                                                                               pij                   ij
+                                                                                                                   
+al., 2024], and designed frameworks that integrate EEG fea-                     τ = σ w2 ϕ w1 zτ + b1 + b2                   (3)
+ture extraction with prompt-based or token-based LLM in-
+ference [Jiang et al., 2024a; Barmpas et al., 2025]. While        where σ(·) is the sigmoid activation function, ϕ(·) is the
+these approaches show promise, their main limitation is that      ReLU activation, w1 and w2 are the weight matrices for the
+the EEG data does not directly contribute to graph structure      1st and 2nd layers, b1 and b2 are the corresponding biases,
+learning or optimizing the underlying graph representations.      and pij
+                                                                        τ ∈ [0, 1] is the predicted edge existence probability
+Instead, these methods primarily rely on tokenization and se-     between nodes i and j.
+quential modeling, missing opportunities to exploit the inher-    Initial Edge Set Selection: We apply a threshold φ to deter-
+ent spatial-temporal relationships within EEG signals.            mine the presence of an edge:
+                                                                                           ij
+                                                                                     ij     pτ , if pij
+                                                                                                     τ >φ
+                                                                                    eτ =                                   (3)
+3     Methodology                                                                           0,    otherwise
+
+3.1    Problem Definition and Overall Framework                   The resulting binary adjacency matrix E = [eij ] defines the
+                                                                  initial edge set for the constructed graph.
+In this work, we propose a robust and interpretable approach         In summary, the first stage generates a data-driven initial
+for EEG-based seizure detection. The objective is to auto-        graph structure by leveraging the temporal modeling capabil-
+matically determine whether a seizure event occurs within a       ities of Transformer and the discriminative power of MLP for
+signal window by capturing physiologically meaningful in-         edge prediction. The initial graph will be further optimized in
+teractions among brain regions and filtering out noisy or re-     the next stage using an LLM-based refinement mechanism.
+dundant connections.
+   Figure 1 (left panel) shows our proposed two-stage LLM-        3.3   LLM-based Graph Structure Refinement
+based clinical graph generation and refinement framework.         The second stage of the proposed framework aims to further
+The first stage employs a Transformer-based edge predictor        improve the quality and interpretability of EEG graph struc-
+to construct the preliminary graph structure from EEG data,       ture by refining the edge set generated in the first step using
+modeling pairwise dependencies among channels. The sec-           large language models. The motivation for this approach lies
+ond stage utilizes LLMs to perform context-aware edge re-         in the ability of LLMs to reason over both statistical and se-
+finement, ensuring that the resulting graph is sparse, consis-    mantic information, allowing them to make informed deci-
+tent, and neurophysiologically plausible. The right panel il-     sions about whether an edge between two EEG channels is
+lustrates the complete clinical workflow for EEG seizure di-      meaningful or redundant. This process addresses the limita-
+agnosis, in which the refined EEG graph is subsequently pro-      tions of existing methods, which typically lack explicit mech-
+cessed by a graph representation learning model for down-         anisms for context-aware edge selection and noise reduction.
+stream seizure detection task, providing both enhanced accu-         For each candidate edge (i, j) in the initial graph con-
+racy and improved interpretability.                               structed in the first step, we design proprietary prompts to
+                                                                                                                                Clinical EEG Data                 LLM-Guided Graph
+                        STEP 1. Transformer-based Edge Predictor                                                                Collection & Processing           Construction & Refinement
+                                                                                                                                                                                                  Downstream Clinical
+                                                                                                                                                                                                  Diagnosis & Decision
+         EEG data                                                    i
+  O2                        Transformer                                            (i+j)
+  O1                                                                                                                                                                   Transformer-based
+   P4                                                                                                                                           Seizure pattern          Edge Predictor
+                                                        Embedding                                                                                                                                Refined
+   P3
+                                                        Generation        Concat                      Output
+  C4
+                                                                                                                                                                                                 EEG
+
+
+
+
+                                            Attention
+                                            Self
+  C3                                                                                                                                       Non-seizure pattern
+                                                                                                                                                                                                 Graph:
+
+
+
+
+                                                                                                                                                                              Attention
+                                                                                                                                                                              Self
+   F4
+   F3                                                                                                          Probability of
+  FP2                                                                j                     MLP
+                                                                                                                 Edge [0,1]
+  FP1
+                                                                                                                                                                  Transformer              MLP    Graph Representation
+                      STEP 2. LLM-based Graph Structure (Edge) Refinement                                                        EEG Data Acquisition                                             Learning Model
+                                                                                                                                    & Processing
+                                                                                                                                                                        LLM-based Graph
+                                                                                                                                                                       Structure Refinement
+        Node i’s                                                                                                                       FP2         C3                                             Prediction:
+        textualized                                                                                                                                                Node i’s                       SEIZURE DETECTED
+                                                                                                                                              F3
+        feature                                                                                                                      FP1
+                                                                                                                                                                   Text +         Formulate
+                                Formulate
+                                                            Enquiry:
+                                                            Node (i, j)                    LLM         Determine if an                                  P3         Stats          contextual
+                                 Prompt                                                    response      edge exists?                                                             query about
+                                                                                                                                                                                  connectivity
+                                                                                                                                                                                                 Explainability
+                                                                                                                   Yes                                             Node j’s
+                                                                                                                                                                   Text +
+        Node j’s                                                                                                   No                                              Stats
+        textualized                         Prompts
+        feature
+                      Statistical                                              LLMs
+                       feature                                                                                                   1                                 2                  LLMs        3
+
+Figure 1: (Left) The proposed two-stage LLM-based clinical graph generation and refinement framework. (Right) The overall clinical EEG
+seizure diagnosis pipeline, in which the proposed framework corresponds to Step 2 for constructing and refining the EEG graph before
+downstream seizure prediction and interpretation.
+
+
+query the LLM. These prompts incorporate both the textual-                                                        Median: The middle value of the sorted EEG amplitudes,
+ized and statistical features of nodes i and j, ensuring that the                                                 representing the central tendency. (g) (q25): The value be-
+model considers both context and data-driven evidence. The                                                        low which 25% of the EEG data points fall, reflecting the
+proprietary prompt consists of two parts: (a) the textualized                                                     lower distribution. (h) (q75): The value below which 75%
+description of the EEG data at the current time window using                                                      of the EEG data points fall, indicating the upper distribution.
+natural language. (b) summarized statistical features of the                                                      (i) Skewness: A measure of the asymmetry in the amplitude
+studied EEG data at the current time window.                                                                      distribution of the EEG signal. (j) Kurtosis: A measure of
+Textualized EEG Feature Construction: For each node, we                                                           the peakedness or flatness in the amplitude distribution of the
+employ GPT-4o to describe its relevant characteristics of the                                                     EEG signal. (k) Energy: The total power of the EEG sig-
+EEG signal as natural language. For node i, the textualized                                                       nal, calculated as the sum of squared amplitudes. (l) Zero-
+feature includes: (a) The channel label (e.g., “F3”). (b) The                                                     crossing rate: The number of times the EEG signal crosses
+anatomical location (e.g., “frontal lobe”). (c) High-level ob-                                                    the zero axis, often related to its frequency content.
+servations from the EEG data sequence (e.g., “shows sharp                                                            These statistics are computed over the relevant EEG time
+spikes”, ”background is normal”), and the changing trend of                                                       window for each channel and presented in a standardized tex-
+the EEG data sequence. A sample textual description for node                                                      tual format. For example:
+i is given here:
+                                                                                                                     Example of EEG Statistical Feature Construction
+ Example of Textualized EEG Feature Construction                                                                     Mean amplitude: 12.3 µV , Std: 4.5 µV , Dominant fre-
+ Channel F3, located in the frontal lobe, shows moderate                                                             quency: 8.5 Hz, Min: -6.2 µV , Max: 22.7 µV , Median:
+ amplitude with intermittent sharp spikes. The EEG signal                                                            10.1 µV , Q25: 7.8 µV , Q75: 14.5 µV , Skewness: 0.32,
+ exhibits an increasing trend in amplitude over the observed                                                         Kurtosis: 2.1, Energy: 1532.6, Zero-crossing rate: 42.
+ time window.
+                                                                                                                  Prompt Design for Edge Refinement: The full prompt for a
+EEG Statistical Feature Construction: Following the com-                                                          candidate edge (i, j) is constructed by concatenating the tex-
+mon practice in EEG signal statistics that are crucial and                                                        tual and statistical features of both nodes and then forming a
+most discriminative for seizure detection [Zhang et al., 2022;                                                    specific inquiry. Suppose EEG channel F3 and T4 to be node
+Shankar et al., 2021; Sharmila and Geethanjali, 2020], we                                                         i and j, respectively. Then the LLM-based edge refinement
+extract the the statistical features listed below using Python:                                                   prompt is given in the following:
+(a) Mean amplitude: The average value of the EEG signal
+over the selected time window, reflecting the baseline activity                                                      LLM-generated contextual prompt
+level. (b) Standard deviation: The variability or dispersion                                                         Node i: Channel F3, located in the frontal lobe, shows
+of the EEG signal amplitudes, indicating the spreading of the                                                        moderate amplitude with intermittent sharp spikes. The
+signals. (c) Dominant frequency: The most prominent fre-                                                             EEG signal exhibits an increasing trend in amplitude over
+quency component in the EEG signal, showing the primary                                                              the observed time window. Mean amplitude: 12.3 µV ,
+oscillatory activity. (d) Minimum: The lowest amplitude ob-                                                          Std: 4.5 µV , Dominant frequency: 8.5 Hz, Min: -6.2 µV ,
+served in the EEG segment, capturing extreme negative fluc-                                                          Max: 22.7 µV , Median: 10.1 µV , Q25: 7.8 µV , Q75:
+tuations. (e) Maximum: The highest amplitude observed in                                                             14.5 µV , Skewness: 0.32, Kurtosis: 2.1, Energy: 1532.6,
+the EEG segment, capturing extreme positive fluctuations. (f)
+ Zero-crossing rate: 42.                                           Graph, which learns graph structures through generative neu-
+ Node j: Channel T4, located in the temporal lobe, shows           ral network modules. (2) LLM-based graph structure re-
+ high amplitude with pronounced rhythmic slowing. The              finement methods, where we benchmark a range of state-of-
+ EEG signal displays a stable pattern with occasional bursts       the-art general-purpose LLMs as structural judges, including
+ throughout the observed time window. Mean amplitude:              Mistral 7B, Mistral 8×7B, Llama 3.1-70B, Llama 3.2-90B,
+ 18.2 µV , Std: 5.1 µV , Dominant frequency: 4.2 Hz, Min:          Gemini-2.5-Pro, Gemini-2.5-Flash, GPT-4o, GPT-4.1, GPT-
+ -3.1 µV , Max: 25.8 µV , Median: 17.4 µV , Q25: 15.0 µV ,         5, GPT5-mini. Each model independently refines the graph
+ Q75: 20.2 µV , Skewness: -0.15, Kurtosis: 2.7, Energy:            produced by the Transformer-based edge predictor.
+ 2018.3, Zero-crossing rate: 33.
+ Question: Does a meaningful functional connection exist           Algorithm 1 Two-stage LLM-based Graph Structure Learn-
+ between Node i and Node j in this EEG segment? Answer             ing for EEG Seizure Detection
+ yes or no, based on the context above.                            Require: Multichannel EEG data Xτ = {x1τ , x2τ , . . . , xnτ }; thresh-
+                                                                       old φ for edge selection; large language model MLLM ;
+   This prompt is submitted to the LLM (e.g., GPT-5-mini),         Ensure: Final refined adjacency matrix E∗τ ;
+which returns a binary response (”yes” or ”no”) to indicate         1: Step 1: Initial Graph Construction
+whether the edge should be retained. By iterating this process      2: for each channel i do
+over all candidate edges, we obtain the final refined adjacency     3:     Obtain node embedding hiτ = Transformer(xiτ )
+matrix where only edges validated by the LLM are preserved.         4: end for
+This LLM-based refinement process enables more intelligent          5: for each channel pair (i, j) do
+and interpretable graph construction, filtering out spurious        6:     Concatenate embeddings: zτij = [hiτ ; hjτ ]
+and redundant edges based on a combination of contextual            7:     Compute edge probability: pij τ = σ(MLP(zτ ))
+                                                                                                                          ij
+                                                                               ij
+reasoning and data-driven evidence. Algorithm 1 illustrates         8:     if pτ > φ then
+the overall procedure for LLM-based edge refinement.                9:          Set eij     ij
+                                                                                     τ = pτ (edge weight in initial graph)
+                                                                   10:     else
+                                                                   11:          Set eij
+                                                                                     τ = 0 (no edge connection)
+4     Experiments                                                  12:     end if
+In this section, we aim to answer the following research ques-     13: end for
+tions: RQ1: How do different graph construction and re-            14: Obtain initial adjacency matrix Eini
+                                                                                                          τ  from all eij
+                                                                                                                        τ
+finement strategies influence downstream EEG seizure detec-        15: Step 2: LLM-based Edge Refinement
+tion performance? RQ2: How do various general-purpose              16: Initialize E∗τ ← Einiτ
+LLMs perform as structural judges in graph reasoning? RQ3:         17: for each node pair (i, j) with eij
+                                                                                                        τ > 0 in Eτ
+                                                                                                                   ini
+                                                                                                                       do
+                                                                   18:     Construct textualized and statistical features for node i and
+What are the interpretability and consistency characteristics
+                                                                       node j
+of LLM-based graph reasoning in clinical EEG contexts?                     Formulate prompt Qij
+                                                                   19:                           τ from features of node i and node j
+
+4.1    Dataset and Experimental Setup                              20:     Submit Qij  τ to MLLM and obtain binary response Rτ
+                                                                                                                                    ij
+                                                                                ij
+                                                                   21:     if Rτ is “yes” then
+Dataset. We conduct experiments on the publicly avail-             22:          Set eij
+                                                                                     τ = pτ
+                                                                                            ij
+able EEG seizure diagnosis benchmark: Temple University            23:               ij
+                                                                           else if Rτ is “no” then
+Hospital EEG Seizure Corpus (TUSZ) v1.5.2 [Shah et al.,            24:          Set eij
+                                                                                     τ = 0
+2018]. TUSZ is currently one of the largest clinical EEG cor-      25:     end if
+pora for seizure diagnosis, comprising 5,612 EEG recordings        26: end for
+and 3,050 seizure annotations. It includes 19 EEG channels         27: return E∗τ
+recorded using the standard 10-20 system, covering a broad
+range of subjects across diverse clinical conditions. For inter-
+pretability analysis, we leverage the seizure onset-offset la-     4.2    Results and Performance Comparison
+bels and event type annotations provided with TUSZ dataset.        Experimental Setup. To evaluate the influence of different
+Baseline Methods. To ensure a fair and comprehensive               graph construction and refinement strategies on downstream
+comparison, all models are built upon the same modified            seizure detection, we employ GraphS4mer as a unified back-
+GraphS4mer backbone [Tang et al., 2023b], where the orig-          bone across all experiments, ensuring that performance vari-
+inal internal graph structure learning module is disabled and      ations arise solely from graph structural differences. The up-
+replaced by externally supplied graph structures. The de-          stream graph inputs include two categories: (1) Non-LLM-
+tailed backbone configuration is in Appendix A. We con-            based graph construction methods and (2) LLM-based graph
+sider two categories of baselines: (1) Conventional graph          structure refinement methods, where various LLMs serve as
+construction methods, including (a) Self-Correlation Graph,        structural judges to refine the initial constructed graphs by
+which constructs graphs based on pairwise channel corre-           Transformer model. The performance is evaluated using three
+lations; (b) Distance-based Graph, which connects chan-            widely adopted metrics: F1-score, Accuracy, and Recall.
+nels according to their physical distance; (c) Attention-based     Results and Analysis. Table 1 summarizes the seizure de-
+Graph, which utilizes attention mechanisms to learn adap-          tection results across all baselines. Overall, models employ-
+tive edge weights; (d) K-Nearest Neighbor (KNN) Graph,             ing LLM-based graph refinement consistently outperform all
+where each node is connected to its k most similar chan-           non-LLM graph construction methods, demonstrating the ef-
+nels based on signal similarity; (e) Generative Module-based       fectiveness of leveraging language-driven reasoning to refine
+Table 1: Seizure detection performance under different graph con-            Table 2: Graph-level reasoning characteristics of different LLMs.
+struction / refinement methods.
+                                                                                  Model                              Graph Sparsity          JSD
+  Model                                           F1    Accuracy   Recall         Mistral 7B + Transformer G             0.4213             0.0576
+  None LLM-based Graph Construction Methods                                       Mistral 8×7B + Transformer G           0.4167             0.0532
+  Distance-based G                 0.6508                0.8225    0.7049         Llama 3.1-70B + Transformer G          0.4019             0.0442
+  Self-Correlation G               0.6682                0.8453    0.7158         Llama 3.2-90B + Transformer G          0.3984             0.0407
+  KNN-based G                      0.7156                0.8762    0.7362         Gemini 2.5-Flash + Transformer G       0.3931             0.0369
+  Attention-based G                0.7338                0.8894    0.7537         Gemini 2.5-Pro + Transformer G         0.3875             0.0335
+  Generative Graph Learner G       0.7351                0.9039    0.7625         GPT-4o + Transformer G                 0.3826             0.0314
+                                                                                  GPT-4.1 + Transformer G                0.3778             0.0306
+  LLM-based Graph Structure Refinement Methods                                    GPT-5-mini + Transformer G             0.3758             0.0289
+  Mistral 7B + Transformer G        0.7458     0.9087              0.7705         GPT-5 + Transformer G                  0.3741             0.0265
+  Mistral 8×7B + Transformer G      0.7493     0.9056              0.7784
+  Llama 3.1-70B + Transformer G     0.7522     0.9196              0.7786
+  Llama 3.2-90B + Transformer G     0.7587     0.9173              0.7815
+  Gemini 2.5-Flash + Transformer G 0.7613      0.9207              0.7836   Mistral 8×7B achieve moderate seizure detection accuracy
+  Gemini 2.5-Pro + Transformer G    0.7685     0.9261              0.7879   but exhibit relatively high graph diversity, indicating less sta-
+  GPT-4o + Transformer G            0.7726     0.9278              0.7947   ble structural reasoning. In contrast, mid-sized open-source
+  GPT-4.1 + Transformer G           0.7792     0.9236              0.7933   models like Llama 3.1-70B and Llama 3.2-90B improve both
+  GPT-5-mini + Transformer G        0.7859     0.9275              0.8024   F1 and structural consistency, reflecting more coherent edge
+  GPT-5 + Transformer G             0.7907     0.9315              0.8058
+                                                                            judgment. Gemini 2.5-Pro and GPT-series models demon-
+      ∗All models share the same GraphS4mer backbone.                       strate the strongest reasoning reliability and overall detec-
+                                                                            tion performance, with GPT-5 achieving the highest F1 score,
+                                                                            edge agreement rate, and lowest divergence. These results
+EEG connectivity structures. Among traditional approaches,
+                                                                            suggest that reasoning capability in graph refinement scales
+Generative Graph Learner achieves the highest F1, indicating
+                                                                            with model capacity and training diversity. Moreover, we ob-
+that learning-based graph formation offers moderate benefits
+                                                                            serve a clear trade-off: smaller models tend to explore more
+over handcrafted correlations. In contrast, integrating dif-
+                                                                            novel edge connections (higher diversity but lower stability),
+ferent LLMs yields significant performance improvements,
+                                                                            whereas larger models yield more clinically plausible and
+with GPT-5 + Transformer G achieving the best results (F1
+                                                                            consistent graph structures. This benchmark thus provides a
+= 0.7907, Accuracy = 0.9315, Recall = 0.8058). This perfor-
+                                                                            standardized lens through which to compare LLMs’ reason-
+mance gain highlights that larger, instruction-tuned models
+                                                                            ing quality in clinical graph-based tasks.
+possess stronger reasoning and consistency when determin-
+ing clinically meaningful connections between EEG chan-                     4.4      Interpretability & Consistency Analysis
+nels. The steady improvement from smaller models (e.g.,
+                                                                            To further understand how different LLMs perform structural
+Mistral 7B) to larger ones (e.g., Llama 3.2-90B, GPT-5)
+                                                                            reasoning during EEG graph refinement, we conduct inter-
+further suggests that graph reasoning capability scales with
+                                                                            pretability and consistency analysis. We visualize node-level
+model capacity, validating the efficacy of our proposed LLM-
+                                                                            importance distributions and assess the physiological plau-
+based graph refinement paradigm.
+                                                                            sibility of the refined graphs with respect to clinical EEG
+4.3      LLM Clinical Graph Reasoning Benchmark                             knowledge and ground-truth annotations.
+
+Experimental Setup. To systematically evaluate the reason-                                t+1                 t+2                     t+3
+
+ing and structural refinement capabilities of different LLMs,
+we establish a unified benchmark named LLM Clinical Graph
+Refinement Benchmark. In this setting, each LLM indepen-
+dently serves as a structural judge that refines the graph gen-
+erated by Transformer-based edge predictor under identical
+conditions, ensuring fairness and reproducibility. We bench-                              t+4                 t+5                     t+6
+mark a diverse set of representative models across different
+scales and architectures, including Mistral 7B, Mistral 8×7B,
+Llama 3.1-70B, Llama 3.2-90B, Gemini 2.5-Flash, Gemini
+2.5-Pro, GPT-4o, GPT-4.1, GPT-5, and GPT-5-mini. Beyond
+the downstream seizure detection metrics (F1, Accuracy, and
+Recall), we further compute graph-level statistics: (I) Graph
+Sparsity [Cini et al., 2023] and (II) Jensen-Shannon Diver-
+gence(JSD) [Wang and Yuan, 2025] to quantify each model’s                   Figure 2: Node feature importance distributions across different
+reasoning consistency and structural diversity.                             LLM-based graph refiners in continuous time steps, illustrating
+Results and Analysis. Table 2 reports the benchmark re-                     seizure onset in frontal region and propagation toward temporal area.
+sults across all models. Overall, the proposed benchmark re-
+veals distinct reasoning behaviors and scaling trends among                   Figure 2 illustrates the temporal evolution of node-level
+the evaluated LLMs. Smaller models such as Mistral 7B and                   importance distributions across different LLM-based graph
+refiners during a seizure episode. As shown from t+1 to
+t+6, the activation pattern exhibits a physiologically consis-
+tent propagation from frontal (Fp1, Fp2, F3, F4) to temporal
+(T3, T4) regions, reflecting the typical onset and spread of
+epileptic activity. Among all models, the GPT family demon-                                 t1         t2     t3            t4
+strates more stable and spatially focused activations over key
+
+
+
+
+                                                                          Llama3.1-70B
+cortical areas, indicating stronger interpretability and better
+alignment with clinically meaningful EEG dynamics. In con-
+trast, models such as Mistral and Llama display scattered and
+less consistent node activations. Notably, GPT-5 achieves the
+
+
+
+
+                                                                       Gemini2.5-Pro
+most coherent and biologically plausible feature patterns, fol-
+lowed by GPT-5-mini and GPT-4.1, corroborating the supe-
+rior reasoning and refinement capability of advanced LLMs
+in capturing seizure-related brain connectivity.
+
+
+
+
+                                                                          GPT-4o
+                                        A1: Mistral 7B
+                                        A2: Mistral 8x7B
+                                        A3: Llama 3.1-70B
+                                        A4: Llama 3.2-90B
+                                        A5: Gemini 2.5-Flash
+
+
+
+
+                                                                          GPT-5
+                                        A6: Gemini 2.5-Pro
+                                        A7: GPT-4o
+                                        A8: GPT-4.1
+                                        A9: GPT-5
+                                        A10: GPT-5-mini               Figure 4: Visualization of the spatiotemporal evolution of LLM-
+                                                                      guided EEG graphs.
+
+Figure 3: Edge Difference Heatmap. It shows the pairwise structural
+discrepancies among the refined graphs from different LLMs.           strates moderate consistency but introduces redundant inter-
+                                                                      regional links, suggesting moderate precision in edge reason-
+   Figure 3 shows the pairwise edge difference heatmap of             ing. Although graphs refined by Llama 3.1-70B reflect the
+LLM-based graph refinement. Brighter regions (bottom-                 seizure propagation pattern, it yields more dense and noisy
+right) indicate higher structural consistency, while darker           connections. Overall, these results highlight that higher-
+tones (upper-left) reveal greater divergence across models.           capacity LLMs not only infer more accurate and stable graph
+Specifically, GPT model series (GPT-4o, GPT-4.1, GPT-5,               topologies but also better align with the underlying neuro-
+GPT-5-mini) exhibit the highest internal consistency, as in-          physiological dynamics observed in real EEG data.
+dicated by the lighter color in the lower-right corner, sug-
+gesting that these models generate highly similar and stable
+graph structures. This consistency implies that GPT models            5                  Conclusions
+share a coherent reasoning pattern when inferring physiolog-
+ically meaningful brain connectivity. In contrast, the Mistral        In this paper, we propose a novel two-stage framework for
+and Llama series show substantially higher pairwise differ-           EEG seizure detection that leverages the reasoning and con-
+ences, reflecting less stable and more stochastic refinement          textual understanding capabilities of Large Language Models
+behaviors. The Gemini models lie in between, demonstrating            (LLMs) for clinical graph structure refinement. By integrat-
+moderate consistency with the GPT family. Overall, the grad-          ing a Transformer-based edge predictor with an LLM-driven
+ual reduction in structural discrepancy from Mistral to GPT-5         edge refinement module, our approach effectively identifies
+aligns with the progression of reasoning capability, indicating       and removes redundant or irrelevant graph connections, im-
+that more advanced LLMs achieve not only higher accuracy              proving graph quality and interpretability. We further estab-
+in edge refinement but also improved physiological plausibil-         lish an LLM-based clinical graph structure reasoning bench-
+ity in representing seizure-related brain networks.                   mark evaluating multiple general-purpose LLMs as graph
+   Figure 4 presents a case study comparing the graphs refined        structure judges. Extensive experiments on TUSZ benchmark
+by different LLMs across four time windows of a standard              demonstrate that our framework achieves superior seizure de-
+EEG signal sequence. The EEG signals exhibit a clear prop-            tection performance and generates more meaningful graph
+agation pattern from frontal to temporal, central, and finally        representations compared to existing methods. These find-
+parietal–occipital regions, which reflects the typical spatial        ings highlight the potential of LLMs to bring new intelligence
+evolution of seizure activity. Consistent with this physiolog-        and interpretability to graph learning in neurophysiological
+ical trend, GPT series (GPT-4o and GPT-5) produce struc-              signal analysis. Future work will explore domain-adaptive
+tured and spatially coherent graphs that capture this progres-        prompting and multimodal integration to further enhance in-
+sive propagation while maintaining sparse and physiologi-             terpretability, robustness, and generalization across broader
+cally plausible edge connectivity. Gemini 2.5-Pro demon-              biomedical graph learning tasks.
+References                                                        [Dong and Kluger, 2023] Mingze Dong and Yuval Kluger.
+[Abeysinghe et al., 2025] Rashmie Abeysinghe, Shiqiang              Towards understanding and reducing graph structural
+   Tao, Samden D Lhatoo, Guo-Qiang Zhang, and Licong                noise for gnns. In International Conference on Machine
+   Cui. Leveraging pretrained language models for seizure           Learning, pages 8202–8226. PMLR, 2023.
+   frequency extraction from epilepsy evaluation reports. npj     [Ford et al., 2025] Joseph Ford, Nathan Pevy, Richard
+   Digital Medicine, 8(1):208, 2025.                                 Grunewald, Stephen Howell, and Markus Reuber. Can
+[Aldahr et al., 2022] Raghdah Saem Aldahr, Munid Alanazi,            artificial intelligence diagnose seizures based on patients’
+   and Mohammad Ilyas. Addressing inter-patient variability          descriptions? a study of gpt-4. Epilepsia, 2025.
+   in eeg: Diversity-enhanced data augmentation and few-          [Ho and Armanfard, 2023] Thi Kieu Khanh Ho and Narges
+   shot learning-based epilepsy detection. In 2022 Inter-           Armanfard. Self-supervised learning for anomalous chan-
+   national Conference on Healthcare Engineering (ICHE),            nel detection in eeg graphs: Application to seizure anal-
+   pages 1–7, 2022.                                                 ysis. In Proceedings of the AAAI conference on artificial
+[Barmpas et al., 2025] Konstantinos Barmpas, Na Lee,                intelligence, volume 37, pages 7866–7874, 2023.
+   Alexandros Koliousis, Yannis Panagakis, Dimitrios A
+                                                                  [Huang et al., 2025] Zhentao Huang, Yuyao Yang, Yahong
+   Adamos, Nikolaos Laskaris, and Stefanos Zafeiriou. Neu-
+   rorvq: Multi-scale eeg tokenization for generative large         Ma, Qi Dong, Jianyun Su, Hangyu Shi, Shanwen Zhang,
+   brainwave models. arXiv preprint arXiv:2510.13068,               and Liangliang Hu. Eeg detection and recognition model
+   2025.                                                            for epilepsy based on dual attention mechanism. Scientific
+                                                                    Reports, 15(1):9404, 2025.
+[Beaulieu-Jones et al., 2023] Brett      K     Beaulieu-Jones,
+   Mauricio F Villamar, Phil Scordis, Ana Paula Bartmann,         [Jiang et al., 2024a] Wei-Bang Jiang, Yansen Wang, Bao-
+   Waqar Ali, Benjamin D Wissel, Emily Alsentzer, Johann             Liang Lu, and Dongsheng Li. Neurolm: A universal multi-
+   de Jong, Arijit Patra, and Isaac Kohane. Predicting               task foundation model for bridging the gap between lan-
+   seizure recurrence after an initial seizure-like episode          guage and eeg signals. arXiv preprint arXiv:2409.00101,
+   from routine clinical notes using large language models:          2024.
+   a retrospective cohort study. The Lancet Digital Health,       [Jiang et al., 2024b] Wei-Bang Jiang, Li-Ming Zhao, and
+   5(12):e882–e894, 2023.                                            Bao-Liang Lu. Large brain model for learning generic
+[Begley et al., 2022] Charles Begley, Ryan G Wagner, An-             representations with tremendous eeg data in bci. arXiv
+   nette Abraham, Ettore Beghi, Charles Newton, Churl-Su             preprint arXiv:2405.18765, 2024.
+   Kwon, David Labiner, and Andrea S Winkler. The global          [Kerr et al., 2025] Wesley T Kerr, Katherine N McFarlane,
+   cost of epilepsy: a systematic review and extrapolation.
+                                                                    Gabriela Figueiredo Pucci, Danielle R Carns, Alex Is-
+   Epilepsia, 63(4):892–903, 2022.
+                                                                    rael, Lianne Vighetti, Page B Pennell, John M Stern,
+[Benbadis et al., 2020] Selim Benbadis, Sándor Beniczky,           Zongqi Xia, and Yanshan Wang. Supervised machine
+   Edward Bertram, Stephanie MacIver, and Solomon L                 learning compared to large language models for identify-
+   Moshé. The role of eeg in patients with suspected epilepsy.     ing functional seizures from medical records. Epilepsia,
+   Epileptic Disorders, (2):143–155, 2020.                          66(4):1155–1164, 2025.
+[Bhandari et al., 2024] Harish C Bhandari, Yagya R                [Kim et al., 2024] Jonathan W Kim, Ahmed Alaa, and
+   Pandeya, Kanhaiya Jha, Sudan Jha, and Sultan Ahmad.              Danilo Bernardo. Eeg-gpt: exploring capabilities of large
+   Exploring non-euclidean approaches: A comprehensive              language models for eeg classification and interpretation.
+   survey on graph-based techniques for eeg signal anal-            arXiv preprint arXiv:2401.18006, 2024.
+   ysis. Journal of Advances in Information Technology,
+   15(10):1089–1105, 2024.                                        [Klepl et al., 2024] Dominik Klepl, Min Wu, and Fei He.
+[Chen et al., 2022] Junru Chen, Yang Yang, Tao Yu, Yingy-           Graph neural network-based eeg classification: A survey.
+   ing Fan, Xiaolong Mo, and Carl Yang. Brainnet: Epileptic         IEEE Transactions on Neural Systems and Rehabilitation
+   wave detection from seeg with hierarchical graph diffusion       Engineering, 32:493–503, 2024.
+   learning. In Proceedings of the 28th ACM SIGKDD Con-           [Li et al., 2024] Yang Li, Yang Yang, Qinghe Zheng, Yunxia
+   ference on Knowledge Discovery and Data Mining, pages             Liu, Hongjun Wang, Shangling Song, and Penghui Zhao.
+   2741–2751, 2022.                                                  Dynamical graph neural network with attention mecha-
+[Cini et al., 2023] Andrea Cini, Daniele Zambon, and Cesare          nism for epilepsy detection using single channel eeg. Med-
+   Alippi. Sparse graph learning from spatiotemporal time            ical & Biological Engineering & Computing, 62(1):307–
+   series. Journal of Machine Learning Research, 24(242):1–          326, 2024.
+   36, 2023.                                                      [Mishra et al., 2025] Abhijit Mishra, Shreya Shukla, Jose
+[Cui et al., 2024] Wenhui Cui, Woojae Jeong, Philipp                Torres, Jacek Gwizdka, and Shounak Roychowdhury.
+   Thölke, Takfarinas Medani, Karim Jerbi, Anand A Joshi,          Thought2text: text generation from eeg signal using large
+   and Richard M Leahy. Neuro-gpt: Towards a foundation             language models (llms). In Findings of the Association
+   model for eeg. In 2024 IEEE International Symposium on           for Computational Linguistics: NAACL 2025, pages 3747–
+   Biomedical Imaging (ISBI), pages 1–5, 2024.                      3759, 2025.
+[Rani et al., 2024] N Geetha Rani, Nayakanti Praveen Ku-           representation learning. arXiv preprint arXiv:2512.20094,
+   mar, et al. Attcnnnet: Attention based cnn network to           2025.
+   detect seizures from eeg subjects. In 2024 IEEE 16th In-      [Wang et al., 2020] Jialin Wang, Shen Liang, Dake He,
+   ternational Conference on Computational Intelligence and        Ye Wang, Yingpei Wu, and Yanchun Zhang. A sequen-
+   Communication Networks (CICN), pages 800–804, 2024.             tial graph convolutional network with frequency-domain
+[Saba-Sadiya et al., 2021] Sari Saba-Sadiya, Eric Chantland,       complex network of eeg signals for epilepsy detection.
+   Tuka Alhanai, Taosheng Liu, and Mohammad M Ghas-                In 2020 IEEE International Conference on Bioinformatics
+   semi. Unsupervised eeg artifact detection and correction.       and Biomedicine (BIBM), pages 785–792. IEEE, 2020.
+   Frontiers in digital health, 2:608920, 2021.                  [Weng et al., 2024] Weining Weng, Yang Gu, Shuai Guo,
+[Shah et al., 2018] Vinit Shah, Eva Von Weltin, Silvia             Yuan Ma, Zhaohua Yang, Yuchen Liu, and Yiqiang Chen.
+   Lopez, James Riley McHugh, Lillian Veloso, Meysam               Self-supervised learning for electroencephalogram: A sys-
+   Golmohammadi, Iyad Obeid, and Joseph Picone. The tem-           tematic survey. arXiv preprint arXiv:2401.05446, 2024.
+   ple university hospital seizure detection corpus. Frontiers   [Xu et al., 2024] Jie Xu, Shasha Yuan, Junliang Shang, Juan
+   in neuroinformatics, 12:83, 2018.                               Wang, Kuiting Yan, and Yankai Yang. Spatiotempo-
+[Shankar et al., 2021] A. Shankar, S. Dandapat, and                ral network based on gcn and bigru for seizure detec-
+   S. Barma. Classification of seizure types based on              tion. IEEE Journal of Biomedical and Health Informatics,
+   statistical variants and machine learning. 2021 IEEE            28(4):2037–2046, 2024.
+   18th India Council International Conference (INDICON),        [Xu et al., 2026] Rongchao Xu, Kunlin Cai, Lin Jiang,
+   pages 1–6, 2021.
+                                                                   Zhiqing Hong, Yuan Tian, and Guang Wang. Geogen: A
+[Sharmila and Geethanjali, 2020] A.         Sharmila      and      two-stage coarse-to-fine framework for fine-grained syn-
+   P. Geethanjali.      Evaluation of time domain features         thetic location-based social network trajectory generation.
+   on detection of epileptic seizure from eeg signals. Health      In Proceedings of the AAAI Conference on Artificial Intel-
+   and Technology, 10:711–722, 2020.                               ligence, 2026.
+[Shu et al., 2024] Kai Shu, Le Wu, Yuchang Zhao, Aiping          [Yang et al., 2024] Shihao Yang, Yaxi Luo, Meng Jiao, Neel
+   Liu, Ruobing Qian, and Xun Chen. Data augmentation for          Fotedar, Vikram R Rao, Xinglong Ju, Shasha Wu, Xi-
+   seizure prediction with generative diffusion model. IEEE        aochen Xian, Hai Sun, Ioannis Karakis, et al. Episemollm:
+   Transactions on Cognitive and Developmental Systems,            A fine-tuned large language model for epileptogenic zone
+   2024.                                                           localization based on seizure semiology with a perfor-
+[Tang et al., 2022] Siyi Tang, Jared Dunnmon, Khaled Ka-           mance comparable to epileptologists. MedRxiv, pages
+   mal Saab, Xuan Zhang, Qianying Huang, Florian Du-               2024–09, 2024.
+   bost, Daniel Rubin, and Christopher Lee-Messer. Self-         [Yu et al., 2026] Dahai Yu, Lin Jiang, Rongchao Xu, and
+   supervised graph neural networks for improved electroen-        Guang Wang. Healthmamba: An uncertainty-aware spa-
+   cephalographic seizure analysis. In International Confer-       tiotemporal graph state space model for effective and re-
+   ence on Learning Representations, 2022.                         liable healthcare facility visit prediction. arXiv preprint
+[Tang et al., 2023a] Siyi Tang, Jared A Dunnmon,                   arXiv:2602.05286, 2026.
+   Qu Liangqiong, Khaled K Saab, Tina Baykaner,                  [Zhang et al., 2022] Shang Zhang, Guangda Liu, Ruolan
+   Christopher Lee-Messer, and Daniel L Rubin. Mod-                Xiao, Wenjie Cui, Jing Cai, Xinlei Hu, Yubing Sun, Jiqing
+   eling multivariate biosignals with graph neural networks        Qiu, and Yuan Qi. A combination of statistical parame-
+   and structured state space models. In Proceedings of the        ters for epileptic seizure detection and classification using
+   Conference on Health, Inference, and Learning, pages            vmd and nltwsvm. Biocybernetics and Biomedical Engi-
+   50–71, 2023.                                                    neering, 2022.
+[Tang et al., 2023b] Siyi Tang, Jared A Dunnmon,                 [Zhao et al., 2021] Yanna Zhao, Changxu Dong, Gaobo
+   Qu Liangqiong, Khaled K Saab, Tina Baykaner,                    Zhang, Yaru Wang, Xin Chen, Weikuan Jia, Qi Yuan,
+   Christopher Lee-Messer, and Daniel L Rubin. Mod-                Fangzhou Xu, and Yuanjie Zheng. Eeg-based seizure de-
+   eling multivariate biosignals with graph neural networks        tection using linear graph convolution network with focal
+   and structured state space models. In Conference on             loss. Computer Methods and Programs in Biomedicine,
+   health, inference, and learning, pages 50–71. PMLR,             208:106277, 2021.
+   2023.
+[Tao et al., 2022] Tian-li Tao, Liang-hu Guo, Qiang He,
+   Han Zhang, and Lin Xu. Seizure detection by brain-
+   connectivity analysis using dynamic graph isomorphism
+   network. In 2022 44th Annual International Conference
+   of the IEEE Engineering in Medicine & Biology Society
+   (EMBC), pages 2302–2305, 2022.
+[Wang and Yuan, 2025] Zuo Wang and Ye Yuan. Jensen-
+   shannon divergence message-passing for rich-text graph
+A    GraphS4mer Backbone Configuration
+GraphS4mer [Tang et al., 2023b] is originally designed as a
+spatiotemporal graph neural network for multivariate biosig-
+nal classification. Its architecture consists of three main com-
+ponents: (1) stacked S4 layers for modeling long-range tem-
+poral dependencies within each sensor channel, (2) an inter-
+nal graph structure learning (GSL) module for dynamically
+estimating adjacency matrices from learned temporal embed-
+dings, and (3) GNN layers followed by temporal and graph
+pooling modules for downstream classification.
+   In our experimental evaluations, GraphS4mer is employed
+as the unified downstream representation learning backbone.
+To isolate the effect of different graph construction and re-
+finement strategies, we modify the original GraphS4mer by
+disabling its internal GSL module. Specifically, the self-
+attention-based adjacency estimation, KNN graph mixing,
+and threshold pruning in the original GraphS4mer are re-
+moved. Instead, the adjacency matrix used by the GNN layers
+is externally provided by the graph construction/refinement
+method in our experiments.
+   Under this setting, the retained components of
+GraphS4mer include the S4 temporal encoder, the GNN
+spatial encoder, the temporal pooling layer, the graph pooling
+layer, and the final classifier. Given an EEG segment, the
+S4 encoder first extracts long-range temporal representations
+for each EEG channel. The externally supplied graph then
+defines the channel-level connectivity used by the GNN lay-
+ers to perform spatial message passing. The resulting node
+and temporal representations are aggregated through pooling
+layers and passed to the classifier for seizure detection. This
+configuration ensures that all compared methods share the
+same downstream model capacity and training pipeline. The
+only varying factor is the input graph structure, including
+conventional graph construction methods and LLM-based
+graph refinement methods. Therefore, the only difference
+in downstream seizure detection performance is directly
+attributed to the quality of the constructed or refined EEG
+graph rather than to architectural differences in the backbone
+model.
+

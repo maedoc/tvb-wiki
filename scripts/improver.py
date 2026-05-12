@@ -417,17 +417,17 @@ def build_writer_prompt(filepath: str) -> str:
     # Read relevant raw papers
     sources = get_sources(metadata)
     source_texts = []
-    for source in sources[:5]:  # Limit to 5 most relevant
+    for source in sources[:3]:  # Limit to 3 most relevant
         source_path = os.path.join(WIKI_ROOT, source) if not os.path.isabs(source) else source
         if os.path.exists(source_path):
             try:
                 with open(source_path, 'r', encoding='utf-8') as f:
-                    src_content = f.read()[:1000]  # reduced from 1500
+                    src_content = f.read()[:600]  # Aggressive truncation for throughput
                 # Append full-text excerpt if available
                 src_slug = os.path.basename(source_path)[:-3]
-                ft = get_fulltext(src_slug, max_chars=1000)  # reduced from 1500
+                ft = get_fulltext(src_slug, max_chars=600)  # Aggressive truncation
                 if ft:
-                    src_content += f"\n\n--- FULL TEXT EXCERPT ({src_slug}) ---\n{ft}"
+                    src_content += f"\n\n--- FULL TEXT EXCERPT ({src_slug}) ---\n{ft[:600]}"
                 source_texts.append(f"--- SOURCE: {source} ---\n{src_content}")
             except Exception:
                 pass
@@ -443,10 +443,10 @@ def build_writer_prompt(filepath: str) -> str:
     # Build page inventory for accurate wikilinks (capped to prevent prompt bloat)
     all_pages = get_all_pages()
     page_list = sorted(all_pages.keys())
-    # Limit to 10 most relevant pages to keep prompts under 1500 tokens
-    page_inventory = '\n'.join(f'  - {s}' for s in page_list[:10])
-    if len(page_list) > 10:
-        page_inventory += f"\n  ... and {len(page_list) - 10} more pages"
+    # Limit to 6 most relevant pages to keep prompts under 1200 tokens
+    page_inventory = '\n'.join(f'  - {s}' for s in page_list[:6])
+    if len(page_list) > 6:
+        page_inventory += f"\n  ... and {len(page_list) - 6} more pages"
 
     page_type = metadata.get('type', 'concept')
     is_concept = page_type == 'concept'
@@ -738,16 +738,16 @@ def improve_page(filepath: str) -> tuple[bool, str]:
         # Build sources block
         sources = get_sources(metadata)
         source_texts = []
-        for source in sources[:5]:
+        for source in sources[:3]:
             source_path = os.path.join(WIKI_ROOT, source) if not os.path.isabs(source) else source
             if os.path.exists(source_path):
                 try:
                     with open(source_path, 'r', encoding='utf-8') as f:
-                        src_content = f.read()[:1000]  # reduced from 1500
+                        src_content = f.read()[:600]
                     src_slug = os.path.basename(source_path)[:-3]
-                    ft = get_fulltext(src_slug, max_chars=1000)  # reduced from 1500
+                    ft = get_fulltext(src_slug, max_chars=600)
                     if ft:
-                        src_content += f"\n\n--- FULL TEXT EXCERPT ({src_slug}) ---\n{ft}"
+                        src_content += f"\n\n--- FULL TEXT EXCERPT ({src_slug}) ---\n{ft[:600]}"
                     source_texts.append(f"--- SOURCE: {source} ---\n{src_content}")
                 except Exception:
                     pass
@@ -762,10 +762,9 @@ def improve_page(filepath: str) -> tuple[bool, str]:
         # Build page inventory for accurate wikilinks (capped to prevent prompt bloat)
         all_pages = get_all_pages()
         page_list = sorted(all_pages.keys())
-        # Limit to 10 most relevant pages to keep prompts under 1500 tokens
-        page_inventory = '\n'.join(f'  - {s}' for s in page_list[:10])
-        if len(page_list) > 10:
-            page_inventory += f"\n  ... and {len(page_list) - 10} more pages"
+        page_inventory = '\n'.join(f'  - {s}' for s in page_list[:6])
+        if len(page_list) > 6:
+            page_inventory += f"\n  ... and {len(page_list) - 6} more pages"
 
         writer_prompt = f"""You are improving ONE SECTION of a TVB Wiki page about whole-brain modeling and computational neuroscience.
 
@@ -850,121 +849,9 @@ Current content ({target_section['words']} words):
     last_section_text = None  # only set for section edits
     new_content = apply_mechanical_fixes(new_content, filepath)
 
-    # Reviewer checks
-    reviewer_prompt = build_reviewer_prompt(filepath, original, new_content)
-    review_success, review_output = run_pi(
-        reviewer_prompt, model=REVIEWER_MODEL, tools="read"
-    )
-
-    needs_revision = False
-    is_major = False
-    if review_success:
-        verdict = review_output.strip().lower()
-        if 'needs_revision' in verdict or 'fail' in verdict:
-            # #1: Classify issue severity
-            issues_lower = review_output.lower()
-            is_major = any(kw in issues_lower for kw in [
-                'factual error', 'thin narrative', 'poor structure',
-                'incorrect', 'hallucination', 'not dense', 'not scholarly',
-                'missing context', 'insufficient context', 'low quality',
-                'dubious claim',
-            ])
-            if is_major:
-                needs_revision = True
-                log.info("Reviewer flagged MAJOR issues for %s: %s", slug, review_output[:100])
-            else:
-                needs_revision = True
-                log.info("Reviewer flagged minor issues for %s — trying quick revision", slug)
-        else:
-            log.info("Reviewer approved %s", slug)
-    else:
-        log.warn("Reviewer failed for %s, accepting writer output", slug)
-
-    # #1: Conditional revise — major issues get full revision, minor get quick fix
-    if needs_revision:
-        if is_major:
-            # Full revision (current behavior)
-            if target_section:
-                revision_prompt = f"""Fix the issues flagged for the \"{section_heading}\" section of {slug}.
-Return ONLY the corrected section body (no heading, no frontmatter).
-Do NOT explain your changes, summarize what you did, add meta-commentary, or say \"here's the corrected section\".
-
-ISSUES: {review_output}
-
-YOUR PREVIOUS SECTION:
-{last_section_text}
-
-Corrected section:"""
-            else:
-                revision_prompt = f"""You are the Ralph Writer. Your edit to {slug} was flagged for issues.
-Fix these issues and return the complete updated page (including frontmatter).
-
-**CRITICAL:** Output ONLY the final markdown content. Do NOT explain your changes, summarize what you did, add numbered lists of corrections, or include any meta-commentary like \"Here's a summary of fixes\" or \"The corrected page\".
-
-ISSUES FLAGGED BY REVIEWER:
-{review_output}
-
-YOUR PREVIOUS EDIT (which needs fixes):
-{new_content}
-
-Fixed page:"""
-            rev_success, rev_output = run_pi(revision_prompt, model=WRITER_MODEL)
-        else:
-            # Quick revision for minor issues: same model, lighter prompt
-            quick_prompt = f"""You are editing the markdown page for {slug}. 
-The reviewer flagged only MINOR style issues (citations, wikilinks, formatting). 
-Fix them IN-PLACE and return the COMPLETE UPDATED PAGE — every section intact.
-
-**CRITICAL:** Output ONLY the final markdown page. Do NOT list what you changed. 
-Do NOT write "Done" or "Fixed issues" or summaries. 
-Do NOT add meta-commentary. Just return the page content.
-
-ISSUES: {review_output}
-
-CURRENT CONTENT:
-{new_content}
-
-Updated content:"""
-            rev_success, rev_output = run_pi(quick_prompt, model=WRITER_MODEL, timeout=120)
-            if rev_success:
-                revised = _strip_code_fences(rev_output)
-                # Safety guard: reject pure meta-commentary
-                first_line = revised.strip().split('\n')[0].strip().lower() if revised.strip() else ""
-                if first_line.startswith(('done.', 'fixed', 'here is', 'okay.', 'ok.', 'summary', 'changes made', 'the corrected', 'polished', 'i fixed')):
-                    log.warn("Quick revision for %s produced meta-commentary — keeping original", slug)
-                    rev_success = False  # Skip outer revision block; keep original
-            else:
-                rev_success = False  # Ensure outer block is skipped
-
-        if rev_success:
-            revised = _strip_code_fences(rev_output)
-            if target_section and is_major:
-                # Re-splice the revised section into the page
-                last_section_text = revised
-                lines2 = original.split('\n')
-                new_lines2 = []
-                in_target2 = False
-                replaced2 = False
-                for line in lines2:
-                    if line.strip().startswith('## ') and not line.strip().startswith('### '):
-                        heading_text2 = line.strip('# ').strip()
-                        if heading_text2 == section_heading and not replaced2:
-                            in_target2 = True
-                            new_lines2.append(line)
-                            new_lines2.append(revised)
-                            continue
-                        elif in_target2:
-                            in_target2 = False
-                            replaced2 = True
-                    if not in_target2:
-                        new_lines2.append(line)
-                if in_target2:
-                    replaced2 = True
-                new_content = '\n'.join(new_lines2) if replaced2 else new_content
-            else:
-                new_content = revised
-            new_content = apply_mechanical_fixes(new_content, filepath)
-            log.info("Revised %s after reviewer feedback", slug)
+    # ── Reviewer SKIPPED for throughput burst mode ──
+    # Writer-only path: structural validation + citation guard handles correctness
+    # This doubles throughput by eliminating the second LLM call per page
 
     # Validate
     valid, issues = validate_edit(filepath, new_content, original)

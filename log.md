@@ -4,6 +4,7 @@
 - Improved [[neurostats]] page: clarified it's a category of statistical analysis frameworks (NeuroStatX, BrainStat), expanded with 12+ wikilinks, added relationship to TVB for model validation and parameter estimation, added source reference to NeuroStatX package
 - Improved [[popeye]] page: rewrote _preamble section with sourced content from 5 available papers, added 10+ wikilinks, corrected citation formats to use raw/papers/SLUG.md syntax, removed unsupported technical claims about pRF capabilities
 - Improved [[computational-neuroscience]] page: rewrote _preamble with 5 inline citations from available sources (Jordan 2018, Strogatz 1994, Friston 1993, Hater 2026, Jiang 2026), added 12+ wikilinks (connectome, spiking-neural-networks, nest, neural-mass-model, nonlinear-dynamics, bifurcation-analysis, epilepsy-modeling, functional-connectivity, neuroimaging-pet, fmri, co-simulation, the-virtual-brain, personalized-brain-modeling), bumped updated date to 2026-05-12
+- Improved [[popeye]] page: rewrote _preamble section with dense sourced prose (~250 words), 5 inline citations from all available sources, 7 wikilinks (fmri, reproducibility, parcellation, functional-connectivity, eeg, meg, brain-dynamics), updated sources frontmatter to include all 5 papers
 
 ## 2026-05-11
 - Improved [[lfpykit]] page: replaced placeholder content with comprehensive description of LFPykit library, added technical details on forward models (point source, line source, four-sphere head model), included relationship to TVB for multi-scale modeling, added references to linden-2014 and hagen-2018 papers
@@ -413,3 +414,9 @@
 - Improved [[computational-neuroscience]] page: rewrote _preamble section with sourced content from 5 available papers (Jiang 2026, Jordan 2018, Strogatz 1994, Friston 1993, Hater 2026), added 12+ wikilinks, ensured 3+ inline citations per paragraph, split into two dense paragraphs covering microscopic and macroscopic scales plus neuroimaging and multiscale integration
 
 - 2026-05-12: Improved _preamble section of [[tvb-library]] with sourced content about simulation kernel, forward models, and reproducibility frameworks.
+
+## [2026-05-12 14:28] LinkRepair: fixed 9 files (9 wikilink-in-URL, 0 abs-path)
+
+## [2026-05-12 14:28] Linter: 45 broken links, 14 orphans, 3 stale, 0 empty
+
+## [2026-05-12 14:32] Audit: 794 issues (45 broken links, 14 orphans, 1 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 28 opaque-refs, 14 thin, 465 missing-links)

@@ -1,0 +1,562 @@
+                                           Topology Matters: A Cautionary Case Study of Graph SSL on Neuro-Inspired
+                                                                         Benchmarks
+                                                    May Kristine Jonson Carlon1 , Su Myat Noe2 , Haojiong Wang1 , Yasuo Kuniyoshi1
+                                                                                      1
+                                                                                          RIKEN Center for Brain Science, Japan
+                                                                                       2
+                                                                                          National Institute of Informatics, Japan
+
+
+
+                                                                   Abstract                                     ically grounded machine learning architectures (Ktena et al.
+arXiv:2602.03217v1 [cs.LG] 3 Feb 2026
+
+
+
+
+                                                                                                                2018; Liu et al. 2024).
+                                          Understanding how local interactions give rise to global
+                                          brain organization requires models that can represent infor-          From Neuro to AI. Principles of cortical computation —
+                                          mation across multiple scales. We introduce a hierarchical            such as hierarchical predictive coding, sparse and energy-
+                                          self-supervised learning (SSL) framework that jointly learns          efficient representations, and structured connectivity — mo-
+                                          node-, edge-, and graph-level embeddings, inspired by mul-
+                                          timodal neuroimaging. We construct a controllable synthetic
+                                                                                                                tivate learning frameworks that balance invariance and se-
+                                          benchmark mimicking the topological properties of connec-             lectivity across representational levels. Graph Neural Net-
+                                          tomes. Our four-stage evaluation protocol reveals a critical          works (GNNs) provide a natural substrate for explor-
+                                          failure: the invariance-based SSL model is fundamentally              ing these ideas because their architecture natively han-
+                                          misaligned with the benchmark’s topological properties and            dles graph-structured data, making them perfectly suited to
+                                          is catastrophically outperformed by classical, topology-aware         model the multiscale organization inherent in the brain’s
+                                          heuristics. Ablations confirm an objective mismatch: SSL              connectome. Self-supervised learning (SSL) is a valuable
+                                          objectives designed to be invariant to topological perturba-          paradigm for this domain as it enables learning rich repre-
+                                          tions learn to ignore the very community structure that clas-         sentations from the vast amount of unlabeled connectomic
+                                          sical methods exploit. Our results expose a fundamental pit-          data; however, most existing graph SSL approaches are lim-
+                                          fall in applying generic graph SSL to connectome-like data.
+                                          We present this framework as a cautionary case study, high-
+                                                                                                                ited because they focus only on node-level or graph-level
+                                          lighting the need for new, topology-aware SSL objectives for          objectives, neglecting the rich relational information carried
+                                          neuro-AI research that explicitly reward the preservation of          by the edges. As a result, current graph SSL methods cannot
+                                          structure (e.g., modularity or motifs).                               fully capture how local interactions shape global organiza-
+                                                                                                                tion, an ability critical for both neural modeling and robust
+                                                                                                                AI systems.
+                                                               Introduction
+                                        Biological intelligence emerges from hierarchically orga-               From AI to Neuro. Conversely, SSL offers neuroscien-
+                                        nized neural systems, where local microcircuits process sen-            tists a scalable means to learn task-agnostic representations
+                                        sory features and long-range connections integrate informa-             by uncovering the latent structure of brain graphs, poten-
+                                        tion across distributed networks. Modern neuroimaging and               tially serving as a computational analog of unsupervised cor-
+                                        connectomics offer unprecedented access to this multiscale              tical learning and aiding the discovery of functional mod-
+                                        structure, revealing that brain organization can be naturally           ules. However, current graph SSL methods face major lim-
+                                        modeled as a multiplex graph: nodes correspond to cortical              itations. Contrastive approaches like Deep Graph Infomax
+                                        or subcortical regions, and edges capture structural or func-           (DGI) (Veličković et al. 2018) and GraphCL (You et al.
+                                        tional relationships across modalities such as morphome-                2020) typically restrict learning to a single representational
+                                        try, diffusion tractography, and resting-state functional mag-          scale. Non-contrastive methods such as VICReg (Bardes,
+                                        netic resonance imaging (fMRI) (Van Essen et al. 2013;                  Ponce, and LeCun 2022) and Barlow Twins (Zbontar et al.
+                                        Parisot et al. 2017). These multimodal connectomes embody               2021) fail to explicitly model hierarchical dependencies
+                                        three key properties: (1) rich node-level features reflect-             among nodes, edges, and graphs, thereby neglecting the
+                                        ing regional anatomy and function; (2) multi-channel edges              pairwise interactions (edge embeddings) central to under-
+                                        encoding diverse connectivity modalities; and (3) higher-               standing functional and structural coupling. Moreover, eval-
+                                        order organization—such as communities, hubs, and hemi-                 uation in graph SSL often lacks statistical rigor (Errica et al.
+                                        spheric symmetry—that supports distributed computation.                 2022; Zhu et al. 2024; Gong et al. 2025), as inconsistent
+                                        Capturing all three scales simultaneously is essential for              benchmarks and ad hoc tuning hinder the assessment of
+                                        both understanding neural systems and developing biolog-                architectural components. To address this methodological
+                                                                                                                gap, we first develop a controllable, neuro-inspired synthetic
+                                        Copyright © 2026, Association for the Advancement of Artificial         benchmark for standardized evaluation and then use it to
+                                        Intelligence (www.aaai.org). All rights reserved.                       conduct a failure analysis of a representative hierarchical
+SSL framework. Our contributions are:                             enabling new transferable representations even across het-
+                                                                  erogeneous domains. More recent studies explore multi-
+Contributions                                                     view or multi-scale pre-training strategies that jointly cap-
+Hierarchical SSL with explicit edge modeling. We pro-             ture local and global semantics, as in molecular (Liu et al.
+pose a dedicated edge projection head that combines end-          2022) and heterogeneous graph domains. Comprehensive
+point and multimodal attribute information, producing ex-         surveys (Zhao et al. 2025) categorize these efforts into
+plicit, queryable edge embeddings. SimSiam-style predic-          microscopic (node-level), mesoscopic (edge- or subgraph-
+tors (Chen and He 2021) enforce cross-view alignment at           level), and macroscopic (graph-level) paradigms. Our ap-
+each representational scale, maintaining architectural sim-       proach falls within this line of work but extends it to a hi-
+plicity while preventing collapse.                                erarchical setting.
+
+Failure analysis of invariance-based SSL. Through sys-                                     Method
+tematic ablations, we demonstrate a fundamental objective         Problem Setup
+mismatch. We show that modern invariance-based SSL ob-
+                                                                  We consider a multiplex graph G = (V, E, X, A) where V
+jectives, which are designed to discard topological details,
+                                                                  is a set of N nodes with feature matrix X ∈ RN ×F , E ⊆
+are outperformed by simple heuristics that exploit the com-
+                                                                  V × V is the union edge set, and A ∈ RM ×C represents M
+munity structure inherent in our neuro-inspired benchmark.
+                                                                  edges with C channels (e.g., functional connectivity [SC]
+Rigorous Evaluation. Our four-stage protocol includes             weight, functional connectivity [FC] correlation). Our goal
+principled hyperparameter optimization, multi-task probing        is to learn an encoder fθ producing:
+with statistical significance tests, transfer evaluation on un-                    {zv }v∈V ∈ RN ×Dn         (nodes)            (1)
+seen graphs, and component-level ablations, offering a trans-
+                                                                                                 M ×De
+parent methodology for future multi-scale SSL research.                       {zuv }(u,v)∈E ∈ R              (edges)            (2)
+                                                                                                 Dg
+Neuro-inspired Synthetic Benchmark. We introduce a                                       zG ∈ R        (graph)                  (3)
+controllable multiplex graph generator that mimics multi-         These representations should be invariant to semantics-
+modal neuroimaging properties, allowing controlled eval-          preserving augmentations while capturing task-relevant in-
+uation and hypothesis testing. This benchmark provides a          formation at each scale. All modalities are represented as
+bridge between biologically inspired modeling and scalable        multi-channel edge attributes, preserving modality-specific
+graph learning.                                                   signals within shared message passing.
+
+Related Work                                                      Architecture
+Graph Self-Supervised Learning. Contrastive methods               Shared GNN backbone. We use GraphSAGE-style mes-
+like DGI (Veličković et al. 2018) and GraphCL (You et al.       sage passing (Hamilton, Ying, and Leskovec 2017) with L
+2020) maximize agreement between augmented views but              layers:
+focus on single scales and require careful negative sampling.                                                                 
+Non-contrastive approaches like VICReg (Bardes, Ponce,            h(ℓ)
+                                                                    v = σ Ws hv
+                                                                                (ℓ) (ℓ−1)
+                                                                                          + Wn(ℓ) MEAN({h(ℓ−1)
+                                                                                                           u     : u ∈ N (v)})
+and LeCun 2022) and BGRL (Thakoor et al. 2023) avoid                                                                      (4)
+collapse without negatives but do not explicitly model edges.              (0)                                     (L)
+                                                                  where hv = xv . This produces hidden states {hv }. Note
+                                                                  that this message passing uses node features and topology
+Edge and Hierarchical Learning. Few SSL works ad-
+                                                                  but does not explicitly incorporate the multi-channel edge
+dress edge embeddings. GraphMAE (Hou et al. 2022) masks
+                                                                  attributes during aggregation.
+edges for reconstruction but lacks explicit edge representa-
+tions. GMT (Baek, Kang, and Hwang 2021) learns hierar-            Multi-level projection heads. For nodes and graphs, we
+chical features but requires supervision. Graph pre-training      use 2-layer MLPs with ReLU (Nair and Hinton 2010) and
+work (Hu et al. 2020; Qiu et al. 2020; Li et al. 2021;            LayerNorm (Ba, Kiros, and Hinton 2016):
+Liu et al. 2022) explores multi-scale strategies but is cat-
+egorized into microscopic, mesoscopic, and macroscopic                               zv = MLPnode (h(L)
+                                                                                                    v ),                        (5)
+paradigms (Zhao et al. 2025). Our work uniquely integrates        and an attention-style readout with learnable scalar query q
+explicit edge embeddings into a fully self-supervised hierar-     for the graph embedding:
+chical framework with rigorous multi-scale evaluation.
+                                                                                     sv = q ⊤ h(L)
+                                                                                               v ,                              (6)
+Pre-training of Graph Neural Networks. Early work on                                                 s 
+                                                                                                         v
+graph pre-training demonstrated that general-purpose GNN                  (train) wvtrain = softmax        ,     τ =5,          (7)
+                                                                                                        τ
+encoders could benefit downstream tasks when trained on                                       σ(sv )
+unlabeled graphs through structural and contextual objec-                  (eval) wveval = P            ,                       (8)
+tives (Hu et al. 2020). Subsequent approaches introduced                                       u σ(su )
+                                                                                                                        !
+contrastive frameworks that discriminate between subgraph                                              X
+pairs across multiple networks (Qiu et al. 2020) or be-                              zG = MLPgraph            wv h(L)
+                                                                                                                  v         .   (9)
+tween augmented halves of the same graph (Li et al. 2021),                                               v
+   For edges, we concatenate endpoint hidden states with a         Edge distribution matching. Since augmentation
+learned edge-attribute embedding:                                  changes edge sets, we align distributions via Maximum
+                                                                   Mean Discrepancy (MMD) with RBF kernels (Gretton et al.
+          zuv = MLPedge [ h(L)    (L)
+                                              
+                            u ; hv ; ϕ(auv ) ] .      (10)         2012):
+                                                                                                      A    B
+                                                                               Ledge-dist = MMDRBF (ZE  , ZE )          (14)
+Here, ϕ(auv ) is a learned embedding of the multi-channel          where
+edge attributes, enabling the model to utilize relational infor-                               1 Xh                  ′
+mation at the final projection stage. Unlike latent messages              MMD2 (ZE A
+                                                                                     , ZEB
+                                                                                           )=         E kσ (z A , z A )
+                                                                                              |Σ|
+implicitly formed within GNN layers, our zuv are explic-                                                 σ∈Σ
+                                                                                                                     ′
+itly learned edge representations accessible to downstream                                          + E kσ (z B , z B )
+edge-level tasks.                                                                                                        i
+                                                                                                    − 2 E kσ (z A , z B ) .
+                                                                                                                          (15)
+SimSiam predictors. Following SimSiam (Chen and He
+                                                                   Here kσ (z, z′ ) = exp − ∥z − z′ ∥2 /(2σ 2 ) , Σ =
+                                                                                                                     
+2021), we add predictor MLPs at each scale:
+                                                                   {0.5, 1.0, 2.0}, and expectations are estimated with up to
+                   pscale = Predictor(zscale )             (11)    4096 edges per view. MMD offers gradient stability under
+                                                                   varying edge counts, unlike pairwise contrastive losses that
+These asymmetric predictors enable one-sided gradient flow,        require fixed correspondences.
+preventing collapse without negative pairs.
+                                                                   Variance/covariance regularization. To prevent col-
+                                                                   lapse, we add VICReg-style (Bardes, Ponce, and LeCun
+Self-Supervised Learning Objective                                 2022) regularization:
+We create two augmented views GA , GB and minimize:
+                                                                                     X           p
+                                                                             Lvar =      ReLU(γ − Var(Zd ) + ϵ)     (16)
+                   X                                                                    d
+            L=             λscale Lscale + Lreg   (12)                                 X
+                                                                                               2
+                   scale∈{n,e,g}
+                                                                              Lcov =          Cij                             (17)
+                                                                                       i̸=j
+   We set λPN = λPE = λPG = 1.0 for the SimSiam pre-               applied to node and edge embeddings with γ = 0.2, ϵ =
+dictor terms on nodes/edges/graphs. The edge distribution          10−6 .
+term uses λE ∈ {0.5, 1.0, 2.5} during tuning, and the tuned
+                                                                   Training. We use Adam (lr = 10−3 , weight decay
+winner is used for all downstream results. Variance and co-
+                                                                   = 10−5 ), gradient clipping at 1.0, and at most 400
+variance regularizers follow VICReg-style magnitudes: α =
+                                                                   epochs with early stopping (patience = 6, min delta =
+0.1 for each variance term and β = 0.15 for each covariance
+                                                                   10−3 ). We set steps per epoch= 1, feature masking
+term (i.e., the objective contains 0.1 [Var(znA ) + Var(znB ) +
+                                                                   probability p = 0.02, DropEdge keep ratio = 0.85,
+Var(zeA ) + Var(zeB )] and 0.15 [Cov(znA ) + Cov(znB ) +
+                                                                   and enable edge-embedding normalization during training
+Cov(zeA ) + Cov(zeB )]). We also add a small invariance MSE
+                                                                   (normalize edges = True).
+on nodes (Linv,n ) with unit weight.
+
+View augmentation.                                                                   Experimental Setup
+                                                                   Synthetic Benchmark
+Node feature masking. Drop features with probability p =
+                                                                   We generate 500 brain-inspired multiplex graphs with con-
+  0.02.
+                                                                   trollable properties to isolate representation effects free from
+DropEdge. Randomly retain 85% of edges per view.                   data leakage or site confounds. To verify that our bench-
+  DropEdge (keep 0.85) sparsifies each view; the base              mark emulates key topological properties of real connec-
+  union graph is connected, but individual views need not          tomes, we computed the average clustering coefficient (C)
+  remain connected. It also acts as a mild regularizer, pre-       of the generated graphs and average shortest path length (L).
+  serving community structure while encouraging robust-            Our benchmark graphs exhibit a high C (0.259 ± 0.032) and
+  ness.                                                            a low L (1.87 ± 0.025), relative to random graph equiva-
+                                                                   lents. These are the classic hallmarks of the “small-world”
+Per-scale predictor losses.        For nodes and graphs, we use    topology widely observed in real structural and functional
+asymmetric SimSiam loss:                                           brain networks (Watts and Strogatz 1998; Bullmore and
+                                                                   Sporns 2009). This confirms our benchmark serves as a
+                      1 A B                                       valid, controlled “model organism” for testing SSL objec-
+                        ℓ(pn , zn ) + ℓ(pB    A
+                                                 
+            Lnode =                      n , zn )          (13)
+                      2                                            tives on brain-like graph structures. Future work will extend
+                                                                   to real MRI connectomes.
+where ℓ(p, z) = −⟨p, sg(z)⟩ with stop-gradient sg(·) and
+ℓ2 normalization. We apply analogous predictor losses at all       Topology. Each graph has N ∼ Unif(700, 900) nodes or-
+three scales. Additionally, we include a small MSE invari-         ganized into K ∼ Unif(6, 10) communities via latent space
+ance term on nodes for stability, while edges are aligned dis-     models. Nodes are assigned to 3 simulated acquisition sites
+tributionally via MMD.                                             for batch effects.
+Latent structure. Each community k has two la-                   Link Prediction train/val edges (disjoint from test) are
+tent spaces: ZA ∈ R3 (morphometric features) and                    scored by a logistic-regression probe on edge em-
+ZB ∈ R3 (connectivity/microstructure). Nodes sample from            beddings produced on-the-fly with the frozen edge
+community-specific Gaussians.                                       head: zuv = MLPedge ([hu ; hv ; 0]) where h =
+                                                                    backbone(X, E) is computed once.
+Node features. (F = 6): Volume, thickness (log-normal
+from ZA ), FA, MD (sigmoid from ZB ), plus two auxiliary           We compare “Ours” against three classes of baselines:
+features. Site-specific offsets model batch effects.
+Edges. SC edges form via: P (edge) = σ(βcomm ⊮same +             Classical. These methods ignore graph topology. For link
+βsim cos(zuB , zvB ) + b) with log-normal weights. We sim-          prediction, we use Cosine Similarity, scoring links
+ulate 25% missing SC. FC edges come from bandpass-                  (u, v) by the cosine of the angle between their raw fea-
+filtered (0.10-0.20 Hz) AR(1) time series with community            ture vectors xu and xv . For subgraph regression, we use
+drivers, retaining top-30 correlations per node. Final multi-       Ridge(pool), where all node features in a subgraph are
+plex has M ≈ 6000-8000 edges with 2-channel attributes              mean-pooled into a single vector for a standard Ridge
+[SC weight, FC correlation].                                        regression. For node classification, we use Logistic Re-
+                                                                    gression (LR) on raw node features.
+Labels. One graph is selected for single-graph down-
+stream probing. We design composite tasks requiring mul-         Graph-based. These methods primarily use graph topol-
+timodal integration:                                               ogy. For link prediction, we use the Jaccard Coef-
+                                                                   ficient, which scores links based on neighbor over-
+  • Node classification (3 classes): Combines PageRank and
+    feature score, discretized via quantiles.                      lap: |N (u)∩N (v)|
+                                                                        |N (u)∪N (v)| . For node classification, we use Label
+
+  • Link prediction: 15% held-out edges (positive) + equal         Propagation (LP), a semi-supervised algorithm that dif-
+    negatives.                                                     fuses labels from known to unknown nodes. For sub-
+                                                                   graph regression, we use WL-Hash (Shervashidze et al.
+  • Subgraph regression: 200 random subgraphs scored by            2011), a feature vector derived from the Weisfeiler-
+    density and conductance.                                       Lehman test that captures local neighborhood structure.
+   All tasks use stratified 70/15/15 train/val/test splits.
+                                                                 GNN-based. This serves as a practical supervised refer-
+Four-Stage Evaluation Protocol                                     ence point for node- and link-level tasks. We use a Su-
+                                                                   pervised GraphSAGE model trained end-to-end with
+Stage 1: Hyperparameter search. Grid search over ar-
+                                                                   full access to the task labels, optimized with early stop-
+chitecture (hidden ∈ {64, 128}, depth ∈ {2, 3}, emb dim ∈
+                                                                   ping on the validation set. We omit a GNN baseline
+{32, 64}) and loss weights (λE ∈ {0.5, 1.0, 2.5}) yields
+                                                                   for subgraph regression, as this would require a distinct
+24 configs. Each trains for 400 epochs (early stopping). We
+                                                                   graph-level regression architecture (e.g., a batched GNN
+compute composite validation scores:
+                                                                   with graph pooling) that is not directly comparable to our
+                         X scoretask − min                         simple linear probe methodology.
+                Scomp =                                 (18)
+                               max − min
+                         task                                       We report test metrics and compute paired bootstrap sig-
+   We tune on a single reference graph (the first synthe-        nificance tests (n = 2000, α = 0.05) comparing ”Ours” ver-
+sized instance): pre-train the encoder on the training por-      sus the best baseline. All baselines use identical data splits;
+tion of that graph only, compute validation-only probes          augmentations apply only during SSL pretraining.
+(node/edge/subgraph) on its held-out validation split, and se-      For each test fold, we form positives from the held-out
+lect the configuration that maximizes the composite score        15% edges and sample an equal number of negatives uni-
+Scomp . The chosen hyperparameters and weights are then          formly over non-edges, rejecting self-loops and duplicates
+frozen and used everywhere else (single-graph test probes,       until the target count is reached. Negatives are drawn dis-
+transfer, ablations). Test sets are never consulted during       joint from all observed positives, and the train/val negatives
+model or hyperparameter selection.                               used by the logistic probe are disjoint from the test pairs.
+Stage 2: Single-graph probes. Our method (“Ours”) uses
+the output of the pre-trained encoder to solve the down-         Stage 3: Transfer learning. We generate 500 graphs with
+stream tasks. The encoder’s parameters are frozen during         varying N, K and construct hand-crafted graph-level fea-
+probing, and simple machine learning models (probes) are         tures Xgraph (means/stds of node and edge features plus sim-
+trained on top of the resulting embeddings. The methodol-        ple structural summaries). We classify graphs by K using
+ogy differs slightly for each task:                              logistic regression (80/20 split) and compare against a base-
+                                                                 line using aggregated raw node features.
+Node Classification 1-hidden-layer MLP (128 units) on
+  frozen zv .                                                    Stage 4: Ablations. We train 9 variants (400 epochs
+Graph Regression Ridge on mean-pooled edge embed-                each): FULL, NO EDGESET (λE = 0), NO VARFLOOR,
+  dings within each subgraph. We report test scores and          NO COV, NO EDGE HEAD (no edge embeddings),
+  paired bootstrap significance versus the best baseline         NO PREDICTORS, NO FEAT MASK, NO DROPEDGE,
+  (n=2000).                                                      NO EDGE NORM. Each is evaluated on Stage 2 tasks.
+Figure 1: Hyperparameter trade-offs. Pareto frontier be-
+tween node F1 and graph R2 reveals weak trade-off.
+
+
+                           Results
+Hyperparameter Selection
+Among 24 configurations, the combination hidden = 64,
+depth = 2, emb dim = 64, and λE = 2.5 achieved the
+highest composite validation score (Scomp = 2.19). Figure 1
+visualizes the trade-off between node-level and graph-level
+performance. Node classification (x-axis) and subgraph re-
+gression (y-axis) show a non-linear relationship: increas-
+                                      2
+ing λE (lighter colors) improves Rgraph   but can slightly re-
+duce node-level macro-F1. This confirms that stronger edge-
+distribution alignment emphasizes graph-scale consistency
+at the expense of fine-grained node separability. Both 2-
+layer (circles) and 3-layer (squares) variants display simi-
+lar trends, though deeper networks show greater spread in
+  2
+Rgraph , indicating higher representational flexibility but also
+greater sensitivity to λE .
+   Figure 2 summarizes optimization dynamics: (a) total loss
+decreases steadily until early stopping (best validation loss
+at ∼epoch 90); (b) predictor losses become increasingly
+negative, indicating improved alignment; (c) MMD stabi-
+lizes quickly while VICReg regularization remains active;
+(d) gradient norms decay smoothly without instability.
+Total loss. The objective decreases steadily and plateaus,
+   with the best validation loss found at ∼epoch 90, indi-
+   cating stable descent without late-stage oscillation.
+Predictor losses. Both SimSiam predictor terms (node and
+   edge) become increasingly negative and flatten over time,
+   consistent with improving cross-view alignment (more
+   negative ⇒ better alignment for the cosine-style Sim-
+   Siam objective).
+Regularizers. The edge-distribution MMD remains small              Figure 2: Training Dynamics. Smoothing for all graphs was
+   after an initial transient, suggesting the two aug-             done with an exponential moving average (EMA).
+   mented views quickly yield similarly distributed edge
+   embeddings. The VICReg variance/covariance penalty
+   rises early, peaks, and then slowly decays while stay-
+   ing strictly positive, i.e., it is active and pushes per-
+  dimension variance toward the target while suppressing       Single-Graph Downstream Tasks
+  off-diagonal covariance to avoid collapse.                   Table 1 summarizes probe performance using frozen embed-
+Gradient norm. The global gradient norm decays                 dings from self-supervised pretraining. Our SSL-pretrained
+  smoothly across epochs, corroborating a well-                embeddings, when frozen, do not outperform simpler, clas-
+  conditioned optimization without signs of exploding or       sical baselines on their corresponding tasks.
+  vanishing gradients.
+                                                               Table 1: Single-graph probe results. Symbols indicate
+   t-SNE visualizations (Figure 3) reveal well-organized
+                                                               significantly lower performance compared to the best-
+embedding spaces. Edge embeddings cluster smoothly by
+                                                               performing baseline for each task: † p<0.001 and ∗ p<0.01.
+structural connectivity (SC) weight quantiles, confirming
+that the model captures continuous relational properties          Task         Method                   Metric    Score
+rather than collapsing to discrete groups. Node embed-            Link Pred    Classical: Cosine        AUC       0.686
+dings exhibit partial but coherent class separation, con-         Link Pred    Graph: Jaccard           AUC       0.845
+sistent with moderate node-classification performance. To-        Link Pred    GNN: SAGE (sup.)         AUC       0.802
+gether, these visualizations support that the learned repre-      Link Pred    Ours: LR(ze )            AUC       0.727†
+sentations preserve fine-grained structure while maintaining      Node Cls     Classical: LR             F1       0.794
+global smoothness across embedding scales.                        Node Cls     Graph: LabelProp          F1       0.690
+                                                                  Node Cls     GNN: SAGE (sup.)          F1       0.848
+                                                                  Node Cls     Ours: MLP(zn )            F1      0.767∗
+                                                                  Subgr Reg    Classical: Ridge(pool)    R2       0.189
+                                                                  Subgr Reg    Graph: WL-Hash            R2       0.177
+                                                                  Subgr Reg    Ours: Ridge(ze )          R2      -0.174∗
+
+
+                                                               Link prediction. Our model (AU C=0.727) is catastroph-
+                                                               ically outperformed by the classical Jaccard coefficient
+                                                               (AU C=0.845, p<0.001, 95%CI = [−0.123, −0.112]).
+                                                               The Jaccard coefficient succeeds because it is a pure, ex-
+                                                               plicit measure of topological community structure (shared
+                                                               neighbors). Our SSL model, trained to be invariant to aug-
+                                                               mentations like DropEdge, learns to ignore the precise
+                                                               topological information that Jaccard exploits. This reveals
+                                                               a fundamental objective mismatch between generic SSL and
+                                                               topology-driven connectome analysis.
+                                                               Node classification. Our frozen node embeddings
+                                                               (F 1=0.767) are slightly outperformed by Logistic Regres-
+                                                               sion on raw features (F 1=0.794). Performance remains far
+                                                               below the supervised GraphSAGE upper bound (F 1=0.840,
+                                                               p<0.01, 95%CI = [−0.145, −0.023]). This result further
+                                                               suggests that learned representations offer no clear advan-
+                                                               tage over the raw features, even for a simple node-level
+                                                               task.
+                                                               Subgraph regression. For subgraph-level prediction, the
+                                                               method fails completely, achieving a negative R2 (−0.174)
+                                                               that is significantly worse than the classical Ridge baseline
+                                                               (R2 =0.189, p<0.01, 95%CI = [−0.686, −0.125]). This
+                                                               indicates that the model’s representations are not capturing
+                                                               meaningful structural properties at the subgraph level, fur-
+                                                               ther confirming the model’s failure to learn topology.
+                                                                  Collectively, these results show that the invariances
+                                                               learned by our hierarchical framework are not well-aligned
+                                                               with the properties required by these downstream tasks, a
+                                                               finding we explore in the ablation study and discussion.
+
+                                                               Transfer Learning Across Graphs
+Figure 3: t-SNE of embeddings. Edges colored by SC             On the graph classification transfer task, our frozen embed-
+weight quartiles show clear clustering. Nodes colored by       dings achieve 47.2% accuracy, exceeding chance (20%) but
+class show partial separation.                                 underperforming the classical feature-based baseline (53%).
+The confusion matrix (Figure 4) shows strong diagonal            Together, these results strongly support our failure anal-
+structure but confusion between adjacent community counts      ysis. The FULL model is an unstable compromise between
+(e.g., K=6 and K=7). This indicates that the embeddings        competing, misaligned objectives. The results show that no
+preserve coarse modular organization while blurring fine       amount of tuning these specific components can fix the fun-
+structural differences. Such smooth generalization mirrors     damental mismatch between generic, invariance-based SSL
+cortical representations that encode continuous gradients of   and the topology-driven tasks essential for graph analysis in
+organization—capturing topology rather than discrete cate-     neuroscience.
+gory boundaries.
+
+
+
+
+Figure 4: Transfer task confusion matrix. Frozen zG clas-
+sifies graphs by K (5 classes).
+
+
+Ablation Study
+Figure 5 reveals critical trade-offs, showing that no single
+configuration excels across tasks.
+ • For node classification, the FULL model (F 1=0.767) is
+   outperformed by variants removing the edge distribution
+   loss (NO EDGESET, F 1 = 0.801) or covariance penalty
+   (NO COV, F 1 = 0.795), suggesting the model is over-        Figure 5: Ablation study. Absolute performance for each
+   regularized.                                                metric across variants. FULL is highlighted for reference.
+ • For link prediction, the FULL model (AU C=0.727)
+   is one of the worst. Crucially, removing the topolog-
+   ical augmentation (NO DROPEDGE, AU C = 0.752)                                       Discussion
+   improves performance, directly supporting our hypoth-
+   esis that this invariance objective is detrimental. The     Our hierarchical SSL framework was designed to apply
+   best performance comes from removing the predictors         multi-scale SSL to connectome-like graphs. The model’s
+   (NO PREDICTORS, AU C = 0.787), pointing to objec-           consistent failure to outperform simple heuristics is the most
+   tive misalignment.                                          valuable finding of this study. The evaluation reveals a fun-
+                                                               damental mismatch between generic SSL objectives and the
+ • For subgraph regression, the FULL model fails com-          properties of neuro-inspired graphs.
+   pletely (R2 = − 0.174). Here too, NO DROPEDGE (R2 =
+   0.074) provides a substantial improvement, reinforcing      Failure Analysis: Invariance Objectives vs. Topological
+   the harm of the topological invariance. The best score      Structure. Our most critical result is the model’s failure
+   comes from removing the architectural NO EDGE HEAD          against the Jaccard coefficient, indicating an objective mis-
+   (R2 = 0.180), indicating our multi-task design is an un-    match. The Jaccard heuristic is a pure, explicit measure of
+   stable compromise.                                          community structure (i.e., shared neighbors). In contrast,
+modern SSL methods, including ours, are dominated by in-         tain topology-driven tasks, like link prediction within com-
+variance objectives. By training the model to be invariant       munity structures.
+to augmentations like DropEdge (which alters the graph’s
+topology), we are effectively teaching the model to ignore       Limitations and Future Directions. Several limitations
+the precise structural patterns that Jaccard exploits. Our re-   are present. First, all results are derived from synthetic
+sults serve as a cautionary tale: applying generic, feature-     graphs. While this allowed us to isolate the objective mis-
+centric SSL to connectome-like graphs is likely to fail be-      match, validation on real connectomes is needed. Sec-
+cause the essential properties of these graphs are topologi-     ond, comparisons excluded recent SSL baselines (e.g.,
+cal, not feature-based.                                          GraphCL, BGRL, GraphMAE). Our critique, however, is
+                                                                 not of a specific model but of the invariance-to-topology
+Ablation Analysis: A Harmful Objective and Unsta-                objective (e.g., DropEdge) that is central to this entire
+ble Architecture. The ablation study provides direct sup-        paradigm. Our finding that this objective fundamentally
+port for this objective-mismatch hypothesis. The most crit-      conflicts with topology-based tasks (where Jaccard excels)
+ical finding is from the NO DROPEDGE variant: remov-             strongly suggests these methods would exhibit similar fail-
+ing this topological augmentation—the very component that        ures. Therefore, the critical future direction is developing
+teaches invariance—improves performance on both link pre-        new, topology-aware pre-training objectives. This could in-
+diction (AU C = 0.752 vs. 0.727) and subgraph regres-            clude pretext tasks like graph motif or community predic-
+sion (R2 = 0.074 vs. −0.174). This confirms that the in-         tion, or objectives that explicitly reward the preservation of
+variance objective is not just neutral but actively detrimen-    graph-theoretic properties (e.g., modularity, clustering coef-
+tal to learning topological properties. The ablations also       ficients) across augmentations.
+reveal a secondary issue: the FULL model is an unstable
+compromise of competing components. The fact that other                                 Conclusion
+variants, like NO EDGE HEAD (for subgraph regression) or
+NO PREDICTORS (for link prediction), achieve the best            We presented a hierarchical SSL framework inspired by
+scores on specific tasks demonstrates that the architectural     multimodal brain networks. Our evaluation on a controlled,
+components are misaligned.                                       connectome-like synthetic benchmark revealed a critical
+                                                                 failure: the model was consistently outperformed by simple,
+Synthetic Evaluation as Controlled Neuroscience Sim-             classical heuristics. We traced this failure to a fundamen-
+ulation. The synthetic benchmark was deliberately de-            tal objective mismatch where modern invariance-based SSL
+signed to emulate core properties of connectomic data: mul-      trains models to ignore the rich topological and community
+timodal node features, multi-channel edges, and modular          structure that is the hallmark of brain-like graphs.
+community structure. Although synthetic evaluation limits           Rather than an algorithmic shortcoming, we present this
+ecological validity, it parallels the use of model organisms     failure as a cautionary and constructive finding. Our syn-
+in neuroscience: simplified systems that enable precise hy-      thetic benchmark, validated as a “model organism” exhibit-
+pothesis testing free from the irreducible confounds of bio-     ing small-world properties, serves as a testbed that exposes
+logical noise and acquisition artifacts. Future validation on    the limitations of current SSL. Our analysis indicates that a
+real connectomes (e.g., HCP, UK Biobank) will be essential.      path to robust graph models in neuroscience requires mov-
+Furthermore, real connectomes exhibit more complex multi-        ing beyond generic invariance.
+scale organization (e.g., overlapping modules, rich clubs).         Looking forward, this work highlights the need for new,
+The clear failure of invariance-based SSL even on our sim-       topology-aware pre-training objectives. For Neuro → AI,
+plified benchmark suggests the objective mismatch prob-          models must be designed to explicitly reward the preserva-
+lem may be even more pronounced on real, complex brain           tion of structural organization (e.g., modularity or motifs),
+graphs.                                                          not discard it as noise. For AI → Neuro, researchers must be
+                                                                 cautious of applying off-the-shelf SSL models, as classical,
+Implications for Neuro-Inspired AI. From the Neuro →             topology-based metrics remain more robust for analyzing
+AI perspective, our failure provides a clear directive: brain-   connectome structure. By highlighting this critical pitfall,
+inspired AI must develop objectives that go beyond feature-      we hope to guide future research toward developing graph
+based invariance. Future models must explicitly reward the       models that are truly ”brain-inspired” in their objectives.
+preservation of topological properties, such as community
+structure and small-worldness, rather than treating them as
+noise to be ignored.                                                                    References
+                                                                 Ba, J. L.; Kiros, J. R.; and Hinton, G. E. 2016. Layer Nor-
+Implications for AI-Driven Neuroscience. From the AI             malization. arXiv:1607.06450.
+→ Neuro side, our work is a strong caution against apply-
+ing “off-the-shelf” invariance-based graph self-supervised       Baek, J.; Kang, M.; and Hwang, S. J. 2021. Accurate Learn-
+learning models to connectome data. We show that a sim-          ing of Graph Representations with Graph Multiset Pooling.
+ilar model may fail to capture the most salient topological      arXiv:2102.11533.
+properties of brain networks. Our results demonstrate that       Bardes, A.; Ponce, J.; and LeCun, Y. 2022. VICReg:
+classical, simpler graph metrics like the Jaccard coefficient    Variance-Invariance-Covariance Regularization for Self-
+remain highly effective and potentially more reliable for cer-   Supervised Learning. arXiv:2105.04906.
+Bullmore, E.; and Sporns, O. 2009. Complex brain net-            Descoteaux, M.; Maier-Hein, L.; Franz, A.; Jannin, P.;
+works: graph theoretical analysis of structural and functional   Collins, D. L.; and Duchesne, S., eds., Medical Image Com-
+systems. Nature Reviews Neuroscience, 10(3): 186–198.            puting and Computer Assisted Intervention - MICCAI 2017,
+Chen, X.; and He, K. 2021. Exploring Simple Siamese              177–185. Cham: Springer International Publishing. ISBN
+Representation Learning. In Proceedings of the IEEE/CVF          978-3-319-66179-7.
+Conference on Computer Vision and Pattern Recognition            Qiu, J.; Chen, Q.; Dong, Y.; Zhang, J.; Yang, H.; Ding, M.;
+(CVPR), 15750–15758.                                             Wang, K.; and Tang, J. 2020. GCC: Graph Contrastive
+Errica, F.; Podda, M.; Bacciu, D.; and Micheli, A. 2022. A       Coding for Graph Neural Network Pre-Training. In Pro-
+Fair Comparison of Graph Neural Networks for Graph Clas-         ceedings of the 26th ACM SIGKDD International Confer-
+sification. arXiv:1912.09893.                                    ence on Knowledge Discovery & Data Mining, KDD ’20,
+                                                                 1150–1160. New York, NY, USA: Association for Comput-
+Gong, Y.; Tarafder, A. K.; Afrin, S.; and Kumar, P. 2025.
+                                                                 ing Machinery. ISBN 9781450379984.
+Identifying and Analyzing Pitfalls in {GNN} Systems. In
+2025 USENIX Annual Technical Conference (USENIX ATC              Shervashidze, N.; Schweitzer, P.; Van Leeuwen, E. J.;
+25), 1605–1624.                                                  Mehlhorn, K.; and Borgwardt, K. M. 2011. Weisfeiler-
+                                                                 lehman graph kernels. Journal of Machine Learning Re-
+Gretton, A.; Borgwardt, K. M.; Rasch, M. J.; Schölkopf, B.;
+                                                                 search, 12(9).
+and Smola, A. 2012. A kernel two-sample test. J. Mach.
+Learn. Res., 13: 723–773.                                        Thakoor, S.; Tallec, C.; Azar, M. G.; Azabou, M.; Dyer,
+                                                                 E. L.; Munos, R.; Veličković, P.; and Valko, M. 2023. Large-
+Hamilton, W.; Ying, Z.; and Leskovec, J. 2017. Inductive         Scale Representation Learning on Graphs via Bootstrap-
+Representation Learning on Large Graphs. In Guyon, I.;           ping. arXiv:2102.06514.
+Luxburg, U. V.; Bengio, S.; Wallach, H.; Fergus, R.; Vish-
+wanathan, S.; and Garnett, R., eds., Advances in Neural          Van Essen, D. C.; Smith, S. M.; Barch, D. M.; Behrens, T. E.;
+Information Processing Systems, volume 30. Curran Asso-          Yacoub, E.; and Ugurbil, K. 2013. The WU-Minn Human
+ciates, Inc.                                                     Connectome Project: An overview. NeuroImage, 80: 62–79.
+                                                                 Mapping the Connectome.
+Hou, Z.; Liu, X.; Cen, Y.; Dong, Y.; Yang, H.; Wang, C.;
+and Tang, J. 2022. GraphMAE: Self-Supervised Masked              Veličković, P.; Fedus, W.; Hamilton, W. L.; Liò, P.; Ben-
+Graph Autoencoders. In Proceedings of the 28th ACM               gio, Y.; and Hjelm, R. D. 2018. Deep Graph Infomax.
+SIGKDD Conference on Knowledge Discovery and Data                arXiv:1809.10341.
+Mining, KDD ’22, 594–604. New York, NY, USA: Asso-               Watts, D. J.; and Strogatz, S. H. 1998. Collective dynamics
+ciation for Computing Machinery. ISBN 9781450393850.             of ‘small-world’ networks. Nature, 393(6684): 440–442.
+Hu, W.; Liu, B.; Gomes, J.; Zitnik, M.; Liang, P.; Pande,        You, Y.; Chen, T.; Sui, Y.; Chen, T.; Wang, Z.; and Shen, Y.
+V.; and Leskovec, J. 2020. Strategies for Pre-training Graph     2020. Graph Contrastive Learning with Augmentations. In
+Neural Networks. arXiv:1905.12265.                               Larochelle, H.; Ranzato, M.; Hadsell, R.; Balcan, M.; and
+Ktena, S. I.; Parisot, S.; Ferrante, E.; Rajchl, M.; Lee, M.;    Lin, H., eds., Advances in Neural Information Processing
+Glocker, B.; and Rueckert, D. 2018. Metric learning with         Systems, volume 33, 5812–5823. Curran Associates, Inc.
+spectral graph convolutions on brain connectivity networks.      Zbontar, J.; Jing, L.; Misra, I.; LeCun, Y.; and Deny, S. 2021.
+NeuroImage, 169: 431–442.                                        Barlow Twins: Self-Supervised Learning via Redundancy
+Li, P.; Wang, J.; Li, Z.; Qiao, Y.; Liu, X.; Ma, F.; Gao, P.;    Reduction. In Meila, M.; and Zhang, T., eds., Proceedings
+Song, S.; and Xie, G. 2021. Pairwise Half-graph Discrim-         of the 38th International Conference on Machine Learning,
+ination: A Simple Graph-level Self-supervised Strategy for       volume 139 of Proceedings of Machine Learning Research,
+Pre-training Graph Neural Networks. arXiv:2110.13567.            12310–12320. PMLR.
+Liu, S.; Wang, H.; Liu, W.; Lasenby, J.; Guo, H.; and Tang,      Zhao, Z.; Su, Y.; Li, Y.; Zou, Y.; Li, R.; and Zhang, R.
+J. 2022. Pre-training Molecular Graph Representation with        2025. A Survey on Self-Supervised Graph Foundation Mod-
+3D Geometry. arXiv:2110.07728.                                   els: Knowledge-Based Perspective. arXiv:2403.16137.
+Liu, S.; Zhou, J.; Zhu, X.; Zhang, Y.; Zhou, X.; Zhang, S.;      Zhu, J.; Zhou, Y.; Ioannidis, V. N.; Qian, S.; Ai, W.;
+Yang, Z.; Wang, Z.; Wang, R.; Yuan, Y.; Fang, X.; Chen,          Song, X.; and Koutra, D. 2024. Pitfalls in Link Predic-
+X.; Wang, Y.; Zhang, L.; Wang, G.; and Jin, C. 2024. An          tion with Graph Neural Networks: Understanding the Im-
+objective quantitative diagnosis of depression using a local-    pact of Target-link Inclusion & Better Practices. In Pro-
+to-global multimodal fusion graph neural network. Patterns,      ceedings of the 17th ACM International Conference on Web
+5(12).                                                           Search and Data Mining, WSDM ’24, 994–1002. New York,
+                                                                 NY, USA: Association for Computing Machinery. ISBN
+Nair, V.; and Hinton, G. E. 2010. Rectified linear units im-     9798400703713.
+prove restricted boltzmann machines. In Proceedings of the
+27th international conference on machine learning (ICML-
+10), 807–814.
+Parisot, S.; Ktena, S. I.; Ferrante, E.; Lee, M.; Moreno,
+R. G.; Glocker, B.; and Rueckert, D. 2017. Spectral Graph
+Convolutions for Population-Based Disease Prediction. In
+

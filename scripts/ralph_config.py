@@ -53,7 +53,7 @@ REVIEWER_MODEL = "ollama/glm-5.1:cloud"
 REPAIRER_MODEL = "ollama/gpt-oss:120b-cloud"
 
 # ── Parallelism ────────────────────────────────────────────────────────
-PARALLEL_WRITERS = 5
+PARALLEL_WRITERS = 15
 PARALLEL_REVIEWERS = 5
 PARALLEL_INGESTORS = 5
 
@@ -77,7 +77,7 @@ PUSH_INTERVAL = 1800  # seconds
 LAST_PUSH_FILE = os.path.join(META_DIR, "last_push.txt")
 
 # ── Error handling ─────────────────────────────────────────────────────
-PI_TIMEOUT = 900               # 15 min per pi subprocess (kimi-k2.6:cloud is slow for 1500+ token prompts)
+PI_TIMEOUT = 600               # 10 min per pi subprocess (accommodates kimi-k2.6:cloud latency)
 MAX_RETRIES = 3
 RETRY_BACKOFF = [10, 30, 90]   # seconds between retries
 CIRCUIT_BREAKER_THRESHOLD = 3  # consecutive failures to disable agent

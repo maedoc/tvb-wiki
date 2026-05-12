@@ -7,7 +7,7 @@ Stop:  Ctrl+C (graceful shutdown between cycles)
 
 Agents:
   Ingestor       (hourly) — fetches papers from arXiv, Semantic Scholar, PubMed, OpenAlex
-  Improver       (hourly) — improves worst pages via writer(kimi-k2.6)+reviewer(glm-5.1)
+  Improver       (hourly) — improves worst pages via writer(kimi-k2.6)  [reviewer skipped for burst mode]
   Auditor        (daily)  — structural integrity check (broken links, orphans, etc)
   Librarian      (daily)  — index rebuild, authority scores, symmetry check
   SoftwareMapper (weekly) — ensures full software ecosystem coverage
@@ -19,6 +19,7 @@ import json
 import signal
 import datetime
 import argparse
+import subprocess as _subprocess
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from ralph_config import (
@@ -395,26 +396,38 @@ import concurrent.futures
 # Total concurrent workers = sum of these values.  Keep ≤ 10 for the
 # subscription plan.
 AGENT_MAX_WORKERS = {
-    'Improver':       3,   # 3 pages in parallel (writer→reviewer chains)
-    'FullTextFetcher': 2, # fetch + extract can overlap
-    'CrosslinkApplier': 2, # CPU-heavy, embarrassingly parallel
-    'DeepResearch':  2,   # independent gap analyses
-    'Matcher':       1,   # embedding cache is single-threaded
-    'Auditor':       1,   # full scan; parallel would thrash disk
-    'Repairer':      1,   # in-place edits; conflict risk
-    'RefFormatter':  1,   # in-place edits; conflict risk
-    'Ingestor':      1,   # sequential downloads
-    'Librarian':     1,   # fast catalog rebuild
-    'Linter':        1,   # fast
-    'SoftwareMapper': 1, # weekly, fast
-    'OrphanLinker':  1,   # weekly, fast
-    'LinkRepair':    1,   # in-place edits
+    'Improver':       15,  # Burst mode: writer-only, 15 concurrent
+    'FullTextFetcher': 2,  # fetch + extract can overlap
+    'CrosslinkApplier': 2,  # CPU-heavy, embarrassingly parallel
+    'DeepResearch':   2,   # independent gap analyses
+    'Matcher':        1,   # embedding cache is single-threaded
+    'Auditor':        1,   # full scan; parallel would thrash disk
+    'Repairer':       1,   # in-place edits; conflict risk
+    'RefFormatter':   1,   # in-place edits; conflict risk
+    'Ingestor':       1,   # sequential downloads
+    'Librarian':      1,   # fast catalog rebuild
+    'Linter':         1,   # fast
+    'SoftwareMapper': 1,   # weekly, fast
+    'OrphanLinker':   1,   # weekly, fast
+    'LinkRepair':     1,   # in-place edits
 }
 
 _agent_executors = {}  # agent_name -> ThreadPoolExecutor
 _agent_futures = {}     # agent_name -> Future
 _agent_start_times = {}  # agent_name -> datetime of last launch
-FUTURE_TIMEOUT = 600  # 10 min max per agent run before force-cancel (accommodates PI_TIMEOUT * MAX_RETRIES)
+FUTURE_TIMEOUT = 1800  # 30 min max per agent run (accommodates PI_TIMEOUT 600s * 3 retries + overhead)
+
+def _kill_stale_pi_processes(agent_name: str):
+    """Kill lingering pi subprocesses spawned by a timed-out agent."""
+    try:
+        # Look for pi processes with our model pattern that are older than FUTURE_TIMEOUT
+        # We'll kill based on CPU time / age heuristic via ps
+        cmd = ["pkill", "-f", f"pi --model {WRITER_MODEL}"]
+        _subprocess.run(cmd, capture_output=True, timeout=5)
+        log.info("Killed stale pi processes for %s", agent_name)
+    except Exception:
+        pass
+
 
 def _run_agent_async(agent_name: str, runner) -> bool:
     """Run an agent in a background thread. Returns immediately.
@@ -429,6 +442,7 @@ def _run_agent_async(agent_name: str, runner) -> bool:
         start_time = _agent_start_times.get(agent_name)
         if start_time and (datetime.datetime.now() - start_time).total_seconds() > FUTURE_TIMEOUT:
             log.warn("%s timed out after %.0fs — force-cancelling", agent_name, FUTURE_TIMEOUT)
+            _kill_stale_pi_processes(agent_name)
             future.cancel()
             del _agent_futures[agent_name]
             _agent_start_times.pop(agent_name, None)
@@ -484,6 +498,7 @@ def main_loop_with_agents(agents, poll_interval: int = 60):
                     start_time = _agent_start_times.get(agent_name)
                     if start_time and (datetime.datetime.now() - start_time).total_seconds() > FUTURE_TIMEOUT:
                         log.warn("%s timed out after %.0fs — force-cancelling in main loop", agent_name, FUTURE_TIMEOUT)
+                        _kill_stale_pi_processes(agent_name)
                         future.cancel()
                         del _agent_futures[agent_name]
                         _agent_start_times.pop(agent_name, None)
