@@ -1,0 +1,1403 @@
+                                          Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+
+                                        Hanning Guo 1 2 Farah Abdellatif 1 2 Hanwen Bi 3 4 Andrei Galbenus 1 2 Jon. N. Shah 1 5 6 7 Abigail Morrison 8 2
+                                                                                   Jürgen Dammers 1 9
+
+
+                                                                   Abstract                                    1. Introduction
+                                                                                                               A central lesson from the recent success of deep learning is
+                                               Brain foundation models have achieved remark-                   that pretraining on large-scale, high-quality and diverse data
+arXiv:2602.23410v2 [cs.LG] 2 Mar 2026
+
+
+
+
+                                               able advances across a wide range of neuro-                     facilitates the emergence of general-purpose models that
+                                               science tasks. However, most existing models                    consistently outperform task-specific ones (Kaplan et al.,
+                                               are limited to a single functional modality, re-                2020). Following this paradigm, brain foundation models
+                                               stricting their ability to exploit complementary                have shown promising generalization across a wide range
+                                               spatiotemporal dynamics and the collective data                 of neural signal processing tasks, including cognitive de-
+                                               scale across imaging techniques. To address this                coding, affective computing and neurological disease diag-
+                                               limitation, we propose Brain-OF, the first om-                  nosis (Jiang et al., 2024; Wang et al., 2024a; Dong et al.,
+                                               nifunctional brain foundation model jointly pre-                2025). Despite this progress, the scale of available neu-
+                                               trained on fMRI, EEG and MEG, capable of han-                   roimaging data remains orders of magnitude smaller than
+                                               dling both unimodal and multimodal inputs within                the billion-scale corpora in natural language processing and
+                                               a unified framework. To reconcile heterogeneous                 computer vision. Although open-source large-scale neu-
+                                               spatiotemporal resolutions, we introduce the Any-               roimaging collections are growing, data from any single
+                                               Resolution Neural Signal Sampler, which projects                modality remain scarce for training large models due to
+                                               diverse brain signals into a shared semantic space.             high acquisition costs and privacy constraints. Meanwhile,
+                                               To further manage semantic shifts, the Brain-OF                 most existing brain foundation models are pretrained on a
+                                               backbone integrates DINT attention with a Sparse                single modality, restricting both data scale and representa-
+                                               Mixture of Experts, where shared experts cap-                   tional diversity, and failing to exploit the complementary
+                                               ture modality-invariant representations and routed              characteristics of different brain signals. To address these
+                                               experts specialize in modality-specific seman-                  limitations, we integrate data from the three primary func-
+                                               tics. Furthermore, we propose Masked Temporal-                  tional neuroimaging modalities (fMRI, EEG and MEG) to
+                                               Frequency Modeling, a dual-domain pretraining                   develop an omnifunctional brain foundation model.
+                                               objective that jointly reconstructs brain signals in            A pivotal question, therefore, is how to effectively leverage
+                                               both the time and frequency domains. Brain-OF                   such heterogeneous multi-modal data to pretrain an omni-
+                                               is pretrained on a large-scale corpus comprising                functional brain foundation model. The first challenge lies in
+                                               around 40 datasets and demonstrates superior per-               the variability introduced by diverse scanning devices, sam-
+                                               formance across diverse downstream tasks, high-                 pling rates, acquisition protocols and recording durations
+                                               lighting the benefits of joint multimodal integra-              across international sites, leading to significant structural
+                                               tion and dual-domain pretraining.                               variability. A deeper challenge stems from the fundamen-
+                                                                                                               tal differences in the physical imaging mechanisms of each
+                                           1
+                                              INM-4, Forschungszentrum Jülich, Germany 2 Department           modality. Specifically, fMRI detects hemodynamic changes,
+                                        of Computer Science 3 - Software Engineering, RWTH Aachen              such as oxygenation, blood volume and flow, to measure the
+                                        University, Germany 3 INM-7, Forschungszentrum Jülich, Ger-           Blood-Oxygen-Level-Dependent (BOLD) signal, offering
+                                        many 4 Institute of Systems Neuroscience, Heinrich Heine Univer-       high spatial resolution but limited temporal fidelity (Logo-
+                                        sity, Germany 5 Department of Neurology, RWTH Aachen Univer-
+                                        sity, Germany 6 JARA-BRAIN-Translational Medicine, Germany
+                                                                                                               thetis & Pfeuffer, 2004). In contrast, EEG captures electrical
+                                        7
+                                          INM–11, JARA, Forschungszentrum Jülich, Germany 8 IAS-6,            potentials generated by cortical neurons, providing excellent
+                                        Forschungszentrum Jülich, Germany 9 Department of Psychiatry,         temporal resolution but poor spatial fidelity (He et al., 2018).
+                                        Psychotherapy and Psychosomatics, RWTH Aachen University,              MEG records magnetic fields induced by neuronal electrical
+                                        Germany. Correspondence to: Jürgen Dammers <j.dammers@fz-             activity and shares EEG’s high temporal resolution while
+                                        juelich.de>.
+                                                                                                               providing improved spatial localization, though still infe-
+                                        Preprint. March 3, 2026.                                               rior to that of fMRI (Wheless et al., 2004). These distinct
+
+                                                                                                           1
+                          Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+signal origins result in severe differences in spatiotempo-                ARNESS to project heterogeneous neural signals into
+ral resolution and semantic heterogeneity. However, this                   a shared semantic space. To accommodate seman-
+heterogeneity also presents a unique opportunity. By inte-                 tic diversity, we employ a Sparse MoE architecture
+grating these modalities, a unified model can exploit the                  in which shared experts capture modality-invariant
+high temporal resolution of EEG and MEG to compensate                      features while routed experts specialize in modality-
+for the temporal latency of fMRI, while leveraging the su-                 specific semantics. Furthermore, we incorporate DINT
+perior spatial specificity of fMRI to resolve ambiguities in               attention to suppress irrelevant context and efficiently
+electrophysiological sources. Such complementary integra-                  capture both local and global dependencies.
+tion enables a holistic characterization of temporal, spectral,          • Joint Time–Frequency Pretraining. We introduce
+and spatial dynamics, ultimately fostering richer and more                 Masked Temporal-Frequency Modeling (MTFM), a
+transferable representations. A third challenge is the inher-              novel pretraining objective that enforces the joint re-
+ently low signal-to-noise ratio of brain signals, which can                construction of original signals in both the time and
+mislead vanilla attention mechanisms to attend to irrelevant               frequency domains. This dual-domain paradigm en-
+fluctuations rather than biologically meaningful patterns.                 ables the model to internalize complementary physical
+                                                                           dynamics of brain activity, leveraging the high tem-
+On the other hand, the success of large-scale pretraining is               poral resolution of EEG/MEG to compensate for the
+fundamentally rooted in the generative learning paradigm,                  latency of fMRI and vice versa.
+which insists that reconstruction compels models to inter-
+nalize the underlying data distribution (Radford et al., 2018;        2. Related Work
+Han et al., 2021). Brain signals are inherently multidimen-
+                                                                      Brain Foundation Models. Foundation models have sig-
+sional, characterized by complex spatial configurations, rich
+                                                                      nificantly advanced brain AI by learning generalizable rep-
+temporal dynamics and structured frequency compositions.
+                                                                      resentations from large-scale neuroimaging data. In fMRI,
+Although recent brain foundation models have introduced
+                                                                      pioneering works such as BrainLM (Caro et al., 2023) and
+dual-branch architectures to jointly process temporal and
+                                                                      BrainMass (Yang et al., 2024) employ self-supervised learn-
+spectral features (Wang et al., 2024a; Zhou et al., 2025),
+                                                                      ing to model BOLD time series. Subsequent approaches like
+frequency domain information is typically treated as a static
+                                                                      Brain-JEPA (Dong et al., 2024) further advanced this direc-
+auxiliary input for passive feature extraction, rather than as
+                                                                      tion by employing joint-embedding predictive architectures
+a target for active reconstruction. Therefore, a specialized
+                                                                      to improve spatiotemporal representation learning. Parallel
+pretraining objective is essential to explicitly enforce joint
+                                                                      advancements in EEG have led to models such as BENDR
+reconstruction across both temporal and frequency domains.
+                                                                      (Kostas et al., 2021), MMM (Yi et al., 2023) and Brain-
+By coupling temporal and spectral reconstruction, the model
+                                                                      BERT (Wang et al., 2023), which demonstrated the efficacy
+is compelled to capture complementary dynamics and in-
+                                                                      of contrastive and masked modeling objectives for captur-
+trinsic semantics of neural signals across heterogeneous
+                                                                      ing temporal dynamics in EEG signals. Recently, LaBraM
+modalities.
+                                                                      (Jiang et al., 2024) and CbraMod (Wang et al., 2024a) have
+To address these challenges, we propose Brain-OF, an om-              utilized massive data to enhance general-purpose EEG rep-
+nifunctional brain foundation model designed to learn holis-          resentation learning. Despite these advances, those foun-
+tic representations from neural signals across the three pri-         dation models remain confined to single modalities, failing
+mary functional modalities: fMRI, EEG and MEG. Our                    to leverage the complementary characteristics across func-
+architecture integrates a Sparse Mixture of Experts (MoE)             tional neuroimaging modalities.
+with DINT attention to effectively model heterogeneous                Heterogeneous Foundation Models. More recently, a
+semantic tokens generated by the Any-Resolution Neural                growing line of work has begun to address heterogeneity by
+Signal Sampler (ARNESS), which projects signals of vary-              jointly modeling multiple signal types within unified foun-
+ing spatiotemporal resolutions into a unified semantic space.         dation frameworks. BIOT (Yang et al., 2023a) pioneered
+The main contributions are summarized as follows:                     this direction by pretraining on biosignals, specifically EEG
+    • Unified Omnifunctional Framework. We introduce                  and ECG. Within the electrophysiological domain, PopT
+      Brain-OF, a unified framework capable of processing             (Chau et al., 2025) learns joint representations across vari-
+      both unimodal and multimodal brain data within a sin-           able channel configurations for both intracranial and scalp
+      gle model. We curate a large-scale corpus comprising            EEG, while BrainOmni (Xiao et al., 2025) extends to jointly
+      over 40 publicly available datasets across fMRI, EEG            model EEG and MEG signals. Beyond purely electrophys-
+      and MEG. To the best of our knowledge, Brain-OF is              iological modalities, BrainHarmonix (Dong et al., 2025)
+      the first brain foundation model to integrate these three       bridges structural and functional neuroimaging by combin-
+      modalities, enhancing generalization across modalities,         ing fMRI and MRI. Similarly, PhysioOmni (Jiang et al.,
+      tasks, sites and subjects.                                      2025a) decouples homogeneous and heterogeneous features
+    • Heterogeneity Aligned Architecture. We propose                  across multimodal physiological signals, including EEG,
+
+                                                                  2
+                               Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+ECG, EOG and EMG. However, these approaches fall short                          An attention mask is generated to exclude zero-padded
+of capturing the full spectrum of brain activity, missing the                   patches from attention computations, eliminating spurious
+opportunity to harmonize the high spatial fidelity of hemo-                     interactions and ensuring training stability.
+dynamic signals with the high temporal resolution of elec-
+                                                                                Any-Resolution Neural Signal Sampler. Despite the struc-
+tromagnetic fields. This gap motivates a unified framework
+                                                                                tural unification of the input into sequence X, intrinsic dif-
+for integrating heterogeneous brain signals across funda-
+                                                                                ferences in temporal, spatial and spectral resolutions persist
+mentally different physical measurement principles.
+                                                                                across modalities, resulting in significant semantic hetero-
+                                                                                geneity. To bridge this gap and enable a single model
+3. Method                                                                       backbone to efficiently process diverse unimodal or multi-
+                                                                                modal signals, we introduce the Any-Resolution Neural
+In this work, we propose Brain-OF, a heterogeneous pre-
+                                                                                Signal Sampler (ARNESS). As illustrated in Figure 1b,
+training framework (Figure 1) designed as a unified brain
+                                                                                ARNESS employs Perceiver-style cross-attention (Alayrac
+foundation model that supports both unimodal and multi-
+                                                                                et al., 2022) to project the heterogeneous sequence X into
+modal data. The framework is explicitly designed to achieve
+                                                                                a shared semantic space via a fixed number of learnable
+broad generalization across four key dimensions: cross-
+                                                                                latent tokens Z ∈ RC×D (C = 128 in our implementation).
+modality, cross-task, cross-site and cross-subject settings.
+                                                                                Specifically, X and Z are concatenated to form the Keys
+To address the intrinsic heterogeneity of brain signals, Brain-
+                                                                                and Values, with Z serving as the Queries in cross-attention,
+OF introduces an Any-Resolution Neural Signal Sampler,
+                                                                                thereby resampling essential semantic information from the
+which projects inputs with diverse spatial, temporal, and
+                                                                                high-dimensional X into a compact, fixed-length Z:
+spectral resolutions into a shared semantic space. To fur-
+ther model heterogeneous semantics while mitigating the                         ARN ESS(X, Z) = CrossAttn(Q = Z, KV = [X; Z], Attn M ask)
+allocation of attention to irrelevant context, the backbone
+integrates DINT attention with a Sparse Mixture of Experts.                     This approach enables the subsequent backbone to handle
+Finally, to learn informative representations, we propose                       all inputs uniformly, despite inherent heterogeneity. Lower-
+Masked Temporal-Frequency Modeling, which jointly cap-                          resolution modalities can potentially benefit by preserving
+tures complementary knowledge in both the temporal and                          the meaningful semantic space shaped by higher-resolution
+frequency domains.                                                              modalities. It also dramatically reduces the number of to-
+                                                                                kens for high-dimension brain signals, significantly lower-
+3.1. Model Architecture                                                         ing pretraining computational costs.
+In this section, the set of modalities is defined as M =                        Moreover, ARNESS naturally supports multimodal fusion
+{MfMRI , MEEG , MMEG }. For any given modality Mi ∈ M,                          (Figure 1c) by sequentially resampling multiple unimodal
+the normalized brain signal is represented as a matrix                          sequences into a single fixed-length representation without
+S ∈ RN ×T , where N denotes the number of channels                              requiring modality-specific fusion branches:
+(for M/EEG) or regions of interest (ROIs; for fMRI), and T
+represents the temporal length of the signal.                                           Z (i+1) = ARN ESS(X (i) , Z (i) ), i ∈ M
+Brain Signal Encoder. The primary challenge in han-
+dling our heterogeneous corpus, spanning diverse modali-                        DINT Attention Mechanism. The vanilla self-attention
+ties, sites, tasks and devices, is the structural variability in                mechanism often overallocates attention to irrelevant con-
+channel/ROI counts N and temporal lengths T . To standard-                      text, resulting in ”attention noise.” This issue is particularly
+ize the normalized brain signal S, we adopt a patching and                      detrimental in neuroimaging, where residual noise in pre-
+flattening strategy using a fixed time window T . Specifi-                      processed brain signals can exacerbate this phenomenon,
+cally, S is segmented into non-overlapping patches of length                    leading to coarse attention patterns and degraded perfor-
+T along the temporal dimension for each channel/ROI, then                       mance (Guo et al., 2025). To mitigate this, we introduce the
+                                                   L×T
+flattened into
+             T
+                a consistent sequence Xc ∈ R          , where                  Differential-Integral (DINT) Attention mechanism (Cang
+L = N · T + padding tokens. The sequence is padded to                           et al., 2025), which extends Differential Attention (Ye et al.,
+a maximum length of 2,048 to ensure uniform input across                        2024) to capture precise local dependencies while amplify-
+modalities. Each patch in Xc is subsequently processed by                       ing global relevance and suppressing noise in the semantic
+a temporal encoder comprising stacked 1D convolutional                          space Z.
+layers to capture local temporal dynamics, followed by RM-
+                                                                                The differential component reduces noise by computing the
+SNorm and GELU activation. This yields a sequence of
+                                                                                difference between two attention distributions. The query
+patch embeddings X ∈ RL×D , where D is the embedding
+                                                                                and key projections from Z are split into halves, (Q1 , Q2 )
+dimension:
+                                                                                and (K1 , K2 ), respectively. The differential attention matrix
+  X = {xpatch1 , xpatch2 , . . . , xpatchN ·⌈T /T ⌉ , . . . , xpaddingL }       Adiff is defined as:
+
+                                                                            3
+                           Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+
+
+
+Figure 1. Overview of the Brain-OF Architecture. Brain-OF is an omnifunctional foundation model jointly pretrained on fMRI, EEG
+and MEG. (a) Pretraining pipeline: The original signals are masked in both the temporal and frequency domains to encourage the model
+to jointly learn coupled time–frequency representations. (b) ARNESS projects arbitrary resolution signals into a unified semantic space
+and also serves as a decoder to inverse-sample latent representations for reconstruction during pretraining. (c) Multimodal Fusion serially
+resamples multiple unimodal sequences via ARNESS without introducing modality-specific fusion branches. (d) Sparse MoE addresses
+semantic heterogeneity by dynamically routing tokens to specialized experts while extracting modality-invariant knowledge through
+shared experts. (e) DINT Attention mitigates attention allocation to irrelevant contextual information. Here, sFFT and tFFT denote Fast
+Fourier Transform along spatial and temporal dimensions; iFFT denotes the inverse Fast Fourier Transform; and M indicates the masking.
+
+                                                                        Gexpanded ∈ RC×C . The final output integrates local (differ-
+                             ⊤
+                                                           ⊤
+                                                                       ential) and global (integral) semantics:
+                         Q1 K1                           Q2 K2
+  Adiff = softmax         √          − λ · softmax        √
+                            d                               d                     DINTAttn(Z) = (Adiff + λ · Gexpanded ) V
+where the learnable scalar λ is reparameterized as λ =                  In addition, Gexpanded ensures row sums of one, guaran-
+exp(λq1 · λk1 ) − exp(λq2 · λk2 ) + λinit . λinit is a con-             teeing numerical stability. Rotary Position Embeddings
+stant initialization value and λq,k are learnable parame-               (RoPE) (Su et al., 2024) are used in our model to encode
+ters. Following empirical settings (Ye et al., 2024), we                relative positional information within the sequence.
+set λinit = 0.8 − 0.6 · exp(−0.3 · (l − 1)), where l denotes
+the layer depth.                                                        Sparse Mixture of Experts. Our preliminary experiments
+                                                                        using dense feedforward layers revealed a modality see-
+To capture global dependencies, the integral component                  saw effect, where improvements for one modality (e.g.,
+computes a global importance score by averaging the                     fMRI) degraded performance for others (EEG/MEG). This
+columns of the first attention map A1 (from Q1 , K1 ):                  arises from the diverse semantic features of fMRI, EEG
+                                 C                                      and MEG within the sequence Z. To address this, we
+                            1 X
+                      G=          A1 [i, j]                             adopt a Sparse Mixture of Experts (SMoE) architecture,
+                            C i=1
+                                                                        which excels at modeling heterogeneous semantic spaces.
+yielding G ∈ R1×C . To align dimensions for combina-                    Specifically, we employ a combination of shared experts for
+tion, G is expanded along the query dimension to form                   modality-invariant representations and routed experts for
+
+                                                                    4
+                              Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+                                       Table 1. Overview of downstream tasks and evaluation datasets.
+ Downstream Tasks             Datasets       Modalities     #Channels/ROIs        Durations    #Participants    #Samples      Labels
+ Emotion Recognition       SEED-V              EEG                  62                 1s           20          117,744       5-class
+ Seizure Detection        CHB-MIT              EEG                  22                10s           22          326,993       2-class
+ Abnormal Detection         TUAB               EEG                  19                10s          2,383        409,455       2-class
+ AD Diagnosis               ADNI              fMRI                 246              ∼300s           222           618         2-class
+ ADHD Identification      ADHD-200            fMRI                 246              ∼360s           926          1,369        2-class
+                          CamCAN              fMRI                 246               520s           652           652       regression
+ Brain Age Prediction     CamCAN              MEG                  306                2s            643         177,044     regression
+                          CamCAN            MEG + fMRI               -                  -           621         171,057     regression
+                           LEMON              fMRI                 246              448s            219           438         2-class
+ Aging Classification      LEMON               EEG                  61               10s            203         17,235        2-class
+                           LEMON            EEG + fMRI               -                  -           194         16,471        2-class
+
+modality-specific information. Each expert is implemented                 domain representation FS . Due to the distinct character-
+via a Feed-Forward Network (FFN). For the n-th token On                   istics of different modalities, richer spatial information in
+from the DINT attention output, the SMoE layer is defined                 fMRI and higher temporal resolution in EEG and MEG, we
+as:                                                                       apply modality-specific frequency transformations:
+                        Ns                                                              (
+                        X        (s)
+                                              X             (r)                           Fspatial (S),  if S ∈ MfMRI
+SMoE(On ) = On +              FFNi (On )+           gi,n FFNi (On )              FS =
+                        i=1                  i∈In                                         Ftemporal (S), if S ∈ {MEEG , MMEG }
+
+where Ns is the number of shared experts, and In denotes                  where F denotes the Fourier transform applied along the
+the indices of the top-k routed experts selected for token On .           spatial dimension for fMRI or the temporal dimension for
+The routing weights gi,n are normalized over the selected                 EEG and MEG. Here, the spatial FFT over ROIs is not in-
+routed experts:                                                           tended to model physical spatial frequencies, but serves as a
+                                    pi,n                                  fixed orthogonal transform to encourage global cross-region
+                    gi,n = P                                              structure learning. Within the frequency domain, we ap-
+                                  j∈In pj,n                               ply a random frequency mask MF , with a masking ratio
+where pi,n is the raw probability generated by a sigmoid-                 sampled from a normal distribution. The masked frequency
+activated gating network. To prevent expert collapse, we                  representation is then transformed back to the original sig-
+use an auxiliary-loss-free load-balancing strategy (Wang                  nal domain via the inverse Fourier transform. To further
+et al., 2024b). A bias term bi is added to pi,n prior to                  enhance temporal modeling, a second masking operation
+top-k selection (i.e., selection is based on pi,n + bi ), while           MT is applied to randomly occlude temporal patches in
+the actual routing weights for aggregating routed experts                 this spectrally perturbed signal. Following the backbone, a
+rely solely on pi,n . At the end of each training step, bi is             lightweight one-layer ARNESS decoder inverse-samples the
+dynamically adjusted by a bias update rate γ: decreased                   latent representations to reconstruct the signal. The model
+for overloaded experts and increased for underloaded ones.                is pretrained to jointly reconstruct both the masked temporal
+Through the dynamic adjustment, SMoE keeps balanced                       patches and the frequency components, thereby fostering
+expert load without additional auxiliary losses.                          the learning of coupled time–frequency representations.
+                                                                          Loss Function. The pretraining objective combines recon-
+3.2. Pretraining                                                          struction losses in both the temporal and frequency domains:
+Masked Temporal-Frequency Modeling (MTFM). The                              LMTFM = (1 − α) · LSL1 (Ŝ, S) + α · LSL1 (|F̂S |, |FS |)
+efficacy of foundation models stems largely from self-
+supervised pretraining, which facilitates the learning of                 where Ŝ denotes the reconstructed signal and F̂S = F(Ŝ)
+rich representations by reconstructing masked inputs to cap-              is its frequency domain representation; | · | indicates the
+ture underlying data distributions. In neuroimaging, brain                magnitude; and α = 0.8 is empirically chosen to balance
+signals inherently contain complementary information in                   the temporal and frequency reconstruction terms. We utilize
+both the temporal, spatial and frequency domains. Conse-                  the smooth L1 loss (LSL1 ) to ensure stable optimization and
+quently, effective representation learning requires a model               robustness to outliers.
+to internalize coupled features from both spectral and tem-
+poral perspectives. To achieve this, we introduce Masked                  4. Experiments
+Temporal–Frequency Modeling (MTFM) for learning in-
+                                                                          4.1. Datasets
+formative representations across temporal and frequency
+domains in all modalities. Given a normalized timecourse                  Pre-training. We curate a heterogeneous collection of 37
+of a brain signal S, we first transform it into its frequency             public neuroimaging datasets to jointly pretrain Brain-OF
+
+                                                                      5
+                           Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+                                  Table 2. Comparison results of different methods on downstream tasks.
+                     SEED-V         CHB-MIT       TUAB         ADNI           ADHD-200     CamCAN       CamCAN       LEMON        LEMON
+                       EEG            EEG          EEG          fMRI            fMRI         fMRI         MEG          fMRI         EEG
+Methods
+                    Kappa(%) ↑      BAC(%) ↑     BAC(%) ↑     BAC(%) ↑        BAC(%) ↑      MAE ↓        MAE ↓       BAC(%) ↑     BAC(%) ↑
+ContraWR             19.05±1.88     63.44±0.02   77.46±0.41   59.69±4.97      62.67±1.69    9.15±0.39    9.01±0.40   63.97±1.28   77.42±0.45
+CNN-Transformer      20.72±1.83     63.89±0.67   77.77±0.22   62.27±4.87      61.94±0.43   16.00±0.10   15.69±0.09   64.83±1.54   78.68±0.77
+FFCL                 20.78±2.01     62.62±1.04   78.48±0.38   60.31±2.92      63.20±3.96    8.50±1.24    8.83±0.28   62.93±2.86   80.17±1.89
+ST-Transformer       10.83±1.21     59.15±1.95   79.66±0.23   59.69±3.58      58.40±2.33   12.39±0.46   10.69±0.38   63.62±3.01   76.95±1.14
+LaBraM               23.86±2.09     70.75±3.58   81.40±0.19   60.26±2.84      56.58±3.22   16.10±0.04   13.66±1.46   56.43±2.40   75.59±2.60
+CBraMod              25.69±1.43     73.98±2.84   78.91±0.30   61.01±4.57      60.09±5.66   15.80±0.14   15.71±0.21   53.84±4.40   75.29±6.29
+BrainHarmonix-F       7.71±0.92     56.08±0.76   77.94±0.14   62.16±1.15      62.78±2.56   14.81±0.49    8.73±0.09   63.11±1.32   77.95±2.36
+Brain-OF Base        23.98±0.29     73.99±1.48   81.88±0.17   68.23±2.07      62.57±1.19   12.09±0.78   8.99±0.14    58.95±2.13   76.05±0.44
+Brain-OF Large       24.68±0.37     74.12±1.13   81.90±0.15   69.01±2.62      63.30±0.47   11.71±0.67   8.86±0.21    62.85±4.29   78.04±1.59
+Brain-OF Huge        26.36±0.17     74.87±0.84   82.87±0.18   71.79±2.19      63.51±1.01    9.51±0.51   7.87±0.22    61.79±1.29   80.39±0.59
+Performance is reported as mean ± standard deviation across five random seeds. The best result is highlighted in bold and the second-best
+result is underlined.
+
+across fMRI, EEG and MEG modalities. In total, the pre-                    4.2. Experiment Setups
+training dataset comprises 32,278 unique participants and
+                                                                           Pre-training Settings. Brain-OF is released in three
+5,870,984 samples. This diverse dataset integrates a wide
+                                                                           model variants: a 12-layer Brain-OF Base (47.5M parame-
+range of M/EEG channel configurations and both 3T and
+                                                                           ters, 21.5M active parameters), a 24-layer Brain-OF Large
+7T fMRI recordings from multiracial, multicultural inter-
+                                                                           (331M parameters, 150M active parameters) and a 36-layer
+national sites. Such heterogeneity in acquisition protocols,
+                                                                           Brain-OF Huge (1.7B parameters, 500M active parame-
+populations and modalities enables the construction of a
+                                                                           ters). All models are implemented using Python 3.11.11
+general-purpose, omnifunctional brain foundation model.
+                                                                           and PyTorch 2.4.1+CUDA 12.1. Model training adopts the
+Further details on dataset descriptions and preprocessing
+                                                                           AdamW optimizer in BF16 precision with a global batch
+are provided in Section A and Table 5.
+                                                                           size of 7,168. The optimization follows a cosine-annealing
+Downstream Tasks. We evaluate Brain-OF on seven down-                      schedule with a peak learning rate of 3 × 10−3 , weight de-
+stream tasks across 11 experiments spanning fMRI, EEG                      cay of 5 × 10−2 , and optimizer states β = (0.9, 0.95) and
+and MEG modalities in both unimodal and multimodal set-                    ϵ = 10−8 . Variable-length input signals are transformed
+tings. To assess the generalizability of the model on EEG,                 and padded to a unified sequence length of 2,048. To sta-
+we include emotion recognition (SEED-V), seizure detec-                    bilize routing, we employ an auxiliary-loss-free update for
+tion (CHB-MIT) and abnormal detection (TUAB) as down-                      the router bias with coefficient γ = 10−3 . Pretraining is
+stream tasks. For fMRI, two large multi-site datasets are                  conducted on up to 56 compute nodes, each equipped with
+used to evaluate diagnostic performance on neurodegenera-                  4 NVIDIA A100 (40GB) GPUs (224 GPUs in total), for
+tive Alzheimer’s disease (ADNI) and neurodevelopmental                     approximately six days. Comprehensive hyperparameter
+attention deficit hyperactivity disorder (ADHD-200), respec-               configurations are detailed in Section G.
+tively. In addition, brain age prediction (CamCAN) serves
+                                                                           Baselines. To provide a comprehensive comparison across
+as a regression benchmark to evaluate unimodal MEG, uni-
+                                                                           modalities, we consider the following baseline models: task-
+modal fMRI, and multimodal MEG+fMRI fusion. A second
+                                                                           specific models (ContraWR (Yang et al., 2023b), CNN-
+multimodal dataset (LEMON) is further employed to assess
+                                                                           Transformer (Peh et al., 2022), FFCL (Li et al., 2022) and
+age-group classification in unimodal EEG, unimodal fMRI,
+                                                                           ST-Transformer (Song et al., 2021)), EEG foundation mod-
+and multimodal EEG+fMRI settings. Together, these down-
+                                                                           els (LaBraM (Jiang et al., 2024) and CBraMod (Wang et al.,
+stream tasks evaluate Brain-OF’s effectiveness on resting-
+                                                                           2024a)), and the fMRI foundation model (BrainHarmonix-F
+state, task-state and ictal/interictal brain activity, while prob-
+                                                                           (Dong et al., 2025)). Additional details on all baselines are
+ing single-modality and cross-modality fusion scenarios.
+                                                                           provided in Section B.
+We adopt cross-subject/trial splits following (Wang et al.,
+2024a) for EEG datasets and a stratified split following (Kan              Evaluation Metrics. We employ task-specific evaluation
+et al., 2022) for fMRI datasets (7:1.5:1.5), ensuring strict               metrics for different downstream tasks. For binary classifi-
+subject-wise separation of training, validation and test sets.             cation tasks, we report Balanced Accuracy (BAC), which is
+Detailed dataset configurations are provided in Table 1 and                also used as the primary metric for model checkpoint selec-
+Section A.3.                                                               tion. In multi-class classification settings, Cohen’s Kappa
+                                                                           is adopted as the primary evaluation metric. For regression
+                                                                           tasks, performance is assessed using Mean Absolute Error
+
+
+                                                                     6
+                           Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+                                           Table 3. Ablation studies on downstream tasks.
+                      SEED-V      CHB-MIT       TUAB         ADNI           ADHD-200      CamCAN       CamCAN      LEMON        LEMON
+                       EEG          EEG          EEG          fMRI             fMRI         fMRI        MEG          fMRI         EEG
+Methods
+                     Kappa(%) ↑   BAC(%) ↑     BAC(%) ↑     BAC(%) ↑        BAC(%) ↑       MAE ↓       MAE ↓       BAC(%) ↑     BAC(%) ↑
+Brain-OF (Base)      23.98±0.29   73.99±1.48   81.88±0.17   68.23±2.07       62.57±1.19   12.09±0.78   8.99±0.14   58.95±2.13   76.05±0.44
+Objective Ablation
+- w/o MTFM           21.52±0.57   71.43±2.30   81.49±0.18   65.26±1.83       60.35±1.50   12.80±1.15   8.96±0.33   57.18±1.91   76.90±0.51
+Modality Ablation
+- w/o fMRI           22.24±0.27   71.61±0.90   80.98±0.19   64.35±1.77       59.94±1.78   12.71±0.51   9.16±0.13   56.89±3.68   76.17±0.54
+- w/o EEG            19.35±0.40   69.07±1.42   81.86±0.13   67.37±1.67       59.08±1.15   12.30±0.65   9.17±0.27   60.29±2.82   75.61±1.05
+- w/o MEG            21.62±0.35   70.93±1.85   81.50±0.19   66.68±2.43       60.13±0.83   12.25±0.97   9.36±0.15   56.68±1.44   75.30±1.03
+
+
+
+(MAE). All reported results are presented as the mean and                Effectiveness of MTFM. To isolate the benefit of dual-
+standard deviation over five random seeds. For each run,                 domain pretraining, we compare Brain-OF (pretrained
+the best model is selected based on the primary metric on                with MTFM) against a baseline pretrained with a standard
+the validation set, and final performance is reported on a               Masked Autoencoder objective. As shown in Table 3, re-
+held-out test set.                                                       placing MTFM with conventional temporal masking consis-
+                                                                         tently degrades performance across most tasks. This con-
+4.3. Comparison with State-of-the-Art Baselines                          firms that jointly reconstructing signals in both the time and
+                                                                         frequency domains forces the model to capture richer neural
+Brain-OF is evaluated on a diverse set of dowstream tasks                dynamics than temporal reconstruction alone. The perfor-
+including regression, binary and multi-class classification              mance gains are particularly pronounced for tasks requiring
+across EEG, fMRI, and MEG modalities. As detailed in Ta-                 complex neural signal decoding, such as SEED-V and CHB-
+ble 2, Brain-OF Huge achieves state-of-the-art performance,              MIT. In contrast, the improvements are relatively modest for
+ranking first in 7 out of 9 tasks with an average rank of 1.8            more static demographic prediction tasks (e.g., CamCAN
+across all evaluated settings. These results demonstrate its             and LEMON), where fine-grained frequency dynamics may
+strong cross-modal generalization capability and robustness              play a less dominant role.
+across heterogeneous neuroimaging modalities. We observe
+a consistent performance improvement as model capacity                   Cross-Modal Synergy and Modality Specificity. We fur-
+increases. Scaling from Brain-OF Base to Brain-OF Huge                   ther examine the contribution of each modality by selec-
+yields monotonic improvements across nearly all tasks. No-               tively removing fMRI, EEG, or MEG during pretraining.
+tably, on the CamCAN (MEG) brain-age regression task,                    Interestingly, removing a specific modality does not al-
+the MAE decreases from 8.99 (Base) to 7.87 (Huge), indi-                 ways lead to a catastrophic performance drop on down-
+cating that larger capacity effectively captures fine-grained,           stream tasks of that same modality. For instance, re-
+continuous biological variations. An important observation               moving EEG data results in only a marginal drop on the
+is that task-specific models (e.g., FFCL) occasionally out-              TUAB (EEG) task. This suggests that Brain-OF learns ro-
+perform single-modality foundation models (e.g., LaBraM,                 bust modality-invariant representations, allowing knowledge
+BrainHarmonix-F) when tested on modalities different from                transfer across modalities, while modality-specific data still
+their pretraining domain. This suggests that foundation                  provides additional benefits. In several cases, cross-modal
+models pretrained exclusively on a single modality may                   data contributes more significantly than within-modality
+over-specialize in modality-specific signal characteristics,             data. For example, on the ADHD-200 fMRI task, removing
+leading to negative transfer when applied to other modalities            EEG data leads to a larger performance drop than removing
+(e.g., EEG-pretrained models on fMRI or MEG tasks). In                   fMRI data itself. Similarly, for the TUAB (EEG) dataset,
+contrast, Brain-OF’s joint multimodal pretraining mitigates              the inclusion of fMRI data is critical for maximizing perfor-
+this issue by learning shared neural representations while               mance. This phenomenon may arise because cross-modal
+still accommodating modality-specific differences.                       signals provide complementary, non-redundant information
+                                                                         that serves as a strong inductive bias.
+4.4. Ablation Studies                                                    Overall, these ablation results demonstrate that Brain-OF
+To rigorously assess the contributions of the proposed                   benefits not only from joint heterogeneous modality but also
+MTFM pretraining objective and the role of heterogeneous                 from enforcing dual-domain reconstruction, validating the
+modality integration, we conduct comprehensive ablation                  effectiveness of both the MTFM objective and the modality
+studies across multiple downstream tasks, as summarized in               integration.
+Table 3.
+
+
+                                                                  7
+                         Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+
+
+
+Figure 2. Visualization of Brain-OF Interpretability. (a) EEG channel contribution topomap for abnormality detection on TUAB. (b)
+top 10% most influential AD-related brain regions on ADNI. (c) MEG sensor contribution map for brain-age prediction on CamCAN.
+
+4.5. Performance Gains via Multimodal Fusion                         Table 4. Performance benefits of multimodal fusion. Compari-
+                                                                     son between unimodal baselines (fMRI-only and MEG/EEG-only)
+Beyond unimodal evaluation, we assess multimodal fusion              and multimodal fusion on CamCAN (fMRI + MEG) and LEMON
+on two paired-modality benchmarks: brain-age prediction              (fMRI + EEG), demonstrating Brain-OF’s ability to effectively
+                                                                     integrate complementary cross-modal information.
+on CamCAN (fMRI + MEG) and age-group classification
+on LEMON (fMRI + EEG). Fusion is implemented via                                                         CamCAN       LEMON
+                                                                       Model     Modality
+                                                                                                          MAE ↓       BAC(%) ↑
+serial resampling with ARNESS, which integrates hetero-
+geneous modalities into a unified fixed-length sequence                          fMRI-only               12.09±0.78    58.95±2.13
+without additional fusion modules or auxiliary alignment               Base      MEG/EEG-only            8.99±0.14     76.05±0.44
+                                                                                 Multimodal Fusion       8.87±0.09     76.77±0.60
+losses. Regarding sequence construction, we adopt an em-
+pirical ordering strategy in which the dominant modality                         fMRI-only               11.71±0.67    62.85±4.29
+                                                                       Large     MEG/EEG-only            8.86±0.21     78.04±1.59
+(i.e., achieving higher unimodal performance) is placed at
+                                                                                 Multimodal Fusion       8.78±0.07     78.32±1.64
+the end of the sequence to maximize its influence on the
+final representation. As shown in Table 4, multimodal fu-                        fMRI-only                9.51±0.51    61.79±1.29
+                                                                       Huge      MEG/EEG-only             7.87±0.22    80.39±0.59
+sion consistently outperforms unimodal baselines across                          Multimodal Fusion        8.21±0.11    81.10±0.54
+nearly all model scales. For both tasks, electrophysiological
+signals (MEG/EEG) yield stronger unimodal performance
+than fMRI, reflecting the temporal sensitivity of these bench-       inferior temporal gyri. These regions are well known to
+marks. Importantly, incorporating fMRI further improves              be affected by cortical atrophy in AD (Convit et al., 2000),
+results by injecting complementary spatial information. For          suggesting that Brain-OF relies on neurobiologically mean-
+example, with Brain-OF Large, fusion reduces the Cam-                ingful features rather than spurious correlations. Finally, the
+CAN MAE to 8.78 (vs. 8.86 with MEG-only) and increases               MEG sensor-level contribution map for brain-age prediction
+LEMON BAC to 78.32% (vs. 78.04% with EEG-only).                      on CamCAN (Figure 2(c)) reveals distinct clusters of highly
+These results demonstrate that Brain-OF effectively inte-            informative sensors, particularly over temporal–parietal re-
+grates complementary spatiotemporal information from dis-            gions. Taken together, these visualizations indicate that
+parate sources to achieve superior predictive power.                 Brain-OF learns interpretable and biologically plausible rep-
+                                                                     resentations across modalities, validating its suitability for
+4.6. Visualization of Model Explanations                             neuroscientific analysis and clinical applications.
+
+To interpret the representations learned by Brain-OF Base,
+we employ the occlusion method (Zeiler & Fergus, 2014)               5. Conclusion
+to quantify the contribution of each channel/ROI to the              In this work, we introduce Brain-OF, the first omnifunc-
+model’s predictive performance across three representative           tional brain foundation model designed to harness the com-
+downstream tasks. As shown in Figure 2(a), the topomap               plementary spatiotemporal characteristics of fMRI, EEG
+of EEG channel contribution for abnormality detection on             and MEG. To address the heterogeneity of signal resolu-
+TUAB strongly focuses on central and frontal scalp regions,          tions across modalities, we propose the Any-Resolution Neu-
+indicating that Brain-OF captures spatially discriminative           ral Signal Sampler, which projects diverse inputs into a
+EEG biomarkers associated with abnormal neural activity.             shared semantic space. Our architecture further addresses
+For Alzheimer’s disease (AD) classification on ADNI (Fig-            semantic complexity through a backbone integrating DINT
+ure 2(b)), the top 10% most influential ROIs are primarily           attention and Sparse Mixture of Experts, where shared and
+located in the fusiform gyrus, as well as the middle and             routed experts capture modality-invariant knowledge and
+
+                                                                 8
+                         Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+modality-specific representations, respectively. Crucially,          Babayan, A., Erbey, M., Kumral, D., Reinelt, J. D., Reiter,
+to enforce deep understanding of brain dynamics, we pro-               A. M., Röbbig, J., Schaare, H. L., Uhlig, M., Anwander,
+pose Masked Temporal-Frequency Modeling, a pretraining                 A., Bazin, P.-L., et al. A mind-brain-body dataset of mri,
+objective that compels joint reconstruction of signals in              eeg, cognition, emotion, and peripheral physiology in
+both time and frequency domains. Extensive experiments                 young and old adults. Scientific data, 6(1):1–21, 2019.
+across unimodal and multimodal tasks demonstrate that
+Brain-OF achieves superior performance, highlighting the             Blokland, G. A., McMahon, K. L., Thompson, P. M., Martin,
+benefits of large-scale joint pretraining across heterogeneous         N. G., de Zubicaray, G. I., and Wright, M. J. Heritability
+brain signals. We hope that Brain-OF paves the way toward              of working memory brain activation. Journal of Neuro-
+general-purpose, scalable and interpretable brain foundation           science, 31(30):10882–10890, 2011.
+models for both unimodal and cross-modal neuroscience
+                                                                     Botvinik-Nezer, R., Petre, B., Ceko, M., Lindquist, M. A.,
+applications.
+                                                                       Friedman, N. P., and Wager, T. D. Placebo treatment
+                                                                       affects brain systems related to affective and cognitive
+Impact Statement                                                       processes, but not nociceptive pain. Nature communica-
+                                                                       tions, 15(1):6017, 2024.
+This work presents Brain-OF, an omnifunctional founda-
+tion model jointly pretrained on fMRI, EEG and MEG,                  Cang, Y., Liu, Y., Zhang, X., Zhao, E., and Shi, L. Dint
+representing a significant advance toward unifying heteroge-           transformer. arXiv preprint arXiv:2501.17486, 2025.
+neous neuroimaging modalities within a single framework.
+Compared to single-modality foundation models, Brain-                Caro, J. O., Fonseca, A. H. d. O., Averill, C., Rizvi, S. A.,
+OF exhibits potentially stronger generalization capabilities,          Rosati, M., Cross, J. L., Mittal, P., Zappala, E., Levine, D.,
+even to unseen or specialized functional modalities. Con-              Dhodapkar, R. M., et al. Brainlm: A foundation model
+sequently, Brain-OF has a broader impact on multimodal                 for brain activity recordings. bioRxiv, pp. 2023–09, 2023.
+fusion in neuroscience research and clinical applications,
+empowering researchers to integrate the high spatial reso-           Chau, G., Wang, C., Talukder, S., Subramaniam, V., Soedar-
+lution of fMRI with the temporal precision of EEG/MEG                  madji, S., Yue, Y., Katz, B., and Barbu, A. Population
+for more accurate diagnosis in epilepsy, neurodegenerative             transformer: Learning population-level representations
+diseases and cognitive disorders. Moreover, by transferring            of neural activity. ArXiv, pp. arXiv–2406, 2025.
+knowledge from capital-intensive modalities (fMRI/MEG)               Chen, J., Wang, X., Huang, C., Hu, X., Shen, X., and Zhang,
+to accessible, wearable ones (EEG), this work accelerates              D. A large finer-grained affective computing eeg dataset.
+the deployment of high-performance neurotechnologies in                Scientific Data, 10(1):740, 2023.
+real-world and portable settings. We release Brain-OF Huge,
+one of the largest open-source brain foundation models to            Chen, X., Lu, B., Li, H.-X., Li, X.-Y., Wang, Y.-W., Castel-
+date. This provides a reliable, pre-validated backbone for the         lanos, F. X., Cao, L.-P., Chen, N.-X., Chen, W., Cheng,
+neuroscience and brain-computer interface community, sub-              Y.-Q., et al. The direct consortium and the rest-meta-
+stantially lowering the barrier to entry for researchers who           mdd project: towards neuroimaging biomarkers of major
+lack resources to pretrain large-scale models from scratch.            depressive disorder. Psychoradiology, 2(1):32–42, 2022.
+By enabling the reuse of rich, cross-modal representations,
+we aim to broaden access to powerful neural representations          Chowdhury, N. S., Bi, C., Furman, A. J., Chiang, A. K.,
+and foster a collaborative, data-centric ecosystem for future          Skippen, P., Si, E., Millard, S. K., Margerison, S. M.,
+neuroimaging research.                                                 Spies, D., Keaser, M. L., Silva, J. T. D., Chen, S.,
+                                                                       Schabrun, S. M., and Seminowicz, D. A. ”predict”. 2025a.
+                                                                       doi: doi:10.18112/openneuro.ds005486.v1.0.1.
+References
+ADHD-200-consortium. The adhd-200 consortium: a model                Chowdhury, N. S., Bi, C., Furman, A. J., Chiang, A. K.,
+ to advance the translational potential of neuroimaging in             Skippen, P., Si, E., Millard, S. K., Margerison, S. M.,
+ clinical neuroscience. Frontiers in systems neuroscience,             Spies, D., Keaser, M. L., et al. Predicting individual pain
+ 6:62, 2012.                                                           sensitivity using a novel cortical biomarker signature.
+                                                                       JAMA neurology, 82(3):237–246, 2025b.
+
+Alayrac, J.-B., Donahue, J., Luc, P., Miech, A., Barr, I.,           Convit, A., De Asis, J., De Leon, M., Tarshish, C., De Santi,
+  Hasson, Y., Lenc, K., Mensch, A., Millican, K., Reynolds,            S., and Rusinek, H. Atrophy of the medial occipitotempo-
+  M., et al. Flamingo: a visual language model for few-                ral, inferior, and middle temporal gyri in non-demented
+  shot learning. Advances in neural information processing             elderly predict decline to alzheimer’s disease. Neurobiol-
+  systems, 35:23716–23736, 2022.                                       ogy of aging, 21(1):19–26, 2000.
+
+                                                                 9
+                          Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+Di Martino, A., Yan, C.-G., Li, Q., Denio, E., Castellanos,            Guo, H., Abdellatif, F., Fu, Y., Shah, N. J., Morrison, A.,
+  F. X., Alaerts, K., Anderson, J. S., Assaf, M., Bookheimer,            and Dammers, J. Xaiguiformer: explainable artificial
+  S. Y., Dapretto, M., et al. The autism brain imaging data              intelligence guided transformer for brain disorder identi-
+  exchange: towards a large-scale evaluation of the intrinsic            fication. In The Thirteenth International Conference on
+  brain architecture in autism. Molecular psychiatry, 19(6):            Learning Representations, 2025.
+  659–667, 2014.
+                                                                       Han, X., Zhang, Z., Ding, N., Gu, Y., Liu, X., Huo, Y.,
+Di Martino, A., O’connor, D., Chen, B., Alaerts, K., Ander-              Qiu, J., Yao, Y., Zhang, A., Zhang, L., et al. Pre-trained
+  son, J. S., Assaf, M., Balsters, J. H., Baxter, L., Beggiato,          models: Past, present and future. Ai Open, 2:225–250,
+  A., Bernaerts, S., et al. Enhancing studies of the con-                2021.
+  nectome in autism using the autism brain imaging data
+                                                                       He, B., Sohrabpour, A., Brown, E., and Liu, Z. Electrophys-
+  exchange ii. Scientific data, 4(1):1–15, 2017.
+                                                                         iological source imaging: a noninvasive window to brain
+Dong, Z., Li, R., Wu, Y., Nguyen, T. T., Chong, J., Ji, F.,              dynamics. Annual review of biomedical engineering, 20
+ Tong, N., Chen, C., and Zhou, J. H. Brain-jepa: Brain                   (1):171–196, 2018.
+  dynamics foundation model with gradient positioning and
+                                                                       Jack Jr, C. R., Bernstein, M. A., Fox, N. C., Thompson, P.,
+  spatiotemporal masking. Advances in Neural Information
+                                                                         Alexander, G., Harvey, D., Borowski, B., Britson, P. J.,
+ Processing Systems, 37:86048–86073, 2024.
+                                                                         L. Whitwell, J., Ward, C., et al. The alzheimer’s disease
+Dong, Z., Li, R., Chong, J. S. X., Dehestani, N., Teng, Y.,              neuroimaging initiative (adni): Mri methods. Journal
+  Lin, Y., Li, Z., Zhang, Y., Xie, Y., Ooi, L. Q. R., et al.             of Magnetic Resonance Imaging: An Official Journal
+  Brain harmony: A multimodal foundation model unifying                  of the International Society for Magnetic Resonance in
+  morphology and function into 1d tokens. arXiv preprint                 Medicine, 27(4):685–691, 2008.
+  arXiv:2509.24693, 2025.                                              Jansen, M., Zwiers, M., Marques, J., Chan, K., Amelink,
+Esteban, O., Markiewicz, C. J., Blair, R. W., Moodie, C. A.,             J. J., Altgassen, M., Oosterman, J., and Norris, D. The Ad-
+  Isik, A. I., Erramuzpe, A., Kent, J. D., Goncalves, M.,                vanced BRain Imaging database on ageing and Memory
+  DuPre, E., Snyder, M., et al. fmriprep: a robust prepro-               (ABRIM) study: MRI collection, 2023. URL https:
+  cessing pipeline for functional mri. Nature methods, 16                //doi.org/10.34973/7q0a-vj19.
+  (1):111–116, 2019.                                                   Jiang, W.-B., Zhao, L.-M., and Lu, B.-L. Large brain model
+Fan, L., Li, H., Zhuo, J., Zhang, Y., Wang, J., Chen, L.,                 for learning generic representations with tremendous eeg
+  Yang, Z., Chu, C., Xie, S., Laird, A. R., et al. The                    data in bci. arXiv preprint arXiv:2405.18765, 2024.
+  human brainnetome atlas: a new brain atlas based on                  Jiang, W.-B., Fu, X., Ding, Y., and Guan, C. To-
+  connectional architecture. Cerebral cortex, 26(8):3508–                 wards robust multimodal physiological foundation mod-
+  3526, 2016.                                                             els: Handling arbitrary missing modalities. arXiv preprint
+Ge, J., Yang, G., Han, M., Zhou, S., Men, W., Qin, L., Lyu,               arXiv:2504.19596, 2025a.
+  B., Li, H., Wang, H., Rao, H., et al. Increasing diversity           Jiang, W.-B., Liu, X.-H., Zheng, W.-L., and Lu, B.-L. Seed-
+  in connectomics with the chinese human connectome                       vii: A multimodal dataset of six basic emotions with
+  project. Nature Neuroscience, 26(1):163–172, 2023.                      continuous labels for emotion recognition. IEEE Trans-
+                                                                          actions on Affective Computing, 16(2):969–985, 2025b.
+Getzmann, S., Gajewski, P. D., Schneider, D., and Wascher,
+                                                                          doi: 10.1109/TAFFC.2024.3485057.
+  E. Resting-state eeg data before and after cognitive ac-
+  tivity across the adult lifespan and a 5-year follow-up.             Jung, H., Amini, M., Hunt, B. J., Murphy, E. I., Sadil, P.,
+  Scientific Data, 11(1):988, 2024.                                      Halchenko, Y. O., Petre, B., Miao, Z., Kragel, P. A., Han,
+                                                                         X., et al. Spacetop: A multimodal fmri dataset unifying
+Goldberger, A. L., Amaral, L. A., Glass, L., Hausdorff, J. M.,
+                                                                         naturalistic processes with a rich array of experimental
+  Ivanov, P. C., Mark, R. G., Mietus, J. E., Moody, G. B.,
+                                                                         tasks. Scientific Data, 12(1):1465, 2025.
+  Peng, C.-K., and Stanley, H. E. Physiobank, physiotoolkit,
+  and physionet: components of a new research resource                 Kan, X., Dai, W., Cui, H., Zhang, Z., Guo, Y., and Yang, C.
+  for complex physiologic signals. circulation, 101(23):                 Brain network transformer. Advances in Neural Informa-
+  e215–e220, 2000.                                                       tion Processing Systems, 35:25586–25599, 2022.
+Gramfort, A., Luessi, M., Larson, E., Engemann, D. A.,                 Kaplan, J., McCandlish, S., Henighan, T., Brown, T. B.,
+  Strohmeier, D., Brodbeck, C., Parkkonen, L., and                       Chess, B., Child, R., Gray, S., Radford, A., Wu, J., and
+  Hämäläinen, M. S. Mne software for processing meg                   Amodei, D. Scaling laws for neural language models.
+  and eeg data. neuroimage, 86:446–460, 2014.                            arXiv preprint arXiv:2001.08361, 2020.
+
+                                                                  10
+                         Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+Kostas, D., Aroca-Ouellette, S., and Rudzicz, F. Bendr: Us-          Obeid, I. and Picone, J. The temple university hospital eeg
+  ing transformers and a contrastive self-supervised learn-            data corpus. Frontiers in neuroscience, 10:196, 2016.
+  ing task to learn from massive amounts of eeg data. Fron-
+  tiers in Human Neuroscience, 15:653659, 2021.                      Park, D. C., Hennessee, J. P., Smith, E. T., Chan, M. Y.,
+                                                                       Chen, X., Dakanali, M., Farrell, M. E., Liu, P., Lu, H.,
+Li, H., Ding, M., Zhang, R., and Xiu, C. Motor imagery eeg             Rofsky, N., et al. The dallas lifespan brain study: A com-
+   classification algorithm based on cnn-lstm feature fusion           prehensive adult lifespan data set of brain and cognitive
+   network. Biomedical signal processing and control, 72:              aging. Scientific Data, 12(1):846, 2025.
+  103342, 2022.
+                                                                     Peh, W. Y., Yao, Y., and Dauwels, J. Transformer convolu-
+Li, Z., Tao, L.-Y., Ma, R.-X., Zheng, W.-L., and Lu, B.-L.
+                                                                       tional neural networks for automated artifact detection in
+  Investigating the effects of sleep conditions on emotion
+                                                                       scalp eeg. In 2022 44th Annual International Conference
+  responses with eeg signals and eye movements. IEEE
+                                                                       of the IEEE Engineering in Medicine & Biology Society
+  Transactions on Affective Computing, 2025. doi: 10.1109/
+                                                                       (EMBC), pp. 3599–3602. IEEE, 2022.
+  TAFFC.2025.3572504.
+Liu, W., Qiu, J.-L., Zheng, W.-L., and Lu, B.-L. Comparing           Poldrack, R. A., Congdon, E., Triplett, W., Gorgolewski, K.,
+  recognition performance and robustness of multimodal                 Karlsgodt, K., Mumford, J., Sabb, F., Freimer, N., Lon-
+  deep learning models for multimodal emotion recogni-                 don, E., Cannon, T., et al. A phenome-wide examination
+  tion. IEEE Transactions on Cognitive and Developmental               of neural and cognitive function. Scientific data, 3(1):
+  Systems, 2021.                                                       1–12, 2016.
+
+Liu, X.-H., Liu, Y.-K., Wang, Y., Ren, K., Shi, H., Wang,            Radford, A., Narasimhan, K., Salimans, T., Sutskever, I.,
+  Z., Li, D., Lu, B.-L., and Zheng, W.-L. EEG2Video:                   et al. Improving language understanding by generative
+  Towards decoding dynamic visual perception from EEG                  pre-training. 2018.
+  signals. Advances in Neural Information Processing Sys-
+  tems (NeurIPS), 2024.                                              Schalk, G., McFarland, D. J., Hinterberger, T., Birbaumer,
+                                                                       N., and Wolpaw, J. R. Bci2000: a general-purpose brain-
+Logothetis, N. K. and Pfeuffer, J. On the nature of the bold           computer interface (bci) system. IEEE Transactions on
+  fmri contrast mechanism. Magnetic resonance imaging,                 biomedical engineering, 51(6):1034–1043, 2004.
+  22(10):1517–1531, 2004.
+                                                                     Schoffelen, J.-M., Oostenveld, R., Lam, N. H., Uddén, J.,
+Luo, Y., Liu, W., Li, H., Lu, Y., and Lu, B.-L. A cross-               Hultén, A., and Hagoort, P. A 204-subject multimodal
+  scenario and cross-subject domain adaptation method for              neuroimaging dataset to study language processing. Sci-
+  driving fatigue detection. Journal of Neural Engineer-               entific data, 6(1):17, 2019.
+  ing, 21(4):046004, jul 2024. doi: 10.1088/1741-2552/
+  ad546d. URL https://dx.doi.org/10.1088/                            Shoeb, A. H. Application of machine learning to epilep-
+  1741-2552/ad546d.                                                    tic seizure onset detection and treatment. PhD thesis,
+                                                                       Massachusetts Institute of Technology, 2009.
+Maaten, L. v. d. and Hinton, G. Visualizing data using
+ t-sne. Journal of machine learning research, 9(Nov):                Sinclair, B., Hansell, N. K., Blokland, G. A., Martin, N. G.,
+ 2579–2605, 2008.                                                      Thompson, P. M., Breakspear, M., de Zubicaray, G. I.,
+McNabb, C. B., Driver, I. D., Hyde, V., Hughes, G., Chan-              Wright, M. J., and McMahon, K. L. Heritability of the
+ dler, H. L., Thomas, H., Allen, C., Messaritaki, E., Hod-             network architecture of intrinsic brain functional connec-
+ getts, C. J., Hedge, C., et al. Wand: A multi-modal dataset           tivity. Neuroimage, 121:243–252, 2015.
+ integrating advanced mri, meg, and tms for multi-scale
+                                                                     Snoek, L., van der Miesen, M. M., Beemsterboer, T., Van
+ brain analysis. Scientific Data, 12(1):220, 2025.
+                                                                       Der Leij, A., Eigenhuis, A., and Steven Scholte, H. The
+Nastase, S. A., Liu, Y.-F., Hillman, H., Zadbood, A., Hasen-           amsterdam open mri collection, a set of multimodal mri
+  fratz, L., Keshavarzian, N., Chen, J., Honey, C. J., Yeshu-          datasets for individual difference analyses. Scientific data,
+  run, Y., Regev, M., et al. The “narratives” fmri dataset             8(1):85, 2021.
+  for evaluating models of naturalistic language compre-
+  hension. Scientific data, 8(1):250, 2021.                          Song, Y., Jia, X., Yang, L., and Xie, L. Transformer-based
+                                                                       spatial-temporal feature learning for eeg decoding. arXiv
+Niso, G., Rogers, C., Moreau, J. T., Chen, L.-Y., Madjar, C.,          preprint arXiv:2106.11170, 2021.
+  Das, S., Bock, E., Tadel, F., Evans, A. C., Jolicoeur, P.,
+  et al. Omega: the open meg archive. Neuroimage, 124:               Spreng, R. N., Setton, R., Alter, U., Cassidy, B. N., Dar-
+  1182–1187, 2016.                                                     boh, B., DuPre, E., Kantarovich, K., Lockrow, A. W.,
+
+                                                                11
+                         Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+  Mwilambwe-Tshilobo, L., Luh, W.-M., et al. Neurocog-                 brain foundation model for unified eeg and meg signals.
+  nitive aging data release with behavioral, structural and            arXiv preprint arXiv:2505.18185, 2025.
+  multi-echo functional mri measures. Scientific Data, 9
+                                                                     Yang, B., Rong, F., Xie, Y., Li, D., Zhang, J., Li, F., Shi, G.,
+  (1):119, 2022.
+                                                                       and Gao, X. A multi-day and high-quality eeg dataset for
+Su, J., Ahmed, M., Lu, Y., Pan, S., Bo, W., and Liu, Y.                motor imagery brain-computer interface. Scientific Data,
+  Roformer: Enhanced transformer with rotary position                  12(1):488, 2025.
+  embedding. Neurocomputing, 568:127063, 2024.
+                                                                     Yang, C., Westover, M., and Sun, J. Biot: Biosignal trans-
+Taylor, J. R., Williams, N., Cusack, R., Auer, T., Shafto,             former for cross-data learning in the wild. Advances
+  M. A., Dixon, M., Tyler, L. K., Henson, R. N., et al.                in Neural Information Processing Systems, 36:78240–
+  The cambridge centre for ageing and neuroscience (cam-               78260, 2023a.
+  can) data repository: Structural and functional mri, meg,          Yang, C., Xiao, C., Westover, M. B., and Sun, J. Self-
+  and cognitive data from a cross-sectional adult lifespan             supervised electroencephalogram representation learning
+  sample. neuroimage, 144:262–269, 2017.                               for automatic sleep staging: model development and eval-
+Tobe, R. H., MacKay-Brandt, A., Lim, R., Kramer, M.,                   uation study. JMIR AI, 2(1):e46769, 2023b.
+  Breland, M. M., Tu, L., Tian, Y., Trautman, K. D., Hu,             Yang, Y., Ye, C., Su, G., Zhang, Z., Chang, Z., Chen, H.,
+  C., Sangoi, R., et al. A longitudinal resource for studying          Chan, P., Yu, Y., and Ma, T. Brainmass: Advancing
+  connectome development and its psychiatric associations              brain network analysis for diagnosis with large-scale self-
+  during childhood. Scientific data, 9(1):300, 2022.                   supervised learning. IEEE transactions on medical imag-
+                                                                       ing, 43(11):4004–4016, 2024.
+Van Dijk, H., Van Wingen, G., Denys, D., Olbrich, S.,
+  Van Ruth, R., and Arns, M. The two decades brainclinics            Ye, T., Dong, L., Xia, Y., Sun, Y., Zhu, Y., Huang, G.,
+  research archive for insights in neurophysiology (tdbrain)           and Wei, F. Differential transformer. arXiv preprint
+  database. Scientific data, 9(1):333, 2022.                           arXiv:2410.05258, 2024.
+Van Essen, D. C., Smith, S. M., Barch, D. M., Behrens, T. E.,        Yi, K., Wang, Y., Ren, K., and Li, D. Learning topology-
+  Yacoub, E., Ugurbil, K., Consortium, W.-M. H., et al.                agnostic eeg representations with geometry-aware model-
+  The wu-minn human connectome project: an overview.                   ing. Advances in Neural Information Processing Systems,
+  Neuroimage, 80:62–79, 2013.                                          36:53875–53891, 2023.
+Wang, C., Subramaniam, V., Yaari, A. U., Kreiman, G.,                Zeiler, M. D. and Fergus, R. Visualizing and understand-
+ Katz, B., Cases, I., and Barbu, A. Brainbert: Self-                   ing convolutional networks. In European conference on
+ supervised representation learning for intracranial record-           computer vision, pp. 818–833. Springer, 2014.
+ ings. arXiv preprint arXiv:2302.14367, 2023.
+                                                                     Zheng, W.-L. and Lu, B.-L. Investigating critical frequency
+Wang, J., Zhao, S., Luo, Z., Zhou, Y., Jiang, H., Li, S.,              bands and channels for EEG-based emotion recognition
+ Li, T., and Pan, G. Cbramod: A criss-cross brain                      with deep neural networks. IEEE Transactions on Au-
+ foundation model for eeg decoding. arXiv preprint                     tonomous Mental Development, 7(3):162–175, 2015. doi:
+ arXiv:2412.07236, 2024a.                                              10.1109/TAMD.2015.2431497.
+
+Wang, L., Gao, H., Zhao, C., Sun, X., and Dai, D. Auxiliary-         Zheng, W.-L. and Lu, B.-L.        A multimodal ap-
+ loss-free load balancing strategy for mixture-of-experts.             proach to estimating vigilance using eeg and fore-
+ arXiv preprint arXiv:2408.15664, 2024b.                               head eog. Journal of Neural Engineering, 14(2):
+                                                                       026017, 2017. URL http://stacks.iop.org/
+Wei, D., Zhuang, K., Ai, L., Chen, Q., Yang, W., Liu, W.,              1741-2552/14/i=2/a=026017.
+ Wang, K., Sun, J., and Qiu, J. Structural and functional
+ brain scans from the cross-sectional southwest university           Zhou, Y., Wu, J., Ren, Z., Yao, Z., Lu, W., Peng, K., Zheng,
+ adult lifespan dataset. Scientific data, 5(1):1–10, 2018.             Q., Song, C., Ouyang, W., and Gou, C. Csbrain: A
+                                                                       cross-scale spatiotemporal brain foundation model for
+Wheless, J. W., Castillo, E., Maggio, V., Kim, H. L., Breier,          eeg decoding. arXiv preprint arXiv:2506.23075, 2025.
+ J. I., Simos, P. G., and Papanicolaou, A. C. Magnetoen-
+                                                                     Zuo, X.-N., Anderson, J. S., Bellec, P., Birn, R. M., Biswal,
+ cephalography (meg) and magnetic source imaging (msi).
+                                                                       B. B., Blautzik, J., Breitner, J., Buckner, R. L., Calhoun,
+ The neurologist, 10(3):138–153, 2004.
+                                                                       V. D., Castellanos, F. X., et al. An open science resource
+Xiao, Q., Cui, Z., Zhang, C., Chen, S., Wu, W., Thwaites,              for establishing reliability and reproducibility in func-
+  A., Woolgar, A., Zhou, B., and Zhang, C. Brainomni: A                tional connectomics. Scientific data, 1(1):1–13, 2014.
+
+                                                                12
+                           Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+A. Details of Datasets
+In this study, we integrate three heterogeneous functional brain imaging modalities (i.e., fMRI, EEG and MEG) to develop
+the omnifunctional brain foundation model (Brain-OF). These modalities differ substantially in their temporal, spatial, and
+spectral resolutions, giving rise to both semantic richness and considerable heterogeneity. Within each modality, further
+variability arises from heterogeneous acquisition protocols and scanners across international sites, reflected in diverse
+sampling rates (MEG/EEG), repetition times and field strengths (3 T vs. 7 T for fMRI), number of channels/sensors,
+recording durations and experimental paradigms (resting vs. task state).
+Table 5. Summary of all pretraining datasets, covering 3 heterogeneous functional neuroimaging modalities (fMRI, EEG, MEG) across 37
+public datasets, encompassing over 32K unique participants, approximately 5.9M samples, and 2.8 TB of preprocessed data.
+Modalities                  Datasets           Paradigms      SR / TR      # Channels / ROIs    Durations     # Participants   # Samples
+                           FACED                  task         250Hz              32                10s            123            10,332
+                         PhysioNet-MI             task         160Hz              64                 4s            109            18,697
+                          PREDICT                 rest        5,000Hz             63                10s            159            17,511
+                         REEG-BACA                rest        1,000Hz             64                10s            608            53,089
+                            SEED                  task        1,000Hz             62                10s             15            14,895
+                          SEED-DV                 task        1,000Hz             62                10s             20             7,644
+EEG                       SEED-SD                 task        1,000Hz             62                10s             40            38,120
+                          SEED-VIG                task         200Hz              17                 8s             21            20,332
+                          SEED-VII                task        1,000Hz             62                10s             20            26,257
+                       SEED-VLA/VRW               task         300Hz              18                10s             20            17,287
+                          TDBRAIN                 rest         500Hz              26                10s           1,274           26,422
+                            TUEG                  rest         250Hz              19                10s          13,928        4,562,151
+                          WBCIC-MI                task        1,000Hz             58                 4s             62            40,290
+                           ABIDE-I                rest       multi-site           246                -            1,112             1,152
+                           ABIDE-II               rest       multi-site           246                -            1,114             1,614
+                            ABRIM             rest & task    1,000ms              246              320s            282                562
+                       AOMIC-ID1000               task       2,200ms              246              660s            881                881
+                        AOMIC-PIOP1           rest & task     750ms               246              360s            216              1,236
+                        AOMIC-PIOP2           rest & task    2,000ms              246              480s            226                896
+                            CHCP              rest & task     710ms               246              227s            366              3,379
+                             CoRR                 rest       multi-site           246                -            1,629             5,212
+                             DLBS             rest & task    2,000ms              246              374s            464              6,839
+fMRI
+                            NADR                  rest       3,000ms              246              606s            301                596
+                           Narratives             task       1,500ms              246              480s            345              1,321
+                            NKI-RS                rest       1,400ms              246              448s           1,344            16,408
+                        Paingen placebo           task        460ms               246              132s            395              3,143
+                             QTIM             rest & task    2,100ms              246              315s           1,202             2,453
+                       REST-meta-MDD              rest       multi-site           116                -            2,380             2,380
+                             SALD                 rest       2,000ms              246              480s            493                493
+                           SpaceTop               task        460ms               246              200s            101             11,660
+                          UCLA CNP            rest & task    2,000ms              246              304s            272              1,969
+                        CamCAN-MEG            rest & task     1,000Hz             306               2s             456           279,965
+                        CamCAN-fMRI           rest & task     1,970ms             246              520s            465             1,763
+                        HCP-YA-MEG            rest & task     2,000Hz             248               2s              89           241,115
+                        HCP-YA-fMRI           rest & task      720ms              246              230s           1,113           32,281
+                         LEMON-EEG                rest        2,500Hz              61              10s             144            12,235
+MEG / Multimodal        LEMON-fMRI                rest        1,400ms             246              448s            160               320
+                         MOUS-MEG             rest & task     1,200Hz             275               2s             204            66,322
+                         MOUS-fMRI            rest & task     1,680ms             246              420s            204               678
+                           OMEGA                  rest        2,400Hz             275               2s             644           164,834
+                         WAND-MEG             rest & task     1,200Hz             275               2s             170           155,474
+                         WAND-fMRI            rest & task     2,000ms             246              638s            170               776
+Total                 fMRI, EEG, MEG          rest & task         -                -                 -           32,278        5,870,984
+Some datasets include multiple sampling rates (SR) or repetition times (TR) due to differences in acquisition protocols across different
+phases or paradigms (e.g., resting-state vs. task-based scans). For conciseness, we report the primary SR/TR for each dataset in the “SR /
+TR” column. Similarly, the reported durations primarily correspond to resting-state recordings. For detailed information, please refer to
+the original publications. ROIs: regions of interest.
+
+This diversity further supports the construction of a pluralistic pretraining corpus spanning multiracial, multicultural
+
+                                                                      13
+                         Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+populations, including both healthy individuals and clinical patients. In total, our pretraining dataset aggregates 37 publicly
+available datasets across fMRI, EEG and MEG, comprising 32,278 unique participants, 5,870,984 samples, and 2.8 TB of
+preprocessed data. Detailed statistics for each dataset can be found in Table 5.
+
+A.1. Data Preprocessing
+If the public datasets provide official preprocessed data, we use them directly. Otherwise, we apply minimal, modality-
+specific preprocessing pipelines to remove artifacts. Raw EEG and MEG signals are preprocessed using MNE-Python
+(Gramfort et al., 2014), and fMRI data are preprocessed with fMRIPrep (Esteban et al., 2019). After preprocessing, z-score
+normalization is applied to all signals to harmonize their value ranges across fMRI, EEG and MEG.
+EEG. To enhance stationarity, the initial and final 10 seconds of EEG signals are discarded. Signals are then band-pass
+filtered (1–80 Hz, zero-phase Hamming-windowed sinc FIR, –6 dB cutoff) and notched at the local power-line frequency
+(50 or 60 Hz). Filtered signals are resampled to 200 Hz, segmented into non-overlapping 10-second samples for resting-state
+data, and re-referenced to the common average.
+MEG. MEG preprocessing similarly undergoes band-pass filtering (1–80 Hz, zero-phase Hamming-windowed sinc FIR,
+–6 dB cutoff) and notching at the power-line frequency. Filtered signals are resampled to 200 Hz and segmented into
+non-overlapping 2-second samples for resting-state recordings.
+fMRI. For each BOLD series, a reference volume and its skull-stripped version are estimated. Head-motion parameters
+(volume-to-reference transforms and corresponding rotations/translations) are computed, followed by slice-timing correction
+using 3dTshift (AFNI). Functional volumes are co-registered to the T1-weighted anatomical reference via boundary-based
+registration (9 degrees of freedom) to minimize distortions. Motion correction, susceptibility distortion correction, BOLD-
+to-T1w, and T1w-to-template (MNI152NLin2009cAsym) warps are concatenated and applied in one interpolation step
+using antsApplyTransforms (ANTs). Nuisance regressors, including global signal, mean signals from white matter and CSF,
+tCompCor, aCompCor, framewise displacement, six motion parameters, DVARS, and spike regressors, are regressed out.
+Residual signals are spatially smoothed (6 mm FWHM Gaussian kernel) and subjected to Wishart filtering. Finally, regional
+time series are extracted from 246 parcels using the Brainnetome atlas (Fan et al., 2016).
+
+A.2. Pretraining Datasets
+   • FACED (Chen et al., 2023) is a large finer-grained affective computing EEG dataset comprising 32-channel recordings
+     at sampling rate of 250 or 1,000 Hz from 123 subjects (ages 17-38). Each participant was instructed to watch 28
+     emotion-elicitation video clips spanning nine discrete emotional states: amusement, inspiration, joy, tenderness, anger,
+     fear, disgust, sadness and neutral emotion.
+
+   • PhysioNet-MI (Schalk et al., 2004) is a large-scale motor imagery EEG collections, comprising 64-channel recordings
+     (160 Hz sampling rate) from 109 healthy participants performing left fist, right fist, both fists, and both feet imagery.
+     For pretraining, we use 4-second trials after preprocessing.
+
+   • PREDICT (Chowdhury et al., 2025a;b) is a longitudinal pain-related EEG dataset comprising 5-minute, eyes-closed,
+     63-channel resting-state recordings from 159 participants (ages 18–44) with no history of chronic pain, neurological
+     disorders, or psychiatric conditions. EEG data were collected on Days 0, 2, and 5 of the experimental protocol,
+     providing multiple sessions per participant for identifying individual pain sensitivity in healthy adults.
+
+   • REEG-BACA (Getzmann et al., 2024) is a large-scale longitudinal resting-state EEG dataset collected from 608
+     participants (ages 20-70), with 208 participants returning for a follow-up session approximately 5 years later. High-
+     density rs-EEG was acquired using a 64-channel elastic cap (10–20 system) at 1,000 Hz sampling rate. Recordings
+     were obtained both before and after a 2-hour battery of cognitive tasks.
+
+   • SEED Series is a family of EEG datasets designed for affective computing and related cognitive neuroscience research.
+     It includes SEED (Zheng & Lu, 2015), SEED-VIG (Zheng & Lu, 2017), SEED-VII (Jiang et al., 2025b), SEED-
+     VLA/VRW (Luo et al., 2024), SEED-DV (Liu et al., 2024) and SEED-SD (Li et al., 2025). All datasets were recorded
+     using a 62-channel ESI NeuroScan system at a 1,000 Hz sampling rate during emotion-related paradigms spanning
+     positive, negative and neutral valence, as well as more fine-grained affective states (e.g., amusement, fear, sadness). In
+     total, the SEED Series provides EEG recordings from 136 unique participants, predominantly young adults.
+
+                                                              14
+                      Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+• TDBRAIN (Van Dijk et al., 2022) is a large single-site lifespan EEG database (ages 5–89), comprising resting-state
+  recordings from 1,274 psychiatric patients. The psychophysiological data include 26 channel EEG acquired at a
+  sampling rate of 500 Hz.
+• TUEG (Obeid & Picone, 2016) is the largest publicly available collection of clinical EEG dataset, comprising 69,652
+  recordings from 14,987 subjects across 26,846 sessions collected at Temple University Hospital. The dataset exhibits
+  substantial variability in channel configurations, sampling rates and recording durations, reflecting the heterogeneity of
+  real-world clinical practice. To prevent information leakage and ensure reliable downstream evaluation, we exclude all
+  subjects that appear in the TUAB test set.
+• WBCIC-MI (Yang et al., 2025) is a high-quality motor imagery EEG dataset comprising recordings from 62 healthy
+  participants (ages 17–30) across three sessions. For pretraining, we incorporate the officially released preprocessed
+  signals: 4-second trials recorded with 58 EEG channels.
+• ABIDE is an international collaborative initiative that aggregates resting-state fMRI, structural MRI and phenotypic
+  data collected independently across more than 24 imaging centers worldwide. It contains two large-scale collections:
+  ABIDE-I (Di Martino et al., 2014), which includes 1,112 participants (ages 7–64; 539 individuals with autism spectrum
+  disorder and 573 controls), and ABIDE-II (Di Martino et al., 2017), which includes 1,114 participants (521 individuals
+  with autism spectrum disorder and 593 controls).
+• ABRIM (Jansen et al., 2023) is a cross-sectional adult lifespan MRI collection comprising structural and functional
+  MRI scans from 295 healthy participants (ages 18–80), along with cognitive assessments, proxy measures of cognitive
+  reserve, and 7-day actigraphy recordings of sleep-wake rhythms. After removing corrupted and missing data, a total of
+  282 subjects are included in our pretraining dataset.
+• AOMIC (Snoek et al., 2021) is one of the largest and richest open-access 3 T neuroimaging resources focused on young
+  adults. It comprises three complementary datasets: ID1000 (N = 928, ages 19–26), PIOP1 (N = 216, age 18–26) and
+  PIOP2 (N = 226, ages 18–26), together providing 1,370 unique participants. Each sub-cohort includes high-resolution
+  T1-weighted structural MRI, diffusion-weighted imaging, multiple resting-state runs, and an exceptionally broad battery
+  of task-based fMRI paradigms (naturalistic movie watching, emotion processing, working memory, face recognition,
+  cognitive conflict and response inhibition).
+• CHCP (Ge et al., 2023) is the Chinese Human Connectome Project, comprising neuroimaging and behavioral data from
+  366 healthy adults living in an Eastern culture. Its acquisition protocols closely mirror the original HCP-YA, including
+  high-resolution T1w/T2w structural MRI, resting-state and task-based fMRI (seven tasks), and high-angular-resolution
+  diffusion MRI, as well as behavioral data based on Chinese population.
+• CoRR (Zuo et al., 2014) is the largest publicly available test-retest resting-state fMRI consortium, aggregating data
+  from 36 independent research groups across 18 international sites. The dataset comprises 5,093 resting-state fMRI
+  scans from 1,629 unique participants (ages 6–88), with many individuals providing multiple sessions. This multi-site,
+  multi-scanner design introduces natural acquisition variability highly beneficial for learning robust representations.
+• DLBS (Park et al., 2025) is a longitudinal adult lifespan neuroimaging dataset designed to characterize brain–cognition
+  relationships across aging. A total of 464 participants (ages 21–89 at baseline) completed the first assessment, with
+  338 and 224 participants returning for second and third assessment epochs, respectively, at intervals of approximately
+  3.5–5 years. Each epoch includes an extensive neuropsychological battery, questionnaires assessing physical health,
+  psychosocial factors and brain health, as well as multimodal MRI acquisitions: T1-weighted structural imaging,
+  diffusion-weighted imaging, hypercapnia imaging, arterial spin labeling and four functional MRI scans (resting-state
+  and task-based fMRI), totaling 6,893 fMRI sessions across all visits.
+• NADR (Spreng et al., 2022) is a multisite neuroimaging dataset designed to characterize age-related differences in brain
+  function. It includes 301 healthy adults, comprising 181 young adults (ages 18–34) and 120 older adults (ages 60–89).
+  Each participant underwent two 10-minute multi-echo resting-state fMRI runs and a high-resolution T1-weighted
+  MPRAGE structural scan acquired on 3T MRI scanners across two sites.
+• Narratives (Nastase et al., 2021) is a naturalistic paradigm dataset comprising 891 fMRI runs from 345 healthy adults
+  (age 18–53 years) who listened to 27 different spoken stories. These stories vary widely in length, speaker, and content,
+  together providing 4.6 hours of unique auditory narrative stimulation ( 43,000 words).
+
+                                                           15
+                      Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+• NKI-RS (Tobe et al., 2022) is a large-scale longitudinal lifespan neuroimaging initiative comprising 1,344 participants,
+  designed to characterize developmental and aging trajectories across the human lifespan. The dataset provides
+  comprehensive psychiatric, medical, behavioral and cognitive phenotyping, along with multimodal brain imaging
+  across multiple follow-up visits (resting-state fMRI, diffusion MRI, structural morphometric MRI and arterial spin
+  labeling), genetic data and actigraphy measures.
+• Paingen placebo (Botvinik-Nezer et al., 2024) is a large-scale, high-quality pain and placebo analgesia fMRI collection
+  comprising 395 healthy adults (age 30–43 years). Each participant completed four fMRI runs during a well-controlled
+  thermal pain and placebo manipulation paradigm, plus anatomical scans and field maps.
+• QTIM (Blokland et al., 2011; Sinclair et al., 2015) is one of the largest twin neuroimaging cohorts worldwide. It
+  comprises resting-state and task-based fMRI from 1,202 young adult twins and siblings (ages 12–30 at baseline),
+  including a test-retest subsample (N = 78, 3.5-month interval) and longitudinal adolescent twin cohorts scanned at
+  ages 12 and 16 (N = 88 each), with a subset rescanned four years later (N = 24 at both 12 and 16; N = 38 at 16 and 20).
+• REST-meta-MDD (Chen et al., 2022) is a large-scale resting-state fMRI consortium for major depressive disorder
+  (MDD), aggregating data from 25 research groups across 17 hospitals in China. It comprises 2,428 resting-state fMRI
+  scans from 1,300 patients with MDD and 1,128 healthy controls, providing a diverse and clinically representative
+  sample for studying MDD alterations in brain function.
+• SALD (Wei et al., 2018) is a cross-sectional adult lifespan neuroimaging dataset comprising structural MRI and
+  resting-state fMRI from 493 healthy adults (ages 19–80). All scans were acquired on a 3 T Siemens Trio scanner at the
+  Brain Imaging Center of Southwest University, China.
+• SpaceTop (Jung et al., 2025) is a landmark naturalistic and multidimensional neuroimaging dataset comprising 101
+  healthy young adults, each completing approximately 40 fMRI runs. It uniquely integrates a broad spectrum of
+  experimental paradigms, including cognitive, affective, social and somatic/interoceptive tasks, together with structural
+  T1-weighted imaging, multi-shell diffusion MRI and autonomic physiological recordings.
+• UCLA CNP (Poldrack et al., 2016) is a publicly shared neuroimaging dataset comprising 272 adults (ages 21–50): 130
+  healthy controls and 142 patients (50 schizophrenia, 49 bipolar disorder, 43 ADHD). The dataset provides an extensive
+  set of imaging modalities, including task-based fMRI across multiple cognitive domains, resting-state fMRI, structural
+  MRI and high–angular-resolution diffusion MRI.
+• CamCAN (Taylor et al., 2017) is a large multimodal, cross-sectional adult lifespan dataset from 656 healthy adults
+  (ages 18–87). It includes 3T resting-state and task fMRI (movie-watching and sensorimotor task) as well as high-density
+  MEG (306-channel Elekta Neuromag, 1,000 Hz sampling rate) during both resting state and the same sensorimotor task.
+  For pretraining, we incorporate all available fMRI and MEG data except subjects assigned to downstream validation
+  and test sets. This strict subject-level exclusion prevents contamination while maximizing pretraining data volume.
+• HCP Young Adult (Van Essen et al., 2013) includes multiple 3T and 7T fMRI runs as well as MEG recordings
+  from 1,113 young healthy adult (ages 22-35). For pretraining, we incorporate all available functional modalities: 3T
+  resting-state and task fMRI, 7T resting-state and task fMRI and both resting-state and task MEG.
+• LEMON (Babayan et al., 2019) is a multimodal neuroimaging dataset that includes both fMRI and EEG recordings.
+  Participants underwent a 3T fMRI scan and a 61-channel resting-state EEG acquisition. Due to the scarcity of high-
+  quality multimodal datasets, we also incorporate LEMON as a downstream evaluation task. To avoid contamination
+  in downstream evaluation, subjects overlapping with the LEMON validation and test splits are excluded from the
+  pretraining dataset.
+• MOUS (Schoffelen et al., 2019) is a multimodal neuroimaging dataset collected from 204 healthy adults (ages 18-33).
+  The protocol includes whole-brain fMRI and high-density 275-channel MEG acquired during a Dutch language
+  paradigm as well as during resting state. For pretraining, we incorporate all available MEG and fMRI sessions from the
+  MOUS cohort.
+• OMEGA (Niso et al., 2016) is a large, open-access collection of resting-state MEG recordings led by the McConnell
+  Brain Imaging Centre (BIC) at the Montreal Neurological Institute (MNI), McGill University, in collaboration with the
+  Université de Montréal. It is a continuously expanding resource; for this study, we include resting-state MEG from 644
+  participants (444 healthy controls and 200 patients with various psychiatric conditions).
+
+                                                          16
+                        Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+  • WAND (McNabb et al., 2025) is a multiscale, multimodal neuroimaging dataset comprising in vivo brain data from
+    170 healthy adults (ages 18–63), including 3T and 7T structural and functional MRI as well as 275-channel MEG
+    recorded at a 1,200 Hz sampling rate. We incorporate all available resting- and task-state fMRI (3 T and 7 T) and MEG
+    data into the pretraining dataset.
+
+A.3. Downstream Task Datasets
+  • SEED-V (Liu et al., 2021) is an emotion recognition EEG benchmark collected from 20 participants using a 62-channel
+    ESI NeuroScan system at a 1,000 Hz sampling rate. It includes five emotion categories (happy, sad, fear, disgust and
+    neutral) recorded across three sessions. Each session contains 15 trials, yielding a total of 117,744 1-second samples.
+    Following the conventional strategy, we divide the fifteen trials of each session into three equal parts (5:5:5) as the
+    training, validation and test sets, respectively.
+  • CHB-MIT (Shoeb, 2009; Goldberger et al., 2000) is an intractable-seizure EEG database comprising recordings from
+    22 pediatric subjects (ages 1.5–22), acquired at 256 Hz with the international 10–20 system at Children’s Hospital
+    Boston. For our experiments, all recordings are resampled to 200 Hz and segmented into 326,993 10-second samples.
+    Notably, seizure events constitute only 0.68% of all samples, resulting in a severe class imbalance. We follow the
+    conventional subject-wise split: subjects 1 to 19 for training, subjects 20, 21 for validation, and subjects 22,23 for
+    testing.
+  • TUAB (Obeid & Picone, 2016) is a subset of the TUEG corpus, containing EEG recordings from 1,385 healthy controls
+    (normal) and 998 subjects with a brain disorder (abnormal), totaling 2,993 sessions. After preprocessing, we obtain
+    409,455 10-second samples for binary classification task. The official evaluation split is used as our test set. To avoid
+    potential data leakage effects, all subjects included in the TUAB test set are excluded from the TUEG dataset.
+  • ADNI (Jack Jr et al., 2008) is a longitudinal, multisite neuroimaging initiative that includes structural, functional and
+    molecular imaging, along with biofluid biomarkers, cognitive assessments, genetic data and demographic information
+    from healthy older adults, individuals with mild cognitive impairment and patients with Alzheimer’s disease (AD). For
+    this downstream task, we incorporate resting-state fMRI data from 222 participants (110 patients with AD and 112 age-
+    and gender-matched healthy controls), yielding a total of 508 scanning sessions. After preprocessing, a total of 618
+    samples are used.
+  • ADHD-200 (ADHD-200-consortium, 2012) is a large-scale, multi-site benchmark for neurodevelopmental classi-
+    fication, comprising resting-state fMRI, anatomical MRI and phenotypic data from 926 children and adolescents
+    (573 typically developing controls, 353 individuals with ADHD) across eight international sites. In total, participants
+    contributed 1,369 resting-state fMRI sessions. For the downstream binary ADHD vs. control classification task, all
+    1,369 sessions are used after mini-preprocessing.
+  • CamCAN (Taylor et al., 2017) is a widely used benchmark for studying age-related changes in brain function,
+    particularly in MEG. It contains both MEG and fMRI recordings from 656 healthy adults spanning the adult lifespan
+    (ages 18–87). We use this dataset for chronological brain-age prediction under three evaluation settings: (i) unimodal
+    resting-state fMRI (652 8min40s recordings), (ii) unimodal resting-state MEG (non-overlapping 177,044 2 second
+    segments), and (iii) multimodal fusion of fMRI and MEG. To eliminate any risk of information leakage, all subjects
+    included in the CamCAN validation and test splits are strictly excluded from the pretraining dataset.
+  • LEMON (Babayan et al., 2019) consists of 227 healthy participants divided into a young cohort (N = 153, age 25.1 ±
+    3.1 years, range 20–35 years, 45 female) and an elderly cohort (N = 74, age 67.6 ± 4.7 years, range 59–77 years, 37
+    female). For downstream age-group classification (young vs. elderly), we evaluate on three settings: (i) unimodal fMRI
+    using 438 7.5-minute resting-state scans, (ii) unimodal EEG using non-overlapping 17,235 10-second segments, and
+    (iii) multimodal fusion of fMRI and EEG. To prevent information leakage and ensure reliable downstream evaluation,
+    all subjects in the LEMON validation and test splits are excluded from the pretraining dataset.
+
+B. Baseline Models
+To compare our models with representative baselines, we include both task-specific models and recent foundation models
+across different modalities, as summarized in Table 6.
+Task-Specific Models:
+
+                                                            17
+                          Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+   • ContraWR (Yang et al., 2023b) is a CNN-based encoder that employs contrastive learning on short-time Fourier
+     transform (STFT) spectrograms for automated EEG sleep staging.
+   • CNN-Transformer (Peh et al., 2022) combines convolutional neural networks with transformer layers and employs a
+     belief-matching loss to enable automated detection of EEG artifacts.
+   • FFCL (Li et al., 2022) employs two independent branches that fuse multilevel spatial–temporal features, integrating
+     CNN and LSTM architectures for EEG decoding.
+   • ST-Transformer (Song et al., 2021) is a transformer-based architecture that leverages spatial–temporal attention
+     mechanisms to capture both spatial dependencies and temporal dynamics in EEG signals for decoding tasks.
+
+Foundation Models:
+
+   • LaBraM (Jiang et al., 2024) is a unified EEG foundation model that enables cross-dataset generalization by segmenting
+     raw EEG signals into channel-wise patches for transformer-based representation learning.
+   • CBraMod (Wang et al., 2024a) is an EEG foundation model that employs a criss-cross attention mechanism to jointly
+     capture frequency domain and temporal features for self-supervised representation learning.
+   • BrainHarmonix-F (Dong et al., 2025) is the fMRI branch of the BrainHarmonix, a multimodal brain foundation model
+     designed to process and integrate both structural and functional MRI data.
+
+Table 6. Overview of baseline models. We categorize baselines into task-specific models (trained from scratch) and foundation models
+(pretrained). Params denotes parameter count in millions (M); GFLOPs measures computational cost per inference sample.
+       Model                     Params (M)          GFLOPs                          Architecture           Pretraining Modality
+       Task-Specific Models (Trained from scratch)
+       ContraWR                      1.57               0.28                           CNN                           ✗
+       CNN-Transformer               3.16               0.33                     CNN + Transformer                   ✗
+       FFCL                          2.47               0.96                       CNN + LSTM                        ✗
+       ST-Transformer                3.43               0.22                        Transformer                      ✗
+       Foundation Models (Pretrained)
+       LaBraM                        5.82              2.70                         Transformer                    EEG
+       CBraMod                       4.88              1.86                   Criss-Cross Transformer              EEG
+       BrainHarmonix-F               85.25            1450.00                   Vision Transformer                 fMRI
+The high computational cost of BrainHarmonix-F (1,450 GFLOPs) primarily derives from two factors: its support for long-range inputs
+exceeding 7k tokens and its large parameter count.
+
+C. Modality Importance Analysis
+To quantify the contribution of each modality to overall model performance, we introduce a Modality Importance Score.
+This score is derived from the modality ablation results and measures the relative performance degradation on downstream
+tasks when a specific modality is removed during pretraining.
+Because downstream tasks use evaluation metrics with different units and scales, we normalize the impact using the relative
+percentage drop in performance. Formally, the importance score of modality Mi on dataset Dj is defined as:
+                                                               (ij)           (ij)
+                                                           Pall − Pablated
+                                               IMi ,Dj =               (ij)
+                                                                                     × 100%
+                                                                  Pall
+         (ij)                                                                                        (ij)
+where Pall denotes the performance of the full Brain-OF model on dataset Dj , and Pablated denotes the performance when
+modality Mi is excluded from pretraining. A positive value indicates that modality Mi contributes constructively to task Dj .
+Notably, for lower-is-better metrics (e.g., MAE), IMi ,Dj is sign-flipped to preserve a consistent contribution direction.
+As shown in Figure 3(a), the local importance heatmap reveals strong cross-modal dependencies across tasks. Figure 3(b)
+further aggregates these scores to obtain the Global Modality Importance. Overall, EEG contributes the most to general
+performance (score 3.87), followed by fMRI (3.54) and MEG (3.43), highlighting the complementary and non-dominant
+roles of all three modalities within Brain-OF.
+
+                                                                      18
+                                 Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+
+
+
+Figure 3. Modality Importance Analysis. (a) Local Modality Importance. Heatmap showing the relative performance drop (%) on each
+downstream dataset when a specific modality (fMRI, EEG, or MEG) is removed during pretraining. Higher values indicate stronger
+reliance on that modality. (b) Global Modality Importance. Importance scores aggregated across all downstream tasks, illustrating that
+EEG and fMRI contribute most to the overall generalization capability of Brain-OF, while MEG provides complementary support.
+
+D. Ablation Study of Mask Ratios in the MTFM
+To investigate the impact of the mask ratio in the MTFM, we evaluate ratios from 0.4 to 0.9 using the Brain-OF Base model
+on three representative downstream datasets: TUAB (EEG) for abnormal detection, ADNI (fMRI) for Alzheimer’s diagnosis,
+and CamCAN (MEG) for brain age prediction. We adopt a symmetric masking strategy where the temporal and frequency
+mask ratios are set to the same value. The results are summarized in Table 7. Performance drops sharply at a low mask
+ratio of 0.4 across all modalities and metrics, so we do not explore ratios below this threshold. For TUAB and ADNI, a
+ratio of 0.7 yields the strongest overall results (e.g., 81.88% BAC on TUAB, 68.23% BAC on ADNI), though 0.8 performs
+comparably on ADNI (74.53% AUROC). In contrast, ratios of 0.6 and 0.5 are superior on CamCAN (e.g., 8.83 MAE at
+0.6), but underperform on fMRI. Balancing these trade-offs, we select 0.7 as the final mask ratio for MTFM. Interestingly,
+different modalities exhibit preferences for distinct optimal ranges: fMRI favors higher ratios (0.7–0.8) whereas EEG and
+MEG benefit from moderate ones (0.5–0.7), revealing modality-specific sensitivities in self-supervised learning.
+
+                                  Table 7. Performance comparison across different mask ratios in the MTFM.
+                                    TUAB (EEG)                               ADNI (fMRI)                              CamCAN (MEG)
+   Mask Ratios
+                    BAC(%) ↑       AUC-PR(%) ↑   AUROC(%) ↑    BAC(%) ↑     AUC-PR(%) ↑    AUROC(%) ↑     MAE ↓         R2(%) ↑     MAPE(%) ↓
+  N (0.4, 0.052 )   81.02±0.12      87.17±0.09    88.67±0.06   61.10±2.57    69.84±2.36     67.54±2.47   11.93±0.38    32.70±3.92    23.25±0.77
+  N (0.5, 0.052 )   81.74±0.21      87.59±0.13    89.29±0.19   65.01±2.91    75.24±2.28     71.42±2.84    8.92±0.18    58.19±1.71    17.00±0.31
+  N (0.6, 0.052 )   81.82±0.31      87.64±0.20    89.45±0.27   63.74±2.76    72.87±3.12     70.85±3.31    8.83±0.19    57.02±1.94    16.50±0.48
+  N (0.7, 0.052 )   81.88±0.17      87.69±0.11    89.26±0.09   68.23±2.07    76.23±1.87     73.27±0.71    8.99±0.14    56.19±1.84    16.92±0.30
+  N (0.8, 0.052 )   81.51±0.09      87.46±0.06    89.14±0.09   67.86±2.62    76.77±3.17     74.53±4.71    9.45±0.40    53.27±3.62    18.06±0.51
+  N (0.9, 0.052 )   81.26±0.25      87.31±0.16    88.76±0.35   64.76±3.78    71.61±3.31     69.25±2.23   10.39±0.32    44.38±2.75    19.94±0.66
+The results presented above are obtained with the Brain-OF Base.
+
+
+E. Ablation Study of Router Bias Update Rate γ
+To examine the sensitivity of Brain-OF to the router bias update rate γ during pretraining, we conduct an ablation study
+over a range of values from 10−5 to 10−2 . Each pretrained model is subsequently fully finetuned and evaluated on three
+representative downstream tasks: TUAB (EEG), ADNI (fMRI) and CamCAN (MEG).
+As illustrated in Figure 4, a consistent optimal configuration emerges across all modalities. In particular, γ = 10−3 achieves
+the highest Balanced Accuracy on EEG and fMRI tasks and the lowest Mean Absolute Error on MEG. Larger values
+
+                                                                       19
+                           Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+(e.g., 10−2 ) lead to noticeable performance degradation, likely due to overly aggressive bias updates that destabilize expert
+routing and impair specialization. In contrast, smaller values (10−5 ) fail to sufficiently update the router bias, limiting the
+effectiveness of load balancing.
+Interestingly, we observe a different preference during the finetuning stage. While γ = 10−3 is crucial for effective
+pretraining, substantially smaller update rates (e.g., γ = 10−5 ) generally yield improved stability and performance during
+downstream finetuning, preserving the specialized knowledge acquired during pretraining.
+                  TUAB (EEG)                                     ADNI (fMRI)                                  CamCAN (MEG)
+
+
+
+
+Figure 4. The impact of the router bias update rate γ during pretraining. The performances are evaluated on downstream tasks across three
+modalities.
+
+
+F. Visualization of Reconstruction
+We visualize the reconstruction quality of Brain-OF Huge to assess the effectiveness of the proposed Masked Temporal-
+Frequency Modeling (MTFM) objective across fMRI, EEG, and MEG. Beyond simple waveform reconstruction, we
+examine whether the model preserves critical high-order features. As shown in Figure 5, Brain-OF achieves high-fidelity
+reconstruction with effective noise suppression. For EEG, reconstructed signals closely match the original temporal dynamics
+while preserving dominant spectral bursts. In fMRI, functional connectivity derived from the original and reconstructed
+BOLD signals show that the complex inter-regional correlation structure is well preserved. For MEG, reconstructed
+topomaps accurately recover localized scalp-level magnetic field patterns despite signal sparsity. Overall, these results
+indicate that Brain-OF learns meaningful spatiotemporal and spectral generative structure rather than memorizing raw
+inputs.
+
+
+
+
+                       Figure 5. Qualitative visualization of signal reconstruction across fMRI, EEG and MEG.
+
+
+G. Hyperparameter Configurations
+In this section, we provide the detailed hyperparameter configurations in the Brain-OF pretraining, as well as the optimization
+settings for downstream tasks. All models were implemented in PyTorch and trained on NVIDIA A100 GPUs using automatic
+mixed precision.
+
+                                                                   20
+                            Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+G.1. Pretraining Settings
+
+                                         Table 8. Hyperparameters for pretraining Brain-OF.
+                   Hyperparameters                        Brain-OF Base           Brain-OF Large           Brain-OF Huge
+                       Model Size                              47.5M                   331M                     1.7B
+                  Activated Parameters                         21.5M                   150M                     500M
+                       Patch size                                                        64
+                  Max sequence length                                                  2048
+                  Semantic space size                                                   128
+                     Padding token                                                    Full zero
+                                Input dimension               {1, 4, 4}               {1, 8, 8}              {1, 12, 12}
+                                Output dimension              {4, 4, 4}               {8, 8, 8}              {12, 12, 12}
+    Brain Signal Encoder          Kernel size                                         {3, 3, 3}
+                                     Stride                                           {1, 1, 1}
+                                    Padding                                           {1, 1, 1}
+                                 ARNESS layer                    4                        4                       6
+                                 Backbone layer                  12                       24                     36
+                                 Attention head                   4                        8                     12
+            Brain-OF            Hidden dimension                256                      512                     768
+                                  Routed expert                  8                       16                      28
+                                 Activated expert                 2                        4                      4
+                                  Shared expert                                           1
+                                     Epochs                                              150
+                                Global batch size       7,168 (224×32 GPUs)     7,040 (80×88 GPUs)       7,168 (32×224 GPUs)
+                                    Optimizer                                         AdamW
+                                     Adam β                                          (0.9, 0.95)
+                                Peak learning rate                                      3e-3
+                               Warmup learning rate                                     3e-5
+     Pretraining settings     Router bias update rate                                   1e-3
+                              Learning rate scheduler                                  Cosine
+                                 Warmup epochs                                            8
+                                  Weight decay                                          0.05
+                                Gradient clipping                                        5.0
+                                    Mask ratio                                     N (0.7, 0.052 )
+                                 Layer scale init               1e-4                    1e-5                    1e-6
+
+
+G.2. Finetuning Settings on Downstream Tasks
+For downstream tasks, Brain-OF is fully finetuned with a lightweight task-specific linear head following global average
+pooling. We employ cross-entropy loss for classification tasks and mean squared error loss for regression tasks. Optimization
+is performed using AdamW with β = (0.9, 0.99) and a cosine learning rate scheduler. Detailed finetuning hyperparameter
+configurations for different model variants are provided in Table 9, Table 10 and Table 11.
+
+                                Table 9. Hyperparameters for downstream finetuning (Brain-OF Base).
+ Datasets              Global bsz   Epochs    Warmup epochs          Lr    Warmup lr      Weight decay     Drop out    Drop path
+ SEED-V              1,024          50            5            1e-4        1e-6            5.0          0.0          0.0
+ CHB-MIT             1,024          50            5            3e-5        3e-7            0.1          0.0          0.1
+ TUAB                1,024          50            5            7e-6        7e-8            0.1          0.0          0.0
+ ADNI                  32           50            5           1.5e-4      1.5e-6           0.1          0.1          0.0
+ ADHD-200              32           50            5            3e-5        3e-7           0.01          0.1          0.0
+ CamCAN-fMRI           32          100            5           7.5e-4      7.5e-6           0.1          0.1          0.0
+ CamCAN-MEG          1,024          50            5            1e-4        1e-6           5e-4          0.0          0.0
+ CamCAN-MM            512           50            5            2e-4        2e-6            0.1          0.0          0.2
+ LEMON-fMRI            32          100            5            2e-4        2e-6            0.1          0.1          0.1
+ LEMON-EEG            512           50            5           1.5e-5      1.5e-7           0.1          0.0          0.0
+ LEMON-MM             512           50            5            4e-5        4e-7            0.1          0.0          0.3
+MM (Multimodal): Indicates finetuning Brain-OF on multimodal scenarios. Specifically, CamCAN comprises paired fMRI and MEG,
+while LEMON comprises paired fMRI and EEG.
+
+
+                                                                21
+                         Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+                             Table 10. Hyperparameters for downstream finetuning (Brain-OF Large).
+  Datasets           Global bsz   Epochs     Warmup epochs          Lr     Warmup lr     Weight decay        Drop out    Drop path
+ SEED-V              1,024           50            5           4e-4       4e-6             5.0         0.0          0.1
+ CHB-MIT             1,024           50            5           3e-5       3e-7             0.5         0.0          0.1
+ TUAB                1,024           50            5           3e-5       3e-7             0.1         0.0          0.3
+ ADNI                  32            50            5           1e-4       1e-6             0.1         0.0          0.3
+ ADHD-200              32           50             5           4e-5       4e-7            0.01         0.1          0.2
+ CamCAN-fMRI           32           100            5           3e-3       3e-5             0.1         0.1          0.1
+ CamCAN-MEG          1,024           50            5           6e-4       6e-6             0.1         0.0          0.3
+ CamCAN-MM            512            50            5           8e-5       8e-7            0.05         0.0          0.2
+ LEMON-fMRI            32           100            5           3e-4       3e-6             0.1         0.0          0.1
+ LEMON-EEG            512            50            5           6e-4       6e-6             0.1         0.0          0.1
+ LEMON-MM             512            50            5           4e-4       4e-6             0.1         0.0          0.1
+MM (Multimodal): Indicates finetuning Brain-OF on multimodal scenarios. Specifically, CamCAN comprises paired fMRI and MEG,
+while LEMON comprises paired fMRI and EEG.
+
+                             Table 11. Hyperparameters for downstream finetuning (Brain-OF Huge).
+ Datasets           Global bsz    Epochs    Warmup epochs           Lr      Warmup lr        Weight decay     Drop out    Drop path
+ SEED-V              1,024          50            5            1e-4        1e-6            5.0          0.0          0.1
+ CHB-MIT             1,024          50            5            1e-4        1e-6            0.1          0.0          0.1
+ TUAB                1,024          50            5            7e-6        7e-8            0.1          0.0          0.1
+ ADNI                  32           50            5            3e-4        3e-6            0.1          0.0          0.1
+ ADHD-200              32           50            5            1e-4        1e-6            0.1          0.0          0.3
+ CamCAN-fMRI           32          100            5            5e-3        5e-5            0.1          0.0          0.1
+ CamCAN-MEG          1,024          50            5            4e-4        4e-6            0.1          0.0          0.3
+ CamCAN-MM            512           50            5            1e-3        1e-4            0.1          0.0          0.3
+ LEMON-fMRI            32          100            5            5e-4        5e-6            0.1         0.001         0.1
+ LEMON-EEG            512           50            5           1.5e-4      1.5e-6           0.1          0.0          0.1
+ LEMON-MM             512           50            5            4e-4        4e-6            0.1          0.0          0.1
+MM (Multimodal): Indicates finetuning Brain-OF on multimodal scenarios. Specifically, CamCAN comprises paired fMRI and MEG,
+while LEMON comprises paired fMRI and EEG.
+
+
+H. Efficiency Analysis
+We evaluate the computational efficiency of Brain-OF across three model scales: Base, Large and Huge. Table 12 summarizes
+the parameter counts, training resources and inference latency.
+Model Scaling and Training Cost. Brain-OF employs a Sparse Mixture of Experts architecture, which decouples the
+total parameter count from the computational cost per forward pass. Although Brain-OF Huge contains 1.7B parameters,
+only approximately 500M parameters (29%) are activated per token. This sparsity enables efficient scaling: while the total
+parameter count increases by 35× from Base (47.5M) to Huge (1.7B), the number of active parameters grows by only
+∼ 23×. Pretraining the Huge variant required 153 hours on 224 NVIDIA A100 GPUs.
+Inference Latency and Throughput. Inference latency is measured on a single NVIDIA A100 GPU using BF16 precision,
+with a sequence length of 2,048 tokens and a batch size of 16. The average per-sample latency remains low: 5.5 ms for Base,
+11.1 ms for Large, and 18.6 ms for Huge. This corresponds to a throughput of 181.8 samples/s for the Base model, indicating
+that Brain-OF remains suitable for real-time despite its large-scale architecture. Notably, the efficiency is further enhanced by
+ARNESS, which compresses high-dimensional brain signals into a compact semantic representation, significantly reducing
+the effective token length and computational burden.
+
+Table 12. Efficiency analysis across model variants. Active Params denotes the number of parameters used per forward pass (due to
+sparse MoE). Inference Latency is reported for a batch size of 16 with sequence length 2,048 on a single A100 GPU.
+                          Total        Active        Comp.               Pretraining Cost              Inference (Batch=16)
+   Model Variants
+                         Params       Params        GFLOPs               Time       # GPUs         Latency         Throughput
+   Brain-OF Base         47.5M         21.5M          11.29          71h 50m            32           88 ms        181.8 samples/s
+   Brain-OF Large        331M          150M           61.01          82h 06m            88          178 ms        89.9 samples/s
+   Brain-OF Huge          1.7B         500M          178.19         153h 03m           224          297 ms        53.8 samples/s
+
+
+
+                                                               22
+                          Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+I. Representation Visualizations on Downstream Datasets
+To qualitatively assess the learned representations, we employ t-SNE (Maaten & Hinton, 2008) to visualize the feature
+embeddings generated by finetuned Brain-OF across three downstream datasets. Figure 6 illustrates the evolution of
+representations from raw input features (Column 1) to embeddings learned by Brain-OF Base, Large and Huge (Columns 2–4).
+The first two rows correspond to classification tasks on TUAB (EEG) and ADNI (fMRI). In the raw feature space, samples
+from different classes (e.g., Normal vs. Abnormal, Healthy Control vs. Alzheimer’s Disease) are heavily entangled. As model
+capacity increases from Base to Huge, a clear trend emerges: class-specific clusters become progressively more compact
+and better separated. This confirms that scaling the model capacity directly enhances its ability to extract discriminative,
+class-specific representations. The third row visualizes the regression task on CamCAN (MEG), where color gradients
+indicate chronological age. Unlike the unstructured scatter of the raw data, the Brain-OF embeddings organize into a
+coherent, continuous manifold where age varies smoothly across the representation distribution. This structure suggests that
+Brain-OF captures meaningful biological variation associated with aging, rather than merely fitting discrete targets. Overall,
+these visualizations demonstrate that scaling Brain-OF enhances both class separability in classification tasks and structural
+coherence in regression settings, validating the effectiveness of large-scale omnifunctional pretraining.
+
+
+
+
+Figure 6. t-SNE visualization of learned representations across model scales. Comparison of raw input features (Left) with
+representations from Brain-OF Base, Large and Huge (Right). Rows correspond to different modalities and tasks: Top: TUAB (EEG,
+binary classification); Middle: ADNI (fMRI, binary classification); Bottom: CamCAN (MEG, age regression). As model size increases,
+the representations exhibit clearer class separation (Top/Middle) and a more structured continuous manifold for regression (Bottom),
+demonstrating the benefits of scaling.
+
+
+
+
+                                                                23
+                            Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+J. Ablation Study on Key Components
+To verify the contribution of key architectural components, we conduct ablation studies on the Sparse MoE and DINT
+attention mechanism. Specifically, we pretrain two variants: (i) replacing Sparse MoE with a dense Feed-Forward Network
+(FFN), and (ii) substituting DINT attention with vanilla self-attention. As shown in Table 13, replacing Sparse MoE with a
+dense FFN results in the largest performance degradation across all tasks, with particularly severe drops on fMRI tasks.
+This suggests that a shared dense parameter space struggles to disentangle heterogeneous modality semantics, as the larger
+EEG/MEG corpora may dominate gradient updates in the dense model, hindering learning of subtle features from the
+smaller fMRI corpus. In contrast, Sparse MoE enables expert specialization, mitigating negative transfer and preserving
+performance even on under-represented modalities. Replacing DINT attention with vanilla self-attention also leads to
+consistent but smaller performance declines (e.g., SEED-V Cohen’s κ drops from 23.98% to 22.82%). This indicates that
+standard attention is susceptible to the low signal-to-noise ratio of neural recordings, attending to irrelevant fluctuations
+rather than meaningful patterns. DINT alleviates this issue by suppressing irrelevant context and emphasizing salient
+signals. Overall, these ablations demonstrate that Sparse MoE and DINT attention are both crucial for handling semantic
+heterogeneity and noise in brain signals.
+                                          Table 13. Ablation analysis of key components.
+                                   SEED-V               TUAB               ADNI             ADHD-200           CamCAN
+                                     EEG                EEG                fMRI                fMRI              MEG
+         Method
+                                  Kappa(%) ↑          BAC(%) ↑           BAC(%) ↑           BAC(%) ↑            MAE ↓
+         Brain-OF (Base)          23.98±0.29         81.88 ±0.17         68.23±2.07         62.57±1.19         8.99±0.14
+         w/ Dense FFN             20.86±0.28         81.86±0.08          64.60±3.32         59.10±1.80         9.78±0.27
+         w/ Vanilla Attn.         22.82±0.38         81.85±0.09          64.32±2.82         62.82±1.76         9.50±0.53
+
+
+K. Label Efficiency and Low-Resource Analysis
+To evaluate Brain-OF’s robustness under data-scarce conditions, we assess the Brain-OF Base using progressively smaller
+fractions (10%–100%) of the downstream training data. We consider two representative tasks: abnormality detection on
+TUAB (EEG) and brain-age prediction on CamCAN (MEG). As illustrated in Figure 7, Brain-OF exhibits strong label
+efficiency across both tasks. For TUAB (left), the model achieves over 81.5% balanced accuracy using only 30% of the
+labeled data, nearly approaching the full-data performance of 81.88%. For CamCAN (right), the mean absolute error
+consistently decreases as more data becomes available, yet the model maintains competitive accuracy even in low-resource
+settings (e.g., 30% training data). These results indicate that the rich, generalizable representations learned during large-scale
+multimodal pretraining reduce the dependency on large labeled downstream datasets. Brain-OF thus offers promising
+potential for low-resource neuroimaging scenarios, where annotated data is often limited or expensive to obtain.
+
+
+
+
+Figure 7. Label efficiency of Brain-OF under limited supervision. Brain-OF Base is evaluated across varying training data fractions
+(10%, 30%, 50%, 70%, 100%). Shaded regions denote standard deviation across five random seeds. Brain-OF achieves strong performance
+even with limited labeled data, highlighting the effectiveness of heterogeneous multimodal pretraining for low-resource settings.
+
+                                                                24
+                        Brain-OF: An Omnifunctional Foundation Model for fMRI, EEG and MEG
+
+L. Limitations and Future Work
+Although we curate one of the largest neuroimaging corpora to date, which spans over 40 datasets across fMRI, EEG
+and MEG, the overall data scale remains orders of magnitude smaller than that of foundation models in natural language
+processing or computer vision. Moreover, the pretraining corpus exhibits notable modality imbalance, with fMRI samples
+being considerably scarcer than EEG and MEG recordings. Future iterations of Brain-OF may address these challenges
+by incorporating additional modalities such as fNIRS and PET, and by extending the framework to support more general
+multivariate time series.
+Currently, Brain-OF employs a relatively straightforward multimodal fusion strategy. While effective, this approach may
+not fully capture complex and nonlinear cross-modal interactions. Future work could explore more expressive fusion
+mechanisms, such as adaptive gating strategies or dedicated cross-modal attention modules, to better model fine-grained
+inter-modality dependencies.
+In this work, downstream performance is evaluated using full finetuning, which offers strong representational capacity but
+incurs substantial computational and memory costs. Future research will investigate parameter-efficient fine-tuning (PEFT)
+techniques, such as LoRA or adapter-based methods, to reduce the computational burden while maintaining performance.
+
+
+
+
+                                                           25
+

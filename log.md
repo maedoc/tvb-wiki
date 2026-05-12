@@ -1,5 +1,8 @@
 # Wiki Activity Log
 
+## 2026-05-12
+- Improved [[neurostats]] page: clarified it's a category of statistical analysis frameworks (NeuroStatX, BrainStat), expanded with 12+ wikilinks, added relationship to TVB for model validation and parameter estimation, added source reference to NeuroStatX package
+
 ## 2026-05-11
 - Improved [[lfpykit]] page: replaced placeholder content with comprehensive description of LFPykit library, added technical details on forward models (point source, line source, four-sphere head model), included relationship to TVB for multi-scale modeling, added references to linden-2014 and hagen-2018 papers
 - Created [[braindecode]] page: new entity page for BrainDecode deep learning library for EEG neural decoding, included overview of EEGNet and other CNN architectures, added relationship to TVB for parameter estimation and epilepsy modeling workflows, added to entities index
@@ -326,3 +329,5 @@
 ## [2026-05-11 23:28] Audit: 719 issues (21 broken links, 8 orphans, 0 placeholders, 0 dup-refs, 4 bad-meta, 98 citation-verify, 26 opaque-refs, 14 thin, 453 missing-links)
 
 ## [2026-05-11 23:44] Linter: 21 broken links, 10 orphans, 3 stale, 2 empty
+
+## [2026-05-11 23:49] Audit: 723 issues (21 broken links, 10 orphans, 2 placeholders, 0 dup-refs, 4 bad-meta, 98 citation-verify, 26 opaque-refs, 14 thin, 452 missing-links)

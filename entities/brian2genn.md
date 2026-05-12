@@ -16,7 +16,7 @@ tags:
 - code-generation
 title: Brian2GeNN
 type: entity
-updated: '2026-05-11'
+updated: '2026-05-12'
 ---
 
 Brian2GeNN is a software bridge that connects the Brian2 spiking [[neural-network]] simulator with the GeNN (GPU-enhanced Neuronal Networks) code generation framework, enabling high-performance GPU-accelerated simulations of spiking neural networks. The tool was developed to address the computational bottleneck inherent in large-scale [[spiking-neural-networks]] simulations, which often require millions of neurons and synapses to achieve biologically realistic [[network-dynamics]]. By automatically converting Brian2 model definitions into optimized CUDA code via GeNN, Brian2GeNN allows neuroscientists to write network models in Brian2's intuitive Python-based syntax while transparently benefiting from the massive parallelism of graphics processing units.
@@ -71,10 +71,33 @@ Additionally, Brian2GeNN currently supports single-GPU execution only. Multi-GPU
 
 ## Related Software
 
-Brian2GeNN is part of a rich ecosystem of neural simulation tools, each with different strengths. Brian2 is the Python-based spiking neural network simulator that serves as the frontend for Brian2GeNN, providing the modeling interface that users interact with directly stimberg-2019-brian2. The [[brian2cuda]] project offers an alternative GPU backend for Brian2 that uses CUDA directly rather than through GeNN, potentially offering different performance characteristics. Genn itself is the underlying code generation framework that transforms model specifications into optimized CUDA executables nowotny-2014-genn. [[nest]] is a widely-used simulator for spiking networks that has its own GPU acceleration effort through the NEST GPU project [[nest]]. The [[neuron]] simulator provides another established option for neuron and network simulations. Spinnaker represents a fundamentally different approach using custom neuromorphic hardware rather than GPU acceleration. Finally, [[tvb-nest]] provides integration between TVB and NEST, analogous to how Brian2GeNN connects Brian2 with GeNN.
+Brian2GeNN is part of a rich ecosystem of neural simulation tools, each with different strengths. Brian2 is the Python-based spiking neural network simulator that serves as the frontend for Brian2GeNN, providing the modeling interface that users interact with directly stimberg-2019-brian2. The [[brian2cuda]] project offers an alternative GPU backend for Brian2 that uses CUDA directly rather than through GeNN, potentially offering different performance characteristics. Genn itself is the underlying code generation framework that transforms model specifications into optimized CUDA executables nowotny-2014-genn. [[nest]] is a widely-used simulator for spiking networks that has its own GPU acceleration effort through the NEST GPU project [[nest]]. The [[neuron]] simulator provides another established option for neuron and network simulations. Spinnaker represents a fundamentally different approach using custom neuromorphic hardware rather than GPU acceleration. Finally, [[tvb-nest]] provides integration between TVB and NEST, analogous to how Brian2GeNN connects Brian2 with GeNN. Additionally, frameworks like [[jaxley]] provide similar capabilities using JAX for automatic differentiation and GPU acceleration.
 
 ## References
 
-1. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
-2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](](https://doi.org/10.3389/fncom.2025.1731161))
-3. Max C. W. Engelen, River Betting, Christos Strydis. (2025). *SimHH: A Versatile, Multi-GPU Simulator for Extended Hodgkin-Huxley Networks*. IEEE Access. [DOI](](https://doi.org/10.1109/ACCESS.2025.3550444))
+1. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](https://arxiv.org/abs/2505.16861))
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161))
+3. Max C. W. Engelen, River Betting, Christos Strydis. (2025). *SimHH: A Versatile, Multi-GPU Simulator for Extended Hodgkin-Huxley Networks*. IEEE Access. [DOI](https://doi.org/10.1109/ACCESS.2025.3550444))
+
+## ORPHAN PAGE CONTEXT (jaxley)
+---
+created: 2025-01-15
+sources:
+- raw/papers/deistler-2025-jaxley.md
+tags:
+- software-neural-simulation
+- spiking-neural-networks
+- python
+- jax
+- gpu-computing
+- computational-neuroscience
+title: Jaxley
+type: entity
+updated: '2026-05-11'
+---
+
+# Jaxley
+
+## Overview
+
+Jaxley is a Python-based [[neural-simulation]] framework that combines the automatic differentiation capabilities of [[jax|JAX]] with a Brian2-inspired API for defining [[spiking-neural-networks]]. Developed to address the growing n

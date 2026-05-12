@@ -1,0 +1,558 @@
+                                              Bridging Foundation Models and Efficient Architectures: A Modular Brain
+                                           Imaging Framework with Local Masking and Pretrained Representation Learning
+                                                     Yanwen Wang1 , Xinglin Zhao1 , Yijin Song1 , Xiaobo Liu2 , Yanrong Hao1 , Rui Cao1 , Xin Wen1 *
+                                                                                             1
+                                                                                               Taiyuan University of Technology
+                                                                                       2
+                                                                                       Montreal Neurological Institute Mcgill University
+                                                                                   {Yanwen Wang}2024511304@link.tyut.edu.cn
+                                                                                            {Xin Wen}xwen@tyut.edu.cn
+arXiv:2508.16597v1 [q-bio.NC] 9 Aug 2025
+
+
+
+
+                                                                      Abstract                                     By employing sliding time windows to model temporal
+                                             Functional connectivity (FC) derived from resting-state fMRI
+                                                                                                                dynamics and region-of-interest (ROI)-based parcellations
+                                             plays a critical role in personalized predictions such as age      to reduce spatial complexity, dFC effectively compresses
+                                             and cognitive performance. However, applying foundation            data dimensionality while preserving critical spatiotempo-
+                                             models(FM) to fMRI data remains challenging due to its high        ral dependencies. Beyond dimensionality reduction, dFC
+                                             dimensionality, computational complexity, and the difficulty       computation expands the effective sample size by up to
+                                             in capturing complex spatiotemporal dynamics and indirect          100× through sliding-window segmentation. This is criti-
+                                             region-of-interest (ROI) interactions. To address these limi-      cal for public fMRI datasets, which often have fewer than
+                                             tations, we propose a modular neuroimaging framework that          1,000 subjects, enabling more effective pretraining of self-
+                                             integrates principles from FM with efficient, domain-specific      supervised models like Masked Autoencoders (MAEs) and
+                                             architectures. Our approach begins with a Local Masked Au-         improving model generalizability.
+                                             toencoder (LMAE) for pretraining, which reduces the influ-
+                                             ence of hemodynamic response function (HRF) dynamics                  Recent advances have seen deep learning models domi-
+                                             and suppresses noise. This is followed by a Random Walk            nate this domain, broadly categorized by input modality: (1)
+                                             Mixture of Experts (RWMOE) module that clusters features           static FC matrices processed by CNNs or GNNs, and (2) raw
+                                             across spatial and temporal dimensions, effectively captur-        BOLD time series or segmented dFC sequences modeled us-
+                                             ing intricate brain interactions. Finally, a state-space model     ing architectures such as Transformers, LSTMs, RNNs, and
+                                             (SSM)-based predictor performs downstream task inference.          state-space models (SSMs). More recently, foundation mod-
+                                             Evaluated on the Cambridge Centre for Ageing and Neuro-            els—particularly large language models (LLMs)—have in-
+                                             science (Cam-CAN) dataset, our framework achieved mean             spired new downstream frameworks for neuroimaging pre-
+                                             absolute errors (MAEs) of 5.343 for age prediction and 2.940       diction. However, direct application of LLMs to fMRI data
+                                             for fluid intelligence, with Pearson correlation coefficients
+                                                                                                                faces key challenges: scanner-specific acquisition protocols
+                                             (PCCs) of 0.928 and 0.887, respectively—outperforming ex-
+                                             isting state-of-the-art methods. Visualization of expert dis-      introduce temporal misalignment requiring correction, and
+                                             tribution weights further enhances interpretability by identi-     the hemodynamic response function (HRF) induces inher-
+                                             fying key brain regions. This work provides a robust, inter-       ent delays in BOLD signals, both of which add noise and
+                                             pretable alternative to LLM-based approaches for fMRI anal-        distort temporal dynamics.
+                                             ysis, offering novel insights into brain aging and cognitive          To address these limitations, we propose a modular brain
+                                             function.                                                          imaging framework that integrates principles from founda-
+                                                                                                                tion models with efficient, fMRI-specific architectural de-
+                                                                  Introduction                                  signs. Our goal is to effectively capture complex spatiotem-
+                                                                                                                poral dependencies and indirect ROI interactions while han-
+                                           Neuroimaging-based prediction of cognitive abilities and
+                                                                                                                dling high-dimensional data efficiently. The key contribu-
+                                           brain age holds significant scientific and clinical value, of-
+                                                                                                                tions are threefold:
+                                           fering insights into cognition development, aging, and clini-
+                                           cal outcomes(Gabrieli, Ghosh, and Whitfield-Gabrieli 2015;            • We propose a novel modular framework incorporating
+                                           He et al. 2022; Zhao et al. 2023a). A central challenge lies            Local Masked Autoencoding (LMAE) and pretrained
+                                           in modeling the complex spatiotemporal patterns inherent                representation learning, effectively adapting large lan-
+                                           in functional brain activity. Functional magnetic resonance             guage model (LLM)-inspired architectures to fMRI data
+                                           imaging (fMRI), provides a non-invasive investigation of                for brain age and cognitive ability prediction.
+                                           brain activity through various derived metrics including am-          • We improve model interpretability by analyzing the
+                                           plitude of low-frequency fluctuations (ALFF), regional ho-              expert distribution within the Random Walk Mixture
+                                           mogeneity (ReHo), functional connectivity (FC), and dy-                 of Experts (RWMOE) module from the perspective of
+                                           namic functional connectivity (dFC) which possesses the                 functional brain networks, revealing neuroscientifically
+                                           potential to reveal the mechanisms underlying brain func-               meaningful patterns.
+                                           tional development and cognition.
+                                                                                                                 • We evaluate our method on the publicly available Cam-
+                                              * Corresponding author: Xin Wen, email:xwen@tyut.edu.cn              CAN dataset, demonstrating significant performance im-
+   provements over state-of-the-art approaches in predicting         Despite significant advancements in deep learning tech-
+   both age and fluid intelligence.                               niques for fMRI analysis, including CNNs, GNNs, trans-
+                                                                  formers, and RNNs (Li et al. 2023, 2021; Gonneaud et al.
+                      Related Work                                2021), large language models (LLMs) have yet to be effec-
+                                                                  tively applied to fMRI data. This gap can be attributed to a
+fMRI-based Predictive models                                      fundamental challenge: extracting meaningful semantic in-
+Over the past decade, a growing body of research has lever-       formation from fMRI data remains difficult due to its com-
+aged deep learning to model FC patterns(Wen et al. 2020),         plex spatiotemporal structure and the inherent noise (Zhao
+enabling more accurate and interpretable brain-behavior           et al. 2023b). Although there have been some prelimi-
+predictions(Peng et al. 2021).                                    nary attempts to integrate LLMs with fMRI data(Tuckute
+   GNNs have emerged as a dominant paradigm in brain net-         et al. 2024), these efforts have not achieved predictive per-
+work analysis, owing to their ability to model irregular topo-    formance that surpasses recent conventional deep learning
+logical structures. BrainGNN (Li et al. 2021) is a pioneering     models.
+framework that identifies task- or disease-relevant brain re-        Therefore, exploring how to effectively adapt LLMs for
+gions by integrating graph convolution with ROI selection.        fMRI semantic representation and apply them to down-
+Similarly, ST-DAG-Att (Huang et al. 2022) models the brain        stream predictive tasks represents a critical research direc-
+as a dynamic graph, with nodes representing ROIs and edges        tion. Addressing this challenge could lead to breakthroughs
+capturing functional connectivity(Yang et al. 2023), while        in understanding brain aging and cognitive functions, offer-
+incorporating structural priors into the graph architecture. To   ing new insights and methodologies for neuroimaging anal-
+better exploit dense connectivity patterns, Graph Path Con-       ysis.
+volution (Li et al. 2022) introduces an edge-based message-
+passing mechanism that effectively propagates information                               Methodology
+across richly connected brain networks.                           Overall Architecture
+   In parallel, attention mechanisms have been widely             Figure 1 presents the overall architecture of the pro-
+adopted to enhance model expressiveness and interpretabil-        posed model. The framework begins with a Local Mask
+ity. The Multi-Level Joint Attention Network (Xia, Chen,          Autoencoder (LMAE) for hierarchical feature extraction.
+and Qiu 2023) learns hierarchical FC representations by           The LMAE encoder processes only partially masked input
+combining node and edge level convolutions with adaptive          data—strategically omitting segments to simulate neural re-
+Inception modules and multi-scale attention, enabling joint       sponse delays—thereby mapping the observed fMRI time
+modeling across cognitive tasks. The Global-Local Brain           series into a compact latent representation. This design ex-
+Network (Guo et al. 2024) improves prediction of age and          plicitly accounts for the maximum delay in brain responses,
+fluid intelligence by fusing whole-brain context with salient     reducing sensitivity to HRF variability. Concurrently, it en-
+local connectivity patterns through a dual-branch attention       ables dimensionality reduction of FC matrices computed via
+architecture.                                                     Pearson correlation across ROI time series. A lightweight
+   More recently, Transformer-based models have been in-          decoder reconstructs the full input during pretraining; how-
+troduced to capture long-range spatiotemporal dependencies        ever, it is discarded in downstream tasks, with only the en-
+in fMRI data. SwiFT (Swin 4D fMRI Transformer) (Kim               coder retained for feature extraction.
+et al. 2023) adopts a 4D patch-based Transformer to learn            The extracted latent features are then processed by a Ran-
+dynamic brain features directly from fMRI volumes in an           dom Walk Mixture of Experts (RW-MoE) module, which
+end-to-end manner, bypassing the need for pre-defined par-        performs structured clustering along both spatial and tem-
+cellations. Despite these advances, most existing methods         poral dimensions. By leveraging a random walk mechanism,
+rely on hand-crafted architectures or static representations,     RW-MoE adaptively groups functionally coherent brain re-
+and none have effectively integrated principles from founda-      gions and temporal patterns, enhancing representational ex-
+tion models into fMRI representation learning(Zhang et al.        pressiveness.
+2024; Crucitti et al. 2022), leaving significant room for im-        Finally, a predictor head based on the Mamba architec-
+provement in both performance and generalization.                 ture generates the output. Built upon a Selective State Space
+                                                                  Model and augmented with an MLP subnetwork, this com-
+FM in Neuroimaging                                                ponent efficiently captures long-range temporal dependen-
+Large-scale models in neuroimaging have predominantly             cies and instantaneous dynamics in fMRI signals, while ex-
+focused on decoding tasks using electroencephalography            hibiting strong robustness to noise—a critical advantage in
+(EEG) data, where the temporal resolution is high and the         neuroimaging applications.
+signals are more directly related to neural activity (Song
+et al. 2025; Zhang et al. 2025; Li et al. 2024). These models     Local Masked Autoencoders
+leverage the rich temporal dynamics of EEG for various ap-        In current research, LMAE is proposed as a refined self-
+plications such as emotion recognition, cognitive state mon-      coding method. Its core goal is to reconstruct the complete
+itoring, and motor imagery classification. However, their ap-     output data through partial original input data, and obtain
+plication to fMRI-based prediction tasks remains largely un-      the latent representation of the input data mapping as the ex-
+explored.                                                         tracted feature to solve the problem that the FC data obtained
+Figure 1: Overall Architecture:Firstly, (a)LMAE is used for feature extraction;(b) RWMOE is used for feature clustering from
+time dimension and space dimension respectively;(c)Expert Model:Double branch structure is used to cluster features from
+time dimension and space dimension;(d) a predictor is used to predict the results.
+
+
+by calculating the Pearson correlation coefficient of the orig-   Mask Strategy. In classical autoencoders, the entire input
+inal data are difficult to process due to the large dimension.    is fed to the encoder. While this design is simple, it may
+Compared with the classical autoencoder, LMAE introduces          suffer from high computational cost and low reconstruc-
+a unique mask mechanism, which significantly improves the         tion efficiency when processing large-scale data. In contrast,
+performance and efficiency of the model.                          LMAE introduces a local region masking mechanism. Un-
+                                                                  like traditional discrete patch masking, LMAE divides the
+                                                                  input into contiguous windows, where masking is applied
+                                                                  to continuous local segments. This windowing strategy ac-
+                                                                  counts for the maximum delay in brain response, as illus-
+                                                                  trated in Figure 2, enabling more accurate capture of the
+                                                                  temporal characteristics of brain activity and HRF dynam-
+                                                                  ics. By setting an appropriate mask ratio, data redundancy
+                                                                  can be significantly reduced. The specific formula is as fol-
+                                                                  lows:
+                                                                                              Xi,j − µ
+                                                                                        Zi,j =                              (1)
+                                                                                                  σ
+                                                                           norm            Zi,j − min(Zi,j )
+                                                                          Xi,j = 2 ×                          −1            (2)
+                                                                                      max(Zi,j ) − min(Zi,j )
+                                                                                 i ∼ Uniform(0, N − b)                      (3)
+                                                                                  M [:, i : i + b] = 0T ×b                  (4)
+                                                                                     m         norm
+                                                                                   Xi,j   = Xi,j    ⊙M                      (5)
+                                                                  Let Xi,j ∈ RT ×N be the input data, where T represents
+                                                                  the number of time points and N represents the number of
+Figure 2: Mask Strategy: The local region random mask             Regions of Interest (ROIs). Xi,j denotes the value at the i-
+mechanism.                                                        th time point and the j-th ROI. Before applying the mask,
+                                                                  the data is first standardized, where µ is the global mean
+                                                                  and σ is the global standard deviation. The standardized data
+is denoted as Zi,j , and the normalized data is denoted as                     H(X enc ) = W H × Router(X enc )             (8)
+   norm
+Xi,j    . The mask matrix is denoted as M ∈ RT ×N , and             enc
+                                                                 X is the encoded data, W0 and W1 are the weights of
+the block size parameter of the mask is b, defined as b =        the router, and W H is the weight of the distribution projec-
+(α × D), where α is the mask ratio and D is the size of the      tion. H(X enc ) represents the distribution projection. During
+input data. The randomly generated index matrix is denoted       training, the network learns the correlation between the in-
+                                         m
+as i, and the masked data is denoted as Xi,j .                   put data and each expert, calculating a weight for each ex-
+                                                                 pert. The router uses these calculated weights to assign the
+Encoder. During input processing, the encoder focuses
+                                                                 input data to the corresponding expert node for processing,
+exclusively on the unmasked regions and completely dis-
+                                                                 thus completing the routing task.
+regards the masked portions. This design enables the en-
+                                                                    In the design of routers, in order to prevent some ex-
+coder to concentrate on available information, avoiding re-
+                                                                 perts from being selected too frequently and other experts
+dundant computations on masked data and thereby reducing
+                                                                 from not being trained enough, the noise mechanism is in-
+computational complexity. The encoder, composed of two
+                                                                 troduced. The specific method is to add a certain amount of
+one-dimensional convolutional layers followed by a fully
+                                                                 noise to the output logits of the router, and then apply the
+connected layer, performs feature extraction through step-
+                                                                 softmax function.
+wise downsampling. It maps the input sequence to a low-
+dimensional latent space, producing compact representa-          Top-K Selection Strategy. In addition to the weighted
+tions that the subsequent decoder utilizes to reconstruct the    sum method based on softmax weights, routers can also use
+original input.                                                  Top-K selection strategy to further simplify calculations and
+                                                                 improve efficiency. The strategy selects the experts with the
+Decoder. During reconstruction of the original input, the        top K weights by parameterization for subsequent calcula-
+decoder utilizes the latent representation generated by the      tions, while ignoring the experts with lower weights. The
+encoder to efficiently recover the complete data. The de-        specific formula is as follows :
+coder employs a lightweight architecture for fast processing,
+consisting of two deconvolutional layers that progressively                G(X enc ) = Softmax(TopK(H(X enc ), k))           (9)
+upsample the latent features to match the original input di-                                     enc
+                                                                                              H(X )i if i ∈ ArgTopK(H)
+mension. Finally, a tanh activation function is applied to         TopK(H(X enc ), k)i =
+                                                                                              −∞          otherwise
+constrain the output values within the interval (−1, 1), en-
+                                                                                                                            (10)
+suring stable and high-quality reconstruction.
+                                                                 G(X enc ) ∈ Rk represents the probability of each candi-
+   The decoder is only used to perform the reconstruction
+                                                                 date distribution, H is (H(X enc )) represents the distribution
+task of the input data during pre-training. The loss function
+                                                                 projection and TopK(H(X enc ), k) represents the top k most
+calculates the mean square error (MSE) of the reconstructed
+                                                                 likely potential distributions.
+data and the original input data.
+                                  n
+                                                                 Expert Model. Double branch structure is used to clus-
+              dec                 1X             norm 2          ter features from time dimension and space dimension. As
+    LR = (X         , αi , Li ) =       X dec − Xi,j      (6)
+                                  n i=1                          shown in Figure 1.
+                                                                 Time Clustering Module. The structure of Feed-Forward
+n is the number of samples, αi is the parameter of the mask-     Neural Network ( FFN ) is used to enable the model to cap-
+ing ratio, and Li is the parameter of the dimension of en-       ture patterns of complex time features. The specific formula
+coded features.                                                  is as follows :
+Random Walk Mixture of Experts                                              X temp (X enc ) = Linear(RELU(X enc ))         (11)
+                                                                   enc                             temp
+After obtaining the features extracted by the encoder, the       X is the encoded data, and X        is the temporal feature
+Random Walk Mixture of Experts dynamically routes the            generated by the time clustering module.
+input features to the most suitable expert via a distributed     Spatial Clustering Module. The limitation of using the
+router. Each expert specializes in processing specific pat-      original graph neural network for brain network analysis is
+terns in the data and performs feature clustering along both     that it cannot model the interaction between indirectly con-
+the temporal and spatial dimensions, addressing the limi-        nected neighbors, because it can only infer direct pairwise
+tation of standard feedforward networks in modeling com-         connections between brain ROIs. In this case, the interaction
+plex cross-temporal variable interactions. The outputs of all    between multiple brain regions or brain regions indirectly
+activated experts are then aggregated to produce the final       connected through the intermediate region may be ignored.
+representation. This mechanism promotes balanced expert          However, broader node interactions between these indirectly
+utilization, enhances modeling efficiency, and improves the      connected brain regions are also crucial. In order to incorpo-
+model’s generalization capability. As illustrated in Figure 1.   rate this broader interaction into the proposed method, the
+Distributed Router. The router is a simplified neural net-       random walk process is further applied to the spatial cluster-
+work model, and the input is the feature vector extracted by     ing module.
+the encoder. The specific formula is as follows :                   The structure of random walk graph neural network is
+                                                                 adopted, and the core of this method is random walk opera-
+        Router(X enc ) = ReLU(X enc × W0 ) × W1           (7)    tion. Specifically : graph propagation through the adjacency
+matrix A. At each step of propagation, the feature vector of      Combination Function. It is responsible for synthesizing
+the node is multiplied by the adjacency matrix to update the      the output of multiple expert models. Each expert model fo-
+node features according to the structure of the graph. In the     cuses on specific input features and obtains the final result
+loop, walk depth subgraph propagation is performed to up-         by weighted average to ensure that the output of each expert
+date the feature vector. The specific formula is as follows       is reasonably valued.
+:
+             X (walk depth) = A(walk depth) × X enc      (12)     Predictor
+                                                                  The predictor is a Mamba framework with SSM architec-
+ X spat (X enc ) = Linear(ReLU(Linear(X (walk depth) ))) (13)
+                                                                  ture design and Transformers ’ MLP module, which can ef-
+Where A ∈ RN ×N is the adjacency matrix of the graph,             fectively capture the instantaneous dynamics in time series
+representing the connection relationships between nodes in        data and improve the robustness of the model to data noise
+the graph. X enc ∈ RT ×N are the features extracted by            problems.
+the LMAE. walk depth is the parameter for the number of              The core innovation of the Mamba model is the introduc-
+steps in the random walk, and X (walk depth) represents feature   tion of a selectivity mechanism, which enables the model
+propagation on the graph structure, as shown in Algorithm         to dynamically adjust its behavior according to different in-
+1. X spat is the spatial feature generated by the spatial clus-   puts by making the SSM parameters dependent on the input.
+tering module. By combining the random walk strategy with         In order to optimize the computational efficiency, Mamba
+graph convolution, complex spatial feature patterns can be        adopts a hardware-aware algorithm, especially using the
+fully captured, allowing for the adaptive extraction of more      GPU ’s memory hierarchy to improve the calculation speed
+extensive dependencies between brain ROIs. These features         of the scanning operation and reduce the memory require-
+can better reveal the complexity and scope of interactions in     ments. This method combines the recursive computing ef-
+brain networks.                                                   ficiency of RNN and the parallel processing advantages of
+                                                                  CNN, making Mamba more efficient in processing long se-
+Algorithm 1: Graph propagation using random walk mecha-           quence data.The specific formula is as follows :
+nism                                                                                            feat
+                                                                                    Ml = Mamba(Xl−1  ; θl )                (15)
+ 1: Input:
+ 2:   A ∈ RD×D : Adjacency matrix                                 Ml represents the output of the l-th mamba block, θl rep-
+ 3:   X ∈ RB×T ×D : Input features                                resents the parameters of the l-th mamba block, and Xl−1 feat
+ 4:   walk depth ∈ N: Number of propagation steps                 represents the features processed by the l − 1-th layer.
+ 5: Output:
+                                                                                               L
+ 6:   X (walk depth) ∈ RB×T ×D : Walk-processed features                                    1 X feat
+ 7: Step 1: Initialize Propagation                                                 Xavg =        X [:, t, :]               (16)
+                                                                                            L t=1 l
+ 8: X (0) ← X
+ 9: X (current) ← X                                               Xavg represents the sequence aggregation feature, that is, the
+10: H ← zeros(B × T × D)                                          global feature of each sample.
+11: Step 2: Multi-step Feature Propagation
+12: for step = 1 to walk depth do                                            Y = Wreg × LayerNorm(Xavg ) + breg            (17)
+13:   for each batch b and time step t do
+             (current)    (current)                               where Y is the output result, Wreg and breg are the weight
+14:       Xb,t,:       ← Xb,t,:     · AT                          and bias of the regression head, respectively.
+15:   end for
+16:   H ← H + X (current)                                                               Experiments
+17:   if step < walk depth then
+18:       X (current) ← ReLU(X (current) )                        Experimental Setup
+19:   end if                                                      Datasets. Cambridge Centre for Ageing and Neuroscience
+20: end for                                                       ( Cam-CAN ) is a large-scale cognitive aging research ini-
+21: Step 3: Final Output                                          tiative. We use the fMRI data of this dataset.
+22: X (walk depth) ← H + X (0)
+                                                                  Preprocessing. The pre-processing uses fMRIPrep pre-
+23: return X (walk depth)
+                                                                  processing pipeline to preprocess the original image, and the
+                                                                  brain network group map is used to partition the brain. The
+  Finally, the time feature and the spatial feature are con-      Pearson correlation coefficient between the ROIs time series
+nected in series to obtain the fusion feature, which takes into   was calculated to obtain the dFC.
+account the complex changes of the time dimension and the
+                                                                  Implementation Details. The proposed model is based on
+spatial dimension. The specific formula is as follows :
+                                                                  the PyTorch 2.1.1, uses a five-fold cross-validation strategy,
+           X mix = Linear(concat(X temp , X spat ))       (14)    and uses a five-fold average MAE to evaluate the perfor-
+                                                                  mance of the model. Configure the batch size to 64 and use
+  mix
+X is a fusion feature of temporal features and spatial fea-       the Adam optimizer. The initial learning rate is set to 1e-2,
+tures.                                                            and the loss function is L1Loss.
+                          Models                  FI MAE             FI PCC          Age MAE            Age PCC
+                 Vision-mamba (2024)           4.312 ± 0.233       0.620 ± 0.039   7.291 ± 0.742     0.916 ± 0.029
+                    S-Mamba (2024)             4.431 ± 0.461       0.622 ± 0.038   7.312 ± 0.556     0.891 ± 0.014
+                  iTransformer (2024)          4.260 ± 0.153       0.765 ± 0.087   7.556 ± 0.304     0.892 ± 0.023
+                Swin-Transformer (2021)        4.562 ± 0.203       0.789 ± 0.094   6.934 ± 0.355     0.897 ± 0.021
+                   FLDMamba (2025)             4.125 ± 0.261       0.815 ± 0.097   5.840 ± 0.803     0.919 ± 0.032
+                          Ours                 2.940 ± 0.251       0.887 ± 0.067   5.343 ± 0.352     0.928 ± 0.036
+
+                 Table 1: Comparison of MAE and PCC values across different models for Cam-CAN dataset.
+
+
+Results                                                                degradation after removing the continuous window partition
+In order to evaluate the performance of the model, our model           and random walk mechanism is more obvious than removing
+is compared with other models. The results of the compari-             the Local patch or Random Walk alone, indicating that the
+son model are shown in Table 1. The results show that our              two components have a synergistic effect in capturing com-
+proposed modular neural imagination framework effectively              plex spatiotemporal dynamics and indirect region of interest
+captures complex spatiotemporal dynamics and indirect ROI              ( ROI ) interaction.
+interactions, and achieves the best results in prediction tasks.
+Our method shows significant advantages in both FI (fluid              Parameter Analysis
+intelligence) and Age (age) prediction tasks.                          Mask ratio. In the LMAE Encoder block, the mask ratio
+   In the FI prediction task, our method achieves the lowest           α is a hyperparameter that affects the prediction results. To
+MAE value of 2.940, which is 1.185 lower than the exist-               determine the optimal value, experiments were conducted
+ing best method FLDMamba (4.125). At the same time, the                on prediction tasks with different mask ratios, specifically
+PCC ( Pearson correlation coefficient ) index also reached             α = {0.1, 0.2, . . . , 0.9}. Figure 3 presents the results for
+the highest 0.887, which was significantly better than all             each prediction task at different α values. The results show
+other comparison models. In the Age prediction task, our               that for the Cam-CAN FI metric prediction task, the optimal
+method achieves the best performance again, with MAE of                α = 0.2, which corresponds to the lowest MAE and the
+5.343, which is significantly better than FLDMamba (5.840)             highest PCC. For the Cam-CAN Age metric prediction task,
+and other models. In addition, we also reached the highest             the optimal α = 0.3, which corresponds to the lowest MAE
+0.928 in PCC.                                                          and the highest PCC. Therefore, the proposed model selects
+                                                                       mask ratios of α = 0.2 and α = 0.3.
+Ablation Study
+In order to determine the effects of different components,
+ablation studies were performed on the following parts. The
+results of ablation experiments are shown in Table 2.
+( 1 ) W / O LMAE : Removing the local mask autoencoder
+will significantly reduce the model performance. Specifi-
+cally, MAE values increased significantly and PCC values
+decreased significantly in age prediction and fluid intelli-
+gence prediction tasks. It shows that the module effectively
+extracts features.
+( 2 ) W / O RWMOE : Removing the random walk hybrid ex-
+pert module will significantly reduce the performance of the
+model. The MAE values increased from 5.343 to 5.710 and
+2.940 to 4.077, respectively. The PCC values decreased from
+0.928 to 0.902 and 0.887 to 0.772, respectively. It shows that
+RWMOE can perform feature clustering from the time di-
+mension and the spatial dimension.
+( 3 ) W / O local patch : Removing the continuous window
+partition mechanism, although the PCC value changes rela-
+tively small, the MAE value increases significantly. It shows
+                                                                       Figure 3: MAEs and PCCs under different mask ratios α are
+that this component can effectively capture complex spa-
+                                                                       used to predict age and fluid intelligence.
+tiotemporal dynamics.
+( 4 ) W / O Random Walk : The effect of removing the ran-
+dom walk mechanism is similar to that of Local Patch, in-              Hiding layer size and the dimension of latent features.
+dicating that this component can effectively capture indirect          The size of the hidden layer determines the feature dimen-
+region of interest ( ROI ) interactions.                               sion on which the routing decision depends. If the dimension
+( 5 ) W / O local patch and Random Walk : The performance              is insufficient, it may lead to inaccurate routing allocation
+                     Models                                   FI MAE          FI PCC      Age MAE       Age PCC
+                     W/O LMAE                                     4.182        0.779        6.191         0.866
+                     W/O RWMOE                                    4.077        0.772        5.710         0.902
+                     W/O local patch and Random Walk              3.131        0.684        5.664         0.873
+                     W/O local patch                              3.040        0.769        5.453         0.915
+                     W/O Random Walk                              3.022        0.762        5.407         0.917
+                     Ours                                         2.940        0.887        5.343         0.928
+
+                                           Table 2: Ablation study of each component.
+
+
+                                                                          region-specific dynamics, highlighting its capacity for inter-
+                                                                          pretable and structured representation learning.
+
+                                                                                                 Conclusion
+                                                                          In this work, we present a novel, modular neuroimag-
+                                                                          ing framework that bridges the gap between foundation
+                                                                          model principles and domain-specific efficiency for ana-
+                                                                          lyzing high-dimensional fMRI data. By introducing a Lo-
+                                                                          cal Masked Autoencoder (LMAE) with biologically in-
+                                                                          formed masking, our method effectively reduces sensitivity
+                                                                          to hemodynamic response variability and suppresses noise
+                                                                          during pretraining. The Random Walk Mixture of Experts
+Figure 4: MAEs and PCCs with different hidden layer sizes                 (RW-MoE) module further enables adaptive, interpretable
+and the dimension of latent features are used to predict age              clustering of spatiotemporal features, capturing complex in-
+and fluid intelligence.                                                   teractions across brain regions and time points that are of-
+                                                                          ten missed by standard architectures. Finally, the integra-
+                                                                          tion of a state-space model predictor ensures efficient and
+and affect the efficiency of expert division of labor. In order           robust inference on downstream tasks. Evaluated on the
+to determine the optimal value, experiments are carried out               Cam-CAN dataset, our framework achieves state-of-the-art
+on different hidden layer sizes, specifically hidden size                 performance in predicting age and fluid intelligence, with
+= {64,128,256,512}. The prediction results show that                      low MAEs and high correlation coefficients, demonstrating
+the optimal hidden layer size is 128, the corresponding MAE               its strong representational power and generalization abil-
+is the lowest, and the PCC is the highest.                                ity. Moreover, the learned expert distributions provide in-
+   In LMAE ’s Encoder block, the dimension of the latent                  terpretable insights into neurocognitive organization, high-
+feature acts as a hyperparameter that affects the prediction              lighting functionally relevant brain regions. Unlike generic
+results. In order to determine the optimal value, the predic-             large language model-inspired approaches, our method of-
+tion tasks of different latent feature dimensions are tested,             fers a lightweight, transparent, and neuroscience-grounded
+specifically {32, 62, 64, 128}. The results show that the di-             alternative tailored to fMRI analysis. This work not only
+mension of the optimal latent feature is 62, and the corre-               advances the methodology for brain-behavior modeling but
+sponding MAE is the lowest and the PCC is the highest. As                 also opens new avenues for interpretable, foundation-model-
+shown in Figure 4.                                                        inspired architectures in medical imaging and cognitive neu-
+                                                                          roscience.
+Visual distribution weight
+The number of experts is set to 4, and K=1, meaning only                                         References
+the top-ranked expert is activated for each input. The dis-
+                                                                          Crucitti, J.; Hyde, C.; Enticott, P. G.; and Stokes, M. A.
+tributed router in RW-MoE computes a weight for each ex-
+                                                                          2022. A systematic review of frontal lobe volume in autism
+pert by learning the correlation between the input features
+                                                                          spectrum disorder revealing distinct trajectories. JOURNAL
+and the expert’s specialization. Figure 5 visualizes the ex-
+                                                                          OF INTEGRATIVE NEUROSCIENCE, 21(2).
+pert preference across different ROIs, illustrating the rout-
+ing behavior of RWMOE. The results show that each ex-                     Gabrieli, J. D. E.; Ghosh, S. S.; and Whitfield-Gabrieli, S.
+pert exhibits distinct regional preferences, with functionally            2015. Prediction as a Humanitarian and Pragmatic Contribu-
+related ROIs clustered under the same expert. This special-               tion from Human Cognitive Neuroscience. NEURON, 85(1):
+ization enables the model to capture heterogeneous spatial                11–26.
+patterns and enhances prediction performance by promoting                 Gonneaud, J.; Baria, A. T.; Binette, A. P.; Gordon, B. A.;
+expert diversity. The non-uniform assignment of ROIs to ex-               Chhatwal, J. P.; Cruchaga, C.; Jucker, M.; Levin, J.; Sal-
+perts demonstrates the adaptability of RWMOE in modeling                  loway, S.; Farlow, M.; Gauthier, S.; Benzinger, T. L. S.;
+                                      Figure 5: Each expert ’s preference for different ROIs.
+
+
+Morris, J. C.; Bateman, R. J.; Breitner, J. C. S.; Poirier, J.;     Kim, P.; Kwon, J.; Joo, S.; Bae, S.; Lee, D.; Jung, Y.; Yoo, S.;
+Vachon-Presseau, E.; Villeneuve, S.; Initi, A. D. N.; Net, D.       Cha, J.; and Moon, T. 2023. SwiFT: Swin 4D fMRI Trans-
+I. A.; and No, P. E. E. 2021. Accelerated functional brain          former. In Oh, A.; Naumann, T.; Globerson, A.; Saenko, K.;
+aging in pre-clinical familial Alzheimer’s disease. NATURE          Hardt, M.; and Levine, S., eds., Advances in Neural Informa-
+COMMUNICATIONS, 12(1).                                              tion Processing Systems, volume 36, 42015–42037. Curran
+Guo, Y.; Wen, X.; Lei, Y.; Liu, X.; Liu, Z.; and Cao, R. 2024.      Associates, Inc.
+Global-Local Brain Network based on Functional Connec-              Li, D.; Wei, C.; Li, S.; Zou, J.; and Liu, Q. 2024. Visual
+tivity for Individualized Prediction. In 2024 IEEE Inter-           Decoding and Reconstruction via EEG Embeddings with
+national Conference on Bioinformatics and Biomedicine               Guided Diffusion. In Globerson, A.; Mackey, L.; Belgrave,
+(BIBM), 3232–3237.                                                  D.; Fan, A.; Paquet, U.; Tomczak, J.; and Zhang, C., eds.,
+He, T.; An, L.; Chen, P.; Chen, J.; Feng, J.; Bzdok, D.;            Advances in Neural Information Processing Systems, vol-
+Holmes, A. J.; Eickhoff, S. B.; and Yeo, B. T. T. 2022. Meta-       ume 37, 102822–102864. Curran Associates, Inc.
+matching as a simple framework to translate phenotypic pre-         Li, J.; Chen, J.; Tang, Y.; Wang, C.; Landman, B. A.; and
+dictive models from big to small data. NATURE NEURO-                Zhou, S. K. 2023. Transforming medical imaging with
+SCIENCE, 25(6): 795+.                                               Transformers? A comparative review of key properties, cur-
+Huang, S.-G.; Xia, J.; Xu, L.; and Qiu, A. 2022. Spatio-            rent progresses, and future perspectives. Medical Image
+temporal directed acyclic graph learning with attention             Analysis, 85: 102762.
+mechanisms on brain functional time series and connectiv-           Li, X.; Zhou, Y.; Dvornek, N.; Zhang, M.; Gao, S.; Zhuang,
+ity. MEDICAL IMAGE ANALYSIS, 77.                                    J.; Scheinost, D.; Staib, L. H.; Ventola, P.; and Duncan, J. S.
+2021. BrainGNN: Interpretable Brain Graph Neural Net-
+work for fMRI Analysis. MEDICAL IMAGE ANALYSIS,
+74.
+Li, Y.; Zhang, X.; Nie, J.; Zhang, G.; Fang, R.; Xu, X.; Wu,
+Z.; Hu, D.; Wang, L.; Zhang, H.; Lin, W.; and Li, G. 2022.
+Brain Connectivity Based Graph Convolutional Networks
+and Its Application to Infant Age Prediction. IEEE TRANS-
+ACTIONS ON MEDICAL IMAGING, 41(10): 2764–2776.
+Peng, H.; Gong, W.; Beckmann, C. F.; Vedaldi, A.; and
+Smith, S. M. 2021. Accurate brain age prediction with
+lightweight deep neural networks. Medical Image Analysis,
+68: 101871.
+Song, Y.; Wang, Y.; He, H.; and Gao, X. 2025. Recogniz-
+ing Natural Images From EEG With Language-Guided Con-
+trastive Learning. IEEE Transactions on Neural Networks
+and Learning Systems, 1–15.
+Tuckute, G.; Sathe, A.; Srikant, S.; Taliaferro, M.; Wang,
+M.; Schrimpf, M.; Kay, K.; and Fedorenko, E. 2024. Driv-
+ing and suppressing the human language network using large
+language models. NATURE HUMAN BEHAVIOUR, 8(3).
+Wen, X.; He, H.; Dong, L.; Chen, J.; Yang, J.; Guo, H.; Luo,
+C.; and Yao, D. 2020. Alterations of local functional connec-
+tivity in lifespan: A resting-state fMRI study. BRAIN AND
+BEHAVIOR, 10(7).
+Xia, J.; Chen, N.; and Qiu, A. 2023. Multi-level and joint at-
+tention networks on brain functional connectivity for cross-
+cognitive prediction. MEDICAL IMAGE ANALYSIS, 90.
+Yang, T.; Yu, K.; Zhang, X.; Xiao, X.; Chen, X.; Fu, Y.; and
+Li, B. 2023. Plastic and stimulus-specific coding of salient
+events in the central amygdala. NATURE, 616(7957): 510+.
+Zhang, S.; Hu, Y. O.; Yi, X.; Nanayakkara, S.; and Chen, X.
+2025. IntervEEG-LLM: Exploring EEG-Based Multimodal
+Data for Customized Mental Health Interventions. In Com-
+panion Proceedings of the ACM on Web Conference 2025,
+WWW ’25, 2320–2326. New York, NY, USA: Association
+for Computing Machinery. ISBN 9798400713316.
+Zhang, X.; Duan, S.-Y.; Wang, S.-Q.; Chen, Y.-W.; Lai, S.-
+X.; Zou, J.-S.; Cheng, Y.; Guan, J.-T.; Wu, R.-H.; and Zhang,
+X.-L. 2024. A ResNet mini architecture for brain age pre-
+diction. SCIENTIFIC REPORTS, 14(1).
+Zhao, K.; Xie, H.; Fonzo, G. A. A.; Tong, X.; Carlisle, N.;
+Chidharom, M.; Etkin, A.; and Zhang, Y. 2023a. Individual-
+ized fMRI connectivity defines signatures of antidepressant
+and placebo responses in major depression. MOLECULAR
+PSYCHIATRY, 28(6): 2490–2499.
+Zhao, W.; Makowski, C.; Hagler, D. J.; Garavan, H. P.;
+Thompson, W. K.; Greene, D. J.; Jernigan, T. L.; and Dale,
+A. M. 2023b. Task fMRI paradigms may capture more be-
+haviorally relevant information than resting-state functional
+connectivity. NEUROIMAGE, 270.
+              Reproducibility Checklist                            Does this paper include computational experiments?
+                                                                   (yes/no) yes
+This paper:                                                          If yes, please complete the list below.
+ • Includes a conceptual outline and/or pseudocode descrip-        • Any code required for pre-processing data is included in
+   tion of AI methods introduced (yes/partial/no/NA) yes             the appendix. (yes/partial/no) no
+ • Clearly delineates statements that are opinions, hypoth-        • All source code required for conducting and analyzing
+   esis, and speculation from objective facts and results            the experiments is included in a code appendix. (yes/par-
+   (yes/no) yes                                                      tial/no) no
+ • Provides well marked pedagogical references for less-           • All source code required for conducting and analyzing
+   familiare readers to gain background necessary to repli-          the experiments will be made publicly available upon
+   cate the paper (yes/no) yes                                       publication of the paper with a license that allows free
+                                                                     usage for research purposes. (yes/partial/no) yes
+Does this paper make theoretical contributions? (yes/no)           • All source code implementing new methods have com-
+yes                                                                  ments detailing the implementation, with references to
+  If yes, please complete the list below.                            the paper where each step comes from. (yes/partial/no)
+                                                                     yes
+ • All assumptions and restrictions are stated clearly and
+   formally. (yes/partial/no) yes                                  • If an algorithm depends on randomness, then the method
+                                                                     used for setting seeds is described in a way sufficient to
+ • All novel claims are stated formally (e.g., in theorem            allow replication of results. (yes/partial/no/NA) yes
+   statements). (yes/partial/no) yes                               • This paper specifies the computing infrastructure used
+ • Proofs of all novel claims are included. (yes/partial/no)         for running experiments (hardware and software), includ-
+   yes                                                               ing GPU/CPU models; amount of memory; operating
+                                                                     system; names and versions of relevant software libraries
+ • Proof sketches or intuitions are given for complex and/or
+                                                                     and frameworks. (yes/partial/no) yes
+   novel results. (yes/partial/no) yes
+                                                                   • This paper formally describes evaluation metrics used
+ • Appropriate citations to theoretical tools used are given.        and explains the motivation for choosing these metrics.
+   (yes/partial/no) yes                                              (yes/partial/no) yes
+ • All theoretical claims are demonstrated empirically to          • This paper states the number of algorithm runs used to
+   hold. (yes/partial/no/NA) yes                                     compute each reported result. (yes/no) yes
+ • All experimental code used to eliminate or disprove             • Analysis of experiments goes beyond single-dimensional
+   claims is included. (yes/no/NA) NA                                summaries of performance (e.g., average; median) to in-
+                                                                     clude measures of variation, confidence, or other distri-
+Does this paper rely on one or more datasets? (yes/no)               butional information. (yes/no) yes
+yes                                                                • The significance of any improvement or decrease in
+  If yes, please complete the list below.                            performance is judged using appropriate statistical tests
+                                                                     (e.g., Wilcoxon signed-rank). (yes/partial/no) yes
+ • A motivation is given for why the experiments are con-
+   ducted on the selected datasets (yes/partial/no/NA) yes         • This paper lists all final (hyper-)parameters used for each
+                                                                     model/algorithm in the paper’s experiments. (yes/par-
+ • All novel datasets introduced in this paper are included          tial/no/NA) yes
+   in a data appendix. (yes/partial/no/NA) yes                     • This paper states the number and range of values tried
+ • All novel datasets introduced in this paper will be made          per (hyper-) parameter during development of the paper,
+   publicly available upon publication of the paper with a li-       along with the criterion used for selecting the final pa-
+   cense that allows free usage for research purposes. (yes/-        rameter setting. (yes/partial/no/NA) yes
+   partial/no/NA) yes
+ • All datasets drawn from the existing literature (poten-
+   tially including authors’ own previously published work)
+   are accompanied by appropriate citations. (yes/no/NA)
+   yes
+ • All datasets drawn from the existing literature (poten-
+   tially including authors’ own previously published work)
+   are publicly available. (yes/partial/no/NA) yes
+ • All datasets that are not publicly available are described
+   in detail, with explanation why publicly available alterna-
+   tives are not scientifically satisficing. (yes/partial/no/NA)
+   NA
+

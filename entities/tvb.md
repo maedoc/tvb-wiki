@@ -16,7 +16,7 @@ tags:
 - neural-mass-models
 title: TVB
 type: entity
-updated: '2026-05-11'
+updated: '2026-05-12'
 ---
 
 # TVB (The Virtual Brain)
@@ -149,7 +149,7 @@ sources:
 - GlasserEtAl2013
 - MarcusEtAl2011
 - [[nibabel]]-docs
-- raw/papers/doi-10-3389-fninf-2011-00004.md
+- raw/papers/doi-10.3389-fninf-2011-00004.md
 tags:
 - software-neuroimaging
 - [[neuroimaging-fmri]]
@@ -161,7 +161,7 @@ title: [[cifti]] Tools
 type: entity
 updated: '2026-05-04'
 
-CIFTI (Connectivity InFormatics Initiative) tools encompass a family of software utilities designed to work with the CIFTI data format, a specialized file format developed by the
+CIFTI (Connectivity InFormatics Initiative) tools encompass a family of software utilities designed to work with the CIFTI data format, a specialized file
 
 ## ORPHAN PAGE CONTEXT (dpabi)
 ---
@@ -181,3 +181,5 @@ updated: '2026-05-04'
 ## Overview
 
 DPABI (Data Processing Assistant for Brain Imaging) is a MATLAB-based toolbox that provides graphical user interface (GUI) and batch processing capabilities for analyzing neuroimaging data, with a primary focus on [[resting-state]] functional magnetic resonance i
+
+[[xcos]]

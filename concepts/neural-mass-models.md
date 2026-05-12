@@ -18,7 +18,7 @@ tags:
 - epilepsy-modeling
 title: Neural Mass Models
 type: concept
-updated: '2026-05-11'
+updated: '2026-05-12'
 ---
 
 ## Definition
@@ -29,7 +29,7 @@ Neural mass models (NMMs) are mathematical models that represent the collective 
 
 In the context of [[whole-brain]] modeling, neural mass models serve as the fundamental dynamical unit that is embedded in a network defined by [[structural-connectivity]] matrices derived from diffusion imaging and tractography. Each brain region is represented by a neural mass model whose state evolves over time according to its intrinsic dynamics and the inputs it receives from other regions via the connectome. The resulting simulations produce synthetic [[functional-connectivity]] patterns that can be compared with empirically observed [[resting-state]] networks measured via [[fmri]] [[hrf]], [[eeg]], [[meg]], or the [[meg-eeg-toolbox]].
 
-The appeal of neural mass models for whole-brain simulations lies in its computational efficiency. A single neural mass model typically requires only 3–8 state variables and can be integrated in real-time or faster on modest hardware. When coupled across 68–360 brain regions (depending on the [[parcellation]] used), whole-brain simulations using neural mass models can complete in minutes rather than the hours or days required by [[spiking-neural-networks]] (for which the [[lfpykern]] library offers LFP computation tools), such as [[sinabs]], that simulate individual neurons. This efficiency enables parameter sweeps, [[bifurcation-analysis]], and clinical applications such as [[personalized-brain-modeling]] for epilepsy Surgical planning.
+The appeal of neural mass models for whole-brain simulations lies in its computational efficiency. A single neural mass model typically requires only 3–8 state variables and can be integrated in real-time or faster on modest hardware. When coupled across 68–360 brain regions (depending on the [[parcellation]] used), whole-brain simulations using neural mass models can complete in minutes rather than the hours or days required by [[spiking-neural-networks]] (for which the [[lfpykern]] library offers LFP computation tools), such as [[sinabs]], that simulate individual neurons. This efficiency enables parameter sweeps, [[bifurcation-analysis]], and clinical applications such such as [[personalized-brain-modeling]] for epilepsy Surgical planning.
 
 ## Mathematical Framework
 
@@ -49,7 +49,7 @@ More sophisticated neural mass models incorporate multiple state variables to ca
 
 ### Jansen‑Rit Model
 
-The [[jansen-rit]] model, developed in 1995, is the most widely used neural mass model in [[dynamic-causal-modeling]] (DCM) and [[tvb]] simulations. It consists of three coupled populations (pyramidal cells, excitatory interneurons, and inhibitory interneurons) that generate realistic EEG rhythms in the alpha (8–12 Hz) and beta (13–30 Hz) bands. The model's popularity stems from its relative simplicity and its ability to produce biologically plausible oscillations without extensive parameter tuning. Fooft
+The [[jansen-rit]] model, developed in 1995, is the most widely used neural mass model in [[dynamic-causal-modeling]] (DCM) and [[tvb]] simulations. It consists of three coupled populations (pyramidal cells, excitatory interneurons, and inhibitory interneurons) that generate realistic EEG rhythms in the alpha (8–12 Hz) and beta (13–30 Hz) bands, and can be analyzed with [[neurodsp]]. The model's popularity stems from its relative simplicity and its ability to produce biologically plausible oscillations without extensive parameter tuning. Fooft
 
 ### Wilson‑Cowan Model
 

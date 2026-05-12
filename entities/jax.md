@@ -24,7 +24,7 @@ updated: '2026-05-11'
 ## Overview
 
 JAX’s functional programming model and array-level parallelism make it well-suited to:
-- **[[neural-network]] training** — natively via [Flax](](https://github.com/google/flax)) or [Equinox](](https://github.com/patrick-kidger/equinox))
+- **[[neural-network]] training** — natively via [Flax](](https://github.com/google/[[flax]])) or [Equinox](](https://github.com/patrick-kidger/equinox))
 - **Differentiable simulation** — gradients through arbitrary numerical integrators
 - **Scientific computing** — high-performance PDE/ODE solvers on accelerator hardware
 - **Probabilistic programming** — [NumPyro](](https://github.com/pyro-ppl/numpyro)) uses JAX for fast Hamiltonian Monte Carlo

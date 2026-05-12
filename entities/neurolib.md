@@ -51,5 +51,5 @@ neurolib occupies a specific niche in the landscape of neural simulation tools, 
 ## References
 
 1. Anticevic et al. (2012). *Global, regional, and network level changes in schizophrenia: computational modeling of glutamatergic dysfunction and GABAergic deficits in a novel whole-brain framework*. Proceedings of the National Academy of Sciences (PNAS). [DOI](https://doi.org/10.1073/pnas.1114858109)
-2. Gewaltig & Diesmann (2007). *NEST (NEural Simulation Tool)*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1430)
-3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Gewaltig & Diesmann (2007). *NEST ([[neural-simulation]] Tool)*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1430)
+3. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

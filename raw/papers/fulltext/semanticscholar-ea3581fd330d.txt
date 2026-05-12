@@ -1,0 +1,687 @@
+                                                                                                               J. Integr. Neurosci. 2025; 24(9): 44410
+                                                                                                               https://doi.org/10.31083/JIN44410
+
+Original Research
+Abnormal Brain Connectivity Patterns in Children with Global
+Developmental Delay Accompanied by Cognitive Impairment: A
+Resting-State EEG Study
+Zhichong Hui1 , Yi Zhang1 , Yuwei Su1 , Jiaming Kang1 , Weihang Qi1 , Shaoqing Li1 ,
+Jiamei Zhang1 , Kaili Shi1 , Mingmei Wang1 , Yonghui Yang1 , Guangyu Zhang1 , Lei Yang1 ,
+Gongxun Chen1 , Sansong Li1 , Yuxia Hu2,3,4, *, Dengna Zhu1,4,5, *
+1 Department of Rehabilitation Medicine, Department of Paediatrics, The Third Affiliated Hospital of Zhengzhou University, 450052 Zhengzhou,
+
+Henan, China
+2 School of Electrical Engineering, Zhengzhou University, 450001 Zhengzhou, Henan, China
+3 Henan Key Laboratory of Brain Science and Brain-Computer Interface Technology, 450001 Zhengzhou, Henan, China
+4 Institute of Neuroscience, Zhengzhou University, 450001 Zhengzhou, Henan, China
+5 Key Laboratory of Pediatrics Brain Injury in Henan Province, Henan Provincial Pediatrics Clinical Medical Research Centre, The Third Affiliated
+
+Hospital of Zhengzhou University, 450052 Zhengzhou, Henan, China
+*Correspondence: huyuxia@zzu.edu.cn (Yuxia Hu); zhudengna@126.com (Dengna Zhu)
+ Academic Editor: Bettina Platt
+  Submitted: 30 June 2025 Revised: 11 September 2025 Accepted: 15 September 2025 Published: 30 September 2025
+
+Abstract
+Background: Global developmental delay (GDD) is a common childhood neurodevelopmental disorder characterized by the core symp-
+toms of cognitive impairment. However, the underlying neural mechanisms of the cognitive impairment remain unclear. This study
+aimed to both analyze differences in electroencephalography (EEG) connectivity patterns between children with GDD and typical de-
+velopment (TD) using brain functional connectivity and to explore the neural mechanisms linking these differences to cognitive impair-
+ment. Methods: The study enrolled 60 children with GDD and 60 TD children. GDD participants underwent clinical assessment via
+the Gesell Developmental Schedule (GDS). Resting-state EEG data were subjected to brain functional connectivity analysis and graph
+theory metric-based network analysis, with intergroup functional differences compared. Subsequently, correlation analysis characterized
+the relationships between GDD subject’s brain network metrics and GDS-derived cognitive developmental quotient (DQ). Finally, three
+support vector machine (SVM) models were constructed for GDD classification and feature weight factors were calculated to screen
+potential EEG biomarkers. Results: The two groups exhibited complex differences in functional connectivity. Compared with the TD
+group, the GDD group showed a large number of increased functional connections in the θ, α, and γ-bands, along with a small number
+of decreased functional connections in the α and γ-bands (all p < 0.025). Brain network analysis revealed lower global efficiency, local
+efficiency, clustering coefficient and small-world coefficient, as well as higher characteristic path length in GDD children across multiple
+bands (all p < 0.05). Correlation analysis indicated that global efficiency and small-world coefficient in θ and γ-bands were positively
+correlated with the DQ, while the characteristic path length in α and γ-bands was negatively correlated with DQ in the GDD group
+(all p < 0.05). Machine learning models showed that a quantum particle swarm optimization SVM (QPSO-SVM) achieved the highest
+classification performance, with characteristic path length in the γ-band being the highest weighted metric. Conclusions: Children with
+GDD exhibit abnormal patterns of brain functional connectivity, characterized by global hypo-connectivity and local hyper-connectivity.
+Specific network metrics under these abnormal patterns are significantly correlated with cognitive impairment in GDD. This study also
+highlights the potential of the γ-band characteristic path length as an EEG biomarker for diagnosing GDD.
+
+Keywords: global developmental delay; electroencephalography; functional connectivity; Gesell Developmental Schedules; support
+vector machines
+
+
+ 1. Introduction                                                                      The etiology of GDD is complex, with multiple fac-
+     Global developmental delay (GDD) is a common                               tors interacting reciprocally. The heterogeneity of etiolo-
+childhood neurodevelopmental disorder characterized by                          gies underscores their intricate neurodevelopmental mech-
+core symptoms of cognitive impairment. It is a relatively                       anisms, which remain largely unexplored and pose signifi-
+prevalent birth defect with a poor prognosis, affecting 1–                      cant challenges for developing effective interventions. Fur-
+3% of children [1]. The majority of children with GDD                           thermore, current GDD diagnosis methods rely primarily
+progress to intellectual disability by age five, resulting in                   on clinical symptoms and assessment scales [4], which are
+delayed intellectual, motor and language development, as                        highly subjective, casting doubt on the accuracy and reli-
+well as reduced life expectancy, thereby posing significant                     ability of evaluation results. This presents challenges for
+threats to life and health [2,3].                                               the early diagnosis of GDD. Thus, exploring objective as-
+
+
+                Copyright: © 2025 The Author(s). Published by IMR Press.
+                This is an open access article under the CC BY 4.0 license.
+Publisher’s Note: IMR Press stays neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+sessment metrics and identifying potential biomarkers are         holds great potential in identifying cognitive impairment in
+highly important for early diagnosis and precision interven-      children with GDD.
+tion in children with GDD.                                              The combined application of EEG analysis and ma-
+      Network analysis based on neural signals provides a         chine learning methods represents an active research area
+method to address the above issues. The core symptom of           in neuroscience and disease diagnosis. Machine learning
+children with GDD is cognitive impairment, which leads to         algorithms extract information from EEG signal features
+structural and functional brain changes, manifested as al-        to train models, reducing subjectivity in manual analysis
+terations in the brain network and its parameters [5]. An         and enabling more objective classification of different brain
+EEG study exploring brain network change mechanisms in            states or disease diagnoses. Currently, with the widespread
+children with perinatal stroke-related cognitive impairment       application of artificial intelligence, machine learning is un-
+revealed that specific cognitive functions correlate with         dergoing rapid development in the context of neurodevel-
+distinct brain network properties and functional network          opmental disorders such as GDD, and is particularly suit-
+characteristics after perinatal stroke reflect poorer cognitive   able for constructing diagnostic and prognostic models for
+function in these children [6]. A quantitative EEG spectral       neurological disorders [17].
+and functional connectivity analysis revealed that patients             In summary, EEG-based brain network analysis has
+with Parkinson’s disease and mild cognitive impairment ex-        played a significant role in numerous neurological disorders
+hibited significant alterations in the phase lag index (PLI) in   because of its unique advantages. However, few studies
+the δ and θ-bands, and these alterations were correlated with     have focused on brain network characteristics in children
+cognitive function [7]. Additionally, diffusion tensor imag-      with GDD. The aim of this study was to investigate alter-
+ing (DTI)-based MRI brain functional network analysis re-         ations in brain functional connectivity and network analysis
+vealed that patients with cognitive decline presented with        between children with GDD and TD individuals. Here is
+disrupted topological efficiency of brain functional connec-      hypothesized that: (a) Compared with TD children, GDD
+tivity, specifically decreased global and local efficiency.       children exhibit altered EEG functional connectivity fea-
+Reduced rich-club and local connection strengths were             turing a dual pattern of “global hypoconnectivity and local
+found to be associated with impaired memory performance           hyperconnectivity”; (b) Brain network metrics across dif-
+[8]. Another DTI-based brain structural network study re-         ferent EEG bands are altered in GDD children, with cer-
+vealed that children with GDD and speech delay had sig-           tain metrics potentially serving as GDD biomarkers. To
+nificantly lower global and local efficiency than typical de-     test these hypotheses, the weighted phase lag index (wPLI)
+velopment (TD) children, with reduced node strength for           was used across different bands for functional connectiv-
+cognitive networks in GDD. Such network abnormalities             ity and brain network topological analysis to explore func-
+may underlie the common neurocognitive and behavioral             tional network differences between groups, examine cor-
+consequences in children with global and language devel-          relations between brain network metrics, clinically obtain
+opmental delays [5] and is thought to be related to immature      cognitive-related scale scores and finally establish a classi-
+brain development [9]. A functional magnetic resonance            fication model using machine learning to distinguish GDD
+imaging (fMRI) study by Gozdas et al. [10], demonstrated          from TD children and identify potential GDD biomarkers.
+that functional brain network connectivity in preterm in-
+fants without anatomical injury was altered compared with         2. Materials and Methods
+that in term infants, potentially serving as an early predic-
+                                                                  2.1 Participants
+tor of cognitive impairment. Functional near-infrared spec-
+troscopy (fNIRS), a noninvasive neuroimaging technique                  Participants included children with GDD (GDD
+for monitoring cerebral blood flow, is considered closely re-     group) and typically developing children (TD group). In-
+lated to fMRI. Studies have shown significant correlations        clusion criteria included: (a) Meeting the diagnostic cri-
+between hemodynamic responses measured by fNIRS and               teria for GDD defined in the Diagnostic and Statistical
+blood oxygen level-dependent responses obtained by fMRI           Manual of Mental Disorders (Fifth Edition) (DSM-5); (b)
+[11]. A fNIRS study by Zhang et al. [12] revealed that re-        GDD children showing scores <75 in at least two do-
+duced functional connectivity strength in the left dorsolat-      mains on the Gesell Developmental Schedule (GDS), in-
+eral prefrontal cortex of Alzheimer’s disease (AD) patients       cluding the adaptive performance domain most relevant
+was positively correlated with the degree of cognitive im-        to cognitive development; (c) Being aged 2–5 years, re-
+pairment, suggesting that this is a key affected cortical re-     gardless of sex; (d) Provision of written informed consent
+gion. A study using magnetoencephalography technology             from parents or guardians. Exclusion criteria included:
+found that changes in brain functional networks in patients       (a) Children with confirmed genetic metabolic diseases,
+with autism spectrum disorders may be related to epileptic        chromosomal abnormalities, neurodegenerative diseases,
+discharges [13]. Despite various biomarker-based monitor-         or structural brain injuries; (b) Meeting the DSM-5 diagnos-
+ing methods, EEG offers portability, high temporal reso-          tic criteria for autism spectrum disorder (ASD), attention-
+lution and good motion tolerance [14,15], making it more          deficit/hyperactivity disorder (ADHD), schizophrenia, etc.;
+suitable for studying developing populations [16]. Thus, it       (c) Untreated severe hearing impairment (pure-tone au-
+
+
+2
+diometry threshold >70 dB) or visual impairment (cor-                  EEG data were preprocessed via EEGLAB v14.1.2b
+rected visual acuity <0.3); and (d) A history of severe in-      (https://eeglab.org) and MATLAB R2021b (https://ww2.
+fection, craniocerebral trauma, or major surgery within the      mathworks.cn/), involving the following steps: Removal of
+past six months.                                                 horizontal electro-oculogram right (HEOR) and horizontal
+      Participants in the GDD group were recruited from          electro-oculogram left (HEOL) electrodes; bandpass filter-
+the Department of Child Rehabilitation, the Third Affiliated     ing (0.1–40 Hz) to reduce noise; manual removal of cor-
+Hospital of Zhengzhou University, Zhengzhou, China. The          rupted data segments, with bad channels replaced by the
+participants in the TD group were sex- and age-matched and       average of neighboring channels; manual artifact removal;
+recruited from local kindergartens during the same period.       segmentation into two second epochs; independent compo-
+Sample size estimation was performed via G*Power soft-           nent analysis to isolate brain activity components, removing
+ware (Version 3.1.9.7; Heinrich-Heine University, Düssel-        those affected by eye movements, muscle activity, or car-
+dorf, Germany), which has a statistical power of 0.95 (1 – β     diac artifacts; referencing to the average electrode; rejection
+= 0.95) with an alpha of 0.05 for t-tests, resulting in a min-   of segments with significant electromyographic artifacts or
+imum requirement of 42 participants per group. The study         extreme amplitudes; with each subject ultimately retaining
+ultimately included 65 GDD and 60 TD participants. How-          90 consecutive two second segments, for a total of 180 sec-
+ever, five participants with GDD were excluded from the          onds of preprocessed EEG data.
+subsequent analysis because of their inability to follow in-
+structions and the presence of frequent blinking or muscular     2.4 Brain Functional Connectivity and Network Analysis
+artifacts.                                                             The brain networks within a 1–40 Hz frequency range
+      This study was conducted at the Third Affiliated Hos-      were calculated via the HERMES (https://hermes.med.ucm
+pital of Zhengzhou University from October 1, 2024 to            .es/) toolbox, with frequency bands divided into δ (1–4
+March 31, 2025. It was approved by the Ethics Commit-            Hz), θ (4–8 Hz), α (8–12 Hz), β (12–20 Hz) and γ (20–
+tee of the Third Affiliated Hospital of Zhengzhou Univer-        40 Hz) bands. Due to the nonlinear characteristics of EEG
+sity. The research was conducted in strict accordance with       signals, phase synchronization-based methods more objec-
+the Helsinki Declaration. Prior to the study, the research       tively characterize the interdependencies between channels
+protocol was fully explained to the legal guardians of each      across different brain regions [19]. The phase locking value
+participant.                                                     (PLV), PLI, and weighted phase lag index (wPLI) describe
+                                                                 phase synchronization between two channels: The PLV
+2.2 Clinical Assessment                                          quantifies the strength of phase synchronization between
+     The developmental status of the participants was as-        two signals and reflects the consistency of neural oscilla-
+sessed via a standardized developmental evaluation tool          tion synchronization between brain regions. However, it
+GDS which was especially for children ranging from 0–            is insensitive to volume conduction and may overestimate
+6 years of age [18]. The scale determines normal devel-          spurious connections. PLI infers the “causal trend” of in-
+opment and identifies delays or abnormalities by observ-         formation transfer between brain regions through the direc-
+ing a child’s behavioral performance across multiple do-         tional distribution of phase differences between two sig-
+mains. Each assessment was independently performed by            nals. Its advantage lies in canceling the effect of zero-
+three trained clinicians who followed protocols for consis-      lag phase differences to reduce volume conduction interfer-
+tency and reliability. The assessment results are expressed      ence. A study comparing six connectivity assessment meth-
+as a developmental quotient (DQ), where DQ = (develop-           ods showed that PLI and PLV had poor classification per-
+mental age/chronological age) × 100.                             formance [20]. wPLI, which is based on the PLI, weights
+                                                                 and scales phase differences according to their proximity
+2.3 EEG Acquisition and Preprocessing                            to the real axis, further reduces volume conduction effects
+      Participants sat in a quiet temperature-controlled room    while more accurately depicting the “strength and direc-
+for resting-state EEG recordings with their eyes closed. A       tion” of true functional connectivity [21]. Thus, this study
+32-channel Ag/AgCl scalp electrode system (ZhenTecBci            adopted wPLI-based brain networks to investigate the de-
+Co., Ltd., Xi’an, China), arranged according to the interna-     velopmental delay mechanisms of participant’s brain cog-
+tional 10–20 system, was used, comprising thirty acquisi-        nitive functions. When x(t) and y(t) denote the EEG signals
+tion electrodes and two electrooculography electrodes (hor-      from two leads; wPLI is given by:
+izontal electrooculogram right and horizontal electroocu-                    Pn
+logram left). The reference electrode was placed at CPz                         t=1 |imag (S )| sgn (imag (Sxy,t ))
+                                                                                       Pn xy,t
+                                                                  wPLI =                                                    (1)
+(Central Parietal z) and the ground electrode at FPz (Fron-                              t=1 |imag (Sxy,t )|
+topolar z). Electrode impedance was maintained below 5
+kΩ to ensure an optimal signal-to-noise ratio. Signals were            Where Sxy,t is the phase of x(t) and y(t) at time t,
+amplified and sampled at 500 Hz, with recordings lasting         and where imag (Sxy,t ) is the imaginary part of the phase
+10 minutes (Supplementary Material 1 contains detailed           difference vector between x(t) and y(t), i.e., sin (Sxy,t ),
+channel locations).                                              sgn (imag (Sxy,t )) is the positive or negative sign of
+
+
+                                                                                                                              3
+sin (Sxy,t ), when sin (Sxy,t ) > 0, sgn (imag (Sxy,t )) = 1;     comparing the clustering coefficient (C) and average path
+when sin (Sxy,t ) < 0, sgn (imag (Sxy,t )) = −1.                  length (L) of an actual network with the corresponding val-
+       Currently, the complex network analysis method             ues (C_rand, L_rand) of a random network of the same size:
+based on graph theory is widely used to study the intercon-       σ = (C/C_rand) / (L/L_rand). A σ > 1 indicates that the net-
+nection relationships between brain regions. The construc-        work has small-world characteristics with both high cluster-
+tion of functional brain networks mainly involves the se-         ing and low path length.
+lection of nodes and edges. In constructing functional net-             The MATLAB Brain Connectivity Toolbox (BCT, ht
+works, electrode positions are regarded as nodes, and the         tp://www.brain-connectivity-toolbox.net) was used to cal-
+wPLI values between electrodes serve as edges. However,           culate brain network parameters [27]. These metrics col-
+noise and non-feature signals often lead to many weak con-        lectively provide insights into the brain network efficiency
+nection edges in a network. To distinguish the brain region       and information transmission capacity of the two groups of
+dependency effectively between individuals within GDD             participants.
+and TD groups while maintaining global network connec-
+tivity as much as possible, this study used a 40% threshold       2.5 Development of Classification Models and Feature
+to capture the topological features of the brain network [22],    Weight Rankings
+see Supplementary Material 1. Connections below the                     The support vector machine (SVM), a supervised ma-
+threshold were set to 0, and connections above the thresh-        chine learning algorithm, exhibits unique advantages in bi-
+old were retained, converting the calculated fully connected      nary classification problems. It separates data points of dif-
+brain functional matrix into an undirected weighted thresh-       ferent classes by identifying the optimal hyperplane [28],
+olded network.                                                    while enhancing model generalization by maximizing the
+       Network-based statistics (NBS) is a method specif-         boundary between classes. In this study, a thematic clas-
+ically designed for the statistical analysis of brain             sification method was used to extract five brain network
+network/functional connectivity matrices [23].             The    indicators as features from five frequency bands, and ma-
+MATLAB-based NBS toolbox (https://www.nitrc.org/proj              chine learning-based SVM models were developed to eval-
+ects/nbs) was used to identify subnetworks with statis-           uate their classification ability for the TD and GDD groups.
+tically significant differences in between-group compar-          To optimize model parameters, particle swarm optimization
+isons of brain networks. To better quantify the connec-           (PSO) and quantum particle swarm optimization (QPSO)
+tion relationships and structural characteristics of functional   algorithms were introduced. These swarm intelligence op-
+brain networks, five basic indices of complex networks            timization algorithms search for optimal solutions by simu-
+were selected for quantitative characterization [24], includ-     lating collaborative-competitive mechanisms in biological
+ing global efficiency, local efficiency, characteristic path      groups: PSO updates on the basis of particle position and
+length, the clustering coefficient and the small-world coef-      velocity iterations, whereas QPSO introduces probabilistic
+ficient. Generally, global efficiency characterizes the over-     search characteristics from quantum mechanics to enhance
+all transmission efficiency of parallel information in the net-   the global optimization capability [29]. A 10-fold cross-
+work. Local efficiency is used to measure the closeness           validation strategy was adopted (90% data for training and
+of connections between a node and its neighboring nodes,          10% for testing per fold), with model performance evalu-
+reflecting local transmission efficiency. The characteristic      ated across five dimensions: Accuracy, precision, recall,
+path length, the average distance between any two nodes,          F1 score and area under the receiver operating characteris-
+represents the network’s signal transmission capability and       tic curve (AUC) [30].
+describes the efficiency of information transfer within the             To determine feature importance, permutation feature
+network. The clustering coefficient refers to the degree to       importance was used to identify key features [31]. This
+which the neighboring nodes of a given node are intercon-         method measures feature significance by randomly shuf-
+nected. In brain networks, a high clustering coefficient is       fling feature values and observing the degree of decline
+typically associated with improved information processing         in model prediction performance. In this study, 100 ran-
+and cognitive abilities [25].                                     dom permutations were performed to enhance reproducibil-
+       A small-world network is a network structure with ef-      ity and the five most important features were identified and
+ficient information transfer characteristics, whose core fea-     reported, providing data support for mining neurobiologi-
+tures are a high clustering coefficient and short average         cal GDD markers. The technical roadmap of this study is
+path length. It is commonly used to describe an interme-          given in Fig. 1.
+diate state between regular and random networks. Brain
+networks achieve a balance between local functional mod-          2.6 Statistical Analysis
+ularity (high clustering) and global integration (short path           This study used the statistical and machine learning
+length) through small-world properties, supporting com-           toolboxes in MATLAB R2021b for statistical analysis. The
+plex functions such as cognition and memory [26]. The             NBS method was employed to identify subnetworks with
+small-world coefficient (σ) is an index for quantifying           significant differences via two-tailed t-tests with a thresh-
+small-world network characteristics. It is calculated by          old of 2.6 and 50,000 random permutations. The family-
+
+
+4
+Fig. 1. Technology roadmap. Subfigures (a–f): Correlation between different brain network metrics and adaptive capacity (DQ) in
+the GDD group; Features (a–e): (a,b) Characteristic path lengths in the γ and α-bands. (c) Clustering coefficients for the γ-band. (d,e)
+Global efficiency in the γ and β-bands. GDD, global developmental delay group; TD, typically developing group; wPLI, weighted phase
+lag index; ROC, Receiver operating characteristic; AUC, Area under ROC curve; SVM, support vector machine; PSO, particle swarm
+optimization; QPSO, quantum particle swarm optimization; GDS, Gesell Developmental Schedule.
+
+
+wise error rate corrected p-value threshold was set at 0.025.             Table 1. Demographic characteristics of the subjects.
+Statistical analysis visualization was performed via Graph-           Demographics Categories       GDD            TD      Z/χ2 p-value
+Pad Prism 9.5.0 (GraphPad Software, Inc., San Diego, CA,              Number                           60           60
+USA) (https://www.graphpad.com). Continuous variables                 Sexa            Boy/Girl       30/30        35/25     0.838   0.360
+are expressed as the mean ± standard deviation (mean ±                Age (year)b                 2.80 (1.10) 2.80 (1.00) 0.175     0.861
+SD), whereas categorical variables are presented as counts.           Height (cm)b               94.50 (10.70) 97.45 (8.50) 0.347   0.729
+The Kolmogorov–Smirnov test was used to assess the nor-               Weight (kg)b               13.65 (2.90) 13.40 (2.40) 1.397    0.162
+mality of data. For normally distributed data, indepen-               Handa             L/R           4/56         2/58     0.174   0.402
+dent samples t-tests or Welch’s t-tests were used to com-             GDD, Global developmental delay group; TD, Typically developing
+pare between-group differences based on the results of the            group; L/R (left/right); a Chi-square test; b Rank-sum test.
+homogeneity of variance test; for non-normally distributed
+data, either Mann–Whitney U or Wilcoxon signed-rank
+tests were applied. Effect sizes were calculated via Cohen’s           3. Results
+d and Cliff’s δ. The false discovery rate (FDR) correction            3.1 Demographics and Clinical Characteristics
+was employed to perform multiple comparison correction
+on brain network metrics across five frequency bands, all                   All the subjects completed the data collection. No sig-
+p-values were adjusted for the FDR. To further explore the            nificant differences were observed between the two groups
+relationships between brain functional network parameters             of children in terms of sex, age, or handedness (Table 1).
+and clinical scores, Pearson and Spearman linear correla-
+tion analyses were conducted to examine the correlations              3.2 Differences in Functional Connectivity Strength
+between five brain network features across different bands            Between the Two Groups
+and GDS social adaptability scores. Statistical significance               To compare and analyze functional connectivity
+was set at p < 0.05.                                                  strength differences between the two groups of brain net-
+
+
+                                                                                                                                        5
+Fig. 2. Comparison of the difference in wPLI connection strength between the GDD and TD groups in different frequency bands.
+GDD, Global developmental delay group; TD, Typically developing group; GDD < TD, Connection strength of the GDD group is lower
+than that of the TD group (red line); GDD > TD, Connection strength of the GDD group is greater than that of the TD group (blue line).
+
+
+works, NBS was employed to identify statistically signifi-                 In the β-band, the local efficiency and clustering co-
+cant subnetworks, which were then visualized. Results re-            efficient in the GDD group were significantly lower (p =
+vealed significant differences in brain functional network           0.0062, δ = 0.238; p = 0.0022, d = 0.625, respectively) than
+connectivity between the GDD and TD groups, with the                 those in the TD group.
+GDD group showing reduced global functional connec-                        In the γ-band, the global efficiency, local efficiency,
+tivity strength and increased local functional connectivity          clustering coefficient and small-world coefficient in the
+strength, as given in Fig. 2. Specifically, the local func-          GDD group were significantly lower (p < 0.0001, δ =
+tional connectivity strength across the θ, α and γ-bands in          0.493; p < 0.0001, δ = 0.458; p < 0.0001, δ = 0.429; p
+the GDD group was significantly lower than those the TD              = 0.05, d = 0.412, respectively), whereas the characteris-
+group. Conversely, in the α and β-bands, the local func-             tic path length was significantly greater (p < 0.0001, δ =
+tional connectivity strength of electrode connections in the         0.483) than those in the TD group.
+GDD group was significantly greater than those in the TD                   Supplementary Material 2 gives more detailed sta-
+group (details of interelectrode connectivity strength differ-       tistical results of the brain network parameters.
+ences are given in Supplementary Material 1).
+                                                                     3.4 Correlation Analysis
+3.3 Differences in Brain Network Metrics                                   To evaluate the relationships between cognitive func-
+      Results of the brain network parameter analysis re-            tion and brain network metrics in GDD participants and
+vealed significant differences in network metrics across the         identify potential biomarkers, the correlations between the
+four EEG bands between the GDD and TD groups (Fig. 3).               five brain network topological metrics and the GDS so-
+Small-world network analysis revealed that the brain net-            cial adaptation DQ in the GDD group were analyzed. Re-
+works of both groups exhibited small-world properties (σ             sults revealed significant positive correlations between the
+> 1).                                                                global efficiency in the θ and γ-bands and the DQ (r =
+      Specifically, in the θ-band, the global efficiency and         0.6013, p < 0.0001; r = 0.2951, p = 0.0221, respec-
+small-world coefficient in the GDD group were signifi-               tively). The characteristic path lengths in the α and γ-bands
+cantly lower (p < 0.0001, δ = 0.258; p < 0.0001, δ =                 were significantly negatively correlated with the DQ (r = –
+0.391), whereas the characteristic path length was signif-           0.4842, p < 0.0001; r = –0.3229, p = 0.0100, respectively),
+icantly greater (p < 0.0001, δ = 0.356) than that in the TD          whereas the small-world coefficients in the θ and γ-bands
+group.                                                               were significantly positively correlated with the DQ (r =
+      In the α-band, the characteristic path length and small-       0.3361, p = 0.0087; r = 0.2950, p = 0.0221, Fig. 4).
+world coefficient in the GDD group were significantly
+greater (p < 0.0001, δ = 0.294; p = 0.007, δ = 0.195) than
+those in the TD group.
+
+
+6
+Fig. 3. Comparison of differences in different brain network metrics in different frequency bands between the GDD and TD
+groups. Eglobal , Global efficiency; Elocal , Local efficiency; C, Clustering coefficient; L, Characteristic path length; σ, Small-world coef-
+ficient; GDD, Global developmental delay group; TD, Typically developing group; *, p ≤ 0.05; **, p < 0.01; ***, p < 0.001.
+
+
+3.5 Classification Models and Feature Weight Rankings                    ues for SVM and PSO-SVM were 0.891 and 0.969, respec-
+Analysis                                                                 tively, as given in Fig. 5a. Among these models, QPSO-
+                                                                         SVM outperforms the others in terms of accuracy, preci-
+     ROC curves demonstrated that the quantum particle                   sion, recall, and F1 score (Fig. 5b).
+swarm optimization SVM (QPSO-SVM) model achieved
+the highest AUC value of 0.986, whereas the AUC val-
+
+
+                                                                                                                                            7
+Fig. 4. Correlation analysis between adaptive capacity (DQ) and brain network metrics in the GDD group.
+
+
+
+
+Fig. 5. Evaluating the classification effects of different SVM models. (a) Comparison of ROC curves and AUC values for different
+classification models. (b) Multi-criteria performance evaluation of different classification models. ROC, Receiver operating character-
+istic; AUC, Area under ROC curve. The accuracy of the SVM is 0.7417, that of the PSO-SVM is 0.8917 and that of the QPSO-SVM
+is 0.9583. The precision of the SVM is 0.9189, that of the PSO-SVM is 0.8507, and that of the QPSO-SVM is 0.9508. The recall of
+the SVM is 0.5667, that of the PSO-SVM is 0.9500, and that of the QPSO-SVM is 0.9667. The F1 of the SVM is 0.7021, that of the
+PSO-SVM is 0.8978, and that of the QPSO-SVM is 0.9587.
+
+
+      Fig. 6 presents the average feature weights of the top          4. Discussion
+five features across the three models after 100 random per-
+mutations, with the characteristic path length in the γ-band               To the best of our knowledge, this is the first study
+exhibiting the highest weight.                                       to comprehensively explore whole-brain functional connec-
+                                                                     tivity between GDD and TD participants via EEG and the
+
+
+8
+Fig. 6. Top five feature weight rankings of different SVM models. SVM, PSO-SVM and QPSO-SV make the top five average
+features. The weight ranges of the three models were not normalized. (a,b) Characteristic path lengths in the γ and α-bands. (c)
+Clustering coefficients for the γ-band. (d,e) Global efficiency in the γ and β-bands.
+
+
+first to report associations between graph-theoretical net-             δ-Band: In the resting state, the δ-band primarily
+work metrics and cognitive impairment in GDD patients.            reflects cortical metabolic activity and spontaneous syn-
+This study basically validated the pre-established hypothe-       chrony of the DMN [33]. This study did not find signifi-
+ses. Specifically, GDD participants presented significantly       cant differences between the two groups of participants in
+weaker connectivity across multiple frequency bands, with         terms of brain connectivity and network metrics. This is in-
+enhanced connectivity in specific bands, demonstrating a          consistent with the results of a previous study on ADHD
+dual pattern of “global hypoconnectivity and local hyper-         brain networks, which reported reduced δ-band network
+connectivity”. In terms of brain network metrics, GDD par-        connectivity in ADHD patients [34], providing different in-
+ticipants presented significantly reduced global efficiency,      sights into the study of these two neurodevelopmental dis-
+local efficiency, clustering coefficients and small-world co-     orders. Notably, even without statistical significance, the
+efficients, as well as extended characteristic path length        results revealed a trend toward greater average global effi-
+across multiple bands, when compared to TD participants.          ciency in the GDD group than in the TD group. It is thus
+Correlation analysis and machine learning results indicated       reasonably speculated that GDD participants may compen-
+that alterations in brain network parameters across certain       sate for local deficits through long-range connections (e.g.,
+bands were significantly associated with cognitive func-          cross-network connectivity between the DMN and dorsal
+tion scores in GDD participants, among which the char-            attention network) to maintain overall brain function sta-
+acteristic path length in the γ-band emerged as a potential       bility [35]. This compensatory mechanism has also been
+biomarker for evaluating GDD and its severity of cognitive        observed in patients with schizophrenia [36].
+impairment. These findings provide a potential objective
+                                                                        θ-Band: The θ-band is associated with memory en-
+approach for GDD diagnosis and assessment and offer ref-
+                                                                  coding, DMN function and cortical integration [37]. Re-
+erences for selecting precision therapeutic targets.
+                                                                  sults given here showed that the connectivity strength of
+                                                                  multiple cross-brain region connections in the α-band was
+4.1 Functional Connectivity and Network Metrics
+                                                                  significantly lower in the GDD group than in the TD group,
+      Functional networks in the human brain typically ex-        indicating that GDD participants have lower resting interre-
+hibit high levels of segregation and integration to enhance       gional information integration and transmission efficiency.
+local and global information processing efficiency [32].          This finding is consistent with a previous study on ASD
+EEG functional connectivity analysis, by quantifying the          [38]. Given that ASD and GDD are both neurodevelopmen-
+synchronization of electrical signals across different brain      tal disorders sharing similar etiologies, clinical manifesta-
+regions reveal spontaneous coordinated activities within in-      tions, and imaging features [39,40]. This study enriches the
+trinsic networks such as the default mode network (DMN),          understanding of brain functional network changes in these
+reflecting the brain’s modular organization and information       two conditions and suggests shared neuroelectrophysiolog-
+integration capabilities. Graph-theory-based brain network        ical mechanisms. Network analysis shows that the GDD
+analysis enables a comprehensive exploration of alterations       group has lower global efficiency but longer characteristic
+in GDD brain functional connectivity at a higher level of         path lengths than the TD group, indicating that GDD par-
+network organization. In the following sections, the differ-      ticipants may have lower global information transmission
+ences in brain functional connectivity and network analysis       efficiency and longer information transmission paths, lead-
+metrics between the two groups of participants across dif-        ing to an imbalance in cognitive resource allocation. No-
+ferent frequency bands are discussed, as are the underlying       tably, although the small-world coefficients of both groups
+neural mechanisms.                                                were greater than unity, those of the GDD group were lower
+
+
+                                                                                                                              9
+than those of the TD group, suggesting that while both           decline [49]. However, a different view holds that the short-
+networks exhibited small-world properties (high clustering       ening of characteristic path length, which is often accompa-
+and short path length), the optimized “high clustering‒short     nied by network randomization, may be related to reduced
+path” structure in GDD brains was disrupted, trending to-        cognitive flexibility [50], highlighting the need to explore
+ward randomization. This imbalance between local infor-          the neural mechanisms behind changes in network metrics
+mation integration and global transmission efficiency may        in depth.
+underlie cognitive deficits in individuals with GDD.                   γ-Band: Human γ-band activity has been related to
+      α-Band: The α-band often reflects the ability of the       a variety of functions ranging from perception and at-
+brain to integrate information [41]. The findings reported       tention to memory and consciousness [51]. Results re-
+here revealed complex differences in functional connectiv-       ported here demonstrated complex differences in local
+ity strength between the two groups. The study found com-        functional connectivity strength within the γ-band be-
+plex differences in functional connectivity strength between     tween the two groups. Such complexity may be linked
+the two groups. When compared to the TD group, GDD               to the theory of insufficient and excessive synaptic prun-
+participants had a large number of weak connections and          ing, which posits that synaptic pruning is a critical pro-
+fewer high-functioning connections. A previous study re-         cess in brain development—synapses used frequently are
+ported that α waves are prominent in infancy and gradually       retained, whereas idle ones are eliminated [52]. GDD par-
+change with brain maturation [42], whereas GDD partic-           ticipants may fail to efficiently clear redundant synapses
+ipants may exhibit complex abnormal patterns of α-band           due to developmental disorders while excessively elimi-
+functional connectivity due to neurodevelopmental delay.         nating frequently used synapses, leading to abnormal lo-
+However, the study was unable to localize the functionally       cal functional connectivity and reduced information pro-
+impaired brain regions precisely and future studies should       cessing efficiency—a mechanism widely accepted in other
+use high-density EEG devices for source localization analy-      neurodevelopmental disorders [53,54]. Langer et al. [55]
+sis. Additionally, the GDD group presented a significantly       analysed the correlation between brain network parameters
+longer characteristic path length in the α-band than the TD      and scores on Raven’s Standard Progressive Matrices via
+group did, indicating prolonged information transmission         high-density EEG data and reported that the smarter the
+pathways and reduced efficiency. Notably, although not           subjects were, the more their functional brain networks re-
+statistically significant, the GDD group presented lower         sembled small-world networks. This finding reveals that ef-
+mean global and local efficiency than the TD group did,          ficiently organized resting-state functional brain networks
+implying potential impairment in network integration. Con-       form the basis of high-efficiency cognition. Results fur-
+trary to the hypothesis, the GDD group had a significantly       ther revealed that the GDD group had significantly lower
+higher small-world coefficient in this band, a finding also      global efficiency, local efficiency, clustering coefficient
+reported in a study on ASD participants, which revealed in-      and small-world coefficient but longer characteristic path
+creased small-world coefficients in severely affected ASD        length than the TD group, indicating decreased information
+participants when compared to mildly/moderately affected         transmission efficiency and impaired functional integration
+participants [43]. Considering that both disorders are neu-      in GDD participants. The efficient small-world properties
+rodevelopmental disabilities, further research is warranted      of brain networks were disrupted, with networks trending
+to explore their potentially shared neural mechanisms.           toward randomization. This is consistent with the findings
+      β-Band: The β-band is considered to be closely re-         of Jeong et al. [5] from DTI data. Additionally, studies us-
+lated to cognitive control and sensory movement [44,45].         ing fNIRS have reported similar results in individuals with
+However, this study did not find significant differences in      autism ASD [56] and ADHD [57].
+brain connectivity between the two groups. In terms of                 Findings across the five frequency bands validated the
+brain network metrics, the GDD group had significantly           pre-established hypothesis tested here: GDD participants
+lower local efficiency and clustering coefficient in the β-      presented reduced functional connectivity in three bands
+band than the TD group, which may indicate impaired func-        (θ, α, γ), alongside local hyperconnectivity in the α and
+tional integration of local brain regions. This finding aligns   β-bands, demonstrating a dual pattern of “global hypocon-
+with EEG studies on ASD [46], ADHD [34] and healthy              nectivity and local hyperconnectivity”. The enhanced lo-
+populations [47], which have validated the correlation be-       cal connectivity may represent a compensatory response to
+tween reduced β-band functional connectivity and cogni-          core deficits such as insufficient information integration,
+tive functions across different subject groups. It is worth      whereas weakened global connectivity directly reflects cog-
+noting that this study did not find significant differences      nitive impairment. Differences in brain network metrics
+between the two groups in terms of feature path length in        between groups provide comprehensive insight into abnor-
+the β-band. A previous study on autism spectrum disorder         mal connectivity patterns in GDD participants. However,
+(ASD) found that patients had reduced feature path length        owing to the high heterogeneity of GDD populations, in-
+in the β-band [48] and some researchers have suggested           herent neural signatures of specific GDD symptoms may
+that this may reflect a compensatory effect of local over-       be overlooked. These findings highlight the importance of
+connectivity within specific modules on global efficiency        considering clinical heterogeneity in GDD and the neces-
+
+
+10
+sity of tailored intervention strategies. Future studies could   GDD populations. Second, the heterogeneity of GDD eti-
+integrate multimodal techniques (e.g., high-density EEG,         ologies and the high noise in participant’s EEG data lim-
+fMRI, fNIRS) to further analyze the structure‒function con-      ited the choice of sliding thresholds when constructing
+nectivity correspondence in the brain.                           functional brain networks. Stratified analysis or collec-
+                                                                 tion of fNIRS/MRI data with higher SNRs could support
+4.2 Correlation Analysis                                         range threshold analysis in the future. Finally, the cross-
+      Correlation analysis revealed that brain network pa-       sectional design of this study does not allow the inferring of
+rameters in GDD participants were closely associated with        causal relationships or unraveling the associations between
+cognitive functions. Specifically, in GDD participants cog-      cognitive-behavioral assessments and functional connectiv-
+nitive function was positively correlated with global effi-      ity in GDD participants. Prospective designs are recom-
+ciency in the θ and γ-bands and negatively correlated with       mended for future research on this topic.
+characteristic path length in the α and γ-bands. These find-
+ings indicate that decreased global efficiency and prolonged     5. Conclusions
+path length in specific bands may be closely linked to cogni-          This study, which is based on resting-state brain net-
+tive decline in GDD participants. The positive correlations      work analysis of EEGs and machine learning algorithms,
+between cognitive function and small-world coefficients          demonstrated that GDD participants exhibit an abnormal
+in the θ and γ-bands suggest that cognitive impairment           connectivity pattern characterized by “global hypoconnec-
+in GDD participants may be associated with the transfor-         tivity and local hyperconnectivity”. It also reveals corre-
+mation of small-world networks toward random networks.           lations between brain network parameters in specific fre-
+These findings highlight the clinical importance of these        quency bands and cognitive functions in GDD, where the
+network metrics, which hold promise as objective neuro-          characteristic path length in the γ-band may serve as a
+biological markers for evaluating the severity of GDD and        promising objective biomarker for GDD diagnosis. These
+associated cognitive impairments. Moreover, these correla-       findings provide a novel approach for the objective assess-
+tions deepen understanding of the neuropathological mech-        ment of cognitive functions in GDD patients and offer ref-
+anisms underlying GDD, providing valuable intervention           erences for precision neuroregulatory therapies.
+targets for precision neuroregulatory therapies.
+                                                                 Availability of Data and Materials
+4.3 Prediction Models                                                 The datasets used and analyzed in the present study
+      SVM, which is rooted in statistical learning theory,       are available upon request from the corresponding author.
+achieves structural risk minimization and serves as a su-
+pervised learning technique for classification and regres-       Author Contributions
+sion [58]. It has been widely applied to construct clini-              Conceptualization: ZH, YZ, DZ and YH. Methodol-
+cal disease classification models. Among the three mod-          ogy: YH, ZH, YZ, and DZ. Software: ZH, YZ. Valida-
+els, the QPSO-SVM model demonstrated the best classifi-          tion: ZH and YH. Formal analysis: ZH. Investigation: YS,
+cation performance. However, its high AUC value suggests         JK, WQ, YY, LY, GC, SaL, GZ, MW. Resources: DZ,
+a risk of overfitting, which may be related to the small sam-    YH. Data Curation: ZH, ShL, JZ, KS. Writing—Original
+ple size in this study and may affect model generalization to    Draft: ZH, YZ. Writing—Review & editing: DZ, YH.
+new data. In the future, sample size should be expanded and      Visualization: ZH, YZ, DZ. Supervision: DZ and YH.
+multi-centre external validation should be conducted to mit-     Project administration: DZ and YH. Funding acquisition:
+igate the impact of such overfitting. Repeated permutations      DZ and YH. All authors contributed to editorial changes
+of feature parameters to observe model performance help          in the manuscript. All authors read and approved the fi-
+highlight the contribution of features to model prediction,      nal manuscript. All authors have participated sufficiently
+thereby screening valuable biomarkers. Results show that         in the work and agreed to be accountable for all aspects of
+the characteristic path length in the γ-band had the highest     the work.
+feature weight across all models examined, underscoring
+its potential as a neural marker. Notably, statistical corre-    Ethics Approval and Consent to Participate
+lations do not guarantee direct biological mechanisms, ne-             The study was conducted in accordance with the Dec-
+cessitating further biological validation to determine their     laration of Helsinki. The research protocol was approved
+clinical significance.                                           by the Ethics Committee of the Third Affiliated Hospital
+                                                                 of Zhengzhou University (Ethic Approval Number: 2024-
+4.4 Limitations                                                  268-02). All of the participants provided signed informed
+      This study has several limitations. First, the sam-        consent.
+ple size was relatively small, making subgroup analysis
+on the basis of the severity of cognitive impairment diffi-      Acknowledgment
+cult. Future studies could enroll larger samples from mul-             The authors thank all the participants and their parents
+tiple centers to better understand the heterogeneity among       for their assistance and cooperation with our study. The au-
+
+
+                                                                                                                            11
+thors would like to acknowledge the use of DeepSeek (ht                       mild cognitive impairment in Parkinson’s disease. Clinical Neu-
+tps://www.deepseek.com/) for the Chinese-English transla-                     rophysiology. 2019; 130: 1937–1944. https://doi.org/10.1016/j.
+tion, English grammar checking and building classification                    clinph.2019.07.017.
+                                                                          [8] Shu N, Wang X, Bi Q, Zhao T, Han Y. Disrupted Topologic Ef-
+models via code in the preparation of this manuscript.                        ficiency of White Matter Structural Connectome in Individuals
+                                                                              with Subjective Cognitive Decline. Radiology. 2018; 286: 229–
+Funding                                                                       238. https://doi.org/10.1148/radiol.2017162696.
+                                                                          [9] Boersma M, Smit DJA, Boomsma DI, De Geus EJC, Delemarre-
+      This research was funded by the Open Research Pro-
+                                                                              van de Waal HA, Stam CJ. Growing trees in child brains:
+gram of the NHC Key Laboratory of Birth Defects Preven-                       graph theoretical analysis of electroencephalography-derived
+tion, grant number NHCKLBDP202508; the Key Project of                         minimum spanning tree in 5- and 7-year-old children reflects
+Medical Science and Technology Tackling Plan of Henan                         brain maturation. Brain Connectivity. 2013; 3: 50–60. https:
+Province 2024, grant number SBGJ202402069.                                    //doi.org/10.1089/brain.2012.0106.
+                                                                         [10] Gozdas E, Parikh NA, Merhar SL, Tkach JA, He L, Holland SK.
+                                                                              Altered functional network connectivity in preterm infants: an-
+Conflict of Interest                                                          tecedents of cognitive and motor impairments? Brain Structure
+      The authors declare no conflict of interest.                            & Function. 2018; 223: 3665–3680. https://doi.org/10.1007/
+                                                                              s00429-018-1707-0.
+Declaration of AI and AI-Assisted                                        [11] Cui X, Bray S, Bryant DM, Glover GH, Reiss AL. A quantitative
+                                                                              comparison of NIRS and fMRI across multiple cognitive tasks.
+Technologies in the Writing Process                                           NeuroImage. 2011; 54: 2808–2821. https://doi.org/10.1016/j.ne
+      During the preparation of this work the authors used                    uroimage.2010.10.069.
+DeepSeek (https://www.deepseek.com/) in order to check                   [12] Zhang M, Qu Y, Li Q, Gu C, Zhang L, Chen H, et al.
+                                                                              Correlation Between Prefrontal Functional Connectivity and
+spell and grammar. After using this tool, the authors re-
+                                                                              the Degree of Cognitive Impairment in Alzheimer’s Disease:
+viewed and edited the content as needed and takes full re-                    A Functional Near-Infrared Spectroscopy Study. Journal of
+sponsibility for the content of the publication.                              Alzheimer’s Disease. 2024; 98: 1287–1300. https://doi.org/10.
+                                                                              3233/JAD-230648.
+Supplementary Material                                                   [13] Hirosawa T, An KM, Soma D, Shiota Y, Sano M, Kameya M,
+                                                                              et al. Epileptiform discharges relate to altered functional brain
+     Supplementary material associated with this article                      networks in autism spectrum disorders. Brain Communications.
+can be found, in the online version, at https://doi.org/10.                   2021; 3: fcab184. https://doi.org/10.1093/braincomms/fcab184.
+31083/JIN44410.                                                          [14] Jadhav C, Kamble P, Mundewadi S, Jaiswal N, Mali S, Ranga S,
+                                                                              et al. Clinical applications of EEG as an excellent tool for event
+                                                                              related potentials in psychiatric and neurotic disorders. Interna-
+References                                                                    tional Journal of Physiology, Pathophysiology and Pharmacol-
+ [1] Settimo C, De Cola MC, Pironti E, Muratore R, Giambò FM,                 ogy. 2022; 14: 73–83.
+     Alito A, et al. Virtual Reality Technology to Enhance Conven-       [15] Phyo Wai AA, Dou M, Guan C. Generalizability of EEG-based
+     tional Rehabilitation Program: Results of a Single-Blind, Ran-           Mental Attention Modeling with Multiple Cognitive Tasks.
+     domized, Controlled Pilot Study in Patients with Global Devel-           Annual International Conference of the IEEE Engineering in
+     opmental Delay. Journal of Clinical Medicine. 2023; 12: 4962.            Medicine and Biology Society. IEEE Engineering in Medicine
+     https://doi.org/10.3390/jcm12154962.                                     and Biology Society. Annual International Conference. 2020;
+ [2] Totsika V, Liew A, Absoud M, Adnams C, Emerson E. Men-                   2020: 2959–2962. https://doi.org/10.1109/EMBC44109.2020.
+     tal health problems in children with intellectual disability. The        9176346.
+     Lancet. Child & Adolescent Health. 2022; 6: 432–444. https:         [16] Meyer M, Lamers D, Kayhan E, Hunnius S, Oostenveld R. En-
+     //doi.org/10.1016/S2352-4642(22)00067-0.                                 hancing reproducibility in developmental EEG research: BIDS,
+ [3] Dalsgaard S, McGrath J, Østergaard SD, Wray NR, Peder-                   cluster-based permutation tests, and effect sizes. Developmental
+     sen CB, Mortensen PB, et al. Association of Mental Disorder              Cognitive Neuroscience. 2021; 52: 101036. https://doi.org/10.
+     in Childhood and Adolescence With Subsequent Educational                 1016/j.dcn.2021.101036.
+     Achievement. JAMA Psychiatry. 2020; 77: 797–805. https:             [17] Gupta C, Chandrashekar P, Jin T, He C, Khullar S, Chang Q,
+     //doi.org/10.1001/jamapsychiatry.2020.0217.                              et al. Bringing machine learning to research on intellectual and
+ [4] Grether SM. Global developmental delay and its relationship to           developmental disabilities: taking inspiration from neurological
+     cognitive skills. Developmental Medicine and Child Neurology.            diseases. Journal of Neurodevelopmental Disorders. 2022; 14:
+     2009; 51: 577–578. https://doi.org/10.1111/j.1469-8749.2009.             28. https://doi.org/10.1186/s11689-022-09438-w.
+     03296.x.                                                            [18] Shevell M, Majnemer A, Platt RW, Webster R, Birnbaum
+ [5] Jeong JW, Sundaram S, Behen ME, Chugani HT. Differentiation              R. Developmental and functional outcomes at school age of
+     of Speech Delay and Global Developmental Delay in Children               preschool children with global developmental delay. Journal of
+     Using DTI Tractography-Based Connectome. AJNR. American                  Child Neurology. 2005; 20: 648–653. https://doi.org/10.1177/
+     Journal of Neuroradiology. 2016; 37: 1170–1177. https://doi.or           08830738050200080301.
+     g/10.3174/ajnr.A4662.                                               [19] Qiu Y, Luo Z. Research on Brain Networks of Human Balance
+ [6] Kavčič A, Borko DK, Kodrič J, Georgiev D, Demšar J,                      Based on Phase Estimation Synchronization. Brain Sciences.
+     Soltirovska-Šalamon A. EEG alpha band functional brain net-              2024; 14: 448. https://doi.org/10.3390/brainsci14050448.
+     work correlates of cognitive performance in children after peri-    [20] Aydın S, Çetin F, Uytun M, Babadag̃í Z, Güven A, Işık Y.
+     natal stroke. NeuroImage. 2024; 297: 120743. https://doi.org/            Comparison of domain specific connectivity metrics for esti-
+     10.1016/j.neuroimage.2024.120743.                                        mation brain network indices in boys with ADHD-C. Biomed-
+ [7] Chaturvedi M, Bogaarts JG, Kozak Cozac VV, Hatz F,                       ical Signal Processing and Control. 2022; 76: 103626. https:
+     Gschwandtner U, Meyer A, et al. Phase lag index and spec-                //doi.org/10.1016/j.bspc.2022.103626.
+     tral power as QEEG features for identification of patients with
+
+
+12
+[21] Vinck M, Oostenveld R, van Wingerden M, Battaglia F, Pen-            [37] Fomina T, Hohmann M, Scholkopf B, Grosse-Wentrup M. Iden-
+     nartz CMA. An improved index of phase-synchronization for                 tification of the Default Mode Network with electroencephalog-
+     electrophysiological data in the presence of volume-conduction,           raphy. Annual International Conference of the IEEE Engineer-
+     noise and sample-size bias. NeuroImage. 2011; 55: 1548–1565.              ing in Medicine and Biology Society. IEEE Engineering in
+     https://doi.org/10.1016/j.neuroimage.2011.01.055.                         Medicine and Biology Society. Annual International Confer-
+[22] Garcés P, Baumeister S, Mason L, Chatham CH, Holiga                       ence. 2015; 2015: 7566–7569. https://doi.org/10.1109/EMBC
+     S, Dukart J, et al. Resting state EEG power spectrum and                  .2015.7320143.
+     functional connectivity in autism: a cross-sectional analy-          [38] Chen B, Linke A, Olson L, Ibarra C, Reynolds S, Müller RA,
+     sis. Molecular Autism. 2022; 13: 22. https://doi.org/10.1186/             et al. Greater functional connectivity between sensory networks
+     s13229-022-00500-x.                                                       is related to symptom severity in toddlers with autism spectrum
+[23] Serin E, Zalesky A, Matory A, Walter H, Kruschwitz JD. NBS-               disorder. Journal of Child Psychology and Psychiatry, and Al-
+     Predict: A prediction-based extension of the network-based                lied Disciplines. 2021; 62: 160–170. https://doi.org/10.1111/jc
+     statistic. NeuroImage. 2021; 244: 118625. https://doi.org/10.             pp.13268.
+     1016/j.neuroimage.2021.118625.                                       [39] Jiang Y, Palaniyappan L, Luo C, Chang X, Zhang J, Tang Y,
+[24] Bullmore E, Sporns O. Complex brain networks: graph the-                  et al. Neuroimaging epicenters as potential sites of onset of the
+     oretical analysis of structural and functional systems. Nature            neuroanatomical pathology in schizophrenia. Science Advances.
+     Reviews. Neuroscience. 2009; 10: 186–198. https://doi.org/10.             2024; 10: eadk6063. https://doi.org/10.1126/sciadv.adk6063.
+     1038/nrn2575.                                                        [40] Lord C, Elsabbagh M, Baird G, Veenstra-Vanderweele J. Autism
+[25] Lo CYZ, He Y, Lin CP. Graph theoretical analysis of human                 spectrum disorder. Lancet. 2018; 392: 508–520. https://doi.org/
+     brain structural networks. Reviews in the Neurosciences. 2011;            10.1016/S0140-6736(18)31129-2.
+     22: 551–563. https://doi.org/10.1515/RNS.2011.039.                   [41] Klein A, Aeschlimann SA, Zubler F, Scutelnic A, Riederer F,
+[26] Bassett DS, Bullmore E. Small-world brain networks. The                   Ertl M, et al. Alterations of the alpha rhythm in visual snow syn-
+     Neuroscientist. 2006; 12: 512–523. https://doi.org/10.1177/               drome: a case-control study. The Journal of Headache and Pain.
+     1073858406293182.                                                         2024; 25: 53. https://doi.org/10.1186/s10194-024-01754-x.
+[27] Zhang W, Tang F, Zhou X, Li H. Dynamic Reconfiguration of            [42] Cellier D, Riddle J, Petersen I, Hwang K. The development of
+     Functional Topology in Human Brain Networks: From Resting                 theta and alpha neural oscillations from ages 3 to 24 years. De-
+     to Task States. Neural Plasticity. 2020; 2020: 8837615. https:            velopmental Cognitive Neuroscience. 2021; 50: 100969. https:
+     //doi.org/10.1155/2020/8837615.                                           //doi.org/10.1016/j.dcn.2021.100969.
+[28] Othman MFB, Abdullah NB, Kamal NFB. MRI brain classifi-              [43] Kitzbichler MG, Khan S, Ganesan S, Vangel MG, Herbert MR,
+     cation using support vector machine. In 2011 Fourth Interna-              Hämäläinen MS, et al. Altered development and multifaceted
+     tional Conference on Modeling, Simulation and Applied Opti-               band-specific abnormalities of resting state networks in autism.
+     mization (pp. 1–4). IEEE: Piscataway, NJ, USA. 2011. https:               Biological Psychiatry. 2015; 77: 794–804. https://doi.org/10.
+     //doi.org/10.1109/ICMSAO.2011.5775605.                                    1016/j.biopsych.2014.05.012.
+[29] Kennedy J. Swarm Intelligence Optimization: A Survey of Re-          [44] Böttcher A, Wilken S, Adelhöfer N, Raab M, Hoffmann S, Beste
+     cent Advances and Challenges. IEEE Transactions on Evolu-                 C. A dissociable functional relevance of theta- and beta-band ac-
+     tionary Computation. 2023; 27: 567–580.                                   tivities during complex sensorimotor integration. Cerebral Cor-
+[30] Wong TT. Performance evaluation of classification algorithms              tex. 2023; 33: 9154–9164. https://doi.org/10.1093/cercor/bha
+     by k-fold and leave-one-out cross validation. Pattern Recog-              d191.
+     nition. 2015; 48: 2839–2846. https://doi.org/10.1016/j.patcog        [45] Di Martino A, Yan CG, Li Q, Denio E, Castellanos FX, Alaerts
+     .2015.03.009.                                                             K, et al. The autism brain imaging data exchange: towards
+[31] Altmann A, Toloşi L, Sander O, Lengauer T. Permutation impor-             a large-scale evaluation of the intrinsic brain architecture in
+     tance: a corrected feature importance measure. Bioinformatics.            autism. Molecular Psychiatry. 2014; 19: 659–667. https://doi.
+     2010; 26: 1340–1347. https://doi.org/10.1093/bioinformatics/b             org/10.1038/mp.2013.78.
+     tq134.                                                               [46] Uhlhaas PJ, Singer W. Neural synchrony in brain disorders: rel-
+[32] Bassett DS, Meyer-Lindenberg A, Achard S, Duke T, Bullmore                evance for cognitive dysfunctions and pathophysiology. Neu-
+     E. Adaptive reconfiguration of fractal small-world human brain            ron. 2006; 52: 155–168. https://doi.org/10.1016/j.neuron.2006.
+     functional networks. Proceedings of the National Academy of               09.020.
+     Sciences of the United States of America. 2006; 103: 19518–          [47] Stam CJ, Reijneveld JC. Graph theoretical analysis of complex
+     19523. https://doi.org/10.1073/pnas.0606005103.                           networks in the brain. Nonlinear Biomedical Physics. 2007; 1:
+[33] Greicius MD, Krasnow B, Reiss AL, Menon V. Functional con-                3. https://doi.org/10.1186/1753-4631-1-3.
+     nectivity in the resting brain: a network analysis of the default    [48] Rieder MK, Rahm B, Williams JD, Kaiser J. Human γ -band
+     mode hypothesis. Proceedings of the National Academy of Sci-              activity and behavior. International Journal of Psychophysiol-
+     ences of the United States of America. 2003; 100: 253–258.                ogy. 2011; 79: 39–48. https://doi.org/10.1016/j.ijpsycho.2010.
+     https://doi.org/10.1073/pnas.0135058100.                                  08.010.
+[34] Ekhlasi A, Nasrabadi AM, Mohammadi M. Analysis of EEG                [49] Neniskyte U, Gross CT. Errant gardeners: glial-cell-dependent
+     brain connectivity of children with ADHD using graph theory               synaptic pruning and neurodevelopmental disorders. Nature Re-
+     and directional information transfer. Biomedizinische Technik.            views. Neuroscience. 2017; 18: 658–670. https://doi.org/10.
+     Biomedical Engineering. 2022; 68: 133–146. https://doi.org/10.            1038/nrn.2017.110.
+     1515/bmt-2022-0100.                                                  [50] Supekar K, Uddin LQ, Khouzam A, Phillips J, Gaillard WD,
+[35] Soman SM, Vijayakumar N, Thomson P, Ball G, Hyde C, Silk                  Kenworthy LE, et al. Brain hyperconnectivity in children with
+     TJ. Functional and structural brain network development in chil-          autism and its links to social deficits. Cell Reports. 2013; 5: 738–
+     dren with attention deficit hyperactivity disorder. Human Brain           747. https://doi.org/10.1016/j.celrep.2013.10.001.
+     Mapping. 2023; 44: 3394–3409. https://doi.org/10.1002/hbm.           [51] Belmonte MK, Allen G, Beckel-Mitchener A, Boulanger LM,
+     26288.                                                                    Carper RA, Webb SJ. Autism and abnormal development
+[36] Liu C, Zhang W, Chen G, Tian H, Li J, Qu H, et al. Aberrant               of brain connectivity. The Journal of Neuroscience. 2004;
+     patterns of local and long-range functional connectivity densities        24: 9228–9231. https://doi.org/10.1523/JNEUROSCI.3340-04.
+     in schizophrenia. Oncotarget. 2017; 8: 48196–48203. https://do            2004.
+     i.org/10.18632/oncotarget.18441.
+
+
+                                                                                                                                               13
+[52] Kaku SM, Jayashankar A, Girimaji SC, Bansal S, Gohel S,                  1002/hbm.21297.
+     Bharath RD, et al. Early childhood network alterations in se-       [56] Zhang F, Roeyers H. Exploring brain functions in autism spec-
+     vere autism. Asian Journal of Psychiatry. 2019; 39: 114–119.             trum disorder: A systematic review on functional near-infrared
+     https://doi.org/10.1016/j.ajp.2018.12.009.                               spectroscopy (fNIRS) studies. International Journal of Psy-
+[53] Bluschke A, Eggert E, Friedrich J, Jamous R, Prochnow A,                 chophysiology. 2019; 137: 41–53. https://doi.org/10.1016/j.ijps
+     Pscherer C, et al. The Effects of Different Theta and Beta Neu-          ycho.2019.01.003.
+     rofeedback Training Protocols on Cognitive Control in ADHD.         [57] Wang M, Hu Z, Liu L, Li H, Qian Q, Niu H. Disrupted func-
+     Journal of Cognitive Enhancement: towards the Integration of             tional brain connectivity networks in children with attention-
+     Theory and Practice. 2022; 6: 463–477. https://doi.org/10.1007/          deficit/hyperactivity disorder: evidence from resting-state func-
+     s41465-022-00255-6.                                                      tional near-infrared spectroscopy. Neurophotonics. 2020; 7:
+[54] Engel AK, Fries P. Beta-band oscillations–signalling the status          015012. https://doi.org/10.1117/1.NPh.7.1.015012.
+     quo? Current Opinion in Neurobiology. 2010; 20: 156–165. ht         [58] Long Y, Du ZJ, Wang WD, Zhao GY, Xu GQ, He L, et al.
+     tps://doi.org/10.1016/j.conb.2010.02.015.                                PSO-SVM-Based Online Locomotion Mode Identification for
+[55] Langer N, Pedroni A, Gianotti LRR, Hänggi J, Knoch D, Jäncke             Rehabilitation Robotic Exoskeletons. Sensors. 2016; 16: 1408.
+     L. Functional brain network efficiency predicts intelligence. Hu-        https://doi.org/10.3390/s16091408.
+     man Brain Mapping. 2012; 33: 1393–1406. https://doi.org/10.
+
+
+
+
+14
+
