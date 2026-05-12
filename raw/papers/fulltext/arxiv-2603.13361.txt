@@ -1,0 +1,648 @@
+                                        Journal Name, VOL. XX, NO. XX, XXXX 2025                                                                                                          1
+
+
+
+
+                                            BrainCast: A Spatio-Temporal Forecasting Model
+                                             for Whole-Brain fMRI Time Series Prediction
+                                           Yunlong Gao, Jinbo Yang, Li Xiao, Haiye Huo, Yang Ji, Hao Wang, Aiying Zhang, and Yu-Ping Wang
+
+
+
+
+                                            Abstract—Functional magnetic resonance imaging (fMRI) en-                   (BOLD) signals, has emerged as a preferred tool for functional
+                                        ables noninvasive investigation of brain function, while short clin-            imaging in noninvasive neuroscience studies [1], [2]. It enables
+                                        ical scan durations, arising from human and non-human factors,                  the characterization of brain activity and large-scale functional
+                                        usually lead to reduced data quality and limited statistical power
+                                        for neuroimaging research. In this paper, we propose BrainCast, a               connectivity, providing critical insights into both normal cogn-
+arXiv:2603.13361v1 [cs.CV] 9 Mar 2026
+
+
+
+
+                                        novel spatio-temporal forecasting framework specifically tailored               ition and neurological disorders [3], [4]. Despite its broad app-
+                                        for whole-brain fMRI time series forecasting, to extend informa-                lications, a persistent challenge in clinical settings is that fMRI
+                                        tive fMRI time series without additional data acquisition. It for-              scan durations are often short, due to participant-related factors
+                                        mulates fMRI time series forecasting as a multivariate time series              (e.g., reduced tolerance for long-duration scans in psychiatric,
+                                        prediction task and jointly models temporal dynamics within reg-
+                                        ions of interest (ROIs) and spatial interactions across ROIs. Spec-             pregnant, or younger and elder participants) and practical cons-
+                                        ifically, BrainCast integrates a Spatial Interaction Awareness mo-              straints (e.g., scan cost or protocol limitations) [5], [6]. Short-
+                                        dule to characterize inter-ROI dependencies via embedding every                 duration scans typically result in lower-quality fMRI data, cha-
+                                        ROI time series as a token, a Temporal Feature Refinement mod-                  racterized by reduced signal-to-noise ratio, compromised test–
+                                        ule to capture intrinsic neural dynamics within each ROI by enh-                retest reliability, and diminished sensitivity in downstream ana-
+                                        ancing both low- and high-energy temporal components of fMRI
+                                        time series at the ROI level, and a Spatio-temporal Pattern Align-              lyses [7]–[9]. Although extending fMRI scan duration can alle-
+                                        ment module to combine spatial and temporal representations for                 viate these issues, longer acquisitions will increase participant
+                                        producing informative whole-brain features. Experimental results                burden and also the susceptibility to motion artifacts, and thus
+                                        on resting-state and task fMRI datasets from the Human Connec-                  are not generally feasible in routine clinical practice [10]. Rec-
+                                        tome Project demonstrate the superiority of BrainCast over state-               ent evidence further suggests that longer scans increase statis-
+                                        of-the-art time series forecasting baselines. Moreover, fMRI time
+                                        series extended by BrainCast improve downstream cognitive abil-                 tical power and cost-efficiency in whole-brain association stud-
+                                        ity prediction, highlighting the clinical and neuroscientific impact            ies [11]. These observations collectively motivate the develop-
+                                        brought by whole-brain fMRI time series forecasting in scenarios                ment of methodology based approaches that can effectively ex-
+                                        with restricted scan durations.                                                 tend fMRI time series without additional data acquisition.
+                                           Index Terms—Attention, fMRI, spatio-temporal modeling, time                     Beyond data augmentation, the ability to predict future brain
+                                        series forecasting                                                              activity from historical fMRI data offers a complementary and
+                                                                                                                        potentially powerful means of understanding neural dynamics.
+                                                                                                                        On the other hand, accurate fMRI time series forecasting may
+                                                                  I. I NTRODUCTION
+                                                                                                                        facilitate the study of intrinsic brain process, enhance the mod-
+                                          Functional magnetic resonance imaging (fMRI), by measur-                      eling of interregional interactions, and enable applications such
+                                        ing spontaneous fluctuations in blood oxygen level-dependent                    as cognitive assessment, disease phenotyping, and brain–com-
+                                                                                                                        puter interface. From a signal analysis perspective, fMRI time
+                                           This work was supported in part by the National Natural Science Foundation   series exhibit strong temporal correlation and structured fluct-
+                                        of China under Grants 62202442, 12261059, and 62401535, in part by the Nat-
+                                        ural Science Foundation of Jiangxi Province under Grant 20224BAB211001,         uations, indicating that future fMRI data is partially predictable
+                                        in part by the Institute of Artificial Intelligence of Hefei Comprehensive      from previous observations [12], [13]. However, to the best of
+                                        National Science Center under Grants 23YGXT004 and Y1022502, in part            our knowledge, few methods have been specifically developed
+                                        by the NIH under Grants R01GM109068, R01MH104680, R01MH107354,
+                                        R01EB006841, P20GM103472, and U19AG055373, and in part by the NSF               for fMRI time series forecasting.
+                                        under Grant 1539067.                                                               Recent advances in deep learning have led to substantial pr-
+                                           Y. Gao and J. Yang are with the Institute of Advanced Technology,            ogresses in generic time series forecasting, particularly in capt-
+                                        University of Science and Technology of China, Hefei 230052, China.
+                                           L. Xiao and Y. Ji are with the MoE Key Laboratory of Brain-Inspired          uring complicated temporal dependencies. For instance, recurr-
+                                        Intelligence Perception and Cognition, University of Science and Technology     ent neural network (RNN) and long short-term memory (LST-
+                                        of China, Hefei 230052, China (e-mail: xiaoli11@ustc.edu.cn).                   M) models can model short-term temporal dependencies [14],
+                                           H. Huo is with the School of Mathematics and Computer Sciences,
+                                        Nanchang University, Nanchang 330031, China.                                    [15], while Transformer-based architectures leverage attention
+                                           H. Wang is with the MoE Key Laboratory of Brain-Inspired Intelli-            mechanisms to learn long-range temporal dependencies [16]–
+                                        gence Perception and Cognition, University of Science and Technology of         [18]. These models have demonstrated notable success in time
+                                        China, Hefei 230052, and also with the Anhui Province Key Laboratory of
+                                        Biomedical Imaging and Intelligent Processing, HFCNS Institute of Artificial    series prediction across domains such as traffic flow and power
+                                        Intelligence, Hefei 230088, China.                                              consumption. Nevertheless, they are not tailored for fMRI time
+                                           A. Zhang is with the School of Data Science, University of Virginia,         series forecasting, in which fMRI time series are characterized
+                                        Charlottesville, VA 22903, USA.
+                                           Y.-P. Wang is with the Department of Biomedical Engineering, Tulane          by considerable noise, nonstationary dynamics, and rich inter-
+                                        University, New Orleans, LA 70118, USA.                                         regional dependencies. For such data, forecasting performance
+2                                                                                                   Journal Name, VOL. XX, NO. XX, XXXX 2025
+
+
+
+relies not only on temporal modeling within individual regions              rics. In addition, we show that fMRI time series extended
+but also on considering interactions across brain regions.                  using BrainCast lead to improved cognitive ability predic-
+   In [19], BrainLM was built on a masked autoencoder frame-                tion, providing empirical evidence that whole-brain fMRI
+work for large-scale self-supervised pretraining, treating future           forecasting can enhance brain–cognition analyses, partic-
+fMRI time series prediction as an auxiliary task without explic-            ularly under limited fMRI scan durations.
+itly modeling inter-region interactions. Generative Adversarial          The remainder of this paper is organized as follows. Section
+Networks (GANs) have been investigated for fMRI time series           II reviews related studies on time series forecasting and brain
+forecasting, but were restricted to low-frequency components          fMRI signal analysis. Section III presents the proposed Brain-
+from a single region within the default mode network (DMN),           Cast framework in detail. Section IV reports experimental res-
+instead of whole-brain data [20]. Although more recent studies        ults on fMRI datasets from the HCP, followed by discussions
+have attempted to account for spatio-temporal dependencies in         on visualization, hyperparameter influence, and applications in
+fMRI data by graph neural network (GNN)- and Transformer-             cognitive ability prediction in Section V. Section VI concludes
+based models [21]–[23], their focus has primarily been on adv-        this paper.
+anced representation learning for brain functional connectivity
+analyses, rather than explicit fMRI time series forecasting. As                             II. R ELATED W ORK
+a result, whole-brain fMRI time series forecasting remains ins-       A. Time Series Forecasting
+sufficiently explored, highlighting the need for joint coordina-
+tion of temporal dynamics and spatial interactions.                       Deep learning models have demonstrated great potential in
+   In this paper, we address this gap via proposing BrainCast,        time series forecasting. For example, RNN-based models, such
+a spatio-temporal forecasting framework specifically designed         as RNNs and LSTMs [14], [15], have been presented through
+for whole-brain fMRI time series forecasting. As illustrated in       the extraction of temporal information from historical data for
+Fig. 1, BrainCast utilizes a sliding-window partition strategy to     predicting future data, yet they are ordinarily limited in captur-
+formulate forecasting tasks and integrates spatial and temporal       ing long-term dependencies within time series. To address this
+information in a unified architecture that forecasts whole-brain      issue, recent studies have begun to explore alternative architec-
+fMRI time series over a future horizon, given prior fMRI time         tures, e.g., Temporal Convolutional Network and Transformer
+series from a predefined look-back. BrainCast consists of three       [16], [25]. Particularly, the self-attention mechanism in Trans-
+main modules: i) a Spatial Interaction Awareness (SIA) modu-          former enables effective modeling of long-range dependencies.
+le used to explicitly characterize inter–region-of-interest (inter-   Early Transformer-based models [26], [27] treated all variables
+ROI) interactions by embedding each ROI (variate) time series         at the same time point as one single token, which often led to
+as a token; ii) a Temporal Feature Refinement (TFR) module            semantic entanglement among variables and suboptimal perf-
+introduced to enhance both low- and high-energy temporal co-          ormance. To mitigate this, PatchTST [28] presented a channel-
+mponents for capturing intrinsic neural dynamics within every         independent approach that processed every variable separately.
+ROI; and iii) a Spatio-temporal Pattern Alignment (SPA) mod-          While this process improves clarity in variable representations,
+ule designed to align spatial and temporal representations from       it incurs increased training time and fails to model interactions
+SIA and TFR, respectively, for producing informative whole-           between variables. In [29], iTransformer was proposed to over-
+brain features, followed by a prediction head that forecasts the      come these limitations by regarding each complete time series
+target fMRI time series. In addition, extensive experiments on        as a token, which allows the model to effectively capture inter-
+resting-state and task fMRI datasets from the Human Connect-          variable relationships. In parallel, GNN-based models have pr-
+ome Project (HCP) [24] demonstrate the superiority of Brain-          oven well suited in exploiting coupled temporal and spatial de-
+Cast over state-of-the-art time series forecasting baselines. Fur-    pendencies [30], [31]. Collectively, these advances have led to
+thermore, extending fMRI time series using BrainCast results          significant progress in time series forecasting and/or analyses.
+in more accurate cognitive ability prediction, underscoring the       However, the majority of these above models were introduced
+broader potential of fMRI time series forecasting for neurosci-       for domains such as traffic flow and electricity usage, and are
+ence research and clinical applications.                              not specifically tailored to fMRI data. By contrast, fMRI time
+   The contributions of this paper can be summarized below.           series exhibit different traits, e.g., substantial noise, nonstation-
+   • This paper is among the first to examine fMRI time series
+                                                                      ary dynamics, and complicated inter-ROI interactions, which
+      forecasting as a multivariate time series prediction probl-     pose unique challenges for time series forecasting that are not
+      em and to jointly model inter-ROI spatial interactions and      adequately accounted for by existing forecasting models.
+      intra-ROI temporal dynamics in a unified architecture.
+   • We propose BrainCast tailored for whole-brain fMRI time          B. Brain fMRI Data Analysis
+      series forecasting, which incorporates SIA, TFR, and SPA           In recent years, significant advances have been made in the
+      modules to account for inter-ROI dependencies, nonstati-        application of fMRI analysis techniques. Convolutional Neural
+      onary temporal dynamics, and heterogeneous spatio–tem-          Networks (CNNs) were among the earliest deep learning mod-
+      poral representations, respectively, for improved forecast-     els applied to the analysis of diverse neurological disorders and
+      ing accuracy.                                                   brain connectivity patterns, such as BrainNetCNN and Convol-
+   • Experimental results on large-scale fMRI datasets demon-         utional Auto-Encoder [32]–[35], and have demonstrated enco-
+      strate that BrainCast outperforms several competitive time      uraging performance. In addition, GNNs have displayed strong
+      series forecasting models across multiple evaluation met-       potential in brain connectivity network analysis owing to their
+AUTHOR et al.: PREPARATION OF PAPERS FOR IEEE TRANSACTIONS                                                                         3
+
+
+
+
+Fig. 1: The overall framework of BrainCast. (a) fMRI data preprocessing; (b) The Spatial Interaction Awareness (SIA) module
+for learning between-ROI spatial interactions; (c) The Temporal Feature Refinement (TFR) module for extracting temporal dy-
+namics within every ROI; and (d) The Spatio-temporal Pattern Alignment (SPA) module for aligning spatio-temporal represent-
+ations across ROIs and time points.
+
+
+powerful capability to capture local structural information bet-    the previous data, and the following T -point fMRI time series
+ween ROIs [36]–[38]. For instance, BrainGNN adopted graph           XF = [xL+1 , xL+2 , · · · , xL+T ] ∈ RN ×T be the future data,
+convolutional layers to enable biomarker prediction at both the     where xi ∈ RN represents the observed fMRI responses of all
+population and individual levels [39]. Dynamic GNNs further         ROIs at the i-th time point. The fMRI time series forecasting
+exploited the dynamics of brain connectivity to consider time-      task we study in this paper is to establish a mapping from the
+varying interactions between ROIs [40]. More recently, Trans-       previous data XP to the future data XF .
+former-based models have attracted increasing attention owing
+to their superior ability to learn long-range dependencies [41],
+[42], and have been successfully applied in fMRI data analysis
+[43]. Although the above mentioned models have significantly
+advanced fMRI data analysis, most existing studies remain fo-
+cus on characterizing observed fMRI data, with limited atten-
+tion to modeling and forecasting future whole-brain fMRI time
+series. Remarkably, BrainLM leveraged a masked autoencoder
+architecture to pre-train a self-supervised model on large-scale
+fMRI datasets [19], where future fMRI time series forecasting
+served as an auxiliary task and inter-ROI interactions were not
+explicitly emphasized. In [20], a GAN-based model was devel-
+oped for forecasting future fMRI time series; however, the for-
+ecasting was restricted to low-frequency components of fMRI
+time series from one single ROI within the DMN, rather than
+whole-brain fMRI time series.                                       Fig. 2: A sliding window partition technique on the fMRI data
+                                                                    to generate sequential samples.
+                        III. M ETHODS
+                                                                       To do so, we propose BrainCast, a spatio-temporal forecast-
+A. Problem Definition                                               ing model for brain fMRI time series prediction. As shown in
+   Given fMRI data of a subject, it is a multivariate time series   Fig. 1, BrainCast includes three important components, i.e., a
+with N variables, in which the N variables correspond to the        Spatial Interaction Awareness (SIA) module formulated to un-
+pre-defined N ROIs, and the i-th univariate time series is the      cover direct spatial interactions between distinct ROIs; a Tem-
+observed fMRI responses of the i-th ROI over a period of run        poral Feature Refinement (TFR) module tailored to capture the
+duration for 1 ≤ i ≤ N . We apply a sliding window partition        intrinsic temporal dynamics within every ROI; and a Spatio-
+technique on the fMRI data to generate sequential samples, as       temporal Pattern Alignment (SPA) module leveraged to align
+illustrated in Fig. 2, where the window size is set to L+T , the    heterogeneous spatial and temporal features for robust whole-
+stride is set to s, and the fMRI time series over every sliding     brain representations. Benefiting from this architecture, Brain-
+window is referred to as a sample. For each sample, let the first   Cast enables accurate, reliable prediction of multi-region fMRI
+L-point fMRI time series XP = [x1 , x2 , · · · , xL ] ∈ RN ×L be    time series. The details of the three modules are stated below.
+4                                                                                                Journal Name, VOL. XX, NO. XX, XXXX 2025
+
+
+
+
+    Fig. 3: (a) Illustration of SIAformer, in which self-attention (b) is applied to learning spatial interactions between ROIs.
+
+
+B. Spatial Interaction Awareness                                     respectively. The reason we use FAN here is that FAN can eff-
+   The conventional Transformer-based time series forecasters,       ectively extract implicit periodic patterns and regularities from
+such as Informer [17] and Autoformer [44], typically formed a        the variate tokens through learnable spectral filters [46]. Based
+(temporal) token by multiple variables of the same time point        on the attention mechanism, we have the attention map matrix
+and performed the generative formulation of forecasting tasks.       A ∈ RN ×N and token embedding matrix H ∈ RN ×D as
+However, they may not be suitable for multivariate time series                                        √ 
+                                                                              A = Softmax QK ⊤ / D and H = AV ,                     (3)
+forecasting, particularly for the aforementioned fMRI time ser-
+ies forecasting task, due to the following reasons. First, fMRI      respectively. Of note, since each variate token corresponds to a
+data is unavoidably coupled with noise (which may be physio-         specific ROI, the resulting attention map matrix A can reflect
+logical, instrumental or motion-related) during image acquisi-       the dependencies between ROIs. A shared FFN is applied to
+tion. This implies that a certain number of strong-noise tokens      the embedding of each variate token in H to further integrate
+are mixed with all the tokens, and regarding all the tokens equ-     relational information. In addition, as a basic operation widely
+ally will potentially hinder the learning of true neural represen-   used to enhance the convergence and training stability of deep
+tations. Second, Transformer using the temporal tokens results       neural networks, layer normalization (LN) is also performed.
+in meaningless attention maps, and fails to capture multivariate     Finally, a comprehensive representation H spat ∈ RN ×D that
+correlations that are significant for characterizing between-ROI     incorporates spatial interactions between ROIs is given by
+interactions in fMRI based brain network analysis.
+   Therefore, inspired by iTransformer [29], we design an SIA                  H spat = LN (FFN(H) + LN(H + XE )) ,                  (4)
+module (see Fig. 1(b)) to capture spatial dependencies between
+ROIs, i.e., multivariate correlations, where each univariate time    which follows a gated or residual transformation.
+series is embedded as a (variate) token, and the obtained vari-
+ate tokens are implemented by our customized SIAformer for           C. Temporal Feature Refinement
+multivariate correlating and are individually input into a shared
+                                                                        To capture the temporal characteristics of fMRI time series,
+FFN for learning nonlinear representations. More specifically,
+                                                                     we present a TFR module using frequency domain techniques.
+we first embed each univariate time series in XP as a variate
+                                                                     Most frequency domain based time series forecasting methods
+token of dimension D by a shared MLP, i.e.,
+                                                                     tend to focus on high-energy components (low-frequency part)
+              XE ∈ RN ×D := Embedding(XP ).                   (1)    while ignoring low-energy components (high-frequency part),
+                                                                     leading to sub-optimal prediction performance. Moreover, low-
+The obtained variate tokens XE aggregate global information
+                                                                     energy components of fMRI time series encode stable patterns
+of time series over time, which can be better used by attention
+                                                                     of spontaneous neural activities [1], making them essential for
+mechanisms in SIAformer for multivariate correlating below.
+                                                                     fMRI time series forecasting. Therefore, we use Amplifier [47]
+   We subsequently use a stack of G SIAformer layers on XE ,
+                                                                     as our TFR module (see Fig. 1(c)), because Amplifier can learn
+each composed of Fourier Analysis Network (FAN) [45], self-
+                                                                     both low- and high-energy components without bias, as briefly
+attention, and FFN, as shown in Fig. 3. More concretely, based
+                                                                     stated in what follows.
+on XE , FAN is employed to derive query, key, and value matr-
+                                                                        We first equalize low- and high-energy components through
+ices (Q, K, V ∈ RN ×D ), i.e.,
+                                                                     spectrum flipping. Let X P ∈ RN ×L denote the Discrete Four-
+                   (Q, K, V ) = FAN(XE ),                     (2)    ier Transform (DFT) of XP , in which each row of X P is the
+AUTHOR et al.: PREPARATION OF PAPERS FOR IEEE TRANSACTIONS                                                                                5
+
+
+
+L-point DFT of the corresponding row of XP . Accordingly,              and perform channel-wise feature aggregation by restoring ch-
+the flipped spectrum satisfies, for 0 ≤ k ≤ L − 1,                     annel dimension with the matrix multiplication of ψv (H temp )
+                                                                       and M . Finally, the output H global is obtained as
+                        X ′P [k] = X P [L − k].                 (5)
+                                                                                  H global = ω ψv (H temp )M + H spat ,
+                                                                                                                
+                                                                                                                                (11)
+We apply the inverse DFT (IDFT) to the sum of X ′P and X P ,
+obtaining the energy-equalized time series XPeq ∈ RN ×L , i.e.,        where ω stands for a linear layer. Via SPA, H global explicitly
+                                                                       captures both spatial and temporal dependencies among fMRI
+                      XPeq = IDFT(X P + X ′P ).                 (6)
+                                                                       time series, enhancing the model’s forecasting performance.
+As a result, the energy of the original low-energy components
+are increased to be commensurate with that of the high-energy          E. Forecasting Head and Loss Function
+components. The above energy equalization process is conduc-
+                                                                          After extracting the latent representation H global , we employ
+ive to drawing the model’s attention for learning the previously
+                                                                       a prediction head to transform the feature space into the target
+neglected low-energy components.
+                                                                       fMRI time series XF ∈ RN ×T , i.e., for 1 ≤ n ≤ N ,
+   One can see from (6) that there will be two separate energy
+peaks at both ends of the spectrum of XPeq . We subsequently                         X̂F (n, :) = H global (n, :)WF + bF ,          (12)
+adopt Seasonal-Trend Decomposition widely used in previous
+work [27], [44], [48] to decompose XPeq into the seasonal and          where bF ∈ RT is a bias vector, and WF ∈ RD×T is a weight
+trend components as                                                    matrix. The model’s parameters are optimized by minimizing
+                                                                       the discrepancies between the predicted data X̂F in (12) and
+                XPtrend , XPseason = Decom(XPeq ),              (7)    the ground-truth future data XF . For this purpose, we utilize
+                                                                       the mean squared error (MSE) as the loss function; that is,
+which correspond to these two energy peaks. XPtrend represents
+the slow, non-periodic modifications in fMRI time series, e.g.,                                 N                      2
+                                                                                           1 X
+scanner drift or gradual physiological shift. In contrast, XPseason              LMSE =          X̂F (n, :) − XF (n, :) .           (13)
+                                                                                           N n=1                       2
+delineates the periodic or cyclical patterns, reflecting experim-
+ental task repetitions or intrinsic physiological rhythms. Then,
+by applying two FFNs to the two peaks separately and fusing            TABLE I: Run duration and the number of frames (i.e., time
+their outputs, we obtain XPts ∈ RN ×D as                               points) per run for each fMRI paradigm.
+        XPts = FFNtrend (XPtrend ) + FFNseason (XPseason ).     (8)      fMRI paradigm          Frames per run   Run duration (min:sec)
+                                                                         Resting-state              1200                14:33
+   We finally adopt a linear transformation to adjust the column         Working memory              405                 5:01
+dimension of X ′P to D (i.e., the column dimension of H spat in          Emotional processing        176                 2:16
+(4)), followed by an inverse operation of spectrum flipping to           Language processing         316                 3:57
+derive the temporal representation H temp ∈ RN ×D (namely,               Relational reasoning        232                 2:56
+the energy restoration process returns the energy to the original        Social cognition            274                 3:27
+level), i.e.,                                                            Gambling                    253                 3:12
+                  ′                                                      Motor execution             284                 3:34
+                X̂ P (n, :) = X ′P (n, :)WP + bP ,
+                        X tsP = DFT(XPts ),                     (9)
+                                                   ′                                   IV. E XPERIMENTAL R ESULTS
+                      H   temp
+                                 = IDFT(X tsP − X̂ P ),
+                                                                       A. Datasets and Preprocessing
+         ′                                                   ′
+where X̂ P (n, :) and X ′P (n, :) denote the n-th rows of X̂ P and        In this study, we used the data from the Human Connectome
+  ′
+X P , respectively, WP ∈ CL×D is a complex-valued weight               Project (HCP) S1200 Release [24], which included behavioral
+matrix, and bP ∈ CD is a complex-valued bias vector.                   and multi-modal neuroimaging datasets collected from 1206
+                                                                       healthy young adults aged 22 to 35 years. To ensure data integ-
+D. Spatio-Temporal Pattern Alignment                                   rity, a total of 862 subjects (409 males and 453 females) who
+                                                                       had all four 3T MRI modalities (i.e., structural MRI, diffusion
+   The spatial and temporal representations (H spat and H temp )
+                                                                       MRI, resting-state fMRI, and task fMRI) were selected. Deta-
+exhibit substantial differences in the high-level semantic repre-
+                                                                       iled descriptions of their demographic characteristics and MRI
+sentation space. Directly concatenating them can lead to redun-
+                                                                       acquisition parameters of the selected subjects can be readily
+dancy and inconsistency. Therefore, based on vector similarity
+                                                                       found in the HCP protocol.
+retrieval, we design an SPA module to align H spat with H temp ,
+resulting in a global spatio-temporal representation, H global ∈          The resting-state fMRI data was acquired across two sessio-
+RN ×D , as illustrated in Fig. 1(d).                                   ns (R1 and R2) on separate days, and we solely used the fMRI
+                                                                       data at the first session (R1) in our study. The task fMRI data
+   By three linear layers ψq , ψv , and ψk , we first project H spat
+                                                                       was acquired across seven task paradigms, including working
+and H temp to ψq (H spat ), ψk (H temp ), and ψv (H temp ). Then, we
+                                                                       memory, emotional processing, language processing, relational
+compute the attention score matrix M as
+                                                                       reasoning, social cognition, gambling, and motor execution.
+           M = Softmax ψq (H spat )(ψk (H temp ))⊤ ,
+                                                        
+                                                                (10)   Two runs of the resting-state fMRI (R1) and each task fMRI
+6                                                                                                        Journal Name, VOL. XX, NO. XX, XXXX 2025
+
+
+
+TABLE II: Performance comparison of different models on HCP-rs-fMRI and HCP-t-fMRI datasets. The mean is reported
+with the standard deviation shown in parentheses below. The best results are highlighted in bold.
+
+                                                                                  Model
+           Dataset      Metric
+                                  Ours     iTransformer   DLinear   Amplifier   PatchTST   CrossFormer    FourierGNN    LSTM      RNN
+                                  0.380       0.398        0.529      0.407       0.394       0.417          0.562       0.602     0.592
+                       MSE ↓
+                                 (0.004)     (0.002)      (0.012)    (0.006)     (0.003)     (0.001)        (0.005)     (0.013)   (0.006)
+                                  0.461       0.478        0.562      0.481       0.473       0.488          0.580       0.601     0.597
+                       MAE ↓
+                                 (0.004)     (0.002)      (0.009)    (0.005)     (0.004)     (0.003)        (0.004)     (0.011)   (0.008)
+        HCP-rs-fMRI               0.665       0.631        0.446      0.627       0.635       0.628          0.432       0.355     0.379
+                         R↑
+                                 (0.002)     (0.001)      (0.013)    (0.006)     (0.003)     (0.004)        (0.002)     (0.008)   (0.005)
+                                  0.438       0.397        0.199      0.390       0.402       0.396          0.187       0.120     0.143
+                        R2 ↑
+                                 (0.003)     (0.003)      (0.011)    (0.003)     (0.005)     (0.006)        (0.003)     (0.007)   (0.007)
+
+                                  0.435       0.488        0.633      0.460       0.485       0.480          0.705       0.681     0.663
+                       MSE ↓
+                                 (0.004)     (0.004)      (0.005)    (0.009)     (0.006)     (0.010)        (0.007)     (0.005)   (0.004)
+                                  0.484       0.501        0.587      0.514       0.501       0.496          0.621       0.609     0.602
+                       MAE ↓
+                                 (0.006)     (0.002)      (0.007)    (0.015)     (0.003)     (0.008)        (0.005)     (0.010)   (0.008)
+         HCP-t-fMRI               0.595       0.583        0.376      0.582       0.586       0.589          0.208       0.292     0.320
+                         R↑
+                                 (0.003)     (0.005)      (0.004)    (0.021)     (0.005)     (0.017)        (0.009)     (0.007)   (0.008)
+                                  0.351       0.338        0.142      0.333       0.341       0.347          0.043       0.076     0.101
+                        R2 ↑
+                                 (0.004)     (0.002)      (0.003)    (0.018)     (0.008)     (0.013)        (0.004)     (0.002)   (0.004)
+
+
+
+were implemented, one with a left-to-right and the other with               For parameter optimization, we selected the RMSprop opti-
+a right-to-left phase encoding. To avoid the potential influence         mizer, which adaptively adjusted the learning rate based on a
+of the phase encoding direction on our study, we used the left-          moving average of squared gradients. The initial learning rate
+to-right phase encoding runs of all fMRI data. In Table I, we            was set to 1 × 10−5 , and training was performed with a batch
+presented run duration and the number of time points (namely             size of 64. To mitigate overfitting and improve generalization,
+frames) per run for each fMRI paradigm.                                  an early stopping strategy was implemented, by which training
+   All functional images underwent the HCP minimal prepro-               was halted when the validation loss did not improve for 5 con-
+cessing pipeline, including gradient distortion correction, head         secutive epochs. The main hyperparameters in our model were
+motion correction, image distortion correction, spatial align-           given as follows. The lengths of the previous and future fMRI
+ment to standard Montreal Neurological Institute (MNI) space,            time series over a sliding window were L = 140 and T = 20,
+and intensity normalization. Moreover, further denoising pro-            respectively; and the stride was s = 20. Our model contained
+cedures were performed, which involved regressing out motion             2 SIAformer layers (namely G = 2) and 8 multi-head attention
+parameters (and their first-order derivatives), removal of linear        heads, and the embedding dimension was set to D = 512. Be-
+trends, and temporal band-pass filtering (0.01–0.1 Hz). After-           fore feeding the time series data into our model, we normalized
+wards, we parcellated all the preprocessed fMRI data into 268            the data to stabilize training and improve robustness.
+(i.e., N = 268) ROIs based on the Shen functional atlas [49].
+   For simplicity, we denoted the above preprocessed resting-            C. Forecasting Performance
+state fMRI data as HCP-rs-fMRI. We concatenated the prepro-                 With the use of HCP-rs-fMRI and HCP-t-fMRI, respective-
+cessed fMRI data from all the seven tasks along the temporal             ly, we compared the fMRI time series forecasting performance
+axis, and denoted the newly formed task fMRI data as HCP-t-              of our model (i.e., BrainCast) and 8 highly regarded baselines,
+fMRI. In this study, both HCP-rs-fMRI and HCP-t-fMRI were                including cutting-edge Transformer models (such as PatchTST
+employed to evaluate the effectiveness of the proposed model             [28], CrossFormer [18], and iTransformer [29]), efficient linear
+for fMRI time series prediction, respectively.                           neural network models (such as DLinear [48] and Amplifier
+                                                                         [47]), classic recurrent neural network models (such as LSTM
+                                                                         [14] and RNN [15]), and graph neural network models (such
+B. Implementation Details
+                                                                         as FourierGNN [30]).
+   To avoid data leakage, we randomly split the whole subjects              As exhibited in Table II, BrainCast consistently achieved the
+into 80% for training, 10% for validation, and 10% for testing,          best forecasting performance on these two datasets in terms of
+whose generative samples by sliding window were used as the              both the error-based metrics (MSE and MAE) and correlation-
+training, validation, and test sets, respectively. This was repea-       based metrics (R and R²). For example, on HCP-rs-fMRI, our
+ted five times to reduce the influence of data-splitting bias, and       model reached superior performance across all the metrics, de-
+the mean and standard deviation (std) of the prediction results          creasing MSE by ≥ 0.014 and MAE by ≥ 0.012, and increas-
+in all test sets were reported on the four widely used evaluation        ing R by ≥ 0.030 and R² by ≥ 0.036. Similarly, on HCP-t-
+metrics, including mean absolute error (MAE), mean squared               fMRI, our model outperformed the the second-best models by
+error (MSE), Pearson’s correlation coefficient (R), and coeffic-         an obvious margin. Moreover, one can see that the Transformer
+ient of determination (R²).                                              models (also including ours) achieved better performance than
+AUTHOR et al.: PREPARATION OF PAPERS FOR IEEE TRANSACTIONS                                                                          7
+
+
+
+
+                                                             (a) HCP-rs-fMRI
+
+
+
+
+                                                             (b) HCP-t-fMRI
+Fig. 4: Visualization of forecasting results on a randomly selected ROI of one test sample for HCP-rs-fMRI (a) and HCP-t-fMRI
+(b), respectively. The black dots denote the previous and ground-truth future data, and the blue dots denote the predicted data.
+
+
+the others. In particular, such recurrent neural network archi-      also aligned well with local fluctuations, including rising and
+tectures, i.e., LSTM and RNN, struggled to capture long-range        falling patterns. In addition, we observed that despite the pre-
+dependencies in time series forecasting, leading to inferior per-    sence of rapid transitions or high-frequency oscillations in the
+formance. Although FourierGNN incorporated spectral repres-          time series, our model maintained stable forecasting accuracy.
+entations of time series, its performance is limited in the fMRI     It indicates that our model is capable of learning both low-fre-
+time series forecasting tasks. This may be attributed to the co-     quency trends and high-frequency variations in neural activity,
+mplex spatio-temporal dynamics of brain neural activities that       which are essential to accurately modeling brain dynamics.
+cannot be satisfactorily captured by frequency-domain analysis
+alone. By contrast, our model can practically characterize not
+                                                                     D. Ablation Studies
+only spatial interactions between ROIs but temporal variations
+within every ROI, highlighting its potential in modeling neural         To verify whether the SIA, TFR, and SPA modules designed
+dynamics in multi-region fMRI time series.                           in our model were essential, we conducted ablation experime-
+                                                                     nts on both HCP-rs-fMRI and HCP-t-fMRI, as shown in Fig.
+   To further demonstrate the superiority of our model, we vis-      5. One can see that removing any module consistently caused
+ualized the forecasting results of our model, PatchTST, iTrans-      forecasting performance degradation across all evaluation met-
+former, and DLinear in Fig. 4. For easy visualization, we pres-      rics on both datasets. Specifically, removing TFR resulted in
+ented the forecasting result of a randomly selected ROI of one       the most inferior performance, with MSE and MAE increasing
+test sample with respect to HCP-rs-fMRI and HCP-t-fMRI, re-          while R and R² decreasing dramatically. This demonstrates the
+spectively. As exhibited in Fig. 4, our model provided the most      importance of modeling temporal dynamics for accurate fMRI
+accurate predictions on future fMRI time series, substantially       time series forecasting. In addition, removing SIA also brought
+outperforming the other models, where the predicted trajecto-        about significant performance decline, highlighting the necess-
+ries not only followed the overall trend of the ground truth but     ity of capturing long-range spatial interactions between ROIs.
+8                                                                                                 Journal Name, VOL. XX, NO. XX, XXXX 2025
+
+
+
+In comparison, SPA exerted a relatively small yet stable impact       attention states elicit more lateralized, task-specific connectiv-
+on performance, substantiating its vital role in aligning spatio-     ity patterns [51].
+temporal representations output from SIA and TFR. Therefore,             Together, these observations suggest that during rest, homo-
+all such modules contributed to BrainCast in a complementary          topic connectivity provides a stable, symmetric scaffold explo-
+manner, and the full model achieved the best performance.             ited by the model for prediction, potentially reflecting under-
+                                                                      lying interhemispheric pathways. Under naturalistic stimula-
+                                                                      tion, however, brain dynamics appear to become asymmetric,
+                                                                      context-sensitive, attenuating the relative contribution of mir-
+                                                                      ror regions and favoring specialized processing.
+
+                                                                      B. Influence of Look-Back Length
+                                                                         To investigate the impact of the length of the previous fMRI
+                                                                      time series (i.e., L, also called look-back length) in BrainCast
+                                                                      on the forecasting performance, we conducted additional exp-
+                         (a) HCP-rs-fMRI                              eriments with varying L ∈ {100, 120, 140, 160, 180} and fixed
+                                                                      future length T = 20 (i.e., the length of the future fMRI time
+                                                                      series) on both HCP-rs-fMRI and HCP-t-fMRI. As shown in
+                                                                      Fig. 7, the fMRI time series forecasting performance measured
+                                                                      by R initially improves with increasing L, achieves a peak at
+                                                                      an intermediate value of L = 140, and then gradually declines
+                                                                      as L continues to increase. This trend suggests a trade-off bet-
+                                                                      ween contextual sufficiency and information redundancy. Incr-
+                                                                      easing the look-back length initially enhances temporal model-
+                                                                      ing by providing richer historical context; however, when the
+                         (b) HCP-t-fMRI                               look-back length becomes excessively long, the forecasting pe-
+Fig. 5: Ablation results for the SIA, TFR, and SPA modules in         rformance degrades as the model struggles to effectively capt-
+our BrainCast on both HCP-rs-fMRI (a) and HCP-t-fMRI (b),             ure increasingly complex temporal variations in extended seq-
+respectively. The dark blue bars correspond to the left y-axis,       uences, and informative patterns might be diluted by redundant
+whereas the dark red bars correspond to the right y-axis.             information. Conversely, overly short look-back lengths afford
+                                                                      insufficient contextual information, limiting the model’s ability
+                                                                      to characterize temporal dependencies and thereby impairing
+                                                                      forecasting accuracy.
+                       V. D ISCUSSIONS
+A. Visualization of Attention Maps                                    C. Application in Establishing Brain-Cognition Relationships
+   To elucidate the neurobiological underpinnings of our model           To explore the potential application of fMRI time series fo-
+for fMRI time series forecasting with HCP-rs-fMRI and HCP-            recasting and evaluate the added value with BrainCast, we im-
+t-fMRI, we visualized the cortical attention maps (i.e., the atte-    plemented designed experiments to investigate brain–cognition
+ntion score matrices in (10)), respectively, by mapping the atte-     relationships. Specifically, we used two types of data (i.e., the
+ntion scores to the corresponding ROIs on the cortical surface;       previous fMRI time series and the prolonged fMRI time series
+see Fig. 6. Notably, the attention map from HCP-rs-fMRI reve-         extended by BrainCast) to predict the Penn Matrix Reasoning
+aled pronounced left–right hemispheric symmetry, with consp-          Test (PMAT) scores. As part of the HCP [24], the PMAT was
+icuous emphasis on homotopic regions, while that from HCP-            carried out in the computerized neurocognitive battery (CNB)
+t-fMRI lacked such symmetry and displayed a heterogeneous             to quantify nonverbal reasoning-related cognitive ability [52].
+distribution of activated areas.                                      In this setting, the previous fMRI time series of length 140
+   This striking bilateral symmetry during rest aligns well with      were augmented to the corresponding prolonged ones of length
+prior findings on homotopic functional connectivity: the voxel-       160, with the last 20-point fMRI time series being forecasted
+mirrored homotopic connectivity metric provides a quantitative        by BrainCast. For the PMAT score prediction, we compared
+measure of robust interhemispheric synchronization in regions,        the root mean squared error (RMSE) derived from the previous
+including cingulate, precentral, and postcentral gyri, therefore      and prolonged fMRI time series across a broad range of regres-
+characterizing the intrinsic functional integration of homotopic      sion approaches, including convolutional neural networks (e.g.,
+areas at rest [50]. By contrast, task-driven states may attenuate     BrainNetCNN [33]) , graph convolutional networks (e.g., GCN
+this symmetric pattern of reliance. Task engagement typically         [37]), MLP [53], and support vector regression (SVR) [54], as
+recruits network-specific and lateralized circuits tailored to sti-   reported in Table III. One can readily see that compared with
+mulus demands, consequently reducing the prominence of ho-            the previous fMRI time series, the prolonged fMRI time series
+motopic correspondence in predictive contributions. Actually,         consistently improved the cognitive prediction performance ac-
+dynamic reconfiguration of resting-state networks—especially          ross all the regression approaches. This finding underscores the
+the default mode and dorsal attention subnetworks—has been            potential applicability and impact of fMRI time series foreca-
+demonstrated, with rest promoting bilateral coherence whereas         sting on neuroscience and clinical research.
+AUTHOR et al.: PREPARATION OF PAPERS FOR IEEE TRANSACTIONS                                                                                        9
+
+
+
+
+Fig. 6: Visualization of the cortical attention maps in the coronal, sagittal, and axial planes, where red indicates higher attention
+scores (i.e., greater contribution to the model’s prediction) and blue indicates lower contributions.
+
+
+                                                                     bility and added value of fMRI time series forecasting, which
+                                                                     contributes to enhancing brain–cognition analyses, particularly
+                                                                     in settings with limited scan durations. Future work will focus
+                                                                     on subject-specific variability, multi-modal data fusion, and the
+                                                                     clinical validation of BrainCast in neurological applications.
+
+      (a) HCP-rs-fMRI                      (b) HCP-t-fMRI
+                                                                                                   R EFERENCES
+                                                                      [1] M. D. Fox and M. E. Raichle, “Spontaneous fluctuations in brain activity
+Fig. 7: The R results of BrainCast with varying look-back len-            observed with functional magnetic resonance imaging,” Nature Reviews
+gths (i.e., the length of the previous fMRI time series L) and            Neuroscience, vol. 8, no. 9, pp. 700–711, 2007.
+                                                                      [2] R. L. Buckner, J. R. Andrews-Hanna, and D. L. Schacter, “The brain’s
+the fixed future length (i.e., the length of the future fMRI time         default network: Anatomy, function, and relevance to disease,” Annals
+series T = 20) on both HCP-rs-fMRI and HCP-t-fMRI.                        of the New York Academy of Sciences, vol. 1124, no. 1, pp. 1–38, 2008.
+                                                                      [3] N. K. Logothetis, J. Pauls, M. Augath, T. Trinath, and A. Oeltermann,
+TABLE III: PMAT prediction performance on HCP-rs-fMRI,                    “Neurophysiological investigation of the basis of the fmri signal,”
+                                                                          Nature, vol. 412, no. 6843, pp. 150–157, 2001.
+measured in terms of RMSE (mean ± standard deviation).                [4] N. K. Logothetis, “What we can do and what we cannot do with fmri,”
+                                                                          Nature, vol. 453, no. 7197, pp. 869–878, 2008.
+  Method         HCP-rs-fMRI (previous)   HCP-rs-fMRI (prolonged)     [5] N. Schuff, N. Woerner, L. Boreta, T. Kornfield, L. Shaw, J. Trojanowski,
+                                                                          P. Thompson, C. Jack Jr, M. Weiner, and A. D. N. Initiative, “Mri of
+  BrainNetCNN       5.0155 ± 0.0017           4.8925 ± 0.0303             hippocampal volume loss in early alzheimer’s disease in relation to apoe
+  MLP               4.8778 ± 0.0382           4.7443 ± 0.0221             genotype and biomarkers,” Brain, vol. 132, no. 4, pp. 1067–1077, 2009.
+  GCN               4.8473 ± 0.0150           4.7383 ± 0.0470         [6] P. Chen and T. Hemmen, “Evolving healthcare delivery in neurology
+  SVR               4.7698 ± 0.0121           4.6361 ± 0.0598             during the coronavirus disease 2019 (covid-19) pandemic. front neurol
+                                                                          11: 578,” 2020.
+                                                                      [7] K. Murphy, J. Bodurka, and P. A. Bandettini, “How long to scan? the
+                                                                          relationship between fmri temporal signal to noise ratio and necessary
+                                                                          scan duration,” Neuroimage, vol. 34, no. 2, pp. 565–574, 2007.
+                      VI. C ONCLUSION                                 [8] M. Pannunzi, R. Hindriks, R. G. Bettinardi, E. Wenger, N. Lisofsky,
+   In this paper, we proposed BrainCast, a new spatio-temporal            J. Martensson, O. Butler, E. Filevich, M. Becker, M. Lochstet et al.,
+                                                                          “Resting-state fmri correlations: From link-wise unreliability to whole
+alignment driven framework for whole-brain fMRI time series               brain stability,” Neuroimage, vol. 157, pp. 250–262, 2017.
+forecasting. Through integrating the SIA, TFR, and SPA mod-           [9] J. A. Nielsen, B. A. Zielinski, P. T. Fletcher, A. L. Alexander, N. Lange,
+ules, our BrainCast can jointly capture inter-ROI spatial depen-          E. D. Bigler, J. E. Lainhart, and J. S. Anderson, “Multisite functional
+                                                                          connectivity mri classification of autism: Abide results,” Frontiers in
+dencies and intra-ROI temporal dynamics in a complementary                Human Neuroscience, vol. 7, p. 599, 2013.
+and principled manner. Extensive experiments on both HCP-rs          [10] T. White, R. Muetzel, M. Schmidt, S. J. Langeslag, V. Jaddoe, A. Hof-
+-fMRI and HCP-t-fMRI demonstrated that BrainCast consiste-                man, V. D. Calhoun, F. C. Verhulst, and H. Tiemeier, “Time of
+                                                                          acquisition and network stability in pediatric resting-state functional
+ntly outperformed state-of-the-art time series forecasting mod-           magnetic resonance imaging,” Brain Connectivity, vol. 4, no. 6, pp. 417–
+els across several performance evaluation metrics. In addition,           427, 2014.
+by augmenting the previous fMRI time series using BrainCast,         [11] L. Q. R. Ooi, C. Orban, S. Zhang, T. E. Nichols, T. W. K. Tan, R. Kong,
+                                                                          S. Marek, N. U. Dosenbach, T. O. Laumann, E. M. Gordon et al.,
+we observed consistent improvements in downstream cognitive               “Longer scans boost prediction and cut costs in brain-wide association
+ability prediction. These results highlight the potential applica-        studies,” Nature, vol. 644, no. 8077, pp. 731–740, 2025.
+10                                                                                                                  Journal Name, VOL. XX, NO. XX, XXXX 2025
+
+
+
+[12] F. Sobczak, Y. He, T. J. Sejnowski, and X. Yu, “Predicting the fmri signal        neural networks for brain networks; towards predicting neurodevelop-
+     fluctuation with recurrent neural networks trained on vascular network            ment,” NeuroImage, vol. 146, pp. 1038–1049, 2017.
+     dynamics,” Cerebral Cortex, vol. 31, no. 2, pp. 826–844, 2021.               [34] H. Huang, X. Hu, Y. Zhao, M. Makkie, Q. Dong, S. Zhao, L. Guo, and
+[13] R. D. Hjelm, E. Damaraju, K. Cho, H. Laufs, S. M. Plis, and V. D.                 T. Liu, “Modeling task fmri data via deep convolutional autoencoder,”
+     Calhoun, “Spatio-temporal dynamics of intrinsic networks in functional            IEEE Transactions on Medical Imaging, vol. 37, no. 7, pp. 1551–1561,
+     magnetic imaging data using recurrent neural networks,” Frontiers in              2017.
+     Neuroscience, vol. 12, p. 600, 2018.                                         [35] B. Jie, M. Liu, C. Lian, F. Shi, and D. Shen, “Designing weighted
+[14] T. Fischer and C. Krauss, “Deep learning with long short-term memory              correlation kernels in convolutional neural networks for functional
+     networks for financial market predictions,” European Journal of Oper-             connectivity based brain disease diagnosis,” Medical Image Analysis,
+     ational Research, vol. 270, no. 2, pp. 654–669, 2018.                             vol. 63, p. 101709, 2020.
+[15] Z. C. Lipton, J. Berkowitz, and C. Elkan, “A critical review of              [36] F. Scarselli, M. Gori, A. C. Tsoi, M. Hagenbuchner, and G. Monfardini,
+     recurrent neural networks for sequence learning,” arXiv preprint                  “The graph neural network model,” IEEE Transactions on Neural
+     arXiv:1506.00019, 2015.                                                           Networks, vol. 20, no. 1, pp. 61–80, 2008.
+[16] A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez,      [37] B. Jiang, Z. Zhang, D. Lin, J. Tang, and B. Luo, “Semi-supervised
+     Ł. Kaiser, and I. Polosukhin, “Attention is all you need,” Advances in            learning with graph learning-convolutional networks,” in Proceedings of
+     Neural Information Processing Systems, vol. 30, 2017.                             the IEEE/CVF Conference on Computer Vision and Pattern Recognition,
+[17] H. Zhou, S. Zhang, J. Peng, S. Zhang, J. Li, H. Xiong, and W. Zhang,              2019, pp. 11 313–11 320.
+     “Informer: Beyond efficient transformer for long sequence time-series        [38] P. Velickovic, G. Cucurull, A. Casanova, A. Romero, P. Lio, Y. Bengio
+     forecasting,” in Proceedings of the AAAI Conference on Artificial                 et al., “Graph attention networks,” stat, vol. 1050, no. 20, pp. 10–48 550,
+     Intelligence, vol. 35, no. 12, 2021, pp. 11 106–11 115.                           2017.
+[18] Y. Zhang and J. Yan, “Crossformer: Transformer utilizing cross-              [39] X. Li, Y. Zhou, N. Dvornek, M. Zhang, S. Gao, J. Zhuang, D. Scheinost,
+     dimension dependency for multivariate time series forecasting,” in The            L. H. Staib, P. Ventola, and J. S. Duncan, “Braingnn: Interpretable
+     Eleventh International Conference on Learning Representations, 2023.              brain graph neural network for fmri analysis,” Medical Image Analysis,
+[19] J. O. Caro, A. H. d. O. Fonseca, C. Averill, S. A. Rizvi, M. Rosati,              vol. 74, p. 102233, 2021.
+     J. L. Cross, P. Mittal, E. Zappala, D. Levine, R. M. Dhodapkar et al.,       [40] K. Zhao, B. Duka, H. Xie, D. J. Oathes, V. Calhoun, and Y. Zhang,
+     “Brainlm: A foundation model for brain activity recordings,” bioRxiv,             “A dynamic graph convolutional neural network framework reveals new
+     pp. 2023–09, 2023.                                                                insights into connectome dysfunctions in adhd,” NeuroImage, vol. 246,
+[20] W. Zheng, C. Bao, R. Mu, J. Wang, T. Li, Z. Zhao, Z. Yao, and B. Hu,              p. 118774, 2022.
+     “Frequency-specific dual-attention based adversarial network for blood       [41] C. Ying, T. Cai, S. Luo, S. Zheng, G. Ke, D. He, Y. Shen, and T.-Y. Liu,
+     oxygen level-dependent time series prediction,” Human Brain Mapping,              “Do transformers really perform badly for graph representation?” Ad-
+     vol. 45, no. 14, p. e70032, 2024.                                                 vances in Neural Information Processing Systems, vol. 34, pp. 28 877–
+[21] X. Li, Y. Zhou, N. Dvornek, M. Zhang, S. Gao, J. Zhuang, D. Scheinost,            28 888, 2021.
+     L. H. Staib, P. Ventola, and J. S. Duncan, “Braingnn: Interpretable          [42] D. Kreuzer, D. Beaini, W. Hamilton, V. Létourneau, and P. Tossou,
+     brain graph neural network for fmri analysis,” Medical Image Analysis,            “Rethinking graph transformers with spectral attention,” Advances in
+     vol. 74, p. 102233, 2021.                                                         Neural Information Processing Systems, vol. 34, pp. 21 618–21 629,
+                                                                                       2021.
+[22] X. Kan, W. Dai, H. Cui, Z. Zhang, Y. Guo, and C. Yang, “Brain net-
+                                                                                  [43] X. Kan, W. Dai, H. Cui, Z. Zhang, Y. Guo, and C. Yang, “Brain net-
+     work transformer,” Advances in Neural Information Processing Systems,
+                                                                                       work transformer,” Advances in Neural Information Processing Systems,
+     vol. 35, pp. 25 586–25 599, 2022.
+                                                                                       vol. 35, pp. 25 586–25 599, 2022.
+[23] Y. Yang, C. Ye, G. Su, Z. Zhang, Z. Chang, H. Chen, P. Chan, Y. Yu, and
+                                                                                  [44] H. Wu, J. Xu, J. Wang, and M. Long, “Autoformer: Decomposition trans-
+     T. Ma, “Brainmass: Advancing brain network analysis for diagnosis with
+                                                                                       formers with auto-correlation for long-term series forecasting,” Advances
+     large-scale self-supervised learning,” IEEE Transactions on Medical
+                                                                                       in Neural Information Processing Systems, vol. 34, pp. 22 419–22 430,
+     Imaging, vol. 43, no. 11, pp. 4004–4016, 2024.
+                                                                                       2021.
+[24] D. C. Van Essen, K. Ugurbil, E. Auerbach, D. Barch, T. E. Behrens,           [45] Y. Dong, G. Li, Y. Tao, X. Jiang, K. Zhang, J. Li, J. Deng, J. Su,
+     R. Bucholz, A. Chang, L. Chen, M. Corbetta, S. W. Curtiss et al., “The            J. Zhang, and J. Xu, “Fan: Fourier analysis networks,” arXiv preprint
+     human connectome project: A data acquisition perspective,” Neuroim-               arXiv:2410.02675, 2024.
+     age, vol. 62, no. 4, pp. 2222–2231, 2012.                                    [46] J. E. Chen and G. H. Glover, “Bold fractional contribution to resting-
+[25] C. Lea, M. D. Flynn, R. Vidal, A. Reiter, and G. D. Hager, “Tempo-                state functional connectivity above 0.1 hz,” Neuroimage, vol. 107, pp.
+     ral convolutional networks for action segmentation and detection,” in             207–218, 2015.
+     Proceedings of the IEEE Conference on Computer Vision and Pattern            [47] J. Fei, K. Yi, W. Fan, Q. Zhang, and Z. Niu, “Amplifier: Bringing
+     Recognition, 2017, pp. 156–165.                                                   attention to neglected low-energy components in time series forecasting,”
+[26] H. Zhou, S. Zhang, J. Peng, S. Zhang, J. Li, H. Xiong, and W. Zhang,              in Proceedings of the AAAI Conference on Artificial Intelligence, vol. 39,
+     “Informer: Beyond efficient transformer for long sequence time-series             no. 11, 2025, pp. 11 645–11 653.
+     forecasting,” in Proceedings of the AAAI conference on Artificial Intel-     [48] A. Zeng, M. Chen, L. Zhang, and Q. Xu, “Are transformers effective
+     ligence, vol. 35, no. 12, 2021, pp. 11 106–11 115.                                for time series forecasting?” in Proceedings of the AAAI Conference on
+[27] T. Zhou, Z. Ma, Q. Wen, X. Wang, L. Sun, and R. Jin, “Fedformer:                  Artificial Intelligence, vol. 37, no. 9, 2023, pp. 11 121–11 128.
+     Frequency enhanced decomposed transformer for long-term series fore-         [49] X. Shen, F. Tokoglu, X. Papademetris, and R. T. Constable, “Groupwise
+     casting,” in International Conference on Machine Learning. PMLR,                  whole-brain parcellation from resting-state fmri data for network node
+     2022, pp. 27 268–27 286.                                                          identification,” Neuroimage, vol. 82, pp. 403–415, 2013.
+[28] Y. Nie, N. H. Nguyen, P. Sinthong, and J. Kalagnanam, “A time series is      [50] X.-N. Zuo, C. Kelly, A. Di Martino, M. Mennes, D. S. Margulies,
+     worth 64 words: Long-term forecasting with transformers. arxiv 2022,”             S. Bangaru, R. Grzadzinski, A. C. Evans, Y.-F. Zang, F. X. Castellanos
+     arXiv preprint arXiv:2211.14730, 2022.                                            et al., “Growing together and growing apart: regional and sex differences
+[29] Y. Liu, T. Hu, H. Zhang, H. Wu, S. Wang, L. Ma, and M. Long, “Itrans-             in the lifespan developmental trajectories of functional homotopy,”
+     former: Inverted transformers are effective for time series forecasting,”         Journal of Neuroscience, vol. 30, no. 45, pp. 15 034–15 043, 2010.
+     arXiv preprint arXiv:2310.06625, 2023.                                       [51] M. W. Cole, D. S. Bassett, J. D. Power, T. S. Braver, and S. E. Petersen,
+[30] K. Yi, Q. Zhang, W. Fan, H. He, L. Hu, P. Wang, N. An, L. Cao,                    “Intrinsic and task-evoked network architectures of the human brain,”
+     and Z. Niu, “Fouriergnn: Rethinking multivariate time series forecast-            Neuron, vol. 83, no. 1, pp. 238–251, 2014.
+     ing from a pure graph perspective,” Advances in Neural Information           [52] J. Raven, “The raven’s progressive matrices: Change and stability over
+     Processing Systems, vol. 36, pp. 69 638–69 660, 2023.                             culture and time,” Cognitive Psychology, vol. 41, no. 1, pp. 1–48, 2000.
+[31] H. Han, M. Zhang, M. Hou, F. Zhang, Z. Wang, E. Chen, H. Wang,               [53] M.-C. Popescu, V. E. Balas, L. Perescu-Popescu, and N. Mastorakis,
+     J. Ma, and Q. Liu, “Stgcn: A spatial-temporal aware graph learning                “Multilayer perceptron and neural networks,” WSEAS Transactions on
+     method for poi recommendation,” in 2020 IEEE International Confer-                Circuits and Systems, vol. 8, no. 7, pp. 579–588, 2009.
+     ence on Data Mining (ICDM). IEEE, 2020, pp. 1052–1057.                       [54] M. Awad, R. Khanna, M. Awad, and R. Khanna, “Support vector regres-
+[32] Y. LeCun, Y. Bengio, and G. Hinton, “Deep learning,” Nature, vol. 521,            sion. efficient learning machines: Theories, concepts, and applications
+     no. 7553, pp. 436–444, 2015.                                                      for engineers and system designers, 67-80,” 2015.
+[33] J. Kawahara, C. J. Brown, S. P. Miller, B. G. Booth, V. Chau, R. E.
+     Grunau, J. G. Zwicker, and G. Hamarneh, “Brainnetcnn: Convolutional
+

@@ -425,7 +425,7 @@ def build_writer_prompt(filepath: str) -> str:
                     src_content = f.read()[:2000]  # Truncate long papers
                 # Append full-text excerpt if available
                 src_slug = os.path.basename(source_path)[:-3]
-                ft = get_fulltext(src_slug, max_chars=6000)
+                ft = get_fulltext(src_slug, max_chars=2000)  # reduced from 6000 to keep prompts under 3000 tokens
                 if ft:
                     src_content += f"\n\n--- FULL TEXT EXCERPT ({src_slug}) ---\n{ft}"
                 source_texts.append(f"--- SOURCE: {source} ---\n{src_content}")
@@ -742,7 +742,7 @@ def improve_page(filepath: str) -> tuple[bool, str]:
                     with open(source_path, 'r', encoding='utf-8') as f:
                         src_content = f.read()[:2000]
                     src_slug = os.path.basename(source_path)[:-3]
-                    ft = get_fulltext(src_slug, max_chars=6000)
+                    ft = get_fulltext(src_slug, max_chars=2000)  # reduced from 6000 to keep prompts under 3000 tokens
                     if ft:
                         src_content += f"\n\n--- FULL TEXT EXCERPT ({src_slug}) ---\n{ft}"
                     source_texts.append(f"--- SOURCE: {source} ---\n{src_content}")

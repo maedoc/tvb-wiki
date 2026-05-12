@@ -1,11 +1,21 @@
 ---
 title: popeye
 created: 2024-01-15
-updated: 2026-05-02
+updated: 2026-05-12
 type: software
 tags: [software-visualization, neuroimaging-fmri, forward-model, reproducibility, brain-dynamics]
-sources: []
+sources: [raw/papers/semanticscholar-cb501cd33451.md, raw/papers/glean-github.md, raw/papers/semanticscholar-6295d2445697.md]
 ---
+
+# _preamble
+
+popeye (Population REceptive Field estimAtion) is an open-source Python package for estimating population receptive field (pRF) models from fMRI data, developed primarily by Kevin DeSimone with contributions from Ariel Rokem. The software provides a computational framework for characterizing the spatial tuning properties of neuronal populations by analyzing the BOLD (blood-oxygen-level-dependent) signal response to controlled visual stimuli, filling a critical gap in the neuroimaging software ecosystem where pRF modeling had previously only been available through proprietary toolboxes such as mrVista [[semanticscholar-cb501cd33451|Burkhardt & Gießing (2025)]].
+
+In network neuroscience, researchers face a multitude of arbitrary yet defensible analytical choices when analyzing fMRI data, raising concerns about the robustness and reproducibility of results [[semanticscholar-cb501cd33451|Burkhardt & Gießing (2025)]]. The pRF methodology provides a principled approach to characterizing cortical representations by fitting forward encoding models that describe how neuronal populations respond to visual stimuli, offering a window into the retinotopic organization of visual cortex that complements resting-state functional connectivity analyses. This stands in contrast to approaches like those in GLEAN, which identify patterns of covariation in M/EEG band-limited power using data-driven decompositions rather than stimulus-driven characterization [[glean-github|Baker et al. (2015)]], but shares the goal of extracting meaningful neural information from neuroimaging data.
+
+The choice of analysis methodology can significantly impact findings in neuroimaging studies. Research examining the impact of brain parcellation approaches on functional connectivity analysis has demonstrated that replicable patterns can emerge when careful attention is paid to methodological choices, though classification accuracy and pattern extraction in other brain regions can be affected by the specific delineation techniques employed [[semanticscholar-6295d2445697|Wu et al. (2025)]]. Similarly, pRF estimation requires thoughtful specification of the receptive field model form (Gaussian, DoG, or CSS), hemodynamic response function parameters, and stimulus encoding—all choices that can influence the recovered spatial tuning properties. popeye addresses several of these methodological considerations by providing flexible model options, optional HRF estimation, and both grid search and gradient-based optimization routines, enabling researchers to systematically explore how different model assumptions affect their results and thereby improve the robustness of retinotopic mapping findings.
+
+The package outputs results in standard NIfTI format, making it compatible with the broader neuroimaging analysis ecosystem including tools for brain parcellation, connectivity analysis, and whole-brain modeling. While popeye at its core characterizes mesoscopic tuning properties at the level of individual voxels, the spatial frequency preferences, receptive field sizes, and retinotopic organizations it derives can inform computational models of visual cortex dynamics and provide empirical constraints for neural mass models applied to study sensory processing.
 
 ## Overview
 

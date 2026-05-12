@@ -1,0 +1,1026 @@
+                                                                                                                                                                     www.nature.com/dpn
+
+
+
+
+                  ARTICLE                  OPEN
+
+                  EEG-based brain connectivity and sentiment analysis from
+                  smartphone social communication: insights into remitted major
+                  depressive disorder among adolescents
+                                   ✉
+                  Nayoung Kim 1 , Lilian Y. Li2, Carter J. Funkhouser 1, Allison M. Letkiewicz 2, Esha Trivedi1, Aishwarya Sritharan1,
+                  Sarah Elizabeth Sarkas2, Madeline Marie McGregor 2, Katherine Durham1, David Pagliaccio 1, Alva Tang3, Nicholas B. Allen4,
+                  Stewart A. Shankman 2 and Randy P. Auerbach 1
+
+                  © The Author(s) 2025
+
+
+
+                      Although prior research has identiﬁed abnormal brain connectivity in remitted depressed adolescents, there is limited work
+                      associating these alterations with real-time affective dynamics, which may shed insight about speciﬁc biological markers that
+                      contribute to depression recurrence. Effective brain connectivity was estimated using renormalized partial directed coherence
+                      (rPDC) from resting-state EEG data collected in adolescents (N = 144; ages 13–18), including youth with remitted depression
+                      (n = 85) and healthy controls (n = 59). Additionally, over the course of 180 days, ~2.3 million messages from adolescents’
+1234567890();,:
+
+
+
+
+                      smartphones were passively obtained, and sentiment (i.e., words connoting positive and negative emotion) was extracted using the
+                      Python tweetNLP package. At the baseline and 6-month follow-up assessments, clinical interviews were administered to assess
+                      depressive symptom severity. Compared to healthy adolescents, youth with remitted depression exhibited hyperconnectivity in
+                      theta and delta frequency bands as well as hypoconnectivity in alpha, beta, and gamma in occipito-temporal regions (ps < 0.05).
+                      Across all participants, lower connectivity between the precuneus and middle temporal gyrus within the beta and gamma
+                      frequency bands was associated with greater negative sentiment in smartphone-based language (beta: B = −0.019, p = 0.006;
+                      gamma: B = −0.180, p = 0.007) but not depressive symptoms (beta: B = 0.073, p = 0.415; gamma: B = 0.093, p = 0.289). Conversely,
+                      lower alpha band connectivity from the mid cingulate cortex to the precuneus is associated with greater depressive symptoms at
+                      follow-up relative to baseline (B = −0.239, p = 0.013). These ﬁndings suggest that resting-state effective connectivity may serve as a
+                      neural marker of vulnerability for elevated depressive symptoms and negative affective expression during adolescence,
+                      highlighting potentially separable neurophysiological targets that, if replicated, could inform future preventive interventions.
+
+                      NPP – Digital Psychiatry and Neuroscience; https://doi.org/10.1038/s44277-025-00044-x
+
+                      LAY SUMMARY
+                      We studied brain activity in adolescents with and without a history of depression, and how it relates to their everyday emotional
+                      expression in text messages. Using EEG, we found that certain patterns of brain connectivity were linked to more negative language
+                      and to later increases in depressive symptoms. These ﬁndings suggest that speciﬁc brain activity patterns may serve as early
+                      warning signs for depression risk, helping guide future prevention efforts.
+
+
+
+                  INTRODUCTION                                                                              remains common, suggesting that symptom-based assessments
+                  Major depressive disorder (MDD) is a major public health concern                          alone may be insufﬁcient to capture future risk.
+                  amongst adolescents, as approximately 20% will experience a                                  Previous studies have suggested that affective vulnerability may
+                  depressive episode by age 18 [1]. Rates of depression are                                 manifest across both internal symptoms and external behavioral
+                  increasing in the United Sates, with the majority of adolescents                          outputs, such as emotional expression in language [4–6].
+                  experiencing recurrent episodes both during adolescence and                               Characterizing how neural connectivity supports both dimensions
+                  across the lifespan, contributing to academic struggles, risky                            of affective functioning may enhance efforts to detect residual risk
+                  behavior engagement, psychiatric comorbidity, and heightened                              [6]. Resting-state brain connectivity has emerged as a promising
+                  suicide risk [2, 3]. Adolescence is thus a critical period for both the                   candidate biomarker, as it can reveal persistent disruptions in
+                  onset and recurrence of depression, underscoring the urgent need                          brain networks even after symptoms have subsided. In particular,
+                  to identify neural markers that signal vulnerability for depression.                      resting-state electroencephalography (EEG) provides a non-
+                  Although many adolescents achieve clinical remission, recurrence                          invasive and scalable method for measuring fast-changing neural
+
+
+                  1
+                   Department of Psychiatry, Columbia University, New York, NY, USA. 2Department of Psychiatry, Northwestern University, Chicago, IL, USA. 3Department of Psychology, University
+                  of Texas, Dallas, TX, USA. 4Department of Psychology, University of Oregon, Eugene, OR, USA. ✉email: nayoung.kim@nyspi.columbia.edu
+
+                  Received: 30 May 2025 Revised: 18 September 2025 Accepted: 24 September 2025
+                                                            N. Kim et al.
+2
+    dynamics implicated in emotion regulation and cognitive control         internal mood states and their external expression. Therefore, the
+    —processes central to both the onset and recurrence of                  present study aimed to test whether adolescents with rMDD
+    depression. EEG connectivity is commonly analyzed across                exhibit frequency-speciﬁc alterations in resting-state effective
+    canonical frequency bands—delta (1–4 Hz), theta (4–8 Hz), alpha         connectivity relative to healthy controls, and whether these
+    (8–14 Hz), beta (14–30 Hz), and gamma (30–40 Hz)—each asso-             patterns are associated with both future depressive symptoms
+    ciated with distinct neurocognitive and affective functions. Delta      and naturalistic negative sentiment expression in text messages.
+    and theta oscillations are linked to emotional regulation, self-        First, we hypothesized that rMDD youth would show increased
+    referential thinking, and large-scale network integration, including    delta, theta, and alpha connectivity in frontal regions, decreased
+    activity within the default mode network (DMN) [7, 8]. Alpha is         alpha in parietal-occipital regions, and altered beta/gamma
+    implicated in cortical inhibition and attentional control [9], while    connectivity in temporoparietal areas—consistent with prior
+    beta and gamma frequencies support semantic processing,                 ﬁndings on emotion regulation, attention, and language proces-
+    language comprehension, and top-down regulation of emotion              sing [12–14, 17]. Second, we predicted that lower posterior alpha
+    [10, 11].                                                               connectivity at baseline would be associated with greater
+       Prior EEG studies in individuals with MDD and remitted MDD           depressive symptoms at 6-month follow-up. Last, we adopted
+    (rMDD) have identiﬁed frequency-speciﬁc alterations in connec-          an exploratory, data-driven approach to identify whether baseline
+    tivity that may reﬂect persistent disruptions in affective and          effective connectivity patterns are also related to the use of
+    cognitive processing systems. Elevated theta and alpha connec-          negative sentiment in daily smartphone-based social messaging.
+    tivity have been associated with increased self-referential proces-     By bridging neural and behavioral markers, we aim to clarify how
+    sing and impaired emotion regulation [12, 13]. Disruptions in beta      brain network dynamics relate to risk for symptom recurrence and
+    and gamma bands, particularly in frontotemporal and parietal            affective expression in naturalistic adolescent contexts.
+    regions, have been linked to deﬁcits in language, memory, and
+    social cognition [14–16]. Importantly, some of these neural
+    abnormalities appear to persist after remission. Elevated theta-        METHODS AND MATERIALS
+    band coherence across the default mode, salience, and frontopar-        Participants
+    ietal networks has been observed in adolescents with remitted           Participants were enrolled from September 2020 to June 2023, as part of
+    MDD, suggesting lingering dysregulation in large-scale emotional        an ongoing longitudinal project investigating social processing deﬁcits in
+    control circuits [17]. Similarly, increased functional connectivity     adolescent depression (for details, see [4, 16]). Brieﬂy, adolescents ages
+                                                                            13–18-years-old were recruited from community and mental health clinics
+    between the posterior cingulate cortex and subgenual prefrontal
+                                                                            in the New York, NY and Chicago, IL areas. Inclusion criteria included: (a)
+    cortex has been identiﬁed in remitted individuals, pointing to a        Tanner Stage ≥3 [21], (b) proﬁciency in English, (c) Wechsler Abbreviated
+    potential electrophysiological “scar” linked to rumination [18].        Scale of Intelligence-II (WASI-II) score ≥85 [22], (d) ownership of a personal
+       In the current study, we quantiﬁed brain connectivity using          smartphone (Android or iOS), and (e) right-handedness. General exclusion
+    effective connectivity, which captures directional, time-sensitive      criteria included: (a) history of head injury, seizures, or other neurological
+    interactions between brain regions—unlike functional connectiv-         disorders, (b) current moderate or severe substance use disorder, and (c)
+    ity, which reﬂects only undirected statistical associations. Speci-     lifetime history of bipolar or psychotic disorders, oppositional deﬁant
+    ﬁcally, we applied renormalized partial directed coherence (rPDC)       disorder, conduct disorder, organic mental disorder, or developmental
+    [19], a multivariate frequency-domain method that estimates the         disorder (e.g., autism).
+    ﬂow of information between neural sources over time [20]. This             Additional criteria were applied to the remitted depression group. These
+                                                                            participants had a conﬁrmed past episode of MDD, a Children’s Depression
+    approach is well-suited to EEG’s millisecond-level resolution and       Rating Scale-Revised (CDRS-R) [23] score ≤54 at enrollment, and no current
+    provides a mechanistic view of neural communication that may            MDD episode or persistent depressive disorder. Further exclusions for this
+    underlie both depressive symptoms and real-world emotional              group included: (a) lifetime history of the psychiatric conditions listed
+    expression.                                                             above, (b) current high suicide risk, and (c) use of psychotropic
+       In parallel with clinician-rated symptom measures, we examined       medications other than antidepressants or stimulant medication. The ﬁnal
+    a real-world behavioral indicator of emotional expression:              sample (N = 144) included remitted depressed adolescents (n = 85) and
+    negative sentiment in adolescents’ daily smartphone text                healthy controls with no lifetime history of psychiatric disorders (n = 59).
+    messages. As digital communication has become a primary mode            See Table 1 for summary of sociodemographic and clinical characteristics.
+    of peer interaction during adolescence, recent studies have
+    leveraged passively collected smartphone data to better under-          Procedure and materials
+    stand behavioral patterns linked to MDD in youth [4]. With              All study procedures adhered to the Declaration of Helsinki and were
+    smartphone use being nearly universal among adolescents [10],           approved by the New York State Psychiatric Institute Institutional Review
+    these devices offer a unique, ecologically valid window into            Board. Informed assent and consent were obtained from minor
+                                                                            adolescents and their parents, respectively, and 18-year-old adolescents
+    naturalistic language use—providing an opportunity to capture
+                                                                            provided informed consent. Participants were administered the WASI-II
+    subtle linguistic markers of depression in everyday contexts.           (two-subtest form) to evaluate verbal intelligence (Vocabulary subtest) and
+    Importantly, emerging research has begun to link neural                 nonverbal intelligence (Matrix Reasoning subtest). Then, participants
+    connectivity with real-world language behavior in adolescents           installed the Effortless Assessment Research System (EARS) app [24] on
+    [6]. For example, reduced connectivity between the salience             their personal smartphones to obtain keyboard inputs over a 6-month
+    network (SN) and central executive network (CEN) has been found         period. In this study, keyboard inputs refer to text (e.g., words, emojis) from
+    to moderate the relationship between depressive symptoms and            a participants’ typical smartphone use, including real-world typing in
+    the use of negative emotion words during smartphone-based               messaging and other digital interactions (e.g., text messages, social media
+    communication [6]. This ﬁnding suggests that everyday language          posts). Participants were instructed to keep the app active while using their
+    may reﬂect underlying neurocognitive vulnerabilities associated         phones as usual. The EARS app was conﬁgured to run in the background,
+                                                                            automatically collecting data without requiring manual intervention. If the
+    with adolescent depression.                                             app was closed or its background activity was interrupted, this was
+       Building on this work, the present study integrates clinical,        discernible from the data logs, which recorded gaps in data collection.
+    behavioral, and neural domains to examine whether resting-state         There were two primary technical reasons for missing text data. First, some
+    effective connectivity patterns in adolescents with remitted MDD        participants chose not to install the EARS keyboard or later uninstalled it
+    are associated with both (1) clinician-rated depressive symptoms        due to usability issues, resulting in partial or full absence of language data.
+    and (2) emotional expression through digital communication. This        A small subset also opted out of language tracking entirely. Second, both
+    dual-outcome framework supports our conceptualization of EEG-           iOS and Android operating systems automatically disable unused apps
+    based connectivity as a latent risk marker that inﬂuences both          (after ~12 days for iOS and ~3 months for Android). When the EARS app
+
+
+                                                                                                             NPP – Digital Psychiatry and Neuroscience
+                                                                              N. Kim et al.
+                                                                                                                                                              3
+ Table 1.   Clinical and Sociodemographic Characteristics Stratiﬁed by Group.
+                                            Total             Healthy                 Remitted Depressed               t-/χ2 test    df          p
+                                            Sample            Adolescents             Adolescents
+                                            N = 144           n = 59                  n = 85
+ Age                                                          15.85 (1.47)            16.75 (1.48)                      0.898        133.36          0.3708
+ Sex                                        105 (72.92%)      35 (59.32%)             70 (82.35%)                       8.224        1               0.004
+ Race                                                                                                                   5.618        5               0.345
+ White                                      70 (48.61%)       24 (40.68%)             46 (54.12%)
+ Asian                                      25 (17.36%)       12 (20.34%)             13 (15.29%)
+ Black/African American                     18 (12.50%)       11 (18.64%)             7 (8.24%)
+ American Indian/Alaska Native              1 (0.69%)         0                       1 (1.18%)
+ Native Hawaiian or other Paciﬁc            0                 0                       0
+ Islander
+ More than one race                         16 (11.11%)       6 (10.17%)              10 (11.76%)
+ Unknown or Not reported                    14 (9.72%)        6 (10.17%)              8 (9.41%)
+ Family income                                                                                                          1.735        5               0.885
+ Less than $25,000                          6 (4.17%)         1 (1.69%)               5 (5.88%)
+ $25,000 – $50,000                          18 (12.5%)        8 (13.56%)              10 (11.76%)
+ $50,000 – $75,000                          9 (6.25%)         4 (6.78%)               5 (5.88%)
+ $75,000 – $100,000                         23 (15.97%)       9 (15.25%)              14 (16.47%)
+ $100,000 or more                           63 (43.75%)       27 (45.76%)             36 (42.35%)
+ Unknown or Not Reported                    25 (17.36%)       10 (16.95%)             15 (17.65%)
+ Lifetime social anxiety disorder           22 (15.28%)       –                       22 (25.88%)
+ Lifetime generalized anxiety               26 (18.06%)       –                       26 (30.59%)
+ disorder
+ Lifetime posttraumatic stress              11 (7.64%)        –                       11 (12.94%)
+ disorder
+ Lifetime attention-deﬁcit                  14 (9.72%)        –                       14 (16.47%)
+ hyperactivity disorder
+ Lifetime substance use disorder            3 (2.08%)         –                       3 (3.53%)
+ Smartphone type                                                                                                        0.923        1               0.337
+ iOS                                        126 (87.5%)       54 (91.53%)             72 (84.71%)
+ Android                                    18 (12.5%)        5 (8.47%)               13 (15.29%)
+ Site                                                                                                                  18.36         1           <0.001
+ New York                                   83 (57.64%)       47 (79.66%)             36 (42.35%)
+ Chicago                                    61 (42.36%)       12 (20.34%)             49 (57.65%)
+
+
+was deactivated in this manner, all data collection—including keyboard        Electrophysiological recordings and data reduction
+input—ceased until the app was reactivated, typically following study         Resting-state EEG (3-minutes eyes closed) data were acquired using the 32-
+team outreach. These sources of missingness were unrelated to study           channel ActiCHamp from Brain Products (Brain Products, Munich,
+conditions and stemmed from technical and behavioral compliance               Germany) positioned according to the 10–20 international system using
+factors. On average, participants contributed usable text data for            the BrainVision Recorder. The data were digitized at a 500 Hz sampling rate
+162.07 days (SD = 17.02) out of the 180-day (6-month) observation period.     and referenced online to FCz. The ground electrode was placed between
+There was no signiﬁcant difference in the number of days with valid           electrodes Fp1 and Fp2. Vertical and horizontal EOG data were recorded,
+sentiment data between adolescents with remitted MDD and healthy              and electrode impedances were maintained below 20 K ohms. For details
+controls (t(142) = 0.368, p = 0.713), suggesting comparable data avail-       regarding the preprocessing procedures, see the Supplement.
+ability across groups. These ﬁndings indicate that missingness did not
+systematically differ by diagnostic status and that language data coverage
+was robust across the sample.                                                 Effective connectivity analysis
+                                                                              EEG preprocessing and source analysis were performed using the EEGLAB
+   In a separate session, resting state EEG data were acquired. Clinical
+                                                                              and groupSIFT toolboxes [26]. After artifact rejection and re-referencing,
+interviews assessing depressive symptoms were re-administered at the
+6-month follow-up assessment.                                                 we applied infomax independent component analysis (ICA) to decompose
+                                                                              EEG signals into temporally independent sources. Equivalent dipole
+                                                                              models were estimated for each component using a standard boundary
+Clinical interviews                                                           element head model. Components with dipole locations outside the brain
+During the initial lab visit, participants were administered the Kiddie       or residual variance >15% were excluded [20, 27, 28]. Only dipoles
+Schedule for Affective Disorders and Schizophrenia (K-SADS-PL; [25]) to       localized within cortical gray matter and outside artifact-prone regions
+evaluate lifetime psychiatric disorders (k = 0.98). At the baseline and the   (e.g., eyes, neck) were retained. To enable group-level analysis, we used the
+6-month follow-up assessment, participants also completed the CDRS-R, a       groupSIFT framework to cluster dipoles into anatomically deﬁned brain
+17-item interview assessing depressive symptom severity. The total score      regions based on the AAL atlas [27, 28]. For each participant, ICA identiﬁed
+on the CDRS-R ranges from 17 to 113, with higher scores indicating greater    multiple independent components (bounded by data rank), each localized
+severity of depressive symptoms.                                              with DIPFIT (dipole-ﬁtting toolbox). Brain-source ICs were retained. Across
+
+
+NPP – Digital Psychiatry and Neuroscience
+                                                                     N. Kim et al.
+4
+    participants, this yielded a large pool of brain-source ICs, from which we        Key input data and sentiment analysis
+    computed the grand-mean IC×IC effective connectivity separately for each          To capture naturalistic emotional expression, we collected keyboard input
+    group. This method allows for the aggregation of component time series            data using the EARS app (Effortless Assessment Research System; Ksana
+    into common spatial nodes, making it possible to compare effective                Health Inc.), which was installed on participants’ personal smartphones.
+    connectivity patterns across participants. This approach allows for source-       The app includes a custom keyboard that passively records keypresses
+    level connectivity estimation even in low-to-moderate density EEG                 across all applications, capturing only self-generated text. Incoming
+    recordings [27–29]. Although high-density EEG offers ﬁner spatial                 messages and third-party content were not collected. All keystrokes,
+    resolution, several studies have shown that meaningful connectivity               including deletions (e.g., backspaces), were time-stamped, locally
+    dynamics can be extracted using GroupSIFT from datasets with as few as            encrypted, and transmitted to a HIPAA-compliant cloud server. Additional
+    20–40 channels [27–29]. These ﬁndings support the robustness of our               privacy and security protocols are detailed in the Supplement. Each
+    pipeline for identifying meaningful connectivity dynamics even with               keystroke was labeled with metadata indicating the active app when
+    limited spatial resolution.                                                       available. Due to iOS 16+ restrictions, app metadata was missing for
+                                                                                      approximately 11.4% of messages. Among the remaining messages, 81.8%
+    IC-space effective connectivity. Using groupSIFT, we estimated rPDC in the        were generated in social communication apps, with Apple Messages,
+    IC×IC space to quantify directed, frequency-resolved connectivity among           Instagram, and Snapchat being the most frequently used.
+    retained ICs. The rPDC served as a weighting factor during this
+    transformation, accounting for dipole density contributions across                Message reconstruction and preprocessing. Raw keystroke data were
+    participants. The rPDC was selected for its capacity to capture directional       reconstructed into complete messages using a custom Python pipeline
+    connectivity in multivariate time series, which is advantageous for               [5]. Logical message boundaries were deﬁned by pauses ≥5 s, app
+    exploratory EEG studies. Unlike dynamic causal modeling (DCM), which              switches, or return/enter key usage. In addition, the EARS platform
+    provides detailed biologically informed modeling, rPDC operates without           segmented messages based on either (1) the ﬁrst entry in a given app or
+    the need for participant-speciﬁc anatomical data such as MRIs, offering a         (2) a string with <50% overlap with the preceding message. We removed
+    more accessible and versatile approach in the context of EEG. Furthermore,        partial or redundant strings—deﬁned as messages entirely contained
+    rPDC is uniquely suited to high-temporal-resolution EEG data due to its           within the subsequent message and typed in the same app within 60 s—to
+    computational efﬁciency and adaptability in handling complex, non-                reduce noise. Of the 144 participants included in the analysis, 126 (87.5%)
+    stationary signals, enabling a comprehensive analysis of dynamic brain            used iOS devices and 18 (12.5%) used Android. Typed text was recorded
+    connectivity patterns.                                                            uniformly across platforms. On Android devices, system-generated
+                                                                                      messages (e.g., ‘Send message…’) were occasionally recorded. These were
+    GroupSIFT source-space projection. Inference was performed in source              identiﬁed based on duplication, structure, or trailing ellipses and manually
+    space rather than at the sensors. To place ICs into a common anatomical           removed during preprocessing. No such artifacts were observed in iOS
+    frame, each IC’s dipole coordinate was convolved with a 3-D Gaussian              data. A message was retained if it contained more than one character,
+    kernel (FWHM = 20 mm) to generate a probabilistic dipole-density ﬁeld             unless it was a single-character emoji. No minimum word count was
+    [20, 29]. Dipole density within brain space was then segmented into a             required, as the TweetNLP model is optimized for short-form digital
+    modiﬁed AAL atlas (76 nodes) in which subcortical labels are consolidated         content including single words and emojis.
+    into upper basal and lower basal groups to avoid over-interpreting speciﬁc
+    subcortical nuclei from scalp EEG (mitigating depth bias in single-dipole         Text cleaning and sentiment classiﬁcation. Text data were preprocessed to
+    ﬁts and the spatial extent of cortical generators) [29, 30]. Using the            optimize sentiment classiﬁcation while preserving emotional nuance.
+    resulting region-wise density weights, IC → IC rPDC was projected to              Following best practices, we: (a) Removed URLs and user mentions (e.g.,
+    regions of interest (ROI) → ROI by weighting each connection according to         “@username”); (b) Normalized elongated words (e.g., “noooo” → “no”); (c)
+    the probability that its source IC belongs to ROI i and its target IC to ROI j.   Retained punctuation, capitalization, and emojis to preserve affective cues;
+    This procedure yields subject-consistent, atlas-indexed connectivity              and (d) Translated non-English messages (0.3%) using Google Cloud’s
+    matrices and resolves post-ICA inter-subject variability in IC numbering          Translation API, as TweetNLP supports English only. Initial preprocessing
+    and location.                                                                     scripts included hashtag segmentation (e.g., “#joytotheworld” → “joy to
+                                                                                      the world”), a step adopted from pipelines using lexicon-based tools like
+    Group-level node deﬁnition. Because analyses occur in source space,               VADER. However, TweetNLP—trained on 124 million tweets—is robust to
+    multiple ICs from a given participant can contribute to multiple regions.         social media syntax, including hashtags and emojis. We veriﬁed that
+    To ensure stability at the group level, we retained only regions with             sentiment labels remained consistent with and without hashtag segmen-
+    broad coverage—nodes to which ≥65% of participants contributed at                 tation, so hashtags were retained in their original form for ﬁnal analyses.
+    least one cortical dipole. This threshold was chosen to balance the need
+    for adequate representation of participants and the reliability of data           Sentiment metrics and data coverage. Sentiment classiﬁcation was
+    across nodes, guided by thresholds commonly employed in similar                   conducted using the TweetNLP Python package [31], which includes a
+    studies [26, 27] and informed by considerations of data quality. Of the 76        RoBERTa-based transformer model ﬁne-tuned on tweets from 2018–2021.
+    atlas nodes, 47 met this criterion and were used for all ROI-level                Each message was assigned a single sentiment label (positive, negative, or
+    analyses. These 47 nodes captured 80.2% of the total cortical dipole-             neutral) using the tweetNLP classiﬁer, which detects the dominant
+    density mass across participants, indicating that selected nodes were             sentiment based on contextual cues. Although some messages may
+    reliably represented in the sample. This serves as a proxy measure to             contain mixed emotional tones, the model assigns the sentiment that is
+    ensure the nodes selected for connectivity analysis were reliably                 most strongly conveyed. Future work could beneﬁt from multi-label or
+    represented across participants. Subsequently, connectivity metrics were          emotion-speciﬁc models to better characterize nuanced affective content.
+    derived exclusively from these 47 shared nodes, facilitating robust and             For each participant, we computed the daily proportion of positive and
+    interpretable group comparisons.                                                  negative messages (relative to total daily messages), and averaged these
+                                                                                      proportions across the 6-month follow-up period to generate person-level
+    Statistical analysis. To identify group differences in effective connectiv-       sentiment metrics. To account for individual differences in overall
+    ity, we computed pairwise rPDC between all retained cortical nodes                expressivity and emotional valence, daily proportions of positive sentiment
+    (N = 47) across ﬁve frequency bands. This resulted in 1081 directed               were included as covariates in analyses examining negative sentiment.
+    connections per band. Given the large number of comparisons, we used
+    a cluster-level permutation test implemented in the groupSIFT toolbox
+                                                                                      Data analytic approach
+    to control the family-wise error rate (FWER) at p < 0.05 [27, 28].                For smartphone communication data, we included participants who had
+    Speciﬁcally, we applied a nonparametric approach using 2000 label                 sent at least 3 messages per day and had data available for at least 7 days
+    shufﬂes with cluster correction based on spatial adjacency across nodes.          within the initial 180-day period. Among the 144 participants, 18
+    This provides a weak FWER correction, balancing sensitivity and                   individuals (7 remitted depressed adolescents, 11 healthy controls) were
+    speciﬁcity when large-scale network patterns are of primary interest.             excluded due to a lack of EEG collection. Additionally, 5 participants (2
+    For further details on this workﬂow and tool application, see prior work
+                                                                                      remitted depressed, 3 healthy controls) were further excluded due to poor
+    [26, 27] and consult the GroupSIFT repository for practical guidelines and
+                                                                                      EEG data quality. Thus, the ﬁnal analysis included a total of 121 participants
+    software setup.                                                                   (76 remitted depressed, 45 healthy controls). We used a two-stage
+
+
+                                                                                                                      NPP – Digital Psychiatry and Neuroscience
+                                                                                   N. Kim et al.
+                                                                                                                                                          5
+approach: (i) baseline group differences (discovery): cluster-based permu-         Theta band activity (4–8 Hz). The overall pattern of theta
+tation testing with omnibus FWER control across time × frequency ×                 connectivity was similar to delta band activity. Remitted
+edges; and (ii) predicting depressive symptoms and sentiment in language           depressed adolescents displayed a similar pattern of greater right
+(targeted associations): theory-constrained outcome models with within-            hemisphere connectivity ﬂow in the occipital area compared to
+outcome FDR.                                                                       healthy controls (Fig. 1). Relative to controls, remitted youth also
+                                                                                   showed decreased effective connectivity from a region near the
+Baseline group differences. Cluster-level correction was employed to
+control the generalized familywise error rate using permutation tests
+                                                                                   right precuneus to the right MCC, as well as increased interaction
+(i.e., to identify which connectivity effects remained statistically signiﬁcant)   between the left MCC and left precuneus. Notably, greater
+[26]. To generate surrogate statistics representing the null hypothesis (i.e.,     effective connectivity was observed from the left posterior
+no group effect), the group labels of renormalized partial directed                cingulate cortex to the right lingual gyrus in the remitted
+coherence arrays were iteratively shufﬂed (N = 1000). Statistical compar-          depressed adolescents compared to the controls.
+isons were then repeated for each iteration and each graph edge.
+                                                                                   Alpha band activity (8–14 Hz). Connectivity alterations were
+Predicting sentiment in language and depressive symptoms. To select                observed among the temporal, middle cingulate, and occipital
+speciﬁc connections for the association analysis between EEG effective             regions in remitted depressed adolescents compared to healthy
+connectivity and depressive symptoms as well as sentiment in language,             controls. These networks overlapped across beta and alpha band
+we focused on region-to-region connections, guided by our hypothesis
+and previous ﬁndings. For depressive symptoms at the 6-month follow-               activities. Speciﬁcally, greater effective connectivity was observed
+up, we focused on one a priori hypothesized pathway: effective                     from the left cuneus to the right middle temporal gyrus (MTG) in
+connectivity between the mid-cingulate cortex (MCC) and the precuneus              controls than in remitted depressed adolescents. Unlike at lower
+in the alpha band, based on prior studies linking this connection to               frequencies (<8 Hz), there was greater connectivity from occipital
+internally directed thought and depressive rumination [12, 13, 17]. To             nodes (lingual gyrus) to the precuneus and MCC in controls
+assess frequency speciﬁcity, we also tested the same MCC–precuneus                 compared to remitted depressed adolescents.
+edge in delta, theta, and beta bands. Similarly, for negative sentiment in
+daily smartphone messaging, we selected region-to-region connections               Beta band activity (14–30 Hz). Similar to the alpha band, remitted
+within each band that both (1) showed signiﬁcant group differences, and
+                                                                                   depressed adolescents showed weaker effective connectivity from
+(2) involved regions relevant to semantic and affective processing (e.g.,
+middle temporal gyrus, precuneus) [6, 7, 32]. These edges were chosen
+                                                                                   the right MCC to the left cuneus compared to healthy controls.
+to ensure theoretical interpretability and limit model complexity. Across          Additionally, there was signiﬁcantly greater connectivity from
+all edges, the second-largest F-statistic-weighted cluster was extracted in        both the precuneus and cuneus to the MTG was found in controls
+each iteration to generate a null distribution for each effect. This               compared to the remitted depressed group.
+approach, consistent with prior research emphasizing network-level
+effects, helps mitigate the risk of spurious ﬁndings driven by single large        Gamma band activity (30–40 Hz). Controls exhibited greater
+clusters. The true F-statistic-weighted mass of clusters was then                  connectivity from both the precuneus and cuneus to the MTG
+compared to this null distribution, with signiﬁcance determined at p <             compared to the remitted depressed group. On the other hand,
+0.05. Only signiﬁcant results, which are depicted in Fig. 1, were included         greater connectivity from the left calcarine to the right angular
+in subsequent analyses.
+   We tested whether baseline resting-state connectivity was associated
+                                                                                   gyrus was observed in the remitted depressed group compared to
+with the negative sentiment of smartphone social communication,                    controls.
+adjusting for the covariates of positive sentiment, age, sex, site, and
+phone type. Additionally, a negative binomial regression model using               Predicting depressive symptoms and smartphone
+generalized estimating equation analysis of repeated measures esti-                communication sentiment
+mated the association between resting state connectivity and depres-               Interestingly, reduced alpha-band effective connectivity from the
+sion symptoms at the 6-month follow-up assessment, while adjusting for             MCC to precuneus was associated with greater depressive
+baseline depression severity, age, sex, and site.                                  symptoms at the 6-month follow-up (b = −0.239, SE = 0.096,
+   Although negative sentiment and depressive symptoms are related
+                                                                                   p = 0.013) while controlling for baseline depression severity, age,
+constructs, we did not include baseline depression as a covariate in the
+sentiment model in order to preserve meaningful behavioral variance in
+                                                                                   sex, and site (Table 2). The standardized effect size for the
+linguistic expression. Negative sentiment in typed messages may reﬂect             association between alpha-band connectivity and depressive
+early emotional dysregulation or day-to-day affective tone that is not             symptoms was Cohen’s d = −0.143, indicating a small to
+fully captured by retrospective symptom ratings.                                   moderate association. Although the model’s R² was 0.323,
+                                                                                   reﬂecting the combined explanatory power of all predictors,
+                                                                                   including baseline symptoms and covariates, alpha-band con-
+RESULTS                                                                            nectivity remained a statistically signiﬁcant predictor even when
+Baseline group differences                                                         accounting for baseline symptoms, age, sex, and site; this suggests
+The connectivity matrix representing the group-difference                          its potential utility as a neural marker. However, no signiﬁcant
+(remitted depressed versus healthy subjects) of each EEG band                      associations were found between alpha-band connectivity (MCC
+activity (a predeﬁned p < 0.0001, corrected; two-tailed [27]) is                   to precuneus) and negative sentiment (b = 0.003, SE = 0.007,
+shown in Figure S1. The results revealed a number of signiﬁcant                    p = 0.712). Supplementary analyses showed that this relationship
+hubs for effective connectivity (i.e., increased or decreased EEG                  was not observed in delta, theta, or beta bands (see Supplemen-
+phase coherence between two cortical regions) for each band: 11                    tary Table 1), supporting the frequency speciﬁcity of the effect. We
+for delta (1–4 Hz), 20 for theta (4–8 Hz), 25 for alpha (8–14 Hz), 23              did not examine the gamma band for this connection due to the
+for beta (14–30 Hz), and 3 for gamma activity (30–40 Hz).                          absence of reliable MCC dipole representations in that frequency
+                                                                                   range.
+Delta band activity (1–4 Hz). Compared to healthy youth,                              We also conducted a correlation analysis to examine the
+remitted depressed adolescents exhibited decreased effective                       relationship between negative sentiment and CDRS scores. The
+connectivity from a region near the right precuneus to the right                   results revealed a signiﬁcant positive correlation (r = 0.310,
+MCC, and from the left MCC to the right calcarine gyrus (Fig. 1).                  p = 0.001), suggesting that higher levels of negative sentiment
+Additionally, there was greater connectivity between the right and                 are associated with more severe depressive symptoms. Research
+left cuneus and occipital areas observed in the remitted depressed                 has consistently shown that individuals with depression tend to
+group relative to the control group.                                               exhibit lower positive sentiment and higher negative sentiment in
+
+
+
+NPP – Digital Psychiatry and Neuroscience
+                                                           N. Kim et al.
+6
+
+
+
+
+    Fig. 1 Effective connectivity of resting-state EEG activity in healthy and remitted depressed adolescents. Red arrow indicates high
+    effective connectivity and blue arrow indicates low connectivity in remitted depressed adolescents relative to healthy comparison subjects.
+    Sphere size indicates the amount of total outﬂow in each node. remMDD, adolescents with remitted major depressive disorder; HC healthy
+    controls.
+
+
+
+
+                                                                                                        NPP – Digital Psychiatry and Neuroscience
+                                                                       N. Kim et al.
+                                                                                                                                               7
+their social media posts (e.g., Facebook, Twitter), effectively        DISCUSSION
+distinguishing those with depression from those without [33–35].       The present study investigated altered brain connectivity patterns
+   Based on the strength of connectivity observed in the baseline      across various frequency bands in adolescents, comparing those
+analysis, we also examined its association with negative sentiment     with remitted depression to healthy controls. Using a multivector
+in adolescents’ smartphone social communication over a 6-month         autoregressive modeling approach, we found that remitted
+period. As shown in Fig. 2, reduced beta-band connectivity from        depressed youth exhibited hyperconnectivity in lower frequency
+the precuneus to the MTG was associated with more negative             bands (delta and theta) and hypoconnectivity in higher frequency
+sentiment (Fig. 2A: b = −0.019, SE = 0.007, p = 0.006), covarying      bands (alpha, beta, gamma), particularly in occipito-temporal
+for positive sentiment, age, site, sex, and phone type. Gamma-         regions. Additionally, we examined associations between con-
+band connectivity exhibited a similar pattern, as lower connectiv-     nectivity differences and two key outcomes at the 6-month follow-
+ity between the precuneus to the MTG was associated with more          up period: (a) future depressive symptoms and (b) negative
+negative sentiment (Fig. 2B: b = −0.018, SE = 0.007, p = 0.007),       sentiment in smartphone social communication. These ﬁndings
+adjusting for covariates (Table 3). There were, however, non-          are consistent with prior research suggesting that depression is
+signiﬁcant relationships in other bands, including: alpha (cuneus      linked to disruptions in resting-state EEG connectivity. Speciﬁcally,
+to MTG), theta (precuneus to MCC), and delta (precuneus to MCC;        individuals with MDD often show increased theta coherence and
+Table 3). Sensitivity analyses indicated that there were no            reduced alpha and beta connectivity, indicating impaired top-
+signiﬁcant associations between connectivity from precuneus to         down regulation and cognitive control [36–38]. The hyperconnec-
+MTG in the beta-band (b = 0.073, SE = 0.089, p = 0.415) or in the      tivity in delta and theta bands observed in the remitted group
+gamma band (b = 0.093, SE = 0.088, p = 0.289) and depression           may reﬂect residual deﬁcits from prior depressive episodes [37,
+severity at the 6-month follow-up assessment.                          38], while reduced connectivity in faster frequency bands may
+                                                                       may compromise the modulation of cognitive and inhibitory
+                                                                       processes [37, 39], contributing to difﬁculties in ﬁltering out
+ Table 2. Alpha band connectivity strength from mid cingulate cortex   irrelevant information and focusing attention [9, 40, 41].
+ to precuneus predicting depression symptoms at the 6-month follow-       This study also tested the association between resting-state
+ up assessment.                                                        brain connectivity and future depressive symptom severity in
+                                                                       adolescents. We found that weaker alpha-band connectivity
+                           Estimate     SE       z value    p-value
+                                                                       between the MCC and the precuneus, key nodes within the
+ Intercept                  1.976       0.501     3.944     <0.001     DMN, was associated with an increase in depressive symptoms at
+ Age                       −0.004       0.024    −0.159       0.873    a 6-month follow-up. Alpha-band oscillations, often associated
+ Sex                       −0.166       0.084    −1.969       0.050    with attentional processes, have been linked to the DMN role in
+                                                                       self-referential thought and emotional processing [7]. Our ﬁndings
+ Site                      −0.049       0.071    −0.684       0.494
+                                                                       suggest that altered communication within this network, as
+ Baseline depressive        0.024       0.007     3.371       0.001    reﬂected by decreased alpha-band connectivity, may contribute to
+ symptoms                                                              depressive symptoms at follow-up [32]. At follow-up, 9.4% of
+ Baseline connectivity     −0.239       0.096    −2.490       0.013    participants (n = 8) met or exceeded the clinical cutoff score
+ (MCC→Precuneus)                                                       (CDRS-R ≥ 55), suggesting that a subset may have experienced
+ Children’s Depression Rating Scale = Depressive symptoms; MCC mid     clinically signiﬁcant symptom recurrence—underscoring the
+ cingulate cortex.                                                     importance of identifying neural markers of risk even within a
+                                                                       remitted sample.
+
+
+
+
+Fig. 2 Association between resting-state effective connectivity and negative sentiment expressed in adolescents’ smartphone
+communication. Effective connectivity is represented by the log-transformed renormalized Partial Directed Coherence (log(rPDC)) from the
+precuneus to the middle temporal gyrus (MTG). Negative sentiment was computed as the daily proportion of negative messages (relative to
+total daily messages), averaged across the 6-month follow-up period to yield person-level metrics. A Beta-band connectivity. B Gamma-band
+connectivity. HC healthy controls, remMDD adolescents with remitted major depressive disorder.
+
+
+NPP – Digital Psychiatry and Neuroscience
+                                                                                                                                                                                                                                                                                                     N. Kim et al.
+8
+
+
+
+
+                                                                                                                                      0.817
+                                                                                                                                                     0.007
+                                                                                                                                                                              0.794
+                                                                                                                                                                                        0.857
+                                                                                                                                                                                                 0.983
+                                                                                                                                                                                                          0.224
+                                                                                                                                                                                                                       0.555
+                                                                                                                                                                                                                                                                                                                        Additionally, this study explored the association between brain
+                                                                                                                                                                                                                                                                                                                     connectivity and smartphone social communication patterns
+
+                                                                                                                                 p
+                                                                                                                                                                                                                                                                                                                     across all participants. Among all frequency bands and connectiv-
+                                                                                                                                                                                                                                                                                                                     ity edges, we found that lower connectivity in the beta and
+
+
+
+                                                                                                                                                                              0.002
+                                                                                                                                      0.030
+                                                                                                                                                     0.007
+
+
+                                                                                                                                                                                        0.006
+                                                                                                                                                                                                 0.005
+                                                                                                                                                                                                          0.006
+                                                                                                                                                                                                                       0.041
+                                                                                                       (Precuneus→MTG)
+
+                                                                                                                                 SE
+                                                                                                                                                                                                                                                                                                                     gamma bands between the precuneus and the MTG at baseline
+                                                                                                                                                                                                                                                                                                                     was associated with greater negative sentiment in smartphone
+                                                                                                       Gamma-band
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     communication over the following six months. Previous research
+                                                                                                                                                                             −0.0004                                                                                                                                 has also implicated reduced functional connectivity within the
+                                                                                                                                                    −0.018
+                                                                                                                                      0.007
+
+
+
+                                                                                                                                                                                       −0.001
+
+
+                                                                                                                                                                                                          0.008
+                                                                                                                                                                                                                       0.024
+                                                                                                                                                                                                 <0.001
+                                                                                                                                                                                                                                                                                                                     temporal and occipital lobes in the pathophysiology of depression
+                                                                                                                                                                                                                                                                                                                     [42]. Beta and gamma waves are associated with active informa-
+                                                                                                                                 b
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     tion processing, focus, and higher cognitive functions such as
+                                                                                                                                                                                                                                                                                                                     language comprehension [43, 44]. The MTG plays a critical role in
+                                                                                                                                                                                                                                                                                                                     deciphering the meaning of words, social cues, and regulating
+                                                                                                                                                                                                 0.915
+                                                                                                                                      0.838
+                                                                                                                                                     0.006
+                                                                                                                                                                              0.816
+                                                                                                                                                                                        0.590
+
+
+                                                                                                                                                                                                          0.203
+                                                                                                                                                                                                                       0.608
+                                                                                                                                                                                                                                                                                                                     emotions [45, 46], while the precuneus is crucial for mental
+                                                                                                                                 p
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     imagery and empathy [47, 48]. A previous fMRI study found
+                                                                                                                                                                                                                                                                                                                     activation in both the precuneus and the MTG when respondents
+                                                                                                                                                                              0.002
+
+
+                                                                                                                                                                                                 0.005
+                                                                                                                                      0.030
+                                                                                                                                                     0.007
+
+
+                                                                                                                                                                                        0.006
+
+
+                                                                                                                                                                                                          0.006
+                                                                                                                                                                                                                       0.041
+                                                                                                       (Precuneus→MTG)
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     had to make empathic judgments in a verbal task [49, 50].
+                                                                                                                                 SE
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     Accordingly, weaker connectivity between these areas may reﬂect
+                                                                                                                                                                                                                                                                                                                     alterations in the communication pathways involving regions
+                                                                                                       Beta-band
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     critical for understanding others’ emotions and interpreting social
+                                                                                                                                                                             −0.0003
+
+
+                                                                                                                                                                                                −0.0005
+                                                                                                                                                    −0.019
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     cues. Furthermore, a recent fMRI study identiﬁed that lower
+                                                                                                                                      0.006
+
+
+
+                                                                                                                                                                                       −0.003
+
+
+                                                                                                                                                                                                          0.008
+                                                                                                                                                                                                                       0.021
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     connectivity between the SN and the CEN moderated the
+                                                                                                                                                                                                                                                                                                                     association between depression and negative emotion word
+                                                                                                                                 b
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     usage in adolescent smartphone communication [6].
+                                                                                                                                                                                                                                                                                                                        Together, these ﬁndings highlight distinct yet overlapping roles
+                                                                                                       Alpha-band (Cuneus→MTG)
+
+
+
+                                                                                                                                      0.511
+                                                                                                                                                     0.389
+                                                                                                                                                                              0.539
+                                                                                                                                                                                        0.853
+                                                                                                                                                                                                 0.776
+                                                                                                                                                                                                          0.272
+                                                                                                                                                                                                                       0.531
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     of DMN connectivity in internalizing symptoms and external
+                                                                                                                                 p
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     emotional expression. Speciﬁcally, while MCC–precuneus connec-
+                                                                                                                                                                                                                                                                                                                     tivity was associated with depressive symptom severity,
+                                                                                                                                                                                                                                                                                                                     precuneus–MTG connectivity was linked to the emotional tone
+                                                                                                                                      0.033
+                                                                                                                                                     0.006
+                                                                                                                                                                              0.002
+                                                                                                                                                                                        0.006
+                                                                                                                                                                                                 0.005
+                                                                                                                                                                                                          0.007
+                                                                                                                                                                                                                       0.043
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     of adolescents’ digital communication. This pattern suggests a
+                                                                                                                                 SE
+     Baseline connectivity magnitude predicts negative sentiment in smartphone social communication.
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     broader vulnerability at the network level that spans both
+                                                                                                                                                                                                                                                                                                                     affective experience and its expression [51]. Notably, both
+                                                                                                                                      0.020
+                                                                                                                                                    −0.005
+                                                                                                                                                                              0.001
+                                                                                                                                                                                       −0.001
+                                                                                                                                                                                                −0.001
+                                                                                                                                                                                                          0.007
+                                                                                                                                                                                                                       0.027
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     outcomes were associated with resting-state effective connectivity
+                                                                                                                                                                                                                                                                                                                     within overlapping neural systems—particularly the precuneus—
+                                                                                                                                 b
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     supporting a unifying hypothesis: that disruptions in DMN and
+                                                                                                                                                                                                                                                                                                                     semantic-affective pathways may underlie both internalizing
+                                                                                                                                                                                                                                                                                                                     symptoms and real-world emotional communication in adoles-
+                                                                                                                                      0.097
+                                                                                                                                                     0.860
+                                                                                                                                                                              0.614
+                                                                                                                                                                                        0.162
+                                                                                                                                                                                                 0.822
+                                                                                                                                                                                                          0.163
+                                                                                                                                                                                                                       0.848
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     cents at risk for depression recurrence [51, 52].
+                                                                                                                                 p
+
+
+
+
+                                                                                                                                                                                                                                                                                                                        Although these ﬁndings provide preliminary evidence for the
+                                                                                                                                                                                                                                                                                                                     potential of EEG-based connectivity analysis in understanding
+                                                                                                       (Precuneus→MCC)
+
+
+                                                                                                                                      0.027
+                                                                                                                                                     1.048
+                                                                                                                                                                              0.002
+                                                                                                                                                                                        0.005
+
+
+
+                                                                                                                                                                                                                       0.040
+                                                                                                                                                                                                 0.005
+                                                                                                                                                                                                          0.006
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     emotional processing and regulation in remitted depressed
+                                                                                                                                 SE
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     adolescents, there are notable limitations. First, one important
+                                                                                                       Theta-band
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     limitation of the present study is the use of a 32-channel EEG
+                                                                                                                                                                                                                                                                                                                     system, which inherently restricts the spatial resolution of source
+                                                                                                                                                                                                                       0.008
+                                                                                                                                      0.045
+                                                                                                                                                    −0.184
+                                                                                                                                                                              0.001
+                                                                                                                                                                                       −0.007
+                                                                                                                                                                                                −0.001
+                                                                                                                                                                                                          0.009
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     localization. Although this conﬁguration does not support precise
+                                                                                                                                                                                                                                                                                                                     mapping of cortical generators, we addressed this constraint by
+                                                                                                                                 b
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     applying ICA-based source separation and estimating equivalent
+                                                                                                                                                                                                                                                                                                                     dipoles. These dipoles were then grouped into standardized brain
+                                                                                                                                                                                                                       0.840
+                                                                                                                                      0.095
+                                                                                                                                                     0.613
+                                                                                                                                                                              0.590
+                                                                                                                                                                                        0.219
+                                                                                                                                                                                                 0.770
+                                                                                                                                                                                                          0.159
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     regions using the groupSIFT pipeline, a method that has been
+                                                                                                                                                                                                                                                                                                                     validated for use with low-density EEG systems [27–29]. This
+                                                                                                                                                                                                                                            MCC mid cingulate cortex; MTG middle temporal gyrus.
+                                                                                                                                 p
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     approach enabled us to examine large-scale connectivity patterns
+                                                                                                                                                                                                                                            Bold values indicate statistical signiﬁcance p < 0.05.
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     across participants while minimizing the risks of spurious
+                                                                                                       (Precuneus→MCC)
+
+
+
+
+                                                                                                                                                                                                                       0.040
+                                                                                                                                      0.027
+                                                                                                                                                     0.563
+                                                                                                                                                                              0.002
+                                                                                                                                                                                        0.005
+                                                                                                                                                                                                 0.005
+                                                                                                                                                                                                          0.006
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     localization. Nonetheless, future studies employing high-density
+                                                                                                                                 SE
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     EEG or multimodal imaging approaches (e.g., EEG-fMRI) are
+                                                                                                       Delta-band
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     warranted to improve spatial precision and further validate these
+                                                                                                                                                                                                                                                                                                                     ﬁndings. Second, our study relied on resting-state data rather than
+                                                                                                                                                                                                                       0.008
+                                                                                                                                      0.045
+                                                                                                                                                    −0.286
+                                                                                                                                                                              0.001
+                                                                                                                                                                                       −0.007
+                                                                                                                                                                                                −0.001
+                                                                                                                                                                                                          0.009
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     task-based data, which limits our understanding of the speciﬁc
+                                                                                                                                                                                                                                                                                                                     psychological process implicated by the EEG signal. Task-based
+                                                                                                                                 b
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     data could potentially offer more robust insights into the
+                                                                                                                                                                                                                                                                                                                     functional dynamics of brain regions involved in social commu-
+                                                                                                                                                     Baseline connectivity
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     nication and emotional regulation. Third, the assessment of
+                                                                                                                                                                                                                       Positive sentiment
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     depressive symptoms is not as temporally ﬁne-grained as the
+                                                                                                                                                                                                                                                                                                                     collection of smartphone communication data. Symptoms were
+                                                                                                                                                                                                                                                                                                                     evaluated at the 6-month assessment, whereas smartphone
+                                                                                                                                                                                                          Phone type
+                                                                                                                                      (intercept)
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     communication was continuously monitored during this period.
+    Table 3.
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     Aligning these assessments more closely in future studies could
+                                                                                                                                                                              Age
+
+
+                                                                                                                                                                                                 Site
+                                                                                                                                                                                        Sex
+
+
+
+
+                                                                                                                                                                                                                                                                                                                     provide a clearer picture of the relationship between real-time
+                                                                                                                                                                                                                                                                                                                     behavioral data and depressive symptomatology. Fourth,
+
+                                                                                                                                                                                                                                                                                                                                                 NPP – Digital Psychiatry and Neuroscience
+                                                                                       N. Kim et al.
+                                                                                                                                                                                    9
+although our ﬁndings highlight the relevance of MTG and MCC in                          3. Boylan K, MacQueen G, Kirkpatrick R, Lee J, Santaguida PL. A systematic review of
+predicting depressive symptoms and negative sentiment across                               interventions for treatment resistant major depressive disorder in adolescents.
+the entire sample, it is important to acknowledge the potential                            Eur Child Adolesc Psychiatry. 2020;29:433–43.
+value of exploring group-speciﬁc patterns. The unique composi-                          4. Funkhouser CJ, Trivedi E, Li LY, Helgren F, Zhang E, Sritharan A, et al. Detecting
+                                                                                           adolescent depression through passive monitoring of linguistic markers in
+tion of our sample, which includes both remitted MDD youth and
+                                                                                           smartphone communication. J Child Psychol Psychiatry. 2023;65:932–41.
+healthy controls, offers an opportunity to examine whether                              5. Li LY, Trivedi E, Helgren F, Allison GO, Zhang E, Buchanan SN, et al. Capturing
+individuals with a history of depression exhibit distinct                                  mood dynamics through adolescent smartphone social communication. J Psy-
+connectivity–symptom associations that may reﬂect residual                                 chopathol Clin Sci. 2023;132:1072–84.
+vulnerability. Although the current analysis did not reveal                             6. McNeilly EA, Teresi GI, Coury S, Bajwa Z, Kahn LE, Crowley R, et al. Neural cor-
+signiﬁcant group-by-connectivity interactions, this may be due                             relates of depression-related smartphone language use in adolescents. NPP—
+to limited statistical power given the modest subgroup sizes.                              Digital Psychiatry Neurosci. 2024;2:11.
+Future studies with larger samples are needed to clarify whether                        7. Knyazev GG, Slobodskoj-Plusnin JY, Bocharov AV, Pylkova LV. The default mode
+these neural patterns differentially characterize youth with prior                         network and EEG alpha oscillations: An independent component analysis. Brain
+                                                                                           Res. 2011;1402:67–79.
+depression, ultimately informing more personalized approaches to
+                                                                                        8. Harmony T. The functional signiﬁcance of delta oscillations in cognitive proces-
+intervention. Additionally, the current study is the gender                                sing. Front Integr Neurosci. 2013;7:83.
+imbalance between groups, which reﬂects the higher prevalence                           9. Klimesch W. Alpha-band oscillations, attention, and controlled access to stored
+of adolescent depression in females. Although all analyses                                 information. Trends Cogn Sci. 2012;16:606–17.
+controlled for gender, caution is needed when generalizing these                       10. Weiss S, Mueller HM. “Too Many betas do not Spoil the Broth”: the role of beta
+ﬁndings. Last, test-retest reliability was not explicitly assessed in                      brain oscillations in language processing. Front Psychol. 2012;3:201.
+this study, which we acknowledge as a limitation. Although prior                       11. Fries P. Rhythms for cognition: communication through coherence. Neuron.
+research has demonstrated moderate-to-high test-retest reliability                         2015;88:220–35.
+for resting-state EEG connectivity metrics, particularly within                        12. Olbrich S, Arns M. EEG biomarkers in major depressive disorder: discriminative
+                                                                                           power and prediction of treatment response. Int Rev Psychiatry. 2013;25:604–18.
+similar frequency bands and analytic frameworks [53, 54], the
+                                                                                       13. Pizzagalli DA, Webb CA, Dillon DG, Tenke CE, Kayser J, Goer F, et al. Pretreatment
+stability of these connectivity patterns over time remains an                              rostral anterior cingulate cortex theta activity in relation to symptom improve-
+important consideration.                                                                   ment in depression: a randomized clinical trial. JAMA Psychiatry. 2018;75:547–54.
+   Despite these limitations, this study provides novel evidence                       14. Siegle GJ, Condray R, Thase ME, Keshavan M, Steinhauer SR. Sustained gamma-
+linking resting-state EEG connectivity to both prospective depressive                      band EEG following negative words in depression and schizophrenia. Int J Psy-
+symptoms and naturalistic emotional behavior, suggesting its                               chophysiol Off J Int Organ Psychophysiol. 2010;75:107–18.
+potential utility as a transdiagnostic risk marker. Speciﬁcally,                       15. Liu X, Liu S, Li M, Su F, Chen S, Ke Y, et al. Altered gamma oscillations and
+connectivity patterns among the MCC, precuneus, and MTG emerged                            beta–gamma coupling in drug-naive ﬁrst-episode major depressive disorder:
+as candidate predictors of both internal symptoms and externally                           association with sleep and cognitive disturbance. J Affect Disord.
+                                                                                           2022;316:99–108.
+expressed affect. These results underscore the possibility that how
+                                                                                       16. Li Y, Kang C, Wei Z, Qu X, Liu T, Zhou Y, et al. Beta oscillations in major depression
+adolescents feel and how they communicate emotion in everyday life                         – signalling a new cortical circuit for central executive function. Sci Rep.
+may be supported by shared neural mechanisms. Importantly, the                             2017;7:18021.
+inclusion of passively collected smartphone language provides an                       17. Ray KL, Grifﬁn NR, Shumake J, Alario A, Allen JJB, Beevers CG, et al. Altered
+ecologically valid, scalable behavioral marker that complements                            electroencephalography resting state network coherence in remitted MDD. Brain
+traditional clinical assessments. Within this framework, our ﬁndings                       Res. 2023;1806:148282.
+point to future opportunities for integrated brain–behavior monitor-                   18. Benschop L, Poppa T, Medani T, Shahabi H, Baeken C, Leahy RM, et al. Electro-
+ing using mobile and wearable technologies.                                                physiological scarring in remitted depressed patients: Elevated EEG functional
+   In sum, this study highlights a convergent set of neurophysio-                          connectivity between the posterior cingulate cortex and the subgenual pre-
+                                                                                           frontal cortex as a neural marker for rumination. J Affect Disord.
+logical features—including MCC–precuneus and precuneus–MTG
+                                                                                           2021;281:493–501.
+connectivity—that may underlie adolescent vulnerability to persis-                     19. Schelter B, Timmer J, Eichler M. Assessing the strength of directed inﬂuences
+tent emotional difﬁculties. These connectivity patterns were                               among neural signals using renormalized partial directed coherence. J Neurosci
+associated not only with clinician-rated symptoms but also with                            Methods. 2009;179:121–30.
+adolescents’ real-world emotional language. This dual-outcome                          20. Mullen T, Kothe C, Chi YM, Ojeda A, Kerth T, Makeig S, et al. Real-time modeling
+approach illustrates the promise of combining EEG-based biomar-                            and 3D visualization of source dynamics and connectivity using wearable EEG.
+kers with digital behavioral signals to support early detection and                        2013 35th Annu. Int. Conf. IEEE Eng. Med. Biol. Soc. EMBC, 2013. p. 2184-7.
+targeted intervention. By focusing on neural systems that                              21. Tanner JM, Davies PSW. Clinical longitudinal standards for height and height
+contribute to both emotional experience and expression, future                             velocity for North American children. J Pediatr. 1985;107:317–29.
+                                                                                       22. Wechsler D. Wechsler abbreviated scale of intelligence. Upper Saddle River, NJ:
+tools may better identify and assist youth at heightened risk for
+                                                                                           Pearson; 2011.
+ongoing affective challenges. Therapeutic interventions aimed at                       23. Poznanski EO, Mokros HB Children’s depression rating scale-revised manual. Los
+enhancing connectivity within speciﬁc brain networks, such as                              Angeles, CA: Western Psychological Services; 1996.
+neurofeedback or transcranial magnetic stimulation, could be                           24. Lind MN, Byrne ML, Wicks G, Smidt AM, Allen NB. The Effortless Assessment of
+explored to address the underlying neurobiological mechanisms                              Risk States (EARS) tool: an interpersonal approach to mobile sensing. JMIR Ment
+contributing to depression recurrence.                                                     Health. 2018;5:e10334.
+                                                                                       25. Kaufman J, Birmaher B, Brent D, Rao U, Flynn C, Moreci P, et al. Schedule for
+                                                                                           affective disorders and schizophrenia for school-age children-present and life-
+DATA AVAILABILITY                                                                          time version (K-SADS-PL): initial reliability and validity data. J Am Acad Child
+Data are publicly available through the National Data Archive.                             Adolesc Psychiatry. 1997;36:980–8.
+                                                                                       26. Loo SK, Miyakoshi M, Tung K, Lloyd E, Salgari G, Dillon A, et al. Neural activation
+                                                                                           and connectivity during cued eye blinks in Chronic Tic Disorders. NeuroImage
+                                                                                           Clin. 2019;24:101956.
+REFERENCES
+                                                                                       27. Koshiyama D, Miyakoshi M, Joshi YB, Molina JL, Tanaka-Koshiyama K, Sprock J,
+ 1. Avenevoli S, Swendsen J, He J-P, Burstein M, Merikangas KR. Major depression in        et al. Abnormal effective connectivity underlying auditory mismatch negativity
+    the national comorbidity survey–adolescent supplement: prevalence, correlates,         impairments in Schizophrenia. Biol Psychiatry Cogn Neurosci Neuroimaging.
+    and treatment. J Am Acad Child Adolesc Psychiatry. 2015;54:37–44.e2.                   2020;5:1028–39.
+ 2. Lu W, Keyes KM. Major depression with co-occurring suicidal thoughts, plans, and   28. Koshiyama D, Miyakoshi M, Joshi YB, Molina JL, Tanaka-Koshiyama K, Joyce
+    attempts: an increasing mental health crisis in US adolescents, 2011–2020. Psy-        Sprock, et al. Neural network dynamics underlying gamma synchronization
+    chiatry Res. 2023;327:115352.
+
+
+
+NPP – Digital Psychiatry and Neuroscience
+                                                                            N. Kim et al.
+10
+         deﬁcits in schizophrenia. Prog Neuropsychopharmacol Biol Psychiatry.                 51. Amft M, Bzdok D, Laird AR, Fox PT, Schilbach L, Eickhoff SB. Deﬁnition and
+         2021;107:110224.                                                                         characterization of an extended social-affective default network. Brain Struct
+     29. Tseng Y-L, Su Y-K, Chou W-J, Miyakoshi M, Tsai C-S, Li C-J, et al. Neural network        Funct. 2015;220:1031–49.
+         dynamics and brain oscillations underlying aberrant inhibitory control in internet   52. Whitﬁeld-Gabrieli S, Ford JM. Default mode network activity and connectivity in
+         addiction. IEEE Trans Neural Syst Rehabil Eng. 2024;32:946–55.                           psychopathology. Annu Rev Clin Psychol. 2012;8:49–76.
+     30. Tzourio-Mazoyer N, Landeau B, Papathanassiou D, Crivello F, Etard O, Delcroix N,     53. Moezzi B, Hordacre B, Berryman C, Ridding MC, Goldsworthy MR. Test-retest
+         et al. Automated Anatomical Labeling of Activations in SPM Using a Macroscopic           reliability of functional brain network characteristics using resting-state EEG and
+         Anatomical Parcellation of the MNI MRI Single-Subject Brain. NeuroImage.                 graph theory. bioRxiv: 2018. https://doi.org/10.1101/385302.
+         2002;15:273–89.                                                                      54. Mahjoory K, Schoffelen J-M, Keitel A, Gross J. The frequency gradient of human
+     31. Camacho-collados J, Rezaee K, Riahi T, Ushio A, Loureiro D, Antypas D, et al.            resting-state brain oscillations follows cortical hierarchies. eLife. 2020;9:e53715.
+         TweetNLP: Cutting-Edge Natural Language Processing for Social Media. In: Che
+         W, Shutova E, editors. Proc 2022 Conf Empir Methods Nat Lang Process Syst
+         Demonstr, Abu Dhabi, UAE: Association for Computational Linguistics; 2022. p.        AUTHOR CONTRIBUTIONS
+         38–49.                                                                               Conceptualization: NK, RPA. Methodology: AS, LYL, NK, RPA. Investigation: AS, SES,
+     32. Liu C-H, Ma X, Yuan Z, Song L-P, Jing B, Lu H-Y, et al. Decreased Resting-State      MMM, KD. Visualization: NK, ET. Funding acquisition: RPA, SAS. Project administration:
+         Activity in the Precuneus Is Associated With Depressive Episodes in Recurrent        RPA, SAS. Supervision: RPA, SAS. Writing – original draft: NK, RPA. Writing – review &
+         Depression. J Clin Psychiatry. 2017;78:e372–e382.                                    editing: NK, LYL, CJF, AML, DP, AT, RPA, SAS. All authors have read and approved the
+     33. Eichstaedt JC, Smith RJ, Merchant RM, Ungar LH, Crutchley P, Preoţiuc-Pietro D,      manuscript.
+         et al. Facebook language predicts depression in medical records. Proc Natl Acad
+         Sci. 2018;115:11203–8.
+     34. De Choudhury M, Gamon M, Counts S, Horvitz E. Predicting depression via social
+         media. Proc Int AAAI Conf Web Soc Media. 2021;7:128–37.                              FUNDING
+     35. Reece AG, Danforth CM. Instagram photos reveal predictive markers of depres-         This work was supported by the National Institute of Mental Health (NIMH), including
+         sion. EPJ Data Sci. 2017;6:15.                                                       R01 MH119771 (RPA, SAS) and K99 MH133991 (LYL). RPA and DP also received
+     36. Zhang B, Yan G, Yang Z, Su Y, Wang J, Lei T. Brain functional networks based on      support through the Morgan Stanley Foundation. The content is solely the
+         resting-state EEG data for major depressive disorder analysis and classiﬁcation.     responsibility of the authors and does not necessarily represent the ofﬁcial views
+         IEEE Trans Neural Syst Rehabil Eng. 2021;29:215–29.                                  of the National Institutes of Health.
+     37. Leuchter AF, Cook IA, Hunter AM, Cai C, Horvath S. Resting-state quantitative
+         electroencephalography reveals increased neurophysiologic connectivity in
+         depression. PLOS ONE. 2012;7:e32508.                                                 COMPETING INTERESTS
+     38. Li Y, Kang C, Qu X, Zhou Y, Wang W, Hu Y. Depression-related brain connectivity      Dr. Allen receives salary from and holds an equity interest in Ksana Health, Inc., and
+         analyzed by EEG event-related phase synchrony measure. Front Hum Neurosci.           has served as a paid consultant to Snap Inc. In the past 3 years, Dr. Auerbach has
+         2016;10:477.                                                                         received consulting fees and equity from Get Sonar, Inc. He also has received
+     39. Miljevic A, Bailey NW, Murphy OW, Perera MPN, Fitzgerald PB. Alterations in EEG      consulting fees from RPA Health Consulting, Inc. and Covington & Burling LLP, which
+         functional connectivity in individuals with depression: a systematic review. J       is representing a social media company in litigation. He has received research
+         Affect Disord. 2023;328:287–302.                                                     funding from the American Foundation for Suicide Prevention, Brain and Behavior
+     40. MacLean MH, Arnell KM, Cote KA. Resting EEG in alpha and beta bands predicts         Foundation, the Klingenstein Third Generation Foundation, the Morgan Stanley
+         individual differences in attentional blink magnitude. Brain Cogn.                   Foundation, and NIMH. No other authors have conﬂicts of interest to disclose.
+         2012;78:218–29.
+     41. Zanto TP, Rubens MT, Thangavel A, Gazzaley A. Causal role of the prefrontal
+         cortex in top-down modulation of visual processing and working memory. Nat           ADDITIONAL INFORMATION
+         Neurosci. 2011;14:656–61.                                                            Supplementary information The online version contains supplementary material
+     42. Wang Y, Chen Y, Cui Y, Zhao T, Wang B, Zheng Y, et al. Alterations in electro-       available at https://doi.org/10.1038/s44277-025-00044-x.
+         encephalographic functional connectivity in individuals with major depressive
+         disorder: a resting-state electroencephalogram study. Front Neurosci.                Correspondence and requests for materials should be addressed to Nayoung Kim.
+         2024;18:1412591.
+     43. Jensen O, Mazaheri A. Shaping functional architecture by oscillatory alpha           Reprints and permission information is available at http://www.nature.com/
+         activity: gating by inhibition. Front Hum Neurosci. 2010;4:186.                      reprints
+     44. Herrmann CS, Fründ I, Lenz D. Human gamma-band activity: a review on cog-
+         nitive and behavioral correlates and network models. Neurosci Biobehav Rev.          Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims
+         2010;34:981–92.                                                                      in published maps and institutional afﬁliations.
+     45. Turken U, Dronkers NF. The neural architecture of the language comprehension
+         network: converging evidence from lesion and connectivity analyses. Front Syst
+         Neurosci. 2011;5:1.
+                                                                                                                 Open Access This article is licensed under a Creative Commons
+     46. Olson IR, McCoy D, Klobusicky E, Ross LA. Social cognition and the anterior
+                                                                                                                 Attribution 4.0 International License, which permits use, sharing,
+         temporal lobes: a review and theoretical framework. Soc Cogn Affect Neurosci.
+                                                                                              adaptation, distribution and reproduction in any medium or format, as long as you give
+         2013;8:123–33.
+                                                                                              appropriate credit to the original author(s) and the source, provide a link to the Creative
+     47. Cavanna AE, Trimble MR. The precuneus: a review of its functional anatomy and
+                                                                                              Commons licence, and indicate if changes were made. The images or other third party
+         behavioural correlates. Brain. 2006;129:564–83.
+                                                                                              material in this article are included in the article’s Creative Commons licence, unless
+     48. Fan Y, Duncan NW, de Greck M, Northoff G. Is there a core neural network in
+                                                                                              indicated otherwise in a credit line to the material. If material is not included in the
+         empathy? An fMRI based quantitative meta-analysis. Neurosci Biobehav Rev.
+                                                                                              article’s Creative Commons licence and your intended use is not permitted by statutory
+         2011;35:903–11.
+                                                                                              regulation or exceeds the permitted use, you will need to obtain permission directly
+     49. Sebastian CL, Fontaine NMG, Bird G, Blakemore S-J, De Brito SA, McCrory EJP,
+                                                                                              from the copyright holder. To view a copy of this licence, visit http://
+         et al. Neural processing associated with cognitive and affective Theory of Mind in
+                                                                                              creativecommons.org/licenses/by/4.0/.
+         adolescents and adults. Soc Cogn Affect Neurosci. 2012;7:53–63.
+     50. Eres R, Decety J, Louis WR, Molenberghs P. Individual differences in local gray
+         matter density are associated with differences in affective and cognitive empa-      © The Author(s) 2025
+         thy. NeuroImage. 2015;117:305–10.
+
+
+
+
+                                                                                                                                    NPP – Digital Psychiatry and Neuroscience
+
