@@ -9,7 +9,7 @@ tags:
 - software-brain-modeling
 title: Neurodata Without Borders
 type: entity
-updated: '2026-05-11'
+updated: '2026-05-12'
 ---
 
 ## Overview

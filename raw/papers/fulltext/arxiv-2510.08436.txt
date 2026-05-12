@@ -1,0 +1,1265 @@
+                                               Spike-frequency and h-current based adaptation are dynamically equivalent in a
+                                                                         Wilson-Cowan field model
+                                                                                Ronja Strömsdörfer1, 2, ∗ and Klaus Obermayer1, 2, 3
+                                                       1
+                                                           Neural Information Processing Group, Fakultät IV, Technische Universität Berlin, Berlin, Germany
+                                                                                 2
+                                                                                   Einstein Center for Neuroscience, Berlin, Germany
+                                                                        3
+                                                                          Bernstein Center for Computational Neuroscience, Berlin, Germany
+                                                                                               (Dated: October 16, 2025)
+                                                              During slow-wave sleep, the brain produces traveling waves of slow oscillations (SOs; ≤ 2 Hz),
+                                                           characterized by the propagation of alternating high- and low-activity states. They play a crucial
+                                                           role in memory consolidation and are frequently investigated, empirically and with the support of
+                                                           in-silico studies. The question of internal mechanisms that modulate traveling waves of SOs is still
+                                                           unanswered even though it is established that it is an adaptation mechanism that mediates them.
+                                                           One of the main mechanisms investigated is spike-frequency adaptation (SFA), a hyperpolarizing
+arXiv:2510.08436v3 [nlin.AO] 15 Oct 2025
+
+
+
+
+                                                           feedback current that is activated during periods of high-activity. An alternative mechanism which
+                                                           has recently been suggested is based on hyperpolarization-activated (h-)currents, which are positive
+                                                           feedback currents that are activated in low-activity states. Both adaptation mechanisms were shown
+                                                           to feature SO-like dynamics in neuronal populations, and the inclusion of a spatial domain seems to
+                                                           enhance observable differences in their effects. To investigate the effects of both adaptation mech-
+                                                           anisms on the neural dynamics in detail, we examine a spatially extended, adaptive Wilson-Cowan
+                                                           model of interacting excitatory and inhibitory populations of neurons with local spatial coupling.
+                                                           The excitatory populations are equipped with either one or the other adaptation mechanism. We
+                                                           describe both mechanisms using the same dynamical equation and include the inverse mode of ac-
+                                                           tion by changing the signs of the adaptation strength and the gain of activation function. We then
+                                                           show that the dynamical systems including the two feedback currents are mathematically equivalent
+                                                           under a compensatory external input, which depends on the adaptation strength and which in turn
+                                                           leads to a shift in state space of the otherwise equivalent bifurcation structure. A detailed analysis
+                                                           of state space shows that strong enough adaptation is required to induce traveling waves of SO-like
+                                                           dynamics while only stationary or homogeneous activity patterns emerge if adaptation is weak.
+                                                           Additionally, adaptation modulates the properties of the spatio-temporal activity patterns, such
+                                                           as temporal frequencies, spatial frequencies, and the speed of the traveling waves, all of which in-
+                                                           crease with increasing strength. Though being dynamically equivalent, our results also explain why
+                                                           location-dependent variations in feedback strength cause differences in the propagation of traveling
+                                                           waves between both adaptation mechanisms.
+
+
+                                                               I.   INTRODUCTION                                ative feedback mechanism) induced by ongoing high-
+                                                                                                                activity in neuronal populations which is often mediated
+                                              One of the most frequently investigated rhythms in the            by slow potassium (K+ ) currents (see [9, 10]). Since
+                                           brain is the phenomenon of slow oscillations (SOs), which            the neurotransmitter acetylcholine (ACh) decreases K+
+                                           appear during slow-wave sleep and are characterized by               conductance [11] and since ACh concentration is lower
+                                           the slow alternation of high- and low-activity states, also          during natural sleep compared to wakefulness [12], SFA
+                                           referred to as up- and down-states [1, 2]. They were first           is elevated during sleep. Comparing different species,
+                                           described by [3]1 , and have been shown to play a cru-               two types of slow waves were separated in [13] depend-
+                                           cial role in memory consolidation since then [5–7]. On a             ing on whether they occur in natural slow-wave sleep or
+                                           mesoscopic scale, SOs tend to travel in wave-like patterns           whether they occur under anesthesia. [14] reported that
+                                           across the cortex [8]. Due to their dominant temporal fre-           the durations of up-states following down-states are pos-
+                                           quency being below ≤ 1 Hz, SOs are most likely driven by             itively correlated during anesthesia in rats, while [13] ob-
+                                           an adaptation process which acts on a slower time scale              served a negative correlation, with long down-states be-
+                                           than the standard neuronal response. Nonetheless, the                ing followed by short up-states in natural sleep in several
+                                           exact nature and dynamics of the adaptation mechanism                species. In [13], reduced cholinergic modulation (i.e., low-
+                                           are still in question.                                               ered ACh concentration) increased the incidence of short
+                                              One candidate process is spike-frequency adaptation               up-states subsequent to long down-states, thereby reca-
+                                           (SFA), a hyperpolarizing feedback current (i.e., a neg-              pitulating both the slow-wave patterns of natural sleep
+                                                                                                                and the neuromodulatory effects of varying ACh concen-
+                                                                                                                trations in the sleeping brain.
+                                           ∗ Corresponding author: stroemsdoerfer@tu-berlin.de                     Hyperpolarization-activated h-currents (i.e., a positive
+                                           1 Note, however, that cortical down states, which correspond to      feedback mechanism) have also been shown to slowly
+                                             so-called K-complexes, have already been described in the very     modulate neuronal excitability (see [15]) and may also
+                                             first sleep EEG studies in the 1930s [4] .                         cause adaptation-driven traveling waves similar to cor-
+                                                                                                                              2
+
+tical waves of SO-like dynamics. In [16], using ferret           tion as transfer function. A sigmoidal transfer function
+slice experiments, it was proposed that h-current mod-           speeds up waves further when compared to the Heaviside
+ulation regulates the cortical capacity for recurrent per-       transfer function. For a homogeneous, excitatory neural
+sistent activity, which encompasses slow-wave dynamics.          field model, [40] proved that lateral inhibition is required
+Until most recently, h-currents were predominantly inves-        to stabilize bump solutions (i.e., stabilize the activity to
+tigated in thalamocortical systems [17–19] which aligns          not decay or vanish over time), and while [41] confirms
+with their presence in thalamic neurons [20]. However,           these findings, they additionally show that local inho-
+[21], and [22] focus on the impact of h-currents on cor-         mogeneous input stabilizes stationary-pulse solutions in
+tical slow waves, i.e., on the propagation of alternating        an otherwise homogeneous network. In [42], the authors
+up- and down-states over space.                                  investigate the same field model without inhibition in
+   Spatially extended neural field models are a convenient       which nonlinear negative feedback to an excitatory pop-
+computational approach for investigating the propaga-            ulation of neurons is produced by synaptic depression and
+tion features of traveling waves. They inherit a descrip-        SFA simultaneously. They identify traveling fronts and
+tion of space through spatial convolution, which effec-          pulses, as well as stationary or homogeneous oscillations.
+tively describes distance-dependent connectivity profiles        They show that synaptic depression is not sufficient to
+in continuous space [23–25]. Depending on their set-             stabilize bump solutions and confirm that either lateral
+up, neural field models can produce periodic traveling           inhibition (as shown in [40]) or external input (as shown
+waves [26]. For the one-population model of integrate-           in [41]) is required. Conversely, bumps do not exist when
+and-fire neurons with synaptic inputs on a continuous            SFA is present. Furthermore, they investigated the phase
+one-dimensional space of [27], analytical predictions align      space with respect to the strengths of SFA and synap-
+with numerical simulations showing that the speed of             tic depression and found that SFA has little to no effect
+traveling waves fluctuates over space when there is a sub-       on the speed and width of traveling fronts and pulses.
+set of tightly coupled neurons. In [28], traveling waves         Their nonlinear formulation of SFA feedback is a physi-
+emerge in a system of quadratic integrate-and-fire neu-          ologically based negative feedback. In [43], the authors
+rons with nonlocal synaptic coupling as the synaptic             equip the excitatory population of the two-population
+coupling strength is increased. Generally speaking, the          model with SFA and investigate the conditions for Turing
+emergence of spatio-temporal patterns relies on the un-          and Hopf bifurcations to emerge, enabling stationary or
+derlying dynamical state of the model system. Suitable           spatio-temporal activity. While weaker and faster adap-
+parameterizations can be identified by a Turing insta-           tation generates stationary patterns, slower and stronger
+bility analysis performed in the Fourier domain. This            adaptation causes the stationary patterns to travel.
+analysis is most often performed in systems comprised               Now, we are left with the question of what the dif-
+of either a single neural population (e.g., [29, 30]) or two     ferences are between the slow negative feedback mecha-
+coupled populations of excitatory and inhibitory neurons         nism based on SFA, see [35, 44–48], and the recently pro-
+(e.g., [31, 32]).                                                posed positive feedback mechanism based on h-currents,
+   One frequently used model is the Wilson-Cowan model           see [21, 22] which have already been shown to induce SO-
+which was first introduced in [33] in its mass model ver-        like dynamics. Simultaneous investigations of h-currents
+sion, i.e., without a spatial domain. The mass model             and SFA were already conducted. [49] used fluorescent
+version displays a rich variety of emergent dynamics and         dye in the dentate gyrus of rats and unmodified versus
+has previously been used to investigate SFA-driven SOs,          blocked HCN-channel2 recordings to show that in the
+either with [34, 35] or without inhibition [36]. In its origi-   presence of HCN channels action potential (AP) initia-
+nal form, comprising of one excitatory and one inhibitory        tion is enhanced during sustained firing and the propa-
+population of neurons without SFA [37], the dynami-              gation of AP patterns is sped up. They observe that in
+cal landscape of this model remains fairly similar when          the presence of HCN channels, hyperpolarizing Na+ -K+
+both SFA and inhibition are included, when only SFA is           currents are opposed. [50] included both HCN (h-current
+present, or when both are absent. A regime of oscilla-           based adaptation) and M-channel (SFA) dynamics in a
+tions (e.g., emerging due to a Hopf instability) is at the       spiking neural network to investigate their role in seizure
+corner end of a regime of bistability, where a stable up-        events in epilepsy patients. [22] found, in slice experi-
+and down-state coexist.                                          ments, that blocking h-currents results in prolonged up-
+                                                                 and down-state durations, effectively decreasing the tem-
+   To include a spatial domain, Wilson and Cowan ex-             poral oscillation frequency. With their computational
+tended the mass model to a field model which is com-             model they produce adaptation-driven SOs between up-
+prised of two coupled populations of excitatory and in-          and down-states where the implemented h-current and
+hibitory neurons [38]. Pinto and Ermentrout [39] in-             SFA based adaptation alternate in activation, depend-
+vestigated the system without an inhibitory population,          ing on the membrane potential with h-currents active in
+but with a linear, negative feedback that limits the net-
+works excitability. They establish the existence of trav-
+eling pulses in such a network and connect the speed of
+                                                                 2 HCN
+the waves, which are induced by the slow negative feed-                  channels: Hyperpolarization-activated cyclic nucleotide
+back, to the model parameters using the Heaviside func-            gated channels correspond to h-current based adaptation.
+                                                                                                                             3
+
+down-, and inactive in up-states while the opposite is             tionary activity when adaptation is weak. The dynami-
+the case for SFA. With the model, they recreated the re-           cal landscape exhibits parallels with the models studied
+sults found in vitro, prolonging up- and down-state dura-          in [34–37], but our analysis additionally displays regimes
+tions, if the strength of h-currents is further reduced. [21]      with states that undergo Turing bifurcations at the bor-
+tested whether a spatial gradient in excitability, degree          der of regimes exhibiting oscillatory activity or bistabil-
+of recurrent excitation, or strength of the SFA current            ity. Moreover, we show that the model system experi-
+would induce a sequential activation of cortical neurons           ences two types of bistability. Secondly, we conducted nu-
+(i.e, up-state onset) along the dorso-ventral axis of the          merical simulations and show that in the two-population
+rat post-subiculum with a synchronous deactivation of              model, contrary to the purely excitatory model with
+the up-state. They observed this in vivo in naturally              synaptic depression of [42], the adaptation strength is a
+sleeping mice prior to their in-silico experiments. Nei-           modulatory factor for the adaptation-driven slow waves.
+ther gradient was able to replicate the experimentally             Over the considered slices of state space, we observe an
+observed dynamics. Including h-currents, on the other              increase of dominant temporal frequencies, spatial fre-
+hand, with decreasing strength along the dorso-ventral             quencies, and travel speed of spatio-temporal activity
+axis replicated their results. A detailed analysis of the          patterns, the stronger the adaptation strength becomes.
+two opposing mechanisms shaping the spatio-temporal                Numerical results agree with the results of the mathe-
+neural dynamics, however, has not yet been performed.              matical analysis performed before.
+   To address this, we implement a Wilson-Cowan field                 Due to the dynamical equivalence, the state spaces
+model and consider two nonlinear adaptation mecha-                 for the positive and negative feedback mechanisms are
+nisms, a negative feedback mechanism induced by high               equal but shifted along the external input parameter of
+neural activity and a positive feedback mechanism in-              the excitatory population proportional to the adaptation
+duced by low neural activity, capturing the most promi-            strength. This finding may serve as a guideline for what
+nent features of SFA- vs h-current based adaptation. The           differences to expect in a given neurobiological setting
+model is implemented on a one-dimensional spatial do-              (e.g., when analyzing the effects of spatial gradients of
+main with periodic boundary conditions. Each location              adaptation strength as in [21]). Furthermore, the Wilson-
+contains two interacting populations of excitatory and             Cowan field model with adaptation can serve as a ref-
+inhibitory neurons that are spatially coupled by a Gaus-           erence when considering the influence of the additional
+sian synaptic connectivity kernel. The excitatory popu-            differences in the physiological properties of SFA- and
+lations are locally equipped with either one of the two            h-currents-based adaptation mechanisms.
+adaptation mechanisms. Since both mechanisms act in a
+functionally similar way, we describe them with the same
+dynamical equation and consider the inverse mode of ac-              II.   THE SPATIALLY EXTENDED ADAPTIVE
+tion (negative vs. positive feedback and activation during                     WILSON-COWAN MODEL
+high- vs. low-activity states) by changing the sign of the
+adaptation strength and the gain of the activation func-              We use the original Wilson-Cowan continuum model of
+tion. The model is parameterized to fulfill various criteria       [38] with integro-differential equations, including a con-
+that have been shown to play a role in the formation of            volution over a spatial domain, to investigate adaptation-
+adaptation-driven slow waves, e.g., regimes of bistability         driven traveling waves of SO-like dynamics. We include a
+(where stable up- and down-states coexist) in a cortical           third differential equation for an adaptation mechanism
+network for SOs during sleep [51] and anesthesia [52], or          and connect it to the excitatory population to describe
+strong excitatory recurrence [53].                                 the effects of either high-activity induced negative or low-
+   We first show that in our formulation both adapta-              activity induced positive feedback mechanisms. In the
+tion mechanisms are mathematically equivalent under a              following we refer to them as spike-frequency (a) or h-
+compensatory external input to the excitatory popula-              current (h) mediated adaptation although the model is a
+tions that depends on the adaptation strength. A state             simplification that focuses only on their most prominent
+space analysis shows that strong enough adaptation is              biophysical features. The equations of the activities ue
+necessary to produce spatio-temporal activity patterns             and ui of the excitatory and inhibitory population and
+in this system that only generates homogeneous or sta-             for the adaptation variable m are given by
+
+
+
+
+                  ∂
+                τe   ue (x, t) = − ue (x, t) + Fe (wee we (x) ∗ ue (x, t) − wei wi (x) ∗ ui (x, t) − bm(x, t) + Ie )
+                  ∂t
+                  ∂
+                τi ui (x, t) = − ui (x, t) + Fi (wie we (x) ∗ ue (x, t) − wii wi (x) ∗ ui (x, t) + Ii )                    (1)
+                  ∂t
+                   ∂
+               τm m(x, t) = − m(x, t) + Fm (ue (x, t) − µ),
+                  ∂t
+                                                                                                                           4
+
+where the spatial convolution is defined as
+                                                                TABLE I. List of model parameters. The abbreviations “exc"
+                          Z ∞                                   and “inh" stand for “excitatory population" and “inhibitory
+     wj (x) ∗ uj (x, t) =     wj (|x − y|) uj (y, t)dy,         population", respectively.
+                            −∞
+                                                                    Parameter Value                         Description
+                          j ∈ {e, i}.
+                                                                    µe             0               Excitatory threshold
+The
+R ∞ spatial kernel is given by the normalized (i.e.,                µi             0               Inhibitory threshold
+    w (x)dx = 1) Gaussian
+ −∞ j                                                               βe             5                    Excitatory gain
+                                           ∥x−y∥2
+                                                                    βi             5                    Inhibitory gain
+                                  1    −
+                                             2σ 2
+             wj (|x − y|) = √         e        j    ,     (2)       wee           3.2     Coupling strength exc to exc
+                                 2πσj                               wei           2.6     Coupling strength inh to exc
+with width σj , j ∈ {e, i}. The transfer functions are              wie           3.3     Coupling strength exc to inh
+sigmoidal,                                                          wii           0.9     Coupling strength inh to inh
+                                                                    Ie         [-2.5, 2] External input current to exc
+                           1
+            Fj (x) =              , j ∈ {e, i, m}.        (3)       Ii         [-3.5, 1] External input current to inh
+                       1 + e−βj x                                   τe            10    Membrane time constant of exc
+The coupling strengths between the excitatory and in-               τi            15    Membrane time constant of inh
+hibitory populations are given by connectivity weights              σe             1             Spatial spread of exc
+wjl , j, l ∈ {e, i}, in Eq. (1). The membrane time con-             σi             3             Spatial spread of inh
+stants are designated with τj , j ∈ {e, i}. The adapta-             µ             0.4            Adaptation threshold
+tion mechanisms m(x, t) are discussed in detail in Sec-
+tion II A; they are parametrized by a strength value b,             dx           0.3              Integration space step
+a time constant τm , and a gain parameter βm . Due                  L            600      Length (circumference) of ring
+to the transfer function in Eq. (3) being a sigmoid be-             b            [0, 1]                  SFA strength
+tween zero and one, we interpret the activity variables             τm            300                SFA time constant
+ue and ui as the proportion of neurons firing per unit              βm             10                        SFA gain
+time [54]. Its gain parameter is denoted by βj . The
+kernel widths in Eq. (2) determine the extent to which              −b           [0, 1]              H-current strength
+populations are effectively connected in space. Ker-                τm            300           H-current time constant
+nel widths are chosen to be smaller for excitatory and              βm           −10                     H-current gain
+broader for inhibitory interactions, effectively implement-
+ing a Mexican-hat shaped interaction between different
+locations. The parameters that are used in this study
+were adjusted such that adaptation-driven SOs are gener-
+ated with an additional noisy external input (see [34, 46]),    processes caused by different types of somatic conduc-
+fast excitation-inhibition driven oscillations can emerge       tances in cortical neurons (see [58]). Spike-frequency
+(see [55]), and the system with and without adaptation          adaptation (SFA), a negative feedback mechanism, is me-
+shows regimes of bistability since this has been shown to       diated by slow potassium currents which activate when
+play a crucial part in the formation of SOs (see [51, 56]).     the activity of the excitatory population is high. This
+   The model is implemented as a one-dimensional neu-           causes a hyperpolarizing feedback current which effec-
+ral field with periodic boundary conditions and a ho-           tively inhibits the neural response of excitatory neu-
+mogeneous connectivity profile. To reduce the effects           rons (see [47]). H-current based adaptation is mediated
+of the finite size on the dynamics, we combine a large          by hyperpolarization-activated nucleotide-gated channels
+ring of length L = 600 with comparably small widths             (see [59]) which open if the excitatory population is in a
+σj , j ∈ {e, i}, of the spatial kernels. The ring is dis-       low-activity state and return positive feedback, i.e., effec-
+cretized into n positions, each of which is equipped with       tively excite the excitatory population. Functionally, the
+a node whose dynamics is described by Eqs. (1). There-          adaptation mechanisms are similar (see [60] for SFA, for
+fore, the integration space step is given by dx = L n.          h-currents see [61] where the authors discuss h-currents
+                                                                in thalamic neurons, and see [21, 58] for both adaptation
+                                                                mechanisms in cortical neurons), so that we can describe
+           A.   The adaptation mechanisms                       their main effects by the same differential equation (last
+                                                                equation in Eqs. (1), see [21]) and include the inverse
+  The excitatory populations are equipped with an adap-         mode of action (positive versus negative feedback, acti-
+tation mechanism, generally understood as a process (not        vated during high- versus low-activity values) by chang-
+restricted to the brain) that modulates the effect of a         ing the sign of the parameters for adaptation strength b
+sustained input but acts on a slower time scale (see            and adaptation gain βm . Parameters are summarized in
+[57]). In the following, we distinguish two adaptation          Table I.
+                                                                                                                                               5
+
+B.   Fixed points and stability analysis of the model                    A point (ũe , ũi , m̃) ∈ (0, 1)3 is a fixed point if f (ũe ) = ũi ,
+                  with adaptation                                        g(ũi ) = ũe , and Fm (ũe ) = m̃3 .
+                                                                            We apply the procedure from Harris & Ermentrout
+  To determine the fixed points we consider a single                     [31], Byrne et al [62], and Wyller et al [32]4 to investigate
+Wilson-Cowan node. Due to the normalization of the                       the stability of the homogeneous steady states (i.e., the
+kernel, its fixed points are equivalent to the fixed points              fixed points) of field models. To do so, we add a small
+of the spatially extended model. Let ∂u          ∂ui
+                                           ∂t = ∂t = 0 in
+                                             e
+                                                                         spatial perturbation to the homogeneous steady state,
+                   ∂m
+Eqs. (1). From ∂t = 0 we obtain m = Fm (ue ) which we
+insert in the equation for the excitatory population. The                                      ue (x, t) = ũe + χ(x, t)
+nullclines f (ue ) and g(ui ) are then given by                                                ui (x, t) = ũi + φ(x, t)                     (4)
+                 1                                                                             m(x, t) = m̃ + ϕ(x, t).
+                    wee ue + Ie − bFj (ue ) − Fe−1 (ue ) ,
+                                                        
+  ui = f (ue ) =
+                wei
+                                                                          Then, we insert Eqs. (4) into Eqs. (1) and linearize the
+               j ∈ {a, h},
+                                                                         system around the homogeneous steady state by applying
+                 1                                                       a Taylor expansion up to the first order in χ(x, t), φ(x, t),
+                    wii ui − Ii + Fi−1 (ui ) .
+                                            
+  ue = g(ui ) =
+                wie                                                      and ϕ(x, t). We obtain
+
+
+
+
+                                 τe ∂t χ = −χ + wee Fe′ (Be )we ∗ χ − wei Fe′ (Be )wi ∗ φ − bFe′ (Be )ϕ
+                                 τi ∂t φ = −φ + wie Fi′ (Bi )we ∗ χ − wii Fi′ (Bi )wi ∗ φ
+                                                 ′
+                                τm ∂t ϕ = −ϕ + Fm  (ũe )χ,
+
+
+
+where Bl = wle ũe − wli ũi + Il , l ∈ {e, i}. The zero order           exploit the fact that a convolution in the spatial domain
+terms vanish for ũe and ũi , because the spatial kernels               is a product in the frequency domain (i.e., w(x)∗χ(x, t) =
+are normalized to one. To transform this set of IDEs                     ŵ(k)χ̂(k, t), where ˆ· denotes the Fourier Transformation).
+into a set of ordinary differential equations (ODEs), we                 This leads to the ODE system
+
+
+
+
+                                   τe ∂t χ̂ = −χ̂ + wee Fe′ (Be )ŵe χ̂ − wei Fe′ (Be )ŵi φ̂ − bFe′ (Be )ϕ̂
+                                   τi ∂t φ̂ = −φ̂ + wie Fi′ (Bi )ŵe χ̂ − wii Fi′ (Bi )ŵi φ̂                                                (5)
+                                                     ′
+                                   τm ∂t ϕ̂ = −ϕ̂ + Fm (ũe )χ̂.
+
+
+        
+         χ̂                                                                      ⃗ = A3 (k)X,
+                                                                         tion, ∂tX         ⃗ where
+    ⃗ =
+For X  φ̂, Eqs. (5) can be written in vector nota-
+            
+         ϕ̂
+
+
+                     − τe + wτee                      − wτei
+                     1
+                                  Fe′ (Be )ŵe (k)           Fe′ (Be )ŵi (k)     − τbe Fe′ (Be )
+                                                                                                                         
+                              e                           e
+                                                                                                       a11 (k) a12 (k) a13
+                         wie ′
+           A3 (k) =      τi Fi (Bi )ŵe (k)       − τ1i − wτii  Fi′ (Bi )ŵi (k)        0        =: a21 (k) a22 (k) a23  ,               (6)
+                                                                                                                        
+                                                              i
+                                ′
+                              Fm   (ũe )
+                                 τ   m
+                                                                  0                   − τ1 m
+                                                                                                        a31     a32 a33
+
+
+
+
+3 The stability analysis of the system without adaptation, i.e., b =      4 [32], however, assumes that the fixed point values ũ
+                                                                                                                                    e and ũi are
+  0, is covered in Appendix A 1.                                            equal.
+                                                                                                                                         6
+
+
+
+
+FIG. 1. Examples for static (top row) and dynamic (bottom row) Turing bifurcations in a Hopf- (top row) and Turing-unstable
+state (bottom row) for the system with h-currents. Panels from left to right show (cf. Eqs. (7)): Coefficients c1 (k) (solid line)
+and c2 (k) (dashed line), coefficient c0 (k) (solid line) and condition c1 (k)c2 (k) − c0 (k) (dashed line), real (α0,1,2 (k), solid lines)
+and imaginary (ω0,1,2 (k), dashed lines) parts of the eigenvalues of the linearization matrix, and the corresponding activity
+pattern ue (x, t). Circles denote the wavenumbers k0 (red) and kmax (pink) (see text). Insets below each plot show close-ups
+of the thin boxes. Values for the external input currents and the adaptation parameter were (Ie , Ii ) = (−0.7, −0.6), b = −0.5
+(top row) and (Ie , Ii ) = (−0.3, −0.3), b = −0.5 (bottom row). All other parameters are given in Table I.
+
+
+                                                                       acterized by the eigenvalues λj (k) = αj (k) + iωj (k), j ∈
+                                                                       {0, 1, 2}, of the linearization matrix (Jacobian) A3 (k),
+Be := wee ũe − wei ũi − bFm (ũe ) + Ie and Bi := wie ũe −          where i denotes the imaginary unit. The eigenvalues cor-
+wii ũi + Ii . The stability of the fixed point can be char-           respond to the roots of the cubic polynomial
+
+
+
+
+                  det(A3 (k) − λI) = λ3 + λ2 −(a11 (k) + a22 (k) + a33 )
+                                                                        
+                                                                                                               
+                                        + λ a11 (k)a22 (k) + a11 (k)a33 + a22 (k)a33 − a13 a31 − a12 (k)a21 (k)
+                                                                                                   
+                                        + −a11 (k)a22 (k)a33 + a22 (k)a13 a31 + a33 a12 (k)a21 (k)
+                                      = λ3 + λ2 c2 (k) + λc1 (k) + c0 (k)
+
+
+
+with                                                                   eigenvalues is zero for this wavenumber. This is illus-
+     c0 (k) = − a11 (k)a22 (k)a33 + a22 (k)a13 a31                     trated in Fig. 1, first row, where the condition is met
+                                                                       for the wavenumber k0 indicated by the red circle. If
+              + a33 a12 (k)a21 (k)                                     c2 (k0 )c1 (k0 ) − c0 (k0 ) = 0 for c1 (k0 ) > 0, i.e., if one
+     c1 (k) = a11 (k)a22 (k) + a11 (k)a33 + a22 (k)a33         (7)     eigenvalue at this wavenumber is purely imaginary, the
+              − a13 a31 − a12 (k)a21 (k)                               fixed point undergoes a dynamic Turing bifurcation (also
+     c2 (k) = − (a11 (k) + a22 (k) + a33 ).                            called a Turing-Hopf bifurcation, see [32, 43, 62]). This
+                                                                       is illustrated in Fig. 1, second row, where the condition
+   Fixed points with αj (k) < 0 for all j ∈ {0, 1, 2} are              is met, for example, for the wavenumber indicated by the
+stable. If the model system has a fixed point which is                 red marker. We refer to a fixed point that is stable at
+unstable at k = 0 (i.e., αj (0) ≥ 0 for at least one j ∈               k = 0 but undergoes a static or a dynamic Turing bi-
+{0, 1, 2}, see Fig. 1, first row), we call the state of the            furcation for a k0 > 0 under the umbrella term “Turing-
+system Hopf-unstable, if ωj (0) ̸= 0, or simply unstable, if           unstable". For the investigated parameterizations, Hopf-
+ωj (0) = 0.                                                            unstable states always undergo a Turing bifurcation for
+   A fixed point (ũe , ũi , m̃) undergoes a static Turing bi-        some k0 > 0 (see, e.g., Fig. 1, first row).
+furcation at k0 > 0 if c0 (k0 ) = 0, i.e., if one of the
+                                                                                                                                          7
+
+
+TABLE II. Summary of the bifurcations and instabilities that occur in the model system for the investigated parameter settings.
+Row “Name" lists the names by which the states are referred to in this study, row “Prerequisites" contains the conditions that
+must be met at the bifurcation, and row “Patterns" enumerates the corresponding type of activity pattern emerging in a state
+undergoing the named bifurcation.
+   Bifurcation                 Hopf-bifurcation                 Static Turing-bifurcation             Dynamic Turing-bifurcation
+       Name                    Hopf-unstable state                     Turing-unstable                 Turing-unstable down-/up-state
+                                                              down-/up-state (in bi), if stable          (in bi), if stable at k = 0, or
+                                                                at k = 0, or Hopf-unstable             Hopf-unstable state, if unstable
+                                                              state, if unstable at k = 0 with        at k = 0 with non-zero imaginary
+                                                                 non-zero imaginary parta                              parta
+  Prerequisites         αj (0) ≥ 0, and ωj (0) ̸= 0 for at     c0 (k0 ) = 0 for k0 > 0 (i.e. there      c2 (k0 )c1 (k0 ) − c0 (k0 ) = 0 for
+                              least one j ∈ {0, 1, 2}           is at least one eigenvalue with         cj (k0 ) > 0, j ∈ {0, 1, 2}, and
+                                                                      αj (k0 ) = ωj (k0 ) = 0)         k0 > 0 (i.e. there is at least one
+                                                                                                                 eigenvalue with
+                                                                                                            αj (k0 ) = 0, ωj (k0 ) ̸= 0)
+     Patterns             Purely temporal oscillations            Purely spatial oscillations         Spatio-temporal activity patterns
+a Note that for all investigated parameterizations, Hopf-unstable states also undergo a Turing bifurcation. Henceforth, we summarize
+
+  fixed points that are unstable at k = 0 with non-zero imaginary part under the umbrella term “Hopf-unstable"
+
+
+
+   Since we are particularly interested in adaptation-                 modes is k0 .
+driven slow alternations between high- (up) and low-
+activity (down) states, we distinguish up- (ũe ≥ 0.4) from
+down- (ũe < 0.4) states by the fixed point value of the                                     C.      Wavenumbers
+excitatory population. Consequently, when a Turing bi-
+furcation emerges in an up- (down-) state, we call the
+                                                                         If a fixed point is identified as Turing- or Hopf-
+state Turing-unstable up- (down-) state. In addition, the
+                                                                       unstable, we compute the smallest wavenumber k0 > 0
+model exhibits regimes of bistability where stable up- and
+                                                                       at which one of the conditions listed in Table II is met.
+down-states coexist for the same location in state space.
+                                                                       Examples are shown in Fig. 1, where k0 is marked by the
+If either one of the two states loses stability for some
+                                                                       red circles. Additionally, we determine the wavenumber
+k0 > 0 due to an emerging Turing bifurcation while the
+                                                                       kmax (see pink circles in Fig. 1) for which the correspond-
+coexisting fixed point remains stable, we call the Turing-
+                                                                       ing unstable mode grows most rapidly, i.e., for which the
+unstable state a Turing unstable up- or down-state in bi,
+                                                                       real part αj (k) of the largest eigenvalue becomes maxi-
+respectively. Table II summarizes all types of bifurca-
+                                                                       mal, kmax = argmaxk (maxj αj (k)). Wavenumbers were
+tions that emerge in the model for the investigated pa-
+                                                                       computed, because they determine the wavelengths of
+rameter settings and how we refer to them throughout
+                                                                       the spatio-temporal patterns that emerge in a fixed point
+this study.
+                                                                       that undergoes one of the aforementioned bifurcations
+   Note that there is a difference in the instability of
+                                                                       (see [23, 43, 63]).
+modes between Hopf-unstable states undergoing a Tur-
+ing bifurcation and other Turing-unstable states which
+is exemplified in Fig. 1, third column (Eigenvalues). In
+Hopf-unstable states, unstable modes already occur for                    D.    Symmetries and equivalence of mechanisms
+wavenumber values 0 ≤ k ≤ k0 , while in other Turing-
+unstable states the minimum wavenumber for unstable                       Let Eqs. (1),
+
+
+
+                                                                                                                         
+                             τe ∂u∂t
+                                    e
+                                           −ue (x, t) + Fe (wee we (x) ∗ ue (x, t) − wei wi (x) ∗ ui (x, t) − bm(x, t) + Ie )
+           S(ue , ui , m) =  τi ∂u
+                                  ∂t
+                                    i  = 
+                                                 −ui (x, t) + Fi (wie we (x) ∗ ue (x, t) − wii wi (x) ∗ ui (x, t) + Ii )     ,          (8)
+                                  ∂m
+                             τm ∂t                                 −m(x, t) + Fm (ue (x, t) − µ)
+
+
+
+                                                                       be the system with SFA (i.e., let b, βm > 0), and let
+                                                                       T : [0, 1]3 → [0, 1]3 with
+                                                                                  T : (ue , ui , m)⊤ 7→ (ue , ui , 1 − m)⊤
+                                                                       be an isomorphic transformation.              Then we have
+                                                                        ∂                                   ⊤
+                                                                                                                 = ( ∂u e ∂ui    ∂m ⊤
+                                                                                                              
+                                                                       ∂t T (ue (x, t), ui (x, t), m(x, t))           ∂t , ∂t , − ∂t ) .
+                                                                       Inserting the transformation into Eqs. (8) we obtain
+                                                                                                                                          8
+
+
+                                                                                                                                    
+                                     −ue (x, t) + Fe (wee we (x) ∗ ue (x, t) − wei wi (x) ∗ ui (x, t) − b(1 − m(x, t)) + Ie )
+                           τe ∂u
+                               ∂t
+                                 e
+                                                 −ui (x, t) + Fi (wie we (x) ∗ ue (x, t) − wii wi (x) ∗ ui (x, t) + Ii )       
+     S(T(ue , ui , m)) =  τi ∂u
+                               ∂t
+                                 i  =                                                                                        
+                                ∂m
+                                                             − −(1 − m(x, t)) + Fm (ue (x, t) − µ)                             
+                          −τm ∂t                                                      |       {z         }
+                                                                                            =1−Fm (µ−ue )
+                                                                                                                                
+                                           −ue (x, t) + Fe (wee we (x) ∗ ue (x, t) − wei wi (x) ∗ ui (x, t) + bm(x, t) − b + Ie )
+                                         =         −ui (x, t) + Fi (wie we (x) ∗ ue (x, t) − wii wi (x) ∗ ui (x, t) + Ii )       .
+                                                                      −m(x, t) + Fm (µ − ue (x, t))
+
+
+
+   This system of equations is, given the choice of Fm (Eq.             with SFA corresponds to a fixed point (ũhe , ũhi , 1 − m̃h )
+(3)), equivalent to the system of Eqs. (1) for h-currents               for the system with h-currents and that the dynamical
+if −b ← b and −βm ← βm (see Table I) and the ex-                        landscape for h-currents should be the same as the dy-
+ternal input to the excitatory population in the system                 namical landscape for SFA, but shifted along the Ie -axis
+with SFA is decreased by the value of b, i.e., Ieh = Iea − b.           by the value b.
+The superscripts ·a , ·h indicate the difference between                  Beyond dynamical equivalence between the adap-
+the variables and parameters for SFA and h-currents, re-                tation mechanisms, we also have a symmetry for
+spectively. Hence, both adaptation mechanisms are dy-                   each system within itself. Let T : [0, 1]3 → [0, 1]3
+namically equivalent under the transformation T , if Ie                 with T : (ue , ui , m)⊤ 7→ (1 − ue , 1 − ui , 1 − m)⊤
+                                               a                h
+is correspondingly changed and if Fm             (x) = 1 − Fm     (x)   be      another        isomorphic        transformation       such
+                                                                                      ∂                                    ⊤
+                                                                                                                            
+holds for the adaptation nonlinearity. This equivalence                 that          ∂t T (ue (x, t), ui (x, t), m(x, t))               =
+also tells us that a fixed point (ũae , ũai , m̃a ) for the system    (− ∂u e
+                                                                                , − ∂ui
+                                                                                        , − ∂m ⊤
+                                                                                                ) .  Inserting     this  in   Eqs. (8)  we
+                                                                            ∂t       ∂t     ∂t
+                                                                        obtain
+
+
+
+                                                                                                                             
+          −τe ∂u∂t
+                  e
+                        1 − ue (x, t) − Fe (wee we (x) ∗ (1 − ue (x, t)) − wei wi (x) ∗ (1 − ui (x, t)) − b(1 − m(x, t)) + Ie )
+          −τi ∂ui  =          1 − ui (x, t) − Fi (wie we (x) ∗ (1 − ue (x, t)) − wii wi (x) ∗ (1 − ui (x, t)) + Ii )        
+                ∂t
+                ∂m
+          −τm ∂t                                       1 − m(x, t) − Fm ((1 − ue (x, t)) − µ)
+                                                                                                                           
+                          −ue (x, t) + Fe (wee we (x) ∗ ue (x, t) − wei wi (x) ∗ ui (x, t) − bm(x, t) − Ie − wee + wei + b)
+                        =         −ui (x, t) + Fi (wie we (x) ∗ ue (x, t) − wii wi (x) ∗ ui (x, t) − Ii − wie + wii )      .           (9)
+                                                         −m(x, t) + Fm (ue (x, t) + µ − 1)
+
+
+
+If Iˆe = −Ie + b − wee + wei , Iˆi = −Ii − wie + wii ,                  or Turing instability. Without adaptation (b = 0), we
+and µ̂ = 1 − µ, then the system (9) is equivalent                       observe a Hopf-unstable regime (orange) in which both
+to Eqs. (1) for both SFA and h-currents. This in-                       temporal (similar to Fig. 2B, panel 3(∗), for b = −0.5)
+duces an approximate point symmetry         of state space at           and spatial (see Fig. 2B, panel 1) patterns emerge. With
+(Iec , Iic ) = b−wee2+wei , −wie2+wii between (ue , ui , m) and
+                                     
+                                                                        adaptation, the Hopf regime is also apparent but the ac-
+(1 − ue , 1 − ui , 1 − m) which becomes exact for µ = 0.5.              tivity patterns can be either temporal (Fig. 2B, panel
+Since µ = 0.4 in this study, an exact symmetry is only                  3(∗)) or spatio-temporal (Fig. 2B, panel 3). Close to the
+achieved for b = 0 (Fig. 2A, first column, where the black              bifurcation lines of the Hopf-unstable regime, we observe
+dot in the middle of the orange regime denotes the center               the emergence of Turing instability in down-states (up-
+of the point reflection).                                               per border; for an activity example see Fig. 2B, panel 4)
+                                                                        and in up-states (lower border; for activity example see
+                                                                        Fig. 2B, panel 6). Beyond the Turing instability in down-
+  III. OVERVIEW OF STATE SPACE AND ITS
+                                                                        (up-) states, to the left (right) side of the state spaces in
+  CHANGES WITH ADAPTATION STRENGTH                                      Fig. 2A, there exists a regime, marked dark blue (dark
+                                                                        red), where a single down- (up-) state fixed point is sta-
+                                                                        ble. We also see regimes of three fixed points including
+   Figure 2 shows the results of the analytical investiga-              one stable up-state (dark beige) while the other two fixed
+tion for the system with h-currents with increasing adap-               points are unstable and vice versa with one stable down-
+tation strength (Fig. 2A) and examples for the emerging                 state (light beige). Activity traces in these regimes are
+spatio-temporal patterns (Fig. 2B) for all regimes of Hopf
+                                                                                                                                      9
+
+
+
+
+FIG. 2. State spaces and activity patterns for the Wilson-Cowan model with h-currents. A Results of the stability analyses
+for a slice of parameter space spanned by the external input currents (Ie , Ii ) ∈ [−2.5, 2] × [−3.5, 1] for increasing adaptation
+strength |b| ∈ {0, 0.5, 1.0} (left to right). Colors denote the different dynamical regimes (see legend). Pentagon markers identify
+the positions in state space corresponding to the activity traces shown in B. Resolution of state space is 181 x 181. The black
+dot in the state space for b = 0 denotes center of point symmetry (see Section II D). B Activity traces ue (x, t) for different
+locations in state space (see Table III in Appendix B 5), denoted by pentagons in A. Two types of bistability are exemplified in
+panels 3, 3(*) and 5, 5(*) (see text). Lighter green denotes low, darker green high activity values (see color bar). All simulations
+were initialized around their corresponding fixed points, except for the activity traces marked with (*) which were initialized
+close to zero (see Appendix B 1).
+
+
+similar to the activities shown in Fig. 2B, panels 5(*) and         close to the fixed points converge to spatial or spatio-
+7. Initializations close to zero always converge to the ex-         temporal patterns. In this regime, the system thus ex-
+isting stable fixed point while initializations around the          periences a second type of bistability that is not caused
+unstable states cause irregular traveling waves. Further,           by the coexistence of multiple fixed points5 . However,
+to both corner ends (upper right and lower left), we find a         there are two small areas in the Hopf-unstable regime for
+regime of bistability between up- and down-states (light            b = 0 where exceptions occur and where spatio-temporal
+blue) next to bistable regimes, where a stable down-state           patterns are present (Fig. 2B, panel 0). These areas are
+coexists with a Turing instability in the up-state (dark            located in the top left of the Hopf regime where a stable
+purple) and vice versa (dark green). Figure 2C, panel 5,            down-state, three fixed points with a stable down-state,
+shows that the activity converges to the activity caused            a Hopf instability, and a Turing instability are getting
+by the Turing bifurcation in the down-state, if initial-            close in parameter space, and in the bottom right cor-
+ized close to the Turing-unstable down-state. Initialized           ner, where the regimes of a stable up-state, a Hopf in-
+close to zero, the activity converges to the stable up-state        stability, three fixed points with a stable up-state, and
+(see activity 5(∗)). The pattern emerging in the Turing-            a Turing instability meet. In these states, depending on
+unstable down-state of panel 5 shows down-state waves               the initialization, most of the ring converges toward the
+traveling over an otherwise stable up-state activity, un-           standing wave interspersed by a few traveling bumps (see
+like the traveling waves shown in panels 4 and 6, where no          Fig. 2B, panel 0). When adaptation strength increases,
+other stable fixed point coexists. Furthermore, in some             the bistable regime (light blue) shrinks and vanishes for
+states, the activity patterns can become irregular (see             values |b| > 1. The size of the Hopf-unstable regime (or-
+Fig. 2B, panel 7), such that they do not converge to a              ange) and of the regime of three fixed points with a stable
+periodic, equidistant, or otherwise regular pattern. Such           up-state (beige) increase, while the regime of three fixed
+irregular patterns predominantly occur at the border of             points with a stable down-state decreases in size (light
+different regimes or in states where another attractor,             beige).
+e.g., a stable fixed point, coexists.                                  Figure 3 shows a comparison between the state spaces
+   The Hopf-unstable states further undergo Turing bi-              and activity traces for the systems with SFA and h-
+furcations beyond the Hopf bifurcation at k = 0 (see,               currents. We see in Fig. 3A that the dynamical regimes
+for example, Fig. 1, top row, third panel), giving rise to
+spatial (for b = 0, static Turing bifurcations) or spatio-
+temporal (for b ̸= 0, dynamic Turing bifurcations) pat-
+terns. Initialized close to zero, states in the Hopf regime         5 Note, however, that in the following the name “bistable regime"
+
+converge to fast, spatially homogeneous, temporal oscilla-            will refer to the light blue area in state space, where two stable
+tions caused by the Hopf instability, while initializations           fixed points coexist.
+                                                                                                                                10
+
+                                                                     resulting in a dynamic Turing bifurcation and enabling
+                                                                     spatio-temporal patterns in that very state. For b = 0
+                                                                     the imaginary part vanishes, resulting in a static Turing
+                                                                     bifurcation. However, adaptation can not be arbitrar-
+                                                                     ily weak and must be stronger than some threshold to
+                                                                     show dynamic Turing bifurcations. In the bottom row
+                                                                     of Fig. 4, for example, the Turing bifurcations are static
+                                                                     for b = −0.02 and b = −0.01 and allow the system to
+                                                                     produce standing waves for the corresponding activity
+                                                                     traces (see Appendix A 3, Fig. 8). While the Turing bi-
+                                                                     furcation becomes dynamic for b = −0.03, all eigenval-
+                                                                     ues have negative real parts for b = −0.02 for every k
+                                                                     for which the imaginary part is non-zero, i.e., the sys-
+                                                                     tem is stable whenever there is at least one eigenvalue
+                                                                     j ∈ {0, 1, 2} such that ωj (k) ̸= 0.
+                                                                        Additionally, we see in Fig. 4, as |b| increases, the imag-
+                                                                     inary part becomes larger which indicates faster temporal
+                                                                     oscillations, since each mode is given by
+
+FIG. 3. Comparison of state spaces and activity patterns
+                                                                       exp(λ(k)t) exp(ikx) = exp((α(k) ±iω(k)) exp(ikx)
+                                                                                                  |{z}
+for both adaptation mechanisms. A Slices of state space for                                             =0
+SFA (left) and h-currents (right) for |b| = 0.5 spanned by the                                = exp(±i ω(k) t) exp(ikx).
+external input currents Ie and Ii . Colors denote the differ-                                          |{z}
+ent dynamical regimes (see legend). Colored pentagon mark-                                             ω↑ for |b|↑
+ers identify the positions in state space corresponding to the
+activity traces shown in B. The external input currents are          Above conclusions are confirmed for the entire slices of
+(Ie , Ii ) = (0.4, −0.3) for SFA and (Ie , Ii ) = (−0.1, −0.3) for   state space in Appendix A 1, Fig. 7, where we distinguish
+h-currents. B Top row: Activity traces ue (x, t) for the loca-       both types of bifurcations that occur.
+tions in state space, marked in A. Middle row: Corresponding
+traces of the adaptation variable m. Bottom row: Activity
+traces and traces of the corresponding adaptation variable for          IV. CHARACTERIZATION OF REGULAR
+a fixed spatial location for the traveling waves shown above            SPATIO-TEMPORAL PATTERNS IN HOPF-
+for SFA (left panel) and h-currents (middle panel). All traces             AND TURING-UNSTABLE STATES
+are superimposed in the right panel.
+                                                                        Figure 5 shows the results of the numerical investi-
+                                                                     gation for the system with h-currents with increasing
+are equivalent for SFA (left) and h-currents (right), ex-            adaptation strength for the regimes of Hopf or Turing
+cept for the shift to the right (left) by the absolute               instability, where regular patterns occur. We did not
+value |b| for SFA (h-currents), consistent with the re-              consider the regimes of three fixed points (corresponding
+quired compensation of external inputs to the excitatory             to dark and light beige in Fig. 2A), because numerical
+population (see Section II D). The rightward shift of the            simulations close to the fixed points undergoing a Tur-
+dynamical regimes for SFA compared to h-currents im-                 ing bifurcation lead to irregular propagation of activity
+plies that the system requires more external input to the            fronts similar to the pattern exemplified in Fig. 2B, panel
+excitatory population to produce activity patterns be-               7, which shows irregular activity emerging in a Turing-
+yond the spatially and temporally homogeneous steady                 unstable up-state in bi.
+states. We also see that equivalent positions (consid-                  Figure 5A shows the wavenumber kmax (top row), and
+ering the required compensatory inputs) cause activity               the spatial, fx (center row) and temporal frequencies,
+patterns to be equivalent under the transformation T ,               ft (bottom row) of the emerging patterns for different
+i.e., for m ← 1 − m, as exemplified in Fig. 3B.                      locations in state space and for increasing adaptation
+   For the investigated parameterization (see Table I),              strength. kmax values vary continuously across state
+adaptation is required to cause the purely temporal or               space. Values are larger than 0.44 with highest val-
+spatial patterns observed at b = 0 to travel. We ex-                 ues occurring in Turing-unstable states (see color bar).
+emplify this in Fig. 4 where we show the real (αj (k))               The spatial frequency, fx , of the wave patterns change
+and imaginary (ωj (k)) parts of all three eigenvalues                smoothly across state space for b = 0 with the highest
+λj (k) = αj (k) ± iωj (k) of the Jacobian (Eq. (6)) for a            values occurring toward the center of the Hopf regime.
+Hopf-unstable (upper row) and a Turing-unstable (cen-                Values decrease toward the borders. For b = −0.5 and
+ter and bottom row) state. In the upper two rows, for                b = −1, the distribution of fx becomes less smooth with
+small values of b, the zero crossings of the real parts of           non-equidistant, irregular patterns (r > 10−2 ) emerging
+any eigenvalue coincide with non-zero imaginary parts,               toward the borders of the Hopf regime, where the regimes
+                                                                                                                               11
+
+
+
+
+FIG. 4. Eigenvalue spectrum for small values of |b|. The panels show the real, α0,1,2 (k), (solid lines) and imaginary parts,
+ω0,1,2 (k), (dashed lines) of the eigenvalues of the linearization matrix in Eq. (6). Top row: Hopf-unstable state at (Ie , Ii ) =
+(−0.35, −1.225). Center row: Turing-unstable down-state at (Ie , Ii ) = (−0.35, −0.55). Bottom row: same Turing-unstable
+down-state as in the center row but with weaker adaptation. Adaptation strength |b| decreases from left to right. Lower panels
+show close-ups around the zero crossing of the real parts. The imaginary parts vanish for b = 0. Arrows in panels below the
+first two plots of the upper row indicate zero crossing of a static (s) and dynamic (d) Turing bifurcation.
+
+
+of Turing instability, one stable fixed point, Hopf instabil-      the eigenvalues as discussed in Section III. In Fig. 5C we
+ity, and three fixed points with only one stable state meet        compare the spatial frequencies of the simulated activ-
+(green areas inside instability regimes, Fig. 5A). The nu-         ity patterns (top row) with the expected spatial frequen-
+merical simulations also confirm that the activity traces          cies corresponding to the two wavenumbers k0 , i.e., L·k 2π
+                                                                                                                              0
+
+                                                                                                  L·kmax
+for b = 0 are stationary spatial waves, as ft is zero. For         (middle row), and kmax , i.e., 2π (bottom row). Since
+adaptation strong enough, waves start moving resulting             kmax identifies the most rapidly growing unstable mode,
+in a finite value of ft which increases with the value of |b|      expectations are to have highest similarity of spatial fre-
+(see also Fig. 5B) confirming what is expected from the            quencies and frequencies corresponding to kmax . The dis-
+mathematical analysis. For increasing |b|, the averages of         tribution of spatial frequencies across Hopf states roughly
+the wavenumbers k0 , and kmax increase in value, albeit            agrees with this hypothesis (The Wasserstein distance be-
+the variance over state space is high. fx increases with           tween the distributions of fx and L·k2π max
+                                                                                                                is 3.2 and 12.9
+|b| consistent with the increase of the wavenumbers k0             between the distributions of fx and L·k  2π .), the spatial
+                                                                                                               0
+
+and kmax . Additionally, the average temporal frequency            frequencies observed in Turing-unstable down- and up-
+increases steeply, which is expected from the increasing           states, however, agree better with k0 (The Wasserstein
+imaginary parts at the zero crossings of the real parts of         distance between the distributions of fx and L·k2π   max
+                                                                                                                            are
+                                                                                                                                        12
+
+
+
+
+FIG. 5. Properties of the spatio-temporal patterns emerging in Hopf- and Turing-unstable states for increasing h-current
+strength. A kmax values (top row), dominant spatial frequency fx (middle row), and dominant temporal frequency ft (bottom
+row) for each location in state space. The figure shows slices of state space spanned by the external input (Ie , Ie ) ∈ [−2.5, 2] ×
+[−3.5, 1] for b ∈ {0, −0.5, −1.0}. Purple colors denote the corresponding feature values. Darker colors indicate higher values,
+see color bar. Yellow denotes states of no spatio-temporal activity, light green denotes states with irregular patterns with a
+standard deviation r of the Kuramoto-order parameter of r > 10−2 . Thin lines denote the boundaries of the dynamical regimes
+shown in Fig. 2A. Green boxes correspond to the panels shown in D. B Mean (dots) and variance (bars) of kmax , k0 , ft ,
+and fx for b ∈ {−0.25, −0.5, −0.75, −1} for the states located in the Hopf-unstable, Turing-unstable up-, and Turing-unstable
+down-state regimes, for regular spatio-temporal activity for which the standard deviation of the Kuramoto-order parameter
+over time and space was r ≤ 10−2 (see Appendix B 3). C Histograms and kernel density estimates (KDE; thin lines) of the
+numerically calculated spatial frequency (fx ; top row), the spatial frequency corresponding to k0 ( L·k  2π
+                                                                                                            0
+                                                                                                              ; middle row), and
+the spatial frequency corresponding to kmax ( L·k2π max
+                                                        ; bottom row) in the regimes of Hopf instability (left column), Turing
+instability in down-states (middle column), and Turing instability in up-states (right column) for b = −0.5. Dashed vertical
+lines with numbers denote the location of the peak of the KDE. D Close-ups of state space (see green boxes in A) with values
+for kmax (lower right), fx (upper right), and ft (upper left) in the Turing-unstable up- (left panels) and down-states (right
+panels) in bi. Yellow denotes states of no spatio-temporal activity or with irregular patterns with a standard deviation r of the
+Kuramoto-order parameter of r > 10−2 . The other colors denote feature values (see color bars). Wavenumbers were acquired as
+described in Section II B; spatial and temporal frequencies as described in the Appendices B 1 and B 2. Numerical simulations
+were conducted with initialization close to the corresponding unstable fixed points.
+
+
+larger than 14 and smaller than 10 between the distribu-                we summarize fixed points stable at k = 0 undergoing
+tions of fx and L·k
+                 2π .).
+                    0
+                                                                        a Turing bifurcation at k0 > 0 under Turing-unstable
+   Moreover, spatial frequencies in Hopf-unstable states                states, we know that k0 is the smallest wavenumber at
+often lie in between k0 and kmax , whereas for Turing-                  which the homogeneous equilibrium becomes unstable,
+unstable states values are slightly below the spatial fre-              i.e., determining the broadest wave. Nonetheless, we see
+quencies corresponding to k0 which likewise held for                    that waves tend to converge to spatio-temporal patterns
+simulated example activity traces in Hopf- and Turing-                  with a spatial frequency slightly below the expected fre-
+unstable states. These findings confirm that there is a                 quency corresponding to the smallest wavenumber k0 , all
+range of spatial modes whose properties the activity pat-
+terns can inherit (called stability balloon in [63]6 ). Since
+                                                                         where R is a control parameter to take the system further away
+                                                                         from the equilibrium and q⃗ the wave vector effectively represent-
+6 In [63], a stability balloon describes a region in an (R, q
+                                                            ⃗) plane,    ing the wavenumber in a spatially one-dimensional ring.
+                                                                                                                                13
+
+
+
+
+FIG. 6. Propagation speed of spatio-temporal patterns emerging in Hopf- and Turing-unstable states for increasing adaptation
+strength. A Slices of state space spanned by the external input currents showing speed values for the corresponding location
+in state space. Adaptation strength increases from left to right. Speed values are indicated by purple (see color bar), yellow
+denotes states of no spatio-temporal activity, green denotes states of irregular patterns with r > 10−2 . Thin lines denote the
+borders of the dynamical regimes shown in Fig. 2A. B Histograms of the distribution of speed values across the states shown in
+A. Dashed vertical lines and numbers denote the location of the peaks of the histograms. C Average (dots) and variance (bars)
+of speed values across state space for b ∈ {−0.25, −0.5, −0.75, −1.0}. D spatio-temporal patterns of ue (x, t) for different values
+of b emerging in the locations in state space which are indicated by hexagons in A. The corresponding value of the external
+input currents are given in Table IV in Appendix B 5. The corresponding speed values are for 1: <0.5; 2 and 3: 11.6; 4: 17.7;
+5: 14.6; 6: 18.7. All other parameters are given in Table I. E Close-ups of state spaces (see green boxes in Fig. 6A) with
+values for speed. Numerical simulations were initialized around the fixed points of Hopf or Turing instability. Speed values
+were computed as described in Appendix B 4.
+
+
+the while the exact frequency varies depending on the ini-            patterns emerge, traveling waves show low values of spa-
+tialization (see Appendix B 7, Fig. 11).                              tial frequency. Temporal frequencies are also lower com-
+   Since we observe bistability in Hopf-unstable states               pared to the rest of state space.
+between spatially homogeneous oscillations and tempo-                    To determine the propagation speed of adaptation-
+rally stationary spatial oscillations (see Section III, we            driven waves, we computed the phase velocity as de-
+performed the same analysis as in Figures 5A and D in                 scribed in Appendix B 4 for each spatio-temporal activ-
+Appendix B 6 but initialized close to zero. Results are               ity pattern emerging in Turing- or Hopf-unstable states.
+similar and shown in Appendix B 6 Fig. 10. This figure                Figure 6A shows the absolute value of the velocity, i.e.,
+also shows the k0 values over slices of state space corre-            the speed for different locations in state space and for
+sponding to Fig. 5A.                                                  b ∈ {0.0, −0.5, −1.0}. Speed values increase, the larger
+   Figure 5D shows close-ups of Turing unstable up- and               |b| becomes. Toward the border of the regime of Hopf
+down-states in bi for b = −0.5. kmax values do not de-                instability at which multiple different instability regimes
+viate strongly from the kmax values of the rest of the                meet (e.g., see region around hexagons 1 and 2), the ac-
+considered state spaces but only few numerical simula-                tivity patterns are either not regular (i.e., r > 10−2 ) or
+tions converged to regular spatio-temporal patterns (non-             not spatio-temporal (e.g.; purely spatial). Toward the
+yellow locations in the close-ups of state space). The                regions of Turing instability in bi, speed increases (e.g.,
+resulting patterns strongly depend on the initialization,             see darker colors around hexagon 6).
+and even initializations close to the Turing-unstable fixed
+point do not necessarily converge to a spatio-temporal                   Figure 6B shows the distribution of speed values across
+pattern but to the coexisting stable fixed point, as exem-            Hopf-unstable and Turing-unstable states. The stronger
+plified in Fig. 2B, panel 5(*), or irregular patterns7 , as ex-       the adaptation, the higher the speed values are. For
+emplified in Fig. 2B, panel 7. If regular spatio-temporal             b = 0, as expected, activity patterns do not travel across
+                                                                      space (recall Fig. 2, panel 0) or their speed is < 0.5 (see
+                                                                      Fig. 6D, panel 1). For b = −0.5, there are two different
+7 States marked in yellow in the regions of Turing-unstable up- and   speed values appearing the most often, with the domi-
+  down-states in bi shown in Fig. 5D and Fig. 6E may also support     nant speed being 11.2. For b = −1, the variance of the
+  regular spatio-temporal patterns if another initialization would    distribution is larger and the most common speed value
+  have been chosen.                                                   is once again higher at 17.6. Figure 6C confirms that the
+                                                                                                                         14
+
+average speed across state space increases with adapta-          of stationary patterns for the reduced system if adap-
+tion strength. Figure 6D shows traveling waves for the           tation is sufficiently weak while traveling waves occur for
+same relative locations in state space (i.e., considering        stronger adaptation.
+the shift to the left discussed in Section III), increasing in      Changing the adaptation strength not only alters the
+adaptation strength from left to right column. “Broad"           model’s dynamical regimes but also the features of the
+patterns become “narrower", increasing both temporal             emerging temporal and spatial patterns including the
+and spatial frequencies and their slope in the space-time        speed of traveling wave activity. The numerical simula-
+diagrams, henceforth, the speed.                                 tions aligned with the mathematical analysis performed
+   Figure 6E shows the same close-ups as Fig. 5D of              before. With stronger adaptation, wavenumbers increase
+Turing-unstable up- and down-states in bi showing the            on average, causing more waves on the ring, i.e., higher
+speed values for the numerical simulations converging            dominant spatial frequencies. Analogously, with growing
+to regular traveling waves. Speed values tend to be              imaginary parts of the eigenvalues at the zero crossing of
+higher closer to the bifurcation line to the regime of single    their respective real parts for stronger adaptation, tem-
+Turing-unstable up- and down-states.                             poral frequencies also increase. These changes correlate
+                                                                 with increasing traveling speeds of activity patterns when
+                                                                 the adaptation becomes stronger.
+                   V.    DISCUSSION                                 Our results also show that the two adaptation mech-
+                                                                 anisms are mathematically equivalent when adaptation
+   We implemented the adaptive Wilson-Cowan field                strength is compensated by a changed external input
+model in a homogeneous setting with local connectivity           current. This is not a contradiction to the results of
+on a one-dimensional spatial domain and periodic bound-          [21] who investigated SFA versus h-currents experimen-
+ary conditions. Each position on the ring consists of an         tally and using computational modeling. They iden-
+excitatory and an inhibitory population of neurons. The          tified differences between SFA and h-currents induced
+excitatory population is equipped with an adaptation             slow sequences of synchronized neuronal activity and se-
+mechanism that either corresponds to a hyperpolarizing           quential state transitions between up- and down-states.
+negative feedback current (SFA) or a hyperpolarization-          While a spatial gradient in the adaptation strength for
+activated positive feedback current (h-currents). The            SFA caused sequential down-state onsets and synchro-
+parametrization used throughout this study was cho-              nized up-state onsets, h-currents replicated experimen-
+sen to display multiple different phenomena which are            tally observed synchronized down-state onsets and se-
+also observed in the brain - from excitation-inhibition-         quential up-state initiation. Here, we show that the adap-
+driven faster oscillations, regimes of bistability, to spatio-   tation strength b has to be compensated by and addi-
+temporal activity patterns that show SO-like dynamics as         tional external input to the excitatory population to pre-
+either adaptation mechanism is active.                           serve equivalency all the while adaptation induces and
+   We investigated the model system for increasing adap-         governs the emergent spatio-temporal properties. Con-
+tation strength |b| only although the adaptation time            sequently, a spatially heterogeneous adaptation strength
+constant τm has an effect on the temporal dynamics of            (i.e., b ⇝ b(x)) will shape the emergent spatio-temporal
+adaptation-driven traveling waves as well. The larger τm ,       activity patterns over space and break the equivalence
+the lower the dominant temporal frequency becomes (re-           between SFA and h-currents unless it is compensated by
+sults not shown, but see [44]) as has also been observed         a spatially dependent external input Ie ⇝ Ie (x).
+experimentally (see [64]). Changing the time constant               In our population-based model, both adaptation mech-
+scaled the eigenvalues for the different parameterizations       anisms were implemented in a simplified way. Hyperpo-
+explored. It had no effect on the dynamical landscape            larizing feedback current of somatic SFA can be mediated
+but could influence the bifurcation structure (results not       by potassium channels, which activate when the exci-
+shown). This is consistent with [43] who showed that             tatory neurons are in a depolarized high-activity state,
+for a reduced system, τm determines whether a Turing             effectively causing K+ outward flow [11, 65]. Different
+bifurcation is dynamic or static.                                potassium channels have different properties leading to
+   A semi-analytical stability analysis across parameter         differential effects in the actual adaptation mechanism:
+space was performed for increasing adaptation strength           Voltage- (Im , see [66]) and sodium-activated K+ -channels
+resulting in the identification of over ten dynamical            (IKN a , see [67]) contribute mostly to subtreshold, while
+regimes including two types of bistability.           Spatio-    Ca2+ -activated K+ -channels (IKCa , [68]) contribute to
+temporal patterns, most often periodic adaptation-driven         spike-based adaptation. Different channel types also have
+traveling waves, emerge in states exhibiting Hopf and            different effects on the response properties of a neuron,
+Turing instabilities if adaptation is sufficiently strong.       for example, on a neurons f-I curve when adaptation
+Activity patterns remain stationary in the absence of            strength is increased [47]. In addition, SFA can be me-
+adaptation which is explained by the zero imaginary part         diated by sodium current inactivation which cause the
+of all eigenvalues of the linearization matrix when a fixed      excited population of neurons to become less depolar-
+point undergoes a Turing bifurcation. This aligns with           ized via the inactivation of Na+ inward flow [69]. That
+the results presented in [43], who prove the existence           said, our SFA model appropriately captures their canon-
+                                                                                                                         15
+
+ical role as slow, hyperpolarizing feedback mechanisms          show that SFA shifts the state space horizontally to the
+which activate in an up-state. H-current based adapta-          right along the axis of the external input to the excitatory
+tion is mediated by a different channel dynamics, causing       population, which agrees with our results. Consequently,
+dichotomous effects. The responsible hyperpolarization-         to simulate a maintained up-state activity that, either
+activated cyclic nucleotide gated (HCN) channels cause          by transient or noisy inputs, allows temporal deactiva-
+K+ outward flow, all the while not preventing Na+ in-           tion of the neuronal populations into a down-state (i.e.,
+ward flow [70], and have a reversal potential between -50       down-state onsets), requires more external input to the
+and -20 mV [15]. Unlike potassium channels who have             excitatory population. Additionally, we see in our state
+a clear selection of K+ (see [71]), HCN channels have a         spaces that the opposite holds for h-currents, induced by
+permeability of 3:1 to 5:1 for K+ :Na+ [15, 72, 73]. HCN        the shift to the left. H-currents consequently require less
+channels are active as long as the neurons conductance is       external input both for up-state onsets as well as down-
+close to its resting membrane potential, causing positive       state onsets, and therefore, also lower transient inputs to
+inward currents that effectively excite the neuron. This,       maintain a slow alternation between up- and down-states.
+we simulate here, whereas the stagnating inhibitive effect         Further studies could extend our investigations to a
+for higher values of the membrane potential is neglegted        biophysically more realistic model, for example, as in
+similar to the cortical population model of [21]. Clearly,      [47], which distinguishes subthreshold activated versus
+dynamical equivalence between SFA and h-current based           spike-triggered SFA. [44] show for the model of [47] that
+adaptation is only expected to strictly hold for the ap-        subthreshold activated SFA changes the neuronal input-
+proximate description of the adaptation dynamics given          output relationship, and can increase the variability of
+by Eqs. (1) and (3).                                            interspike intervals (ISI) independent of current inputs,
+   For the reason of particularly addressing the influence      whereas spike-triggered SFA changes the ISIs variabil-
+of the dichotomy of the most prominent features of the          ity based on the input to the neurons. It would be
+adaptation mechanisms, we omitted delays, although it           interesting to see, how far the diverse types of activa-
+has been shown that delays can drive directions of waves        tions in SFA would break the shown symmetry to h-
+in oscillator networks (see [74]) and enrich the emergent       current based adaptation. For both adaptation mech-
+dynamics of complex spatio-temporal patterns (see [75]).        anisms, the work of [22, 76] for non-spatial conductance
+Delays however would not affect the shown symmetry of           based-models would allow to simulate other potentially
+the adaptation mechanisms.                                      symmetry-breaking channel dynamics, e.g., the stagnat-
+   Traveling waves of SOs are often presented as the prop-      ing inhibitive effect of h-currents. The Wilson-Cowan
+agation of alternating up- and down-states (see [36, 56]),      model investigated in this study may serve as a refer-
+in which one can separate the propagation of up-states          ence when exploring the effects of a biophysically realistic
+via down-to-up transitions from the traveling of down-          channel dynamics.
+states via up-to-down transitions. In our model, we show
+that h-currents require less external input to the exci-
+tatory population than SFA to transition from a main-
+tained stable down-state into oscillatory states, due to
+                                                                               ACKNOWLEDGMENTS
+the shift of state space to the left along the Ie -axis. Note
+that even though we conduct simulations in a parameter
+space spanning negative values for external input cur-             We thank Prof. Tilo Schwalger (Technische Univer-
+rents, including thresholds in the transfer functions of        sität Berlin) for very helpful comments and discussions.
+the neuronal populations shifts the state space, exactly        This work was funded by the Deutsche Forschungsge-
+as is, along the axes of the external input currents by the     meinschaft (DFG) as part of the CRC 1315 (project num-
+value of the thresholds.                                        ber 327654276). It was published on arXiv as a preprint
+   In the mean-field model with SFA of [45], the authors        in Oct. 2025 [77].
+
+
+
+
+ [1] M. V. Sanchez-Vives, M. Massimini, and M. Mattia, Neu-          science 22, 1598 (2019).
+     ron 94, 993 (2017).                                         [7] B. Rasch and J. Born, Physiological Reviews 93, 681
+ [2] M. V. Sanchez-Vives, Current Opinion in Physiology 15,          (2013).
+     217 (2020).                                                 [8] M. Massimini, R. Huber, F. Ferrarelli, S. Hill, and
+ [3] M. Steriade, A. Nunez, and F. Amzica, The Journal of            G. Tononi, The Journal of Neuroscience 24, 6862 (2004).
+     Neuroscience 13, 3252 (1993).                               [9] E. S. L. Faber and P. Sah, The Neuroscientist 9, 181
+ [4] A. L. Loomis, E. N. Harvey, and G. Hobart, Science 82,          (2003).
+     198 (1935).                                                [10] G. Ha and E. Cheong, Experimental Neurobiology 26,
+ [5] S. Brodt, M. Inostroza, N. Niethard, and J. Born, Neuron        179 (2017).
+     111, 1050 (2023).                                          [11] D. A. McCormick, Progress in Neurobiology 39, 337
+ [6] J. G. Klinzing, N. Niethard, and J. Born, Nature Neuro-         (1992).
+                                                                                                                            16
+
+[12] B. E. Jones, Frontiers in Bioscience 8, s438 (2003).         [43] R. Curtu and B. Ermentrout, SIAM Journal on Applied
+[13] T.-A. E. Nghiem, N. Tort-Colet, T. Górski, U. Ferrari,            Dynamical Systems 3, 191 (2004).
+     S. Moghimyfiroozabad, J. S. Goldman, B. Teleńczuk,           [44] M. Augustin, J. Ladenbauer, and K. Obermayer, Fron-
+     C. Capone, T. Bal, M. di Volo, and A. Destexhe, Cerebral          tiers in Computational Neuroscience 7 (2013).
+     Cortex 30, 3451 (2020).                                      [45] C. Cakan and K. Obermayer, PLOS Computational Bi-
+[14] D. Jercog, A. Roxin, P. Barthó, A. Luczak, A. Compte,             ology 16, e1007822 (2020).
+     and J. de la Rocha, eLife 6, e22425 (2017).                  [46] C. Cakan, C. Dimulescu, L. Khakimova, D. Obst,
+[15] C. L. Combe and S. Gasparini, Progress in Biophysics              A. Flöel, and K. Obermayer, Frontiers in Computational
+     and Molecular Biology 166, 119 (2021).                            Neuroscience 15, 10.3389/fncom.2021.800101 (2022).
+[16] Y. Shu, A. Hasenstaub, and D. A. McCormick, bioRxiv          [47] J. Ladenbauer, M. Augustin, and K. Obermayer, Journal
+     10.1101/2023.07.12.548753 (2023).                                 of Neurophysiology 111, 939 (2014).
+[17] A. Destexhe and A. Babloyantz, NeuroReport 4 (1993).         [48] M. Mattia and M. V. Sanchez-Vives, Cognitive Neurody-
+[18] A. Destexhe, D. A. McCormick, and T. J. Sejnowski,                namics 6, 239 (2012).
+     Biophysical Journal 65, 2473 (1993).                         [49] F. C. Roth and H. Hu, Nature Communications 11, 2248
+[19] S. Hill and G. Tononi, Journal of Neurophysiology 93,             (2020).
+     1671 (2005).                                                 [50] S. Rich, T. A. Valiante, and J. Lefebvre, PLOS Compu-
+[20] S. Y. Abbas, S. W. Ying, and P. A. Goldstein, Neuro-              tational Biology 21, e1013199 (2025).
+     science 141, 1811 (2006).                                    [51] M. D’Andola, B. Rebollo, A. G. Casali, J. F. Weinert,
+[21] D. Mehrotra, D. Levenstein, A. J. Duszkiewicz, S. S. Car-         A. Pigorini, R. Villa, M. Massimini, and M. V. Sanchez-
+     rasco, S. A. Booker, A. Kwiatkowska, and A. Peyrache,             Vives, Cerebral Cortex 28, 2233 (2017).
+     Current Biology 34, 3043 (2024).                             [52] M. Dasilva, A. Camassa, A. Navarro-Guzman, A. Pazi-
+[22] L. Dalla Porta, A. Barbero-Castillo, J. Sanchez-Sanchez,          enti, L. Perez-Mendez, G. Zamora-López, M. Mattia, and
+     N. Cancino, and M. V. Sanchez-Vives, The Journal of               M. V. Sanchez-Vives, NeuroImage 224, 117415 (2021).
+     Physiology 603, 2409 (2025).                                 [53] M. V. Sanchez-Vives and D. A. McCormick, Nature Neu-
+[23] P. C. Bressloff, Journal of Physics A: Mathematical and           roscience 3, 1027 (2000).
+     Theoretical 45, 033001 (2011).                               [54] Z. P. Kilpatrick, Wilson-cowan model, in Encyclopedia
+[24] B. Ermentrout, Journal of Computational Neuroscience              of Computational Neuroscience, edited by D. Jaeger and
+     5, 191 (1998).                                                    R. Jung (Springer New York, New York, NY, 2013) pp.
+[25] G. Ermentrout and D. Terman, Mathematical Founda-                 1–5.
+     tions of Neuroscience, Interdisciplinary Applied Mathe-      [55] L. Papadopoulos, C. W. Lynn, D. Battaglia, and D. S.
+     matics (Springer New York, 2010).                                 Bassett, PLOS Computational Biology 16, 1 (2020).
+[26] S. Budzinskiy, A. Beuter, and V. Volpert, Chaos: An          [56] M. V. Sanchez-Vives, Current Opinion in Physiology 15,
+     Interdisciplinary Journal of Nonlinear Science 30, 083144         217 (2020).
+     (2020).                                                      [57] T. Friedlander and N. Brenner, Proc Natl Acad Sci U S
+[27] R. Erazo-Toscano and R. Osan, Physical Review E 107,              A 106, 22558 (2009).
+     034403 (2023).                                               [58] I. Timofeev, M. Bazhenov, T. Sejnowski, and M. Steri-
+[28] O. E. Omel’chenko and C. R. Laing, Physical Review E              ade, Proceedings of the National Academy of Sciences of
+     110, 034411 (2024).                                               the United States of America 99, 9533 (2002).
+[29] S. Coombes, Waves, bumps, and patterns in neural field       [59] H.-y. Chu and X. Zhen, Acta Pharmacologica Sinica 31,
+     theories (2005).                                                  1036 (2010).
+[30] M. R. Qubbaj and V. K. Jirsa, Physica D: Nonlinear           [60] C. Ganguly, S. S. Bezugam, E. Abs, M. Payvand, S. Dey,
+     Phenomena 238, 2331 (2009).                                       and M. Suri, Communications Engineering 3, 22 (2024).
+[31] J. D. Harris and B. Ermentrout, Physica D: Nonlinear         [61] D. A. McCormick and H. C. Pape, J Physiol 431, 291
+     Phenomena 369, 30 (2018).                                         (1990).
+[32] J. Wyller, P. Blomquist, and G. T. Einevoll, Physica D:      [62] Á. Byrne, D. Avitabile, and S. Coombes, Physical Review
+     Nonlinear Phenomena 225, 75 (2007).                               E 99, 012313 (2019).
+[33] H. R. Wilson and J. D. Cowan, Biophysical Journal 12,        [63] M. C. Cross and P. C. Hohenberg, Reviews of Modern
+     1 (1972).                                                         Physics 65, 851 (1993).
+[34] C. Dimulescu, R. Strömsdörfer, A. Flöel, and K. Ober-        [64] L. M. Giocomo and M. E. Hasselmo, The Journal of Neu-
+     mayer, Frontiers in Network Physiology 5 (2025).                  roscience 28, 9414 (2008).
+[35] D. Levenstein, G. Buzsáki, and J. Rinzel, Nature Com-        [65] A. Bhattacharjee and L. K. Kaczmarek, Trends in Neu-
+     munications 10, 2478 (2019).                                      rosciences 28, 422 (2005).
+[36] M. Torao-Angosto, A. Manasanch, M. Mattia, and M. V.         [66] D. A. Brown and P. R. Adams, Nature 283, 673 (1980).
+     Sanchez-Vives, Frontiers in Systems Neuroscience 15,         [67] P. C. Schwindt, W. J. Spain, and W. E. Crill, Journal of
+     10.3389/fnsys.2021.609645 (2021).                                 Neurophysiology 61, 233 (1989).
+[37] P. C. Bressloff, Physical Review E 82, 051903 (2010).        [68] D. A. Brown and W. H. Griffith, The Journal of Physi-
+[38] H. R. Wilson and J. D. Cowan, Kybernetik 13, 55 (1973).           ology 337, 287 (1983).
+[39] D. J. Pinto and G. B. Ermentrout, SIAM Journal on            [69] C. M. Upchurch, C. L. Combe, C. J. Knowlton, V. G.
+     Applied Mathematics 62, 206 (2001).                               Rousseau, S. Gasparini, and C. C. Canavier, Journal of
+[40] S. Amari, Biological Cybernetics 27, 77 (1977).                   Neuroscience 42, 3768 (2022), epub 2022 Mar 24.
+[41] S. E. Folias and P. C. Bressloff, SIAM Journal on Applied    [70] C.-H. Lee and R. MacKinnon, Cell 168, 111 (2017), epub
+     Dynamical Systems 3, 378 (2004).                                  2017 Jan 12.
+[42] Z. P. Kilpatrick and P. C. Bressloff, Physica D: Nonlinear   [71] A. Mironenko, U. Zachariae, B. L. de Groot, and
+     Phenomena 239, 547 (2010).
+                                                                                                                                               17
+
+     W. Kopec, Journal of Molecular Biology 433, 167002
+     (2021).
+[72] H.-C. Pape, Annual Review of Physiology 58, 299 (1996).
+[73] M. Biel, C. Wahl-Schott, S. Michalakis, and X. Zong,
+     Physiological Reviews 89, 847 (2009).
+[74] R. C. Budzinski, T. T. Nguyen, G. B. Benigno, J. Ðoàn,
+     J. Mináč, T. J. Sejnowski, and L. E. Muller, Physical
+     Review Research 5, 013159 (2023).
+[75] J. A. Roberts, L. L. Gollo, R. G. Abeysuriya, G. Roberts,
+     P. B. Mitchell, M. W. Woolrich, and M. Breakspear, Na-
+     ture Communications 10, 1056 (2019).
+[76] M. Martin and M. G. Pedersen, PLOS Computational
+     Biology 20, e1011559 (2024).
+[77] R. Strömsdörfer and K. Obermayer,                 (2025),
+     arXiv:2510.08436 [nlin.AO].
+[78] H. G. E. Meijer and S. Coombes, Journal of Mathemati-
+     cal Biology 68, 1249 (2014).
+[79] D. Rubino, K. A. Robbins, and N. G. Hatsopoulos, Na-
+     ture Neuroscience 9, 1549 (2006).
+
+
+                              Appendix A
+
+                                                                                    FIG. 7. State spaces over input pairs (Ie , Ie ) ∈ [−2.5, 2] ×
+ 1.     Analysis of the Wilson-Cowan model for zero
+                                                                                    [−3.5, 1] for b ∈ {0, −0.2}. Colors denote the different types
+                  and small values of b
+                                                                                    of bifurcations and the corresponding fixed point in which
+                                                                                    they occur (see color bar).
+   In analogy to the full system discussed in Section
+II B, the linearized and Fourier-transformed ODE system
+without adaptation is given by
+                                                                                    is violated, the fixed point (ũe , ũi ) undergoes a Tur-
+  τe ∂t Φ̂ = −Φ̂ + wee Fe′ (Be )ŵe Φ̂ − wei Fe′ (Be )ŵi φ̂                        ing bifurcation. One can further distinguish static
+                                                                     (A1)           (i.e., α(k0 ) = ω(k0 ) = 0) and dynamic (i.e., α(k0 ) =
+  τi ∂t φ̂ = −φ̂ + wie Fi′ (Bi )ŵe Φ̂ − wii Fi′ (Bi )ŵi φ̂.                       0, ω(k0 ) ̸= 0) Turing instabilities (see [78]).
+        " #
+      ⃗  Φ̂
+For X =     , Eqs. (A1) can be written in vector nota-
+         φ̂
+tion,
+                                                                                    2.   Static and dynamic Turing bifurcations for small
+                               ⃗ = A(k)X,
+                             ∂tX       ⃗                             (A2)                                values of b
+
+where                                                                                  Figure 7 shows the state spaces for b = 0 and b = −0.2
+                                                                                    including the distinction of static vs. dynamic Turing bi-
+           "                                                                    #
+                1
+               τe
+                  (−1 + wee Fe′ (Be )ŵe (k))      − wτei Fe′ (Be )ŵi (k)
+A2 (k) =            wie ′
+                                                       e
+                                                                                    furcations. Without adaptation, the system shows static
+                     τi
+                       Fi (Bi )ŵe (k)          1
+                                                τi
+                                                  (−1 − wii Fi′ (Bi )ŵi (k))       Turing bifurcations. For a small value of b = −0.2, nearly
+   Bl = wle ũe − wli ũi + Il , l ∈ {e, i},                                        all formerly static Turing bifurcations are either dynamic,
+                                                                                    or both dynamic and static Turing bifurcations occur at
+and (ũe , ũi ) denote the fixed point. Equations (A2)                             different non-zero wavenumbers as, for example, in Fig.
+have solutions of the form [Φ̂, φ̂]T = ⃗r(k)eiλ(k)t , where                         4, upper row, for b ̸= 0, indicated by small arrows in
+λ(k) = α(k) + iω(k) denotes an eigenvalue of A2 (k) for                             panels below plots.
+a given wavenumber k, i the imaginary unit, and ⃗r(k)
+the corresponding eigenvector. If the model system has
+a single fixed point which is unstable at k = 0, i.e., if
+there is at least one eigenvalue with α(0) ≥ 0, we call
+both the model system and the state of variables Hopf-                              3.   Activity traces for traveling and standing waves
+unstable. Furthermore, if there is a wavenumber k0 > 0                                              with finite adaptation
+for which at least one of the stability conditions
+                                                                                      Figure 8 show the excitatory activity for very weak
+                            det(A2 (k0 )) > 0
+                                                                                    adaptation. While for b = −0.03 the waves travel over
+                             tr(A2 (k0 )) < 0                                       space, they become stationary for b = −0.02
+                                                                                                                                18
+
+                                                                    methods do not always detect the fixed points correctly,
+                                                                    leading to a few misclassifications of the state‘s stability
+                                                                    properties at these locations. To identify, how sensitive
+                                                                    the linearization matrix, Eq. (6), and its eigenvalues
+                                                                    are to deviations from the fixed point values for each
+                                                                    location in state space, we added a small perturbation
+                                                                    ξ = 10−8 to the fixed point values and computed the
+                                                                    absolute difference of the resulting eigenvalues to the
+FIG. 8. Activity traces ue (x, t) corresponding to the Turing-      eigenvalues without ξ. We did so to ensure that the
+unstable down-state shown in Fig. 4, bottom row, for x ∈            results of our stability analysis could be considered
+[−50, 50].
+                                                                    reliable. We found near-zero values for the most part of
+                                                                    every state space with an increase in sensitivity values
+                                                                    closer to bifurcation lines. Nonetheless, sensitivity values
+  Appendix B: Numerical Simulations and Feature
+                 Acquisition
+                                                                    were always below 10−5 .
+
+         1.   Initialization and implementation                             2.   Spatial and Temporal Frequencies
+
+   All         models         are      implemented         in          We define one time unit as unitt = 10, 000 time-
+python.                The      code    is   provided     at        iteration
+https://github.com/ronja-roevardotter/                               oscillation steps
+                                                                                   periods
+                                                                                          and
+                                                                                               quantify temporal frequency
+                                                                                                                       osc    by
+                                                                             unitt           . For brevity, we write unit    . This
+equivalent-adaptation-wilson-cowan-field.git 8 .                    choice is based on the model’s ability to generate slow
+                                                                                                                           t
+
+The temporal integration is implemented using Runge-                                              osc
+                                                                    oscillations (i.e., ≤ 2 unitt ) for finite adaptation (i.e.,
+Kutta of the fourth order with an integration time step
+                                                                    b ̸= 0) as well as faster oscillations (e.g., α-like oscil-
+dt = 0.1. For the spatial convolution, we used the                                               osc
+                                                                    lations with 8 − 13 unit           ) that are generated by the
+Fourier transform of numpy. For every parameterization,                                              t
+
+we conducted numerical simulations with two different               excitatory-inhibitory loop (see, e.g., ft in Fig. 10A). To
+initializations in fixed points that were either Hopf- or           determine the dominant temporal frequency, we com-
+Turing-unstable. For random initialization, we sampled              puted the power spectra Psx (f ) of the time series of the
+ue (x, 0), ui (x, 0), m(x, 0) for every position x on the           excitatory activity for each position x. Then we averaged
+ring from a uniform distribution U(0, 0.001). When                  over all positions,
+initializing close to the fixed point value (ũe , ũi , m̃),                                           N
+                                                                                                     1 X
+additive noise was sampled from a normal distribution                                   P̄s (f ) =         Psx (f ),
+with standard deviation 0.1. For the latter, we con-                                                 N x=1
+ducted three simulations with three different seeds, to
+ensure that all results presented in this study were not            and determined the frequency of maximum power of
+an artefact of the particular seed used. All features               the averaged power spectrum, i.e., fs = argmaxf P̄s (f ).
+(temporal and spatial frequencies, regularity, and speed            To characterize spatial oscillations, we computed the
+of spatio-temporal patterns) that were investigated were            power spectrum over space Pxt (f ) for each time step
+computed for the excitatory activity traces ue . We                 t ∈ [0, T · unitt ], where T = 20 denotes the amount
+conducted numerical simulations with a duration of                  of times units used after discarding the transients (see
+30 time units and discarded the first 10 time units to              Section B 1). Then, we averaged over all time steps,
+reduce the effects of transients. To find fixed points                                                 T ·unit
+                                                                                                         Xt
+and eigenvalues, the scipy.optimize package was used,                                             1
+                                                                                 P̄x (f ) =                    Pxt (f ),
+making the analytical stability analysis semi-analytical.                                     T · unitt t=1
+Numerical artifacts occur and were individually cor-
+rected whenever possible. However, some regions in                  and determined the spatial frequency of maximum
+state space remain „speckled“, which can be seen, for               power over the averaged power spectrum, i.e., fx =
+example, in the top right corners of the panels in Fig.             argmaxf P̄x (f ). For both temporal and spatial frequen-
+2A. In this numerically sensitive area in state space,              cies, activity patterns exist for which the power spectrum
+the nullclines change from three intersections with a               shows multiple peaks. In those cases we report the tem-
+stable up- and down-state to three fixed points with one            poral and spatial frequencies corresponding to the most
+stable up-state and, finally, to one stable up-state when           prominent peak.
+Ie and Ii are increased. The numerical approximation
+                                                                                   3.     Regularity of patterns
+
+8 Within this framework, notebooks generating Figs.   1 and 4 are     We characterized the spatio-temporal pattern using
+  provided, allowing users to zoom in for a more detailed view.     the Kuramoto-order parameter. We computed the ana-
+                                                                                                                                         19
+
+                                                                 [79]. We first determine the analytical representation of
+                                                                 the activity ue (x, t) as in Eq. (B1), where θ(x, t) is the
+                                                                 instantaneous phase at position x and time step t as in
+                                                                 Eq. (B2). The local speed s(x, t) is computed from the
+                                                                                                    ∂θ
+                                                                 temporal and spatial derivatives ∂x   (x, t) of the instanta-
+                                                                 neous phase,
+                                                                                                           ∂θ(x,t)
+                                                                                                             ∂t
+                                                                                           s(x, t) =       ∂θ(x,t)
+                                                                                                                         .
+                                                                                                             ∂x
+
+                                                                 Since spatio-temporal patterns may be composed of trav-
+                                                                 eling waves of different speeds (e.g., see Fig. 6B, panel 5),
+                                                                 we apply a similar approach as for the dominant spatial
+                                                                 frequency. We compute a histogram over all local speed
+                                                                 values appearing per activity pattern and take the speed
+                                                                 value appearing the most often. In Fig. 9, we illustrate
+                                                                 this procedure for four different activity patterns.
+
+FIG. 9. Computation of dominant speed values. A Locations
+in state space for the activity patterns (a)-(d) shown in B.            5.     Input pair tables for Figures 2 and 6
+B Left panels: Activity traces for x ∈ [0, 200]. Green colors
+denote activity values (darker green for higher, lighter green
+for low activity, see color bar). Right panels: Corresponding
+histograms of local speed values. The dominant speed corre-                  TABLE III. Input pairs (Ie , Ii ) for Fig. 2.
+sponds to the speed value occurring most often.
+                                                                        Location       1        2          3         4       5   6
+                                                                        Ie             −0 −0.05 −0.5 −0.55 0.4 −0.55
+lytical signal representation of the activity ue (x, t) using           Ii            −0.35 −1.6 −1.25 −0.425 0.2 −2
+the Hilbert-Transform
+             z(x, t) = ue (x, t) + iH[ue (x, t)],       (B1)
+where H[·] denotes the Hilbert-transformation and i the                      TABLE IV. Input pairs (Ie , Ii ) for Fig. 6.
+imaginary unit. Using the instantaneous phase                     Location        1         2          3             4       5       6
+                                                                  Ie            −0.6 −0.85 −0.025 −0.275 −1.1 −1.35
+                                          
+                               Im(z(x, t)
+            θ(x, t) = arctan                      (B2)            Ii           −0.875 −0.875 −0.2 −0.2 −2.325 −2.325
+                               Re(z(x, t))
+we calculate the Kuramoto-order parameter R(t) for each
+time step t
+                                                                 6.    Visualization of feature-spaces with initialization
+                            1 X iθ(x,t)                                                 close to zero
+                   R(t) =       e
+                            n x
+                                                                    We conducted same analysis as for Figures 5A and 5C
+and define the regularity r of a spatio-temporal pattern
+                                                                 but with the activity variables initialized close to zero.
+by its standard deviation
+           v                                                     Figure 10A shows the wavenumber k0 and the spatial, fx
+           u     T                         T                     (center row) and temporal, ft (bottom row) frequencies
+           u1 X                          1X
+       r=t         (R(t) − R̄) ,   R̄ =       R(t)               for the spatial, temporal, and spatio-temporal patterns
+             T t=1                      T t=1                    emerging in Turing- and Hopf-unstable states for increas-
+                                                                 ing adaptation strength. We see that further away from
+over a time interval [0, T ]. We considered patterns to be       the bifurcation lines, inside the regime of Hopf instability,
+regular if r ≤ 10−2 . This threshold corresponds to the          purely temporal oscillations emerge with higher tempo-
+mean over the ten most irregular patterns found when             ral frequencies compared to the activity patterns which
+compiling Fig. 5A.                                               emerge after initializing close to the Hopf-unstable fixed
+                                                                 point. Closer to the bifurcation lines, purely spatial pat-
+                                                                 terns emerge for b = 0, that become spatio-temporal for
+             4.   Phase velocity and speed                       b ̸= 0. Figure 10B shows the distribution of spatial fre-
+                                                                 quencies of spatio-temporal patterns for b = −0.5 com-
+  To compute the speed in unit                       1
+                                   
+                              unitt , where unitx = dx ,         pared to k0 and kmax . While the Wasserstein-distance is
+                                  x
+
+of a spatio-temporal pattern, we used the approach of            similar in value (≈ 12.5) comparing the distributions of
+                                                                                                                                     20
+
+                                                                      fx and L·k2π
+                                                                                 max
+                                                                                     in all three regions of state space, the most
+                                                                      often appearing frequency again agrees best with L·k     2π
+                                                                                                                                 0
+
+                                                                                                        L·kmax
+                                                                      in Turing-unstable states and 2π           in Hopf-unstable
+                                                                      states. This is similar to what is observed for numerical
+                                                                      simulations initialized close to the corresponding unsta-
+                                                                      ble fixed point.
+
+
+
+
+                                                                          7. Spatial frequencies of the spatio-temporal
+                                                                          patterns emerging for different initializations
+
+
+
+
+FIG. 10. Properties of the spatio-temporal patterns emerging
+in Hopf- and Turing-unstable states for increasing h-current
+strength. A Wavenumber k0 (top row), dominant spatial fre-
+quency fx (middle row), and dominant temporal frequency
+ft (bottom row) for each location in state space. The fig-
+ure shows slices of state space spanned by the external input
+(Ie , Ie ) ∈ [−2.5, 2] × [−3.5, 1] for b ∈ {0, −0.5, −1.0}. Purple
+colors denote the corresponding feature values. Darker colors
+indicate higher values, see color bar. Yellow denotes states of
+no spatio-temporal activity, light green denotes states with ir-
+regular patterns with a standard deviation r of the Kuramoto-
+order parameter of r > 10−2 . Thin lines denote the bound-            FIG. 11. A Activity traces 4, 6, and 3 (top to bottom row) of
+aries of the dynamical regimes shown in Fig. 2A. B His-               Fig. 2 initialized close to the fixed points of Turing instability
+tograms and kernel density estimates (KDE; thin lines) of             in a down-state (first row), in an up-state (second row), and
+the numerically calculated spatial frequency (fx ; top row), the      of Hopf instability but with different seeds. B Consistency
+spatial frequency corresponding to k0 ( L·k  2π
+                                               0
+                                                 ; middle row), and   of the spatial dynamics for 30 different seeds for each activ-
+the spatial frequency corresponding to kmax ( L·k2π   max
+                                                           ; bottom   ity in A. Visualized are interquartile ranges (boxes), medians
+row) in the regimes of Hopf instability (left column), Tur-           (horizontal lines inside boxes), spread (error bars), and out-
+ing instability in down-states (middle column), and Turing            liers outside of spread (circles) for the Turing-unstable down-
+instability in up-states (right column) for b = −0.5 Dashed           (green) and up-state (purple), and the Hopf-unstable state
+vertical lines with numbers denote the location of the peak of        (red).
+the KDE. Numerical simulations were conducted with initial-
+izations close to zero.
+

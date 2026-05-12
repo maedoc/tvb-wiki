@@ -14,7 +14,7 @@ tags:
 - software-spm
 title: SUIT
 type: software
-updated: '2026-05-11'
+updated: '2026-05-12'
 ---
 
 # SUIT (Spatial Unbiased Infratentorial Template)

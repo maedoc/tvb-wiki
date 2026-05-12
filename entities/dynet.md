@@ -15,7 +15,7 @@ updated: '2026-05-12'
 
 ## Overview
 
-Dynet (Dynamic Computation Graphs for Neural Network Models) is a neural network library originally developed by researchers at Carnegie Mellon University, with significant contributions from the labs of Chris Dyer and others. Written in C++ for computational efficiency, Dynet provides Python bindings and is designed specifically for models that require dynamic computation graphs—neural network architectures where the network structure can vary depending on the input at runtime. Unlike static graph frameworks where the computational structure is fixed once defined, Dynet allows researchers to builder network architectures where the connections and operations can change dynamically based on each input sample, making it particularly suited for tree-structured networks, recursive neural networks, and variable-length sequence processing tasks commonly encountered in natural language processing and, increasingly, in certain computational neuroscience applications.
+Dynet (Dynamic Computation Graphs for [[neural-network]] Models) is a neural network library originally developed by researchers at Carnegie Mellon University, with significant contributions from the labs of Chris Dyer and others. Written in C++ for computational efficiency, Dynet provides Python bindings and is designed specifically for models that require dynamic computation graphs—neural network architectures where the network structure can vary depending on the input at runtime. Unlike static graph frameworks where the computational structure is fixed once defined, Dynet allows researchers to builder network architectures where the connections and operations can change dynamically based on each input sample, making it particularly suited for tree-structured networks, recursive neural networks, and variable-length sequence processing tasks commonly encountered in natural language processing and, increasingly, in certain [[computational-neuroscience]] applications.
 
 ## Key Features
 
@@ -41,4 +41,4 @@ Dynet occupies a niche in the neural network software landscape, sitting alongsi
 
 ## References
 
-1. Graham Neubig, Chris Dyer, Yoav Goldberg, Andreas Zeldovich, Jaime García González, Dzmitry Bahdanau. *DyNet: The Dynamic Computation Graph Library*. [DOI](https://doi.org/10.48550/arXiv.1702.07014)
+1. Graham Neubig, Chris Dyer, Yoav Goldberg, Andreas Zeldovich, Jaime García González, Dzmitry Bahdanau. *DyNet: The Dynamic Computation Graph Library*. [DOI](](https://doi.org/10.48550/arXiv.1702.07014))

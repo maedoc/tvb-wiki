@@ -8,7 +8,7 @@ tags:
 - aging-brain
 title: Aging Brain
 type: concept
-updated: '2026-05-11'
+updated: '2026-05-12'
 ---
 
 The aging brain refers to the structural and functional changes that occur in the [[brain-map]] as part of the normal aging process, encompassing alterations in [[neural-mass-models]] connectivity, cognitive capacity, and the ability to maintain cognitive function despite neurobiological decline. These changes manifest across multiple scales, from synaptic modifications to large-scale [[network-dynamics]] reorganization, and represent a critical area of inquiry for understanding both healthy aging and the progression of age-related neurodegenerative diseases such as [[alzheimers-disease]].

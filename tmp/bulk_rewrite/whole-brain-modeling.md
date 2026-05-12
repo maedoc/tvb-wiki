@@ -1,7 +1,7 @@
 ---
 title: Whole-Brain Modeling
 created: 2024-01-15
-updated: 2026-04-27
+updated: 2026-05-12
 type: concept
 tags: [whole-brain-modeling, neural-mass-models, connectomics, structural-connectivity, functional-connectivity, network-dynamics, brain-network, personalized-brain-modeling, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, neuroimaging-dti, software-tvb, epilepsy-modeling, bifurcation-analysis]
 sources: []
@@ -37,7 +37,7 @@ Whole-brain models exhibit rich dynamical repertoire including [[bifurcation-ana
 
 ## Software and Implementation
 
-The [[tvb]] platform has become the most widely adopted software for whole-brain modeling, providing Python-based tools for constructing brain networks, simulating diverse neural mass models, and generating synthetic neuroimaging data across modalities. Alternative frameworks include [[nest]] (NEural Simulation Tool) for spiking network implementations, [[brian]] and [[brian2]] for flexible neuronal modeling, and custom implementations in MATLAB or C++. Model parameter estimation typically involves fitting model-generated functional connectivity correlations to empirical [[resting-state]] or task-based [[fMRI]] or EEG recordings using optimization routines or [[variational-bayes]] inference.
+The [[tvb]] platform has become the most widely adopted software for whole-brain modeling, providing Python-based tools for constructing brain networks, simulating diverse neural mass models, and generating synthetic neuroimaging data across modalities. Toolkits such as [[neurodsp]] provide additional signal processing capabilities for EEG/MEG data used in model validation. Alternative frameworks include [[nest]] (NEural Simulation Tool) for spiking network implementations, [[brian]] and [[brian2]] for flexible neuronal modeling, and custom implementations in MATLAB or C++. Model parameter estimation typically involves fitting model-generated functional connectivity correlations to empirical [[resting-state]] or task-based [[fMRI]] or EEG recordings using optimization routines or [[variational-bayes]] inference.
 
 ## Applications and Open Questions
 

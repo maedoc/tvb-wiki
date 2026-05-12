@@ -49,7 +49,7 @@ Several canonical network organization patterns have been identified in brain ne
 
 ## Major Mapping Initiatives
 
-The Human Connectome Project (HCP), launched in 2010, represents the most ambitious effort to map human brain connectivity. The WU‑Minn consortium has acquired multimodal imaging data from over 1200 healthy young adults, including high‑resolution structural MRI,_task‑free [[fmri|fMRI]], diffusion imaging, and MEG recordings. The project has pioneered open data sharing, making processed datasets freely available to the neuroscience community and enabling thousands of subsequent studies.
+The [[human-connectome-project]] (HCP), launched in 2010, represents the most ambitious effort to map human brain connectivity. The WU‑Minn consortium has acquired multimodal imaging data from over 1200 healthy young adults, including high‑resolution structural MRI,_task‑free [[fmri|fMRI]], diffusion imaging, and MEG recordings. The project has pioneered open data sharing, making processed datasets freely available to the neuroscience community and enabling thousands of subsequent studies.
 
 Other species have served as important targets for complete connectome reconstruction. The C. elegans nervous system was the first to achieve a complete connectome through electron microscopy of serial sections, providing a blueprint for understanding nervous system organization at cellular resolution. Ongoing efforts target the Drosophila melanogaster (fruit fly) and mouse brains, leveraging advances in electron microscopy, AI‑assisted reconstruction, and large‑scale histology.
 
@@ -93,9 +93,9 @@ sources:
 - raw/papers/semanticscholar-ac35f7fc051b.md
 tags:
 - software-brain-modeling
-- structural-connectivity
+- [[structural-connectivity]]
 - connectomics
-- neuroimaging-fmri
+- [[neuroimaging-fmri]]
 title: VoxelMorph
 type: entity
 updated: '2026-05-06'

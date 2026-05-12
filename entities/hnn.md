@@ -11,7 +11,7 @@ tags:
 - software-brain-modeling
 title: HNN
 type: entity
-updated: '2026-05-11'
+updated: '2026-05-12'
 ---
 
 **HNN** (Human Neocortical Neurosolver) is an open-source computational modeling package designed to simulate and analyze neocortical circuits in the human brain. Developed primarily at the University of Minnesota and Brown University, HNN provides a biophysically realistic framework for understanding the cellular and network mechanisms underlying electroencephalography (EEG) and magnetoencephalography (MEG) signals measured in vivo.

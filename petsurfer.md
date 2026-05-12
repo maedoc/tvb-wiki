@@ -1,7 +1,7 @@
 ---
 title: PETSurfer
 created: 2024-01-01
-updated: 2026-05-11
+updated: 2026-05-12
 type: entity
 tags: [software-neuroimaging, neuroimaging-pet, software-freesurfer, software-visualization, alzheimers-modeling]
 sources: [raw/papers/semanticscholar-d6e43299345d.md, raw/papers/semanticscholar-182202db91fa.md, raw/papers/semanticscholar-a53153dc9655.md]

@@ -53,6 +53,6 @@ PyG-Temporal builds directly on [[pytorch-geometric|PyTorch Geometric]], the fou
 
 ## References
 
-1. Yiran Huang, Amirhossein Nouranizadeh, C. Ahrends, Mengjia Xu. (2025). *BrainATCL: Adaptive Temporal Brain Connectivity Learning for Functional Link Prediction and Age Estimation*. arXiv.org. [DOI](https://doi.org/10.48550/arXiv.2508.07106)
-2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-3. Peter Yongho Kim, Juhyeon Park, Jungwoo Park, Jubin Choi, Jungwoo Seo, Jiook Cha, Taesup Moon. (2026). *Can Natural Image Autoencoders Compactly Tokenize fMRI Volumes for Long-Range Dynamics Modeling?*. [Link](https://arxiv.org/abs/2604.03619)
+1. Yiran Huang, Amirhossein Nouranizadeh, C. Ahrends, Mengjia Xu. (2025). *BrainATCL: Adaptive Temporal Brain Connectivity Learning for Functional Link Prediction and Age Estimation*. arXiv.org. [DOI](](https://doi.org/10.48550/arXiv.2508.07106))
+2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
+3. Peter Yongho Kim, Juhyeon Park, Jungwoo Park, Jubin Choi, Jungwoo Seo, Jiook Cha, Taesup Moon. (2026). *Can Natural Image Autoencoders Compactly Tokenize fMRI Volumes for Long-Range Dynamics Modeling?*. [Link](](https://arxiv.org/abs/2604.03619))

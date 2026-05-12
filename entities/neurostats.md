@@ -24,13 +24,13 @@ Traditional approaches to neuroimaging analysis often relied on mass-univariate 
 
 ## Key Features
 
-NeuroStats provides a comprehensive set of statistical tools organized into several major categories. **Connectivity analysis** tools include methods for computing and testing pairwise connectivity matrices, with support for both Pearson correlation and more sophisticated measures such as partial correlation and mutual information. The toolbox implements both parametric and non-parametric statistical tests for comparing connectivity patterns between groups, including permutation-based approaches that are robust to the non-normal distribution characteristics often observed in [[resting-state fMRI]] data.
+NeuroStats provides a comprehensive set of statistical tools organized into several major categories. **[[connectivity]] analysis** tools include methods for computing and testing pairwise connectivity matrices, with support for both Pearson correlation and more sophisticated measures such as partial correlation and mutual information. The toolbox implements both parametric and non-parametric statistical tests for comparing connectivity patterns between groups, including permutation-based approaches that are robust to the non-normal distribution characteristics often observed in [[resting-state fMRI]] data.
 
 For **network-level analysis**, NeuroStats implements graph-theoretic measures including [[modularity]], [[centrality]], [[clustering coefficient]], and path length metrics. These measures characterize the topological properties of brain networks at the whole-brain level, allowing researchers to assess features such as [[small-world-networks]] organization and [[rich-club]] connectivity. The software includes tools for comparing network topologies between populations and for assessing the significance of network features through permutation testing.
 
 The toolbox also provides **surface-based statistical tools** that enable analysis of neuroimaging data in [[freesurfer]] or [[cifti]] format. These tools are particularly useful for working with data from the [[human-connectome-project]], which uses [[cifti]] format to represent cortical thickness and other surface-based metrics. NeuroStats supports vertex-level statistical analysis with appropriate multiple comparison correction, including false discovery rate control and family-wise error correction.
 
-Additionally, NeuroStats includes **longitudinal analysis** tools for modeling changes in brain structure and function over time. These tools support mixed-effects models that can account for within-subject correlations, making them suitable for analyzing developmental trajectories, [[aging]] effects, or disease progression in longitudinal neuroimaging studies.
+Additionally, NeuroStats includes **longitudinal analysis** tools for modeling changes in brain structure and function over time. These tools support mixed-effects models that can account for within-subject correlations, making them suitable for analyzing [[developmental-trajectories]], [[aging]] effects, or disease progression in longitudinal neuroimaging studies.
 
 ## Relationship to TVB
 

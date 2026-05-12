@@ -1,0 +1,2727 @@
+                                                       Latent-Space Causal Discovery from Indirect
+                                                               Neuroimaging Observations
+
+
+                                                                   Sangyoon Bae                                     Miruna Oprescu
+                                                 Interdisciplinary Program in Artificial Intelligence               Computer Science
+                                                              Seoul National University                      Cornell Tech, Cornell University
+arXiv:2602.09034v2 [q-bio.NC] 8 May 2026
+
+
+
+
+                                                              Seoul, South Korea, 08826                          New York, NY 10044
+                                                             stellasybae@snu.ac.kr                               amo78@cornell.edu
+
+                                                            David Keetae Park                                    Shinjae Yoo
+                                                      Computational Science Initiative                  Computational Science Initiative
+                                                     Brookhaven National Laboratory                    Brookhaven National Laboratory
+                                                  Shirley, New York, United States, 11967           Shirley, New York, United States, 11967
+                                                             dpark1@bnl.gov                                    sjyoo@bnl.gov
+
+                                                                                           Jiook Cha
+                                                                                   Department of Psychology
+                                                                                   Seoul National University
+                                                                                   Seoul, South Korea, 08826
+                                                                                   connectome@snu.ac.kr
+
+
+
+                                                                                           Abstract
+
+                                                       Neuroimaging does not observe causal variables directly: hemodynamics and
+                                                       volume conduction distort signals so that statistical dependence need not reflect
+                                                       latent neural influence. Before estimating graphs, one must specify under what
+                                                       assumptions delayed directed structure can be studied from such indirect observa-
+                                                       tions. We formalize a conditional setting—recoverable inversion under modality
+                                                       physics together with nonstationary latent dynamics—and derive an inversion-
+                                                       error propagation bound under explicit assumptions. Building on this framing, we
+                                                       propose INCAMA (INdirect CAusal MAmba): physics-aware inversion coupled
+                                                       with a delay-aware Mamba encoder that uses mechanism shifts as informative
+                                                       variation for directed graph scoring. We use controlled simulations for quantitative
+                                                       validation and HCP motor-task fMRI as a zero-shot external transfer check based
+                                                       on anatomical and task-network consistency. Across TVB simulations, INCAMA
+                                                       improves directed-structure recovery by 2–3× in F1 over observation-space and
+                                                       two-stage baselines, and on HCP motor-task fMRI it produces sparse directed
+                                                       estimates concentrated in canonical visuo-motor pathways.
+
+
+
+                                           1    Introduction
+
+                                           EEG and fMRI provide large-scale access to human brain activity, but they observe neural dynamics
+                                           only indirectly through modality-specific forward operators such as hemodynamic filtering and sensor
+                                           mixing Friston et al. [2003], Schoffelen and Gross [2009], Peters et al. [2017]. This makes causal
+                                           discovery from neuroimaging different from unconditional recovery of a latent directed graph: under
+                                           indirect observation, statistical dependencies need not align with neural causal influence. We therefore
+                                           ask what can be supported under explicit assumptions about inversion quality and latent dynamics.
+
+                                           Preprint.
+Assumptions we state upfront. Our analysis and pipeline rely on hypotheses we treat as falsifiable
+rather than granted facts: (i) recoverable latent trajectories under regularized inversion (Theorem 4.4),
+which is strong for ill-posed inverse problems; (ii) cortical ROI sources without full subcortex
+(Theorem 4.2), so edges are effective cortical connectivity conditioned on subcortical mixing;
+(iii) simulator-grounded training because causal adjacency is unobservable in humans. We return to
+consequences in Section 7.
+Existing methods mostly split along scalability versus measurement realism: DCM couples neural
+and observation models but scales poorly Friston et al. [2003]; regression-DCM trades fidelity for
+speed Frässle et al. [2021]; Granger/VAR and neural causal models applied in observation space
+remain sensitive to hemodynamics and volume conduction Granger [1969], Lütkepohl [2005], Tank
+et al. [2021].
+We propose treating directed connectivity as latent: physics-aware inversion followed by delay-aware
+discovery with a selective state-space backbone (Mamba) Gu and Dao [2024], using nonstationarity
+as informative variation Huang et al. [2019], Schölkopf et al. [2021]. Training uses modality-specific
+priors (DeepSIF-style EEG inversion Sun et al. [2022]; ROI-HRF-aware fMRI deconvolution Friston
+et al. [2003], Handwerker et al. [2004]). Our contribution is to connect this practical architecture to
+the conditional question above: when forward physics can be inverted well enough, what directed
+structure is identifiable, how do inversion errors affect graph recovery, and what evidence remains
+appropriate when human ground truth is unavailable? The theory is therefore a reduction rather
+than an unconditional identifiability claim: it clarifies how inversion quality constrains recoverable
+directed structure under indirect observation. Concretely, we make three contributions:
+    • INCAMA couples inversion and latent causal discovery end-to-end for indirect neuroimaging.
+    • Theory: a conditional identifiability reduction under recoverable inversion and nonstationarity,
+      plus an inversion-error propagation bound (Section 4).
+    • Evidence: biophysical simulations with ground truth; real-data plausibility checks under the
+      standard indirect-validation paradigm (Section 6.5); robustness analyses (Appendix I.1).
+
+2     Background and Related Work
+
+For a broader survey, see Appendix Section A. Prior work separates two issues that are coupled in
+our setting: measurement physics and directed-structure identification. DCM jointly models neural
+dynamics and hemodynamics but scales poorly Friston et al. [2003], while regression-DCM and
+observation-space GC/VAR improve scalability at the cost of either reduced biophysical fidelity or
+sensitivity to mixing and hemodynamic filtering Frässle et al. [2021], Granger [1969], Lütkepohl
+[2005], Tank et al. [2021], Shimizu et al. [2006].
+On the causal-discovery side, nonstationarity provides a route to identifiability because mechanism
+changes can reveal directed structure Huang et al. [2019], Peters et al. [2017], Schölkopf et al. [2021],
+Zhang et al. [2017], Huang et al. [2020], Pfister et al. [2019], Saggioro et al. [2020], Gao et al.
+[2023], but this literature typically assumes direct access to the causal variables. State-space models
+enter precisely at this point: they are a natural language for time-varying latent dynamics, underpin
+classical neurodynamic models such as DCM, and motivate modern selective SSM layers such as
+Mamba for tracking mechanism shifts Friston et al. [2003], Valdes-Sosa et al. [2011], Gu and Dao
+[2024]. CausalMamba Bae and Cha [2025] uses sequence models for causal discovery, but it is not
+designed for modality physics or whole-brain indirect neuroimaging; our contribution is to make
+nonstationarity-based latent discovery usable after physics-aware inversion.
+
+3     Problem Setting: Causal Discovery from Indirect Human Brain
+      Measurements
+
+We treat whole-brain activity as latent ROI/source signals zt ∈ RN observed indirectly through
+modality physics. Directed interactions are encoded by a delayed graph G = (V, E, τ ) with V =
+{1, . . . , N }, edges E, and per-edge delays τij ∈ {1, . . . , D}. Define Pa(j) = {i : (i → j) ∈ E}.
+The latent process follows a (possibly nonlinear) delayed dynamical SCM,
+                                                                
+                        zj,t = fj,t {zi,t−τij : i ∈ Pa(j)}, ut + ηj,t , j ∈ V,                    (1)
+
+
+                                                   2
+(a)
+                                                                                                                                                                       (b)
+                                    Indirect Neural Observation
+                                                                                                                                                                                   Latent Neural
+Activity
+                                                                                                                                          Latent Neural Activity
+                                                                                                                                                                                                            Temporal Encoding with Mamba
+                                                                  Physics-Informed Inversion
+                                                                                                                                                                                                                                           Multi-Scale Causal Kernels
+                                                                                                                                                                                                                                                                                                        Sparse Graph
+                                                                                                                                                                                                                                                                                Sparsification
+      Directed Connectivity
+                                                                                                                                  ROI 1
+                                                                                                                                 ROI 2
+                                                                                               Latent Space Causal Discovery
+                                                                                                                                                                       (c)
+                                                                                                                                 ROI 3
+                                                                                                                                                                                                                                                          Source
+Localization
+                                                                                                                                                                                                                                                                                                                       HRF Deconvolution
+                                                                                                                                 ROI 4
+                                                                                                                                                                             EEG
+                                                                                                                                                                                                                                                                                                 fMRI
+ Figure 1: INCAMA overview. Inversion (HRF/leadfield) → latent Mamba encoding → delay-aware
+ sparse graph. Training on simulation; transfer to HCP fMRI in Section 6.5.
+
+
+where ut denotes optional exogenous inputs (set ut ≡ 0 for resting-state), ηj,t are disturbances, and
+nonstationarity may enter through time-varying mechanisms fj,t (e.g., regime-indexed parameters).
+ Observations xt ∈ RM arise from a modality-specific forward operator with finite memory,
+                                                      
+                                   xt = Hψ zt−L:t + ϵt ,                                                                                                                                                                                                                                                               (2)
+
+where zt−L:t := (zt−L , . . . , zt ), L ≥ 0, and ψ collects nuisance measurement parameters. A com-
+                                                      PL
+mon fMRI specialization is HRF convolution, xt ≈ ℓ=0 hψ,ℓ zt−ℓ + ϵt ; EEG is often approximated
+as instantaneous leadfield mixing xt ≈ Lψ zt + ϵt , i.e., (2) with L=0. Both modalities can induce
+statistical dependencies misaligned with latent causal influences unless inversion is modeled.
+ Our causal estimand is G. Given x1:T , we learn a map
+                                                                                                                               Φ : x1:T 7→ (b
+                                                                                                                                            z1:T , G),
+                                                                                                                                                   b                                                                                                                                                                   (3)
+
+ that (i) performs regularized inversion tied to Hψ (rather than an unconstrained embedding) and (ii)
+ infers sparse directed delays in latent space using nonstationary structure in zb1:T . Figure 1 overviews
+ the end-to-end pipeline that instantiates (3).
+
+ 4                            Identifiability under Indirect Observation and Nonstationarity
+We ask when the delayed graph G governing z1:T is identifiable from xt = Hψ (zt−L:t ) + ϵt (unique
+(E, τ ) from P (x1:T ) within the model class). Ill-conditioning of Hψ and directional ambiguity
+under stationarity split the question into (a) recoverable inversion and (b) latent identifiability
+via nonstationary “soft interventions” (ICM; Peters et al. [2017], Huang et al. [2019]). We state
+assumptions and results next (proofs in Section B).
+
+ 4.1                          Assumptions
+
+We record the structural hypotheses used below; graphical/dynamical regularity (Assumptions 4.1–
+4.2), identifying variation (Assumption 4.3), recoverable inversion (Assumption 4.4), and latent
+identifiability class (Assumption 4.5).
+Assumption 4.1 (No instantaneous effects (delayed feedback)). All directed interactions have strictly
+positive delay: τij ≥ 1 for all (i → j) ∈ E.
+Assumption 4.2 (Latent causal sufficiency). The exogenous noises {ηj,t }j∈V are jointly independent
+across j (conditional on the past), so there are no unmodeled latent confounders among the latent
+ROIs/sources represented by zt .
+Assumption 4.1 excludes instantaneous effects so causal influence propagates forward in time;
+Assumption 4.2 is the usual “no hidden confounding among modeled units” condition (in practice, a
+cortical ROI choice with subcortical effects absorbed as mixing).
+Assumption 4.3 (Nonstationary mechanisms as soft interventions). There exists an environment
+                                                         e(t)
+index e(t) ∈ {1, . . . , E} such that fj,t (·) = fj (·; θj ). Moreover, the mechanism shifts {θje }e
+vary independently across modules j (ICM) and are sufficiently informative (non-degenerate) to
+distinguish candidate graphs within the model class.
+
+
+                                                                                                                                                                   3
+Assumption 4.3 formalizes mechanism shifts as informative soft interventions [Huang et al., 2019,
+Peters et al., 2017].
+Assumption 4.4 (Recoverable latent state under indirect observation). There exists a (regularized)
+inversion procedure g such that zb1:T = g(x1:T ) and
+                              T
+                          1X
+                                  ∥bzt − zt ∥22 −−−−→ 0 (in probability),                      (4)
+                          T t=1                  T →∞
+
+
+under the measurement model, up to known equivalences (e.g., per-node scaling conventions).
+Empirical support under forward-model perturbations is provided in Appendix I.1.
+Assumption 4.5 (Latent identifiability via Huang et al. [2019]). Assume the latent process z1:T lies
+in the identifiable nonstationary SEM/SSM class of Huang et al. [2019], adapted to our delayed-parent
+setting (parents of zj,t may include {zi,t−τij } with τij ∈ {1, . . . , D}), and that Assumption 4.3
+holds. Then, within this model class, the delayed graph G = (V, E, τ ) is identifiable from the joint
+distribution of z1:T (as T → ∞).
+
+4.2    Main Results (proofs deferred)
+
+Under Theorem 4.5, the delayed graph is identifiable from P (z1:T ) by Huang et al. [2019] (with the
+above delayed-parent adaptation). Our novel contributions are: (i) a reduction showing that consistent
+inversion (Theorem 4.4) transfers this guarantee to indirect observations x1:T , and (ii) an error bound
+quantifying how inversion error impacts downstream graph recovery.
+Theorem 4.6 (Identifiability from indirect observations via inversion). Consider the model class
+where (i) z1:T is generated by a delayed dynamical SCM satisfying Theorem 4.1–Theorem 4.5, and
+(ii) observations follow xt = Hψ (zt−L:t ) + ϵt for which Theorem 4.4 holds. Then the delayed graph
+G = (V, E, τ ) is identifiable from the distribution of x1:T (as T → ∞), up to the known equivalences
+in Theorem 4.4.
+
+Theorem 4.6 shows that consistent inversion transfers latent-space identifiability to indirect observa-
+tions. Next, we quantify how inversion error propagates to graph estimation error.
+Scores and top-k. We estimate continuous scores S ∈ R|V |×|V | (optionally with delay channels),
+summarize them as a weighted directed graph, and retain the top-k strongest entries as a sparse
+edge set—a pragmatic analogue of hard sparsity that aligns with biophysical expectations of sparse
+anatomical substrate. Formal stability/margin discussion is deferred to Section B.
+Proposition 4.7 (Inversion error propagation). Let zb1:T = g(x1:T ) and Sb = h(b    z1:T ), where h is a
+continuous score function. Let S ⋆ denote the score representation of the true delayed graph G, and
+                                                                          PT
+let L be a loss on score objects. Define the distance dT (z, z ′ ) := ( T1 t=1 ∥zt − zt′ ∥22 )1/2 . Assume
+h is L-Lipschitz w.r.t. dT and L:
+                              L(h(z), h(z ′ )) ≤ L dT (z, z ′ )     ∀ z, z ′ .
+Then
+                                                  "    T
+                                                                      #!1/2
+              h
+                    ⋆
+                      i                 ⋆
+                                                  1 X
+                                                                    2
+             E L(S,
+                 b S ) ≤ E L h(z1:T ), S      +L E        ∥b
+                                                           zt − zt ∥2       .                          (5)
+                                                    T t=1
+
+In Theorem 4.7, the first term is the intrinsic error of the latent graph estimator (even with true z); the
+second term quantifies how inversion error degrades graph recovery.
+Corollary 4.8 (Consistency of the end-to-end estimator). Assume Theorem 4.4 and that, given
+access to z1:T , the score estimator h is consistent under the latent model class in Theorem 4.5:
+L(h(z), S ⋆ ) −−−−→ 0 in probability. Then the end-to-end estimator Sb = h(g(x)) is consistent, i.e.
+              T →∞
+  b S ⋆ ) −−−−→ 0.
+L(S,
+           T →∞
+
+Takeaway. Nonstationary mechanism shifts yield latent-space identifiability (via Huang et al. [2019]);
+if the latent trajectories are consistently recoverable from indirect measurements, the delayed graph
+is identifiable from observed EEG/fMRI, with stability controlled by the inversion error bound in
+Theorem 4.7.
+
+
+                                                    4
+5     INCAMA: Indirect Causal Mamba
+We detail INCAMA as implemented in Figure 1; pseudocode is in Appendix C. The architecture
+follows the problem factorization emphasized above: a modality-specific Stage 1 inverts the forward
+physics to obtain zb1:T that are committed to being neural-scale trajectories (not generic embeddings),
+and a Stage 2 performs delay-aware, nonstationarity-exploiting causal discovery in latent space with
+a Mamba-based temporal backbone. The Mamba choice is therefore not an arbitrary architectural
+claim: it is a scalable selective-SSM instantiation of the state-space perspective used in nonstationary
+causal discovery [Huang et al., 2019, Gu and Dao, 2024], although the identifiability statements
+in Section 4 are conditional on the model class and inversion assumptions rather than on Mamba
+itself. Selective SSMs are structurally aligned with the problem because they parameterize latent
+dynamics with long-range delayed dependencies under nonstationary regime shifts, not only because
+they scale efficiently. End-to-end training on simulated data lets the causal objective reshape inversion
+so that reconstructions are useful for graph identifiability, not only for low reconstruction error in x.
+INCAMA thus targets the pair (b    z1:T , G)
+                                          b jointly.
+
+We instantiate the map Φ from (3); x1:T denotes observed EEG or fMRI and G
+                                                                         b the inferred directed
+graph. We follow the notation of Sections 3–4.
+
+5.1   Physics-aware Inversion
+
+Neuroimaging measurements provide only indirect observations of latent neural activity zt , generated
+through a known but non-invertible forward process
+                                        xt = Hψ (zt−L:t ) + εt ,                                     (6)
+rendering recovery of z1:T from x1:T an ill-posed inverse problem. To address this, we learn
+a parameterized inverse model zb1:T = gθ (x1:T ), whose architecture and training objectives are
+constrained by the known forward operator Hψ , ensuring that the recovered trajectories correspond
+to physically meaningful neural activity rather than generic latent embeddings.
+Case 1: Spatial inversion in EEG. EEG measurements are approximately instantaneous linear
+mixtures of neural sources [Baillet et al., 2001, Mosher et al., 1999],
+                                           xt ≈ Lψ zt + εt ,                                         (7)
+
+where Lψ ∈ RM ×R is the leadfield matrix. We learn an inverse model zb1:T = gθEEG (x1:T ) con-
+strained such that Lψ zbt reconstructs xt , promoting causal discovery on spatially unmixed latent
+neural activity.
+Case 2: Temporal inversion in fMRI. fMRI measurements are temporally blurred by the hemody-
+namic response function (HRF) [Friston et al., 2003, Logothetis, 2008],
+                                              L
+                                              X
+                                       xt ≈         hψ,ℓ zt−ℓ + εt .                                 (8)
+                                              ℓ=0
+
+The inverse model jointly estimates latent neural activity and HRF parameters, (b    z1:T , b
+                                                                                            hψ ) =
+ fMRI
+gθ    (x1:T ), such that convolving zb1:T with hψ reconstructs the observed BOLD signal. Allowing
+                                               b
+region-specific HRFs mitigates hemodynamically induced temporal confounds [Handwerker et al.,
+2004, Deshpande et al., 2010, Rangaprakash et al., 2023].
+
+5.2   Latent-Space Causal Discovery
+
+Given reconstructed neural activity, the second stage estimates the directed, delay-aware causal graph
+G
+b governing the latent dynamics.
+Temporal encoding and latent dynamics. Each ROI series zbi,1:T passes through a shared Mamba
+encoder [Gu and Dao, 2024]. Directed effects use a multi-lag linearized model with short/mid/long
+                                                 P      P         (g)
+delay groups G = {short, mid, long}, zbt+1 =        g∈G    ℓ∈Lg Aℓ z  bt−ℓ + ξt . Aggregated kernel
+magnitudes yield causal strengths; top-k pruning yields a sparse graph.
+
+
+                                                      5
+5.3   Training Objective and End-to-End Optimization
+
+On simulations with known A⋆ , we minimize Ltotal = Lgraph +λasym Lasym +λstab Lstab end-to-end
+in θ so gradients from the causal term train gθ (Appendix D).
+Transfer to real data. After pretraining on biophysical simulations, the learned inference map Φ is
+applied zero-shot to real fMRI data without finetuning (Section 6.5).
+
+
+6     Experiments
+
+6.1   Experimental Setup
+
+Simulated data. We evaluate INCAMA on large-scale physics-aware simulations inspired by The
+Virtual Brain (TVB) [Sanz Leon et al., 2013], which generates whole-brain neural activity with known
+directed connectivity, transmission delays, and controlled nonstationarity. Realistic EEG and fMRI
+observations are obtained via biophysically grounded forward models. The simulators are designed
+to preserve the factors that matter for graph recovery rather than only matching marginal signal
+statistics: sparse anatomical substrate, strictly positive conduction delays, time-varying coupling
+strengths, modality-specific measurement distortion, and realistic sampling/noise. EEG simulations
+include leadfield mixing and source leakage, while fMRI simulations include ROI-specific HRFs,
+high-resolution neural dynamics, HRF convolution, and TR downsampling. This yields a controlled
+stress test for indirect causal recovery: the ground-truth graph is known, but the observations retain the
+main distortions that make human EEG/fMRI difficult. Simulation details are provided in Appendix F
+and Appendix G for EEG and fMRI, respectively.
+Real data. As an external plausibility check, we use motor-task fMRI data from the Human
+Connectome Project (HCP S1200), parcellated into 68 cortical regions using the Desikan–Killiany
+atlas [Desikan et al., 2006]. All models are trained exclusively on simulated data and transferred
+zero-shot to HCP data, where evaluation focuses on whether high-scoring directed edges align
+with established motor-network organization. Because ground-truth directed connectivity is not
+available in humans, we follow an indirect evaluation paradigm common in neuroimaging-based
+causal discovery: (i) quantitative recovery when the graph is known in simulation; (ii) anatomical
+and task-network face validity on real data; and (iii) stability under physically plausible forward-
+model perturbations (Appendix I.1). We do not interpret the HCP experiment as ground-truth causal
+validation.
+Baselines. We compare against standard two-stage pipelines that decouple (i) inversion or deconvolu-
+tion from (ii) linear or learned causal discovery. For EEG, this includes classical source localization
+(MNE, sLORETA, DeepSIF) paired with Granger/VAR and with TCN/GNN-based structure learners;
+for fMRI, FIR/Wiener deconvolution followed by Granger/VAR, rDCM, and neural baselines (TCDF,
+CNN). This family isolates the benefit of joint physics-aware inversion and latent causal modeling;
+CausalMamba is discussed as related sequence-modeling work but is not included as a head-to-head
+baseline because it is not designed for whole-brain indirect neuroimaging with modality-specific
+forward physics. Full names, implementation details, and hyperparameters are in Appendix H.
+Evaluation metrics. On simulations, graph recovery is evaluated using F1 score, normalized
+Structural Hamming Distance (SHD) and Direction-aware Structural Hamming Distance (dSHD). All
+metrics are computed against ground-truth graphs for simulated data; formal definitions are provided
+in Appendix J. TVB benchmarks are summarized in Tables 1a–1b.
+
+6.2   Results on Simulated Data and Ablation Analysis
+
+EEG. On simulated EEG (Table 1a), classical source-localization-plus-linear-causal pipelines perform
+near chance under residual volume conduction and source leakage; neural baselines offer modest
+gains; INCAMA substantially improves F1, SHD, and dSHD. Ablations show that omitting source
+localization causes a pronounced degradation, while exploiting time-varying latent dynamics yields
+a large observed improvement across the three repeated runs currently reported (∆F1=+0.391;
+reported descriptively because n=3). The failure of the without physical inversion ablation is the
+expected negative control: graph learning directly on mixed sensor observations cannot recover
+ROI-level directed structure. The stationary/nonstationary split then tests the second stage rather than
+
+
+                                                    6
+     Method                                          F1 ↑          SHD ↓           dSHD ↓
+     MNE + Granger                              0.163±0.000     0.530±0.000     0.278±0.000
+     MNE + VAR                                  0.160±0.002     0.533±0.002     0.280±0.001
+     sLORETA + Granger                          0.163±0.000     0.530±0.000     0.278±0.000
+     sLORETA + VAR                              0.162±0.003     0.531±0.003     0.279±0.002
+     DeepSIF + Granger                          0.176±0.001     0.533±0.001     0.279±0.000
+     DeepSIF + TCN + sparse MLP                 0.215±0.000     0.495±0.000     0.254±0.000
+     sLORETA + TCN + sparse MLP                 0.174±0.003     0.534±0.002     0.280±0.001
+     DeepSIF + GNN + sparse MLP                 0.192±0.000     0.511±0.001     0.265±0.000
+     sLORETA + GNN + sparse MLP                 0.193±0.001     0.509±0.001     0.264±0.001
+     INCAMA (without physical inversion)        0.000±0.000     0.102±0.000     0.075±0.000
+     INCAMA (Stationary)                        0.252±0.034     0.148±0.004     0.163±0.002
+     INCAMA (Nonstationary)                     0.643±0.012     0.081±0.010     0.109±0.009
+(a) TVB-simulated EEG. Structure metrics (MAE ill-defined under nonstationarity); degenerate F1≈0
+yields misleadingly low SHD.
+    Method                                           F1 ↑           SHD ↓          dSHD ↓
+    FIR + Granger                                0.247±0.000     0.400±0.000     0.384±0.001
+    FIR + VAR                                    0.259±0.000     0.450±0.000     0.460±0.000
+    Wiener + Granger                             0.229±0.000     0.352±0.000     0.350±0.001
+    Wiener + VAR                                 0.257±0.000     0.450±0.000     0.430±0.000
+    rDCM                                         0.258±0.006     0.450±0.003     0.460±0.003
+    Deconv + TCDF                                0.000±0.000     0.174±0.001     0.177±0.001
+    EndtoEndCNN                                  0.061±0.073     0.534±0.022     0.454±0.002
+    INCAMA (without HRF deconvolution)           0.583±0.006     0.093±0.002     0.093±0.002
+    INCAMA (Stationary)                          0.608±0.001     0.089±0.000     0.093±0.000
+    INCAMA (Nonstationary)                       0.610±0.005     0.088±0.001     0.092±0.001
+                        (b) TVB-simulated fMRI; same metrics as (a).
+Table 1: Simulation benchmarks (TVB). Classical pipelines are strongly affected by mixing/HRF
+blur; INCAMA gives the closest directed-graph agreement with simulator ground truth.
+
+
+
+
+the inverse problem, showing that once signals are unmixed, temporally varying mechanisms provide
+useful orientation signal.
+fMRI. On simulated fMRI (Table 1b), classical HRF deconvolution combined with linear estima-
+tors remains strongly affected by hemodynamic confounds, while INCAMA jointly models HRF
+variability and delayed interactions in latent space and achieves the strongest agreement with the
+simulated ground-truth graph. The without HRF deconvolution variant remains competitive but
+trails the full model, indicating that causal supervision can learn useful structure from BOLD while
+explicit HRF inversion still improves agreement with the latent graph. Stationary and nonstationary
+INCAMA variants are practically indistinguishable here (∆F1=+0.0008 across the three repeated
+runs currently reported); this is theoretically expected—at TR= 2 s the HRF smoothing attenu-
+ates coupling fluctuations below the sampling resolution—so the gain from explicit nonstationarity
+emerges precisely in the modality that can resolve the regime shifts. At matched scale, INCAMA
+reaches F1 0.610 at 5×10−3 GFLOPs vs. rDCM ∼101 GFLOPs (F1 0.258); see Table 2.
+Nonstationarity-aware baseline. Against CD-NOD [Huang et al., 2020] on the matched non-
+stationary fMRI test set, INCAMA attains 13.1× higher F1 and runs ∼188× faster even when
+CD-NOD is given oracle context labels (Appendix I.2). This comparison isolates the benefit of doing
+nonstationary discovery after physics-aware inversion rather than directly on BOLD.
+
+
+                                                 7
+                  Method                  Complexity           GFLOPs         F1 ↑
+                  rDCM               O(I × [T R3 + R4 ])       1.0 × 101      0.258
+                  EndtoEndCNN          O(RT + R2 )            2.0 × 10−5      0.061
+                  Deconv+TCDF          O(RT + R2 )            3.5 × 10−4      0.289
+                  INCAMA               O(RT 2 + R2 T )        5.0 × 10−3      0.610
+
+Table 2: Accuracy–cost trade-off on TVB fMRI (R=68, T =240; rDCM I=100). Stage 1+2 inference
+per subject.
+
+                 Method             Precision ↑        Recall ↑          F1 ↑
+                 INCAMA             0.011±0.002       0.610±0.120    0.022±0.004
+                 rDCM               0.002±0.002       0.140±0.097    0.005±0.003
+                 FIR + Granger      0.003±0.002       0.148±0.108    0.005±0.004
+                 Random             0.002±0.002       0.137±0.091    0.005±0.003
+
+Table 3: Overlap with canonical visuo-motor pathways on the HCP S1200 motor task. Precision,
+recall, and F1 are averaged per subject across n=1,079 subjects against 12 canonical visuo-motor
+edges (mean±std). INCAMA recovers high recall for canonical visuo-motor edges relative to the
+strongest baseline (FIR+Granger), but absolute precision remains low in the full 682 edge space; we
+therefore treat this table as an indirect task-network enrichment check rather than ground-truth causal
+validation.
+
+
+6.3   Computational Cost vs. Accuracy
+
+6.4   Robustness to Physics Misspecification
+
+Simulation-trained pipelines can either memorize simulator physics or learn transferable structure.
+These experiments operationalize Theorem 4.6 by perturbing the forward model while keeping the
+latent causal structure fixed. With weights frozen, we stress-test HRF scaling (±20%) on TVB
+fMRI and Frobenius-noise leadfields (α ∈ {0, 1, 5}) on TVB EEG; F1 changes by less than 0.002
+under HRF scaling and drops by at most 5.1% under heavy leadfield noise. Graph scores therefore
+move smoothly with bounded drops—consistent with Theorem 4.7—rather than collapsing, which
+argues against a model that merely memorizes nominal simulator physics. Protocols, tables, and
+interpretation are in Appendix I.1.
+
+
+6.5   Zero-shot Plausibility Check on Real fMRI
+
+We apply INCAMA zero-shot to HCP S1200 motor-task fMRI (n=1,079 subjects), assessing
+consistency with the canonical visuo-motor hierarchy [Nassi and Callaway, 2007, Hoshi and Tanji,
+2004]. Fig. 2 summarizes group-level directed scores; Table 3 reports per-subject overlap with
+a small set of canonical visuo-motor edges: F1 0.022 with low absolute precision, recall 0.610
+vs. 0.148 for FIR+Granger; bilateral motor/visual edges (M1↔S1, V1→V2, PM→M1) appear in
+>76% of subjects under top-k sparsification (left PM→M1 is lowest at ∼77%; all others exceed
+78%). The absolute precision is low, so we interpret this result as task-network enrichment rather
+than edge-level causal certification. This low precision is partly structural to the evaluation: among
+68 × 67 = 4,556 possible directed cortical ROI pairs, the canonical reference set labels only 12
+visuo-motor edges as positives, so any plausible task-related edge outside this small list is counted
+as a false positive. One likely contributor is cortical-only modeling: subcortical motor structures
+are not included in the 68-ROI atlas and may act as unmodeled drivers, so HCP edges should be
+read as effective cortical associations under the stated assumptions. Observation-space baselines sit
+near random F1, suggesting that hemodynamic distortion is a plausible bottleneck for direct-BOLD
+pipelines in this evaluation. The HCP analysis therefore shows that simulation-trained scores retain
+task- and anatomy-consistent structure when transferred without finetuning. Predicted density 14.6%
+matches ∼15% structural density; edges concentrate in Visual (40.9%) and Somatomotor (39.6%)
+networks. Robustness to forward-model perturbation is detailed in Appendix I.1.
+
+
+                                                  8
+                                        SMA
+                                                                      SMA
+                                                                            M1
+                                   M1
+                         S1
+                                                                                      S1
+                                              PM
+                                                                 PM
+                    V1
+                                                                                           V1
+                              V2
+                                                                                 V2
+Figure 2: Group-averaged visuo-motor pathways (HCP motor task, n=1,079). Desikan–Killiany
+ROIs; arrows are cross-subject mean directed estimates.
+
+Network-level edge distribution. Table 3 reports per-subject global metrics; here we summarize
+the spatial distribution of predicted edges across canonical functional networks for the 1,079-subject
+HCP cohort during the motor task. Predicted edges concentrate in task-relevant networks rather than
+spreading diffusely across the brain:
+    • Visual within-network density: 40.9%
+    • Somatomotor within-network density: 39.6%
+    • Somatomotor ↔ Dorsal Attention cross-network density: 32.7% (consistent with attention–motor
+      coupling during voluntary movement)
+    • Overall predicted graph density: 14.6%, closely matching structural connectivity density (∼15%)
+      for the Desikan–Killiany atlas
+The combination of task-network concentration and plausible global density provides convergent
+evidence that simulation-trained scores transfer to real motor-task fMRI.
+
+6.6    Linking theory and experiments
+
+Each ingredient in Section 4 was mapped to a concrete module before running the benchmarks; the
+experiments are deliberate probes of those assumptions rather than a post-hoc checklist. Stage 2
+implements multi-scale delay-aware kernels and both simulators enforce strictly positive transmission
+delays, aligning the estimated graph semantics with Theorem 4.1. The simulated generators apply
+time-varying coupling drifts; empirically, EEG benefits from explicit nonstationarity when regime
+shifts remain temporally resolvable, whereas fMRI shows little stationary/nonstationary split after
+HRF low-pass filtering. Stage 1 and the perturbation experiments probe recoverable inversion: under
+±20% HRF scaling or heavy leadfield Frobenius noise (Appendix I.1), graph scores degrade smoothly
+with bounded drops rather than collapsing. This is the empirical counterpart of the error-propagation
+view: bounded degradation in the recovered latent trajectory should induce bounded degradation
+in continuous graph scores, while poor inversion or unmodeled confounding remains the main
+failure mode. Continuous scores are finally thresholded with top-k sparsification; the formal margin
+discussion in Appendix B.5 clarifies that Theorem 4.7 controls scores, while discrete edge stability
+additionally requires separation between retained and discarded scores. This mapping is intended as
+a compact sanity check, not a separate validation theorem: quantitative claims come from simulated
+ground truth, while HCP remains an external plausibility check.
+
+
+7     Conclusion
+
+INCAMA is a neuroimaging causal discovery framework that treats directed connectivity as latent:
+measurement inversion and delayed graph scoring are coupled rather than conflated, and temporal
+variation is used as identifying signal rather than nuisance. We formulated sufficient conditions
+under which delayed graphs are identifiable from indirect observations within the stated model
+class and bounded graph-estimation error by inversion error (Section 4); empirically, large-scale
+TVB simulations provide quantitative benchmarks with known graphs, while HCP motor-task fMRI
+provides zero-shot plausibility evidence through canonical visuo-motor enrichment under the indirect
+evaluation paradigm. These results position INCAMA as a scalable route to whole-brain directed-
+
+
+                                                   9
+connectivity inference when measurement physics and temporal structure are modeled jointly; future
+work includes invasive validation and cross-task transfer.
+Limitations. INCAMA models 68 Desikan–Killiany cortical ROIs and excludes subcortical struc-
+tures, so unmodeled drivers such as thalamic or basal-ganglia activity may mediate apparent cortical
+edges. The recovered graph should therefore be interpreted as effective cortical connectivity condi-
+tioned on subcortical influences—a limitation shared by all cortical-only methods (DCM, Granger).
+Training relies on biophysical simulations because ground-truth causal connectivity is unavailable in
+human neuroimaging, so real-data evaluation proceeds indirectly via simulation recovery, anatom-
+ical consistency, and robustness to physics misspecification (Appendix I.1); stronger validation
+against invasive electrophysiology or cross-task generalization is important future work. Theorem 4.6
+is asymptotic and assumes recoverable inversion, while Theorem 4.7 provides the corresponding
+finite-sample bound with constants that depend on the inversion procedure.
+Impact. This work aims to improve directed-connectivity estimation by modeling measurement
+distortion rather than attributing it to neural interactions, supporting scientific understanding of
+brain circuit organization and hypothesis generation in neuroscience and clinical research. How-
+ever, inferred graphs from observational neuroimaging remain sensitive to modeling assumptions,
+preprocessing choices, and unmodeled confounding, and should not guide medical decisions in
+isolation. Human neuroimaging also raises privacy considerations; our experiments use established
+de-identified datasets and report only aggregate results.
+
+References
+Sangyoon Bae and Jiook Cha. Causalmamba: Scalable conditional state space models for neural causal inference.
+  arXiv preprint arXiv:2510.17318, 2025.
+
+Shaojie Bai, J. Zico Kolter, and Vladlen Koltun. An empirical evaluation of generic convolutional and recurrent
+  networks for sequence modeling. arXiv preprint arXiv:1803.01271, 2018.
+
+Sylvain Baillet, John C Mosher, and Richard M Leahy. Electromagnetic brain mapping. IEEE Signal Processing
+  Magazine, 2001.
+
+Lionel Barnett and Anil K Seth. The mvgc multivariate granger causality toolbox: a new approach to granger-
+  causal inference. Journal of neuroscience methods, 223:50–68, 2014.
+
+Tri Dao and Albert Gu. Transformers are SSMs: Generalized models and efficient algorithms through structured
+   state space duality. In International Conference on Machine Learning, volume 235 of Proceedings of Machine
+   Learning Research. PMLR, 2024. URL https://proceedings.mlr.press/v235/dao24a.html.
+
+Jean Daunizeau, Olivier David, and Klaas E Stephan. Dynamic causal modelling: a critical review of the
+   biophysical and statistical foundations. Neuroimage, 58(2):312–322, 2011.
+
+Gourav Deshpande, Kiran Sathian, and Xiaoping Hu. Effect of hemodynamic variability on Granger causality
+  analysis of fMRI data. NeuroImage, 2010.
+
+Rahul S Desikan et al. An automated labeling system for subdividing the human cerebral cortex on mri scans.
+  NeuroImage, 31(3):968–980, 2006.
+
+Stefan Frässle, Samuel J Harrison, Jakob Heinzle, Brett A Clementz, Carol A Tamminga, John A Sweeney,
+   Elliot S Gershon, Matcheri S Keshavan, Godfrey D Pearlson, Albert Powers, et al. Regression dynamic causal
+   modeling for resting-state fmri. Human brain mapping, 42(7):2159–2180, 2021.
+
+Karl J Friston, Lee Harrison, and Will Penny. Dynamic causal modelling. Neuroimage, 19(4):1273–1302, 2003.
+
+Shanyun Gao, Raghavendra Addanki, Tong Yu, Ryan Rossi, and Murat Kocaoglu. Causal discovery in semi-
+  stationary time series. Advances in Neural Information Processing Systems, 36:46624–46657, 2023.
+
+Karan Goel, Albert Gu, Chris Donahue, and Christopher Ré. It’s raw! audio generation with state-space models.
+  In International conference on machine learning, pages 7616–7633. PMLR, 2022.
+
+Clive WJ Granger. Investigating causal relations by econometric models and cross-spectral methods. Economet-
+   rica: journal of the Econometric Society, pages 424–438, 1969.
+
+Albert Gu and Tri Dao. Mamba: Linear-time sequence modeling with selective state spaces. In First conference
+  on language modeling, 2024.
+
+
+                                                      10
+Albert Gu, Tri Dao, Stefano Ermon, Atri Rudra, and Christopher Ré. Hippo: Recurrent memory with optimal
+  polynomial projections. Advances in neural information processing systems, 33:1474–1487, 2020.
+
+Albert Gu, Karan Goel, Ankit Gupta, and Christopher Ré. On the parameterization and initialization of diagonal
+  state space models. Advances in Neural Information Processing Systems, 35:35971–35983, 2022a.
+
+Albert Gu, Karan Goel, and Christopher Ré. Efficiently modeling long sequences with structured state spaces.
+  In International Conference on Learning Representations, 2022b. doi: 10.48550/arXiv.2111.00396. URL
+  https://openreview.net/forum?id=uYLFoz1vlAC.
+
+Matti S. Hämäläinen and Risto J. Ilmoniemi. Interpreting magnetic fields of the brain: minimum norm estimates.
+ Medical & Biological Engineering & Computing, 32(1):35–42, 1994.
+
+Daniel A. Handwerker, John M. Ollinger, and Mark D’Esposito. Variation of BOLD hemodynamic responses
+  across subjects and brain regions and their effects on statistical analyses. NeuroImage, 21(4):1639–1651,
+  2004.
+
+Eiji Hoshi and Jun Tanji. Differential roles of neuronal activity in the supplementary and presupplementary
+   motor areas: from information retrieval to motor planning and execution. Journal of neurophysiology, 92(6):
+   3482–3499, 2004.
+
+Biwei Huang, Kun Zhang, and Bernhard Schölkopf. Identification of time-dependent causal model: A gaussian
+  process treatment. In IJCAI, pages 3561–3568, 2015.
+
+Biwei Huang, Kun Zhang, Mingming Gong, and Clark Glymour. Causal discovery and forecasting in non-
+  stationary environments with state-space models. In International conference on machine learning, pages
+  2901–2910. Pmlr, 2019.
+
+Biwei Huang, Kun Zhang, Jiji Zhang, Joseph Ramsey, Ruben Sanchez-Romero, Clark Glymour, and Bernhard
+  Schölkopf. Causal discovery from heterogeneous/nonstationary data. Journal of Machine Learning Research,
+  21(89):1–53, 2020.
+
+Thomas N. Kipf and Max Welling. Semi-supervised classification with graph convolutional networks. ICLR,
+  2017.
+
+Nikos K Logothetis. What we can do and what we cannot do with fmri. Nature, 453(7197):869–878, 2008.
+
+Helmut Lütkepohl. New introduction to multiple time series analysis. Springer, 2005.
+
+John C Mosher, Richard M Leahy, and Paul S Lewis. Eeg and meg: Forward solutions for inverse methods.
+  IEEE Transactions on Biomedical Engineering, 46(3):245–259, 1999.
+
+Chloé Nadéau and Yoshua Bengio. Temporal causal discovery framework. NeurIPS, 2018.
+
+Sayan Nag and Kamil Uludag. Transformer-aided dynamic causal model for scalable estimation of effective
+  connectivity. Imaging Neuroscience, 2:1–22, 2024.
+
+Jonathan J Nassi and Edward M Callaway. Specialized circuits from primary visual cortex to v2 and area mt.
+  Neuron, 55(5):799–808, 2007.
+
+Chethan Pandarinath, Daniel J O’Shea, Jasmine Collins, Rafal Jozefowicz, Sergey D Stavisky, Jonathan C Kao,
+  Eric M Trautmann, Matthew T Kaufman, Stephen I Ryu, Leigh R Hochberg, et al. Inferring single-trial neural
+  population dynamics using sequential auto-encoders. Nature methods, 15(10):805–815, 2018.
+
+Roberto D. Pascual-Marqui. Standardized low-resolution brain electromagnetic tomography (sloreta): technical
+  details. Methods and Findings in Experimental and Clinical Pharmacology, 24:5–12, 2002.
+
+Jonas Peters, Dominik Janzing, and Bernhard Schölkopf. Elements of causal inference: foundations and learning
+  algorithms. The MIT press, 2017.
+
+Niklas Pfister, Peter Bühlmann, and Jonas Peters. Invariant causal prediction for sequential data. Journal of the
+  American Statistical Association, 114(527):1264–1276, 2019.
+
+D. Rangaprakash et al. The confound of hemodynamic response function variability in human resting-state
+  fMRI connectivity. Frontiers in Neuroscience, 2023.
+
+Agathe Sadeghi, Achintya Gopal, and Mohammad Fesanghary. Causal discovery from nonstationary time series.
+  International Journal of Data Science and Analytics, 19(1):33–59, 2025.
+
+
+                                                       11
+Elena Saggioro, Jana de Wiljes, Marlene Kretschmer, and Jakob Runge. Reconstructing regime-dependent
+  causal relationships from observational time series. Chaos: An Interdisciplinary Journal of Nonlinear Science,
+  30(11), 2020.
+
+Paula Sanz Leon, Stuart A Knock, M Marmaduke Woodman, Lia Domide, Jochen Mersmann, Anthony R
+  McIntosh, and Viktor Jirsa. The virtual brain: a simulator of primate brain network dynamics. Frontiers in
+  neuroinformatics, 7:10, 2013.
+
+Jan-Mathijs Schoffelen and Joachim Gross. Source connectivity analysis with meg and eeg. Human brain
+   mapping, 30(6):1857–1865, 2009.
+
+Bernhard Schölkopf, Francesco Locatello, Stefan Bauer, Nan Rosemary Ke, Nal Kalchbrenner, Anirudh Goyal,
+  and Yoshua Bengio. Toward causal representation learning. Proceedings of the IEEE, 109(5):612–634, 2021.
+Shohei Shimizu, Patrik O Hoyer, Aapo Hyvärinen, Antti Kerminen, and Michael Jordan. A linear non-gaussian
+  acyclic model for causal discovery. Journal of Machine Learning Research, 7(10), 2006.
+
+Jimmy T. H. Smith, Andrew Warrington, and Scott W. Linderman. Simplified state space layers for sequence
+   modeling. In International Conference on Learning Representations, 2023. doi: 10.48550/arXiv.2208.04933.
+   URL https://openreview.net/forum?id=Ai8Hw3AXqks.
+
+Rui Sun, Abbas Sohrabpour, Gregory A Worrell, and Bin He. Deep neural networks constrained by neural mass
+  models improve electrophysiological source imaging of spatiotemporal brain dynamics. Proceedings of the
+  National Academy of Sciences, 119(31):e2201128119, 2022.
+
+Alex Tank, Ian Covert, Nicholas Foti, Ali Shojaie, and Emily B Fox. Neural granger causality. IEEE Transactions
+  on Pattern Analysis and Machine Intelligence, 44(8):4267–4279, 2021.
+Pedro A Valdes-Sosa, Alard Roebroeck, Jean Daunizeau, and Karl Friston. Effective connectivity: influence,
+  causality and biophysical modeling. Neuroimage, 58(2):339–361, 2011.
+
+Guo-Rong Wu, Wei Liao, Sebastiano Stramaglia, Ju-Rong Ding, Huafu Chen, and Daniele Marinazzo. A blind
+  deconvolution approach to recover effective connectivity brain networks from resting state fmri data. Medical
+  image analysis, 17(3):365–374, 2013.
+
+Zexuan Yin and Paolo Barucca. Deep recurrent modelling of granger causality with latent confounding. Expert
+  Systems with Applications, 207:118036, 2022.
+
+Byron M Yu, John P Cunningham, Gopal Santhanam, Stephen Ryu, Krishna V Shenoy, and Maneesh Sahani.
+  Gaussian-process factor analysis for low-dimensional single-trial analysis of neural population activity.
+  Advances in neural information processing systems, 21, 2008.
+
+Yue Yu, Jie Chen, Tian Gao, and Mo Yu. Dag-gnn: Dag structure learning with graph neural networks. In
+  International conference on machine learning, pages 7154–7163. PMLR, 2019.
+
+Kun Zhang, Biwei Huang, Jiji Zhang, Clark Glymour, and Bernhard Schölkopf. Causal discovery from
+  nonstationary/heterogeneous data: Skeleton estimation and orientation determination. In IJCAI: Proceedings
+  of the Conference, volume 2017, page 1347, 2017.
+
+Xun Zheng, Bryon Aragam, Pradeep K Ravikumar, and Eric P Xing. Dags with no tears: Continuous optimization
+  for structure learning. Advances in neural information processing systems, 31, 2018.
+
+
+
+
+                                                      12
+A    Extended Literature Review
+
+
+Causal discovery from brain data. Inferring directed interactions from neuroimaging data has long
+relied on frameworks such as Dynamic Causal Modeling (DCM) and Granger Causality (GC) Friston
+et al. [2003], Granger [1969]. DCM explicitly incorporates biophysical mechanisms by modeling
+the mapping from latent neural activity to observed hemodynamic responses, but in practice its
+performance is highly sensitive to model assumptions (e.g., fixed or misspecified HRFs) and does not
+scale favorably to whole-brain settings Daunizeau et al. [2011], Nag and Uludag [2024]. GC-based
+approaches, by contrast, operate directly on observed time series and are therefore vulnerable to
+hemodynamic distortions, capturing statistical dependencies that may diverge from underlying neural
+causation Yin and Barucca [2022], Barnett and Seth [2014]. More general causal structure learning
+methods, including NOTEARS Zheng et al. [2018] and DAG-GNN Yu et al. [2019], offer scalable
+optimization-based formulations but remain poorly matched to neuroimaging applications, as they do
+not explicitly address indirect measurement processes or region-specific neurovascular variability.
+The closest sequence-modeling predecessor is CausalMamba Bae and Cha [2025], which applies
+Mamba-style sequence modeling to causal discovery. However, CausalMamba is not a whole-brain
+indirect-neuroimaging method: it does not model modality-specific forward physics such as HRF
+convolution or EEG leadfield mixing, and its experimental setting is not matched to the 68-ROI
+whole-brain TVB/HCP transfer problem considered here. In contrast, INCAMA explicitly models
+indirect observation processes per modality via a physics-aware inversion stage, then applies regime-
+conditioned causal discovery to the recovered latent trajectories. We therefore treat CausalMamba as
+important architectural and conceptual context rather than as a directly comparable baseline for the
+whole-brain indirect-observation benchmark.
+Causal discovery with nonstationary dynamics. While many time-series causal discovery methods
+assume stationary mechanisms, real systems often exhibit distribution shifts over time or across
+contexts. A line of work shows that such nonstationarity can be exploited as informative varia-
+tion—akin to a sequence of soft interventions—to improve identifiability of causal direction. Early
+time-dependent functional causal models treat time as an explicit variable and use Gaussian-process
+priors to estimate smoothly varying causal effects Huang et al. [2015]. The CD-NOD framework
+extends constraint-based discovery to heterogeneous/nonstationary data by detecting which condi-
+tional modules change and orienting edges via independent changes across modules Zhang et al.
+[2017], Huang et al. [2020]. Complementarily, Huang et al. model nonstationary time series with
+identifiable nonlinear state-space causal models with time-varying causal strengths and noise, linking
+causal discovery to improved forecasting Huang et al. [2019]. Related invariance-based approaches
+identify causal predictors in sequential settings by searching for conditional distributions that remain
+stable across unknown time segments/environments Pfister et al. [2019]. More recent methods
+address regime-dependent causal graphs by jointly inferring latent regimes and causal links Sag-
+gioro et al. [2020], Gao et al. [2023], and refine CD-NOD-style ideas to explicitly handle lagged
+nonstationary time series Sadeghi et al. [2025]. In this work, we adopt the perspective of Huang
+et al. [2019]—viewing nonstationarity as providing the mechanism shifts needed for identifiability in
+dynamical systems—because it aligns naturally with flexible state-space/sequence-model parameteri-
+zations; however, unlike our neuroimaging setting, most of this literature assumes direct access to the
+causal variables rather than indirect, physics-corrupted measurements.
+Limitations of inverse modeling in EEG and fMRI. EEG source localization methods such as
+MNE Hämäläinen and Ilmoniemi [1994] and sLORETA Pascual-Marqui [2002] provide distributed
+inverse solutions but are known to suffer from depth bias, spatial smoothing, and source leakage,
+which can introduce spurious dependencies between reconstructed sources. Neural approaches
+such as DeepSIF Sun et al. [2022] improve localization accuracy under realistic simulations but
+rely on training distributions and forward models that may not generalize across subjects, sensor
+configurations, or noise regimes. In fMRI, blind deconvolution Wu et al. [2013] methods attempt to
+jointly estimate latent neural activity and hemodynamic responses from BOLD signals alone, but
+this joint estimation problem is weakly identifiable and often implemented via non-differentiable,
+multi-stage pipelines, limiting their integration with end-to-end learning. DCM-style HRF modeling
+Friston et al. [2003] provides a biophysically interpretable alternative but requires strong structural
+and parametric assumptions and scales poorly to whole-brain settings. As a result, residual inversion
+mismatch remains unavoidable in practice and can propagate nontrivially to downstream causal
+discovery.
+
+
+                                                  13
+State-space sequence models. State-space models (SSMs) describe dynamical systems through latent
+state transitions coupled to an observation model, and form the basis of classical filtering/smoothing
+and system identification. In neuroscience, SSMs are central to effective-connectivity methods such
+as Dynamic Causal Modeling (DCM), which uses biophysically informed state and observation
+equations to connect latent neural dynamics to measured fMRI/EEG/MEG signals Friston et al.
+[2003], Daunizeau et al. [2011], Valdes-Sosa et al. [2011]; variants such as regression-DCM aim
+to improve scalability to larger networks Frässle et al. [2021]. SSM formulations also appear in
+data-driven latent dynamical models used to extract low-dimensional neural trajectories from high-
+dimensional recordings (e.g., GPFA and LFADS) Yu et al. [2008], Pandarinath et al. [2018]. Beyond
+neuroscience, SSMs have been used directly for causal discovery in nonstationary time series, where
+time-varying parameters/mechanisms provide the variation needed for identifiability Huang et al.
+[2019]. In machine learning, a parallel line of “deep” structured SSM sequence models repurposes
+linear SSMs as scalable alternatives to attention: HiPPO introduces principled continuous-time
+memory operators Gu et al. [2020], S4 provides an efficient parameterization for long-range sequence
+modeling Gu et al. [2022b], and simplified variants such as S4D and S5 improve practicality while
+retaining long-context performance Gu et al. [2022a], Smith et al. [2023]. These layers can often be
+computed either via parallel scans or as recurrent updates, enabling long-sequence applications across
+modalities (e.g., SaShiMi for raw audio generation) Goel et al. [2022]. Mamba further introduces
+input-dependent selectivity and a hardware-aware “selective scan” to achieve strong performance
+on information-dense sequences with linear-time scaling Gu and Dao [2024], and subsequent work
+connects SSMs and masked attention through structured state-space duality (Mamba-2/SSD) Dao and
+Gu [2024]. We leverage these advances by using a scalable SSM backbone for long neural recordings
+while preserving a biophysically interpretable separation between latent dynamics and measurement
+physics.
+
+B     Proofs for Section 4
+We provide proofs for Theorem 4.6, Theorem 4.7, and Theorem 4.8. Throughout, let zb1:T = g(x1:T )
+denote the (regularized) inversion output from Theorem 4.4, and let Sb = h(b      z1:T ) denote the
+continuous score estimate in Theorem 4.7. Let S ⋆ denote the score representation of the true
+                                                                     PT                 1/2
+delayed graph G. Let dT be the trajectory distance dT (z, z ′ ) := T1 t=1 ∥zt − zt′ ∥22      . When
+Theorem 4.4 holds “up to known equivalences” (e.g., per-node scalings), interpret dT after applying
+the corresponding canonical alignment.
+
+B.1   A basic approximation lemma for path distributions
+
+We treat the full latent trajectory as a single vector z1:T := (z1 , . . . , zT ) ∈ RN T , and measure
+trajectory error by the per-time RMS distance
+                                                   T
+                                                                    !1/2
+                                                1 X
+                               dT (z, z ′ ) :=        ∥zt − zt′ ∥22      .
+                                                T t=1
+This is the natural scale for our inversion assumption (4). The lemma below says that if the inversion
+error vanishes in this metric (in probability), then any bounded, Lipschitz summary statistic of the
+entire path has (asymptotically) the same expectation under the reconstructed path zb1:T and the true
+path z1:T . Equivalently, the two path distributions become close in the bounded-Lipschitz (weak)
+sense.
+Let BL(1, 1) denote the class of functions φ : RN T → R such that: (i) |φ(z)| ≤ 1 for all z, and (ii)
+φ is 1-Lipschitz w.r.t. dT , i.e.,
+                            |φ(z) − φ(z ′ )| ≤ dT (z, z ′ )   ∀ z, z ′ ∈ RN T .
+(Examples include many “smooth” path functionals, e.g., averages of bounded Lipschitz per-time fea-
+tures, or bounded versions of correlation/energy statistics; the Lipschitz condition encodes robustness
+to small reconstruction errors.)
+                                                                                                 P
+                                                                                       z , z) −−−−→
+Lemma B.1 (Vanishing reconstruction error implies vanishing test-function gap). If dT (b
+                                                                                               T →∞
+0, then for every φ ∈ BL(1, 1),
+                                                    
+                                    z1:T ) − E φ(z1:T ) −−−−→ 0.
+                                E φ(b
+                                                              T →∞
+
+
+                                                  14
+In particular, defining the bounded-Lipschitz distance between path laws
+                                                                            
+                dBL P (b z1:T ), P (z1:T ) :=    sup    E φ(bz1:T ) − E φ(z1:T ) ,
+                                              φ∈BL(1,1)
+
+                z1:T ), P (z1:T )) → 0.
+we have dBL (P (b
+
+Proof. Fix any φ ∈ BL(1, 1). By the triangle inequality,
+                                                     h                     i
+                        z1:T )] − E[φ(z1:T )] ≤ E φ(b
+                    E[φ(b                                z1:T ) − φ(z1:T ) .
+Now use (ii) (Lipschitzness) and (i) (boundedness): Lipschitzness gives |φ(b    z1:T ) − φ(z1:T )| ≤
+    z , z), while boundedness implies the trivial bound |φ(b
+dT (b                                                      z1:T ) − φ(z1:T )| ≤ 2. Combining,
+                               z1:T ) − φ(z1:T ) ≤ min{2, dT (b
+                             φ(b                              z , z)}.
+Therefore,
+                                                                       
+                            z1:T )] − E[φ(z1:T )] ≤ E min{2, dT (b
+                        E[φ(b                                    z , z)} .
+To show the RHS vanishes, fix ϵ > 0 and split on the event AT := {dT (b
+                                                                      z , z) ≤ ϵ}:
+                                                                                      
+       E min{2, dT (bz , z)} = E min{2, dT (b   z , z)} 1AT + E min{2, dT (b  z , z)} 1AcT
+                              ≤ ϵ · P(AT ) + 2 · P(AcT ) ≤ ϵ + 2 P dT (b
+                                                                                  
+                                                                       z , z) > ϵ .
+          z , z) → 0 in probability, the probability term tends to 0 as T → ∞, so the RHS tends to ϵ.
+Since dT (b
+Because ϵ > 0 was arbitrary, the RHS (and hence the test-function gap) must converge to 0. The final
+claim about dBL follows immediately by taking the supremum over φ ∈ BL(1, 1).
+
+Remark (how we use the lemma). Lemma B.1 justifies treating zb1:T as an “asymptotically equiva-
+lent” surrogate for z1:T for any downstream procedure whose relevant statistics are continuous/robust
+in the dT metric. In our setting, this enables a clean reduction: consistent inversion implies that any
+latent-space identifiability argument based on the distribution of z1:T carries over to the indirect
+observation setting via zb1:T = g(x1:T ).
+
+B.2   Proof of Theorem 4.6
+
+Proof of Theorem 4.6. Consider two parameter instances θ and θ′ in the model class of Theorem 4.6.
+Assume they induce the same observation law for every T :
+                                Pθ (x1:T ) = Pθ′ (x1:T )   ∀ T.
+We show Gθ and Gθ′ coincide up to the known equivalences in Theorem 4.4.
+Because zb1:T = g(x1:T ) is a measurable function of x1:T , equality in distribution of x1:T implies
+equality in distribution of zb1:T :
+                                        Pθ (b
+                                            z1:T ) = Pθ′ (b
+                                                          z1:T )   ∀ T.
+Let z1:T (resp. z1:T ) denote the latent process under θ (resp. θ′ ). By Theorem 4.4, dT (b
+                  ′
+                                                                                          z , z) → 0 in
+probability under θ, and dT (b z , z ′ ) → 0 in probability under θ′ .
+Fix any test function φ ∈ BL(1, 1). Then
+                                                                                              
+                         ′
+ Eθ [φ(z1:T )] − Eθ′ [φ(z1:T )] = Eθ [φ(z1:T )] − Eθ [φ(b
+                                                        z1:T )] + Eθ [φ(bz1:T )] − Eθ′ [φ(b
+                                                                                          z1:T )]
+                                                                     
+                                                                ′
+                                   + Eθ′ [φ(b z1:T )] − Eθ′ [φ(z1:T )] .
+The middle term is exactly 0 since Pθ (b             z1:T ). The first and third terms vanish as T → ∞
+                                       z1:T ) = Pθ′ (b
+by Lemma B.1 (applied under θ and θ′ , respectively). Therefore, for every φ ∈ BL(1, 1),
+                                                        ′
+                               Eθ [φ(z1:T )] − Eθ′ [φ(z1:T  )] −−−−→ 0.
+                                                              T →∞
+                                                        ′
+Equivalently, the latent path laws Pθ (z1:T ) and Pθ′ (z1:T ) become indistinguishable (in the bounded-
+Lipschitz sense induced by dT ) as T → ∞, hence share the same limiting latent distribution (up to
+the equivalences in Theorem 4.4).
+Finally, by Theorem 4.5, within the identifiable nonstationary SEM/SSM class of Huang et al. [2019]
+(adapted to delayed parents), the delayed graph G = (V, E, τ ) is uniquely determined by the limiting
+latent distribution. Thus Gθ ≡ Gθ′ , proving identifiability from P (x1:T ) as T → ∞.
+
+
+                                                  15
+B.3   Proof of Theorem 4.7
+
+Proof of Theorem 4.7. Let zb1:T = g(x1:T ) and Sb = h(b     z1:T ). Assume L is a (pseudo-)metric (or
+any loss satisfying the triangle inequality) on score objects. Then
+                 b S ⋆ ) = L h(b  z1:T ), S ⋆ ≤ L h(bz1:T ), h(z1:T ) + L h(z1:T ), S ⋆ .
+                                                                                     
+              L(S,
+By the assumed Lipschitz property of h,
+                                                      
+                                  L h(b
+                                      z1:T ), h(z1:T ) ≤ L dT (b
+                                                               z , z).
+Taking expectations yields
+                        h         i
+                           b S ⋆ ) ≤ E L h(z1:T ), S ⋆ + L E[dT (b
+                                                     
+                      E L(S,                                     z , z)].
+
+Finally, by Cauchy–Schwarz,
+                        
+                                  T
+                                                        !1/2      "       T
+                                                                                           #!1/2
+                                 1X                                 1X
+          E[dT (b
+                z , z)] = E              zt − zt ∥22
+                                         ∥b                  ≤   E        zt − zt ∥22
+                                                                          ∥b                       ,
+                                 T t=1                              T t=1
+
+which gives (5).
+
+B.4   Proof of Theorem 4.8
+                                                                       1
+                                                                           PT                   1/2 P
+Proof of Theorem 4.8. Assume Theorem 4.4, so dT (b
+                                                 z , z) =              T            zt − zt ∥22
+                                                                               t=1 ∥b               −−−−→ 0,
+                                                                                                     T →∞
+                                                                                ⋆    P
+and assume h is consistent on the true latent process: L(h(z1:T ), S ) −−−−→ 0. Using the same
+                                                                                   T →∞
+triangle-inequality step as in the proof of Proposition 4.7 and then the Lipschitz property,
+                       b S ⋆ ) = L h(bz1:T ), S ⋆ ≤ L h(z1:T ), S ⋆ + L dT (b
+                                                                  
+                   L(S,                                                      z , z).
+Both terms on the RHS converge to 0 in probability, hence their sum converges to 0 in probability:
+            P
+  b S ⋆ ) −−−
+L(S,         −→ 0.
+           T →∞
+
+
+B.5   Stability of top-k sparsification
+
+In practice we may form a sparse edge set by retaining the top-k largest-magnitude entries of a score
+matrix. This post-processing is not Lipschitz in general, but it is stable under a mild separation
+(margin) condition.
+Top-k operator. For v ∈ Rm , let |v|(1) ≥ · · · ≥ |v|(m) be the order statistics of {|v1 |, . . . , |vm |}.
+Define TopKk (v) as the set of indices of the k largest entries of |v| (with deterministic tie-breaking).
+For a matrix S ∈ Rp×p , we apply TopKk to vec(S).
+Lemma B.2 (Top-k support stability under a margin). Let v ∈ Rm and define the margin ∆ :=
+|v|(k) − |v|(k+1) (with the convention |v|(m+1) := 0). If ∥b    v − v∥∞ < ∆/2, then TopKk (b         v) =
+TopKk (v).
+
+Proof. Let S = TopKk (v) and S c its complement. For any i ∈ S and j ∈ S c , we have |vi | − |vj | ≥
+∆. If ∥b
+       v −v∥∞ < ∆/2, then |b  vi | ≥ |vi |−∆/2 and |b
+                                                    vj | ≤ |vj |+∆/2, hence |b vi |−|b
+                                                                                     vj | ≥ ∆−∆ = 0,
+so the ordering separating S and S c is preserved (up to the fixed tie-break rule).
+
+Consequence. If L(S,  b S ⋆ ) → 0 under a loss that controls ∥vec(S)
+                                                                  b − vec(S ⋆ )∥∞ (e.g., taking L
+                                                ⋆
+as an ℓ∞ loss), and if the top-k margin of vec(S ) is bounded away from 0, then the top-k support
+extracted from Sb is consistent.
+Empirical margin distribution and ρ-stability on HCP. Theorem B.2 provides a sufficient condition
+for support stability; in practice the score landscape on real fMRI is heavy-tailed and individual
+margins can be small. Across the full 1,079-subject HCP motor-task cohort, the empirical top-k
+margin ∆ = |vec(S)|b (k) − |vec(S)|
+                                  b (k+1) has mean 0.006 and median 0.000, indicating that the strict
+pointwise margin condition does not always hold per subject. The operative empirical evidence for
+
+
+                                                        16
+stability is therefore the ρ-sweep: as the sparsity ratio is swept over ρ ∈ [0.10, 0.30], the per-subject
+F1 stays essentially constant at 0.022 (saturating at ρ=0.15). This is consistent with the typical
+situation where Lemma B.2 fails for a small subset of low-margin entries but the resulting support
+changes affect only weakly identified edges, leaving the strong-edge set—and hence F1—unchanged.
+We therefore treat the ρ-sweep as the operationally meaningful stability guarantee, with Lemma B.2
+providing the worst-case theoretical complement.
+
+
+
+
+                                                   17
+C     Algorithm Details
+
+Algorithm 1 INCAMA: physics-aware Inversion + Latent-Space Causal Discovery (in detail)
+Require: Observations x1:T (EEG or fMRI), modality forward operator Hψ , max delay D, sparsity
+    ratio ρ
+Require: Train data (simulation): ground-truth adjacency/delays (A⋆ , τ ⋆ ) if available
+Ensure: Reconstructed latent trajectories ẑ1:T and sparse directed graph Ĝ = (Ê, τ̂ )
+ 1: Stage 1: physics-aware inversion (modality-specific)
+ 2: if modality = EEG then
+ 3:    /* xt ≈ Lψ zt + ϵt */
+ 4:    Canonicalize montage: x1:T ← MapToCanonical(x1:T )
+ 5:    ẑ1:T ← gθEEG (x1:T )
+ 6:    /* DeepSIF-style source imaging */
+ 7:    (physics consistency) enforce x1:T ≈ Lψ ẑ1:T via forward reconstruction loss
+ 8: else           PL
+ 9:    /* xt ≈ ℓ=0 hψ,ℓ zt−ℓ + ϵt */
+10:    (ẑ1:T , ĥ) ← gθfMRI (x1:T )
+11:    /* ROI-specific HRF deconvolution */
+12:    (physics consistency) enforce x1:T ≈ (ẑ ∗ ĥ)1:T via BOLD reconstruction loss
+13: end if
+14: Stage 2: Latent-space causal discovery
+15: for i = 1 to R do
+16:    hi,1:T ← Mamba(ẑi,1:T )
+17: end for
+18: Estimate delay-aware interactions via multi-lag kernels
+              PD
+19: ẑt+1 ≈       ℓ=1 Aℓ ẑt−ℓ + ξt
+                                               (g)
+20: Multi-scale grouping (short/mid/long): {Aℓ }g∈G, ℓ∈Lg
+21: Aggregate causal strength:
+             P            P          (g)
+22: Ĉij ←        g∈G wg     ℓ∈Lg |Aℓ,ij |
+23: Compute dense graph scores (optional):
+24: Gdense ← PairwiseMLP({hi }R          i=1 )
+25: Combine scores:
+26: Gcomb ← (1 − α)Gdense + α · Scale(Ĉ)
+27: Top-k sparsification
+28: k ← ⌊ρR2 ⌋
+29: M ← TopKMask(|Gcomb |, k)
+30: Ĝ ← Gcomb ⊙ M
+31: /* optional */ τ̂ij ← arg maxℓ∈{1,...,D} |Aℓ,ij |
+32: End-to-end training (simulation)
+33: Minimize Ltotal = Lgraph + λasym Lasym + λstab Lstab
+34: Update θ (and causal parameters) by backpropagation so that causal loss shapes inversion
+35: return (ẑ1:T , Ĝ, τ̂ )
+
+
+
+D     Implementation Details
+We propose INCAMA, a unified framework designed to solve the physics-aware inverse problem
+defined in Section 3. As illustrated in Figure 1, our architecture consists of two coupled modules: (1)
+a physics-aware Inversion Layer that disentangles latent neural drivers from distorted observations,
+and (2) a Mamba-based Causal Discovery Model that infers directed connectivity via non-stationary
+state-space modeling.
+
+D.1   Stage 1: fMRI HRF Deconvolution
+
+Stage 1 addresses the inverse problem of estimating latent neural activity from observed BOLD
+signals. Since BOLD signals result from the convolution of neural activity with the hemodynamic
+
+
+                                                  18
+response function (HRF), we design a learnable deconvolution framework that jointly estimates
+ROI-specific HRF parameters and underlying neural activity.
+ROI-Specific HRF Estimation. Based on neuroimaging evidence that hemodynamic response
+characteristics vary across brain regions, our model estimates individualized HRF parameters for
+each ROI. Given a BOLD signal x ∈ RL×1 , a conditional Mamba encoder extracts temporal features,
+which are then mapped to six HRF parameters via a linear layer:
+
+       • peak_delay (3.0–10.0s): delay to main response peak
+       • undershoot_delay (10.0–20.0s): delay to undershoot peak
+       • peak_disp, undershoot_disp (0.5–2.0): dispersion of each component
+       • undershoot_scale (0.0–1.0): relative magnitude of undershoot
+       • kernel_duration (28.0–34.0s): effective HRF kernel length
+
+From the predicted parameters, we generate the HRF kernel h(t) using a double-gamma function:
+                                        ta1 −1 e−t/b1      ta2 −1 e−t/b2
+                               h(t) =      a1         − c · a2           ,                           (9)
+                                          b1 Γ(a1 )          b2 Γ(a2 )
+where a1 , b1 are shape and scale parameters for the main peak, a2 , b2 for the undershoot, and c is the
+undershoot scale.
+Neural Activity Parameter Generation. We model neural activity as a sequence of spike events.
+An attention-based parameter generator predicts spike parameters from BOLD features F ∈ RL×H
+extracted by the conditional Mamba encoder. Using learnable query vectors with multi-head attention,
+we predict for each spike k:
+
+       • timing tk : spike occurrence time
+       • amplitude ak : spike magnitude
+       • width wk : spike width (standard deviation)
+
+The neural activity time series is then generated as a sum of Gaussian pulses:
+                                      K
+                                                      (t − tk )2
+                                      X                         
+                             n(t) =      ak · exp −                + ϵ(t),                         (10)
+                                                         2wk2
+                                     k=1
+
+where K is the number of spikes and ϵ(t) is background noise with 1/f characteristics.
+BOLD Reconstruction. The estimated neural activity nb(t) is convolved with the HRF kernel h(t) to
+reconstruct the BOLD signal:
+                                      x
+                                      b(t) = (bn ∗ h)(t).                                   (11)
+This is implemented via grouped convolution, applying independent HRFs to each ROI.
+Training Objective. The Stage 1 loss function consists of two terms:
+                                              n, n∗ ) + λbold · MSE(b
+                          Lstage1 = λna · MSE(b                     x, x),                         (12)
+        ∗
+where n is the ground-truth neural activity from simulation and x is the input BOLD signal. The
+first term ensures accurate neural activity estimation, while the second enforces consistency of the
+HRF model.
+
+D.2   Stage 1: EEG Source Localization
+
+Stage 1 addresses the inverse problem of estimating latent ROI-level local field potential (LFP) signals
+from observed scalp EEG measurements. Since scalp EEG signals result from spatial mixing due
+to volume conduction, we employ DeepSIF (Deep Learning-based Source Imaging Framework) to
+perform end-to-end learnable source imaging that directly maps sensor-space EEG to source-space
+neural activity.
+Architecture. DeepSIF is based on a one-dimensional convolutional neural network (1D CNN)
+encoder-decoder architecture. Given scalp EEG signals E ∈ RB×S×T (batch size B, number of
+
+
+                                                   19
+                                                                  b ∈ RB×R×T (number of ROIs
+sensors S, time points T ), DeepSIF outputs ROI-level LFP signals L
+R).
+Specifically, DeepSIF consists of the following layer structure:
+      1. First convolutional layer: Expands S channels to 256 channels (kernel size 3, padding 1)
+      2. Second convolutional layer: Reduces 256 channels to 128 channels (kernel size 3, padding
+         1)
+      3. Output projection layer: Maps 128 channels to R channels (1×1 convolution)
+Each convolutional layer is followed by batch normalization and LeakyReLU activation (negative
+slope 0.1). DeepSIF processes broadband signals directly without frequency division, corresponding
+to setting the number of frequency bands N = 1.
+Loss Function. The training objective for Stage 1 minimizes two reconstruction losses:
+1. Forward Model Reconstruction Loss. The predicted ROI LFP L         b is reconstructed back to scalp
+                                          S×R
+EEG using the leadfield matrix H ∈ R            , and the difference from the actual scalp EEG E is
+measured:
+                                       Lforward = ∥E − HL∥ b 1.                                   (13)
+This loss ensures consistency of predictions through the physical forward model and enables unsuper-
+vised learning even when ground-truth supervision is unavailable.
+2. Supervised Loss. When ground-truth ROI LFP Lgt is available, direct comparison with predictions
+is used for learning:
+                                             b − Lgt ∥2 .
+                                      Lgt = ∥L                                                (14)
+                                                       2
+
+3. Adaptive Loss Weights. We apply a curriculum learning strategy that gradually adjusts the
+weights of loss components during training. For epoch e with progress p = e/Emax (total epochs
+Emax ):
+       • Stability weight: λstab = 10−3 × (1 + p)
+       • Structural connectivity weight: λsc = 0.1 × (1 + 0.5p)
+Early training focuses on reconstruction, while later stages place greater emphasis on structural
+consistency.
+Training Procedure. Stage 1 training is performed with the following settings:
+       • Optimizer: AdamW (learning rate 5 × 10−4 , weight decay 10−5 )
+       • Learning rate scheduler: Cosine annealing scheduler
+       • Gradient clipping: Maximum norm 1.0
+       • Gradient accumulation: Accumulated over a specified number of steps before update
+Parameters of Stage 2 (causal discovery module) are kept frozen, and only Stage 1 parameters are
+trained. This enables step-by-step learning of source reconstruction and causal discovery.
+Implementation Details. DeepSIF is implemented as the Stage1_DeepSIF class, which internally
+contains the DeepSIF module. During forward propagation, it takes scalp EEG as input and outputs
+ROI LFP, expanding the output dimensions to (B, R, T, 1) for compatibility. Loss computation
+performs both forward model reconstruction using the leadfield matrix and, when possible, direct
+comparison with ground-truth values. This design enables DeepSIF to provide a source imaging
+model that satisfies physical constraints while flexibly learning from data.
+
+D.3   Stage 2: Latent Causal Dynamics via Mamba
+
+Given ROI-level neural activity reconstructed from Stage 1, our goal is to estimate directed con-
+nectivity scores between brain regions. Stage 2 addresses this through three key innovations: (1)
+standard Mamba encoder for efficient ROI time series representation learning, (2) multi-scale
+causal kernel modeling temporal dynamics across different time scales, and (3) top-k sparsification
+for biologically plausible sparse connectivity structure.
+
+
+                                                 20
+D.3.1    Mamba Encoder
+To encode neural activity time series for each ROI, we employ a standard Mamba encoder that
+is shared across all ROIs. The standard Mamba encoder, based on efficient state-space model
+implementation, captures long-range temporal dependencies with linear complexity, enabling effective
+modeling of long time series.
+For each ROI i ∈ {1, . . . , R} with neural activity time series xi ∈ RT (where T is the temporal
+length), the encoding process proceeds as follows:
+
+        1. Input projection: xproj
+                              i    = Linear(xi ) ∈ RT ×H where H is the hidden dimension
+        2. Mamba-based encoding:
+                                        hi = Mamba(xproj
+                                                    i    ) ∈ RT ×H                                 (15)
+                                                                                    H
+        3. Temporal pooling (optional): ei = AdaptiveAvgPool1d(hi ) ∈ R                 when temporal
+           dimension is not preserved
+The standard Mamba encoder, as an efficient implementation of state-space models, captures long-
+range temporal dependencies with linear complexity. By applying the same encoder to all ROIs,
+we learn shared temporal patterns while allowing ROI-specific characteristics to be captured in
+subsequent structure learning stages.
+
+D.3.2    Multi-Scale Causal Kernel
+Neural signal transmission occurs at various time scales due to synaptic delays, axonal conduction
+velocities, and indirect pathway transmission. To explicitly model these multi-scale temporal dy-
+namics, we introduce a multi-scale VAR-like causal kernel that simultaneously considers short-term,
+mid-term, and long-term temporal dependencies.
+The multi-scale causal dynamics are modeled as:
+                                       X X (g)
+                                xt+1 =          Aℓ xt−ℓ + ϵt                                       (16)
+                                           g∈G ℓ∈Lg
+
+where G = {short, mid, long} denotes temporal scale groups, each with a corresponding lag set Lg .
+For fMRI data with TR = 2.0 seconds:
+        • Short-term: Lshort = {1, 2} TRs (2–4 seconds) — capturing direct neural connections and
+          immediate causal influences
+        • Mid-term: Lmid = {3, 4, 5} TRs (6–10 seconds) — modeling intermediate pathway
+          transmission and local network dynamics
+        • Long-term: Llong = {6, 7, . . . , 10} TRs (12–20 seconds) — capturing indirect pathways,
+          feedback loops, and long-range interactions
+                                              (g)                                        (g)
+Each group g has learnable kernel matrices Aℓ ∈ RR×R for each lag ℓ ∈ Lg , where Aℓ,ij represents
+the causal influence strength from ROI i to ROI j at time lag ℓ within scale group g.
+The final causal strength matrix C ∈ RR×R is computed as a weighted aggregation across all
+temporal scales:                        X     X (g)
+                                  Cij =   wg     |Aℓ,ij |                            (17)
+                                             g∈G         ℓ∈Lg
+where wg are group-specific weights that can emphasize different temporal scales. The absolute value
+operation | · | ensures that causal strength is represented as a positive scalar, aggregating influences
+across all time lags within each scale group.
+Integration with Dense Graph. The multi-scale causal kernel is integrated with the dense graph
+learned from ROI embeddings through a weighted combination:
+                              Gcombined = (1 − α)Gdense + αCscaled                         (18)
+where Gdense is the pairwise MLP output from ROI embeddings, Cscaled is the multi-scale causal
+matrix scaled to match the magnitude of Gdense , and α = 0.1 is a small mixing coefficient that
+allows gradual integration of temporal dynamics.
+
+
+                                                    21
+D.3.3    Top-K Sparsification
+Real brain networks are extremely sparse, with empirical estimates suggesting that less than 10–
+15% of possible connections represent actual causal relationships. Standard ℓ1 regularization or
+threshold-based sparsification methods suffer from gradient vanishing under extreme sparsity and
+cannot guarantee exact target sparsity ratios.
+We apply a top-k selection mechanism that guarantees exact sparsity while maintaining gradient flow
+through selected connections. The sparsification process consists of three steps:
+1. Dense Graph Generation. From ROI embeddings E ∈ RB×R×H , we compute a dense causal
+graph using pairwise MLP:
+                              Gdense = PairwiseMLP(E) ∈ RB×R×R                                      (19)
+The dense graph is then passed through a learnable activation function that adapts to dataset statistics:
+                              Gscaled = CouplingActivation(Gdense )                                 (20)
+where CouplingActivation applies dataset-aware scaling to prevent scale collapse and ensures
+outputs are in a normalized space suitable for training.
+2. Top-K Selection. For each sample in the batch, we select the top k strongest connections globally:
+                                             k = ⌊ρ · R2 ⌋                                          (21)
+where ρ ∈ [0, 1] is the target sparsity ratio (e.g., ρ = 0.1 for 10% connectivity). The selection mask
+is constructed as:                    (
+                                                                  (b)
+                                (b)      1 if (i, j) ∈ TopK(|Gscaled |, k)
+                             Mij =                                                                 (22)
+                                         0 otherwise
+where TopK(·, k) returns the indices of the k largest entries by absolute value.
+3. Sparse Graph Generation. The final sparse causal graph is obtained by element-wise multiplica-
+tion:
+                                  Gsparse = Gscaled ⊙ M                                     (23)
+This approach ensures: (i) exact target sparsity ratio ρ is maintained, (ii) gradient flow is preserved
+through the selected k edges, and (iii) robustness against overfitting to the overwhelming majority of
+null connections.
+Dynamic Sparsity Scheduling. During training, we employ a dynamic sparsity schedule that starts
+with a relatively dense graph and gradually increases sparsity:
+                                                                            
+                                                                     t
+                        ρ(t) = ρstart − (ρstart − ρend ) · min             ,1             (24)
+                                                                 Tschedule
+where ρstart = 0.35 (35% connections), ρend = 0.25 (25% connections), and Tschedule = 50 epochs.
+This warmup strategy facilitates easier learning in early training while converging to biologically
+plausible sparse structures in later stages.
+
+D.4     Training Objectives
+
+Training causal models on biological neural data is challenging due to extreme sparsity, non-
+stationarity, and measurement noise. Our objective function combines predictive accuracy with
+biological constraints:
+                    Ltotal = LMAE + λasym Lasym + λscale Lscale + λstab Lstab                       (25)
+
+1. Top-K Weighted MAE Loss. To focus learning on the most informative connections, we adopt a
+weighted MAE loss over the top-k strongest edges:
+                                          1    X
+                              LMAE =              |Aij − Abij |                          (26)
+                                        |Ωk |
+                                                 (i,j)∈Ωk
+
+where Ωk denotes indices of the top-k largest entries in the ground-truth adjacency matrix. This acts
+as a robust estimator that prevents overfitting to the overwhelming majority of null connections.
+
+
+                                                   22
+2. Asymmetry Loss. To preserve directionality (A → B vs B → A), we penalize deviations in the
+asymmetric component:
+
+
+                               Lasym = ∥(A  b ⊤ ) − (A∗ − A∗⊤ )∥1
+                                         b −A                                                         (27)
+
+
+3. Scale Loss. To prevent output distribution collapse, we anchor the predicted statistics to target
+values:
+
+                                   Lscale = |µAb − µ∗ | + |σAb − σ ∗ |                                (28)
+
+
+4. Stability Loss. To ensure dynamical stability (spectral radius < 1), we impose a soft constraint
+via spectral norm:
+
+                                                         2
+                                    Lstab = max 0, ∥A∥
+                                                    b 2−1                                             (29)
+
+
+
+The hyperparameters λasym , λscale , λstab control the trade-off between predictive accuracy and
+biological plausibility. We train the entire pipeline end-to-end, allowing the causal objective to guide
+earlier stages toward representations most suitable for causal discovery.
+
+
+
+E     Experiment Settings
+
+This section summarizes all hyperparameters used to train INCAMA across modalities and stages.
+
+
+E.1   fMRI Settings (TVB_realistic_nonstationary_10k)
+
+Data & preprocessing. All fMRI stages use data/TVB_realistic_nonstationary_10k with
+BOLD normalization enabled.
+Core architecture and optimization. Table 4 reports the backbone, dimensionality, and optimization
+hyperparameters across stages.
+
+
+      Category           Stage 1 (BOLD→Neural)          Stage 2 (Neural→Causal)     Stage 3 (Joint)
+      Backbone                    Mamba                        Mamba                 Mamba
+      Hidden size                  128                           128                   128
+      # ROIs                       68                            68                    68
+      Causality option              —                       sparse_top_k          sparse_top_k
+      Batch size                    16                            32                     32
+      Epochs                        50                            50                     50
+      Learning rate              1 × 10−4                     7.5 × 10−5              1 × 10−3
+      Seed                           1                             1                      1
+                      Table 4: fMRI: core architecture and optimization settings.
+
+
+
+Loss weights and regularization. Table 5 summarizes the loss weights and regularization coefficients
+used in each stage.
+
+
+                                                   23
+                    Loss / regularizer           Stage 1    Stage 2       Stage 3
+                    BOLD reconstruction weight        0.5      —           0.5
+                    Coupling loss weight              —        1.0         3.0
+                    Delay loss weight                 —       30.0         30.0
+                    λsparse                           —     1 × 10−6       0.01
+                    λstab                             —     5 × 10−3     5 × 10−3
+                    λsc                               —        0.0          0.0
+                    λasym                             —        1.0          1.0
+                    λscale                            —        0.0          0.0
+                    λlap                              —     5 × 10−4     5 × 10−4
+                    λdiversity                        —        —           10.0
+                    Diversity target std              —        —           0.05
+                    λscale_match                      —        —            1.0
+                    λrecall                           —        —            0.1
+                 Table 5: fMRI: loss weights and regularization hyperparameters.
+
+
+Stage 2–3 details (selection, schedules, statistics, toggles). Table 6 reports the remaining hyperpa-
+rameters that are specific to the causal module and its training schedule.
+
+         Table 6: fMRI: Stage 2–3 selection/schedules/statistics and architectural toggles.
+
+         Category                                                      Stage 2       Stage 3
+         Sparsity / selection
+         Sparsity ratio                                                  0.15          —
+         MAE Top-K ratio                                                 0.25         0.35
+         Edge weight                                                      1.5          1.5
+         Edge threshold                                                 0.015        0.015
+         Edge percentile                                                  0.9          0.9
+         Scale weight                                                     0.1          0.1
+         Scheduling
+         Regularization warmup epochs                                     3             3
+         MAE Top-K start ratio                                           0.15          0.15
+         MAE Top-K end ratio                                             0.05          0.05
+         MAE Top-K schedule length                                    10 epochs     10 epochs
+         Coupling statistics
+         Auto coupling statistics                                      Enabled      Enabled
+         Auto statistics samples                                         512          512
+         Coupling norm                                                   1.0          1.0
+         Architecture toggles
+         Multi-scale                                                  Enabled       Enabled
+         Groups mode                                                  default       default
+         Laplacian                                                    Enabled       Enabled
+         Downsample factor                                               1             1
+         Efficient GAT                                                Disabled      Disabled
+         Preserve temporal                                            Disabled      Disabled
+
+
+Notes (fMRI). As shown in Table 5, Stage 3 increases the coupling weight (1.0→3.0) and sparsity
+regularization (10−6 → 10−2 ), and introduces diversity, scale-matching, and recall regularization to
+stabilize joint training.
+
+E.2   EEG Settings (nonstationary realistic datasets)
+
+Data & preprocessing. EEG stages use data_10k_nonstationary_realistic. ENIGMA struc-
+tural connectivity is enabled.
+
+
+                                                 24
+Stage-wise core settings. Table 7 summarizes architecture, training, and checkpointing across EEG
+stages.
+
+ Category            Stage 1 (DeepSIF pretrain)    Stage 2 (Causal mapping)           Stage 5 (Joint finetune)
+ Architecture                  DeepSIF                       Mamba              DeepSIF + Causal Mapper (Mamba)
+ # ROIs                          68                            68                             68
+ Preserve temporal               —                              0                              0
+ ENIGMA SC                     Enabled                       Enabled                        Enabled
+ Batch size                      32                            32                                16
+ Epochs                          50                            50                                20
+ Learning rate                5 × 10−4                     7.5 × 10−5                         1 × 10−5
+ Seed                             2                             2                                 1
+ Checkpoints                      —                            —                    Stage 1 + Stage 2 pretrained
+                               Table 7: EEG: stage-wise core settings.
+
+
+
+Stage 2 and Stage 5 details. Table 8 reports regularization, edge filtering, scheduling, statistics, and
+architecture toggles for the EEG causal module.
+
+
+      Table 8: EEG: Stage 2 and Stage 5 regularization, edge filtering, schedules, and toggles.
+
+   Category                                                     Stage 2             Stage 5
+   Regularization hyperparameters
+   λsparse                                                     1 × 10−6             1 × 10−6
+   λstab                                                       5 × 10−3             5 × 10−3
+   λsc                                                            0.0                  0.0
+   λasym                                                          1.0                  1.0
+   λlap                                                        5 × 10−4             5 × 10−4
+   Edge filtering
+   Edge weight                                                    1.5                  1.5
+   Edge threshold                                                0.015                0.015
+   Edge percentile                                                0.9                  0.9
+   Scale weight                                                  0.002                0.002
+   Scheduling / MAE Top-K
+   MAE Top-K start ratio                                          0.35                0.35
+   MAE Top-K end ratio                                            0.25                0.25
+   MAE Top-K schedule length                                   50 epochs           20 epochs
+   Regularization warmup epochs                                    40                  20
+   Coupling statistics
+   Auto coupling statistics                                     Enabled             Enabled
+   Auto statistics samples                                        512                 512
+   Architecture toggles
+   Multi-scale                                                  Enabled           Enabled
+   Groups mode                                                  default      checkpoint_compat
+   Laplacian                                                    Enabled           Enabled
+
+
+
+Common EEG settings. WandB logging is enabled; ENIGMA structural connectivity is enabled
+across EEG stages.
+
+E.3   Compute / Server Details
+
+The compute environment is summarized in Table 9.
+
+
+                                                  25
+Component         Specification
+GPU               7× NVIDIA GeForce RTX 3090
+GPU memory        24,576 MiB per GPU (≈24 GB), ≈168 GB total
+Driver / CUDA     Driver 550.90.07; CUDA 12.4 (driver), 12.5 (compiler)
+CPU               Intel Xeon Gold 6240R @ 2.40 GHz
+Cores / threads   48 cores (24×2 sockets), 96 threads (HT)
+Max clock         4.0 GHz
+RAM               502 GB total (436 GB available)
+Swap              8 GB
+OS / Python       Ubuntu 20.04.6 LTS; Python 3.8.10
+     Table 9: Compute environment used for all experiments.
+
+
+
+
+                                  26
+F     EEG Simulation Framework: Stationary and Non-stationary Data
+      Generation
+
+This appendix describes the physics-aware EEG simulation framework used to generate stationary and
+non-stationary datasets with biologically plausible characteristics. The simulator balances biological
+realism, controllability, and scalability, while providing ground-truth causal topology, time-varying
+coupling strengths, and transmission delays.
+
+F.1    At-a-glance summary
+
+ Component                      Key choices
+ ROI parcellation               Desikan–Killiany atlas, N = 68 ROIs
+ Structural connectivity        ENIGMA SC (healthy controls; MNI coordinates)
+ Effective connectivity         SC-to-EC sparsification + directionality + self-inhibition
+ Stationarity modes             Stationary (σdrift = 0) vs. non-stationary AR(1) drift (ρ = 0.90, σdrift = 0.10)
+ Delays                         Distance-based: τij = dij /v + τsyn , with clipping (5–20 ms)
+ Neural dynamics                Neural mass with band assignments (alpha-dominant) + synaptic time constants
+ Forward model                  Leadfield L ∈ R129×N (GSN-128 + Cz) + low-rank perturbation
+ Sensor-space shaping           Band-weighted reconstruction + correlation control + RMS normalization +
+                                optional artifacts
+ Downsampling                   500 Hz → 250 Hz via FIR anti-aliasing (scipy.signal.decimate, factor 2)
+ Outputs                        LFP X, topology M , coupling B or Bt , delays τ , EEG, leadfield, metadata
+                   Table 10: At-a-glance summary of the EEG simulation framework.
+
+
+
+F.2    Stationary vs. non-stationary coupling dynamics
+
+We generate two EEG dataset variants with identical biological constraints but different coupling
+dynamics (Table 11).
+
+ Property                                      Stationary                        Non-stationary
+                                                              N ×N
+ Coupling matrix                               Fixed B ∈ R                       Time-varying Bt ∈ RT ×N ×N
+ Topology mask                                 Implicit in B                     Fixed M ∈ {0, 1}N ×N
+ Construction                                  —                                 Bt = M ⊙ W t
+ Drift process                                 σdrift = 0.0                      AR(1): ρ = 0.90, σdrift = 0.10
+                       Table 11: Stationary vs. non-stationary dataset generation.
+
+
+
+F.3    Structural connectivity and causal topology
+
+ENIGMA structural connectivity. We leverage ENIGMA structural connectivity (SC) under the
+Desikan–Killiany atlas (N = 68 ROIs), providing biologically grounded connectivity and ROI
+coordinates in MNI space.
+SC-to-effective connectivity conversion. Because SC is dense, we convert it to sparse effective
+connectivity using the procedure summarized in Table 12.
+
+    Step                                 Specification
+    Weak connection filtering            Remove bottom 50% weakest SC edges
+    Probabilistic sampling               Retain (i, j) with probability min(1, SCnorm (i, j) · rretention ),
+                                         rretention = 1.5
+    Target density                       10–15% off-diagonal density (effective connectivity)
+    Directional bias                     63% feedforward-only, 30% bidirectional, 7% feedback-only
+    Self-inhibition                      Add self-connection with probability pself = 0.25 per ROI
+      Table 12: Procedure for converting dense ENIGMA SC into sparse effective connectivity.
+
+
+
+                                                         27
+F.4   Distance-based transmission delays
+
+Each directed edge is assigned a transmission delay
+                                                      dij
+                                             τij =        + τsyn ,
+                                                       v
+with parameters summarized in Table 13.
+
+  Quantity                                        Specification
+  Distance dij                                    Euclidean distance between ROI centroids (mm; MNI coor-
+                                                  dinates)
+  Conduction velocity v                           v ∼ U(6.0, 12.0) m/s
+  Synaptic delay τsyn                             τsyn ∼ U(0.001, 0.003) s (1–3 ms)
+  Clipping                                        Delays clipped to 5–20 ms
+  Self-delays                                     Self-connections: 5–10 ms (distance-independent)
+                                Table 13: Delay model and parameter ranges.
+
+
+F.5   Neural mass model configuration
+
+Frequency band assignments. Each ROI is assigned a dominant band with probability
+          P (band) = [0.10, 0.15, 0.70, 0.05, 0.0] for [Delta, Theta, Alpha, Beta, Gamma].
+Table 14 summarizes the spectral and synaptic parameters.
+
+  Parameter                                       Specification
+  Band distribution                               Delta 10%, Theta 15%, Alpha 70%, Beta 5%, Gamma 0%
+  Alpha band                                      8–13 Hz (dominant in resting-state mimicry)
+  Excitatory time constant τE                     τE ∼ U(0.010, 0.015) s (10–15 ms)
+  Inhibitory time constant τI                     τI ∼ U(0.060, 0.100) s (60–100 ms)
+  Sigmoid parameters                              threshold = 0.5, slope = 2.0
+                      Table 14: Neural mass model spectral and synaptic parameters.
+
+
+F.6   Time-varying coupling weights (non-stationary only)
+
+For non-stationary datasets, coupling weights evolve via AR(1) drift:
+                   (i,j)        (i,j)         (i,j)       (i,j)      (i,j)                   2
+                 δt        = ρ δt−1 + ϵt ,   wt       = w0        + δt       ,   ϵt ∼ N (0, σdrift ).
+Key choices are summarized in Table 15.
+
+  Quantity                                        Specification
+  AR(1) coefficient                               ρ = 0.90
+  Drift noise                                     σdrift = 0.10
+                   (i,j)
+  Initial weights w0                              From normalized SC, clipped to [0.03, 0.3]
+  Sign assignment                                 Self: inhibitory (negative); inter-ROI: 80% excitatory, 20%
+                                                  inhibitory
+                  Table 15: Non-stationary drift process and coupling initialization.
+
+
+F.7   LFP generation
+
+Latent activity constraints. LFP generation enforces: (i) delayed coupling via τ , (ii) band-specific
+oscillations per ROI, (iii) slow amplitude modulation (0.1–0.5 Hz), and (iv) signal mixing (30%
+original, 70% clean oscillation).
+
+
+                                                       28
+F.8    Leadfield matrix and scalp EEG generation
+
+Leadfield matrix. We generate a leadfield L ∈ R129×N using the HydroCel GSN-128 layout (129
+channels including Cz reference) with standard 3D electrode coordinates. To model inter-individual
+variability, we apply a low-rank perturbation (magnitude 0.8–1.5, rank 5–10).
+Scalp projection. ROI activity X(t) is projected to sensor space as
+
+                                         yraw (t) = X(t)L⊤ .
+
+Sensor-space shaping. We match empirical resting-state statistics by combining band-filtered
+components from yraw with channel-specific synthetic oscillations. The target band mixture and
+shaping steps are summarized in Table 16.
+
+Table 16: EEG sensor-space shaping: target band mixture, correlation control, normalization, and
+artifacts.
+
+  Component                          Specification
+  Target band mixture                Delta 10%, Theta 12%, Alpha 70%, Beta 6%, Gamma 2%
+  Band extraction                    Extract each band from raw EEG to preserve spatial correlation
+                                     structure
+  Synthetic oscillations             Generate independent oscillations per channel (100% channel-
+                                     specific)
+  Band weighting                     Alpha: raw_weight = 3.0, synth_weight = 2.5; other bands
+                                     use lower weights
+  Correlation target                 Inter-channel correlation 0.2–0.4
+  Decorrelation strategy             Add independent 1/f noise per channel; minimize shared
+                                     noise; avoid average reference
+  RMS normalization                  target_RMS ∼ U(30, 50) µV per channel; soft-clip outliers
+                                     > 80 µV via tanh
+  Optional artifacts: blinks         10–20/min, duration ∼300 ms, stronger in frontal channels
+  Optional artifacts: muscle         20–60 Hz, duration 100–500 ms, stronger in tempo-
+                                     ral/peripheral channels
+  Optional artifacts: 1/f            Spectral slope 1/f 1.2 ; 95% shared, 5% independent per chan-
+                                     nel
+
+
+F.9    Downsampling with anti-aliasing
+
+Signals are downsampled using scipy.signal.decimate with FIR filtering (Table 17).
+
+  Quantity                                    Specification
+  Original sampling rate                      500 Hz
+  Downsampling factor                         2 (default)
+  Effective sampling rate                     250 Hz
+  Method                                      FIR anti-aliasing via scipy.signal.decimate
+                                Table 17: Downsampling configuration.
+
+
+
+F.10    Validation checks
+
+The first subject (subject_0000) is automatically validated against biological plausibility checks
+summarized in Table 18.
+
+F.11    Output file structure
+
+Each subject directory (subject_XXXX/) contains the files listed in Table 19.
+
+
+                                                  29
+  Object                  Metric                                Target range / criterion
+  EEG                     RMS amplitude                         10–100 µV
+  EEG                     Frequency distribution                Alpha band 30–50% (target: 70%)
+  EEG                     Spatial correlation                   0.2–0.5
+  EEG                     Kurtosis                              3–8 (artifact-driven)
+  LFP                     Std. deviation                        0.2–0.8
+  LFP                     Oscillatory content                   Clear frequency bands present
+  LFP                     Connectivity-driven dynamics          Consistent with coupling matrix
+  Leadfield               Rank                                  ≥ NROIs
+  Leadfield               Condition number                      Numerical stability check
+  Topology                Sparsity                              10–20% off-diagonal density
+  Topology                Asymmetry                             Directional connections verified
+  Topology                Hierarchy                             Feedforward/feedback ratio enforced
+                   Table 18: Automatic plausibility validation for subject_0000.
+
+   File                                 Contents (shape)
+   X.npy                                LFP signal (T, N )
+   B_t.npy                              Time-varying couplings (T, N, N ) [Non-stationary]
+   B.npy                                Fixed coupling matrix (N, N ) [Stationary]
+   M.npy                                Fixed topology mask (N, N )
+   Tau.npy                              Delay matrix (N, N )
+   EEG.npy                              Scalp EEG signal (T, 129)
+   leadfield.npy                        Leadfield matrix (129, N )
+   channel_names.npy                    Channel names (129, )
+   sensor_positions.npy                 Sensor positions (129, 3)
+   meta.json                            Metadata (sampling frequency, duration, parameters, etc.)
+                  Table 19: Per-subject output files produced by the EEG simulator.
+
+   Constraint                                 Implementation
+   Real brain connectivity                    ENIGMA SC (healthy controls)
+   Distance-based delays                      v ∈ [6, 12] m/s; synaptic delay 1–3 ms; clip 5–20 ms
+   Spectral realism                           Alpha dominance (70%) in ROI band assignments; sensor
+                                              target mixture uses alpha 70%
+   Electrode layout                           HydroCel GSN-128 + Cz (129 channels)
+   Spatial correlations                       Target inter-channel correlation 0.2–0.4 via noise-based
+                                              decorrelation
+   Amplitude realism                          RMS ∼ U(30, 50) µV with soft clipping
+   Artifacts                                  Optional eye blinks + muscle bursts + 1/f noise
+   1/f spectrum                               Slope 1/f 1.2 (with shared/independent components)
+   E/I balance                                80% excitatory, 20% inhibitory inter-ROI; self inhibitory
+   Hierarchy                                  Feedforward/bidirectional/feedback = 63% / 30% / 7%
+              Table 20: Key biological plausibility constraints enforced by the simulator.
+
+
+F.12    Summary of biological plausibility constraints
+
+The simulation enforces the biological realism constraints listed in Table 20.
+These design choices ensure the generated EEG preserves key empirical characteristics while provid-
+ing synthetic data with known causal structure for principled model training and evaluation.
+
+
+
+
+                                                     30
+G     fMRI Simulation Framework: Stationary and Non-stationary Data
+      Generation
+This appendix describes the physics-aware fMRI simulation framework used to generate stationary
+and non-stationary fMRI datasets with biologically plausible characteristics. The simulator is based
+on The Virtual Brain (TVB) architecture and provides ground truth for causal topology, coupling
+strengths (fixed or time-varying), conduction delays, and neural activity prior to hemodynamic
+filtering.
+
+G.1   At-a-glance summary
+
+ Component                                               Key choices
+ ROI parcellation                                       Desikan–Killiany atlas, N = 68 ROIs
+ Structural connectivity                                ENIGMA SC (healthy controls; MNI coordinates)
+ Effective connectivity                                 SC-to-EC sparsification + directionality + self-inhibition
+ Stationarity modes                                     Stationary (fixed B) vs. non-stationary AR(1) drift (ρ =
+                                                        0.90, σdrift = 0.10)
+ Delays                                                 Distance-based: τij = dij /v + τsyn , clipped (2.5–50 ms)
+ Neural dynamics                                        Wilson–Cowan E/I neural mass model with external drive
+                                                        + delayed coupling
+ Hemodynamics                                           ROI-specific HRF (double-gamma), normalized and scaled
+                                                        to 1–5% PSC
+ Simulation resolution                                  High-res simulation at 100 Hz (dt = 10 ms) then down-
+                                                        sample to TR (e.g. 2.0 s)
+ BOLD preprocessing                                     Smoothing, high-pass 0.008 Hz, optional low-pass 0.15
+                                                        Hz, PSC conversion
+ Dataset scale                                          10,000 subjects per condition; duration 480 s; TR 2.0 s;
+                                                        240 timepoints
+ Outputs                                                BOLD, neural activity, B or Bt , topology M, delays τ ,
+                                                        HRF params
+                   Table 21: At-a-glance summary of the fMRI simulation framework.
+
+
+G.2   Stationary vs. non-stationary coupling dynamics
+
+We generate stationary and non-stationary fMRI datasets that share the same biological constraints
+but differ in coupling dynamics (Table 22).
+
+ Property                                        Stationary                                 Non-stationary
+                                                                   N ×N
+ Coupling                                        Fixed B ∈ R                                Time-varying Bt ∈ RT ×N ×N
+ Topology mask                                   Implicit in B                              Fixed M ∈ {0, 1}N ×N
+ Construction                                    —                                          Bt = M ⊙ W t
+ Drift process                                   —                                          AR(1): ρ = 0.90, σdrift = 0.10
+ Temporal resolution                             TR resolution                              Generated at 100 Hz, averaged
+                                                                                            to TR
+                       Table 22: Stationary vs. non-stationary coupling generation.
+
+
+G.3   ROI-specific hemodynamic response function (HRF)
+
+HRF heterogeneity. We incorporate ROI-specific HRF parameters to reflect regional variability in
+hemodynamic responses. Each ROI i is assigned a double-gamma HRF
+                                         (i)             (i)               (i)             (i)
+                                        ta1 −1 e−t/b1                     ta2 −1 e−t/b2
+                             hi (t) =          (i)
+                                                               − c(i) ·          (i)
+                                                                                                 ,
+                                         (i)a1          (i)                (i)a2          (i)
+                                        b1           Γ(a1 )               b2           Γ(a2 )
+           (i)   (i)       (i)   (i)
+where (a1 , b1 ) and (a2 , b2 ) are derived from peak and undershoot delays, respectively. HRFs
+are normalized to unit peak and scaled to yield realistic BOLD changes (1–5% PSC).
+Key HRF parameter ranges and grouping are summarized in Table 23.
+
+
+                                                              31
+   Quantity                                            Specification
+               (i)
+   Peak delay tpeak                                    [4.0, 9.0] s
+                     (i)
+   Undershoot delay tundershoot                        [12.0, 22.0] s
+                     (i)
+   Undershoot scale c                                  [0.15, 0.50]
+   ROI HRF groups                                      Fast (peak ∼5–6 s), Medium (6–7 s), Slow (6.5–8 s)
+   Normalization / scaling                             Unit peak; scaled to 1–5% PSC
+                      Table 23: ROI-specific HRF parameterization (double-gamma).
+
+G.4   Structural connectivity and causal topology
+
+ENIGMA structural connectivity. We use ENIGMA structural connectivity (SC) under the Desikan–
+Killiany atlas (N = 68 ROIs) to ground the topology in biologically realistic anatomy.
+SC-to-effective connectivity conversion. Because SC is dense, we convert it to sparse effective
+connectivity using the procedure summarized in Table 24.
+
+  Step                                 Specification
+  Weak connection filtering            Remove bottom 25% weakest SC edges
+  Probabilistic sampling               Retain (i, j) with probability min(1, SCnorm (i, j) · rretention ),
+                                       rretention = 1.5
+  Target density                       10–15% off-diagonal density
+  Directional bias                     45% feedforward-only, 50% bidirectional, 5% feedback-only
+  Self-inhibition                      Add self-connection with probability pself = 0.25 per ROI
+   Table 24: Procedure for converting ENIGMA SC into sparse effective connectivity for fMRI.
+
+
+G.5   Distance-based conduction delays
+
+Transmission delays are computed from inter-regional distances:
+                                              dij
+                                       τij =      + τsyn .
+                                               v
+Parameters are summarized in Table 25.
+  Quantity                                      Specification
+  Distance dij                                  Euclidean distance between ROI centroids (mm; MNI coor-
+                                                dinates)
+  Conduction velocity v                         v ∼ U(4.0, 8.0) m/s
+  Synaptic delay τsyn                           τsyn ∼ U(0.003, 0.008) s (3–8 ms)
+  Clipping                                      2.5–50 ms
+  Self-delays                                   3–8 ms (distance-independent)
+                            Table 25: Distance-based conduction delay model.
+
+
+G.6   Wilson–Cowan neural mass model
+
+Local dynamics. Latent neural activity is generated using a Wilson–Cowan neural mass model with
+excitatory/inhibitory subpopulations per ROI. Local parameters and time constants are summarized
+in Table 26.
+Dynamics. For ROI i,
+                                                                          
+                                                       (i)      (i)
+                          τE Ėi (t) = −Ei (t) + σ wEE Ei − wEI Ii + ui (t) ,                               (30)
+                                                                   
+                                                      (i)     (i)
+                           τI I˙i (t) = −Ii (t) + σ wIE Ei − wII Ii .                                       (31)
+
+External input. The external drive combines pink noise, infraslow oscillations, and sparse events,
+with weights summarized in Table 27:
+                        uexternal
+                         i        (t) = 0.5 slowi (t) + 0.3 pinki (t) + 0.2 eventsi (t).
+
+
+                                                       32
+   Quantity                                         Specification
+     (i)
+   wEE                                              U(1.2, 1.6)
+     (i)
+   wEI                                              U(0.8, 1.2)
+     (i)
+   wIE                                              U(1.0, 1.4)
+     (i)
+   wII                                              U(0.4, 0.8)
+   τE                                               0.010 s (10 ms)
+   τI                                               0.100 s (100 ms)
+   Activation                                       σ(x) = 1/(1 + exp(−2x))
+                   Table 26: Wilson–Cowan local parameters and time constants.
+
+   Component                                Specification
+   Pink noise                               Independent 1/f noise per ROI
+   Slow fluctuations                        0.01–0.04 Hz; sum of 8 sinusoids with random phases
+   Sparse events                            Rate ∼ 0.08/s; duration ∼ 150 ms
+   Mixture weights                          slow: 0.5, pink: 0.3, events: 0.2
+                Table 27: External input components for Wilson–Cowan dynamics.
+
+Delayed coupling input. Coupled input is
+                         N
+                         X
+          ucoupled
+           i       (t) =   Bji (t) Ej (t − τji ),     ui (t) = uexternal
+                                                                i        (t) + 0.05 ucoupled
+                                                                                     i       (t).
+                         j=1
+The coupling term is scaled (0.05) to maintain stability.
+
+G.7    High-resolution simulation, HRF convolution, and TR downsampling
+
+Neural dynamics are simulated at 100 Hz (dt = 0.01 s) prior to hemodynamic filtering and TR
+downsampling. The end-to-end pipeline is summarized in Table 28.
+
+  Step                      Specification
+  Simulation                Euler integration with dt = 0.01 s at 100 Hz; store Ei (t)
+  Noise / smoothing         Add 2% pink noise; Gaussian smoothing with σ = 0.3 s
+  Hemodynamics              Convolve each ROI with its HRF kernel hi (t)
+  TR downsampling           Average over TTR /dt samples (e.g. TR=2.0 s)
+                Table 28: High-resolution simulation pipeline prior to TR sampling.
+
+
+G.8    Time-varying coupling weights (non-stationary only)
+
+For non-stationary datasets, coupling weights evolve via AR(1) drift at 100 Hz:
+                 (i,j)      (i,j)           (i,j)     (i,j)    (i,j)         2
+                δt   = ρ δt−1 + ϵt , wt     = w0 + δt , ϵt ∼ N (0, σdrift        ),
+with typical values ρ = 0.90 and σdrift = 0.10. Initialization and constraints are summarized in
+Table 29.
+
+G.9    BOLD preprocessing and PSC conversion
+
+To match empirical resting-state fMRI characteristics while preserving low-frequency content, we
+apply the preprocessing steps in Table 30.
+This preprocessing targets PSC ranges of roughly ±3–8% (std. ∼ 1.5–4%) while preserving the
+dominant 0.01–0.04 Hz band.
+
+G.10     Connectivity constraints and sparsity
+
+E/I balance and sparsity. Connectivity is constrained to be sparse (10–15% non-zero off-diagonal
+density). Inter-regional connections are 85% excitatory and 15% inhibitory; self-connections are
+always inhibitory.
+
+
+                                                    33
+  Quantity                                      Specification
+  AR(1) coefficient                             ρ = 0.90
+  Drift noise                                   σdrift = 0.10
+                                                    (i,j)               SCnorm (i, j) − SCmin
+  Initialization                                w0          = 0.1 + 1.4 ·
+                                                                          SCmax − SCmin
+                                                  (i,j)
+  Clipping                                      wt      ∈ [0.1, 1.5] at each timestep
+  Sign assignment                               Self: inhibitory; inter-ROI: 85% excitatory, 15% inhibitory
+  Downsampling                                  Average Bt over each TR window to get TR-resolution
+                                                Bt ∈ RT ×N ×N
+                 Table 29: Non-stationary drift process and coupling constraints (fMRI).
+
+  Step                              Specification
+  Temporal smoothing                Gaussian smoothing with σ = 0.5 TR
+  High-pass filtering               2nd-order Butterworth, cutoff 0.008 Hz
+  Low-pass filtering (optional)     2nd-order Butterworth, cutoff 0.15 Hz (below Nyquist for TR=2.0 s)
+  PSC conversion                    Center each ROI; scale to target std. 20.0 (PSC units); ROI amplitude
+                                    factor ∼ U(0.8, 1.2)
+              Table 30: BOLD preprocessing for realistic PSC-scale resting-state fMRI.
+
+
+Distance-dependent connectivity (synthetic option). When ENIGMA is not used, synthetic edges
+follow                                                
+                                                   dij
+                              P (i ↔ j) ∝ exp −          , λ = 0.5,
+                                                    λ
+with a 2× boost for local connections (dij < 0.3).
+
+G.11     Dataset generation protocol and outputs
+
+We generate 10,000 simulated subjects for each condition (stationary and non-stationary). Per-subject
+randomized components and global simulation settings are summarized in Table 31.
+
+  Quantity                                      Specification
+  Per-subject randomized components             M, ROI HRFs, local WC parameters, delays τ ; plus drift
+                                                params for non-stationary
+  Duration                                      480 s (8 min)
+  TR                                            2.0 s
+  # timepoints                                  240
+  # ROIs                                        68
+  Stored outputs                                XBOLD ∈ R68×240 ; Xneural ∈ R68×240 ; B or Bt ∈
+                                                R240×68×68 ; M; τ ; per-ROI HRF params
+                         Table 31: Dataset protocol and stored outputs (fMRI).
+
+
+G.12     Summary of biological plausibility features
+
+The simulator enforces the biological realism constraints summarized in Table 32.
+These design choices yield synthetic fMRI datasets that preserve core empirical properties of resting-
+state BOLD while providing known causal structure and time-varying connectivity for principled
+evaluation of causal discovery methods under realistic measurement distortions.
+
+
+
+
+                                                      34
+    Constraint                             Implementation
+    Real brain connectivity                ENIGMA SC (healthy controls)
+    Distance-based delays                  v ∈ [4, 8] m/s; synaptic delay 3–8 ms; clip 2.5–50 ms
+    HRF heterogeneity                      ROI-specific double-gamma HRF; tpeak ∈ [4, 9] s
+    Resting-state band                     External drive emphasizes 0.01–0.04 Hz fluctuations
+    1/f realism                            Pink-noise component in external input; +2% pink noise
+                                           added post-sim
+    Wilson–Cowan dynamics                  Explicit E/I subpopulations per ROI
+    E/I balance                            Inter-ROI: 85% excitatory, 15% inhibitory; self inhibitory
+    Temporal non-stationarity              AR(1) drift in coupling weights (non-stationary only)
+    Empirical-like preprocessing           Smoothing + filtering + PSC scaling with ROI heterogeneity
+    Hierarchy                              Feedforward/bidirectional/feedback = 45% / 50% / 5%
+          Table 32: Key biological plausibility constraints enforced by the fMRI simulator.
+
+
+H     Full Baseline Definitions and Hyperparameters
+This appendix provides detailed definitions and hyperparameters for all 16 baseline methods used in
+our comparative evaluation. Baselines are organized into two categories: fMRI baselines (7 methods)
+and EEG baselines (9 methods).
+
+H.1     fMRI Baselines
+
+All baseline methods except rDCM follow a two-stage pipeline: (1) HRF deconvolution: BOLD
+signal → neural activity, and (2) Causality estimation: neural activity → causal graph.
+
+H.1.1    Statistical Baselines
+FIR-VAR. This method combines FIR (Finite Impulse Response) deconvolution with a VAR
+(Vector AutoRegressive) model. The HRF deconvolution uses a canonical double-gamma HRF kernel
+(SPM-style) with peak response parameters a1 = 6, b1 = 1, undershoot parameters a2 = 16, b2 = 1,
+and undershoot ratio c = 1/6. The HRF length is 32 timepoints, TR is 2.0 seconds, and Wiener
+filtering (noise=0.1) is applied for noise robustness. The VAR model uses maximum lag p = 2
+(reduced from default 5 to avoid fitting errors), AIC for model selection, coupling strength computed
+as the sum of absolute coefficients across all lags, and delay estimated as the lag with maximum
+coefficient. Hyperparameters: sequence length 240, TR 2.0, HRF length 32, max_lag 2, output
+normalization enabled with scale 1.2.
+
+FIR-Granger. This method combines FIR deconvolution with Granger Causality testing. The HRF
+deconvolution is identical to FIR-VAR. The Granger causality estimation performs pairwise Granger
+causality tests with maximum lag 2, significance level 0.05, F-test (SSR F-test), coupling strength set
+to F-statistic (normalized to [0, 1] range), and delay estimated as the lag with maximum F-statistic.
+Hyperparameters: same as FIR-VAR, with additional significance parameter 0.05.
+
+Wiener-VAR. This method combines Wiener deconvolution with VAR modeling. The Wiener
+deconvolution operates in the frequency domain using a regularized inverse filter: W (f ) =
+H ∗ (f )/(|H(f )|2 + σn2 ), where H(f ) is the HRF frequency response and σn2 = 0.1 is the esti-
+mated noise power. The HRF kernel uses the same canonical double-gamma parameters as FIR. The
+VAR estimation is identical to FIR-VAR. Hyperparameters: sequence length 240, TR 2.0, HRF length
+32, noise_power 0.1, max_lag 2, output normalization enabled with scale 1.2.
+
+Wiener-Granger. This method combines Wiener deconvolution with Granger Causality. The
+HRF deconvolution is identical to Wiener-VAR, and the causality estimation is identical to FIR-
+Granger. Hyperparameters: sequence length 240, TR 2.0, HRF length 32, noise_power 0.1, max_lag
+2, significance 0.05, output normalization enabled with scale 1.2.
+
+rDCM. Regression Dynamic Causal Modeling (rDCM) Frässle et al. [2021] uses Bayesian inverse
+inference to directly estimate causal connections from fMRI data without explicit HRF deconvolution.
+The method employs the TAPAS (Toolbox for Advanced Parameter Averaging) rDCM framework
+
+
+                                                 35
+with resting-state model type. Bayesian model inversion is performed with sparsity constraints.
+Hyperparameters: SNR 3, TR (y_dt) 2.0 seconds, prior probability (p0_all) 0.15 (initial sparsity for
+all connections), iterations 100, filter strength 5, restrictInputs 0, u_shift 0, type ’r’ (resting-state),
+padding 0, visualization disabled, signal computation enabled. The method does not require training
+and is evaluated directly as a statistical Bayesian approach.
+
+H.1.2    Deep Learning Baselines
+DeepDeconvTCDF (Option 1). This end-to-end deep learning method combines LSTM-based
+deconvolution with the Temporal Causal Discovery Framework (TCDF) Nadéau and Bengio [2018].
+The architecture consists of: (1) LSTM deconvolution module: bidirectional LSTM with input size
+R (number of ROIs), hidden size 64, 2 layers, outputting neural activity (B, R, T ) with Softplus
+activation for non-negativity; (2) TCDF module: dilated depthwise separable 1D-CNN with kernel
+size 4, 2 layers, dilation coefficients [1, 4], hidden size 64, processing neural activity to extract causal
+features; (3) Feature extraction and graph prediction: adaptive average pooling for temporal
+aggregation, 2-layer MLP feature extractor (1 → 64 → 64), pairwise predictor (128 → 64 → 1)
+for coupling, delay predictor with identical structure, and CouplingActivation for output range
+[−1.2, 1.2]. Hyperparameters: n_rois 48 or 68, tcdf_kernel 4, tcdf_layers 2, hidden_dim 64, lstm_-
+hidden_size 64, lstm_num_layers 2, batch_size 32, learning_rate 1e-3, weight_decay 1e-5, epochs
+50, loss_weight_delay 1.0. Loss functions: MSE for deconvolution (neural activity prediction), MSE
+for coupling, MSE for delay (only on GT edges).
+
+EndToEndCNN (Option 2). This end-to-end 1D-CNN method directly predicts causal graphs
+from BOLD signals. The architecture consists of: (1) 1D-CNN encoder: three Conv1d layers
+(R → 128 → 256 → 256) with kernel size 3, padding 1, BatchNorm and LeakyReLU(0.1) after
+each layer; (2) Temporal pooling: adaptive average pooling to (B, 256); (3) Graph generator:
+3-layer MLP (256 → 512 → 1024 → R2 ) with Dropout(0.1) and LeakyReLU(0.1), outputting
+(B, R, R) with CouplingActivation; (4) Delay head: 2-layer MLP (256 → 512 → R2 ) with
+Dropout(0.1) and LeakyReLU(0.1), outputting (B, R, R) with Softplus activation (non-negative).
+Hyperparameters: n_rois 48 or 68, hidden_dim 128, intermediate_dim 512 (hidden_dim × 4), dropout
+0.1, leaky_relu_negative_slope 0.1, batch_size 32, learning_rate 1e-3, weight_decay 1e-5, epochs 50,
+loss_weight_delay 1.0. Loss functions: MSE for coupling, MSE for delay (only on GT edges).
+
+H.2     EEG Baselines
+
+All EEG baseline methods follow a two-stage pipeline: (1) Source localization: scalp EEG → ROI
+neural activity, and (2) Causality estimation: ROI neural activity → causal graph.
+
+H.2.1    Statistical Baselines
+MNE+Granger. This method combines MNE (Minimum Norm Estimate) Hämäläinen and Il-
+moniemi [1994] source localization with Granger Causality. MNE uses regularization parameter
+λ = 0.1 and inverse operator W = LT (LLT + λI)−1 , where L is the leadfield matrix. Input is scalp
+EEG (S, T ) with S = 129 channels and T = 2500 timepoints, output is ROI neural activity (R, T )
+with R = 68 ROIs. Granger causality performs pairwise tests with maximum lag (order) 5, Ridge
+regression regularization α = 1e − 3, coupling strength computed as log(RSSrestricted /RSSfull ), and
+delay estimated as the lag with maximum coefficient. Hyperparameters: lambda_reg 0.1, order 5,
+alpha 1e-3, sampling frequency 250.0 Hz.
+
+MNE+VAR. This method combines MNE source localization with VAR modeling. Source local-
+ization is identical to MNE+Granger. VAR estimation uses maximum lag (order) 5, Ridge regression
+regularization α = 1e − 3, coupling strength as the sum of absolute coefficients across all lags, and
+delay as the lag with maximum coefficient. Hyperparameters: lambda_reg 0.1, order 5, alpha 1e-3,
+sampling frequency 250.0 Hz.
+
+sLORETA+Granger. This method combines sLORETA (standardized Low Resolution Electro-
+magnetic Tomography) Pascual-Marqui [2002] source localization with Granger Causality. sLORETA
+uses regularization parameter λ = 0.05 and inverse operator W = S −1 LT T (including standardiza-
+tion matrix). Input and output dimensions are the same as MNE. Causality estimation is identical to
+
+
+                                                    36
+MNE+Granger. Hyperparameters: lambda_reg 0.05, order 5, alpha 1e-3, sampling frequency 250.0
+Hz.
+
+sLORETA+VAR. This method combines sLORETA source localization with VAR modeling.
+Source localization is identical to sLORETA+Granger, and causality estimation is identical to
+MNE+VAR. Hyperparameters: lambda_reg 0.05, order 5, alpha 1e-3, sampling frequency 250.0 Hz.
+
+DeepSIF+Granger. This method combines DeepSIF (Deep Neural Source Imaging) Sun et al.
+[2022] source localization with a Granger Estimator. DeepSIF is a deep learning-based source imaging
+method with focal constraints, trained end-to-end. Input is scalp EEG (B, S, T ) with S = 129, output
+is ROI neural activity (B, R, T ) with R = 68. The Granger Estimator is a lag-based non-trainable
+statistical method with maximum lag 10, operating on ROI neural activity to output coupling matrix
+(B, R, R) and delay matrix (B, R, R). Hyperparameters: n_sensors 129, n_sources 68, max_lag 10,
+sampling frequency 250.0 Hz, batch_size 32, learning_rate 1e-3, epochs 50, self_threshold 0.1. Loss
+functions: MSE for source localization (neural activity prediction), BCEWithLogitsLoss for coupling,
+MSE for delay. Note: Only the source localization stage is trainable; the Granger Estimator has no
+learnable parameters.
+
+H.2.2    Deep Learning Baselines
+
+DeepSIF+TCN+SparseMLP. This method combines DeepSIF source localization, a TCN (Tem-
+poral Convolutional Network) Bai et al. [2018] encoder, and a SparseMLP structure learner. DeepSIF
+architecture and hyperparameters are as described in DeepSIF+Granger. The TCN encoder processes
+(B, R, T ) input with hidden dimension 64, outputting ROI embeddings (B, R, H). The SparseMLP
+structure learner takes ROI embeddings and outputs coupling matrix (B, R, R) and delay matrix
+(B, R, R) using BCEWithLogitsLoss for coupling and MSE for delay. Hyperparameters: n_sensors
+129, n_sources 68, hidden_dim 64, batch_size 32, learning_rate 1e-3, epochs 50, self_threshold 0.1.
+
+DeepSIF+GNN+SparseMLP. This method combines DeepSIF source localization, a GNN (Graph
+Neural Network) Kipf and Welling [2017] encoder, and a SparseMLP structure learner. Source
+localization is identical to DeepSIF+TCN+SparseMLP. The GNN encoder processes (B, R, T )
+input with hidden dimension 64, outputting ROI embeddings (B, R, H). The SparseMLP struc-
+ture learner is identical to DeepSIF+TCN+SparseMLP. Hyperparameters are identical to Deep-
+SIF+TCN+SparseMLP.
+
+sLORETA+TCN+SparseMLP. This method combines sLORETA source localization, a TCN
+encoder, and a SparseMLP structure learner. sLORETA uses the same parameters as described
+in sLORETA+Granger and is non-trainable (fixed). Causality estimation is identical to Deep-
+SIF+TCN+SparseMLP. Hyperparameters are identical to DeepSIF+TCN+SparseMLP.
+
+sLORETA+GNN+SparseMLP. This method combines sLORETA source localization, a
+GNN encoder, and a SparseMLP structure learner.       Source localization is identical to
+sLORETA+TCN+SparseMLP, and causality estimation is identical to DeepSIF+GNN+SparseMLP.
+Hyperparameters are identical to DeepSIF+TCN+SparseMLP.
+
+
+H.3     Common Evaluation Settings
+
+All baseline methods use the following common evaluation settings: data split 80% train / 10%
+validation / 10% test, triple repetition which have different random seeds, evaluation metrics including
+F1 Score, SHD (Structural Hamming Distance), dSHD (directional Structural Hamming Distance),
+and Directionality Accuracy. Thresholds: self-connection threshold 0.1, edge threshold 0.01 (for F1
+calculation). All statistical baseline methods require no training and are evaluated directly. Deep
+learning baseline methods are trained using the Adam optimizer. Statistical methods normalize outputs
+to range [−1.2, 1.2] via the normalize_coupling_output function to facilitate comparison with
+deep learning models.
+
+
+                                                  37
+I     Additional Experiments and Analyses
+I.1   Robustness to Physics Misspecification
+
+A central concern for any simulation-trained pipeline is whether the learned mapping memorizes
+simulator-specific physics (HRF parameters, leadfield matrix) or genuinely transferable causal
+structure. We address this directly by perturbing the test-time physics priors while keeping all model
+weights frozen at values trained on the nominal simulator. If INCAMA were tightly tied to a single
+simulator setting, F1 would be expected to drop sharply under forward-model perturbations; under
+Theorem 4.7, in contrast, recovery error should degrade gradually with inversion error.
+HRF perturbation (fMRI). We regenerate 1,000-subject test sets at the underlying 100 Hz TVB
+level with canonical HRF parameters (peak delay, undershoot delay, undershoot scale) jointly scaled
+by 1 + ϵ for ϵ ∈ {−20%, −10%, 0, +10%, +20%}. Stage 1 retains the nominal HRF assumption;
+only the data-generating HRF changes.
+
+                     ϵ           F1 ↑    Precision ↑      Recall ↑     SHD (norm.) ↓
+                     −20%       0.6025      0.8887        0.4557           0.0893
+                     −10%       0.6025      0.8887        0.4557           0.0893
+                      0%        0.6043      0.8889        0.4577           0.0890
+                     +10%       0.6025      0.8887        0.4557           0.0893
+                     +20%       0.6025      0.8887        0.4557           0.0893
+Table 33: HRF misspecification on TVB-simulated fMRI. Train weights are frozen; only test-time
+HRF parameters are perturbed by a multiplicative factor 1+ϵ. F1 stays in [0.6025, 0.6043], indicating
+that the learned causal-discovery behavior is essentially invariant to HRF parameter scale within
+±20%.
+
+Leadfield perturbation (EEG). We perturb the EEG forward model by replacing L0 with Lα =
+L0 + α ∥L 0 ∥F
+        ∥N ∥F N where N has i.i.d. standard normal entries, and α ∈ {0, 1, 5}. Observations are
+generated as x = Lα z + ϵ while the trained model retains the nominal leadfield L0 internally.
+
+                          α      F1 (seed 1) ↑   F1 (seed 2) ↑       F1 (seed 3) ↑
+                          0.0       0.554             0.525             0.532
+                          1.0       0.554             0.523             0.538
+                          5.0       0.558             0.498             0.509
+Table 34: Leadfield misspecification on TVB-simulated EEG. Train weights are frozen; only test-time
+forward leadfield is perturbed. At α = 5.0, seed 1 improves marginally (regularization-like effect)
+and the worst case (seed 2) degrades by 5.1%. No catastrophic failure occurs.
+
+Interpretation. The HRF perturbation changes F1 by less than 0.002 across ±20%, and the leadfield
+perturbation drops F1 by at most 5.1% even at 5× Frobenius noise. Both behaviors are consistent
+with the graceful-degradation behavior predicted by Theorem 4.7: bounded inversion error translates
+to a bounded multiple of graph-recovery error, with no catastrophic transition. We read this as direct
+evidence that what INCAMA transfers from simulation is causal structure rather than simulator-
+specific measurement physics.
+
+I.2   Comparison with CD-NOD (Nonstationarity-Aware Baseline)
+
+Because INCAMA uses nonstationarity as part of its directed-graph scoring signal, an informative
+comparison is against a baseline that is also designed for nonstationary causal discovery. We compare
+against CD-NOD [Huang et al., 2020] on the same TVB nonstationary fMRI test set (R=68 ROIs,
+T =240 timepoints). For a maximally favorable evaluation of CD-NOD, we provide it oracle context
+labels—i.e., the ground-truth nonstationary segment indices—an advantage unavailable in real
+neuroimaging data. Table 35 summarizes the quantitative comparison.
+The performance gap stems from two complementary factors: (i) CD-NOD operates directly on
+BOLD without HRF deconvolution, so hemodynamic distortion enters its conditional independence
+tests; and (ii) constraint-based discovery has limited statistical power when scaling to 68 variables
+
+
+                                                     38
+           Method                          F1 ↑        SHD (norm.) ↓     Runtime / subject
+           CD-NOD (oracle context)    0.046 ± 0.001        0.192          ∼ 18.8 s (CPU)
+           INCAMA (ours)                  0.604            0.089          ∼ 0.1 s (GPU)
+Table 35: INCAMA vs. CD-NOD on TVB nonstationary fMRI. INCAMA attains 13.1× higher F1,
+2.16× lower normalized SHD, and runs ∼188× faster, even with CD-NOD given oracle nonstationary
+segment labels.
+
+
+at T =240 timepoints. Both are precisely the regimes our latent-space, end-to-end formulation is
+designed to handle.
+TVB benchmarks (Tables 1a–1b), computational cost (Table 2), and HCP real-data alignment metrics
+(Table 3) appear in Section 6; the CD-NOD comparison (subsection above), robustness experiments
+above (Tables 33–34), and the theory-to-evidence narrative (Section 6.6) supplement the main
+experiments section.
+
+J     Metrics
+This section provides detailed descriptions of the evaluation metrics used in this paper.
+
+J.1   F1 Score
+
+F1 Score evaluates the accuracy of edge existence in the predicted causal graph and is computed as
+the harmonic mean of Precision and Recall:
+                                         2 · Precision · Recall
+                                   F1 =                         ,                             (32)
+                                          Precision + Recall
+where Precision and Recall are defined as:
+                                                     TP
+                                       Precision =         ,                                     (33)
+                                                   TP + FP
+                                                     TP
+                                          Recall =          .                                    (34)
+                                                   TP + FN
+Here, TP (True Positive) denotes edges that exist in both prediction and ground truth, FP (False
+Positive) denotes edges that exist only in the prediction, and FN (False Negative) denotes edges that
+exist only in the ground truth. The predicted continuous coupling strength matrix is binarized using a
+threshold before evaluation. F1 Score ranges from 0 to 1, with values closer to 1 indicating better
+alignment between the predicted and true graph structures.
+
+J.2   Normalized SHD (Structural Hamming Distance)
+
+Normalized SHD measures the discrepancy between two directed graphs in terms of local edge
+structure, counting edge additions, deletions, and direction reversals.
+Let Apred , AGT ∈ {0, 1}N ×N denote the predicted and ground-truth adjacency matrices, with self-
+loops excluded. The Structural Hamming Distance (SHD) is defined as
+                                     SHD = FP + FN + Reverse,                                    (35)
+where FP denotes false positive edges (Apred (i, j) = 1, AGT (i, j) = 0), FN denotes false negative
+edges (Apred (i, j) = 0, AGT (i, j) = 1), and Reverse denotes incorrectly oriented edges, defined as
+unordered node pairs {i, j} for which Apred (i, j) = 1 and AGT (j, i) = 1. Each reversed edge is
+counted once, not twice.
+The normalized SHD is obtained by dividing by the number of possible directed edges:
+                                                          SHD
+                                  Normalized SHD =               .                               (36)
+                                                       N (N − 1)
+Normalized SHD ranges from 0 to 1, with lower values indicating closer agreement between the
+predicted and ground-truth graph structures.
+
+
+                                                  39
+J.3   Normalized dSHD (Direction-aware Structural Hamming Distance)
+
+Normalized dSHD measures the discrepancy between two directed graphs by penalizing missing,
+spurious, and incorrectly oriented edges, with higher weight assigned to edge reversals.
+Let Gpred and GGT denote the predicted and ground-truth graphs with adjacency matrices Apred , AGT ∈
+{0, 1}N ×N . Self-loops are excluded. The direction-aware Structural Hamming Distance (dSHD) is
+defined as
+                          dSHD = |Epred \ EGT | + |EGT \ Epred | + 2 · |R|,                      (37)
+where Epred and EGT are the directed edge sets of the predicted and ground-truth graphs, respectively,
+and R denotes the set of reversed edges, defined as
+                        
+                   R = (i, j) | Apred (i, j) = 1, AGT (j, i) = 1, AGT (i, j) = 0 ,               (38)
+with each unordered node pair counted once. Thus, extra and missing edges are penalized with unit
+cost, while edge reversals incur a cost of 2, reflecting their greater impact on causal interpretation.
+The normalized dSHD is obtained by dividing by the number of possible directed edges:
+                                                          dSHD
+                                 Normalized dSHD =                .                               (39)
+                                                        N (N − 1)
+Normalized dSHD ranges from 0 to 1, with lower values indicating closer agreement between the
+inferred and ground-truth causal structures. Unlike intervention-based metrics such as Structural
+Intervention Distance (SID), dSHD evaluates discrepancies in local causal structure while explicitly
+penalizing edge orientation errors more heavily.
+
+
+
+
+                                                  40
+NeurIPS Paper Checklist
+    1. Claims
+      Question: Do the main claims made in the abstract and introduction accurately reflect the
+      paper’s contributions and scope?
+      Answer: [Yes].
+      Justification: The abstract and introduction state the theoretical assumptions, the indirect-
+      validation setting for human data, and the empirical scope of the simulations and HCP
+      analysis.
+      Guidelines:
+         • The answer [N/A] means that the abstract and introduction do not include the claims
+           made in the paper.
+         • The abstract and/or introduction should clearly state the claims made, including the
+           contributions made in the paper and important assumptions and limitations. A [No] or
+           [N/A] answer to this question will not be perceived well by the reviewers.
+         • The claims made should match theoretical and experimental results, and reflect how
+           much the results can be expected to generalize to other settings.
+         • It is fine to include aspirational goals as motivation as long as it is clear that these goals
+           are not attained by the paper.
+    2. Limitations
+      Question: Does the paper discuss the limitations of the work performed by the authors?
+      Answer: [Yes].
+      Justification: Limitations are discussed in the conclusion, including cortical-only ROI
+      modeling, simulation-trained transfer, indirect real-data validation, and asymptotic theory
+      assumptions.
+      Guidelines:
+         • The answer [N/A] means that the paper has no limitation while the answer [No] means
+           that the paper has limitations, but those are not discussed in the paper.
+         • The authors are encouraged to create a separate “Limitations” section in their paper.
+         • The paper should point out any strong assumptions and how robust the results are to
+           violations of these assumptions (e.g., independence assumptions, noiseless settings,
+           model well-specification, asymptotic approximations only holding locally). The authors
+           should reflect on how these assumptions might be violated in practice and what the
+           implications would be.
+         • The authors should reflect on the scope of the claims made, e.g., if the approach was
+           only tested on a few datasets or with a few runs. In general, empirical results often
+           depend on implicit assumptions, which should be articulated.
+         • The authors should reflect on the factors that influence the performance of the approach.
+           For example, a facial recognition algorithm may perform poorly when image resolution
+           is low or images are taken in low lighting. Or a speech-to-text system might not be
+           used reliably to provide closed captions for online lectures because it fails to handle
+           technical jargon.
+         • The authors should discuss the computational efficiency of the proposed algorithms
+           and how they scale with dataset size.
+         • If applicable, the authors should discuss possible limitations of their approach to
+           address problems of privacy and fairness.
+         • While the authors might fear that complete honesty about limitations might be used by
+           reviewers as grounds for rejection, a worse outcome might be that reviewers discover
+           limitations that aren’t acknowledged in the paper. The authors should use their best
+           judgment and recognize that individual actions in favor of transparency play an impor-
+           tant role in developing norms that preserve the integrity of the community. Reviewers
+           will be specifically instructed to not penalize honesty concerning limitations.
+    3. Theory assumptions and proofs
+
+
+                                                 41
+  Question: For each theoretical result, does the paper provide the full set of assumptions and
+  a complete (and correct) proof?
+  Answer: [Yes].
+  Justification: The main paper states the assumptions before the results, and Appendix B
+  provides proofs for the theorem, proposition, corollary, and top-k stability lemma.
+  Guidelines:
+     • The answer [N/A] means that the paper does not include theoretical results.
+     • All the theorems, formulas, and proofs in the paper should be numbered and cross-
+       referenced.
+     • All assumptions should be clearly stated or referenced in the statement of any theorems.
+     • The proofs can either appear in the main paper or the supplemental material, but if
+       they appear in the supplemental material, the authors are encouraged to provide a short
+       proof sketch to provide intuition.
+     • Inversely, any informal proof provided in the core of the paper should be complemented
+       by formal proofs provided in appendix or supplemental material.
+     • Theorems and Lemmas that the proof relies upon should be properly referenced.
+4. Experimental result reproducibility
+  Question: Does the paper fully disclose all the information needed to reproduce the main ex-
+  perimental results of the paper to the extent that it affects the main claims and/or conclusions
+  of the paper (regardless of whether the code and data are provided or not)?
+  Answer: [Yes].
+  Justification: The appendix specifies the algorithm, architecture, training settings, simulator
+  construction, baseline definitions, metrics, and compute environment needed to reproduce
+  the reported experiments. Code, trained checkpoints, and table-generation scripts will be
+  released upon acceptance, excluding raw HCP data that require the standard HCP access
+  agreement.
+  Guidelines:
+     • The answer [N/A] means that the paper does not include experiments.
+     • If the paper includes experiments, a [No] answer to this question will not be perceived
+       well by the reviewers: Making the paper reproducible is important, regardless of
+       whether the code and data are provided or not.
+     • If the contribution is a dataset and/or model, the authors should describe the steps taken
+       to make their results reproducible or verifiable.
+     • Depending on the contribution, reproducibility can be accomplished in various ways.
+       For example, if the contribution is a novel architecture, describing the architecture fully
+       might suffice, or if the contribution is a specific model and empirical evaluation, it may
+       be necessary to either make it possible for others to replicate the model with the same
+       dataset, or provide access to the model. In general. releasing code and data is often
+       one good way to accomplish this, but reproducibility can also be provided via detailed
+       instructions for how to replicate the results, access to a hosted model (e.g., in the case
+       of a large language model), releasing of a model checkpoint, or other means that are
+       appropriate to the research performed.
+     • While NeurIPS does not require releasing code, the conference does require all submis-
+       sions to provide some reasonable avenue for reproducibility, which may depend on the
+       nature of the contribution. For example
+       (a) If the contribution is primarily a new algorithm, the paper should make it clear how
+            to reproduce that algorithm.
+       (b) If the contribution is primarily a new model architecture, the paper should describe
+            the architecture clearly and fully.
+       (c) If the contribution is a new model (e.g., a large language model), then there should
+            either be a way to access this model for reproducing the results or a way to reproduce
+            the model (e.g., with an open-source dataset or instructions for how to construct
+            the dataset).
+
+
+                                           42
+       (d) We recognize that reproducibility may be tricky in some cases, in which case
+           authors are welcome to describe the particular way they provide for reproducibility.
+           In the case of closed-source models, it may be that access to the model is limited in
+           some way (e.g., to registered users), but it should be possible for other researchers
+           to have some path to reproducing or verifying the results.
+5. Open access to data and code
+   Question: Does the paper provide open access to the data and code, with sufficient instruc-
+   tions to faithfully reproduce the main experimental results, as described in supplemental
+   material?
+  Answer: [No].
+  Justification: The submission provides detailed reproducibility information in the paper and
+  appendix, but does not currently include an anonymized public code or data release link. We
+  plan to release the TVB simulation generator/configs, Stage 1 and Stage 2 implementation,
+  trained checkpoints, HCP preprocessing scripts (excluding restricted raw HCP data), and
+  evaluation scripts upon acceptance.
+   Guidelines:
+      • The answer [N/A] means that paper does not include experiments requiring code.
+      • Please see the NeurIPS code and data submission guidelines (https://neurips.cc/
+        public/guides/CodeSubmissionPolicy) for more details.
+      • While we encourage the release of code and data, we understand that this might not
+        be possible, so [No] is an acceptable answer. Papers cannot be rejected simply for not
+        including code, unless this is central to the contribution (e.g., for a new open-source
+        benchmark).
+      • The instructions should contain the exact command and environment needed to run to
+        reproduce the results. See the NeurIPS code and data submission guidelines (https:
+        //neurips.cc/public/guides/CodeSubmissionPolicy) for more details.
+      • The authors should provide instructions on data access and preparation, including how
+        to access the raw data, preprocessed data, intermediate data, and generated data, etc.
+      • The authors should provide scripts to reproduce all experimental results for the new
+        proposed method and baselines. If only a subset of experiments are reproducible, they
+        should state which ones are omitted from the script and why.
+      • At submission time, to preserve anonymity, the authors should release anonymized
+        versions (if applicable).
+      • Providing as much information as possible in supplemental material (appended to the
+        paper) is recommended, but including URLs to data and code is permitted.
+6. Experimental setting/details
+   Question: Does the paper specify all the training and test details (e.g., data splits, hyperpa-
+   rameters, how they were chosen, type of optimizer) necessary to understand the results?
+  Answer: [Yes].
+  Justification: Experimental settings, model hyperparameters, optimization details, simulation
+  protocols, baselines, and evaluation metrics are reported in the experiments section and
+  appendix.
+   Guidelines:
+      • The answer [N/A] means that the paper does not include experiments.
+      • The experimental setting should be presented in the core of the paper to a level of detail
+        that is necessary to appreciate the results and make sense of them.
+      • The full details can be provided either with the code, in appendix, or as supplemental
+        material.
+7. Experiment statistical significance
+   Question: Does the paper report error bars suitably and correctly defined or other appropriate
+   information about the statistical significance of the experiments?
+  Answer: [Yes].
+
+
+                                            43
+  Justification: Simulation tables report mean and standard deviation over seeds, HCP re-
+  sults report per-subject mean and standard deviation, and paired tests are reported for the
+  nonstationarity ablations.
+  Guidelines:
+     • The answer [N/A] means that the paper does not include experiments.
+     • The authors should answer [Yes] if the results are accompanied by error bars, confidence
+       intervals, or statistical significance tests, at least for the experiments that support the
+       main claims of the paper.
+     • The factors of variability that the error bars are capturing should be clearly stated (for
+       example, train/test split, initialization, random drawing of some parameter, or overall
+       run with given experimental conditions).
+     • The method for calculating the error bars should be explained (closed form formula,
+       call to a library function, bootstrap, etc.)
+     • The assumptions made should be given (e.g., Normally distributed errors).
+     • It should be clear whether the error bar is the standard deviation or the standard error
+       of the mean.
+     • It is OK to report 1-sigma error bars, but one should state it. The authors should
+       preferably report a 2-sigma error bar than state that they have a 96% CI, if the hypothesis
+       of Normality of errors is not verified.
+     • For asymmetric distributions, the authors should be careful not to show in tables or
+       figures symmetric error bars that would yield results that are out of range (e.g., negative
+       error rates).
+     • If error bars are reported in tables or plots, the authors should explain in the text how
+       they were calculated and reference the corresponding figures or tables in the text.
+8. Experiments compute resources
+  Question: For each experiment, does the paper provide sufficient information on the com-
+  puter resources (type of compute workers, memory, time of execution) needed to reproduce
+  the experiments?
+  Answer: [Yes].
+  Justification: Appendix E.3 reports the GPU, CPU, memory, OS, CUDA, and Python
+  environment used for the experiments.
+  Guidelines:
+     • The answer [N/A] means that the paper does not include experiments.
+     • The paper should indicate the type of compute workers CPU or GPU, internal cluster,
+       or cloud provider, including relevant memory and storage.
+     • The paper should provide the amount of compute required for each of the individual
+       experimental runs as well as estimate the total compute.
+     • The paper should disclose whether the full research project required more compute
+       than the experiments reported in the paper (e.g., preliminary or failed experiments that
+       didn’t make it into the paper).
+9. Code of ethics
+  Question: Does the research conducted in the paper conform, in every respect, with the
+  NeurIPS Code of Ethics https://neurips.cc/public/EthicsGuidelines?
+  Answer: [Yes].
+  Justification: The work uses simulations and de-identified public neuroimaging data, reports
+  aggregate results, and does not involve deployment or individualized clinical decision-
+  making.
+  Guidelines:
+     • The answer [N/A] means that the authors have not reviewed the NeurIPS Code of
+       Ethics.
+     • If the authors answer [No], they should explain the special circumstances that require a
+       deviation from the Code of Ethics.
+
+
+                                           44
+       • The authors should make sure to preserve anonymity (e.g., if there is a special consid-
+          eration due to laws or regulations in their jurisdiction).
+10. Broader impacts
+    Question: Does the paper discuss both potential positive societal impacts and negative
+    societal impacts of the work performed?
+    Answer: [Yes].
+    Justification: The impact statement discusses scientific benefits, the risk of over-interpreting
+    observational causal graphs, medical decision limits, and privacy considerations for human
+    neuroimaging data.
+    Guidelines:
+       • The answer [N/A] means that there is no societal impact of the work performed.
+       • If the authors answer [N/A] or [No], they should explain why their work has no societal
+          impact or why the paper does not address societal impact.
+       • Examples of negative societal impacts include potential malicious or unintended uses
+          (e.g., disinformation, generating fake profiles, surveillance), fairness considerations
+          (e.g., deployment of technologies that could make decisions that unfairly impact specific
+          groups), privacy considerations, and security considerations.
+       • The conference expects that many papers will be foundational research and not tied
+          to particular applications, let alone deployments. However, if there is a direct path to
+          any negative applications, the authors should point it out. For example, it is legitimate
+          to point out that an improvement in the quality of generative models could be used to
+          generate Deepfakes for disinformation. On the other hand, it is not needed to point out
+          that a generic algorithm for optimizing neural networks could enable people to train
+          models that generate Deepfakes faster.
+       • The authors should consider possible harms that could arise when the technology is
+          being used as intended and functioning correctly, harms that could arise when the
+          technology is being used as intended but gives incorrect results, and harms following
+          from (intentional or unintentional) misuse of the technology.
+       • If there are negative societal impacts, the authors could also discuss possible mitigation
+          strategies (e.g., gated release of models, providing defenses in addition to attacks,
+          mechanisms for monitoring misuse, mechanisms to monitor how a system learns from
+          feedback over time, improving the efficiency and accessibility of ML).
+11. Safeguards
+    Question: Does the paper describe safeguards that have been put in place for responsible
+    release of data or models that have a high risk for misuse (e.g., pre-trained language models,
+    image generators, or scraped datasets)?
+    Answer: [N/A].
+    Justification: The paper does not release high-risk generative models, scraped datasets, or
+    other assets requiring special misuse safeguards.
+    Guidelines:
+       • The answer [N/A] means that the paper poses no such risks.
+       • Released models that have a high risk for misuse or dual-use should be released with
+          necessary safeguards to allow for controlled use of the model, for example by requiring
+          that users adhere to usage guidelines or restrictions to access the model or implementing
+          safety filters.
+       • Datasets that have been scraped from the Internet could pose safety risks. The authors
+          should describe how they avoided releasing unsafe images.
+       • We recognize that providing effective safeguards is challenging, and many papers do
+          not require this, but we encourage authors to take this into account and make a best
+          faith effort.
+12. Licenses for existing assets
+    Question: Are the creators or original owners of assets (e.g., code, data, models), used in
+    the paper, properly credited and are the license and terms of use explicitly mentioned and
+    properly respected?
+
+
+                                              45
+   Answer: [Yes].
+   Justification: Existing datasets, models, and methodological components used in the work
+   are credited through citations, including HCP, ENIGMA, TVB, DeepSIF, DCM/rDCM,
+   CD-NOD, and Mamba-related work.
+   Guidelines:
+      • The answer [N/A] means that the paper does not use existing assets.
+      • The authors should cite the original paper that produced the code package or dataset.
+      • The authors should state which version of the asset is used and, if possible, include a
+        URL.
+      • The name of the license (e.g., CC-BY 4.0) should be included for each asset.
+      • For scraped data from a particular source (e.g., website), the copyright and terms of
+        service of that source should be provided.
+      • If assets are released, the license, copyright information, and terms of use in the
+        package should be provided. For popular datasets, paperswithcode.com/datasets
+        has curated licenses for some datasets. Their licensing guide can help determine the
+        license of a dataset.
+      • For existing datasets that are re-packaged, both the original license and the license of
+        the derived asset (if it has changed) should be provided.
+      • If this information is not available online, the authors are encouraged to reach out to
+        the asset’s creators.
+13. New assets
+   Question: Are new assets introduced in the paper well documented and is the documentation
+   provided alongside the assets?
+   Answer: [Yes].
+   Justification: The paper introduces simulation protocols and model components, documented
+   in the algorithm, implementation, experiment-setting, and simulator appendices.
+   Guidelines:
+      • The answer [N/A] means that the paper does not release new assets.
+      • Researchers should communicate the details of the dataset/code/model as part of their
+        submissions via structured templates. This includes details about training, license,
+        limitations, etc.
+      • The paper should discuss whether and how consent was obtained from people whose
+        asset is used.
+      • At submission time, remember to anonymize your assets (if applicable). You can either
+        create an anonymized URL or include an anonymized zip file.
+14. Crowdsourcing and research with human subjects
+   Question: For crowdsourcing experiments and research with human subjects, does the paper
+   include the full text of instructions given to participants and screenshots, if applicable, as
+   well as details about compensation (if any)?
+   Answer: [N/A].
+   Justification: The paper does not conduct crowdsourcing or collect new human-subject data;
+   it uses an established de-identified public neuroimaging dataset.
+   Guidelines:
+      • The answer [N/A] means that the paper does not involve crowdsourcing nor research
+        with human subjects.
+      • Including this information in the supplemental material is fine, but if the main contribu-
+        tion of the paper involves human subjects, then as much detail as possible should be
+        included in the main paper.
+      • According to the NeurIPS Code of Ethics, workers involved in data collection, curation,
+        or other labor should be paid at least the minimum wage in the country of the data
+        collector.
+
+
+                                            46
+15. Institutional review board (IRB) approvals or equivalent for research with human
+    subjects
+    Question: Does the paper describe potential risks incurred by study participants, whether
+    such risks were disclosed to the subjects, and whether Institutional Review Board (IRB)
+    approvals (or an equivalent approval/review based on the requirements of your country or
+    institution) were obtained?
+    Answer: [N/A].
+    Justification: No new human-subject data are collected; the real-data analysis uses de-
+    identified HCP data and reports aggregate results only.
+    Guidelines:
+       • The answer [N/A] means that the paper does not involve crowdsourcing nor research
+          with human subjects.
+       • Depending on the country in which research is conducted, IRB approval (or equivalent)
+          may be required for any human subjects research. If you obtained IRB approval, you
+          should clearly state this in the paper.
+       • We recognize that the procedures for this may vary significantly between institutions
+          and locations, and we expect authors to adhere to the NeurIPS Code of Ethics and the
+          guidelines for their institution.
+       • For initial submissions, do not include any information that would break anonymity (if
+          applicable), such as the institution conducting the review.
+16. Declaration of LLM usage
+    Question: Does the paper describe the usage of LLMs if it is an important, original, or
+    non-standard component of the core methods in this research? Note that if the LLM is used
+    only for writing, editing, or formatting purposes and does not impact the core methodology,
+    scientific rigor, or originality of the research, declaration is not required.
+    Answer: [N/A].
+    Justification: The core method does not use LLMs as a methodological component.
+    Guidelines:
+       • The answer [N/A] means that the core method development in this research does not
+          involve LLMs as any important, original, or non-standard components.
+       • Please refer to our LLM policy in the NeurIPS handbook for what should or should not
+          be described.
+
+
+
+
+                                           47
+

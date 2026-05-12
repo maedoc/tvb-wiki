@@ -9,7 +9,7 @@ sources: [raw/papers/breakspear-2017.md, raw/papers/semanticscholar-ce89e593c89e
 
 # Whole-brain modeling
 
-Whole-brain modeling is a computational neuroscience approach that represents the entire brain as a network of coupled dynamical systems, where each node corresponds to a brain region and connections are derived from empirical [[structural connectivity]] data. This framework enables researchers to investigate how anatomical substrate—measured noninvasive via [[diffusion-mri]] and [[tractography]]—gives rise to functional brain dynamics observable in [[fmri]], [[eeg]], or [[meg]] recordings. By treating the brain as a coupled oscillator network or neural mass model, whole-brain modeling bridges the gap between [[connectome]]-level anatomy and emergent spatiotemporal patterns of activity that subtend cognition, behavior, and clinical dysfunction.
+Whole-brain modeling is a computational neuroscience approach that represents the entire brain as a network of coupled dynamical systems, where each node corresponds to a brain region and connections are derived from empirical [[structural connectivity]] data. This framework enables researchers to investigate how anatomical substrate—measured noninvasive via [[diffusion-mri]] and [[tractography]]—gives rise to functional brain dynamics observable in [[fmri]], [[eeg]] (e.g., using the [[xcos]] coordinate framework), or [[meg]] recordings. By treating the brain as a coupled oscillator network or neural mass model, whole-brain modeling bridges the gap between [[connectome]]-level anatomy and emergent spatiotemporal patterns of activity that subtend cognition, behavior, and clinical dysfunction.
 
 ## Conceptual Foundations
 

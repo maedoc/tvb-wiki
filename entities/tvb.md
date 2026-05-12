@@ -25,7 +25,7 @@ TVB is an open-source neuroinformatics platform for simulating large-scale prima
 
 ## Overview
 
-The Virtual Brain (TVB) enables researchers to construct personalized whole-brain models by combining empirical [[structural-connectivity]] (from [[diffusion-mri]] [[tractography]]) with [[neural-mass-models]]. The platform supports forward models for EEG, MEG, and [[fmri]], allowing simulated signals to be compared directly against empirical recordings.
+The Virtual Brain (TVB) enables researchers to construct personalized whole-brain models by combining empirical [[structural-connectivity]] (from [[diffusion-mri]] [[tractography]] (e.g., [[xtract]])) with [[neural-mass-models]]). The platform supports forward models for EEG, MEG, and [[fmri]], allowing simulated signals to be compared directly against empirical recordings. It can incorporate cortical parcellations such as the [[von-economo-atlas]].
 
 ## Key Features
 
@@ -57,10 +57,12 @@ TVB combines:
 - [[NEURON]] - Multi-compartment neuron simulation environment
 - [[ANTs]] - Image registration for preprocessing neuroimaging data
 - [[dpabi]]
+- [[voxelmorph]]
 - - [[dmriprep]]
 - Auryn
 - jax
 - [[cifti-tools]]
+- [[Allen SDK]]
 - [[brainscales]]
 - [[geppetto]]
 - [[gift]]
@@ -74,6 +76,7 @@ TVB combines:
 - [[demois]]
 
 - [[cococomac]]
+[[neurolib]]
 
 [[chronux]]
 

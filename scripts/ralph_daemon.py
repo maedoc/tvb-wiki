@@ -434,7 +434,7 @@ def _run_agent_async(agent_name: str, runner) -> bool:
             _agent_start_times.pop(agent_name, None)
             return False  # Allow re-launch
         log.info("%s still running from last cycle — skipping", agent_name)
-        return True  # Don't mark as failed, just not ready yet
+        return False  # Agent is still running, NOT successfully handled
     
     # Clean up done futures
     if future and future.done():

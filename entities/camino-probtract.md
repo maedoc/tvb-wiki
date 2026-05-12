@@ -9,7 +9,7 @@ tags:
 - software-brain-modeling
 title: Camino Probabilistic Tractography
 type: entity
-updated: '2026-05-11'
+updated: '2026-05-12'
 ---
 
 Camino Probabilistic [[tractography]] is a technique implemented within the Camino [[camino]] open-source software package for reconstructing [[white-matter]] fiber pathways from diffusion magnetic resonance imaging (dMRI) data using stochastic tractography methods. Unlike deterministic tractography, which computes a single streamline path from a seed region to a target based on principal diffusion directions, probabilistic tractography generates many candidate streamlines (often thousands per seed voxel) and builds a probability distribution over possible pathways. This approach provides a more nuanced representation of uncertainty in fiber tracking, which is particularly valuable when the underlying diffusion data exhibits ambiguity—such as in regions where fiber orientations cross, branch, or otherwise deviate from simple single-tensor models [behrens2003, behrens2007].

@@ -25,7 +25,7 @@ GNS serves as a conceptual bridge between [[connectomics]] approaches that chara
 
 ## Motivation and Context
 
-The development of GNS frameworks addresses a fundamental challenge in [[computational-neuroscience]]: understanding how the fixed anatomical structure of the brain gives rise to flexible functional dynamics. Traditional [[neuroimaging]] approaches can characterize either structural connectivity (the physical white matter pathways) or functional connectivity (statistical dependencies in activity), but a mechanistic account of how one produces the other requires computational modeling.
+The development of GNS frameworks addresses a fundamental challenge in [[computational-neuroscience]]: understanding how the fixed anatomical structure of the brain gives rise to flexible functional dynamics. Traditional [[neuroimaging]] approaches can characterize either structural [[connectivity]] (the physical [[white-matter]] pathways) or functional connectivity (statistical dependencies in activity), but a mechanistic account of how one produces the other requires computational modeling.
 
 [[Dynamic causal modeling]] and related approaches provide one framework for this, but GNS specifically emphasizes the network perspective—treating the brain as a graph of coupled oscillators or neural mass models. This approach gained prominence as large-scale [[brain-connectivity-toolbox]] analyses revealed consistent organizational principles in brain networks, including [[small-world-networks]] properties, [[modularity]], and [[rich-club]] architecture. GNS allows researchers to test hypotheses about how these structural features support specific functional states, [[brain-oscillations]], and cognitive processes.
 
@@ -53,6 +53,6 @@ GNS connects to several core concepts in whole-brain modeling. The relationship 
 
 ## References
 
-1. Ishaan Batta, Meenu Ajith, V. Calhoun. (2026). *Conditioned Graph Reconstruction of Brain Functional Network Connectivity Reveals Interpretable Latent Axes of Sex and Fluid Intelligence*. bioRxiv. [DOI](https://doi.org/10.64898/2026.02.20.707025)
-2. Shengjie Qi, Xinda Song, Le Jia, Hongyu Cui, Yuchen Suo, Teng Long, Zhendong Wu, Xiaolin Ning. (2025). *The impact of channel density, inverse solutions, connectivity metrics and calibration errors on OPM-MEG connectivity analysis: A simulation study*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121056)
-3. Lizhe Sun, Xiao-Feng Han, Aiying Zhang. (2026). *Joint estimation of multiple graphical models for an fMRI study of brain connectivity networks*. Statistical Methods in Medical Research. [DOI](https://doi.org/10.1177/09622802261432804)
+1. Ishaan Batta, Meenu Ajith, V. Calhoun. (2026). *Conditioned Graph Reconstruction of Brain Functional Network Connectivity Reveals Interpretable Latent Axes of Sex and Fluid Intelligence*. bioRxiv. [DOI](](https://doi.org/10.64898/2026.02.20.707025))
+2. Shengjie Qi, Xinda Song, Le Jia, Hongyu Cui, Yuchen Suo, Teng Long, Zhendong Wu, Xiaolin Ning. (2025). *The impact of channel density, inverse solutions, connectivity metrics and calibration errors on OPM-MEG connectivity analysis: A simulation study*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2025.121056))
+3. Lizhe Sun, Xiao-Feng Han, Aiying Zhang. (2026). *Joint estimation of multiple graphical models for an fMRI study of brain connectivity networks*. Statistical Methods in Medical Research. [DOI](](https://doi.org/10.1177/09622802261432804))

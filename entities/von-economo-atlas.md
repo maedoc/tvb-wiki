@@ -44,3 +44,9 @@ Each parcellation scheme carries distinct advantages and limitations for [[whole
 ## Open Questions
 
 Despite its historical significance, several challenges remain in applying the von Economo atlas to contemporary computational neuroscience. The correspondence between cytoarchitectonic borders and functional boundaries (as measured via [[resting-state]] or task-based [[neuroimaging-fmri]]) remains an active area of investigation, with some studies finding good alignment and others revealing substantial discrepancies. Additionally, how cytoarchitectonic variation relates to individual differences in cognition, aging, and disease states is poorly characterized, though large-scale datasets like the [[hcp-dataset]] and [[uk-biobank]] offer unprecedented opportunities to address these questions. Integrating the von Economo atlas with TVB's [[personalized-brain-modeling]] frameworks may help bridge the gap between microscopic neuroanatomy and macroscopic brain dynamics in health and disease.
+
+## References
+
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
+2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal [[neuroimaging]]*. Brain Connectivity. [DOI](](https://doi.org/10.1089/brain.2012.0120))
+3. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](](https://doi.org/10.1038/s41593-017-0015-4))

@@ -1,7 +1,7 @@
 ---
 title: Michael D. Fox
 created: 2026-04-20
-updated: 2026-05-11
+updated: 2026-05-12
 type: entity
 tags: [people-researcher, brain-stimulation, functional-connectivity, connectomics, neuroimaging-fmri, resting-state, network-dynamics, database-hcp]
 sources: [raw/papers/fox-raichle-2007.md, raw/papers/fox-greicius-2004.md, raw/papers/fox-herman-2012.md, raw/papers/fox-buckner-2014.md]
@@ -41,7 +41,7 @@ Fox's research has produced over 50,000 citations according to Google Scholar as
 
 ## Center for Brain Circuit Therapeutics
 
-In 2020, Fox founded the Center for Brain Circuit Therapeutics at Brigham and Women's Hospital, one of the first centers dedicated to translating circuit-level neuroscience into clinical treatments. The Center integrates expertise from Neurology, Psychiatry, Neurosurgery, and Radiology to comprehensive neuromodulation therapies including [[parameter-estimation]], [[transcranial-magnetic-stimulation]], and MRI-guided focused ultrasound.
+In 2020, Fox founded the Center for Brain Circuit Therapeutics at Brigham and Women's Hospital, one of the first centers dedicated to translating circuit-level neuroscience into clinical treatments. The Center integrates expertise from Neurology, Psychiatry, Neurosurgery, and Radiology to comprehensive neuromodulation therapies including [[parameter-estimation]], [[parameter-estimation]], and MRI-guided focused ultrasound.
 
 The Center represents a unique model for precision neuromodulation, where treatment selection is guided by individual patient symptom profiles mapped onto brain circuits. This approach promises more personalized and effective treatments for patients with refractory neurological and psychiatric conditions.
 
