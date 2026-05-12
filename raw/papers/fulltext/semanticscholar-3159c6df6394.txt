@@ -1,0 +1,728 @@
+Magnetic Resonance Materials in Physics, Biology and Medicine (2025) 38:533–546
+https://doi.org/10.1007/s10334-025-01247-1
+
+    RESEARCH ARTICLE
+
+
+
+Automated, open‑source, vendor‑independent quality assurance
+protocol based on the Pulseq framework
+Qingping Chen1 · Niklas Wehkamp1 · Cai Wan1,2 · Patrick Hucker1 · Martin Büchert1,3 · Sebastian Littin1 ·
+Jon‑Fredrik Nielsen4 · Maxim Zaitsev1
+
+Received: 27 November 2024 / Revised: 4 March 2025 / Accepted: 22 March 2025 / Published online: 24 April 2025
+© The Author(s) 2025
+
+
+Abstract
+Objectives Consistent image quality and signal stability are crucial for neuroimaging, particularly fMRI studies that rely on
+detecting small BOLD signal changes. Regular MR system performance monitoring is essential, especially for longitudinal
+and multi-site studies. This work aims to establish a robust quality assurance (QA) protocol to enhance data comparability
+across days, scanner versions, vendors, and sites.
+Materials and methods We implemented an open-source, vendor-independent QA protocol using Pulseq for standardized
+data acquisition and ISMRMRD/Gadgetron for harmonized image reconstruction, accompanied by an automated post-
+processing pipeline to evaluate structural and temporal image quality. The protocol was thoroughly tested on three Siemens
+3T scanners with different software versions at one site, and one GE 3T scanner at another site. The test was repeated on an
+fBIRN phantom for at least 4 days.
+Results The vendor-independent protocol produced image quality comparable to a closely matched vendor-based protocol.
+It showed similar day-to-day repeatability to the vendor-based protocol across the Siemens scanners and high inter-day
+repeatability on the GE scanner.
+Conclusion We successfully developed and implemented an open-source, vendor-independent QA protocol, accompanied
+by an automated post-processing pipeline. The results demonstrate the feasibility and repeatability of the protocol across
+different days, system versions, vendors, and sites.
+
+Keywords Quality assurance · Open source · Vendor independent · Sequence development · Pulseq
+
+
+Introduction                                                                imaging and functional magnetic resonance imaging (fMRI).
+                                                                            In particular, most fMRI studies are based on blood-oxygen-
+Neuroimaging research relies heavily on consistent image                    level-dependent signal changes caused by neuronal activity,
+quality and magnetic resonance (MR) signal stability over                   which are only a small fraction of the original signal inten-
+extended periods of time. This applies to both anatomical                   sity [1]. To accurately measure such subtle signal changes,
+                                                                            an MR system must have an intrinsic temporal signal fluc-
+                                                                            tuation level that is much lower than the expected signal
+* Qingping Chen                                                             changes. Therefore, regular monitoring of MR system per-
+  qingping.chen@uniklinik-freiburg.de
+                                                                            formance is crucial to ensure that the instrument maintains
+1
+     Division of Medical Physics, Department of Radiology,                  an acceptable condition, thereby enhancing the success rate
+     University Medical Center Freiburg, Faculty of Medicine,               of neuroimaging studies.
+     University of Freiburg, Freiburg, Germany                                 Quality assurance (QA) is particularly important in lon-
+2
+     School of Electrical Engineering, Chongqing University,                gitudinal and/or multi-site studies, where data are collected
+     Chongqing, China                                                       from a group of subjects over time and/or across different
+3
+     Core Facility MRDAC, Department of Radiology, University               sites. Regular monitoring of scanner performance over time
+     Medical Center Freiburg, Faculty of Medicine, University               and/or at different sites is essential to identify and, if pos-
+     of Freiburg, Freiburg, Germany
+                                                                            sible, control for intrinsic differences (e.g., due to model-
+4
+     Department of Biomedical Engineering, University                       specific hardware and certain software variations) and
+     of Michigan, Ann Arbor, MI, USA
+
+
+                                                                                                                           Vol.:(0123456789)
+534                                                              Magnetic Resonance Materials in Physics, Biology and Medicine (2025) 38:533–546
+
+
+changes in the scanner performance (e.g., due to software                and image reconstruction, accompanied by an automated
+and/or hardware upgrades and gradual component aging).                   post-processing pipeline. The protocol is based on our
+Failure to account for these factors may result in unexplained           previously proposed Pulseq framework [9, 10], which we
+discrepancies in the data [2]. Therefore, robust QA proto-               extended and integrated with Siemens’ “Image Calculation
+cols are crucial for establishing consistent data standards              Environment” (ICE) platform and Gadgetron [11] using the
+and ensuring data comparability over time and across scan-               vendor-independent ISMRMRD [12] data format. This QA
+ners, which is critical for data pooling to enhance statistical          protocol enables the assessment of structural quality (e.g.,
+power. Many QA protocols have been proposed to monitor                   image uniformity) and temporal quality (e.g., temporal sta-
+the performance of MR scanners [2–8], and most of them                   bility) of MR systems based on the recommendations of
+tried to harmonize measurement protocols as much as pos-                 the American College of Radiology (ACR) as well as the
+sible using vendor-provided pulse sequences and image                    American Association of Physicists in Medicine (AAPM)
+reconstruction tools.                                                    [13, 14] and the Function Biomedical Informatics Research
+   However, the intricate details of data acquisition (e.g.,             Network (fBIRN) [4], respectively. It has been tested on
+details of the fat suppression module, actual gradient                   three Siemens 3T scanners with substantially different hard-
+strength and slew rate utilization, spoiler amplitude and                ware configurations and software versions at one site and
+placement, and phase cycling) and image reconstruction                   one GE 3T scanner at another site. The tests were performed
+(e.g., image smoothing filter, regridding, and denoising) are            repeatedly on an fBIRN gel-filled phantom over at least 4
+difficult to harmonize due to the heterogeneity of imaging               different days.
+hardware and reconstruction software. This variability
+poses a substantial challenge for QA comparisons across
+vendors and sites. For example, fat suppression techniques               Materials and methods
+vary across vendors, with GE defaulting to a spectral-
+spatial pulse and Siemens utilizing a fat-saturation pulse. In           Data acquisition
+addition, image smoothing defaults differ: Siemens scanners
+typically do not apply smoothing, whereas GE employs a                   Based on the Pulseq framework, a spin-echo (SE)
+Fermi k-space filter. These variations may notably impact the            sequence was implemented to measure structural quality
+absolute values of QA metrics, as detailed by Glover et al. in           metrics [13]; and an echo-planar imaging (EPI) sequence
+their recommendations for multi-center fMRI studies [4]. We              was implemented to assess temporal quality metrics,
+hypothesize that full access to the data acquisition protocol,           in accordance with a previously published protocol
+image reconstruction algorithms, and post-processing                     [2]. Siemens product-based SE and EPI protocols were
+pipeline within a QA framework would enable the MR                       configured to closely match the corresponding Pulseq-based
+community to assess scanner performance objectively and                  protocols. The sequence parameters are listed in Table 1.
+trace observed differences to their underlying causes. This                 The QA protocol consists of one SE acquisition followed
+underscores the need for standardized QA protocols covering              by three EPI scans. The first two EPI scans let the gradient
+data acquisition, image reconstruction, and post-processing              coils reach a temperature equilibrium to reduce magnetic
+across diverse scanner-specific environments.                            field drifts in the subsequent runs. The third identical EPI
+   Given the above, in this work, we implemented an open-                scan and the SE acquisition generate data used to calcu-
+source, vendor-independent QA protocol for data acquisition              late the QA metrics. A homogeneous, gel-filled fBIRN
+
+Table 1  Parameters of Siemens product-based and Pulseq-based SE and EPI sequences
+              FOV ­(mm3)        Slice thick./gap   Matrix size      TR/TE/TA (ms/     Readout BW      Echo          Exc./ref. FA (°/°)     #rep
+                                (mm/mm)                             ms/min:s)         (Hz/Px)         spacing
+                                                                                                      (ms)
+
+SE
+ Product      250*250*105       5/5                256*256*11       500/20/4:20       195             -             90/180                 2
+ Pulseq       250*250*105       5/5                256*256*11       500/20/4:16       195             -             90/180                 2
+EPI
+ Product      220*220*134       4/1                64*64*27        2000/22/6:44       1954            0.58          90/–                   200
+ Pulseq       220*220*134       4/1                64*64*27        2000/24/6:40       1923            0.58          90/–                   200
+
+For all sequences, the slice orientation is “Transversal,” and the phase-encoding direction is from anterior to posterior (“A >> P” on Siemens
+scanners). Differences between the product-based and Pulseq-based sequences are highlighted in bold
+SE = spin-echo; EPI = echo-planar imaging; FOV = field of view; slice thick./gap = slice thickness/gap; TR/TE/TA = repetition time/echo time/
+total acquisition time; readout BW = readout bandwidth; exc./ref. FA = excitation/refocusing flip angle; #rep = number of repetitions
+Magnetic Resonance Materials in Physics, Biology and Medicine (2025) 38:533–546                                                         535
+
+phantom (EZfMRI, Chicago, IL, USA) with T1/T2 values                       Image reconstruction
+of 806.9 ± 2.4 ms/81.7 ± 0.5 ms was scanned using both ven-
+dor-based and Pulseq-based QA protocols on three Siemens                   Image reconstruction was conducted using our proposed
+3T scanners: Trio TIM, Prisma.Fit, and Cima.X (SIEMENS                     data acquisition and image reconstruction workflow [9, 10],
+Healthineers AG, Forchheim, Germany) in Freiburg, Ger-                     as illustrated in Fig. 1. This workflow integrates Pulseq with
+many, which were manufactured over a span of 17 years.                     the Siemens ICE platform and open-source, vendor-inde-
+Note that the fat-saturation module in the EPI sequence for                pendent Gadgetron software [11]. All data were converted
+Trio was modified due to hardware limitations. All meas-                   into the vendor-independent ISMRMRD [12] data format
+urements at Freiburg were performed on the same fBIRN                      and reconstructed offline using Gadgetron. In addition, Sie-
+phantom. Images for T1 fitting were acquired using a product               mens data were reconstructed online within the Siemens-
+turbo spin-echo sequence with an inversion recovery pulse                  integrated ICE environment. No scanner-integrated image
+and the following parameters: repetition time = 4000 ms,                   reconstruction was implemented for the Pulseq-based data
+echo train length = 4, and inversion recovery times = {50,                 on the GE platform. Detailed instructions on image recon-
+150, 300, 450, 600, 750, 900, 1050, 1200, 1350, 1500, 2200,                struction are available online [15, 17].
+3000} ms. Images for T2 fitting were obtained using a prod-
+uct SE sequence with the following parameters: repetition
+                                                                           Post‑processing
+time = 3500 ms and echo times = {7.5, 15, 30, 45, 60, 75,
+90, 130, 200, 250} ms. Both measurements were conducted
+                                                                           An automated post-processing pipeline was developed to
+on the Siemens Prisma.Fit 3T scanner, and the acquired
+                                                                           mask the SE and echo-planar images and perform structural
+DICOM images, along with post-processing scripts, are
+                                                                           and temporal quality analysis. All related source code is
+available online [15]. The Pulseq-based QA protocol was
+                                                                           readily available online [15, 17].
+performed on another copy of the fBIRN phantom from the
+same manufacturer (EZfMRI, Chicago, IL, USA) on a GE
+3T scanner: UHP (General Electric Healthcare, Waukesha,                    Automated masking
+WI, USA) at the University of Michigan, USA [16]. The
+technical parameters of the four scanners and the used coils               The circular edge of the phantom in the SE and echo-planar
+are detailed in Table 2. The QA measurements were repeated                 images is automatically detected, and this information is
+over a period of 15 days: for ten repetitions on Trio, five                used to determine the center position of the phantom. The
+repetitions on Prisma.Fit, five repetitions on Cima.X, and                 regions of interest (ROIs) used for calculating QA metrics
+four repetitions on UHP.                                                   are automatically masked in the SE and echo-planar images
+   The fBIRN phantom was placed in the scanner room                        based on the fitted center position. As illustrated in Fig. 2a,
+for at least several hours before the measurements to                      a large circular ROI, with a diameter corresponding to 80%
+allow it to reach room temperature. All lights in the room                 of the phantom’s diameter, is centered on the phantom in the
+(including ceiling lights and scanner bore lighting) were                  SE image to determine the mean signal intensity ( S ). Two
+turned off, and the bore ventilation was deactivated prior                 smaller circular ROIs (~ 1 ­cm2 each) within the large ROI
+to the measurements. The fBIRN phantom was securely                        are used to measure the minimal ( Smin ) and maximal ( Smax )
+positioned in the head coil using foam padding, maintaining                mean signal intensities. Four rectangular ROIs (~ 10 ­cm2
+a consistent distance from the patient table across different              each) outside the phantom are positioned to measure back-
+days. The field of view was carefully adjusted to ensure the               ground mean signal intensities along the frequency-encod-
+phantom was centrally aligned. Automatic standard shim                     ing ( SFE1, SFE2 ) and phase-encoding ( SPE1, SPE2 ) directions.
+was performed before acquiring the QA data, using the                      As depicted in Fig. 2b, a 15 × 15 pixel ROI is centered on
+“Standard” shim mode on the Siemens scanners and the “GE                   the phantom in the echo-planar image for temporal quality
+Linear Autoshim” on the GE scanner.                                        analysis.
+
+
+
+Table 2  Technical parameters        Site            Vendor        Hardware model        Software version     Coil
+of the four scanners and the
+used coils                           Freiburg        Siemens       Trio TIM              VB19A                12-channel head coil (with the
+                                                                                                               4-channel “CP mode”)
+                                                                   Prisma.Fit            XA60A                20-channel head coil
+                                                                   Cima.X                XA61A                20-channel bioMatrix head coil
+                                     Michigan        GE            UHP                   UHP                  32-channel head coil
+536                                                              Magnetic Resonance Materials in Physics, Biology and Medicine (2025) 38:533–546
+
+                                                                         Percent signal ghosting (PSG) Ghosting in structural imag-
+                                                                         ing typically results from signal instabilities across multiple
+                                                                         repetition time (TR) periods during a scan. This artifact,
+                                                                         commonly observed in the PE direction, can obscure image
+                                                                         details and is particularly noticeable in low-signal regions.
+                                                                         To quantify ghosting, the PSG is calculated as the difference
+                                                                         in signal intensity between the background ROIs in the FE
+                                                                         direction ( SFE1 and SFE2) and those in the PE direction ( SPE1
+                                                                         and SPE2), relative to the mean signal intensity of the large
+                                                                         circular signal ROI ( S):
+                                                                                           (        ) (             )
+                                                                                     | SFE1 +SFE2 − SPE1 +SPE2 |
+                                                                                     |                         |
+                                                                         PSG = 100 ⋅ |
+                                                                                     |            2S
+                                                                                                               |.
+                                                                                                               |                            (1)
+                                                                                     |                         |
+
+
+                                                                         Percent image uniformity (PIU) Image uniformity reflects
+                                                                         the ability of an MR system to represent uniform areas of
+                                                                         a phantom with a consistent intensity. Deviations from uni-
+                                                                         formity often arise from radio-frequency or static magnetic
+                                                                         field inhomogeneities, or insufficient eddy current compen-
+                                                                         sation. PIU serves as a quantitative measure of image uni-
+                                                                         formity and is calculated as
+                                                                                      [ (           )]
+                                                                                               Smax −Smin
+                                                                         PIU = 100 ⋅ 1− (                   )   .                           (2)
+                                                                                               Smax +Smin
+
+
+
+
+                                                                         Signal‑to‑noise ratio (SNR) SNR is a key parameter that
+                                                                         reflects the clinical utility of an MR image and serves as a
+                                                                         sensitive indicator of both hardware performance and image
+                                                                         reconstruction efficiency. In accordance with the NEMA
+                                                                         standards [18], two methods are used in this work to cal-
+                                                                         culate SNR. The first method calculates SNR from a single
+Fig. 1  Schematic representation of the data acquisition and image       magnitude-reconstructed image obtained from the first rep-
+reconstruction workflow. a Diagram of the EPI sequence designed
+using Pulseq. b The Pulseq interpreter loads the.seq file and streams    etition, expressed as
+events to scanners. c Data acquisition is conducted on various MR                   √
+scanners. d Raw data are exported for offline reconstruction using       SNR1 =         (4−𝜋)∕2 ⋅ SDS ,                                     (3)
+Gadgetron. In addition, Siemens data are streamed to the ICE pipe-                                    1
+
+line for online reconstruction. e ICE transmits DICOM images                       √
+directly to the MR host computer immediately after measurements.         where (4−𝜋)∕2 is the correction factor [19]; S is the
+Gadgetron facilitates cross-model and cross-vendor image reconstruc-     mean signal intensity from the large circular ROI; and SD1
+tion by utilizing the ISMRMRD data format for seamless compatibil-       is the standard deviation of the pixel values from the two
+ity                                                                      background ROIs along the FE direction.
+                                                                            The second method involves the subtraction (Idiff = I1 −I2)
+                                                                         of two magnitude images obtained from the first ( I1) and the
+Structural quality analysis                                              second ( I2 ) SE repetitions. This SNR is then determined by
+                                                                                    √
+The structural quality analysis assesses the quality of                  SNR2 = 2 ⋅ SDS ,                                           (4)
+                                                                                            2
+structural or anatomical images produced by an MR                                 √
+system. The evaluation is conducted on the sixth slice of                where 2 is the correction factor; S is the mean ROI signal
+the SE images, using data from either the first repetition or            intensity from the first repetition; and SD2 is the standard
+two repetitions, as recommended by the ACR and AAPM                      deviation of the pixel values within the large circular ROI
+guidelines [13, 14]. The relevant metrics are outlined                   on Idiff .
+below.
+Magnetic Resonance Materials in Physics, Biology and Medicine (2025) 38:533–546                                                             537
+
+
+
+
+Fig. 2  Automated masking. a Two small circular ROIs (~ 1 ­        cm2     and has a diameter equal to 80% of the phantom’s diameter. In addi-
+each), representing regions of minimal (green) and maximal (yellow)        tion, four background rectangular ROIs in red (~ 10 ­cm2 each) are
+mean signal intensities, are placed within a large circular signal ROI     positioned in the SE image. b A square ROI containing 15 × 15 pixels
+(blue outline). The large ROI is centrally aligned with the phantom        (red) is centrally positioned on the phantom in the echo-planar image
+
+
+   Both methods carry inherent risks. In the first method,                 Signal‑to‑fluctuation‑noise ratio (SFNR) The SFNR is one
+subtle, invisible artifacts can distort the SD1 measurement,               of the critical parameters to estimate the signal stability over
+and image post-processing may further alter SD1. In addition,              time. The signal image and the temporal fluctuation noise
+when acquiring images at high bandwidths, non-uniformities                 image are divided pixel by pixel to create the SFNR image.
+in the receiver subsystem’s frequency response can lead to                 The summary SFNR value is the average SFNR across the
+differing noise statistics across the image [20]. In the second            pixels within the signal ROI (Fig. 2b).
+method, system drift can affect the determination of image
+noise statistics when subtracting two sequentially acquired               Percent fluctuation Percent fluctuation is another param-
+images. Temporal instability in the MR system may intro-                  eter used to assess temporal stability. First, the average sig-
+duce artifacts into the subtracted image, thereby increasing              nal intensity within the signal ROI is calculated for each
+SD2 . The ratio between the two SNR values is calculated as               volume, resulting in a time series of 198 values. This time
+SNRratio = SNR1 ∕SNR2. Ideally, SNRratio should equal 1, and              series is then detrended using a second-order polynomial
+in this work, a range of [0.9, 1.1] was considered acceptable.            fitting algorithm. The percent fluctuation is calculated as
+A significant deviation from 1 in SNRratio suggests that the              100 × SD∕M , where SD represents the standard deviation of
+noise statistics may be compromised in one or both methods.               the detrended time series, and M is the mean of the spatially
+                                                                          averaged time series.
+Temporal quality analysis
+                                                                          Drift Temperature fluctuations during the EPI scans
+Signal stability over time is essential for prolonged EPI                 can cause variations in magnetic field strength, lead-
+scans. In this study, temporal quality analysis assesses this             ing to( signal drift over time.
+                                                                                                     )     This drift is calculated as
+aspect of MR system performance. The analysis is conducted                100 × trendmax − trendmin ∕M , where trendmax and trendmin
+on the central slice of the third EPI scan across 198 volumes,            represent the maximum and minimum values of the second-
+with the first two volumes discarded, in accordance with the              order polynomial trend, respectively; and M is the mean of
+fBIRN guidelines [4]. The associated analyses and metrics                 the spatially averaged time series.
+are detailed below.
+                                                                           Temporal‑spatial signal correlation analysis It is also known
+Signal image The signal image is derived by calculating the                as Weisskoff analysis [21], provides an additional method
+pixel-by-pixel average across the 198 echo-planar images.                  for assessing scanner stability. This approach is based on
+                                                                           the assumption that scanner instabilities increase inter-pixel
+Temporal fluctuation noise image A second-order polyno-                    correlation, likely due to the low-spatial-frequency nature of
+mial detrending is applied to the time series of each pixel                these instabilities. In the absence of scanner instability, tem-
+across the 198 volumes. The temporal fluctuation noise                     poral fluctuation is expected to arise solely from the ther-
+image reflects the pixel-by-pixel standard deviation of the                mal noise of the scanner and the phantom, ignoring mini-
+detrended time series.                                                     mal correlation resulting from imperfections in the point
+538                                                                Magnetic Resonance Materials in Physics, Biology and Medicine (2025) 38:533–546
+
+spread function. Consequently, under the assumption that                   these fluctuations can be assessed. Example Weisskoff plots
+the temporal variance of individual pixels is uncorrelated,                are presented in “Results”.
+the temporal fluctuation of an averaged signal from an ROI
+is expected to decrease as the number of pixels within the                 Radius of decorrelation (RDC) The RDC measures the ROI
+ROI increases. This relationship can be formulated as                      side length at which statistical independence of the pixels is
+          � �                                                              lost. A higher RDC indicates better scanner stability. It is
+          �                 �2
+                                                                           calculated as SDactual(N)∕M1 , where SDactual(1) and
+          � ∑V ∑Nj 2 Ri,j                                                                    SDactual(1)∕M
+          � i      N2
+                          −R
+                                                        (5)                                                  N
+SD(N) =           V−1
+                               = SD(1)
+                                  N
+                                       ,                                   SDactual(N) are the actual temporal fluctuations of the ROIs
+                                                                           with side lengths of 1 and N, respectively (Eq. 5); M1 and
+where V = 198 is the number of volumes; N is the side                      MN are the mean values of the spatially averaged time series
+length of the square ROI; and Ri,j represents the value (the               for the ROIs with side lengths of 1 and N, respectively.
+ith volume and the jth pixel) of the residual, which is the                   The complete summary of all QA metrics can be found
+difference between the spatially averaged time
+                                             �
+                                                  series
+                                                     �
+                                                         and               in Table 4 in the Appendix.
+                                                  ∑V ∑N 2
+                                                            Ri,j
+its second-order polynomial trend; R =                      is the
+                                                    i   j
+
+                                                    V⋅N 2
+average value of the residual. SD(N) and SD(1) refer to                    Statistical analysis
+the temporal fluctuations of an ROI with side lengths of N
+and 1, respectively. Thus, for a square N × N pixel ROI, a                 The means and standard deviations of each scanner’s
+plot of log(SD(N)) versus log(N) should follow a declining                 structural and temporal metrics over different days were
+straight line. In practice, as N increases, the reduction                  calculated. The ratios of standard deviations to means were
+in SD(N) flattens out towards a plateau and becomes                        then used to estimate the repeatability of the QA protocol.
+independent of N. This occurs because system instabilities
+introduce low-spatial-frequency correlations in the image,
+causing the pixels to lose their statistical independence. By
+comparing the actual temporal fluctuation, S   ­ Dactual(N), with
+the theoretically approachable value, actual       , the impact of
+                                         SD    (1)
+                                            N
+
+
+
+
+Fig. 3  Representative images for QA analysis. a SE images from the        uct = vendor-provided sequence; ICE = Siemens’ integrated recon-
+first repetition, used for structural quality analysis. b Signal images    struction platform; GT = Gadgetron; SE = spin-echo; EPI = echo-pla-
+from the third EPI scan, used for temporal quality analysis. Prod-         nar imaging
+Magnetic Resonance Materials in Physics, Biology and Medicine (2025) 38:533–546                                                         539
+
+
+Results                                                                    protocol, indicating the reliability of the proposed vendor-
+                                                                           independent QA protocol.
+Figure 3 presents the normalized vendor-based and Pulseq-                     Table 3 presents the summary statistics of QA metrics
+based SE and echo-planar images reconstructed using ICE                    derived from both product-based and Pulseq-based acquisi-
+and Gadgetron from three Siemens scanners and one GE                       tions, with reconstructions performed using ICE and Gadg-
+scanner. The Pulseq-generated images are largely consist-                  etron, collected over multiple days across four scanners.
+ent with the corresponding product-based images across all                 For most QA metrics, the ratios of standard deviations to
+three Siemens scanners. Gadgetron demonstrates reconstruc-                 means are below 10%, except for PSG and Drift. PSG, which
+tion performance comparable to Siemens’ integrated ICE                     is sensitive to intra-scan signal instabilities, exhibits large
+software. Visual inspection suggests that the quality of the               inter-day variability across all scanners; however, it consist-
+Pulseq-based images from the GE platform is similar to that                ently maintains a relatively low mean value of less than 2.4
+of the corresponding Siemens images.                                       ‰. In addition, some temporal signal drifts, as well as the
+    Figure 4a illustrates the image difference between the                 product-based, ICE-based RDCs and percent fluctuations
+first and second SE repetitions ( Idiff ), which is used to cal-           from Prisma.Fit, exhibit slightly higher inter-day variabil-
+culate SNR2 . The image differences from Cima.X exhibit                    ity. This variability may be attributed to fluctuating tem-
+prominent ghosting artifacts along the PE direction, likely                perature levels on different days, including changes in the
+due to inconsistencies in PE steps between different TRs.                  room temperature and gradient coil temperature, which can
+Figure 4b displays the temporal fluctuation noise images                   be influenced by preceding measurement slots in the daily
+obtained from the third EPI scan. Cima.X shows a higher                    scanner schedule. Furthermore, all SNR ratios fall within
+level of ghosting in the PE direction compared to the other                the acceptable range of [0.9, 1.1], except for the product-
+three scanners, likely resulting from scanner instability                  based, ICE-based SNR ratio on Prisma.Fit (0.85 ± 0.02),
+during the EPI acquisition. In both Fig. 4a, b, the Pulseq-                which is slightly below the acceptable range. This implies
+based (Gadgetron-based) protocol exhibits noise and artifact               that the SNR calculations in the post-processing pipeline are
+behaviors similar to those of the product-based (ICE-based)                generally reliable. Overall, these observations indicate that
+
+
+
+
+Fig. 4  Representative noise images for QA analysis. a Image differ-       provided sequence; ICE = Siemens’ integrated reconstruction plat-
+ences between the first and second repetitions of the SE acquisition.      form; GT = Gadgetron; SE = spin-echo; EPI = echo-planar imaging
+b Temporal fluctuation noise images from the third EPI scan. Each
+image is thresholded at 3*STDROI , where STDROI is the average pixel
+value within the square signal ROI of the image. Product = vendor-
+540                                                              Magnetic Resonance Materials in Physics, Biology and Medicine (2025) 38:533–546
+
+Table 3  Summary statistics of QA metrics
+Scanner      Recon Seq         PSG (‰)       PIU (%)      SNR1/SNR2/Ratio                SFNR           RDC             Fluc. (‰)     Drift (%)
+
+Trio         ICE     Product 0.29 ± 0.13     85.5 ± 0.8   144 ± 8/153 ± 12/0.94 ± 0.05   409 ± 12       4.10 ± 0.19     0.61 ± 0.02   0.41 ± 0.05
+(Siemens)                    (46%)           (1%)         (6%/8%/5%)                     (3%)           (5%)            (3%)          (13%)
+                     Pulseq 0.45 ± 0.20      84.8 ± 1.0   125 ± 8/124 ± 13/1.02 ± 0.04   419 ± 12       3.95 ± 0.23     0.62 ± 0.03   0.79 ± 0.04
+                             (45%)           (1%)         (7%/11%/4%)                    (3%)           (6%)            (5%)          (5%)
+             GT      Product 0.23 ± 0.12     82.7 ± 0.7   123 ± 4/133 ± 4/0.92 ± 0.02    399 ± 12       4.24 ± 0.28     0.62 ± 0.02   0.41 ± 0.05
+                             (50%)           (1%)         (4%/3%/2%)                     (3%)           (6%)            (3%)          (13%)
+                     Pulseq 0.48 ± 0.20      81.0 ± 0.8   123 ± 4/120 ± 4/1.02 ± 0.03    410 ± 12       3.97 ± 0.31     0.62 ± 0.03   0.86 ± 0.05
+                             (41%)           (1%)         (3%/3%/3%)                     (3%)           (8%)            (5%)          (6%)
+Prisma.Fit   ICE     Product 1.21 ± 0.40     71.0 ± 0.1   208 ± 4/244 ± 3/0.85 ± 0.02    481 ± 5        7.28 ± 0.97     0.31 ± 0.04   0.21 ± 0.03
+(Siemens)                    (33%)           (0%)         (2%/1%/2%)                     (1%)           (13%)           (12%)         (12%)
+                     Pulseq 1.35 ± 0.25      71.2 ± 0.1   151 ± 3/157 ± 2/0.96 ± 0.01    500 ± 4        6.58 ± 0.27     0.33 ± 0.02   0.23 ± 0.04
+                             (18%)           (0%)         (2%/1%/1%)                     (1%)           (4%)            (5%)          (19%)
+             GT      Product 1.27 ± 0.29     77.5 ± 0.2   154 ± 3/168 ± 1/0.92 ± 0.02    458 ± 4        7.31 ± 0.92     0.32 ± 0.04   0.22 ± 0.03
+                             (23%)           (0%)         (2%/0%/2%)                     (1%)           (13%)           (11%)         (14%)
+                     Pulseq 1.19 ± 0.20      77.9 ± 0.2   137 ± 3/144 ± 1/0.95 ± 0.02    484 ± 6        7.28 ± 0.29     0.33 ± 0.02   0.31 ± 0.02
+                             (17%)           (0%)         (2%/1%/2%)                     (1%)           (4%)            (4%)          (7%)
+Cima.X       ICE     Product 1.43 ± 0.47     70.4 ± 0.3   167 ± 2/168 ± 10/1.00 ± 0.08   431 ± 4        3.19 ± 0.11     0.77 ± 0.03   0.41 ± 0.03
+(Siemens)                    (33%)           (0%)         (1%/6%/8%)                     (1%)           (4%)            (4%)          (8%)
+                     Pulseq 2.23 ± 0.82      70.6 ± 0.2   148 ± 3/146 ± 2/1.01 ± 0.03    449 ± 1        2.95 ± 0.29     0.79 ± 0.05   0.44 ± 0.08
+                             (37%)           (0%)         (2%/1%/3%)                     (0%)           (10%)           (7%)          (18%)
+             GT      Product 1.43 ± 0.48     72.0 ± 0.7   158 ± 3/155 ± 9/1.02 ± 0.08    410 ± 4        3.25 ± 0.16     0.79 ± 0.02   0.44 ± 0.03
+                             (34%)           (1%)         (2%/6%/8%)                     (1%)           (5%)            (2%)          (8%)
+                     Pulseq 2.36 ± 0.93      71.7 ± 0.7   140 ± 3/136 ± 4/1.03 ± 0.05    426 ± 3        2.93 ± 0.19     0.86 ± 0.05   0.46 ± 0.07
+                             (40%)           (1%)         (2%/3%/5%)                     (1%)           (7%)            (6%)          (16%)
+UHP          GT      Pulseq 0.59 ± 0.46      75.4 ± 0.5   154 ± 4/151 ± 2/1.02 ± 0.03    408 ± 1 (0%)   5.58 ± 0.44     0.51 ± 0.03   0.38 ± 0.03
+(GE)                         (78%)           (1%)         (3%/2%/3%)                                    (8%)            (5%)          (9%)
+
+The means and standard deviations (SDs) across different days are listed as mean ± SD. The ratios of standard deviations to means are given in
+the brackets in italics. The ratios larger than 10% are highlighted in bold italics
+Recon. = reconstruction; Seq. = sequence; PSG = percent signal ghosting; PIU = percent image uniformity; SNR1 = SNR based on the
+first repetition; SNR2 = SNR based on two repetitions; Ratio = the ratio between SNR1 and SNR2; SFNR = signal to fluctuation noise ratio;
+RDC = radius of decorrelation; Fluc. = percent fluctuation; ICE = Siemens’ “image calculation environment”; GT = Gadgetron
+
+
+
+ the proposed QA protocol demonstrates good repeatability                 parameters, such as the fat-saturation module, spoilers, max-
+ across different days.                                                   imum gradient strength, maximum slew rate, and slice pro-
+    Figure 5 presents the Weisskoff analysis of representa-               files of the RF pulses. Figure 6b shows the relative standard
+ tive EPI data acquired from four scanners on a single day.               deviation(differences between)the two protocols, calculated
+ The Weisskoff curves and resulting RDC values generated                               STD
+                                                                          as 100 × meanPulseq − meanProduct . Overall, the Pulseq-based
+                                                                                                 STD
+ by the Pulseq-based (Gadgetron-based) protocol align well                                 Pulseq       Product
+
+ with those obtained using the corresponding product-based                protocol demonstrates comparable relative standard devia-
+ (ICE-based) protocol on the three Siemens scanners. This                 tions in QA metrics, suggesting similar day-to-day repeat-
+ indicates that the open-source, vendor-independent QA pro-               ability to the product-based protocol.
+ tocol performs comparably to the closely matched scanner-                   Figure 7 compares the QA performance between ICE-
+ integrated protocol in assessing scanner stability through               based and Gadgetron-based reconstructions. For both
+ the Weisskoff plots. Among the four scanners, Prisma.Fit                 product-based and Pulseq-based data acquisitions,
+ yields the best performance based on these observations,                 Gadgetron produces slightly poorer absolute values for PSG,
+ followed by UHP.                                                         Drift, ­SNR1, and ­SNR2 compared to ICE (Fig. 7a). This
+    Figure 6 compares the QA performance between product-                 difference may arise from variations in reconstruction-
+ based and Pulseq-based protocols. For both ICE and                       specific parameters, such as regridding, ghost correction,
+ Gadgetron reconstructions, the Pulseq-based protocol yields              and smoothing. Figure 7b shows the relative standard
+ slightly worse absolute values for PSG, Drift, S ­ NR1, and              deviation differences( between the )two reconstructions,
+                                                                          calculated as 100 ×                            . Overall, Gadgetron
+                                                                                                    STDGT    STD
+­SNR2 compared to the product-based protocol (Fig. 6a). This                                        meanGT
+                                                                                                           − meanICE
+                                                                                                                  ICE
+ discrepancy may result from differences in sequence-specific
+Magnetic Resonance Materials in Physics, Biology and Medicine (2025) 38:533–546                                                                   541
+
+
+
+
+Fig. 5  The Weisskoff analysis of representative EPI data acquired              logarithmic scale. The dashed line represents the theoretical expec-
+from four scanners on a single day. The horizontal axis represents              tation, where the relative standard deviation is predicted to decrease
+the ROI side length (ranging from 1 to 15, with ROI dimensions                  linearly with the increasing ROI side length. The solid curve depicts
+from 1 × 1 to 15 × 15). The vertical axis shows the relative standard           the actual decline, with dots representing the acquired data points.
+deviations (100 × SDactual(N)∕MN ) corresponding to the incremen-               GT = Gadgetron
+tally increasing ROI side length, N . Both axes are presented on a
+
+
+
+
+Fig. 6  Comparison of QA performance between product-based and                  reconstructions on the Siemens scanners. PSG = percent signal
+Pulseq-based protocols. a The difference in mean QA metrics                     ghosting; PIU = percent image uniformity; SNR1 = SNR based on the
+                                                                                first repetition; SNR2 = SNR based on two repetitions; Ratio = the
+                                               meanPulseq − meanProduct
+between the two protocols, calculated as 100 ×      mean
+                                                                        , for
+both ICE and Gadgetron reconstructions on the three Siemens
+                                                               Product
+                                                                                ratio between SNR1 and SNR2; SFNR = signal to fluctuation noise
+scanners. b( The difference in relative standard deviation, calculated          ratio; RDC = radius of decorrelation; Fluc. = percent fluctuation
+             STD
+                                 )
+as 100 × meanPulseq − meanProduct , for both ICE and Gadgetron
+                        STD
+                 Pulseq      Product
+542                                                                 Magnetic Resonance Materials in Physics, Biology and Medicine (2025) 38:533–546
+
+
+
+
+Fig. 7  Comparison of QA performance between ICE-based and                  both product-based and Pulseq-based data acquisitions on the
+Gadgetron-based reconstructions. a The difference in mean QA                Siemens scanners. PSG = percent signal ghosting; PIU = percent
+metrics between the two reconstructions, calculated as                      image uniformity; SNR1 = SNR based on the first repetition;
+        meanGT − meanICE
+100 ×       mean
+                         , for both product-based and Pulseq-based data     SNR2 = SNR based on two repetitions; Ratio = the ratio between
+                                                                            SNR1 and SNR2; SFNR = signal to fluctuation noise ratio;
+              ICE
+acquisitions on the three Siemens scanners. b (The difference in)rela-
+tive standard deviation, calculated as 100 × meanGT − meanICE , for
+                                                STD       STD               RDC = radius of decorrelation; Fluc. = percent fluctuation
+                                                     GT       ICE
+
+
+
+
+Fig. 8  Comparison of QA
+performance among four scan-
+ners based on metrics calculated
+from Pulseq-generated, Gadg-
+etron-reconstructed images.
+PSG = percent signal ghosting;
+PIU = percent image uniformity;
+SNR1 = SNR based on the first
+repetition; SNR2 = SNR based
+on two repetitions; Ratio = the
+ratio between SNR1 and SNR2;
+SFNR = signal to fluctuation
+noise ratio; RDC = radius of
+decorrelation; Fluc. = percent
+fluctuation
+
+
+
+
+provides comparable or slightly lower relative standard                       Figure 8 provides an example comparison of QA perfor-
+deviations in QA metrics, indicating similar or slightly                    mance across the four scanners using the Pulseq-generated,
+improved repeatability across days compared to ICE.                         Gadgetron-reconstructed metrics based on our limited num-
+                                                                            ber of measurements. In terms of structural quality, Trio
+Magnetic Resonance Materials in Physics, Biology and Medicine (2025) 38:533–546                                                        543
+
+and UHP exhibit strong PSG performance, while Cima.X                        quality control. The general approach involves taking
+ranks lowest in PSG, consistent with the prominent ghost-                   samples over time (e.g., five consecutive runs per sample)
+ing observed in the SE image differences (Fig. 4a). The PIU                 and plotting their means. The mean of a set of sample means
+values are comparable across all scanners. In addition, UHP                 (e.g., from five samples) and the standard error of the means
+shows slightly higher S ­ NR1 and S
+                                  ­ NR2 compared to the Sie-                (SEM) are then calculated. Confidence limits, typically
+mens scanners, likely due to its slightly stronger B0 main                  set at ± 3*SEM, are applied around the overall mean. If
+field (3.0 T) compared to the Siemens systems (2.89 T). In                  any sample mean falls outside these limits, the system is
+terms of temporal quality, Prisma.Fit shows the best tem-                   considered beyond acceptable control limits.
+poral stability, with the highest SFNR and RDC, as well as                     The vendor-independent, repeatable QA protocol enables
+the lowest percent fluctuation and Drift, followed closely                  direct comparison of QA metrics across different scanners,
+by UHP. The aging Trio scanner (17 years old) delivers the                  vendors, and sites (Fig. 8). For example, in our evaluation
+largest Drift, likely due to its age or less effective built-in             with the limited number of measurements, both Trio and
+compensation implemented in the hardware or low-level                       UHP exhibited similar PSG values that were lower than
+software. Cima.X appears to have the poorest temporal sta-                  those of Prisma.Fit and Cima.X, indicating better intra-scan
+bility, as reflected by its lowest RDC and highest percent                  signal stability. The relatively high artifact levels observed
+fluctuation, which correlates with the pronounced ghosting                  in Cima.X’s SE noise images (Fig. 4a) may be attributed
+observed in the temporal fluctuation noise images (Fig. 4b).                to eddy currents or various issues within the transmit,
+                                                                            receive, or gradient subsystems. Cima.X also displayed the
+                                                                            greatest temporal scanner instability during EPI scans, with
+Discussion                                                                  the smallest RDC and the highest percent fluctuation. This
+                                                                            instability may stem from the electrical current variations
+Driven by the need for standardized QA in longitudinal,                     between its two gradient power amplifiers, which are
+cross-vendor, multi-site neuroimaging studies, we developed                 responsible for driving each half of the gradient axis. In
+an open-source, vendor-agnostic QA protocol. This protocol                  addition, the elevated ghosting levels in Cima.X’s temporal
+features harmonized data acquisition via Pulseq and                         noise images (Fig. 4b) further suggest significant signal
+standardized image reconstruction utilizing Gadgetron. In                   instability. Further investigation is required to determine the
+addition, we implemented an automated, open-source post-                    underlying physical causes of differences in intra-scan signal
+processing pipeline to evaluate both structural and temporal                stability (PSG) and inter-scan signal stability (RDC and
+quality metrics.                                                            percent fluctuation) across different scanners and vendors.
+   Visual inspection revealed that the vendor-independent                      However, the proposed QA protocol has certain limita-
+QA protocol produced images of comparable quality to those                  tions. For both ICE-based and Gadgetron-based reconstruc-
+generated by the closely matched vendor-based protocol                      tions, compared to the vendor-based protocol, the Pulseq-
+(Fig. 3). In addition, the proposed protocol yielded noise and              based protocol produced poorer absolute values for PSG
+artifact patterns similar to the vendor-based protocol (Fig. 4).            (notably on Trio and Cima.X), Drift (especially on Trio
+Furthermore, the vendor-agnostic protocol demonstrated                      and Prisma.Fit), as well as S ­ NR1 and S ­ NR2 (Fig. 6a). The
+day-to-day repeatability comparable to that of the vendor-                  lower PSG and Drift values may be attributed to the subop-
+based protocol across the three Siemens scanners (Table 3,                  timal tuning of intricate details in the Pulseq-based SE and
+Figs. 6b, 7b) and exhibited high repeatability across days                  EPI sequences, such as the fat-saturation module, spoilers,
+on the GE scanner (Table 3). These observations highlight                   actual used gradient strength, and actual used slew rate. The
+the potential of the proposed QA package for monitoring                     observed differences in S  ­ NR1 and S ­ NR2 likely stem from
+scanner performance in longitudinal, cross-vendor                           variations in the slice excitation profiles between the ven-
+neuroimaging studies.                                                       dor-based and Pulseq-based sequences. In addition, for both
+   Once long-term longitudinal QA data become available,                    product-based and Pulseq-based data acquisitions, Gadget-
+the question inevitably arises: When does the system fall                   ron yielded slightly worse absolute values for PSG, Drift,
+outside of acceptable control limits? Gradual changes in                   ­SNR1, and S   ­ NR2 (Fig. 7a). This may be due to imperfect
+scanner performance may occur due to the aging of the                       optimization of aspects of the Gadgetron-based reconstruc-
+scanner components or the Faraday cage, while sudden                        tions, such as regridding of the raw data sampled during
+changes may result from factors such as software or                         ramps of the readout gradient and N/2 ghost correction. Nev-
+hardware upgrades, or spikes. These underlying alterations                  ertheless, the proposed protocol provided similar or slightly
+may introduce unexplained variance into the QA data.                        better QA repeatability compared to the vendor-based pro-
+Previous studies [22–24] have proposed statistical methods                  tocol (Figs. 6b, 7b), which secures QA data comparabil-
+for assessing system stability in the context of manufacturing              ity across scanners, vendors, and sites, as well as over an
+                                                                            extended period of time. Vendor-based data acquisition and
+544                                                           Magnetic Resonance Materials in Physics, Biology and Medicine (2025) 38:533–546
+
+image reconstruction were not performed on the GE plat-                  influence the QA results. To mitigate these variations, we
+form; however, this does not impact direct cross-vendor QA               have established a standard operating procedure designed
+comparisons in practice.                                                 to enhance the comparability of QA results across different
+   Another limitation lies in the calculation of the EPI ghost           scanners, vendors, and sites. This procedure is publicly
+level, which can be affected by system instabilities over                available online [15, 17].
+time. We found that the ghost levels were susceptible to the
+accuracy of the ghost region masking—misalignment could
+significantly overestimate ghost levels. Given the relatively            Conclusion
+small field of view and the challenges in automatically
+and accurately defining the ghost ROI, obtaining reliable                In this study, we successfully developed and implemented
+results was difficult. To prevent potential bias from improper           an open-source, vendor-independent QA protocol based on
+ghost masking, we ultimately excluded this metric from the               the Pulseq framework, complemented by an automated post-
+post-processing pipeline. Future efforts should focus on                 processing pipeline. The protocol was rigorously validated
+refining the Pulseq-based sequences and Gadgetron-based                  on three Siemens 3T scanners with different manufacturing
+reconstruction algorithms. In addition, expanding the QA                 dates and software versions, as well as on one GE 3T
+package to include more analyses and QA metrics—such as                  scanner. Our results demonstrate the protocol’s feasibility
+incorporating SE and EPI sequences with parallel imaging                 and confirm its repeatability across different days, system
+or simultaneous multi-slice accelerations, or extending                  versions, vendors, and sites. These findings underscore
+the set of protocols to include additional tests relevant to             the potential of the proposed protocol to standardize QA
+diffusion and flow MRI—could provide deeper insights into                measures for longitudinal, cross-vendor, multi-site, large-
+scanner performance.                                                     scale neuroimaging studies.
+   Last but not least, our exploration of the QA performance
+characteristics across different scanners highlighted that
+various operational factors during data acquisition—such                 Appendix
+as shim mode, coil combination, image scaling factor,
+phantom temperature, and warm-up—can significantly                       See Table 4.
+
+
+
+Table 4  Summary of all QA metrics
+Type of quality    Metric                    Abbreviation Formula or definition                           Image characteristics
+                                                                            (         ) (          )
+Structural quality Percent signal ghosting   PSG                          | SFE1 +SFE2 − SPE1 +SPE2 |
+                                                                          |                          |    Signal stability across multiple
+                                                           PSG = 100 ⋅ |
+                                                                       |              2S
+                                                                                                     |
+                                                                                                     |      TR periods during a scan
+                                                                       |                             |
+                                                                      [                   )]
+                   Percent image uniformity PIU                                                           RF or static magnetic field
+                                                                              (
+                                                                               Smax −Smin
+                                                           PIU = 100 ⋅     1− (           )                inhomogeneities; insufficient
+                                                                               Smax +Smin
+                                                                                                           eddy current compensation
+                   Signal-to-noise ratio     SNR                    √                                     Clinical utility of an MR image;
+                                                           SNR1 =       (4−𝜋)∕2 ⋅ SDS
+                                                                    √                   1                  hardware performance and
+                                                           SNR2 =       2 ⋅ SDS                            image reconstruction efficiency;
+                                                          SNRratio = SNR1 ∕SNR2
+                                                                                  2
+                                                                                                           temporal stability
+Temporal quality   Signal-to-fluctuation-    SFNR         SFNR_image = signal_image/fluctuation_       Signal stability over time
+                     noise ratio                            noise_image
+                   Percent fluctuation       Fluc.        100 * STD(detrended_time_series)/            Signal stability over time
+                                                            mean(time_series)
+                                                                (                   )
+                   Drift                     –            100 × trendmax − trendmin ∕mean(time_series) Variations in magnetic field
+                                                                                                         strength
+                   Radius of decorrelation   RDC          ROI side length at which the statistical     Signal stability over time
+                                                            independence of the pixels is lost
+Magnetic Resonance Materials in Physics, Biology and Medicine (2025) 38:533–546                                                                       545
+
+Acknowledgements This work was supported by research grants NIH                     3. Friedman L, Glover GH, The FBIRN Consortium (2006) Reduc-
+R01 EB032378, NIH U24 NS120056, EU MRITwins 101078393,                                 ing interscanner variability of activation in a multicenter fMRI
+EURAMET 22HLT02 A4IM, and DFG INST 39 1365-1. Measure-                                 study: Controlling for signal-to-fluctuation-noise-ratio (SFNR)
+ments in Freiburg were carried out with the support of the core facility               differences. Neuroimage 33:471–481
+‘Magnetic Resonance Development and Application Center Freiburg                     4. Glover GH, Mueller BA, Turner JA, Van Erp TGM, Liu TT, Greve
+(MRDAC),’ Department of Radiology—University Medical Center                            DN, Voyvodic JT, Rasmussen J, Brown GG, Keator DB, Calhoun
+Freiburg, Faculty of Medicine, University of Freiburg. The authors                     VD, Lee HJ, Ford JM, Mathalon DH, Diaz M, O’Leary DS, Gadde
+thank Jürgen Hennig and Frank Zijlstra for the support in implement-                   S, Preda A, Lim KO, Wible CG, Stern HS, Belger A, McCarthy
+ing the spin-echo sequence and Gadgetron reconstruction algorithms,                    G, Ozyurt B, Potkin SG (2012) Function biomedical informatics
+Agnete Hentze Pichotka for the help with data acquisition, and Michael                 research network recommendations for prospective multicenter
+Koehler and Ralf Kartäusch from Siemens Healthineers AG for fruitful                   functional MRI studies. J Magn Reson Imaging 36:39–54
+discussions.                                                                        5. Jovicich J, Minati L, Marizzoni M, Marchitelli R, Sala-Llonch R,
+                                                                                       Bartrés-Faz D, Arnold J, Benninghoff J, Fiedler U, Roccatagliata
+Author contributions Büchert: study conception and design, acqui-                      L (2016) Longitudinal reproducibility of default-mode network
+sition of data, critical revision. Chen: study conception and design,                  connectivity in healthy elderly participants : a multicentric rest-
+acquisition of data, analysis and interpretation of data, drafting of                  ing-state fMRI study. Neuroimage 124:442–454
+manuscript. Hucker: acquisition of data, critical revision. Littin: criti-          6. Yan C-G, Craddock RC, Zuo X-N, Zang Y-F, Milham MP (2013)
+cal revision. Nielsen: study conception and design, acquisition of data,               Standardizing the intrinsic brain: towards robust measurement of
+critical revision. Wan: acquisition of data, analysis and interpretation               inter-individual variation in 1000 functional connectomes. Neu-
+of data, critical revision. Wehkamp: acquisition of data, analysis and                 roimage 80:246–262
+interpretation of data, critical revision. Zaitsev: study conception and            7. Kayvanrad A, Arnott SR, Churchill N, Hassel S, Chemparathy
+design, critical revision.                                                             A, Dong F, Zamyadi M, Gee T, Bartha R, Black SE, Lawrence-
+                                                                                       Dewar JM, Scott CJM, Symons S, Davis AD, Hall GB, Harris
+Funding Open Access funding enabled and organized by Projekt                           J, Lobaugh NJ, MacQueen G, Woo C, Strother S, the ONDRI
+DEAL.                                                                                  Founding Investigators, the CAN-BIND Investigators (2021)
+                                                                                       Resting state fMRI scanner instabilities revealed by longitudinal
+Data availability All reconstructed images and a representative raw                    phantom scans in a multi-center study. Neuroimage 237:1–22
+data used in this manuscript, along with all source code and detailed               8. Price RR, Axel L, Morgan T, Newman R, Perman W, Schneiders
+instructions of the proposed QA package, are publicly available online                 N, Selikson M, Wood M, Thomas SR (1990) Quality assurance
+via GitHub (https://​github.​com/​Harmo​nized​MRI/​quali​tyAss​urance/​                methods and phantoms for magnetic resonance imaging: report of
+tree/​main) and Zenodo (https://​doi.​org/https://​doi.o​ rg/​10.​5281/​zenodo.​       AAPM nuclear magnetic resonance Task Group No. 1. Med Phys
+14778​552). Complete raw data can be acquired from the authors upon                    17:287–295
+request.                                                                            9. Chen Q, Zijlstra F, Hucker P, Littin S, Zaitsev M (2024) Open-
+                                                                                       source, cross-platform workflow for MRI data acquisition and
+Declarations                                                                           image reconstruction based on the Pulseq framework. In: Proc.
+                                                                                       33rd Int. Soc. Magn. Reson. Med. Singapore, p 0948
+Conflict of interest The authors have no conflict of interest to disclose.         10. Layton KJ, Kroboth S, Jia F, Littin S, Yu H, Leupold J, Nielsen
+                                                                                       J-F, Stöcker T, Zaitsev M (2017) Pulseq: a rapid and hardware-
+Ethical approval This study was conducted on a phantom, so no ethical                  independent pulse sequence prototyping framework. Magn Reson
+approval was required.                                                                 Med 77:1544–1552
+                                                                                   11. Hansen MS, Sørensen TS (2013) Gadgetron: an open source
+                                                                                       framework for medical image reconstruction. Magn Reson Med
+Open Access This article is licensed under a Creative Commons Attri-                   69:1768–1776
+bution 4.0 International License, which permits use, sharing, adapta-              12. Inati SJ, Naegele JD, Zwart NR, Roopchansingh V, Lizak MJ,
+tion, distribution and reproduction in any medium or format, as long                   Hansen DC, Liu C-Y, Atkinson D, Kellman P, Kozerke S, Xue
+as you give appropriate credit to the original author(s) and the source,               H, Campbell-Washburn AE, Sørensen TS, Hansen MS (2017)
+provide a link to the Creative Commons licence, and indicate if changes                ISMRM Raw data format: a proposed standard for MRI raw data-
+were made. The images or other third party material in this article are                sets. Magn Reson Med 77:411–421
+included in the article’s Creative Commons licence, unless indicated               13. American College of Radiology (2018) Phantom test guidance for
+otherwise in a credit line to the material. If material is not included in             use of the large MRI phantom for the MRI accreditation program,
+the article’s Creative Commons licence and your intended use is not                    pp 1–28
+permitted by statutory regulation or exceeds the permitted use, you will           14. American Association of Physicists in Medicine (AAPM) (2010)
+need to obtain permission directly from the copyright holder. To view a                Acceptance testing and quality assurance procedures for magnetic
+copy of this licence, visit http://creativecommons.org/licenses/by/4.0/.               resonance imaging facilities. Rep No 100:1–32
+                                                                                   15. Chen Q, Wehkamp N, Wan C, Hucker P, Büchert M, Littin S,
+                                                                                       Nielsen J-F, Zaitsev M (2024) Quality-assurance package for the
+                                                                                       “Automated, open-source, vendor-independent quality assurance
+References                                                                             protocol based on the Pulseq framework” manuscript. https://​doi.​
+                                                                                       org/​10.​5281/​zenodo.​14778​552
+ 1. Jezzard P, Matthews PM, Smith SM (2001) Functional magnetic                    16. Nielsen J-F, Noll DC (2018) TOPPE: a framework for rapid pro-
+    resonance imaging: an introduction to methods. Oxford University                   totyping of MR pulse sequences. Magn Reson Med 79:3128–3134
+    Press, Oxford, pp 4–34                                                         17. Chen Q. https://​github.​com/​Harmo​nized​MRI/​quali​tyAss​urance.
+ 2. Friedman L, Glover GH (2006) Report on a multicenter fMRI                          Accessed 27 Nov 2024
+    quality assurance protocol. J Magn Reson Imaging 23:827–839                    18. National Electrical Manufacturers Association (2008) Deter-
+                                                                                       mination of signal-to-noise ratio (SNR) in diagnostic magnetic
+546                                                                 Magnetic Resonance Materials in Physics, Biology and Medicine (2025) 38:533–546
+
+      resonance imaging. NEMA Stand. Publ. MS 1-2008. Rosslyn, pp           23. Devor R, Chang T (1992) Statistical quality design and control:
+      1–19                                                                      contemporary concepts and methods. Prentiss- Hall, New York
+19.   Gudbjartsson H, Patz S (1995) The rician distribution of noisy mri    24. Shewhart WA (1931) Economic control of quality of manufac-
+      data. Magn Reson Med 34:910–914                                           tured product. D. Van Nostrand Co, New York
+20.   Delakis I, Petala K, De Wilde JP (2005) MRI receiver frequency
+      response as a contributor to Nyquist ghosting in echo planar imag-    Publisher's Note Springer Nature remains neutral with regard to
+      ing. J Magn Reson Imaging 22:324–328                                  jurisdictional claims in published maps and institutional affiliations.
+21.   Weisskoff RM (1996) Simple measurement of scanner stability for
+      functional NMR imaging of activation in the brain. Magn Reson
+      Med 36:643–645
+22.   Simmons A, Moore E, Williams SCR (1999) Quality control for
+      functional magnetic resonance imaging using automated data
+      analysis and Shewhart Charting. Magn Reson Med 41:1274–1278
+

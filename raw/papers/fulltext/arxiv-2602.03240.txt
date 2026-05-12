@@ -1,0 +1,851 @@
+                                           Estimating measures of information processing during cognitive
+                                                 tasks using functional magnetic resonance imaging
+                                               Chetan Gohil1,2,3 , Oliver M. Cliff1,3 , James M. Shine2,3 , Ben D. Fulcher3,4 , and Joseph T. Lizier1,3
+                                                      1
+                                                       School of Computer Science, The University of Sydney, New South Wales, Australia
+                                                        2
+                                                          Brain and Mind Centre, The University of Sydney, New South Wales, Australia
+                                                     3
+                                                       Centre for Complex Systems, The University of Sydney, New South Wales, Australia
+                                                            4
+                                                              School of Physics, The University of Sydney, New South Wales, Australia
+arXiv:2602.03240v1 [q-bio.NC] 3 Feb 2026
+
+
+
+
+                                                                                             Abstract
+                                                      Cognition is increasingly framed in terms of information processing, yet most fMRI anal-
+                                                  yses focus on activation or functional connectivity rather than quantifying how information is
+                                                  stored and transferred. To remedy this problem, we propose a framework for estimating mea-
+                                                  sures of information processing: active information storage (AIS), transfer entropy (TE), and
+                                                  net synergy from task-based fMRI. AIS measures information maintained within a region,
+                                                  TE captures directed information flow, and net synergy contrasts higher-order synergistic to
+                                                  redundant interactions. Crucially, to enable this framework we utilised a recently developed
+                                                  approach for calculating information-theoretic measures: the cross mutual information. This
+                                                  approach combines resting-state and task data to address the challenges of limited sample
+                                                  size, non-stationarity and context in task-based fMRI. We applied this framework to the
+                                                  working memory (N -back) task from the Human Connectome Project (470 participants).
+                                                  Results show that AIS increases in fronto-parietal regions with working memory load, TE
+                                                  reveals enhanced directed information flows across control pathways, and net synergy indi-
+                                                  cates a global shift to redundancy. This work establishes a novel methodology for quantifying
+                                                  information processing in task-based fMRI.
+
+
+                                           1      Introduction
+                                           Cognition is increasingly framed in terms of information processing, where the brain can be
+                                           thought of as a complex dynamical system that encodes, stores, and manipulates informa-
+                                           tion (Neisser, 2014). This perspective underpins major theoretical frameworks such as predictive
+                                           coding (Rao and Ballard, 1999), the free-energy principle (Friston, 2010), computational mod-
+                                           els of cognition (Anderson et al., 2015), and integrated information theory (Tononi et al., 2016).
+                                           Testing these theories, however, requires quantitative methods for characterising how information
+                                           is processed in the brain.
+                                               In this study, we focus on quantifying different aspects of information processing (storage and
+                                           transfer) during a cognitive task using functional magnetic resonance imaging (fMRI). FMRI is
+                                           a non-invasive technique for measuring brain activity. It detects changes in blood oxygenation
+                                           and flow that are coupled to neural activity, known as the blood-oxygen-level-dependent (BOLD)
+                                           signal, thereby providing an indirect measure of regional brain function (Logothetis, 2008). Task-
+                                           based fMRI allows researchers to identify brain regions engaged by specific cognitive processes
+                                           (e.g. working memory, attention, or decision-making) and to examine how activity patterns
+                                           change with task demands (Barch et al., 2013).
+                                               Information theory (Cover, 1999) provides a principled framework for quantifying the amount
+                                           of information within a system of interacting components. Several studies have explored its use
+                                           in neuroimaging for characterising brain function. Early work calculated the mutual informa-
+                                           tion of fMRI data to characterise inter-regional functional connectivity (Gómez-Verdejo et al.,
+
+                                                                                                  1
+2012; Hlinka et al., 2011). Later approaches extended this to transfer entropy as a measure of
+directed connectivity (Lizier et al., 2011; Vicente et al., 2011; Wibral et al., 2014b), while more
+recent developments have used partial information decomposition to disentangle redundant and
+synergistic contributions to neural processing (Wibral et al., 2017; Mediano et al., 2019; Rosas
+et al., 2019; Luppi et al., 2022; Varley et al., 2023).
+    The vast majority of previous work has focused on applying information theory to resting-
+state fMRI data, given that these recordings tend to be longer and are typically considered
+to better adhere to the assumption of stationarity due to fixed experimental conditions: these
+characteristics are favourable for estimating the underlying probability distribution needed to
+calculate information-theoretic measures. Methods for estimating information processing in
+task-based fMRI are less well developed. Fundamental questions remain about which mea-
+sures are most appropriate, how to interpret them in the context of cognition, and how best to
+address the challenges posed by the modality: task-based fMRI recordings are inherently non-
+stationary (Laumann et al., 2024) and typically short. Additionally, the temporal resolution of
+fMRI is limited by the slow hemodynamic response function (HRF) (Logothetis, 2008). In this
+study, we tackle these issues by first deconvolving the HRF (Wu et al., 2013), and crucially, in our
+work we adopt a recently developed approach for handling non-stationarity and short recordings:
+the cross mutual information (Gohil et al., 2025).
+    We will focus on characterising brain activity using three complementary measures of infor-
+mation processing (Lizier, 2012; Li et al., 2019; Voges et al., 2024):
+   • Active information storage (AIS), which quantifies how much information about a region’s
+     past is maintained over time (Lizier et al., 2012).
+   • Transfer entropy (TE), which captures directed information flow between regions and can
+     be seen as a non-linear generalisation of Granger causality (Schreiber, 2000).
+   • Net synergy, which compares how much information arises from the joint contribution of
+     multiple inputs together rather than in isolation.
+Together, these measures provide a principled way to characterise how information is stored and
+transferred in the brain during cognitive processes. They also provide the ability to distinguish
+whether the inter-regional interactions are primarily redundant or synergistic, which further
+clarifies the role of information processing in cognitive function.
+    In this work, we will study fMRI data from the Human Connectome Project (HCP), a large-
+scale resource that provides high-quality fMRI data from healthy individuals (Van Essen et al.,
+2013). We focus on the N -back task, a widely used paradigm that engages working memory
+by requiring participants to monitor a sequence of stimuli and indicate whether the current
+stimulus matches one presented N steps earlier (Owen et al., 2005). The N -back task robustly
+activates a fronto-parietal control network (including dorsolateral prefrontal and parietal cortices,
+the thalamus, and insula) while deactivating the default mode network (DMN), with activity
+scaling as a function of memory load (Owen et al., 2005; Emch et al., 2019). These patterns
+are reliably observed in the HCP dataset at both the group and individual level (Barch et al.,
+2013; Lamichhane et al., 2020), enabling the large-scale investigation of variability in working
+memory function. Moreover, the N -back task has been used to study dynamic reconfiguration of
+functional networks under cognitive demand (Shine et al., 2016; De Alteriis et al., 2025), making
+it well suited to an information-theoretic analysis: maintaining items in memory relates naturally
+to AIS, dynamic coordination across fronto-parietal networks reflects TE, and integrating inputs
+from multiple regions provides a setting to examine synergistic versus redundant interactions.
+    In Section 2, we describe our methodology for estimating information processing measures
+from task-based fMRI data, paying particular attention to challenges such as defining an under-
+lying probability distribution for the data. Section 3 presents results from the N -back task in
+the HCP dataset. Section 4 discusses the implications of our findings, and Section 5 summarises
+the contributions and outlook.
+
+                                                 2
+2        Methods
+2.1        Human Connectome Project (HCP) Dataset
+In this study, we analyse the working memory (N -back) task from the HCP dataset (Barch et al.,
+2013; Van Essen et al., 2013). The HCP dataset includes both a 0-back (baseline attention)
+condition and a 2-back (working memory) condition - a subtraction of 2-back > 0-back enables
+a direct comparison between high and low cognitive demand (Barch et al., 2013). In addition,
+the HCP dataset contains an independent resting-state recording for each subject. We studied
+the 500 subjects release.
+
+Pre-processing
+Bias field correction and motion correction (12 linear degrees of freedom using FSL’s FLIRT)
+were applied to each subject’s fMRI recording (resting-state and N -back separately) as part of
+the minimal pre-processing pipeline (Glasser et al., 2013). Temporal artifacts were identified in
+each dataset by calculating framewise displacement from the derivatives of the six rigid-body
+realignment parameters estimated during standard volume realignment (Power et al., 2014), as
+well as the root-mean-square change in BOLD signal from volume to volume (DVARS). Abnormal
+frames were not excluded from the data.
+    Following artifact detection, nuisance covariates associated with the six linear head movement
+parameters (and their temporal derivatives), frame-wise displacement, DVARS, and anatomical
+masks from the CSF and deep cerebral WM were regressed from the data using the CompCor
+strategy (Behzadi et al., 2007). Based on this pipeline, a total of 27 subjects were removed based
+on significant head motion (framewise displacement > 2.5% and/or DVARS > 0.25) (Power
+et al., 2014).
+
+Parcellation
+Following the pre-processing, a mean time series was extracted from each of the 333 pre-defined
+regions-of-interest (ROIs): 161 and 162 regions from the left and right hemispheres respectively
+using the Gordon atlas (Gordon et al., 2016).
+
+Preparation
+Following the parcellation, we normalised (z-scored) and detrended the data. We then applied
+a zero-phase 3rd order forward-backward Butterworth filter (0.01 < f < 0.08 Hz). Global signal
+regression was then applied to the data1 (Murphy and Fox, 2017). To mitigate the effects of the
+HRF on the information processing measures, we used a blind deconvolution technique to remove
+the HRF from the data (Wu et al., 2013). Two subjects failed the HRF deconvolution and were
+removed. Additionally, one subject was removed because it did not have a 2-back accuracy score.
+This resulted in a final total of 470 subjects with resting-state and N -back data.
+    Finally, to avoid issues with edge effects induced by the bandpass filter, we cropped the first
+52 and last 55 samples from the N -back recording (leaving 298 samples) and the first and last
+100 samples from the resting-state recording (leaving 1000 samples). These time series were then
+used in the subsequent analysis.
+
+2.2        Information-Theoretic Measures
+Here, we describe the measures used to quantify information processing in this work. We focus
+on estimating the storage and transfer of information in the brain as measured by fMRI (Bryant
+et al., 2025). All information-theoretic measures were calculated using the KSG1 estimator (Kraskov
+    1
+        This step did not have a substantial impact on the results presented in this manuscript.
+
+
+                                                           3
+et al., 2004) in the JIDT toolbox (Lizier, 2014). This estimator overcomes limitations of other
+kernel-based estimators that suffer from binning bias or restrictive assumptions about form of
+the probability distribution for the data.
+    Autocorrelation. Information-theoretic measures often assume that the underlying time
+series are independent and identically distributed (i.i.d.) across samples (Lizier et al., 2012;
+Bossomaier et al., 2016). FMRI data, however, are strongly autocorrelated due to both intrin-
+sic neural dynamics and the slow HRF. This autocorrelation can lead to inflated estimates of
+information-theoretic measures, as dependencies in the signal may arise trivially from tempo-
+ral smoothness rather than genuine information processing (Cliff et al., 2021). Preprocessing
+was applied to the data to mitigate these issues (detrending, filtering, HRF deconvolution; see
+Section 2.1). Furthermore, in calculating the information-theoretic measures we excluded auto-
+correlated samples (Theiler, 1986) to reduce biases related to autocorrelation in the estimator
+(DYN_CORR_EXCL=15 in JIDT, selected to be larger than the length over which any of the time-
+series analysed retains a statistically significant autocorrelation).
+
+Mutual Information (MI)
+Cross MI. Each measure is based on the MI, (Cover, 1999; Gohil et al., 2025)
+                                                                              
+                                                                        q(x, y)
+                  I(X; Y ) = Ex,y∼p(x,y) {i(x, y)} = Ex,y∼p(x,y) log                              (1)
+                                                                       q(x)q(y)
+                              
+                        q(x,y)
+where i(x, y) = log q(x)q(y)      is the local (or pointwise) MI between samples x and y of the
+random variables X and Y respectively, q(x, y) is the reference distribution and p(x, y) is the
+test distribution. Here, the MI is averaged over data samples from the test distribution p(x, y)
+but the probabilities given by the reference distribution q(x, y) in the calculation of the local MI.
+Note, by calculate the MI in this way we are adopting a cross MI (Gohil et al., 2025). This is
+an important choice to ensure that we correctly account for the possible states (x, y values) the
+system could explore using the reference distribution.
+    Reference distribution. This distribution is intended to characterise the full probability
+of states (x, y values) we expect the brain to exhibit. For this, we propose using the empirical
+distribution calculated from all the fMRI data we have available for a subject (here both rest-
+ing state and N -back task). Including the resting-state recording in this reference distribution
+provides the proper context for the N -back conditions. It allows us to account for the fact that
+the fMRI data during the N -back conditions may occupy a low-probability region of the state
+space. Moreover, inclusion of all of the available recordings provides enough baseline data for
+the probability distributions to be reliably estimated.
+    Test distribution. This is the distribution we take the expectation over in Equation (1).
+The cross MI evaluates how strongly the relationship between X and Y (as defined by the
+reference distribution) is actually expressed in the test distribution. For this, to evaluate the
+cross MI for a particular task one would use the task data alone to estimate the test distribution.
+Here, we will separately use each of the 2-back, 0-back and resting-state data.
+    Conditional MI. The above approach based on the cross MI is in contrast to a conventional
+MI calculation, which would use the test distribution as the reference, i.e. q(x, y) = p(x, y). In
+the context of fMRI task analysis, the task data would be used to define an empirical distribution
+that would be used for p(x, y) and q(x, y). This choice for the reference distribution defines a
+probability space based on the data recorded during the task only. It is effectively conditioning
+on the task (Gohil et al., 2025), which means it does not have the proper context to know whether
+the x-y dependencies in the task condition are atypical (have low probabilities) compared to a
+baseline resting-state condition. We call this conventional MI calculation the conditional MI
+because it is based on a probability distribution that is conditioned on the task. Additionally,
+this approach suffers from the reference distribution q(x, y) being determined from very short
+and non-stationary data.
+
+                                                 4
+Cross vs Conditional MI
+All measures calculated in this work will be based on the cross MI. Adopting this approach for
+task-based fMRI analysis is one of the key innovations of this paper. The characteristics/features
+of the cross MI compared to a conditional MI is studied in detail using simulated data in (Gohil
+et al., 2025). As outlined in (Gohil et al., 2025), a large positive local value for the cross MI
+i(x, y) means that, under the reference distribution, the joint occurrence (x, y) is more probable
+relative than would be expected by independence; the expectation over task samples (the test
+distribution) then tells us whether such (potentially rare) co-occurrences happen systematically
+during the task. Comparing the cross and conditional MI:
+
+   • A high cross MI and conditional MI indicates a strong X-Y dependence within task that
+     is also generally observed at rest.
+
+   • A high cross MI but low conditional MI indicates X-Y dependencies that are rare at rest
+     occur frequently in the task. This can happen when a small number of highly informative,
+     task-specific events occur. Here, conditioning on the task removes a redundancy which
+     weakens the X-Y relationship measured by the conditional MI.
+
+   • A low cross MI but high conditional MI indicates a strong X-Y dependency in task that
+     is not generally observed at rest. Here, conditioning on the task reveals a synergy that
+     strengthens the X-Y relationship measured by the conditional MI.
+
+In the analysis of task-based fMRI, responses are context-dependent: a dependence that looks
+strong when only looking at task data might still be part of the brain’s normal activity that
+would be observed at rest. The cross MI lets us ask whether task events (in the test distribution)
+represent atypical X-Y dependencies relative to the subject’s broader baseline activity (which
+is characterised by the reference distribution). The cross MI is a useful measure to have when
+asking “does the task induce connectivity at this is unusual compared with baseline?”.
+    To calculate the cross MI in JIDT, we provide both the N -back task and resting-state data
+for the reference distribution (in this work implemented by temporally concatenating the N -back
+task and resting-state data). Then, the local values i(x, y) are estimated to give a time-varying
+estimate of the information-theoretic measure. In cases where we calculate the conditional MI
+instead, we will state this explicitly.
+
+Active Information Storage (AIS)
+We propose using the AIS as a measure of information storage (Lizier et al., 2012),
+
+                                        AX = I(Xt ; X<t ),                                      (2)
+
+where X is the time series data for a particular ROI. The AIS quantifies the extent to which the
+current time point Xt can be predicted by the past X<t = {Xt−1 , Xt−2 , ...}, with higher values
+indicating that more information is being actively maintained over time. Unlike autocorrelation-
+based measures, the AIS provides an information-theoretic quantification of temporal dependence
+that is sensitive to both linear and non-linear dynamics, and accumulates all information provided
+by multiple past time points together rather than individually. As such, AIS has been widely
+deployed in studies of information storage in neural data (Wibral et al., 2014a; Voges et al., 2024;
+Brodski-Guerniero et al., 2017; Puche Sarmiento et al., 2020).
+    To calculate the AIS, we need to specify the number of previous time points in X<t to use in
+the MI calculation. In this work, we used 2 time steps (k_HISTORY=2 in JIDT) which provides
+the maximum bias-corrected value for the time-series here (Garland et al., 2016; Erten et al.,
+2017).
+
+
+
+                                                 5
+Transfer Entropy (TE)
+To quantify information flows, we propose using the TE (Bossomaier et al., 2016; Wibral et al.,
+2014b),
+                                   TX→Y = I(Yt ; X<t |Y<t ),                               (3)
+where X and Y are the time series for a source and target ROI respectively. The TE is a
+non-linear generalisation of Granger causality (Schreiber, 2000), capable of capturing directed,
+time-lagged, and potentially non-linear dependencies between brain regions. Unlike traditional
+correlation-based measures (e.g. Pearson correlation), TE accounts for the history of both the
+source and the target, thus reflects how much new information the source X<t contributes to
+predicting the future of the target Yt in the context of what the target’s own past Y<t already
+provides. This makes TE particularly well-suited for studying directed interactions in fMRI and
+other neural data (Lizier et al., 2011; Vicente et al., 2011; Wibral et al., 2014b; Marinazzo et al.,
+2012; Voges et al., 2024).
+    To calculate the TE, we need to specify the number of time points to use for the history
+of the source and the target. In this work we used 2 time steps for both (k_HISTORY=2 and
+l_HISTORY=2 in JIDT) based on first optimising the target past as per AIS and then similarly
+identifying the source past (specifically the most common value across pairs) to maximise the
+bias-corrected TE.
+
+Net Synergy
+Net synergy (also known as interaction information) (McGill, 1954; Williams and Beer, 2010)
+provides a way of comparing how synergistic information from two sources contribute to predict-
+ing the future of a target (above and beyond the information attributable to one or other source
+alone) against the redundant information (that may be found in either source alone) (McGill,
+1954). Here we consider the net synergy between the target’s own past as one source itself (being
+the source for the AIS to the target), and a separate ROI as the other source (being the source
+of the TE to the target), similar to other studies (Williams and Beer, 2011; Wibral et al., 2017;
+Lizier et al., 2013). Our measure for net synergy for these sources is
+
+                   SX→Y = TX→Y − I(X<t ; Yt ) = I(Yt ; X<t |Y<t ) − I(X<t ; Yt ),                (4)
+
+where X and Y are the source and target time series for the TE respectively. Crucially, this
+measure is a net between synergistic information, i.e. information that is only revealed when the
+source and target histories are considered together, and redundancy, i.e. overlapping information
+present in both the source and the target’s past. A positive value for SX→Y indicates that more
+synergy is provided than redundant information (and indeed is a sufficient condition to conclude
+that synergistic information is provided), whereas a negative value indicates that more redun-
+dant than synergistic information is provided (and is thus a sufficient condition to conclude that
+redundant information is provided). This measure thus allows us to move beyond simply quan-
+tifying directed interactions, and towards understanding whether information exchange between
+regions is synergetic or redundant (Williams and Beer, 2010; Rosas et al., 2019; Mediano et al.,
+2019).
+    To calculate the net synergy, we need to specify the number of time points to use for the
+history of the source and the target. In this work, we used 2 time steps for both (k_HISTORY=2
+and l_HISTORY=2 in JIDT) in parallel with the estimates of the AIS and TE.
+
+2.3   Task Analysis
+Our objective is to estimate AX , TX→Y , and SX→Y for each N -back condition (2-back, 0-back)
+as well as the resting-state condition. To do this, we use a similar approach to a conventional task
+mean activation analysis (Lindquist, 2008). First, we estimate a local (instantaneous) measure
+
+                                                 6
+at each time point (Figure 1A). Then, we fit a first-level General Linear Model (GLM), which
+contains a regressor for each condition of interest (Figure 1B). Note, because we deconvolved
+our fMRI data we do not need to convolve our task design matrix with the HRF. Instead, we
+have block (boxcar) regressors in our design matrix. This means we can calculate condition-
+specific measures by simply taking the average value of the local measure over the time points
+corresponding to each condition. Each region/edge has an independent first-level GLM.
+
+First-Level Contrasts
+After calculating condition-specific measures for each subject (2-back, 0-back, rest), we computed
+two first-level contrasts:
+  1. 2-back vs rest (2-back minus rest). This captures each subject’s response to increased
+     working memory load relative to a resting baseline, highlighting regions and interactions
+     engaged by the task.
+  2. 2-back vs 0-back (2-back minus 0-back). This accounts for sensory, motor, and attentional
+     processes present in both conditions, isolating neural and information-processing changes
+     specific to the working memory demands of the N -back task.
+
+
+
+
+Figure 1: Calculation of condition-specific measures. A) The time series for some local
+(instantaneous) measure i. Examples include the BOLD signal, local AIS (for a region), and
+local MI (for an edge). B) Visualisation of the task design matrix where the blue line indicates
+the time points corresponding to the rest, 0-back and 2-back condition.
+
+
+2.4   Statistical Significance Testing
+Group Mean
+To assess statistical significance at the group level, we used non-parametric permutation testing
+within a GLM framework (Winkler et al., 2014). A group-level GLM with a single mean regressor
+was fitted to the first-level contrasts, and sign-flip permutations were used to generate the null
+distribution under the hypothesis that the group mean equals zero. To control for multiple
+comparisons we used a maximum t-statistic correction (over regions/edges).
+
+                                                7
+Task Performance (2-Back Accuracy)
+To examine whether inter-individual variability in task performance (2-back accuracy) was as-
+sociated with the information processing measures, we fitted a group-level GLM with (z-scored)
+2-back accuracy scores as a regressor as well as a mean regressor. We used sign-flip permutations
+to generate a null distribution under the hypothesis of no relationship between an information
+processing measure and task performance. To control for multiple comparisons we used a maxi-
+mum t-statistic correction (over regions/edges).
+
+
+3     Results
+3.1   Conventional mean activation and FC analyses localise changes but do
+      not characterise information processing
+First, we examine the task response using conventional measures. Figure 2 shows the change in
+BOLD signal (mean activation) and functional connectivity (FC) using MI for the 2-back vs rest
+and 2-back vs 0-back contrast.
+    The mean activation shows the expected spatial pattern for changes from previous stud-
+ies (Barch et al., 2013). In the 2-back condition, we see: the activity in the visual region
+increases; the activity in fronto-parietal regions increases; and the activity in default mode re-
+gions decreases. Note, a key difference between our study and previous work is that we have
+deconvolved the HRF from the fMRI data. Figure 2A suggests this step has not significantly
+altered the spatial activity patterns invoked by the task.
+    For our measure of FC, we use the conditional and cross MI, which are shown in Figures 2B
+and C respectively. We see that the choice of the reference distribution in the MI calculation has
+had a substantial impact on the change in FC for each contrast (in alignment with numerical
+experiments presented in (Gohil et al., 2025)). Looking at the cross MI (Figure 2C), we see
+larger FC changes for the 2-back vs rest contrast compared to 2-back vs 0-back and a consistent
+direction for FC changes across both contrasts. In comparison, the conditional MI (Figure 2B)
+shows a similar magnitude for changes in FC for both contrasts whilst the direction of FC changes
+differs (2-back vs rest generally increases whereas 2-back vs 0-back shows decreases in FC). Since
+we would expect consistent changes due to working memory in both contrasts, these results
+suggest that including the resting-state data in the reference distribution (i.e. using the cross
+MI) provides a better context to observe changes in the 2-back condition compared to rest and
+the 0-back condition.
+    The conventional measures shown in Figure 2 indicate substantial changes in FC for the
+regions involved in the N -back task. However, they do not provide any insight into the nature
+of the activity changes, i.e. what changes in information processing occur at each region. In the
+subsequent analysis, we use information-theoretic measures to explore how information storage
+and transfer change in the N -back task.
+
+
+
+
+                                                8
+Figure 2: Conventional measures for studying task fMRI data. For the 2-back vs rest
+condition (left) and 2-back vs 0-back condition (right): A) Change in mean activity, averaging
+over subjects. B) Change in conditional MI, averaged over subjects. This was calculated for
+using a conventional approach with the task data defining the reference distribution. C) Change
+in cross MI, averaged over subjects. This was calculated using the new approach using the
+resting-state and task data for the reference distribution. All plots have been thresholded to
+only show contrasts with p-values < 0.05. P -values were calculated using group-level GLM sign-
+flip permutations, taking the maximum t-statistic over regions/edges to control for multiple
+comparisons.
+
+
+3.2   Information processing changes are organised by modules
+Figure 3 shows the AIS, TE and net synergy for the 2-back vs rest contrast. Full parcel-by-parcel
+matrices for the TE and net synergy are shown in Figure S1 and Figure S2. Each measure shows
+changes that are roughly homogenous across a functional module as defined by the Yeo atlas (Yeo
+et al., 2011). Therefore, for the TE and net synergy we average over the edges assigned to a Yeo
+module in Figures 3B and C to obtain a module-level response for each contrast.
+
+                                               9
+    Information storage (AIS; Figure 3A) increases globally with the largest increases in the visual
+modules (VIS A and B). Information transfer (TE; Figure 3B) shows inter-module transfer (in
+and out) all decrease (in particular those involving CON A) with the exception of the visual
+module (VIS A), the attention module (DAN A), and the control module (CON B), which show
+increases. For transfers within each module, all regions except VIS A decrease, most substantially
+VIS B, CON A and DMN A. This suggests a dominant outflow of information from the visual
+region to all other regions due to the (visual) stimuli in the N -back task.
+    Figure 3C shows the change in net synergy for each module. Negative values indicate there is a
+global shift to redundancy for almost all modules, apart from VIS B, CON A, and DMN A, where
+there is a shift towards synergistic information transfers within these modules. The synergistic
+transfers within VIS B, CON A and DMN A are particularly interesting, since it contrasts with
+the pairwise TE within these regions (summing unique information and redundant information
+with the target past) which decreases.
+    The 2-back vs rest contrast includes functional changes associated with the visual input and
+motor response of the N -back task. The changes in information processing due to the visual
+stimulus dominates in this contrast. In the next section we isolate changes associated with
+working memory by looking at the 2-back vs 0-back contrast.
+
+
+
+
+Figure 3: Information-theoretic analysis reveals modular reorganisation during the
+2-back task (2-back vs rest). A) Change in AIS (calculated using Equation (2)) averaged
+over subjects. We see that AIS increases globally, especially in visual modules. B) Change in
+TE (calculated using Equation (3)) averaged over subjects and edges that correspond to Yeo
+modules. We see that TE decreases across most modules but increases in VIS A, DAN A and
+CON B. C) Change in net synergy (calculated using Equation (4)) averaged over subjects and
+edges that correspond to Yeo modules. We see that net synergy shifts towards redundancy across
+modules, except for VIS B and CON A. Only contrasts with p < 0.05 are shown. P -values were
+calculated using group-level GLM sign-flip permutations, taking the maximum t-statistic over
+regions/edges to control for multiple comparisons.
+
+
+3.3   Working memory increases storage and transfer with a shift to redun-
+      dancy
+Here, the baseline condition (0-back) controls for visual stimuli, motor responses, and atten-
+tion, allowing the 2-back vs 0-back contrast to isolate information-processing changes related to
+maintaining an item in working memory.
+    Information storage increases in fronto-parietal regions (AIS; Figure 4A), mirroring the mean
+activity changes found in Figure 2A. Increased AIS indicates greater temporal stability of activity
+in regions engaged by working memory demands, consistent with the view that working memory
+depends on the maintenance of neural representations over time (Constantinidis and Klingberg,
+2016).
+
+                                                10
+    Information transfers increase broadly across the cortex (TE; Figure 4B). Increased infor-
+mation transfer between modules suggests that working memory is a distributed process that
+involves inter-module communication. Notably, within-module information transfer is reduced
+within the VIS B and CON A modules, indicating that working memory demands selectively
+reduce internal communication within these modules. This pattern may reflect a reorganisation
+toward more local processing, with information being maintained within sub-regions of these
+modules with less propagation internally. Interestingly, the net synergy shown in Figure 4C
+demonstrates that the smaller within module information transfers in CON A actually skew
+more strongly towards synergistic combinations or higher-order components, whereas the rest of
+the cortex broadly shifts to redundant information transfers.
+
+
+
+
+Figure 4: Working memory enhances storage and transfer but induces a global redun-
+dancy shift (2-back vs 0-back). A) Change in AIS (calculated using Equation (2)) averaged
+over subjects.. We see that AIS increases globally. B) Change in TE (calculated using Equa-
+tion (3)) averaged over subjects and edges that correspond to Yeo modules. We see that TE
+increases broadly across modules except notably VIS B and CON A, which show decreases. C)
+Change in net synergy (calculated using Equation (4)) averaged over subjects and edges that
+correspond to Yeo modules. We see that net synergy shifts to redundancy except notably within
+CON A, which shows increased synergy. Only contrasts with p < 0.05 are shown. P -values were
+calculated using group-level GLM sign-flip permutations, taking the maximum t-statistic over
+regions/edges to control for multiple comparisons.
+
+
+3.4   Individual performance is related to within-module information storage
+      and a shift to redundancy
+To examine the behavioural relevance of information processing changes, we regressed within-
+module changes in information-theoretic measures for the 2-back vs 0-back contrast against
+individual 2-back accuracy (Figure 5). Higher 2-back accuracy was associated with a greater
+increase in AIS, an effect that was present globally but strongest in frontal modules. In addition,
+better performance was associated with a stronger shift towards redundancy, reflected by more
+negative net synergy values. No significant associations were observed for TE.
+    Working memory requires task-relevant neural representations to be maintained over time
+in the presence of ongoing sensory input and interference, a function commonly attributed to
+activity in prefrontal regions (Miller and Cohen, 2001; Constantinidis and Klingberg, 2016).
+Here, we observe higher AIS, particularly in prefrontal regions, is associated with higher 2-back
+accuracy, supporting this view. Higher 2-back accuracy was also associated with a shift to-
+wards redundancy, indicating a reorganisation of information processing into more overlapping
+and distributed representations. Redundancy reflects the sharing of information across multiple
+regions and has been proposed as a mechanism for supporting robustness to noise and pertur-
+bations in neural systems (Rosas et al., 2019; Mediano et al., 2019). In contrast, TE did not
+
+
+                                                11
+significantly predict 2-back accuracy, suggesting that individual differences in working memory
+performance are more closely related to how information is maintained rather than transferred.
+Taken together, these findings suggest that working memory performance is associated with the
+maintenance of neural representations and a shift towards robust, redundant representations.
+
+
+
+
+Figure 5: Within-module information processing changes predicts task performance.
+Regression coefficients (β) for predicting response accuracy with: A) Change in AIS (2-back vs
+rest) for each subject. We see greater change in AIS, particularly in frontal regions is linked to
+higher accuracy. B) Change in net synergy (2-back vs rest) for each subject. We see a stronger
+shift towards redundancy is linked to better performance. Only coefficients with p < 0.05
+are shown. P -values were calculated using group-level GLM sign-flip permutations, taking the
+maximum t-statistic over regions/edges to control for multiple comparisons.
+
+
+
+4    Discussion
+In this study, we applied information-theoretic measures to task-based fMRI data from the
+HCP dataset to quantify information storage, transfer, and net synergy during the N -back
+working memory task. We observed changes in information processing are organised at the
+level of large-scale functional modules, with visual and control modules playing important roles.
+Working memory demands lead to global increases in information storage and transfer, which
+are accompanied by a shift towards redundancy. Individual 2-back task performance can be
+predicted by increased storage in frontal regions and a shift to redundancy. In all, these findings
+establish the feasibility and utility of information-theoretic approaches for studying cognitive
+processes with task-based fMRI.
+
+Methodological Contributions
+The application of information theory to fMRI poses specific challenges: autocorrelation and
+inter-regional time lags due to the HRF, as well as the limited temporal resolution (Logothetis,
+2008). To address issues related to the HRF, we deconvolved the HRF using the approach
+from (Wu et al., 2013) before estimating information-theoretic measures. Our results show that
+this step preserved conventional activation patterns (Figure 2), while enabling more interpretable
+estimates of information dynamics.
+     Another key challenge is the estimation of the appropriate underlying probability distribution
+of the data to calculate the information-theoretic measures. We resolved this by adopting the
+novel cross MI approach introduced in (Gohil et al., 2025). This approach separates two questions
+that the conventional, conditional MI conflates: (i) how strongly X and Y depend within the task
+and (ii) whether this dependency is atypical relative to the subject’s broader baseline activity
+(i.e. rest). It is also able to handle short and non-stationary task data via its use of the longer
+
+                                                12
+resting-state data recording in the reference distribution to provide a more wholistic view of
+baseline brain activity. The cross MI is particularly useful for studying whether a task evokes an
+X-Y dependency that is atypical for a given baseline. Note, we do not propose the cross MI as a
+universal replacement for conditional MI, the two measures answer different empirical questions
+as per (Gohil et al., 2025). Throughout this manuscript we treat cross MI as the primary
+measure because our goal is to identify task-evoked X-Y dependencies relative to a baseline (in
+our case based on the combined resting-state and task data for a subject).
+    When adopting the cross MI approach, the choice of reference distribution is important (Gohil
+et al., 2025). We compared cross MI (including resting-state data in the reference) and conditional
+MI (using task-only data for the reference) in Figure 2. The cross MI produced more consistent
+and interpretable contrasts, suggesting that including resting-state data in the baseline provides
+essential context for identifying task-evoked changes. This highlights the importance of carefully
+defining baselines in task-based analyses, echoing broader concerns in the fMRI literature (Stark
+and Squire, 2001).
+    In sum, cross MI provides a principled framework to place task-evoked X-Y dependencies into
+the context of a particular baseline (in our case estimated using resting-state and task combined),
+allowing the identification of task-specific or rare X-Y dependencies that the conditional MI may
+miss.
+
+Information Processing Related To Working Memory
+Our results provide new insights into the changes in information processing related to working
+memory. Conventional analyses have consistently implicated a fronto-parietal control network in
+N -back performance, with additional involvement of visual, thalamic, and insular regions (Owen
+et al., 2005; Emch et al., 2019). By moving beyond activation and FC, we show that working
+memory is characterised by widespread increases in information storage (AIS) and transfer (TE).
+These effects suggest that maintaining items in working memory requires both stronger temporal
+stability of representations within regions and enhanced communication between regions.
+    Another finding was the global shift towards redundancy in net synergy during 2-back vs 0-
+back contrast. Redundancy implies overlapping information across inputs, which may contribute
+to robustness in neural coding and the maintenance of task-relevant representations under high
+load. At the same time, specific modules (VIS B, CON A) showed increases in synergy, suggesting
+that localised integrative processing is preserved or enhanced where flexible combination of inputs
+is required. This aligns with theories of working memory as a dynamic interplay between stable
+maintenance and flexible updating (D’Esposito and Postle, 2002; Constantinidis and Klingberg,
+2016).
+    Individual differences in information processing were linked to task performance (Figure 5).
+Participants with greater changes in AIS in frontal modules performed better in the 2-back task,
+consistent with the central role of prefrontal cortex in supporting working memory (Miller and
+Cohen, 2001). In addition, better performers showed a stronger shifts to redundancy. Together,
+these results suggest that information-theoretic measures can provide behaviourally meaningful
+markers of cognitive function beyond conventional activation or FC analyses.
+
+Limitations and Future Directions
+Several limitations of this work should be acknowledged: the temporal resolution of fMRI re-
+mains a fundamental constraint in studying information dynamics; the estimation of higher-order
+information-theoretic measures, such as synergy and other information decomposition techniques,
+remains computationally challenging; and our focus on module-level averaging may obscure fine-
+grained interactions. Moreover, our analysis remains focussed on the net of synergy and redun-
+dancy, since direct measures for each are contested (Lizier et al., 2018).
+
+
+
+                                                13
+   While the N -back task provides a robust probe of working memory, future work should assess
+changes in information processing in other cognitive domains, such as attention or decision-
+making. Future directions also include applying this methodology for assessing information
+processing to electrophysiological data, e.g. magnetoencephalography, which is a near-direct
+measure of neuronal activity and has a much higher temporal resolution (Baillet, 2017).
+
+
+5    Conclusions
+We demonstrate that information-theoretic measures can be meaningfully applied to task-based
+fMRI, revealing modular changes in information storage, transfer, and net synergy during working
+memory. Our findings suggest that working memory enhances storage and transfer globally, while
+reorganising interactions towards redundancy, with selective increases in synergy in control and
+visual modules. Furthermore, better individual task performance is associated with increased
+changes in information storage and a stronger shift to redundancy. These results provide new
+insight into the changes in information processing related to working memory and establish a
+novel framework for applying information theory to the study of cognition in task-based fMRI.
+
+
+References
+Anderson, J. R. et al. (2015). Cognitive psychology and its implications. Worth Publishers,.
+
+Baillet, S. (2017). Magnetoencephalography for brain electrophysiology and imaging. Nature
+  neuroscience, 20(3):327–339.
+
+Barch, D. M., Burgess, G. C., Harms, M. P., Petersen, S. E., Schlaggar, B. L., Corbetta, M.,
+  Glasser, M. F., Curtiss, S., Dixit, S., Feldt, C., et al. (2013). Function in the human connec-
+  tome: task-fmri and individual differences in behavior. Neuroimage, 80:169–189.
+
+Behzadi, Y., Restom, K., Liau, J., and Liu, T. T. (2007). A component based noise correction
+  method (compcor) for bold and perfusion based fmri. Neuroimage, 37(1):90–101.
+
+Bossomaier, T., Barnett, L., Harré, M., and Lizier, J. T. (2016). Transfer entropy. In An
+  introduction to transfer entropy: Information flow in complex systems, pages 65–95. Springer.
+
+Brodski-Guerniero, A., Paasch, G.-F., Wollstadt, P., Özdemir, I., Lizier, J. T., and Wibral, M.
+  (2017). Information-theoretic evidence for predictive coding in the face-processing system.
+  Journal of Neuroscience, 37(34):8273–8283.
+
+Bryant, A. G., Cliff, O. M., Shine, J. M., Fulcher, B. D., and Lizier, J. T. (2025). Unifying
+  concepts in information-theoretic time-series analysis. arXiv preprint arXiv:2505.13080.
+
+Cliff, O. M., Novelli, L., Fulcher, B. D., Shine, J. M., and Lizier, J. T. (2021). Assessing the
+  significance of directed and multivariate measures of linear dependence between time series.
+  Physical Review Research, 3(1):013145.
+
+Constantinidis, C. and Klingberg, T. (2016). The neuroscience of working memory capacity and
+  training. Nature Reviews Neuroscience, 17(7):438–449.
+
+Cover, T. M. (1999). Elements of information theory. John Wiley & Sons.
+
+De Alteriis, G., Sherwood, O., Ciaramella, A., Leech, R., Cabral, J., Turkheimer, F. E., et al.
+  (2025). Dysco: A general framework for dynamic functional connectivity. PLoS Computational
+  Biology, 21(3):e1012795.
+
+
+
+                                               14
+D’Esposito, M. and Postle, B. R. (2002). The neural basis of working memory storage, rehearsal,
+  and control processes: Evidence from patient and functional magnetic resonance imaging
+  studies. Neuropsychology.
+
+Emch, M., von Bastian, C. C., and Koch, K. (2019). Neural correlates of verbal working memory:
+ An fmri meta-analysis. Frontiers in Human Neuroscience, 13:180.
+
+Erten, E. Y., Lizier, J. T., Piraveenan, M., and Prokopenko, M. (2017). Criticality and informa-
+  tion dynamics in epidemiological models. Entropy, 19(5):194.
+
+Friston, K. (2010). The free-energy principle: a unified brain theory? Nature reviews neuro-
+  science, 11(2):127–138.
+
+Garland, J., James, R. G., and Bradley, E. (2016). Leveraging information storage to se-
+ lect forecast-optimal parameters for delay-coordinate reconstructions. Physical Review E,
+ 93(2):022221.
+
+Glasser, M. F., Sotiropoulos, S. N., Wilson, J. A., Coalson, T. S., Fischl, B., Andersson, J. L.,
+  Xu, J., Jbabdi, S., Webster, M., Polimeni, J. R., et al. (2013). The minimal preprocessing
+  pipelines for the human connectome project. Neuroimage, 80:105–124.
+
+Gohil, C., Cliff, O. M., Shine, J. M., Fulcher, B. D., and Lizier, J. T. (2025). Cross mutual
+ information. arXiv preprint arXiv:2507.15372.
+
+Gómez-Verdejo, V., Martínez-Ramón, M., Florensa-Vila, J., and Oliviero, A. (2012). Analysis
+ of fmri time series with mutual information. Medical image analysis, 16(2):451–458.
+
+Gordon, E. M., Laumann, T. O., Adeyemo, B., Huckins, J. F., Kelley, W. M., and Petersen,
+ S. E. (2016). Generation and evaluation of a cortical area parcellation from resting-state
+ correlations. Cerebral cortex, 26(1):288–303.
+
+Hlinka, J., Paluš, M., Vejmelka, M., Mantini, D., and Corbetta, M. (2011). Functional connec-
+  tivity in resting-state fmri: is linear correlation sufficient? Neuroimage, 54(3):2218–2225.
+
+Kraskov, A., Stögbauer, H., and Grassberger, P. (2004). Estimating mutual information. Physical
+  Review E—Statistical, Nonlinear, and Soft Matter Physics, 69(6):066138.
+
+Lamichhane, B., Westbrook, A., Cole, M. W., and Braver, T. S. (2020). Exploring brain-behavior
+  relationships in the n-back task. NeuroImage, 212:116683.
+
+Laumann, T. O., Snyder, A. Z., and Gratton, C. (2024). Challenges in the measurement and
+  interpretation of dynamic functional connectivity. Imaging Neuroscience, 2:1–19.
+
+Li, M., Han, Y., Aburn, M. J., Breakspear, M., Poldrack, R. A., Shine, J. M., and Lizier, J. T.
+  (2019). Transitions in information processing dynamics at the whole-brain network level are
+  driven by alterations in neural gain. PLoS computational biology, 15(10):e1006957.
+
+Lindquist, M. A. (2008). The statistical analysis of fmri data. Statistical Science, 23(4).
+
+Lizier, J. T. (2012). The local information dynamics of distributed computation in complex
+  systems. Springer Science & Business Media.
+
+Lizier, J. T. (2014). Jidt: An information-theoretic toolkit for studying the dynamics of complex
+  systems. Frontiers in Robotics and AI, 1:11.
+
+Lizier, J. T., Bertschinger, N., Jost, J., and Wibral, M. (2018). Information decomposition
+  of target effects from multi-source interactions: Perspectives on previous, current and future
+  work. Entropy, 20(4):307.
+
+                                                15
+Lizier, J. T., Flecker, B., and Williams, P. L. (2013). Towards a synergy-based approach to
+  measuring information modification. In 2013 IEEE Symposium on Artificial Life (ALIFE),
+  pages 43–51. IEEE.
+
+Lizier, J. T., Heinzle, J., Horstmann, A., Haynes, J.-D., and Prokopenko, M. (2011). Multivariate
+  information-theoretic measures reveal directed information structure and task relevant changes
+  in fmri connectivity. Journal of computational neuroscience, 30(1):85–107.
+
+Lizier, J. T., Prokopenko, M., and Zomaya, A. Y. (2012). Local measures of information storage
+  in complex distributed computation. Information Sciences, 208:39–54.
+
+Logothetis, N. K. (2008).     What we can do and what we cannot do with fmri.               Nature,
+  453(7197):869–878.
+
+Luppi, A. I., Mediano, P. A., Rosas, F. E., Holland, N., Fryer, T. D., O’Brien, J. T., Rowe, J. B.,
+  Menon, D. K., Bor, D., and Stamatakis, E. A. (2022). A synergistic core for human brain
+  evolution and cognition. Nature neuroscience, 25(6):771–782.
+
+Marinazzo, D., Wu, G., Pellicoro, M., Angelini, L., and Stramaglia, S. (2012). Information flow
+ in networks and the law of diminishing marginal returns: Evidence from modeling and human
+ electroencephalographic recordings. PLOS ONE, 7(9):1–9.
+
+McGill, W. (1954). Multivariate information transmission. Transactions of the IRE Professional
+ Group on Information Theory, 4(4):93–111.
+
+Mediano, P. A., Rosas, F., Carhart-Harris, R. L., Seth, A. K., and Barrett, A. B. (2019). Beyond
+ integrated information: A taxonomy of information dynamics phenomena. arXiv preprint
+ arXiv:1909.02297.
+
+Miller, E. K. and Cohen, J. D. (2001). An integrative theory of prefrontal cortex function. Annual
+ review of neuroscience, 24(1):167–202.
+
+Murphy, K. and Fox, M. D. (2017). Towards a consensus regarding global signal regression for
+ resting state functional connectivity mri. Neuroimage, 154:169–173.
+
+Neisser, U. (2014). Cognitive psychology: Classic edition. Psychology press.
+
+Owen, A. M., McMillan, K. M., Laird, A. R., and Bullmore, E. (2005). N-back working mem-
+ ory paradigm: A meta-analysis of normative functional neuroimaging studies. Human brain
+ mapping, 25(1):46–59.
+
+Power, J. D., Mitra, A., Laumann, T. O., Snyder, A. Z., Schlaggar, B. L., and Petersen, S. E.
+  (2014). Methods to detect, characterize, and remove motion artifact in resting state fmri.
+  neuroimage, 84:320–341.
+
+Puche Sarmiento, A. C., Bocanegra García, Y., and Ochoa Gómez, J. F. (2020). Active informa-
+  tion storage in parkinson?s disease: a resting state fmri study over the sensorimotor cortex.
+  Brain imaging and behavior, 14(4):1143–1153.
+
+Rao, R. P. and Ballard, D. H. (1999). Predictive coding in the visual cortex: a functional
+  interpretation of some extra-classical receptive-field effects. Nature neuroscience, 2(1):79–87.
+
+Rosas, F. E., Mediano, P. A., Gastpar, M., and Jensen, H. J. (2019). Quantifying high-order
+  interdependencies via multivariate extensions of the mutual information. Physical Review E,
+  100(3):032305.
+
+Schreiber, T. (2000). Measuring information transfer. Physical review letters, 85(2):461.
+
+
+                                                16
+Shine, J. M., Bissett, P. G., Bell, P. T., Koyejo, O., Balsters, J. H., Gorgolewski, K. J., Moodie,
+  C. A., and Poldrack, R. A. (2016). The dynamics of functional brain networks: integrated
+  network states during cognitive task performance. Neuron, 92(2):544–554.
+
+Stark, C. E. and Squire, L. R. (2001). When zero is not zero: the problem of ambiguous baseline
+  conditions in fmri. Proceedings of the national Academy of Sciences, 98(22):12760–12766.
+
+Theiler, J. (1986). Spurious dimension from correlation algorithms applied to limited time-series
+  data. Physical review A, 34(3):2427.
+
+Tononi, G., Boly, M., Massimini, M., and Koch, C. (2016). Integrated information theory: from
+  consciousness to its physical substrate. Nature reviews neuroscience, 17(7):450–461.
+
+Van Essen, D. C., Smith, S. M., Barch, D. M., Behrens, T. E., Yacoub, E., Ugurbil, K., Con-
+  sortium, W.-M. H., et al. (2013). The wu-minn human connectome project: an overview.
+  Neuroimage, 80:62–79.
+
+Varley, T. F., Pope, M., Faskowitz, J., and Sporns, O. (2023). Multivariate information the-
+  ory uncovers synergistic subsystems of the human cerebral cortex. Communications biology,
+  6(1):451.
+
+Vicente, R., Wibral, M., Lindner, M., and Pipa, G. (2011). Transfer entropy—a model-free
+  measure of effective connectivity for the neurosciences. Journal of computational neuroscience,
+  30(1):45–67.
+
+Voges, N., Lima, V., Hausmann, J., Brovelli, A., and Battaglia, D. (2024). Decomposing neural
+  circuit function into information processing primitives. Journal of Neuroscience, 44(2).
+
+Wibral, M., Finn, C., Wollstadt, P., Lizier, J. T., and Priesemann, V. (2017). Quantifying
+ information modification in developing neural networks via partial information decomposition.
+ Entropy, 19(9):494.
+
+Wibral, M., Lizier, J. T., Vögler, S., Priesemann, V., and Galuske, R. (2014a). Local active in-
+ formation storage as a tool to understand distributed neural information processing. Frontiers
+ in neuroinformatics, 8:1.
+
+Wibral, M., Lizier, J. T., Vögler, S., Priesemann, V., and Galuske, R. (2014b). Directed infor-
+ mation measures in neuroscience. Frontiers in Neuroinformatics, 8:19.
+
+Williams, P. L. and Beer, R. D. (2010). Nonnegative decomposition of multivariate information.
+ In Proceedings of the IEEE International Symposium on Information Theory (ISIT), pages
+ 1733–1737. IEEE.
+
+Williams, P. L. and Beer, R. D. (2011). Generalized measures of information transfer. arXiv
+ preprint arXiv:1102.1507.
+
+Winkler, A. M., Ridgway, G. R., Webster, M. A., Smith, S. M., and Nichols, T. E. (2014).
+ Permutation inference for the general linear model. Neuroimage, 92:381–397.
+
+Wu, G.-R., Liao, W., Stramaglia, S., Ding, J.-R., Chen, H., and Marinazzo, D. (2013). A blind
+ deconvolution approach to recover effective connectivity brain networks from resting state fmri
+ data. Medical image analysis, 17(3):365–374.
+
+Yeo, B. T., Krienen, F. M., Sepulcre, J., Sabuncu, M. R., Lashkari, D., Hollinshead, M., Roffman,
+  J. L., Smoller, J. W., Zöllei, L., Polimeni, J. R., et al. (2011). The organization of the human
+  cerebral cortex estimated by intrinsic functional connectivity. Journal of neurophysiology.
+
+
+                                                17
+Supplementary Information (SI)
+
+
+
+
+ Figure S1: Parcel-level transfer entropy matrices for each condition and contrast.
+Figure S2: Parcel-level net synergy matrices for each condition and contrast.
+

@@ -1,0 +1,1096 @@
+                                         JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                     1
+
+
+
+
+                                             Toward a Multi-View Brain Network Foundation
+                                             Model: Cross-View Consistency Learning Across
+                                                            Arbitrary Atlases
+                                                           Jiaxing Xu, Jingying Ma, Xin Lin, Yuxiao Liu, Kai He, Qika Lin, Yiping Ke,
+                                             Yang Li, Senior Member, IEEE, Dinggang Shen, Fellow, IEEE, Mengling Feng, Senior Member, IEEE
+
+
+
+                                            Abstract—Brain network analysis provides an interpretable                   provides an effective, efficient, and scalable foundation model
+arXiv:2603.20348v1 [cs.CV] 20 Mar 2026
+
+
+
+
+                                         framework for characterizing brain organization and has been                   for brain network analysis. The source code is available at
+                                         widely used for neurological disorder identification. Recent ad-               https://github.com/AngusMonroe/MV-BrainFM.
+                                         vances in self-supervised learning have motivated the develop-
+                                                                                                                          Index Terms—Brain Network, fMRI, Foundation Model,
+                                         ment of brain network foundation models. However, existing
+                                                                                                                        Graph Neural Network, Neurological Disorder
+                                         approaches are often limited by atlas dependency, insufficient
+                                         exploitation of multiple network views, and weak incorporation
+                                         of anatomical priors. In this work, we propose MV-BrainFM,                                             I. I NTRODUCTION
+                                         a multi-view brain network foundation model designed to learn
+                                         generalizable and scalable representations from brain networks
+                                         constructed with arbitrary atlases. MV-BrainFM explicitly in-
+                                         corporates anatomical distance information into Transformer-
+                                                                                                                        B     RAIN network analysis has become a fundamental
+                                                                                                                              paradigm in neuroimaging research for characterizing
+                                                                                                                        brain organization and for developing biomarkers of neuro-
+                                         based modeling to guide inter-regional interactions, and intro-                logical and psychiatric disorders. By representing the brain
+                                         duces an unsupervised cross-view consistency learning strategy                 as a graph whose nodes correspond to regions of interest
+                                         to align representations from multiple atlases of the same                     (ROIs) and whose edges encode inter-regional relationships,
+                                         subject in a shared latent space. By jointly enforcing within-
+                                         view robustness and cross-view alignment during pretraining,                   brain networks provide an interpretable abstraction of com-
+                                         the model effectively captures complementary information across                plex neuroimaging data [1]. Recent advances in graph neural
+                                         heterogeneous network views while remaining atlas-aware. In                    networks (GNNs) and Transformer-based architectures have
+                                         addition, MV-BrainFM adopts a unified multi-view pretraining                   significantly improved representation learning for brain net-
+                                         paradigm that enables simultaneous learning from multiple                      works, leading to strong performance in disease diagnosis,
+                                         datasets and atlases, significantly improving computational ef-
+                                         ficiency compared to conventional sequential training strategies.              progression modeling, and subject stratification [2]–[6].
+                                         The proposed framework also demonstrates strong scalabil-                         Despite their progress, most existing brain network models
+                                         ity, consistently benefiting from increasing data diversity while              are still trained in a task-specific and atlas-dependent manner,
+                                         maintaining stable performance across unseen atlas configu-                    which limits their generalization across datasets, disorders,
+                                         rations. Extensive experiments on more than 20,000 subjects                    and parcellation schemes [7]. In practice, brain networks
+                                         from 17 fMRI datasets show that MV-BrainFM consistently
+                                         outperforms 14 existing brain network foundation models and                    are constructed using diverse atlases with varying numbers
+                                         task-specific baselines under both single-atlas and multi-atlas                of ROIs and anatomical granularity [8]. Moreover, a single
+                                         settings. Furthermore, the learned representations exhibit strong              subject can be represented by multiple brain networks derived
+                                         anatomical and clinical interpretability, highlighting meaningful              from different atlases, each capturing complementary aspects
+                                         brain regions and cross-view consistent patterns associated with               of the underlying connectome [9]. Designing models that
+                                         neurological conditions. These results suggest that MV-BrainFM
+                                                                                                                        can effectively leverage such heterogeneous representations
+                                                                                                                        remains a major challenge.
+                                            Jiaxing Xu, Jingying Ma, Kai He, Qika Lin, and Mengling Feng are               Motivated by the success of foundation models in natural
+                                         with the Saw Swee Hock School of Public Health at National University of
+                                         Singapore, Singapore (e-mail:jiaxing.xu@nus.edu.sg; jingyingma@u.nus.edu,      language processing [10] and computer vision [11], recent
+                                         kai he@nus.edu.sg; qikalin@foxmail.com; ephfm@nus.edu.sg).                     studies have begun exploring large-scale self-supervised pre-
+                                            Xin Lin and Yuxiao Liu are with the School of Biomedical Engineer-          training for neuroimaging. Early brain foundation models,
+                                         ing & State Key Laboratory of Advanced Medical Materials and Devices,
+                                         ShanghaiTech University, Shanghai 201210, China (e-mail: linxin2024@           such as BrainLM [12] and Brain-JEPA [13], focus on fMRI
+                                         shanghaitech.edu.cn; liuyx7@shanghaitech.edu.cn).                              time-series modeling and employ masked reconstruction or
+                                            Yiping Ke is with the College of Computing and Data Science, Nanyang        latent prediction objectives. While these approaches demon-
+                                         Technological University, Singapore (e-mail: ypke@ntu.edu.sg).
+                                            Yang Li is with the School of Automation Science and Electrical Engineer-   strate promising transferability, they do not explicitly model
+                                         ing, Beihang University, Beijing 100191, China, and also with the State Key    brain networks and are inherently tied to fixed ROI definitions
+                                         Laboratory of Virtual Reality Technology and Systems, Beihang University,      and fixed time-series lengths, making them less suitable for
+                                         Beijing 100191, China (e-mail:liyang@buaa.edu.cn).
+                                            Dinggang Shen is with the School of Biomedical Engineering & State          connectome-based analysis. More recent graph-based foun-
+                                         Key Laboratory of Advanced Medical Materials and Devices, ShanghaiTech         dation models, including PTGB [14], BrainMass [15], and
+                                         University, Shanghai 201210, China. He is also with Shanghai United Imaging    BrainGFM [7], operate directly on brain networks and offer
+                                         Intelligence, Shanghai 200230, China, and Shanghai Clinical Research and
+                                         Trial Center, Shanghai 201210, China (e-mail: Dinggang.Shen@gmail.com).        improved efficiency and interpretability. However, as summa-
+                                            Corresponding author: Dinggang Shen.                                        rized in Fig. 1, most existing graph-based foundation models
+                      NUS Presentation Title 2001
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                             2
+
+
+
+
+                      +                                             +                                            +
+                                                                                  Brain Network                                 Multiple
+                                      Encoder
+                                      Decoder                                         Encoder                                Brain Network
+                                                                                      Decoder                                     Encoder
+                     Atlas                                         Atlas                                 Multi-Atlas              Decoder
+                                              ?
+               Time-series-level                                Node/Edge-level
+                                      ?                                                                        Multiview          ?
+                  Pretraining                                     Pretraining                                  Pretraining
+
+                                          ?                                                                                           ?
+               (a)                                          (b)                                          (c)                  ?
+      Category            Model                   Venue & Year     Graph-Based          Atlas Dependency         Multi-View       Training Strategy
+                          BrainLM [12]             ICLR 2024           %                   Single atlas             %                Sequentially
+         (a)
+                          Brain-JEPA [13]         NeurIPS 2024         %                   Single atlas             %                Sequentially
+                          PTGB [14]                CHIL 2023           !                   Single atlas             %                Sequentially
+         (b)              BrainMass [15]            TMI 2024           !                   Single atlas             %              Simultaneously
+                          GTFM [16]                 PR 2026            !                   Single atlas             %                Sequentially
+                          BrainGFM [7]             ICLR 2026           !                    Multi-atlas             %                Sequentially
+         (c)              MV-BrainFM (Ours)           2026             !                    Multi-atlas             !              Simultaneously
+Fig. 1. Comparison of representative brain foundation models.
+
+
+
+either assume a single atlas during training or treat different                   atlases and datasets by jointly leveraging heterogeneous brain
+atlases independently, without explicitly leveraging multiple                     network views within a unified training paradigm. This strat-
+views of the same subject.                                                        egy avoids the sequential dataset training adopted by many
+   Another important limitation shared by many existing ap-                       existing brain foundation models and improves computational
+proaches is the insufficient incorporation of anatomical priors.                  efficiency while enabling the model to learn more general-
+Standard GNNs [17], [18] and Transformer-based models [19],                       izable representations. We evaluate MV-BrainFM on 64K+
+[20] typically rely on learned message passing or attention                       brain networks of 20K+ subjects from 17 fMRI datasets
+mechanisms that treat all ROI pairs as equally plausible                          spanning different tasks and atlas configurations. Experimental
+interaction candidates. This design neglects well-established                     results show that MV-BrainFM consistently outperforms exist-
+neurobiological evidence that physical distance between brain                     ing brain foundation models and task-specific baselines while
+regions strongly modulates functional connectivity [21]–[23].                     maintaining high computational efficiency. In addition, the
+Ignoring such spatial priors can lead to biologically implausi-                   learned representations exhibit clear anatomical and clinical
+ble interactions and limits the interpretability of learned repre-                interpretability, highlighting meaningful ROIs and cross-view
+sentations, especially when models are scaled to heterogeneous                    consistent patterns associated with disease.
+datasets.                                                                            Our main contributions are summarized as follows:
+   In this work, we propose MV-BrainFM, a Multi-View Brain                           • We propose MV-BrainFM, a unified multi-view brain
+
+Network Foundation Model that explicitly addresses these                                network foundation model that supports brain networks
+limitations. MV-BrainFM is designed to (i) operate on brain                             constructed from arbitrary atlases and enables scalable
+networks constructed from arbitrary atlases, (ii) incorporate                           multi-atlas representation learning.
+anatomical distance information as an inductive bias for rep-                        • We introduce a distance-aware modeling framework
+
+resentation learning, and (iii) leverage cross-view consistency                         that explicitly incorporates anatomical spatial priors into
+learning to exploit complementary information from multiple                             Transformer-based brain network learning.
+brain network views of the same subject. Instead of enforcing                        • We develop a cross-view consistency learning strategy for
+
+hard node correspondence across atlases, MV-BrainFM maps                                unsupervised pretraining, enabling effective integration
+heterogeneous networks into a shared latent space and aligns                            of complementary brain network views and improved
+them at the representation level. A distance-aware attention                            scalability with increasing atlas diversity.
+mechanism is introduced to modulate inter-ROI interactions                           • We demonstrate state-of-the-art performance, strong
+
+according to physical proximity, improving spatial plausibility                         interpretability, and superior computational efficiency
+and robustness. During pretraining, an unsupervised cross-                              across multiple datasets with various atlas configurations.
+view consistency objective further encourages representations
+from different atlases to be consistent while preserving view-                                        II. R ELATED W ORKS
+specific characteristics, enabling the model to learn atlas-                      A. GNNs in Brain Network Analysis
+invariant yet informative subject representations.                                   GNNs have become a dominant tool in brain network analy-
+   Importantly, the proposed multi-view design enables MV-                        sis due to their ability to model complex topological structures.
+BrainFM to scale effectively with increasing numbers of                           Early methods like BrainNetCNN [24] introduced specialized
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                           3
+
+
+
+convolutional filters to capture edge-, node-, and graph-level       an encoder-decoder architecture to pretrain the brain network
+patterns. GCN-based approaches [25], [26] were used to               foundation model and integrates node and edge embeddings to
+learn pairwise similarities across subjects, while PRGNN [27]        extract connectivity features. These models demonstrate strong
+and BrainGNN [2] introduced pooling strategies to enforce            few-shot and zero-shot performance but typically assume a
+group consistency and identify salient ROIs, respectively.           single atlas during training and do not explicitly exploit
+MG2G [28] presented a two-stage framework combining self-            multiple parcellations of the same subject as complementary
+supervised representation learning with disease classification.      views. BrainGFM [7] represents a notable step toward general-
+GAT-LI [29] introduces a graph attention network framework           purpose brain network foundation modeling by introducing
+for functional brain network classification and interpretation,      prompt tuning and pretraining across multiple disorders and
+leveraging attention mechanisms and GNNExplainer [30] to             atlases. While BrainGFM supports multiple atlases, it primar-
+identify important connectivity patterns associated with ASD.        ily treats different atlases independently and does not explic-
+BNT [31] applied a graph Transformer to learn pairwise               itly enforce cross-view consistency among them. Moreover,
+connection strengths among brain regions across individuals.         anatomical priors such as inter-ROI spatial distance are only
+BioBGT [5] proposed a node importance encoding technique             implicitly encoded or omitted in most existing graph-based
+that captures the structural importance of nodes in global           approaches, limiting spatial interpretability.
+information propagation, highlighting the biological proper-            In contrast to prior work, our approach explicitly targets
+ties of the brain structure. Some works [32], [33] improve           multi-view brain network foundation modeling by jointly
+the diagnosis of brain diseases by capturing the hierarchical        leveraging multiple atlases of the same subject through un-
+structure of brain connections at different spatial scales. Recent   supervised cross-view consistency learning. Moreover, by in-
+contrastive methods [4], [34] focus on enhancing group dif-          tegrating anatomical distance priors and supporting arbitrary
+ferentiation to improve generalization. BQN [35] incorporates        atlas configurations within a unified framework, our method
+quadratic networks to possess better universal approximation         addresses key limitations of existing time-series-based and
+properties and implicitly performs community detection along         graph-based foundation models.
+with representation learning.
+                                                                                       III. P ROPOSED M ETHOD
+B. Brain Network Foundation Models                                      Fig. 2 illustrates the overall pipeline of MV-BrainFM. Given
+                                                                     a brain network constructed from an arbitrary atlas, it is
+   The concept of foundation models has recently been ex-
+                                                                     encoded by a Distance-Biased Transformer (DBT) Encoder,
+tended to neuroimaging, aiming to learn transferable repre-
+                                                                     which includes (1) a Random Fourier Atlas Encoder (Sec-
+sentations from large-scale unlabeled brain data. Early efforts
+                                                                     tion III-A) to transform the input connectivity matrix into node
+primarily focus on fMRI time-series modeling, where brain
+                                                                     embeddings by injecting spatial coordinate priors for hetero-
+activity is treated as a spatiotemporal signal. BrainLM [12]
+                                                                     geneous ROI sets across atlases, and (2) a Distance-Aware
+introduces masked autoencoding to reconstruct fMRI time-
+                                                                     Self-Attention (Section III-B) to encourage each attention
+series patches and demonstrates the feasibility of large-scale
+                                                                     head to focus on interactions at specific anatomical distance
+self-supervised pretraining. Brain-JEPA [13] further advances
+                                                                     regimes. To exploit complementary information from multiple
+this direction by adopting a joint-embedding predictive ar-
+                                                                     atlas-specific views, we further introduce an unsupervised
+chitecture that predicts latent representations instead of raw
+                                                                     cross-view consistency pretraining strategy (Section III-C).
+signals, improving semantic quality and generalization across
+                                                                     Specifically, node representations from different atlases are
+demographic and clinical tasks. Nevertheless, these time-
+                                                                     aligned into a shared supernode space via a learnable node
+series-based models reconstruct raw BOLD signals, which can
+                                                                     alignment module, optimized with intra-view masked node
+amplify noise and do not explicitly model brain networks,
+                                                                     reconstruction and clustering-based cross-view consistency.
+making them less suitable for heterogeneous connectome
+                                                                     After pretraining, the backbone can be efficiently adapted to
+analysis.
+                                                                     downstream clinical tasks using a lightweight linear prediction
+   More recent studies have shifted attention toward graph-          head.
+based foundation models, which operate directly on brain
+networks and offer improved efficiency and interpretability.
+Existing graph foundation models aim to learn transferable           A. Random Fourier Atlas Encoder
+representations through large-scale self-supervised pretraining         A key challenge in large-scale brain network modeling lies
+on diverse graph datasets. However, these general-purpose            in handling networks constructed from heterogeneous brain
+frameworks [36]–[38] are not directly suitable for brain net-        atlases, which may differ substantially in the number of ROIs,
+works, which exhibit unique characteristics such as fixed            spatial resolution, and anatomical granularity. To address this
+anatomical topology and atlas-dependent node definitions.            issue, we propose a Random Fourier Atlas Encoder that maps
+PTGB [14] proposes self-supervised pretraining of graph neu-         ROI-level spatial coordinates from arbitrary atlases into a
+ral networks for brain networks and introduces atlas mapping         unified latent space while explicitly preserving atlas identity.
+to enable limited cross-atlas transfer. BrainMass [15] lever-           Let a brain network be represented as G = (V, E), where
+ages large-scale pseudo-functional connectivity and combines         each node vi ∈ V corresponds to an ROI defined under a
+masked ROI modeling with latent representation alignment to          specific atlas. For atlas a, we denote the number of ROIs as
+enhance generalization across datasets. GTFM [16] introduces         Na = |Va |, and associate each ROI with a fixed 3D anatomical
+                                                                                                                                                                     Sel
+                                                                                                                                                                 Reconstr
+
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                                    4
+
+
+
+                                                                                                                                                                       Sch
+                                                                          Node Alignment                     Intra-View Node Reconstruction
+                                  Schaefer
+                                    100                                               Soft                                                         ℒ rec
+                                                                                     Pooling                          ?            ?
+                                                           DBT            Schaefer
+                                                         Encoder
+                                                                                      Soft
+                                                                                     Pooling                                                       ℒ cc
+                                  AAL116                                    AAL
+                                                                                                                  Clustering Consistency
+                                                                                                     ℒ ent
+         (a) Pretraining MV-BrainFM
+
+
+                                                                                            Atlas                Multi-Head        Add &
+                                                                                           Encoder                                          FFN
+                                                                                                                   DASA            Norm
+                                     DBT         Pred   Downstream                                                                                 xL
+                                   Encoder       Head     Tasks
+                                                                        Random
+              Arbitrary Atlas
+                                                                         Fourier
+                                                                        Features
+                                                                                                                                (c) Distance-Biased
+                                                                                                                  Gaussian
+                                                                                                                                 Transformer (DBT)
+        (b) Finetuning MV-BrainFM                                                                3D ROI
+                                                                                               Coordinates      Distance Bias         Encoder
+
+Fig. 2. The architecture of our proposed MV-BrainFM using Schaefer100 and AAL116 as example. (a) Multiple brain network datasets with various atlases
+are utilized for pretraining. (b) Datasets with arbitrary atlases can be introduced to finetune the model for downstream tasks with a simple prediction head.
+(c) The proposed Distance-Biased Transformer (DBT) Encoder.
+
+
+
+coordinate ci ∈ R3 in a common stereotaxic space (e.g.,                              Unlike atlas-agnostic positional encodings that assume a
+MNI space [39]). The input connectivity matrix computed by                        fixed node set, the proposed encoder explicitly conditions on
+Pearson’s correlation for atlas a is given by Xa ∈ RNa ×Na .                      atlas identity while sharing a common Fourier-based coor-
+  To accommodate varying atlas resolutions, we employ atlas-                      dinate embedding mechanism across atlases. As a result, it
+specific linear projections that map input features into a shared                 enables a single foundation model to ingest brain networks
+embedding dimension d:                                                            constructed from arbitrary atlases, facilitating cross-atlas gen-
+                                                                                  eralization and scalable multi-view pretraining without requir-
+                       Ha = Xa Wa ,              Wa ∈ RNa ×d ,           (1)
+                                                                                  ing atlas-specific architectural redesign.
+where each atlas has its own learnable projection matrix,
+enabling the model to respect atlas-dependent feature statistics                  B. Distance-Aware Self-Attention
+while producing embeddings in a common latent space.
+                                                                                     Standard self-attention mechanisms treat all ROI pairs as
+   To encode anatomical spatial information in a manner that is
+                                                                                  equally plausible interaction candidates [19] and do not ex-
+invariant to atlas resolution yet sensitive to inter-ROI geometry,
+                                                                                  plicitly incorporate anatomical priors. However, extensive neu-
+we adopt Random Fourier Features (RFF) to approximate a
+                                                                                  robiological evidence [21]–[23] suggests that both structural
+shift-invariant kernel over 3D coordinates. Specifically, we
+                                                                                  and functional connectivity are strongly modulated by physical
+sample a set of K learnable frequency vectors
+                                                                                  distance between brain regions. To incorporate this prior in a
+                                Z = {zk }K
+                                         k=1 ,     zk ∈ R3 ,             (2)      principled and scalable manner, we introduce a distance-aware
+                                                                                  attention bias through a multi-atlas coordinate encoder.
+and compute the Fourier embedding for each ROI coordinate
+                                                                                     For each atlas a with Na ROIs, we precompute a fixed
+ci as:
+                                                                                  pairwise Euclidean distance matrix
+              ϕ(ci ) = [sin(2πz⊤              ⊤
+                               1 ci ), cos(2πz1 ci ), . . . ,
+                                                                         (3)                    Da ∈ RNa ×Na ,            Daij = ∥cai − caj ∥2 ,           (5)
+                        sin(2πz⊤              ⊤
+                               K ci ), cos(2πzK ci )] ∈ R
+                                                          2K
+                                                             .
+                                                                                  where cai ∈ R3 denotes the anatomical coordinate of ROI i
+This formulation enables the model to capture multi-scale
+                                                                                  for atlas a. Since all atlases are defined in the same coordinate
+spatial variations and approximate continuous spatial similarity
+                                                                                  system, these distances are directly comparable across atlases
+through a finite-dimensional embedding.
+   The resulting Fourier features are further projected into the                  and remain fixed during training.
+model dimension and combined with the node embedding via                             We then parameterize the spatial prior as a per-head Gaus-
+residual addition:                                                                sian attention bias. For each attention head, we define the
+                                                                                  attention bias between ROIs i and j as:
+                                H̃a = Ha + ϕ(Ca )Wproj ,                 (4)                                                    2 !
+                                                                                       a
+                                                                                                                  Daij − µahead
+          a
+where C ∈ R            Na ×3
+                    denotes the coordinate matrix for atlas a                         bhead (i, j) = αhead −            a            + βhead , (6)
+                                                                                                                    2(σhead )2
+and Wproj ∈ R2K×d denotes a learnable parameter matrix.
+This additive formulation ensures that spatial priors act as                      where αhead > 0 is a learnable scaling factor, βhead is a
+an inductive bias rather than dominating learned functional                       learnable offset, and (µahead , σhead
+                                                                                                                   a
+                                                                                                                        ) control the preferred dis-
+representations.                                                                  tance regime and bandwidth of head. This formulation enables
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                              5
+
+
+
+each attention head to specialize in modeling interactions at         We therefore pretrain the proposed foundation model using an
+a specific anatomical scale (e.g., short-range or long-range          unsupervised cross-view consistency objective that encourages
+connectivity).                                                        representations from different views of the same subject to
+   To ensure consistent behavior across atlases with different        agree in a shared latent space, while retaining sufficient
+spatial extents and ROI resolutions, we learn the Gaussian cen-       flexibility to model view-dependent information.
+ters and bandwidths in normalized distance units. Specifically,          For each subject, we assume up to M available views
+let disamax denote the maximum pairwise distance within atlas         {G am }Mm=1 , where each view corresponds to a brain network
+a. We parameterize                                                    constructed under a specific atlas. Let the DBT Encoder fθ (·)
+                                                                      (Sections III-A and III-B) produce node-level embeddings
+    µahead = µ̃head disamax ,        a
+                                    σhead = σ̃head disamax ,   (7)
+                                                                      H̃am = fθ (G am ) ∈ RNam ×d .
+where µ̃head ∈ (0, 1) and σ̃head > 0 are atlas-independent               Since Nam may differ across views, direct alignment across
+learnable parameters shared across all atlases. This design           nodes is ill-posed. To enable cross-view comparison, we
+ensures that the same attention head corresponds to simi-             introduce a learnable Node Alignment module that maps
+lar relative spatial regimes across different atlases, enabling       each view into a shared latent space with a fixed number of
+coherent multi-atlas modeling without requiring atlas-specific        Nsuper supernodes. Concretely, given H̃am , we compute (i)
+parameterization.                                                     transformed node features and (ii) soft assignment scores:
+   The distance-based attention bias Bahead ∈ RNa ×Na is                                                    
+symmetric and shared across subjects for a given atlas. Given                     Fam = GCNfeat H̃am , Zam ∈ RNam ×d ,         (12)
+input node embeddings H̃a ∈ RNa ×d , the distance bias is                                             
+added to the scaled dot-product attention logits before softmax:       Sam = Softmax GCNpool H̃am , Zam    ∈ RNam ×Nsuper , (13)
+                            a
+                             Qhead Ka⊤
+                                                      
+           a
+        Ahead = Softmax         √      head      a
+                                            + Bhead ,        (8)      where the adjacency matrix Zam ∈ RNam ×Nam is com-
+                                   dhead                              puted by thresholding the input connectivity matrix Xam . The
+for each head head = 1, . . . , Nhead , where Nhead is the            threshold is set to 0.3 as same as in the existing works [2], [7].
+number of attention heads, and Qahead , Kahead ∈ RNa ×dhead           The aligned supernode representation for view am is obtained
+are linear projections of H̃a . The outputs from all heads are        by soft pooling [42]:
+concatenated and projected to form the multi-head attention
+                                                                                     Ĥam = Sam ⊤ Fam ∈ RNsuper ×d .               (14)
+representation:
+  MultiHead(H̃a ) = Concat(Aa1 V1a , . . . , AaNhead VN
+                                                      a
+                                                        head
+                                                             )WO ,         a) Entropy Regularization for Stable Node Alignment:
+                                                                (9)   The soft assignment matrix Sam defines how nodes in the
+where WO ∈ RNhead dhead ×d is the output projection matrix,           view am are mapped to the Nsuper shared supernodes. Without
+       a
+and Vhead   ∈ RNa ×dhead are linear projections of H̃a .              additional constraints, the assignment may become overly con-
+   By introducing a head-specific Gaussian bias learned in            fident early in training, leading to degenerated solutions where
+normalized units, the proposed coordinate encoder provides            only a few latent nodes are utilized. To mitigate this issue, we
+a lightweight yet expressive mechanism for incorporating              introduce an entropy-based regularization term that explicitly
+anatomical distance priors. Importantly, it naturally supports        encourages high-entropy, non-collapsed assignments.
+multiple atlases within a unified parameter space, making                Concretely, we compute the categorical entropy of the
+it particularly suitable for large-scale multi-atlas foundation       assignment distribution for each input node and average it
+model pretraining.                                                    across nodes and views:
+   The output of distance-aware self-attention (DASA) is com-                                   M      Nam
+puted by a gated residual update:                                                            1 X 1 X
+                                                                                    Lent =                 H(Sai m ) ,             (15)
+                                                                                             M m=1 Nam i=1
+    DASA(H̃a ) = H̃a + LN(γ(H̃a ) ⊙ MultiHead(H̃a )),          (10)
+
+where γ(·) is a learnable sigmoid gate, ⊙ denotes the element-        where Sai m denotes the assignment probabilities of node i in
+wise multiplication, and LN(·) denotes a layer normalization.         view am over the Nsuper supernodes, and H(·) is the Shannon
+   Finally, the l-th Transformer layer with distance-biased self-     entropy. This term penalizes prematurely peaked assignments
+attention is computed as:                                             and encourages the alignment module to explore diverse latent-
+                                                                   node associations.
+      H̃(l+1) = LN H̃(l) + FFN DASA(l) (H̃(l) ) ,           (11)         By maintaining sufficiently diffuse assignments during early
+                                                                      training, the entropy regularization improves optimization
+where FFN(·) denotes a feed-forward network.
+                                                                      stability and prevents trivial alignment patterns, while still
+                                                                      allowing sharper, more discriminative assignments to emerge
+C. Cross-View Consistency Pretraining                                 as training progresses.
+   Brain networks derived from different construction pipelines             b) Intra-View Node Reconstruction: Before imposing
+(e.g., atlas with various number of ROIs) provide comple-             cross-view consistency, we first strengthen the quality and
+mentary views of the same underlying subject-specific con-            robustness of node representations within each view through
+nectome [9], [40], [41]. However, naively pooling multi-view          a reconstruction objective. The motivation is to ensure that
+data can cause view-specific shortcuts and limit generalization.      each view-specific encoder learns informative and stable node
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                 6
+
+
+
+embeddings, rather than relying on spurious correlations that                  d) Overall Pretraining Objective: The final pretraining
+may harm subsequent cross-view alignment.                                 objective combines within-view robustness, cross-view align-
+  Concretely, for each available view am , we obtain its                  ment, and stable node assignment regularization:
+node embeddings Ĥam ∈ RNsuper ×d . We then sample a
+                                                                                           Lpretrain = Lrec + Lcc + Lent .            (21)
+random mask and split indices into a kept set Ikeep and a
+masked set Imask with Ikeep ∪ Imask = {1, . . . , Nsuper } and            Here, Lrec enforces intra-view node reconstruction, Lcc pro-
+Ikeep ∩ Imask = ∅. The model is provided only the kept                    motes cross-view clustering consistency in the shared latent
+embeddings ĤaImkeep
+                     , while the masked embeddings are replaced           space, and Lent regularizes the node alignment module. In
+by a mask token (implemented as zeros), yielding an input                 practice, the cross-view consistency term Lcc is applied only
+sequence Qam . A lightweight Transformer decoder gϕam (·) is              when at least two views are available in a mini-batch.
+then applied to predict the masked node representations:                     Existing multi-atlas brain network foundation models [7],
+                                                                          [14] typically pretrain sequentially across datasets constructed
+                 Q̂am = gϕam (Qam ) ∈ RNam ×d .                    (16)   with different atlases, where the model is optimized on one
+                                                                          dataset before moving to the next. Such a training strategy
+The reconstruction loss is computed only on masked nodes                  may introduce dataset-order sensitivity and limit the model’s
+using a Smooth-L1 objective:                                              ability to jointly capture complementary information across
+                                                                          atlases. In contrast, MV-BrainFM adopts a unified multi-view
+               M
+            1 X 1          X                                              pretraining strategy in which mini-batches from all datasets
+     Lrec =                             Q̂ai m − Ĥai m        .   (17)
+            M m=1 |Imask |                                L1              are shuffled and jointly sampled within each training epoch.
+                              i∈Imask
+                                                                          Multiple atlas-specific views of the same subject are optimized
+By requiring the model to recover masked node embeddings                  simultaneously within a mini-batch under the proposed con-
+from their unmasked context, this objective encourages each               sistency objective. This design enables the model to learn
+view to learn robust node representations that capture mean-              atlas-invariant representations in a single training process,
+ingful intra-view structure. This within-view robustness is               mitigating order effects across both datasets and views.
+particularly important in our setting with heterogeneous views                  e) Fine-Tuning for Downstream Tasks: After unsuper-
+(e.g., varying atlas resolutions and connectivity definitions),           vised pretraining, we adapt the backbone encoder to down-
+and serves as a stable foundation before enforcing cross-view             stream classification tasks using a lightweight linear prediction
+clustering consistency.                                                   head optimized with the standard cross-entropy loss. Our
+      c) Clustering Consistency Loss: Given the aligned su-               model takes single atlas brain networks for fintuning without
+pernode embeddings from all available views, we enforce                   relying on multiview input. During fine-tuning, the pretrained
+cross-view agreement via a clustering-based consistency ob-               encoder parameters are updated jointly with the task-specific
+jective. Let T ∈ RM ×Nsuper ×d denote the aligned embed-                  head. This protocol allows MV-BrainFM to effectively trans-
+dings, where M is the number of views, and d is the feature               fer view-invariant and anatomically informed representations
+dimension. For each view-supernode pair (m, q), we project                learned from heterogeneous multi-view data to label-scarce
+Tm,q to P prototypes using a linear mapping:                              clinical settings.
+
+          pm,q = Softmax(MLPproto (Tm,q )) ∈ RP .                  (18)                         IV. E XPERIMENTS
+                                                                          A. Datasets
+   To encourage view-invariant representations, we require the
+                                                                           We train and evaluate MV-BrainFM on 20,786 subjects
+prototype assignment distributions {pm,q }Mm=1 to be consis-            from 13 publicly available and 4 private functional brain
+tent across views for each supernode q. We first compute the
+                                                                        network datasets. In total, 64,398 brain networks are con-
+mean assignment distribution across views:
+                                                                        structed using six different atlases (Schaefer100, Schaefer200,
+                                 M                                      Schaefer500 [43], AAL116 [44], Craddock200 [45], and
+                              1 X
+                     p̄q =           pm,q .                    (19) BASC122 [46]). The 13 public datasets were previously col-
+                             M m=1                                      lected under appropriate ethical approvals, with informed con-
+                                                                        sent obtained by the respective data collection institutions. The
+We then minimize the symmetric Kullback-Leibler (KL) diver- 4 private datasets (Renji, SMHC, DAMOMRI, and Huashan)
+gence DKL (· ∥ ·) between each view-specific distribution and were collected under institutional review board approval, and
+the mean distribution as a clustering consistency loss:                 written informed consent was obtained from all participants by
+                                                                        the original data providers. Dataset statistics are summarized
+                   M NX super
+           1
+                              [DKL (pm,q ∥ p̄q ) + DKL (p̄q ∥ pm,q )] . in Table I.
+                  X
+Lcc =
+       2M Nsuper m=1 q=1                                                HBN. [47] The Healthy Brain Network (HBN) dataset pro-
+                                                                (20) vides neuroimaging and behavioral data from children and
+   This objective enforces that different views of the same adolescents, aimed at understanding brain development and
+subject yield similar prototype assignment patterns at the disorders in youth. The dataset includes fMRI, structural MRI,
+aligned supernode level, thereby promoting cross-view invari- and other neuroimaging modalities, along with a wide range
+ance while remaining fully unsupervised.                                of behavioral and clinical measures.
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                           7
+
+
+
+                                                              TABLE I
+S TATISTICS AND CLASS INFORMATION OF BRAIN NETWORK DATASETS USED IN THIS WORK . R ENJI , SMHC, DAMOMRI, AND H UASHAN ARE PRIVATE
+                                         DATASETS , WHILE THE REST ARE PUBLICLY AVAILABLE .
+
+                        Datasets            Sex (F/M)    Age (mean ± std)      Class#   Subjects#                       Atlases
+                       HBN [47]                NA               NA               -       12427            Schaefer200, AAL116, Craddock200
+                      ADHD [48]              383/230        12.1 ± 3.3           -        613           Schaefer100, Schaefer200, Schaefer500
+                      ADNI [49]              610/552        71.8 ± 6.9           -        1162      Schaefer100, Schaefer200, Schaefer500, AAL116
+                      ABIDE [50]             122/697        16.9 ± 7.9           -         819      Schaefer100, Schaefer200, Schaefer500, AAL116
+                      PPMI [51]               82/127        62.9 ± 9.5           -        209       Schaefer100, Schaefer200, Schaefer500, AAL116
+                      Taowu [51]              17/23         65.0 ± 5.0           -         40       Schaefer100, Schaefer200, Schaefer500, AAL116
+     Pretrain
+                     Neurocon [51]            22/19        68.0 ± 11.0           -          41      Schaefer100, Schaefer200, Schaefer500, AAL116
+                      OASIS [52]             115/135        72.4 ± 4.9           -        250           Schaefer100, Schaefer200, Schaefer500
+                       Renji [53]             69/228        65.3 ± 7.2           -         297          Schaefer100, Schaefer200, Schaefer500
+                        SMHC                   NA               NA               -         122          Schaefer100, Schaefer200, Schaefer500
+                  REST-meta-MDD [54]         438/298       33.7 ± 11.1           -        736                   AAL116, Craddock200
+                      DAMOMRI                  NA               NA               -         471      Schaefer100, Schaefer200, Schaefer500, AAL116
+                      ADHD [48]              478/289        12.0 ± 3.2           4        768                  Schaefer100, Schaefer200
+                      ADNI [49]              754/697        72.5 ± 7.1           5        1455       Schaefer100, Schaefer200, AAL116, BASC122
+                      ABIDE [50]             152/873        16.5 ± 7.4           2        1025       Schaefer100, Schaefer200, AAL116, BASC122
+  Downstream
+                    HCP-Gender [55]          495/585            NA               2        1080       Schaefer100, Schaefer200, AAL116, BASC122
+                     HCP-Age [55]            495/585            NA               4        1080       Schaefer100, Schaefer200, AAL116, BASC122
+                     Huashan [56]            495/290        65.0 ± 7.7           3         785                 Schaefer100, Schaefer200
+† NA: demographic information was not publicly available for these datasets.
+
+
+
+
+ADHD. [48] The ADHD dataset includes fMRI scans from                           depression, collected at the Shanghai Mental Health Center.
+individuals diagnosed with ADHD and healthy controls, col-                     REST-meta-MDD. [54] The REST-meta-MDD dataset is part
+lected across multiple sites, to explore the neurobiological                   of the Meta-MDD project from the DIRECT Consortium,
+basis of ADHD.                                                                 containing neuroimaging data from individuals with major
+ADNI. [49] The Alzheimer’s Disease Neuroimaging Initiative                     depressive disorder (MDD) to investigate brain alterations
+(ADNI) aims to evaluate whether MRI, PET, biological mark-                     associated with depression.
+ers, and clinical/neuropsychological assessments can be com-                   DAMOMRI. Drug Addiction Multi-Organ MRI Dataset
+bined to track the progression of mild cognitive impairment                    (DAMOMRI) is a dataset collected by the Yunnan Tech-
+(MCI) and early Alzheimer’s Disease (AD). Raw images were                      nological Innovation Center of Drug Addiction Medicine,
+obtained from the ADNI database (adni.loni.usc.edu); further                   Yunnan University, which includes multi-organ MRI data of
+details are available at http://www.adni-info.org.                             individuals with substance use disorders and healthy controls,
+ABIDE. [50] The Autism Brain Imaging Data Exchange                             covering the brain, heart, liver, and kidneys, together with
+(ABIDE) aggregates functional brain imaging data from mul-                     anxiety, depression, cognitive, and related assessments.
+tiple international sites to support autism spectrum disorder                  HCP-Gender and HCP-Age. [55] Human Connectome
+(ASD) research. ASD is characterized by stereotyped behav-                     Project (HCP) dataset, which is a comprehensive publicly
+iors and symptoms such as irritability, hyperactivity, depres-                 available neuroimaging dataset that includes both imaging data
+sion, and anxiety. Subjects are classified into two groups:                    and a wide range of behavioral and cognitive data.
+Typical Control (TC) and individuals with ASD.                                 Huashan. [56] The Huashan dataset includes fMRI data
+PPMI. [51] The Parkinson’s Progression Markers Initiative                      from individuals diagnosed with MCI and AD, as well as
+(PPMI) is an ongoing, multi-site study designed to identify                    healthy controls, collected at Huashan Hospital in Shanghai,
+biomarkers associated with PD risk, onset, and progression.                    contributing to research on early neurodegeneration in MCI
+Taowu and Neurocon. [57] The Taowu and Neurocon                                and AD.
+datasets, released by ICI, are among the earliest image datasets                  The functional brain networks of ABIDE, PPMI, Taowu,
+made available for Parkinson’s research. These datasets com-                   and Neurocon are constructed by Xu et al. [8], while the ones
+prise age-matched subjects collected from a single machine                     of HCP-Gender and HCP-Age are constructed by following
+and site, encompassing both normal control individuals and                     the settings in Said et al. [58]. For the ADNI, ADHD, OASIS,
+patients diagnosed with PD.                                                    Renji, and Huashan datasets, we follow the preprocessing
+OASIS. [52] The Open Access Series of Imaging Studies                          pipeline outlined in Liu et al. [59]. The REST-meta-MDD
+(OASIS) includes neuroimaging data from individuals with                       dataset is preprocessed as described in Yan et al. [54]. The
+MCI, AD, and healthy controls, providing a resource for                        SMHC, HBN, and DAMOMRI datasets are preprocessed using
+studying aging and neurodegenerative diseases.                                 the Gretna toolbox [60], which includes discarding the first 10
+Renji. [53] The Renji dataset includes fMRI data from indi-                    volumes, slice timing correction, motion correction, covariate
+viduals with vascular cognitive impairment (VCI) and healthy                   removal, and temporal filtering.
+controls, collected at Renji Hospital in Shanghai, to study the
+impact of vascular disorders on brain connectivity.                            B. Experimental Setup
+SMHC. The SMHC dataset contains resting-state fMRI data                            a) Data Split: The 17 datasets are divided into two
+from individuals diagnosed with melancholic and atypical                       groups for pretraining and downstream evaluation. We choose
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                                8
+
+
+
+                                                             TABLE II
+R ESULTS ( AVERAGE AUC ± STANDARD DEVIATION ) ON 6 DATASETS BY AVERAGING ALL AVAILABLE ATLASES . T HE BEST RESULT IS HIGHLIGHTED IN
+                                    BOLD WHILE THE RUNNER - UP IS HIGHLIGHTED IN UNDERLINED .
+
+                                                            Internal Tests                                           External Tests
+  Method                 Pretrained
+                                         ADHD               ADNI            ABIDE         Avg.     HCP-Gender        HCP-Age        Huashan      Avg.
+  GCN [17]                   %        54.66 ± 6.38      66.06 ± 2.20     62.58 ± 4.95      61.1    74.13 ± 4.99    54.43 ± 8.25   54.73 ± 3.20    61.1
+  BrainNetCNN [24]           %        55.10 ± 5.32      68.91 ± 2.06     67.18 ± 7.67     63.73   73.35 ± 14.08    54.81 ± 8.24   59.20 ± 4.73   62.46
+  BrainGNN [2]               %        55.86 ± 5.74      63.23 ± 3.10     60.41 ± 4.02     59.83   72.17 ± 10.30    52.98 ± 5.41   55.82 ± 4.85   60.32
+  BNT [31]                   %        53.08 ± 7.21      61.04 ± 6.78     64.46 ± 7.22     59.53   76.57 ± 11.21    51.26 ± 5.98   59.91 ± 3.68   62.58
+  ContrastPool [34]          %        59.65 ± 5.19      64.65 ± 3.66     68.69 ± 2.72     64.33    80.00 ± 5.80    56.30 ± 5.58   58.35 ± 6.11   64.88
+  BQN [35]                   %        60.95 ± 3.09      66.09 ± 2.90     68.75 ± 5.04     65.26    82.60 ± 5.44    53.18 ± 7.46   58.98 ± 4.85   64.92
+  BrainLM [12]               !        59.35 ± 6.53      55.51 ± 5.68     61.39 ± 4.88     58.75    70.95 ± 4.20    51.97 ± 6.68   52.91 ± 5.34   58.61
+  BrainJEPA [13]             !        57.75 ± 4.80      57.28 ± 5.89     61.71 ± 7.14     58.91    73.01 ± 4.72    54.79 ± 6.98   54.76 ± 5.58   60.85
+  PTGB [14]                  !        58.55 ± 3.91      58.15 ± 7.24     65.00 ± 6.62     60.57    75.12 ± 5.35    52.29 ± 6.04   52.19 ± 5.18   59.87
+  BrainMass [15]             !        53.92 ± 7.24      55.23 ± 5.86     64.53 ± 6.09     57.89    74.01 ± 5.43    52.63 ± 6.54   52.11 ± 4.90   59.59
+  BrainGFM [7]               !        53.79 ± 7.33      67.82 ± 2.85     69.52 ± 2.57     63.71    84.61 ± 3.70    55.05 ± 6.59   57.69 ± 4.90   65.78
+  MV-BrainFM (Ours)          !        61.18 ± 5.65     70.02 ± 2.27∗    74.98 ± 5.19∗     68.73   86.93 ± 3.22∗   59.77 ± 5.75∗   61.64 ± 5.37   69.44
+∗ indicates statistically significant improvement over the best competing method (p < 0.05, paired t-test).
+
+
+
+
+6 datasets for evaluation with various tasks including neurolog-                experiments, although MV-BrainFM is able to handle multi-
+ical disorder identification (AD, ASD, ADHD), sex prediction                    atlas input.
+and age prediction. Specifically, ADNI, ABIDE and ADHD                                c) Hyperparameter Selection: We pretrain and fine-tune
+are used for internal evaluation. For each of these datasets,                   the network end-to-end using the Adam optimizer [63]. The
+80% of the subjects are used during the pretraining stage                       learning rate for pretraining is fixed at 1 × 10−4 , while the
+and subsequently fine-tuned for downstream tasks, while the                     initial learning rate for fine-tuning is selected from {1 ×
+remaining subjects are split into validation and test sets with                 10−3 , 5 × 10−4 , 2 × 10−4 , 1 × 10−4 , 5 × 10−5 } based on
+a ratio of 10%/10%. We repeat the experiments 10 times with                     validation performance. To improve training stability and con-
+different random seeds and report the average performance. In                   vergence, we adopt a warmup–cosine learning rate schedule
+addition, HCP-Gender, HCP-Age, and Huashan are used for                         for finetuning stage.
+external evaluation. Each dataset is independently split into                      The model is pretrained for 20 epochs and subsequently
+training, validation, and test sets with an 8:1:1 ratio. For these              fine-tuned on downstream tasks for an additional 50 epochs.
+external datasets, models are finetuned and evaluated using 10-                 Unless otherwise specified, the backbone encoder consists of
+fold cross-validation with a fixed random seed, and the average                 L = 4 Transformer layers, each with 8-head DASA. The
+results across folds are reported.                                              number of learnable frequency vectors K in the atlas encoder
+      b) Baselines: We select various baselines, including (1)                  (Eq. (2)) is set to 64. The number of supernodes Nsuper in
+general-purpose GNN: GCN [17]; (2) end-to-end models                            Eq. ( 13) is set to 50 while the number of prototypes P
+tailored brain networks: BrainNetCNN [24], BrainGNN [2],                        used in the clustering consistency in Eq. (18) is set to 16.
+BNT [31], ContrastPool [34], BQN [35]; (3) multi-atlas                          During pretraining, a dropout rate of 0.5 is applied to mitigate
+methods: MGRL [61], METAFormer [62], AIDFusion [9]; (4)                         overfitting, while dropout is disabled during fine-tuning. All
+time-series-based brain foundation models: BrainLM [12],                        experiments are conducted on a Linux server equipped with an
+Brain-JEPA [13]; and (5) graph-based brain network foun-                        AMD EPYC 7402 24-core CPU and an NVIDIA A100 GPU.
+dation models: PTGB [14], BrainMass [15], BrainGFM [7].
+   Existing brain foundation models differ in how they handle
+heterogeneity across fMRI datasets. Time-series-based models                    C. Single Atlas Results
+are pre-trained directly on fMRI time-series with Transformer-                     We evaluate the pretrained MV-BrainFM on 6 downstream
+style architectures, and they generally require preprocessing                   datasets constructed using 4 brain atlases. Three of the atlases
+into fixed-length temporal windows and a unified atlas-specific                 appear during the pretraining stage, while the remaining at-
+input format. By contrast, graph-based methods operate on                       las (BASC122) is intentionally excluded from pretraining to
+functional connectivity or brain graphs, making them more                       assess the cross-atlas transfer capability of the proposed frame-
+easily handle variable-length fMRI data after graph construc-                   work. For fair comparison with baseline methods, each dataset
+tion: PTGB trains a linear encoder for each dataset to address                  is evaluated independently under each atlas rather than using
+cross-atlas heterogeneity; BrainMass proposes different drop-                   multi-view inputs during inference. This experimental setup
+ping percentages to account for time-series length variability,                 enables us to assess both the effectiveness of the pretrained
+and employs a comprehensive pre-training pipeline to learn                      representations and the ability of the model to generalize to
+perturbation-robust representations, enabling frozen-encoder                    previously unseen atlas configurations.
+finetuning; and BrainGFM introduces graph prompts to align                         Table II summarizes the classification performance of all
+multi-atlas datasets within a unified modeling framework. For                   methods, reported as the average AUC across all available
+fair comparison, we use single-atlas datasets for the main                      atlases for each dataset. Overall, MV-BrainFM achieves the
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                    9
+
+
+
+
+Fig. 3. Results on all 4 atlases. Note that BASC122 is the external atlas, which the models have never seen during pretraining.
+
+
+
+best performance on all six datasets and obtains the highest                   MV-BrainFM explicitly models brain networks as graphs and
+average AUC in both the internal and external evaluations.                     incorporates anatomical priors through distance-aware atten-
+Specifically, MV-BrainFM improves the internal average AUC                     tion, allowing it to better exploit the topology of functional
+from the previous best result of 65.26% (BQN) to 68.73%, and                   connectivity patterns during pretraining.
+improves the external average AUC from 65.78% (BrainGFM)                          To further examine the cross-atlas robustness of different
+to 69.44%. Moreover, MV-BrainFM achieves statistically sig-                    methods, Fig. 3 reports the performance of all models on
+nificant improvements over the strongest competing methods                     each individual atlas. As shown in the figure, MV-BrainFM
+on several datasets, including ADNI, ABIDE, HCP-Gender,                        consistently achieves the best or near-best performance across
+and HCP-Age (p < 0.05). These results demonstrate the                          all four atlases (Schaefer100, Schaefer200, AAL116, and
+effectiveness of the proposed multi-view pretraining strategy                  BASC122), despite their different spatial resolutions and ROI
+in learning robust brain network representations.                              definitions. Importantly, the performance gain remains evi-
+   Compared with conventional graph learning models such                       dent even on the atlas that was not used during pretraining,
+as GCN, BrainNetCNN, BrainGNN, and BNT, MV-BrainFM                             demonstrating the strong cross-atlas transfer capability of the
+consistently achieves superior performance across all datasets.                proposed framework.
+These models are typically trained from scratch on a single                       Another interesting observation from the detailed results is
+dataset and rely on one specific atlas representation, which                   that no single atlas consistently yields the best performance
+limits their ability to exploit complementary information                      across all datasets. Instead, different atlases perform better
+across different brain parcellations. In contrast, MV-BrainFM                  for different tasks and datasets. This observation aligns with
+leverages multi-atlas pretraining and learns atlas-invariant rep-              previous findings in neuroscience, where the choice of brain
+resentations that transfer effectively to downstream tasks.                    parcellation has been shown to influence downstream analyses
+                                                                               and different atlases may capture complementary aspects of
+   We further compare MV-BrainFM with several recently                         brain organization [64]. Therefore, relying on a single atlas
+proposed brain foundation models, including BrainLM, Brain-                    may limit model performance, while integrating multiple at-
+JEPA, PTGB, BrainMass, and BrainGFM. Although these                            lases can provide richer and more robust representations of
+models are pretrained on large-scale neuroimaging data, their                  brain connectivity.
+downstream performance is often comparable to or even worse
+than models specifically designed for individual tasks. This
+observation suggests that existing brain foundation models                     D. Multi-atlas Results
+may not fully capture the structural characteristics of brain                     We further evaluate the ability of MV-BrainFM to directly
+networks required for disease prediction tasks. In contrast,                   leverage multiple atlases as input. Specifically, we adopt a
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                          10
+
+
+
+
+Fig. 4. Scaling behavior with increasing pretraining atlases. We progressively increase the number of atlases used during pretraining and evaluate the
+downstream performance on 6 tasks using the Schaefer100 atlas. The results show that MV-BrainFM consistently benefits from larger and more diverse
+pretraining data, demonstrating clearer scaling behavior than BrainGFM.
+
+
+
+                               TABLE III                                        of atlases used during pretraining and evaluate downstream
+ M ULTI - ATLAS AUC PERFORMANCE COMPARISON USING FOUR ATLASES                   performance on 6 tasks using the Schaefer100 atlas. The
+      (S CHAEFER 100, S CHAEFER 200, AAL116, AND BASC122).
+  MV-B RAIN FM ACHIEVES SUPERIOR PERFORMANCE OVER EXISTING                      atlases are introduced sequentially in the order of Schaefer100,
+               MULTI - ATLAS BASELINES ON ALL DATASETS .                        Schaefer200, Schaefer500, AAL116, and Craddock200, al-
+                                                                                lowing us to analyze how model performance scales with
+                           Internal Tests                External Tests
+  Method                                                                        increasing diversity of pretraining data.
+                      ABIDE            ADNI       HCP-Gender       HCP-Age         As shown in Fig. 4, both models benefit from pretraining
+  MGRL [61]         66.99 ± 4.86   59.57 ± 1.75   76.01 ± 8.40   56.78 ± 6.17
+                                                                                compared with directly fine-tuning on downstream tasks with-
+  METAFormer [62]   75.87 ± 3.39   66.40 ± 1.24   84.17 ± 4.39   61.40 ± 4.69
+                                                                                out pretraining, demonstrating the effectiveness of represen-
+  AIDFusion [9]     75.19 ± 1.38   66.59 ± 2.43   85.34 ± 5.78   59.77 ± 5.35
+  MV-BrainFM        77.93 ± 2.36   72.63 ± 0.90   86.64 ± 4.54   61.47 ± 5.47
+                                                                                tation learning on large-scale brain network data. Note that
+                                                                                MV-BrainFM exhibits a more stable and consistent scaling
+                                                                                trend as additional atlases are incorporated, while BrainGFM
+simple yet effective strategy by summing the embeddings                         shows more fluctuating behavior.
+from different atlases and applying a linear prediction head                       More specifically, MV-BrainFM tends to achieve larger
+for downstream tasks. As shown in Table III, MV-BrainFM                         improvements on the internal datasets (ADHD, ABIDE, and
+consistently outperforms all multi-atlas baselines across all                   ADNI) than on the external datasets (HCP-Gender, HCP-Age,
+four datasets when jointly using four atlases (Schaefer100,                     and Huashan). This observation suggests that incorporating
+Schaefer200, AAL116, and BASC122). Notably, the multi-                          multiple views of the same subject during pretraining helps the
+atlas performance of MV-BrainFM surpasses its corresponding                     model learn more discriminative connectivity patterns rather
+single-atlas results on all datasets, demonstrating the benefit                 than overfitting to limited data representations. By enforc-
+of integrating complementary information from multiple brain                    ing cross-view consistency, MV-BrainFM effectively leverages
+parcellations. In contrast to existing methods that require                     complementary information across different brain parcellations
+specialized fusion designs, MV-BrainFM enables straightfor-                     while maintaining stable representations.
+ward and effective multi-atlas integration due to its unified                      In contrast, BrainGFM occasionally experiences perfor-
+representation space learned during pretraining. These results                  mance degradation when additional atlases are introduced.
+demonstrate that MV-BrainFM provides a flexible and scalable                    Since BrainGFM treats different atlases independently and
+framework that can seamlessly incorporate an arbitrary number                   does not explicitly enforce multi-view consistency, the model
+of atlases, making it particularly suitable for large-scale and                 may struggle to reconcile heterogeneous graph structures
+heterogeneous brain network analysis.                                           during pretraining. Consequently, introducing networks con-
+                                                                                structed from additional atlases may increase representation
+                                                                                variability instead of improving representation quality.
+E. Scaling Study                                                                   We also observe a slight performance drop for MV-BrainFM
+  We further investigate how the performance of brain net-                      when Schaefer200 is added after Schaefer100 for several
+work foundation models changes as the amount of pretraining                     datasets. One possible explanation is that the Schaefer200
+data increases. Specifically, we progressively expand the set                   atlas introduces more than 12,000 additional subjects from
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                                11
+
+
+
+
+Fig. 5. AUC performance of MV-BrainFM using the Schaefer100 atlas under different hidden dimensions (0.95M–31.35M parameters). Increasing model
+capacity improves performance from very small models, but larger models do not consistently yield additional gains, indicating that data scale may be a more
+critical factor than parameter scale.
+
+
+
+the HBN dataset that are not included in the Schaefer100                       heterogeneous brain network views more robustly, leading
+pretraining set. This substantial increase of data from a single               to improved scalability and generalization compared with
+atlas may temporarily bias the pretraining process toward the                  existing brain network foundation models.
+Schaefer200 representation. Interestingly, this effect is allevi-
+ated once additional atlases such as AAL116 and Craddock200
+are incorporated, suggesting that increasing atlas diversity                   F. Model Interpretation
+helps rebalance the multi-view learning process and restore                          a) Distance Bias: To better understand how the proposed
+performance gains.                                                             distance-aware attention mechanism influences representation
+   We further analyze the impact of model capacity in Fig. 5,                  learning, we visualize the top 20 edges with the largest
+where the hidden dimension varies from 128 to 1024, cor-                       distance bias for each attention head, as shown in Fig. 6.
+responding to model sizes ranging from 0.95M to 31.35M                         Interestingly, different heads consistently focus on connections
+parameters. Increasing the hidden dimension from 128 to                        at distinct spatial scales. For example, early heads mainly
+256 generally improves performance across most datasets,                       capture short-range interactions with average edge lengths
+indicating that extremely small models may lack sufficient                     around 14–30 mm, which typically correspond to local intra-
+representation capacity. However, further increasing the model                 network connections within nearby cortical regions. As the
+size beyond moderate scales (e.g., 512 or 1024) does not con-                  head index increases, the preferred interaction distance gradu-
+sistently improve performance and may even slightly degrade                    ally expands, with later heads emphasizing medium- and long-
+results on some datasets. This observation suggests that the                   range connections exceeding 100 mm, which often link distant
+current performance bottleneck lies more in the scale and                      functional systems across hemispheres.
+diversity of training data rather than model capacity. Although                   This observation suggests that the proposed Gaussian dis-
+our study already leverages the largest brain network dataset                  tance bias successfully encourages different attention heads
+reported in the existing literature, the results indicate that the             to specialize in modeling connectivity patterns at multiple
+proposed framework could still benefit from training on even                   anatomical scales. Such a multi-scale decomposition aligns
+larger datasets. Moreover, the observation that larger models                  well with known properties of brain organization, where
+do not necessarily lead to better performance is consistent                    local circuits support specialized processing while long-range
+with findings reported in other neuroimaging foundation mod-                   connections integrate distributed functional networks [67]. Im-
+els [65], [66]. Considering both efficiency and effectiveness,                 portantly, this behavior emerges automatically from the learned
+we adopt the configuration with 2.95M parameters as the                        distance-aware bias without requiring explicit supervision,
+default setting in MV-BrainFM.                                                 demonstrating that MV-BrainFM can leverage anatomical pri-
+   Overall, these results demonstrate that MV-BrainFM scales                   ors to discover biologically meaningful connectivity patterns.
+more effectively with increasing pretraining data and can                            b) Biomarker Detection: Identifying salient brain regions
+better exploit multi-atlas information. The proposed cross-view                associated with model predictions is essential for discovering
+consistency learning strategy enables the model to integrate                   potential neural biomarkers. In this study, we leverage the
+   NUS Presentation Title 2001
+
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                                   12
+
+
+
+
+Fig. 6. Visualization of the top 20 edges with the largest distance bias for each attention head. Different heads consistently focus on connections at distinct
+spatial scales.
+
+
+
+
+              (a) ADHD                                (b) ABIDE                               (c) ADNI                              (d) Huashan
+Fig. 7. Visualization of salient brain regions identified by MV-BrainFM across different neurological disorders. The highlighted regions correspond to ROIs
+with the highest attention weights and represent potential disease-related biomarkers for ADHD, ASD (ABIDE), AD/MCI (ADNI and Huashan).
+
+                                                             TABLE IV
+  T IME COST ( SECONDS ) AND NUMBER OF PARAMETERS FOR BRAIN NETWORK FOUNDATION MODELS ON DATASETS WITH S CHAEFER 100 ATLAS . T HE
+            FINETUNE TIME REPORTS THE 50 EPOCHS RUNNING TIME FOR A SINGLE FOLD INCLUDING TRAINING , VALIDATION , AND TEST.
+
+
+                                                        Pretrain                                   Finetune Time (s)
+             Models                  #Params
+                                                  #Epoch     Time (s)    ADHD       ABIDE      ADNI      HCP-Gender       HCP-Age      Huashan
+             BrainLM                  12.78M        50        3,989       430         609       785         632             605          462
+             Brain-JEPA               21.69M        50        4,124      1,038       1,573     1,814       1,630           1,275        1,126
+             PTGB                      0.55M        70        1,574        23          15        22          26              30           29
+             BrainMass                29.35M       100        6,988        74          80       102         102             117           84
+             BrainGFM                 10.31M        20        3,709        46          58        83          63              63           47
+             MV-BrainFM (ours)         2.95M        20         935         13          18        24          30              30           13
+
+
+
+built-in interpretability of MV-BrainFM to explore disease-                      the right visual cortex and the right frontal eye field within
+specific biomarker patterns. Specifically, we visualize the most                 the dorsal attention network in the ADNI dataset, as well
+influential ROIs for AD, ASD, ADHD, MCI using the Nilearn                        as the left parietal cortex and the right visual cortex in the
+toolbox [68]. For each prediction, we select the ROIs with the                   Huashan dataset. These findings are consistent with prior
+top 5 attention weights.                                                         studies showing that Alzheimer’s disease is strongly associated
+   As shown in Fig. 7, several salient regions emerge that                       with disruptions in visual processing pathways and the Default
+are consistent with previously reported disease-related brain                    Mode Network [74]–[76].
+alterations. For ADHD, MV-BrainFM identifies several re-                            Overall, these results demonstrate that MV-BrainFM can
+gions within the dorsal attention network, including the right                   identify clinically meaningful brain regions associated with
+precentral gyrus and the bilateral posterior parietal cortex.                    neurological disorders, suggesting its potential utility for
+These regions are known to play important roles in attentional                   biomarker discovery and neurobiological interpretation.
+control and executive function, and have been repeatedly
+implicated in ADHD-related neural alterations [69], [70].                        G. Efficiency Analysis
+   For the ABIDE dataset (ASD), MV-BrainFM highlights                               Table IV reports the number of parameters, pretraining cost,
+regions including the left prefrontal cortex, the left somato-                   and finetuning time of different brain network foundation
+motor cortex, and the right precentral cortex. These regions                     models. The finetuning time corresponds to the running time
+have been previously implicated in autism studies [71]–[73],                     for a single cross-validation fold, including training, validation,
+where abnormalities in social cognition, sensory processing,                     and testing.
+and attention regulation have been reported.                                        Overall, MV-BrainFM demonstrates significantly higher
+   For AD and MCI, MV-BrainFM highlights regions such as                         computational efficiency compared with existing brain foun-
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                13
+
+
+
+                                                             TABLE V
+                       A BLATION STUDY ON COMPONENTS IN MV-B RAIN FM ON DATASETS WITH THE S CHAEFER 100 ATLAS .
+
+ Atlas Encoder   Distance Bias   Lrec   Lcc    Lent      ADHD           ABIDE           ADNI       HCP-Gender       HCP-Age        Huashan
+       !              !                               54.70 ± 7.76   69.72 ± 1.06   64.23 ± 1.57   83.52 ± 1.79   58.70 ± 6.01   60.06 ± 4.40
+                                  !      !     !      57.26 ± 6.47   73.38 ± 1.68   67.74 ± 1.34   85.54 ± 2.52   57.99 ± 5.88   60.71 ± 6.23
+                      !           !      !     !      58.10 ± 4.97   74.38 ± 2.49   68.20 ± 2.10   85.36 ± 2.67   58.72 ± 6.22   61.61 ± 4.48
+      !                           !      !     !      58.99 ± 6.45   75.27 ± 2.49   69.24 ± 1.63   86.77 ± 1.77   59.67 ± 5.42   61.31 ± 5.08
+      !               !                  !     !      61.18 ± 3.54   72.79 ± 1.48   66.19 ± 2.79   84.41 ± 2.05   59.11 ± 4.21   61.64 ± 6.43
+      !               !           !            !      59.76 ± 1.85   73.22 ± 1.96   69.30 ± 0.89   86.38 ± 2.90   59.01 ± 5.15   61.83 ± 5.22
+      !               !           !      !            57.53 ± 7.86   73.20 ± 1.62   64.54 ± 1.55   83.93 ± 1.31   59.75 ± 7.89   60.94 ± 3.60
+      !               !           !      !     !      61.71 ± 7.31   76.26 ± 2.60   69.40 ± 2.40   86.45 ± 3.18   60.62 ± 4.77   62.39 ± 5.24
+
+
+
+dation models. In terms of model size, MV-BrainFM contains              constructed with the Schaefer100 atlas while keeping the
+only 2.95M parameters, which is substantially smaller than              remaining training settings unchanged.
+most of the other large-scale architectures. Despite its com-              The first row corresponds to a model that is directly fine-
+pact design, MV-BrainFM achieves superior predictive perfor-            tuned on downstream tasks without any pretraining objec-
+mance, indicating that the proposed architecture provides a             tives. Although the Atlas Encoder and Distance Bias are still
+favorable balance between model capacity and computational              included in the architecture, the model is trained purely in
+efficiency.                                                             a supervised manner. As shown in Table V, this baseline
+   Regarding pretraining cost, MV-BrainFM also shows a clear            achieves relatively lower performance across most datasets,
+advantage. The total pretraining time of MV-BrainFM is 935              indicating that the proposed pretraining strategy plays a critical
+seconds for 20 epochs, which is substantially lower than most           role in learning transferable brain network representations.
+competing foundation models. This efficiency arises from two               When the three pretraining objectives (Lrec , Lcc , and Lent )
+aspects. First, the proposed architecture adopts a lightweight          are introduced, the performance improves consistently across
+Transformer design with distance-aware attention, resulting in          datasets, even without the Atlas Encoder and Distance Bias
+a relatively small parameter size. Second, unlike many existing         modules. This result highlights the effectiveness of the pro-
+brain foundation models that pretrain sequentially on datasets          posed cross-view consistency learning framework in capturing
+constructed with different atlases, MV-BrainFM adopts a uni-            shared representations across multiple atlas views.
+fied multi-view training paradigm. In this paradigm, mini-                 We further observe that incorporating either the Atlas En-
+batches from all datasets are shuffled together and multiple            coder or the Distance Bias leads to additional performance
+atlas views of the same subject are optimized simultaneously.           improvements. The Atlas Encoder enables the model to encode
+As a result, the model can learn from all datasets within a             spatial coordinate information and handle heterogeneous atlas
+single training process rather than repeatedly retraining on            configurations, while the Distance Bias introduces anatomi-
+each dataset, which significantly reduces the total pretraining         cally meaningful priors into the attention mechanism. Both
+time.                                                                   modules help the model better capture the structural properties
+   The efficiency advantage is even more pronounced during              of brain networks.
+finetuning. Across all 6 downstream datasets, MV-BrainFM                   Finally, when all components are jointly enabled, MV-
+consistently requires the shortest training time. For example,          BrainFM achieves the best performance across all datasets.
+the finetuning time on the ADNI dataset is only 24 seconds,             This demonstrates that the architectural modules and the multi-
+compared with 83 seconds for BrainGFM, 102 seconds for                  view pretraining objectives are complementary. In particular,
+BrainMass, and several thousand seconds for Brain-JEPA.                 the combination of distance-aware modeling and cross-view
+Similar improvements are observed across the remaining                  consistency learning allows the model to effectively integrate
+datasets, where MV-BrainFM reduces the finetuning time by               anatomical priors with multi-atlas information, leading to the
+several times compared with existing foundation models.                 most robust performance.
+   These results demonstrate that MV-BrainFM not only im-
+proves predictive performance but also significantly reduces
+                                                                        I. Hyperparameter Analysis
+computational cost. Such efficiency is particularly important
+for large-scale neuroimaging studies where models must be                  We analyze the sensitivity of two key hyperparameters in
+trained and evaluated across multiple datasets and atlas con-           MV-BrainFM: the number of attention heads in the DASA
+figurations.                                                            module and the number of prototypes P used in the clustering
+                                                                        consistency loss (Eq. (18)). All experiments are conducted on
+                                                                        brain networks with the Schaefer100 atlas.
+H. Ablation Study                                                             a) Number of attention heads.: We vary the number of
+  To assess the contribution of each component in MV-                   heads from {2, 4, 8, 16} and report the results in Fig. 8a. Over-
+BrainFM, we conduct an ablation study by progressively                  all, the model performance remains relatively stable across
+enabling or disabling key modules, including the Atlas En-              different settings, indicating that MV-BrainFM is not overly
+coder, Distance Bias, and the three pretraining objectives (Lrec ,      sensitive to this hyperparameter. Increasing the number of
+Lcc , and Lent ). All experiments are performed on networks             heads generally improves performance from 2 to 8 heads on
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                                   14
+
+
+
+
+  (a) The sensitivity analysis for the number of heads in MV-BrainFM.                 (b) The sensitivity analysis for the number of prototypes in MV-BrainFM.
+Fig. 8. Hyperparameter sensitivity analysis of MV-BrainFM with respect to the number of attention heads and prototypes across multiple datasets.
+
+
+
+most datasets, suggesting that multiple heads help capture                       Future work will focus on extending MV-BrainFM to in-
+diverse connectivity patterns at different anatomical distance                corporate richer sources of brain connectivity information,
+scales. However, further increasing the number of heads to 16                 including additional connectivity measurements and multi-
+provides little additional benefit and sometimes slightly de-                 modal neuroimaging data such as structural connectivity from
+grades performance, likely due to increased model complexity                  diffusion MRI and electrophysiological signals. Integrating
+and over-parameterization. Based on these observations, we                    multiple modalities and connectivity definitions could further
+adopt 8 heads in all experiments as a good balance between                    improve the robustness and generalizability of learned brain
+performance and computational efficiency.                                     representations. More broadly, scalable brain network foun-
+     b) Number of prototypes.: We further study the effect                    dation models like MV-BrainFM may facilitate large-scale
+of the number of prototypes in the clustering consistency                     neuroimaging analysis, biomarker discovery, and cross-dataset
+module by varying P from {4, 8, 16, 32}, as shown in Fig. 8b.                 studies by enabling unified modeling across heterogeneous
+Similarly, the performance varies only moderately across                      brain atlases and datasets. At the same time, careful attention
+different prototype numbers, demonstrating the robustness of                  to data privacy, dataset bias, and clinical validation will be
+the proposed cross-view consistency objective. Performance                    essential to ensure responsible use of such models in neuro-
+generally improves when increasing P from 4 to 16, indicating                 science and healthcare applications.
+that a moderate number of prototypes provides sufficient
+capacity to capture diverse latent patterns across views. When
+                                                                                                             R EFERENCES
+P increases further to 32, the performance tends to plateau or
+slightly decrease on some datasets, suggesting that excessively                [1] K. J. Worsley, C. H. Liao, J. Aston, V. Petre, G. Duncan, F. Morales, and
+large prototype sets may introduce unnecessary redundancy.                         A. C. Evans, “A general statistical analysis for fmri data,” Neuroimage,
+                                                                                   vol. 15, no. 1, pp. 1–15, 2002.
+Therefore, we set P = 16 for all experiments.                                  [2] X. Li, Y. Zhou, N. Dvornek, M. Zhang, S. Gao, J. Zhuang, D. Scheinost,
+   Overall, these results demonstrate that MV-BrainFM main-                        L. H. Staib, P. Ventola, and J. S. Duncan, “Braingnn: Interpretable
+tains stable performance across a wide range of hyperpa-                           brain graph neural network for fmri analysis,” Medical Image Analysis,
+                                                                                   vol. 74, p. 102233, 2021.
+rameter choices, highlighting the robustness of the proposed                   [3] H. Zhang, R. Song, L. Wang, L. Zhang, D. Wang, C. Wang, and
+architecture and pretraining strategy.                                             W. Zhang, “Classification of brain disorders in rs-fmri via local-to-global
+                                                                                   graph neural networks,” IEEE Transactions on Medical Imaging, 2022.
+                                                                               [4] J. Xu, K. He, M. Lan, Q. Bian, W. Li, T. Li, Y. Ke, and M. Qiao,
+                           V. C ONCLUSION                                          “Contrasformer: A brain network contrastive transformer for neurode-
+                                                                                   generative condition identification,” in Proceedings of the 33rd ACM
+   In this work, we propose MV-BrainFM, a multi-view brain                         International Conference on Information and Knowledge Management,
+network foundation model designed to support brain networks                        2024, pp. 2671–2681.
+constructed from heterogeneous atlases. By integrating a Ran-                  [5] C. Peng, Y. Huang, Q. Dong, S. Yu, F. Xia, C. Zhang, and Y. Jin,
+dom Fourier Atlas Encoder, a distance-aware Transformer                            “Biologically plausible brain graph transformer,” in The Thirteenth
+                                                                                   International Conference on Learning Representations, 2025. [Online].
+architecture, and a cross-view consistency pretraining strategy,                   Available: https://openreview.net/forum?id=rQyg6MnsDb
+the proposed framework enables unified representation learn-                   [6] J. Xu, X. Dong, T. Huang, D. Wu, W. Zhang, Y. Ke, and P. S. Yu, “Multi-
+ing across multiple atlas configurations while incorporating                       view graph learning in brain network analysis: A survey,” Authorea
+                                                                                   Preprints, 2025.
+anatomical spatial priors. Extensive experiments on large-                     [7] X. Wei, kanhao zhao, Y. Jiao, L. He, and Y. Zhang, “A brain
+scale neuroimaging datasets demonstrate that MV-BrainFM                            graph foundation model: Pre-training and prompt-tuning across
+consistently outperforms both task-specific methods and ex-                        broad atlases and disorders,” in The Fourteenth International
+                                                                                   Conference on Learning Representations, 2026. [Online]. Available:
+isting brain foundation models. The proposed framework also                        https://openreview.net/forum?id=PeGHkAaRxs
+shows strong scalability with increasing pretraining data and                  [8] J. Xu, Y. Yang, D. T. J. Huang, S. S. Gururajapathy, Y. Ke, M. Qiao,
+significantly improved computational efficiency. These results                     A. Wang, H. Kumar, J. McGeown, and E. Kwon, “Data-driven network
+                                                                                   neuroscience: On data collection and benchmark,” in Thirty-seventh
+highlight the potential of multi-view foundation models for                        Conference on Neural Information Processing Systems Datasets and
+scalable and interpretable brain network analysis.                                 Benchmarks Track, 2023.
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                                     15
+
+
+
+ [9] J. Xu, M. Lan, X. Dong, K. He, W. Zhang, Q. Bian, and Y. Ke, “Multi-         [29] J. Hu, L. Cao, T. Li, S. Dong, and P. Li, “Gat-li: a graph attention
+     atlas brain network classification through consistency distillation and           network based learning and interpreting method for functional brain
+     complementary information fusion,” IEEE Journal of Biomedical and                 network classification,” BMC bioinformatics, vol. 22, no. 1, p. 379, 2021.
+     Health Informatics, 2025.                                                    [30] Z. Ying, D. Bourgeois, J. You, M. Zitnik, and J. Leskovec, “Gnnex-
+[10] A. Radford, K. Narasimhan, T. Salimans, I. Sutskever et al., “Improving           plainer: Generating explanations for graph neural networks,” Advances
+     language understanding by generative pre-training,” 2018.                         in neural information processing systems, vol. 32, 2019.
+[11] A. Dosovitskiy, “An image is worth 16x16 words: Transformers for             [31] X. Kan, W. Dai, H. Cui, Z. Zhang, Y. Guo, and C. Yang, “Brain net-
+     image recognition at scale,” arXiv preprint arXiv:2010.11929, 2020.               work transformer,” Advances in Neural Information Processing Systems,
+[12] J. O. Caro, A. H. de Oliveira Fonseca, S. A. Rizvi, M. Rosati,                    vol. 35, pp. 25 586–25 599, 2022.
+     C. Averill, J. L. Cross, P. Mittal, E. Zappala, R. M. Dhodapkar,             [32] A. Bannadabhavi, S. Lee, W. Deng, R. Ying, and X. Li, “Community-
+     C. Abdallah, and D. van Dijk, “BrainLM: A foundation model for                    aware transformer for autism prediction in fmri connectome,” in Interna-
+     brain activity recordings,” in The Twelfth International Conference               tional Conference on Medical Image Computing and Computer-Assisted
+     on Learning Representations, 2024. [Online]. Available: https:                    Intervention. Springer, 2023, pp. 287–297.
+     //openreview.net/forum?id=RwI7ZEfR27                                         [33] A. Shehzad, D. Zhang, S. Yu, S. Abid, D. K. Kumar, and F. Xia, “Multi-
+[13] Z. Dong, R. Li, Y. Wu, T. T. Nguyen, J. Chong, F. Ji, N. Tong, C. Chen,           scale graph transformer for brain disorder diagnosis,” IEEE Transactions
+     and J. H. Zhou, “Brain-jepa: Brain dynamics foundation model with                 on Consumer Electronics, 2025.
+     gradient positioning and spatiotemporal masking,” Advances in Neural         [34] J. Xu, Q. Bian, X. Li, A. Zhang, Y. Ke, M. Qiao, W. Zhang, W. K. J. Sim,
+     Information Processing Systems, vol. 37, pp. 86 048–86 073, 2024.                 and B. Gulyás, “Contrastive graph pooling for explainable classification
+[14] Y. Yang, H. Cui, and C. Yang, “Ptgb: Pre-train graph neural networks              of brain networks,” IEEE Transactions on Medical Imaging, 2024.
+     for brain network analysis,” in Conference on Health, Inference, and         [35] L. Yang, Y. Liu, J. Zhuo, D. Jin, C. Wang, Z. Wang, and X. Cao, “Do
+     Learning. PMLR, 2023, pp. 526–544.                                                we really need message passing in brain network modeling?” in Forty-
+[15] Y. Yang, C. Ye, G. Su, Z. Zhang, Z. Chang, H. Chen, P. Chan, Y. Yu,               second International Conference on Machine Learning, 2025.
+     and T. Ma, “Brainmass: Advancing brain network analysis for diagnosis        [36] W. Hu*, B. Liu*, J. Gomes, M. Zitnik, P. Liang, V. Pande, and
+     with large-scale self-supervised learning,” IEEE transactions on medical          J. Leskovec, “Strategies for pre-training graph neural networks,” in
+     imaging, vol. 43, no. 11, pp. 4004–4016, 2024.                                    International Conference on Learning Representations, 2020. [Online].
+[16] Y. Wang, V. D. Calhoun, G. D. Pearlson, P. Kochunov, T. G. van Erp, and           Available: https://openreview.net/forum?id=HJlWWJSFDH
+     Y. Du, “A graph transformer-based foundation model for brain functional      [37] Z. Hou, X. Liu, Y. Cen, Y. Dong, H. Yang, C. Wang, and J. Tang,
+     connectivity network,” Pattern Recognition, vol. 169, p. 111988, 2026.            “Graphmae: Self-supervised masked graph autoencoders,” in Proceed-
+[17] T. N. Kipf and M. Welling, “Semi-supervised classification with graph             ings of the 28th ACM SIGKDD conference on knowledge discovery and
+     convolutional networks,” in International Conference on Learning Rep-             data mining, 2022, pp. 594–604.
+     resentations (ICLR), 2017.                                                   [38] J. Liu, C. Yang, Z. Lu, J. Chen, Y. Li, M. Zhang, T. Bai, Y. Fang, L. Sun,
+[18] P. Veličković, G. Cucurull, A. Casanova, A. Romero, P. Lio, and Y. Ben-         P. S. Yu et al., “Graph foundation models: Concepts, opportunities
+     gio, “Graph attention networks,” arXiv preprint arXiv:1710.10903, 2017.           and challenges,” IEEE Transactions on Pattern Analysis and Machine
+[19] A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez,           Intelligence, 2025.
+     Ł. Kaiser, and I. Polosukhin, “Attention is all you need,” Advances in       [39] V. S. Fonov, A. C. Evans, R. C. McKinstry, C. R. Almli, and D. Collins,
+     neural information processing systems, vol. 30, 2017.                             “Unbiased nonlinear average age-appropriate brain templates from birth
+[20] S. Yun, M. Jeong, R. Kim, J. Kang, and H. J. Kim, “Graph transformer              to adulthood,” NeuroImage, vol. 47, p. S102, 2009.
+     networks,” Advances in neural information processing systems, vol. 32,       [40] J. Liu, W. Cui, Y. Chen, Y. Ma, Q. Dong, R. Cai, Y. Li, and B. Hu,
+     2019.                                                                             “Deep fusion of multi-template using spatio-temporal weighted multi-
+[21] P. E. Vértes, A. F. Alexander-Bloch, N. Gogtay, J. N. Giedd, J. L.               hypergraph convolutional networks for brain disease analysis,” IEEE
+     Rapoport, and E. T. Bullmore, “Simple models of human brain func-                 Transactions on Medical Imaging, vol. 43, no. 2, pp. 860–873, 2023.
+     tional networks,” Proceedings of the National Academy of Sciences, vol.      [41] W. Wang, L. Xiao, G. Qu, V. D. Calhoun, Y.-P. Wang, and X. Sun,
+     109, no. 15, pp. 5868–5873, 2012.                                                 “Multiview hyperedge-aware hypergraph embedding learning for mul-
+[22] M. Ercsey-Ravasz, N. T. Markov, C. Lamy, D. C. Van Essen,                         tisite, multiatlas fmri based functional connectivity network analysis,”
+     K. Knoblauch, Z. Toroczkai, and H. Kennedy, “A predictive network                 Medical Image Analysis, vol. 94, p. 103144, 2024.
+     model of cerebral cortical connectivity based on a distance rule,” Neuron,   [42] Z. Ying, J. You, C. Morris, X. Ren, W. Hamilton, and J. Leskovec,
+     vol. 80, no. 1, pp. 184–197, 2013.                                                “Hierarchical graph representation learning with differentiable pooling,”
+[23] J. Goñi, M. P. Van Den Heuvel, A. Avena-Koenigsberger, N. Velez de               Advances in neural information processing systems, vol. 31, 2018.
+     Mendizabal, R. F. Betzel, A. Griffa, P. Hagmann, B. Corominas-Murtra,        [43] A. Schaefer, R. Kong, E. M. Gordon, T. O. Laumann, X.-N. Zuo, A. J.
+     J.-P. Thiran, and O. Sporns, “Resting-brain functional connectivity               Holmes, S. B. Eickhoff, and B. T. Yeo, “Local-global parcellation of
+     predicted by analytic measures of network communication,” Proceedings             the human cerebral cortex from intrinsic functional connectivity mri,”
+     of the National Academy of Sciences, vol. 111, no. 2, pp. 833–838, 2014.          Cerebral cortex, vol. 28, no. 9, pp. 3095–3114, 2018.
+[24] J. Kawahara, C. J. Brown, S. P. Miller, B. G. Booth, V. Chau, R. E.          [44] N. Tzourio-Mazoyer, B. Landeau, D. Papathanassiou, F. Crivello,
+     Grunau, J. G. Zwicker, and G. Hamarneh, “Brainnetcnn: Convolutional               O. Etard, N. Delcroix, B. Mazoyer, and M. Joliot, “Automated anatom-
+     neural networks for brain networks; towards predicting neurodevelop-              ical labeling of activations in spm using a macroscopic anatomical
+     ment,” NeuroImage, vol. 146, pp. 1038–1049, 2017.                                 parcellation of the mni mri single-subject brain,” Neuroimage, vol. 15,
+[25] S. I. Ktena, S. Parisot, E. Ferrante, M. Rajchl, M. Lee, B. Glocker,              no. 1, pp. 273–289, 2002.
+     and D. Rueckert, “Distance metric learning using graph convolutional         [45] R. C. Craddock, G. A. James, P. E. Holtzheimer III, X. P. Hu, and H. S.
+     networks: Application to functional brain networks,” in Medical Image             Mayberg, “A whole brain fmri atlas generated via spatially constrained
+     Computing and Computer Assisted Intervention- MICCAI 2017: 20th                   spectral clustering,” Human brain mapping, vol. 33, no. 8, pp. 1914–
+     International Conference, Quebec City, QC, Canada, September 11-13,               1928, 2012.
+     2017, Proceedings, Part I 20. Springer, 2017, pp. 469–477.                   [46] P. Bellec, P. Rosa-Neto, O. C. Lyttelton, H. Benali, and A. C. Evans,
+[26] S. Parisot, S. I. Ktena, E. Ferrante, M. Lee, R. Guerrero, B. Glocker, and        “Multi-level bootstrap analysis of stable clusters in resting-state fmri,”
+     D. Rueckert, “Disease prediction using graph convolutional networks:              NeuroImage, vol. 51, no. 3, pp. 1126–1139, 2010. [Online]. Available:
+     application to autism spectrum disorder and alzheimer’s disease,” Med-            https://www.sciencedirect.com/science/article/pii/S1053811910002697
+     ical image analysis, vol. 48, pp. 117–130, 2018.                             [47] L. M. Alexander, J. Escalera, L. Ai, C. Andreotti, K. Febre, A. Mangone,
+[27] X. Li, Y. Zhou, N. C. Dvornek, M. Zhang, J. Zhuang, P. Ventola,                   N. Vega-Potler, N. Langer, A. Alexander, M. Kovacs et al., “An open
+     and J. S. Duncan, “Pooling regularized graph neural network for fmri              resource for transdiagnostic research in pediatric mental health and
+     biomarker analysis,” in Medical Image Computing and Computer As-                  learning disorders,” Scientific data, vol. 4, no. 1, pp. 1–26, 2017.
+     sisted Intervention–MICCAI 2020: 23rd International Conference, Lima,        [48] A.-. consortium, “The adhd-200 consortium: a model to advance the
+     Peru, October 4–8, 2020, Proceedings, Part VII 23. Springer, 2020,                translational potential of neuroimaging in clinical neuroscience,” Fron-
+     pp. 625–635.                                                                      tiers in systems neuroscience, vol. 6, p. 62, 2012.
+[28] M. Xu, D. L. Sanz, P. Garces, F. Maestu, Q. Li, and D. Pantazis, “A          [49] K. Dadi, M. Rahim, A. Abraham, D. Chyzhyk, M. Milham, B. Thirion,
+     graph gaussian embedding method for predicting alzheimer’s disease                G. Varoquaux, A. D. N. Initiative et al., “Benchmarking functional
+     progression with meg brain networks,” IEEE Transactions on Biomedical             connectome-based predictive models for resting-state fmri,” NeuroIm-
+     Engineering, vol. 68, no. 5, pp. 1579–1588, 2021.                                 age, vol. 192, pp. 115–134, 2019.
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                                    16
+
+
+
+[50] C. Craddock, Y. Benhajali, C. Chu, F. Chouinard, A. Evans, A. Jakab,          [70] L. O’Halloran, Z. Cao, K. Ruddy, L. Jollans, M. D. Albaugh, A. Aleni,
+     B. S. Khundrakpam, J. D. Lewis, Q. Li, M. Milham et al., “The neuro bu-            A. S. Potter, N. Vahey, T. Banaschewski, S. Hohmann et al., “Neural
+     reau preprocessing initiative: open sharing of preprocessed neuroimaging           circuitry underlying sustained attention in healthy adolescents and in
+     data and derivatives,” Frontiers in Neuroinformatics, vol. 7, p. 27, 2013.         adhd symptomatology,” Neuroimage, vol. 169, pp. 395–406, 2018.
+[51] K. Marek, D. Jennings, S. Lasch, A. Siderowf, C. Tanner, T. Simuni,           [71] M. Assaf, K. Jagannathan, V. D. Calhoun, L. Miller, M. C. Stevens,
+     C. Coffey, K. Kieburtz, E. Flagg, S. Chowdhury et al., “The parkinson              R. Sahl, J. G. O’Boyle, R. T. Schultz, and G. D. Pearlson, “Abnormal
+     progression marker initiative (ppmi),” Progress in neurobiology, vol. 95,          functional connectivity of default mode sub-networks in autism spectrum
+     no. 4, pp. 629–635, 2011.                                                          disorder patients,” Neuroimage, vol. 53, no. 1, pp. 247–256, 2010.
+[52] D. S. Marcus, T. H. Wang, J. Parker, J. G. Csernansky, J. C. Morris, and      [72] A. T. Wang, S. S. Lee, M. Sigman, and M. Dapretto, “Neural basis of
+     R. L. Buckner, “Open access series of imaging studies (oasis): cross-              irony comprehension in children with autism: the role of prosody and
+     sectional mri data in young, middle aged, nondemented, and demented                context,” Brain, vol. 129, no. 4, pp. 932–943, 2006.
+     older adults,” Journal of cognitive neuroscience, vol. 19, no. 9, pp. 1498–   [73] I. Soulières, M. Dawson, F. Samson, E. B. Barbeau, C. P. Sahyoun,
+     1507, 2007.                                                                        G. E. Strangman, T. A. Zeffiro, and L. Mottron, “Enhanced visual
+[53] M. Liu, Y. Wang, H. Zhang, Q. Yang, F. Shi, Y. Zhou, and D. Shen,                  processing contributes to matrix reasoning in autism,” Human brain
+     “Multiscale functional connectome abnormality predicts cognitive out-              mapping, vol. 30, no. 12, pp. 4082–4107, 2009.
+     comes in subcortical ischemic vascular disease,” Cerebral Cortex,             [74] J. S. Damoiseaux, K. E. Prater, B. L. Miller, and M. D. Greicius,
+     vol. 32, no. 21, pp. 4641–4656, 2022.                                              “Functional connectivity tracks clinical deterioration in alzheimer’s
+[54] C.-G. Yan, X. Chen, L. Li, F. X. Castellanos, T.-J. Bai, Q.-J. Bo,                 disease,” Neurobiology of aging, vol. 33, no. 4, pp. 828–e19, 2012.
+     J. Cao, G.-M. Chen, N.-X. Chen, W. Chen et al., “Reduced default              [75] B. Bosch, D. Bartrés-Faz, L. Rami, E. M. Arenaza-Urquijo,
+     mode network functional connectivity in patients with recurrent major              D. Fernández-Espejo, C. Junqué, C. Solé-Padullés, R. Sanchez-Valle,
+     depressive disorder,” Proceedings of the National Academy of Sciences,             N. Bargallo, C. Falcon et al., “Cognitive reserve modulates task-induced
+     vol. 116, no. 18, pp. 9078–9083, 2019.                                             activations and deactivations in healthy elders, amnestic mild cognitive
+[55] D. C. Van Essen, S. M. Smith, D. M. Barch, T. E. Behrens, E. Yacoub,               impairment and mild alzheimer’s disease,” Cortex, vol. 46, no. 4, pp.
+     K. Ugurbil, W.-M. H. Consortium et al., “The wu-minn human connec-                 451–461, 2010.
+     tome project: an overview,” Neuroimage, vol. 80, pp. 62–79, 2013.             [76] Y. Deng, L. Shi, Y. Lei, P. Liang, K. Li, W. C. Chu, D. Wang, and
+[56] D. Ding, Q. Zhao, Q. Guo, X. Liang, J. Luo, L. Yu, L. Zheng,                       A. D. N. Initiative, “Mapping the “what” and “where” visual cortices
+     Z. Hong, and S. A. S. SAS, “Progression and predictors of mild                     and their atrophy in alzheimer’s disease: Combined activation likelihood
+     cognitive impairment in chinese elderly: a prospective follow-up in the            estimation with voxel-based morphometry,” Frontiers in Human Neuro-
+     shanghai aging study,” Alzheimer’s & Dementia: Diagnosis, Assessment               science, vol. 10, p. 333, 2016.
+     & Disease Monitoring, vol. 4, pp. 28–36, 2016.
+[57] L. Badea, M. Onu, T. Wu, A. Roceanu, and O. Bajenaru, “Exploring
+     the reproducibility of functional connectivity alterations in parkinson’s
+     disease,” PLoS One, vol. 12, no. 11, p. e0188196, 2017.
+[58] A. Said, R. Bayrak, T. Derr, M. Shabbir, D. Moyer, C. Chang, and
+     X. Koutsoukos, “Neurograph: Benchmarks for graph machine learning
+     in brain connectomics,” Advances in Neural Information Processing
+     Systems, vol. 36, pp. 6509–6531, 2023.
+[59] M. Liu, J. Zhang, Y. Wang, Y. Zhou, F. Xie, Q. Guo, F. Shi, H. Zhang,
+     Q. Wang, and D. Shen, “A common spectrum underlying brain disorders
+     across lifespan revealed by deep learning on brain networks,” Iscience,
+     vol. 26, no. 11, 2023.
+[60] J. Wang, X. Wang, M. Xia, X. Liao, A. Evans, and Y. He, “Gretna: a
+     graph theoretical network analysis toolbox for imaging connectomics,”
+     Frontiers in human neuroscience, vol. 9, p. 386, 2015.
+[61] R. A. Cooper, F. R. Richter, P. M. Bays, K. C. Plaisted-Grant, S. Baron-
+     Cohen, and J. S. Simons, “Reduced hippocampal functional connectivity
+     during episodic memory retrieval in autism,” Cerebral Cortex, vol. 27,
+     no. 2, pp. 888–902, 2017.
+[62] L. Mahler, Q. Wang, J. Steiglechner, F. Birk, S. Heczko, K. Scheffler,
+     and G. Lohmann, “Pretraining is all you need: A multi-atlas enhanced
+     transformer framework for autism spectrum disorder classification,” in
+     International Workshop on Machine Learning in Clinical Neuroimaging.
+     Springer, 2023, pp. 123–132.
+[63] D. P. Kingma and J. Ba, “Adam: A method for stochastic optimization,”
+     arXiv preprint arXiv:1412.6980, 2014.
+[64] S. Arslan, S. I. Ktena, A. Makropoulos, E. C. Robinson, D. Rueckert,
+     and S. Parisot, “Human brain mapping: A systematic comparison of
+     parcellation methods for the human cerebral cortex,” NeuroImage, vol.
+     170, pp. 5–30, 2018.
+[65] W.-B. Jiang, L.-M. Zhao, and B.-L. Lu, “Large brain model for learning
+     generic representations with tremendous EEG data in BCI,” in The
+     Twelfth International Conference on Learning Representations, 2024.
+     [Online]. Available: https://openreview.net/forum?id=QzTpTRVtrP
+[66] H. Banville, Y. Benchetrit, S. d’Ascoli, J. Rapin, and J.-R. King,
+     “Scaling laws for decoding images from brain activity,” arXiv preprint
+     arXiv:2501.15322, 2025.
+[67] E. Bullmore and O. Sporns, “The economy of brain network organiza-
+     tion,” Nature reviews neuroscience, vol. 13, no. 5, pp. 336–349, 2012.
+[68] A. Abraham, F. Pedregosa, M. Eickenberg, P. Gervais, A. Mueller,
+     J. Kossaifi, A. Gramfort, B. Thirion, and G. Varoquaux, “Machine learn-
+     ing for neuroimaging with scikit-learn,” Frontiers in neuroinformatics,
+     vol. 8, p. 14, 2014.
+[69] I. Ma, M. van Holstein, G. W. Mies, M. Mennes, J. Buitelaar, R. Cools,
+     A. H. Cillessen, R. M. Krebs, and A. Scheres, “Ventral striatal hyper-
+     connectivity during rewarded interference control in adolescents with
+     adhd,” Cortex, vol. 82, pp. 225–236, 2016.
+
