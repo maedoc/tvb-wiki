@@ -1,0 +1,443 @@
+                                            RTGMFF: Enhanced fMRI-based Brain Disorder
+                                             Diagnosis via ROI-driven Text Generation and
+                                                      Multimodal Feature Fusion
+                                                   1st Junhao Jia                    2nd Yifei Sun                  3rd Yunyou Liu                    4th Cheng Yang
+                                            Hangzhou Dianzi University            Zhejiang University         Hangzhou Dianzi University        Hangzhou Dianzi University
+                                                Hangzhou, China                    Hangzhou, China                Hangzhou, China                   Hangzhou, China
+                                              23080631@hdu.edu.cn              diaoquesang@gmail.com            23150118@hdu.edu.cn               23320214@hdu.edu.cn
+
+                                                5th Changmiao Wang*                        6th Feiwei Qin*                 7th Yong Peng              8th Wenwen Min
+arXiv:2509.03214v2 [cs.CV] 1 Mar 2026
+
+
+
+
+                                        Shenzhen Research Institute of Big Data Hangzhou Dianzi University Hangzhou Dianzi University    Yunnan University
+                                                  Shenzhen, China                   Hangzhou, China            Hangzhou, China            Kunming, China
+                                              cmwangalbert@gmail.com              qinfeiwei@hdu.edu.cn       yongpeng@hdu.edu.cn      minwenwen@ynu.edu.cn
+
+
+
+
+                                           Abstract—Functional magnetic resonance imaging (fMRI) is           on brain function [3]. Traditional methods often struggle to
+                                        a powerful tool for probing brain function, yet reliable clinical     integrate these variables while simultaneously addressing both
+                                        diagnosis is hampered by low signal-to-noise ratios, inter-subject    local and global brain network characteristics. This limitation
+                                        variability, and the limited frequency awareness of prevailing
+                                        CNN- and Transformer-based models. Moreover, most fMRI                highlights the ongoing challenge of extracting meaningful and
+                                        datasets lack textual annotations that could contextualize regional   clinically actionable insights from multimodal fMRI data.
+                                        activation and connectivity patterns. We introduce RTGMFF,               Recent advancements in multi-scale feature extraction
+                                        a framework that unifies automatic ROI-level text generation          and fusion have significantly improved fMRI data analysis.
+                                        with multimodal feature fusion for brain-disorder diagnosis.          CNN-based models [4]–[8] are effective at capturing local
+                                        RTGMFF consists of three components: (i) ROI-driven fMRI text
+                                        generation deterministically condenses each subject’s activation,     spatial features but struggle with long-range dependencies.
+                                        connectivity, age, and sex into reproducible text tokens; (ii)        Transformer-based models [9]–[16], while theoretically well-
+                                        Hybrid frequency-spatial encoder fuses a hierarchical wavelet-        suited for modeling global interactions, have been successfully
+                                        mamba branch with a cross-scale Transformer encoder to capture        applied to fMRI-based brain disorder diagnosis tasks such as
+                                        frequency-domain structure alongside long-range spatial depen-        ADHD classification [15] and ASD detection in ABIDE [16],
+                                        dencies; and (iii) Adaptive semantic alignment module embeds
+                                        the ROI token sequence and visual features in a shared space,         but are often used in ways that focus primarily on spa-
+                                        using a regularized cosine-similarity loss to narrow the modality     tial relationships, with limited attention to frequency-domain
+                                        gap. Extensive experiments on the ADHD-200 and ABIDE                  representations and temporal dynamics, both of which are
+                                        benchmarks show that RTGMFF surpasses current methods                 critical for understanding brain function. In contrast, emerging
+                                        in diagnostic accuracy, achieving notable gains in sensitivity,       architectures such as Mamba [17] and wavelet-based methods
+                                        specificity, and area under the ROC curve. Code is available
+                                        at https://github.com/BeistMedAI/RTGMFF.                              [18] offer promising approaches for integrating frequency and
+                                           Index Terms—Brain Disorder, Brain Region Text Generation,          spatial domain features through multi-scale analysis. Early
+                                        Frequency-Domain Analysis, Multimodal Feature Fusion.                 progress [19] has been made in areas like cross-scale fea-
+                                                                                                              ture fusion, semantic alignment, and multimodal collaborative
+                                                               I. I NTRODUCTION                               modeling, demonstrating the potential of these strategies.
+                                           The rapid advancement of interdisciplinary research in             Despite these advances, two critical challenges remain. First,
+                                        neuroimaging and computer vision has positioned functional            fMRI data typically lack accompanying textual descriptions,
+                                        magnetic resonance imaging (fMRI) as a vital tool for studying        which are vital for interpreting brain-region connectivity and
+                                        dynamic brain activity [1]. Its applications in neuroscience and      activity. Second, existing feature-extraction models underuse
+                                        clinical diagnosis are expanding, offering significant potential      frequency-domain cues and rarely integrate frequency-spatial
+                                        for understanding brain function [2]. However, the analysis           information within a unified representation.
+                                        of fMRI data comes with substantial challenges due to its                To address these limitations, we propose RTGMFF, an
+                                        high dimensionality, inherent noise, and pronounced individual        enhanced fMRI-based brain disorder diagnosis pipeline that
+                                        variability. These complexities hinder the precise identification     leverages ROI-driven fMRI text generation and multimodal
+                                        of both localized brain region activations and the intricate          feature fusion. Our contributions are summarized as follows:
+                                        functional connectivity between regions. Further complicating         (i) A deterministic ROI-driven fMRI text generator that fuses
+                                        analysis is the influence of demographic factors such as age               subject-specific activation statistics with demographic in-
+    formation to yield compact, reproducible tokens.                 C. Long-Range Dependency Modeling Beyond Self-Attention
+(ii) A hybrid frequency-spatial encoder that couples a hierar-          Self-attention excels at global context aggregation but incurs
+     chical wavelet–mamba branch with a cross-scale Trans-           quadratic complexity and can overfit in small, noisy clinical
+     former encoder, jointly modeling frequency-domain struc-        datasets [32]. Numerous efficient-attention variants alleviate
+     ture and long-range spatial dependencies.                       the cost via low-rank projections or kernelization [33]. Com-
+(iii) An adaptive semantic alignment module that embeds the          plementarily, structured state space models (SSMs) such as
+      ROI token sequence and aligns it with visual features          S4 and subsequent Mamba-style architectures provide linear-
+      through learnable projections and a cosine-based alignment     time sequence modeling with strong long-range memory [17].
+      loss with regularization to mitigate modality mismatch.        At the same time, recent hybrids of convolution and SSMs
+                                                                     further expand context length without quadratic scaling [34].
+                       II. R ELATED W ORK
+                                                                     Applications of SSMs to neuroimaging remain nascent, and
+ A. fMRI-based Brain Disorder Classification                         our design addresses this gap by embedding a Mamba-inspired
+    Early efforts in fMRI-based diagnosis utilized universal         selective scanning module within the frequency-aware branch
+ vision models, including MLPs, VGG, and ResNet, as foun-            and coupling it with a cross-scale Transformer head, yielding
+ dational frameworks [4]–[6]. These approaches evolved to            efficient frequency–spatial integration that is both spectrum-
+ incorporate hierarchical and full-attention Transformers, which     aware and data-efficient.
+ are more effective at capturing long-range spatial dependen-
+ cies [9], [20]. Subsequent advancements in neuroimaging-                                     III. M ETHOD
+ specific models have further enhanced both the performance             The RTGMFF pipeline, as illustrated in Fig. 1, unfolds
+ and interpretability of these diagnostic tools. These models        in three distinct stages. Initially, the ROI-driven fMRI Text
+ harness the connectomic structure of the brain [21], ex-            Generation (RFTG) deterministically summarizes region-level
+ emplified by BrainNetCNN, which focuses on edge-to-node             activation profiles together with demographic information
+ operations [7], and graph-centric methods like BrainGNN             into concise tokens. Next, a Hybrid Frequency-Spatial En-
+ and BrainGB [22], [23]. Recent work has also explored               coder (HFSE) framework merges frequency-aware local cues
+ connectome-level Transformer architectures that integrate both      with global spatial context: its Hierarchical Wavelet–Mamba
+ structural and functional modalities for ASD diagnosis with         (HWM) branch performs multi-level Haar wavelet decom-
+ an emphasis on model interpretability [24]. Additionally,           position and SelectiveScan pruning to capture fine-grained,
+ community- and curriculum-aware Transformers have been              frequency-domain structure, while its Cross-Scale Transformer
+ developed to refine diagnostic accuracy [10], [11], [13], [14].     Encoder (CSTE) attends across patch embeddings to inject
+ These models enhance robustness against variations between          long-range spatial dependencies and then fuses the two streams
+ different research sites through techniques like contrastive        into a unified visual embedding. Finally, the Adaptive Se-
+ learning and domain adaptation [25]–[28]. Despite these tech-       mantic Alignment Module (ASAM) projects the ROI tokens
+ nological strides, two significant gaps remain. First, frequency-   into the visual space and optimizes a regularized alignment
+ domain information is often overlooked, even though resting-        loss, yielding a coherent multimodal representation ready for
+ state BOLD data is characterized by distinct low-frequency          downstream diagnosis.
+ patterns. Second, there is a lack of a systematic approach to
+ effectively integrate both local and global representations.        A. ROI-driven fMRI Text Generation (RFTG)
+ B. Multi-Scale and Frequency-Domain Representations                    Historically, imaging report generation has followed two
+    Multi-scale representations are well motivated for neu-          primary approaches. The first involves structured reporting
+ roimaging due to the nested organization of functional sys-         systems that use predefined templates filled with specific
+ tems. While CNN pyramids and Transformer hierarchies im-            imaging features. The second approach utilizes neural encoder-
+ plicitly encode multi-scale features, explicit spectral model-      decoder models, which are trained to convert visual features
+ ing can provide complementary robustness and noise sup-             directly into free-form text. These models can be enhanced
+ pression [29], [30]. Wavelet-based analysis enables local-          with knowledge graphs or retrieval-based modules. Recently,
+ ized time–frequency decomposition and has long been ad-             there has been interest in using general-purpose large language
+ vocated for neuroimaging signals [18]. Beyond classical dis-        models (LLMs) in this field, though their adoption remains
+ crete wavelets, scattering transforms offer stable, deformation-    limited. While these traditional methods are intuitive, they
+ insensitive multi-scale features that preserve high-frequency       come with several drawbacks. The two-step process can lead
+ content through cascaded wavelet moduli and averaging [31].         to random formatting errors, incur unnecessary computational
+ However, many pipelines either use wavelets as shallow pre-         costs, and raise privacy concerns when used in clinical settings.
+ processing or do not tightly couple spectral cues with down-        To address these issues, we propose a rule-based generator
+ stream sequence modeling. In contrast, our framework per-           that operates deterministically on region-level activation and
+ forms multi-scale wavelet decomposition followed by selective       connectivity statistics. This approach ensures compatibility
+ scanning and enhancement, allowing frequency-aware locality         with subsequent modules and aligns with clinician-oriented
+ to interact directly with long-range spatial reasoning.             reporting needs.
+Fig. 1. The overview of our proposed RTGMFF pipeline. Panel (a) illustrates the ROI-driven fMRI Text Generation. Panel (b) is a Hierarchical Wavelet-Mamba
+architecture, and panel (c) illustrates the Cross-Scale Transformer Encoder, with the details of the Mamba Block and Cross Attention in panels (e) and (f).
+The network structure of the Adaptive Semantic Alignment Module is given in Panel (d).
+
+
+
+   ROI Statistics. For every subject, we begin by spatially                       across the K folds, and these averages serve as the objective
+averaging the pre-processed BOLD time-series within each                          for evaluating each (τ1 , τ2 ). The optimal pair from the inner
+of the 116 anatomical regions specified by the AAL-116                            loop is then fixed and applied to the outer test fold, maintaining
+atlas. This operation yields a percentage signal change value                     strict train-test separation and ensuring reproducibility.
+∆BOLDi for region i, and the resulting collection v =                                Demographic Conditioning. Demographic context remains
+[∆BOLD1 , . . . , ∆BOLD116 ] serves as a compact profile of                       clinically informative and is thus incorporated as an indepen-
+whole-brain activity.                                                             dent conditioning signal. We encode chronological age and
+   Discretisation via Nested CV and Task-level Objective.                         biological gender as a three-element vector:
+We discretise the continuous amplitude profile v into three
+ordinal bins with two thresholds τ1 < τ2 :                                               d = [agenorm , gendermale , genderfemale ],                   (2)
+       
+       strong           if |vi | ≥ τ2 ,               (
+                                                                                  where the first entry normalizes age to a z-score unit scale,
+       
+                                                           ↑   if vi ≥ 0,
+   si = moderate         if τ1 ≤ |vi | < τ2 ,   pi =                        (1)
+                                                          ↓   if vi < 0.         and the two indicator variables form a one-hot representation
+       weak             if |vi | < τ1 ,
+                                                                                  of gender. This vector is included with each mini-batch as
+Each ROI is therefore represented by a triplet ⟨ROIi , si , pi ⟩.                 a global attribute, ensuring that population context is consis-
+Crucially, we do not assume any ROI-level ground-truth labels.                    tently retained during training.
+Instead, the thresholds (τ1 , τ2 ) are selected by nested cross-                     During feature encoding, we apply feature-wise linear mod-
+validation to maximise the end-task validation classification                     ulation (FiLM) to intermediate feature maps. A two-layer
+accuracy.                                                                         multilayer perceptron takes d as input and produces a pair
+   For each outer fold, reserved for final testing, we conduct                    of scale and shift coefficients, γ(d) and β(d). Given a node
+inner K-fold validation. We use Optuna’s TPE to sample                            representation h ∈ RH of hidden dimension H, the modulated
+candidate pairs (τ1 , τ2 ) with the constraint τ2 ≥ τ1 + δ,                       feature is computed as:
+where δ is set to 0.02. The process involves three steps:
+                                                                                                FiLM(h; d) = γ(d) ⊙ h + β(d),                          (3)
+first, discretizing v into the set {(si , pi )}116
+                                               i=1 using Eq. (1) on
+the inner training split; second, serializing these triplets into                 where ⊙ denotes element-wise multiplication.
+tokens and training the downstream classifier along with the                         Clinician-oriented Report. Although the computational
+visual branch on the inner training split; and third, calculating                 pipeline operates entirely on JSON-encoded triplets, many
+the classification accuracy on the inner validation split. The                    clinical sites still require a concise narrative that can be copied
+classification accuracies from the inner validation are averaged                  into the radiology information system. To meet this need, we
+Fig. 2. Left, a deterministic Jinja2 template that converts subject demographics and ROI activation triplets into radiology-style prose; right, the resulting
+report sentence for a 14-year-old boy showing varied regional activations and de-activations.
+
+
+
+provide an optional post-processing step based on a light-                         Cross-Scale Transformer Encoder (CSTE). To effectively
+weight Jinja2 template. The template takes each subject’s age,                  integrate global and local representations, the input X is
+gender, and the ordered list of triplets, then renders a single                 first divided into p × p patch embeddings, represented as
+English sentence per ROI, as shown in Fig. 2. Because the                       E ∈ R(H/p)(W/p)×Dp . These embeddings are normalized
+template engine is rule-based and deterministic, it introduces                  and downsampled using a stride-2 convolution to produce the
+no additional learnable parameters, does not affect diagnostic                  query sequence Q′ ∈ RLq ×D , which serves as the basis for
+performance, and can be disabled entirely in settings where                     global representation.
+human-readable text is unnecessary.                                                Simultaneously, the multi-scale feature Ffinal is processed
+                                                                                to capture local context. This involves spatial smoothing
+B. Hybrid Frequency-Spatial Encoder (HFSE)
+                                                                                and channel compression through a sequence of cascaded
+   Effectively extracting and integrating multi-scale feature                   convolutional operations, defined as:
+information from fMRI images is crucial for accurate analysis.
+Traditional methods based on CNN and Transformer often
+                                                                                Flocal = AvgPool (ReLU (BN (Conv3×3 (Conv1×1 (Ffinal ))))) .
+fail to utilize the potential of frequency domain information                                                                          (7)
+and do not fully capture the comprehensive features of fMRI                       From this locally processed feature, key-value pairs are
+data. While the Mamba structure has demonstrated excellent                      generated via linear projection, where K = Wk Flocal and
+performance in modeling long-range dependencies in the spa-                     V = Wv Flocal . Cross-scale attention is then computed be-
+tial domain, its application in the frequency domain remains                    tween the query sequence Q′ and the local features, as follows:
+unexplored. To address these limitations, the HFSE framework
+                                                                                                                     Q′ K ⊤
+                                                                                                                             
+introduces an innovative approach that combines frequency                                     A = Softmax             √           V ∈ RLq ×D .           (8)
+domain modeling capabilities with Mamba’s ability to capture                                                            D
+spatial long-range dependencies. This novel method offers                         The resulting attention output A is upsampled and fused
+a more comprehensive solution for fMRI feature extraction,                      with the patch embeddings E through element-wise addition.
+effectively bridging the gap between spatial and frequency                      This combined representation is subsequently refined using
+domain information.                                                             a 4-layer Vision Transformer [20], culminating in the final
+   Hierarchical Wavelet-Mamba (HWM). To extract local                           global representation Z ∈ RD .
+embeddings from an input fMRI image X ∈ RH×W ×3 , we
+apply a N -level 2D Haar DWT recursively on the LL subband:                     C. Adaptive Semantic Alignment Module (ASAM)
+                                                                                   The ROI token sequence produced by RFTG, denoted Tinput ,
+                                            
+     (0)              (s)
+ X         = X,   X         = DWTHaar X (s−1) ,         s = 1, . . . , N (4)
+                                                                                is first converted into contextual embeddings Temb ∈ RDt
+where each level yields four subbands and reduces the spatial                   using a pretrained BioBERT model. When a narrative report is
+                                                 s     s
+resolution by a factor of 2. Thus, X (s) ∈ RH/2 ×W/2 ×4C .                      required for clinicians, it is rendered from the same tokens via
+Features extracted from all decomposition levels are concate-                   a deterministic template but is not used during model training.
+                                                                                To align visual and textual features, we project both modalities
+nated and flattened into a token sequence:                                      into a shared latent space and compute a cosine-similarity-
+                                                                                based alignment score:
+              Fseq = Flatten ⊕N         L×D
+                                    
+                              s=1 Fs ∈ R    .                            (5)
+                                                                                                  ŷ = MLP(cos(ZWz , Temb Wt )) ,                        (9)
+Next, the sequence is divided into four sub-sequences {Ti }4i=1
+                                                                                where Wz ∈ RD×Da and Wt ∈ RDt ×Da are learnable
+through a learnable linear projection. Each sub-sequence un-
+                                                                                projection matrices that map visual and textual embeddings
+dergoes token pruning using a Mamba-inspired SelectiveScan
+                                                                                into the common space RDa .
+module [17] and semantic refinement via an FFN block:
+                                                                                   Model Optimization. We optimize the proposed framework
+   Ffinal = ConvFFN (SelectiveScan(Ti )) ∈ RL/D .                        (6)    by minimizing multiple objectives: a task loss, an alignment
+loss, and regularization constraints. For the task loss, we utilize   standard deviation across all folds. To ensure full reproducibil-
+a cross-entropy loss Lcls for classification.                         ity, all random seeds were fixed to 42.
+   To address the modality gap, we incorporate an alignment              Data Representation. Each subject’s 4D fMRI data
+loss based on cosine similarity:                                      (x×y×z×t) is transformed into a 2D three-channel map X ∈
+                              B
+                                                                      RH×W ×3 through the following process. Initially, the brain
+                           1 X Zi Wz · Ti Wt                          is segmented using the AAL-116 atlas, and three statistical
+            Lalign = 1 −                           ,          (10)
+                           B i=1 ∥Zi Wz ∥ ∥Ti Wt ∥                    measures, ALFF, fALFF, and ReHo, are calculated from the
+                                                                      band-limited BOLD time series (0.01–0.08 Hz) for each region
+where Wz ∈ RD×Da and Wt ∈ RDt ×Da are learnable                       of interest. These measures are then mapped to a fixed 2D atlas
+projection matrices.                                                  layout, with the left and right hemispheres arranged side by
+   Finally, regularization constraints are applied to promote         side, forming three distinct channels: {ALFF, fALFF, ReHo}.
+feature dispersion and maintain a balance between modalities:         This 2D representation effectively maintains regional con-
+                                                                      trasts, reduces the computational demand associated with
+                Lreg = ∥Wz⊤ Wz − Wt⊤ Wt ∥2F .                 (11)
+                                                                      3D processing, and facilitates frequency-aware modeling in
+  The total loss function is formulated as follows:                   subsequent analyses.
+
+                Ltotal = Lcls + αLalign + βLreg ,             (12)    B. Experimental Results
+                                                                         Comparisons. We assessed the effectiveness of our pro-
+where α and β are the loss weights.
+                                                                      posed method, RTGMFF, by comparing it with a wide range
+            IV. E XPERIMENTS AND D ISCUSSION                          of existing models across various architectures. These included
+                                                                      CNN-based approaches like MLP [4], ResNet-50 [5], VGG16
+A. Datasets and Implementation                                        [6], and BrainNetCNN [7]. GNN-based methods such as
+   Datasets. We assess our proposed method using two pub-             BrainGNN [22], BrainGB [23], A-GCL [25], and KMGCN
+licly available fMRI datasets: ADHD-200 [35] and ABIDE                [28]. Transformer-based approaches like Swin Transformer
+[36]. The ADHD-200 dataset is used for diagnosing Attention           [9], BNT [10], Com-BrainTF [11], MCPATS [13], and GBT
+Deficit Hyperactivity Disorder (ADHD), while the ABIDE                [14], as well as the unsupervised domain adaptation method
+dataset focuses on classifying Autism Spectrum Disorder               SCDA [27]. For evaluation, we used standard classification
+(ASD).                                                                metrics, including Accuracy (ACC), Sensitivity (SEN), Speci-
+   ADHD-200 Dataset. The ADHD-200 dataset provides                    ficity (SPE), and Area Under the Curve (AUC), where higher
+fMRI data and related non-imaging information from eight              values indicate better performance.
+international sites. Following rigorous quality control proce-           Table I presents a quantitative comparison of RTGMFF’s
+dures, we selected 776 subjects, including both individuals           performance against these methods. Simpler models like MLP
+with ADHD and typically developing controls.                          and ResNet-50 showed inferior performance due to their basic
+   ABIDE Dataset. The ABIDE dataset compiles neuroimag-               structures, whereas RTGMFF demonstrated superior results
+ing and non-imaging data from 20 international sites. To en-          compared to other state-of-the-art methods. Notably, RTGMFF
+sure a fair comparison with previous state-of-the-art methods,        outperformed A-GCL by 2.9% on the ADHD-200 dataset and
+we selected a cohort of 871 subjects from ABIDE, consisting           3.5% on the ABIDE dataset in terms of Accuracy. Similarly,
+of 468 Healthy Controls (HC) and 403 ASD patients.                    it surpassed KMGCN by 5.5% on ADHD-200 and 1.7% on
+   Implementation Details. All experiments were conducted             ABIDE.
+using PyTorch 2.1 on a single NVIDIA RTX 4090 with CUDA                  Moreover, RTGMFF exhibited significant improvements in
+12.4. The network was trained using the AdamW optimizer,              Sensitivity, achieving 79.5% for ADHD-200 and 84.5% for
+starting with a learning rate of 1 × 10−4 for the backbone            ABIDE. The Specificity metric also improved, reaching 81.3%
+and a rate five times higher for the task head, alongside a           for ADHD-200 and 87.5% for ABIDE. In terms of the
+weight decay of 1 × 10−4 . A cosine-annealing schedule with           AUC metric, which reflects the model’s overall discriminative
+linear warm-up was applied to control the learning rate. The          ability, RTGMFF achieved scores of 80.4% on the ADHD-200
+backbone remained frozen for the initial five epochs as part          dataset and 86.0% on the ABIDE dataset, further affirming its
+of a linear-probing phase, after which the training proceeded         robustness and superior classification performance.
+end-to-end. Each mini-batch comprised eight four-dimensional             Ablation Study. As shown in Table II, our ablation study
+fMRI volumes. Training was limited to a maximum of 120                reveals that the removal of the HWM module results in a
+epochs, employing early stopping with a validation-loss pa-           significant performance decline of over 4% across all metrics
+tience of ten epochs.                                                 on both datasets. This underscores the module’s essential
+   To avoid information leakage related to imaging sites, a           role in enhancing model performance. Building on the HWM
+leave-one-site-out cross-validation protocol was used: in each        module, the addition of the CSTE module leads to a notice-
+fold, subjects from one imaging site formed the test set, while       able improvement of over 3% in accuracy metrics on both
+the remaining sites were divided 90%/10% into training and            datasets. The AUC metric also improves, reaching 79.2% on
+validation subsets. Performance is reported as the mean ±             the ADHD-200 dataset and 84.6% on the ABIDE dataset,
+                                                                  TABLE I
+                                         P ERFORMANCE C OMPARISON ON ADHD-200 AND ABIDE DATASETS .
+
+  Method                                              ADHD-200 (ADHD) [35]                                        ABIDE (ASD) [36]
+                                         ACC (%)       SEN (%)        SPE (%)        AUC (%)      ACC (%)       SEN (%)      SPE (%)    AUC (%)
+  Universal Method
+  MLP [4]                                60.8±5.5      64.3±4.1       68.6±5.3       66.4±3.4     62.9±4.3      64.8±2.7     61.4±3.1   63.1±2.1
+  ResNet-50 [5]                          68.5±3.4      57.7±4.8       78.1±3.6       67.9±3.0     72.2±2.9      68.0±3.3     75.6±2.6   71.8±2.1
+  VGG16 [6]                              64.6±3.8      59.7±5.3       70.3±3.1       65.0±3.1     71.3±3.2      73.0±4.2     69.1±3.9   71.0±2.9
+  Swin Transformer [9]                   73.2±2.7      70.3±3.6       75.1±2.5       72.7±2.2     76.0±1.8      74.2±2.1     77.5±1.7   75.8±1.4
+  Task-Specific Method
+  BrainNetCNN (Neuro’17) [7]             68.0±3.3      65.8±8.3       70.4±5.3       68.1±4.9     67.3±2.6      63.3±9.4     70.5±8.7   66.9±6.4
+  BrainGNN (MIA’21) [22]                 64.7±3.8      67.9±3.5       62.7±4.1       65.3±2.7     69.3±3.9      66.8±3.3     72.7±3.4   69.8±2.4
+  BrainGB (TMI’22) [23]                  65.8±2.6      61.3±4.9       70.3±3.8       65.8±3.1     63.2±2.0      63.8±8.1     60.1±6.9   62.0±5.3
+  BNT (NeurIPS’22) [10]                  72.8±2.9      70.9±4.3       73.9±3.6       72.4±2.8     75.9±1.6      72.9±5.3     69.8±6.6   71.3±4.2
+  A-GCL (MIA’23) [25]                    77.8±4.4      76.4±4.7       79.4±5.3       77.9±3.5     82.9±2.1      82.4±2.6     83.7±1.9   83.1±1.6
+  Com-BrainTF (MICCAI’23) [11]           74.2±3.1      74.7±4.6       73.3±3.9       74.0±3.0     81.3±2.6      79.9±5.9     75.2±4.3   77.6±3.7
+  MCPATS (JBHI’24) [13]                  74.0±3.3      64.3±4.7       80.4±2.9       72.3±2.8     76.0±2.6      73.2±3.6     78.7±2.9   76.0±2.3
+  GBT (MICCAI’24) [14]                   70.4±3.6      68.1±4.3       71.5±3.9       69.8±2.9     78.0±6.6      79.5±9.5     77.3±4.0   78.4±5.2
+  SCDA (PR’25) [27]                      57.8±3.9      55.2±9.3       59.2±9.9       57.2±6.8     67.5±0.9      68.4±8.0     66.8±6.6   67.6±5.2
+  KMGCN (MIA’25) [28]                    75.2±2.6      72.8±3.9       77.0±2.6       74.9±2.3     84.7±1.3      83.6±1.7     81.3±1.4   82.4±1.1
+  RTGMFF (Ours)                          80.7±2.5      79.5±3.0       81.3±2.8       80.4±2.1     86.4±1.9      84.5±2.7     87.5±2.3   86.0±1.8
+
+
+
+
+                                Fig. 3. Plots of model performance on test set versus settings of hyperparameters α and β.
+
+
+
+                                                                                 integration of the ASAM module, which provides an additional
+                                                                                 performance boost of over 2%. The AUC metric increases
+                                                                                 further, reaching 80.4% on the ADHD-200 dataset and 86.0%
+                                                                                 on the ABIDE dataset, validating the module’s effectiveness.
+                                                                                 These findings from the ablation study collectively confirm the
+                                                                                 value of each module, highlighting their significant contribu-
+                                                                                 tions to elevating model performance.
+                                                                                 C. Hyper-Parameter Sensitivity Analysis
+                                                                                    Loss Function. In our framework, we introduce two key hy-
+Fig. 4. Heatmap of macro ROI-F1 over τ1 (y-axis) and τ2 (x-axis). The            perparameters, α and β, to balance alignment and redundancy
+white star marks the optimal (0.15, 0.30); the blank triangle is invalid due
+to τ2 ≤ τ1 + 0.02.                                                               constraints during cross-scale fusion. α controls the alignment
+                                                                                 strength between modalities, while β regulates regularization
+                                                                                 intensity to reduce feature redundancy. We evaluate their
+confirming the module’s effectiveness in integrating local and                   effects through a grid search with α ∈ {0.2, 0.5, 0.8} and
+global information. Further enhancement is observed with the                     β ∈ {0.1, 0.2, 0.3} on the ADHD-200 and ABIDE datasets.
+                                                                 TABLE II
+                                     E FFECT OF HWM, CSTE, AND ASAM ON ADHD-200 AND ABIDE DATASETS .
+
+              Module                              ADHD-200 (ADHD) [35]                                          ABIDE (ASD) [36]
+   HWM        CSTE       ASAM        ACC (%)        SEN (%)        SPE (%)       AUC (%)        ACC (%)        SEN (%)        SPE (%)       AUC (%)
+      ✓          ✗          ✗         76.8±2.8      75.5±3.2       77.3±2.9       76.4±2.2      82.5±2.1       82.7±2.8       83.9±2.5      83.3±1.9
+      ✗          ✓          ✗         74.2±3.0      72.9±3.5       75.1±3.3       74.0±2.4      81.0±2.3       78.8±3.0       82.6±2.7      80.7±2.0
+      ✓          ✓          ✗         79.5±2.5      78.1±2.9       80.3±2.7       79.2±2.0      84.9±1.8       83.2±2.5       86.1±2.2      84.6±1.7
+      ✓          ✗          ✓         78.9±2.6      77.5±3.1       79.8±2.8       78.6±2.1      84.3±2.0       82.6±2.7       85.7±2.3      84.2±1.8
+      ✗          ✓          ✓         76.3±2.9      74.8±3.4       77.2±3.2       76.0±2.3      82.9±2.2       80.9±2.9       84.3±2.6      82.6±1.9
+      ✓          ✓          ✓         80.7±2.5      79.5±3.0       81.3±2.8       80.4±2.1      86.4±1.9       84.5±2.7       87.5±2.3      86.0±1.8
+
+
+
+
+Fig. 5. Qualitative results of ROI-driven fMRI text generation. (Top) Cortical surface maps with three activation levels (light, medium, and dark red denote
+weak, moderate, and strong activity). (Bottom) Automatically generated clauses for the left (L) and right (R) hemispheres, illustrating the fidelity and
+interpretability of the proposed RFTG module.
+
+
+
+   Fig. 3 shows how variations in α and β affect Accuracy                      (0.15, 0.30) for both ABIDE and ADHD-200, with ADHD-
+(ACC), Sensitivity (SEN), and Specificity (SPE). For α, a low                  200 showing a slight peak at (0.16, 0.32). To maintain strict
+value of 0.2 causes weak alignment and suboptimal fusion,                      train-test separation and reproducibility, we fixed (τ1 , τ2 ) =
+while increasing to 0.5 improves performance, and α = 0.8                      (0.15, 0.30) for all test folds.
+yields the best results. Further increases, however, slightly
+reduce performance due to over-alignment.                                      D. Qualitative Visualization of RFTG
+   Similarly, β = 0.1 fails to suppress redundancy, whereas                       Fig. 5 showcases two representative fMRI samples. The
+β = 0.3 over-regularizes and limits feature learning. The op-                  surface plots illustrate varying levels of activation using light,
+timal balance is found at β = 0.2, enhancing discriminability                  medium, and dark red tones, respectively. In the lower panels,
+and generalization. Thus, α = 0.8 and β = 0.2 are adopted                      the sentences generated by our RFTG module are presented.
+for all subsequent experiments.                                                The precise alignment between the highlighted regions and the
+                                                                               textual descriptions demonstrates that the RFTG module effec-
+   ROI Discretization Thresholds. As shown in Fig. 4, we                       tively translates quantitative BOLD statistics into anatomically
+applied nested cross-validation with Optuna’s TPE sampler                      accurate, comprehensible reports.
+across 100 trials to optimize the macro-averaged ROI-F1 score.
+The search covered τ1 from 0.05 to 0.45 and τ2 from τ1 +0.02                                               V. C ONCLUSION
+to 0.60. Five outer folds were used for final evaluation, and                     We present RTGMFF, a deterministic multimodal diagnostic
+three inner folds assessed each (τ1 , τ2 ) pair. For each subject,             framework integrating frequency-aware and global cues via
+the 116-dimensional activation vector was discretized, and                     HWM, CSTE, and ASAM modules. On the ADHD-200 and
+macro F1 was computed and averaged across inner folds.                         ABIDE benchmarks, the method demonstrates superior per-
+   The optimal thresholds were consistently around (τ1 , τ2 ) =                formance, surpassing established baselines. Future work will
+incorporate richer clinical data, extend to 4D spatiotemporal                     [16] A. Shehzad, D. Zhang, S. Yu, S. Abid, and F. Xia, “Dynamic graph
+modeling, compare performance against lightweight LLM-                                 transformer for brain disorder diagnosis,” IEEE Journal of Biomedical
+                                                                                       and Health Informatics, vol. 29, no. 6, pp. 4388–4400, 2025, (2025b).
+based generative approaches, and explore clinical validation                      [17] A. Gu and T. Dao, “Mamba: Linear-time sequence modeling with
+of the auditable text tokenization by comparing RFTG outputs                           selective state spaces,” arXiv preprint arXiv:2312.00752, 2023.
+against expert-drafted radiology reports. RTGMFF provides a                       [18] M. X. Cohen, “A better way to define and describe morlet wavelets for
+                                                                                       time-frequency analysis,” NeuroImage, vol. 199, pp. 81–86, 2019.
+robust foundation for reliable multimodal fMRI diagnostics.                       [19] F. Zhang, G. Chen, H. Wang, and C. Zhang, “Cf-dan: Facial-expression
+                                                                                       recognition based on cross-fusion dual-attention network,” Computa-
+                 VI. ACKNOWLEDGEMENTS                                                  tional Visual Media, vol. 10, no. 3, pp. 593–608, 2024.
+                                                                                  [20] A. Dosovitskiy, L. Beyer, A. Kolesnikov, D. Weissenborn, X. Zhai,
+  This work was supported in part by the Fundamental Re-                               T. Unterthiner, M. Dehghani, M. Minderer, G. Heigold, S. Gelly et al.,
+search Funds for the Provincial Universities of Zhejiang (No.                          “An image is worth 16x16 words: Transformers for image recognition
+GK259909299001-006), the ’Pioneer’ and ’Leading Goose’                                 at scale,” arXiv preprint arXiv:2010.11929, 2020.
+                                                                                  [21] J. Jia, Y. Liu, C. Yang, Y. Sun, F. Qin, C. Wang, and Y. Peng, “Brain-
+R&D Program of Zhejiang (No. 2025C04001), and the Anhui                                hgcn: A hyperbolic graph convolutional network for brain functional
+Provincial Joint Construction Key Laboratory of Intelligent                            network analysis,” arXiv preprint arXiv:2509.14965, 2025.
+Education Equipment and Technology (No. IEET202401).                              [22] X. Li, Y. Zhou, N. Dvornek, M. Zhang, S. Gao, J. Zhuang, D. Scheinost,
+                                                                                       L. H. Staib, P. Ventola, and J. S. Duncan, “Braingnn: Interpretable
+                                                                                       brain graph neural network for fMRI analysis,” Medical Image Analysis,
+                              R EFERENCES                                              vol. 74, p. 102233, 2021.
+ [1] J. Klohs, W. C. Chen, and R. Araki, “Advanced preclinical functional         [23] H. Cui, W. Dai, Y. Zhu, X. Kan, A. A. C. Gu, J. Lukemire, L. Zhan,
+     magnetic resonance imaging of the brain,” NPJ Imaging, vol. 3, no. 1,             L. He, Y. Guo, and C. Yang, “BrainGB: a benchmark for brain network
+     p. 27, 2025.                                                                      analysis with graph neural networks,” IEEE Transactions on Medical
+ [2] L. Yang and Z. Wang, “Applications and advances of combined fmri-                 Imaging, vol. 42, no. 2, pp. 493–506, 2022.
+     fnirs techniques in brain functional research,” Frontiers in Neurology,      [24] R. Nazari, M. Salehi, and A. Shoeibi, “An explainable connectome
+     vol. 16, p. 1542075, 2025.                                                        convolutional transformer for multimodal autism spectrum disorder
+ [3] A. L. Reiss, M. T. Abrams, H. S. Singer, J. L. Ross, and M. B. Denckla,           classification,” International Journal of Neural Systems, vol. 35, no. 8,
+     “Brain development, gender and IQ in children: a volumetric imaging               p. 2550043, 2025.
+     study,” Brain, vol. 119, no. 5, pp. 1763–1774, 1996.                         [25] S. Zhang, X. Chen, X. Shen, B. Ren, Z. Yu, H. Yang, X. Jiang, D. Shen,
+ [4] K. Hornik, M. Stinchcombe, and H. White, “Multilayer feedforward                  Y. Zhou, and X.-Y. Zhang, “A-GCL: Adversarial graph contrastive
+     networks are universal approximators,” Neural Networks, vol. 2, no. 5,            learning for fmri analysis to diagnose neurodevelopmental disorders,”
+     pp. 359–366, 1989.                                                                Medical Image Analysis, vol. 90, p. 102932, 2023.
+ [5] K. He, X. Zhang, S. Ren, and J. Sun, “Deep residual learning for image       [26] C. Xu, X. Li, X. Zhang, R. Wu, Y. Zhou, Q. Zhao, Y. Zhang, S. Geng,
+     recognition,” in Proceedings of the IEEE Conference on Computer Vision            Y. Gu, and S. Hong, “Cardiac murmur grading and risk analysis of
+     and Pattern Recognition, 2016, pp. 770–778.                                       cardiac diseases based on adaptable heterogeneous-modality multi-task
+ [6] K. Simonyan and A. Zisserman, “Very deep convolutional networks for               learning,” Health Information Science and Systems, vol. 12, no. 1, p. 2,
+     large-scale image recognition,” arXiv preprint arXiv:1409.1556, 2014.             2023.
+ [7] J. Kawahara, C. J. Brown, S. P. Miller, B. G. Booth, V. Chau, R. E.          [27] Y. Fang, J. Wu, Q. Wang, S. Qiu, A. Bozoki, and M. Liu, “Source-free
+     Grunau, J. G. Zwicker, and G. Hamarneh, “Brainnetcnn: Convolutional               collaborative domain adaptation via multi-perspective feature enrichment
+     neural networks for brain networks; towards predicting neurodevelop-              for functional MRI analysis,” Pattern Recognition, vol. 157, p. 110912,
+     ment,” NeuroImage, vol. 146, pp. 1038–1049, 2017.                                 2025.
+ [8] J. Jia, R. Liang, Y. Ding, C. Zhang, Y. Li, C. Wang, F. Qin, G. Zhang,       [28] X. Zeng, J. Gong, W. Li, and Z. Yang, “Knowledge-driven multi-
+     X. Miao, A. Elazab et al., “Mmafn: Multi-modal attention fusion net-              graph convolutional network for brain network analysis and potential
+     work for attention-deficit hyperactivity disorder classification,” in 2025        biomarker discovery,” Medical Image Analysis, vol. 99, p. 103368, 2025.
+     IEEE 2nd International Conference on Deep Learning and Computer              [29] H. Wang and F. Zhang, “Computing nodes for plane data points
+     Vision (DLCV). IEEE, 2025, pp. 1–5.                                               by constructing cubic polynomial with constraints,” Computer Aided
+ [9] Z. Liu, Y. Lin, Y. Cao, H. Hu, Y. Wei, Z. Zhang, S. Lin, and B. Guo,              Geometric Design, vol. 111, p. 102308, 2024.
+     “Swin Transformer: Hierarchical vision Transformer using shifted win-        [30] J. Jia, Y. Liu, Y. Sun, H. Chen, F. Qin, C. Wang, and Y. Peng, “Geodesic
+     dows,” in Proceedings of the IEEE/CVF International Conference on                 prototype matching via diffusion maps for interpretable fine-grained
+     Computer Vision, 2021, pp. 10 012–10 022.                                         recognition,” arXiv preprint arXiv:2509.17050, 2025.
+[10] X. Kan, W. Dai, H. Cui, Z. Zhang, Y. Guo, and C. Yang, “Brain net-           [31] J. Bruna and S. Mallat, “Invariant scattering convolution networks,”
+     work transformer,” Advances in Neural Information Processing Systems,             IEEE Transactions on Pattern Analysis and Machine Intelligence,
+     vol. 35, pp. 25 586–25 599, 2022.                                                 vol. 35, no. 8, pp. 1872–1886, 2013.
+[11] A. Bannadabhavi, S. Lee, W. Deng, R. Ying, and X. Li, “Community-            [32] A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez,
+     aware Transformer for autism prediction in fMRI connectome,” in                   Ł. Kaiser, and I. Polosukhin, “Attention is all you need,” Advances in
+     International Conference on Medical Image Computing and Computer-                 Neural Information Processing Systems, vol. 30, 2017.
+     Assisted Intervention. Springer, 2023, pp. 287–297.                          [33] S. Wang, B. Z. Li, M. Khabsa, H. Fang, and H. Ma, “Linformer: Self-
+[12] F. Zhang, G. Chen, H. Wang, J. Li, and C. Zhang, “Multi-scale video               attention with linear complexity,” in NeurIPS Workshop on Efficient
+     super-resolution transformer with polynomial approximation,” IEEE                 Natural Language and Speech Processing, 2020, arXiv:2006.04768.
+     Transactions on Circuits and Systems for Video Technology, vol. 33,          [34] M. Poli, S. Massaroli, T. Dao, A. Beirami, M. Goldblum, N. Sohoni,
+     no. 9, pp. 4496–4506, 2023.                                                       T. Dao, T. Hashimoto, and S. Ermon, “Hyena hierarchy: Towards larger
+[13] N. Jiang, G. Wang, C. Ye, T. Liu, and T. Yan, “Multi-task collaborative           contexts and longer sequences,” in International Conference on Machine
+     pre-training and adaptive token selection: A unified framework for                Learning (ICML) Workshop, 2023, arXiv:2302.10866.
+     brain representation learning,” IEEE Journal of Biomedical and Health        [35] P. Bellec, C. Chu, F. Chouinard-Decorte, Y. Benhajali, D. S. Margulies,
+     Informatics, vol. 28, no. 9, pp. 5528–5539, 2024.                                 and R. C. Craddock, “The neuro bureau ADHD-200 preprocessed
+[14] Z. Peng, Z. He, Y. Jiang, P. Wang, and Y. Yuan, “GBT: Geometric-                  repository,” Neuroimage, vol. 144, pp. 275–286, 2017.
+     oriented brain transformer for autism diagnosis,” in International Con-      [36] A. Di Martino, C.-G. Yan, Q. Li, E. Denio, F. X. Castellanos, K. Alaerts,
+     ference on Medical Image Computing and Computer-Assisted Interven-                J. S. Anderson, M. Assaf, S. Y. Bookheimer, M. Dapretto et al., “The
+     tion. Springer, 2024, pp. 142–152.                                                autism brain imaging data exchange: towards a large-scale evaluation of
+[15] L. Shi, L. Shi, Z. Cui, C. Lin, R. Zhang, J. Zhang, Y. Zhu, W. Shi,               the intrinsic brain architecture in autism,” Molecular Psychiatry, vol. 19,
+     J. Wang, Y. Wang et al., “Transformer-based structural connectivity               no. 6, pp. 659–667, 2014.
+     networks for adhd-related connectivity alterations,” Communications
+     Medicine, vol. 5, no. 1, p. 296, 2025.
+

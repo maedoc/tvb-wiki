@@ -46,9 +46,9 @@ sources:
 - raw/papers/ritter-2013.md
 tags:
 - software
-- connectomics
-- structural-connectivity
-- diffusion-imaging
+- [[connectomics]]
+- [[structural-connectivity]]
+- [[diffusion-imaging]]
 - neuroimaging-dti
 title: Allen SDK
 type: entity
@@ -66,9 +66,9 @@ sources:
 - raw/papers/sanz-leon-2013.md
 tags:
 - software-braindecode
-- machine-learning
-- neural-network
-- electrophysiology
+- [[machine-learning]]
+- [[neural-network]]
+- [[electrophysiology]]
 - eeg
 - meg
 - brain-computer-interface

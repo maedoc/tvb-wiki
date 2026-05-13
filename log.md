@@ -527,3 +527,7 @@
 ## [2026-05-13 17:57] Linter: 118 broken links, 6 orphans, 8 stale, 0 empty
 
 ## [2026-05-13 18:01] Audit: 860 issues (118 broken links, 6 orphans, 1 placeholders, 0 dup-refs, 5 bad-meta, 100 citation-verify, 33 opaque-refs, 11 thin, 474 missing-links)
+
+## [2026-05-13 18:10] Linter: 116 broken links, 6 orphans, 6 stale, 0 empty
+
+## [2026-05-13 18:12] Audit: 858 issues (118 broken links, 6 orphans, 1 placeholders, 0 dup-refs, 5 bad-meta, 100 citation-verify, 33 opaque-refs, 11 thin, 474 missing-links)

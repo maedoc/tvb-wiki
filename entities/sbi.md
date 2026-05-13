@@ -1,6 +1,9 @@
 ---
 created: 2024-01-15
-sources: []
+sources:
+- raw/papers/arxiv-2510.22651.md
+- raw/papers/arxiv-2601.22367.md
+- raw/papers/arxiv-2506.04558.md
 tags:
 - parameter-estimation
 - machine-learning
@@ -9,7 +12,7 @@ tags:
 - dynamical-systems-theory
 title: Simulation-Based Inference
 type: concept
-updated: 2026-05-13
+updated: '2026-05-13'
 ---
 
 # Simulation-Based Inference

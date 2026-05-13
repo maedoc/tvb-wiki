@@ -1,10 +1,17 @@
 ---
-title: OpenWorm
 created: 2026-05-13
-updated: 2026-05-13
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-30b44563f4bd.md
+- raw/papers/semanticscholar-5c84b271b035.md
+tags:
+- software-brain-modeling
+- spiking-neural-networks
+- connectomics
+- whole-brain-modeling
+title: OpenWorm
 type: entity
-tags: [software-brain-modeling, spiking-neural-networks, connectomics, whole-brain-modeling]
-sources: []
+updated: '2026-05-13'
 ---
 
 # OpenWorm

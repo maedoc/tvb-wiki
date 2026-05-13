@@ -1,0 +1,942 @@
+                                                                                                                           TYPE Original Research
+                                                                                                                           PUBLISHED 13 June 2025
+                                                                                                                           DOI 10.3389/fninf.2025.1568116
+
+
+
+
+                                                 Evaluating machine learning
+OPEN ACCESS                                      pipelines for multimodal
+                                                 neuroimaging in small cohorts:
+EDITED BY
+Pawel Oswiecimka,
+Polish Academy of Sciences, Poland
+
+REVIEWED BY
+Ying Wang,
+                                                 an ALS case study
+Harbin Medical University, China
+Ayman Mostafa,
+Jouf University, Saudi Arabia                    Shailesh Appukuttan1,2*, Aude-Marie Grapperon1,3 ,
+*CORRESPONDENCE                                  Mounir Mohamed El Mendili1 , Hugo Dary1 , Maxime Guye1 ,
+Shailesh Appukuttan
+  shailesh.appukuttan@univ-amu.fr                Annie Verschueren3 , Jean-Philippe Ranjeva1 , Shahram Attarian3 ,
+RECEIVED 28 January 2025                         Wafaa Zaaraoui1 and Matthieu Gilson2
+ACCEPTED 15 May 2025
+                                                 1
+PUBLISHED 13 June 2025                               Aix Marseille Univ, CNRS, CRMBM, Marseille, France, 2 Aix Marseille Univ, CNRS, INT, Marseille, France,
+                                                 3
+                                                     APHM, Hopital de la Timone, Referral Centre for Neuromuscular Diseases and ALS, Marseille, France
+CITATION
+Appukuttan S, Grapperon A-M, El Mendili MM,
+Dary H, Guye M, Verschueren A, Ranjeva J-P,
+Attarian S, Zaaraoui W and Gilson M (2025)       Advancements in machine learning hold great promise for the analysis of
+Evaluating machine learning pipelines for        multimodal neuroimaging data. They can help identify biomarkers and improve
+multimodal neuroimaging in small cohorts: an
+ALS case study.                                  diagnosis for various neurological disorders. However, the application of such
+Front. Neuroinform. 19:1568116.                  techniques for rare and heterogeneous diseases remains challenging due to
+doi: 10.3389/fninf.2025.1568116                  small-cohorts available for acquiring data. Efforts are therefore commonly
+COPYRIGHT                                        directed toward improving the classiﬁcation models, in an effort to optimize
+© 2025 Appukuttan, Grapperon, El Mendili,
+                                                 outcomes given the limited data. In this study, we systematically evaluated the
+Dary, Guye, Verschueren, Ranjeva, Attarian,
+Zaaraoui and Gilson. This is an open-access      impact of various machine learning pipeline conﬁgurations, including scaling
+article distributed under the terms of the       methods, feature selection, dimensionality reduction, and hyperparameter
+Creative Commons Attribution License (CC
+                                                 optimization. The efficacy of such components in the pipeline was evaluated
+BY). The use, distribution or reproduction in
+other forums is permitted, provided the          on classiﬁcation performance using multimodal MRI data from a cohort of
+original author(s) and the copyright owner(s)    16 ALS patients and 14 healthy controls. Our ﬁndings reveal that, while
+are credited and that the original publication
+                                                 certain pipeline components, such as subject-wise feature normalization, help
+in this journal is cited, in accordance with
+accepted academic practice. No use,              improve classiﬁcation outcomes, the overall inﬂuence of pipeline reﬁnements
+distribution or reproduction is permitted        on performance is modest. Feature selection and dimensionality reduction steps
+which does not comply with these terms.
+                                                 were found to have limited utility, and the choice of hyperparameter optimization
+                                                 strategies produced only marginal gains. Our results suggest that, for small-
+                                                 cohort studies, the emphasis should shift from extensive tuning of these pipelines
+                                                 to addressing data-related limitations, such as progressively expanding cohort
+                                                 size, integrating additional modalities, and maximizing the information extracted
+                                                 from existing datasets. This study provides a methodological framework to guide
+                                                 future research and emphasizes the need for dataset enrichment to improve
+                                                 clinical utility.
+
+                                                 KEYWORDS
+
+                                                 amyotrophic lateral sclerosis, machine learning, multimodal MRI, small cohort,
+                                                 classiﬁcation, pipeline optimization
+
+
+
+                                                 1 Introduction
+                                                     By allowing for the non-invasive visualization of anatomical and functional problems
+                                                 in the brain, medical imaging has transformed our understanding of neurological illnesses.
+                                                 Magnetic Resonance Imaging (MRI) is one such imaging technique that has become an
+                                                 indispensable tool for understanding the structural and functional basis of neurological
+
+
+
+
+Frontiers in Neuroinformatics                                              01                                                                frontiersin.org
+Appukuttan et al.                                                                                                            10.3389/fninf.2025.1568116
+
+
+
+
+disorders (Elias-Jones et al., 1990; Weiner, 2024; Shevchenko et al.,            effects between modalities. In doing so, we seek to establish a
+2025; Grapperon et al., 2025). They have been widely employed                    methodological framework that balances computational rigor
+in the detection of diseases and their diagnosis, as well as in                  with clinical applicability, ultimately contributing to the broader
+the monitoring of treatment plans. Brain imaging, in particular,                 understanding of ALS and the development of ML tools for rare
+plays a crucial role as the brain is one of the most complex                     neurological conditions.
+organs in the human body and is involved in a wide range of
+neuropathologies, including neurological and psychiatric disorders.
+Despite these capabilities, the interpretation of MRI data remains               2 Materials and methods
+highly complex in the clinical context, especially for multifactorial
+and heterogeneous conditions such as Multiple Sclerosis (MS),                    2.1 Cohort description
+Amyotrophic Lateral Sclerosis (ALS), Epilepsy and Parkinson’s
+disease (Fox et al., 2011; Zejlon et al., 2022; El Mendili et al., 2023).            The study included a total of 30 participants, comprising
+These diseases often remain undetected until they reach advanced                 16 individuals diagnosed with ALS (6 females, 10 males; mean
+stages, leading to delayed interventions and suboptimal outcomes.                age: 61.7 years, SD: 13.1 years) and 14 healthy controls (8
+     Advancements in Artificial Intelligence (AI) hold immense                   females, 6 males; mean age: 55.1 years, SD: 6.9 years). Each
+possibilities for the field of medical imaging, offering the potential           participant underwent multimodal imaging using a 7T MRI
+to unravel subtle imaging patterns beyond human perception                       scanner, generating 270 parametric datasets across all subjects. The
+(Yousefirizi et al., 2022). These technologies not only improve                  ALS cohort was recruited from the ALS reference center at our
+diagnostic accuracy, but also significantly reduce the time required             university hospital, with diagnoses confirmed based on the revised
+for data analysis and interpretation. The integration of AI into                 El Escorial criteria (Brooks et al., 2000). All participants in this
+neuroimaging workflows is particularly promising in the context of               group were free of other neurological conditions and screened
+multimodal MRI data, where multiple complementary modalities                     to rule out frontotemporal dementia following international
+can be leveraged to improve prediction accuracy when combined                    consensus criteria (Rascovsky et al., 2011). Clinical assessments for
+with clinical information. AI techniques, particularly Machine                   ALS patients were conducted immediately after their MRI scans,
+Learning (ML) and Deep Learning (DL), hold immense promise                       including scoring on the Revised Amyotrophic Lateral Sclerosis
+for effectively integrating such multimodal, multiparametric data to             Functional Rating Scale (ALSFRS-R) (Cedarbaum et al., 1999).
+identify novel biomarkers (Wang et al., 2018; Mirabnahrazam et al.,              Disease progression rates were quantified using the ALSFRS-
+2022). Such biomarkers can aid in early diagnosis, prognostication,              R slope, calculated as (48 - ALSFRS-R score) divided by the
+and treatment response monitoring for neurodegenerative diseases.                disease duration (in months). Based on this metric, patients
+     There still exist major challenges to the application and optimal           were categorized into slow or fast progressors, with the median
+utilization of AI-based approaches for neuroimaging in a clinical                ALSFRS-R slope value of 0.62/month chosen as the threshold for
+context. The need for access to large datasets to train these ML/DL              classification (Labra et al., 2016).
+models is one such challenge. AI models require large, diverse                       The healthy control group consisted of individuals with no
+datasets to generalize effectively (Lin et al., 2021; Grollemund et al.,         prior history of neurological or psychiatric disorders and normal
+2019). However, the study of neurodegenerative disorders through                 findings during clinical examinations. The limited cohort size
+medical imaging frequently involves datasets that are quite limited              is a reflection of various factors: the rarity of the disease, the
+and notably imbalanced. This can often be due to the nature of the               nature of the disease, and the complexity of acquiring high-quality
+rare disease, such as ALS (Zhang et al., 2011; Tilsley et al., 2024), and        multimodal MRI data (Zhang et al., 2011; Tilsley et al., 2024).
+further amplified when they are very debilitating, thus restricting              This sample size is consistent with prior neuroimaging studies in
+the number of patients that are physically capable of participating              ALS (Zhang et al., 2011; Atassi et al., 2017; Barry et al., 2021;
+in these studies. Acquiring vast amounts of data in such scenarios               El Mendili et al., 2023), which have similarly aimed to extract
+is often impossible, as the state of the patients often deteriorates             biomarkers for ALS or evaluated group-level trends under data-
+rapidly, contributing to significant dropout rates (Drory et al., 2001;          constrained conditions. While the small size of the cohort imposes
+Ashworth et al., 2012). In such cases, significant efforts are often             limitations on statistical power and generalizability, it provides a
+directed toward optimization of the machine learning pipelines in                realistic setting to assess the reliability and stability of ML pipeline
+order to improve the overall outcomes.                                           components in rare disease contexts.
+     In this study, we aim to systematically investigate the                         Ethical approval for this study was granted by the Comité
+design and optimization of machine learning pipelines for                        de Protection des Personnes Sud-Méditerranée 1, in accordance
+analyzing multimodal neuroimaging data from a small                              with the Declaration of Helsinki. All participants provided written
+cohort of ALS patients. Specifically, we explore how various                     informed consent prior to enrollment.
+preprocessing techniques, feature selection methods, and
+model architectures affect performance under data-constrained
+conditions. Furthermore, we compare the performance gains                        2.2 Data acquisition and pre-processing
+achieved through fine-tuning of the ML pipeline with those
+obtained by enriching the input dataset. We also highlight                          MRI data acquisition was performed using a 7 Tesla
+the useful insights that ML can provide for small datasets, in                   Magnetom whole-body MR system (Siemens, Erlangen, Germany).
+terms of guiding further data collection by capturing synergistic                Proton imaging utilized a 32Rx/1Tx 1H head coil, and the
+
+
+
+Frontiers in Neuroinformatics                                               02                                                             frontiersin.org
+Appukuttan et al.                                                                                                       10.3389/fninf.2025.1568116
+
+
+
+
+protocol included a high-resolution 3D T1-weighted Magnetization             aligned to each subject’s native space, were applied to all imaging
+Prepared 2 Rapid Acquisition Gradient Echoes (MP2RAGE)                       maps. Mean voxel values were calculated within each ROI for each
+sequence (TR = 5,000 ms, TE = 3 ms, TI1 = 900 ms, TI2 = 2750 ms,             quantitative map, producing matrices of dimensions: (i) 187 ROIs
+256 slices, isotropic resolution of 0.6 mm, GRAPPA acceleration              × 30 subjects, and (ii) 332 ROIs × 30 subjects. Multimodal analyses
+factor = 3, acquisition time = 10 min 12 s), a 2D magnetization-             were performed by concatenating the individual quantitative maps.
+prepared turbo FLASH B+     1 mapping sequence (TR = 2,000 ms,
+TE = 14 ms, 14 transverse slices with a thickness of 5 mm, in-
+plane resolution = 3.9 mm × 3.9 mm, acquisition time = 2 min                 2.3 Machine learning workﬂow
+14 s) and two diffusion-weighted echo planar imaging sequences,
+acquired with 80 diffusion encoding directions (anterior-posterior               In view of the limited size of the ALS dataset, traditional
+and posterior-anterior) and 13 b0 volumes for diffusion tensor               ML approaches were adopted in this study, as opposed to more
+imaging (DTI), with b-values of 0, 1,000, and 2,000 s/mm2 (TR =              advanced and powerful DL techniques that require large amounts
+6,000 ms, TE = 79.2 ms, 120 transverse slices, isotropic resolution          of data for model training. Several studies have reported that
+of 1.13 mm, MultiBand factor = 3, acquisition time = 10 min 42 s             traditional ML techniques can perform as well as, or even better
+for each encoding phase).                                                    than, DL approaches when dealing with small datasets (Nanni
+     Sodium imaging was conducted with a dual-tuned 23 Na/1H                 et al., 2020; Islam and Khanam, 2024). To rigorously evaluate
+1Tx/1Rx head coil (QED), using a multi-echo density-adapted 3D               model performance and tuning, we adopted a nested cross-
+projection reconstruction pulse sequence (TR = 120 ms, 5,000                 validation approach. The outer loop employed Leave-One-Out
+spokes, 384 radial samples/spoke, isotropic resolution of 3 mm,              Cross-Validation (LOOCV), where each subject was iteratively held
+24 TEs spanning 0.20–70.78 ms in three sets of 8 echoes each,                out for testing. Within each outer fold, hyperparameter tuning
+acquisition time = 3 × 10 min). Six cylindrical tubes with sodium            (when included in the pipeline) and preprocessing were carried out
+concentrations ranging from 25 to 100 mM in 2% agar, were placed             using 5-fold stratified cross-validation on the remaining subjects.
+within the field of view near the participant’s head, to serve as            All preprocessing steps—including scaling, feature selection, and
+external quantitative references.                                            dimensionality reduction—were confined to the training folds to
+     The MP2RAGE sequence provided a T1-weighted (UNI) image                 prevent data leakage. This nested strategy ensures an unbiased
+with reduced reception bias fields and enabled the generation of             estimation of model performance by separating model evaluation
+quantitative T1 (qT1) maps. These qT1 maps were corrected for                from model selection. It is particularly valuable in settings with
+B+1 inhomogeneity, denoised, and skull-stripped before further               limited or imbalanced data, as it reduces the risk of overfitting to
+processing. Diffusion-weighted images underwent preprocessing                the training data and provides a more reliable estimate of how the
+steps, including denoising, Gibbs-ringing artifact removal, and              model will generalize to unseen subjects.
+corrections for B1 field inhomogeneity, susceptibility distortions,              For the first round of evaluations, the pipeline began with row-
+eddy current effects, and head motion. From these data, maps                 wise (i.e., subject-wise) scaling for each imaging map, followed by
+of Fractional Anisotropy (FA), Mean Diffusivity (MD), Axial                  column-wise (i.e., feature-wise) scaling within each map; in both
+Diffusivity (AD), and Radial Diffusivity (RD) were derived. Sodium           cases by removing the mean and scaling to unit variance using
+imaging data were reconstructed and denoised using a multi-                  the StandardScaler module of the sklearn library. The
+echo approach, and motion correction was applied. Quantitative               column-wise scaling was performed separately within the training
+maps were computed for total sodium concentration (TSC),                     and validation folds to prevent data leakage and ensure that scaling
+T2*short (T2s), T2*long (T2l), and the sodium signal fraction                was based solely on the training data. This approach preserved
+(fNa ), representing the short component of the biexponential signal         the integrity of the cross-validation procedure by ensuring the
+decay.                                                                       model did not inadvertently gain access to any information from
+     T1-weighted images (T1w) were bias field-corrected using the            the validation set, thereby avoiding overfitting and ensuring a
+N4 algorithm (Tustison et al., 2010) and aligned to the AC-PC                more reliable assessment of model performance. A large number
+plane via rigid registration to the MNI152 template. These images            of classifiers were initially explored, largely in their default
+were parcellated using FreeSurfer (v7.4.1) (Fischl, 2012) with the           configurations. Those that demonstrated promising outcomes were
+Destrieux atlas (Destrieux et al., 2010), generating two parcellation        shortlisted for further evaluation.
+schemes: (i) 187 regions of interest (ROIs), primarily cortical and              In the second stage, the classifiers were kept constant
+subcortical areas, along with five macroscopic white matter regions,         while various other steps were systematically varied to assess
+and (ii) 332 ROIs, which included 150 additional white matter-               their individual and combined impact on model performance.
+specific regions. Volumetric ROI masks were initially produced               Specifically, we evaluated different configurations of data scaling,
+in FreeSurfer’s intrinsic fsaverage space (equivalent to MNI305)             feature selection, and dimensionality reduction.
+and subsequently transformed into each subject’s native space. For               For scaling, we tested three options: no scaling, standardization
+simplicity, the two parcellation schemes are referred to as GM (187          (using StandardScaler, which centers features to zero mean
+ROIs) and GM+WM (332 ROIs). The GM+WM parcellation was                       and unit variance), and normalization [using MinMaxScaler,
+adopted for all evaluations, unless indicated otherwise.                     which rescales features to a (0, 1) range]. These choices
+     Quantitative imaging maps (qT1, FA, MD, AD, RD, TSC, T2s,               were motivated by the fact that many ML algorithms are
+T2l, and fNa ) were coregistered with the denoised T1w images                sensitive to feature magnitude and distribution. By comparing
+using the ANTs library (Avants et al., 2009). The ROI masks, now             performance across these variations, we aimed to understand how
+
+
+
+Frontiers in Neuroinformatics                                           03                                                          frontiersin.org
+Appukuttan et al.                                                                                                         10.3389/fninf.2025.1568116
+
+
+
+
+such preprocessing decisions influence downstream classification              2.4 Performance evaluation
+accuracy.
+     When applied, feature selection was performed using either                    A variety of metrics are available for evaluating ML model
+SelectKBest or Recursive Feature Elimination (RFE). For                       performance for classification tasks. These include accuracy,
+SelectKBest, features were scored using the ANOVA F-                          precision, recall, F1 score and AUC-ROC. For multi-class
+value (f_classif) as the scoring function, which evaluates                    classification, there exist many more related metrics. In this study,
+the relationship between each feature and the target class in                 we opted to employ the classification metric as the principal metric
+a univariate manner. RFE, which iteratively removes the least                 for comparing between various configuration of the ML pipeline.
+important features, was implemented using a linear-kernel Support             This was largely driven by the intuitive and straightforward
+Vector Regressor (SVR) as the estimator. This model was chosen                measurement of this statistic, and applies easily for both the 2-
+for its ability to rank features based on the magnitude of regression         class and 3-class evaluations undertaken here. Also, the primary
+weights, allowing recursive elimination of the least informative              aim of this study was to compare the effects of various changes
+features. We explored a range of feature counts for both these                to the ML pipeline, rather than to focus on specific class-
+methods, and also assessed the performance when no feature                    level performance. Classification accuracy effectively captures the
+selection was involved.                                                       aggregate performance of the model across all classes, making
+     Dimensionality reduction was conducted using either Principal            it a suitable choice for high-level evaluation and comparison.
+Component Analysis (PCA) or Linear Discriminant Analysis                      Furthermore, the LOOCV approach adopted in the pipeline
+(LDA). PCA was applied in an unsupervised fashion to retain the               evaluates the model’s ability to generalize by iteratively training on
+main components explaining the variance within the training fold.             all but one sample and testing on the held-out sample. Accuracy
+Linear Discriminant Analysis (LDA) was applied as a supervised                aligns naturally with this validation method by providing a single
+dimensionality reduction technique that seeks to maximize class               aggregate score that summarizes performance across all cross-
+separability by projecting the data onto a lower-dimensional space.           validation folds.
+     The final stage of evaluations involved keeping the above                     In addition to the accuracy of the model, the robustness
+components of the pipeline constant, chosen based on the best                 and reliability of its predictions is also an important factor. This
+performers, while tuning the hyperparameters of the classifiers.              is often assessed by comparing the classification accuracy to a
+Hyperparameter optimization was explored using three distinct                 baseline or chance-level distribution obtained through permutation
+techniques: (i) grid search, (ii) random search, and (iii) Bayesian           testing. In our study, each classification task was repeated 50 times
+optimization. All three were implemented within the inner loop of a           with randomly shuffled labels, effectively breaking the association
+nested cross-validation framework, using their respective modules             between the input data and their corresponding labels, to generate
+in the sklearn library. The details of the search spaces employed             a distribution of chance-level accuracies. Since this distribution
+for the various classifiers are specified in Supplementary Table S1           was approximately normal, we were able to calculate a Z-score to
+of the Supplementary material. These ranges were selected based               quantify how much the model’s actual accuracy deviated from the
+on commonly used defaults and prior experience in similar                     chance-level performance.
+neuroimaging ML studies, and were intended to provide a                            Furthermore, to assess the statistical significance of
+balanced search space broad enough to capture performance-                    performance differences between our various ML pipeline
+relevant variability, yet constrained to avoid overfitting, in view of        configurations, we conducted Wilcoxon signed-rank tests by
+the small sample size. Furthermore, to ensure a fair comparison,              comparing them to their respective baseline counterparts,
+the search spaces were matched across all three methods and                   while discarding all zero-differences (i.e. wilcox method). These
+the total number of parameter combinations tested was kept                    analyses confirmed that while some improvements are statistically
+constant. The latter was achieved by evaluating the total number              significant, many configurations are not. Moreover, in several cases
+of possible combinations for the grid search space, and then                  with statistical significance, the effect size indicated a deterioration
+enforcing this value as the maximum permissible iterations for                in the performance.
+both random and Bayesian searches. A schematic representation
+of the ML pipeline is provided in Supplementary Figure S1 of the
+Supplementary material.                                                       3 Results
+     All code was implemented in Python, with the machine
+learning experiments executed on the computing nodes of                           Below, we shall discuss the impact of the various components
+the institute’s HPC infrastructure (Mesocentre). The jobs were                of the ML pipeline on the classification outcomes. This is presented
+run on Dell PowerEdge C6420 nodes, each equipped with 32                      in three stages as outlined earlier. We then also present an overview
+CPU cores, powered by Intel R Xeon R Gold 6142 (Sky Lake)                     of how the nature of the input dataset influences the performance.
+processors running at 2.6 GHz. Each job was allocated one node,               Each evaluation of the ML pipeline was executed as a single SLURM
+utilizing all 32 CPU cores, and the multiprocessing functionality             job with three classification sub-tasks:
+was implemented in Python using the multiprocessing module
+to efficiently parallelize the workload. Jobs were submitted                    • 2-class (controls vs. patients): the model is required to
+using the SLURM job scheduler. Jobs typically took 3x longer                      differentiate between healthy controls and patients with ALS.
+when run locally on a workstation, as compared to the                           • 3-class (controls vs. slow ALS vs. fast ALS): the model is
+HPC system; see section 4 of the Supplementary material for                       required to differentiate between healthy controls and patients
+more information.                                                                 with slow and fast progressing ALS.
+
+
+
+Frontiers in Neuroinformatics                                            04                                                             frontiersin.org
+Appukuttan et al.                                                                                                          10.3389/fninf.2025.1568116
+
+
+
+
+  • slow ALS vs. fast ALS (SvF): the model is required to                      of the MLP classifier, it was deemed difficult to accommodate it in
+    differentiate between patients with slow and fast progressing              the next stage, which included extensive ML pipeline configuration
+    ALS.                                                                       explorations. The MLP classifier was therefore dropped from this
+                                                                               next stage, but was reintroduced in the third stage focused on
+    With an eye on their clinical relevance, we prioritize the 3-class         hyperparameter optimization, where other pipeline components
+classification outcomes, as they provide the most actionable insights          were kept constant. In its place, we selected the RF classifier in
+for patient care. This is followed by the Slow vs. Fast classification,        view of its versatility across various datasets, and its suitability as
+which enables distinguishing between clinical states that determine            a benchmark for tree-based ensemble methods.
+prognosis. While less informative for clinical actions, the 2-class
+performance holds value in understanding the underlying brain
+alterations associated with pathology, thereby offering a broader              3.2 Pipeline reﬁnement
+understanding of disease mechanisms.
+                                                                                   Here, we explored the effects of modifying the ML pipeline
+                                                                               on classification outcomes by systematically varying key pipeline
+                                                                               components. This included altering the row and column scaling
+3.1 Preliminary evaluation of classiﬁers                                       methods, and incorporating additional steps in the pipeline, such
+                                                                               as performing feature selection and dimensionality reduction. This
+    The field of machine learning (ML) offers a vast array of                  involved evaluating 297 combinations for each of the six classifiers
+classifiers, each with unique strengths and limitations. Most                  we shortlisted from the previous stage, for a total of 1,782 trials.
+classifiers offer access to various internal parameters that allow             The objective was to optimize the performance of the pipeline by
+us to customize their operation. Given this diversity, it is not               identifying the most promising configurations for our classification
+practical to evaluate each such classifier, and their innumerable              tasks.
+variants, comprehensively. In an effort to quickly identify                        Figures 2, 3 illustrate the performance of the MLR_L2
+which classifiers are promising for our study, we focused on                   classifier for 3-class classification under the various explored
+12 widely employed and popular classifiers. The classifiers                    pipeline configurations. Through visualization of the distributions,
+chosen were: K-Nearest Neighbors (KNN), Light Gradient                         variance, and top-performing configurations, the plots help
+Boosting Machine (LGBM), Multinomial Logistic Regression with                  highlight how the various pipeline design choices affect
+Elastic Net Regularization (MLR_ENET), Multinomial Logistic                    performance consistency. The inclusion of Z-scores further
+Regression with L1 Regularization (MLR_L1), Multinomial                        emphasizes model stability across different preprocessing
+Logistic Regression with L2 Regularization (MLR_L2), Multi-                    approaches. Similar trends were demonstrated for the other
+Layer Perceptron (MLP), Polynomial Kernel Support Vector                       classifiers as well. We have chosen to highlight the MLR_L2
+Machine (SVM_POLY), Radial Basis Function Support Vector                       classifier, as an example, in light of this model being a strong
+Machine (SVM_RBF), Sigmoid Kernel Support Vector Machine                       performer based on preliminary investigations.
+(SVM_SIG), Linear Support Vector Machine (SVM_LIN),
+Random Forest (RF), and Extreme Gradient Boosting (XGB).
+    For the initial phase of evaluation, these classifiers were                3.2.1 Impact of scaling methods
+used primarily in their default configurations, i.e., without any                  Figure 2 illustrates the performance of the MLR_L2 classifier
+attempts to optimize their hyperparameters, to establish a baseline            under different scaling approaches. The top panels (a, b) assess
+performance. As mentioned earlier, each evaluation consisted                   the effect of row (subject-wise) scaling, while the bottom panels
+of three classification tasks (i.e., 3-class, 2-class, SvF). The               (c, d) focus on column (feature-wise) scaling. We evaluated three
+performance for each task was evaluated by means of the accuracy               scaling methods: no scaling (None), StandardScaler, and
+score and the corresponding Z-score value, thereby comparing the               MinMaxScaler.
+reported accuracy against chance level predictions. Figure 1 shows
+the comparison of the classification performance of the various                3.2.1.1 Row scaling
+models across the three tasks. The SVM_LIN and SVM_SIG                             Classification   accuracy  (Figure 2a)   showed      certain
+classifiers performed well across all classification tasks, alongside          notable differences across the three scaling methods, with
+the three MLR-based classifiers. We notice that certain classifiers            StandardScaler generally performing better (mean
+such as LGBM and SVM_POLY performed very poorly in general,                    accuracy = 0.55) than no scaling (mean accuracy = 0.46) and
+while some of the other classifiers show lower accuracies on one               MinMaxScaler (mean accuracy = 0.48). However, these
+or more of the other tasks. In addition, Figure 1c, using log-scale,           effects are more pronounced for the Z-scores (Figure 2b) with
+shows that LGBM, MLP and XGB classifiers took significantly more               StandardScaler providing markedly more robust predictions
+time, and thereby computational resources, to complete these tasks.            (mean Z-score = 2.40), compared to the absence of scaling (mean
+    In order to shortlist a subset of these classifiers for further            Z-score = 1.78) and MinMaxScaler (mean Z-score = 1.52).
+evaluations, we applied a threshold of 60% classification accuracy
+across the three tasks. This is indicated by the red dashed line in            3.2.1.2 Column scaling
+Figure 1a. Based on this criterion, the following classifiers met the              The trends did not vary significantly between the different
+threshold: MLP, MLR_ENET, MLR_L1, MLR_L2, SVM_LIN and                          column scaling approaches (Figures 2c, d) with mean accuracies
+SVM_SIG. However, due to the significant computational demands                 of 0.51, 0.50 and 0.47 for StandardScaler, MinMaxScaler,
+
+
+
+Frontiers in Neuroinformatics                                             05                                                            frontiersin.org
+Appukuttan et al.                                                                                                             10.3389/fninf.2025.1568116
+
+
+
+
+   FIGURE 1
+   Comparison of classiﬁcation performance for various classiﬁers. The panels compare (a) classiﬁcation accuracy, (b) Z-scores indicating robustness of
+   predictions, and (c) time required for execution (in seconds), using log scale. The dashed red-line in (a) indicates 60% accuracy and was used as a
+   threshold to shortlist classiﬁers for further evaluations.
+
+
+
+
+and (None) methods, respectively. In regard to robustness of the                feature selection techniques in the ML pipeline. The performance
+predictions, StandardScaler again show relatively superior                      with SelectKBest (mean accuracy = 0.52) was comparable
+outcomes (mean Z-score = 1.92), compared to MinMaxScaler                        to that with no feature selection (mean accuracy = 0.53).
+(mean Z-score = 1.76) and no scaling (mean Z-score = 1.42).                     RFE was found to perform most poorly for our classification
+Notably, the absence of scaling (i.e., None) resulted in wider                  task, in terms of both accuracy (mean accuracy = 0.47)
+variability in outcomes.                                                        and Z-scores.
+    Figures 4a, c, e, composed of data integrated across all
+classifiers, shows the effect of such scaling approaches across the             3.2.2.2 Number of features
+three classification tasks. The most notable trend is that row-wise                 Figures 3c, d illustrates the effect of various target
+scaling—particularly using StandardScaler—consistently                          feature counts, when feature selection is employed in the
+leads to higher classification accuracies across all three tasks.               ML pipeline. The results reveal that selecting 50 features
+Overall, these results suggest that applying StandardScaler                     provided a good balance between accuracy and robustness, with
+for both row and column scaling can help enhance the accuracy of                increasing feature spaces providing only slight improvements in
+predictions.                                                                    the outcomes.
+    The Wilcoxon signed-rank test results for these configurations
+are presented in Table 1 when the MLR_L2 classifier was employed                3.2.2.3 Dimensionality reduction
+for the 3-class classification task. The analysis confirmed that                    Figures 3e, f compares LDA and PCA with the absence of
+the use of row-wise StandardScaler yielded consistent                           dimensionality reduction. Here again, we find that the classification
+improvements in classification accuracy (p < 0.001; median:                     outcomes did not benefit from the incorporation of this step in
++10%). Column scaling also was found to be statistically significant,           the ML pipeline. Both methods, LDA (mean accuracy = 0.48,
+but with a much lower effect size (p < 0.001; median: +3.3%).                   mean Z-score = 1.47) and PCA (mean accuracy = 0.51, mean Z-
+                                                                                score = 1.80), performed similar to pipelines without them (mean
+                                                                                accuracy = 0.51, mean Z-score = 1.83). Dimensionality reduction,
+3.2.2 Inﬂuence of feature selection and                                         therefore, did not appear to have a notable improvement on the
+dimensionality reduction                                                        accuracy or robustness of the predictions, with LDA often yielding
+    The impact of feature selection and dimensionality reduction                worse outcomes.
+on 3-class classification performance is detailed in Figure 3. Panels               Figures 4b, d, f illustrate that the influence of feature
+(a, b) explore different feature selection techniques, panels (c,               selection and dimensionality reduction techniques varies across
+d) vary the target feature count, and panels (e, f) evaluate                    classification tasks and is generally limited in magnitude.
+dimensionality reduction approaches.                                            In particular, RFE consistently underperforms compared to
+                                                                                other configurations, suggesting that recursive elimination
+3.2.2.1 Feature selection                                                       may discard informative features when applied to high-
+    As shown in Figures 3a, b, there didn’t appear to be a                      dimensional, small-sample datasets. Pipelines that exclude feature
+significant improvement in the outcomes with the incorporation of               selection altogether or use simpler univariate methods such as
+
+
+
+Frontiers in Neuroinformatics                                              06                                                               frontiersin.org
+Appukuttan et al.                                                                                                               10.3389/fninf.2025.1568116
+
+
+
+
+   FIGURE 2
+   3-class classiﬁcation performance observed for the MLR_L2 classiﬁer under different combinations of row and column scaling approaches
+   employed in the ML pipeline. (a, c) indicate the classiﬁcation accuracy, and (b, d) show the Z-scores as indicators of robustness of the model’s
+   predictions. The top row (a, b) indicates the impact of different row (i.e., subject-wise) scaling approaches, namely: the absence of any scaling
+   (None), StandardScaler and MinMaxScaler. The bottom row (c, d) indicates the impact of different column (i.e. feature-wise) scaling using the
+   same techniques. The dots correspond to one for each combination of pipeline conﬁguration evaluated for the classiﬁer, i.e., 297 combinations per
+   classiﬁer in our study. Red dots highlight the top 10% of all conﬁgurations in terms of classiﬁcation accuracy, and indicates the robustness of these
+   predictions.
+
+
+
+
+SelectKBest tend to yield more stable results. Dimensionality                    3.2.3 Evaluating top performers
+reduction via PCA provides marginal improvements in some                             Figure 5 summarizes the distribution of parameter choices
+scenarios, though its contribution is often comparable to                        across pipeline configurations that achieved at least 60%
+pipelines without any dimensionality reduction, indicating                       classification accuracy for the 3-class and SvF tasks, with associated
+that extensive reduction of the feature space may not                            Z-scores of 2.0 or higher. It further highlights configurations that
+be necessary.                                                                    exhibited an even higher accuracy (≥ 70%). The key observations
+    Table 1 lists the Wilcoxon signed-rank test results for                      are: (i) StandardScaler emerged as a consistently effective
+these pipeline configurations. This shows with consistently high                 choice for row scaling, (ii) column scaling appeared to have less
+statistical signficance (p < 0.01), the unsuitability of performing              influence on model performance, with MinMaxScaler notably
+feature selection on our dataset with a low number of target features            absent among the top-performing configurations, (iii) there is a
+(< 50). Dimensionality reduction techniques, similarly, were found               notable preponderance of SelectKBest as a feature selection
+to yield no consistent benefit and in several cases significantly                method, often combined with 50 selected features, amongst the top
+degraded performance. There is some improvement when a larger                    performers. However, its prominence diminished when focusing on
+number of features are accommodated, suggesting the need of                      the highest-performing pipelines, where the absence of any feature
+retaining sufficient feature dimensionality for the model to benefit             selection stage proved to be equally effective, (iv) dimensionality
+from the rich, complementary information present in multimodal                   reduction techniques did not demonstrate a clear benefit to the
+MRI data.                                                                        pipeline, with contribution of PCA to the best performers generally
+
+
+
+Frontiers in Neuroinformatics                                               07                                                                frontiersin.org
+Appukuttan et al.                                                                                                                 10.3389/fninf.2025.1568116
+
+
+
+
+   FIGURE 3
+   3-class classiﬁcation performance observed for the MLR_L2 classiﬁer under different combinations of feature selection and dimensionality reduction
+   approaches employed in the ML pipeline. (a, c, e) indicate the classiﬁcation accuracy, and (b, d, f) show the Z-scores as indicators of robustness of the
+   model’s predictions. The top row (a, b) indicates the impact of different feature selection approaches, namely: the absence of any feature selection
+   (None), SelectKBest and RFE. The middle row (c, d) indicates the impact of different target feature counts when feature selection is part of the ML
+   pipeline. The bottom row (e, f) indicates the impact of incorporating dimensionality reduction in the ML pipeline, via techniques such as LDA and
+   PCA. The dots correspond to one for each combination of pipeline conﬁguration evaluated for the classiﬁer, i.e., 297 combinations per classiﬁer in
+   our study. Red dots highlight the top 10% of all conﬁgurations in terms of classiﬁcation accuracy, and indicates the robustness of these predictions.
+
+
+
+
+comparable to pipelines without any dimensionality reduction.                      in optimizing classification outcomes, and also demonstrated the
+By systematically evaluating these pipeline configurations, we                     consistency of the findings with respect to specific choices for
+identified the impact of the various steps and their configurations                pipeline design.
+
+
+
+Frontiers in Neuroinformatics                                                 08                                                                frontiersin.org
+Appukuttan et al.                                                                                                               10.3389/fninf.2025.1568116
+
+
+
+
+   FIGURE 4
+   Heatmaps illustrating the average classiﬁcation accuracy across various combinations of preprocessing components. Each cell represents the mean
+   classiﬁcation accuracy obtained across all 6 shortlisted classiﬁers for a given pipeline conﬁguration. (a, c, e) compare row (subject-wise) vs. column
+   (feature-wise) scaling approaches, while (b, d, f) compare feature selection methods vs. dimensionality reduction techniques. Panels correspond to
+   the three classiﬁcation tasks: (a, b): 3-class (Controls vs. Slow ALS vs. Fast ALS), (c, d): Slow vs. Fast ALS, (e, f): 2-class (Controls vs. ALS).
+
+
+
+3.3 Hyperparameter optimization                                                   hyperparameters. The pipeline employed StandardScaler to
+                                                                                  perform both row and column scaling. The feature selection
+   Based on the above findings, we proceeded with the design                      and dimensionality reduction steps were excluded in view of
+of the pipeline with a focus on optimizing the classifier                         their limited observed utility for our classification tasks. This
+
+
+
+Frontiers in Neuroinformatics                                                09                                                                frontiersin.org
+Appukuttan et al.                                                                                                                                               10.3389/fninf.2025.1568116
+
+
+
+
+TABLE 1 Wilcoxon signed-rank test results for MLR_L2 classiﬁer with the various pipeline steps and their different conﬁgurations.
+
+
+  Pipeline step                    Conﬁguration                           p-value                       Median %                    Signiﬁcance                             n
+  Row scaler                       Standard                                 1.87e-13                       +10.0%                           ***                            99
+
+  Row scaler                       MinMax                                   1.37e-02                        +0.0%                            *                             99
+
+  Col scaler                       MinMax                                   1.81e-04                        +3.3%                           ***                            99
+
+  Col scaler                       Standard                                 3.60e-05                        +3.3%                           ***                            99
+
+  FeatSel-numfeats                 RFE-10                                   2.23e-05                        -16.7%                          ***                            27
+
+  FeatSel-numfeats                 RFE-25                                   1.17e-05                        -13.3%                          ***                            27
+
+  FeatSel-numfeats                 RFE-50                                   3.66e-03                        -6.7%                            **                            27
+
+  FeatSel-numfeats                 RFE-100                                  6.87e-01                        +0.0%                                                          27
+
+  FeatSel-numfeats                 RFE-150                                  3.13e-01                        +3.3%                                                          27
+
+  FeatSel-numfeats                 SelectKBest-10                           4.75e-05                        -10.0%                          ***                            27
+
+  FeatSel-numfeats                 SelectKBest-25                           3.80e-03                        -6.7%                            **                            27
+
+  FeatSel-numfeats                 SelectKBest-50                           9.46e-02                        +3.3%                                                          27
+
+  FeatSel-numfeats                 SelectKBest-100                          9.44e-01                        +0.0%                                                          27
+
+  FeatSel-numfeats                 SelectKBest-150                          3.13e-02                        +6.7%                            *                             27
+
+  Dim reduction                    PCA                                      5.29e-02                        +0.0%                                                          99
+
+  Dim reduction                    LDA                                      2.11e-04                        -3.3%                           ***                            99
+Each configuration was compared against the absence of that step in the pipeline, for the 3-class classification task. The p-value indicates the level of significance while the Median % is used to
+indicate the effect size. n refers to the number of paired configurations; *: p < 0.05, **: p < 0.01, ***: p < 0.001.
+
+
+
+
+    FIGURE 5
+    Distribution of various conﬁgurations of ML pipeline components. The colored bars represent those conﬁgurations where the 3-class and
+    slow-vs.-fast accuracies ≥ 60%, along with their associated Z-scores ≥ 2.0. This corresponded to 132 out of the total of 1,782 combinations that
+    were evaluated. The textured parts of the plots indicate the proportion of conﬁgurations where these classiﬁcation accuracies were ≥ 70%; these
+    accounted for only 13 combinations. Note that the parameter Num Features applies only when a feature selection method is involved (i.e., not None).
+
+
+
+
+allows us to isolate the impact of classifier settings on model                                         As outlined earlier, we compared three different
+performance, ensuring that we retain the most relevant features for                                  hyperparameter optimization approaches: (i) Grid Search, (ii)
+the classification task without introducing unnecessary complexity.                                  Random Search, and (iii) Bayesian Optimization. Figure 6 provides
+
+
+
+Frontiers in Neuroinformatics                                                                   10                                                                               frontiersin.org
+Appukuttan et al.                                                                                                        10.3389/fninf.2025.1568116
+
+
+
+
+a comparison of the performance of these three approaches across             corticospinal tracts and frontotemporal connections, emerging as
+the various classifiers we had shortlisted for both the 3-class and          key imaging biomarkers (Bede and Hardiman, 2018; Grapperon
+SvF classification tasks. It is observed that the classifiers exhibit        et al., 2019). A broader anatomical coverage, comprising of
+a range of accuracies, but that these typically do not vary much             both the gray and white matter regions, could better reflect the
+based on the specific optimization strategy adopted in the pipeline,         underlying pathophysiology of ALS, and potentially help improve
+particularly for the 3-class classification task. Similarly, Z-score         classification accuracy. We therefore investigated the impact of
+analysis does not point to a generally superior tuning procedure for         different brain parcellation strategies on classification accuracy for
+achieving optimal outcomes. However, certain classifiers appear to           our tasks. Specifically, we compared results obtained using GM
+benefit more from specific optimization strategies. For example,             (gray matter) parcellation (containing 187 ROIs) to those using
+MLR_ENET was found to consistently yield better performances                 combined GM+WM (gray matter + white matter) parcellation
+when optimized using the random search approach.                             (containing 332 ROIs).
+    What is most notable is the differences in the execution time,               The results are presented in Figure 8 for the three classification
+with Bayesian optimization consistently requiring the longest time           tasks. We see that incorporating WM data alongside GM yields a
+to complete. Grid search and random search were found to perform             notable improvement in classification accuracy across all tasks. For
+similarly in terms of computational efficiency. This pattern held            the 3-class task, the model achieves significantly higher accuracy
+across all classifier types.                                                 with GM+WM, as compared to GM alone, indicating that the more
+                                                                             comprehensive parcellation helps the model capture additional
+                                                                             discriminative features crucial for distinguishing between the
+3.4 Effect of dataset enrichment                                             classes. Similarly, for the SvF and 2-class tasks, the inclusion of
+                                                                             WM data results in a marked boost in performance, with the
+    Having explored various adjustments to the classification                model accuracy consistently positioned higher than chance-level
+pipeline, we next examine potential benefits of dataset enrichment           predictions.
+to compare the change in performance with respect to the fine-
+tuning of the ML pipeline. This can be achieved through several
+approaches, two of which are outlined below for evaluation. In view          4 Discussion
+of their superior classification performance, as demonstrated in the
+previous sections, we decided to employ the MLR_L2 classifier with               This study systematically evaluated the design and performance
+the grid search optimization strategy for the assessments ahead.             of machine learning pipelines for small-cohort multimodal
+                                                                             neuroimaging data, using ALS as a case study. By focusing on the
+                                                                             effects of pipeline configurations, such as scaling, feature selection,
+3.4.1 Impact of multimodal data                                              dimensionality reduction, and hyperparameter optimization, we
+     Here, we examined the impact of integrating multiple MRI                aimed to understand the extent to which these elements impact
+modalities on classification accuracy. Multimodal integration was            classification outcomes, and compare their influence to the
+tested to evaluate whether combining complementary sources of                enrichment of the datasets. Our findings highlight several key
+information—such as structural features from qT1, microstructural            insights, while also underscoring the limitations of such small-
+changes captured by DTI, and metabolic insights from 23 Na                   cohort studies and the importance of dataset enrichment.
+imaging—could improve the model’s ability to distinguish between                 The primary conclusion of this study is that the choice
+subject groups. The rationale is that each modality provides                 of ML pipeline configurations had only modest effects on
+unique and potentially non-redundant information about the                   classification performance. Despite evaluating a comprehensive
+underlying neuropathology, and their combination may enhance                 range of approaches, the differences in performance were
+discriminative power (Cerasa et al., 2011).                                  limited. We observed that row scaling (subject-wise) using
+     The results are summarized in Figure 7, which compares                  StandardScaler            consistently    improved       classification
+performance across our three classification tasks: 3-class, SvF, and         outcomes, while column scaling (feature-wise) had less noticeable
+2-class. It can be observed that combining all three modalities              impact. This suggests that, when measurements vary across
+(i.e. qT1 + DTI + 23 Na) yields the best classification performance          subjects, the critical information may lie in the relative ranking
+across all tasks. The red markers representing model accuracy are            of values—such as identifying regions with the highest or lowest
+consistently above the chance-level predictions, thereby indicating          intensities, in line with previous findings on within-session
+robustness of the model’s predictions. The combination of qT1                normalization for effective connectivity estimated from fMRI
++ DTI is found to perform relatively poorly for all three tasks,             data for decoding (Pallarés et al., 2018; Gravel et al., 2020).
+while the combination of qT1 + 23 Na shows more promise, with                Feature selection and dimensionality reduction steps did not
+a notably high model accuracy for the SvF task. These findings               significantly enhance performance. In many cases, omitting these
+underscore the utility of integrating multiple MRI modalities to             steps altogether produced results comparable to, or better than,
+improve classification accuracy.                                             their inclusion in the ML pipeline. Hyperparameter optimization
+                                                                             provided some performance gains, but the choice of optimization
+                                                                             strategy (grid search, random search, or Bayesian optimization)
+3.4.2 Impact of alternative parcellation strategies                          typically had limited impact on the overall accuracy. Based
+   ALS is known to involve both cortical and subcortical                     on our results, the choice of hyperparameter tuning strategy
+degeneration, with white matter alterations, particularly along              should consider the trade-offs between accuracy, robustness, and
+
+
+
+Frontiers in Neuroinformatics                                           11                                                            frontiersin.org
+Appukuttan et al.                                                                                                           10.3389/fninf.2025.1568116
+
+
+
+
+   FIGURE 6
+   Comparison of different hyperparameter optimization approaches for the various shortlisted classiﬁers. The panels compare (a) classiﬁcation
+   accuracy, (b) Z-scores indicating robustness of predictions, and (c) time required for execution (in seconds), using log scale. To enable a fair
+   comparison of the tuning methods for each classiﬁer, the search spaces were standardized and the total number of parameter combinations tested
+   was kept equal across all three methods.
+
+
+
+
+computational efficiency. For instance, Bayesian Optimization                  studies often do not yield very high accuracies. For instance, the
+may be more suitable for scenarios where achieving optimal                     slow and fast progressors were evaluated here based on a single
+performance is critical and computational resources are not a                  cross-sectional ALSFRS-R slope. However, ALS progression is
+constraint, whereas Random Search or Grid Search may suffice for               heterogeneous, and such snapshot metrics may not capture the full
+applications with tighter time or resource limitations.                        clinical trajectory. While longitudinal imaging could help address
+    To design an efficient machine learning workflow, it is advisable          this limitation to some extent, it is often challenging to obtain this
+to start by evaluating classifiers in their default configurations to          for ALS studies, leaving us reliant on cross-sectional data.
+establish a performance baseline. Data preprocessing techniques                    Greater emphasis might be placed on addressing the limitations
+should be systematically evaluated (e.g., scaling, feature selection,          inherent to the dataset itself. There are several approaches to
+dimensionality reduction) to determine their effectiveness for                 tackling this problem. The emergence of ultra-high-field MRI
+the given dataset. Once the different pipeline components are                  systems, such as 7T MRI, has dramatically improved spatial and
+selected, various hyperparameters can be optimized to assess                   temporal resolution, enabling the detection of microstructural
+generalizability. Such a staged approach to pipeline design enables            and metabolic changes with unparalleled precision. For example,
+informed decisions aimed at performance improvements while                     studies have reported that 7T MRI enhances the contrast and
+minimizing the computational costs.                                            visibility of brain tumors compared to those acquired at 3T
+    While pipeline refinement is essential for maximizing                      (Noebauer-Huhmann et al., 2015). This suggests that, even with
+performance, its impact is inherently constrained when the dataset             limited data cohorts, scans obtained at 7T might be more
+is small and limited in its ability to generalize. This suggests that,         informative than those obtained at 3T and 1.5T. The scope
+for small-cohort studies, significant efforts devoted to refining ML           of multimodal neuroimaging can be extended by combining
+pipelines may not yield proportional improvements in outcomes.                 neuroimaging data with other data types, such as clinical,
+Unconventional approaches to deal with limited patient datasets                genetic, and biochemical data. These additional data sources can
+may also enable us to readily improve the model performance, such              provide complementary insights into disease mechanisms that
+as hybrid model training wherein larger control groups have been               are not evident from imaging data alone (Menke et al., 2017;
+employed in the training phase, but combined with another class                Iturria-Medina et al., 2021). Efforts should also be made at
+(e.g. slow ALS) in the validation phase for stratification of patients         progressively increasing the size of the cohorts wherever possible.
+based on disease progression (e.g. slow vs. fast ALS). This approach           Data augmentation is often a useful step in expanding datasets,
+has been found effective in an ongoing study involving the same                especially in scenarios where acquiring additional samples is
+datasets employed here, wherein this hybrid approach enabled                   challenging. There exists a variety of techniques by which this
+us to attain a classification accuracy of 88% for the SvF task. It             can be achieved, such as via geometric/intensity transformations
+should be borne in mind that class labels can frequently involve a             or synthetic data generation (Garcea et al., 2023; Chintapalli
+degree of uncertainty in clinical studies, and therefore classification        et al., 2024), such as generative models (e.g., GANs, VAEs), to
+
+
+
+Frontiers in Neuroinformatics                                             12                                                             frontiersin.org
+Appukuttan et al.                                                                                                             10.3389/fninf.2025.1568116
+
+
+
+
+   FIGURE 7
+   Classiﬁcation performance observed using MLR_L2 classiﬁer with different combinations of multimodal data. The top row (a–c) shows the outcomes
+   when employing the complete dataset (qT1+DTI+23 Na), the middle row (d–f) corresponds to the combination of qT1 and DTI modalities, and the
+   bottom row (g–i) shows those for the combination of qT1 and 23 Na modalities. The ﬁrst column (a, d, g) show the classiﬁcation accuracy for 3-class,
+   the second column (b, e, h) for SvF, and the third column (c, f, i) for the 2-class task. The red markers indicate the classiﬁcation accuracy of the
+   model to the actual data. The black markers, and the green bounding region, indicate the accuracy of chance-level predictions observed via
+   permutation testing.
+
+
+
+
+simulate realistic variability and enhance representation of under-             the parcellation strategy highlights the importance of adopting
+sampled phenotypes (Chadebec et al., 2022; Kebaili et al., 2023).               techniques to maximize the information extracted from already
+Multi-centric approaches offer another option for pooling together              available datasets. While GM parcellation alone provides
+datasets to obtain larger cohorts, though this is often accompanied             meaningful insights, the addition of WM data enhances the
+by significant data harmonization issues (Stamoulou et al., 2022).              model’s ability to differentiate between classes. These underscore
+    While subsets of modalities can provide improved                            the value of employing more comprehensive methods in clinical
+performance, as compared to single modality outcomes,                           analyses to improve classification outcomes and better exploit the
+the combined use of all available modalities helps capture                      full potential of existing datasets (Kobeleva et al., 2022). The above
+complementary features and potential synergistic effects that                   findings, taken together, emphasize the critical role of dataset
+enhance model performance. This was evident in our results,                     quality over ML pipeline complexity in small-cohort studies.
+wherein the best outcomes were observed under multimodal                             Our findings concur with the conclusions drawn by Dadi
+analysis of all modalities. This highlights the importance of                   et al. (2019) who systematically benchmarked machine learning
+acquiring and merging as many relevant modalities as possible                   pipelines for resting-state functional MRI (fMRI) on larger
+for comprehensive analysis, thereby helping orient the data                     datasets. Similarly to our study, they highlighted the sensitivity of
+collection process. Further, our findings regarding variations in               prediction outcomes to various choices in the pipeline design. Both
+
+
+
+
+Frontiers in Neuroinformatics                                              13                                                               frontiersin.org
+Appukuttan et al.                                                                                                              10.3389/fninf.2025.1568116
+
+
+
+
+   FIGURE 8
+   Classiﬁcation performance observed via multimodal analysis using MLR_L2 classiﬁer with different brain parcellations. The top row (a–c) shows the
+   outcomes when employing the GM parcellation, and the bottom row (d–f) shows those for GM+WM parcellation. The ﬁrst column (a, d) show the
+   classiﬁcation accuracy for 3-class, the second column (b, e) for SvF, and the third column (c, f) for the 2-class task. The red markers indicate the
+   classiﬁcation accuracy of the model to the actual data. The black markers, and the green bounding region, indicate the accuracy of chance-level
+   predictions observed via permutation testing.
+
+
+
+
+studies underscore that careful optimization of preprocessing and                    Another critical factor for the clinical integration of ML models
+analytical steps is essential, particularly when dealing with small              is related to model interpretability. While the primary focus of
+or heterogeneous datasets. Both studies stress the importance of                 our study was on benchmarking pipeline configurations, it is
+computational simplicity and robustness. For instance, Dadi et al.               worth noting that several classifiers we employed (e.g., MLR_L2,
+(2019) demonstrated that linear models (e.g., logistic regression)               MLR_L1, MLR_ENET, SVM_LIN) offer inherent interpretability
+performed consistently well across datasets; our study similarly                 through feature weight analysis. Interpretability methods are best
+found these group of classifiers effective and also that simpler                 used in conjunction with classifiers that exhibit a sufficiently good
+pipelines often yield comparable performance to more complex                     level of accuracy, and our focus here has been on evaluating
+configurations. This consistency suggests that general trends in                 pipeline design to enable this. In a future study, we intend to
+pipeline optimization can apply across neuroimaging modalities.                  extend this work by incorporating post hoc explainability methods,
+     While classification accuracy alone does not determine clinical             such as SHAP or LIME (Thibeau-Sutre et al., 2023), to further
+usability, our findings offer preliminary insights into how                      elucidate the biological relevance of the identified imaging-based
+imaging-based biomarkers can contribute to future diagnostic                     biomarkers, and to identify which brain regions or modalities drive
+or prognostic tools in ALS. It is important to emphasize that                    classification decisions. Enhancements to the models presented
+MRI is not currently a standard tool for ALS diagnosis, which                    here, such as through implementation of intrepretbility of model
+still relies heavily on clinical examination and electrophysiological            outcomes, could assist neurologists in prioritizing follow-up
+assessments. However, as imaging techniques and ultra-high-field                 assessments, identifying atypical progression patterns, or selecting
+MRI become more effective in capturing microstructural and                       patients for trials. Also, even moderate accuracies can have value
+metabolic alterations, there is growing interest in incorporating                when used as a decision support tool rather than a diagnostic
+MRI-derived biomarkers to complement traditional techniques. In                  replacement.
+this context, our study provides a methodological foundation by                      While our study focuses specifically on ALS, the challenges
+systematically evaluating the robustness of different ML pipeline                and methodological considerations discussed here are broadly
+components under realistic, small-cohort conditions. In this light,              shared across many rare neurological conditions, including
+a 70%–80% accuracy in distinguishing among controls, slow,                       Huntington’s disease (Andica et al., 2020), Multiple System
+and fast ALS patients is not proposed as a definitive diagnostic                 Atrophy (Wan et al., 2023) and Creutzfeldt-Jakob Disease (Baiardi
+tool, but rather as a proof-of-concept suggesting that quantitative              et al., 2023). In such contexts, patient recruitment, imaging
+multimodal MRI contains clinically relevant information about                    harmonization, and phenotypic heterogeneity often result in small,
+disease state and progression rate.                                              heterogeneous datasets. The general conclusion that pipeline
+
+
+
+Frontiers in Neuroinformatics                                               14                                                               frontiersin.org
+Appukuttan et al.                                                                                                    10.3389/fninf.2025.1568116
+
+
+
+
+refinement yields modest gains when data are limited, and                   Funding
+that dataset enrichment or multimodal integration has greater
+impact, is expected to extend beyond ALS. Conversely, some                      The author(s) declare that financial support was received
+effects observed here—such as minimal improvements from                     for the research and/or publication of this article. This project
+model tuning—may diminish as dataset sizes increase and model               has received funding from the Association pour la Recherche
+generalization improves.                                                    sur la Sclérose Latérale Amyotrophique et Autres Maladies du
+    In conclusion, while optimizing the ML pipeline remains                 Motoneurone (grant ARSLA-2023-ac-05), and Fédération pour
+an important aspect of AI-driven neuroimaging research, our                 la Recherche sur le Cerveau (grant ARSLA 2018), and from
+findings indicate that, in small-cohort studies, extensive pipeline         the French government under the Programme “Investissements
+tuning may often yield only modest improvements in performance.             d’Avenir", Initiative d’Excellence d’Aix-Marseille Université via
+Efforts should also focus on dataset enrichment through larger              A*Midex funding (AMX-21-IET-017 and AMX-19-IET-004), and
+cohorts, multimodal data integration, and improved preprocessing            ANR (ANR-17-EURE-0029). MGi received support from the
+techniques. These steps are likely to have a more substantial               French government under the France 2030 investment plan,
+impact on advancing the clinical utility of ML-based approaches in          under the agreement Chaire de Professeur Junior (ANR-22-
+neuroimaging. This work may serve as a reference for researchers            CPJ2-0020-01) and as part of the Initiative d’Excellence d’Aix-
+developing ML frameworks in similarly constrained domains,                  Marseille Université -A*MIDEX (AMX-22-CPJ-01). This work was
+while highlighting the need for larger, more diverse datasets and           performed within CRMBM, which is a laboratory member of the
+integrative modeling approaches.                                            France Life Imaging network (grant ANR-11-INBS-0006).
+
+
+Data availability statement                                                 Acknowledgments
+    The raw data that supports the findings of this study are                   We are grateful to all the subjects who participated in this
+available from the authors upon reasonable request.                         study. We would like to thank Salma Aljane-Hedia for her help
+                                                                            with preliminary investigations. We would also like to thank the
+                                                                            Mésocentre at Aix Marseille Université for access to HPC resources
+Ethics statement                                                            employed in this study.
+
+    This study was approved by the local ethics committee
+(Comité de Protection des Personnes Sud-Méditerranée 1) in                  Conﬂict of interest
+accordance with the Declaration of Helsinki. The studies were
+conducted in accordance with the local legislation and institutional            The authors declare that the research was conducted in the
+requirements. The participants provided their written informed              absence of any commercial or financial relationships that could be
+consent to participate in this study.                                       construed as a potential conflict of interest.
+
+
+
+Author contributions                                                        Generative AI statement
+                                                                                The author(s) declare that no Gen AI was used in the creation
+    SAp: Conceptualization, Data curation, Formal analysis,
+                                                                            of this manuscript.
+Investigation, Methodology, Resources, Software, Supervision,
+Validation, Visualization, Writing – review & editing. A-MG:
+Conceptualization, Data curation, Formal analysis, Funding
+                                                                            Publisher’s note
+acquisition, Methodology, Validation, Writing – review & editing.
+ME: Data curation, Formal analysis, Software, Writing – review &
+                                                                                All claims expressed in this article are solely those of the
+editing. HD: Data curation, Software, Writing – review & editing.
+                                                                            authors and do not necessarily represent those of their affiliated
+MGu: Project administration, Resources, Writing – review &
+                                                                            organizations, or those of the publisher, the editors and the
+editing. AV: Data curation, Methodology, Writing – review &
+                                                                            reviewers. Any product that may be evaluated in this article, or
+editing. J-PR: Data curation, Methodology, Writing – review &
+                                                                            claim that may be made by its manufacturer, is not guaranteed or
+editing. SAt: Data curation, Methodology, Writing – original draft,
+                                                                            endorsed by the publisher.
+Writing – review & editing. WZ: Conceptualization, Data curation,
+Formal analysis, Funding acquisition, Investigation, Methodology,
+Project administration, Resources, Supervision, Validation,                 Supplementary material
+Writing – review & editing. MGi: Conceptualization, Formal
+analysis, Funding acquisition, Investigation, Methodology, Project              The Supplementary Material for this article can be found
+administration, Resources, Software, Supervision, Validation,               online at: https://www.frontiersin.org/articles/10.3389/fninf.2025.
+Visualization, Writing – review & editing.                                  1568116/full#supplementary-material
+
+
+
+
+Frontiers in Neuroinformatics                                          15                                                         frontiersin.org
+Appukuttan et al.                                                                                                                                              10.3389/fninf.2025.1568116
+
+
+
+
+References
+  Andica, C., Kamagata, K., Hatano, T., Saito, Y., Ogaki, K., Hattori, N., et al. (2020).                Gravel, N., Renken, R. J., Harvey, B. M., Deco, G., Cornelissen, F. W., and Gilson, M.
+MR biomarkers of degenerative brain disorders derived from diffusion imaging. J.                      (2020). Propagation of bold activity reveals task-dependent directed interactions across
+Magn. Reson. Imaging 52, 1620–1636. doi: 10.1002/jmri.27019                                           human visual cortex. Cereb. Cortex 30, 5899–5914. doi: 10.1093/cercor/bhaa165
+   Ashworth, N. L., Satkunam, L., and Deforge, D. (2012). Treatment for spasticity                        Grollemund, V., Pradat, P.-F., Querin, G., Delbot, F., Le Chat, G., Pradat-Peyre,
+in amyotrophic lateral sclerosis/motor neuron disease. Cochrane Database Syst. Rev.                   J.-F., et al. (2019). Machine learning in amyotrophic lateral sclerosis: achievements,
+2012:CD004156. doi: 10.1002/14651858.CD004156.pub4                                                    pitfalls, and future directions. Front. Neurosci. 13:135. doi: 10.3389/fnins.2019.00135
+   Atassi, N., Xu, M., Triantafyllou, C., Keil, B., Lawson, R., Cernasov, P.,                            Islam, N. U., and Khanam, R. (2024). Machine learning based parkinson’s disease
+et al. (2017). Ultra high-field (7tesla) magnetic resonance spectroscopy in                           detection and progression evaluation using gray and white matter segmentation from
+amyotrophic lateral sclerosis. PLoS ONE 12:e0177680. doi: 10.1371/journal.pone.                       3D MRI. J. Eng. Appl. Sci. 71:190. doi: 10.1186/s44147-024-00522-7
+0177680
+                                                                                                         Iturria-Medina, Y., Carbonell, F., Assadi, A., Adewale, Q., Khan, A. F., Baumeister,
+   Avants, B. B., Tustison, N., and Song, G. (2009). Advanced normalization tools                     T. R., et al. (2021). Integrating molecular, histopathological, neuroimaging
+(ants). Insight J 2, 1–35. doi: 10.54294/uvnhin                                                       and clinical neuroscience data with neuropm-box. Commun. Biol. 4:614.
+                                                                                                      doi: 10.1038/s42003-021-02133-x
+    Baiardi, S., Mammana, A., Dellavalle, S., Rossi, M., Redaelli, V., Colaizzo,
+E., et al. (2023). Defining the phenotypic spectrum of sporadic creutzfeldt-jakob                        Kebaili, A., Lapuyade-Lahorgue, J., and Ruan, S. (2023). Deep learning
+disease mv2k: the kuru plaque type. Brain 146, 3289–3300. doi: 10.1093/brain/                         approaches for data augmentation in medical imaging: a review. J. Imaging 9:81.
+awad074                                                                                               doi: 10.3390/jimaging9040081
+    Barry, R. L., Babu, S., Anteraper, S. A., Triantafyllou, C., Keil, B., Rowe, O. E., et al.            Kobeleva, X., Varoquaux, G., Dagher, A., Adhikari, M. H., Grefkes, C., and Gilson,
+(2021). Ultra-high field (7t) functional magnetic resonance imaging in amyotrophic                    M. (2022). Advancing brain network models to reconcile functional neuroimaging and
+lateral sclerosis: a pilot study. Neuroimage Clin. 30:102648. doi: 10.1016/j.nicl.2021.               clinical research. Neuroimage Clin. 36:103262. doi: 10.1016/j.nicl.2022.103262
+102648
+                                                                                                         Labra, J., Menon, P., Byth, K., Morrison, S., and Vucic, S. (2016). Rate of disease
+   Bede, P., and Hardiman, O. (2018). Longitudinal structural changes in als: a                       progression: a prognostic biomarker in als. J. Neurol. Neurosurg. Psychiatry 87,
+three time-point imaging study of white and gray matter degeneration. Amyotroph.                      628–632. doi: 10.1136/jnnp-2015-310998
+Lateral Scler. Frontotemporal Degener. 19, 232–241. doi: 10.1080/21678421.2017.
+                                                                                                         Lin, D. J., Johnson, P. M., Knoll, F., and Lui, Y. W. (2021). Artificial intelligence
+1407795
+                                                                                                      for mr image reconstruction: an overview for clinicians. J. Magn. Reson. Imaging 53,
+   Brooks, B. R., Miller, R. G., Swash, M., and Munsat, T. L. (2000). El escorial revisited:          1015–1028. doi: 10.1002/jmri.27078
+revised criteria for the diagnosis of amyotrophic lateral sclerosis. Amyotroph. Lateral
+                                                                                                         Menke, R. A., Agosta, F., Grosskreutz, J., Filippi, M., and Turner, M. R. (2017).
+Scler. Other Motor Neuron Disord. 1, 293–299. doi: 10.1080/146608200300079536
+                                                                                                      Neuroimaging endpoints in amyotrophic lateral sclerosis. Neurotherapeutics 14, 11–23.
+    Cedarbaum, J. M., Stambler, N., Malta, E., Fuller, C., Hilt, D., Thurmond, B., et al.             doi: 10.1007/s13311-016-0484-9
+(1999). The alsfrs-r: a revised als functional rating scale that incorporates assessments
+                                                                                                         Mirabnahrazam, G., Ma, D., Lee, S., Popuri, K., Lee, H., Cao, J., et al. (2022).
+of respiratory function. J. Neurol. Sci. 169, 13–21. doi: 10.1016/S0022-510X(99)00210-5
+                                                                                                      Machine learning based multimodal neuroimaging genomics dementia score for
+   Cerasa, A., Cherubini, A., and Peran, P. (2011). Multimodal mri in                                 predicting future conversion to alzheimer’s disease. J. Alzheimers Dis. 87, 1345–1365.
+neurodegenerative disorders. Neurol. Res. Int. 2012:287891. doi: 10.1155/2012/287891                  doi: 10.3233/JAD-220021
+   Chadebec, C., Thibeau-Sutre, E., Burgos, N., and Allassonnière, S. (2022). Data                       Nanni, L., Interlenghi, M., Brahnam, S., Salvatore, C., Papa, S., Nemni, R., et al.
+augmentation in high dimensional low sample size setting using a geometry-based                       (2020). Comparison of transfer learning and conventional machine learning applied to
+variational autoencoder. IEEE Trans. Pattern Anal. Mach. Intell. 45, 2879–2896.                       structural brain mri for the early diagnosis and prognosis of alzheimer’s disease. Front.
+doi: 10.1109/TPAMI.2022.3185773                                                                       Neurol. 11:576194. doi: 10.3389/fneur.2020.576194
+    Chintapalli, S. S., Wang, R., Yang, Z., Tassopoulou, V., Yu, F., Bashyam, V., et al.                  Noebauer-Huhmann, I.-M., Szomolanyi, P., Kronnerwetter, C., Widhalm, G.,
+(2024). Generative models of mri-derived neuroimaging features and associated dataset                 Weber, M., Nemec, S., et al. (2015). Brain tumours at 7T MRI compared to 3T—contrast
+of 18,000 samples. Sci. Data 11, 1–10. doi: 10.1038/s41597-024-04157-4                                effect after half and full standard contrast agent dose: initial results. Eur. Radiol. 25,
+                                                                                                      106–112. doi: 10.1007/s00330-014-3351-2
+    Dadi, K., Rahim, M., Abraham, A., Chyzhyk, D., Milham, M., Thirion, B., et al.
+(2019). Benchmarking functional connectome-based predictive models for resting-                           Pallarés, V., Insabato, A., Sanjuán, A., Kühn, S., Mantini, D., Deco, G., et
+state fmri. NeuroImage 192, 115–134. doi: 10.1016/j.neuroimage.2019.02.062                            al. (2018). Extracting orthogonal subject-and condition-specific signatures from
+                                                                                                      fmri data using whole-brain effective connectivity. NeuroImage 178, 238–254.
+   Destrieux, C., Fischl, B., Dale, A., and Halgren, E. (2010). Automatic parcellation
+                                                                                                      doi: 10.1016/j.neuroimage.2018.04.070
+of human cortical gyri and sulci using standard anatomical nomenclature. Neuroimage
+53, 1–15. doi: 10.1016/j.neuroimage.2010.06.010                                                            Rascovsky, K., Hodges, J. R., Knopman, D., Mendez, M. F., Kramer, J. H., Neuhaus,
+                                                                                                      J., et al. (2011). Sensitivity of revised diagnostic criteria for the behavioural variant of
+   Drory, V. E., Goltsman, E., Reznik, J. G., Mosek, A., and Korczyn, A. D. (2001). The
+                                                                                                      frontotemporal dementia. Brain 134, 2456–2477. doi: 10.1093/brain/awr179
+value of muscle exercise in patients with amyotrophic lateral sclerosis. J. Neurol. Sci.
+191, 133–137. doi: 10.1016/S0022-510X(01)00610-4                                                          Shevchenko, V., Benn, R. A., Scholz, R., Wei, W., Pallavicini, C., Klatzmann, U., et
+                                                                                                      al. (2025). A comparative machine learning study of schizophrenia biomarkers derived
+   El Mendili, M. M., Verschueren, A., Ranjeva, J.-P., Guye, M., Attarian, S.,
+                                                                                                      from functional connectivity. Sci. Rep. 15:2849. doi: 10.1038/s41598-024-84152-2
+Zaaraoui, W., et al. (2023). Association between brain and upper cervical spinal cord
+atrophy assessed by mri and disease aggressiveness in amyotrophic lateral sclerosis.                     Stamoulou, E., Spanakis, C., Manikis, G. C., Karanasiou, G., Grigoriadis, G.,
+Neuroradiology 65, 1395–1403. doi: 10.1007/s00234-023-03191-0                                         Foukakis, T., et al. (2022). Harmonization strategies in multicenter MRI-based
+                                                                                                      radiomics. J. Imaging 8:303. doi: 10.3390/jimaging8110303
+   Elias-Jones, A. C., Jaspan, T., Mellor, D. H., and Worthington, B. S. (1990).
+Magnetic resonance imaging in neurological disorders. Arch. Dis. Child. 65, 922–929.                     Thibeau-Sutre, E., Collin, S., Burgos, N., and Colliot, O. (2023). “Interpretability
+doi: 10.1136/adc.65.9.922                                                                             of machine learning methods applied to neuroimaging,” in Machine Learning for
+                                                                                                      Brain Disorders, Vol 197, ed. O. Colliot (New York, NY: Humana), 655–704.
+   Fischl,      B.    (2012).     Freesurfer.          Neuroimage         62,       774–781.
+                                                                                                      doi: 10.1007/978-1-0716-3195-9_22
+doi: 10.1016/j.neuroimage.2012.01.021
+                                                                                                          Tilsley, P., Moutiez, A., Brodovitch, A., El Mendili, M. M., Testud, B., Zaaraoui,
+   Fox, R. J., Beall, E., Bhattacharyya, P., Chen, J., and Sakaie, K. (2011). Advanced
+                                                                                                      W., et al. (2024). Neurofilament light chain levels interact with neurodegenerative
+MRI in multiple sclerosis: current status and future challenges. Neurol. Clin. 29:357.
+                                                                                                      patterns and motor neuron dysfunction in amyotrophic lateral sclerosis. AJNR Am.
+doi: 10.1016/j.ncl.2010.12.011
+                                                                                                      J. Neuroradiol. 45, 494–503. doi: 10.3174/ajnr.A8154
+   Garcea, F., Serra, A., Lamberti, F., and Morra, L. (2023). Data augmentation
+for medical imaging: a systematic literature review. Comput. Biol. Med. 152:106391.                      Tustison, N. J., Avants, B. B., Cook, P. A., Zheng, Y., Egan, A., Yushkevich, P.
+doi: 10.1016/j.compbiomed.2022.106391                                                                 A., et al. (2010). N4itk: improved n3 bias correction. IEEE Trans. Med. Imaging 29,
+                                                                                                      1310–1320. doi: 10.1109/TMI.2010.2046908
+   Grapperon, A.-M., El Mendili, M. M., Maarouf, A., Ranjeva, J.-P., Guye, M.,
+Verschueren, A., et al. (2025). In vivo mapping of sodium homeostasis disturbances                       Wan, L., Zhu, S., Chen, Z., Qiu, R., Tang, B., and Jiang, H. (2023). Multidimensional
+in individual als patients: a brain 23na mri study. PLoS ONE 20:e0316916.                             biomarkers for multiple system atrophy: an update and future directions. Transl.
+doi: 10.1371/journal.pone.0316916                                                                     Neurodegener. 12:38. doi: 10.1186/s40035-023-00370-0
+
+   Grapperon, A.-M., Ridley, B., Verschueren, A., Maarouf, A., Confort-                                  Wang, J., Li, Y., Wang, Y., and Huang, W. (2018). Multimodal data and
+Gouny, S., Fortanier, E., et al. (2019). Quantitative brain sodium MRI depicts                        machine learning for detecting specific biomarkers in pediatric epilepsy patients
+corticospinal impairment in amyotrophic lateral sclerosis. Radiology 292, 422–428.                    with generalized tonic-clonic seizures. Front. Neurol. 9:1038. doi: 10.3389/fneur.2018.
+doi: 10.1148/radiol.2019182276                                                                        01038
+
+
+
+
+Frontiers in Neuroinformatics                                                                    16                                                                             frontiersin.org
+Appukuttan et al.                                                                                                                                 10.3389/fninf.2025.1568116
+
+
+
+
+   Weiner, M. W. (2024). ADNI: Two decades of impact and the path forward.                     and histopathological correlations in motor neuron diseases—a systematic
+Alzheimers Dement. 20:e083392. doi: 10.1002/alz.083392                                         review and meta-analysis. Front. Neurol. 13:947347. doi: 10.3389/fneur.2022.
+                                                                                               947347
+   Yousefirizi, F., Decazes, P., Amyar, A., Ruan, S., Saboury, B., and Rahmim, A.
+(2022). Ai-based detection, classification and prediction/prognosis in medical imaging:            Zhang, Y., Schuff, N., Woolley, S. C., Chiang, G. C., Boreta, L., Laxamana,
+towards radiophenomics. PET Clin 17, 183–212. doi: 10.1016/j.cpet.2021.09.010                  J., et al. (2011). Progression of white matter degeneration in amyotrophic lateral
+  Zejlon, C., Nakhostin, D., Winklhofer, S., Pangalu, A., Kulcsar, Z.,                         sclerosis: a diffusion tensor imaging study. Amyotroph. Lateral Scler. 12, 421–429.
+Lewandowski, S., et al. (2022). Structural magnetic resonance imaging findings                 doi: 10.3109/17482968.2011.593036
+
+
+
+
+Frontiers in Neuroinformatics                                                             17                                                                      frontiersin.org
+
