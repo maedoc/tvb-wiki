@@ -4,6 +4,8 @@ sources:
 - raw/papers/arxiv-2510.22651.md
 - raw/papers/arxiv-2601.22367.md
 - raw/papers/arxiv-2506.04558.md
+- raw/papers/semanticscholar-8133a79e2e93.md
+- raw/papers/arxiv-2505.22685.md
 tags:
 - parameter-estimation
 - machine-learning
@@ -31,3 +33,9 @@ Classical algorithms sample parameters from a prior, simulate data, and retain t
 
 ## Related Concepts
 SBI occupies a complementary position to [[dynamic-causal-modeling]] in the landscape of neuroimaging inference. Whereas DCM uses biophysically informed forward models combined with variational Laplace approximations tailored to specific modality equations, SBI is model-agnostic: it requires only a stochastic simulator and a set of summary statistics, making it applicable to any model expressible in TVB or alternative platforms. Relative to discriminative [[machine-learning]] approaches that map directly from data to point estimates, SBI retains a fully probabilistic interpretation and yields complete posterior distributions with credible intervals. As whole-brain models increase in anatomical detail and computational scale, the coupling of SBI with simulators like [[TVB]] offers a principled path toward systematic model calibration, parameter identifiability analysis, and rigorous comparison of competing network hypotheses [[raw/papers/cranmer-etal-2020-sbi-frontier.md|Cranmer et al. (2020)]]. Consequently, SBI is increasingly viewed as an essential inferential layer in the computational neuroscience toolkit alongside established Bayesian frameworks [[raw/papers/lueckmann-etal-2021-sbi.md|Lueckmann et al. (2021)]], unifying the flexibility of modern deep learning with the interpretability of Bayesian decision theory [[raw/papers/papamakarios-murray-2016-fast-epsilon-free.md|Papamakarios & Murray (2016)]].
+
+## References
+
+1. Lu Xu, Tsai Hor Chan, Kwok Fai Lam, Lequan Yu, Guosheng Yin. (2025). *Variational Polya Tree*. arXiv.org. [DOI](https://doi.org/10.48550/arXiv.2510.22651)
+2. Shiyi Sun, Geoff K. Nicholls, Jeong Eun Lee. (2026). *Amortized Simulation-Based Inference in Generalized Bayes via Neural Posterior Estimation*. arXiv.org. [DOI](https://doi.org/10.48550/arXiv.2601.22367)
+3. Yefeng Fan, S. White. (2025). *A Scalable Exponential Random Graph Model: Amortised Hierarchical Sequential Neural Posterior Estimation with Applications in Neuroscience*. [Link](https://www.semanticscholar.org/paper/37e08d0f7dc3a455c62448b2a4a60b7149955ba4)

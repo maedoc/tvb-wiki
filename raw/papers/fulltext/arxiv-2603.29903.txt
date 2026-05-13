@@ -1,0 +1,779 @@
+                                                                                                                                                                                           1
+
+
+
+
+                                                      Multimodal Higher-Order Brain Networks: A
+                                                       Topological Signal Processing Perspective
+                                            Breno C. Bispo, Stefania Sardellitti, Senior Member, IEEE, Juliano B. Lima, Senior Member, IEEE, and Fernando
+                                                                                             A. N. Santos
+
+
+                                               Abstract—Brain connectomics is still largely dominated by                   has provided key insights into segregation–integration balance,
+                                            pairwise-based models, such as graphs, which cannot represent                  hub architecture, and dysconnectivity patterns [3]–[5].
+                                            circulatory or higher-order functional interactions. In this paper,               Although graphs are typically used to represent pairwise re-
+arXiv:2603.29903v1 [q-bio.NC] 31 Mar 2026
+
+
+
+
+                                            we propose a multimodal framework based on Topological
+                                            Signal Processing (TSP) that models the brain as a higher-order                lations, multivariate functions defined on them may capture co-
+                                            topological domain and treats functional interactions as discrete              ordinated activity across groups of nodes [6]. This is especially
+                                            vector fields. We integrate diffusion MRI and resting-state fMRI               relevant for fMRI, whose signals are often approximately
+                                            to learn subject-specific brain cell complexes, where statistically            Gaussian [7]; in this regime, higher-order statistics reduce
+                                            validated structural connectivity defines a sparse scaffold and                to functions of pairwise covariance [8]. Accordingly, linear
+                                            phase-coupling functional edge signals drive the inference of
+                                            higher-order interactions (HOIs). Using Hodge-theoretic tools,                 (pairwise) correlation explains much of functional connectivity
+                                            spectral filtering, and sparse signal representations, our frame-              and a substantial part of higher-order behaviors observed in
+                                            work disentangles brain connectivity into divergence (source-sink              fMRI [7], [9], [10]. Still, an explicit topological domain with
+                                            organization), gradient (potential-driven coordination), and curl              physically interpretable operators is of great interest, as it
+                                            (circulatory HOIs), enabling the characterization of temporal                  allows edge-centric dynamics to be treated as discrete vector
+                                            dynamics through the lens of discrete vector calculus. Across 100
+                                            healthy young adults from Human Connectome Project, node-                      fields and enables the analysis of circulations and general
+                                            based HOIs are highly individualized, yet robust mesoscale struc-              signals on higher-order structures not definable from edges
+                                            ture emerges under functional-system aggregation. We identify a                alone [11]. This motivates higher-order representations, such
+                                            distributed default mode network-centered gradient backbone                    as simplicial (or cell) complexes, which explicitly encode non-
+                                            and limbic-centered rotational flows; divergence polarization                  dyadic interactions, capture clique/cavity organization, recur-
+                                            and curl profiles defining circulation regimes with insightful
+                                            occupancy and dwell-time statistics. These topological signatures              rent motifs, and closed-loop coordination in brain networks
+                                            yield significant brain-behavior associations, revealing a relevant            [12]–[16]. Such features have improved task decoding, indi-
+                                            higher-order organization intrinsic to edge-based models. By                   vidual identification, and behavioral associations, while time-
+                                            making divergence, circulation, and recurrent mesoscale coor-                  resolved higher-order analyses increase sensitivity to dynamic
+                                            dination directly measurable, this work enables a principled and               functional organization [17], [18].
+                                            interpretable topological phenotyping of brain function.
+                                                                                                                              Recent works show that functional coordination is dynamic
+                                               Index Terms—Topological signal processing, brain topological                and structurally constrained. Dynamic functional connectiv-
+                                            learning, multimodal connectivity, neuroscience.
+                                                                                                                           ity and edge-centric approaches capture temporal variability
+                                                                                                                           through edge time series derived from co-fluctuations or phase-
+                                                                      I. I NTRODUCTION                                     coherence [19]–[22], but remain largely dyadic and incapable
+                                                  DVANCES in magnetic resonance imaging (MRI) have
+                                            A     enabled non-invasive, whole-brain measurements at mil-
+                                            limetric resolution, establishing connectomics as a central
+                                                                                                                           to represent higher-order coordination. In parallel, structural
+                                                                                                                           connectivity constrains, but not fully determine, functional
+                                                                                                                           organization, as anatomical scaffolds account for only part of
+                                            framework for studying the brain as a distributed system in                    functional interactions [23], [24]. These observations motivate
+                                            which cognition and behavior emerge from coordinated inter-                    multimodal approaches that preserve the structural backbone
+                                            actions across cortical and subcortical areas [1], [2]. In net-                while allowing functional flow dynamics to express emergent
+                                            work neuroscience, functional MRI (fMRI) and diffusion MRI                     multi-way coordination, including circulatory patterns acces-
+                                            (dMRI) are widely used to estimate functional and structural                   sible only through higher-order topological analysis.
+                                            connectomes, typically modeled as graphs with brain regions                       In this paper, we introduce a novel perspective for brain
+                                            of interest (ROIs) as nodes and pairwise functional or anatom-                 analysis based on Topological Signal Processing (TSP) [11],
+                                            ical connections as edges [2]. This graph-based paradigm                       [25], a powerful framework to analyze higher-order interac-
+                                                                                                                           tions (HOIs) in brain networks, by characterizing functional
+                                               This work was supported by the FIN-RIC Project TSP-ARK, financed
+                                            by Universitas Mercatorum under grant n. 20-FIN/RIC. Additional sup-           coordination across edges and higher-order structures. TSP
+                                            port was provided by CAPES (88881.311848/2018-01, 88887.899136/2023-           extends Graph Signal Processing (GSP) [26] to higher-order
+                                            00), CNPq (442238/2023-1, 312935/2023-4, 405903/2023-5, 200548/2025-           topological domains and provides Hodge-theoretic operators
+                                            5), and FACEPE (APQ-1226-3.04/22). Bispo and Lima are with Dept.
+                                            of Electronics and Systems, Federal University of Pernambuco, Recife,          and spectral tools for signals defined on simplicial and, more
+                                            Brazil. Sardellitti is with the Dept. of Engineering and Sciences, Univer-     generally, cell complexes [27]. In particular, cell complexes
+                                            sitas Mercatorum, Piazza Mattei, Rome, Italy. Santos is with the Dutch         represent relations among groups of nodes through cells of
+                                            Institute for Emergent Phenomena, KdVI, University of Amsterdam, Ams-
+                                            terdam, The Netherlands. E-mails: breno.bispo, juliano.lima}@ufpe.br, stefa-   different orders (nodes, edges, and polygonal faces), pro-
+                                            nia.sardellitti@unimercatorum.it, f.a.nobregasantos@uva.nl.                    viding the explicit higher-order scaffold needed to analyze
+2
+
+
+
+edge-centric dynamics beyond pairwise relations. Within this       A. Topological signal processing background
+framework, edge signals are interpreted as discrete vector
+fields and decomposed into orthogonal gradient, solenoidal,           The need to extract meaningful information from data has
+and harmonic components, yielding a physically interpretable       motivated structured representations that capture relational
+description of source-sink and cyclic coordination patterns.       dependencies, such as topological domains. In this context,
+While Hodge-based descriptors have been used to characterize       GSP [26] analyzes signals on graph nodes, naturally modeling
+cycle/flow structure in thresholded functional connectivity        pairwise relations. However, graphs do not support notions of
+networks [15], a unified TSP pipeline that combines brain          flow circulation or higher-order conservation laws. In partic-
+topology learning with dynamical analysis on subject-specific      ular, operators like curl, which quantify cyclic coordination,
+cell complexes remains unexplored.                                 require higher-order topological structures. This is relevant for
+   To fill this gap, we model each subject’s brain as a second-    systems such as brain networks, where coordination often ex-
+order cell complex that integrates dMRI and resting-state          tends beyond simple pairwise relations. Even in fMRI, where
+fMRI (rs-fMRI), thereby combining structural and functional        pairwise interactions often dominate [7], [9], [10], higher-order
+connectivity information. DMRI defines a sparse admissible         representations remain essential to capture the geometry of
+edge scaffold, while HOIs are inferred from time-resolved          interactions and define operators that characterize flow organi-
+functional edge dynamics, yielding subject-specific polygonal      zation. To address this limitation, TSP was recently introduced
+faces (triangles, quadrilaterals, and pentagons). This supports    as a framework for analyzing signals on higher-order topolog-
+multiscale analyses from node-level motifs to mesoscale or-        ical spaces, such as simplicial and cell complexes [11], [25],
+ganization across canonical subsystems and their combina-          [27]. Rather than assuming the presence of HOIs a priori, TSP
+tions. We then leverage divergence and curl to characterize        provides the minimal topological structure needed to endow
+(i) mesoscale source-sink polarization, (ii) higher-order cyclic   edge-centric dynamics with a discrete calculus, enabling the
+coordination regimes, and (iii) their associations with inter-     definition of divergence (source–sink organization), gradient
+individual variability in cognition and behavior in the Human      (potential-driven flows), and curl (circulatory coordination). In
+Connectome Project (HCP) cohort [28], [29].                        this work, we focus on cell complexes as general models that
+                                                                   support these operators while allowing flexible representations
+   Our main contributions are as follows. First, we extend [16]
+                                                                   of higher-order organization.
+from simplicial to cell complexes, enabling richer polygonal
+HOI representations in a multimodal framework, where statis-          A (finite) cell complex (CC) is a combinatorial structure
+tically validated dMRI connectivity defines the structural scaf-   composed of a collection of basic building blocks, called cells.
+fold and rs-fMRI edge dynamics drive subject-specific higher-      Each cell c has an associated dimension (or order) k = dim(c),
+order cell (HOC) inference. Unlike pairwise connectomics,          denoted by ck , and is referred to as a k-cell. For instance, 0-
+this yields an explicit topological domain in which functional     cells, 1-cells and 2-cells correspond to vertices, edges, and
+interactions can be represented as edge flows and circulations     polygons, respectively. Unlike simplicial complexes, which
+over HOIs. Second, we show that higher-order brain topology        restrict 2-cells to triangles (or 2-simplices), CCs allow general
+is strongly scale-dependent, where exact node-level HOIs are       polygonal faces (triangles, quadrilaterals, pentagons, etc.),
+highly individualized across subjects, whereas robust and re-      enabling richer and more flexible representations of HOIs.
+producible mesoscale organization emerges when HOIs are ag-        How cells of different dimensions are organized and attached
+gregated by functional-system combinations. Third, we show         to each other is encoded by a boundary (incidence) relation
+that the proposed perspective turns brain connectivity into a      ≺b that specifies how higher-dimensional cells attach to lower-
+higher-order topological domain endowed with well known            dimensional ones [27]. Specifically, if ck−1 ≺b ck , then ck−1
+physically interpretable operators, overcoming limitations of      is a face of ck and lies on its boundary. For example, an edge
+graph-based models and other higher-order signal processing        is bounded by two endpoint faces, while a 2-cell is bounded
+approaches [30]. Using TSP concepts, we identify significant       by an oriented cycle of edges. A CC is K-dimensional if all
+gradient and rotational regimes and quantify divergence- and       its cells have dimension at most K, and all boundary faces of
+curl-based mesoscale patterns, making edge flows, circula-         each cell belong to the complex.
+tions, and recurrent coordination directly measurable and             A K-cell complex is specified by a collection of sets
+behaviorally relevant.                                             {C k }K              k
+                                                                         k=0 , where C denotes the set of all k-cells with cardinal-
+                                                                                 k
+   The paper is organized as follows. Sec. II reviews the TSP      ity Nk ≜ |C |. In order to obtain an algebraic representation
+framework and topology learning strategy, Sec. III presents        of a cell complex, we assign an orientation to every cell.
+the proposed multimodal pipeline for inferring subject-specific    For an incident pair ck−1 i     ≺b ckj , we write ck−1
+                                                                                                                       i    ∼ ckj if
+                                                                                                            k−1     k
+2-cell complexes from HCP dMRI and rs-fMRI data, Sec. IV           their orientations are coherent, and ci      ̸∼ cj otherwise. For
+reports the empirical findings, and Sec. V concludes the paper.    edges (1-cells), this means assigning an orientation between
+                                                                   endpoints; for 2-cells (polygons), a circulation direction along
+                                                                   the boundary, e.g., (counter)clockwise. Given an orientation,
+    II. T OPOLOGICAL S IGNAL P ROCESSING F RAMEWORK                two k-cells are said to be lower adjacent if they share a
+  In this section, we briefly review the main notions of the       common face of order k − 1 and upper adjacent if they are
+TSP framework over cell complexes [27], then introduce a           both faces of a cell of order k + 1. The incidence relations
+TSP-based approach to jointly learn the brain topology and         between cells of order k and k−1 are encoded by the incidence
+sparse signal representations from data.                           (or boundary) matrix Bk , whose entries are 1 (or −1) if
+                                                                                                                                       3
+
+
+
+ck−1
+ i    ≺b ckj and ck−1
+                   i    ∼ ckj (or ̸∼), and 0 otherwise. Therefore,
+the topology of a K-cell complex is fully characterized by
+the collection of incidence matrices {Bk }K   k=1 . A fundamental
+property of these matrices is that the boundary of a boundary
+is empty, i.e., Bk Bk+1 = 0 for k = 1, . . . , K − 1.
+   Throughout this work, we focus on 2-dimensional CCs,               Fig. 1. An example of a CC of order 2.
+denoted by C = {V, E, P}, where V = C 0 , E = C 1 , and
+P = C 2 are the sets of vertices, edges, and polygons, with           B⊤   0
+                                                                        1 s is the irrotational edge signal, i.e., the gradient of the
+cardinalities |V| = N , |E| = E, and |P| = P , respectively. In       node signal across edges; s1s = B2 s2 is the solenoidal signal,
+this setting, HOIs are represented by polygonal faces (2-cells),      representing the circulation (curl) along polygons; and sH is
+excluding higher-dimensional cells (e.g., 3-cells/volumes). The       the harmonic signal lying in both ker(B1 ) and ker(BT2 ).
+corresponding signed incidence matrices B1 ∈ RN ×E and                   Two operators with clear physical interpretations naturally
+B2 ∈ RE×P encode node-edge and edge-face relations,                   arise in this setting. The divergence operator,
+respectively, and provide the algebraic ingredients that later                              div(s1 ) = B1 s1 ∈ RN ,                 (4)
+define the Hodge Laplacian, divergence and curl operators.
+Fig. 1 shows an example of a 2-order CC, consisting of N = 8          yields a node signal that identifies regions acting as sources
+nodes (0-cells), E = 11 edges (1-cells) and P = 3 polygons            or sinks of interaction; and the curl operator,
+(2-cells), namely one triangle, and two squares, along with                                curl(s1 ) = B⊤ 1  P
+                                                                                                        2s ∈R ,                     (5)
+their corresponding orientations. In our multimodal context
+                                                                      quantifies the circulation of edge signals along filled polygons.
+of brain networks, vertices correspond to ROIs, edges encode
+                                                                      By construction, irrotational signals are curl-free, solenoidal
+pairwise structural relationships, and faces represent functional
+                                                                      signals are divergence-free, and harmonic signals are both,
+HOIs among groups of ROIs. In this work, we restrict the 2-
+                                                                      yielding a physically interpretable decomposition that dis-
+cells to triplet, quadruplet, and quintuplet HOIs.
+                                                                      tinguishes source-sink patterns, cyclic interactions along 2-
+   Based on these operators, the topology of the complex
+                                                                      cells [16], and topology-constrained global flows. Further-
+is captured by the combinatorial Hodge Laplacians [31]. In
+                                                                      more, the Hodge decomposition (2) splits the eigenbasis U1
+particular, the first-order Hodge Laplacian is defined as
+                                                                      into: (i) gradient eigenvectors UG spanning img(B⊤    1 ) (associ-
+                    L1 = B⊤          ⊤
+                          1 B1 + B2 B2 ,                       (1)    ated with nonzero eigenvalues of L1,ℓ ), (ii) curl eigenvectors
+                                                                      UC spanning img(B2 ) (associated with nonzero eigenval-
+where L1,ℓ =      B⊤
+                   1 B1   and L1,u =      B2 B⊤
+                                              2  are the lower
+                                                                      ues of L1,u ), and (iii) harmonic eigenvectors UH spanning
+and upper Laplacians, encoding adjacency between edges via
+                                                                      ker(L1 ), whose dimension equals the first Betti number, i.e.,
+shared nodes and shared polygons, respectively [27].
+                                                                      the number of independent 1-cycles (unfilled polygons).
+Spectral signal representation. Within this algebraic frame-
+work, a k-cell signal is a map sk : C k → RNk from the
+set of cells to the real vectors sk ∈ RNk . Accordingly,              B. Joint learning of topology and sparse signals
+s0 : V → RN , s1 : E → RE , and s2 : P → RP                              In this section, we present a TSP-based strategy to learn
+denote signals over nodes, edges, and 2-cells, respectively. An       polygonal 2-cells and a sparse signal representation from
+orthogonal basis for representing k-cell signals is given by          edge flows (or signals), extending [16] from simplicial to
+the eigenvectors of the k-th order Hodge Laplacian Lk , which         cell complexes. Given an underlying graph, the goal is to
+is a symmetric positive semidefinite matrix. It admits the            infer a higher-order topology that enables sparse spectral
+eigendecomposition Lk = Uk Λk U⊤    k , where Uk is the unitary       representations of the solenoidal and harmonic components
+matrix whose columns are the eigenvectors of Lk and Λk is the         by jointly minimizing total circulation and data-fitting error.
+diagonal matrix whose entries are the associated eigenvalues.            Let us denote with ŝ1s = U⊤        1
+                                                                                                          C ss ,  ŝ1H = U⊤    1
+                                                                                                                            H sH , the
+The Cell Fourier Transform (CFT) of sk is defined as ŝk =            spectral representations of the solenoidal and harmonic signals,
+U⊤    k            k
+   k s , allowing s to be expressed in the spectral domain as         respectively. Given a graph and observed edge-flow signals
+ k          k
+s = Uk ŝ [27]. A signal is said K-bandlimited if it can be           y1 (t) ∈ RE at time instants t = 1, . . . , T , we build the
+represented over a set of K eigenvectors. Bandlimitedness in          data matrix Y1 = [y1 (1), . . . , y1 (T )] ∈ RE×T . From this
+these bases reflects topological smoothness of the signal.            matrix, our goal is to learn the incidence matrix B2 , or
+Hodge decomposition. From (1) and using the orthogonality             equivalently, the upper Laplacian matrix L1,u . Denoting by P
+condition B1 B2 = 0, the space of edge signals decomposes             the number of possible 2-cells in the complex,   Psuch a matrix
+                                                                                                                        P
+into three orthogonal subspaces, known as the Hodge decom-            can be written in the equivalent form L1,u = n=1 qn bn b⊤     n,
+position [32], given by                                               where bn are the (E × 1)-dimensional columns of B2 ,
+           RE ≡ img(B⊤                                                while qn ∈ {0, 1} are binary coefficients selecting the filled
+                     1 ) ⊕ ker(L1 ) ⊕ img(B2 ).                (2)
+                                                                      polygonal cells according to the chosen optimization rule.
+This implies that any edge signal can be decomposed as                Then, as in [25], we first assess whether the observed signals
+                   s1 = B⊤  0      2                                  exhibit solenoidal or harmonic components, as this determines
+                         1 s + B2 s + s H ,                    (3)
+                                                                      whether it is necessary to move beyond the graph structure
+where the three components are mutually orthogonal and                and estimate B2 . To do so, we project the observed edge
+admit a physical vector-field interpretation. Specifically, s1irr =   flows onto the subspace orthogonal to the irrotational one
+4
+
+
+
+ysH1
+      (t) = (I − UG U⊤              1
+                                G )y (t), ∀t. We next compute the                            adults from the HCP (ages 21-35; 46 males/54 females) [28].
+                                         1      1                1
+Frobenius norm of the matrix YsH            = [ysH (1), . . . , ysH (T )].                   Brains were parcellated with the Automated Anatomical La-
+If this norm exceeds a prescribed threshold, we proceed to                                   beling (AAL) atlas [33] into N = 90 ROIs, each assigned
+estimate L1,u .                                                                              to one of seven canonical functional subnetworks (FS) and
+    Defining the matrices Ŝ1s = [ŝ1s (1), . . . , ŝ1s (T )], Ŝ1H =                       its corresponding colormap [34]: frontoparietal (FP, orange),
+[ŝH (1), . . . , ŝ1H (T )], we can formulate the non-convex opti-
+   1                                                                                         default mode network (DMN, red), subcortical (SC, gray),
+mization problem                                                                             visual (VIS, purple), somatomotor (SM, steelblue), ventral
+                      P
+                      X
+                                   1T
+                                                                                             attention (VA, violet), and limbic (LIM, khaki).
+        min                  qn ∥ YsH bn ∥2F +β ∥ YsH
+                                                   1        1       1  2
+                                                      −UC Ŝs −UH ŜH ∥F
+      Ŝ1s ,Ŝ1H ,q n=1                                                                         For each subject, we infer the brain 2-CC in three steps: (i)
+    UC ,UH ,Λs ⪰0
+                                                                                             identify statistically significant structural edges, (ii) construct
+       s.t.           a) ∥ ŝ1s (t) ∥1 ≤ α1 , ∥ ŝ1H (t) ∥1 ≤ α2 , t = 1, . . . , T
+                         P                                                                   functional edge signals, and (iii) learn HOCs and sparse signal
+                                                                                       (6)
+                         X
+                      b)       qn bn b⊤n UC = UC Λs , Λs (i, j) = 0, ∀i ̸= j,                representations under structural-functional constraints.
+                         n=1
+                          P
+                                                                                             Inferring significant structural edges. For each subject,
+                                                                                             dMRI data yielded a weighted structural adjacency matrix
+                          X
+                      c) (      qn bn bTn + B⊤
+                                             1 B1 )UH = 0,
+                          n=1                                                                whose edge weights reflect white-matter fiber densities be-
+                      d) ∥ q ∥0 ≤ q ⋆ ,     q ∈ {0, 1}P                                      tween pairs of ROIs. Statistical significance was assessed using
+where the first term in the objective function represents the                                5000 degree-preserving Rubinov-Sporns rewired null networks
+energy of the signals circulation along all 2-order cells, while                             [35]; each empirical edge weight was compared to its null
+the second term accounts for the data-fitting weighted by the                                distribution via a Student’s t-test, retaining connections with
+coefficient β > 0. The l1 -norm constraints in a) promote                                    p < .05 [36]. This yields a sparse binary structural adjacency
+spectral sparsity of the signals through the positive coefficients                           matrix (≈5% density), from which we build the node-edge
+                                                                                                                     (S)           (S)
+α1 , α2 ; b) and c) enforce that the matrices UC and UH                                      incidence matrix B1 ∈ RN ×E               with entries {0, ±1}, for
+correspond to the eigenvectors associated with the non-zeros                                 each subject S. Since edge orientations are arbitrary, we use
+eigenvalues of L1,u , and to the eigenvectors spanning the                                   a lexicographic convention: an edge ei,j , connecting ROIs vi
+kernel of L1 , respectively. Finally, the constraint d) ensures                              and vj , is oriented as vi → vj if i < j. HOC orientations are
+that the number of cells of 2-order does not exceed the                                      then fixed by their subject-specific boundary matrices, with no
+maximum number q ⋆ . Since (6) is a non-convex problem due                                   degrees of freedom beyond a global sign convention.
+to the constraints b), c) and d), we propose an iterative sub-                               Defining functional edge signals. To enable TSP-based learn-
+optimal algorithm which alternates between the solutions of                                  ing and analysis, functional signals are defined on the edges
+two convex optimization problems for each possible number                                    of the structural backbone. Let s0 (t) = [s0v1 (t), . . . , s0vN (t)]⊤
+q ⋆ = 1, . . . , P of polygonal cells. Specifically, we iterate for                          denote the node signal of z-scored rs-fMRI activities across the
+i = 1, . . . , P between the following two steps:                                            N ROIs vi at time t. Time-resolved edge signals are commonly
+S.1 Solve (6) with respect to q, setting β = 0, q ⋆ = i and                                  derived from amplitude co-fluctuations [19], [20] or phase-
+      considering only constraints b), c) and d). This problem                               based coupling measures [21], [22]. Here, we use instanta-
+      admits a closed-form solution that can be obtained by                                  neous phase-coherence, a bounded time-resolved measure in
+                                   1⊤
+      computing wn = ||YsH            bn ||2F and sorting these coef-                        [-1,1] (near ±1: strong phase (anti-)synchronization; near 0:
+      ficients in increasing order. Then, selecing the indices                               weak coupling), suitable for flow-based TSP analysis and pro-
+      P ⋆ = {i1 , i2 , . .P
+                          . , iq⋆ } of the q ⋆ lowest coefficients wn ,                      vides a stable, comparable scale across subjects. Specifically,
+      we get L̃1,u = n∈P ⋆ bn b⊤
+                  i
+                                         n;
+                                                                                             for an edge ei,j , the edge signal at time t is defined as
+S.2 Given L̃i1,u , find the eigenvector matrices UiC and, from
+                                                                                                                                                   
+                                                                                                          s1ei,j (t) = cos ϕ(s0vi (t)) − ϕ(s0vj (t)) ,          (8)
+      the estimated Hodge Laplacian L̃i1 = L1,ℓ + L̃i1,u , derive
+      the eigenvector matrix UiH spanning its kernel. Then, the                              where ϕ(·) denotes the instantaneous phase extracted via the
+      convex optimization problem (7) is solved.                                             Hilbert transform [21], [22]. These edge signals allow us to
+          min            1
+                      ∥ YsH   i 1     i 1 2
+                            −UC Ŝs −UH ŜH ∥F                                               define a time-varying vector field over the brain network.
+         Ŝ1s ,Ŝ1H
+                                                                                       (7)   Joint learning of higher-order cells. HOCs are inferred using
+              s.t.    a) ∥ ŝ1s (t) ∥1 ≤ α1 , ∥ ŝ1H (t) ∥1 ≤ α2 , t = 1, . . . , T.
+                                                                                             the learning method in Sec. II-B, which integrates the sparse
+                                                                                                                    (S)
+At each iteration i, we find the optimal data fit error                                      structural scaffold B1 with functional edge signals y1 (t)
+            1
+g(i) = ||YsH    − UiC Ŝ1s − UiH Ŝ1H ||2F by alternating between                            from (8) to identify the minimal set of 2-cells (triangles,
+steps S.1 and S.2. The 2-cells are then identified as q̄ ⋆ =                                 quadrilaterals and pentagons) that best explains the data. For
+arg mini∈{1,...,P } g(i) and the learned Laplacian is obtained                               each subject S ∈ {1, . . . , 100}, the procedure estimates the
+                     ⋆
+as L̃1 = L1,ℓ + L̃q̄1,u , using the corresponding index set P ⋆ .                                                                (S)
+                                                                                             edge-polygon incidence matrix B̃2 and the associated first-
+                                                                                                                        (S)    (S)     (S)
+                                                                                             order Hodge Laplacian L̃1 = L1,ℓ + L̃1,u , yielding a subject-
+         III. L EARNING BRAIN TOPOLOGY FROM DATA                                             specific 2-cell complex C (S) = {V, E (S) , P (S) }. The vertex set
+   In this study, we adopt a structural-functional learning                                  V is fixed across subjects (N = 90 ROIs), whereas E (S) and
+framework to infer subject-specific brain 2-cell complexes                                   P (S) are subject-dependent, capturing individual variability in
+by integrating dMRI-derived structural connectivity with rs-                                 anatomical-functional organization. The 2-cell set consists of
+                                                                                                         (S)    (S)   (S)            (S)            (S)
+fMRI-derived functional dynamics in 100 unrelated healthy                                    P (S) = {P3 , P4 , P5 }, with |Pn=3,4,5 | = Pn=3,4,5 , en-
+                                                                                                                                   5
+
+
+
+abling individual-level topological analysis of brain dynamics         To assess inter-subject consistency, we computed cell preva-
+while explicitly capturing higher-order structure.                  lence, defined as the fraction of subjects in which an identi-
+   We emphasize that all HOCs are inferred from pairwise            cal cell (exact node composition) appears, capturing repro-
+structural-functional interactions, without assuming intrinsi-      ducibility at the finest (node-matched) scale. Fig. 2(b) (solid
+cally higher-order statistical dependencies. They provide a         colors) shows a clear hierarchy, where edges exhibit the
+topological organization of edge dynamics, rather than in-          highest prevalence, whereas HOCs become progressively less
+dependent higher-order measurements, and form the mini-             prevalent with increasing HOC’s cardinality. Triangles (P3 )
+mal higher-order scaffold required for sparse spectral rep-         already display marked variability, while quadrilaterals (P4 )
+resentations of rotational signals not expressible in graphs        and pentagons (P5 ) become increasingly sparse, highlighting
+alone. Furthermore, because edge orientations in each subject-      the individualized, dynamic nature of functional HOIs beyond
+specific topology are assigned arbitrarily for mathematical         fixed structural scaffolding.
+consistency, with 2-cell orientations fixed by the boundary            To move beyond strict node-level matching and better
+matrices, divergence sign (positive: source; negative: sink)        capture shared mesoscale structure, we analyzed subnet-
+and circulation direction (positive: counterclockwise; nega-        combination prevalence, defined as the fraction of subjects
+tive: clockwise) are convention-dependent and thus have no          with at least one HOC for a given combination of FSs among
+intrinsic physical meaning in fMRI data. Accordingly, sign-         its constituent ROIs. The transparent plots in Fig. 2(b) show
+sensitive interpretations must be understood relative to the        that this mesoscale aggregation markedly increases prevalence
+adopted convention. Therefore, all results in this work rely on     across all cell types, revealing a more stable and recurrent
+orientation-invariant quantities—such as magnitudes, energy         organization across subjects up to quadrilaterals.
+distributions across gradient and rotational subspaces, and            Despite cell-level variability, the most prevalent HOCs re-
+temporal statistics—ensuring that our findings are independent      veal structured organization. Fig. 2(c) shows the five most
+of the specific orientation choice.                                 prevalent triangular and quadrilateral cells across subjects,
+                                                                    with bar length indicating prevalence and colors denoting the
+               IV. R ESULTS AND DISCUSSION                          involved FSs. Dominant triangles primarily link transmodal
+  This section describes the learned subject-specific brain         ROIs (DMN/FP), often involving LIM, whereas prevalent
+2-CCs and their dynamics, from hierarchical structural-             quadrilaterals show more heterogeneous compositions, com-
+functional organization and dominant gradient-curl flow             bining transmodal, unimodal (SM/VIS), and LIM regions.
+regimes to significant topological brain-behavior associations.     The predominance of transmodal-limbic motifs suggests that
+                                                                    these systems recurrently participate in HOIs consistently
+A. Structural-functional organization of brain topologies           expressed across individuals. The prominence of transmodal-
+   We quantitatively characterize subject-specific brain topolo-    limbic motifs aligns with the integrative role of transmodal
+gies in terms of the number and composition of edges and            cortex, particularly the DMN, along cortical hierarchies and
+HOCs. Fig. 2(a) summarizes edge and HOC count distri-               macroscale functional gradients [4], while the broader mixing
+butions across subjects (one point per subject), with color         in quadrilaterals aligns with hierarchical models in which
+indicating sex (blue: male; red: female). On average, subjects      unimodal systems anchor lower gradients and transmodal
+had 196 ± 13 edges ([159, 235]), 67 ± 11 triangles ([41, 95]),      systems support cross-modal integration [38].
+8 ± 4 squares ([0, 24]), and 2 ± 1 pentagons ([0, 4]). Mann-           The most prevalent subnet combinations (Fig. 2(d)) corrob-
+Whitney tests revealed no significant sex differences for any       orate the cell-level results. For triangular HOCs, the DMN
+HOC type (p > 0.05), indicating no systematic sex depen-            appears in nearly all subjects, either within-network or coupled
+dence of global cell distributions in this healthy young-adult      with FP and LIM, consistent with their roles in resting-
+cohort. Furthermore, to test whether the inferred HOIs reflect      state processes—self-referential cognition (DMN), cognitive
+structured functional dynamics rather than random tempo-            flexibility (FP), and emotion integration (LIM) [34], [39].
+ral fluctuations, we repeated the HOC learning by keeping           Quadrilateral HOIs show stronger transmodal-unimodal mix-
+the same subject-specific structural graph and using phase-         ing, suggesting that higher-cardinality cells support more dis-
+randomized edge signals, preserving the signal amplitude            tributed cross-hierarchical integration beyond the core resting-
+spectrum and marginal temporal structure while disrupting           state backbone. Recurrent DMN-VIS HOCs further indicate
+cross-edge phase alignment [37]. Since the structural graphs        structured coupling between internally oriented cognition and
+were already obtained by a statistically validated procedure,       perceptual systems, consistent with evidence that VIS also sup-
+this analysis was restricted to the inferred HOCs. The surrogate    ports internally generated processes such as mental imagery,
+HOC distributions (transparent square markers in Fig. 2(a))         episodic memory, and spontaneous thought at rest [40], [41].
+differ significantly from the empirical ones for triangles and         To quantify inter-subject consistency across scales, we com-
+quadrilaterals (p < .05), indicating that these HOIs are not        puted Jaccard similarity between subject-specific topologies at
+explained by chance pairwise temporal fluctuations, but arise       both the cell and subnet levels. Here, the Jaccard index is the
+from structured coordination across edges that is disrupted by      intersection-over-union of two subjects’ cell sets (or subnet-
+the phase-randomized null model. In contrast, pentagon counts       combinations), with values near 1 (or 0) indicating high (or
+do not differ significantly from surrogates, likely because         low) overlap. Group-level scores were obtained by averaging
+higher-cardinality 2-cells are rarer and harder to infer reliably   the upper-triangular entries of the pairwise Jaccard matrices.
+under sparse structural backbones.                                     At the microscopic (cell) level, pairwise structural edges
+6
+
+
+
+                                                                                                                              (S)
+                                                                                  Rather than analyzing the full eigenbasis U1 , we exploit the
+                                                                                  Hodge decomposition in (3), separating the edge signals into
+                                                                                  orthogonal gradient and rotational flow subspaces spanned by
+                                                                                     (S)        (S)
+                                                                                  UG and UC , respectively. Given the time-varying edge sig-
+                                                                                                        (S)
+                                                                                  nals s1 (S) (t) ∈ RE from rs-fMRI phase-coherence (8), we
+                                                                                  characterize gradient and rotational dynamics using sparse rep-
+                                                                                  resentations. For the gradient component, we project s1 (S) (t)
+                                     (a)                                          onto the gradient Hodge subspace through the CFT coefficients
+                                                                                    1 (S)         (S)⊤
+                                                                                  ŝG (t) = UG s1 (S) (t). For each gradient spectral index,
+                                                                                  we compute its time-averaged power spectral density (PSD)
+                                                                                  and assess relevance via a subject-specific surrogate baseline:
+                                                                                  we generate 5000 phase-randomized edge signals realizations
+                                                                                  and build a null distribution of PSD values for each spec-
+                                                                                  tral index. We retain only the high-energy spectral indices
+                                                                                  whose empirical PSD is significantly above the null baseline
+                                                                                                                        (S)
+                                                                                  (p < .05), yielding the index set IG . The filtered gradient
+                                    (b)                                                                           (S)       (S)     (S)⊤
+                                                                                  flow is then reconstructed as sG (t) = UG,IG UG,IG s1 (S) (t).
+                                                                                  For the rotational part, we use the sparse solenoidal repre-
+                                                                                  sentation returned by the joint learning method (Sec. II-B)
+                                                                                                    (S)
+                                                                                  to reconstruct sC (t). We summarize persistent structure by
+                                                                                                                                (S)        (S)
+                                                                                  averaging the temporal mean magnitude of sG (t) and sC (t)
+                                                                                  across subjects, and retain the top 1% highest-magnitude edge
+                                                                                  flows.
+                                                                                     The dominant gradient flows (Fig. 3(a)) reveal a spatially
+                 (c)                                     (d)                      distributed backbone centered on the DMN. Significant gra-
+                                                                                  dient edges link DMN to VIS, LIM, FP, VA, SM, and SC
+Fig. 2. Hierarchical organization and inter-subject consistency of learned        systems, forming a large-scale interaction scaffold extending
+brain 2-CCs. (a) Subject-specific counts of edges (E) and HOCs (triangles P3 ,
+quadrilaterals P4 , and pentagons P5 ). (b) Cell- and subnet-level prevalence     along a posterior-anterior axis from occipital visual areas
+distributions across subjects; 3D brain visualizations with ROIs at atlas         to prefrontal association cortex. Within the TSP framework,
+Euclidean centroids are provided in the Supplementary Material. (c) Five          gradient components correspond to source-sink imbalances
+most prevalent node-level triangles and squares. (d) Five most prevalent subnet
+combinations across subjects.                                                     aligned with node potentials. Their spatial continuity and
+                                                                                  cross-system distribution are consistent with macroscale cor-
+show moderate inter-subject overlap (mean Jaccard-index                           tical hierarchies, in which unimodal sensory regions anchor
+JE = 0.542), coherent with relatively conserved nature of                         posterior regions and transmodal systems support integrative
+anatomical connectivity across healthy individuals. In contrast,                  coordination [38], [42]. The prominent involvement of the
+HOIs are far less shared: triangles yield JP3 = 0.175, whereas                    DMN further supports its role as a transmodal hub at the
+quadrilaterals and pentagons are near-zero (JP4 = 0.030,                          apex of cortical hierarchies, coordinating distributed resting-
+JP5 = 0.013). The decreasing size of the Jaccard similarity                       state dynamics and internally oriented integration [43]. In
+matrices (100 subjects for P3 , 99 for P4 , and 34 for P5 )                       contrast, dominant rotational flows (Fig. 3(b)) are localized
+mirrors the reduced prevalence of HOCs (Fig. 2(b)) and                            and circuit-specific, with the strongest significant edges clus-
+indicates that node-based HOCs are highly individualized.                         tering bilaterally within limbic regions via intra-limbic inter-
+  After aggregating cells by FS composition, inter-subject                        actions and limbic couplings with DMN, SC, and VIS. Within
+similarity increases markedly across all orders. At the sub-                      the Hodge framework (3), these components capture curl-
+net level, edges become nearly identical across subjects                          supported circulation on 2-cells and thus cannot be reduced
+(JE = 0.972), and HOCs show substantially higher overlap                          to gradients of node potentials, indicating localized cyclic dy-
+(JP3 = 0.607, JP4 = 0.145, JP5 = 0.123). Overall, higher-                         namics embedded in HOIs. Relative to the spatially distributed
+order topology is strongly scale-dependent, specifically, node-                   gradient backbone, these patterns suggest recurrent limbic-
+based motifs are individualized, whereas mesoscale subnet                         centered coordination linked to internally oriented cognitive
+organization is more conserved and reproducible.                                  and affective functions, consistent with the role of LIM-
+                                                                                  DMN-SC circuits in emotional regulation, memory integration,
+B. Dominant gradient and rotational flow organization                             prospection, and internally generated thought [40]. The recur-
+   Our goal is to identify, through the Hodge-spectral de-                        rent involvement of VIS subnet is consistent with resting-state
+composition, significant topological flow regimes that persist                    roles of visual cortex in mental imagery and episodic memory
+throughout the resting-state acquisition and are supported by                     [40], [41]. Some strong rotational motifs link orbitofrontal
+the learned anatomical-functional scaffold.                                       limbic regions with frontal control regions, suggesting that
+   For each subject S, we consider the first-order Hodge                          cyclic dynamics extend beyond a purely limbic module into
+             (S)
+Laplacian L1 associated with the learned 2-cell complex.                          a broader transmodal motif. Consistent with evidence that
+                                                                                                                                                                      7
+
+
+
+             Group-averaged significant gradient flows                                                RN ×T , which quantifies whether each node exhibits a net
+                                                               0.78
+
+
+
+
+                                                                      Edge flow magnitude
+                                                                                                      outward (source-like) or inward (sink-like) redistribution bias
+                                                               0.59
+                                                                                                      over the learned structural scaffold. Fig. 4(a) shows the z-
+                                                               0.39                                   scored divergence distribution across subjects, departing from
+                                                                                                      the approximately Gaussian surrogate profile and indicating
+                                                               0.2
+                                                                                                      non-random temporal structure. These deviations are further
+                                                               0                                      amplified in the time-averaged divergence (Fig. 4(b)), where
+                                    (a)                                                               empirical FS-grouped distributions differ significantly from
+                                                                                                      surrogates across all FSs (p < 10−3 ), evidencing statistically
+            Group-averaged significant rotational flows
+                                                                                                      significant mesoscale source-sink organization.
+
+
+
+
+                                                                      Edge flow magnitude
+                                                                                                         A clear subsystem-dependent divergence gradient emerges
+                                                                                                      (Fig. 4(b)). The VA, VIS, and LIM networks show consistently
+                                                                                                      positive median divergence, whereas the DMN exhibits a
+                                                                                                      pronounced negative shift, mirroring the canonical hierar-
+                                                                                                      chical gradient of cortical organization spanning unimodal
+                                                                                                      sensory regions to transmodal association cortex [38], [42].
+                                    (b)                                                               VIS positivity may reflect structured intrinsic resting activity
+           Dominant gradient edge flows (upper triangle)                                              [41]. VA positivity is consistent with its role in salience
+                                                                                                      detection and attentional reorienting, supporting mesoscale
+                                                                                                      resource reallocation without implying directed signaling [45].
+                                                                          Brain subnet parcellation
+
+
+                                                                                                      LIM positivity, in turn, may reflect its integrative contribution
+                                                                                                      linking motivational and valuation processes to distributed
+                                                                                                      cortical coordination [46], [47]. On the other hand, the DMN’s
+                                                                                                      negative divergence indicates an inward integrative configura-
+                                                                                                      tion consistent with its role as a transmodal hub coordinating
+                                                                                                      cross-system inputs during internally oriented cognition [43].
+                                                                                                      Interestingly, SC divergence is tightly centered near zero
+             Dominant curl edge flows (lower triangle)                                                with low inter-subject variability, congruent with subcortical
+                                     (c)                                                              (thalamic/striatal) circuits primarily mediating gating, relay,
+                                                                                                      and switching between cortical states rather than persistently
+Fig. 3. Dominant gradient and rotational flows: (a)-(b) show the group-
+averaged dominant gradient and rotational flows, respectively. Node color
+                                                                                                      driving large-scale propagation [48], [49]. This near-zero pro-
+denotes FS membership, node size scales with degree, and edge color                                   file suggests a dynamically balanced mediation role within
+intensity represents mean flow magnitude across subjects (red: gradient; blue:                        cortico-striato-thalamic circuits that support state transitions
+rotational); 3D visualizations are available in the Supplementary Materials.
+(c) summarizes both components in a matrix view (gradient/rotational in
+                                                                                                      and executive control.
+above/below diagonal), with hemispheric boundaries marked on the diagonal                                We next explored whether subject-specific divergence pro-
+(left/right: olive/dark green color).                                                                 files relate to inter-individual cognitive variability by corre-
+                                                                                                      lating subsystem-specific divergence metrics with some HCP
+orbitofrontal/anterior temporal regions belong to an extended                                         behavioral measures [29], including fluid intelligence, execu-
+default-network architecture and couple to frontoparietal con-                                        tive function, working memory, emotional processing, motor
+trol systems, these curl-supported motifs may reflect recurrent                                       dexterity, and language/vocabulary performance. Throughout
+coordination between internally oriented cognition, affective                                         this work, we focus on statistically significant topological
+valuation, and executive control [44].                                                                brain–behavior associations with |R| > 0.3 and Bonferroni-
+   Fig. 3(c) summarizes the dominant significant flows,                                               corrected pcorrected < .05 (across nine behavioral variables),
+showing gradient-dominated edges above the diagonal and                                               consistent with recent HCP brain–behavior findings [17], [50].
+rotational-dominated edges below it. The heatmap highlights                                              Here, we highlight two behavioral measures, namely fluid
+a clear spatial dissociation: gradient edges are broadly dis-                                         intelligence, indexing abstract reasoning and relational prob-
+tributed across functional systems and hemispheres, promi-                                            lem solving, and Card Sort performance, indexing executive
+nently involving DMN regions and extensive inter-network                                              flexibility through adaptive rule switching and updating [29].
+coupling, consistent with a large-scale integrative backbone. In                                      Fig. 4(c) shows a significant positive association between
+contrast, rotational edges are more localized within LIM-SC                                           median LIM divergence and fluid intelligence (overall R =
+and LIM-DMN blocks with additional VIS couplings, indicat-                                            0.408), where each marker represents one subject (circles:
+ing curl-supported dynamics embedded in specific mesoscale                                            females; squares: males), with comparable effects in females
+circuits rather than global redistribution.                                                           and males (both R > 0.40), indicating robustness across
+                                                                                                      sexes. Although limbic circuits are not core FP components,
+C. Source/sink organization and behavioral variability                                                prior work suggests that limbic–cortical interactions support
+   To characterize persistent source-sink organization, we com-                                       motivational salience, valuation, and sustained engagement
+puted for each subject S the time-resolved divergence of                                              relevant to higher-order cognition [46]. Thus, the observed as-
+                                                 (S)
+the edge-flow signals as div(s1 (S) (t)) = B1 s1 (S) (t) ∈                                            sociation may reflect co-occurring organized limbic redistribu-
+8
+
+
+
+                                                                                 (|z| < 0.5), reflecting (near-)zero circulation; and the pre-
+                                                                                 dominant circulation regime centered at the modal value
+                                                                                 (|z − z̆| < 0.25), suggesting a stereotyped rotational scale
+                                                                                 preferentially expressed during rest.
+                                                                                    To quantify regime temporal organization, we measure
+                                                                                 common dynamic functional connectivity (dFC) metrics [21],
+                                    (a)                                          [22], namely, fractional occupancy, defined as the fraction
+                                                                                 of time spent in each state, and dwell time, defined as the
+                                                                                 mean duration of consecutive epochs assigned to the same
+                                                                                 state. For fair mesoscale comparison, we restrict to 2-cells
+                                                                                 with FS combinations common across all subjects. Figs. 5(b)
+                                                                                 and 5(c) depict colored boxplots summarizing the distributions
+                                                                                 of fractional occupancy and dwell time, stratified by FS
+                                                                                 combinations and circulation regimes, computed from the
+                                                                                 empirical edge signals. We also computed the corresponding
+                                    (b)                                          surrogate-derived distributions, which differed markedly from
+                                                                                 the empirical ones with p < .001.
+                                                                                    Fractional occupancy showed that rotational regimes are not
+                                                                                 uniformly expressed across subsystem interfaces (Fig. 5(b)).
+                                                                                 Interfaces involving transmodal systems, especially DMN,
+                                                                                 FP, and LIM, exhibited elevated engagement across regimes,
+                                                                                 compatible with the central role of transmodal/paralimbic
+                                                                                 regions in large-scale organization [4], [38], [47]. For DMN-
+                 (c)                                    (d)                      LIM, DMN-FP, and FP-LIM pairings, the predominant regime
+Fig. 4. Mesoscale source-sink organization and behavioral associations: (a)      had the highest occupancy, supporting a shared “default”
+Empirical and surrogate z-scored divergence distributions across subjects; (b)   rotational scale (Fig. 5(a)). Cell cardinality further modulated
+time-averaged divergence by FS, shown as boxplots (median, IQR; whiskers         rotation, as square 2-cells showed higher conservative occu-
+1.5×IQR) with overlaid data points; brain-behavior association between (c)
+LIM divergence and fluid intelligence; and (d) SC divergence and executive       pancy and lower predominant engagement, suggesting that
+flexibility (Card Sort). Outliers were removed from association analyses using   higher-cardinality motifs favor weakly rotational configura-
+the 1.5×IQR rule.                                                                tions. Squares were also more prevalent at the DMN-LIM
+                                                                                 interface, indicating preferential recruitment of higher-order
+tion and more efficient coordination of motivational–valuation
+                                                                                 mesoscale interactions in this coupling. Dwell-time analysis
+processes with large-scale associative networks, potentially
+                                                                                 revealed metastable interface differences (Fig. 5(c)), with
+supporting abstract reasoning without implying causality. In
+                                                                                 DMN-FP pairings showing prolonged dwell in both strong
+contrast, SC divergence is negatively associated with Card Sort
+                                                                                 and predominant regimes, indicating that transmodal rotational
+performance (R = −0.314; Fig. 4(d)), suggesting that greater
+                                                                                 motifs persist longer once engaged, aligned with findings that
+subcortical flow imbalance may reflect reduced switching
+                                                                                 core functional networks remain organized during rest [39].
+efficiency underlying executive flexibility, aligned with the
+                                                                                    We next relate the persistence of subject-specific rotational
+role of thalamic/striatal circuits in gating, rule updating, and
+                                                                                 regimes to HCP behavioral measures [29], focusing on the
+dynamic cortical coordination [48], [49].
+                                                                                 DMN-LIM and FP-LIM interfaces as candidate loci linking
+                                                                                 cyclic coordination to cognition. We observed a significant
+D. Circulation organization and behavioral variability                           negative association between the median dwell time of strong
+   Extending the divergence analysis, we next examined the                       DMN-LIM regimes and Language Task Story performance
+rotational component of functional organization, quantified                      (R = −0.39; Fig. 5(d)). Because narrative comprehension
+by the curl operator in (5), which isolates closed-loop co-                      engages the DMN for semantic integration and contextual up-
+ordination patterns over HOIs that cannot be reduced to                          dating [43] and limbic-paralimbic circuits for affective salience
+pairwise interactions. For each subject S, time-resolved cir-                    and motivation [46], prolonged dwell time in extreme rota-
+culation values were computed over all learned 2-cells as                        tional regimes may indicate persistent high-amplitude cyclic
+                     ⊤(S)               (S)
+curl(s1 (S) (t)) = B2 s1 (S) (t) ∈ RP ×T , thereby captur-                       coordination. This pattern could be associated with reduced
+ing cyclic coordination motifs supported by the higher-order                     dynamical flexibility and less efficient adaptive reconfiguration
+scaffold.                                                                        during narrative processing. Maximum fractional occupancy
+   The empirical z-scored circulation distribution across sub-                   of the predominant rotational regime at the FP-LIM interface
+jects (Fig. 5(a)) exhibits a clear multimodal structure and                      was positively associated with motor dexterity (R = 0.348;
+departs from the approximately Gaussian surrogate profile,                       Fig. 5(e)), indicating that greater engagement of this cyclic co-
+indicating structured higher-order cyclic coordination beyond                    ordination scale relates to better fine motor performance. Since
+stochastic fluctuations. Guided by this finding, we defined                      dexterity requires precise execution alongside adaptive control
+three regimes: strong circulation (|z| > 3), capturing transient                 and sustained engagement, this association aligns with the FP
+high-amplitude rotational motifs; approximately conservative                     network’s supramodal control role [51] and limbic-paralimbic
+                                                                                                                                                  9
+
+
+
+                                                                                  baseline coordination mode supporting semantic processing
+                                                                                  with minimal cyclic reconfiguration.
+
+                                                                                                         V. C ONCLUSION
+                                                                                     In this work, we introduced a new perspective for brain
+                                     (a)                                          network analysis through a multimodal TSP-based frame-
+                                                                                  work, enabling the characterization of higher-order resting-
+                                                                                  state functional organization under subject-specific anatomical
+                                                                                  constraints. For each subject, we learned a 2-cell complex
+                                                                                  in which statistically significant structural edges define an
+                                                                                  admissible backbone and HOIs were inferred from time-
+                                                                                  resolved edge dynamics. This representation enables a Hodge-
+                                                                                  theoretic treatment of functional interactions as discrete edge
+                                                                                  flows, separating source-sink redistribution from higher-order
+                                    (b)                                           cyclic coordination.
+                                                                                     Across 100 healthy HCP young adults, higher-order topol-
+                                                                                  ogy showed marked scale dependence, as node-based HOCs
+                                                                                  were highly individualized, with low prevalence and near-
+                                                                                  zero overlap at higher orders, whereas robust mesoscale or-
+                                                                                  ganization emerged after aggregation by FS combinations.
+                                                                                  Furthermore, Hodge-based analysis revealed two complemen-
+                                                                                  tary dynamical modes: a distributed, DMN-centered gradient
+                                                                                  backbone linking multiple FSs, consistent with large-scale
+                                     (c)                                          integrative organization; and limbic-centered rotational flows
+                                                                                  involving primarily DMN, SC, and VIS systems, reflecting
+                                                                                  recurrent cyclic coordination supported by higher-order mo-
+                                                                                  tifs. Operator-based analyses showed significant divergence
+                                                                                  polarization (VIS/VA/LIM biased positive; DMN biased neg-
+                                                                                  ative) and low-magnitude, low-dispersion SC divergence, con-
+                                                                                  sistent with a balanced mediating role. Furthermore, curl
+                                                                                  values exhibited a structured multimodal distribution, mo-
+                 (d)                                    (e)
+                                                                                  tivating circulation regimes summarized by occupancy and
+                                                                                  dwell-time statistics. Furthermore, exploratory analyses re-
+                                                                                  vealed significant associations between divergence- and curl-
+                                                                                  derived signatures and cognitive-behavioral variability, indicat-
+                                                                                  ing that curl-supported higher-order coordination complements
+                                                                                  gradient-driven organization. To our knowledge, no prior work
+                                                                                  has demonstrated significant brain-behavior associations from
+                                     (f)                                          topological flow signatures.
+                                                                                     Overall, the proposed framework goes beyond pairwise con-
+Fig. 5. Mesoscale rotational regimes and behavioral associations. (a) Em-
+pirical and surrogate z-scored curl distributions across subjects, highlighting
+                                                                                  nectomics by establishing cell complexes as a principled topo-
+conservative, predominant, and strong regimes. (b) Fractional occupancy and       logical domain for brain network analysis, enabling polygonal
+(c) dwell time across functional-system pairings. Brain–behavior associations     HOI representations not explicitly available in graph-based
+between (d) DMN–LIM strong-regime dwell time and Language Task Story
+performance, (e) FP–LIM predominant-regime occupancy and motor dexterity,
+                                                                                  models. In contrast to prior Hodge-based descriptors on thresh-
+and (f) DMN–LIM conservative-regime dwell time and receptive vocabulary.          olded functional connectivity graphs, our pipeline learns the
+                                                                                  topology that best represents sparse signals from multimodal
+contributions to motivational salience and effort [46], suggest-                  data, grounding the higher-order scaffold in structural admissi-
+ing that efficient motor behavior depends on stable integration                   bility and functional edge dynamics. Moreover, unlike existing
+between executive control and motivational systems beyond                         edge-centric or hypergraph approaches, our framework equips
+somatomotor circuitry alone. Finally, longer persistence in                       brain signal processing with a physically interpretable discrete
+the near-conservative regime at the DMN–LIM interface was                         calculus, making quantities such as gradient, divergence, and
+positively associated with receptive vocabulary (R = 0.305;                       curl directly measurable. Together, these advances provide a
+Fig. 5(f)). As receptive vocabulary relies on stable semantic ac-                 principled TSP-based framework for structure–function mod-
+cess and context integration, and DMN with limbic-paralimbic                      eling and brain-state characterization, while offering a basis to
+regions (anterior temporal/orbitofrontal) forms an extended                       investigate whether higher-order topological fingerprints may
+default-network architecture interfacing with semantic systems                    prove useful for decoding, stratification, and biomarker-related
+[44], longer dwell in near-zero circulation may reflect a stable                  studies in clinical and cognitive neuroscience.
+10
+
+
+
+                               R EFERENCES                                           [26] D. I. Shuman, S. K. Narang, P. Frossard, A. Ortega, and P. Van-
+                                                                                          dergheynst, “The emerging field of signal processing on graphs: Ex-
+ [1] E. Bullmore and O. Sporns, “Complex brain networks: Graph theoretical                tending high-dimensional data analysis to networks and other irregular
+     analysis of structural and functional systems,” Nat. Rev. Neurosci.,                 domains,” IEEE Signal Process. Mag., vol. 30, no. 3, pp. 83–98, 2013.
+     vol. 10, pp. 186–98, 03 2009.                                                   [27] S. Sardellitti and S. Barbarossa, “Topological signal processing over
+                                                                                          generalized cell complexes,” IEEE Trans. Signal Process., vol. 72, pp.
+ [2] D. Bassett and O. Sporns, “Network neuroscience,” Nat. Neurosci.,
+                                                                                          687–700, 2024.
+     vol. 20, pp. 353–364, 02 2017.
+                                                                                     [28] D. C. Van Essen, S. M. Smith, D. M. Barch, T. E. Behrens, E. Ya-
+ [3] O. Sporns, “Network attributes for segregation and integration in the
+                                                                                          coub, and K. Ugurbil, “The wu-minn human connectome project: An
+     human brain,” Curr. Opin. Neurobiol., vol. 23, no. 2, pp. 162–171, 2013.
+                                                                                          overview,” NeuroImage, vol. 80, pp. 62–79, 2013.
+ [4] M. P. van den Heuvel and O. Sporns, “Network hubs in the human                  [29] D. M. Barch et al., “Function in the human connectome: Task-fmri and
+     brain,” Trends in Cogn. Sci., vol. 17, no. 12, pp. 683–696, 2013.                    individual differences in behavior,” NeuroImage, vol. 80, pp. 169–189,
+ [5] ——, “A cross-disorder connectome landscape of brain dysconnectiv-                    2013, mapping the Connectome.
+     ity,” Nat. Rev. Neurosci., vol. 20, no. 7, pp. 435–446, 2019.                   [30] B. C. Bispo, F. A. N. Santos, J. R. Neto, and J. B. Lima, “Emergence
+ [6] T. P. Peixoto, L. Peel, T. Gross, and M. D. Domenico, “Graphs                        of higher-order functional brain connectivity with hypergraph signal
+     are maximally expressive for higher-order interactions,” arXiv preprint              processing,” in 32nd Euro. Sig; Process. Conf., 2024, pp. 1332–1336.
+     arXiv:2602.16937, 2026.                                                         [31] D. Horak and J. Jost, “Spectra of combinatorial Laplace operators on
+ [7] J. Hlinka, M. Paluš, M. Vejmelka, D. Mantini, and M. Corbetta, “Func-               simplicial complexes,” Adv. Math., vol. 244, pp. 303–336, 2013.
+     tional connectivity in resting-state fmri: Is linear correlation sufficient?”   [32] L.-H. Lim, “Hodge Laplacians on graphs,” S. Mukherjee (Ed.), Geometry
+     NeuroImage, vol. 54, no. 3, pp. 2218–2225, 2011.                                     and Topology in Statistical Inference, Proc. Sympos. Appl. Math., 76,
+ [8] F. E. Rosas, P. A. M. Mediano, M. Gastpar, and H. J. Jensen, “Quan-                  AMS, 2015.
+     tifying high-order interdependencies via multivariate extensions of the         [33] N. Tzourio-Mazoyer et al., “Automated anatomical labeling of activa-
+     mutual information,” Phys. Rev. E, vol. 100, p. 032305, Sep 2019.                    tions in spm using a macroscopic anatomical parcellation of the mni mri
+ [9] R. Hindriks et al., “Higher-order functional connectivity analysis of                single-subject brain,” NeuroImage, vol. 15, no. 1, pp. 273–289, 2002.
+     resting-state functional magnetic resonance imaging data using multi-           [34] B. T. Yeo et al., “The organization of the human cerebral cortex esti-
+     variate cumulants,” Hum. Brain Mapp., vol. 45, no. 5, pp. e26 663–                   mated by intrinsic functional connectivity,” Journal of Neurophysiology,
+     e26 663, 2024.                                                                       vol. 106, no. 3, pp. 1125–1165, 2011.
+[10] B. C. Bispo, J. R. de Oliveira Neto, J. B. Lima, and F. A. Santos, “From        [35] M. Rubinov and O. Sporns, “Weight-conserving characterization of
+     pairwise to higher-order brain community detection: A hypergraph                     complex functional brain networks,” NeuroImage, vol. 56, no. 4, pp.
+     signal processing approach on brain functional connectivity analysis,”               2068–2079, 2011.
+     Computers in Biol. and Med., vol. 201, p. 111409, 2026.                         [36] F. Váša and B. Mišić, “Null models in network neuroscience,” Nat. Rev.
+[11] S. Barbarossa and S. Sardellitti, “Topological signal processing: Making             Neurosci., vol. 23, no. 8, pp. 493–504, 2022.
+     sense of data building on multiway relations,” IEEE Sig. Proces. Mag.,          [37] D. Prichard and J. Theiler, “Generating surrogate data for time series
+     vol. 37, no. 6, pp. 174–183, 2020.                                                   with several simultaneously measured variables,” Physical Review Let-
+[12] A. E. Sizemore, C. Giusti, A. Kahn, J. M. Vettel, R. F. Betzel, and                  ters, vol. 73, no. 7, pp. 951–954, 1994.
+     D. S. Bassett, “Cliques and cavities in the human connectome,” Journal          [38] D. S. Margulies et al., “Situating the default-mode network along a
+     of Comput. Neurosc., vol. 44, no. 1, pp. 115–145, 2018.                              principal gradient of macroscale cortical organization,” Proc. of Nat.
+[13] B. Rieck et al., “Uncovering the topology of time-varying fmri data                  Acad. of Sci., vol. 113, no. 44, pp. 12 574–12 579, 2016.
+     using cubical persistence,” in Advances in Neural Info. Proces. Sys.,           [39] S. M. Smith et al., “Correspondence of the brain’s functional architecture
+     vol. 33, 2020, pp. 6900–6912.                                                        during activation and rest,” Proc. of Nat. Acad. of Sci., vol. 106, no. 31,
+[14] J. Billings, M. Saggar, J. Hlinka, S. Keilholz, and G. Petri, “Simplicial            pp. 13 040–13 045, 2009.
+     and topological descriptions of human brain dynamics,” Netw. Neurosc.,          [40] J. R. Andrews-Hanna, J. Smallwood, and R. N. Spreng, “The default
+     pp. 1–32, 2021.                                                                      network and self-generated thought: component processes, dynamic
+[15] D. V. Anand and M. K. Chung, “Hodge laplacian of brain networks,”                    control, and clinical relevance,” Annals of the NY Acad. of Sci., vol.
+     IEEE Trans. on Med. Imag., vol. 42, no. 5, pp. 1563–1573, 2023.                      1316, no. 1, pp. 29–52, May 2014.
+[16] B. C. Bispo, S. Sardellitti, F. A. N. Santos, and J. B. Lima, “Learn-           [41] Z. Zhang et al., “Intrinsic neural linkage between primary visual area
+     ing higher-order interactions in brain networks via topological signal               and default mode network in human brain: Evidence from visual mental
+     processing,” in 33rd Euro. Sig. Process. Conf., 2025, pp. 2652–2656.                 imagery,” Neuroscience, vol. 379, pp. 13–21, 2018.
+                                                                                     [42] J. M. Huntenburg, P.-L. Bazin, and D. S. Margulies, “Large-scale
+[17] A. Santoro, F. Battiston, M. Lucas, G. Petri, and E. Amico, “Higher-
+                                                                                          gradients in human cortical organization,” Trends in Cog. Sci., vol. 22,
+     order connectomics of human brain function reveals local topological
+                                                                                          no. 1, pp. 21–31, 2018.
+     signatures of task decoding, individual identification, and behavior,” Nat.
+                                                                                     [43] V. Menon, “20 years of the default mode network: A review and
+     Commun., vol. 15, p. 10244, 2024.
+                                                                                          synthesis,” Neuron, vol. 111, no. 16, pp. 2469–2487, 2023.
+[18] Y. Teng, K. Wu, J. Liu, Y. Li, and X. Teng, “Constructing high-order
+                                                                                     [44] M. Girn, R. Setton, G. R. Turner, and R. N. Spreng, “The “limbic
+     functional connectivity networks with temporal information from fmri
+                                                                                          network,” comprising orbitofrontal and anterior temporal cortex, is part
+     data,” IEEE Trans. on Med. Imag., vol. 43, no. 12, pp. 4133–4145, 2024.
+                                                                                          of an extended default network: Evidence from multi-echo fmri,” Net.
+[19] J. Faskowitz, R. F. Betzel, and O. Sporns, “Edges in brain networks:                 Neurosc., vol. 8, no. 3, pp. 860–882, 10 2024.
+     Contributions to models of structure and function,” Net. Neurosc., vol. 6,      [45] M. Corbetta and G. L. Shulman, “Control of goal-directed and stimulus-
+     no. 1, pp. 1–28, 02 2022.                                                            driven attention in the brain,” Nat. Rev. Neurosci., vol. 3, no. 3, pp.
+[20] F. Z. Esfahlani et al., “Edge-centric analysis of time-varying functional            201–215, 2002.
+     brain networks with applications in autism spectrum disorder,” NeuroIm-         [46] L. Pessoa, “A network model of the emotional brain,” Trends in Cog.
+     age, vol. 263, p. 119591, 2022.                                                      Scien,, vol. 21, no. 5, pp. 357–371, 2017.
+[21] J. Cabral et al., “Cognitive performance in healthy older adults relates to     [47] H. Wu et al., “Multi-indicator entropy hub score: A quantitative ap-
+     spontaneous switching between states of functional connectivity during               proach to hub analysis in brain networks,” NeuroImage, p. 121799, 2026.
+     rest,” Scientific Reports, vol. 7, p. 5135, 2017.                               [48] S. M. Sherman, “Functioning of circuits connecting thalamus and
+[22] M. Farinha, C. Amado, P. Morgado, and J. Cabral, “Increased excursions               cortex,” Comprehensive Physiol., vol. 7, no. 2, pp. 713–739, 2017.
+     to functional networks in schizophrenia in the absence of task,” Front.         [49] K. Cruz, Y. Leow, E. Adam, R. Huda, and M. Sur, “Cortical-subcortical
+     in Neurosc., vol. Volume 16 - 2022, 2022.                                            interactions in goal-directed behavior,” Physiol. Rev., vol. 103, no. 1,
+[23] L. E. Suárez, R. D. Markello, R. F. Betzel, and B. Misic, “Linking                  pp. 347–389, 2023.
+     structure and function in macroscale brain networks,” Trends in Cog.            [50] Y. Wang, J. Xian, Y. Chen, and Y. Yan, “Topological signatures of brain
+     Sci., vol. 24, no. 4, pp. 302–315, 2020.                                             dynamics: persistent homology reveals individuality and brain–behavior
+[24] P. Fotiadis, L. Parkes, K. A. Davis et al., “Structure–function coupling             links,” Front. in Human Neurosc., vol. 19, 2025.
+     in macroscale human brain networks,” Nature Reviews Neuroscience,               [51] T. A. Niendam et al., “Meta-analytic evidence for a superordinate
+     vol. 25, pp. 688–704, 2024.                                                          cognitive control network subserving diverse executive functions,” Cog.,
+[25] S. Barbarossa and S. Sardellitti, “Topological signal processing over                Affec. & Behav. Neurosc., vol. 12, no. 2, pp. 241–268, 2012.
+     simplicial complexes,” IEEE Trans. Sig. Proces., vol. 68, pp. 2992–3007,
+     2020.
+

@@ -1,0 +1,797 @@
+                                                     M3 D-BFS: a Multi-stage Dynamic Fusion Strategy for
+                                                    Sample-Adaptive Multi-Modal Brain Network Analysis
+
+                                              Rui Dong, Xiaotong Zhang, Jiaxing Li, Yueying Li, Jiayin Wei, Youyong Kong*
+                                                                   School of Computer Science and Engineering, Southeast University
+                                                 dongrui 0427.seu.edu.cn, zxt 000902@163.com, Jiaxing Li@seu.edu.cn,
+arXiv:2604.01667v1 [cs.AI] 2 Apr 2026
+
+
+
+
+                                                     yueyli@163.com, 220236174@seu.edu.cn, kongyouyong@seu.edu.cn
+
+
+
+                                                              Abstract                                                                                FC encoder
+
+                                                                                                        𝒢𝑭𝑪                                          Fusion encoder
+
+                                        Multi-modal fusion is of great significance in neu-                                                           SC encoder
+                                                                                                        𝒢𝑺𝑪
+                                        roscience which integrates information from differ-                                                                  (a) traditional fusion methods
+                                                                                                                         Lack of sample adaptation
+                                        ent modalities and can achieve better performance
+                                        than uni-modal methods in downstream tasks. Cur-                                                              FC encoder
+
+                                                                                                        𝒢𝑭𝑪
+                                        rent multi-modal fusion methods in brain networks,                      Gating                               Fusion encoder
+
+                                        which mainly focus on structural connectivity (SC)               𝒢𝑺𝑪                                          SC encoder
+
+                                        and functional connectivity (FC) modalities, are                                   Dynamically change                (b) our model
+                                                                                                                           according to samples
+                                        static in nature. They feed different samples into
+                                        the same model with identical computation, ignor-             Figure 1. Illustration of M3 D-BFS. Compared with tradi-
+                                        ing inherent difference between input samples. This           tional methods, M3 D-BFS can adaptively adjust for dif-
+                                        lack of sample adaptation hinders model’s further             ferent input samples.
+                                        performance. To this end, we innovatively pro-
+                                        pose a multi-stage dynamic fusion strategy (M3 D-
+                                        BFS) for sample-adaptive multi-modal brain net-               different real-world datasets demonstrates the su-
+                                        work analysis. Unlike other static fusion meth-               periority of M3 D-BFS. Code can be available at
+                                        ods, we design different mixture-of-experts (MoEs)            https://github.com/KamonRiderDR/M3D-BFS.
+                                        for uni- and multi-modal representations where
+                                        modules can adaptively change as input sample
+                                        changes during inference. To alleviate issue of               1. Introduction
+                                        MoE where training of experts may be collapsed,
+                                        we divide our method into 3 stages. We first                  Most current neuroscience studies are based on uni-
+                                        train uni-modal encoders respectively, then pre-              modal learning, involving only one modality [2, 27,
+                                        train single experts of MoEs before finally finetun-          32]. In brain network analysis, most works focus
+                                        ing the whole model. A multi-modal disentangle-               on functional magnetic resonance imaging (fMRI)
+                                        ment loss is designed to enhance the final repre-             [29] and diffusion magnetic resonance imaging
+                                        sentations. To the best of our knowledge, this is             (dMRI) [24]. However, in existing real-world med-
+                                        the first work for dynamic fusion for multi-modal             ical scenarios, data from SC and FC offer com-
+                                        brain network analysis. Extensive experiments on              plementary information [8], while single-modality-
+                                                                                                      based methods are insufficient to capture compre-
+                                          * Corresponding author                                      hensive useful messages. On the other hand, multi-
+
+                                                                                                  1
+        Stage 1: Uni-modal encoder pretraining                                                                    𝓛𝒅𝒊𝒔𝒆𝒏                                          Stage 3: MoE finetuning
+                                                                                                            negative
+
+                                                                                                            positive
+                                                                                                                                                                 C         ෡
+                                                                                                                                                                           𝒀             𝓛𝑪𝑬
+                                        𝒇𝝋𝑭𝑪             𝒈𝜽𝑭𝑪          ෡
+                                                                       𝒀            𝓛𝑪𝑬
+                𝒢𝐹𝐶
+
+
+                                        𝒇𝝋𝑺𝑪             𝒈𝜽𝑺𝑪          ෡
+                                                                       𝒀            𝓛𝑪𝑬
+                𝒢𝑆𝐶
+                             save uni-modal                            𝒇𝝋      𝒇𝝋    GNN encoder
+
+                             encoder weights                           𝒈𝜽      𝒈𝜽     classifier                                     𝑭𝑪                       𝑭𝒖𝒔𝒊𝒐𝒏                             SC
+                                                                                                        copy                         MoE                       MoE                               𝑀𝑜𝐸
+                                                                                                       weights
+
+        Stage 2: Single expert pretraining                                                                                           project                   project                       project
+                                                                                                              𝑭𝑪
+                                                                                                           𝒔𝒉𝒂𝒓𝒆
+                                       C       ෡
+                                               𝒀          𝓛𝑪𝑬                                              SC𝑴𝑳𝑷
+                                                                                                            𝑴𝑳𝑷
+                                                                               save expert                 𝑀𝐿𝑃
+                                                                                                                                                 𝒇𝝓𝑭𝑪                    𝒇𝝓𝑺𝑪           Frozen parts
+                                                                                 weights
+                                                                      Save                                                                                                                                      pooling
+                                                                                       𝑭𝑪
+                                                                                     𝒔𝒉𝒂𝒓𝒆
+                  𝑭𝑪                 𝑭𝒖𝒔𝒊𝒐𝒏               SC
+                                                                     Weights
+                                                                                     SC𝑴𝑳𝑷
+                                                                                      𝑴𝑳𝑷                                                                                                                       copy weights
+                  MLP                 MLP                                            𝑀𝐿𝑃
+                                                          𝑀𝐿𝑃                                                                                  𝒢𝐹𝐶                   𝒢𝑆𝐶                                C       concat
+
+                 project             project             project                𝓛𝒄𝒐𝒏𝒕𝒓𝒂𝒔𝒕
+
+                                                                                                                                    ∑                                                               ∑
+
+         𝒇𝝋𝑭𝑪                 𝒇𝝓𝑭𝑪             𝒇𝝓𝑺𝑪                 𝒇𝝋𝑺𝑪
+                                                                                                                                                                                   Expert         Expert        Expert
+                  𝓛𝒅𝒊𝒔𝒕i𝒍𝒍                               𝓛𝒅𝒊𝒔𝒕i𝒍𝒍                                                   Expert
+                                                                                                                      1
+                                                                                                                                  Expert
+                                                                                                                                    2      …
+                                                                                                                                                     Expert
+                                                                                                                                                       k                             1              2       …     k
+
+
+                                                                                                                                                                                Gating Weights
+                                                                                                                 Gating Weights
+                                                                                           frozen                                 gating                                                          gating
+                                                                                                        Uni-modal MoE                                            Multi-modal MoE
+            𝒢𝐹𝐶                                    𝒢𝑆𝐶                                     learnable    (FC/SC)                                                  (FC/SC)
+
+
+
+
+Figure 2. The overall framework of our proposed M3 D-BFS. It consists of 3 stages: (1) stage 1: training for uni-modal
+encoders. (2) stage 2: pretraining of M3 D-BFS by using single expert. (3) stage 3: Finetuning M3 D-BFS via finetuing
+MoE blocks. Ldisen is designed to enhance final embeddings. Structures of MoEs (uni/multi-modal) are also plotted.
+
+
+modal fusion, which integrates information from                                                                        FC and utilized bottleneck transformer for indirect
+different modalities, can utilize data more effi-                                                                      fusion. NeuroPath [25] adds coupling mechanism
+ciently and achieve better performance in down-                                                                        between FC and SC to improve FC’s performance.
+stream tasks, like gender classification and disorder
+classification.                                                                                                            Despite the advancements in multi-modal brain
+                                                                                                                       network fusion, current methods are static in na-
+   Multi-modal brain network fusion typically uti-                                                                     ture. They feed all the inputs into the same mod-
+lizes data from fMRI (functional) and dMRI (struc-                                                                     els with identical computation, ignoring the in-
+tural) modalities. Different from other image-based                                                                    herent difference between different input samples.
+medical fusion methods, multi-modal brain net-                                                                         In Computer Vision and Natural Language Pro-
+work fusion mainly considers fusion between dif-                                                                       cessing, this is called multi-modal dynamic fusion,
+ferent graphs (FC and SC) to better capture topol-                                                                     which aims to adaptively fuse multi-modal data
+ogy features from brains. In general, current fu-                                                                      and make predictions based on the data-wise mod-
+sion stategies can be divided into 3 categories: (a)                                                                   els [3, 12, 28]. Such issue also exists in multi-
+Representation-level fusion which directly con-                                                                        modal brain network analysis, where different sam-
+cats multi-modal representations for fusion. [19,                                                                      ples may have significant differences in strength
+26, 33]. (b) Graph-level fusion between multi-                                                                         and connectivity of some brain regions [1, 7, 10].
+modal brain networks. ALNEGAT [5] designs an                                                                           While current methods treat all the samples equally
+attention-based adjacency matrix for fusion. Cross-                                                                    by using same models to encode and fuse, they fail
+GNN [30] proproses a graph-based learning frame-                                                                       to avoid the effects for inherent variance among
+work to capture finer inter-modal dependencies. (c)                                                                    different samples during encoding and fusion. In
+transformer-based fusion methods. RH-BrainFS                                                                           other word, model will have better performance if
+[31] considers regional heterogeneity between SC-                                                                      it can adaptively select unimodal-wise parts and
+
+
+                                                                                                             2
+multimodal-wise parts for representation and fu-             tween multi-modal fusion and uncertain estimation
+sion as the input sample dynamically changes.                and comes up with a robust fusion method.
+    To fill the gap mentioned above in neuro-                Multi-modal Brain Network Fusion. To fully
+science, in this work we innovatively propose a              integrate data from different modalities for bet-
+dynamic fusion approach for sample-adaptive                  ter downstream tasks, several methods have been
+multi-modal brain network analysis. As is                    developed for multi-modal brain network fusion.
+shown in Fig. 1, for other traditional fusion meth-          Generally, current fusion methods can be di-
+ods, all the input will be directly sent into specific       vided into three categories: (1) Representation-
+or fusion modules. Our method instead adds gating            level fusion which directly concats or adds multi-
+module before to adaptively capture modal-specific           modal representations before final prediction, like
+and multi-modal data for further representation.             MMGNN [19], GBDM [33] and D-mhgcn [26]. (2)
+We realize our gating module based on mixture-of-            Graph-level fusion which focuses on fusion graph
+experts (MoE). However, directly adopting MoE is             construction. ALNEGAT [5] designs an Attention-
+a challenge as it may face expert collapse in train-         based graph fusion method by learning a fusion
+ing. Therefore, we propose a Multi-stage, Multi-             adjancency matrix. Cross-GNN [30] proposes
+Modal Dynamic-Brain FuSion Strategy (M3 D-                   a graph-based framework to capture finer cross-
+BFS). M3 D-BFS consists of 3 stages: We first                modal structure information. (3) Transformer-
+train uni-modal encoders for SC/FC modality re-              based fusion. RH-BrainFS [31] uses bottleneck
+spectively. Then we pretrain our model by train-             transformer to avoid direct interaction between SC
+ing single experts for each MoE respectively. SC-            and FC. NeuroPath [25] introduces coupling mod-
+FC contrastive loss and unimodal-guided distilla-            ule between SC and FC to improve accuracy of FC-
+tion loss are designed for better performance of pre-        based prediction.
+training. Finally we finetune our model by only
+keeping MoE modules trainable. The weights for               3. Methodology
+experts in previous stage are used to initialize ex-
+perts in corresponding MoEs. To further enhance              3.1. Notations
+final representations (uni-modal/multi-modal) and            For a given multi-modal brain network dataset,
+their correlations with downstream tasks, we pro-            we define it as D = {(GSC  i
+                                                                                           , GFi C ), yi }ni=1 , where
+posed a multi-mdoal disentangle loss to better cap-          n represents the sample size. For each sam-
+ture task-related information. To the best of our            ple, GSCi
+                                                                       , GFi C stands for structural connectivity
+knowledge, M3 D-BFS is the first work for dynamic            graph and functional connectivity graph respec-
+fusion in sample-wise multi-modal brain network              tively, and yi is the corresponding label (depend-
+analysis. Extensive experiments on different real-           ing on different tasks, gender, disease, etc) and
+world datasets demonstrate the effectiveness of our          yi ∈ {0, 1}. For brain network of each modal-
+method.                                                      ity: Gm = (Am , Xm , Vm , Em ), m ∈ {SC, F C},
+                                                             nodes Vm represents different brain regions in the
+2. Related Works                                             brain while edges Em represents the connectivity
+Dynamic Multi-modal Fusion. Firstly introduced               between two brain regions. Xm ∈ RN ×d denotes
+in Computer Vision, dynamic fusion aims to dy-               node features for each region and Am ∈ RN ×N de-
+namically select parts from multi-view images for            notes the adjacency matrix for brain network Gm .
+fusion according to different samples [12]. MoGE
+[3] designed local gating and global gating mod-
+                                                             3.2. Overview of M3 D-BFS
+ules for dynamic fusion. DynMM [28] considered               In this section, we will introduce more details
+dynamic scene for text-vision-audio modalities and           about our M3 D-BFS. The structure of our frame-
+proposed a new gating network for efficient dy-              work is shown in Fig. 2 (stage 3), we project uni-
+namic fusion. [34] identified the correlations be-           modal embeddings and send them into following
+
+
+                                                         3
+MoE blocks. Via MoE’s gating mechanism, differ-               then finetune” paradigm for MoE training [15].
+ent brain regions can be assigned to following ex-            Formally, we first train single expert then finetune
+perts dynamically, thus realizing sample-adaptive             the MoEs. M3 D-BFS is independent of the spe-
+dynamic fusion. To facilitate better training, we             cific architecture of MoE experts and here we uti-
+divide our M3 D-BFS into 3 stages: (1) stage 1:               lize MLP as our expert network. For representa-
+Uni-modal encoder pretraining, where we train                 tions from SC/FC encoders (denote as hSC , hF C ),
+                                                              we project and feed them into following experts.
+SC and FC encoders respectively. (2) stage 2: Sin-            Corresponding to our design of MoEs, we con-
+gle expert pretraining, where we train our multi-             sider three types of expert MLPs: FC-specific, SC-
+modal fusion model using single expert network                specific and Fusion experts. Modal-specific experts
+for SC/FC/Fusion. (3) stage 3: MoE finetuning                 take the representation of uni-modal as input while
+for dynamic multi-modal fusion, where we finetune             Fusion expert takes the concatenation of SC and
+MoE blocks while keeping other modules frozen.                FC. READOUT(·) will be applied for the output
+                                                              of each expert before concatenation and final pre-
+3.3. Uni-modal encoder pretraining                            diction (shown in Eq. 2, and FFN(·) is the feedfor-
+Directly training a multi-modal fusion model can              ward network layer).
+lead to sub-optimal performance, sometimes the                (
+                                                                                      i
+                                                                  yˆi   = FFN(Concat(zSC , zFi C , zFi usion ))
+performance of the fusion model can be worse than                   i
+uni-modal models. This phenomenon of insuffi-                     zm    = READOUT(him ), m ∈ {SC, F C, F usion}
+                                                                                                                (2)
+cient learning during multi-modal fusion is called
+                                                                 However, simple cross-entropy loss (Lce ) is not
+“modality laziness” [9] which hurts fusion model’s
+                                                              enough for multi-modal supervised learning and
+generalization ability.                                       the reasons lie in label’s insufficient supervision
+   Thus, encouraged by [9], we first train uni-               for different modalities. Therefore, we add the su-
+modal encoders for FC/SC respectively, which                  pervision of pretrained uni-modal encoders from
+serve as guidance for multi-modal encoder in                  stage 1 [9]. For representations through encoders
+                                             i
+stage 2. Formally, for given data {(GFi C , GSC ), yi }       (fϕSC , fϕF C ) from stage 1, we design a uni-modal
+which stands for i-th sample, we denote the uni-              guided distillation loss as follows:
+modal encoder as:
+                                                                           τ2
+                                                                                                                 
+                          i                i                                         hφ    hϕ          hφ    hϕ
+      yˆi m = gθm ◦ fφm (Gm ) = gθm (fφm (Gm ))     (1)       Ldistill =        DKL ( F C , F C )+DKL ( SC , SC )
+                                                                           2           τ     τ           τ     τ
+ Here m ∈ {SC, F C}. fφm denotes the encoder                                                                (3)
+and here we realize it with a two-layer GCN. gθm                  The output of the uni-modal encoders from stage
+is for classifier and we use a one-layer MLP (multi-          2 are denoted as (hϕSC , hϕF C ) and we regard stage
+layer perceptron) for implementation. For either              1 representations as teacher logits (hφSC , hφF C ).
+SC or FC, we use cross-entropy loss (Lce ) to op-             Through Ldistill as soft alignment, our M3 D-BFS
+timize the uni-modal model.                                   can keep the performance of uni-modal encoders.
+    After uni-modal training, we save the weights                 Besides, for better SC/FC representations, we
+for SC/FC encoders (fφSC , fφF C ), which will be             adopt practice from LIMoE [17] pretraining which
+used for soft alignment in stage 2.                           utilized CLIP-based loss [18] between batch data.
+                                                              For given SC/FC representations (hϕSC , hϕF C ) ∈
+3.4. Single expert pretraining                                RN ×d , we utilize Contrastive Multimodal Brain
+We train our multi-modal fusion model after we                Pre-training loss (CMBP, denote as Lcontrast )
+pretrain uni-modal encoders. However, directly                for better align representations between SC and
+training MoE is challenging in practice, which may            FC. We use pooling for (hϕSC , hϕF C ), and get d-
+lead to instability during training process [21].             dimension representations for SC and FC modal-
+    According to [4, 15, 16], progressive training            ity. Lcontrast minimizes the distance between
+strategy is an effective way to train powerful MoE            paired SC-FC data within one batch during train-
+models. To this end, we further adopt a “pretrain             ing: Lcontrast = 12 (LS2F + LF 2S ). Here we use
+
+
+                                                          4
+InfoNCE(·) for implementation.                                 training and inference. As the output of Gm de-
+    During this stage, classification loss Lce , distil-       pends on input X, it can dynamically assign brain
+lation loss Ldistill and Lcontrast together make the           regions to different experts according to different
+loss function (Eq. 4, where β is a hyper-parameter             data samples.
+ranging (0, 1)).                                                   However, direct training process can get col-
+                                                               lapsed easily, where all input can be assigned to
+  Lstage2 = Lce + β · (Ldistill + Lcontrast )       (4)        only one expert, and distributions of gating net-
+                                                               work can be imbalanced, where favored experts are
+   After training, we save the weights of single               trained more rapidly and are preferred during infer-
+                                                               ence while other experts will get insufficient train-
+MLP experts (SC, FC, Fusion), which will be used
+                                                               ing [6, 21]. Thus MoE will degenerate into a sin-
+in stage 3.                                                    gle expert. To alleviate this issue of imbalanced
+                                                               training between experts, we apply the Importance
+3.5. MoE finetuning                                            loss and Load loss for each MoE (Lmoe ). For given
+MoE finetuning for dynamic multi-modal fu-                     MoE, the loss is the combination of LImportance
+sion. Based on the pretrained model in stage 2, We             and Lload , where the importance loss and load loss
+finally finetune our M3 D-BFS in stage 3 to make               are defined as:
+                                                                                                             X
+                                                                LImportance (X) = CV (Importance(X))2 = CV (     G(x))2
+                                                               
+our training process more stable. In this stage we             
+                                                               
+replace the MLP experts with MoEs, whose ex-
+                                                               
+                                                                                                            x∈X
+                                                                                              2
+                                                                                                       X       2
+perts have the same structure as MLP experts. As               
+                                                               
+                                                                    L Load (X) = CV (Load(X))  = CV (   P (x))
+is shown in Fig. 2, We only train MoEs during                                                                x∈X
+
+this stage while keeping other modules frozen. We                                                                  (6)
+consider three types of MoEs: Uni-modal MoEs                    Here CV (·) means the coefficient of variation of
+(SC-specific, FC-specific) which capture SC-only               the values. The initialization of experts’ weights,
+or FC-only features and Multi-modal MoE which                  as well as the MoE loss function together alleviate
+dynamically fuses SC and FC features. Moreover,                imbalanced training issue of MoE which makes the
+to avoid insufficient learning for some experts in             training more stable and more efficient.
+MoE training, we apply the MLP weights saved in                Representation-enhanced multi-modal disen-
+stage 2 to initialize all the expert networks in cor-          tanglement loss. In multi-modal learning, insuf-
+responding MoEs.                                               ficient label information for supervision may in-
+   Each MoE consists of two parts: expert net-                 fluence the performance for modal-specific and fu-
+works and gating network. Here we follow the                   sion embeddings. One solution is through disentan-
+classical practice from [21] and use MLP to real-              gled representation learning which reduces redun-
+ize both modules. For MoE m which denotes its                  dancy between modal-specific and modal-fusion
+type (m ∈ { SC, F C, F usion}), the output can be              information while keeping their correlations with
+written as follows:                                            label. Here, derived from [14]’s method, we de-
+                                                               sign our multi-mdoal disentanglement loss to learn
+                  Nm
+                  X                                            better uni-modal and multi-modal representations
+           ym =         Gm (hm )i · Em (hm )i        (5)       (Ldisen ). We apply pooling function after the out-
+                  i=1                                          put of MoE and for each data, the final embed-
+                                                               dings are {zSC , zF C , zF usion } ∈ Rd . Our Ldisen
+   Where the input hm takes the dimension of                   is based on contrastive loss and we hope that the fi-
+RN ×d for m ∈ {SC, F C} (Nm = N ) and R2N ×d                   nal embeddings can be as orthogonal to each other
+for m ∈ {F usion} (Nm = 2N ). Gm is gating net-                as possible for better representation. We use the
+work for corresponding MoE. Following [21], we                 concatenation of three representations and get the
+apply Softmax function for gating output. Before                                                 i
+                                                               anchor sample for i-th data zanchor      by concating
+taking softmax, we add Gaussian noise and only                 zSC , zF C and zF usion . zanchor ∈ Rd is used for
+                                                                 i    i         i           i
+
+keep top k values. Here we set k as 1, which means                                         i
+                                                               prediction and for each zm     , we regard other types
+                                                                                           i
+each brain region selects only one expert during               as negative samples and zanchor as positive sample.
+
+
+                                                           5
+Table 1. Comparison results on two different datasets (HCP, ZDXX). We run 10 times and record average acc ± std (%).
+The best results are marked bold, the second best underline and the third best gray .
+
+                Datasets          Methods           Modality       ACC              SEN            SPE             F1            AUC
+                                  GCN                  FC       64.03 ± 1.21     55.01 ± 2.88   71.75 ± 2.37   57.15 ± 2.49   63.38 ± 1.25
+                                  GCN                  SC       68.23 ± 1.76     66.22 ± 4.79   72.27 ± 4.53   67.91 ± 2.71   69.61 ± 1.75
+                                  BrainNPT             FC       67.78 ± 1.53     60.67 ± 1.34   73.98 ± 2.83   59.15 ± 3.70   66.97 ± 2.44
+                                  BrainNPT             SC       70.74 ± 1.49     68.95 ± 4.82   70.02 ± 5.67   68.16 ± 2.13   70.11 ± 1.73
+                                  SVM                FC, SC     74.49 ± 2.97     71.18 ± 4.95   77.32 ± 3.30   71.96 ± 3.49   74.25 ± 3.05
+                HCP               Random Forest      FC, SC     68.24 ± 2.94     54.88 ± 5.78   79.64 ± 4.16   61.31 ± 4.44   67.26 ± 3.04
+                                  MMGNN              FC, SC     73.33 ± 2.82     71.17 ± 4.52   75.17 ± 5.67   71.10 ± 2.88   73.17 ± 2.72
+                                  AL-NEGAT           FC, SC     75.12 ± 3.66     72.86 ± 7.74   84.46 ± 5.05   76.13 ± 4.70   78.66 ± 3.81
+                                  Cross-GNN          FC, SC     78.93 ± 1.05     73.53 ± 1.84   85.04 ± 2.02   76.81 ± 0.86   79.82 ± 0.72
+                                  RH-BrainFS         FC, SC     78.63 ± 4.36     75.59 ± 6.75   81.25 ± 6.04   76.49 ± 6.91   78.42 ± 4.38
+                                  NeuroPath          FC, SC     77.77 ± 1.87     75.24 ± 2.61   80.38 ± 1.50   75.78 ± 1.84   77.81 ± 1.67
+                                  M3 D-BFS (Ours)    FC, SC     81.21 ± 0.85     76.14 ± 3.32   82.50 ± 3.07   76.75 ± 1.25   80.80 ± 1.07
+                                  GCN                  FC       68.63 ± 1.28     64.61 ± 4.67   72.68 ± 4.52   64.68 ± 3.13   68.64 ± 1.18
+                                  GCN                  SC       72.15 ± 2.49     72.79 ± 5.14   73.24 ± 4.80   71.90 ± 4.25   72.02 ± 2.52
+                                  BrainNPT             FC       70.65 ± 1.85     73.00 ± 4.59   69.01 ± 4.30   69.27 ± 2.64   71.00 ± 2.03
+                                  BrainNPT             SC       72.83 ± 1.73     74.57 ± 3.80   69.89 ± 3.87   73.63 ± 4.07   72.78 ± 2.65
+                                  SVM                FC, SC     66.06 ± 1.56     58.01 ± 2.49   74.04 ± 1.77   62.03 ± 2.27   66.03 ± 1.56
+      zhongdaxinxiang             Random Forest      FC, SC     62.43 ± 2.19     56.17 ± 2.87   68.60 ± 3.48   59.04 ± 2.73   62.38 ± 2.20
+                                  MMGNN              FC, SC     59.72 ± 3.18     65.10 ± 4.83   54.42 ± 4.42   59.96 ± 4.02   59.76 ± 3.15
+                                  AL-NEGAT           FC, SC     71.86 ± 2.49     75.26 ± 3.62   68.12 ± 6.19   72.16 ± 2.24   71.69 ± 2.56
+                                  Cross-GNN          FC, SC     74.01 ± 2.33     77.39 ± 5.71   70.46 ± 5.65   74.38 ± 3.15   73.92 ± 2.33
+                                  RH-BrainFS         FC, SC     78.48 ± 1.43     76.20 ± 4.06   80.72 ± 3.60   77.35 ± 1.97   78.46 ± 1.43
+                                  NeuroPath          FC, SC     78.01 ± 1.17     77.03 ± 2.23   79.17 ± 3.47   77.54 ± 2.28   78.50 ± 1.24
+                                  M3 D-BFS (Ours)    FC, SC     80.85 ± 2.44     77.22 ± 3.04   83.91 ± 4.95   77.82 ± 3.62   80.74 ± 2.57
+
+
+
+
+Ldisen can be written as Eq. 7:                                                (HCP) [23], a public dataset on gender classifica-
+                            n    M                                             tion which consists of 560 female and 479 male
+                   1 XX                                                        samples. (2) Major Depressive Disorder dataset
+  Ldisen = −
+                 n · M i=1 m=1                                                 from hospitals (zhongdaxinxiang, also short as
+                                  i
+                                 zm   i
+                                    ·zanchor                   (7)            ZDXX), including the Affiliated Zhongda Hospital
+                           exp        τd
+    log           i ·z i
+                 zm           PM                    i ·z i 
+                                                    zm
+                                                                               of Southeast University and the Second Affiliated
+                      anchor                             q
+          exp         τd
+                              + q=1, exp              τd                       Hospital of Xinxiang Medical University, which
+                                q̸=m
+                                                                               consists of 94 controls and 93 MDD patients.
+   Here M          defers to different types
+({SC, F C, F usion}). According to Eq. 7,                                         We also introduce preprocess of our dataset. (1)
+through Ldisen , we can disentangle different                                  SC: The brain’s diffusion toolbox of FMRIB is uti-
+representations while increasing their relevance to                            lized dMRI preprocessing [20]. Then the brain re-
+downstream tasks, thus enhancing their representa-                             gions are obtained (VSC ) through Anatomical Au-
+tions. Finally, the loss function in stage 3 is in Eq.                         tomatic labeling (AAL) template. After that, we
+8 with α ∈ (0, 1):                                                             use DSI Studio [11] for fiber tracking before we fi-
+                                                                               nally get the features of SC graph (XSC ) by count-
+  Lstage3 = Lce + α · Lmoe + (1 − α) · Ldisen                   (8)            ing the number of structural connective fibres be-
+                                                                               tween different regions of AAL. The construction
+4. Experiments                                                                 of ASC is based on XSC by adding a certain thresh-
+                                                                               old. (2) FC: The Data Preprocessing Assistant for
+4.1. Experimental settings                                                     Resting-State Function (DPARSF) MRI tookit [22]
+Datasets. We evaluate our M3 D-BFS on two dif-                                 is utilized for fMRI preprocessing. Then the aver-
+ferent datasets: (1) Human Connectsome Project                                 age time series are computed for each brain region
+
+
+                                                                      6
+    Modality SC                                   Modality FC
+                                                ROI#1
+                                                                                                      where higher value means better performance. We
+                                                ROI#2
+
+                                                ROI#3
+                                                                       Pearson
+                                                                      Correlation                     use 10-fold cross validation on 10 random runs and
+                                                  …        ……
+                                                ROI#90
+
+                                                                                                      record mean value and standard deviation.
+       DTI                      fMRI             Bold signal series                 𝑿𝑭𝑪
+
+                                                                                      threshold
+                                                                                                      Table 2. Ablation studies on sub-stages and sub-modules.
+                     𝑿𝑺𝑪
+
+                                                                                                                                                  Stage 1                        Stage 2                                Stage 3                                 Datasets
+         threshold                                                                                     Ablation types
+                                                                                                                                                     KD            pretrain          Lcontrast                               Ldisen            HCP                zhongdaxinxiang
+
+                 𝑨𝑺𝑪                                                                                                 S1 .A1                           %                %                     %                                %             76.84 ± 1.92                       77.28 ± 4.71
+                           𝒢𝐹𝐶 = (𝑨𝑭𝑪 , 𝑿𝑭𝑪 )   𝒢𝑆𝐶 = (𝑨𝑺𝑪 , 𝑿𝑺𝑪 )                  𝑨𝑭𝑪                              S2 .A1                           !                %                     %                                %             78.16 ± 1.57                       79.67 ± 4.42
+                                                                                                                     S2 .A2                           !                !                     %                                %             78.57 ± 1.06                       77.00 ± 2.52
+                                                                                                                     S3 .A1                           !                !                     !                                %             77.80 ± 1.22                       78.68 ± 4.06
+  Figure 3. Multi-modal brain networks construction.                                                          M3 D-BFS                                !                !                     !                                !             81.21 ± 0.85                       80.85 ± 2.44
+
+
+
+
+with AAL template. Pearson correlation is then cal-                                                                                                                                                                     
+                                                                                                                                                                                                                                               Q X P  H [ S H U W V   N
+                                                                                                                                                  HCP                                                                   
+culated as function matrix, which denotes the fea-                                                                       78.65            79.20         81.21       79.60
+                                                                                                                                                                                      81.0
+                                                                                                                                                                                                                        
+
+
+
+
+                                                                                                            0.3
+ture matrix for FC (XF C ). Its AF C is obtained by                                                                                                                                   80.5
+                                                                                                                                                                                                                        
+
+
+
+
+                                                                                                                                                                                                    $ F F X U D F \
+                                                                                                                         79.47            78.72         78.97       78.55
+
+
+
+
+                                                                                                            0.5
+                                                                                                                                                                                      80.0                              
+
+
+
+
+                                                                                                       beta ( )
+thresholding a certain proportional quantization.                                                                        78.46            78.54         78.89       78.74
+                                                                                                                                                                                      79.5                              
+
+
+
+
+                                                                                                            0.7
+                                                                                                                                                                                      79.0
+                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                + & 3
+Baselines. For uni-modal methods, as we choose                                                                           78.18            78.83         78.40       78.66                                               
+                                                                                                                                                                                                                                                                                ] K R Q J G D [ L Q [ L D Q J
+
+
+
+
+                                                                                                            0.9
+                                                                                                                                                                                      78.5
+                                                                                                                                                                                                                                                                                                    
+GCN as our uni-modal encoders, we record its                                                                                   0.2         0.4
+                                                                                                                                                 alpha ( )
+                                                                                                                                                             0.6           0.8
+                                                                                                                                                                                                                                                            N
+
+results in uni-modal scenes. Besides, we select
+                                                                                                                                     Figure 4. Sensitivity analysis experiments.
+BrainNPT [13], a transformer-based method for
+brain network analysis. For multi-modal meth-
+ods, we select (1) 2 methods which concatenate                                                                                 120
+                                                                                                                                           Fusion MoE L1 (HCP)                                                        120
+                                                                                                                                                                                                                                      Fusion MoE L2 (HCP)
+SC/FC features as input: SVM, Random For-                                                                                                                    SC              FC                                                                     SC                    FC
+                                                                                                                               100                                                                                    100
+
+est; (2) 1 method concatenates uni-modal embed-                                                                                 80                                                                                     80
+                                                                                                                  percentage
+
+
+
+
+                                                                                                                                                                                                 percentage
+dings: MMGNN [19]; (3) 2 methods which con-                                                                                     60                                                                                     60
+
+                                                                                                                                40                                                                                     40
+struct a graph between different modalities for fu-                                                                             20                                                                                     20
+
+sion: AL-NEGAT [5], Cross-GNN [30] and (4)                                                                                       0
+                                                                                                                                      1                2               3                  4
+                                                                                                                                                                                                                        0
+                                                                                                                                                                                                                                1              2                 3                              4
+                                                                                                                                                           expert id                                                                               expert id
+2 transformer-based fusion methods: RH-BrainFS                                                                                   Fusion MoE L1 (zhongdaxinxiang)                                                         Fusion MoE L2 (zhongdaxinxiang)
+                                                                                                                               120                                                                                    120
+
+[31] and NeuroPath [25]. Code implementations                                                                                                              SC               FC                                                                     SC                 FC
+                                                                                                                               100                                                                                    100
+
+of all baseline methods are taken from their respec-                                                                           80                                                                                      80
+                                                                                                                  percentage
+
+
+
+
+                                                                                                                                                                                                 percentage
+
+
+
+
+tive original papers.                                                                                                          60                                                                                      60
+
+                                                                                                                               40                                                                                      40
+
+
+Experimental settings. We choose 3-layer GCN                                                                                   20                                                                                      20
+
+                                                                                                                                0                                                                                       0
+with its hidden dimension 128 for uni-modal en-                                                                                       1                2
+                                                                                                                                                           expert id
+                                                                                                                                                                       3              4                                         1              2
+                                                                                                                                                                                                                                                   expert id
+                                                                                                                                                                                                                                                                 3                          4
+
+coders. For fusion parts, we utilize a two-layer
+MoE. Top-k value of each MoE block is set as                                                          Figure 5.    Visualization for uni-modal percentage
+1. We adopt Adam as optimizer and training                                                            (SC:FC) in each fusion MoE block.
+epochs is 500 in total with 300 epochs as early
+stopping. For hyper-parameters settings, α ∈
+{0.2, 0.4, 0.6, 0.8}, β ∈ {0.3, 0.5, 0.7, 0.9}. The                                                   4.2. Comparison experiments
+number of experts in MoE k ∈ [2, 6]. The learn-                                                       The results of different methods for two datasets
+ing rate is 0.005 with weight dacay as 0.0001. Our                                                    are shown in Tab. 1. Compared to uni-modal
+model is implemented in PYG and trained on RTX                                                        GCNs, M3 D-BFS greatly outperforms uni-modal
+Titans with 24GB memory.                                                                              encoders. Moreover, compared to other multi-
+    We evaluate model’s performance on five met-                                                      modal brain fusion methods, M3 D-BFS also per-
+rics: accuracy (ACC), sensitivity (SEN), speci-                                                       forms the best (2.28% ACC improvement on HCP
+ficity (SPE), f1 score (F1) and ROC-AUC (AUC),                                                        and 2.73% ACC improvement on ZDXX).
+
+
+                                                                                                  7
+                  80
+                        MoE L1 (HCP, w/o pretrain)                          80
+                                                                                      MoE L1 (HCP, Ours)                              80
+                                                                                                                                            MoE L2 (HCP, w/o pretrain)                          80
+                                                                                                                                                                                                          MoE L2 (HCP, Ours)
+                                 SC          Fusion                                        SC          Fusion                                        SC          Fusion                                        SC          Fusion
+                  70             FC                                         70             FC                                         70             FC                                         70             FC
+     percentage   60                                                        60                                                        60                                                        60
+
+
+
+
+                                                               percentage
+
+
+
+
+                                                                                                                         percentage
+
+
+
+
+                                                                                                                                                                                   percentage
+                  50                                                        50                                                        50                                                        50
+
+                  40                                                        40                                                        40                                                        40
+
+                  30                                                        30                                                        30                                                        30
+
+                  20                                                        20                                                        20                                                        20
+
+                  10                                                        10                                                        10                                                        10
+
+                   0                                                         0                                                         0                                                         0
+                         1       2           3         4                          1        2           3         4                           1       2           3         4                          1        2           3         4
+                                 expert id                                                 expert id                                                 expert id                                                 expert id
+                                 (a)                                                        (b)                                                      (c)                                                        (d)
+                        MoE L1 (ZDXX, w/o pretrain)                                   MoE L1 (ZDXX, Ours)                                   MoE L2 (ZDXX, w/o pretrain)                                   MoE L2 (ZDXX, Ours)
+                  100                        SC       Fusion                100                        SC       Fusion                100                        SC       Fusion                100                        SC       Fusion
+                                             FC                                                        FC                                                        FC                                                        FC
+                  80                                                        80                                                        80                                                        80
+     percentage
+
+
+
+
+                                                               percentage
+
+
+
+
+                                                                                                                         percentage
+
+
+
+
+                                                                                                                                                                                   percentage
+                  60                                                        60                                                        60                                                        60
+
+                  40                                                        40                                                        40                                                        40
+
+                  20                                                        20                                                        20                                                        20
+
+                   0                                                         0                                                         0                                                         0
+                         1       2           3         4                          1        2           3         4                           1       2           3         4                          1        2           3         4
+                                     expert id                                                 expert id                                                 expert id                                                 expert id
+                                     (e)                                                       (f)                                                       (g)                                                       (h)
+
+           Figure 6. Visualization for percentage of experts in different MoEs. Here each MoE consists of 4 experts.
+
+
+4.3. Ablation studies and sensitivity analyses                                                                                             ery fusion expert avoid collapse (SC/FC 100% or
+                                                                                                                                           0%) phenomenon, showing that M3 D-BFS gets ef-
+We conduct ablation studies to illustrate effective-
+                                                                                                                                           fective training in dynamic fusion. Then we plot
+ness of different sub-modules in M3 D-BFS. We
+                                                                                                                                           the distribution of all experts in one MoE block to
+validate its effectiveness via stage-by-stage abla-
+                                                                                                                                           check if expert collapse occurs in our model. We
+tion. As is shown in Tab. 2, Si .Aj means ab-
+                                                                                                                                           also plot distributions for models without pretrain-
+lation for stage i and j-th sub-module in stage
+                                                                                                                                           ing (left side) in stage 2 as comparison, which is
+i. The results in Tab. 2 show that each sub-
+                                                                                                                                           shown in Fig. 6. For MoE in both layers, model
+module works in our M3 D-BFS. The distillation
+                                                                                                                                           without pretraining may face collapse among ex-
+from uni-modal encoders ensure the models’ rep-
+                                                                                                                                           perts. While for M3 D-BFS (right side), the issue
+resentations for uni-modal during fusion (S1 .A1 ).
+                                                                                                                                           is effectively mitigated, with more even distribu-
+The “pretrain-finetune” method not only improves
+                                                                                                                                           tions for different experts.
+accuracy, but also lowers deviation (S2 .A1 , S2 .A2 ).
+Finally Ldisen leads to better performance (S3 .A1 ).
+    We also conduct extensive experiments on dif-
+                                                                                                                                           5. Conclusion
+ferent hyper-parameters. For loss function coeffi-
+cients, here we consider β in stage 2 and α in stage                                                                                       In this work, we propose a multi-stage MoE-based
+3 and plot the heatmap for them, which is depicted                                                                                         multi-modal brain network fusion method (M3 D-
+in Fig. 4. For HCP, the accuracy reaches its peak                                                                                          BFS) for sample-adaptive dynamic fusion in neu-
+when the values are (α, β) = (0.6, 0.3). Finally we                                                                                        roscience. To the best of our knowledge, this is
+conduct experiments on different expert numbers in                                                                                         the first paper discussing dynamic fusion in multi-
+the MoE block. The value of number k is from 1 to                                                                                          modal brain fusion. Extensive experiments on dif-
+6, and as is shown in Fig. 4, for HCP, the change of                                                                                       ferent real-world datasets validate the effectiveness
+accuracy is subtler than ZDXX dataset.                                                                                                     of our method. In our future work, we aim to
+                                                                                                                                           consider more complex cases where different data
+4.4. Visualization for experts
+                                                                                                                                           may have inherent bias in its distribution to achieve
+Firstly we plot percentage of different modalities in                                                                                      better results in different downstream tasks under
+each fusion MoE block. As is shown in Fig. 5, ev-                                                                                          multi-modal brain network scenarios.
+
+
+                                                                                                                         8
+Acknowledgement                                                       view of migraine functional and white matter mi-
+                                                                      crostructural changes. Journal of Central Nervous
+This work is supported by National Natural Science                    System Disease, 15:11795735231205413, 2023. 2
+Foundation of China (Grant No.62471133). This                     [8] Shu-Hsien Chu, Keshab K Parhi, and Christophe
+work is also supported by the Big Data Computing                      Lenglet. Function-specific and enhanced brain
+Center of Southeast University.                                       structural connectivity mapping via joint modeling
+                                                                      of diffusion and functional mri. Scientific reports,
+References                                                            8(1):4741, 2018. 1
+                                                                  [9] Chenzhuang Du, Jiaye Teng, Tingle Li, Yichen Liu,
+ [1] Silvia Basaia, Federica Agosta, Elisabetta Sarasso,              Tianyuan Yuan, Yue Wang, Yang Yuan, and Hang
+     Roberta Balestrino, Tanja Stojković, Iva Stanković,            Zhao. On uni-modal feature learning in supervised
+     Aleksandra Tomić, Vladana Marković, Francesca                  multi-modal learning. In International Conference
+     Vignaroli, Elka Stefanova, et al. Brain connectivity             on Machine Learning, pages 8632–8656. PMLR,
+     networks constructed using mri for predicting pat-               2023. 4
+     terns of atrophy progression in parkinson disease.          [10] Mingjun Duan, Yuchao Jiang, Xi Chen, Cheng
+     Radiology, 311(3):e232454, 2024. 2                               Luo, and Dezhong Yao. Degree centrality of
+ [2] Alaa Bessadok, Mohamed Ali Mahjoub, and Islem                    the functional network in schizophrenia patients.
+     Rekik. Graph neural networks in network neuro-                   Sheng Wu Yi Xue Gong Cheng Xue Za Zhi Jour-
+     science. IEEE Transactions on Pattern Analysis                   nal of Biomedical Engineering Shengwu Yixue
+     and Machine Intelligence, 45(5):5833–5848, 2022.                 Gongchengxue Zazhi, 34(6):837–841, 2017. 2
+     1                                                           [11] Aina Frau-Pascual, Jean Augustinack, Divya
+ [3] Bing Cao, Yiming Sun, Pengfei Zhu, and Qinghua                   Varadarajan, Anastasia Yendiki, Bruce Fischl, and
+     Hu. Multi-modal gated mixture of local-to-global                 Iman Aganj. Detecting structural brain connec-
+     experts for dynamic image fusion. In Proceed-                    tivity differences in dementia through a conduc-
+     ings of the IEEE/CVF International Conference                    tance model. In 2019 53rd Asilomar conference on
+     on Computer Vision (ICCV), pages 23555–23564,                    signals, systems, and computers, pages 591–595.
+     2023. 2, 3                                                       IEEE, 2019. 6
+ [4] Junyi Chen, Longteng Guo, Jia Sun, Shuai Shao,              [12] Zongbo Han, Fan Yang, Junzhou Huang,
+     Zehuan Yuan, Liang Lin, and Dongyu Zhang. Eve:                   Changqing Zhang, and Jianhua Yao. Multimodal
+     Efficient vision-language pre-training with masked               dynamics: Dynamical fusion for trustworthy
+     prediction and modality-aware moe. In Proceed-                   multimodal classification. In Proceedings of the
+     ings of the AAAI Conference on Artificial Intelli-               IEEE/CVF conference on computer vision and
+     gence, pages 1110–1119, 2024. 4                                  pattern recognition, pages 20707–20717, 2022. 2,
+ [5] Yuzhong Chen, Jiadong Yan, Mingxin Jiang, Tuo                    3
+     Zhang, Zhongbo Zhao, Weihua Zhao, Jian Zheng,               [13] Jinlong Hu, Yangmin Huang, Nan Wang, and
+     Dezhong Yao, Rong Zhang, Keith M Kendrick,                       Shoubin Dong. Brainnpt: Pre-training transformer
+     et al. Adversarial learning based node-edge graph                networks for brain network classification. IEEE
+     attention networks for autism spectrum disorder                  Transactions on Neural Systems and Rehabilitation
+     identification. IEEE Transactions on Neural Net-                 Engineering, 2024. 7
+     works and Learning Systems, 2022. 2, 3, 7                   [14] Jiangmeng Li, Wenwen Qiang, Changwen Zheng,
+ [6] Zewen Chi, Li Dong, Shaohan Huang, Damai Dai,                    Bing Su, Farid Razzak, Ji-Rong Wen, and Hui
+     Shuming Ma, Barun Patra, Saksham Singhal, Payal                  Xiong. Modeling multiple views via implicitly pre-
+     Bajaj, Xia Song, Xian-Ling Mao, et al. On the rep-               serving global consistency and local complemen-
+     resentation collapse of sparse mixture of experts.               tarity. IEEE Transactions on Knowledge and Data
+     Advances in Neural Information Processing Sys-                   Engineering, 35(7):7220–7238, 2022. 5
+     tems, 35:34600–34613, 2022. 5                               [15] Yunxin Li, Shenyuan Jiang, Baotian Hu, Longyue
+ [7] Brendon C Chou, Alexander Lerner, Giuseppe                       Wang, Wanqi Zhong, Wenhan Luo, Lin Ma, and
+     Barisano, Daniel Phung, Wilson Xu, Soniya N                      Min Zhang. Uni-moe: Scaling unified multi-
+     Pinto, and Nasim Sheikh-Bahaei. Functional mri                   modal llms with mixture of experts. arXiv preprint
+     and diffusion tensor imaging in migraine: a re-                  arXiv:2405.11273, 2024. 4
+
+
+                                                             9
+[16] Bin Lin, Zhenyu Tang, Yang Ye, Jiaxi Cui, Bin                     balledo, Colm G Connolly, et al. White matter dis-
+     Zhu, Peng Jin, Junwu Zhang, Munan Ning, and                       turbances in major depressive disorder: a coordi-
+     Li Yuan. Moe-llava: Mixture of experts for                        nated analysis across 20 international cohorts in the
+     large vision-language models.        arXiv preprint               enigma mdd working group. Molecular psychiatry,
+     arXiv:2401.15947, 2024. 4                                         25(7):1511–1525, 2020. 1
+[17] Basil Mustafa, Carlos Riquelme, Joan Puigcerver,             [25] Ziquan Wei, Tingting Dan, Jiaqi Ding, and
+     Rodolphe Jenatton, and Neil Houlsby. Multimodal                   Guorong Wu. Neuropath: A neural pathway trans-
+     contrastive learning with limoe: the language-                    former for joining the dots of human connectomes.
+     image mixture of experts. Advances in Neural                      arXiv preprint arXiv:2409.17510, 2024. 2, 3, 7
+     Information Processing Systems, 35:9564–9576,                [26] Xuyun Wen, Qumei Cao, Yunxi Zhao, Xia Wu,
+     2022. 4                                                           and Daoqiang Zhang. D-mhgcn: An end-to-end
+[18] Alec Radford, Jong Wook Kim, Chris Hallacy,                       individual behavioral prediction model using dual
+     Aditya Ramesh, Gabriel Goh, Sandhini Agarwal,                     multi-hop graph convolutional network. IEEE
+     Girish Sastry, Amanda Askell, Pamela Mishkin,                     Journal of Biomedical and Health Informatics,
+     Jack Clark, et al. Learning transferable visual mod-              2024. 2, 3
+     els from natural language supervision. In Inter-             [27] Nils R Winter, Julian Blanke, Ramona Leenings,
+     national conference on machine learning, pages                    Jan Ernsting, Lukas Fisch, Kelvin Sarink, Carlotta
+     8748–8763. PMLR, 2021. 4                                          Barkhau, Daniel Emden, Katharina Thiel, Kira
+[19] Isaac Sebenius, Alexander Campbell, Sarah E Mor-                  Flinkenflügel, et al. A systematic evaluation of ma-
+     gan, Edward T Bullmore, and Pietro Liò. Mul-                     chine learning–based biomarkers for major depres-
+     timodal graph coarsening for interpretable, mri-                  sive disorder. JAMA psychiatry, 81(4):386–395,
+     based brain graph neural network. In 2021 IEEE                    2024. 1
+     31st International Workshop on Machine Learning              [28] Zihui Xue and Radu Marculescu. Dynamic mul-
+     for Signal Processing (MLSP), pages 1–6. IEEE,                    timodal fusion. In Proceedings of the IEEE/CVF
+     2021. 2, 3, 7                                                     Conference on Computer Vision and Pattern
+[20] Preya Shah, Arian Ashourvan, Fadi Mikhail, Adam                   Recognition, pages 2575–2584, 2023. 2, 3
+     Pines, Lohith Kini, Kelly Oechsel, Sandhitsu R               [29] Chao-Gan Yan, Xiao Chen, Le Li, Francisco Xavier
+     Das, Joel M Stein, Russell T Shinohara, Danielle S                Castellanos, Tong-Jian Bai, Qi-Jing Bo, Jun Cao,
+     Bassett, et al. Characterizing the role of the struc-             Guan-Mao Chen, Ning-Xuan Chen, Wei Chen,
+     tural connectome in seizure dynamics. Brain, 142                  et al. Reduced default mode network functional
+     (7):1955–1972, 2019. 6                                            connectivity in patients with recurrent major de-
+[21] Noam Shazeer, Azalia Mirhoseini, Krzysztof                        pressive disorder. Proceedings of the National
+     Maziarz, Andy Davis, Quoc Le, Geoffrey Hinton,                    Academy of Sciences, 116(18):9078–9083, 2019. 1
+     and Jeff Dean. Outrageously large neural networks:           [30] Yanwu Yang, Chenfei Ye, Xutao Guo, Tao Wu,
+     The sparsely-gated mixture-of-experts layer. arXiv                Yang Xiang, and Ting Ma. Mapping multi-modal
+     preprint arXiv:1701.06538, 2017. 4, 5                             brain connectome for brain disorder diagnosis via
+[22] Xiao-Wei Song, Zhang-Ye Dong, Xiang-Yu Long,                      cross-modal mutual learning. IEEE transactions on
+     Su-Fang Li, Xi-Nian Zuo, Chao-Zhe Zhu, Yong                       medical imaging, 43(1):108–121, 2024. 2, 3, 7
+     He, Chao-Gan Yan, and Yu-Feng Zang. Rest: a                  [31] Hongting Ye, Yalu Zheng, Yueying Li, Ke Zhang,
+     toolkit for resting-state functional magnetic reso-               Youyong Kong, and Yonggui Yuan. Rh-brainfs:
+     nance imaging data processing. PloS one, 6(9):                    regional heterogeneous multimodal brain networks
+     e25031, 2011. 6                                                   fusion strategy. Advances in Neural Information
+[23] David C Van Essen, Stephen M Smith, Deanna M                      Processing Systems, 36, 2024. 2, 3, 7
+     Barch, Timothy EJ Behrens, Essa Yacoub, Kamil                [32] Usman Zahid, Imran Ashraf, Muhammad Attique
+     Ugurbil, Wu-Minn HCP Consortium, et al. The                       Khan, Majed Alhaisoni, Khawaja M Yahya, Hany S
+     wu-minn human connectome project: an overview.                    Hussein, and Hammam Alshazly. Brainnet: op-
+     Neuroimage, 80:62–79, 2013. 6                                     timal deep learning feature fusion for brain tu-
+[24] Laura S Van Velzen, Sinead Kelly, Dmitry Isaev,                   mor classification. Computational Intelligence and
+     Andre Aleman, Lyubomir I Aftanas, Jochen Bauer,                   Neuroscience, 2022(1):1465173, 2022. 1
+     Bernhard T Baune, Ivan V Brak, Angela Car-                   [33] Lu Zhang, Li Wang, Jean Gao, Shannon L
+
+
+                                                             10
+     Risacher, Jingwen Yan, Gang Li, Tianming Liu,
+     Dajiang Zhu, Alzheimer’s Disease Neuroimaging
+     Initiative, et al. Deep fusion of brain structure-
+     function in mild cognitive impairment. Medical im-
+     age analysis, 72:102082, 2021. 2, 3
+[34] Qingyang Zhang, Haitao Wu, Changqing Zhang,
+     Qinghua Hu, Huazhu Fu, Joey Tianyi Zhou, and
+     Xi Peng. Provable dynamic fusion for low-quality
+     multimodal data. In International conference on
+     machine learning, pages 41753–41769. PMLR,
+     2023. 3
+
+
+
+
+                                                          11
+

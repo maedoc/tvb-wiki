@@ -1,7 +1,7 @@
 ---
 title: ANTs in Whole-Brain Modeling
 created: 2026-04-27
-updated: 2026-05-04
+updated: 2026-05-13
 type: entity
 tags: [software-ants, neuroimaging-processing, whole-brain-modeling, structural-connectivity, connectomics, software-tvb, software-neuroml, tractography]
 sources: [raw/papers/avants-2008.md, raw/papers/avants-2011.md, raw/papers/sanz-leon-2013.md]

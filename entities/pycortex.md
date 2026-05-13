@@ -14,6 +14,7 @@ title: PyCortex
 type: entity
 updated: '2026-05-13'
 ---
+
 PyCortex is a Python library for the visualization and manipulation of cortical surface data in human neuroimaging. It renders statistical maps, time series, and parcellated data directly on inflated or flattened cortical meshes, with particular emphasis on data stored in the [[cifti]] format developed by the [[human-connectome-project]]. The library targets researchers who require pixel-precise, publication-quality surface figures rather than resampled volume representations.
 
 ## Motivation and Context
@@ -31,3 +32,8 @@ PyCortex ingests CIFTI files through [[nibabel]] and maps cortical data onto sur
 ## Position in the Visualization Ecosystem
 
 PyCortex occupies a specialized niche rather than displacing general-purpose viewers. For volume-based inspection, [[fsl]] remains the standard; for alternative surface exploration, [[pysurfer]] provides comparable vertex-level rendering with a different API philosophy; for atlas-based dimensionality reduction and clustering visualization, [[brainspace]] offers complementary functionality. [[connectome-workbench]] serves as the official HCP viewer and excels at native CIFTI interaction, but PyCortex distinguishes itself through programmatic Python-level control and superior static figure generation. This combination makes it particularly valuable for consortium-scale projects such as the Human Connectome Project and UK Biobank, where reproducible, publication-ready surface maps are required. The library excels when working with CIFTI-native data and when researchers need to display high-resolution resting-state [[functional-connectivity]] patterns, fine-grained parcellations such as Glasser or [[schaefer]], and statistical contrasts derived from task-based paradigms.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)

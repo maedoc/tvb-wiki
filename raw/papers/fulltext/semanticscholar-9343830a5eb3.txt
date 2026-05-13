@@ -1,0 +1,1550 @@
+The promise of quantifying individual risk for brain disorders through normative modeling, a
+narrative review
+Fraza, C.J.; Rutherford, S.E.R.; Rehák-Bucková, B.; Beckmann, C.F.; Marquand, A.F.
+2025, Article / Letter to editor (Neuroscience and Biobehavioral Reviews, 176, (2025), article 106284)
+Doi link to publisher: https://doi.org/10.1016/j.neubiorev.2025.106284
+
+
+
+
+Version of the following full text: Publisher’s version
+Downloaded from: https://hdl.handle.net/2066/322874
+Download date: 2026-05-13
+
+
+
+
+Note:
+To cite this publication please use the final published version (if applicable).
+                                                           Neuroscience and Biobehavioral Reviews 176 (2025) 106284
+
+
+                                                                      Contents lists available at ScienceDirect
+
+
+                                                Neuroscience and Biobehavioral Reviews
+                                                         journal homepage: www.elsevier.com/locate/neubiorev
+
+
+
+
+The promise of quantifying individual risk for brain disorders through
+normative modeling, a narrative review
+Charlotte Fraza a,b,* , Saige Rutherford a,b , Barbora Rehák Bučková a,b,
+Christian F. Beckmann a,b,c , Andre F. Marquand a,b,d
+a
+  Donders Institute for Brain, Cognition, and Behavior, Radboud University, Nijmegen, the Netherlands
+b
+  Department of Cognitive Neuroscience, Radboud University Medical Center, Nijmegen, the Netherlands
+c
+  Centre for Functional MRI of the Brain (FMRIB), Nuffield Department of Clinical Neurosciences, Wellcome Centre for Integrative Neuroimaging, University of Oxford,
+Oxford, UK
+d
+  Department of Neuroimaging, Centre for Neuroimaging Sciences, Institute of, Psychiatry, King’s College London, London, UK
+
+
+
+
+A R T I C L E I N F O                                       A B S T R A C T
+
+Keywords:                                                   Neurological and psychiatric disorders show significant variability in their onset, progression, and response to
+Normative Modeling                                          treatment. Normative modeling is a statistical method that can help us parse the heterogeneous signals associated
+Neuroimaging                                                with these disorders, bringing us closer to understanding and possible individualized treatment of these brain
+Precision Medicine
+                                                            disorders. Similar to growth charting in pediatrics for height and weight, these models estimate the population
+Individualized Risk
+Psychiatric Disorders
+                                                            means and centiles of variation, allowing for the calculation of deviation scores from this norm for each indi­
+Neurological Disorders                                      vidual. There has been a considerable increase in the application of normative models for brain disorders, partly
+                                                            due to the recognition that heterogeneity in our patient groups muddles standard case-control analysis. However,
+                                                            most of these applications encounter challenges due to improper use and assessment, often lacking a reliable
+                                                            framework for longitudinal tracking1. In this narrative review, we first provide an overview of the objectives and
+                                                            applications of current normative models within neuroimaging, from parsing heterogeneity and identifying
+                                                            clusters or subtypes, to mapping deviation scores to clinical and behavioral variables. We then outline a roadmap
+                                                            for future methodological advancements for individual longitudinal tracking, focusing on velocity models and
+                                                            thrive lines.
+
+
+
+
+1. Introduction normative modeling: a framework for precision                                     accommodating site effects. The multivariate signal derived from such
+medicine in psychiatry and neurology                                                              models provides a marker of brain development, which can be used to
+                                                                                                  stratify brain disorders, a task not often performed in pediatric growth
+    Normative modeling is a relatively new approach in neuroimaging,                              assessments (Marquand et al., 2016a, 2019).
+aligning with the precision medicine framework (Marquand et al.,                                      While growth charts have long been used in the pediatric domain,
+2016a, 2019) and the idea of data-driven modeling of disease progres­                             their application in neuroimaging is relatively new, presenting critical
+sion (Young et al., 2024a), that can create individualized deviation                              gaps in the conceptual understanding and practical application of these
+scores from an expected norm, considering the (per)centiles of variation                          methods, hindering progress in creating individualized neuroimaging
+within the population (Marquand et al., 2016a, 2019). These models are                            markers. For instance, current normative models, including the widely
+similar to the growth charts used in pediatric medicine that estimate a                           used Centilebrain (https://centilebrain.org/#/) and PCNportal (https://
+child’s height and weight, comparing these measurements to a norma­                               pcnportal.dccn.nl/), are based on cross-sectional data and are poorly
+tive reference curve (Cole, 2012). However, unlike pediatric growth                               suited for tracking longitudinal trajectories, despite often being applied
+charts, normative models for neuroimaging data are frequently more                                as such. Furthermore, commonly used evaluation metrics, such as
+complex, often involving multiple normative models across different                               explained variance (R2) (Marquand et al., 2016a), inadequately assess
+neuroimaging modalities and regions of interest (ROIs), and require                               model fit, as these metrics evaluate only the accuracy of the central
+aggregating data from multiple studies, necessitating mechanisms for                              estimate, neglecting the shape or calibration of the distribution, which is
+
+
+    * Corresponding author at: Donders Institute for Brain, Cognition, and Behavior, Radboud University, Nijmegen, the Netherlands.
+      E-mail address: Charlotte.fraza@donders.ru.nl (C. Fraza).
+
+https://doi.org/10.1016/j.neubiorev.2025.106284
+Received 6 January 2025; Received in revised form 7 July 2025; Accepted 9 July 2025
+Available online 11 July 2025
+0149-7634/© 2025 The Author(s). Published by Elsevier Ltd. This is an open access article under the CC BY license (http://creativecommons.org/licenses/by/4.0/).
+C. Fraza et al.                                                                                               Neuroscience and Biobehavioral Reviews 176 (2025) 106284
+
+
+essential for reliable inferences (Dinga, 2021b; Marquand et al., 2024).            site-related variance as a preprocessing step (Beer et al., 2020). How­
+The existing literature often overlooks these fundamental limitations,              ever, ComBat has certain limitations, including the removal of all vari­
+potentially due to a lack of understanding of these methods’ mathe­                 ance associated with a site unless explicitly specified in the design
+matical foundations or model requirements. In this review, we show the              matrix (Bayer et al., 2022). This could be problematic in exploratory
+potential of normative modeling for personalized medicine in psychiatry             analysis, where all the factors clinically related to a disorder are not
+and neurology, whilst further demonstrating gaps in our current meth­               known beforehand. An alternative approach is Hierarchical Bayesian
+odological frameworks, through the following three points: (1) High­                Regression (HBR) (Kia et al., 2022; de Boer et al., 2024), which models
+lighting key objectives and applications of normative modeling, by                  site-specific effects in a fully Bayesian framework and supports federated
+assessing the current objectives in the literature applying these models.           learning, thus eliminating the need for direct access to all site data.
+(2) Proposing methodological longitudinal extensions, by introducing                    Different methodologies have been used to estimate normative
+novel methods such as velocity models and “thrive lines”. (3) Addressing            models, including Bayesian Linear Regression (BLR) (Cirstian et al.,
+practical and ethical considerations, such as the importance of repre­              2023; Fraza et al., 2021a; Bhome et al., 2023), Generalized Additive
+sentative population samples.                                                       Model for Location, Scale, and Shape (GAMLSS) (Bethlehem et al., 2022;
+    Normative models allow us to go beyond a case-control analysis and              Dinga et al., 2021a), Gaussian Process Regression (GPR) (Marquand
+identify subtle differences between individuals within one diagnostic               et al., 2016a; Kumar et al., 2023a; Holz et al., 2023b), polynomial
+category. This method addresses some of the limitations inherent in                 regression (Lawrence et al., 2021; Bethlehem et al., 2020; Jing et al.,
+diagnosis based on the Diagnostic and Statistical Manual of Mental                  2023), quantile regression (Lv et al., 2021; Di Biase et al., 2022), and
+Disorders (DSM) (Diagnostic and Statistical Manual of Mental Disorders,             newer approaches using deep learning models such as autoencoders
+2013) or International Classification of Diseases (ICD) (World Health               (Zabihi et al., 2024; Kumar et al., 2023b; Lawry Aguila et al., 2022;
+Organization, 2019), which both have been shown to have large dif­                  Oliveira-Saraiva and Ferreira, 2023). Key considerations when fitting
+ferences in single diagnostic categories (Allsopp et al., 2019; Feczko and          and evaluating these large normative models are the model choice (e.g.,
+Fair, 2020; Nunes et al., 2020a) and do not make use of biological                  linear vs. non-linear), the type of modality we intend to estimate, and
+measures to differentiate conditions. We can construct brain “growth”               the type of distribution used to model the centiles. For readers interested
+charts, or brain-based normative models, using diverse neuroimaging                 in exploring specific aspects of normative modeling in more detail, such
+features with respect to relevant clinical variables, such as age and sex,          as model selection, fit metrics, and evaluation criteria, Rutherford et al.
+as our covariates. A deviation score is estimated per feature, providing            (2025) provide a thorough discussion of the advantages and disadvan­
+an array of atypicality for each individual. These high-dimensional                 tages of various algorithms. For instance, warped BLR (wBLR) is
+scores can subsequently be clustered, creating new clusters or sub­                 well-suited for handling non-Gaussian data (Fraza et al., 2021a), while
+types, or be used to learn latent profiles from the high-dimensional data           HBR is particularly well-suited for handling possible site effects (Kia
+into a lower-dimensional space that captures essential features of the              et al., 2022; de Boer et al., 2024). The same reference, (Rutherford and
+data, through, for example, autoencoders (Zabihi et al., 2024), bringing            Marquand, 2025), also discusses data selection, preprocessing, and
+us closer to diagnostic labels based on neurobiological fingerprints. This          model evaluation techniques.
+is in line with the Research Domain Criteria (RDoC) project that aims to                In psychiatry and neurological research, normative models have
+reclassify disorders based on empirical measures such as genomics and               been applied to relate deviation scores to psychopathology and brain
+neurobiology (Insel et al., 2010; Cuthbert and Insel, 2013). These                  disorders, such as ADHD (Ebadi et al., 2024; Kia et al., 2020; Wolfers
+markers can aid us in further creating precision treatment plans that               et al., 2020; Tung et al., 2021; Bu et al., 2024), schizophrenia,
+move beyond the standardized treatment approaches currently in place                (Rutherford et al., 2022b; Liu et al., 2021; Elad et al., 2021; Lv et al.,
+for most psychiatric and neurological disorders (Insel and Cuthbert,                2021; Di Biase et al., 2022; Wolfers et al., 2021; Chen et al., 2022; Da
+2015).                                                                              Costa et al., 2022; Haukvik et al., 2023; Ji et al., 2023; Shi et al., 2023;
+    The normative modeling framework has progressed, moving from                    Giacomel et al., 2023), Autism Spectrum Disorder (ASD) (Nunes et al.,
+smaller datasets with 100–500 participants (Wolfers et al., 2018; Kia and           2020a; Floris et al., 2021; Looden et al., 2022; Floris et al., 2024;
+Marquand, 2019) to large-scale models with sample sizes of 10,000 to                Bethlehem et al., 2020; Tung et al., 2021; Zabihi et al., 2019, 2020;
+100,000 participants (Rutherford et al., 2022a; Ge et al., 2024; Bethle­            Meijer et al., 2023), Alzheimer’s disease (Kumar et al., 2023c; Loreto,
+hem et al., 2022; Rutherford et al., 2022b, 2022c; Holz et al., 2023a).             2024; Pinaya, 2021; Kumar et al., 2024; Kumar et al., 2023b; Verdi et al.,
+This shift has been enabled by advancements in computational power                  2023a), and other neurodevelopmental disorders (Holz et al., 2023b;
+(Kia and Marquand, 2018), scalable methods (Kia and Marquand, 2018),                Kjelkenes et al., 2022a; Zhang et al., 2022; Segal et al., 2023; Tian et al.,
+large open-source neuroimaging datasets (Alfaro-Almagro et al., 2018;               2023). The extensive applications of normative models in psychiatry and
+Casey et al., 2018), and standardization in preprocessing techniques and            neurology demonstrate promise for characterizing variability underly­
+quality control (Rutherford et al., 2022a; Alfaro-Almagro et al., 2018).            ing disorders and estimating individual deviation scores. However, most
+Through these advancements, the normative framework has been                        current applications still conclude by aggregating the deviation scores
+applied to diverse neuroimaging modalities and features (Bethlehem                  into the predefined case-control groups, effectively performing a simple
+et al., 2022; Rutherford et al., 2022c; Frangou et al.,; Dima et al.,; Young        case-control analysis to establish significant differences between these
+et al., 2024b), including structural (Kumar et al., 2023a; Shao et al.,             groups. In other words, these applications stop short of using the indi­
+2023; Dimitrova et al., 2021a; Floris et al., 2021; Liu et al., 2021),              vidual deviation scores as possible risk markers, addressing which de­
+functional (Zhang et al., 2021; Savage et al., 2023; Looden et al., 2022;           viations are clinically important, and assessing the relevance of
+Zabihi et al., 2022; Holz et al., 2023b), diffusion, (Cirstian et al., 2023;        individual fluctuations over time. Given this explosion in available
+Lawrence et al., 2021; Kjelkenes et al., 2022a; Elad et al., 2021; Vil­             methods, a reevaluation of both the normative modeling practice and its
+lalón-Reina et al., 2022), and EEG (Ebadi et al., 2024; Floris et al., 2024)       conceptual foundations is necessary.
+measures, enabling voxel-wise normative models (Holz et al., 2023a;                     A challenge concerning the application of normative models is that
+Floris et al., 2021; Fraza et al., 2021a), and improving the accuracy of            they are often not properly used and evaluated in the field, despite
+the estimation of the outer centiles (Fraza et al., 2022), previously               extensive statistical guidelines in the growth charting literature aiding in
+limited by small sample sizes and low data quality. However, the inte­              the assessment of these models (Borghi et al., 2006; Cole, 2022) and
+gration or pooling of data from multiple sites introduces site-related              established protocols for the application to neuroimaging (Rutherford
+variance. While harmonization efforts by consortia such as ENIGMA                   et al., 2022c). In response to the growing concerns about methodological
+(Thompson et al., 2014) and ABCD (Casey et al., 2018) have been made,               inconsistencies, different initiatives have proposed relatively standard­
+residual site effects persist. Methods such as combat can remove this               ized frameworks and best practices for normative modeling, (Rutherford
+
+                                                                                2
+C. Fraza et al.                                                                                                  Neuroscience and Biobehavioral Reviews 176 (2025) 106284
+
+
+et al., 2022a, 2022c; Bethlehem et al., 2022; Rutherford and Andre,                     In this review, we further propose a potential pipeline to address
+2023) with an emphasis on reproducibility, transparent reporting of the             some of these challenges. First, we survey the literature on normative
+results, and code and data sharing. However, identifying the optimal                modeling in neuroimaging, identifying its four primary objectives: un­
+algorithm for creating normative models has proven difficult, given the             derstanding population-level heterogeneity and characterizing individ­
+complexity of the data and diversity of modeling parameters involved                ual differences in patients with psychiatric or neurological disorders,
+(Dinga et al., 2019). For example, site effects have been shown to have a           identifying patterns of deviation across multiple dimensions and estab­
+larger influence on the normative models than previously thought, and               lishing clusters or subtypes based on these deviations, creating brain-
+could potentially introduce large biases into the deviation scores (Bayer           behavior mappings between the deviation scores and disease severity
+et al., 2022). Most likely, different distributions and phenotype char­             markers, and using the identified patterns of deviation or clusters for
+acteristics need tailored approaches, and what might be the optimal                 future trajectory prediction and treatment response, moving towards
+model for one feature may not be suitable for another. While evaluations            precision medicine, see Fig. 1. Second, we provide an overview of the
+of the existing methods have been performed (Ge et al., 2024), they have
+focused solely on mean fit measures, ignoring other important model fit
+criteria pertaining to the shape of the distribution (de Boer et al., 2024;         Table 1
+Dinga et al., 2021a). These shape estimates become especially important             Modeling Considerations for Researchers and Methodologists using Normative
+in relation to estimating the uncertainty of sparse data in the tails of the        Modeling.
+distribution (Bozek et al., 2023). We anticipate that different neuro­               Considerations                     Recommendations
+imaging features will have slightly varying optimal model settings that
+                                                                                     Cross-sectional vs. Longitudinal   • Clarify that existing neuroimaging normative
+consider variations in non-linearity and non-Gaussianity.                              Modeling                           models (e.g., Centilebrain, PCNtoolkit) are
+    Another challenge within the field is the common misconception that                                                   currently cross-sectional and not suited for in­
+normative models (and growth charts) are designed for the longitudinal                                                    dividual longitudinal tracking.
+                                                                                                                        • Develop velocity-based models and “thrive
+tracking of individual subjects. Most of these models are based on cross-
+                                                                                                                          lines” to monitor centile crossing and
+sectional data, which provides accurate estimations of deviation at a                                                     abnormal brain trajectories
+specific age but are not optimal for tracking changes over time (Di Biase            Evaluation Metrics & Model Fit     • Move beyond R² and mean fit metrics, focus on
+et al., 2023; Cole, 2012). Rather, normative models describe the evo­                                                     distributional characteristics (e.g., skewness,
+lution of the group-level centiles over time. This inherent limitation                                                    kurtosis, QQ-plots)
+                                                                                                                        • Choose modeling methods (e.g., HBR, BLR,
+means that cross-sectional models are not well suited to predict the
+                                                                                                                          GPR, GALMSS) based on specific
+future trajectories of individual patients, especially during periods of                                                  neuroimaging feature properties (e.g., non-
+expected irregularity, such as puberty. To effectively predict future                                                     linearity, non-Gaussianity).
+adverse deviations and distinguish disorder-associated trajectories from                                                • Recognize that no single algorithm fits all
+                                                                                                                          phenotypes.
+normal fluctuations, it is necessary to extend the normative modeling
+                                                                                     Sampling Strategies                • Consider mixed longitudinal designs for cost-
+framework to longitudinal data, giving us the ability to track individuals                                                effective modeling.
+over time and assess whether they remain within their expected centiles                                                 • Increase sampling frequency during critical
+or exhibit significant shifts. These shifts, also called centile crossings,                                               developmental periods (e.g., puberty, aging).
+could be indicative of underlying pathology or a brain disorder.                     Measurement Precision & Noise      • Quantify expected measurement error for each
+                                                                                      in Longitudinal Data                neuroimaging modality.
+    Against this background and drawing from the growth chart litera­
+                                                                                                                        • Ensure detected changes exceed noise levels to
+ture, which is used to monitor children’s height and weight, we propose                                                   avoid misinterpreting deviation signals.
+a conceptual framework to guide applications of normative modeling.                  Multimodal Integration             • Transition from post hoc deviation score
+This consists of three stages: screening, tracking, and monitoring, to get us                                             aggregation to true multimodal model fusion.
+closer to individual longitudinal tracking (Cameron, 2022), risk assess­                                                • Explore advanced techniques (e.g.,
+                                                                                                                          multimodal VAEs, Gaussian Mixture Models).
+ment, and possible future personalized intervention schemes. Screening               Standardization &                  • Follow established guidelines for normative
+is the initial identification of individuals at risk based on significant              Reproducibility                    modeling (e.g., WHO, (Borghi et al., 2006)
+deviations from an expected pattern, tracking is used to monitor changes                                                  PCNtoolkit (Rutherford and Marquand,
+in high-risk groups and test possible interventions, and monitoring is the                                                2025)).
+                                                                                                                        • Prioritize transparency and FAIR (Barocas
+stage of high-frequency, individualized evaluation (Cameron, 2022). To
+                                                                                                                          et al.,) principles in code, data, and validation
+support this framework, new methodological advancements are needed,                                                       procedures.
+extending our cross-sectional models to become suited for longitudinal                                                  • When possible use larger curreted population
+data. In this review, we will give a few examples of possible methodo­                                                    based models to compare smaller samples to
+logical advancements, through, for example, velocity-based normative                                                      (e.g., centilebrain, (Ge et al., 2024) PCNtoolkit
+                                                                                                                          (Rutherford et al., 2022c)).
+modeling and “thrive lines”.
+
+
+
+
+Fig. 1. The four objectives of normative modeling as referenced in the literature are: parsing heterogeneity, identifying neurobiological clusters and subtypes,
+creating brain-behavior mappings, and Individualized medicine.
+
+                                                                                3
+C. Fraza et al.                                                                                                       Neuroscience and Biobehavioral Reviews 176 (2025) 106284
+
+
+papers mentioned and discussed in this review (Table 1), which, due to                       neurobiology observed both within and across individuals having the
+the sheer size of the current field, we have limited to the literature                       same psychiatric diagnosis (Marquand et al., 2016a). The underlying
+published after 2019. While we reference some pre-2019 studies on                            heterogeneity can be attributed to a complex range of genetic, envi­
+normative modeling throughout this review, interested readers can refer                      ronmental, neurodevelopmental, and behavioral factors. One example,
+to the 2019 Marquand et al. narrative review paper (Marquand et al.,                         major depressive disorder (MDD), shows that over 200 different symp­
+2019) for the details of most of these studies. Third, we highlight key                      tom profiles can result in the same diagnosis, showing that patients
+challenges and developments in the field through the lens of screening,                      might not share any overlapping symptoms (Fried and Nesse, 2015).
+tracking, and monitoring. Proposing new methodological improve­                              Further, the same disorders can result from a range of different causal
+ments, for example, the use of velocity charts that can inform us of the                     pathways (equifinality), (Cicchetti and Rogosch, 1996) while single
+significance of centile crossing over time. Finally, we discuss the diffi­                   genetic or environmental factors can lead to different clinical outcomes
+culties of applying normative models, from logistical implementation                         (multifinality) (Cicchetti and Rogosch, 1996). Various other approaches
+issues to the need for representative models that offer better de­                           have been made to quantify heterogeneity within psychiatric disorders,
+mographic coverage to provide fairer inferences in heterogeneous pop­                        as discussed in (Nunes et al., 2020b).
+ulations. Tables 2 and 3 in our manuscript summarize the key future                              The normative modeling approach estimates the mean and centiles
+modeling considerations, as well as broader clinical and methodological                      of variation for each neuroimaging feature, enabling the calculation of
+recommendations for researchers, methodologists, and clinicians dis­                         individual deviation scores from this normative distribution. Fig. 2A
+cussed in this paper.                                                                        shows a visual representation of a normative model in three dimensions,
+    For this narrative review, a non-exhaustive literature search was                        where deviation scores across two features are modeled for the covariate
+conducted across Scopus, Google Scholar, and PubMed, focusing on                             age. Fig. 2B shows how the interindividual heterogeneity and deviation
+studies using normative models with neuroimaging data. The search                            scores can be visualized using normative probability maps (NPM), which
+targeted publications released after the review by Marquand et al.                           highlight the deviation score from a structural normative model at each
+(2019). To ensure no relevant publication was omitted, we further                            brain region (Marquand et al., 2016a). Through these plots, we can
+applied backward citation tracking across all included articles.                             easily identify deviating brain regions at an individual level.
+                                                                                                 In standard case-control analysis, the assumption is that patients will
+1.1. Objective 1 normative modeling: parsing heterogeneity                                   show overlapping effects in certain brain areas that are significantly
+                                                                                             different from those in control groups. Normative modeling offers the
+    One of the primary objectives of normative modeling is under­                            flexibility to test this assumption while simultaneously capturing indi­
+standing heterogeneity at the population level in order to characterize                      vidual differences. By summarizing deviation scores into mean, abso­
+individual differences, (Marquand et al., 2016a, 2019) acknowledging                         lute, or sum scores of extreme values (|Z| > 1.96), we can compare these
+that individuals with the same diagnosis may show distinct behavioral                        scores across individuals or groups, see Fig. 3A. Using these methods, it
+symptoms (Fried and Nesse, 2015; Fried, 2017) and possibly differ in                         has been shown that for certain disorders group differences can be
+their underlying neurobiological fingerprint. Heterogeneity in norma­                        found, but that there remains a high level of heterogeneity within both
+tive modeling is expressed as the continious subject-specific deviation                      the patient and control groups. For instance, individuals with autism
+scores, avoiding the inherent assumption of internal homogeneity                             spectrum disorder (ASD) show unique brain development trajectories
+within psychiatric disorders. This heterogeneity is partly driven by the                     (Zabihi et al., 2019), with only a few displaying consistent atypical
+variability in clinical presentation, etiology, and the underlying                           cortical thickness compared to controls (Bethlehem et al., 2020). This
+                                                                                             variability among individuals with the same diagnosis would not be
+Table 2
+                                                                                             captured using a standard case-control analysis (Janssen et al., 2024).
+Broader Clinical Considerations Regarding Normative Modeling for Researchers,                Similarly, people with a genetic predisposition, such as a pathogenic
+Methodologists, and Clinicians Using These Models.                                           copy number variant (CNV), show a wide range of affected brain areas,
+                                                                                             which is lost when looking at aggregated deviation scores (Fraza et al.,
+  Considerations          Recommendations
+                                                                                             2023).
+  External Validation     • Link the deviation scores to clinically meaningful goals
+                                                                                                 This pattern of heterogeneity can also be found in ADHD (Wolfers
+                            (e.g., prognosis, symptom severity, treatment
+                            response), as opposed to simple descriptive markers.
+                                                                                             et al., 2020; Bu et al., 2024), schizophrenia, and patients with psychosis
+                          • Use deviation scores as continuous measures rather               (Liu et al., 2021; Di Biase et al., 2022; Wolfers et al., 2021; Haukvik
+                            than binarizing into diagnostic categories.                      et al., 2023; Giacomel et al., 2023; Remiszewski et al., 2022; Baldwin
+  Dynamic/Adaptive        • Integrate real-time updates of patient trajectories as           et al., 2022), depression (Lin et al., 2023; Sun et al., 2023a) dementia,
+   Modeling                 new data becomes available.
+                                                                                             (Verdi et al., 2021), and Alzheimer’s disease (Loreto et al., 2024; Pinaya
+                          • Combine low-burden frequent assessments (e.g., mo­
+                            bile data) with occasional neuroimaging                          et al., 2021; Kumar et al., 2023c, 2022) challenging our notion of an
+                            measurements.                                                    average patient and showing that there are no sharp boundaries between
+  Longitudinal Use of     • Avoid treating cross-sectional models as predictive              cases and controls in their neurobiological fingerprint. Instead of clear
+    Centiles                longitudinal tools.                                              boundaries, individuals with psychiatric symptoms are more likely to
+                          • Use longitudinal models to detect significant within-
+                            patient centile shifts rather than absolute values alone.
+                                                                                             show extreme deviations across different brain regions (Marquand et al.,
+                          • Interpret centile crossing as a potential early sign of an       2016a; Fraza et al., 2022; Beirlant et al., 2004). For example, in
+                            atypical trajectory.                                             schizophrenia, patients with first-episode psychosis are more likely to lie
+  Ethical & Equity        • Address demographic biases in reference datasets (e.             in the tail end of the distribution of cortical thickness, whilst also
+    Considerations          g., over-representation of WEIRD populations
+                                                                                             demonstrating large heterogeneity between patients (Giacomel et al.,
+                            (Henrich et al., 2010)), which make the models in
+                            current form not appropiate to all populations.                  2023; Worker et al., 2023). In general, most brain disorders are now
+                          • Assess ethical implications of early intervention or             thought to lie on a (potentially multi-dimensional) continuum, with
+                            labeling based on deviation scores.                              overlapping risk factors and symptoms, lacking clear-cut-off values
+  Risk Communication      • Clearly communicate uncertainty in deviation scores              (Adam, 2013) in both behavior and neurobiology.
+                            and their clinical implications.
+                          • Avoid deterministic interpretation of early deviations.
+                                                                                                 Identifying neurobiological heterogeneity within patient and control
+                          • Increase awareness of model assumptions and                      groups offers limited clinical utility, beyond suggesting that the
+                            limitations in clinical and research settings.                   behaviorally defined patient groups might not correspond to distinct
+                          • Develop educational resources on statistical and                 biological entities. To leverage the deviation scores for clinical use, we
+                            conceptual ideas underpinnings of these models.
+                                                                                             need to establish their correlations with clinical risk markers, such as
+
+                                                                                         4
+C. Fraza et al.                                                                                                                  Neuroscience and Biobehavioral Reviews 176 (2025) 106284
+
+
+Table 3
+Studies employing normative modeling techniques using neuroimaging data since 2019. ASD - Autism Spectrum Disorder, AD - Alzheimer’s Disease, (w)BLR - (warped)
+Bayesian Linear Regression, cVAE - Conditional Variational Autoencoder, DTI - Diffusion Tensor Imaging, EEG – Electroencephalography, FA - Fractional Anisotropy,
+FDOPA - Fluorodopa, GAMLSS - Generalized Additive Models for Location, Scale, and Shape,GPR - Gaussian Process Regression, HBR - Hierarchical Bayesian
+Regression, ICV - Intracranial Volume, IDP - Image-Derived Phenotypes, MD - Mean Diffusivity, MEG - Magnetoencephalography, mTBI - Mild Traumatic Brain Injury,
+mmVAE - Multi-modal Variational Autoencoder, PD - Parkinson’s Disease, PET - Positron Emission Tomography, PHNO - Radioligand [11 C]PHNO (dopamine receptor
+imaging), rs-fMRI - Resting-State Functional MRI, TIV - Total Intracranial Volume, VQVAE - Vector Quantized Variational Autoencoder. * indicates that at the time of
+writing, these articles were not yet peer-reviewed.
+  Reference                              Application/objective               Normative response variable         Covariates              Cohorts                        Algorithm
+
+  Dissecting the Heterogeneous           Dissecting the neuroanatomy of      Cortical thickness                  Age, and sex            Typically developing           GPR
+    Cortical Anatomy of Autism           ASD by mapping individual                                                                       participants (N = 206)
+    Spectrum Disorder Using              deviations in cortical thickness.                                                               and participants with ASD
+    Normative Models (Zabihi                                                                                                             (N = 321)
+    et al., 2019)
+  A normative modelling approach         Understanding the                   Cortical thickness                  Age, and sex            Participants with ASD          LOESS
+    reveals age-atypical cortical        heterogeneity is ASD by using                                                                   (N = 870) and controls
+    thickness in a subgroup of           individualized cortical                                                                         (N = 870)
+    males with autism spectrum           thickness deviations from a
+    disorder (Bethlehem et al.,          normative model.
+    2020)
+  Charting brain growth in tandem        Generating age- and ethnicity-      Brain volume                        Age, ethnicity, and     Chinese participants           GAMLSS
+    with brain templates for             specific brain templates and                                            sex                     (N = 457) and American
+    schoolchildren (Dong et al.,         growth charts for children and                                                                  participants (N = 133) of
+    2020)                                adolescents to understand                                                                       typically developing
+                                         differences in Chinese and                                                                      school-age children
+                                         American pediatric populations.
+  Measuring heterogeneity in             Quantifying heterogeneity in        Synthetic features, digit           Site, sex,              Synthetic data, MNIST          GPR and cVAE
+   normative models as the               normative models using the          features, brain volume.             handedness, and age     dataset (70,000 images),
+   effective number of deviation         Representational Renyi                                                                          and control participants
+   patterns (Nunes et al., 2020a)        Heterogeneity method.                                                                           (N = 199) and
+                                                                                                                                         participants with ASD
+                                                                                                                                         (N = 199)
+  Individual differences v. the          Creating a normative model to       Brain volume                        Age, and sex            Participants with ADHD         GPR
+    average patient: mapping the         understand individual                                                                           (N = 153) and controls
+    heterogeneity in ADHD using          differences in ADHD.                                                                            (N = 146)
+    normative models (Wolfers
+    et al., 2020)
+  Fractionating autism based on          Introducing a framework of          Cortical thickness                  Age, sex, full-scale    Neurotypical participants      GPR
+    neuroanatomical normative            normative modeling and                                                  IQ, site, and           (N = 206) and
+    modeling (Zabihi et al., 2020)       spectral clustering of cortical                                         Freesurfer Euler        participants with ASD
+                                         thickness to identify five                                              number                  (N = 316)
+                                         neuroanatomical subtypes of
+                                         individuals with ASD.
+  Phenotyping the Preterm Brain:         Modeling brain volumetric           Brain volume                        Weeks                   Term-born infants              GPR
+    Characterizing Individual            development through                                                     postmenstrual age,      (N = 274) and preterm
+    Deviations From Normative            individual deviations in preterm                                        and sex                 infants (N = 342)
+    Volumetric Development in            infants compared to term-born
+    Two Large Infant Cohorts (           infants.
+    Dimitrova et al., 2021a)
+  Preterm birth alters the               Map typical cortical                Cortical micro- and                 Postmenstrual age       Term-born infants              GPR
+    development of cortical              development using MRI in            macrostructure features,            (PMA) at scan, and      (N = 259) and preterm
+    microstructure and morphology        healthy term-born infants to        including FA, MD, neurite           sex.                    infants (N = 76)
+    at term-equivalent age (             characterize atypical cortical      orientation dispersion index,
+    Dimitrova et al., 2021b)             maturation in preterm infants.      intracellular volume fraction,
+                                                                             cortical thickness, surface area,
+                                                                             curvature, and sulcation
+  Normative modeling of                  Introducing method GAMLSS           Cortical thickness                  Age, sex, and scan      Healthy reference cohort       GAMLSS
+    neuroimaging data using              for normative modeling of                                               site                    (N > 18,000)
+    generalized additive models of       neuroimaging data.
+    location scale and shape* (
+    Dinga et al., 2021a)
+  Improving the predictive               Normative modeling analysis         Diffusion MRI measures              Age, and sex            Healthy participants           Nadaraya-
+    potential of diffusion MRI in        applied to diffusion MRI data to                                                                (N = 512) and                  Watson
+    schizophrenia using normative        study white matter                                                                              participants with              estimator with a
+    models-Towards subject-level         abnormalities in individuals                                                                    schizophrenia (N = 601)        Gaussian kernel
+    classification (Elad et al., 2021)   diagnosed with schizophrenia.
+  Atypical Brain Asymmetry in            Normative modeling for              Gray matter voxelwise               Age, sex, and site      Neurotypical participants      GPR
+    Autism—A Candidate for               voxelwise gray matter laterality    laterality values                                           (N = 233) and
+    Clinically Meaningful                assessment for individuals with                                                                 participants with ASD
+    Stratification (Floris et al.,       ASD.                                                                                            (N = 352); replication:
+    2021)                                                                                                                                neurotypical participants
+                                                                                                                                         (N = 691) and
+                                                                                                                                         participants with ASD
+                                                                                                                                         (N = 513)
+  Warped Bayesian linear                 Introducing method Bayesian         Image-derived phenotypes, and       Age, sex, and site      All participants               wBLR
+   regression for normative              linear regression with              DTI measures FA and MD.                                     (N = 20,083)
+                                         likelihood warping for
+                                                                                                                                                                  (continued on next page)
+
+
+                                                                                              5
+C. Fraza et al.                                                                                                             Neuroscience and Biobehavioral Reviews 176 (2025) 106284
+
+
+Table 3 (continued )
+  Reference                            Application/objective               Normative response variable       Covariates             Cohorts                         Algorithm
+
+    modeling of big data (Fraza        normative modeling of diverse
+    et al., 2021a)                     neuroimaging features.
+  Age and sex effects on advanced      Characterization of white           White matter metrics derived      Age, and sex           All participants                Fractional
+    white matter microstructure        matter microstructure in the        from diffusion-weighted MRI                              (N = 15,628)                    polynomials
+    measures in 15,628 older           aging population.
+    adults: A UK biobank study (
+    Lawrence et al., 2021)
+  Resolving heterogeneity in           Introducing a Network               Structural covariance between     Age, gender,           All participants                Individual
+    schizophrenia through a novel      Template Perturbation               brain regions based on regional   education, and TIV     (N = 1287): 107 first-          differential
+    systems approach to brain          approach to map individual          gray matter volume                                       episode patients and 71         structural
+    structure: individualized          differences in structural                                                                    controls in the discovery       covariance
+    structural covariance network      covariance networks for                                                                      datasets, and 213 first-        networks
+    analysis (Liu et al., 2021)        schizophrenia patients.                                                                      episode, 294 chronic, 99        (IDSCN).
+                                                                                                                                    clinical high-risk patients,
+                                                                                                                                    and 494 controls in the
+                                                                                                                                    replication datasets.
+  Individual deviations from           Using normative modeling to         FA and cortical thickness         Age, sex, and site     Healthy participants            Quantile
+    normative models of brain          identify deviations in brain                                                                 (N = 195) and                   regression
+    structure in a large cross-        structure for individuals with                                                               participants with
+    sectional schizophrenia cohort (   schizophrenia.                                                                               schizophrenia (N = 322)
+    Lv et al., 2021)
+  Transdiagnostic dimensions of        Predicting psychiatric              Cortical volume                   Age, and sex           Participants, including         GPR
+    psychopathology explain            symptoms using deviation                                                                     those with psychiatric
+    individuals’ unique deviations     scores from normative models                                                                 symptoms (N = 1271)
+    from normative                     of cortical volume.
+    neurodevelopment in brain
+    structure (Parkes et al., 2021)
+  Using normative modelling to         Normative modeling using deep       Brain volume                      Age, and sex           Healthy participants            Adversarial
+    detect disease progression in      autoencoders of brain volume to                                                              (N = 11,034),                   autoencoder
+    mild cognitive impairment and      identify deviations indicative of                                                            participants with AD            (AAE)
+    Alzheimer’s disease in a cross-    Alzheimer’s and mild cognitive                                                               (N = 206) and
+    sectional multi-cohort study (     impairment patients.                                                                         participants with mild
+    Pinaya et al., 2021)                                                                                                            cognitive impairment
+                                                                                                                                    (N = 354)
+  Whole Brain White Matter Tract       Investigating white matter tract    White matter tracts               Age, and sex           Control participants            Moving average
+    Deviation and Idiosyncrasy         deviations and idiosyncrasies                                                                (N = 626), ADHD                 method
+    From Normative Development         from normative development in                                                                probands (N = 279), ASD
+    in Autism and ADHD and             ASD and ADHD and their                                                                       probands (N = 175) and
+    Unaffected Siblings Link With      unaffected siblings.                                                                         siblings (ADHD N = 121
+    Dimensions of Psychopathology                                                                                                   and ASD N = 72)
+    and Cognition (Tung et al.,
+    2021)
+  Replicating extensive brain          Replication of previous             Brain volume                      Age, and sex           Participants with               GPR
+    structural heterogeneity in        normative modeling results, of                                                               schizophrenia (N1 = 94;
+    individuals with schizophrenia     significant interindividual                                                                  N2 = 105), bipolar
+    and bipolar disorder (Wolfers      heterogeneity for participants                                                               disorder (N1 = 116;
+    et al., 2021)                      with schizophrenia, for two                                                                  N2 = 61), and healthy
+                                       independent samples.                                                                         participants (N1 = 400;
+                                                                                                                                    N2 = 312).
+  Mental health explains individual    Explore how individual              Brain state measures including    Cognitive ability      All participants                GPR
+    deviations from normative          atypicalities in dynamic brain      fractional occupancy and          scores                 (N = 18,634)
+    range in cognition associated      states correlate with individual    switching rate estimated using
+    brain states* (Zhang et al.,       variations in mental health.        a Hidden Markov Model from
+    2021)                                                                  resting-state fMRI data
+  Brain charts for the human           Establishing standardized brain     Brain volume                      Age, sex,              All participants                GAMLSS
+    lifespan (Bethlehem et al.,        reference charts across the                                           preprocessing          (N = 101,457)
+    2022)                              lifespan to quantify individual                                       pipeline, and study
+                                       variation benchmarked to
+                                       normative trajectories in
+                                       multiple neuroimaging
+                                       phenotypes.
+  Neurodevelopmental Trajectories      Determine how deviations from       Brain volume and thickness        Age                    All participants                GPR
+   in Children With Internalizing,     typical brain development                                                                    (N = 4415)
+   Externalizing and Emotion           during childhood and
+   Dysregulation Symptoms (Blok        adolescence relate to
+   et al., 2022)                       psychopathology, through
+                                       normative curves of cortical and
+                                       subcortical regions.
+  Detection of advanced brain aging    Investigation of advanced aging     Brain-predicted age               Age, and sex           Participants with               GPR
+    in schizophrenia and its           through white matter tract                                                                   schizophrenia (N = 147),
+    structural underpinning by         integrity alterations in                                                                     healthy controls
+    using normative brain age          schizophrenia, ASD, and ADHD.                                                                (N = 130), Reference
+    metrics (Chen et al., 2022)                                                                                                     cohort (N = 552)
+  Transformer-based normative          Evaluation of transformer-based     Structural MRI data               n.a.                   Neurotypical participants       Vector
+    modelling for anomaly              normative models to detect                                                                   (N = 1765); participants        Quantized
+    detection of early                 subtle brain changes expressed                                                                                               Variational
+                                                                                                                                                              (continued on next page)
+
+
+                                                                                             6
+C. Fraza et al.                                                                                                             Neuroscience and Biobehavioral Reviews 176 (2025) 106284
+
+
+Table 3 (continued )
+  Reference                             Application/objective               Normative response variable      Covariates             Cohorts                          Algorithm
+
+    schizophrenia* (Da Costa et al.,    in adolescents and young adults                                                             with schizophrenia               Autoencoder
+    2022)                               with early-stage schizophrenia.                                                             (N = 93)                         (VQVAE)
+  Cell type-specific manifestations     Investigation of cortical           Cortical thickness               Age, and sex           All participants                 Quantile
+    of cortical thickness               thickness heterogeneity in                                                                  (N = 1849)                       regression
+    heterogeneity in schizophrenia      schizophrenia and its
+    (Di Biase et al., 2022)             relationship with interregional
+                                        variation in distinct neural cell
+                                        types.
+  Closing the life-cycle of normative   Introducing a federated             Cortical thickness               Age, sex, and site     Reference participants           HBR
+    modeling using federated            probabilistic framework using                                                               (N = 37,126 scans)
+    hierarchical Bayesian               hierarchical Bayesian regression
+    regression (Kia et al., 2022)       to develop normative models
+                                        across large, decentralized
+                                        neuroimaging datasets.
+  Deviations from normative brain       Using multiple imaging              Cortical thickness and surface   Age, and sex           All participants                 BLR
+   white and gray matter structure      modalities to asses individual      area, several DTI measures                              (N = 1280)
+   are associated with                  deviations in brain structure for
+   psychopathology in youth (           early risk identification of
+   Kjelkenes et al., 2022b)             mental disorders, cognition, and
+                                        psychopathology.
+  Normative Modeling using              A new framework is proposed         Brain volume                     Age, and sex           Healthy participants             multi-modal
+   Multimodal Variational               based on multi-modal                                                                        (N = 9633) and                   variational
+   Autoencoders to Identify             variational autoencoders for                                                                participants with AD             autoencoder
+   Abnormal Brain Volume                normative modeling that can                                                                 (N = 1136)                       (mmVAE)
+   Deviations in Alzheimer’s            integrate different MRI
+   Disease (Kumar et al., 2023d)        modalities for better
+                                        identification of abnormal brain
+                                        volume deviations in AD.
+  Conditional VAEs for Confound         Testing the performance of a        Brain volume                     Age, and ICV           Reference participants           cVAE
+    Removal and Normative               conditional variational                                                                     (N = 22,528) and
+    Modelling of                        autoencoder to detect and                                                                   participants with AD
+    Neurodegenerative Diseases (        quantify individual deviations                                                              (N = 328)
+    Lawry Aguila et al., 2022)          reflective of disease severity in
+                                        AD.
+  Patterns of connectome                Characterizing the                  Task potency edge values from    Age, and sex           Participants with ASD            GPR
+    variability in autism across five   heterogeneity in participants       fMRI data                                               (N = 282) and typically
+    functional activation tasks:        with ASD using fMRI task-based                                                              developing participants
+    findings from the LEAP project (    paradigms.                                                                                  (N = 221)
+    Looden et al., 2022)
+  Contrasting Case-Control and          Evaluating whether baseline         Brain volume                     Age, and sex           Reference participants           wBLR
+    Normative Reference                 deviations from a normative                                                                 (N = 58,836),
+    Approaches to Capture               model in subcortical brain                                                                  participants with first-
+    Clinically Relevant Structural      volume are better predictors of                                                             episode psychosis
+    Brain Abnormalities in Patients     antipsychotic treatment                                                                     (N = 98), and control
+    With First-Episode Psychosis        response in patients with first-                                                            (N = 92)
+    Who Are Antipsychotic Naive (       episode psychosis, compared to
+    Remiszewski et al., 2022)           raw volume measurements.
+  Evidence for Embracing                Expanding the normative             Structural surface area and      Age, sex, site, and    Structural dataset               wBLR
+    Normative Modeling (                modeling repository to further      brain functional connectivity    head motion            (N > 58,000); Functional
+    Rutherford et al., 2022b)           include lifespan trajectories of                                                            dataset (N > 22,000)
+                                        structural surface area and
+                                        functional connectivity, and
+                                        demonstrate the usage of these
+                                        models compared to raw data
+                                        features.
+  Charting brain growth and aging       Creating a cohort of reference      Cortical thickness and           Age, sex, and site     All participants                 wBLR
+    at high spatial precision (         neuroimaging data across the        subcortical volume                                      (N = 58,836)
+    Rutherford et al., 2022c)           lifespan such that normative
+                                        models can be created for
+                                        cortical thickness and
+                                        subcortical volume.
+  Nonlinear latent representations      Developing a data-driven            Latent representation of high-   Age, and sex           All participants (N = 468)       HBR
+   of high-dimensional task-fMRI        approach based on                   dimensional task fMRI image
+   data: Unveiling cognitive and        autoencoders using fMRI             data
+   behavioral insights in               datasets to create latent
+   heterogeneous spatial maps (         representations of
+   Zabihi et al., 2024)                 neuroimaging data, accounting
+                                        for demographic characteristics
+                                        while improving brain-behavior
+                                        mappings.
+  Growth charts of brain                Developing normative models         Cortical thickness and           Age, and sex           Neurologically normal            GAMLSS
+    morphometry for preschool           of brain morphology in              subcortical volume                                      children (N = 265) and
+    children (Zhang et al., 2022)       preschool children to identify                                                              children with delayed
+                                        individualized brain atypicality                                                            speech and language
+                                        correlated to                                                                               disorders (N = 20)
+                                        neurodevelopmental disorders.
+                                                                                                                                                               (continued on next page)
+
+
+                                                                                            7
+C. Fraza et al.                                                                                                                 Neuroscience and Biobehavioral Reviews 176 (2025) 106284
+
+
+Table 3 (continued )
+  Reference                             Application/objective                Normative response variable         Covariates             Cohorts                      Algorithm
+
+  A neuroimaging measure to             Using normative modeling to          Cortical thickness and              Age, sex, and site     Participants with PD         BLR
+    capture heterogeneous patterns      identify neurodegenerative           subcortical volumes                                        (N = 108), participants
+    of atrophy in Parkinson’s           dissimilarity in PD and                                                                         with dementia (61 DLB),
+    disease and dementia with           dementia with Lewy bodies, and                                                                  controls (N = 165); and
+    Lewy bodies (Bhome et al.,          correlation individual                                                                          reference participants
+    2024)                               deviations with measures of                                                                     (N = 58,836)
+                                        cognition.
+  Normative models for                  Evaluating the performance of        Hippocampal volume                  Age                    Simulated samples            GAMLSS
+   neuroimaging markers: Impact         different normative modeling                                                                    (N = {50, 100, 200, 500,
+   of model selection, sample size      methods and sample sizes in                                                                     1000, 2000, 5000, and
+   and evaluation criteria (Bozek       estimating the normative curves                                                                 50,000})
+   et al., 2023)                        for hippocampal volume and
+                                        estimating bias-variance trade-
+                                        off decisions.
+  Using normative models pre-           Extending normative modeling         Cortical thickness                  Age, sex, and site     Participants with            wBLR
+    trained on cross-sectional data     to the analysis of longitudinal                                                                 schizophrenia (N = 98),
+    to evaluate longitudinal            neuroimaging data, using a new                                                                  controls (N = 67),
+    changes in neuroimaging data (      framework that can asses                                                                        reference dataset
+    Bučková et al., 2024)             individual changes over time                                                                    (N > 58,000)
+                                        and applied to schizophrenia
+                                        data.
+  Objective QC for diffusion MRI        Developing a semi-automated          Image derived phenotypes and        Age                    All participants             wBLR
+   data: Artefact detection using       normative modeling approach          diffusion parameters                                       (N = 23,158)
+   normative modelling (Cirstian        for detecting and assessing
+   et al., 2024)                        artifacts in diffusion MRI data
+                                        used for the evaluation of white
+                                        matter imaging-derived
+                                        phenotypes.
+  Mapping human brain charts            Comparing cross-sectional            Gray matter volume, cortical        Age, sex, and site     Aging cohort                 GAMLSS
+   cross-sectionally and                trajectories with longitudinal       thickness, surface area, and FA                            (N = 2752–2832) and a
+   longitudinally (Di Biase et al.,     trajectories to assess the                                                                      developmental cohort
+   2023)                                accuracy of cross-sectional                                                                     (N = 6537–7480)
+                                        estimates and highlighting the
+                                        importance of the usage of
+                                        longitudinal data.
+  A longitudinal resource for           Creating and sharing a large-        Brain volume, cortical              Age, and sex           All participants (N = 479)   GAMLSS
+    population neuroscience of          scale, longitudinal, and             thickness and surface area
+    school-age children and             multimodal dataset of typically
+    adolescents in China (Fan et al.,   developing children and
+    2023)                               adolescents in the Chinese
+                                        population A new large scale
+                                        dataset is created with
+                                        longitudinal and multimodal
+                                        data of typically developing
+                                        children and adolescents within
+                                        the Chinese population, several
+                                        normative brain growth charts
+                                        are fitted to show the data
+                                        potential.
+  Unraveling the Link between           Creating individualized brain        Image derived phenotypes and        Age, sex, and site     Participants with IDPs       wBLR
+    CNVs, General Cognition, and        deviation scores in individuals      Jacobian morphometric                                      (N = 43,893) and
+    Individual Neuroimaging             with pathogenic copy number          measures                                                   participants with
+    Deviation Scores from a             variations, further relating these                                                              Jacobians (N = 19,620)
+    Reference Cohort* (Fraza et al.,    deviation scores to measures of
+    2023)                               cognition.
+  Investigating Dopaminergic            Evaluating the usage of              Dopamine receptor density and       Age, sex, and BMI      Controls with PHNO data      BLR
+    Abnormalities in Psychosis with     normative modeling in                dopamine synthesis capacity                                (N = 77), controls
+    Normative Modelling and             molecular neuroimaging to                                                                       (N = 142) and
+    Multisite Molecular                 identify individual patient                                                                     participants with
+    Neuroimaging* (Giacomel             deviations from a reference                                                                     psychosis (N = 109) with
+    et al., 2023)                       cohort for potential diagnostic                                                                 FDOPA data
+                                        improvement.
+  Individual-level deviations from      Applying a normative model in        Cortical thickness, surface area,   Age, and scanner       Participants with history    wBLR
+    normative brain morphology in       forensic psychiatry to map brain     subcortical volume                                         of severe violence
+    violence, psychosis, and            heterogeneity associated with                                                                   (N = 58), non-violent
+    psychopathy* (Haukvik et al.,       violence and psychosis.                                                                         participants with
+    2023)                                                                                                                               schizophrenia (N = 138),
+                                                                                                                                        controls (N = 196),
+                                                                                                                                        calibration set (N = 998),
+                                                                                                                                        reference data
+                                                                                                                                        (N = 58,836)
+  Age-related brain deviations and      Dissecting the                       Jacobian determinants and           Age, and sex           All participants (N = 208)   GPR
+   aggression (Holz et al., 2023b)      neurodevelopmental deviations        functional task data of
+                                        in affective brain circuits among    emotional face-matching task
+                                        individuals with disruptive
+                                        behavior disorders, using
+                                                                                                                                                               (continued on next page)
+
+
+                                                                                              8
+C. Fraza et al.                                                                                                               Neuroscience and Biobehavioral Reviews 176 (2025) 106284
+
+
+Table 3 (continued )
+  Reference                             Application/objective                Normative response variable       Covariates             Cohorts                       Algorithm
+
+                                        normative modeling and
+                                        multimodal data integration.
+  A stable and replicable neural        Investigating the long-term          Jacobian determinants             Age, sex, site, TIV,   longitudinal at-risk cohort   wBLR
+    signature of lifespan adversity     effects of adversity from the                                          and developmental      (N = 169), replication
+    in the adult brain (Holz et al.,    environment on brain structure                                         risks                  cohort (N = 114),
+    2023a)                              and the correlation with anxiety                                                              independent cohort
+                                        through normative modeling.                                                                   (N = 115), reference
+                                                                                                                                      cohort (N = 19,759)
+  Using normative modeling and          Developing a normative               Power spectral densities across   n.a.                   mTBI participants             Direct
+    machine learning for detecting      modeling approach of MEG data        the cortex                                               (N = 25), controls            calculation Z-
+    mild traumatic brain injury         to identify mild traumatic brain                                                              (N = 20), reference           scores though
+    from magnetoencephalography         injury patients.                                                                              dataset (N = 621)             mean and
+    data (Itälinna et al., 2023)                                                                                                                                   standard
+                                                                                                                                                                    deviation
+                                                                                                                                                                    estimation of
+                                                                                                                                                                    power spectra
+  Linking Personalized Brain            Using normative models to            Cortical thickness                Age, and sex           Healthy participants          W-score
+    Atrophy to Schizophrenia            create personalized atrophy                                                                   (N = 797) and                 generated from
+    Network and Treatment               maps for schizophrenia patients                                                               participants with             GLM
+    Response (Ji et al., 2023)          and establish associations with                                                               schizophrenia (N = 91)
+                                        treatment outcomes from
+                                        transcranial magnetic
+                                        stimulation.
+  Heterogeneous brain dynamic           Identifying subtypes of first-       Brain network characteristics     Age                    FEDN participants             Polynomial
+    functional connectivity             episode drug-naive depression        from large-scale functional                              (N = 91) and controls         regression
+    patterns in first-episode drug-     (FEDN) based on brain                connectivity networks                                    (N = 91)
+    naive patients with major           normative network
+    depressive disorder (Jing et al.,   characteristics to understand
+    2023)                               heterogeneity in depression.
+  Brain Charts for People Living        Establishing brain charts for        Brain volume and ventricle        Sex, age, contrast-    MS participants (N = 379)     GAMLSS
+    with Multiple Sclerosis* (          people with multiple sclerosis       volume                            to-noise ratio,
+    Keshavan et al., 2023)              that give insight into the                                             scanner type,
+                                        development of the disease                                             scanner field
+                                        progression.                                                           strength.
+  Mapping Cerebellar Anatomical         Creating normative models for        Cerebellar volume and voxel-      Age, sex, and site     Reference cohort              wBLR
+   Heterogeneity in Mental and          the cerebellum across the            wise intensity                                           (N = 54,102) and clinical
+   Neurological Illnesses* (Kim         lifespan to understand                                                                        cohort (N = 1757)
+   et al., 2023)                        individual deviations relative to
+                                        population norms and show
+                                        heterogeneity within several
+                                        clinical disorders.
+  Mapping Normative Trajectories        Creating normative trajectories      Cognitive data                    Age, and sex           Reference cohort              GPR
+   of Cognitive Function and Its        for cognitive function during                                                                 (N > 9000)
+   Relation to Psychopathology          adolescence and estimating
+   Symptoms and Genetic Risk in         their associations with
+   Youth (Kjelkenes et al., 2023)       psychopathological symptoms
+                                        and genetic risk factors for brain
+                                        disorders.
+  Subcortical Brain Alterations in      Investigate how different copy       Subcortical volume and shape      Age, sex, site, and    CNV carriers (N = 675)        GPR
+    Carriers of Genomic Copy            number variants (CNVs)                                                 ICV                    and controls (N = 782)
+    Number Variants (Kumar et al.,      associated with
+    2023a)                              neurodevelopmental and
+                                        psychiatric disorders affect
+                                        brain structure.
+  Analyzing heterogeneity in            Using a deep learning-based          Brain volume and amyloid          Age, and sex           Controls (N = 735) and        VAE
+   Alzheimer Disease using              multimodal normative                 standardized uptake value ratio                          amyloid positive
+   multimodal normative                 framework on T1-weighted MRI         from PET scans                                           participants (N = 360)
+   modeling on imaging-based            and PET data to assess
+   ATN biomarkers* (Kumar et al.,       deviations in AD and their
+   2024)                                correlation with cognitive
+                                        function and disease severity.
+  Normative Modelling of                Aiming to develop a new              Molecular-enriched functional     Age, site, and sex     Participants with and         HBR
+   Molecular-based Functional           analytical framework that            connectivity maps                                        without psychiatric
+   Neurocircuits Captures Clinical      combines molecular-enriched                                                                   disorders (N = 735)
+   Heterogeneity                        neuroimaging and normative
+   Transdiagnostically in               modeling for the examination of
+   Neuropsychiatric Patients* (         individual-level pathology
+   Lawn et al., 2023)                   across psychiatric disorders.
+  Understanding the heterogeneity       Using dynamic fMRI data to           Functional connectivity           Age, and sex           Participants with FEDN-       Polynomial
+   of dynamic functional                quantify biological                  dynamic and network-dynamic                              MDD (N = 274) and             regression
+   connectivity patterns in first-      heterogeneity in first-episode       characteristics                                          controls (N = 832)
+   episode drug naïve depression        drug-naïve major depressive
+   using normative models (Lin          disorders, enhancing our
+   et al., 2023)                        understanding of atypical
+                                        functional connectivity
+                                        patterns.
+                                                                                                                                                              (continued on next page)
+
+
+                                                                                              9
+C. Fraza et al.                                                                                                              Neuroscience and Biobehavioral Reviews 176 (2025) 106284
+
+
+Table 3 (continued )
+  Reference                             Application/objective               Normative response variable      Covariates              Cohorts                        Algorithm
+
+  Towards Understanding Autism          Address the behavioral and          Cortical thickness and           Age, site, full-scale   Participants with ASD          wBLR
+    Heterogeneity: Identifying          neuroanatomical heterogeneity       subcortical volume               intelligence            (N = 861) and controls
+    Clinical Subgroups and              in ASD through clustering of                                         quotient, and           (N = 886)
+    Neuroanatomical Deviations* (       symptoms and establishing if                                         quality measures
+    Meijer et al., 2023)                these clusters show increased
+                                        neurobiological homogeneity.
+  Normative model detects               Improving the diagnosis of          Functional brain connectivity    n.a.                    All participants (N = 700)     Autoencoder
+   abnormal functional                  psychiatric disorders through       patterns
+   connectivity in psychiatric          normative models based on
+   disorders (Oliveira-Saraiva and      autoencoders with resting-state
+   Ferreira, 2023)                      fMRI data, establishing
+                                        individual level deviations.
+  Unpacking the functional              Using large normative models of     Task-evoked BOLD activation      Site, age, sex,         All participants               BLR
+   heterogeneity of the Emotional       task-evoked activation during       maps derived from fMRI data      intracranial volume,    (N = 7728)
+   Face Matching Task: a                the Emotional Face Matching         during the Emotional Face        acquisition
+   normative modelling                  Task to understand individual       Matching Task                    parameters, and task
+   approach* (Savage et al., 2023)      differences and heterogeneity in                                     parameters
+                                        brain function in diverse patient
+                                        cohorts.
+  Regional, circuit and network         Characterizing individual           Gray matter volume               Age, sex, and site      Controls (N = 1465)            HBR
+    heterogeneity of brain              heterogeneity in gray matter                                                                 participants with a
+    abnormalities in psychiatric        volume across six psychiatric                                                                psychiatric disorder
+    disorders (Segal et al., 2023)      disorders, showing specific                                                                  (N = 1294)
+                                        functional circuits that play a
+                                        key role in psychopathology.
+  Capturing the Individual              Showing the heterogeneity in        Gray matter volume               Age, sex, total         Participants with              BLR
+    Deviations From Normative           depression through normative                                         intracranial volume     depression (N = 187) and
+    Models of Brain Structure for       modeling of gray matter volume                                                               controls (N = 905)
+    Depression Diagnosis and            and highlighting individual
+    Treatment (Shao et al., 2023)       deviations, with the goal of
+                                        improving the accuracy of
+                                        diagnosis.
+  Two subtypes of schizophrenia         Subtyping schizophrenia using       Tensor-based morphometric        Age, sex, and site      Participants with              W-score
+    identified by an individual-        objective biomarkers based on       values                                                   schizophrenia (N = 534)        generated from
+    level atypical pattern of tensor-   neuroanatomical patterns.                                                                    and controls (N = 521)         GLM
+    based morphometric
+    measurement (Shi et al., 2023)
+  Functional connectome through         Mapping the normative curves        Whole-brain functional metrics   Age, and sex            Reference cohort               GAMLSS
+    the human lifespan* (Sun et al.,    of the functional connectome                                                                 (N = 35,084 scans)
+    2023b)                              across the lifespan, showing
+                                        points of distinct maturation,
+                                        and giving a reference
+                                        framework for defining
+                                        individual variability in
+                                        disorders.
+  Mapping Neurophysiological            Showing the heterogeneity in        Whole-brain functional metrics   Age, and sex            Participants with MDD          GAMLSS
+   Subtypes of Major Depressive         major depressive disorder                                                                    (N = 1148) and controls
+   Disorder Using Normative             (MDD) by creating normative                                                                  (N = 1079)
+   Models of the Functional             models of functional
+   Connectome (Sun et al., 2023a)       connectivity and identifying
+                                        two subtypes of MDD patients
+                                        within the deviation scores.
+  A canonical trajectory of             Aiming to create a                  Executive function measures      Age, visit number       All participants               general additive
+    executive function maturation       comprehensive charting of                                                                    (N = 10,766)                   models (GAM)
+    from adolescence to adulthood       executive function development                                                                                              and general
+    (Tervo-Clemmens et al., 2023)       during adolescence to                                                                                                       additive mixed
+                                        adulthood, integrating multiple                                                                                             models (GAMM)
+                                        datasets and assessments.
+  Evaluation of brain-body health       Evaluating the health status of     Imaging, blood, urine, and       Age, and sex            Participants with              GAMLSS
+    in individuals with common          the brain and seven body            physiological markers                                    preselected
+    neuropsychiatric disorders (        systems across common                                                                        neuropsychiatric
+    Tian et al., 2023)                  neuropsychiatric disorders,                                                                  disorders
+                                        showing that lower body health                                                               (N = 85,748) and controls
+                                        is a symptom of these disorders,                                                             (N = 87,420)
+                                        often larger than the
+                                        accompanying brain changes.
+  Revealing Individual                  Characterizing individual           Cortical thickness               Age, sex, and site      Clinical cohort                HBR
+    Neuroanatomical                     differences and outliers in                                                                  (N = 1492) and reference
+    Heterogeneity in Alzheimer          cortical thickness in patients                                                               cohort (N = 33,072)
+    Disease Using Neuroanatomical       with AD, mild cognitive
+    Normative Modeling (Verdi           impairment, and controls and
+    et al., 2023b)                      showing how they relate to
+                                        cognitive and neurobiological
+                                        markers.
+                                                                                                                                                              (continued on next page)
+
+
+
+
+                                                                                           10
+C. Fraza et al.                                                                                                               Neuroscience and Biobehavioral Reviews 176 (2025) 106284
+
+
+Table 3 (continued )
+  Reference                            Application/objective                Normative response variable       Covariates              Cohorts                      Algorithm
+
+  Personalising Alzheimer’s Disease    Tracking disease progression in      Cortical thickness and            Age, sex, and site      Clinical cohort              wBLR
+    progression using brain atrophy    individuals with Mild Cognitive      subcortical volume                                        (N = 1492) participants
+    markers* (Verdi et al., 2023a)     Impairment and AD through                                                                      and reference cohort
+                                       neuroanatomical normative                                                                      (N = 58,836)
+                                       models.
+  Family income is not significantly   Estimating the relationship          Cortical T1w/T2w ratio            Age, sex, scanner       All participants (N = 925)   GAMLSS
+    associated with T1w/T2w ratio      between family income and the                                          type, and nuisance
+    in the Human Connectome            cortical T1w/T2w ratio-proxy                                           regressors
+    Project in Development (           for cortical myelin- for different
+    Weissman et al., 2023)             age ranges, finding no
+                                       significant associations after
+                                       correcting for multiple
+                                       comparisons.
+  Traumatic stress load and stressor   Understanding the relationship       Cortical thickness, volume,       Age, and sex            Participants typically       Quantile
+    reactivity score associated with   between deviations in brain          gray matter density, and                                  developing (N = 245) and     regression
+    accelerated gray matter            gray matter and traumatic stress     subcortical volume                                        participants with
+    maturation in youths indexed       and further cognitive function                                                                 significant
+    by normative models (Wong          and psychopathology.                                                                           psychopathology or
+    et al., 2023)                                                                                                                     traumatic exposure
+                                                                                                                                      (N = 1129)
+  Normative growth modeling of         Identifying two distinct ADHD        Cortical thickness                Age, sex, and site      Children with ADHD           HBR
+    brain morphology reveals           subtypes based on individual                                                                   (N = 351) and typically
+    neuroanatomical heterogeneity      deviations in cortical thickness                                                               developing children
+    and biological subtypes in         and linking these to specific                                                                  (N = 655)
+    children with ADHD* (Bu et al.,    ADHD symptoms.
+    2024)
+  Beyond homogeneity: Charting         Integrating EEG measures with        EEG characteristics, including    Age, sex, and site      Participants clinically      GAMLSS
+    the landscape of heterogeneity     normative modeling to quantify       spectral power and functional                             diagnosed with
+    in psychiatric                     patient heterogeneity in             connectivity                                              psychiatric disorders
+    electroencephalography* (          psychiatric disorders.                                                                         (N = 1674) and controls
+    Ebadi et al., 2024)                                                                                                               (N = 448)
+  A multimodal neural signature of     Exploring the cross-modal            Features of face processing       Age, sex, and site      Participants with ASD        BLR
+    face processing in autism          signature of face processing         within the fusiform gyrus                                 (N = 99) and controls
+    within the fusiform gyrus* (       within the fusiform gyrus across     across structural MRI, resting-                           (N = 105)
+    Floris et al., 2024)               structural MRI, resting-state        state fMRI, task-fMRI and
+                                       fMRI (rs-fMRI), task-fMRI, and       electroencephalography
+                                       electroencephalography (EEG)
+                                       modalities in autistic and non-
+                                       autistic individuals.
+  Estimating cortical thickness        Creating a normative model for       Cortical thickness                Age, sex, and site      Reference cohort             HBR
+    trajectories in children across    longitudinal neuroimaging                                                                      (N = 42,993) and
+    different scanners using           data, showing that they can give                                                               longitudinal
+    transfer learning from             reliable individual deviation                                                                  developmental cohort
+    normative models (Gaiser et al.,   scores for tracking                                                                            (N = 6285 scans)
+    2024a)                             morphological differences.
+  Population-wide cerebellar           Mapping cerebellar                   Cerebellar features: volume,      Age, sex, and           All participants             HBR
+    growth models of children and      development during childhood         gray matter density, and white    scanner                 (N = 4862)
+    adolescents (Gaiser et al.,        and adolescence using                matter density
+    2024b)                             neuroimaging data to
+                                       understand individual deviation
+                                       scores and their correlation to
+                                       cognitive function.
+  Normative modelling of brain         Identifying the optimal              Total intracranial volume,        Age, sex, Freesurfer    Participants with            MFPR, OLSR,
+   morphometry across the              normative modeling approach          mean cortical thickness, and      version, Euler’s        psychosis (N = 91),          BLR, GAMLSS,
+   lifespan with CentileBrain:         for brain morphometric data,         total surface area, cortical      number, scanner         controls (N = 57)            LMS method,
+   algorithm benchmarking and          comparing different algorithms       thickness and cortical surface    vendor, ICV, and        reference cohort             GPR, WBLR, and
+   model optimisation (Ge et al.,      and parameters.                      area                              global estimates of     (N = 37,407)                 HBR.
+   2024)                                                                                                      mean cortical
+                                                                                                              thickness or total
+                                                                                                              area
+
+
+
+behavioral symptoms or disorder severity, or demonstrate their pre­                              1.2. Objective 2 normative modeling: identifying neurobiological clusters
+dictive accuracy in out-of-sample populations. One option is to parse the                        and subtypes
+deviation scores into clinically meaningful subtypes or clusters that may
+correlate with treatment responses, as discussed under objective 2.                                  Another objective of many normative modeling studies parse the
+Another way to validate these scores is through correlational analyses                           heterogeneity of different brain disorders based on neurobiology, for
+between the deviation scores and clinical features, creating brain                               example, through clustering approaches to identify putative subtypes of
+behavior mappings, or through out-of-sample prediction of behavioral                             disorders rather than solely on behavioral symptoms (Di Biase et al.,
+phenotypes, as discussed in objective 3. Through this process, we aim to                         2022; Chen et al., 2022; Zabihi et al., 2020; Zhang et al., 2022; Lin et al.,
+distinguish healthy variation from pathogenic variation, thereby iden­                           2023). The deviation scores from the normative models can be used as
+tifying deviation scores that may be risk factors for psychiatric and/or                         features in clustering algorithms, offering a new unsupervised method to
+neurological disorders.                                                                          define these disorders, see Fig. 3A. This approach aligns with the ob­
+                                                                                                 jectives of the RDoC framework (Insel et al., 2010), where subtypes are
+
+
+                                                                                           11
+C. Fraza et al.                                                                                                   Neuroscience and Biobehavioral Reviews 176 (2025) 106284
+
+
+
+
+Fig. 2. An overview of the normative modeling methodology and individual-level inference. (A) The multivariate normative modeling approach. Different features
+can be used within the normative modeling framework, from neuroimaging and behavior to genetics. By estimating the means and centiles of deviation, we calculate
+a deviation score for each feature (fd ), giving us per subject an array of deviation scores. (B) Neuroimaging markers at the individual level: for a single subject an
+array of deviation scores can be used to create Normative Probability Maps (NPMs). These maps show where in the brain each individual deviates the most, with
+respect to the estimated population norms and centiles. Furthermore, we can track the NMPs or individualized features over time and monitor if large deviations from
+the expected pattern start to occur. IQ – Intelligence quotient, GAF – Global Assessment of Functioning. Icons can be obtained from (Free Icons).
+
+
+not defined by just behavioral parameters but by neurophenotypic dif­                  where some participants fall between clusters, instability of clusters over
+ferences. The clustering approach in combination with normative                        time, and difficulty in determining the optimal number of clusters,
+modeling has already proven fruitful for many types of disorders                       remain problematic (Marquand et al., 2016a, 2016b; von Luxburg,
+(Marquand et al., 2016b). For example, in ASD, this approach has                       2010). While normative modeling can reduce some variability within
+revealed distinct clusters related to changes in cortical thickness, dif­              clustering approaches by removing the variance related to covariates
+ferences in symptom scores, and genetic risk scores (Zabihi et al., 2020).             like age and sex, external validation remains crucial. This involves using
+In preschool children, clustering has been used to identify four repre­                additional data modalities outside of neuroimaging to evaluate the
+sentative developmental patterns in brain morphometrics (Zhang et al.,                 clinical relevance of the clusters by, for example, predicting current
+2022). In the context of depression, clustering deviation scores of pa­                disease severity markers or future outcomes related to treatment or
+tients into putative subtypes has helped to parse the heterogeneity                    disease progression, see objective 3 and 4.
+observed in first-episode depression, identifying subtypes associated
+with distinct brain characteristics such as differences in functional
+connectivity patterns and gray matter alterations (Jing et al., 2023).                 1.3. Objective 3 normative modeling: creating brain-behavior mappings
+However, it should be noted that the severity of depression did not differ
+significantly between the subtypes (Jing et al., 2023), which may hinder                   A key follow-up objective of normative modeling is to relate identi­
+possible clinical utility.                                                             fied neurophenotypic deviation scores (or deviation clusters) to behav­
+    The primary challenge with clustering and subtyping approaches lies                ioral measures quantifying psychopathology or disease severity. This
+in the variability of the methods used to partition the clinical pop­                  can be done post-hoc after fitting a normative model on the basis of
+ulations and validate the found clusters. Various approaches, such as                  demographic characteristics, or by learning the mapping directly within
+spectral clustering, (Zabihi et al., 2020) hierarchical clustering (Chen               the normative model (Marquand et al., 2016b). This helps establish the
+et al., 2022; Zhang et al., 2022), and k-means clustering (Chen et al.,                individual deviation scores as potential biomarkers. Establishing
+2022), have been employed to categorize deviation scores into mean­                    brain-behavior relationships is important, as large deviations from the
+ingful subtypes. However, issues such as ambiguous classifications,                    normative model alone do not necessarily have clinical significance. For
+                                                                                       instance, if one falls in the 10th centile for brain thickness, this does not
+
+                                                                                  12
+C. Fraza et al.                                                                                                Neuroscience and Biobehavioral Reviews 176 (2025) 106284
+
+
+
+
+Fig. 3. Overview of the group-level inference that can be performed based on the deviation scores from a normative model. (A) Based on the deviation score matrix
+for the different features (fd ) and subjects (sn ), we can calculate the mean, median, or sum score of the extreme deviation scores between cases and controls and
+perform a case-control analysis. Additionally, we can establish subtypes or clusters based on multivariate patterns within the deviation scores. Further, we can
+correlate the z-scores with behavioral or genetic phenotypes. (B) Out of sample, we can classify cases vs. controls or make a prediction model of, for example,
+treatment response or behavioral features. SES – Socioeconomic status, SSRIs - Selective serotonin reuptake inhibitors, TMS - Transcranial magnetic stimulation.
+Icons can be obtained from (Free Icons).
+
+
+inherently indicate a clinical issue.                                                Chen et al., 2022).
+    Brain-behavior relationships can be established in several ways, see                 Deviation scores from various brain measures have been linked to
+Fig. 3. With regard to post-hoc testing, this can be done by a simple                numerous clinical indicators, including psychopathological symptoms
+within-sample correlation analysis, examining the linear relationship                (Blok et al., 2022) and aggression (Holz et al., 2023b) in neuro­
+between brain deviation scores and disease severity markers or other                 development, social functioning in autism (Floris et al., 2024), cognitive
+behavioral measures (e.g., IQ, socio-economic status). Alternatively, we             performance (Zhang et al., 2021; Fraza et al., 2021a, 2023; Bhome et al.,
+can perform an out-of-sample analysis using a train-test-validation split            2023; Lv et al., 2021; Tung et al., 2021; Verdi et al., 2023b), and
+to develop and validate predictive models. In this approach, the devia­              increased disease progression in Alzheimer’s (Verdi et al., 2023a). The
+tion score dataset is divided into three subsets: a training set to develop          deviation scores have also been associated with genetic factors (Liu
+our predictive model, a testing set to tune the hyperparameters and                  et al., 2021; Fraza et al., 2023) and various life adversities, such as
+select the optimal model settings, and a validation set to assess the                trauma and other stressful life events, which correlate with deviation
+model’s generalizability to unseen data. Various machine learning al­                scores in brain structural volume (Holz et al., 2023a). Furthermore, the
+gorithms can be employed in this process, such as linear regression and              deviation scores have been used to classify treatment responses in pa­
+canonical correlation analysis (Looden et al., 2022; Floris et al., 2024;            tients with psychosis (Giacomel et al., 2023), schizophrenia (Shao et al.,
+
+                                                                                13
+C. Fraza et al.                                                                                                    Neuroscience and Biobehavioral Reviews 176 (2025) 106284
+
+
+2023; Ji et al., 2023), and depression (Shao et al., 2023). Specifically, for           constructing longitudinal normative models using repeated measures
+schizophrenia, the treatment outcomes were correlated based on                          from healthy individuals to define normative developmental trajec­
+personalized atrophy maps created using normative modeling                              tories, further described in the ‘future methodological developments’
+(Kjelkenes et al., 2022a). These findings suggest that the deviation                    section, and (2) applying cross-sectional normative models to track de­
+scores could be clinically relevant. Although their specificity in dis­                 viation trajectories over time in clinical populations. To bridge this gap,
+tinguishing clinical trajectories and predicting future treatment re­                   we propose a framework for improving normative modeling, drawing
+sponses remains largely untested, see objective 4.                                      inspiration from the growth chart literature used to monitor height and
+    Furthermore, one thing to consider is that normative models stan­                   weight in children in the clinic, which involves three stages screening,
+dardize the brain measures and remove variance related to certain                       surveillance, and monitoring (Cameron, 2022). To avoid negative con­
+covariates from the deviation scores, such as age, sex, and site. Poten­                notations associated with the term “surveillance”, we opt to rename the
+tially, these covariates could carry information for the prediction of                  stages: screening, tracking, and monitoring, see Fig. 4.
+treatment response, and therefore, raw scores could give a general better                   In the screening stage, the goal is to identify individuals who are
+prediction accuracy than normative deviation scores. Thus, if one wants                 significantly above or below a certain centile, similar to how individuals
+to answer the question “Can I predict treatment response based on                       are classified as having stunted growth if they have a deviation score
+neuroimaging data irrespective of covariates such as age, sex, and site?”,              below − 2 (de Onis and Branca, 2016). For example, in the context of
+normative models would be the best option. However, if the question is                  schizophrenia, we would establish a deviation score cut-off point for
+“what is the best treatment for a patient, based on all the information                 specific brain regions associated with the disorder, such as the dorso­
+available?”. The raw measures could potentially carry more                              lateral prefrontal cortex (Callicott, 2000; Weinberger et al., 1988) or the
+information.                                                                            temporal lobe (van Erp et al., 2018). A thickness measure below the 5th
+                                                                                        centile in these regions might then indicate an individual risk factor for
+                                                                                        schizophrenia. There is currently no consensus on the optimal thresh­
+1.4. (Long-Term) objective 4 normative modeling: individualized                         olds to use as a clinical cutoff point, although often values below the 5th
+medicine                                                                                and above the 95th centiles are used. Another difficulty is the dimen­
+                                                                                        sionality of the deviation scores, which introduces the challenge of
+    One of the long-term objectives of normative modeling is to advance                 multiplicity. Unlike pediatric growth charts, where typically only one
+precision or individualized medicine, where we can tailor treatments                    growth chart is used in the assessment of pathology, within normative
+based on an individual’s neurophenotypic, behavioral, and genetic                       modeling for brain data, we have a large number of normative curves to
+markers (Marquand et al., 2016a, 2019). Precision medicine has already                  consider. The numerous deviation scores can be reduced to a single
+been applied widely in diverse fields outside of psychiatry and                         measure of risk through for example a simple sum score of the extremes
+neurology, most notably in oncology (Le Tourneau et al., 2015;                          or by clustering the deviation scores, as discussed before.
+McCarthy et al., 2013), however, it remains absent in the treatment of                      After participants are screened and identified as having high-risk
+neurological and psychiatric disorders. Although precision medicine is                  markers for a neurological or psychiatric disorder across multiple mo­
+frequently cited as an objective of normative modeling (Marquand et al.,                dalities, they move to the tracking stage. Here, we periodically reassess
+2019; Bethlehem et al., 2020; Zabihi et al., 2019; Verdi et al., 2021;                  groups identified during the screening stage to monitor changes over
+Wolfers et al., 2019), surprisingly few studies address the challenge of                time. For example, brain thickness measures would be regularly re-
+developing the methodological basis needed to support these inferences.                 evaluated at specified intervals, e.g., every six months to a year, to
+One small study on multiple sclerosis has made a first attempt at                       track general developments in brain measures. Typically, the tracking
+explicitly estimating longitudinal normative curves, finding that longi­                stage is done with smaller groups that differ in their risk scores, rather
+tudinal models could capture within-subject changes better than                         than the large population cross-sectional models for more detailed data
+cross-sectional models (Keshavan et al., 2023). Furthermore, there have                 collection without placing a large burden on resources. During the
+been a few papers using cross-sectional normative models for longitu­                   tracking phase, interventions (e.g., therapy, medication, or exercise) can
+dinal inference (Bučková et al., 2024; Gaiser et al., 2024a), using ad­               also be considered for high-risk groups or groups currently experiencing
+aptations to the cross-sectional models to allow for longitudinal                       psychiatric or neurological disorders. The effectiveness of these in­
+inferences to be made; however, these are not true longitudinal models.                 terventions can then be tracked by observing changes in brain measures,
+Here, we make a clear distinction between the two approaches: (1)
+
+
+
+
+Fig. 4. Three stages for the use of normative modeling in individualized precision medicine. Stage 1: We create large reference models that are used to screen
+individuals for deviating brain markers. Stage 2: We track at-risk groups of individuals who, for example, show early signs of certain neurological or psychiatric
+disorders, and mark how their brain (e.g., thickness, volume, diffusion, or activation) measures change over time, with a possible intervention (e.g., therapy). Stage 3:
+With knowledge from the first two stages on expected trajectories for individuals, we can monitor high-risk individual patients and provide personalized treatment
+plans. Introducing Velocity normative models.
+
+                                                                                   14
+C. Fraza et al.                                                                                                 Neuroscience and Biobehavioral Reviews 176 (2025) 106284
+
+
+e.g., thickness or volume, over time.                                                gain score (Van Buuren, 2023).
+    Finally, after the tracking stage, we would move to the individual­                 However, both these types of velocity measures do not account for
+ized monitoring stage. This involves a more intensive and frequent                   regression to the mean, where extreme values in the tails of the distri­
+assessment for high-risk individuals, identified by, for example, earlier            bution tend to move closer to the average over time (Cole, 2022). To
+significant deviation markers in brain thickness, a family history of                address this, a conditional velocity measure can be used (i.e. distinct
+psychiatric disorders, or genetic factors linked to the disorder. For these          from the unconditional velocity charts outlined above), where current
+individuals, when they show initial symptoms, it would be important to               (growth) measurements are adjusted by previous measurements. The
+perform high-frequency assessments, potentially every few months, to                 adjusted change score is calculated as Δzadj = z2 − (r × z1 ), and the
+monitor rapid changes in specific brain measurements. This stage re­                 corresponding SD measure is calculated using: zg = σ Δzadj , with
+                                                                                                                                                          Δz
+
+quires consistent and precise measurements by a clinician, possibly                    (     )    √̅̅̅̅̅̅̅̅̅̅̅̅̅
+                                                                                                                                                       ( adj )
+including a range of assessments beyond brain measures to gain a                     σ Δzadj = 1 − r2 . This measure is also referred to in the literature as
+comprehensive understanding of current disease status and progression.               the conditional gain score or conditional SDs gain score (Van Buuren,
+Based on the monitored data and the trajectory of specific brain regions,            2023; Cole, 1995). The method adjusts for regression to the mean and
+a specialist could decide on a tailored treatment or intervention plan.              can be extended to include other correlational factors influencing indi­
+The impact of these interventions on brain measures and associated                   vidual growth, such as considering ethnic group, height and weight of
+behavioral symptoms should then be continuously monitored. Using                     the mother (Gardosi et al., 1992), providing more tailored growth ref­
+these three stages would be one possible roadmap for applying norma­                 erences. These adjusted or customized growth charts can improve the
+tive modeling in a future clinical setting. To further facilitate tracking           accuracy of pathological assessment based on prior growth information
+and monitoring, our current normative modeling framework would                       and reduce unnecessary interventions. For implementing conditional
+need several methodological adjustments to support longitudinal                      velocity models, several components are necessary, including a longi­
+tracking and assess which brain changes are notable.                                 tudinal reference model and a correlation table across different time
+                                                                                     points. While a detailed overview of the analytical methodologies to
+2. Future methodological developments toward precision                               create these elements is beyond the scope of this review, information can
+medicine within psychiatry and neurology                                             be found in the context of growth charts (Cole, 2022; Van Buuren,
+                                                                                     2023).
+    In the three stages of screening, tracking, and monitoring, it is                    To visualize the additional reference velocity information, we can
+important to be able to track and evaluate individuals over time. This               incorporate it into a standard normative cross-sectional curve as thrive
+helps to determine if they stay within their centiles or if they show centile        lines. Thrive lines represent certain velocity centiles of the population at
+crossing up or down. A large shift in centiles could suggest a pathogenic            specific age points and can be overlaid on top of the cross-sectional
+pattern. However, from the growth charting literature, it is recognized              normative model, see Fig. 5. For example, in a brain thickness norma­
+that centile shifts can commonly occur during certain age ranges,                    tive model, the slope of an individual’s growth curve can be compared to
+particularly adolescence (Cole, 2012, 2022). During this time, there                 a specific velocity centile in the form of thrive lines, e.g., the thrive lines
+might be a phase shift that can vary significantly depending on the stage            of the 5th or 95th velocity centile (Cole, 2022). If the slopes of our in­
+of puberty, leading to delayed or accelerated growth. The term “growth               dividual’s curve and the thrive line’s slope are parallel, the individual
+charting” can be slightly misleading (Cole, 2022), as it implies that the            falls within that velocity centile. A steeper slope indicates faster growth,
+reference models are established longitudinally or intended for longi­               while a shallower slope indicates slower growth. In Fig. 5, we illustrate
+tudinal tracking. However, most growth charts and normative models in                this idea with successive measurements of one individual plotted on a
+use are established through cross-sectional data (Cole, 2012; Lampl and              normative model for brain thickness. Fig. 5B shows the normative model
+Thompson, 2007). Cross-sectional estimates may not accurately predict                with thrive lines for the 5th velocity centile, and Fig. 5C for the 95th
+future trajectories and can over- or underestimate them (Di Biase et al.,            centile. When we connect the individual dots, we can observe that the
+2023). While these models remain useful for assessing current deviation              individual follows the 95th velocity centile in the first months, indi­
+scores, they are not optimized for longitudinal assessments and detect­              cating relatively rapid growth, and then in the subsequent months falls
+ing nontypical growth patterns. Therefore, there is a need for a method              to the 5th velocity centile, indicating a large deceleration. There are
+that can better assess whether an individual’s longitudinal deviation                other visualization techniques to illustrate growth history and future
+patterns are typical, slower, or faster than the reference population.               growth predictions, such as adaptive growth charts, which include both
+                                                                                     current growth and future predictions based on past individual mea­
+                                                                                     surements (Van Buuren, 2023). However, as more elements are included
+2.1. Longitudinal trajectories and centile shift assessment in normative
+                                                                                     in the chart, the interpretation becomes more convoluted. Therefore, we
+modeling
+                                                                                     aim to strike a balance between the amount of information presented
+                                                                                     and the expertise required for interpretation.
+   Various methodological extensions of the normative modeling
+framework can be developed to assess longitudinal trajectories and
+determine whether a centile shift is excessive for a given age range. One            3. Discussion
+approach is to create velocity charts based on repeated measurements.
+Here, velocity represents the rate of change between two successive                      Current normative models or brain charts cannot answer common
+measurements in the original units (e.g., thickness measures for brain               questions such as: Is a certain centile crossing pathological or expected
+                                                                                     for that age range? When does a deviation from the centiles of variation
+growth velocity) (Cole, 2022) v = ft22 −− ft11 , where f2 and f1 are measure­
+                                                                                     indicate pathology? At which point in a longitudinal deviation trajectory
+ments of a neuroimaging feature at two time points, t2 and t1 . These
+                                                                                     should an intervention be performed? To answer these questions, we
+velocity measures can be plotted against chronological age to create
+                                                                                     proposed to develop longitudinal reference models that incorporate
+individual velocity curves, showing how a person’s growth rate changes
+                                                                                     velocity measurements into our analyses. Several additional factors
+over time. Another method involves expressing the rate of change in
+                                                                                     should be considered when creating these models, which we will high­
+standard deviation (σ) units of the change scores Δz, simplifying the
+                                                                                     light here.
+visualization and assessment of individual differences (Cole, 2022; Van
+                                                                                         One important consideration is the size and the applicability of the
+Buuren, 2023). The formula for the standardized velocity: zv = zσ2(Δz)− z1
+                                                                           ,         reference cohort. The size of most cross-sectional normative models is
+                √̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅
+with σ (Δz) = 2(1 − r), where r is the correlation coefficient between               currently limited by the number of available samples. When building
+the z2 and z1 , this measure is also referred to as the unconditional SDs            cross-sectional and longitudinal normative models, the required sample
+
+                                                                                15
+C. Fraza et al.                                                                                                Neuroscience and Biobehavioral Reviews 176 (2025) 106284
+
+
+
+
+Fig. 5. Example of thrive lines overlayed in a cross-sectional normative model. (A) Demonstrating a cross-sectional normative model with five centiles and the
+measurements of one individual across the age range. (B) A cross-sectional model with overlayed the thrive lines of the 5th velocity centile. (C) A cross-sectional
+model with overlayed the thrive lines of the 95th velocity centile. When the individual measurements are joined, we can compare the slope of this trajectory to
+the population level thrive lines to see if this individual has relatively rapid or decreased velocity patterns.
+
+
+size depends on several factors, including the sparsity of data in the tails,        quantify longitudinal changes (Bučková et al., 2024). This method has
+where accurate estimation demands large samples, and the complexity                  been implemented in schizophrenia (Bučková et al., 2024), showing the
+of the underlying data, such as whether it is Gaussian or non-Gaussian.              potential to distinguish significant longitudinal brain thickness changes.
+For example, it has been shown that normative models of volumetric                       Measurement noise plays another crucial role in the creation of
+brain measures typically require over 1000 participants for reliable                 longitudinal normative models, which can arise from individual vari­
+estimation (Bozek et al., 2023). For more complex features like fMRI or              ability, instrument precision, and the measurement process. Accurate
+DTI measures, most likely larger samples are needed for accurate esti­               measurements are crucial to avoid individual differences in trajectories
+mation of the outer centiles, though clear benchmarks are still lacking.             primarily driven by noise. For different neuroimaging modalities, we
+Differering from classical power analysis, which determine the number                can establish baseline expected measurement error, as done for MRI
+of participants needed to detect group-level differences, normative                  modalities (Elliott et al., 2020; Hedges et al., 2022). This baseline can
+modeling aims to asses how much one individual deviates from a reference             help constrain the levels of expected change within individuals upon
+norm. Larger reference cohorts then improve the precision of these as­               reassessment so that we can better assess actual changes in the brain. A
+sessments by reducing uncertainty, but a larger model is only useful if              key factor is that the errors should be smaller than the magnitude of
+the reference cohort aligns with the research questions. For instance, a             change between measurements to reliably distinguish biological brain
+focused study on Alzheimer’s in a specific demographic may require a                 changes from measurement noise (Lampl, 2022). If the changes are
+small, targeted reference sample, while a general model capturing                    smaller than the noise, it would be impossible to identify whether the
+healthy population variance across the lifespan would demand a much                  signal is driven by actual brain changes or random noise. Another
+larger and more diverse dataset. Thus, it is unlikely that there is a single         method to account for the noise is to assume that the changes in devi­
+“universal” reference model; instead, multiple normative curves tailored             ation scores between short visits in the control group are due to obser­
+to different populations and questions will most likely emerge, shaped               vation noise, as we expect this group to have a relatively stable signal,
+primarily by the availability of data and specific research questions                both technical and physiological (Bučková et al., 2024).
+(Rutherford et al., 2024; Hájek, 2007). We do encourage the field to                    Increasingly, the field has focused on creating ever larger models
+move towards collaborative data sharing and integration efforts,                     without fully considering which model fit criteria should be optimized,
+through, for example, federated learning (Kia et al., 2022). Such that               and it would be concerning if this trend continues in the development of
+multiple research teams can benefit from shared normative cohorts                    longitudinal models. Currently, fit parameters focused on accuracy and
+rather than repeatedly generating isolated models.                                   the mean fit of the distribution are often used, neglecting shape pa­
+    Another consideration for longitudinal models is the measurement                 rameters and residuals of the distribution, which are arguably more
+frequency; without adequate data points, important temporal patterns                 important for assessing the fit of the normative curves to the data (Fraza
+could be missed (Lampl, 2022). The main tension in longitudinal data                 et al., 2021b; De Boer et al., 2024; Dinga et al., 2021b). Several features
+collection is balancing the need for dense measurements to identify early            have been reviewed by the World Health Organization (WHO), as
+patterns of brain deviations indicative of disorders against the risk of             important when fitting normative curves: ensuring precise estimation of
+overburdening individuals and clinicians. We can decide to examine                   the centiles, avoiding centile crossing, continuous age smoothing,
+longer periods, which show slower varying changes in velocity, or                    addressing skewness and kurtosis, and using various diagnostic tools and
+shorter periods, which may translate to more variable velocity mea­                  normality tests (Borghi et al., 2006). Currently, only a few methods, such
+surements. Further, we might want to sample at a higher frequency                    as the wBRL (Fraza et al., 2021b) and GAMLSS (Dinga et al., 2021a;
+during periods where significant inter-individual differences in velocity            Stasinopoulos et al., 2017) methods comply with most of the recom­
+are expected, such as during puberty (Cole, 2012). While repeated                    mendations. One step beyond these validation methods is external
+measurements for the whole population provide the highest temporal                   validation of the deviation scores, which is essential to evaluate their
+specificity, this approach is also resource-intensive. Potentially                   clinical relevance. This can, for example, be done by estimating disease
+requiring large samples of up to 100,000 individuals across multiple                 progression markers, future treatment outcomes, or disease severity
+time points, matching the size of current cross-sectional reference                  markers based on the deviation scores. Without this external validation,
+models (Rutherford et al., 2022c). To mitigate costs, mixed longitudinal             the deviations’ score and their trajectories remain merely descriptive.
+designs can be considered. These designs involve repeatedly measuring                    Another important advancement in the normative modeling frame­
+only a subset of individuals and then extrapolating longitudinal infor­              work is the move towards multimodal data integration. Initial efforts
+mation to the entire cohort based on these measurements (Cole, 2022;                 have already started to integrate multiple data streams from EEG to MRI
+Tanner, 1951). Another option is to use the cross-sectional models to                into one model to improve the prediction of mental disorders. For
+
+
+                                                                                16
+C. Fraza et al.                                                                                                Neuroscience and Biobehavioral Reviews 176 (2025) 106284
+
+
+example, the combination of multiple imaging modalities, such as                    individual level, the estimated trajectories could be continuously
+cortical thickness and various DTI measures, has been used for early risk           updated as new data becomes available. For example, within pediatric
+detection (Kjelkenes et al., 2022a). Furthermore, deviation scores from             growth charting, new methods are being developed for visualization
+different modalities have been combined through the earlier-mentioned               techniques that allow for continuous updating (Van Buuren, 2023).
+clustering techniques, ICA (Holz et al., 2023b), PCA (Fraza et al.,                 Using these advancements and the longitudinal normative models, we
+2021a), canonical correlation analysis (CCA) (Wang et al., 2020), and               could imagine more temporally sensitive assessments. Regarding these
+other dimensionality reduction techniques. However, ideally, we would               updates, certain challenges remain, such as the cost-benefit trade-offs
+move away from the simple combination of deviation scores after the                 (Najafpour et al., 2021) and feasibility of frequent neuroimaging as­
+normative modeling has already been fitted and move towards truly                   sessments for certain parts of the population. A more realistic approach
+multimodal modeling frameworks. These models would be designed to                   could involve a combination of more infrequent neuroimaging mea­
+learn from multiple data types simultaneously, capturing the joint dis­             surements with more frequent physiological and behavioral assess­
+tribution between various modalities and predicting multiple outcomes.              ments, creating a multimodal fingerprint, as shown in Fig. 2.
+Within the deep learning space, different models, such as the multi­                    Finally, in this paper, we have laid out the three potential stages of
+modal variational autoencoder (Kumar et al., 2023b, 2022) can be used               applying normative modeling in a future precision psychiatry context:
+for this purpose. Currently, the theory to create multimodal normative              screening – tracking – monitoring (Cameron, 2022). Currently, within
+models is present, using, for example, Gaussian Mixture Models; how­                neuroimaging, we are at the screening and tracking stage, where we
+ever, this has not been explicitly implemented yet.                                 create large normative reference curves, evaluate individual deviation
+    Aside from the normative modeling framework, other advancements                 scores, and assess which deviation scores are meaningful for the
+in machine learning have been used to create so-called brain age models             demarcation of health and disease. Thinking beyond these stages to­
+(Cole et al., 2019, 2017). In these types of models, they reverse the               wards true clinical usage and the possible integration of these models
+mapping using brain data to predict age, rather than using age as a co­             into healthcare systems, follow-up steps include individualized moni­
+variate to predict brain data. A gap can then be established between the            toring and intervention strategies, which include predicting illness
+estimated brain age and one’s true age, which can be useful for assess­             onset, treatment response, and potential risk of relapse at the individual
+ments of general health. However, one difficulty with these types of                level.
+models is that two participants might have the same brain age, but                      To move closer to the goal of possible clinical integration, several
+different underlying brain abnormalities or patterns contributing to this           problems have to be solved. Ultimately, we would have a high-
+brain age, making it hard to make conclusive inferences about individ­              dimensional deviation score feature that needs to be reduced to a
+ual differences in neuroimaging features (Marquand et al., 2019).                   comprehensible risk score, through, for example, cut-off values, extreme
+    Broadening the discussion to the general technological convergence              values (Fraza et al., 2022), or clustering (Di Biase et al., 2022; Chen
+happening within precision medicine, we see many new and exciting                   et al., 2022; Zabihi et al., 2020; Zhang et al., 2022; Lin et al., 2023), such
+advancements that will enable more individualized treatments, beyond                that the information can be used by a clinician. Beyond the methodo­
+neurimaging data and normative modeling. For example, large-scale                   logical details of creating such a score, we also need to consider the
+data sources are increasingly becoming available from wearable de­                  clinical implications of the usage of these models in more detail: for
+vices (e.g., sleep, heart rate variability, and physical activity patterns),        example, is early intervention advisable, how can we ensure trans­
+which have been shown to be potentially predictive of depression                    parency in our models, and what do these risk scores truly mean? Within
+(Abd-Alrazaq et al., 2023; Lee et al., 2021). The integration of medical            the growth-charting literature, there is extensive documentation of both
+records and real-time monitoring of health markers, through wearables,              the advantages and disadvantages of using cross-sectional and longitu­
+as well as digital health tools for cognitive assessments, can all be               dinal curves for the risk assessment of delayed growth or increased
+incorporated into the same deviation or normed latent space through                 weight, where it is recognized that these charts are statistical measures
+normative modeling. For instance, in cognition, norms have already                  of population trends; however, they are often used as a representation of
+been widely applied, and the more flexible normative models currently               ‘optimal’ growth (Zemel, 2023).
+being used in neuroimaging (HBR, GALMSS, BLR) are now being                             Furthermore, ethical considerations are crucial when implementing
+adapted to cognition to create better norms that reflect the population             this framework, as the use of high-dimensional data and sensitive data in
+variability (Marquand et al., 2025). One key challenge in bringing these            psychiatric cohorts, unlike simple measures such as height or weight,
+data sources together is that they can vary in scale and timing. We have            demands even greater care in establishing effective clinical integration
+to balance sample size, measurement breadth (i.e., number of mea­                   protocols. While early intervention and prevention are promising for
+surements), and longitudinal follow-up with the potential burden on the             certain disorders, the potential benefits and drawbacks must be carefully
+individual patient, as well as considering the clinical resources (Gell             considered. For example, early detection of atypical brain development
+et al., 2025). We want to create both population-based as well as indi­             could prompt preventive measures for an at-risk individual, which could
+vidualized models to maximize within-person precision and                           have unforeseen adverse effects later in life. Additionally, we might only
+between-person generisability, and the designs of our research need to              be able to estimate deviant trajectories or velocities after it is too late for
+be adaptive to fit both needs (Gell et al., 2025).                                  true therapeutic targeting. Furthermore, when applying the cross-
+    Within computational psychiatry, there is a further push to include             sectional and longitudinal normative models, potential biases in the
+the dynamic and time-dependent nature of psychiatric disorders                      model and reference dataset must also be carefully considered. These
+(Hitchcock et al., 2022), and there is a growing shift towards real-time            biases can severely impact the interpretation of the deviation scores, as
+adaptive modeling. In areas such as digital phenotyping, using mobile               they might be driven by non-biological factors, such as race or a general
+phone data for high-frequency assessments, such adaptive approaches                 mismatch with the reference population (Rutherford et al., 2024).
+are already being implemented (Gillan and Rutledge, 2021). A similar                Current neuroimaging databases mainly consist of WEIRD: Western,
+direction could potentially be explored using normative modeling. One               Educated, Industrialized, Rich, and Democratic data (Henrich et al.,
+example of model adaptation within normative modeling is the addition               2010), making the reference dataset an inaccurate representation of the
+of data site-by-site in a federated learning manner (Kia et al., 2022),             population, meaning that the deviation scores for certain minorities of
+which showed to converge to a similar model as one trained directly on              the population could be invalid. This problem could become even more
+the whole dataset. We expect the population-level normative models to               apparent when tracking brain development norms across different
+remain relatively stable, if they have been correctly modelled; therefore,          groups, due to biased dropout rates, particularly among less healthy
+on this level, dynamic updating would not be necessary, unless the un­              participants.
+derlying population demographics change significantly. However, at an                   A key limitation, not only of normative modeling but of medical
+
+                                                                               17
+C. Fraza et al.                                                                                                               Neuroscience and Biobehavioral Reviews 176 (2025) 106284
+
+
+research more broadly, is the lack of clear boundaries between health                         Alfaro-Almagro, F., et al., 2018. Image processing and Quality Control for the first
+                                                                                                  10,000 brain imaging datasets from UK Biobank. NeuroImage 166, 400–424.
+and pathology. This is especially pronounced in psychiatry, where
+                                                                                              Allsopp, K., Read, J., Corcoran, R., Kinderman, P., 2019. Heterogeneity in psychiatric
+behavioral and neurobiological phenotypes are highly context-                                     diagnostic classification. Psychiatry Res 279, 15–22.
+dependent. For instance, an elevated stress response might be adaptive                        Baldwin, H., et al., 2022. Neuroanatomical heterogeneity and homogeneity in
+during high-pressure periods (e.g., exams), yet the same response in a                            individuals at clinical high risk for psychosis. Transl. Psychiatry 12, 1–11.
+                                                                                              Barocas, S., Hardt, M. & Narayanan, A. XXXX. Fairness and Machine Learning.
+calm environment could signal underlying pathology. Similarly, in­                            Bayer, J.M.M., et al., 2022. Site effects how-to and when: An overview of retrospective
+dividuals could show large deviation scores in certain brain regions, as                          techniques to accommodate site effects in multi-site neuroimaging analyses. Front.
+an adaptive response to certain environmental stressors; these signifi­                           Neurol. 13.
+                                                                                              Beer, J.C., et al., 2020. Longitudinal ComBat: A method for harmonizing longitudinal
+cant deviations could then be considered benign or non-pathological.                              multi-scanner imaging data. Neuroimage 220, 117129.
+This underscores the ambiguity in delineating health from disease and                         Beirlant, J., Goegebeur, Y., Segers, J., Teugels, J.L., 2004. Statistics of Extremes: Theory
+in defining diagnostic categories. As a result, sensitivity (correctly                            and Applications. John Wiley & Sons.
+                                                                                              Bethlehem, R.A.I., et al., 2020. A normative modelling approach reveals age-atypical
+identifying individuals with a disorder) and specificity (correctly iden­                         cortical thickness in a subgroup of males with autism spectrum disorder. Commun.
+tifying those without) are inherently challenging when diagnostic                                 Biol. 3, 486.
+boundaries are not clear-cut. However, we argue that this is not a flaw of                    Bethlehem, R.A.I., et al., 2022. Brain charts for the human lifespan. Nature 604,
+                                                                                                  525–533.
+normative modeling itself but reflects broader limitations of applying                        Bhome, R. et al. A neuroimaging measure to capture heterogeneous patterns of atrophy in
+categorical diagnostic frameworks to continuous, heterogeneous phe­                               Parkinson’s disease and dementia with Lewy bodies. 2023.08.01.23293480 Preprint
+nomena. Normative modeling highlights the individualized, probabi­                                at https://doi.org/10.1101/2023.08.01.23293480 (2023).
+                                                                                              Bhome, R., et al., 2024. A neuroimaging measure to capture heterogeneous patterns of
+listic, and context-sensitive nature of neuroimaging and behavioral data,
+                                                                                                  atrophy in Parkinson’s disease and dementia with Lewy bodies. NeuroImage Clin.
+moving beyond simplistic group averages. Nonetheless, continuous de­                              42, 103596.
+viation scores derived from normative models should always be inter­                          Blok, E., Geenjaar, E.P.T., Geenjaar, E.A.W., Calhoun, V.D., White, T., 2022.
+preted within the broader context of an individual’s environment,                                 Neurodevelopmental Trajectories in Children With Internalizing, Externalizing and
+                                                                                                  Emotion Dysregulation Symptoms. Front. Psychiatry 13.
+history, and behavior. These scores are best understood as one infor­                         Borghi, E., et al., 2006. Construction of the World Health Organization child growth
+mative tool among many in a clinician’s decision-making process, not as                           standards: selection of methods for attained growth curves. Stat. Med. 25, 247–265.
+deterministic indicators of diagnosis or outcome.                                             Bozek, J., Griffanti, L., Lau, S., Jenkinson, M., 2023. Normative models for neuroimaging
+                                                                                                  markers: Impact of model selection, sample size and evaluation criteria. NeuroImage
+     In summary, using normative modeling with neuroimaging data is an                            268, 119864.
+effective approach for analyzing the heterogeneity found within psy­                          Bu, X., et al., 2024. Norm. Growth Model. brain Morphol. Reveals Neuroanat. Heterog.
+chiatric and neurological disorders. Findings from these studies high­                            Biol. subtypes Child. ADHD. https://doi.org/10.1101/2024.03.16.582202,
+                                                                                                  2024.03.16.582202 Preprint at.
+light the significance of this heterogeneity and underscore the necessity                     Bučková, B.R., et al., 2024. Using normative models pre-trained on cross-sectional data
+of considering it when making predictions for individual patients,                                to evaluate longitudinal changes in neuroimaging data. eLife 13.
+outside of the case-control setting. To truly uncover the benefits of the                     Callicott, J.H., et al., 2000. Physiological Dysfunction of the Dorsolateral Prefrontal
+                                                                                                  Cortex in Schizophrenia Revisited. Cereb. Cortex 10, 1078–1092.
+normative framework, several methodological advancements are                                  Cameron, N., 2022. Chapter 11 - The measurement of human growth. In: Cameron, N.,
+needed, including the development of longitudinal normative models,                               Schell, L.M. (Eds.), in Human Growth and Development (Third Edition). Academic
+velocity-based measurements, and thrive lines that quantify the degree                            Press, Boston, pp. 317–345. https://doi.org/10.1016/B978-0-12-822652-0.00011-0.
+                                                                                              Casey, B.J., et al., 2018. The Adolescent Brain Cognitive Development (ABCD) study:
+of surprise when individuals cross centiles within cross-sectional
+                                                                                                  Imaging acquisition across 21 sites. Dev. Cogn. Neurosci. 32, 43–54.
+normative models. Implementing these methodologies will make the                              Chen, C.-L., et al., 2022. Detection of advanced brain aging in schizophrenia and its
+application of precision medicine based on normative models feasible in                           structural underpinning by using normative brain age metrics. NeuroImage Clin. 34,
+the future.                                                                                       103003.
+                                                                                              Cicchetti, D., Rogosch, F.A., 1996. Equifinality and multifinality in developmental
+                                                                                                  psychopathology. Dev. Psychopathol. 8, 597–600.
+                                                                                              Cirstian, R. et al. Objective QC for diffusion MRI data: artefact detection using normative
+Declaration of Competing Interest                                                                 modelling. 2023.06.30.546837 Preprint at https://doi.org/10.1101/2023.06.30.
+                                                                                                  546837 (2023).
+                                                                                              Cirstian, R., et al., 2024. Objective QC for diffusion MRI data: Artefact detection using
+   C.F.B. is director and shareholder of SBGNeuro Ltd. The other au­
+                                                                                                  normative modelling. Imaging Neurosci. 2, 1–14.
+thors report no conflicts of interest.                                                        Cole, T.J., 1995. Conditional reference charts to assess weight gain in British infants.
+                                                                                                  Arch. Dis. Child 73, 8–16.
+                                                                                              Cole, T.J., 2012. The development of growth references and growth charts. Ann. Hum.
+Acknowledgments                                                                                   Biol. 39, 382–394.
+                                                                                              Cole, J.H., et al., 2017. Predicting brain age with deep learning from raw imaging data
+   This research was supported by grants from the European Research                               results in a reliable and heritable biomarker. Neuroimage 163, 115–124.
+                                                                                              Cole, T.J., 2022. Chapter 14 - Growth references and standards. In: Cameron, N.,
+Council (ERC, grant “MENTALPRECISION” 10100118) to Andre F.
+                                                                                                  Schell, L.M. (Eds.), in Human Growth and Development (Third Edition). Academic
+Marquand the Dutch Organisation for Scientific Research (VIDI grant                               Press, Boston, pp. 391–422. https://doi.org/10.1016/B978-0-12-822652-0.00012-2.
+016.156.415) to Andre F. Marquand, and the Dutch Organisation for                             Cole, J.H., Marioni, R.E., Harris, S.E., Deary, I.J., 2019. Brain age and other bodily ‘ages’:
+                                                                                                  implications for neuropsychiatry. Mol. Psychiatry 24, 266–281.
+Scientific Research (VICI grant 17854) to Christian F. Beckmann.
+                                                                                              Cuthbert, B.N., Insel, T.R., 2013. Toward the future of psychiatric diagnosis: the seven
+                                                                                                  pillars of RDoC. BMC Med. 11, 126.
+Appendix A. Supporting information                                                            Da Costa, P.F., et al., 2022. Transform. Based Norm. Model. Anom. Detect. Early
+                                                                                                  Schizophr. Prepr. https://doi.org/10.48550/arXiv.2212.04984.
+                                                                                              de Boer, A.A.A., et al., 2024. Non-Gaussian normative modelling with hierarchical
+   Supplementary data associated with this article can be found in the                            Bayesian regression. Imaging Neurosci. 2, 1–36.
+online version at doi:10.1016/j.neubiorev.2025.106284.                                        De Boer, A.A.A., et al., 2024. Non-Gaussian Normative Modelling With Hierarchical
+                                                                                                  Bayesian Regression. Imaging Neurosci. https://doi.org/10.1162/imag_a_00132.
+                                                                                              de Onis, M., Branca, F., 2016. Childhood stunting: a global perspective. Matern. Child
+Data availability                                                                                 Nutr. 12, 12–26.
+                                                                                              Di Biase, M.A., et al., 2022. Cell type-specific manifestations of cortical thickness
+                                                                                                  heterogeneity in schizophrenia. Mol. Psychiatry 27, 2052–2060.
+    No data was used for the research described in the article.
+                                                                                              Di Biase, M.A., et al., 2023. Mapping human brain charts cross-sectionally and
+                                                                                                  longitudinally. Proc. Natl. Acad. Sci. 120, e2216798120.
+References                                                                                    Diagnostic and Statistical Manual of Mental Disorders: DSM-5. (American Psychiatric
+                                                                                                  Association, Washington, D.C, 2013).
+                                                                                              Dima, D. et al. xxxx Subcortical volumes across the lifespan: Data from 18,605 healthy
+Abd-Alrazaq, A., et al., 2023. Systematic review and meta-analysis of performance of
+                                                                                                  individuals aged 3–90 years. doi:10.1002/hbm.25320.
+   wearable artificial intelligence in detecting and predicting depression. npj Digit.
+   Med. 6, 84.
+Adam, D., 2013. Mental health: On the spectrum. Nature 496, 416–418.
+
+
+                                                                                         18
+C. Fraza et al.                                                                                                                    Neuroscience and Biobehavioral Reviews 176 (2025) 106284
+
+Dimitrova, R., et al., 2021a. Phenotyping the Preterm Brain: Characterizing Individual              Holz, N.E., et al., 2023b. Age-related brain deviations and aggression. Psychol. Med. 53,
+     Deviations From Normative Volumetric Development in Two Large Infant Cohorts.                        4012–4021.
+     Cereb. Cortex 31, 3665–3677.                                                                   Insel, T., et al., 2010. Research domain criteria (RDoC): toward a new classification
+Dimitrova, R., et al., 2021b. Preterm birth alters the development of cortical                            framework for research on mental disorders. Am. J. Psychiatry 167, 748–751.
+     microstructure and morphology at term-equivalent age. NeuroImage 243, 118488.                  Insel, T.R., Cuthbert, B.N., 2015. Brain disorders? Precisely: Precision medicine comes to
+Dinga, R., et al., 2021a. Norm. Model. neuroimaging data Using Gen. Addit. Models                         psychiatry. Science 348, 499–500.
+     Locat. Scale shape. https://doi.org/10.1101/2021.06.14.448106,                                 Itälinna, V., Kaltiainen, H., Forss, N., Liljeström, M., Parkkonen, L., 2023. Using
+     2021.06.14.448106 Preprint at.                                                                       normative modeling and machine learning for detecting mild traumatic brain injury
+Dinga, R., et al., 2021b. Norm. Model. Neuroimaging Data Using Gen. Addit. Models                         from magnetoencephalography data. PLOS Comput. Biol. 19, e1011613.
+     Locat. Scale Shape. https://doi.org/10.1101/2021.06.14.448106.                                 Janssen, J. et al. Heterogeneity of morphometric similarity networks in health and
+Dinga, R., Penninx, B.W.J.H., Veltman, D.J., Schmaal, L., Marquand, A.F., 2019. Beyond                    schizophrenia. 2024.03.26.586768 Preprint at https://doi.org/10.1101/2024.03.26.
+     Accuracy. Meas. Assess. Mach. Learn. Models Pitfalls Guidel. https://doi.org/                        586768 (2024).
+     10.1101/743138. 〈http://biorxiv.org/lookup/doi/10.1101/743138〉.                                Ji, G.-J., et al., 2023. Linking Personalized Brain Atrophy to Schizophrenia Network and
+Dong, H.-M., et al., 2020. Charting brain growth in tandem with brain templates at                        Treatment Response. Schizophr. Bull. 49, 43–52.
+     school age. Sci. Bull. 65, 1924–1934.                                                          Jing, R., et al., 2023. Heterogeneous brain dynamic functional connectivity patterns in
+Ebadi, A. et al. Beyond homogeneity: Charting the landscape of heterogeneity in                           first-episode drug-naive patients with major depressive disorder. Hum. Brain Mapp.
+     psychiatric electroencephalography. 2024.03.04.583393 Preprint at https://doi.                       44, 3112–3122.
+     org/10.1101/2024.03.04.583393 (2024).                                                          Keshavan, A., Peterson, D., Alexander-Bloch, A., Leyden, K.M., 2023. Brain Charts People
+Elad, D., et al., 2021. Improving the predictive potential of diffusion MRI in                            Living Mult. Scler. https://doi.org/10.1101/2023.11.02.565251.
+     schizophrenia using normative models-Towards subject-level classification. Hum.                Kia, S.M., et al., 2020. Hierarchical Bayesian Regression for Multi-site Normative
+     Brain Mapp. 42, 4658–4670.                                                                           Modeling of Neuroimaging Data. In: Martel, A.L., et al. (Eds.), Medical Image
+Elliott, M.L., et al., 2020. What Is the Test-Retest Reliability of Common Task-Functional                Computing and Computer Assisted Intervention – MICCAI 2020. Springer
+     MRI Measures? New Empirical Evidence and a Meta-Analysis. Psychol. Sci. 31,                          International Publishing, Cham, pp. 699–709. https://doi.org/10.1007/978-3-030-
+     792–806.                                                                                             59728-3_68.
+Fan, X.-R., et al., 2023. A longitudinal resource for population neuroscience of school-age         Kia, S.M., et al., 2022. Closing the life-cycle of normative modeling using federated
+     children and adolescents in China. Sci. Data 10, 545.                                                hierarchical Bayesian regression. PLoS ONE 17, e0278776.
+Feczko, E., Fair, D.A., 2020. Methods and Challenges for Assessing Heterogeneity. Biol.             Kia, S.M., Marquand, A., 2018. Normative Modeling of Neuroimaging Data Using
+     Psychiatry 88, 9–17.                                                                                 Scalable Multi-task Gaussian Processes. In: Frangi, A.F., Schnabel, J.A.,
+Floris, D.L., et al., 2021. Atypical Brain Asymmetry in Autism—A Candidate for Clinically                 Davatzikos, C., Alberola-López, C., Fichtinger, G. (Eds.), Medical Image Computing
+     Meaningful Stratification. Biological Psychiatry Cognitive Neuroscience                              and Computer Assisted Intervention – MICCAI 2018. Springer International
+     Neuroimaging 6, 802–812.                                                                             Publishing, Cham, pp. 127–135. https://doi.org/10.1007/978-3-030-00931-1_15.
+Floris, D.L., et al., 2024. A Multimodal Neural Signat. face Process. Autism fusiform gyrus         Kia, S.M., Marquand, A.F., 2019. Neural Processes Mixed-Effect Models for Deep
+     2024. https://doi.org/10.1101/2024.01.04.23300134, 01.04.23300134 Preprint at.                       Normative Modeling of Clinical Neuroimaging Data. Proceedings of The 2nd
+Frangou, S. et al. xxxx Cortical thickness across the lifespan: Data from 17,075 healthy                  International Conference on Medical Imaging with Deep Learning. PMLR,
+     individuals aged 3–90 years. doi:10.1002/hbm.25364.                                                  pp. 297–314.
+Fraza, C.J., Dinga, R., Beckmann, C.F., Marquand, A.F., 2021a. Warped Bayesian linear               Kim, M., et al., 2023. Mapp. Cerebellar Anat. Heterog. Ment. Neurol. Illn. 11 (18),
+     regression for normative modelling of big data. NeuroImage 245, 118715.                              567647. https://doi.org/10.1101/2023.11.18.567647 (Preprint at).
+Fraza, C.J., Dinga, R., Beckmann, C.F., Marquand, A.F., 2021b. Warped Bayesian linear               Kjelkenes, R. et al. Deviations from normative brain white and gray matter structure are
+     regression for normative modelling of big data. Neuroimage 245, 118715.                              associated with psychopathology in youth. Preprint at https://doi.org/10.31234/osf
+Fraza, C., Sønderby, I.E., Boen, R., Shi, Y., Beckmann, C.F., Marquand, A.F., 2023.                       .io/uky5g (2022a).
+     Unraveling the link between CNVs, cognition and individual neuroimaging deviation              Kjelkenes, R., et al., 2022b. Deviations from normative brain white and gray matter
+     scores from a population-based reference cohort. Nat. Ment. Health 1–13. https://                    structure are associated with psychopathology in youth. Dev. Cogn. Neurosci. 58,
+     doi.org/10.1101/2023.11.29.23298954.                                                                 101173.
+Fraza, C., Zabihi, M., Beckmann, C.F., Marquand, A.F., 2022. Extrem. Norm. Model.                   Kjelkenes, R., et al., 2023. Mapping Normative Trajectories of Cognitive Function and Its
+     2022. https://doi.org/10.1101/2022.08.23.505049, 08.23.505049 Preprint at.                           Relation to Psychopathology Symptoms and Genetic Risk in Youth. Biol. Psychiatry
+Free Icons and Stickers - Millions of resources to download. Flaticon 〈https://www.flatic                 Glob. Open Sci. 3, 255–263.
+     on.com/〉.xxxx.                                                                                 Kumar, K., et al., 2023a. Subcortical Brain Alterations in Carriers of Genomic Copy
+Fried, E.I., 2017. The 52 symptoms of major depression: Lack of content overlap among                     Number Variants. AJP 180, 685–698.
+     seven common depression scales. J. Affect. Disord. 208, 191–197.                               Kumar, S. et al. Analyzing heterogeneity in Alzheimer Disease using multimodal
+Fried, E.I., Nesse, R.M., 2015. Depression is not a consistent syndrome: an investigation                 normative modeling on imaging-based ATN biomarkers. 2023e.08.15.553412
+     of unique symptom patterns in the STAR*D study. J. Affect Disord. 172, 96–102.                       Preprint at https://doi.org/10.1101/2023.08.15.553412 (2024).
+Gaiser, C., et al., 2024a. Estimating cortical thickness trajectories in children across            Kumar, S., Earnest, T., Payne, P.R.O., Sotiras, A., 2023c. Analyse patient-level
+     different scanners using transfer learning from normative models. Hum. Brain Mapp.                   heterogeneity in Alzheimer’s Disease using multimodal normative modelling,
+     45, e26565.                                                                                          2023.08.15.553412 bioRxiv. https://doi.org/10.1101/2023.08.15.553412.
+Gaiser, C., et al., 2024a. Estimating cortical thickness trajectories in children across            Kumar, S., Payne, P., Sotiras, A., 2022. Norm. Model. Using Multimodal Var.
+     different scanners using transfer learning from normative models. Hum. Brain Mapp.                   Autoencoders Identify Abnorm. Brain Struct. Patterns Alzheimer Dis. https://doi.
+     45, e26565.                                                                                          org/10.48550/arXiv.2110.04903 (Preprint at).
+Gaiser, C., et al., 2024b. Population-wide cerebellar growth models of children and                 Kumar, S., Payne, P. & Sotiras, A. mmNormVAE: Normative Modeling on Multimodal
+     adolescents. Nat. Commun. 15, 2351.                                                                  Neuroimaging Data using Variational Autoencoders. in (2023b).
+Gardosi, J., Chang, A., Kalyan, B., Sahota, D., Symonds, E.M., 1992. Customised                     Kumar, S., Payne, P.R.O., Sotiras, A., 2023d. Normative Modeling using Multimodal
+     antenatal growth charts. Lancet 339, 283–287.                                                        Variational Autoencoders to Identify Abnormal Brain Volume Deviations in
+Ge, R., et al., 2024. Normative modelling of brain morphometry across the lifespan with                   Alzheimer’s Disease. Proc. SPIE Int Soc. Opt. Eng. 12465, 1246503.
+     CentileBrain: algorithm benchmarking and model optimisation. Lancet Digit. Health              Lampl, M., 2022. Chapter 18 - Biological models of human growth. In: Cameron, N.,
+     6, e211–e221.                                                                                        Schell, L.M. (Eds.), in Human Growth and Development (Third Edition). Academic
+Gell, M., Noble, S., Laumann, T.O., Nelson, S.M., Tervo-Clemmens, B., 2025. Psychiatric                   Press, Boston, pp. 491–516. https://doi.org/10.1016/B978-0-12-822652-0.00002-X.
+     neuroimaging designs for individualised, cohort, and population studies.                       Lampl, M., Thompson, A.L., 2007. Growth chart curves do not describe individual
+     Neuropsychopharmacol 50, 29–36.                                                                      growth biology. Am. J. Hum. Biol. 19, 643–653.
+Giacomel, A., et al., 2023. Invest. Dopaminergic Abnorm. Psychos. Norm. Model.                      Lawn, T. et al. Normative Modelling of Molecular-based Functional Neurocircuits
+     Multisite Mol. Neuroimaging. 11.27.23299051 Preprint at 2023. https://doi.org/                       Captures Clinical Heterogeneity Transdiagnostically in Neuropsychiatric Patients.
+     10.1101/2023.11.27.23299051.                                                                         2023.10.21.563428 Preprint at https://doi.org/10.1101/2023.10.21.563428
+Gillan, C.M., Rutledge, R.B., 2021. Smartphones and the Neuroscience of Mental Health.                    (2023).
+     Annu Rev. Neurosci. 44, 129–151.                                                               Lawrence, K.E. et al. Age and Sex Effects on Advanced White Matter Microstructure
+Hájek, A., 2007. The reference class problem is your problem too. Synthese 156,                          Measures in 15,628 Older Adults: A UK Biobank Study. 2020.09.18.304345 Preprint
+     563–585.                                                                                             at https://doi.org/10.1101/2020.09.18.304345 (2021).
+Haukvik, U.K., et al., 2023. Individ. Lev. Deviat. Norm. brain Morphol. Violence Psychos.           Lawry Aguila, A., Chapman, J., Janahi, M., Altmann, A., 2022. Conditional VAEs for
+     psychopathy. https://doi.org/10.1101/2023.10.29.23297735,                                            Confound Removal and Normative Modelling of Neurodegenerative Diseases. In:
+     2023.10.29.23297735 Preprint at.                                                                     Wang, L., Dou, Q., Fletcher, P.T., Speidel, S., Li, S. (Eds.), Medical Image Computing
+Hedges, E.P., et al., 2022. Reliability of structural MRI measurements: The effects of scan               and Computer Assisted Intervention – MICCAI 2022. Springer Nature Switzerland,
+     session, head tilt, inter-scan interval, acquisition sequence, FreeSurfer version and                Cham, pp. 430–440. https://doi.org/10.1007/978-3-031-16431-6_41.
+     processing stream. NeuroImage 246, 118751.                                                     Le Tourneau, C., et al., 2015. Molecularly targeted therapy based on tumour molecular
+Henrich, J., Heine, S.J., Norenzayan, A., 2010. The weirdest people in the world? Behav.                  profiling versus conventional therapy for advanced cancer (SHIVA): a multicentre,
+     Brain Sci. 33, 61–83.                                                                                open-label, proof-of-concept, randomised, controlled phase 2 trial. Lancet Oncol. 16,
+Hitchcock, P.F., Fried, E.I., Frank, M.J., 2022. Computational Psychiatry Needs Time and                  1324–1334.
+     Context. Annu Rev. Psychol. 73, 243–270.                                                       Lee, S., Kim, H., Park, M.J., Jeon, H.J., 2021. Current Advances in Wearable Devices and
+Holz, N.E., et al., 2023a. A stable and replicable neural signature of lifespan adversity in              Their Sensors in Patients With Depression. Front. Psychiatry 12.
+     the adult brain. Nat. Neurosci. 1–10. https://doi.org/10.1038/s41593-023-01410-8.
+
+
+                                                                                               19
+C. Fraza et al.                                                                                                                   Neuroscience and Biobehavioral Reviews 176 (2025) 106284
+
+Lin, X., et al., 2023. Understanding the heterogeneity of dynamic functional connectivity             1951 Tanner, J.M., 1951. Some notes on the reporting of growth data. Hum. Biol. 23,
+     patterns in first-episode drug naïve depression using normative models. J. Affect.                      93–159.
+     Disord. 327, 217–225.                                                                         Tervo-Clemmens, B., et al., 2023. A canonical trajectory of executive function maturation
+Liu, Z., et al., 2021. Resolving heterogeneity in schizophrenia through a novel systems                 from adolescence to adulthood. Nat. Commun. 14, 6922.
+     approach to brain structure: individualized structural covariance network analysis.           Thompson, P.M., et al., 2014. The ENIGMA Consortium: large-scale collaborative
+     Mol. Psychiatry 26, 7719–7731.                                                                     analyses of neuroimaging and genetic data. Brain Imaging Behav. 8, 153–182.
+Looden, T., et al., 2022. Patterns of connectome variability in autism across five                 Tian, Y.E., et al., 2023. Evaluation of Brain-Body Health in Individuals With Common
+     functional activation tasks: findings from the LEAP project. Mol. Autism 13, 53.                   Neuropsychiatric Disorders. JAMA Psychiatry. https://doi.org/10.1001/
+Loreto, F., et al., 2024. Alzheimer’s disease heterogeneity revealed by neuroanatomical                 jamapsychiatry.2023.0791.
+     normative modeling. Alzheimer’S. Dement. Diagn. Assess. Dis. Monit. 16, e12559.               Tung, Y.-H., et al., 2021. Whole Brain White Matter Tract Deviation and Idiosyncrasy
+Lv, J., et al., 2021. Individual deviations from normative models of brain structure in a               From Normative Development in Autism and ADHD and Unaffected Siblings Link
+     large cross-sectional schizophrenia cohort. Mol. Psychiatry 26, 3512–3523.                         With Dimensions of Psychopathology and Cognition. AJP 178, 730–743.
+Marquand, A.F., et al., 2019. Conceptualizing mental disorders as deviations from                  Van Buuren, S., 2023. Evaluation and prediction of individual growth trajectories. Ann.
+     normative functioning. Mol. Psychiatry 24, 1415–1424.                                              Hum. Biol. 50, 247–257.
+Marquand, A.F., et al., 2025. Learning Latent Profiles via Cognitive Growth Charting in            van Erp, T.G.M., et al., 2018. Cortical Brain Abnormalities in 4474 Individuals With
+     Psychosis: Design and Rationale for the PRECOGNITION Project. Schizophr. Bull.                     Schizophrenia and 5098 Control Subjects via the Enhancing Neuro Imaging Genetics
+     Open 6, sgaf007.                                                                                   Through Meta Analysis (ENIGMA) Consortium. Biol. Psychiatry 84, 644–654.
+Marquand, A.F., Rezek, I., Buitelaar, J., Beckmann, C.F., 2016a. Understanding                     Verdi, S. et al. Personalising Alzheimer’s Disease progression using brain atrophy
+     Heterogeneity in Clinical Cohorts Using Normative Models: Beyond Case-Control                      markers. 2023.06.15.23291418 Preprint at https://doi.org/10.1101/2023.06.15
+     Studies. Biol. Psychiatry 80, 552–561.                                                             .23291418 (2023a).
+Marquand, A., Rutherford, S., Dinga, R., 2024. Fairly evaluating the performance of                Verdi, S., et al., 2023b. Revealing Individual Neuroanatomical Heterogeneity in
+     normative models. Lancet Digit. Health 6, e775.                                                    Alzheimer Disease Using Neuroanatomical Normative Modeling. Neurology 100,
+Marquand, A.F., Wolfers, T., Mennes, M., Buitelaar, J., Beckmann, C.F., 2016b. Beyond                   e2442–e2453.
+     Lumping and Splitting: A Review of Computational Approaches for Stratifying                   Verdi, S., Marquand, A.F., Schott, J.M., Cole, J.H., 2021. Beyond the average patient:
+     Psychiatric Disorders. Biol. Psychiatry Cogn. Neurosci. Neuroimaging 1, 433–447.                   how neuroimaging models can address heterogeneity in dementia. Brain 144,
+McCarthy, J.J., McLeod, H.L., Ginsburg, G.S., 2013. Genomic medicine: a decade of                       2946–2953.
+     successes, challenges, and opportunities, 189sr4 Sci. Transl. Med 5, 189sr4.                  Villalón-Reina, J.E., et al., 2022. Multi-site Normative Modeling of Diffusion Tensor
+Meijer, J., et al., 2023. Towards Underst. Autism Heterog. Identifying Clin. Subgr.                     Imaging Metrics Using Hierarchical Bayesian Regression. In: Wang, L., Dou, Q.,
+     Neuroanat. Deviat. 2023. https://doi.org/10.1101/2023.10.21.23297299,                              Fletcher, P.T., Speidel, S., Li, S. (Eds.), Medical Image Computing and Computer
+     10.21.23297299 Preprint at.                                                                        Assisted Intervention – MICCAI 2022. Springer Nature Switzerland, Cham,
+Najafpour, Z., et al., 2021. Cost-effectiveness of neuroimaging technologies in                         pp. 207–217. https://doi.org/10.1007/978-3-031-16431-6_20.
+     management of psychiatric and insomnia disorders: A meta-analysis and prospective             von Luxburg, U., 2010. Clustering Stability: An Overview. Found. Trends Mach. Learn 2,
+     cost analysis. J. Neuroradiol. 48, 348–358.                                                        235–274.
+Nunes, A., Trappenberg, T., Alda, M., 2020a. Measuring heterogeneity in normative                  Wang, H.-T., et al., 2020. Finding the needle in a high-dimensional haystack: Canonical
+     models as the effective number of deviation patterns. PLoS One 15, e0242320.                       correlation analysis for neuroscientists. NeuroImage 216, 116745.
+Nunes, A., Trappenberg, T., Alda, M., 2020b. The definition and measurement of                     Weinberger, D.R., Berman, K.F., Illowsky, B.P., 1988. Physiological dysfunction of
+     heterogeneity. Transl. Psychiatry 10, 299.                                                         dorsolateral prefrontal cortex in schizophrenia. III. A new cohort and evidence for a
+Oliveira-Saraiva, D., Ferreira, H.A., 2023. Normative model detects abnormal functional                 monoaminergic mechanism. Arch. Gen. Psychiatry 45, 609–615.
+     connectivity in psychiatric disorders. Front Psychiatry 14, 1068397.                          Weissman, D.G., et al., 2023. Family income is not significantly associated with T1w/
+Parkes, L., et al., 2021. Transdiagnostic dimensions of psychopathology explain                         T2w ratio in the Human Connectome Project in Development. Imaging Neurosci. 1,
+     individuals’ unique deviations from normative neurodevelopment in brain structure.                 1–10.
+     Transl. Psychiatry 11, 232.                                                                   Wolfers, T., et al., 2018. Mapping the Heterogeneous Phenotype of Schizophrenia and
+Pinaya, W.H.L., et al., 2021. Using normative modelling to detect disease progression in                Bipolar Disorder Using Normative Models. JAMA Psychiatry 75, 1146–1155.
+     mild cognitive impairment and Alzheimer’s disease in a cross-sectional multi-cohort           Wolfers, T., et al., 2019. From pattern classification to stratification: towards
+     study. Sci. Rep. 11, 15746.                                                                        conceptualizing the heterogeneity of Autism Spectrum Disorder. Neurosci. Biobehav.
+Remiszewski, N., et al., 2022. Contrasting Case-Control and Normative Reference                         Rev. 104, 240–254.
+     Approaches to Capture Clinically Relevant Structural Brain Abnormalities in Patients          Wolfers, T., et al., 2020. Individual differences v. the average patient: mapping the
+     With First-Episode Psychosis Who Are Antipsychotic Naive. JAMA Psychiatry 79,                      heterogeneity in ADHD using normative models. Psychol. Med 50, 314–323.
+     1133–1138.                                                                                    Wolfers, T., et al., 2021. Replicating extensive brain structural heterogeneity in
+Rutherford, S., et al., 2022a. The normative modeling framework for computational                       individuals with schizophrenia and bipolar disorder. Hum. Brain Mapp. 42,
+     psychiatry. Nat. Protoc. 17, 1711–1734.                                                            2546–2555.
+Rutherford, S., et al., 2022b. Evid. Embrac. Norm. Model. https://doi.org/10.1101/                 Wong, T.Y., et al., 2023. Traumatic stress load and stressor reactivity score associated
+     2022.11.14.516460. 〈http://biorxiv.org/lookup/doi/10.1101/2022.11.14.516460〉.                      with accelerated gray matter maturation in youths indexed by normative models.
+Rutherford, S., et al., 2022c. Charting brain growth and aging at high spatial precision.               Mol. Psychiatry 28, 1137–1145.
+     eLife 11, e72904.                                                                             Worker, A., et al., 2023. Extreme deviations from the normative model reveal cortical
+Rutherford, S., et al., 2024. which Ref. Cl. do you Belong? Meas. Racial Fairness Ref. Cl.              heterogeneity and associations with negative symptom severity in first-episode
+     Norm. Model. Prepr. https://doi.org/10.48550/arXiv.2407.19114.                                     psychosis from the OPTiMiSE and GAP studies. Transl. Psychiatry 13, 1–9.
+Rutherford, S. & Andre. Normative Modeling with the Predictive Clinical Neuroscience               World Health Organization, 2019. International Statistical Classification of Diseases and
+     Toolkit (PCNtoolkit). (2023) doi:10.31219/osf.io/2c8s9.                                            Related Health Problems, 11th Ed.). World Health Organization.
+Rutherford, S., Marquand, A.F., 2025. Normative Modeling with the Predictive Clinical              Young, A.L., et al., 2024a. Data-driven modelling of neurodegenerative disease
+     Neuroscience Toolkit (PCNtoolkit). Methods for Analyzing Large Neuroimaging                        progression: thinking outside the black box. Nat. Rev. Neurosci. 25, 111–130.
+     Datasets. Humana, New York, NY, pp. 329–364. https://doi.org/10.1007/978-1-                   Young, T., Kumar, V.J., Saranathan, M., 2024b. Normative modeling of thalamic nuclear
+     0716-4260-3_14.                                                                                    volumes, 2024.03.06.24303871 medRxiv. https://doi.org/10.1101/
+Savage, H.S. et al. Unpacking the functional heterogeneity of the Emotional Face                        2024.03.06.24303871.
+     Matching Task: a normative modelling approach. bioRxiv 2023.03.27.534351                      Zabihi, M., et al., 2019. Dissecting the Heterogeneous Cortical Anatomy of Autism
+     (2023) doi:10.1101/2023.03.27.534351.                                                              Spectrum Disorder Using Normative Models. Biol. Psychiatry Cogn. Neurosci.
+Segal, A., et al., 2023. Regional, circuit and network heterogeneity of brain abnormalities             Neuroimaging 4, 567–578.
+     in psychiatric disorders. Nat. Neurosci. 26, 1613–1629.                                       Zabihi, M., et al., 2020. Fractionating autism based on neuroanatomical normative
+Shao, J., et al., 2023. Capturing the Individual Deviations From Normative Models of                    modeling. Transl. Psychiatry 10, 1–10.
+     Brain Structure for Depression Diagnosis and Treatment. S0006-3223(23)01492–0                 Zabihi, M. et al. Explanatory latent representation of heterogeneous spatial maps of task-
+     Biol. Psychiatry. https://doi.org/10.1016/j.biopsych.2023.08.005.                                  fMRI in large-scale datasets. 2021.03.10.434856 Preprint at https://doi.org/10.110
+Shi, W., et al., 2023. Two subtypes of schizophrenia identified by an individual-level                  1/2021.03.10.434856 (2022).
+     atypical pattern of tensor-based morphometric measurement. Cereb. Cortex 33,                  Zabihi, M., et al., 2024. Nonlinear latent representations of high-dimensional task-fMRI
+     3683–3700.                                                                                         data: Unveiling cognitive and behavioral insights in heterogeneous spatial maps.
+Stasinopoulos, M.D., Rigby, R.A., Heller, G.Z., Voudouris, V., Bastiani, F.D., 2017.                    PLOS ONE 19, e0308329.
+     Flexible Regression and Smoothing: Using GAMLSS in R. Chapman and Hall/CRC,                   Zemel, B.S., 2023. From growth charts to growth status: how concepts of optimal growth
+     New York. https://doi.org/10.1201/b21973.                                                          and tempo influence the interpretation of growth measurements. Ann. Hum. Biol.
+Sun, X., et al., 2023a. Mapping Neurophysiological Subtypes of Major Depressive                         50, 236–246.
+     Disorder Using Normative Models of the Functional Connectome. Biol. Psychiatry                Zhang, H., et al., 2022. Growth charts of brain morphometry for preschool children.
+     94, 936–947.                                                                                       NeuroImage 255, 119178.
+Sun, L., et al., 2023b. Functional connectome through the human life span. bioRxiv.                Zhang, W., Vidaurre, D. & Bijsterbosch, J.D. Mental health explains individual deviations
+     https://doi.org/10.1101/2023.09.12.557193.                                                         from normative range in cognition-associated brain states. 2021.03.12.435017
+                                                                                                        Preprint at https://doi.org/10.1101/2021.03.12.435017 (2021).
+
+
+
+
+                                                                                              20
+

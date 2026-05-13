@@ -49,3 +49,9 @@ Despite the scale difference, OpenWorm and TVB face analogous methodological cha
 - [[whole-brain-modeling]] — The broad research goal shared by OpenWorm and TVB
 - [[connectome]] — The complete neural wiring diagram that OpenWorm implements at single-neuron resolution
 - [[computational-neuroscience]] — The discipline that frames OpenWorm as a reproducible modeling benchmark
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. W. Wybo. (2025). *The neural analysis toolkit unifies semi-analytical techniques to simplify, understand, and simulate dendrites*. bioRxiv. [DOI](https://doi.org/10.1101/2025.06.26.661734)
+3. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *NESTML: a generic modeling language and code generation tool for the simulation of spiking neural networks with advanced plasticity rules*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1544143)

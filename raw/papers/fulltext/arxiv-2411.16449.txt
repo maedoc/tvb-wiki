@@ -1,0 +1,1335 @@
+                                           Alpha-Delta Transitions in Cortical Rhythms
+                                                     as grazing bifurcations
+                                                               Huda Mahdi ∗      Jan Sieber †
+                                                               Krasimira Tsaneva-Atanasova ‡
+arXiv:2411.16449v2 [math.DS] 7 Feb 2025
+
+
+
+
+                                                                             April 2024
+
+
+                                                                              Abstract
+                                                     The Jansen-Rit model of a cortical column in the cerebral cortex is
+                                                widely used to simulate spontaneous brain activity (EEG) and event-
+                                                related potentials. It couples a pyramidal cell population with two
+                                                interneuron populations, of which one is fast and excitatory and the
+                                                other slow and inhibitory.
+                                                     Our paper studies the transition between alpha and delta oscil-
+                                                lations produced by the model. Delta oscillations are slower than
+                                                alpha oscillations and have a more complex relaxation-type time pro-
+                                                file. In the context of neuronal population activation dynamics, a small
+                                                threshold means that neurons begin to activate with small input or
+                                                stimulus, indicating high sensitivity to incoming signals. A steep slope
+                                                signifies that activation increases sharply as input crosses the thresh-
+                                                old. Accordingly in the model the excitatory activation thresholds
+                                                are small and the slopes are steep. Hence, a singular limit replacing
+                                                the excitatory activation function with all-or-nothing switches, eg. a
+                                                Heaviside function, is appropriate. In this limit we identify the tran-
+                                                sition between alpha and delta oscillations as a discontinuity-induced
+                                            ∗
+                                               Department of Mathematics and Statistics, University of Exeter, Living Systems
+                                          Institute, Exeter EX44QD, UK. mailto:hm672@exeter.ac.uk , https://orcid.org/
+                                          0009-0004-7318-7096
+                                             †
+                                               Department of Mathematics and Statistics, University of Exeter, Harrison Build-
+                                          ing, Exeter EX4 4QF, UK. mailto:j.sieber@exeter.ac.uk , https://orcid.org/
+                                          0000-0002-9558-1324
+                                             ‡
+                                               Department of Mathematics and Statistics and EPSRC Hub for Quantitative
+                                          Modelling in Healthcare, Living Systems Institute, University of Exeter, Exeter,
+                                          EX44QJ, UK. mailto:k.tsaneva-atanasova@exeter.ac.uk , https://orcid.org/
+                                          0000-0002-6294-7051
+
+
+                                                                                   1
+      grazing bifurcation. At the grazing the minimum of the pyramidal-cell
+      output equals the threshold for switching off the excitatory interneu-
+      ron population, leading to a collapse in excitatory feedback.
+
+    Keywords: Brain activity, Neural mass model, Alpha and Delta rhythms,
+Bifurcation analysis, Heaviside function, Piecewise smooth dynamical systems.
+
+
+1    Introduction
+The Jansen–Rit model [18, 19] is a well-established neural mass model of the
+activity of a local cortical circuit in the human brain. The model builds on the
+earlier work of da Silva et al. [6, 7], van Rotterdam et al. [28] and Freeman
+[14]. They developed mathematical models to simulate spontaneous brain
+activity, which can be recorded non-invasively, to investigate the mechanisms
+behind specific types of electroencephalogram (EEG) field potentials. Their
+focus was on understanding the origins of alpha-like activity – a rhythmic
+EEG pattern with a frequency range of 8-12 Hz, most prominent during
+restful states with closed eyes.
+    Neuronal activity detected by EEG results from the combined excitatory
+and inhibitory postsynaptic potentials generated by large groups of neurons,
+such as cortical columns in the cerebral cortex, firing at the same time.
+Jansen et al. [19] and Jansen and Rit [18] extended Lopes da Silva’s lumped
+parameter model [6, 7] by incorporating an excitatory feedback loop from lo-
+cal interneurons in addition to the original populations of inhibitory interneu-
+rons and excitatory pyramidal cells in order to investigate the significance
+of excitatory connections over long distances. Although the Jansen and Rit
+model [18] as illustrated in Figure 1a is a simplification of the complexity of
+neural connections in cortical regions of the brain, it is able to generate a
+range of wave forms and rhythms resembling EEG recordings. Accordingly it
+has been extensively employed to simulate brain rhythmic activity recorded
+by EEG (see [9, 26] and references therein). The Jansen-Rit model has been
+extended further by Wendling et al. [30] to study epileptic-like oscillations
+by the addition of a fast inhibitory interneuron population. This model
+has since gained significant attention in studies of epileptic seizures [5, 30].
+Furthermore, the Jansen-Rit model has been used to simulate event-related
+potentials (ERPs) by applying pulse-like inputs, allowing for the replication
+and analysis of EEG responses to external stimuli. Notably, the interaction
+between cortical columns has been found to play a key role in generating
+visual evoked potentials (VEPs) [19].
+    The rhythms generated by the Jansen-Rit model can be associated with
+different behaviours, levels of excitability, and states of consciousness. Using
+
+                                        2
+the parameter settings suggested by Jansen and Rit [18], the model produces
+oscillations around 10 Hz corresponding to alpha-like activity as described
+by Grimbert and Faugeras [15]. Delta rhythms have frequencies between 0.5
+and 4 Hz detected during deep stages of non-REM sleep (particularly stages
+3 and 4), also known as slow-wave sleep. During these stages, the brain ex-
+hibits large-amplitude, low-frequency delta activity. A recent experimental
+study reports an alpha/delta switch in the prefrontal cortex regulating the
+shift between positive and negative emotional states [4]. Moreover, another
+very recent study by Brudzynski et al. [3] identifies a transition between
+positive (associated with alpha rhythms) and negative (associated with delta
+rhythms) emotions controlled by the arousal system. At the level of neuronal
+circuits, the alpha rhythm is linked to synaptic long-term potentiation (LTP)
+in the cortex, while the delta rhythm is associated with synaptic depotenti-
+ation (LTD) in the same region. Therefore, understanding what controls the
+transitions between alpha and delta oscillations in neural circuits enhances
+our knowledge of how neural circuits regulate brain states and may provide
+insights into disruptions that affect sleep and cognitive functions
+    Grimbert and Faugeras [15] analysed the oscillatory behaviour of the
+Jansen-Rit model using numerical bifurcation analysis. In their work, the
+external input signal p (see Figure 1a below) was considered as a bifurcation
+parameter. The behaviour of the model under variation in p was investi-
+gated where all other model parameters were kept fixed and equal to what
+was originally proposed by Jansen and Rit (see Table 1 below). They found
+that the qualitative behaviour of the system changes from steady state to
+oscillatory behaviour (appearance or disappearance limit cycle) via a Hopf
+bifurcation. The authors also pointed out that the system displays distinct
+phenomena such as bistability, limit cycles and chaos. Furthermore, Touboul
+and Faugeras [27] carried out bifurcation analysis for a non-dimensionalised
+Jansen-Rit model and the extension proposed by Wendling et al. [30] in
+several system parameters, detecting and tracking bifurcations of up to codi-
+mension 3.
+    The transition between alpha and delta oscillations is linked to a notable
+feature exhibited by the Jansen-Rit neural mass model: a sharp qualitative
+change in the oscillations’ time profiles and frequencies occurs over a small
+parameter range without change of stability and no (or little) hysteresis.
+Hence, the underlying mathematical mechanism cannot be a generic bifur-
+cation as found in textbooks [16, 21]. Recent work by Forrester et al. [13],
+which developed an analysis of a large network of interacting neural popula-
+tions of Jansen-Rit cortical column models in the absence of noise identified
+the alpha-delta transition as a “false bifurcation”. They used an arbitrary
+geometric feature of the periodic orbit (an inflection point) and associated it
+
+                                      3
+with the qualitative changes of the periodic orbits. The feature of the orbits
+could then be expressed as a zero problem and tracked in the two-parameter
+space (A, B), where A and B are the gain (strength) of excitatory and in-
+hibitory responses, respectively. This is similar to the approach proposed by
+Rodrigues et al. [25], who tracked qualitative changes in orbit shapes in a
+EEG model of absence seizures (such as Marten et al. [23]). study of alpha
+and delta frequency oscillations based on different parameter settings has
+been performed by Ahmadizadeh et al. [1]. They showed that a model of
+two coupled cortical columns can produce delta activity as the gain strength
+between the two cortical columns is varied (see Fig.12T1 of Ahmadizadeh
+et al. [1] for delta-like activity). Their model can also produce alpha-like
+activity, where the frequency of oscillation lies in alpha frequency band but
+the amplitude changes.
+    Our paper starts from the observation that after non-dimensionalisation
+(as done by Touboul and Faugeras [27] the activation function for excitatory
+inputs has steep slopes and small thresholds. The small threshold models
+that neurons begin to activate with small input or stimulus, indicating high
+sensitivity to incoming signals. A steep slope signifies that once the activation
+begins, it escalates rapidly, with the neurons’ response intensity increasing
+sharply as input crosses the threshold. Hence, it makes sense to introduce a
+small parameter ϵ equal to a quarter of the inverse of the activation slope.
+The singular limit ϵ → 0 replaces the activation functions by all-or-nothing
+switches represented mathematically by Heaviside functions. In this singular
+limit we can locate most bifurcations of equilibria with simple formulas. We
+can also identify the underlying mechanism for the alpha-delta transition.
+During alpha-type oscillations the minimum of the potential of the pyramidal
+cells always stays above the threshold for switching off the excitatory feedback
+(see Figure 5). At the transition the minimum then “touches” this threshold.
+If the potential falls below the threshold even briefly the excitatory feedback
+collapses leading to all potentials dropping to zero. This type of “touching of
+a threshold” is a typical bifurcation in a system with discontinuous switches,
+called a grazing bifurcation [11, 22]. Our Figure 6 shows how this grazing
+bifurcation is an accurate approximation of the boundary between alpha- and
+delta-type oscillations for the value ϵ ≈ 1/40 corresponding to the parameters
+in the original Jansen-Rit model.
+    The paper is organised as follows. We present the Jansen-Rit model in
+Section 2, together with a first numerical bifurcation analysis in one param-
+eter (feedback strength A between excitatory populations). This analysis
+shows the two types of oscillation (alpha and delta type) and the sharp tran-
+sition between them. Section 3 first non-dimensionalises the model, identifies
+a small parameter ϵ and different ways to take the singular limit ϵ → 0. In
+
+                                       4
+Subsection 3.3 we derive explicit expressions for the location of equilibria in
+the limiting piecewise linear system. In Subsection 3.4 we derive an algebraic
+system of equations for the periodic orbits of alpha-type, which are piecewise
+exponentials and for which one of the components is constant. Using this
+algebraic system we detect and track the grazing bifurcation, resulting in
+Figure 6. As our singular perturbation analysis is only partial, we discuss
+open questions in Section 4.
+
+
+2    The Jansen-Rit model for a single cortical
+     column
+
+
+
+
+(a) Block diagram Jansen-Rit model     (b) Profile of S (non-dim.)   and Sigm
+(1)                                    (dim.)
+
+Figure 1: (a) Interactions between 3 neuronal populations in local circuit of a
+single cortical column in cerebral cortex of brain modelled by (1): pyramidal
+cells (Y1 ) and excitatory (Y3 , EINs) and inhibitory (Y2 , IINs) interneurons.
+(b) Blue axis: Sigmoid profile of Sigm, given in (2), with slope r = 0.56
+at threshold y0 = 6 mV (vertical dotted line), at which half maximum e0
+of Sigm is achieved. (b) Black axis: dimensionless sigmoid S, given in (6),
+for maximal slope value1/(4ϵ) = 0.25/0.024 ≈ 10.5 at activation threshold
+y0,1 = 0.08 (non-dimensionalised threshold y0,1 for excitatory populations
+indicated by black vertical dotted line). See Table 1 and Table 2 for other
+parameters of Sigm and S.
+
+    Figure 1a shows the structure of the Jansen-Rit model for a single cortical
+column. The model assumes that the cortical column contains two popula-
+tions of interneurons, one excitatory and one inhibitory, and a population of
+
+                                      5
+excitatory pyramidal cells. The model contains two blocks for each popula-
+tion, a linear dynamic block, modelled as a second-order differential equation
+with the population’s average postsynaptic potential (PSP) Yi as its output
+and an average pulse density of action potentials as its input. In Fig. 1a these
+are the blocks with label Yi : Y1 is the PSP of the pyramidal cell population
+(blue diamond in Fig. 1a), Y2 is the PSP of the inhibitory interneuron popu-
+lation (red ellipse in Fig. 1a), and Y3 is the PSP of the excitatory interneuron
+population (green ellipse in Fig. 1a). The other block for each population is
+a nonlinear sigmoid-type activation function (the blocks labelled “Sigm” in
+Fig. 1a) from the PSP into an average pulse density of action potentials.
+    The arrows in Figure 1a show a positive feedback loop between the pyra-
+midal neuron population (Y1 ) and the excitatory interneuron population (Y3 ),
+where both connections are excitatory; and a negative feedback loop between
+the pyramidal cells and the inhibitory interneurons (Y2 ), where the connec-
+tion back from the inhibitory neurons to the pyramidal cells is inhibitory.
+The model incorporates an external excitatory input, labelled p(t) (an av-
+erage pulse density) representing signalling from other neuronal populations
+external to the column (Fig. 1a). The resulting ODE system corresponding
+to the schematic diagram Fig. 1a is as follows (note that each equation is of
+order two):
+
+     Ÿ1 (t) = Aa{Sigm(Y3 (t) − Y2 (t))} − 2aẎ1 (t) − a2 Y1 (t),
+     Ÿ2 (t) = Bb{C4 Sigm(C3 Y1 (t)} − 2bẎ2 (t) − b2 Y2 ,                  (1)
+    Ÿ3 (t) = Aa{p(t) + C2 Sigm(C1 Y1 (t))} − 2aẎ3 (t) − a2 Y3 (t), where
+                  2e0
+ Sigm(Y ) =                                                                (2)
+              1 + er(y0 −Y )
+is a nonlinear sigmoid activation function, converting local field postsynaptic
+potential into firing rate, as shown in Fig. 1b. Its argument y is the average
+postsynaptic potential in mV of the neural population. The threshold y0
+determines the input level at which the firing rate is half of its maximum
+2e0 , and r is the slope of Sigm at y0 .
+    We restrict our study mostly to the case without external input signal by
+setting the input p(t) to zero, i.e. p(t) = 0. In previous studies the values of
+p(t) has been varied from 120 Hz to 320 Hz as proposed by Jansen and Rit
+[18]. For example, Grimbert and Faugeras [15] have performed bifurcation
+analysis of (1) varying the input p(t).
+    The quantity Y3 (t) − Y2 (t) can be related to experiments, because it is
+proportional to the signals obtained via EEG recordings corresponding to the
+average local field potential generated by the underlying neuronal populations
+in the cortical circuits [19]. In the cortex, pyramidal neurons project their
+
+                                         6
+Table 1: Quantities in Jansen-Rit model, (1), and their default values and
+dimensions[18].
+
+ Parameter               Description                              Value/unit
+ Yi (t), i = 1, 3        excitatory postsynaptic potential        mV
+                         EPSP
+ Y2 (t)                  inhibitory postsynaptic potential        mV
+                         IPSP
+ 2e0                     asymptotic maximum of Sigm               5 s−1
+ y0                      switching     threshold    of     Sigm   6 [mV]−1
+                         (Sigm(y0 ) = e0 )
+ r                       slope of Sigm at y = y0 (Sigm′ (y0 ))    0.56 [mV]−1
+ A                       maximal amplitude of excitatory PSP      3.25 mV
+ B                       maximal amplitude of inhibitory PSP      22 mV
+ a                       decay rate in excitatory populations     100 s−1
+ b                       decay rate in inhibitory population      50 s−1
+ αi , i = 1, . . . , 4   average number of synaptic connec-       α1 = 1, α2 =
+                         tions                                    0.8, α3 = 0.25,
+                                                                  α4 = 0.25
+ Ci , i = 1, . . . , 4   connectivity strength                    C1 =
+                                                                  135α1 , C2 =
+                                                                  α2 C1 , C 3 =
+                                                                  α3 C1 , C 4 =
+                                                                  α4 C1
+ p                       External signal                          0
+
+
+apical dendrites into the superficial layers where the post-synaptic potentials
+are summed, thereby making up the core of the EEG. The interpretation of
+all model quantities and their numerical values and dimensions are given in
+Table 1. The values are set to those proposed by Jansen and Rit [18].
+
+Sharp transitions from alpha to delta activity Figure 2a shows the
+one-parameter bifurcation diagram of the Jansen and Rit model (1) for vary-
+ing excitability scaling factor A, which determines maximal amplitude of
+excitatory postsynaptic potentials (EPSP) of excitatory populations (pyra-
+midal cells Y1 ) and exictatory interneurons (Y3 ). All other parameters are
+fixed as listed in Table 1. The y-axis shows the PSP of the excitatory in-
+terneurons (Y3 ). A branch of equilibria (blue) folds back and forth in two
+saddle node bifurcations (purple squares). Solid curves are stable, dashed
+
+
+                                           7
+Figure 2: (a) Bifurcation diagram of Jansen-Rit model (1) for varying A; (b)
+frequency of oscillations with input p = 0 (black) and input p = 120 (yellow)
+for varying A, indicating alpha, theta and delta frequency ranges. (c) Same
+bifurcation diagram as (a) but using nondimensionalised quantities G = B/A
+and y3 . (d),(e) Time profiles of oscillations in alpha (A = 11) and delta
+(A = 10) rhythm regimes corresponding to vertical dashed lines in panel b.
+See Tables 1 and 2 for parameters. Computation performed with coco [8].
+
+
+curves are unstable parts of the branch. Along the upper part of the branch
+the equilibria change stability in three Hopf bifurcation (red diamonds). We
+focus on the periodic orbits (oscillations) emerging from the Hopf bifurcation
+at a high value of A (A ≈ 15, label (HB)). The black curves show the maxi-
+mum and minimum values of Y3 along this branch of mostly stable periodic
+orbits that emanate from this Hopf bifurcation and terminate at the low-A
+end in a homoclinic bifurcation of saddle-node on invariant circle type (SNIC
+[17]), at which the frequency of oscillation goes to zero as A approaches the
+value for the saddle node bifurcation on the lower branch of equilibrium
+points (A ≈ 7).
+    Figure 2b shows the frequency of these oscillations over the range of
+parameters A where they exist (A ∈ [7, 14.4]). We observe a sharp transition
+between high-frequency oscillations for A in the range [10.2, 14.4] where the
+frequency (in Hz) is in the range [8, 11], and low-frequency oscillation for
+A in the range [7, 10.2], where the frequency is about 4 Hz and below. The
+oscillation frequencies on either side of the transition are associated with
+
+
+                                      8
+wakefulness state (alpha-like activity, around 10 Hz) and deep sleep (delta-
+like activity, around 2 Hz).
+    Figures 2d and 2e show that this change in frequency is accompanied
+with a qualitative change in the time profiles of the orbits. The alpha-type
+fast oscillations have a four-phase profile typical for an oscillatory negative
+feedback loop (compare Fig. 2d, and note that the scale differs between
+different outputs such that Fig. 2d has two y-axes):
+   • (0–0.02 s) high pyramidal cell output (Y1 , blue) causes rising inhibition
+     (Y2 , red),
+   • (0.02–0.05 s) high inhibition causes decrease in pyramidal cell output,
+   • (0.03 − 0.07 s) low pyramidal cell output causes decreasing inhibition,
+   • (0.06 − 0.1 s) low inhibition causes rising pyramidal cell output.
+Throughout the entire period of the alpha-type oscillation the pyramidal cell
+output is supported by a near-constant input from the excitatory interneu-
+rons (Y3 , green). The delta-type (slow) oscillations are shown in Fig. 2e.
+They show a relaxation-type time profile: pyramidal cell output Y1 (blue)
+and excitatory interneuron output Y3 (green) collapse to zero and stay there
+for some period. This period is determined by how long it takes for inhibition
+(Y2 , red) to reach sufficiently low levels to permit pyramidal cell output Y1
+and excitatory interneuron output Y3 to rise again. The two time profiles in
+Fig. 2d and 2e occur for parameter values of A just above (Figure 2d, A = 11)
+and below (Figure 2e, A = 10) the transition. The bifurcation diagram shows
+even a tiny region of bistability, bounded by two saddle-node-of-limit-cycle
+bifurcations. However, this bistability and the saddle-nodes are not a con-
+sistent feature for this transition. Figure 2b shows a bifurcation diagram for
+non-zero external input (p = 120 Hz, yellow curve), where the transition still
+occurs and is still sharp, occurring in a small parameter region, but without
+bistability or saddle-nodes of limit cycles.
+    Forrester et al. [13] detected this transition in their investigation of the
+Jansen-Rit model (1). They demonstrated that it is an essential ingredient in
+the occurrence of large-scale oscillations in a network of neural populations
+(which would be measurable by EEG). As the transition is not associated
+with a bifurcation in parts of the parameter space (see Fig. 3 of [13]), the
+authors labelled the transition a “false bifurcation” and tracked it in param-
+eter space by associating it with a feature of the time profile, namely the
+occurrence of an inflection point. Forrester et al. [13] pointed out that “false
+bifurcations” are usually originating from singular perturbation effects in the
+system, referring to Desroches et al. [10] and Rodrigues et al. [25].
+
+                                       9
+    To investigate this phenomenon further we non-dimensionalise the Jansen-
+Rit model (1) and identify a small parameter ϵ for which we can then study
+the singular limit for the transition from alpha to delta activity. Bifurca-
+tion diagram 2a shows a sharp change in the time profile of Y3 from nearly
+constant for alpha activity to an oscillation with excursions close to zero:
+observe the drop in the minimum of the periodic orbit (black curve) for A
+slightly above 10.
+    The numerical bifurcation analysis of the Jansen-Rit model is carried out
+using the coco toolbox [8], which is a MATLAB-based platform for param-
+eter continuation allowing for bifurcation analysis of equilibria and periodic
+orbits. Numerical continuation in coco [8] and xppaut [12] is used to
+track stability of equilibria and periodic orbits and to detect their bifurca-
+tions. For numerical integration (simulation), we use xppaut and ode45
+(a Runge–Kutta method) in matlab. In all single-parameter bifurcation
+diagrams solid curves indicate stable states, while dashed lines are unsta-
+ble states. Black curves indicate maximum and minimum values of periodic
+solutions in all bifurcation diagrams.
+
+
+3     Singular perturbation analysis of Jansen-
+      Rit model
+We introduce small parameter ϵ > 0 for which in the limit ϵ → 0 the right-
+hand side (vector field) of system (1) becomes a piecewise linear non-smooth
+system. First we non-dimensionalise the Jansen-Rit model (1) to identify the
+small parameter.
+
+3.1    Non-dimensionalisation of the Jansen-Rit model
+Touboul and Faugeras [27] present a non-dimensionalised version of the
+Jansen-Rit model. We choose the following dimensionless scale, as proposed
+by Touboul and Faugeras [27]:
+
+    • Dimensionless time is set according to the internal decay time scale of
+      the excitatory populations, tnew = atold , where a is given in Table 1.
+
+    • We introduce the decay rate ratio b∗ of inhibitory to excitatory pop-
+      ulations and the ratio G of postsynaptic amplitudes of inhibitory to
+      excitatory populations
+                            b                           B
+                        b∗ = ,                    G=      .
+                            a                           A
+
+                                     10
+   • We rescale the state variables Y1 , Y2 , Y3 such that they are all of order
+     1 at their maximum, introducing a small parameter,
+                          2a
+                 ϵ=               ≈ 0.024                                                 (3)
+                       BrC(2e0 )
+                                                              
+                               tnew                         tnew
+          y1 (tnew ) = rCϵY1          , yi (tnew ) = rϵYi                    for i = 2, 3. (4)
+                                 a                            a
+
+We note that in Figure 2d and 2e the quantities Y1 and Y2 , Y3 are on dif-
+ferent y-axes, because they have different orders of magnitude. The non-
+dimensionalisation (4) ensures that pyramidal cell output y1 has the same
+(order-1) magnitude as the inhibitory interneurons (y2 ) and the excitatory
+interneurons (y3 ). The quantity b∗ is a measure of the difference in internal
+times scales between inhibitory and excitatory populations. Usually b∗ < 1
+as inhibition is slower. The quantity G is a measure for how strong inter-
+nal feedback strength from inhibitory populations is compared to excitatory
+populations.
+    By substituting these dimensionless dependent variables into equation
+(1), and applying the chain rule with respect to the dimensionless time scale
+tnew , we obtain the dimensionless form (using ẏi and ÿi also for the new time)
+
+                         2
+                   ÿ1 =    Sϵ/a1 (y3 − y2 − y0,1 ) − 2ẏ1 − y1 ,
+                         G
+                   ÿ2 = 2b∗ α4 Sϵ/a2 (y1 − y0,2 ) − 2b∗ ẏ2 − (b∗ )2 y2 ,                (5)
+                         P     2α2
+                   ÿ3 = +          Sϵ/a3 (y1 − y0,3 ) − 2ẏ3 − y3 ,
+                         G      G
+where new dimensionless sigmoidal transformation is (see Fig. 1b)
+
+                                                1
+                               Sϵ (y) =                 .                                 (6)
+                                          1 + exp (−y/ϵ)
+
+   As we have rescaled the PSP’s Yi (t), the thresholds in the activation
+function S are now different for each neuron population, such that we call
+them y0,i . These thresholds y0,i , at which the activation Sϵ/ai (y − y0,i ) equals
+1/2, now show up in (5). The new non-dimensional activation thresholds are
+          ry0           ry0           ry0
+ y0,1 =       ϵ, y0,2 =     ϵ, y0,3 =     ϵ,        where a1 = a3 = 1, a2 = 1/4, (7)
+          a1            a2            a3
+using the parameters from Table 1, which result in the non-dimensional pa-
+rameters shown in Table 2. Note that the main difference to Touboul’s
+
+                                             11
+      Table 2: Parameter values of the dimensionless model equation (5).
+
+ Parameter            Relation to the original          Value
+                      parameters
+ ϵ                    inverse of slope of activation    0.024
+                      function for excitatory
+                      populations
+ y0,1 , y0,2 , y0,3   re-scaled activation thresholds   y0,1 = y0,3 = 0.08,
+                                                        y0,2 = 0.3
+ G                    B/A ratio of feedback             [0.5, 20] (varied)
+                      strengths
+ b∗                   b/a time scale ratio (inh. vs.    [0.2,0.5] (varied, original
+                      exc.)                             0.5)
+ P                    ϵBrp(t)/a, external input         0
+ α2 , α4              average number of synaptic        α2 = 0.8, α4 = 0.25
+                      connections (same as original)
+ ai                   population-dependent factors      a1 = a3 = 1, a2 = 1/4.
+                      in sigmoid slope
+
+
+non-dimensionalisation [27] is that the definition of the sigmoid function in-
+cludes the scaling factor ϵ. Figure 2c shows the same bifurcation diagram as
+shown in Figure 2a, but uses the non-dimensionalized quantities G and y3 .
+The new primary bifurcation parameter G (the ratio of feedback strengths
+between inhibition and excitation) is proportional to the inverse of the ex-
+citation feedback strength A, such that now the alpha-to-delta frequency
+transition occurs for increasing G at G ≈ 2.2. The Hopf bifurcation occurs
+for low G ≈ 1.5 and the SNIC connecting orbit occurs at G ≈ 3.
+
+3.2      Discussion of smallness of system parameters
+In the non-dimensionalised model (6) the small parameter ϵ, which equals
+0.024, appears in the inverse of the slope of the dimensionless sigmoid Sϵ at
+y = 0 letting the sigmoid Sϵ approach a discontinuous switch in the limit for
+small ϵ and i = 1, 2, 3:
+                                            (
+                                             0 if y < y0,i ,
+                       lim Sϵ (y − y0,i ) =                               (8)
+                       ϵ→0                   1 if y > y0,i ,
+
+In addition the activation thresholds y0,i inherit a factor ϵ in (7). However,
+we observe that there are non-trivial factors in front of ϵ in several places.
+
+                                           12
+Since the ϵ in the original parameters setting is about 1/40 (so not that
+small), these factors will influence our strategies for taking the singular limit
+ϵ → 0.
+   • The slope in the activation for the inhibitory interneurons, Sϵ/a2 , isa2 /(4ϵ) =
+     1/(16ϵ) ≈ 2.6. So, it is further away from the limiting discontinuous
+     switch than the activation of the excitatory populations.
+   • The different factors ry0 /a1 , ry0 /a3 and ry0 /a2 of ϵ in (7) are obtained
+     by substituting the baseline values of the original parameters from Ta-
+     ble 1 into system (5). We observe that the activation thresholds of
+     excitation are small (y0,1 = y0,3 ≈ 0.08), but the threshold of inhibition
+     y0,2 (y0,2 ≈ 0.3) is not a small quantity.
+The smallness of ϵ expresses that the internal dynamics of neurons in the
+excitatory populations is fast, leading to small thresholds and steep activation
+functions after non-dimensionalisation. The inhibitory neural population is
+comparatively slower, leading at the population level to a shallower slope
+of the activation curve and a larger activation threshold [31]. The above
+observations suggest several possible singular limits.
+ (a) We let ϵ go to zero in the denominator appearing in Sϵ/ai for all neuron
+     populations (i = 1, 2, 3) simultaneously. At the same time we keep
+     the activation thresholds y0,i fixed for all populations. This leaves the
+     parameters y0,i in the model as independent parameters and uses the
+     concrete values from Table 2.
+ (b) We let ϵ go to zero in the denominator appearing in Sϵ/ai for all neu-
+     ron populations (i = 1, 2, 3) simultaneously, and we let the activation
+     thresholds y0,1 and y0,3 for the excitatory neuron populations go to zero
+     (either proportional to ϵ or at some lower rate).
+ (c) We let ϵ go to zero for the excitatory neurons populations (i = 1, 3)
+     in the slope of the activations Sϵ/ai , but keep the activation for the
+     inhibition with a fixed finite slope, equal to ≈ 10 (as well as keeping
+     the activation threshold y0,2 ≈ 0.3 fixed).
+We will focus in our analysis on strategy (a) in this paper, because it per-
+mits explicit expressions for most equilibria and their bifurcations and it is
+sufficient to derive in an implicit algebraic condition for the alpha-to-delta
+transition. In both limits the collapse of the alpha-frequency oscillations is a
+grazing bifurcation [11] of periodic orbits in a piecewise linear ODE. In limit
+(a) the collapse leads to a low excitation equilibrium (yi ≪ 1 for i = 1, 2, 3),
+in limit (b) it leads to delta activity.
+
+                                       13
+    In the numerical bifurcation diagram in Fig. 2c the three boundaries for
+alpha and delta activity are the Hopf bifurcation (onset of alpha frequency
+oscillations) at G ≈ 1.5, the transition between alpha and delta activity at
+G ≈ 2.2, and the connecting orbit to a saddle-node (SNIC bifurcation) at
+G ≈ 3. Two of the boundaries can be found by analysis of equilibria, namely
+the Hopf bifurcation and the saddle-node bifurcation for small y1 .
+    For our analysis, the dimensionless external input p is fixed to zero. We
+use the dimensionless parameter G (the ratio between feedback strength of
+inhibition versus excitation) as our primary bifurcation parameter. We will
+later vary b∗ , the ratio between internal time scales between inhibition and
+excitation as a secondary bifurcation parameter.
+
+3.3    Equilibrium analysis in the small-ϵ limit
+Inserting ϵ = 0 (or ϵ ≪ 1) into the activation functions in (5) and (6), results
+in an easy-to-interpret limit for equilibria. Setting all derivatives in equation
+(5) to zero, we obtain that the equilibrium values for y1 , y2 , y3 satisfy the
+algebraic equations
+                                2
+                           y1 =    Sϵ (y3 − y2 − y0,1 )                      (9)
+                                G
+                                2α4
+                           y2 = ∗ Sϵ/a2 (y1 − y0,2 )                        (10)
+                                 b
+                                2α2
+                           y3 =      Sϵ (y1 − y0,3 ).                       (11)
+                                 G
+The right-hand sides of (10) and (11) define the equilibrium values y2 and y3
+as a function of y1 . This is also true in the limit ϵ = 0, whenever y1 is not
+on the activation threshold (y0,2 and y0,3 , respectively).
+     Inserting (10) and (11) into (9) and taking the Heaviside limit S0 in (8)
+for the activation functions Sϵ/ai (indicating the dependence of y2 and y3 on
+y1 ), leads to the relation
+                             (
+        G                     0 if y3 (y1 − y03 ) − y2 (y1 − y02 ) < y01 ,
+          y1 = Rhs0 (y1 ) :=                                               (12)
+        2                     1 if y3 (y1 − y03 ) − y2 (y1 − y02 ) > y01 ,
+
+   Analysis of (9)–(11) in the limit ϵ → 0 is supported by Figure 3. Each
+panel shows the left-hand side of (12) (in red) and the right-hand side
+Rhs0 (y1 ) of (12) (in blue) as a function of y1 for different values of G, oth-
+erwise using the parameter values in Table 2. The (red) left-side function is
+the straight line y1 7→ Gy1 /2. The right-side function Rhs0 (y1 ) is piecewise
+
+
+                                       14
+Figure 3: (a-g) Intersections between left- (red) and right-hand (blue) side of
+(12) for different bifurcation parameters G (plots used ϵ = 0.001, y0,1 , y0,3 =
+0.08 and y0,2 = 0.3). (h) Numerical bifurcation diagram of equilibria in
+(G, y1 )-plane obtained by coco [8]. Sϵ /a1 = Sϵ (y3 − y2 − y0,1 ) for y1 in
+equation (9). For other parameters see Table 2.
+
+
+constant. Defining two critical values for parameter G as
+                      α 2 b∗                             2α2
+           G1 =                   ≈ 1.48,         G3 =        ≈ 19.4,      (13)
+                  α4 + y0,1 b∗ /2                        y0,1
+
+
+
+
+                                        15
+Table 3: Equilibrium points present in system (5) for all parameter ranges of
+G: for critical values of G see (13), (14). The index is the number of unstable
+eigenvalues of the Jacobian in the equilibrium for non-zero ϵ.
+
+  range of G                        Fig. 3    equilibrium location              index
+  I1 = (0, G1 )                      (a)      yeq1 = (0, 0, 0)                   0
+                                              yeq2 = (y0,3 , 0, y0,1 )           1
+                                              yeq3 =                             0
+                                              (2/G, 2α4 /b∗ , 2α2 /G)
+  G1 : Hopf bifurcation              (b)
+  I2 = (G1 , G2 )                    (c)      yeq1 = (0, 0, 0)                   0
+                                              yeq2 = (y0,3 , 0, y0,1 )           1
+                                              yeq4 =                             2
+                                              (y0,2 , 2α2 /G − y0,1 , 2α2 /G)
+  G2 : Hopf bifurcation              (d)
+  I3 = (G2 , min(G3 , G4 ))          (e)      yeq1 = (0, 0, 0)                   0
+                                              yeq2 = (y0,3 , 0, y0,1 )           1
+                                              yeq4 = (2/G, 0, 2α2 /G)            0
+  min(G3 , G4 ): saddle-node         (f)
+  I4 = (min(G3 , G4 ), ∞)            (g)      yeq1 = (0, 0, 0)                   0
+
+
+(thus, 0 < G1 < G3 ) the right-hand side equals (recall that 0 < y0,3 < y0,2 )
+
+                                         for G in: (0,G1 ), (G1 ,G3 ), (G3 ,∞),
+             
+             y1 ∈ (0, y0,3 )
+                                 (y2 off, y3 off):   0          0        0
+ Rhs0 (y1 ) = y1 ∈ (y0,3 , y0,2 ) (y2 off, y3 on):    1          1        0
+             
+             y ∈ (y , ∞) (y on, y on):
+               1     0,2            2       3         1          0        0
+
+Each intersection of the two lines in Fig. 3 is a stable equilibrium if Rhs0
+(blue line) is horizontal in the intersection, or an unstable, so-called pseudo-
+equilibrium [11, 22], if Rhs0 is vertical in the intersection. For ϵ ≪ 1 but
+non-zero, the pseudo-equilibria of the piecewise linear limit system will be-
+come unstable equilibria with strongly unstable eigenspaces. Table 3 lists
+the locations of equilibria for all ranges of parameter G, with two additional
+critical values for G,
+                       2                                     2
+               G2 =        ≈ 6.3,                    G4 =        ≈ 24.8.             (14)
+                      y0,2                                  y0,3
+
+Figure 3h shows the resulting bifurcation diagram in the limit of small ϵ.
+
+                                             16
+    Figure 3a shows that for G < G1 we have a pair of a stable and unstable
+equilibria, both with small values of y1 : the unstable equilibrium is a saddle
+with y1 = y0,3 = 0.08 for 0 < ϵ ≪ 1, and the stable equilibrium is a node
+with a y1 -value very close to zero, on the order exp(−y0,1 /ϵ).
+    There exists another stable equilibrium, for which y1 is large, equal to
+2/G. At G = G1 (Fig. 3b, see (13) for value of G1 ) Rhs0 drops to zero for
+y > y0,2 , which results in a sudden drop of the y1 -component of the large-y1
+equilibrium to y0,2 and its loss of stability. For positive ϵ this loss of stability
+is a Hopf bifurcation (see the labeled point HB1 in Fig. 3h). Figure 3c shows
+the equilibria for G ∈ (G1 , G2 ). Figure 3d shows the situation at the next
+critical value of G, the Hopf bifurcation G = G2 = 2/y0,2 , when the left-
+hand side function (red line) goes through the “corner” of Rhs0 at y1 = y0,2
+(see red diamond). At this value the equilibrium with y1 = y0,2 regains its
+stability in a Hopf bifurcation for non-zero ϵ (see the labeled point HB2 in Fig.
+3h). Fig. 3e shows the situation for G > G2 with two stable equilibria and
+one saddle. The next critical G is min(G3 , G4 ), when either the excitatory
+interneuron activity is no longer sufficient to overcome the threshold (G3 ,
+when the blue line in Fig. 3g drops to zero on the y1 -interval (y0,3 , y0,2 )),
+or the left-hand side (red curve) touches the “corner” of Rhs0 at y1 = y0,3
+(G4 ). In both cases, the resulting equilibrium bifurcation is a saddle-node
+bifurcation of the equilibrium withy1 = y0,1 = y0,3 (see the labeled SN in
+Fig. 3h). For the parameters we study, we have that G3 < G4 such that G4
+does not change the dynamics.
+
+Brief comment on the excitatory activation thresholds y0,1 and y0,3
+While we will treat the excitatory thresholds y0,1 and y0,3 as positive constants
+in our analysis in Section 3.4 (called strategy (a) in Section 3.2), let us
+perform a quick check what happens if we also assume that the excitatory
+thresholds y0,1 and y0,3 are assumed to be small. If we assume proportionally
+small excitatory activation thresholds y01 = y03 ∼ ϵ, then the saddle and
+node equilibria with y1 ≈ 0 are no longer present for any G of order 1. This
+follows immediately from a perturbation analysis of the equilibria for small
+non-zero ϵ and excitatory activation thresholds of the form
+     y0,1 = ϵz0,1 ,    y0,3 = ϵz0,3 ,    z0,1 , z0,3 > 0,   z0,1 , z0,3 = O(1).
+Let us assume that y1,eq ≪ 1, in particular, y1,eq ≪ y0,2 , and check that
+no such equilibrium can exist. The smallness of y1,eq together with iden-
+tity (10), y2,eq = 2α4 /(b∗ (1 + exp((y0,2 − y1,eq )/(ϵ/a2 ))), would imply that
+the corresponding inhibitory interneuron activity y2,eq is very close to zero:
+y2,eq ∼ exp(−a2 y0,2 /ϵ) ≤ ϵ. From this, the identities (9) and (11) imply posi-
+tive lower bounds independent of ϵ for the equilibrium pyramidal-cell activity
+
+                                        17
+y1,eq and the excitatory interneuron activity y3,eq , namely
+
+                   2           1                2        1
+           y1,eq ≥                            ≥                     ,
+                   G 1 + exp(z0,1 + y2,eq /ϵ)   G 1 + exp(z0,1 + 1)
+                                                                           (15)
+                   2α2      1
+           y3,eq ≥
+                    G 1 + exp(z0,3 )
+
+Hence, for excitatory activation thresholds of order ϵ the pair of small-y1
+equilibria does not exist. The other equilibria in Table 3 and Fig. 3h have
+well-defined limits for y0,1 , y0,3 → 0: the stable equilibrium has the limit
+y1 = 2/G, the unstable equilibrium has the limit y1 = y0,2 and its inhibitory
+activity y2 approaches 2α2 /G for small y0,1 . The saddle-node bifurcation at
+min(G3 , G4 ) goes to infinity as y0,1 , y0,3 → 0, such that the large-activity
+equilibrium exists over a wider range of G. This leaves the region (G1 , G2 )
+between the two Hopf bifurcations, where no stable equilibrium exists for
+y0,1 , y0,3 of order ϵ. The Hopf bifurcation at G1 has the limit α2 b∗ /α4 for
+y0,1 → 0, while G2 is independent of y0,1 and y0,3 .
+
+3.4    Periodic orbits in the small-ϵ limit
+The case ϵ = 0 as a piecewise smooth ODE System (5) in the limit
+ϵ → 0 has discontinuities on the right-hand side such that it is only piecewise
+smooth in its phase space [11]. For such systems there is in general no guar-
+antee that trajectories can be consistently continued across discontinuities by
+following the flow defined by the right-hand sides in each part of the phase
+space. The problem can be illustrated for simplest scenario, an ODE with a
+right-hand side consisting of two smooth pieces and a single discontinuity,
+                                 (
+                                  f+ (x) if h(x) ≥ 0,
+                         ẋ(t) =
+                                  f− (x) if h(x) < 0
+
+with smooth right-hand sides f± : Rn → Rn and switching function h : Rn →
+R (e.g., consider the scalar example ẋ(t) = − sign x(t), where f± (x) = ∓1
+and h(x) = x). For all points with ±h(x) > 0 it is clear that the trajectory
+through x is determined by f± (x). However, when following a trajectory
+x(t) one may approach a point x with h(x) = 0 (on the discontinuity surface
+{x : h(x) = 0}). If in this point x the quantities h′ (x)f− (x) and h′ (x)f+ (x)
+have opposite sign (using h′ (x) for ∂h(x)), then the trajectory cannot “cross
+to the other side” of the discontinuity surface D = {x : h(x) = 0} consistent
+with the right-hand sides. A commonly adopted convention for this case
+where the flows on both sides of a codimension-1 discontinuity surface point
+
+                                      18
+in opposite directions relative to the surface, is continuing the trajectory
+using the Filippov solution, or sliding, by following the flow of
+                                                   (
+        f+ (x)h′ (x)f+ (x) − f− (x)h′ (x)f− (x)      h(x) = 0 and
+ẋ(t) =                                         if
+              h′ (x)f+ (x) − h′ (x)f− (x)            h′ (x)f+ (x)h′ (x)f− (x) < 0.
+
+However, the structure of (5) rules out this common scenario of sliding,
+where h′ (x)f+ (x)h′ (x)f− (x) < 0, for the discontinuity surfaces in system (5)
+generated by the limit ϵ → 0 in (6) System (5) has 3 hyperplanes where it is
+discontinuous in the limit ϵ → 0, with the switching functions
+
+   h1 (y, ẏ) = yy − y2 − y0,1 ,   h2 (y, ẏ) = y1 − y0,2 ,   h3 (y, ẏ) = y1 − y0,3 .
+
+In each of the hyperplanes {hi = 0}, where the vector field is discontinu-
+ous, the two half-space vector fields point into the same direction relative to
+the hyperplane. This is due to the presence of inertia: (5) is a system of
+second-order equations for the firing activities but the switches in S0 depend
+only on the firing activities, not their time derivatives. Let us inspect each
+codimension-1 discontinuity set:
+
+   • Di = {y : y1 = y0,i } for i = 2, 3, such that the switching function is
+     hi (y, ẏ) = y1 − y0,i : the inner product of the vector fields (ẏ, ÿ) on both
+     sides of Di with the gradient of hi equals ẏ1 , which is continuous across
+     Di and, thus, all non-equilibrium trajectories cross the surface Di in
+     the same direction from both sides of Di .
+
+   • D1 = {y : y3 − y2 = y0,1 }, such that the switching function is hi (y, ẏ) =
+     y3 − y2 − y0,1 : the inner product of (ẏ, ÿ) on both sides of D1 is ẏ3 − ẏ2 ,
+     which is also continuous across D1 .
+
+Hence, the set D in phase space where trajectories are not well defined in the
+classical sense is much smaller than for common piecewise smooth ODEs. It
+is a subset of the codimension-2 surfaces Di′ = {(y, ẏ) : y1 = y0,i , ẏ1 = 0}
+for i = 2, 3 and D1′ = {(y, ẏ) : y2 − y3 = y0,1 , ẏ2 = ẏ3 }. Examples of
+points in these sets D are the “unstable equilibria” yeq2 listed in Table 3.
+These types of equilibria are called pseudo equilibria in the literature about
+Filippov systems. As the equilibrium discussion in Figure 3 shows, the pseudo
+equilibria for ϵ = 0 are limits of unstable equilibria for ϵ > 0.
+
+Numerical bifurcation analysis of α-type periodic orbits for small
+positive ϵ As seen in Table 3 and Figure 3h, in the small-ϵ limit the high-
+activity equilibrium y1 changes not only its stability at G = G1 but also
+
+                                          19
+Figure 4: Equilibria and periodic orbits branching off Hopf bifurcation (HB1)
+for system (5) for varying G and small ϵ = 0.001, showing equilibrium values,
+or maxima and minima of the neural activities y1 , y2 , y3 , respectively. Green
+vertical line corresponds to canard orbit shown in Fig 7. Grey vertical line is
+at parameter G = 1.7, used in singular limit in Fig. 5(a). Other parameters
+are listed in Table 2.
+
+
+its location: the equilibrium pyramidal-cell activity drops sharply from y1 =
+2/G = 2/G1 ≈ 1.35 to y1 = y0,2 ≈ 0.3. Hence, in the singular limit we
+cannot expect the standard Hopf bifurcation scenario with a family of nearly
+harmonic small-amplitude periodic orbits branching off.
+    We initially perform a numerical continuation for the full non-dimen-
+sionalised system (5) for small ϵ (ϵ = 0.001). Figure 4 zooms into the range
+of parameters G where periodic orbits of α type exist, near the Hopf bifur-
+cation at G = G1 ≈ 1.48 (see (13)). We observe that the pyramidal-cell (y1 )
+amplitude for the family of periodic orbits emerging from the Hopf bifurca-
+tion grows over a small range of G to order 1 (black curve in top panel in
+Figure 4), by approximately the same amount as the equilibrium value of y1
+dropped before the Hopf bifurcation. This explosive growth in amplitude is
+reminiscent of canard explosions as first described for the classical van der Pol
+or FitzHugh-Nagumo oscillator by Benoı̂t [2] (see Krupa and Szmolyan [20]
+for general theory and Wechselberger [29] for a review). However, the inhibi-
+tion amplitude y2 grows square-root-like with G − G1 , as occurs at a classical
+Hopf bifurcation. This discrepancy and the fact that the singular limit ϵ → 0
+is not slow-fast but discontinuous suggests that another mechanism must be
+responsible for the explosive growth in amplitude of y1 . Exploration of this
+phenomenon is beyond the scope of this paper. The time profile of periodic
+orbits near the explosion is shown in Figure 7 in the discussion in Section 4.
+
+
+                                       20
+Piecewise linear oscillations in a negative feedback loop between
+pyramidal cells and inhibition for ϵ = 0 In Figure 4 we also note that
+for G ≈ G1 and pyramidal-cell activity y1 in the range between y0,2 and
+2/G1 the excitatory interneurons are uniformly active, as y1 is always above
+the threshold y0,3 at which excitatory interneuron activity is switched off,
+and which is much smaller than y0,2 . Hence, y3 will be positive and at its
+equilibrium value
+                                     2α2   2α2         2α4
+                  y3 (t) ≈ y3,eq =       ≈     = y0,1 + ∗ .
+                                      G    G1           b
+Thus, we may replace y3 in the sigmoid input for y1 with its equilibrium value,
+resulting in the four-dimensional system for pyramidal-cell and inhibitory
+activity only, inserting the limit ϵ = 0:
+
+      (if y1 (t) > y0.3 for all time)
+              ÿ1 = (2/G) u1 − 2ẏ1 − y1 ,                                   (16)
+                      ∗            ∗       ∗ 2
+              ÿ2 = 2b α4 u2 − 2b ẏ2 − (b ) y2 , where                      (17)
+                    (                                      (
+                      1 if y2 < 2α2 /G − y0,1 ,             0 if y1 < y0,2 ,
+          u1 (t) =                                u2 (t) =
+                      0 if y2 > 2α2 /G − y0,1 ,             1 if y1 > y0,2 .
+
+System (16), (17) is a classical negative feedback loop with inertia: y2 sup-
+presses y1 , while y1 promotes y2 . Each oscillation period has four phases and
+follows a piecewise linear second-order vector field in each of the phases. Fig-
+ure 5a shows the typical shape for the y1 and y2 profile of the oscillations. We
+reduce the periodic problem for the four-dimensional piecewise affine ODE
+to a four-dimensional algebraic problem, parametrising the oscillations using
+the times at which the respective activations u1 , u2 switch between 0 and 1
+(w.l.o.g. ts1 ,off = 0), see Figure 5a for guidance:
+
+ ts1 ,off = 0 < ts2 ,off < ts1 ,on < ts2 ,on < T , where
+ ts1 ,off : y2 crosses 2α2 /G − y0,1 from below to above,   (u1 : 1 → 0),
+ ts2 ,off : y1 crosses y0,2 from above to below,            (u2 : 1 → 0),
+                                                                            (18)
+ ts1 ,on : y2 crosses 2α2 /G − y0,1 from above to below,    (u1 : 0 → 1),
+ ts2 ,on : y1 crosses y0,2 from below to above,             (u2 : 0 → 1),
+       T : period of oscillation.
+
+Alpha-type oscillations in the singular limit For G > G1 the periodic
+orbits consist of two coupled pairs of orbit segments, one pair of segments for
+pyramidal activity y1 governed by the piecewise linear ODE (16) (switching
+
+                                        21
+Figure 5: Time profile of alpha-type piecewise exponential periodic orbits
+given in (20),representing solutions of the piecewise linear ODE (16), (17)
+for y0,1 , y0,3 = 0.08, y0,2 = 0.3, and y3 fixed at its equilibrium value 2α2 /G.
+Panel (a): orbit for (b∗ , G) = (0.5, 1.7); ts2 ,off , ts2 ,on : threshold crossing times
+of y1 (where y1 = y0,2 ); ts1 ,off , ts1 ,on : threshold crossing times of y2 (where
+y2 = y3 − y0,1 ). Dashed blue line (legend entry S0 (pc)) is activation switch
+S0 (y3 − y2 (t) − y0,1 ) for y1 with ϵ = 0.001. Dashed red line (legend entry
+S0 (inh)) is activation switch S0 (y1 (t) − y0,2 ) for y2 . Panel (b): same as panel
+(a) but for (b∗ , G) = (0.44, 1.7), where orbit grazes (y1,min = y0,3 , green star
+on grey horizontal line {y = y0,3 }). For other parameters see Table 2.
+
+at times ts1 ,off and ts1 ,on ), and one pair of segments for inhibition y2 governed
+by the piecewise linear ODE (17) (switching at times ts2 ,off and ts2 ,on ), as
+shown in Figure 5a. The coupling occurs through the switching times, as
+the switching times ts2 ,on/off are determined by y1 crossing the threshold y0,2 ,
+and the switching times ts1 ,on/off are determined by y2 crossing the threshold
+y3,eq − y0,1 = 2α2 /G − y0,1 . Both piecewise linear ODEs (16) and (17) are
+affine ODEs of the form
+                                ÿ = b2 c − 2bẏ − b2 y,                            (19)
+with inhomogeneity c. The general solution (y(t), ẏ(t)) ∈ R2 of (19) for its
+IVP with initial condition (y(0), ẏ(0)) = (y0 , ẏ0 ) ∈ R2 is
+                                      
+                   y0      y(t)        Mb t y0
+                                                  + I2 − eMb t e1 c, where
+                                                                
+    Yadv t; b, c,      =           :=e
+                   ẏ0     ẏ(t)             ẏ0
+                                                            
+                                Mb t   −bt 1 + bt         t
+                              e      =e                        ,
+                                             −b2 t 1 − bt
+e(·) is the exponential and e1 = (1, 0)T is the first standard basis vector.
+From this general formula we find that requiring periodicity of the pyramidal
+
+                                           22
+activity y1 and the inhibition y2 determines their initial conditions at the
+“off” switching time. The initial conditions
+                      
+       y1 (ts1 ,off )      2
+                         = Yper (T, ts1 ,on − ts1 ,off ; 1),
+       ẏ1 (ts1 ,off )    G
+                     
+       y2 (ts2 ,off )     2α4
+                         = ∗ Yper (T, ts2 ,on − ts2 ,off ; b∗ ), where Yper is defined as
+       ẏ2 (ts2 ,off )      b
+                                     −1 
+     Yper (T, δt ; b) = I2 − eMb T          I2 − eMb (T −δt ) e1
+                                                                
+
+will lead to a solution of (16), (17) that is periodic with period T . The
+switching times ts1 ,on , ts2 ,on/off and the period T satisfy 4 relations that follow
+from the crossing conditions y1 (ts2 ,off ) = y1 (ts2 ,on ) = y02 and y2 (ts1 ,off ) =
+y2 (ts1 ,on ) = y3 − y01 :
+      y0,2 = eT1 Yadv (ts2 ,off ;           1, 0, (·))          ◦ G2 Yper (T, ts1 ,on − ts1 ,off ; 1)
+      y0,2 = eT1 Yadv (ts2 ,on − T ; 1, 2/G, (·))               ◦ G2 Yper (T, ts1 ,on − ts1 ,off ; 1)
+2α2
+ G
+    − y0,1 = eT1 Yadv (ts1 ,on − ts2 ,off ; b∗ , 0, (·))        ◦ 2α
+                                                                   b∗
+                                                                     4
+                                                                       Yper (T, ts2 ,on − ts2 ,off ; b∗ )
+2α2
+ G
+    − y0,1 = eT1 Yadv (−ts2 ,off ;          b∗ , 2α4 /b∗ , (·)) ◦ 2α
+                                                                   b∗
+                                                                     4
+                                                                       Yper (T, ts2 ,on − ts2 ,off ; b∗ ).
+                                                                                                    (20)
+In (20) and below we use the composition symbol ◦ with the meaning f ◦ x =
+f (x), f ◦ g ◦ x = f (g(x)) etc. to reduce nesting of brackets. Recall that we
+set ts1 ,off = 0 such that this switching time has been omitted in the defining
+equations (20). We have already inserted the appropriate initial conditions
+to ensure periodicity with period T into (20), such that the system (20) is
+a system of 4 algebraic equations, depending on the 4 unknown times ts1 ,on ,
+ts2 ,off , ts2 ,on and T , and system parameters such as G, b∗ and the switching
+thresholds y0,1 , y0,2 . For given switching times and period, one may obtain
+the complete periodic orbit as
+                                      
+     y1 (t)                   2            2
+                 = Yadv t; 1, u1 (t), (·) ◦ Yper (T, ts1 ,on − ts1 ,off ; 1)
+     ẏ1 (t)                 G             G
+for t ∈ [ts1 ,on − T, ts1 ,on ]
+                                                
+   y2 (t)                          ∗ 2α4             2α4
+            = Yadv t − ts2 ,off ; b , ∗ u2 (t), (·) ◦ ∗ Yper (T, ts2 ,on − ts2 ,off ; b∗ )
+   ẏ2 (t)                            b               b
+for t ∈ [ts2 ,on − T, ts2 ,on ]
+                     
+    y3 (t)      2α2 /G
+            =                  where
+    ẏ3 (t)        0
+                (                                     (
+                  0 if t ∈ [0, ts1 ,on ]               0 if t ∈ [ts2 ,off , ts2 ,on ]
+      u1 (t) =                               u2 (t) =
+                  1 if t ∈ [ts1 ,on − T, 0],           1 if t ∈ [ts2 ,on − T, ts2 ,off ].
+
+                                                   23
+Figure 5a shows an example of such a piecewise exponential and its switching
+times. The associated thresholds y3,eq − y0,1 = 2α2 /G − y0,1 and y0,2 for y2 (t)
+and y1 (t) for the switching events of y1 (t) and y2 (t) are shown as magenta
+and yellow horizontal lines.
+
+Detection of grazing boundary for alpha activity The orbits given
+by algebraic system (20) are alpha-type oscillations with constant support by
+excitatory interneuron population y3 . A criterion for the existence of these
+oscillations is that y1 never crosses below the threshold y0,3 at which the ex-
+citatory interneurons y3 switch off. The piecewise exponential has a distinct
+minimum y1,min at some time t1,min , labelled by a star in Figure 5a. This
+minimum consistently occurs shortly after ts1 ,on , in the interval between ts1 ,on
+and ts2 ,on , due to the inertia caused by the second-order nature of the ODE
+for y1 . Hence, we may introduce y1,min and t1,min as additional parameters
+satisfying the relations
+              
+        y1,min
+                 = Yadv (t1,min − ts1 ,on ; 1, 2/G, (·)) ◦ Yadv (ts1 ,on ; 1, 0, (·))   (21)
+          0
+                                               ◦ (2/G)Yper (T, ts1 ,on − ts1 ,off ; 1).
+We add the two parameters t1,min and y1,min while tracking solutions of
+(20), (21) in system parameters to monitor the difference y1,min − y0,3 for
+roots. The difference equals the distance between the point on the graph in
+Figure 5a labelled with a star and the grey horizontal line D3 = {y1 = y0,3 }.
+When this difference is zero we have a grazing bifurcation: the alpha activity
+oscillation’s orbit touches the threshold D3 = {y : y1 = y0,3 } in a quadratic
+tangency. To find an orbit with such a quadratic tangency we fix G = 1.7
+and vary the time scale ratio b∗ from b∗ = 0.5 downwards along the horizon-
+tal dashed line shown in Figure 6a. While doing so we monitor the quantity
+y1,min − y0,3 until it reaches zero, which is the point that represents the graz-
+ing bifurcation. The grazing occurs at (b∗ , G) ≈ (0.44, 1.7), labelled with a
+green star in Figure 6a.
+
+Mapping alpha and delta oscillations: a two-parameter bifurca-
+tion analysis Following detection of this grazing bifurcation at (b∗ , G) ≈
+(0.44, 1.7) we track its locus in two system parameters, time scale ratio b∗ and
+the feedback ratio G, by imposing the algebraic condition y1,min − y0,3 = 0.
+The resulting curve in the (b∗ , G)-plane is shown in Figure 6a in black. We
+combine this curve with the other relevant bifurcations bounding alpha and
+delta activity:
+(Hopf bifurcation) The Hopf bifurcation curve is the lower bound for al-
+    pha activity in G. It is given by (13) in the limit ϵ = 0 (G1 =
+
+                                            24
+Figure 6: Panel (a): Composite bifurcation diagram overlaying regions of
+alpha and delta activity of system (5) for ϵ = 0.024, and the grazing bi-
+furcation (black curve) detected by solving algebraic equations (20), (21)
+in the (b∗ , G) parameter plane. Panel (b,c): time profiles of typical al-
+pha activity ((b∗ , G) = (0.4, 1.4), blue circle in panel a) and delta activity
+((b∗ , G) = (0.4, 1.6), yellow circle in panel a) for each neuron population
+at ϵ = 0.024. Folds of periodic orbit (SNP, two purple curves on top of
+each other) and Hopf bifurcation (HB, red) are for ϵ = 0.024, SNIC bifur-
+cations are shown for ϵ = 0.024, 0.015, 0.01. Horizontal grey dashed line for
+b∗ ∈ [0.44, 0.5] at G = 1.7 is parameter path for continuation to grazing
+bifurcation reached at point labelled by green star. See Table 2 for other
+parameters.
+
+     α2 b∗ /(α4 + y0,1 b∗ /2)), and shown in red in Figure 6a for ϵ = 0.024.
+     The value ϵ = 0.024 is the original value of ϵ given in Table 2. Visually
+     the Hopf curve for ϵ = 0.024 is indistinguishable from its ϵ = 0 limit.
+(Grazing bifurcation) Asymptotically for ϵ → 0 the transition boundary
+    between delta and alpha activity is the grazing curve determined by
+    the algebraic equations (20), (21), shown in black in Figure 6a.
+(SNIC bifurcation) The upper bound in G for δ activity is a SNIC bi-
+    furcation, determined by the saddle-node of equilibria for the stable
+    small-activity equilibrium, labelled yeq1 , and the small-activity saddle
+
+                                      25
+      yeq2 in Table 3. Table 3 indicates that both equilibria exist for all pos-
+      itive values of G for ϵ = 0 and (uniformly in ϵ) positive thresholds y0,1
+      and y0,3 . Hence, the parameter value GSNIC for the SNIC bifurcation
+      shown in Figure 2c has the limit GSNIC → 0 for ϵ → 0. We included the
+      SNIC bifurcation curve for three values of ϵ (the original value 0.024
+      given in Table 2, 0.015 and 0.01) in Figure 6a to visualise the effect of
+      decreasing ϵ. For (b∗ , G) above the SNIC bifurcation curve the activity
+      drops to its small-activity equilibrium.
+To demonstrate the quantitative accuracy of the prediction from the singular
+limit ϵ = 0 for the transition between delta and alpha activity, we include
+shading according to frequency in areas where we find oscillations for the
+positive value ϵ = 0.024 from Table 2. We observe a sharp drop in frequency
+for increasing G near the singular-limit grazing bifurcation (from yellow to
+green in Figure 6a). Panels b and c in Figure 6 show time profiles at rep-
+resentative points in the alpha region ((b∗ , G) = (0.4, 0.14), blue circle) and
+in the delta region ((b∗ , G) = (0.4, 0.16), yellow circle). For larger b∗ a small
+deviation is noticeable such that the effect of non-zero ϵ is slightly larger
+near b∗ ≈ 0.5. The pair of folds of periodic orbits which coincides with the
+frequency drop (see Figures 2b and 2c) is also included for ϵ = 0.024 as a
+pair of purple curves, labelled SNP (the two SNP curves are close to each
+other, such that one obscures the other). The pair of folds overlaps with the
+grazing bifurcation for ϵ = 0 over large parts of the parameter plane.
+
+
+4     Discussion and further analysis
+We have identified the mechanism responsible for the transition between
+alpha- and delta-type activity in the Jansen-Rit model [18]. The transition
+between alpha-type oscillations and delta-type oscillations in neural circuits
+is relevant to applications because alpha frequencies are associated with the
+promotion of Long-Term Potentiation (LTP), enhancing synaptic strength
+and facilitating memory formation during active learning, while delta fre-
+quencies are associated with Long-Term Depression (LTD), which promotes
+synaptic weakening and neural plasticity during deep sleep [24]. The com-
+bined effects of these processes contribute to of learning via consolidation of
+memory across the wakefulness and sleep cycles [3, 4]. Therefore, understand-
+ing these transitions enhances our knowledge of how neural circuits regulate
+brain states and may provide insights into disruptions that affect sleep and
+cognitive functions. In the Jansen-Rit model the transition is not associated
+with one of the generic codimension-one bifurcations, but it occurs over a
+small range of parameter values for decreasing excitatory feedback strength
+
+                                       26
+A and with little to no hysteresis. In the transition the time profile and the
+frequency change sharply: oscillations during alpha activity show a shape
+typical for a single negative feedback loop because of the near-constant sup-
+port from the excitatory interneurons. Oscillations during delta activity are
+of relaxation type with long periods of near-zero activity (see Figures 2d,e in
+Section 2). The feedback strength parameter A affects how neurons respond
+to incoming signals by scaling the excitable population’s output of firing rates
+[18].
+    The results presented in Section 3 show that the singular limit where one
+assumes that the activation is an all-or-nothing switch reduces the sharp tran-
+sition in shape and frequency to a grazing bifurcation: when the pyramidal-
+cell activity “touches” the threshold line for switching off the excitatory in-
+terneurons in a quadratic tangency, the excitatory interneuron activity col-
+lapses. This causes further drop of pyramidal-cell activity, such that both
+populations approach near-zero activity. They stay there until the (slower)
+inhibition activity has dropped sufficiently low to permit recovery of exci-
+tatory activity in pyramidal and interneuron populations. (i.e., neuron re-
+sponse to incoming signals acts as binary operation off/on) in Section 3. The
+singular limit allow us to detect the curve of grazing bifurcation separat-
+ing the two distinct wave rhythms (i.e., the boundary between two distinct
+types of periodic orbits) in the two parameter plane (b∗ , G), where b∗ is the
+decay rate ratio of inhibitory to excitatory populations and G is the ratio
+of postsynaptic amplitudes of inhibitory to excitatory populations in non-
+dimensionalised model (5).
+    There are several further open questions for the analysis of the singular
+limit.
+
+Small-threshold analysis of alpha-delta transition and SNIC Our
+analysis shows that the limit ϵ → 0 with fixed thresholds y0,1 , y0,3 does
+not support delta-type oscillations. In delta-type oscillations all potentials
+come close to zero such that these oscillations are only possible if there are
+no stable equilibria at small y1 , y3 . However, Figure 6 shows that for all
+sufficiently small ϵ there are no parameter values (b∗ , G) for which grazing
+has happened (so, above the black curve) but no equilibria with y1 ≈ 0, y3 ≈ 0
+exist (below blue solid/dashed/dotted curve called SNIC). This is because
+for positive y0,1 , y0,3 and small y1 , y2 , y3 the existing stable “off” equilibrium
+yeq1 from Table 3 attracts trajectories with y1 , y2 , y3 ≈ 0. If we also consider
+the thresholds for the excitatory populations as small quantities then delta-
+type oscillations are possible for small ϵ: as we showed in Section 3.3, if the
+thresholds are proportional to ϵ then there are no small equilibria present
+
+
+                                         27
+for small ϵ. A more detailed analysis is needed to find for which asymptotic
+order of magnitude for the thresholds a saddle-node (and, hence, SNIC) is
+present for parameters G of order 1.
+    The expressions in (20) show that the dependence of the alpha-type peri-
+odic orbits on the threshold y0,1 is regular, such that a replacing y0,1 by zero
+in (20) will not have a large effect. However, the grazing bifurcation is deter-
+mined by the minimum of y1 reaching y0,3 , such that for y0,3 → 0 the grazing
+bifurcation will shift. The pyramidal-cell potential y1 decays exponentially
+as long as the inhibition y2 is above the equilibrium value of the threshold
+y3 − y0,1 ≈ 2α2 /G. As a smaller b∗ leads to a slow-down in the change of
+inhibition y2 , a decrease of b∗ leads to a longer period of exponential decay
+for y1 , so to a smaller minimum of y1 . Hence, we expect the value of b∗ for
+the grazing bifurcation to decrease slowly with ϵ, on the order of 1/| log ϵ|,
+because of the exponential decay of y1 for above threshold inhibition.
+
+Canard explosion of alpha-type orbits at the singular Hopf bifur-
+cation The Hopf bifurcation, shown in the zoomed-in bifurcation diagram
+Figure 4 can be studied in the singular limit ϵ = 0. Figure 7 shows that
+
+
+
+
+Figure 7: Time profile for alpha-type canard orbit near Hopf bifurcation
+(labeled HB1, in Fig 4) and activations Sϵ/a1 for y1 , and Sϵ/a2 for y2 . Pa-
+rameters: G = 1.49 ≈ G1 = 1.48 (green dashed vertical line in Fig 4 near
+HB1), ϵ = 0.001, y0,1 , y0,3 = 0.08 and y02 = 0.3, for others see Table 2. Inset
+in panel b shows that y2 crosses the threshold y3,eq − y0,1 of y1 .
+
+the periodic orbits in this canard-like explosion are parametrised by the time
+during which inhibition is switched off (drop of dashed curve in Figure 7b to
+zero), which is short for values of the parameter G close to the bifurcation
+value G1 . Since the periodic orbits are piecewise exponentials, the asymptotic
+parameter-amplitude dependence for G ≈ G1 can be determined explicitly.
+
+
+
+                                      28
+Improved limit for slow inhibition The small thresholds y0,1 and y0,3
+and sharp sigmoid slopes in the activation function Sϵ model the fact that
+excitatory populations have faster internal dynamics. We kept the threshold
+for the inhibition y0,2 non-small, but replaced the activation function of the
+inhibition Sϵ/a2 also by an all-or-nothing switch in the limit ϵ → 0. A more
+appropriate limit consideration would be to keep a finite-slope sigmoid acti-
+vation function S2 (y1 − y0,2 ) in place for the inhibition and take the small-ϵ
+limit only for the excitatory populations. We would still encounter the same
+dynamical phenomenon for the alpha-delta transition in the limit, namely
+a grazing bifurcation. However, the limiting periodic orbits of alpha type
+would no longer be determined by an algebraic system with exponentials,
+such as (20), but as solutions of a nonlinear ODE over a finite time interval.
+So, finding the grazing bifurcation would require solving a nonlinear ODE
+numerically, instead of using the formulas in (20), (21).
+
+Dependence of delta-type oscillations on parameters including non-
+zero input Delta-type oscillations in the zero-input case studied here have
+excitation population potentials y1 and y3 at zero until the inhibition y2
+drops sufficiently low such that y1 and y3 can recover and generate a large-
+amplitude burst (see Figure 2e). The precise time ratios between time spend
+at zero and bursts depends on time scale ratios such as b∗ , and thresholds. A
+positive external input p will affect the time profile and frequency of delta-
+type oscillations, as positive p will prevent y3 from staying near zero, resulting
+in a positive slope at low potential values, as seen in the simulations of
+Forrester et al. [13] and Ahmadizadeh et al. [1].
+
+
+5     Availability of Data
+Scripts reproducing the computational data for all figures can be accessed at
+https://github.com/jansieber/MSTA-alphadelta-anziam24-resources
+
+
+6     Acknowledgments
+KTA gratefully acknowledges the financial support of the Engineering and
+Physical Sciences Research Council (EPSRC) via grant EP/T017856/1. For
+the purpose of open access, the corresponding author has applied a ‘Creative
+Commons Attribution’ (CC BY) licence to any Author Accepted Manuscript
+version arising from this submission.
+
+
+
+                                       29
+   Funding statement: Huda Mahdi gratefully acknowledges the Higher
+Committee for Education Development (HCED), Government of Iraq, for
+funding her PhD studies.
+
+
+References
+ [1] S. Ahmadizadeh, P. J. Karoly, D. Nešić, D. B. Grayden, M. J. Cook,
+     D. Soudry, and D. R. Freestone. Bifurcation analysis of two coupled
+     Jansen-Rit neural mass models. PloS ONE, 13(3):e0192842, 2018. doi:
+     10.1371/journal.pone.0192842.
+
+ [2] E. Benoı̂t. Chasse au canard. Collectanea Mathematica, 32(2):37–119,
+     1981.
+
+ [3] S. M. Brudzynski, J. S. Burgdorf, and J. R. Moskal. From emotional
+     arousal to executive action. role of the prefrontal cortex. Brain Structure
+     and Function, 229(9):2327–2338, Aug. 2024. ISSN 1863-2661. doi: 10.
+     1007/s00429-024-02837-w.
+
+ [4] J. S. Burgdorf and J. R. Moskal. A prefrontal cortex alpha/delta switch
+     controls the transition from positive to negative affective states. Discover
+     Mental Health, 3(1):19, 2023. doi: 10.1007/s44192-023-00044-3.
+
+ [5] A. Coletti. On Jansen-Rit system modeling epilepsy phenomena. In
+     A. Slavova, editor, New Trends in the Applications of Differential Equa-
+     tions in Sciences, pages 281–292, Cham, 2023. Springer International
+     Publishing. ISBN 978-3-031-21484-4. doi: 10.1007/978-3-031-21484-4
+     25.
+
+ [6] F. H. L. da Silva, A. Hoeks, H. Smits, and L. H. Zetterberg. Model of
+     brain rhythmic activity: The alpha-rhythm of the thalamus. Kybernetik,
+     15(1):27–37, Mar. 1974. ISSN 0023-5946. doi: 10.1007/bf00270757.
+
+ [7] F. H. L. da Silva, A. van Rotterdam, P. Barts, E. van Heusden, and
+     W. Burr. Models of Neuronal Populations: The Basic Mechanisms of
+     Rhythmicity, page 281–308. Elsevier, 1976. doi: 10.1016/s0079-6123(08)
+     60995-4.
+
+ [8] H. Dankowicz and F. Schilder. Recipes for Continuation.              SIAM,
+     Philadelphia, 2013. doi: 10.1137/1.9781611972573.
+
+
+
+
+                                       30
+ [9] O. David and K. J. Friston. A neural mass model for MEG/EEG:
+     coupling and neuronal dynamics. NeuroImage, 20(3):1743–1755, 2003.
+     doi: 10.1016/j.neuroimage.2003.07.015.
+
+[10] M. Desroches, M. Krupa, and S. Rodrigues. Inflection, canards and
+     excitability threshold in neuronal models. Journal of Mathematical Bi-
+     ology, 67:989–1017, 2013. doi: 10.1007/s00285-012-0576-z.
+
+[11] M. di Bernardo, C. Budd, A. R. Champneys, and P. Kowalczyk.
+     Piecewise-smooth Dynamical Systems: Theory and Applications, vol-
+     ume 163. Springer Science & Business Media, London, 2008. doi:
+     10.1007/978-1-84628-708-4.
+
+[12] B. Ermentrout. Simulating, Analyzing, and Animating Dynamical Sys-
+     tems: A Guide to XPPAUT for Researchers and Students. SIAM,
+     Philadelphia, USA, 2002.
+
+[13] M. Forrester, J. J. Crofts, S. N. Sotiropoulos, S. Coombes, and R. D.
+     O’Dea. The role of node dynamics in shaping emergent functional con-
+     nectivity patterns in the brain. Network Neuroscience, 4(2):467–483,
+     2020. doi: 10.1162/netn a 00130.
+
+[14] W. J. Freeman. Simulation of chaotic EEG patterns with a dynamic
+     model of the olfactory system. Biological Cybernetics, 56(2):139–150,
+     1987. doi: 10.1007/BF00317988.
+
+[15] F. Grimbert and O. Faugeras. Bifurcation analysis of Jansen’s neural
+     mass model. Neural computation, 18(12):3052–3068, 2006. doi: 10.1162/
+     neco.2006.18.12.3052.
+
+[16] J. Guckenheimer and P. Holmes. Nonlinear Oscillations, Dynamical
+     Systems, and Bifurcations of Vector Fields, volume 42. Springer Science
+     & Business Media, New York, 2013. doi: 10.1007/978-1-4612-1140-2.
+
+[17] E. M. Izhikevich. Dynamical Systems in Neuroscience. MIT Press,
+     Cambridge, USA, 2007. doi: 10.7551/mitpress/2526.001.0001.
+
+[18] B. H. Jansen and V. G. Rit. Electroencephalogram and visual evoked po-
+     tential generation in a mathematical model of coupled cortical columns.
+     Biological cybernetics, 73(4):357–366, 1995. doi: 10.1007/BF00199471.
+
+[19] B. H. Jansen, G. Zouridakis, and M. E. Brandt. A neurophysiologically-
+     based mathematical model of flash visual evoked potentials. Biological
+     Cybernetics, 68(3):275–283, 1993.
+
+                                    31
+[20] M. Krupa and P. Szmolyan. Relaxation oscillation and canard explosion.
+     Journal of Differential Equations, 174(2):312–368, 2001. doi: 10.1006/
+     jdeq.2000.3929.
+
+[21] Y. A. Kuznetsov. Elements of Applied Bifurcation Theory, volume 112
+     of Applied Mathematical Sciences. Springer-Verlag, Cham, 4 edition,
+     2023. ISBN 978-3-031-22007-4. doi: 10.1007/978-3-031-22007-4.
+
+[22] Y. A. Kuznetsov, S. Rinaldi, and A. Gragnani. One-parameter bifurca-
+     tions in planar Filippov systems. International Journal of Bifurcation
+     and Chaos, 13(08):2157–2188, 2003. doi: 10.1142/S0218127403007874.
+
+[23] F. Marten, S. Rodrigues, O. Benjamin, J. Terry, and M. Richardson.
+     Onset of poly-spike complexes in a mean-field model of human EEG
+     and its application to absence epilepsy. Philosophical Transactions of
+     the Royal Society A: Mathematical, Physical and Engineering Sciences,
+     367(1891):1145–1161, 2008. doi: 10.1098/rsta.2008.0255.
+
+[24] K. S. Rashmii. Long-term potentiation (LTP): a simple yet powerful cel-
+     lular process in learning and memory. Master’s thesis, Kasturba Medical
+     College, Mangalore, 2021. URL https://impressions.manipal.edu/
+     kmcmlr/15. Publication No. 15.
+
+[25] S. Rodrigues, D. Barton, F. Marten, M. Kibuuka, G. Alarcon, M. P.
+     Richardson, and J. R. Terry. A method for detecting false bifurcations
+     in dynamical systems: application to neural-field models. Biological
+     Cybernetics, 102:145–154, 2010. doi: 10.1007/s00422-009-0357-y.
+
+[26] L. Stefanovski, P. Triebkorn, A. Spiegler, M.-A. Diaz-Cortes, A. Solod-
+     kin, V. Jirsa, A. R. McIntosh, P. Ritter, and A. D. N. Initiative. Linking
+     molecular pathways and large-scale computational modeling to assess
+     candidate disease mechanisms and pharmacodynamics in Alzheimer’s
+     disease. Frontiers in Computational Neuroscience, 13:54, 2019. doi:
+     10.3389/fncom.2019.00054.
+
+[27] J. Touboul and O. Faugeras. Codimension two bifurcations and rythms
+     in neural mass models. arXiv preprint arXiv:0907.2718, 2009.
+
+[28] A. van Rotterdam, F. H. L. da Silva, J. van den Ende, M. A. Viergever,
+     and A. J. Hermans. A model of the spatial-temporal characteristics
+     of the alpha rhythm. Bulletin of Mathematical Biology, 44(2):283–305,
+     Mar. 1982. ISSN 1522-9602. doi: 10.1007/bf02463252.
+
+
+
+                                      32
+[29] M. Wechselberger. Canards. Scholarpedia, 2(4):1356, 2007. doi: 10.
+     4249/scholarpedia.1356.
+
+[30] F. Wendling, J.-J. Bellanger, F. Bartolomei, and P. Chauvel. Relevance
+     of nonlinear lumped-parameter models in the analysis of depth-EEG
+     epileptic signals. Biological Cybernetics, 83(4):367–378, 2000. doi: 10.
+     1007/s004220000160.
+
+[31] H. R. Wilson and J. D. Cowan. Excitatory and inhibitory interactions
+     in localized populations of model neurons. Biophysical Journal, 12(1):
+     1–24, 1972. doi: 10.1016/S0006-3495(72)86068-5.
+
+
+
+
+                                     33
+
