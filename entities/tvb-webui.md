@@ -56,8 +56,8 @@ The WebUI can be run as a standalone service that connects to a TVB instance, or
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
-3. Nawman Baig. (2025). *BrainSim-X v4.2.7: An advanced high-dimensional [[neural-network]] simulation platform*. World Journal of Advanced Research and Reviews. [DOI](https://doi.org/10.30574/wjarr.2025.27.2.3021)
-4. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
-5. Abgeena Abgeena, S. Garg, Nishant Goyal, Jusitn Raj P.C. (2025). *NeuroEmo: A neuroimaging-based [[fmri]] dataset to extract temporal affective [[brain-dynamics]] for Indian movie video clips stimuli using dynamic [[functional-connectivity]] approach with graph convolution neural network (DFC-GCNN)*. Comput. Biol. Medicine. [DOI](https://doi.org/10.1016/j.compbiomed.2025.110439)
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
+2. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](](https://doi.org/10.1038/s41593-017-0015-4))
+3. Nawman Baig. (2025). *BrainSim-X v4.2.7: An advanced high-dimensional [[neural-network]] simulation platform*. World Journal of Advanced Research and Reviews. [DOI](](https://doi.org/10.30574/wjarr.2025.27.2.3021))
+4. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](](https://doi.org/10.1089/brain.2012.0120))
+5. Abgeena Abgeena, S. Garg, Nishant Goyal, Jusitn Raj P.C. (2025). *NeuroEmo: A neuroimaging-based [[fmri]] dataset to extract temporal affective [[brain-dynamics]] for Indian movie video clips stimuli using dynamic [[functional-connectivity]] approach with graph convolution neural network (DFC-GCNN)*. Comput. Biol. Medicine. [DOI](](https://doi.org/10.1016/j.compbiomed.2025.110439))

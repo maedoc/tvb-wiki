@@ -1,8 +1,10 @@
 ---
-title: Brain-Score
 created: 2024-01-15
-updated: 2026-05-13
-type: entity
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/semanticscholar-9afbfd2d37be.md
 tags:
 - software-brain-modeling
 - whole-brain-modeling
@@ -10,11 +12,9 @@ tags:
 - reproducibility
 - neural-mass-models
 - spiking-neural-networks
-sources:
-- raw/papers/sanz-leon-2013.md
-- raw/papers/arxiv-2505.16861.md
-- raw/papers/semanticscholar-eb704b6f5462.md
-- raw/papers/semanticscholar-9afbfd2d37be.md
+title: Brain-Score
+type: entity
+updated: '2026-05-13'
 ---
 
 Brain-Score is an open-source benchmarking platform designed to systematically evaluate computational brain models against empirical neural and behavioral data. The platform establishes standardized scoring functions that enable objective comparison of diverse modeling approaches—including [[neural-mass-models]], [[spiking-neural-networks]], and [[whole-brain-modeling]] frameworks—based on their ability to reproduce observed brain activity patterns. By providing a common evaluation framework, Brain-Score addresses the comparability challenge that arises when equations, parameters, networks, and numerical settings are reported inconsistently across studies [[raw/papers/semanticscholar-9afbfd2d37be.md|Martin et al. (2025)]], and when computational work remains confined to isolated spatial and temporal scales [[raw/papers/arxiv-2505.16861.md|Hater et al. (2025)]][[raw/papers/semanticscholar-eb704b6f5462.md|Hater et al. (2026)]]. This fragmentation makes it difficult to determine which architectural choices actually improve biological fidelity, a gap that Brain-Score targets through quantitative scoring against empirical recordings.
@@ -32,3 +32,10 @@ Brain-Score organizes benchmarks into three hierarchical tiers. Neural benchmark
 ## Relationship to TVB
 
 Brain-Score represents a complementary validation paradigm to whole-brain modeling frameworks such as [[tvb|The Virtual Brain]]. TVB excels at simulating large-scale [[network-dynamics]] at the regional level, integrating [[structural-connectivity]] into [[neural-mass-models]] to generate [[functional-connectivity]] patterns [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. Brain-Score focuses on finer-grained validation against empirical data, which could potentially assess how well TVB's neural mass implementations reproduce observed dynamics at specific regional scales. Conversely, large-scale Brain-Score benchmarks that probe network-level dynamics could leverage TVB's sophisticated structural connectivity pipelines and [[parameter-estimation]] methods [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. The two approaches address different scales of the validation problem, with Brain-Score providing targeted benchmarks and TVB providing the simulation infrastructure for exploring how components interact in whole-brain networks. Multi-scale co-simulation frameworks such as Arbor-TVB demonstrate the technical feasibility of coupling detailed spiking networks to whole-brain neural mass dynamics, a challenge that any benchmarking platform spanning multiple scales must ultimately accommodate [[raw/papers/arxiv-2505.16861.md|Hater et al. (2025)]][[raw/papers/semanticscholar-eb704b6f5462.md|Hater et al. (2026)]]. The TVB Ontology project further establishes a foundation for transparent model sharing and cross-platform comparability by generating executable code for multiple simulators and exporting FAIR metadata, creating an ecosystem in which benchmarking platforms can operate rigorously [[raw/papers/semanticscholar-9afbfd2d37be.md|Martin et al. (2025)]].
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
+4. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, Petra Ritter. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)

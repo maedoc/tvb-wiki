@@ -1,14 +1,19 @@
 ---
-title: ANTs
 created: 2026-05-03
-updated: 2026-05-13
-type: entity
-tags: [software-ants, software-brain-modeling, neuroimaging-fmri, structural-connectivity, connectomics]
 sources:
 - raw/papers/avants-2008.md
 - raw/papers/avants-2011.md
 - raw/papers/tustison-2010.md
 - raw/papers/tustison-2014.md
+tags:
+- software-ants
+- software-brain-modeling
+- neuroimaging-fmri
+- structural-connectivity
+- connectomics
+title: ANTs
+type: entity
+updated: '2026-05-13'
 ---
 
 **ANTs** (Advanced Normalization Tools) is an open-source C++ image registration and segmentation toolkit built on the Insight Segmentation and Registration Toolkit ([[itk|ITK]]) that provides algorithms for aligning, correcting, and analyzing biomedical images, with particular emphasis on brain magnetic resonance imaging. Developed primarily at the University of Pennsylvania, ANTs implements diffeomorphic registration, bias correction, and cortical thickness estimation within a unified framework, making it a standard component of [[neuroimaging]] preprocessing pipelines worldwide.
@@ -38,3 +43,10 @@ ANTs serves as an essential preprocessing engine for [[the-virtual-brain]] (TVB)
 ## Related Software Ecosystem
 
 ANTs interoperates with major neuroimaging toolkits. Registration outputs can be visualized with [[nilearn]] or [[nibabel]], atlases are available through [[templateflow]], and surface-based analyses can be compared against [[freesurfer]] and [[fsl]] workflows. Complementary language bindings extend ANTs algorithms to broader scientific computing environments, ensuring that its registration and segmentation capabilities remain accessible across research communities.
+
+## References
+
+1. Avants et al. (2008). *Symmetric diffeomorphic image registration with cross-correlation*. Medical Image Analysis. [DOI](](https://doi.org/10.1016/j.media.2007.06.004))
+2. Avants et al. (2011). *A reproducible evaluation of ANTs similarity metric performance in brain image registration*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2010.09.025))
+3. Tustison et al. (2010). *N4ITK: improved N3 bias correction*. IEEE Transactions on Medical Imaging. [DOI](](https://doi.org/10.1109/TMI.2010.2046908))
+4. Tustison et al. (2014). *Large-scale evaluation of ANTs and FreeSurfer cortical thickness measurements*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2014.05.044))

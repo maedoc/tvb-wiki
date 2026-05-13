@@ -1,10 +1,19 @@
 ---
-title: Michael D. Fox
 created: 2026-04-20
-updated: 2026-05-13
+sources:
+- raw/papers/fox-raichle-2007.md
+tags:
+- people-researcher
+- brain-stimulation
+- functional-connectivity
+- connectomics
+- neuroimaging-fmri
+- resting-state
+- network-dynamics
+- database-hcp
+title: Michael D. Fox
 type: entity
-tags: [people-researcher, brain-stimulation, functional-connectivity, connectomics, neuroimaging-fmri, resting-state, network-dynamics, database-hcp]
-sources: [raw/papers/fox-raichle-2007.md, raw/papers/fox-greicius-2004.md, raw/papers/fox-herman-2012.md, raw/papers/fox-buckner-2014.md]
+updated: '2026-05-13'
 ---
 
 Michael D. Fox, MD, PhD is a physician-scientist and Professor of Neurology at Harvard Medical School who directs the Center for Brain Circuit Therapeutics at Brigham and Women's Hospital in Boston. His research focuses on mapping and modulating human brain circuits to develop new treatments for neurological and psychiatric diseases. Fox is internationally recognized for his work on [[resting-state-fmri]] and its application to understanding brain stimulation therapies.
@@ -68,3 +77,7 @@ Fox's conceptual framework intersects with [[dynamic-causal-modeling]] (DCM) thr
 - [[neural-mass-model]] — Population-level models used in TVB that align with Fox's network-based framework
 - [[epilepsy-modeling]] — Clinical application domain where Fox's connectivity work complements TVB's simulation approaches
 - [[dynamic-causal-modeling]] — Related framework for studying effective connectivity, with complementary causal inference approaches
+
+## References
+
+1. (authors unknown). *Spontaneous fluctuations in brain activity observed with functional magnetic resonance imaging*.
