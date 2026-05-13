@@ -48,7 +48,7 @@ def get_page_lock(page_path: str) -> threading.Lock:
     return PAGE_LOCKS.setdefault(page_path, threading.Lock())
 
 # ── Models ─────────────────────────────────────────────────────────────
-WRITER_MODEL = "ollama/deepseek-v4-pro"  # Strong grounding in source material
+WRITER_MODEL = "ollama/deepseek-v4-pro:cloud"  # Strong grounding in source material
 REVIEWER_MODEL = "ollama/glm-5.1:cloud"
 REPAIRER_MODEL = "ollama/gpt-oss:120b-cloud"
 
