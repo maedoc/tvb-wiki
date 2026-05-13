@@ -6,6 +6,12 @@ sources:
 - raw/papers/semanticscholar-c393c4c4a671.md
 - raw/papers/semanticscholar-fcd025fcc10c.md
 - raw/papers/arxiv-2602.18072.md
+- raw/papers/semanticscholar-1de06cf619ac.md
+- raw/papers/semanticscholar-c8a663464cee.md
+- raw/papers/arxiv-2604.18470.md
+- raw/papers/arxiv-2603.13598.md
+- raw/papers/semanticscholar-2c4128f04843.md
+- raw/papers/semanticscholar-548a2d4c8ad1.md
 tags:
 - software-brain-modeling
 - diffusion-imaging
@@ -15,10 +21,14 @@ tags:
 - neuroimaging-dti
 title: DSI Studio
 type: entity
-updated: '2026-05-07'
+updated: '2026-05-13'
 ---
 
-# DSI Studio
+# _preamble
+
+DSI Studio is an open-source [[diffusion-mri]] analysis and [[tractography]] platform developed by Fang-Cheng Yeh that implements multiple diffusion reconstruction models—including diffusion tensor imaging (DTI), diffusion spectrum imaging (DSI), and generalized q-sampling imaging (GQI)—to reconstruct white matter fiber pathways and generate [[structural-connectivity]] matrices for neuroimaging research. The software employs q-space diffeomorphic reconstruction (QSDR) to align orientation distribution functions within anatomical spaces, supporting deterministic fiber tracking algorithms that have been used to develop sex-specific structural templates from cohorts exceeding one thousand subjects and revealing significant microstructural differences between males and females across cortical and commissural pathways [[raw/papers/semanticscholar-c8a663464cee.md|Jafari & Memar (2025)]]. In clinical neuroimaging, researchers have utilized DSI Studio 2022 with the HCP842 atlas-based algorithm to automatically model 32 white matter tracts in patients with temporal lobe epilepsy, quantifying morphometric and microstructural tissue changes that inform patient-specific network analyses [[raw/papers/semanticscholar-1de06cf619ac.md|Maximova et al. (2026)]]. The platform's reconstruction pipeline has also been applied to generate high-resolution spin distribution functions and classify 84 distinct fiber bundles spanning association, commissural, projection, and cerebellar pathways through its recognize-and-cluster functionality, enabling systematic tract-level analysis in biomechanical and lesion-mapping studies [[raw/papers/semanticscholar-548a2d4c8ad1.md|Atsumi et al. (2026)]][[raw/papers/semanticscholar-2c4128f04843.md|Sperber et al. (2025)]].
+
+Beyond standalone diffusion analysis, DSI Studio serves as a critical intermediary between raw diffusion-weighted acquisitions and network-based computational neuroscience. Its tractography outputs are used to construct weighted brain connectivity graphs where nodes correspond to atlas-defined regions and edge weights encode fiber counts normalized by mean tract length, parameters that can be directly imported into [[the-virtual-brain]] simulations to define anatomical scaffolds and conduction delays [[raw/papers/arxiv-2604.18470.md|Caon et al. (2026)]]. The platform also functions as an integrated fiber data hub, providing standardized tractography atlases that researchers embed into finite element meshes to model tau propagation and anisotropic diffusion in neurodegenerative disease, bridging structural and functional connectome perspectives [[raw/papers/arxiv-2603.13598.md|Jiang et al. (2026)]][[raw/papers/arxiv-2604.18470.md|Caon et al. (2026)]]. These capabilities position DSI Studio as a versatile tool within the broader ecosystem of whole-brain modeling software alongside packages such as [[mrtrix3]], [[dipy]], and [[brainlife]].
 
 ## Overview
 

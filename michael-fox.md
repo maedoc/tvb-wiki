@@ -1,7 +1,7 @@
 ---
 title: Michael D. Fox
 created: 2026-04-20
-updated: 2026-05-12
+updated: 2026-05-13
 type: entity
 tags: [people-researcher, brain-stimulation, functional-connectivity, connectomics, neuroimaging-fmri, resting-state, network-dynamics, database-hcp]
 sources: [raw/papers/fox-raichle-2007.md, raw/papers/fox-greicius-2004.md, raw/papers/fox-herman-2012.md, raw/papers/fox-buckner-2014.md]

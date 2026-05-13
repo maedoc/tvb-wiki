@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Ralph Improver Agent — picks worst pages, improves them via writer-reviewer pipeline.
-Writer: ollama/kimi-k2.6 (local, fast)
+Writer: ollama/deepseek-v4-pro (cloud, strong source grounding)
 Reviewer: zai/glm-5.1 (cloud, different training)
 
 Runs N pages in parallel through pi subshells.
@@ -27,6 +27,7 @@ from ralph_config import (
     run_pi, WRITER_MODEL, REVIEWER_MODEL,
     get_fulltext,
     PARALLEL_WRITERS, PARALLEL_REVIEWERS,
+    BATCH_FAILURE_ABORT,
 )
 from combined_relevance import load_graph, load_embeddings, bfs_distances, CORE_LINKS as RELEVANCE_CORE, get_emb_scores
 import citation_verify
@@ -500,11 +501,16 @@ Improve the wiki page: {slug}
 - Do NOT write about generic Python data science libraries
 - For entity pages, ALWAYS include a "Relationship to TVB" section explaining how this tool/concept connects to TVB workflows
 
-## CITATION REQUIREMENTS
-- Every factual claim MUST be supported by an inline citation to a source paper using the format `[[raw/papers/SLUG.md]]` or `[[raw/papers/SLUG.md|Author et al. (Year)]]`.
-- If the provided source papers do not support a claim, do not include that claim.
-- Before writing, review the source papers in the prompt. Synthesize their content, don't write from general knowledge.
+## CRITICAL: SOURCE GROUNDING RULES
+You MUST ground every factual claim in the source papers provided above. This is the most important rule.
+- READ the source papers carefully BEFORE writing. Your text must be a SYNTHESIS of what the sources say.
+- Every factual claim, technical detail, equation, and experimental result MUST be traceable to a source paper.
+- Use inline citations liberally: `[[raw/papers/SLUG.md|Author et al. (Year)]]` format.
 - Aim for at least 3 inline citations per paragraph of factual content.
+- If a source paper does NOT support a claim, do NOT include that claim.
+- Do NOT write from general knowledge. Write from the sources.
+- Do NOT fabricate, hallucinate, or infer citation details. Only cite what is actually in the source text.
+- If source material is thin, write less but write it well. A short, well-sourced page is better than a long, unsourced one.
 
 ## FORMATTING RULES
 1. Replace ALL placeholder text (*Placeholder*) with real, sourced content
@@ -791,6 +797,15 @@ Current content ({target_section['words']} words):
 - Cross-link aggressively: wrap any term that appears in the page inventory in [[wikilinks]]
 - Avoid one-liner sections — write full paragraphs
 
+## CRITICAL: SOURCE GROUNDING
+- You MUST ground every factual claim in the source papers above. This is the most important rule.
+- READ the source papers before writing. Your text must synthesize what the sources actually say.
+- Use inline citations liberally: `[[raw/papers/SLUG.md|Author et al. (Year)]]`
+- Aim for at least 3 inline citations per paragraph of factual content
+- Do NOT write from general knowledge. Write from the sources.
+- Do NOT fabricate or infer citation details. Only cite what is in the source text.
+- If source material is thin, write less but write it well.
+
 ## INSTRUCTIONS
 1. Rewrite ONLY the \"{section_heading}\" section with real, sourced content
 2. Replace ALL placeholder text with factual content
@@ -800,9 +815,9 @@ Current content ({target_section['words']} words):
 6. Review the source papers and synthesize their content; do not write from general knowledge
 7. Aim for at least 3 inline citations per paragraph of factual content
 8. Aim for 100-300 words for this section, with full paragraphs of prose
-6. Output ONLY the new section content (no headings, no frontmatter, no commentary)
-9. Do NOT include the ## heading line itself — just the section body
-10. Do NOT add a ## References section"""
+9. Output ONLY the new section content (no headings, no frontmatter, no commentary)
+10. Do NOT include the ## heading line itself — just the section body
+11. Do NOT add a ## References section"""
 
         success, output = run_pi(writer_prompt, model=WRITER_MODEL)
         if not success:
@@ -869,7 +884,7 @@ Current content ({target_section['words']} words):
 
 # ── Citation Guard ────────────────────────────────────────────────────
 
-CITATION_GUARD_BLOCKING = False  # Set True after 48h log-only burn-in
+CITATION_GUARD_BLOCKING = True  # Block pages with unverified citations (revert to git)
 
 
 def _citation_guard(page_path: str, stub_index: dict[str, str]) -> tuple[bool, list[str]]:
@@ -1010,9 +1025,10 @@ def run_improver_cycle(n_pages: int = None):
                  ', PLACEHOLDER' if t.get('has_placeholder') else '',
                  issue_flag)
 
-    # Improve pages in parallel
+    # Improve pages in parallel with batch failure abort
     improved = 0
     failed = 0
+    consecutive_failures = 0
     results = []
 
     # Build stub index once for citation guard
@@ -1030,11 +1046,24 @@ def run_improver_cycle(n_pages: int = None):
                 results.append((target['slug'], success, desc, target['path']))
                 if success:
                     improved += 1
+                    consecutive_failures = 0  # reset on success
                 else:
                     failed += 1
+                    consecutive_failures += 1
             except Exception as e:
                 log.error("Exception improving %s: %s", target['slug'], e)
+                results.append((target['slug'], False, str(e), target['path']))
                 failed += 1
+                consecutive_failures += 1
+
+            # Abort batch if too many consecutive failures — provider is likely down
+            if consecutive_failures >= BATCH_FAILURE_ABORT:
+                log.warn("Batch abort: %d consecutive failures, likely provider issue. Cancelling remaining pages.",
+                         consecutive_failures)
+                for remaining_future in futures:
+                    if not remaining_future.done():
+                        remaining_future.cancel()
+                break
 
     # ── Citation Guard — post-write, pre-commit ──
     guarded_results = []

@@ -15,7 +15,7 @@ tags:
 - effective-connectivity
 title: BOLD Model
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-13'
 ---
 
 # BOLD Model
@@ -78,7 +78,7 @@ A fundamental open question is whether **functional connectivity** patterns obse
 
 ## Software Implementations
 
-The BOLD forward model is implemented in several software packages. Spm (Statistical Parametric Mapping) includes the canonical Balloon Model as part of its DCM implementation. The [[dynamic-causal-modeling]] framework in SPM uses a variational Bayes scheme to estimate both neural and hemodynamic parameters. In The Virtual Brain, the BOLD forward model enables comparison of simulated and empirical functional connectivity in whole-brain simulations. Standalone implementations also exist in Python packages such as [[nilearn]] (for HRF modeling) and custom toolboxes for DCM analysis.
+The BOLD forward model is implemented in several software packages. Spm (Statistical Parametric Mapping) includes the canonical Balloon Model as part of its DCM implementation. The [[dynamic-causal-modeling]] framework in SPM uses a variational Bayes scheme to estimate both neural and hemodynamic parameters. In The Virtual Brain, the BOLD forward model enables comparison of simulated and empirical functional connectivity in whole-brain simulations. Standalone implementations also exist in Python packages such as [[nilearn]] (for HRF modeling) and custom toolboxes for DCM analysis. NeuroStats offers a statistical analysis toolbox for fMRI data, complementing these implementations [[neurostats]].
 
 ## Key Papers
 

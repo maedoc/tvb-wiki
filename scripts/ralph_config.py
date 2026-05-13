@@ -48,7 +48,7 @@ def get_page_lock(page_path: str) -> threading.Lock:
     return PAGE_LOCKS.setdefault(page_path, threading.Lock())
 
 # ── Models ─────────────────────────────────────────────────────────────
-WRITER_MODEL = "ollama/kimi-k2.6:cloud"  # switched from minimax-m2.5:cloud for speed
+WRITER_MODEL = "ollama/deepseek-v4-pro"  # Strong grounding in source material
 REVIEWER_MODEL = "ollama/glm-5.1:cloud"
 REPAIRER_MODEL = "ollama/gpt-oss:120b-cloud"
 
@@ -81,6 +81,8 @@ PI_TIMEOUT = 600               # 10 min per pi subprocess (accommodates kimi-k2.
 MAX_RETRIES = 3
 RETRY_BACKOFF = [10, 30, 90]   # seconds between retries
 CIRCUIT_BREAKER_THRESHOLD = 3  # consecutive failures to disable agent
+CIRCUIT_BREAKER_RESET_HOURS = 1  # re-enable disabled agents after 1 hour
+BATCH_FAILURE_ABORT = 5  # abort batch if this many consecutive pi calls fail
 
 # ── Logging ────────────────────────────────────────────────────────────
 
@@ -128,6 +130,41 @@ class AgentLogger:
 
 def get_logger(name: str) -> AgentLogger:
     return AgentLogger(name)
+
+
+# ── Per-agent PID tracking (for daemon kill targeting) ─────────────────────
+
+_agent_pids: dict[str, set[int]] = {}  # agent_name -> set of pi PIDs
+_agent_pids_lock = threading.Lock()
+
+# Thread-local: current agent name (set by daemon before submitting work)
+_current_agent = threading.local()
+
+
+def register_pi_pid(pid: int):
+    """Register a pi subprocess PID for the current thread's agent."""
+    agent = getattr(_current_agent, 'name', 'unknown')
+    with _agent_pids_lock:
+        _agent_pids.setdefault(agent, set()).add(pid)
+
+
+def unregister_pi_pid(pid: int):
+    """Remove a completed pi subprocess PID."""
+    agent = getattr(_current_agent, 'name', 'unknown')
+    with _agent_pids_lock:
+        if agent in _agent_pids:
+            _agent_pids[agent].discard(pid)
+
+
+def get_agent_pids(agent_name: str) -> set[int]:
+    """Get and remove all tracked PIDs for an agent."""
+    with _agent_pids_lock:
+        return _agent_pids.pop(agent_name, set()).copy()
+
+
+def set_current_agent(name: str):
+    """Set the current thread's agent name (called by daemon before work)."""
+    _current_agent.name = name
 
 
 # ── Git helpers ────────────────────────────────────────────────────────
@@ -314,13 +351,28 @@ def run_pi(prompt: str, model: str = None, tools: str = None,
             log.info("Spawning: pi --model %s (%d tokens in prompt, attempt %d/%d)",
                      model, len(prompt.split()), attempt + 1, MAX_RETRIES)
             start = datetime.datetime.now()
-            result = subprocess.run(
-                cmd, cwd=cwd, capture_output=True, text=True, timeout=timeout
+            result = subprocess.Popen(
+                cmd, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
             )
+            # Register PID for agent-scoped kill targeting
+            register_pi_pid(result.pid)
+            try:
+                stdout, stderr = result.communicate(timeout=timeout)
+            except subprocess.TimeoutExpired:
+                result.kill()
+                stdout, stderr = result.communicate()
+                unregister_pi_pid(result.pid)
+                log.warn("pi timeout after %ds (attempt %d/%d)", timeout, attempt + 1, MAX_RETRIES)
+                if attempt < MAX_RETRIES - 1:
+                    import time
+                    time.sleep(RETRY_BACKOFF[min(attempt, len(RETRY_BACKOFF) - 1)])
+                continue
+            finally:
+                unregister_pi_pid(result.pid)
             elapsed = (datetime.datetime.now() - start).total_seconds()
 
             if result.returncode != 0:
-                stderr = result.stderr.strip()
+                stderr = stderr.strip()
                 # Classify the error
                 # Check model-not-found BEFORE generic ollama check
                 # (stderr says "for provider 'ollama'" even on 404s)
@@ -346,7 +398,7 @@ def run_pi(prompt: str, model: str = None, tools: str = None,
                     time.sleep(RETRY_BACKOFF[min(attempt, len(RETRY_BACKOFF) - 1)])
                 continue
 
-            output = result.stdout.strip()
+            output = stdout.strip()
             if not output:
                 log.warn("pi returned empty output (attempt %d)", attempt + 1)
                 if attempt < MAX_RETRIES - 1:
@@ -356,12 +408,6 @@ def run_pi(prompt: str, model: str = None, tools: str = None,
             log.info("pi completed in %.1fs (%d chars out)", elapsed, len(output))
             return True, output
 
-        except subprocess.TimeoutExpired:
-            log.warn("pi timeout after %ds (attempt %d/%d)", timeout, attempt + 1, MAX_RETRIES)
-            if attempt < MAX_RETRIES - 1:
-                import time
-                time.sleep(RETRY_BACKOFF[min(attempt, len(RETRY_BACKOFF) - 1)]
-)
         except Exception as e:
             log.error("pi exception: %s", str(e)[:200])
             return False, str(e)

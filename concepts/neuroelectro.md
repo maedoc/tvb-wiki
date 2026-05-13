@@ -1,10 +1,15 @@
 ---
-title: NeuroElectro
 created: 2026-04-20
-updated: 2026-05-12
-type: entity
-tags: [dataset, neural-mass-models, parameter-estimation, spiking-neural-networks, whole-brain-modeling]
 sources: []
+tags:
+- dataset
+- neural-mass-models
+- parameter-estimation
+- spiking-neural-networks
+- whole-brain-modeling
+title: NeuroElectro
+type: entity
+updated: '2026-05-13'
 ---
 
 NeuroElectro is a curated database and web resource that extracts, organizes, and summarizes published electrophysiological properties of diverse neuron types from the neuroscience literature. It employs a semi-automated pipeline combining text mining of journal articles with expert manual curation to populate a structured repository of cellular biophysical measurements. By centralizing data that were previously scattered across thousands of publications with heterogeneous reporting conventions, NeuroElectro provides a critical empirical bridge between experimental cellular neuroscience, [[computational-neuroscience]], and computational modeling frameworks including [[neuronunit]], [[the-virtual-brain]], and large-scale [[spiking-neural-networks]] simulations.
@@ -15,7 +20,7 @@ Before NeuroElectro, electrophysiologists and computational modelers who wished 
 
 ## Technical Approach
 
-The extraction workflow begins with full-text articles in machine-readable HTML or XML, screened algorithmically for relevant electrophysiological terminology. Candidate data tables are parsed using fuzzy string matching against a domain-specific lexicon that maps synonyms to canonical concepts—for example, mapping variants of "resting membrane potential" to a single entity. Identified measurements are mapped to neuron types using the NeuroLex ontology, and machine-assisted assignments are subsequently validated by human curators. Normalization is applied where possible to account for protocol differences, such as variations in recording temperature or electrode compensation. The resulting dataset is stored in a relational database and exposed through both an interactive web interface and a RESTful API capable of returning structured data for programmatic access.
+The extraction workflow begins with full-text articles in machine-readable HTML or XML, screened algorithmically for relevant electrophysiological terminology. Candidate data tables are parsed using fuzzy string matching against a domain-specific lexicon that maps synonyms to canonical concepts—for example, mapping variants of "resting membrane potential" to a single entity. Identified measurements are mapped to [[neuron]] types using the NeuroLex ontology, and machine-assisted assignments are subsequently validated by human curators. Normalization is applied where possible to account for protocol differences, such as variations in recording temperature or electrode [[compensation]]. The resulting dataset is stored in a relational database and exposed through both an interactive web interface and a RESTful API capable of returning structured data for programmatic access.
 
 ## Relationship to Related Resources
 

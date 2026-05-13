@@ -15,14 +15,14 @@ tags:
 - dynamical-systems-theory
 title: Epilepsy Modeling
 type: concept
-updated: '2026-05-11'
+updated: '2026-05-13'
 ---
 
 # Epilepsy Modeling
 
-Computational epilepsy modeling applies [[neural-mass-models]] and [[dynamical-systems-theory]] to understand the mechanisms underlying seizure generation, propagation, and termination. This approach bridges clinical observations—particularly from [[eeg]] recordings—with the underlying neurophysiology of pathological neural dynamics. By representing large populations of neurons as coupled oscillators or neural fields, computational models can reproduce the characteristic rhythmic activity observed during epileptic seizures and provide quantitative predictions about seizure threshold, optimal stimulation targets, and surgical outcomes.
+Computational epilepsy modeling applies [[neural-mass-models]] and [[dynamical-systems-theory]] to understand the mechanisms underlying seizure generation, propagation, and termination. This approach bridges clinical observations—particularly from [[eeg]] recordings with the underlying neurophysiology of pathological neural dynamics. By representing large populations of neurons as coupled oscillators or neural fields, computational models can reproduce the characteristic rhythmic activity observed during epileptic seizures and provide quantitative predictions about seizure threshold, optimal stimulation targets, and surgical outcomes.
 
-The field emerged from the recognition that seizures are not random events but rather deterministic manifestations of pathological neural dynamics. Like meteorological patterns emerging from atmospheric dynamics, seizure activity arises when the brain's excitatory-inhibitory balance shifts across critical thresholds. This perspective transformed epilepsy from a purely clinical syndrome into a problem amenable to the mathematical tools of [[nonlinear-dynamics]], enabling researchers to pose precise questions about bifurcation structures, parameter sensitivity, and network organization that would be intractable through experimental methods alone.
+The field emerged from the recognition that seizures are not random events but rather deterministic manifestations of pathological neural dynamics. Like meteorological patterns emerging from atmospheric dynamics, seizure activity arises when the brain's excitatory‑inhibitory balance shifts across critical thresholds. This perspective transformed epilepsy from a purely clinical syndrome into a problem amenable to the mathematical tools of [[nonlinear-dynamics]], enabling researchers to pose precise questions about bifurcation structures, parameter sensitivity, and network organization that would be intractable through experimental methods alone.
 
 ## Seizure Dynamics as Bifurcations
 
@@ -30,7 +30,7 @@ The field emerged from the recognition that seizures are not random events but r
 
 Seizures are mathematically understood as transitions between distinct dynamical regimes—qualitative changes in system behavior that occur when key parameters cross critical values. This bifurcation framework, extensively analyzed in the [[bifurcation-analysis]] literature, provides a unified language for describing seizure onset across different clinical phenotypes. Touboul et al. (2011) demonstrated that the [[jansen-rit]] neural mass model exhibits multiple codimension-1 and codimension-2 bifurcations thatmap directly onto observed seizure types, establishing a rigorous connection between dynamical systems theory and clinical epilepsy.
 
-The therapeutic implication of this framework is profound: if seizures arise at bifurcation boundaries, then seizure control can be reframed as parameter perturbation—gently nudging the system away from its critical threshold rather than completely suppressing neural activity. This principle underlies contemporary approaches to closed-loop neurostimulation, where detection of pre-seizure dynamics triggers precisely timed inhibitory stimuli.
+The therapeutic implication of this framework is profound: if seizures arise at bifurcation boundaries, then seizure control can be reframed as parameter perturbation—gently nudging the system away from its critical threshold rather than completely suppressing neural activity. This principle underlies contemporary approaches to closed-loop neurostimulation, where detection of pre‑seizure dynamics triggers precisely timed inhibitory stimuli.
 
 ### Bifurcation Taxonomy in Seizure Models
 
@@ -38,10 +38,10 @@ The therapeutic implication of this framework is profound: if seizures arise at 
 |------------------|----------------------|---------------------|
 | Saddle-Node on Invariant Circle (SNIC) | Tonic onset | Progressive frequency increase from baseline |
 | Andronov-Hopf | Spike-wave discharge | Sudden onset with fixed oscillation amplitude |
-| Saddle-Homoclinic | Tonic-clonic transition | Transient high-frequency burst |
-| Torus (Neimark-Sacker) | Absence seizures | 3 Hz spike-wave via quasiperiodic dynamics |
+| Saddle-Homoclinic | Tonic‑clonic transition | Transient high-frequency burst |
+| Torus (Neimark‑Sacker) | Absence seizures | 3 Hz spike‑wave via quasiperiodic dynamics |
 
-The torus bifurcation deserves particular attention for absence seizures, where the model's solution becomes quasiperiodic—neither simply oscillatory nor stationary—before locking onto the characteristic 3 Hz spike-wave rhythm observed clinically. This explains why absence seizures often exhibit subtle precursory dynamics that complicate real‑time detection.
+The torus bifurcation deserves particular attention for absence seizures, where the model's solution becomes quasiperiodic—neither simply oscillatory nor stationary—before locking onto the characteristic 3 Hz spike‑wave rhythm observed clinically. This explains why absence seizures often exhibit subtle precursory dynamics that complicate real‑time detection.
 
 ## Neural Mass Models for Epilepsy
 
@@ -61,7 +61,7 @@ The Wendling model's clinical validation against intracranial EEG demonstrated i
 
 Breakspear et al. (2006) extended the neural mass framework to spatially distributed systems, modeling cortical sheets as continuous media where neighboring columns couple through anatomical [[connectivity]]. This [[neural-field-theory|neural field]] approach captures the fundamental observation that seizures propagate: pathological activity at a seizure focus spreads to anatomically connected regions, producing the characteristic spatial evolution of ictal events visible in EEG source imaging.
 
-The asymptotic analysis in this work reduced the infinite‑dimensional neural field equations to low‑dimensional ordinary differential equations describing the collective dynamics of the cortical sheet. This reduction revealed that seizure propagation itself can exhibit bifurcations—transitions from localized focal seizures to secondary generalization that depend on the coupling strength and the excitability profile of the network. The framework thus connects local mechanisms of seizure onset with the global [[network-dynamics]] that determine clinical outcome.
+The asymptotic analysis in this work reduced the infinite‑dimensional neural field equations to low‑dimensional ordinary differential equations describing the collective dynamics of the cortical sheet. This reduction revealed that seizure propagation itself can exhibit bifurcations—transitions from localized focal seizures to secondary generalization that depend on the coupling strength and the excitability profile of the network. The framework thus connects local mechanisms of seizure onset with the global [[network-dynamics]] that determine clinical outcome. Agent‑based platforms like [[netlogo]] provide complementary approaches for simulating individual neuron interactions.
 
 ## Seizure Classification by Modeling Mechanism
 
@@ -145,3 +145,22 @@ Finally, the relationship between computational models and the underlying neurob
 4. Huda Mahdi, Jan Sieber, Krasimira Tsaneva‑Atanasova. *Alpha‑Delta Transitions in Cortical Rhythms as grazing bifurcations*. [Link](https://arxiv.org/abs/2411.16449))
 5. S. Fatima, F. Nasir, A. Ahmed. (2026). *Antiepileptic potential of Jatropha integerrima Jacq. extracts: an exploratory study integrating in vivo seizure models and computational analysis*. SAR and QSAR in environmental research (Print). [DOI](https://doi.org/10.1080/1062936x.2026.2640387))
 6. Valerio Barabino, F. Callegari, Sérgio Martinoia, P. Massobrio. (2026). *Hierarchical afferent connectivity drives population‑wide bursting dynamics in a computational model of human‑derived excitatory neuronal networks*. Journal of Neuroscience. [DOI](https://doi.org/10.1523/jneurosci.0912-25.2026))
+
+## ORPHAN PAGE CONTEXT (netlogo)
+---
+created: 2025-01-15
+sources:
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/semanticscholar-9afbfd2d37be.md
+tags:
+- software-brain-modeling
+- network-dynamics
+- computational-neuroscience
+- spiking-neural-networks
+title: NetLogo
+type: entity
+updated: '2026-05-12'
+---
+
+NetLogo is a multi-agent programmable modeling environment designed for simulating complex systems composed of many interacting autonomous agents. Developed at Northwestern University

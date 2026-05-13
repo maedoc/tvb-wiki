@@ -18,7 +18,7 @@ tags:
 - tractography
 title: HCP Pipelines
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-13'
 ---
 
 # HCP Pipelines
@@ -75,6 +75,7 @@ The **HCP Connectome Workbench** software, distributed alongside the pipelines, 
 - [[mrtrix3-connectome]] — Alternative/complementary tractography tool
 - [[ANTs]] — Advanced normalization tools compatible with HCP outputs
 - [[DataLad]] — Data management for [[hcp-dataset]] versioning
+- [[nxviz]]
 
 ## References
 
@@ -84,3 +85,21 @@ The **HCP Connectome Workbench** software, distributed alongside the pipelines, 
 4. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2018.05.040))
 5. (authors unknown). *Function in the Human Connectome: Task-fMRI and Individual Differences in Behavior*.
 6. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.
+
+## ORPHAN PAGE CONTEXT (nxviz)
+---
+created: 2024-01-15
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+- raw/papers/gorgolewski-2016.md
+tags:
+- software-visualization
+- connectomics
+- network-dynamics
+title: nxviz
+type: entity
+updated: '2026-05-12'
+---
+
+nxviz is a Python library for network visualization built on top of [[network-dynamics]], created by Eric Ma and published in the Journal of Open Source Software [[nxviz]]. While not specifically designed for [[neuroimaging]], nxviz has become a popular too

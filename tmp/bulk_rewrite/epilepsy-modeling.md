@@ -82,7 +82,7 @@ The sensitivity analysis conducted by Touboul et al. (2011) revealed that the Ja
 
 ### Patient-Specific Modeling in TVB
 
-[[tvb]] and [[tvb-multiscale]] frameworks enable construction of patient-specific models by combining individualized structural connectivity—derived from [[dti]] [[tractography]]—with personalized neural mass parameters estimated from the patient's own EEG or MEG recordings. This personalization pipeline addresses the fundamental limitation of generic models: inter-patient variability in anatomy and dynamics means that findings from one patient may not generalize to others.
+[[tvb]] [[pybraingraph]] and [[tvb-multiscale]] frameworks enable construction of patient-specific models by combining individualized structural connectivity—derived from [[dti]] [[tractography]]—with personalized neural mass parameters estimated from the patient's own EEG or MEG recordings. This personalization pipeline addresses the fundamental limitation of generic models: inter-patient variability in anatomy and dynamics means that findings from one patient may not generalize to others.
 
 The clinical workflow typically proceeds through several stages: acquiring diffusion imaging data, reconstructing the structural connectome, fitting neural mass parameters to baseline recordings, validating the model against recorded seizures, and finally using the validated model to predict optimal intervention targets. While promising, this approach faces significant challenges in parameter identifiability—many different parameter combinations can produce similar dynamical patterns—and in validation, where access to invasive intracranial recordings needed for model calibration is limited to patients undergoing surgical evaluation.
 

@@ -33,6 +33,8 @@ A collection of people, software platforms, datasets, and research groups releva
 - [PsyNeuLink](psyneulink.md) - Graph-based cognitive neuroscience modeling framework
 - [jNeuroML](jneuroml.md) - Java implementation of NeuroML for neuronal model validation and export
 - [OpenMEEG](openmeeg.md) - Boundary Element Method forward solver for EEG/MEG
+- [SCIRun](scirun.md) - Visual programming environment for scientific computing and neuroimaging forward modeling
+- [OpenWorm](openworm.md) — Whole-organism simulation project for the *C. elegans* nervous system
 - [OpenCortex](opencortex.md) - Framework for building cortical network models in NeuroML format
 - [DTI-TK](dti-tk.md) - Diffusion Tensor Imaging Toolkit for tensor-based tractography
 - [Camino](camino.md) - Open-source toolkit for diffusion MRI reconstruction, tractography, and Monte Carlo simulation
@@ -62,6 +64,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [FoVD](fovd.md) — Field of View Diameter, a critical MRI imaging parameter for whole-brain modeling
 - [PyDICOM](pydicom.md) — Pure Python library for reading and writing DICOM medical imaging files
 - [Pydra](pydra.md) — Lightweight dataflow engine for scientific workflow construction and execution
+- [PySurfer](pysurfer.md) — Python library for cortical surface visualization and analysis of FreeSurfer outputs
 - [DDE-Biftool](dde-biftool.md) — MATLAB toolbox for bifurcation analysis of delay differential equations, used for neural mass models
 - [LabStreamingLayer](labstreaminglayer.md) — Real-time data acquisition and synchronization framework for multimodal neuroimaging
 - [LFPykit](lfpykit.md) — Python toolkit for computing extracellular potentials (LFP) from spiking neural network simulations

@@ -45,7 +45,7 @@ type: entity
 updated: '2026-05-06'
 ---
 
-The c302 model framework is a computational platform for generating network models of the nematode *Caenorhabditis elegans* nervous system, developed as part of the OpenWorm project. The name "c302"
+The c302 model framework is a computational platform for generating network models of the nematode *Caenorhabditis elegans* nervous system, developed as part of the [[openworm]] project. The name "c302"
 
 ## ORPHAN PAGE CONTEXT (hnn)
 ---

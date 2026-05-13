@@ -1,7 +1,7 @@
 ---
 title: Wilson-Cowan Model
 created: 2026-04-20
-updated: 2026-05-09
+updated: 2026-05-13
 type: concept
 tags: [neural-mass-models, brain-oscillations, dynamical-systems-theory, bifurcation-theory, network-dynamics, whole-brain-modeling, excitation-inhibition-balance]
 sources: [raw/papers/wilson-cowan-1972.md, raw/papers/destexhe-sejnowski-2009.md, raw/papers/arxiv-2510.22022.md]
@@ -48,6 +48,7 @@ The model has also found application in computational psychiatry and neurology, 
 ## Relationship to TVB
 
 Within [[the-virtual-brain]] ecosystem, the Wilson-Cowan model serves as one of the default neural mass models for large-scale brain network simulations. The TVB implementation uses Wilson-Cowan dynamics to drive regional activity in the [[connectome]]-based network model, where white matter tractography from diffusion imaging provides the structural connectivity matrix that couples regional population dynamics. The model's relatively low computational cost makes it suitable for parameter sweep studies and clinical applications requiring many simulation runs.
+[[gira]]
 
 The relationship between excitation and inhibition in the Wilson-Cowan framework connects directly to TVB's analysis of [[excitation-inhibition-balance]] in brain dynamics. TVB's exploration of parameter spaces using tools like [[bifurcation-analysis]] allows researchers to identify critical parameter regimes where the model transitions between different dynamical states, supporting studies of brain criticality and [[brain-dynamics]] more broadly. The model also serves as a testbed for studying [[stochastic-differential-equations]] when noise is incorporated, enabling investigation of noise-induced transitions and stochastic resonance in neural systems.
 

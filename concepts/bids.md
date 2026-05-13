@@ -14,7 +14,7 @@ tags:
 - neuroimaging-dti
 title: Brain Imaging Data Structure (BIDS)
 type: concept
-updated: '2026-05-12'
+updated: '2026-05-13'
 ---
 
 The Brain Imaging Data Structure (BIDS) is a **standard specification for organizing neuroimaging datasets** that enables reproducible, tool-independent data sharing across the [[computational-neuroscience]] community. BIDS defines a hierarchical file structure and naming convention for brain imaging data, along with metadata specifications in JSON sidecar files that capture acquisition parameters, processing history, and subject metadata. The specification has become the de facto standard for data sharing in neuroimaging, supported by over 200 software tools and adopted by major data repositories including the [[human-connectome-project]] (HCP), [[openneuro]], and UK Biobank (which supports BIDS as one of several acceptable formats for data submission) [@raw/papers/jordan-2018].
@@ -66,9 +66,9 @@ sources:
 - raw/papers/sanz-leon-2013.md
 tags:
 - software-braindecode
-- machine-learning
-- neural-network
-- electrophysiology
+- [[machine-learning]]
+- [[neural-network]]
+- [[electrophysiology]]
 - eeg
 - meg
 - brain-computer-interface

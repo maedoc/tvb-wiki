@@ -10,10 +10,12 @@ tags:
 - computational-neuroscience
 title: Demois
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-13'
 ---
 
 # Demois
+
+Despite being listed as a related software entry in the [[tvb]] entity registry, the name **Demois** is not documented in any of the primary sources reviewed for this wiki. The Virtual Brain (TVB) is described as an open-source platform for constructing and simulating personalized brain-network models, used to build patient-specific digital brain twins for clinical applications such as [[epilepsy-modeling]] [[raw/papers/semanticscholar-eb4197c24bf2.md|Movahedin et al. (2025)]]. The TVB Ontology provides a curated database of published models, brain networks, and study configurations alongside software that generates executable code for various simulation platforms, thereby lowering technical barriers to [[whole-brain-modeling]] [[raw/papers/semanticscholar-9afbfd2d37be.md|Martin et al. (2025)]]. Complementing these frameworks, multimodal empirical datasets—including simultaneous [[eeg]]-[[fmri]] [[resting-state]] data and diffusion-weighted imaging from fifty healthy subjects—have been released with annotated simulation results to support reproducible research [[raw/papers/semanticscholar-adcab180dcd3.md|Meier et al. (2025)]]. Because none of these sources identify an entity named Demois, its status remains unverified; researchers seeking validated TVB tutorials or executable examples should consult the official [[the-virtual-brain]] documentation and the [[tvb-library]] scripting interface.
 
 ## Overview
 

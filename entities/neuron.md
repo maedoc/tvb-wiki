@@ -12,12 +12,14 @@ tags:
 - neural-mass-models
 title: NEURON
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-13'
 ---
 
 # NEURON
 
-NEURON is a simulation environment for modeling individual neurons and networks of neurons using multi-compartment cable theory.
+NEURON is a simulation environment for building and simulating biophysically detailed models of individual neurons and networks of neurons using multi-compartment cable theory. Introduced by Hines and Carnevale, it provides the NMODL language for specifying arbitrary [[ion-channel]] kinetics and mechanisms, allowing researchers to construct models directly from experimental electrophysiological and anatomical data [[raw/papers/hines-carnevale-1997.md|Hines & Carnevale (1997)]]. The software employs efficient implicit numerical methods to handle the stiff differential equations that arise when complex dendritic morphologies are represented as interconnected compartments, making it computationally tractable to explore realistic neuronal geometries alongside active membrane properties [[raw/papers/hines-carnevale-1997.md|Hines & Carnevale (1997)]]. Over the decades since its release, NEURON has become one of the most widely adopted platforms in computational neuroscience, hosting thousands of published models that span diverse cell types and brain regions [[raw/papers/hines-carnevale-1997.md|Hines & Carnevale (1997)]].
+
+The environment offers comprehensive scripting interfaces in both hoc and Python, guiding users from simple single-compartment models to large heterogeneous networks endowed with realistic synaptic dynamics and [[plasticity]] [[raw/papers/carnevale-hines-2006.md|Carnevale & Hines (2006)]]. Carnevale and Hines's monograph has served as the definitive reference and tutorial for generations of researchers adopting NEURON, providing best-practice guidance for validating and sharing simulations [[raw/papers/carnevale-hines-2006.md|Carnevale & Hines (2006)]]. At the single-cell level, Hay and colleagues demonstrated the platform's explanatory power by developing detailed multi-compartment models of neocortical layer 5b pyramidal cells, using a genetic algorithm to optimize ion channel distributions so that the cells reproduced dendritic calcium spikes and backpropagating action potentials against independent experimental data [[raw/papers/hay-2011.md|Hay et al. (2011)]]. These rigorously validated models established a methodological benchmark for biophysically detailed neuron construction and are now widely reused in [[spiking-neural-networks]] simulations [[raw/papers/hay-2011.md|Hay et al. (2011)]].
 
 ## Overview
 

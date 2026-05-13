@@ -1,7 +1,7 @@
 ---
 title: SUMA
 created: 2024-01-15
-updated: 2026-04-28
+updated: 2026-05-13
 type: entity
 tags: [software-visualization, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg]
 sources:
@@ -19,7 +19,7 @@ sources:
     url: "https://afni.nimh.nih.gov/pub/dist/doc/htmldoc/"
 ---
 
-# SUMA (Surface Modeling System)
+SUMA (Surface Modeling System) is a specialized software toolbox developed at the National Institute of Mental Health (NIMH) for surface-based visualization and analysis of neuroimaging data. Designed as a complement to the [[afni]] suite, SUMA enables researchers to project volumetric data—such as [[fmri]] activation maps and connectivity matrices—onto triangulated cortical surface models, revealing spatial patterns that conventional volume renders may obscure due to cortical folding. While whole-brain modeling platforms such as [[the-virtual-brain]] simulate primate brain network dynamics using biologically realistic structural connectivity to generate macroscopic neuroimaging signals [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. 2013]], SUMA operates downstream as a visualization and post-processing layer that bridges simulated outputs with anatomically accurate surface representations. The expanding ecosystem of cortical reconstruction tools underscores the growing significance of surface-based analysis: species-agnostic pipelines now extend FreeSurfer-compatible surface generation to non-human datasets [[raw/papers/semanticscholar-97e6ff441097.md|Benn et al. 2025]], and integrated MEG/EEG analysis platforms incorporate anatomical visualization and source localization within unified graphical environments [[raw/papers/arxiv-2604.16463.md|Liu 2026]]. In this context, SUMA functions as an interoperability node linking [[whole-brain-modeling]] simulations and empirical neuroimaging data with surface-based anatomical frameworks, supporting direct comparison between simulated and observed activation patterns.
 
 ## Overview
 

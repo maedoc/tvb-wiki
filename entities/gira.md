@@ -8,10 +8,12 @@ tags:
 - whole-brain-modeling
 title: gira
 type: concept
-updated: '2026-05-12'
+updated: '2026-05-13'
 ---
 
 # gira
+
+gira is a computational modeling framework that extends the [[the-virtual-brain]] (TVB) ecosystem with neural mass model implementations for large-scale brain network simulation. TVB is an open-source neuroinformatics platform that enables researchers to construct personalized whole-brain models by coupling empirical [[structural-connectivity]] matrices—typically derived from [[diffusion-imaging]] tractography—with biologically parametrized neural mass equations [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. Within this architecture, gira supplies the population-level dynamical models that drive simulated activity, while TVB provides the underlying simulation engine, [[connectome]] data management, and forward modeling infrastructure for comparing predictions against empirical [[neuroimaging-eeg]], [[neuroimaging-meg]], and [[neuroimaging-fmri]] recordings [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. By combining individual connectome data with mean-field approximations of synaptic dynamics, gira facilitates the study of [[brain-oscillations]], [[resting-state]] network formation, and the mechanistic basis of neurological conditions through computationally efficient whole-brain simulation [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]].
 
 ## Overview
 
@@ -19,17 +21,17 @@ gira is a computational modeling framework integrated with [[the-virtual-brain]]
 
 ## Technical Content
 
-The gira framework implements several neural mass models commonly used in whole-brain modeling, including variants of the [[jansen-rit-model]] [[@jansen1995neural]], [[wong-wang-model]], and [[wilson-cowan-model]]. These models represent populations of excitatory and inhibitory neurons using coupled differential equations that capture the mean firing rates and synaptic dynamics of neural ensembles. The mathematical formulation typically follows the general structure of a neural mass equation where the activity of a brain region $i$ is governed by:
+The gira framework implements several neural mass models commonly used in whole-brain modeling, including variants of the [[jansen-rit-model]] [[@jansen1995neural]], [[wong-wang-model]], and [[wilson-cowan-model]]. These models represent populations of excitatory and inhibitory neurons using coupled differential equations that capture the mean firing rates of synaptic dynamics. The mathematical formulation typically follows the general structure of a neural mass equation where the activity of a brain region $i$ is governed by:
 
 $$\dot{x}_i = -x_i + S\left(\sum_{j} W_{ij} \cdot x_j - \lambda \cdot x_i + I_{ext}\right)$$
 
 where $W_{ij}$ represents the [[structural-connectivity]] weight from region $j$ to region $i$, $\lambda$ is a coupling strength parameter, $I_{ext}$ denotes external input, and $S(\cdot)$ is a [[community-detection]] activation function that converts mean membrane potentials to firing rates. The [[community-detection]] $S(x) = 1/(1 + e^{-x})$ introduces the nonlinear dynamics essential for capturing realistic brain oscillations and transition phenomena.
 
-gira provides efficient implementations of these models optimized for large-scale simulations across hundreds of brain regions [[@sanzleon2015tvb]]. The framework leverages TVB's simulation engine to solve the coupled differential equations using numerical integration methods [[@sanzleon2015tvb]], while offering modular interfaces for customizing model parameters, [[connectivity]] matrices, and simulation outputs.
+gira provides efficient implementations of these models optimized for large-scale simulations across hundreds of brain regions [[tvb]]. The framework leverages TVB's simulation engine to solve the coupled differential equations using numerical integration methods [[tvb]], while offering modular interfaces for customizing model parameters, [[connectivity]] matrices, and simulation outputs.
 
 ## Relationship to TVB
 
-gira operates as a complement to the core [[tvb-library]], extending its capabilities with additional neural mass model implementations and analysis routines [[@sanzleon2015tvb]]. While TVB provides the foundational infrastructure for whole-brain simulations—including [[brain-parcellation]] handling, [[connectome]] data management, and forward modeling for [[neuroimaging-fmri]] [[tvb]], [[neuroimaging-eeg]] [[tvb]], and [[neuroimaging-meg]] [[tvb]]—gira supplies specialized models that can be selected and configured within the TVB interface [[@sanzleon2015tvb]]. Researchers can use gira models to reproduce experimental findings, test hypotheses about neural mechanisms, or generate predictions for [[resting-state]] and task-based brain dynamics. The integration allows seamless switching between different neural mass formulations while maintaining compatibility with TVB's data pipeline for [[parameter-estimation]] and [[model-validation]] [[@sanzleon2015tvb]].
+gira operates as a complement to the core [[tvb-library]], extending its capabilities with additional neural mass model implementations and analysis routines [[tvb]]. While TVB provides the foundational infrastructure for whole-brain simulations—including [[brain-parcellation]] handling, [[connectome]] data management, and forward modeling for [[neuroimaging-fmri]] [[tvb]], [[neuroimaging-eeg]] [[tvb]], and [[neuroimaging-meg]] [[tvb]]—gira supplies specialized models that can be selected and configured within the TVB interface [[tvb]]. Researchers can use gira models to reproduce experimental findings, test hypotheses about neural mechanisms, or generate predictions for [[resting-state]] and task-based brain dynamics. The integration allows seamless switching between different neural mass formulations while maintaining compatibility with TVB's data pipeline for [[parameter-estimation]] and [[model-validation]] [[tvb]].
 
 ## Key Features
 

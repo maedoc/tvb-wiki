@@ -1,7 +1,7 @@
 ---
 title: Jansen-Rit Model
 created: 2026-04-20
-updated: 2026-05-07
+updated: 2026-05-13
 type: concept
 tags: [neural-mass-models, computational-neuroscience, whole-brain-modeling, eeg, meg, bifurcation-analysis, software-tvb]
 sources: [raw/papers/jansen-rit-1995.md, raw/papers/rit-2013.md, raw/papers/arxiv-2411.16449.md]
@@ -45,7 +45,7 @@ Beyond alpha and delta, the model exhibits a rich repertoire of dynamical regime
 
 ## Extensions and Whole-Brain Applications
 
-The single-column Jansen-Rit model serves as the building block for large-scale whole-brain simulations. By coupling multiple cortical columns through [[structural-connectivity]] matrices derived from [[diffusion-imaging|diffusion tensor imaging]] and tractography, researchers construct [[whole-brain]] models capable of reproducing functional connectivity patterns observed in resting-state fMRI and EEG[^2][^3]. This approach, implemented in [[the-virtual-brain|TVB]], enables personalization of brain models using individual subject connectivity data[^2].
+The single-column Jansen-Rit model serves as the building block for large-scale whole-brain simulations. By coupling multiple cortical columns through [[structural-connectivity]] matrices derived from [[diffusion-imaging|diffusion tensor imaging]] and tractography, researchers construct [[whole-brain]] models capable of reproducing functional connectivity patterns observed in resting-state fMRI and EEG[^2][^3]. This approach, implemented in [[the-virtual-brain|TVB]] and often using efficient computation libraries such as [[dynet]], enables personalization of brain models using individual subject connectivity data[^2].
 
 Extensions to the basic model include the addition of more populations to capture specific phenomena, incorporation of [[stochastic-differential-equations|stochastic fluctuations]] to simulate noise-driven dynamics, and coupling to [[bold-model|hemodynamic models]] for fMRI simulation[^3]. The model has also been adapted to study K-complexes and slow wave activity during sleep, demonstrating its versatility across cognitive states and clinical applications[^3].
 

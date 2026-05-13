@@ -12,7 +12,6 @@ title: BioNet
 type: entity
 updated: '2026-05-04'
 ---
-
 # BioNet
 
 BioNet is a neural mass modeling framework implementing Walter Freeman's K-set hierarchy for simulating mesoscopic [[brain-dynamics]]. Developed in the broader context of nonlinear neurodynamics research, BioNet provides tools for modeling population-level neural activity through coupled differential equations describing excitatory and inhibitory interactions.
@@ -33,8 +32,7 @@ The framework emphasizes "mass action" in neural systems—how populations of ne
 - **Continuous dynamics**: Differential equation-based simulation emphasizing temporal evolution
 
 ## K-Set Hierarchy
-
-The K-set framework categorizes neural populations by complexity of interaction Freeman (1975)Freeman (2000):
+The K-set hierarchy, introduced in Freeman's 1975 monograph, provides a systematic taxonomy of neural populations ordered by increasing structural complexity and dynamical richness [[raw/papers/freeman-1975.md|Freeman (1975)]]. At the base level, K0 denotes isolated non-interactive neurons whose dynamics reduce to linear point processes with passive decay, whereas KI assemblies introduce recurrent excitatory feedback that yields nonlinear amplification and multiple steady states [[raw/papers/freeman-1975.md|Freeman (1975)]]. The transition to KII marks the coupling of excitatory and inhibitory populations through recurrent [[connectivity]], producing the collective nonlinear dynamics that Freeman applied to olfactory bulb and EEG analysis [[raw/papers/freeman-1975.md|Freeman (1975)]]. KIII networks extend this architecture by assembling multiple interacting KII sets into distributed systems that Freeman developed for multisensory integration through collective neural activity [[raw/papers/freeman-1975.md|Freeman (1975)]].
 
 | Level | Description | Dynamics |
 |-------|-------------|----------|
@@ -43,8 +41,7 @@ The K-set framework categorizes neural populations by complexity of interaction 
 | **KII** | Coupled excitatory-inhibitory populations | Oscillations, limit cycles |
 | **KIII** | Interacting KII sets forming distributed networks | Chaotic dynamics, attractor landscapes |
 
-KIII sets exhibit the complex chaotic dynamics Freeman proposed as the basis for perceptual encoding and sensory information processing in cortex.
-
+This hierarchical framework furnished an early mesoscopic bridge between single-neuron biophysics and population-level brain modeling, directly motivating applications to the olfactory bulb and [[electrophysiology|EEG generation]] [[raw/papers/freeman-1975.md|Freeman (1975)]]. By introducing collective nonlinear dynamics at each successive level, Freeman established how coupled mass action could generate complex temporal patterns characteristic of population recordings [[raw/papers/freeman-1975.md|Freeman (1975)]]. These constructs subsequently influenced later neural mass formulations, including the [[wilson-cowan-model|Wilson–Cowan]] and [[jansen-rit-model|Jansen–Rit]] equations now embedded in [[tvb-library|whole-brain simulation toolkits]] [[raw/papers/freeman-1975.md|Freeman (1975)]]; [[raw/papers/destexhe-sejnowski-2009.md|Destexhe & Sejnowski (2009)]].
 ## Core Methodology
 
 BioNet implements neural population dynamics through coupled nonlinear differential equations:
@@ -90,11 +87,3 @@ Freeman's insight that chaotic attractors in KIII sets enable rapid perceptual t
 - [[bifurcation analysis]] — Exploring qualitative changes in model behavior
 - [[brain oscillations]] — Emergent dynamics in coupled populations
 - [[eeg]] — Simulated via population-level forward models
-
-## References
-
-1. Walter J. Freeman. *Mass Action in the Nervous System*.
-2. Alain Destexhe, Terrence J. Sejnowski. *[[wilson-cowan|Wilson-Cowan model]] of the excitatory and inhibitory population dynamics*. Scholarpedia. [DOI](](https://doi.org/10.4249/scholarpedia.1389))
-3. Yupei Li, Shuaijie Shao, Manuel Milling, Björn Schuller. *Enhancing Efficiency and Performance in Deepfake Audio Detection through Neuron-level Dropin & Neuroplasticity Mechanisms*. [Link](](https://arxiv.org/abs/2603.24343))
-4. Duy Pham, Gene J. Yu, G. Lazzi, Jean-Marie C Bouteiller. (2026). *A spatially discretized convolutional neural mass model for studying meso-scale spatio-temporal transformations in the rat hippocampus*. Research Square. [DOI](](https://doi.org/10.21203/rs.3.rs-9306977/v1))
-5. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)

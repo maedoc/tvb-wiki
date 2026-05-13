@@ -7,7 +7,7 @@ Stop:  Ctrl+C (graceful shutdown between cycles)
 
 Agents:
   Ingestor       (hourly) — fetches papers from arXiv, Semantic Scholar, PubMed, OpenAlex
-  Improver       (hourly) — improves worst pages via writer(kimi-k2.6)  [reviewer skipped for burst mode]
+  Improver       (hourly) — improves worst pages via writer(deepseek-v4-pro)  [reviewer skipped for burst mode]
   Auditor        (daily)  — structural integrity check (broken links, orphans, etc)
   Librarian      (daily)  — index rebuild, authority scores, symmetry check
   SoftwareMapper (weekly) — ensures full software ecosystem coverage
@@ -34,6 +34,7 @@ from ralph_config import (
     REF_FORMATTER_INTERVAL, CROSSLINK_APPLIER_INTERVAL,
     FULL_TEXT_INTERVAL,
     PARALLEL_WRITERS, PI_TIMEOUT,
+    CIRCUIT_BREAKER_RESET_HOURS, BATCH_FAILURE_ABORT,
     get_all_pages,
 )
 
@@ -65,6 +66,7 @@ class DaemonState:
         }
         self.failures = {k: 0 for k in self.last_run}
         self.disabled = set()
+        self.disabled_at = {}  # agent_name -> datetime when disabled
         self.running = True
         self.cycle = 0
 
@@ -76,8 +78,20 @@ class DaemonState:
         self.failures[agent] += 1
 
     def is_disabled(self, agent: str) -> bool:
+        # Check if a disabled agent should be re-enabled (cooldown check first)
+        if agent in self.disabled and agent in self.disabled_at:
+            disabled_duration = (datetime.datetime.now() - self.disabled_at[agent]).total_seconds()
+            if disabled_duration >= CIRCUIT_BREAKER_RESET_HOURS * 3600:
+                log.info("Re-enabling %s after %.0fh cooldown (was disabled at %s)",
+                         agent, disabled_duration / 3600, self.disabled_at[agent].isoformat())
+                self.disabled.discard(agent)
+                self.failures[agent] = 0
+                del self.disabled_at[agent]
+                return False
+        # Then check failure threshold
         if self.failures.get(agent, 0) >= 3:
             self.disabled.add(agent)
+            self.disabled_at[agent] = datetime.datetime.now()
             return True
         return agent in self.disabled
 
@@ -92,6 +106,8 @@ class DaemonState:
 
 state = DaemonState()
 
+
+import threading
 
 # ── Signal handling ────────────────────────────────────────────────────
 
@@ -417,14 +433,30 @@ _agent_futures = {}     # agent_name -> Future
 _agent_start_times = {}  # agent_name -> datetime of last launch
 FUTURE_TIMEOUT = 1800  # 30 min max per agent run (accommodates PI_TIMEOUT 600s * 3 retries + overhead)
 
+
 def _kill_stale_pi_processes(agent_name: str):
-    """Kill lingering pi subprocesses spawned by a timed-out agent."""
-    try:
-        cmd = ["pkill", "-x", "pi"]
-        _subprocess.run(cmd, capture_output=True, timeout=5)
-        log.info("Killed stale pi processes for %s", agent_name)
-    except Exception:
-        pass
+    """Kill only the pi subprocesses belonging to the timed-out agent.
+    Uses PID tracking from ralph_config to avoid killing other agents' pi processes."""
+    from ralph_config import get_agent_pids
+    pids = get_agent_pids(agent_name)
+
+    killed = 0
+    for pid in pids:
+        try:
+            os.kill(pid, 9)  # SIGKILL
+            killed += 1
+            log.info("Killed pi PID %d for agent %s", pid, agent_name)
+        except ProcessLookupError:
+            pass  # already dead
+        except PermissionError:
+            log.warn("Cannot kill pi PID %d (permission denied)", pid)
+
+    if not pids:
+        # Fallback: no tracked PIDs, so we can't target specific processes.
+        # Do NOT use pkill -x pi (kills all agents' processes).
+        log.warn("No tracked PIDs for %s — skipping indiscriminate kill", agent_name)
+    else:
+        log.info("Killed %d/%d tracked pi processes for %s", killed, len(pids), agent_name)
 
 
 def _run_agent_async(agent_name: str, runner) -> bool:
@@ -432,7 +464,12 @@ def _run_agent_async(agent_name: str, runner) -> bool:
     Returns False if the agent is already running.
     """
     global _agent_futures
-    
+    from ralph_config import set_current_agent
+
+    def _wrapped_runner():
+        set_current_agent(agent_name)
+        return runner()
+
     # Check if already running
     future = _agent_futures.get(agent_name)
     if future and not future.done():
@@ -458,10 +495,10 @@ def _run_agent_async(agent_name: str, runner) -> bool:
             log.error("%s thread raised: %s", agent_name, e)
         del _agent_futures[agent_name]
     
-    # Launch new thread
+    # Launch new thread (wrapped to set thread-local agent name)
     n_workers = AGENT_MAX_WORKERS.get(agent_name, 1)
     executor = _agent_executors.setdefault(agent_name, concurrent.futures.ThreadPoolExecutor(max_workers=n_workers))
-    _agent_futures[agent_name] = executor.submit(runner)
+    _agent_futures[agent_name] = executor.submit(_wrapped_runner)
     _agent_start_times[agent_name] = datetime.datetime.now()
     log.info("── %s launched in background (%d workers) ──", agent_name, n_workers)
     return True
@@ -486,7 +523,12 @@ def main_loop_with_agents(agents, poll_interval: int = 60):
 
             if state.is_disabled(agent_name):
                 if state.cycle % 100 == 0:  # Occasional reminder
-                    log.warn("%s is disabled (3 consecutive failures)", agent_name)
+                    remaining = ''
+                    if agent_name in state.disabled_at:
+                        remaining_s = CIRCUIT_BREAKER_RESET_HOURS * 3600 - (datetime.datetime.now() - state.disabled_at[agent_name]).total_seconds()
+                        if remaining_s > 0:
+                            remaining = f' (re-enables in {remaining_s/60:.0f}min)'
+                    log.warn("%s is disabled (3 consecutive failures)%s", agent_name, remaining)
                 continue
 
             if state.should_run(agent_name, interval):
@@ -515,10 +557,16 @@ def main_loop_with_agents(agents, poll_interval: int = 60):
                         log.error("%s thread raised: %s", agent_name, e)
                     del _agent_futures[agent_name]
                 
-                # Launch
+                # Launch (wrapped to set thread-local agent name)
+                from ralph_config import set_current_agent
+                def _make_wrapped(name, r):
+                    def _w():
+                        set_current_agent(name)
+                        return r()
+                    return _w
                 n_workers = AGENT_MAX_WORKERS.get(agent_name, 1)
                 executor = _agent_executors.setdefault(agent_name, concurrent.futures.ThreadPoolExecutor(max_workers=n_workers))
-                future = executor.submit(runner)
+                future = executor.submit(_make_wrapped(agent_name, runner))
                 _agent_futures[agent_name] = future
                 _agent_start_times[agent_name] = datetime.datetime.now()
                 log.info("── %s launched (%d workers) ──", agent_name, n_workers)

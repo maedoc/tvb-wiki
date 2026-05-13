@@ -18,12 +18,12 @@ tags:
 - dynamical-systems-theory
 title: Whole-brain modeling
 type: concept
-updated: '2026-05-12'
+updated: '2026-05-13'
 ---
 
 # Whole-brain modeling
 
-Whole-brain modeling is a computational neuroscience approach that represents the entire brain as a network of coupled dynamical systems, where each node corresponds to a brain region and connections are derived from empirical [[structural connectivity]] data. This framework enables researchers to investigate how anatomical substrate—measured noninvasive via [[diffusion-mri]] and [[tractography]]—gives rise to functional brain dynamics observable in [[fmri]], [[eeg]] (e.g., using the [[xcos]] coordinate framework), or [[meg]] recordings. By treating the brain as a coupled oscillator network or neural mass model, whole-brain modeling bridges the gap between [[connectome]]-level anatomy and emergent spatiotemporal patterns of activity that subtend cognition, behavior, and clinical dysfunction.
+Whole-brain modeling is a computational neuroscience approach that represents the entire brain as a network of coupled dynamical systems, where each node corresponds to a brain region and connections are derived from empirical [[structural connectivity]] data. This framework enables researchers to investigate how anatomical substrate—measured noninvasive via [[diffusion-mri]] and [[tractography]]—gives rise to functional brain dynamics observable in [[fmri]], [[eeg]] (e.g., using the [[xcos]] coordinate framework), or [[meg]] recordings. By treating the brain as a coupled oscillator network or neural mass model, whole-brain modeling bridges the gap between [[connectome]]-level anatomy and emergent spatiotemporal patterns of activity that subtend cognition, behavior, and clinical dysfunction. **These approaches are also implemented in platforms such as [[gns]].**
 
 ## Conceptual Foundations
 
@@ -78,5 +78,29 @@ Future directions include the integration of [[effective‑connectivity]] framew
 
 1. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](](https://doi.org/10.1038/s41593-017-0015-4))
 2. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](](https://doi.org/10.1073/pnas.2505768123))
-3. Cristiana Dimulescu, Ronja Strömsdörfer, Agnes Flöel, Klaus Obermayer. (2025). *On the robustness of the emergent spatiotemporal dynamics in biophysically realistic and phenomenological whole-brain models at multiple network resolutions*. [Link](](https://arxiv.org/abs/2504.17491))
+3. Cristiana Dimulescu, Ronja Strömsdörfer, Agnes Flöel, Klaus Obermayer. (2025). *On the robustness of the emergent spatiotemporal dynamics in biophysically realistic and phenomenological whole-brain models at multiple network resolutions*. [Link](https://arxiv.org/abs/2504.17491))
 4. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.01.21.633922))
+
+## ORPHAN PAGE CONTEXT (gns)
+---
+created: 2025-01-15
+sources:
+- raw/papers/semanticscholar-93f6eb94ecfd.md
+- raw/papers/semanticscholar-028f7c6ac41d.md
+- raw/papers/semanticscholar-eadc34d87ac8.md
+tags:
+- whole-brain-modeling
+- neural-mass-models
+- network-dynamics
+- dynamical-systems-theory
+- computational-neuroscience
+title: GNS
+type: concept
+updated: '2026-05-12'
+---
+
+# GNS
+
+## Overview
+
+GNS (Graphical Network Simulation or Generative Network System) refers to a computational framework for modeling large-scale brain netw

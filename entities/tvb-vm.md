@@ -12,7 +12,7 @@ tags:
 - software-modeling
 title: TVB-VM
 type: entity
-updated: '2026-05-12'
+updated: '2026-05-13'
 ---
 
 TVB-VM (The Virtual Brain Virtual Machine) is a pre-configured virtual appliance that packages the complete [[the-virtual-brain]] software stack along with all necessary [[neuroimaging]] preprocessing dependencies in a single, ready-to-run environment. Originally developed to lower the barrier to entry for new users, TVB-VM provides a turnkey solution for [[whole-brain|whole-brain modeling]] that eliminates the complex software installation process traditionally associated with [[computational-neuroscience]] toolkits.
@@ -31,7 +31,7 @@ The TVB-VM distribution also includes visualization capabilities through [[tvb-w
 
 ## Relationship to TVB
 
-TVB-VM serves as one of several deployment options for [[the-virtual-brain]], complementing the traditional pip-based installation and docker container approaches. Unlike the standalone Python installation, which requires users to manage their own Python environment and dependencies, TVB-VM provides a completely isolated system where all components are pre-configured to work together. This makes it particularly useful for workshops, tutorials, and educational settings where participants may have varying levels of technical expertise.
+TVB-VM serves as one of several deployment options for [[the-virtual-brain]], complementing the traditional pip-based installation and [[tvb]] container approaches. Unlike the standalone Python installation, which requires users to manage their own Python environment and dependencies, TVB-VM provides a completely isolated system where all components are pre-configured to work together. This makes it particularly useful for workshops, tutorials, and educational settings where participants may have varying levels of technical expertise.
 
 The virtual machine approach also facilitates workflow integration with external tools. Researchers can use the bundled neuroimaging software to process their own [[structural-connectivity]] data, import the resulting [[connectivity]] matrices into TVB, and then export simulation results for further analysis. This end-to-end capability makes TVB-VM a complete research platform for [[personalized-brain-modeling]] applications, from raw imaging data to fitted computational models.
 

@@ -13,7 +13,7 @@ tags:
 - computational-neuroscience
 title: Computational Neuroscience
 type: concept
-updated: '2026-05-12'
+updated: '2026-05-13'
 ---
 
 Computational neuroscience is the discipline that formalizes brain function as a dynamical system constrained by anatomical structure and the [[connectome]], seeking to bridge biophysical mechanism with observable neural activity patterns. Jiang et al. (2026) emphasize that brain activity is intrinsically a neural dynamic process shaped by anatomical space, producing significant variations in spatial distribution and correlation patterns across heterogeneous scenarios. At the microscopic scale, the field simulates [[spiking-neural-networks]] with synaptic resolution; Jordan et al. (2018) demonstrated that the [[nest]] simulator can weak-scale from laptops to petascale supercomputers, executing networks comprising 10^11 synapses—approaching human cortex scale—through a five-step communication scheme and memory-efficient data structures. At the macroscopic scale, [[neural-mass-model|neural mass models]] and mean-field approximations capture population-level dynamics governed by [[nonlinear-dynamics|nonlinear differential equations]], with Strogatz (1994) supplying the foundational treatment of [[bifurcation-analysis|bifurcation theory]], limit cycles, and strange attractors that underpin the analysis of brain state transitions such as [[epilepsy-modeling|seizure onset]].
@@ -23,6 +23,8 @@ The bridge from these computational scales to neuroimaging is established by [[f
 ## Related Concepts
 * [[parcellation]]
 * [[neural-mass-model]]
+* [[ Allen SDK]]
+* [[braindecode]]
 
 ## References
 
@@ -34,3 +36,48 @@ The bridge from these computational scales to neuroimaging is established by [[f
 6. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](https://arxiv.org/abs/2601.03796))
 7. Jianwei Chen, Zhengyang Miao, Wenjie Cai, Jiaxue Tang, Boxing Liu, Yunfan Zhang, Yuhang Yang, Hao Tang, Carola-Bibiane Schönlieb, Zaixu Cui, Du Lei, Shouliang Qi, Chao Li. (2026). *Hierarchical Multiscale Structure-Function Coupling for Brain [[connectome]] Integration*. [Link](https://arxiv.org/abs/2603.20680))
 8. C. Goh, Hao Liu. (2025). *Mapping the Disordered Mind: A Computational Framework for Integrating [[neuroimaging]] and Symptom Data*. Digital Neuropsychiatry. [DOI](https://doi.org/10.64229/zxdytz96))
+
+## ORPHAN PAGE CONTEXT ( Allen SDK)
+---
+created: 2024-01-15
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-028f7c6ac41d.md
+- raw/papers/ritter-2013.md
+tags:
+- software
+- connectomics
+- structural-connectivity
+- diffusion-imaging
+- neuroimaging-dti
+title: Allen SDK
+type: entity
+updated: '2026-05-05'
+---
+
+The [[allen-sdk]] is a software development kit produced by the Allen Institute for Brain Science that provides programmatic access to the institute's brain mapping datasets, particularly the Allen Mouse Brain
+
+## ORPHAN PAGE CONTEXT (braindecode)
+---
+created: 2024-01-15
+sources:
+- raw/papers/schirrmeister-2017.md
+- raw/papers/bein-2018.md
+- raw/papers/sanz-leon-2013.md
+tags:
+- software-braindecode
+- machine-learning
+- neural-network
+- electrophysiology
+- eeg
+- meg
+- brain-computer-interface
+- deep-learning
+- software-neuroimaging
+- python
+title: Braindecode
+type: entity
+updated: '2026-05-12'
+---
+
+Braindecode is an open-source Python library designed for decoding neural signals, particularly electroencephalography (EEG) and magnetoencepha

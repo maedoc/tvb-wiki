@@ -9,7 +9,7 @@ tags:
 - statistical-analysis
 title: NeuroStats
 type: software
-updated: '2026-05-12'
+updated: '2026-05-13'
 ---
 
 ## Overview
@@ -20,13 +20,13 @@ NeuroStats is a statistical analysis toolbox designed for the analysis of neuroi
 
 The field of [[neuroimaging]] has seen an explosion of large-scale datasets, particularly following initiatives such as the [[human-connectome-project]] and [[uk-biobank]]. Analyzing these datasets presents significant statistical challenges, including the need to handle high-dimensional data, correct for multiple comparisons, and account for complex dependencies in brain network metrics. NeuroStats was developed to address these challenges by providing a standardized, well-validated framework for statistical inference on neuroimaging-derived metrics.
 
-Traditional approaches to neuroimaging analysis often relied on mass-univariate methods such as [[general-linear-model]]-based analysis, which treat each brain voxel or region independently. While these methods remain useful for hypothesis-driven studies, they are ill-suited for characterizing the distributed patterns of [[brain network]] dynamics that underlie cognitive processes. NeuroStats instead provides multivariate statistical tools that can capture these complex patterns, making it particularly valuable for [[whole-brain modeling]] applications where the interaction between multiple brain regions is of primary interest.
+Traditional approaches to neuroimaging analysis often relied on mass-univariate methods such as [[bold-model]]-based analysis, which treat each brain voxel or region independently. While these methods remain useful for hypothesis-driven studies, they are ill-suited for characterizing the distributed patterns of [[brain network]] dynamics that underlie cognitive processes. NeuroStats instead provides multivariate statistical tools that can capture these complex patterns, making it particularly valuable for [[bold-model]] applications where the interaction between multiple brain regions is of primary interest.
 
 ## Key Features
 
 NeuroStats provides a comprehensive set of statistical tools organized into several major categories. **[[connectivity]] analysis** tools include methods for computing and testing pairwise connectivity matrices, with support for both Pearson correlation and more sophisticated measures such as partial correlation and mutual information. The toolbox implements both parametric and non-parametric statistical tests for comparing connectivity patterns between groups, including permutation-based approaches that are robust to the non-normal distribution characteristics often observed in [[resting-state fMRI]] data.
 
-For **network-level analysis**, NeuroStats implements graph-theoretic measures including [[modularity]], [[centrality]], [[clustering coefficient]], and path length metrics. These measures characterize the topological properties of brain networks at the whole-brain level, allowing researchers to assess features such as [[small-world-networks]] organization and [[rich-club]] connectivity. The software includes tools for comparing network topologies between populations and for assessing the significance of network features through permutation testing.
+For **network-level analysis**, NeuroStats implements graph-theoretic measures including [[modularity]], centrality, clustering coefficient, and path length metrics. These measures characterize the topological properties of brain networks at the whole-brain level, allowing researchers to assess features such as [[small-world-networks]] organization and [[rich-club]] connectivity. The software includes tools for comparing network topologies between populations and for assessing the significance of network features through permutation testing.
 
 The toolbox also provides **surface-based statistical tools** that enable analysis of neuroimaging data in [[freesurfer]] or [[cifti]] format. These tools are particularly useful for working with data from the [[human-connectome-project]], which uses [[cifti]] format to represent cortical thickness and other surface-based metrics. NeuroStats supports vertex-level statistical analysis with appropriate multiple comparison correction, including false discovery rate control and family-wise error correction.
 
