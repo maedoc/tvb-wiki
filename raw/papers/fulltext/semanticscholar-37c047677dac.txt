@@ -1,0 +1,1078 @@
+Pant and Kumar Discover Electronics    (2026) 3:20                                                                                                                        Discover Electronics
+https://doi.org/10.1007/s44291-026-00174-2
+
+
+
+
+ REVIEW                                                                                                                                                                                  Open Access
+
+
+Exploring EEG signal processing for effective
+filtering and classification of epileptic seizures
+Aruna Pant1 and Adesh Kumar1*
+
+*Correspondence:
+Adesh Kumar                             Abstract
+adeshmanav@gmail.com;                   EEG signal processing is the process of analysing the raw electrical signals recorded
+adeshkumar@ddn.upes.ac.in
+1
+ Department of Electrical &             by the electrodes on the scalp to obtain information about the human brain. The
+Electronics Engineering, School of      preprocessing of the EEG signal cleans the raw signals, feature extraction to obtain
+Advanced Engineering, University        the relevant patterns, and classification to study the different states of the brain.
+of Petroleum and Energy Studies
+(UPES), Dehradun, India                 The study helps in the identification of brain diseases, diagnostic conditions, and
+                                        neurological disorders such as strokes and epilepsy. The EEG signals obtained from
+                                        the channel electrodes are affected due to the electrical source noise, eye blinking,
+                                        and muscle activity. The selection of the appropriate filter is very important in the
+                                        processing of EEG signals, and eliminating the source noise in the raw signal to
+                                        improve the overall signal-to-noise ratio for the effective analysis and critical study
+                                        of the disease. The review article focuses on the study of the different filters used
+                                        in the EEG-based system, applied in the analysis of epileptic seizures with feature
+                                        extraction and classification. EEG signal processing is done based on appropriate
+                                        filtering to suppress artifacts, and commencing with consistent data acquisition to
+                                        improve signal quality. The actual features are then extracted and refined before
+                                        accessing the different classification algorithms. The system helps in ensuring the
+                                        accurate distinction between seizure and non-seizure identifications for effective
+                                        neurological assessment. The article reviews several EEG-signal-processing methods,
+                                        identifies key gaps in the present research, and proposes promising avenues for
+                                        future investigation. The competent EEG signal processing depends on well-designed
+                                        FIR and IIR filters to suppress noise and preserve critical neural features, supporting
+                                        more accurate classification of epileptic signals.
+                                        Statement of Significance
+                                        The elimination of aberrant readings is typically the first step in the EEG filtering
+                                        process. The literature often uses low-pass filters and high-pass filters to attenuate
+                                        low and high cutoff frequencies, respectively. It is also possible to employ various
+                                        filter settings to highlight certain forms of EEG activity. However, filters have the
+                                        potential to be misused, and their application may at times result in outcomes that
+                                        were not intended. The filter design and signal processing in a hardware simulation
+                                        environment a challenging tasks.
+                                        Keywords EEG signal, FIR filter, Noise, Adaptive filters, FPGA hardware
+
+
+
+
+                                     © The Author(s) 2026. Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International
+                                     License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate
+                                     credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material.
+                                     You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party
+                                     material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material
+                                     is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted
+                                     use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit ​h​t​t​p​:​/​​/​c​r​e​a​​t​i​v​e​c​o​​m​m​o​n​​s​.​o​r​g​​/​l​i​c​e​​n​s​
+                                     e​s​/​b​​y​-​n​c​​-​n​d​/​4​.​0​/.
+Pant and Kumar Discover Electronics    (2026) 3:20                                                               Page 2 of 19
+
+
+
+
+                 1 Introduction
+                 The chronic syndrome of the brain is known by the name epilepsy. It affects about 79
+                 million people in the world’s population. Epilepsy is an irregular electrical activity in the
+                 brain [1]. Nowadays, the detection of epilepsy is a challenging job not only for research-
+                 ers and neurologists but also for expert anatomists who rely on EEG recordings and
+                 visual examination of EEG data. The major function of an EEG signal is to identify a
+                 patient who is having a seizure [2]. A neuronal synchronous discharge with a sharply
+                 elevated amplitude that is transient and episodic is the hallmark of an epileptic seizure,
+                 which is abnormal in EEG recordings. This abnormal synchrony can affect the entire
+                 brain (generalised seizures), which are seen in all EEG signal channels, or just a portion
+                 of the brain (partial seizures), which are only visible in a few channels [3]. Electrodes
+                 applied to the scalp are used to record EEG signals from the brain. EEG signals consist
+                 of five subbands. These subband frequency ranges can effectively depict the dynamics of
+                 the brain. The subband provides more meaningful information related to the neurologi-
+                 cal behaviour and related activities in the actual EEG signal [4]. The biomedical systems
+                 need more high-capacity data processing capabilities and more accuracy. The design of
+                 such real-time systems for seizure detection is very challenging, as the system design is
+                 more constrained for low power, high accuracy, and robust noise capability, as the dis-
+                 ease can occur in individuals of any age, creating their identification and analysis a vig-
+                 orous aspect of neurological healthcare [5]. Moreover, the physicians propose extended
+                 EEG monitoring for patients, compelling them to stay in hospitals for a prolonged time
+                 for proper study and capturing seizure activity [6]. The seizure detection is a time-con-
+                 suming and exhausting process, with no conviction about when a seizure will occur.
+                 Moreover, the manual processing of EEG recordings is tedious and susceptible to human
+                 error, especially in the presence of pervasive signal artifacts. Therefore, it is required to
+                 automate seizure detection and prediction systems capable of providing diagnostic accu-
+                 racy, efficiency, and overall clinical reliability.
+                    The neurological disorder recognised as epilepsy, characterised by epileptic seizures,
+                 has been recognised since 400 BC. According to the WHO’s 2019 report, an estimated
+                 79 million people globally are affected by this disease [7]. Epilepsy is primarily initiated
+                 by abnormal, synchronous neuronal firing in the brain. This abnormal electrical activ-
+                 ity models to the classic symptoms of seizures, including loss of consciousness and sud-
+                 den, involuntary body movements. The seizures are broadly classified into two main
+                 types: generalised seizures and partial (or focal) seizures. The identification can be done
+                 based on the monitoring of EEG signals and brain activity, generally in the 0.5–30 Hz
+                 frequency range [8]. The processing of the raw EEG signal needs filtering for hardware
+                 design, and an FIR filter can be implemented to minimise computational delay during
+                 signal preprocessing. The EEG signals largely comprise five main types that are clinically
+                 important in epilepsy detection [9]. Figure 1 depicts the different types of EEG wave-
+                 forms, namely alpha, beta, gamma, theta, and delta.
+                    In EEG-based epilepsy studies, the frequency spectrum plays a crucial role in identi-
+                 fying abnormal brain activities [10]. Each frequency band reflects a specific functional
+                 state of the brain, and variations in these signals help in detecting seizure onset zones.
+                 During preprocessing, EEG signals are decomposed into standard bands: delta (0–4 Hz),
+                 theta (4–8 Hz), alpha (8–12 Hz), beta (12–40 Hz), and gamma (> 40 Hz) using digital
+                 filters or time frequency transforms such as DWT, or STFT [11]. This separation allows
+Pant and Kumar Discover Electronics       (2026) 3:20                                                              Page 3 of 19
+
+
+
+
+                 Fig. 1 Different types of EEG waveforms
+
+                 noise removal, baseline correction, and extraction of dominant spectral features before
+                 classification [12–14].
+
+                    • 	 Delta (0–4 Hz): In epileptic EEGs, pronounced slow-wave activity, an increase in
+                        delta signal power is frequently verified during post-ictal and inter-ictal periods,
+                        specifically in focal regions. These components are important for low-frequency
+                        analysis and spatial localization of epileptic zones.
+                    • 	 Theta (4–8 Hz): Pre-ictal rhythmic slowing and Theta rhythms are used to
+                        characterize transitions from normal to pre-ictal states. Excessive theta activity often
+                        precedes seizure onset and is valuable in predictive modelling.
+                    • 	 Alpha (8–12 Hz): Alpha suppression (Suppressed cortical activity) is a typical
+                        signature during ictal onset, indicating cortical hyperexcitability. The changes in
+                        alpha coherence between electrodes also serve as features for seizure classification.
+                    • 	 Beta (12–40 Hz): Abnormal fast bursts or Beta components rise during seizure
+                        propagation, showing rapid neuronal discharges. The beta band features, such as
+                        entropy, variance, and energy, are often extracted for supervised learning models.
+                    • 	 Gamma (> 40 Hz): Pathological high-frequency firing as high-frequency gamma
+                        oscillations carry critical information about epileptogenic zones. These signals,
+                        though low in amplitude, are vital in distinguishing normal high-frequency activity
+                        from pathological synchronization during seizures.
+Pant and Kumar Discover Electronics        (2026) 3:20                                                             Page 4 of 19
+
+
+
+
+                 After band-specific filtering, statistical and nonlinear features such as power spectral
+                 density, Hjorth parameters, entropy measures, and fractal dimensions are computed.
+                 These parameters are then fed into classification models such as SVM, CNN, or hybrid
+                 deep networks to distinguish between normal, inter-ictal, and ictal EEG segments.
+                    In general, the process of EEG signal processing and analysis is carried out in four
+                 steps, as depicted in Fig. 2: first, the raw signals are pre-processed using filtering or other
+                 techniques; second, the most significant information is extracted from them in the form
+                 of features; third, feature selection techniques are applied for more optimal results; and
+                 fourth, during the result analysis stage, disease diagnosis or recognition of various func-
+                 tional states of the brain is performed. Statistical tests and classification algorithms are
+                 the two most commonly used result analysis techniques. The small fluctuations in EEG
+                 readings serve as an excellent means to record the continuously changing functional
+                 states of the brain. The EEG of a normal person differs from that of an abnormal one;
+                 therefore, it is essential to detect these variations using various signal processing and
+                 analysis techniques. EEG signal processing involves several interference signals that
+                 must be removed before performing further steps, such as feature extraction and clas-
+                 sification, to ensure more accurate results.
+                    The raw EEG data commonly used for analysis are publicly available online, typically
+                 obtained from the CHB-MIT database (Physionet.org). A low-pass FIR filter is generally
+                 applied to EEG signals. Digital filters are mostly preferred in biomedical applications due
+                 to their high stability, absence of feedback, and linear phase response [15]. The bioelec-
+                 tric signal known as EEG provides valuable information about brain activity. However,
+                 the interference signals, often referred to as artifacts, arise from external environmen-
+                 tal noise and introduce significant challenges in EEG signal analysis [2, 16]. During pre-
+                 processing and filtering, an FIR filter is typically used. Although an IIR filter can also
+                 be employed, the FIR filter is preferred because of its superior frequency stability and
+                 linear phase characteristics [17]. The main drawback of time-domain approaches, how-
+                 ever, is their high sensitivity to selected features and the requirement for greater storage
+
+
+
+
+                 Fig. 2 Process of signal processing in EEG
+Pant and Kumar Discover Electronics        (2026) 3:20                                                         Page 5 of 19
+
+
+
+
+                 capacity. Figure 3 presents the electrode placement configuration of the standard 10–20
+                 electrode system.
+                   When comparing depressed patients to normal individuals, slower brain waves are
+                 indicative of a deep sleep stage [18] or reduced power in the alpha and theta bands [19]
+                 across all brain regions (central, occipital, frontal, parietal, and temporal). An EEG sig-
+                 nal consists of several waves with distinct properties, captured using electrodes placed
+                 on the scalp. These electrodes are arranged in arrays across the scalp. The large volume
+                 of data obtained from even a single EEG electrode pair poses significant challenges
+                 [20]. Various types of electrodes are used during EEG recording to acquire high-qual-
+                 ity data [21]. EEG analysis serves as a diagnostic tool for numerous brain-related dis-
+                 orders, including epilepsy, dementia, and mental health conditions such as stress [22].
+                 The most commonly used electrode arrangement is the international 10–20 system [23].
+                 EEG is also applied clinically for diagnosing coma, brain death, encephalopathies, and
+                 sleep disorders. Moreover, EEG has broader applications, such as emotion recognition
+                 [24]. For small datasets, various existing EEG feature extraction and classification algo-
+                 rithms [25–31] can almost perfectly differentiate between seizure and non-seizure EEG
+                 signals. However, these methods often fail to achieve sufficient classification accuracy
+                 during both the ictal phase (the period when a seizure occurs) and the interictal phase
+                 (the interval between seizures) due to the non-abrupt and consistent nature of EEG sig-
+                 nals across different brain regions [32]. Furthermore, achieving an acceptable level of
+                 accuracy with a specific approach becomes more difficult without adequate domain
+                 knowledge of EEG data, as variability arises from different seizure types (i.e., partial or
+                 generalized), individual differences, hospital environments, brain regions, and artifacts
+                 [33, 34]. Each time a seizure occurs, patients with epilepsy are at risk of severe injury
+                 or even death due to uncontrollable movements, loss of consciousness, and convulsions
+                 [35]. Epileptic seizures are generally classified into two categories: partial and gener-
+                 alized. A generalized epileptic seizure affects the entire brain, while a partial epileptic
+                 seizure affects only a localized area of the brain, typically resulting from excessive and
+                 synchronized electrical discharges [36].
+
+
+
+
+                 Fig. 3 Electrode positioning (10/20 system) (EEG (mcgill.ca)
+Pant and Kumar Discover Electronics    (2026) 3:20                                                              Page 6 of 19
+
+
+
+
+                 2 Literature review
+                 2.1 Review of the filters
+                 The EEG signal is generally of small amplitude in the order of microvolts (µV). The sig-
+                 nal is having several interferences or artifacts, which can distort its actual character-
+                 istics. The main source of the noise in the signal is the electrical power line of 50 Hz,
+                 which interferes with the raw EEG signal and affects the EEG signals. This noise causes
+                 difficulties in the extraction of signal and clinical analysis with meaningful parameter
+                 information. Therefore, it becomes necessary to reject such variabilities in EEG signals
+                 to make certain decisions and process accurate disease diagnosis. Different windowing
+                 techniques are used for EEG signals to reduce ripples and leakages, and control the pass-
+                 band and stopband signals to determine the features. The performance has been ana-
+                 lyzed using FIR and IIR filters for the suppression of interference in EEG signals [37].
+                 The results have shown that the Kaiser window method provided effective suppres-
+                 sion of interference in EEG signals. The IIR filter has effectively been employed for the
+                 rapid recognition of EEG signals, offering equalization and signal compression capabili-
+                 ties [38]. FIR digital filters are generally configured in such systems due to their lower
+                 cost, reduced noise, and low power consumption [39]. Using the FIR window method,
+                 different EEG signal bands were extracted, demonstrating the superiority of specific
+                 windowing techniques [40]. Various FIR windowing approaches have been studied for
+                 interference removal, with results showing that the Blackman window performs best
+                 [41]. They have shown that the Blackman window provided optimal outcomes in EEG
+                 data filtering following the transition bandwidth, stop-band attenuation, and cutoff fre-
+                 quency. The Blackman window provided the second-highest stop-band attenuation,
+                 the broadest transition bandwidth, and the highest cutoff frequency among all window
+                 methods. An adaptive FIR filter was used to minimize eye blink artifact (EBA) inter-
+                 ference [42] for different types of artifacts that affect EEG signals. The IIR filters are
+                 also designed to remove distortions, and comparative analysis between IIR and FIR fil-
+                 ters assisted researchers in selecting the most suitable filter for their applications [43].
+                 Implementation of FIR filter architectures on an FPGA has achieved reduced hardware
+                 resource usage and low power consumption [44]. FIR filters are widely used for noise
+                 removal from EEG signals, and related designs have been simulated using the Xilinx
+                 FPGA ISE environment [45]. Furthermore, FIR band-pass filters are used to eliminate
+                 unwanted noise components from EEG signals [46]. A bank of IIR filters has also been
+                 analyzed for different EEG frequency bands [47]. However, in some cases, residual noise
+                 persists before and after FIR filtering, where impulse response filters have demonstrated
+                 better performance [48]. Overall, FIR filters are effective for removing interference from
+                 EEG signals and contribute to reduced computational delay [49]. Table 1 lists the find-
+                 ings from the review of other types of filters used in EEG signal processing.
+                   IIR and FIR filters with different windowing techniques are used, and the results prove
+                 that the finite impulse response (FIR) filter using the Kaiser window [50] performs the
+                 best. The Frequency Response Masking (FRM) technique is applied in FIR filter design
+                 since the number of multipliers in FIR filters is typically higher than in IIR filters. By
+                 using the FRM technique, the number of multipliers can be reduced, thereby achieving
+                 a low-power FIR design [51]. An FIR filter with a linear phase response suitable for EEG
+                 or ECG signal processing is discussed in [52]. An adaptive filter architecture employ-
+                 ing Recurrence Quantification Analysis (RQA) for EEG signals and epileptic seizure
+Pant and Kumar Discover Electronics      (2026) 3:20                                                                                   Page 7 of 19
+
+
+
+
+                 Table 1 Review of different types of filters used
+                 Author      Signals   Filter used        Key findings
+                 [37]        EEG       FIR & IIR          The results have shown that the FIR filter based on the Kaiser win-
+                                                          dow is effective for removing power-line noise from EEG signals.
+                 [38]        EEG       IIR                IIR filters have also been used as they are less costly and simpler.
+                 [39]        EEG       FIR                FIR filters were used to make EEG signals free from noise, offering
+                                                          low power consumption, low cost, and compact design.
+                 [40]        EEG       FIR                The Kaiser β (12) window filter shows the best results.
+                 [41]        EEG       FIR                The Blackman window gives better results and provides the highest
+                                                          cutoff frequency compared to other types of windows.
+                 [42]        EEG       FIR Adaptive       An adaptive FIR filter is used, which shows better results.
+                                       Filter
+                 [43]        EEG       IIR filters (Notch IIR filters, such as notch and Chebyshev Type I filters, have been
+                                       filter and Cheby- used, which show good results.
+                                       shev Type I)
+                 [44]        EEG       FIR                An FIR filter based on a linear symmetrical architecture is used for
+                                                          filtering EEG signals using approximate computation techniques.
+                 [45]        EEG       FIR                FIR filters are used for filtering EEG signals.
+                 [46]        EEG       Fixed Bandpass A bandpass FIR filter is used in this study.
+                                       FIR Filter
+                 [47]        EEG       IIR                Using an IIR filter bank, the EEG recordings are analyzed into
+                                                          sub-bands.
+                 [48]        EEG       FIR                For removing residual noise that might be present before and after
+                                                          FIR filtering, an impulse response filter is used, which shows better
+                                                          results.
+                 [49]        EEG       FIR with Large     An FIR filter, along with a large Laplacian filter, is used in this study.
+                                       Laplacian Filter
+                 [50]        EEG       FIR and IIR        Different IIR and FIR filters with various window techniques are
+                                                          compared, out of which the Kaiser window is most suitable for
+                                                          removing noise from EEG signals.
+                 [51]        EEG       FIR                The FIR filter requires more multipliers compared to the IIR filter; it is
+                                                          most commonly used for removing interference from EEG signals.
+                 [52]        EEG       FIR                A high-pass FIR filter is proposed due to its simple computations. It
+                                                          effectively filters EEG signals.
+                 [53]        EEG       Adaptive FIR       An adaptive FIR filter architecture is implemented on an FPGA, ad-
+                                       Filter             dressing low-power design issues.
+                 [54]        EEG       Low-Pass But-      The Butterworth low-pass filter is designed because most of the
+                                       terworth Filter    EEG data remains in the low-frequency range.
+                 [55]        EEG       Spatial Integra- Two different algorithms are used for preprocessing: spatial integra-
+                                       tion and Time-     tion to extract useful information and time-domain filtering, which
+                                       Domain Filtering yields excellent results.
+                 [56]        EEG       Optimally Tuned The study presented an adaptive filtering approach optimized
+                                       Adaptive Filter    using the Marine Predators Algorithm, showing significant improve-
+                                       based on Ma-       ment in EEG/ERP signal quality by reducing artifacts and enhancing
+                                       rine Predators     the signal-to-noise ratio.
+                                       Algorithm
+                 [57]        EEG       Evolutionary       This work proposed a hybrid Wiener–adaptive filter optimized
+                                       Algorithm-         using evolutionary algorithms. The method achieved better noise
+                                       Based Optimal      suppression and improved EEG signal fidelity compared to conven-
+                                       Wiener–Adap-       tional Wiener filters.
+                                       tive Filter
+                 [58]        EEG       Kalman             The authors applied a Kalman filter framework to enhance EEG/
+                                       Filter with        ERP signals. The approach effectively tracked temporal variations
+                                       Autoregressive and provided robust denoising performance under dynamic noise
+                                       Realization        conditions.
+                 [59]        EEG       Hammerstein        A nonlinear Hammerstein spline-based adaptive filter was designed
+                                       Spline Adaptive for ocular artifact removal. The filter offered faster convergence, bet-
+                                       Filter             ter nonlinearity handling, and improved computational efficiency.
+                 [60]        ECG and   Wiener Spline      The study developed a Wiener–spline adaptive filter for ECG signal
+                             EEG       Adaptive Filter    enrichment. It demonstrated improved noise removal while main-
+                                                          taining the diagnostic integrity of ECG waveforms.
+Pant and Kumar Discover Electronics        (2026) 3:20                                                           Page 8 of 19
+
+
+
+
+                 detection is also presented, incorporating notch, wavelet, and adaptive filters. Compara-
+                 tive analysis of different filter signal-to-noise ratios (SNR) demonstrates that the adaptive
+                 filter provides satisfactory performance [53]. A hybrid technique combining a Butter-
+                 worth low-pass filter with an adaptive LMS noise canceller is used for artifact removal in
+                 EEG signals, resulting in improved outcomes [54]. Additionally, two different algorithms
+                 are used for signal preprocessing: the first employs spatial integration to extract mean-
+                 ingful information, while the second uses time-domain filtering, both yielding excellent
+                 results [55]. A series of adaptive filtering techniques was developed to enhance EEG sig-
+                 nal quality. An optimized adaptive filter was used based on the Marine Predators Algo-
+                 rithm, achieving superior EEG/ERP artifact suppression and SNR improvement [56].
+                 In [57], an evolutionary algorithm-based Wiener adaptive filter further enhanced EEG
+                 fidelity with efficient noise mitigation. The Kalman filter with autoregressive realization
+                 [58] demonstrated robustness against dynamic noise and effective temporal tracking.
+                 A Hammerstein spline adaptive filter [59] efficiently removed ocular artifacts with fast
+                 convergence and nonlinearity handling. Moreover, the Wiener-spline adaptive filter [60]
+                 improved ECG denoising while preserving diagnostic waveform accuracy.
+
+                 2.2 Feature extraction techniques
+                 The features of interest are chosen after noise is removed from the EEG data, and those
+                 features are subsequently extracted. The feature Extraction can be done either in the
+                 time domain, frequency domain, or time-frequency domain. In the time domain basis,
+                 the feature can be extracted either through linear prediction methods, component anal-
+                 ysis methods, or statistical analysis methods like mean, mode, median, kurtosis, vari-
+                 ance, and standard deviation methods. The FFT and DFT are two feature extraction
+                 methods available in frequency domain techniques. Additionally, the wavelet transform
+                 can be used to extract features by combining both methods. Figure 4 shows an overview
+                 of different feature extraction techniques.
+
+                 2.3 Feature extractions review
+                 It is difficult to detect seizures in an EEG signal because the human brain’s EEG output
+                 is unpredictable. For real-time applications, an epileptic seizure detection system must
+                 be implemented in hardware. This paper develops an accurate method for identifying
+                 epileptic seizures and implements the detection method on hardware. An FIR band-
+                 pass filter is used to separate frequency bands. The modeled EEG signal is then used to
+                 extract features, which are subsequently classified using an ELM classifier [61]. Pattern
+                 recognition is employed for identifying epileptic seizures in EEG signals. In this pattern
+
+
+
+
+                 Fig. 4 Different features extraction techniques
+Pant and Kumar Discover Electronics    (2026) 3:20                                                               Page 9 of 19
+
+
+
+
+                 recognition work, NB and SVM classifiers are used to examine the impact of filtering
+                 with time-domain characteristics in epileptic signal detection [62]. Feature extraction
+                 using simple time-domain analysis is applied to distinguish between seizure and nor-
+                 mal states with a one-second non-overlapping window. From each epoch, the mean and
+                 minimum energy values are taken to create a feature vector. The linear classifier suc-
+                 cessfully differentiates between seizure and normal epochs, demonstrating improvement
+                 over existing algorithms [63]. Statistical measurements such as SD and ICFS can be used
+                 for feature selection [64]. After EEG signal preprocessing, various entropy techniques
+                 are employed for significant feature extraction. Classifier performance is improved by
+                 feature ranking, which helps classify the features according to their clinical relevance
+                 [65]. To reduce computational complexity while maintaining high detection accuracy,
+                 feature extraction based on Hjorth’s mobility is employed [66]. The feature extraction
+                 methodology includes three phases: (1) EEG signal acquisition, (2) empirical mode
+                 decomposition to divide signals into sub-bands, and (3) classification using feature vec-
+                 tors with random forest, artificial neural network, and support vector machine classi-
+                 fiers [67]. DWT is also used to extract features derived from autistic children’s sensory
+                 responses. In this study, statistical properties of the DWT coefficients are estimated, and
+                 an MLP neural network is applied for signal identification [68]. In another EEG signal
+                 processing approach, noise is first removed, followed by segmentation using PCM. Fea-
+                 ture extraction is then performed using wavelets, and an SVM classifier is applied for
+                 the identification of specific features [69]. Seizure identification from EEG signals can
+                 also be achieved using HMS analysis [70]. WT is used to extract features, followed by a
+                 learning-based algorithm classifier for seizure classification [71].
+                    To enhance the effectiveness of automated sleep stage categorization using machine
+                 learning methods, features are extracted from EEG signals [72]. RTQWT is used for
+                 feature extraction, suitable for dynamic EEG signals [73]. DTCWT features can be
+                 extracted using FFT, enabling the derivation of highly discriminative traits for epilepsy
+                 detection [74]. For seizure detection, STFT is used to extract frequency bands and rel-
+                 evant features, followed by classification using CNN and Bi-LSTM models [75]. Due to
+                 various artifacts and noise present in the original signal, an FIR Butterworth filter is used
+                 before extracting the key information with the FFT tool [76]. Quadratic feature vectors
+                 are extracted using an optimized auto-regressive approach, and a random forest classi-
+                 fier is used for data identification [77]. Noise removal from EEG signals is achieved using
+                 a Surface Laplacian and a 4th-order Butterworth filter [78]. FFT and PCA methods are
+                 used for feature extraction from EEG signals [79]. Twenty frequency feature components
+                 are extracted using STFT [80], and a CNN-based framework is employed for epilepsy
+                 detection [81]. Table 2 summarizes the different feature extraction techniques reviewed
+                 and their corresponding findings.
+
+                 3 Classifications techniques
+                 The signal categorization follows feature extraction. We can use machine learning and
+                 deep learning algorithms for classification. In the machine-based algorithm, we can use
+                 SVM, KNN, etc. In deep learning, you can use ANNs, CNNs, LSTMs, or MLP-NNs.
+Pant and Kumar Discover Electronics        (2026) 3:20                                                                                Page 10 of 19
+
+
+
+
+                 Table 2 Different feature extraction techniques review
+                 Author      Analysis          Method for fea-      Findings
+                             domain            ture extraction
+                 [61]        Time domain       Linear prediction   The bands are separated from the EEG data using a band-
+                             analysis          theory              pass filter. The principle of linear prediction is applied for
+                                                                   feature extraction, and an ELM classifier is used for seizure
+                                                                   identification.
+                 [62]        Time domain       SD and AVP, along In this study, time-domain features were extracted directly.
+                             analysis          with MAV            The unfiltered EEG data achieved a classification accuracy
+                                                                   of 99.87%, while the filtered EEG data achieved 100%.
+                 [63]        Time domain       Mean and mini-      Time-domain analysis is used for feature extraction. From
+                             analysis          mum energy value each epoch, the mean and minimum energy values are
+                                               extraction          taken to create a feature vector. A linear classifier is then
+                                                                   used for classification.
+                 [64]        Time domain       Statistical methods ICFS is employed, and a random forest classifier is used for
+                             analysis          such as standard    seizure identification.
+                                               deviation
+                 [65]        Time domain       Entropy algorithm Entropy-based techniques are used for feature extraction
+                             analysis                              from EEG signals.
+                 [66]        Time domain       Spectral power of Hjorth’s mobility is utilized in feature extraction to reduce
+                             analysis          Hjorth’s mobility   computational complexity while maintaining high detec-
+                                               components          tion accuracy.
+                 [67]        Time frequency    Empirical mode      From the decomposed coefficients, instantaneous fre-
+                             analysis          decomposition       quency vectors are calculated and provided to the SVM
+                                                                   classifier for classification.
+                 [68]        Time frequency    DWT                 The signal is processed using DWT, and statistical features
+                             analysis                              are derived from DWT coefficients in the time domain.
+                 [69]        Time frequency    DFT                 DFT and WT are used for feature extraction. After signal
+                             analysis                              segmentation, PCM is applied to reduce noise in the data.
+                 [70]        Time frequency    HMS analysis        EEG signals are automatically detected for seizures using
+                             analysis                              HMS analysis.
+                 [71]        Time frequency    Wavelet Transform WT is utilized to extract key features, and a learning-based
+                             analysis                              algorithm classifier is then used for seizure classification.
+                 [72]        Frequency         FFT                 FFT is used to extract relevant features from EEG signals.
+                             analysis
+                 [73]        Time frequency TQWT                    This study proposes a revised RTQWT method that ef-
+                             analysis                               fectively accommodates the nonstationary characteristics
+                                                                    of EEG signals.
+                 [74]        Time frequency    DTCWT                FFT is applied to the DTCWT feature sub-bands to extract
+                             and frequency                          DTCWT features.
+                             domain
+                 [75]        Time frequency    STFT                 STFT is used to extract features of interest, followed by
+                             analysis                               seizure detection using CNN and Bi-LSTM models.
+                 [76]        Frequency do-     FFT                  The EEG signal is filtered using an FIR Butterworth filter, and
+                             main analysis                          relevant information is extracted using the DSP tool FFT.
+                 [77]        Time frequency    VMD and AR           All BLIMFs undergo auto-regressive-based quadratic feature
+                             domain analysis                        extraction, and the resulting feature vectors are classified
+                                                                    using a random forest classifier.
+                 [78]        Frequency do-     FFT                  A fourth-order Butterworth filter with surface Laplacian is
+                             main analysis                          used, and EEG signal features are extracted using FFT in
+                                                                    frequency domain analysis.
+                 [79]        Frequency and     FFT & PCA            The Welch FFT approach is used for selected feature extrac-
+                             time domain                            tion, and PCA is applied for dimensionality reduction.
+                 [80]        Frequency do-     STFT                 Twenty frequency feature components are extracted using
+                             main analysis                          STFT for classification.
+                 [81]        Temporal and      LBP, EMD, FFT, and   Feature extraction is carried out in the frequency domain
+                             frequency         DWT                  using FFT and DWT.
+                             domain
+Pant and Kumar Discover Electronics         (2026) 3:20                                                                             Page 11 of 19
+
+
+
+
+                 Table 2 (continued)
+                 Author      Analysis           Method for fea-     Findings
+                             domain             ture extraction
+                 [82]        Hybrid             Combined DWT        The study proposed a hybrid DWT-EMD feature extraction
+                             domain (time       and EMD             framework that improved signal decomposition accuracy
+                             frequency)                             and enhanced the classification performance of EEG-based
+                                                                    epileptic detection.
+                 [83]        Motor imagery     Feature extraction   The work highlighted that wavelet-based, empirical mode,
+                             analysis/Brain    and classification   and statistical features are most effective for EEG motor
+                             Computer          through signal       imagery tasks, suggesting hybrid deep learning frameworks
+                             Interface         decomposition        for improved classification accuracy.
+                                               methods
+                 [84]        Spatial cogni-    Kernel Density       Introduced a KDE-DE method for robust EEG feature extrac-
+                             tive evaluation Estimation based       tion that effectively captured spatial cognitive features and
+                                               Differential En-     reduced noise sensitivity, improving classification accuracy.
+                                               tropy (KDE-DE)
+                 [85]        Motor imagery Optimized hybrid         Proposed an optimized algorithm combining adaptive
+                             EEG signal        signal processing    filtering and feature selection techniques, enhancing motor
+                             processing        algorithm            imagery EEG recognition performance.
+                 [86]        EEG signal time Multi-scale            Developed a novel multi-scale feature extraction framework
+                             analysis          feature extraction   capable of capturing fine-grained temporal and spectral
+                                               approach             features, improving classification efficiency and robustness.
+                 [87]        Epileptic seizure Multi-Scale Atten-   Designed a hybrid MSA-DCNN and LSTM model that
+                             detection         tion-based Deep      automatically learns spatiotemporal EEG features, achieving
+                                               CNN (MSA-DCNN)       high sensitivity and accuracy in seizure detection.
+                                               and LSTM
+                 [88]        EEG feature       CNN architectures   Explored various CNN architectures for EEG representation
+                             extraction using                      learning, concluding that deeper models improve feature
+                             deep learning                         generalization for classification and emotion recognition
+                                                                   tasks.
+                 [89]        Stroke clas-       Multi-dimensional Proposed a multi-dimensional EEG feature extraction
+                             sification using   feature extraction framework integrating spatial and temporal characteris-
+                             EEG                (temporal, spec-   tics, demonstrating strong performance in stroke-type
+                                                tral, spatial)     classification
+
+                 3.1 Classification review
+                 The EEG classification was done for epileptic seizure detection, based on the Hjorth
+                 Descriptor, and KNN using an FPGA. The system was deployed on a Zynq-7000 FPGA,
+                 and its classification accuracy of 90.74% [90]. A feed-forward MLP-ANN model was
+                 used. The model has proven significantly superior alternative to conventional super-
+                 vised machine learning techniques. However, handling excessively long data processing
+                 times during advanced MLP-ANN computations, along with multiple EEG signal char-
+                 acteristics, poses challenges in implementing the 5–12−3 MLP-ANN architecture [91].
+                 A unique supervised MKRVFLN classifier has been proposed. The classifier effectively
+                 trained the RDCNN method for feature extraction in epileptic EEG analysis [79]. In EEG
+                 signal analysis, DWT was used for feature extraction from FIR-filtered EEG inputs. The
+                 proposed classifier then utilizes these extracted features for training, improving classi-
+                 fication accuracy through the BPSO-based optimization of selected features [92]. The
+                 behavior of the non-stationary EEG signals was verified on an FPGA by integrating the
+                 DWT, PCA, and SVM for a seizure detection method for the analysis of and nonlinear-
+                 ity of EEG signals. The PCA was used to reduce the feature vectors’ dimensionality by
+                 analyzing variance from each wavelet, applied for faster classification, while the SVM
+                 performed the classification [93]. An FPGA hardware kit is also utilized to implement
+                 an autonomous seizure detection algorithm using an LSVM. The simulation and syn-
+                 thesized test cases with experimental outcome resulted in an accuracy of 86.00% and
+Pant and Kumar Discover Electronics   (2026) 3:20                                                             Page 12 of 19
+
+
+
+
+                 an average sensitivity of 97.00% [94]. An epileptic seizure estimation method for EEG
+                 signal processing was developed using MLPNN and SVM classifiers. The study also
+                 explored whether WNNs can accurately predict seizure occurrences. Since EEG signals
+                 are nonlinear and non-stationary, an NNA classifier was used for estimating epileptic
+                 seizure activity from background EEG [95]. A combined WT-SVM classification method
+                 effectively identifies epileptic seizures in EEG signals. EEG subbands were derived using
+                 DWT, decomposing the signal into seven levels. Among these, alpha waves (100 µV
+                 amplitude) are most commonly used for seizure detection. Statistical features from the
+                 alpha band were extracted, followed by SVM-based classification [96]. An RFF classi-
+                 fier was employed for classification, while ICFS was used for feature selection in EEG
+                 signal analysis [97]. EEG feature extraction using DWT measured five wavelets and
+                 four statistical parameters, optimized using a PSO-based learning algorithm. Network
+                 performance was evaluated in terms of specificity, sensitivity, and overall classification
+                 accuracy [64]. An ANN classifier combined with SFV-based feature extraction achieved
+                 an excellent identification accuracy of 99.18% [98]. A real-time seizure prediction sys-
+                 tem was implemented on an FPGA using a one-class SVM, designed to function as a
+                 neurostimulator to forecast and control epileptic episodes. The algorithm accurately
+                 predicted impending seizures with high sensitivity and an acceptable false-positive rate
+                 when tested on patient EEG data [99]. The comprehensive reviews of machine learning-
+                 based classification and multi-domain feature extraction methods for automated seizure
+                 detection systems have been conducted to assess classifier performance [100]. Various
+                 algorithms, including ELM, BPNN, and SVM classifiers, have been compared for their
+                 classification accuracy [101]. Table 3 summarizes the different classification techniques
+                 and their respective hardware platforms.
+                    The study showed that smoothing the classifiers’ outputs can significantly improve
+                 classification accuracy [102]. A new method for EEG classification used a kernel ridge
+                 classifier, with PCA applied first for feature extraction using a time-domain algorithm
+                 [103]. EEG signals were processed using STFT and statistical feature extraction meth-
+                 ods, followed by classification with LightGBM and CatBoost to achieve high accuracy
+                 [104]. Variable mode decomposition with statistical feature extraction was applied, and
+                 the features were fed into an NLTWSVM for epileptic signal classification [105]. DWT
+                 was used to decompose EEG signals, and the approximate and detailed coefficients were
+                 computed. The difference between these coefficients was used in an ANN to classify epi-
+                 leptic and normal signals [106]. The RQA technique achieved an accuracy of 98.67% for
+                 EEG signal detection [107]. A method based on EMD was used for epileptic seizure rec-
+                 ognition [108]. EMD produced IMFs, and several statistical measures such as variance,
+                 kurtosis, and skewness, along with chaotic features like Lyapunov exponent and correla-
+                 tion dimension, were extracted and classified using ANN, yielding 100% accuracy [109].
+                 Another approach extracted statistical features in the time domain, using minimum
+                 and maximum EEG values for seizure detection with a linear classifier [110]. In another
+                 study, the S-transform was used as a time–frequency distribution derived from STFT
+                 and WT. Each EEG segment was converted using a windowed S-transform, and after
+                 spectrum power density estimation and feature extraction, classification was performed
+                 using an ANN [111].
+Pant and Kumar Discover Electronics       (2026) 3:20                                                                            Page 13 of 19
+
+
+
+
+                 Table 3 Review of different EEG classification techniques for epileptic seizure detection
+                 Author/Year      Classification method     Platform/implementation         Dataset/subjects       Accuracy
+                 [90]             K-Nearest Neighbour       Zynq-7000 FPGA                  Bonn EEG dataset       90.74%
+                                  (KNN)
+                 [91]             MLP-ANN                    FPGA implementation using      Bonn EEG dataset       96.24%
+                                                             VHDL
+                 [92]             Semi-supervised Reduced Xilinx Virtex-5 XC5VSX50T-        CHB-MIT dataset (23 99.38%
+                                  Deep CNN                   3FF1136 FPGA                   subjects)
+                 [93]             Optimized ANFIS (OAN-      Virtex-5 xc5vlx155-2ff1153     Bonn dataset        99.00%
+                                  FIS) with BPSO             FPGA
+                 [94]             SVM with DWT + PCA         Xilinx System Generator on     CHB-MIT dataset        98.67%
+                                  features                   FPGA
+                 [95]             LSVM (Linear SVM)          Artix-7 FPGA                   Public EEG database    86.00%
+                 [96]             MLP-NN and SVM             MATLAB simulation              Bonn EEG dataset       100.00%
+                 [97]             SVM (Wavelet-based)        Xilinx ISE 14.6                CHB-MIT dataset        95.60%
+                 [64]             Random Forest              MATLAB                         Bonn dataset           98.15%
+                                  (Correlation-based feature
+                                  selection)
+                 [98]             Wavelet Neural Network     FPGA (Virtex-3 board)          Bonn EEG dataset       98.00%
+                                  (WNN)
+                 [99]             ANN-based hardware         Stratix II EP2S60F672C3 FPGA   CHB-MIT dataset        99.18%
+                 [100]            Deep CNN for real-time     FPGA (Vivado HLS)              Scalp EEG (clinical    -
+                                  prediction                                                data)
+                 [101]            Hybrid SVM + MLP Review MATLAB-based analysis             Survey of public       -
+                                  Model                                                     datasets
+                 [102]            Extreme Learning Ma-       MATLAB simulation              10 subjects            98.00%
+                                  chine (ELM)
+                 [103]            Kernel Ridge Classifier    MATLAB                         EEG seizure dataset    97.50%
+                 [104]            LightGBM + CatBoost (me- MATLAB                           CHB-MIT dataset        98.00%
+                                  taheuristic optimization)
+                 [105]            Nonlinear Twin SVM         MATLAB                         VMD-based features 98.86%
+                                  (NLTWSVM)
+                 [106]            Feed-forward Backprop      MATLAB                         Bonn dataset           98.00%
+                                  ANN
+                 [107]            Recurrence Quantification MATLAB                          Seizure database       98.67%
+                                  Analysis
+                 [108]            Instantaneous Area (IMF    MATLAB                         EEG clinical data      97.00%
+                                  features)
+                 [109]            Chaotic + Statistical fea- MATLAB                         CHB-MIT dataset        100.00%
+                                  tures (EMD domain)
+                 [110]            Linear Classifier (Time-   MATLAB                         Bonn dataset           99.81%
+                                  domain analysis)
+                 [111]            Optimised                  FPGA (IBSS)                    Clinical EEG dataset   99.20%
+                                  S-transform + ANN
+                 [112]            Zynq XC7Z020-1CLG400C Neural network (HLS) on raw         EEG signals (exact     96.00%
+                                  (SoC FPGA)                 EEG + AR modelling             dataset not fully
+                                                                                            specified)
+                 [113]            Zynq SoC FPGA (EDGE       Feature extraction + Random     EEG seizure detec-     99.87%
+                                  board)                    Forest implemented on FPGA      tion system            (software),
+                                                                                                                   97.00%
+                                                                                                                   (hardware)
+
+                 4 Research gaps & future scope
+                 It has been well-known that computer-based methods for signal processing and machine
+                 learning are useful research tools. They assist in creating automated solutions that might
+                 reduce the strain on humans and improve the accuracy of the models by removing the
+                 most crucial properties from the EEG signals. The brain signals of patients can be used
+                 in healthcare to feed models that make automated choices for their disease, saving both
+Pant and Kumar Discover Electronics   (2026) 3:20                                                               Page 14 of 19
+
+
+
+
+                 patients’ and physicians’ time in hospitals. EEG signals may be used to create prediction
+                 models that continuously track a person’s mental state. Based on changes in behavior, a
+                 warning system can be created to assist patients in making informed decisions. In the
+                 current time, the detection of this epileptic seizure is a very challenging job not only for
+                 researchers, doctors, or neurologists but also for the skilled person in brain structure
+                 who believes in the graphic scan of this EEG. So there is a need for a handy portable
+                 automatic device or models for seizure detection. Models that are less computation-
+                 ally demanding and take up less storage space. Real-time data contains many artifacts.
+                 Therefore, it is necessary to provide extremely effective filtering methods that can assist
+                 in reducing the noise and improving the performance of the models. Existing solutions
+                 come up with microcontroller-based systems and low-capacity FPGAs like SPARTAN
+                 2 and SPARTAN-3 FPGAs, which are limited to 180 nm technology and have a larger
+                 delay. For future medical electronics applications and wearable devices. The proposed
+                 solutions can be carried on large-scale FPGAs like Virtex-7, and Z board FPGA, which
+                 work on 16–45 nm technology, with less delay and optimal area. The next scope can be a
+                 comparison of system performance in MATLAB and HDL environments, and estimate
+                 the minimum area, delay, and higher system performance for future medical electronics
+                 applications and wearable devices. Based on the identification of the research gaps, the
+                 following research gaps have been identified.
+
+                    • 	 Limited Implementation of Low-Power Analysis in FPGA-Based EEG
+
+                 Despite advancements, there remains a lack of effective integration of adaptive clock
+                 gating and low-power FPGAs in EEG signal processing systems. Most existing designs
+                 focus on performance rather than energy efficiency, which is critical for wearable or por-
+                 table medical devices.
+
+                    • 	 Real-Time Simulation of Epileptic EEG Processing Modules
+
+                 Many studies focus on isolated components, such as filters or classifiers, but fail to pres-
+                 ent a complete system simulation of epileptic EEG signals in real time. An integrated
+                 hardware-based real-time framework is still underexplored.
+
+                    • 	 Lack of a Scalable and Efficient Filter for Large-Scale EEG Analysis
+
+                 There is a noticeable gap in scalable signal processing techniques capable of handling
+                 high-resolution or long-duration EEG recordings. Optimized filter architectures that
+                 ensure low latency and high accuracy in time-domain and frequency-domain analysis
+                 are needed.
+
+                    • 	 Limited use of HDL Design for FPGA Resource Optimization
+
+                 Few studies address the use of advanced HDL coding practices, such as pipeline optimi-
+                 zation and memory hierarchy management, to minimize area, delay, and power on high-
+                 end FPGAs. This hampers the ability to push performance limits effectively.
+
+                    • 	 Limited work on Software Simulations and Hardware Implementations
+
+                 Comparative studies between MATLAB simulations and actual HDL implementations
+                 are scarce. Quantitative insights into the performance differences in terms of area, tim-
+                 ing, and power between these environments could guide more accurate system-level
+                 design decisions.
+Pant and Kumar Discover Electronics        (2026) 3:20                                                            Page 15 of 19
+
+
+
+
+                    • 	 Limited use of Artificial Intelligence and machine learning
+
+                 Current EEG signal processing systems lack the integration of adaptive intelligence and
+                 learning mechanisms that could enhance real-time decision-making and system self-
+                 optimization. There is minimal research on embedding lightweight, trainable modules
+                 within FPGA hardware that can adapt to dynamic EEG patterns, especially for epilep-
+                 tic seizure detection. This gap restricts the system’s ability to improve performance over
+                 time or adjust to subject-specific EEG variations.
+
+                 5 Conclusion
+                 The paper presents that for the detection of seizures pipeline five main steps: the first
+                 is gathering of data (signal acquisition), then preprocessing of data to remove noise or
+                 interference, then feature extraction, classification of extracted features for identification
+                 and and last is post-processing decisions for detection of disease. The review paper con-
+                 cludes that the FIR better filter for removing noise as it has many advantages over the
+                 IIR filter. Digital filters are generally used for biomedical applications because of their
+                 higher stability, and these filters have no feedback. The FIR filters give a linear phase
+                 response. The digital IIR filter using an FPGA is used to achieve faster acquisition of
+                 biomedical signals, specifically EEG signals. A high-order IIR filter is used for this pur-
+                 pose to make EEG signals noise-free, inexpensive, and easy to useFor removing the noise
+                 from the EEG signal, we can use FIR filtering through the window design method. Low
+                 stop band attenuation may result from excessive ripples in the passband caused by FIR
+                 filtering. Therefore, the window methods solve the issue in the preliminary stage. The
+                 wavelet approach, which operates in the time-frequency domain, is superior for feature
+                 extraction. Finally, the SVM technique can be used for signal classification due to its bet-
+                 ter accuracy.
+
+                 Abbreviations
+                 EEG 	Artificial Neural Network
+                 AR	Autoregressive
+                 AVP 	Average Power
+                 Bi-LSTM	Bidirectional Long Short-Term Memory
+                 BPNN 	Backpropagation Neural Network
+                 BPSO	Binary Particle Swarm Optimization
+                 CNN 	Convolutional Neural Network
+                 DTCWT 	Dual-Tree Complex Wavelet Transform
+                 DFT 	Discrete Fourier Transform
+                 DWT 	Discrete Wavelet Transform
+                 ECG 	Electrocardiogram
+                 EEG 	Electroencephalography
+                 ELM	Extreme Learning Machine
+                 EMD 	Empirical Mode Decomposition
+                 EMW	Empirical Mode Wavelet
+                 FIR 	Finite Impulse Response
+                 FPGA	Field-Programmable Gate Array
+                 FRM 	Frequency-Response Masking
+                 GBM	Gradient Boosting Machine
+                 HDL	Hardware Description Language
+                 HMS	Hilbert Marginal Spectrum
+                 ICFS	Intersectional Correlated Feature Selection
+                 iEEG	Intracranial Electroencephalography
+                 IIR 	Infinite Impulse Response
+                 KNN 	K-Nearest Neighbour
+                 LBP 	Low Band Pass
+                 LSTM	Long Short-Term Memory
+                 LSVM 	Linear Support Vector Machine
+                 MAV	Mean Absolute Value
+                 MLP-ANN	Multilayer Perceptron Artificial Neural Network
+Pant and Kumar Discover Electronics                   (2026) 3:20                                                                                                               Page 16 of 19
+
+
+
+
+                 MLP-NN	Multilayer Perceptron Neural Network
+                 MKRVFLN	Multikernel Random Vector Functional Link Network
+                 NB	Naive Bayes
+                 NNA	Neural Network Analysis
+                 NLTWSVM 	Nonlinear Twin Support Vector Machine
+                 PCA 	Principal Component Analysis
+                 RDCNN 	Regional Deep Convolutional Neural Network
+                 RQA 	Recurrence Quantification Analysis
+                 RTQWT 	Rational/Resonance Tunable Q-Factor Wavelet Transform
+                 SD 	Standard Deviation
+                 SFV 	Statistical Function of Variance
+                 SVM 	Support Vector Machine
+                 STFT 	Short-Time Fourier Transform
+                 TD 	Time Domain
+                 VMD 	Variational Mode Decomposition
+                 WHO 	World Health Organization
+                 WNNs 	Wavelet Neural Networks
+                 WT 	Wavelet Transform
+                 Acknowledgements
+                 Not Applicable.
+                 Author contributions
+                 Aruna Pant: Conceptualisation, Methodology, Validation, Software, Writing – original draft.Adesh Kumar: Methodology,
+                 Validation, Supervision, Resources, Writing – review & editing.
+                 Funding
+                 This research received no specific grant from any funding agency in the public and private sectors.
+                 Data availability
+                 All data generated or analysed during this study are included in this published article.
+
+
+                 Declarations
+                 Ethics approval and consent to participate
+                 Not Applicable.
+                 Consent to publication
+                 Not Applicable.
+                 Competing interests
+                 The authors declare no competing interests.
+
+                 Received: 30 August 2025 / Accepted: 7 February 2026
+
+
+
+
+                 References
+                 1. Saidi A, Othman SB, Kacem W, Saoud SB. FPGA implementation of EEG signal analysis system for detection of epileptic
+                     seizure. In: 2018 int Conf adv syst electr technol (IC_ASET). IEEE; 2018. pp. 415–20.
+                 2. Zhang T, Chen W. Lmd-based features for automatic seizure detection of EEG signals using SVM. IEEE Trans Neural Syst
+                     Rehabil Eng. 2016;25(8):1100–8.
+                 3. Subasi A, Ercelebi E. Classification of EEG signals using neural network and logistic regression. Comput Methods Programs
+                     Biomed. 2005;78(2):87–99.
+                 4. Wang L, Xue W, Li Y, Luo M, Huang J, Cui W, et al. Automatic epileptic seizure detection in EEG signals using multi-domain
+                     feature extraction and nonlinear analysis. Entropy. 2017;19(6):222.
+                 5. Faust O, Acharya UR, Adeli H, Adeli A. Wavelet-based EEG processing for computer-aided seizure detection and epilepsy
+                     diagnosis. Seizure. 2015;26:56–64.
+                 6. Kamath C. A new approach to detect epileptic seizures in electroencephalograms using Teager energy. Int Sch Res
+                     Notices. 2013;2013:1–8.
+                 7. World Health Organization. Epilepsy: A Public Health Imperative. Geneva: WHO. 2019. Available from: ​h​t​t​p​s​:​​/​/​w​w​w​​.​w​h​o​.​i​​n​t​
+                     /​p​​u​b​l​i​c​​a​t​i​o​n​​s​/​i​/​i​t​​e​m​/​e​​p​i​l​e​p​​s​y​-​a​-​​p​u​b​l​i​c​​-​h​e​a​​l​t​h​-​i​m​p​e​r​a​t​i​v​e
+                 8. Kumar Y, Dewal ML, Anand RS. Features extraction of EEG signals using approximate and sample entropy. In: 2012 IEEE
+                     Students' Conference on Electrical, Electronics and Computer Science. IEEE; 2012. pp. 1–5. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​0​.​1​1​0​9​/​S​C​E​E​C​S​
+                     .​2​0​1​2​.​6​1​8​4​8​3​0​​​​
+                 9. Yayik A, Yildirim E, Kutlu Y, Yildirim S. Epileptic state detection: pre-ictal, inter-ictal, ictal. Int J Intell Syst Appl Eng.
+                     2015;3(1):14.
+                 10. Plouin P, et al. Epilepsy in Menkes disease: analysis of clinical stages. Epilepsia. 2006;47(2):380–6.
+                 11. Niknazar M, et al. Application of a dissimilarity index of EEG and its sub-bands on prediction of induced epileptic seizures
+                     from rat’s EEG signals. J Neurosci Methods. 2012;33(5):298–307.
+                 12. Yildiz M, Bergil E, Oral C. Comparison of different classification methods for preictal stage detection in EEG signals. Biomed
+                     Res. 2017;28(2):858–65.
+Pant and Kumar Discover Electronics                           (2026) 3:20                                                                                                                                            Page 17 of 19
+
+
+
+
+                 13. Ahmadi A, Behroozi M, Shalchyan V, Daliri MR. Phase and amplitude coupling feature extraction and recognition of Ictal
+                     EEG using VMD. In: 2017 IEEE 4th international conference on knowledge-based engineering and innovation (KBEI). IEEE;
+                     2017. pp. 0526–0532. https://doi.org/10.1109/KBEI.2017.8325034
+                 14. Roman-Gonzalez A. EEG signal processing for BCI applications. Hum Comput Syst Interact Backg Appl. 2012;2:571–591.
+                 15. Zahra A, Kanwal N, Rehman N, Ehsan S, McDonald-Maier KD. Seizure detection from EEG signals using multivariate empiri-
+                     cal mode decomposition. Comput Biol Med. 2017;88:132–41.
+                 16. Sengur A, Guo Y, Akbulut Y. Time–frequency texture descriptors of EEG signals for efficient detection of epileptic seizure.
+                     Brain Inf. 2016;3(2):101–8.
+                 17. Shah MM. In: Encyclopedia of the Neurological Sciences. 2nd ed. 2014.
+                 18. McGill University. Biomedical Signals – EEG. Available from: ​h​t​t​p​s​:​​/​/​w​w​w​​.​m​e​d​i​c​​i​n​e​.​​m​c​g​i​l​​l​.​c​a​/​​p​h​y​s​i​o​​/​v​l​a​​b​/​b​i​o​​m​e​d​_​s​​i​g​n​a​l​s​​/​
+                     e​e​g​​_​n​.​h​t​m
+                 19. Thakor NV, Sherman DL. EEG Signal Processing: Theory and Applications. In: He B (ed) Neural Engineering. Springer, Bos-
+                     ton, MA. 2013. https://doi.org/10.1007/978-1-4614-5227-0_5
+                 20. Park C, Choi G, Kim J, Kim S, Kim TJ, Min K, et al. Epileptic seizure detection for multi-channel EEG with deep convolutional
+                     neural network. In: 2018 International Conference on Electronics, Information, and Communication (ICEIC). IEEE; 2018. pp.
+                     1–5.
+                 21. Sanei S, Chambers JA. EEG signal processing. Chichester: Wiley; 2013.
+                 22. Puranik P, Kshirsagar RV, Motdhare S. Elementary time frequency analysis of EEG signal processing. EAI Endorsed Transac-
+                     tions on Pervasive Health and Technology. 2018;4(14):e4-4.
+                 23. Klem GH, Lüders HO, Jasper H, et al. The ten–twenty electrode system of the international federation. Electroencephalogr
+                     Clin Neurophysiol. 1999;52(3):3–6.
+                 24. Soleymani M, Pun T, Pantic M. Multimodal emotion recognition in response to videos. IEEE Trans Affect Comput.
+                     2012;3(2):211–23.
+                 25. Panda R, Khobragade PS, Jambhule PD, Jengthe SN, Pal PR, Gandhi TK. Classification of EEG signals using wavelet trans-
+                     form and SVM for epileptic seizure detection. In: Proc Int Conf Syst Med Biol (ICSMB). IEEE, 2010. pp. 405–8.
+                 26. Dastidar SG, Adeli H, Dadmehr N. Mixed-band wavelet chaos–neural network methodology for epilepsy and seizure
+                     detection. IEEE Trans Biomed Eng. 2007;54(9):1545–51.
+                 27. Ocak H. Optimal classification of epileptic seizures in EEG using wavelet analysis and genetic algorithm. Signal Process.
+                     2008;88:1858–67.
+                 28. Polat K, Gunes S. Classification of epileptiform EEG using hybrid system based on decision tree classifier and FFT. Appl
+                     Math Comput. 2007;187(2):1017–26.
+                 29. Liang SF, Wang HC, Chang WL. Combination of EEG complexity and spectral analysis for epilepsy diagnosis and seizure
+                     detection. EURASIP J Adv Signal Process. 2010;2010:1–15.
+                 30. Pachori RB. Discrimination between ictal and seizure-free EEG signals using empirical mode decomposition. Res Lett
+                     Signal Process. 2008;2008:1–5.
+                 31. Birvinskas D, Jusas V, Martisius I, Damasevicius R. EEG dataset reduction and feature extraction using discrete cosine trans-
+                     form. In: 2012 Sixth UKSim/AMSS European Symposium on Computer Modeling and Simulation. IEEE; 2012. pp. 199–204.
+                 32. Lehnertz K, Andrzejak RG, Arnhold J, Kreuz T, Mormann F, Rieke C, Widman G, Elger CE. Nonlinear EEG analysis in epilepsy:
+                     possible use for interictal focus localization, seizure anticipation, and prevention. J Clin Neurophysiol. 2001;18(3):209–22.
+                 33. Orhan U, Hekim M, Ozer M, Provaznik I. Epilepsy diagnosis using probability density functions of EEG signals. In: Innova-
+                     tions Intell Syst Appl (INISTA) IEEE, 2011. pp. 626–30.
+                 34. Bezobrazova S, Golovko V. Comparative analysis of forecasting neural networks in application for epilepsy detection. In: Int
+                     Data Acquis Adv Comput Syst (IDAACS) IEEE, 2007. pp. 202–6.
+                 35. Veisi I, Pariz N, Karimpour A. Fast and robust detection of epilepsy in noisy EEG signals using permutation entropy. In:
+                     bioinformatics bioeng (BIBE). IEEE, 2007. 200–3.
+                 36. Tzallas AT, Tsipouras MG, Fotiadis DI. Automatic seizure detection based on time–frequency analysis and artificial neural
+                     networks. Comput Intell Neurosci. 2007;2007:1–13.
+                 37. Singh V, Veer K, Sharma R, Kumar S. Comparative study of FIR and IIR filters for removal of 50 hz noise from EEG signal. Int J
+                     Biomed Eng Technol. 2016;22(3):250–7.
+                 38. Mahabub A. Design and implementation of cost-effective IIR filter for EEG signal on FPGA. Aust J Electr Electron Eng.
+                     2020;17(2):83–91.
+                 39. Mahabub A. Design and implementation of cost-effective simple FIR filter for EEG signal on FPGA. World Sci News.
+                     2019;125:1–17.
+                 40. Hassan MA, Mahmoud EA, Abdalla AH, Wedaa AM. Comparison between windowing FIR filters for extracting EEG compo-
+                     nents. J Biosens Bioelectron. 2015;6(4):1.
+                 41. Diana N, Kalsum U, Sabiq A, Jatmiko W, Mursanto P. Comparing windowing methods on FIR filter algorithm in EEG data
+                     processing. J Theor Appl Inf Technol. 2016;88(3):1–6.
+                 42. Dhankhar P, Khaleri S. Eye blink artifact removal in EEG using adaptive FIR filter: a review. Int J Emerg Technol Adv Eng.
+                     2014;4(6):700–3.
+                 43. Jibon RH, Podder E, Bulbul AAM, Bairagi RN, Ahmed MS, Shohagh IA. Performance analysis of IIR filter in removing PLI from
+                     EEG signal. Int J Eng Technol. 2018;7(4):5363–7.
+                 44. Janwadkar S, Dhavse R. Power and area efficient FIR filter architecture in digital encephalography systems. E-Prime Adv
+                     Electr Eng Electron Energy. 2023;4:100148.
+                 45. Ozpolat E, Karakaya B, Kaya T, Gulten A. FPGA-based digital filter design for biomedical signal. In: 2016 XII int Conf perspect
+                     technol methods MEMS des (MEMSTECH). IEEE; 2016. pp. 70–3.
+                 46. Gupta S, Singh H. Preprocessing EEG signals for direct human-system interface. In: Proc IEEE Int Joint Symp Intell Syst. IEEE;
+                     1996. pp. 32–7.
+                 47. Matei R, Matei D. Frequency analysis of EEG signals using band energy distribution. 2021 int Conf e-Health bioeng (EHB).
+                     IEEE; 2021. pp. 1–4.
+                 48. Melinda M, Bahri A, Irhamsyah M. Finite impulse response filter for electroencephalogram waves detection. Green Intell
+                     Syst Appl. 2022;2(1):7–19.
+Pant and Kumar Discover Electronics            (2026) 3:20                                                                                            Page 18 of 19
+
+
+
+
+                 49. Ghani U, Wasim M, Khan US, Saleem MM, Hassan A, Rashid N, Kashif A. Efficient FIR filter implementations for multichannel
+                     BCIs using Xilinx system generator. Biomed Res Int. 2018;2018:1–8.
+                 50. Anshul DB, Mahaja R. Performance analysis of IIR and FIR windowing techniques in electroencephalography signal pro-
+                     cessing. Int J Innov Technol Explor Eng. 2019;8(11):1–6.
+                 51. Shang Z, Zhao Y, Lian Y. Low power FIR filter bank for EEG processing using frequency-response masking technique. 2018
+                     IEEE 23rd int Conf digit signal process (DSP). IEEE; 2018. pp. 1–5.
+                 52. Marchon N, Naik G. Novel linear phase FIR high-pass filter for biomedical signals. 2018 IEEE distributed comput VLSI electr
+                     circuits robot (DISCOVER). IEEE; 2018. pp. 147–51.
+                 53. Murali L, Chitra D, Manigandan T, Sharanya B. Efficient adaptive filter architecture for improving seizure detection in EEG
+                     signal. Circuits Syst Signal Process. 2016;35:2914–31.
+                 54. Dutande PV, Nalbalwar SL, Khobragade SV. FPGA implementation of filters for removing muscle artefacts from EEG signals.
+                     In: 2018 2nd int Conf intell comput control syst (ICICCS). IEEE; 2018. pp. 728–32.
+                 55. Model D, Zibulevsky M. Learning subject-specific spatial and temporal filters for single-trial EEG classification. Neuroimage.
+                     2006;32(4):1631–41.
+                 56. Yadav S, Saha SK, Kar R, Mandal D. EEG/ERP signal enhancement through an optimally tuned adaptive filter based on
+                     marine predators algorithm. Biomed Signal Process Control. 2022;73:103427.
+                 57. Yadav S, Saha SK, Kar R. Evolutionary algorithm-based optimal Wiener-adaptive filter design: an application on EEG noise
+                     mitigation. IEEE Trans Instrum Meas. 2023;72:1–12.
+                 58. Yadav S, Saha SK, Kar R. An application of the Kalman filter for EEG/ERP signal enhancement with the autoregressive
+                     realisation. Biomed Signal Process Control. 2023;86:105213.
+                 59. Yadav S, Saha SK, Kar R. Efficiently designed Hammerstein spline adaptive filter for ocular noise extraction from EEG
+                     signals. Circuits Syst Signal Process. 2025;44(5):3466–89.
+                 60. Yadav S, Saha SK, Kar R. Design of efficient wiener spline adaptive filter for electrocardiogram signal enrichment. Evol Syst.
+                     2024;15(4):1441–57.
+                 61. Jose JP, Sundaram M, Jaffino G. FPGA implementation of epileptic seizure detection using ELM classifier. In: Proc. 2020
+                     Sixth International Conference on Bio Signals, Images, and Instrumentation (ICBSII). IEEE, 2020. pp. 1–5.
+                 62. Sharmila A, Geethanjali P. Effect of filtering with time domain features for the detection of epileptic seizure from EEG
+                     signals. J Med Eng Technol. 2018;42(3):217–27.
+                 63. PP MS, Khan YU, Farooq O. Time domain analysis of EEG for automatic seizure detection. 2015.
+                 64. Mursalin M, Zhang Y, Chen Y, Chawla NV. Automated epileptic seizure detection using improved correlation-based feature
+                     selection with random forest classifier. Neurocomputing. 2017;241:204–14.
+                 65. Acharya UR, Fujita H, Sudarshan VK, Bhat S, Koh JE. Application of entropies for automated diagnosis of epilepsy using EEG
+                     signals: a review. Knowl Based Syst. 2015;88:85–96.
+                 66. Kang JH, Chung YG, Kim SP. An efficient detection of epileptic seizure by differentiation and spectral analysis of electroen-
+                     cephalograms. Comput Biol Med. 2015;66:352–6.
+                 67. Kumari S, Upadhyay R, Padhy PK, Kankar PK. Application of empirical mode decomposition for feature extraction from EEG
+                     signals. In: Proc. 2015 International Conference on Computer, Communication and Control (IC4). IEEE, 2015. pp. 1–6.
+                 68. Cheong LC, Sudirman R, Hussin SS. Feature extraction of EEG signal using wavelet transform for autism classification. ARPN
+                     J Eng Appl Sci. 2015;10(19):8533–40.
+                 69. NakateA, Bahirgonde PD. Feature extraction of EEG signal using wavelet transform. Int J Comput Appl. 2015;124(2):21–24.
+                     https://doi.org/10.5120/ijca2015905370
+                 70. Fu K, Qu J, Chai Y, Zou T. Hilbert marginal spectrum analysis for automatic seizure detection in EEG signals. Biomed Signal
+                     Process Control. 2015;18:179–85.
+                 71. Jahankhani P, Kodogiannis V, Revett K. EEG signal classification using wavelet feature extraction and neural networks. In:
+                     Proc. IEEE John Vincent Atanasoff 2006 International Symposium on Modern Computing (JVA’06). IEEE, 2006. pp. 120–124.
+                 72. Delimayanti MK, Purnama B, Nguyen NG, Faisal MR, Mahmudah KR, Indriani F, Satou K. Classification of brainwaves for
+                     sleep stages by high-dimensional FFT features from EEG signals. Appl Sci. 2020;10(5):1797.
+                 73. Liu Z, Zhu B, Hu M, Deng Z, Zhang J. Revised tunable Q-factor wavelet transform for EEG-based epileptic seizure detec-
+                     tion. IEEE Trans Neural Syst Rehabil Eng. 2023;31:1707–20.
+                 74. Chen G. Automatic EEG seizure detection using dual-tree complex wavelet–Fourier features. Expert Syst Appl.
+                     2014;41(5):2391–4.
+                 75. Beeraka SM, Kumar A, Sameer M, Ghosh S, Gupta B. Accuracy enhancement of epileptic seizure detection: a deep learning
+                     approach with hardware realization of STFT. Circ Syst Signal Process. 2022;41:461–84.
+                 76. Shakshi RJ, Jaswal R. Brain wave classification and feature extraction of EEG signal by using FFT on LabVIEW. Int Res J Eng
+                     Technol. 2016;3:1208–12.
+                 77. Zhang T, Chen W, Li M. AR-based quadratic feature extraction in the VMD domain for the automated seizure detection of
+                     EEG using random forest classifier. Biomed Signal Process Control. 2017;31:550–9.
+                 78. Murugappan M, Murugappan S. Human emotion recognition through short-time electroencephalogram (EEG) signals
+                     using fast Fourier transform (FFT). In: Proc. 2013 IEEE 9th International Colloquium on Signal Processing and its Applica-
+                     tions. IEEE, 2013. pp. 289–294.
+                 79. Polat K, Güneş S. Artificial immune recognition system with fuzzy resource allocation mechanism classifier, principal
+                     component analysis and FFT method based new hybrid automated identification system for classification of EEG signals.
+                     Expert Syst Appl. 2008;34(3):2039–48.
+                 80. Zhang L. Real-time feature extraction for multi-channel EEG signals time-frequency analysis. In: Proc. 2017 8th Interna-
+                     tional IEEE/EMBS Conference on Neural Engineering (NER). IEEE, 2017. pp. 493–496.
+                 81. Dhar P, Garg VK, Rahman MA. Enhanced feature extraction-based CNN approach for epileptic seizure detection from EEG
+                     signals. J Healthc Eng. 2022;2022:1–12.
+                 82. Geng X, Wang L, Yu P, Hu W, Liang Q, Zhang X, et al. A method of EEG signal feature extraction based on hybrid DWT and
+                     EMD. Alex Eng J. 2025;113:195–204.
+                 83. Jaipriya D, Sriharipriya KC. Brain computer interface-based signal processing techniques for feature extraction and clas-
+                     sification of motor imagery using EEG: a literature review. Biomedical Mater Devices. 2024;2(2):601–13.
+Pant and Kumar Discover Electronics             (2026) 3:20                                                                                            Page 19 of 19
+
+
+
+
+                 84. Zhou Y, Lu H, Wan X, Wen D, Xie X. KDE-DE: A kernel density estimation-based differential entropy method for EEG feature
+                      extraction in Spatial cognitive evaluation. Biomed Signal Process Control. 2025;110:108209.
+                 85. Geng X, Zhang X, Yue M, Hu W, Wang L, Zhang X, et al. A motor imagery EEG signal optimized processing algorithm.
+                      Alexandria Eng J. 2024;101:38–51.
+                 86. Lu Z, Wang J. A novel and efficient multi-scale feature extraction method for EEG classification. AIMS Math.
+                      2024;9(6):16605–22.
+                 87. Anita M, Kowshalya AM. Automatic epileptic seizure detection using MSA-DCNN and LSTM techniques with EEG signals.
+                      Expert Syst Appl. 2024;238:121727.
+                 88. Rakhmatulin I, Dao MS, Nassibi A, Mandic D. Exploring convolutional neural network architectures for EEG feature extrac-
+                      tion. Sensors. 2024;24(3):877.
+                 89. Wang T, Jia W, Li F, Liu X, Zhang X, Hu F. Multi-dimensional feature extraction of EEG signal and its application in stroke
+                      classification. Sci Rep. 2025;15(1):19589.
+                 90. Rizal A, Hadiyoso S, Ramdani AZ. FPGA-based implementation for real-time epileptic EEG classification using Hjorth
+                      descriptor and KNN. Electronics. 2022;11(19):3026.
+                 91. Sarić R, Beganović N, Jokić D, Čustović E. Towards efficient implementation of MLP-ANN classifier on the FPGA-based
+                      embedded system. IFAC-PapersOnLine. 2022;55(4):207–12.
+                 92. Sahani M, Rout SK, Dash PK. FPGA implementation of epileptic seizure detection using semisupervised reduced deep
+                      convolutional neural network. Appl Soft Comput. 2021;110:107639.
+                 93. Indira PB, Krishna RD. Optimized adaptive neuro-fuzzy inference system (OANFIS) based EEG signal analysis for seizure
+                      recognition on FPGA. Biomed Signal Process Control. 2021;66:102484.
+                 94. Meddah K, Zairi H, Bessekri B, Cherrih H, Kedir-Talha M. FPGA implementation of epileptic seizure detection based on
+                      DWT, PCA, and support vector machine. In: Proceedings of the Second International Conference on Embedded and
+                      Distributed Systems (EDiS). IEEE, 2020. pp. 141–146.
+                 95. Rafiammal SS, Jamal DN, Mohideen SK. Reconfigurable hardware design for automatic epilepsy seizure detection using
+                      EEG signals. Eng Technol Appl Sci Res. 2020;10(3):5803–7.
+                 96. Chandani M, Kumar A. EEG signal processing for epileptic seizure prediction by using MLPNN and SVM classifiers. Am J
+                      Inform Sci Technol. 2018;2(2):36–41.
+                 97. Selvathi D, Meera VK. Realization of epileptic seizure detection in EEG signal using wavelet transform and SVM classifier. In:
+                      Proceedings of the International Conference on Signal Processing and Communication (ICSPC). IEEE, 2017. pp. 18–22.
+                 98. Babu G. FPGA implementation of wavelet neural network for epileptic seizure detection. IEICE Electron Express.
+                      2013;10(24):20130848.
+                 99. Saleheen MU, Alemzadeh H, Cheriyan AM, Kalbarczyk Z, Iyer RK. An efficient embedded hardware for high accuracy
+                      detection of epileptic seizures. In: Proceedings of the 3rd International Conference on Biomedical Engineering and Infor-
+                      matics (BMEI). IEEE, 2010. pp. 1889–1896.
+                 100. Hooper S, Biegert E, Levy M, Pensock J, van der Spoel L, Zhang X, Aazhang B. On developing an FPGA-based system for
+                      real-time seizure prediction. In: Proceedings of the 51st Asilomar Conference on Signals, Systems, and Computers. IEEE,
+                      2017. pp. 103–107.
+                 101. Torse D, Desai V, Khanai R. A review on seizure detection systems with emphasis on multi-domain feature extraction and
+                      classification using machine learning. Broad Res Artif Intell Neurosci (BRAIN). 2017;8(4):1–14.
+                 102. Liang NY, Saratchandran P, Huang GB, Sundararajan N. Classification of mental tasks from EEG signals using extreme learn-
+                      ing machine. Int J Neural Syst. 2006;16(1):29–38.
+                 103. Ramírez-Vélez M, Staba R, Barth DS, Meyer FG. Nonlinear classification of EEG data for seizure detection. In: Proceedings of
+                      the 3rd IEEE International Symposium on Biomedical Imaging: Nano to Macro. IEEE, 2006. pp. 956–959.
+                 104. Jiwani N, Gupta K, Afreen N. Automated seizure detection using theta band. In: Proceedings of the International Confer-
+                      ence on Emerging Smart Computing and Informatics (ESCI). IEEE, 2022. pp. 1–4.
+                 105. Zhang S, Liu G, Xiao R, Cui W, Cai J, Hu X, et al. A combination of statistical parameters for epileptic seizure detection and
+                      classification using VMD and NLTWSVM. Biocybern Biomed Eng. 2022;42(1):258–72.
+                 106. Kumar Y, Dewal ML, Anand RS. Epileptic seizures detection in EEG using DWT-based ApEn and artificial neural network.
+                      Signal Image Video Process. 2014;8(7):1323–34.
+                 107. Niknazar M, Mousavi SR, Vahdat BV, Sayyah M. A new framework based on recurrence quantification analysis for epileptic
+                      seizure detection. IEEE J Biomedical Health Inf. 2013;17(3):572–8.
+                 108. Bajaj V, Pachori RB. Epileptic seizure detection based on the instantaneous area of analytic intrinsic mode functions of EEG
+                      signals. Biomed Eng Lett. 2013;3(1):17–21.
+                 109. Alam SS, Bhuiyan MIH. Detection of epileptic seizures using chaotic and statistical features in the EMD domain. In: Pro-
+                      ceedings of the Annual IEEE India Conference (INDICON). IEEE, 2011. pp. 1–4.
+                 110. Khan YU, Farooq O. P.P. Time domain analysis of EEG for automatic seizure detection. Int J Comput Appl. 2015;111(9):15–21.
+                 111. Ambulkar NK, Sharma SN. Detection of epileptic seizure in EEG signals using window width optimized S-transform and
+                      artificial neural networks. In: Proceedings of the IEEE Bombay Section Symposium (IBSS). IEEE, 2015. pp. 1–6.
+                 112. Wieczorek JŁ, Zabolotny WM, Schmid A. FPGA-based low-latency neural signal processing for epileptic seizure detection
+                      using AR modeling. SSRN Electron J. 2023;1–26.
+                 113. Annangi S, Sinha AK, Reconfigurable. FPGA-based epileptic seizures detection system with 144 µs detection time. Emerg-
+                      ing trends in artificial intelligence and data engineering. CRC; 2023. pp. 1–12.
+
+
+                 Publisher’s note
+                 Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+

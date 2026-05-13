@@ -1,0 +1,985 @@
+                                         Streamline tractography of the fetal brain in utero with machine
+                                                                     learning
+                                                  Weide Liu1 , Camilo Calixto1,2 , Simon K. Warfield1 , and Davood Karimi1
+                                                   1
+                                                     Boston Children’s Hospital and Harvard Medical School, Boston, MA
+                                          2
+                                            Elmhurst Hospital Center and Icahn School of Medicine at Mount Sinai, New York, NY
+                                                                                       August 28, 2024
+
+
+                                                                                             Abstract
+arXiv:2408.14326v1 [cs.CV] 26 Aug 2024
+
+
+
+
+                                                   Diffusion-weighted magnetic resonance imaging (dMRI) is the only non-invasive tool for studying
+                                               white matter tracts and structural connectivity of the brain. These assessments rely heavily on trac-
+                                               tography techniques, which reconstruct virtual streamlines representing white matter fibers. Much
+                                               effort has been devoted to improving tractography methodology for adult brains, while tractography
+                                               of the fetal brain has been largely neglected. Fetal tractography faces unique difficulties due to low
+                                               dMRI signal quality, immature and rapidly developing brain structures, and paucity of reference
+                                               data. To address these challenges, this work presents the first machine learning model, based on
+                                               a deep neural network, for fetal tractography. The model input consists of five different sources of
+                                               information: (1) Voxel-wise fiber orientation, inferred from a diffusion tensor fit to the dMRI signal;
+                                               (2) Directions of recent propagation steps; (3) Global spatial information, encoded as normalized
+                                               distances to keypoints in the brain cortex; (4) Tissue segmentation information; and (5) Prior in-
+                                               formation about the expected local fiber orientations supplied with an atlas. In order to mitigate
+                                               the local tensor estimation error, a large spatial context around the current point in the diffusion
+                                               tensor image is encoded using convolutional and attention neural network modules. Moreover, the
+                                               diffusion tensor information at a hypothetical next point is included in the model input. Filtering
+                                               rules based on anatomically constrained tractography are applied to prune implausible streamlines.
+                                               We trained the model on manually-refined whole-brain fetal tractograms and validated the trained
+                                               model on an independent set of 11 test scans with gestational ages between 23 and 36 weeks. Results
+                                               show that our proposed method achieves superior performance across all evaluated tracts. The new
+                                               method can significantly advance the capabilities of dMRI for studying normal and abnormal brain
+                                               development in utero.
+
+
+                                         1     Introduction
+                                         1.1    Background and motivation
+                                         Medical imaging techniques have played an increasingly prominent role in understanding the development
+                                         of human brain in utero [1, 2]. Imaging modalities such as magnetic resonance imaging (MRI) are also
+                                         becoming more popular in studying brain abnormalities prior to birth [3, 4]. As a consequence, fetal
+                                         MRI has become an indispensable tool in medicine and neuroscience. Because the fetal period represents
+                                         the most dynamic and most vulnerable stage in brain development, the potential medical and scientific
+                                         impacts of fetal brain imaging are enormous.
+                                             Among various medical imaging modalities, diffusion MRI (dMRI) has emerged as a unique method
+                                         for studying the fetal brain [5, 6]. It offers important insights into tissue microstructure and structural
+                                         connectivity that no other imaging technique can provide. Research on adult brains has extensively
+                                         documented that the microstructure of brain white matter tissue is a unique indicator of normal and
+                                         abnormal brain development [7, 8]. Moreover, structural connectivity of the brain can influence and be
+                                         influenced by the progression of brain diseases [9, 10]. These findings suggest that dMRI can play a
+                                         crucial role in studying the fetal brain in-utero, where it undergoes its most formative developments.
+                                         With technical advancements in fetal imaging [11, 12], an increasing number of studies have analyzed
+                                         the normal and abnormal development of fetal brain via tract-specific assessment of white matter [13].
+                                         Moreover, there is growing interest in quantitative assessment of brain’s structural connectome in the
+                                         fetal period [14, 15]. Recent evidence suggests that the structural connectivity of the brain in utero can
+
+
+                                                                                                 1
+be altered by environmental factors and diseases. For example, prenatal exposure to maternal stress [16],
+congenital heart disease (CHD) [17], and brain malformations [15] may disrupt the normal development
+of the structural connectome in utero.
+    Despite these unique potentials, dMRI-based assessment of the fetal brain has progressed very slowly.
+This is in large part because of a lack of reliable computational methods to automate the image data
+analysis. For analyzing adult brain dMRI data, there exists a repertoire of reliable computational
+tools [18–20]. For the fetal brain, similar tools are almost entirely nonexistent. This gap in technology
+has seriously limited our ability to tap the potential of dMRI to study brain’s earliest and most critical
+developments. As an example, the only study to assess the impact of CHD on fetal brain white matter
+relied on manual tract delineation [13]. Because of the time and expertise requirements, that study
+was limited to one single tract and only a handful of subjects at one single gestational age. Automatic
+computational methods specifically tailored to fetal brain data can drastically enhance our ability to
+analyze larger fetal cohorts across the gestational age. Such tools can also reduce the cost and time
+requirements of these studies, increase the accuracy, and improve the reproducibility compared with
+manual annotations.
+    The goal of this work, therefore, was to develop and validate a new method for tractography of
+the fetal brain. Given the recent success of machine learning for this application [21, 22], our proposed
+method is based on a deep learning model that is trained on manually refined tractography data. If
+successful, such a method can dramatically improve the accuracy and reproducibility of quantitative
+fetal brain assessment with dMRI. It can enable precise automatic delineation of specific white matter
+tracts. Moreover, it can be used to reconstruct the structural connectome and to quantify the structural
+connectivity metrics in the fetal period.
+
+1.2    Related works
+Bundle-specific and whole-brain tractography are widely used for delineating white matter tracts, for
+studying the white matter as a whole, and for reconstructing the structural connectome [23–25]. Early
+tractography algorithms relied on elementary models of the diffusion signal to compute the local fiber
+orientations and were primarily intended for qualitative or visual purposes [26]. Over the past two
+decades, more advanced tractography algorithms have been developed [27–30]. A representative example
+of these advancements is the class of global tractography algorithms [25,31,32], which treat tractography
+as a global inverse problem. Additional non-local information, such as anatomical context and history of
+streamline propagation, are often used by these advanced methods to improve the accuracy and reduce
+the false positive rates. There have been multiple efforts by the dMRI community to rigorously assess the
+capabilities and limitations of modern tractography algorithms [33,34]. Some of the persistent challenges
+in tractography include fiber crossings and bottlenecks, inherent limitation of the dMRI data for inferring
+the local white matter fiber orientations, and paucity of ground truth data to develop and validate these
+methods [24, 35].
+    Machine learning may hold the key to addressing some of the perennial issues in tractography. A
+primary advantage of machine learning methods is their ability to integrate diverse sources of informa-
+tion, such as spatial information and anatomical priors. Classical non-machine learning tractography
+techniques can also incorporate such auxiliary information. However, it would be highly challenging to
+design those methods such that they optimally leverage different inputs. For example, the utility of
+different inputs likely depends on the streamline being traced and the position along the streamline.
+Conventional tractography methods do not have the capacity to learn such complex relations. Modern
+machine learning models such as deep neural networks, on the other hand, can learn these relations from
+training data. They can optimize their prediction objective with respect to different inputs much more
+effectively in a unified framework. Consequently, recent years have witnessed a growing interest in using
+machine learning for tractography. Reviews of these works can be found in [21, 36].
+    Compared with adult brain studies, in utero fetal brain tractography has been much less utilized.
+This has been mainly because of the challenges of fetal dMRI acquisition and analysis. Compared
+with adult dMRI data, fetal brain dMRI measurements have overall inferior quality due to such factors
+as lower signal to noise ratio and motion effects. Moreover, different white matter tracts emerge and
+develop rapidly over a short span of time during the second and third trimesters. Due to these challenges,
+most prior works on fetal tractography have focused on one or a few selected tract bundles and, yet,
+have reported low reconstruction success rates and limited accuracy in reconstructing the tracts in their
+complete spatial extent [37–41]. Despite these limitations, prior works have also demonstrated that
+tractography has a great potential for studying normal and abnormal brain development in utero and for
+characterizing brain pathologies prior to birth [15, 37–39, 42–45]. Therefore, accurate and reproducible
+fetal tractography will not only serve quantitative assessment of structural connectivity, but it can also
+advance the field of fetal brain imaging in other important directions.
+
+1.3    Summary of the contributions of this work
+This work presents the development and validation of the first machine learning approach to streamline
+tractography of the fetal brain. Our proposed method follows design principles that make it well suited
+to the challenging nature of fetal dMRI data.
+    We compute the local orientation of white matter fibers using a diffusion tensor fit to the dMRI signal.
+This enables the method to be used with typical dMRI scans that may not be suitable for determining
+complex fiber configurations. We use a neural network model, consisting of convolution and attention
+modules, to encode a large spatial context around the current streamline tracing point in the diffusion
+tensor image. In addition to the current streamline tractography point, we will also include the diffusion
+tensor information at a hypothetical next point. We also encode the information about the position
+of the current streamline point in the brain mask in terms of the distance to selected keypoints in the
+brain cortex. Moreover, similar to several existing methods, our model input includes the directions of
+recent streamline propagation steps. The tissue segmentation map is also encoded and fed to the model.
+Finally, we precisely align a spatio-temporal atlas of major fixels to the subject’s brain and use that as
+additional input to the model. Our model synergistically combines these information to predict the next
+propagation direction.
+    We train the model on a set of whole-brain tractograms that have been manually edited and verified
+by human experts. Subsequently, we test our proposed method on a set of independent fetal brain
+scans. Our quantitative evaluations and visual assessments by an expert show that the proposed method
+achieves better results than a standard method and a machine learning technique. A comparison of our
+results with prior studies that have attempted tractography of the fetal brain shows that our results are
+vastly superior in terms of the range of white matter tracts that can be reconstructed and in terms of tract
+coverage. Therefore, our method represents a significant stride in improving the capabilities of dMRI for
+studying the brain in utero. The code will be available at https://github.com/liuweide01/MLFT.
+
+
+2     Methods
+2.1    Image data acquisition and processing
+This study used retrospective MRI data collected from fetuses scanned at Boston Children’s Hospital.
+Structural and diffusion MRI scans were collected from each fetus. The dMRI data was acquired at a
+single b-value of 500 and included between 24 and 96 measurements for each fetus. The raw data were
+processed with a well-tested fetal-specific preprocessing framework [46] to correct for fetal/maternal
+motion and align all dMRI data into a standard space.
+    We fitted a diffusion tensor model to the data in each voxel. We then converted the diffusion tensor
+in each voxel to the diffusion orientation distribution representation [47] and expressed it in spherical
+harmonics of order 8. As a result, the fiber orientation information in each voxel was represented
+with a vector of length 45. The reason for conversion from the diffusion tensor to diffusion orientation
+distribution was to facilitate the interpolation during tractography and to avoid the interpolation errors
+that may arise when working with tensors [48].
+    We used multi-atlas segmentation techniques to generate tissue segmentation and gray matter par-
+cellation maps for each fetus. For tissue segmentation, we used a manually segmented fetal diffusion
+tensor atlas [49]. For each fetus, we registered the tensor atlas to the subject using a diffusion tensor-
+based registration method [48]. For gray matter parcellation, we used a T2-weighted atlas of the fetal
+brain [50]. We registered the atlas image to the mean diffusivity (MD) image of the subject. In both
+cases, we registered the three atlases that were closest in gestational age to the subject. Subsequently,
+we applied a probabilistic label fusion method [51] to compute the final tissue segmentation and gray
+matter parcellation maps for the fetal subject. The tissue segmentation process involves classifying brain
+tissues into white matter, cortical gray matter, subcortical gray matter, and cerebrospinal fluid (CSF).
+These segmentations are essential for initiating and constraining the tractography process, especially for
+identifying and reconstructing complex white matter tracts.
+    Afterward, an expert visually inspected the diffusion maps (MD and FA), tensor glyphs (to ensure
+the accuracy of the principal eigenvector’s direction), and tissue segmentation maps for each subject,
+removing any poor-quality data or incorrect segmentation maps. A total of 73 subjects were deemed to
+have acceptable data quality, with 62 subjects allocated to the training set and 11 subjects to the test
+set.
+    To generate reference streamlines for model training, we applied a method based on streamline
+propagation using the iFOD2 algorithm [52]. Using the tissue segmentation maps, rules of anatomi-
+cally constrained tractography [27] were applied to the iFOD2-generated results to remove implausible
+streamlines. The final results were reviewed by an expert to ensure they did not include gross errors.
+Finally, whole-brain tractograms were reviewed by an expert to ensure that all major tracts were present
+and that no gross errors were included.
+
+2.2     Method design
+Figure 1 shows maps of diffusion tensors and corresponding color fractional anisotropy images for four
+fetuses at 24, 28, 32, and 36 gestational weeks. These examples show that estimates of local fiber orien-
+tation can be very noisy and, on its own, not adequate for accurately guiding the streamline propagation.
+
+
+
+
+Figure 1: Example diffusion tensor and color fractional anisotropy images for fetal brains scanned at 24,
+28, 32, and 36 gestational weeks.
+
+    To overcome this challenge, in this work we adopted several strategies. We briefly describe these
+strategies here and explain them in greater detail in the following subsections. First, we designed our
+method such that it leveraged the diffusion tensor information in a large spatial context around the
+current streamline propagation front. Second, we introduced additional local and non-local information
+to guide the streamline propagation. These information included recent propagation directions, local
+tissue segmentation map, and distance to standard keypoints in the brain cortex. Lastly, we used a
+spatio-temporal atlas of major fiber orientations, registered to the subject brain, to give the tractography
+algorithm the expected orientation of major fiber pathways. These strategies were meant to reduce the
+reliance on the estimate of local fiber orientation and enhance the robustness of the tractography results
+to the unavoidable errors in voxel-wise diffusion tensor fit.
+    Figure 2 shows the main components of the proposed method. Below, we first present the five sources
+of information that our method uses and explain how they are encoded. Subsequently, we describe how
+the method is trained and how it is applied to a test fetus.
+
+2.2.1   Fiber orientation information
+The largest computational unit in our method consists of an encoder-decoder deep neural network based
+on convolutions and transformer blocks that encode the fiber information from the input diffusion tensor
+image. The input to this unit is the entire 1283 -voxel image of diffusion orientation distribution computed
+from the diffusion tensor in each voxel. The image is divided into a set of 83 non-overlapping 3D
+patches. The patches are vectorized and projected into an embedding space. After positional encoding
+[53], the sequence of embedded patches is processed by a set of 4 transformer blocks, each consisting
+of three transformer units with standard multi-head attention [53] and multilayer perceptrons. The
+design of the transformer blocks largely follows the vision transformer [54]. Skip connections involving
+transposed convolution operations provide shortcut paths between the encoder and decoder sections of
+the network. The output of the decoder includes feature maps at three different scales: F1 (H, W, D, C1),
+F2 ( H   W D                  H W D
+     2 , 2 , 2 , C2), and F3 ( 4 , 4 , 4 , C3), where C1, C2, and C3 denote the number of channel at each
+level. In this work, we set C1 = 64, C2 = 128, and C3 = 256. The highest resolution feature maps, F1 ,
+include features computed with a set of convolutional operations applied directly on the input diffusion
+orientation distribution image.
+    The feature maps thus computed provide a rich encoding of the diffusion orientation distribution
+image. Because of the deep and multi-scale design of the network, at each point in the image space the
+Figure 2: The proposed fetal tractography method. The method encodes the information in the 3D
+volume of diffusion orientation distribution using transformer and convolutional blocks, generating fea-
+ture maps at three different scales. The spatial location of the current streamline propagation point is
+used to interpolate these feature maps. A similar procedure is followed to encode the information in the
+tissue segmentation map and the fixel atlas image registered to the subject, although using a light-weight
+fully-convolutional network. These are combined with prior streamline propagation directions and with
+“position vector” features that represent the global location of the current point in the brain. A set of
+fully-connected layers fuse these features to predict the next streamline propagation direction.
+
+
+feature maps encode information about fiber orientation distribution from a large spatial extent around
+that point. For tractography, these feature maps need to be interpolated at the arbitrary location of the
+current streamline propagation point. We accomplish this via trilinear interpolation based on the voxels
+within a 3 × 3 × 3 grid around the current point. Additionally, we use the values of the features at the
+centers of voxels within a 3 × 3 × 3-grid around the current tractography point. To avoid a cluttered
+schematic, these last features are not shown in Figure 2.
+    Additionally, we extracted features computed from the diffusion orientation distribution image at a
+hypothetical next point. Specifically, let us denote the current point with pi and the direction of the
+last propagation with ui−1 . We compute the hypothetical next point as p̄i+1 = pi + δui−1 , where δ
+is the look-ahead step size that we set to 0.5 voxels in all experiments. In essence, p̄i+1 would be the
+next streamline point if the current propagation direction were to be the same as the last propagation
+direction, i.e., if we keep propagating in the same direction. Similar ideas have been advocated for in
+prior works. For example, Tournier et al. use a similar mechanism to obtain a look-ahead view of how
+the fiber orientation distribution looks like in front of the streamline being traced [52]. We interpolated
+the feature maps extracted from the diffusion orientation distribution image at p̄i+1 in a manner similar
+to that explained above for the current tractography point.
+    The features thus extracted from the diffusion orientation distribution image are concatenated and
+reshaped into a 1-D vector that is subsequently used, along with other inputs described below, by a
+multilayer perceptron (MLP) to compute the next propagation direction.
+2.2.2   Global location within the brain
+Another piece of information that we feed to the model consists of an encoding of the position in the
+brain mask. This information can be useful because similar patterns of local fiber orientation may exist
+in different parts of the brain and correspond to different white matter tracts. Encoding the global
+position of the current tractography point should be helpful in resolving such ambiguities and improving
+the reconstruction of different white matter tracts that may locally have similar shapes. Since the fetal
+brain grows dramatically, the challenge is how to achieve a consistent encoding of the position across the
+gestational ages. To address this challenge, we relied on brain parcellation labels. As mentioned above,
+we used the same parcellation scheme based on an existing spatio-temporal fetal brain atlas that covered
+all gestational ages [50]. We selected five specific parcellation regions from this atlas: (1) Left orbital
+part of the middle frontal gyrus, (2) Right insula, (3) Right inferior occipital gyrus, (4) Right middle
+temporal gyrus, and (5) Left inferior temporal gyrus.
+    As shown in Figure 3, these regions were selected to be non-coplanar and far apart from each other
+in order to provide an unambiguous encoding of all positions within the brain mask. Let us denote the
+center of mass of each of these parcellation regions with {ck }k=1:5 . We calculated the Euclidean distance
+from the current streamline position pi to ck as rk = ∥pi − ck ∥ and form a normalized vector of these
+distances as the position encoding vector ri .
+                                      "                                       #
+                                            r0        r1                r5
+                                 ri = P5          , P5      , . . . , P5                                (1)
+                                           k=0 rk    k=0 rk            k=0 rk
+
+   This vector ri is passed directly to the final MLP.
+
+
+
+
+Figure 3: Our proposed scheme for encoding the position of the current tractography propagation point
+in the brain. We encode this information as the normalized distance with respect to the centers of mass
+of five non-coplanar cortical parcellation regions. This figure shows the axial, sagittal, and coronal views
+depicting the cortical parcellation regions that are visible in the shown slices, spheres denoting the centers
+of mass of those regions, and 3D views that show the lines connecting these centers to an arbitrary point
+within the brain mask. The fetuses shown in this figure are 24 and 31 weeks of gestational age.
+
+
+2.2.3   Streamline propagation history
+An intuitively useful piece of information to guide the tractography is the streamline propagation history.
+This information has been used in some classical tractography algorithms as well. For example, Malcolm
+et al. used an unscented Kalman filter to combine the streamline propagation history and the dMRI
+signal at the current streamline point to estimate the next propagation direction [55]. Lazar et al.,
+on the other hand, proposed a tensor deflection method that changed the propagation direction of an
+incoming streamline based on the shape of the diffusion tensor in the current voxel [56]. Leveraging the
+propagation history is also a common fixture of most machine learning-based tractography techniques.
+Poulin et al. [57] and Jorgens et al. [58] directly incorporated the normalized vector of prior propagation
+directions as input to their model. Similarly, Neher et al. [22] used the dot product of the prior direction
+as a weight for computing the next propagation direction in order to encourage alignment with the
+previous orientation. We have found that encoding the immediate prior propagation directions alone
+would make the model training difficult. Since most streamlines are locally very smooth, the immediate
+prior directions are often very close to the next target direction, making it difficult for the model to learn
+the small changes in direction between successive propagation steps. Hence, in our proposed method
+we skip some of the immediate prior steps and, instead, include earlier directions. Specifically, the
+propagation history that is used as input to our model includes [ui−1 , ui−3 , ui−5 , ui−7 , ui−9 , ui−11 ].
+2.2.4   Tissue segmentation map
+Streamlines are expected to start from brain gray matter, go through the white matter, and end in
+other gray matter regions. Therefore, segmentation of the brain tissue is highly informative for accurate
+tractography. Tissue segmentation maps are commonly used to reject anatomically invalid streamlines,
+for example, streamlines that prematurely stop inside the white matter or streamlines that cross voxels
+with cerebrospinal fluid (CSF). However, we think the tissue segmentation can be more effectively used to
+improve the accuracy of computing the propagation direction, rather than only for rejecting anatomically
+implausible streamlines. To this end, we use the tissue segmentation information in a small neighborhood
+around the current tractography point as input to our model.
+    We used a multi-atlas approach based on an existing diffusion tensor atlas of the fetal brain [49]
+to compute a tissue segmentation map for each fetal brain. We encode this information via a set of
+three learnable convolutional layers that compute three feature maps at different resolutions as shown
+in Figure 2. We interpolate these feature maps at the position of the current streamline tractography
+point and pass the computed feature vectors to the final MLP.
+
+2.2.5   Spatio-temporal fixel atlas
+Due to the remarkable inter-subject similarity in brain structures, atlases are widely used to improve,
+constrain, and regularize the neuroimaging data analysis algorithms. They have also been used in a few
+prior studies on adult brain tractography. For example, Durantel et al. [59] reconstructed a fixel atlas and
+used it as a prior to enhance the voxel-wise estimation of fiber orientation distribution (FOD). In each
+voxel, they computed an “enhanced FOD” using a weighted combination of the FOD computed from
+the dMRI signal and the fixel prior, where voxel-wise metrics such as generalized fractional anisotropy
+were used to compute a heuristic weight. The enhanced FOD was then fed to a standard (non-machine
+learning) tractography method. A similar approach was followed by [60], where the atlas (prior) and
+subject FODs were simply multiplied in each voxel. However, by using the atlas value in the current
+voxel only, these methods fail to fully exploit the information in the atlas.
+    In our method, we first reconstructed a spatio-temporal atlas of major white matter orientations in
+each voxel (i.e., fixels). The atlas was computed by applying these operations on the training data. (1) We
+computed whole-brain tractograms for each fetus. (2) Diffeomorphic diffusion tensor-based registration
+was used to align the tractograms for all fetuses of the same age into a common space. (3) Clustering
+algorithms were used to detect the directions of major fixels in each voxel based on the streamline
+directions in that voxel. Details of the method are described in [61]. Example fixel maps are shown in
+Figure 4. We found that only 2% of the voxels contained more than two fixels. Therefore, in this work we
+used the directions of the first two fixels as additional input to our machine learning-based tractography
+model.
+    For each fetus, we register the age-matched fixel atlas using deformable diffusion tensor-based regis-
+tration. As shown in Figure 2, unlike prior works that have used a simple voxel-wise weighting of fiber
+orientations based on the atlas, we include the atlas information along with other information in our ma-
+chine learning method. In other words, our proposed method computes the next streamline propagation
+direction by including the fixel atlas as one among many sources of information. We encode the fixel
+atlas information in a manner quite similar to the encoding of the tissue segmentation map. Specifically,
+we compute three sets of convolutional features at three different scales. We interpolate these feature
+maps at the location of the current tractography point and pass the computed feature maps directly to
+the final MLP for predicting the next propagation direction.
+
+2.3     Training procedures
+Our training dataset included a total of approximately 9 million streamlines from manually refined
+tractograms of 62 subjects. Although this is a notably large number, our preliminary experiments
+showed that a straightforward training on this dataset produced overly smooth streamlines at test time
+and did not allow the model to reconstruct the tracts with more varying curvatures. A simple data
+augmentation approach to increase the diversity of the target propagation direction resolved this issue.
+To apply this augmentation, we assumed the streamline direction u followed a von Mises-Fisher (vMF)
+distribution u ∼ p(u; µ, κ) = C(κ) exp(κµ⊤ u). Here, µ and κ, respectively, denote the mean direction and
+concentration parameter of the distribution and C is the normalizing coefficient. This is a standard model
+for representing distributions on the sphere and has been used in prior tractography works as well [62].
+Minimizing the negative log likelihood of the observed direction gives rise to a simple loss function of the
+Figure 4: Axial, coronal, and sagittal views of the spatio-temporal fixel atlas for 25, 30, and 35 gestational
+weeks. In order to better view the atlases for lower gestational ages, all atlases have been displayed to
+the same size.
+
+
+form −κ · ⟨u, û⟩ − log C, where ⟨., .⟩ denotes the inner product. This formulation encourages the closeness
+of the predicted orientation with the target orientation while allowing for learned weighting of data with
+high uncertainty via modulating the loss term with κ. In other words, for data with higher uncertainty
+(larger κ) the model is allowed to make larger prediction errors by paying a higher “uncertainty penalty”.
+In the second loss term, C is a function of κ and penalizes high uncertainties. This prevents degenerate
+training where the model computes high uncertainty for all data samples to reduce the first loss term.
+    While κ may also be predicted by the model via including it in the loss function as explained above,
+in this work we use a heuristic approach to setting its value. Specifically, we set κ to be proportional to
+the square of fractional anisotropy: κ = αFA2 . We empirically set α to 1600. Most white matter voxels
+in our data had an FA value in the range [0.05, 0.25], resulting in κ ∈ [4, 100]. For voxels with FA>0.20,
+which mostly represent voxels that are on major white matter tracts with little partial volume effect,
+κ > 64. With the concentration factor κ = 64, the 90% confidence interval around the mean direction in
+the vMF distribution is a cone of approximately 12◦ . For a voxel with FA=0.10, which corresponds to
+smaller or less developed tracts or borders of major tracts with substantial partial volume effect, κ = 0.16
+and the cone of 90% confidence interval around the mean direction has an angle of approximately 24◦ .
+Regions with higher FA generally represent the location of the major tracts with a single dominant fiber
+orientation, where the streamline propagation direction is less ambiguous. Regions with lower FA, on
+the other hand, generally represent the voxels with low dMRI signal anisotropy due to significant partial
+volume effects or crossing fibers. Streamline propagation direction in these areas is less certain, which
+justifies increasing the value of κ. Having fixed κ based on FA, we use the cosine similarity between the
+predicted and target propagation directions as the loss function.
+
+2.4    Implementation details
+The proposed method was implemented using PyTorch and trained on an NVIDIA A6000 GPU. We used
+a large batch size of 16,000 to improve the training stability. We used a Stochastic Gradient Descent
+optimizer with an initial learning rate of 1e − 3. Training was stopped when the training loss plateaued
+or began to fluctuate. In our experiments in this work, this usually happened after approximately 100
+training epochs.
+Figure 5: We launch a streamline from the center of each gray matter voxel that has at least one white
+matter voxel neighbor. The direction of the first step is selected to be the direction of the line connecting
+the center of the gray matter voxel to the center of the neighboring white matter voxel. In this figure,
+the red voxels are gray matter and the green voxels are white matter. We have selected three arbitrary
+gray matter voxels and have shown the direction of the first step for the streamlines launched from those
+seed points with yellow arrows. To enhance the tractogram diversity, random jittering is applied to the
+location of the seed point and the direction of the first step as explained in the text. These augmentations
+are not portrayed in this figure.
+
+
+2.5    Application of the trained model on a test scan
+Once the model training is complete, it can be applied to compute the whole-brain tractogram on a test
+subject. We use the tissue segmentation map for both streamline seeding and for rejecting implausible
+streamlines. Valid streamlines should begin and end at the boundary between gray matter and white
+matter. As shown in Figure 5, given the tissue segmentation map, we consider every voxel in the cortical
+gray matter that has at least one neighboring white matter voxel. We consider the vector between the
+centers of the gray matter voxel and that of the neighboring white matter voxel as the initial streamline
+propagation direction and launch a streamline in that direction. In order to increase the number and
+diversity of streamlines, we augment the position and direction of the streamline launch. We jitter the
+position of the seed point in the x, y, and z directions, uniformly, by [-0.6, 0.6]mm. We consider the
+initial direction in the spherical coordinate system with polar angle θ and azimuthal angle ϕ, and add
+random values uniformly sampled from [−30, 30] degrees independently to θ and ϕ.
+    In order to enhance reconstruction of different tracts with varying shapes, we adopted a probabilistic
+tractography approach. Similar to the model training stage, we used a vMF distribution with the
+concentration factor modulated based on the local FA (κ = α · FA2 ). Given the model’s prediction
+of the next propagation direction µ, we sample a random direction µ′ ∼ vMF(µ, κ) and propagate the
+streamline along µ′ by one step size. We use a step size of 0.6 mm, which is equal to half the voxel spacing
+in our data, in all experiments. We found that no single value of α resulted in optimal reconstruction
+results for all tracts. While the setting α = 1600 was quite adequate for reconstructing tracts with large
+maximum local curvature such as some sections of the corpus callosum, it was not the best setting for
+some other tracts with lower curvature such as the corticospinal tract. Therefore, on a test scan, we
+apply the method with three different values of α ∈ [1600, 3200, 6400], to improve the reconstruction
+of various tracts. The final whole-brain tractogram for a test fetus is formed by simply merging the
+streamlines obtained with these three settings.
+    After propagating the streamline along µ′ by one step size, the model is applied again to compute
+the next propagation direction. This process is continued as long as the next streamline point is inside
+the white matter segmentation mask. The propagation is terminated once the predicted next point is
+not inside the white matter. If the next point is on a cortical or sub-cortical gray matter voxel, the
+computed streamline is considered correct and it is added to the tractogram. If the next point is on a
+CSF voxel or outside the intracranial mask, the streamline is considered as anatomically implausible and
+rejected. Additionally, streamlines that exceed a length of 130 mm are discarded, as they exceed the
+expected maximum streamline length for the fetal brain.
+
+2.6    Experiments and evaluation criteria
+Assessment and comparison of tractography algorithms is notoriously difficult. In this work, we used
+both quantitative metrics and qualitative assessment by a human expert to evaluate the proposed method
+and compare it with existing techniques. In order to reduce the subjectivity of the assessments, we used
+an automatic tool [63] to extract a set of anatomically meaningful white matter tracts from the computed
+whole-brain tractograms. This method uses standard definitions of the tracts and a parcellation map
+of the gray matter to automatically extract specific tracts. In this study, we extracted nine tracts:
+Anterior Thalamic Radiation (ATR), Rostrum, Genu, and Splenium of the Corpus Callosum (CC1 , CC2
+and CC7 , respectively), Cortico-Spinal Tract (CST), Inferior Occipito-Frontal Fasciculus (IFO), Inferior
+Longitudinal Fasciculus (ILF), Optic Radiations (OR), and Uncinate Fasciculus (UF). Descriptions of
+these tracts can be found in [64, 65].
+     We compared our proposed method with a conventional non-machine learning method, Fiber Assign-
+ment by Continuous Tracking (FACT) [66], and a recent machine learning method based on recurrent
+neural networks (RNNs) [67]. This RNN method was originally proposed for adult brain tractography
+and used a small spatial context of 3 × 3 × 3 voxels for the model input. Because our preliminary ex-
+periments had shown that a larger spatial context could be useful in fetal tractography, we also applied
+a variant of the RNN method where we increased the input patch size to 7 × 7 × 7 voxels. We refer to
+this method as “modified RNN”.
+     Our quantitative assessments were in terms of the Dice Similarity Coefficient, precision, and recall of
+the reconstructed tracts compared with the ground truth. In order to compute these metrics, we needed
+to convert the streamline bundle for an extracted tract to a binary mask. To this end, we first computed
+the streamline density map and then removed the voxels where the streamline density was below the
+5th -percentile of the density values, which corresponded to spurious streamlines. To generate the ground
+truth binary tract masks for these evaluations, we applied the iFOD2 algorithm to compute 5,000,000
+streamline for each fetus and extracted individual tracts using [63]. An expert visually inspected each
+tract for every test fetus and marked the ones that were correctly and fully reconstructed. Only the
+tracts that passed the quality assurance were used in assessing our method and the compared methods
+in this work.
+     The qualitative evaluation by the human expert was carried out by scoring the tracts on a 1-5 scale
+using a bespoke scoring system. The expert visually inspected the tract in 3D and assigned a score from
+1 (lowest score, indicating “failed reconstruction”) to 5 (highest score, indicating “excellent reconstruc-
+tion”). The scoring system is described in Table 1. In these assessments, the tracts reconstructed by
+different methods were presented to the expert in a random order, and the expert was blind with respect
+to which method had reconstructed the tract being assessed.
+
+Table 1: The scoring system used for qualitative assessment of the reconstructed tracts by a human
+expert in this study.
+
+ Score     Reconstruction Quality        Description
+    1      Failed reconstruction         The method has failed to reconstruct any streamlines that
+                                         could be considered as part of the expected tract.
+    2      Poor reconstruction           The method has reconstructed some streamlines that corre-
+                                         spond to the tract of interest. However, the streamlines sub-
+                                         stantially deviate into incorrect paths and they may be very
+                                         sparse. Overall, it is difficult to correctly identify the tract
+                                         based on the streamlines.
+    3      Fair reconstruction           The reconstructed streamlines mostly follow the expected tract
+                                         pathway, but there are notable deviations. The streamline
+                                         paths and density, although overall plausible, suffer from small
+                                         errors that lower its anatomical accuracy.
+    4      Good reconstruction           The computed streamlines closely match the tract’s antici-
+                                         pated anatomical path with high accuracy and sufficient den-
+                                         sity. Despite minimal errors, the streamlines are adequate to
+                                         correctly define the tract’s outline.
+    5      Excellent reconstruction      The streamlines correctly and completely match the expected
+                                         tract pathway. They precisely cover the entire spatial extent
+                                         of the tract.
+3     Results and Discussion
+Depending on the brain volume, approximately between 60,000 and 220,000 gray matter voxels with at
+least one neighboring white matter voxel existed for each brain. We launched five streamlines from each
+seed point, resulting in approximately between 300,000 and 1,100,000 streamlines per brain. Approx-
+imately 40% of the computed streamlines were anatomically plausible based on the criteria described
+above, while the rest violated those criteria and were thus rejected. The retention rate of 40% for our
+machine learning method is vastly higher than the retention rate of approximately 1% for standard meth-
+ods such as FACT that we have explored in this work. This suggests that the proposed method learns
+to compute more anatomically plausible streamlines, which not only improves the tractography accu-
+racy but also reduces the computational time, the size of the tractogram, and the burden of subsequent
+tractogram post-processing.
+
+3.1    Quantitative assessments
+Figure 6 shows the results of quantitative evaluations in terms of DSC, precision, and recall. The plots
+in this figure show the summary of these metrics across all 11 subjects and all 9 white matter tracts. Our
+method achieved substantially higher DSC, precision, and recall than FACT and the two RNN baselines.
+While the mean and standard deviation of the DSC for our method was 0.711 ± 0.027, for FACT, RNN,
+and Modified-RNN, respectively, it was 0.048 ± 0.028, 0.190 ± 0.039, and 0.206 ± 0.045. Our method
+achieved a mean DSC of above 0.60 (across the 9 tracts) and a mean recall of above 0.80 for each of the
+11 test fetuses that covered the gestational ages between 23 and 36 weeks.
+
+
+
+
+Figure 6: Summary of quantitative evaluation metrics for our proposed method and the compared
+techniques. The values shown in these plots have been pooled across 11 test subjects and 9 different
+white matter tracts.
+
+    Figure 7 shows the reconstruction accuracy for our proposed method and the compared techniques
+in terms of DSC, separately for each of the tracts. For the bilateral tracts, we have shown the results
+separately for the left and right tracts. This figure shows that the proposed method can achieve a mean
+DSC of close to 0.50 or higher for all tracts, which is highly satisfactory given the challenging nature
+of fetal tractography. Although a direct comparison of our results with experiments on adult brains is
+not possible, our results compare very favorably with recent studies on adult brain tractography [68].
+Nonetheless, the figure also shows significant variability in the reconstruction accuracy for different
+tracts. The proposed method has achieved mean DSC values of well above 0.70 for certain segments of
+the corpus callosum (CC1 and CC2 ), CST, and some of the association tracts such as ATR and ILF. For
+other tracts such as OR and the splenium of the corpus callosum (CC7 ), on the other hand, the mean
+DSC is close to or below 0.60.
+    The variability in the reconstruction performance of the proposed method on different tracts may
+be attributed to at least three factors. First and foremost, being a machine learning technique, the
+performance of the proposed method is ultimately restricted by the accuracy of the training data. Our
+experience shows that the ability of the proposed method to reconstruct a tract depends directly on the
+presence and completeness of that tract in the whole-brain tractograms that were used in model training.
+As an example, compared with CC1 and CC2 , the optic radiations (OR) was much less consistent in our
+training data. This has very likely contributed to the lower reconstruction accuracy for OR as shown
+in Figure 7. As another example, the observed lateralization of tractography results in Figure 7 may
+be a manifestation of the impact of training data. We had noticed that the training tractograms used
+in this work were in general more accurate in the right hemisphere than in the left hemisphere. We
+speculated that this was almost certainly due to the lower accuracy in the left brain hemisphere of the
+tissue segmentation maps that were used in computing the whole-brain tractograms for the training data.
+Figure 7: Performance of our proposed method and compared techniques in terms of the Dice score for
+individual white matter tracts.
+
+
+Interestingly, as shown in Figure 7, this has resulted in a consistently lower reconstruction accuracy for
+the left section of all the six bilateral tracts considered in this analysis. The impact of this factor may
+be ameliorated by improving the accuracy and reducing the bias of the training data.
+     The second factor that may have contributed to the differences in the reconstruction performance for
+different tracts may be the methodological choices and the algorithm settings. For example, as we have
+explained above, to generate the tractograms on test subjects we use a surface-based seeding approach,
+i.e. we launch streamlines on the boundary between the white matter and gray matter. Although this is
+in general a suitable seeding strategy [24, 69], other seeding techniques may improve the reconstruction
+of certain tracts. Other settings in our method, such as the range of κ values, are likely to benefit the
+reconstruction of some of the tracts more than others. A simple remedy to this problem may be to
+expand the range of parameter settings used to compute the tractograms, but this will also inevitably
+increase the computation time and may also give rise to higher false positive rates.
+     Lastly, the inherent ambiguities in streamline tractography may impact the reconstruction accuracy
+of different tracts to different degrees. Some of the main sources of these ambiguities include the difficulty
+of resolving complex fiber orientations based on the dMRI signal in each imaging voxel, fiber crossings,
+and bottleneck regions [70,71]. These factors are known to impact tractography in general and have been
+extensively studied for adult brains, but have received little systematic treatment for fetal brains [61].
+Overall, tracts such as CC1 that go through fewer fiber crossing and bottleneck regions should be easier to
+trace compared with tracts such as OR that encounter such ambiguities more often through their course.
+Compared with the other two factors mentioned above, this third factor relates to the fundamental
+limitations of dMRI-based fiber tracing that may not be completely surmountable. Nonetheless, it has
+been suggested that machine learning methods such as the technique proposed in this work may represent
+one of the most promising approaches to addressing these limitations as well [71].
+
+3.2    Qualitative assessments
+Figure 8 shows the results of expert ratings based on the scoring system presented in Table 1. This figure
+shows the summary of the scores across all 11 test subjects and all 9 white matter tracts considered
+in the assessments. On nearly 75% of the cases, our method received the highest score (Excellent
+reconstruction). This means that in the great majority of the cases, the tract reconstructed by our
+method precisely matches the expected anatomy with optimal streamline density and almost no spurious
+streamlines. In most of the remaining cases, the tracts reconstructed by our method received the second
+highest score on the scale (Good reconstruction), suggesting that the reconstructed tracts had only
+minimal deviations from the expected anatomy and the streamline density was adequate to demarcate
+the tract’s complete spatial extent.
+Figure 8: A summary of the quality scores assigned by an expert to the tracts reconstructed by the
+proposed method and the compared techniques. The results shown in this figure have been pooled across
+the 9 different tracts and the 11 test subjects. Descriptions of the scores are presented in Table 1.
+
+
+
+
+Figure 9: Detailed tract-wise reconstruction quality scores for the proposed method and the compared
+techniques. Descriptions of the scores are presented in Table 1.
+
+
+    The scores assigned to the tracts reconstructed by the other methods showed almost an opposite
+pattern. The great majority of the tracts were either not reconstructed at all or received a “Poor”
+score. This means that, in an expert’s opinion, the method either completely failed to reconstruct any
+valid streamlines or that the computed streamlines significantly deviated from the expected anatomy
+to the extent that it was not possible to identify the tract. This low performance was observed for the
+conventional method (FACT) as well as for the machine learning baseline (RNN). These observations
+show the inability of existing methods to adequately address tractography of the fetal brain and clearly
+point to the difficulty of this application.
+    More detailed tract-specific scores are presented in Figure 9. They show that on all 9 tracts, the
+proposed method received an average score of above 4. This indicates that the method has accurately
+and faithfully reconstructed all tracts. RNN and Modified-RNN have accurately reconstructed the ILF
+and they have had moderate success in reconstructing ATR and IFO. However, they have performed
+very poorly in reconstructing the other six tracts. Similarly, FACT has failed to properly reconstruct
+any of the nine tracts. These results show that the proposed method can adequately reconstruct the full
+set of tracts considered in this study and that the existing techniques are clearly not well suited for this
+purpose.
+    A comparison of the results of this qualitative assessment with the quantitative assessment results
+presented in the above section can also be instructive. In particular, tracts such as OR and CC7 that
+had received the lowest DSC scores in quantitative assessment have received high mean subjective scores
+of above 4.5 from the expert. This means that even though the overlap with the ground truth used
+for quantitative evaluation was not very high, in the expert’s judgement the streamlines reconstructed
+Figure 10: Visual comparison of whole brain tractographies generated by our proposed method and other
+methods. Our method yielded the most favorable visual results, as can be seen in this depiction of a
+26-week fetus.
+
+
+by our method completely covered the expected anatomical extent of the tract. This may point to the
+unavoidable errors and inherent limitations of the ground truth used for quantitative assessments. More
+importantly, it suggests that, despite the relatively low quantitative evaluation metrics for some of the
+tracts, the streamlines computed by our method may be sufficient to serve some of the most important
+applications such as tract-specific analysis and structural connectivity.
+    More visual comparisons of the results produced by our method and the compared techniques are
+presented in Figures 10 and 11. Figure 10 portrays the whole-brain tractograms for a test fetus at 26
+gestational weeks, whereas Figure 11 depicts the individual tracts. It shows that the proposed method
+can successfully reconstruct a range of association tracts (ATR, ILF, OR, IFO and UF), commissural
+tracts (CC1 , CC2 , and CC7 ), and projection tracts (CST). The RNN and Modified-RNN methods have
+fair to moderate success in reconstructing some of the association tracts. However, they completely fail
+in reconstructing any valid streamlines for most tracts. FACT, on the other hand, has performed even
+more poorly than RNN and has failed to satisfactorily reconstruct any of the tracts.
+
+3.3    Comparison with prior works
+The significance of the advancements enabled by our method can be better appreciated by comparing
+our results with those of prior works. To this end, Table 2 summarizes several prior studies that have
+attempted streamline tractography of the fetal brain. For each study listed in this table, we have
+briefly described the methodology followed to generate the tractography, the specific white matter tracts
+studied (if applicable), and a summary of the results. As this selection shows, past efforts have had
+limited success in reconstructing major white matter structures in the fetal brain. Interestingly, some of
+these studies have imaged post-mortem fetal brain specimens (ex-vivo) with specialized scanners. Many
+of them have also resorted to manual placement of ROIs to guide the tractography. Yet, most of these
+studies have achieved far inferior results compared with the results obtained by our method in this work.
+This comparison further points to the challenging nature of fetal tractography and to the significance of
+the results obtained with the new method.
+    The success of the new method developed in this work can be attributed to several factors. First, the
+proposed machine learning model can synergistically combine different local and non-local information
+that are useful for tractography in a unified framework in the form of a deep neural network that can
+be optimized end-to-end. Even for fiber orientation, which is inherently a local information, our design
+effectively exploits the information in a large neighborhood around the current streamline tracing point.
+Figure 11: Comparison of tract reconstructions between our proposed technique and other methods on
+a 32-week fetus. In this example, our method reliably reconstructed all tracts, whereas other methods
+only managed to reconstruct a few tracts with low quality. Of note, for this specific test sample, RNN
+failed to reconstruct any of the tracts.
+  Reference              Methods                                       Tracts        Results
+  Huang et al. [42]      This study scanned postmortem fetal           CC,    UF,    The method was able to
+                         brains between 13 and 22 gestational          ILF, FX       reconstruct the specified
+                         weeks using 4.7T and 11.7T scanners.                        tracts, although no suc-
+                         Tractography was performed using FACT                       cess rate metrics were
+                         with user-specified ROIs. The authors fol-                  reported. Most tracts
+                         lowed protocols designed for adult brains                   were only partially re-
+                         to specify ROIs for different tracts.                       constructed.
+  Kasprian et al. [37]   The work computed tractography on fe-         CC, CST,      Authors reported an
+                         tal brains, scanned in utero, between 18      TC            overall     success    rate
+                         and 37 gestational weeks. Tractography                      of 40%.       Most recon-
+                         was performed using FACT with manual                        structed tracts showed
+                         specification of ROIs.                                      only partial coverage of
+                                                                                     the anatomical extent of
+                                                                                     the tract.
+  Wilson et al. [43]     Tracts were defined using multiple            CST, OR,      Tractography       success-
+                         ROIs, including seed regions and inclu-       ILF, CC.      fully generated most of
+                         sion/exclusion zones to confine tracts                      the tracts, though OR
+                         within one hemisphere.      Tracts were                     was not identifiable at
+                         refined by removing spurious streamlines                    the earliest gestational
+                         via microstructure-informed filtering.                      stage. Often the tracts
+                                                                                     demonstrated only par-
+                                                                                     tial anatomical coverage.
+  Song et al. [72]       This study was performed on a dataset         FX, ILF,      Most         reconstructed
+                         of 23 postmortem fetal brains, imaged         IFO, AF       tracts     showed     only
+                         with 3T and 4.7T scanners. A two-ROI                        partial coverage of the
+                         approach was employed to segment the                        anatomical extent of the
+                         streamlines.                                                tract.
+  Jakab et al. [15]      A total of 20 normal and 20 abnormal fe-      NA            The study successfully
+                         tal brains were scanned in utero between                    used whole-brain trac-
+                         22 and 36 gestational weeks. The authors                    tograms to study struc-
+                         used an approximate white matter seg-                       tural connectivity. How-
+                         mentation mask for tractography seeding.                    ever, it did not assess
+                         A fourth-order Runge-Kutta method was                       the tractography results
+                         used for tractography.                                      in terms of individual
+                                                                                     tracts.
+  This study             A machine learning model based on typi-       ATR, CC1 ,    All tracts have been suc-
+                         cal in utero fetal scans. The model is val-   CC2 , CC7 ,   cessfully reconstructed
+                         idated on an independent dataset of 11        CST, IFO,     across the gestational
+                         fetal scans between 23 and 36 weeks of        ILF, OR,      age. Expert assessments
+                         gestation.                                    UF            gave all tracts a mean
+                                                                                     score of between “Good”
+                                                                                     and “Excellent”.
+
+Table 2: A summary of the methods and results for selected prior works on fetal brain tractography.
+Tract name abbreviations are as follows. CC: corpus callosum; UF: uncinate fasciculus; ILF: inferior
+longitudinal fasciculus; FX: fornix; CST: corticospinal tract; TC: thalamocortical tracts.
+
+
+This reduces the impact of local fiber orientation estimation errors that can be significantly higher in
+fetal brain studies than in adult studies. Our method also effectively uses other sources of informa-
+tion that are difficult to incorporate into conventional tractography methods. It utilizes accurate tissue
+segmentation maps to launch the streamlines, guide the streamline propagation, and reject anatomi-
+cally implausible streamlines. Another novel aspect of the proposed method was the incorporation of a
+streamline orientation prior in the form of a spatio-temporal fixel atlas that was precisely aligned to the
+subject brain. Lastly, we fed a long history of propagation directions, from up to 11 steps preceding the
+current point, as well as the distance to keypoints in the brain cortex to inform the tractography method
+of the location within the brain. These information were easily passed to the method via late fusion with
+other information at the final MLP model. The machine learning model was trained on tractography
+results from 62 fetal brain scans across the gestational ages considered in this work. Therefore, unlike
+conventional methods that compute the next streamline propagation direction based purely on the local
+data from the given scan, our method computes the next step based on what it has learned after being
+trained on millions of streamlines from tens of subjects. Hence, our method represents an entirely dif-
+ferent approach to streamline tractography, where local, non-local, and population-level information can
+be used jointly to address this challenging task.
+
+
+4    Conclusion
+This study presented the first machine learning approach to fetal brain tractography. Given the challeng-
+ing nature of dMRI-based tractography in general, and the limited reliability of local fiber orientation
+computations in the fetal brain in particular, advanced machine learning methods seem to be the natural
+solution to this problem. These methods are able to synergistically combine multiple sources of informa-
+tion to overcome the insufficiency of the local fiber orientation information. The method presented in this
+paper exploits the diffusion tensor image, propagation history, global spatial information, tissue segmen-
+tation, and a fixel atlas prior. We validated our model on an independent dataset consisting of 11 fetal
+scans across gestational ages between 23 and 36 weeks, demonstrating that our method outperformed
+existing techniques in all evaluated tracts. A comparison with the prior art on fetal tractography shows
+that the results obtained with our method are substantially better than those reported in the literature.
+Improved tractography accuracy offered by our method can facilitate the tract-specific analysis of normal
+and abnormal fetal brain development with dMRI and the assessment of structural brain connectivity in
+utero.
+
+
+Acknowledgements
+This research was supported in part by the National Institute of Neurological Disorders and Stroke under
+award number R01NS128281; the Eunice Kennedy Shriver National Institute of Child Health and Human
+Development under award number R01HD110772; National Institutes of Health grants R01LM013608,
+R01EB019483, and R01NS124212, and the Office of the Director of the NIH under award number S10
+OD0250111. The content of this publication is solely the responsibility of the authors and does not
+necessarily represent the official views of the NIH.
+
+
+References
+ [1] GBSL Malinger, L Ben-Sira, D Lev, Z Ben-Aroya, D Kidron, and T Lerman-Sagie. Fetal brain imag-
+     ing: a comparison between magnetic resonance imaging and dedicated neurosonography. Ultrasound
+     in Obstetrics and Gynecology: The Official Journal of the International Society of Ultrasound in
+     Obstetrics and Gynecology, 23(4):333–340, 2004.
+ [2] Orit A Glenn. Mr imaging of the fetal brain. Pediatric radiology, 40:68–81, 2010.
+
+ [3] Josepheen De Asis-Cruz, Nickie Andescavage, and Catherine Limperopoulos. Adverse prenatal
+     exposures and fetal brain development: insights from advanced fetal magnetic resonance imaging.
+     Biological Psychiatry: Cognitive Neuroscience and Neuroimaging, 7(5):480–490, 2022.
+ [4] Iman A Hosny and Hamed S Elghawabi. Ultrafast mri of the fetus: an increasingly important tool
+     in prenatal diagnosis of congenital anomalies. Magnetic resonance imaging, 28(10):1431–1439, 2010.
+
+ [5] Petra S Hüppi and Jessica Dubois. Diffusion tensor imaging of brain development. In Seminars in
+     Fetal and Neonatal Medicine, volume 11, pages 489–497. Elsevier, 2006.
+ [6] Minhui Ouyang, Jessica Dubois, Qinlin Yu, Pratik Mukherjee, and Hao Huang. Delineation of early
+     brain development from fetuses to infants with diffusion mri and beyond. Neuroimage, 185:836–850,
+     2019.
+ [7] Benedetta Bodini and Olga Ciccarelli. Diffusion mri in neurological disorders. In Diffusion MRI,
+     pages 175–203. Elsevier, 2009.
+ [8] David H Salat. Diffusion tensor imaging in the study of aging and age-associated neural disease. In
+     Diffusion MRI, pages 257–281. Elsevier, 2014.
+ [9] Guusje Collin and Martijn P Van Den Heuvel. The ontogeny of the human connectome: development
+     and dynamic changes of brain connectivity across the life span. The Neuroscientist, 19(6):616–628,
+     2013.
+[10] Alex Fornito, Andrew Zalesky, and Michael Breakspear. The connectomics of brain disorders. Nature
+     Reviews Neuroscience, 16(3):159–172, 2015.
+[11] Maria Deprez, Anthony Price, Daan Christiaens, Georgia Lockwood Estrin, et al. Higher order
+     spherical harmonics reconstruction of fetal diffusion mri with intensity correction. IEEE transactions
+     on medical imaging, 39(4):1104–1113, 2019.
+
+[12] Haykel Snoussi, Davood Karimi, Onur Afacan, Mustafa Utkur, and Ali Gholipour. Haitch: A
+     framework for distortion and motion correction in fetal multi-shell diffusion-weighted mri. arXiv
+     preprint arXiv:2406.20042, 2024.
+[13] Shadab Khan, Caitlin K Rollins, Cynthia M Ortinau, Onur Afacan, Simon K Warfield, and Ali
+     Gholipour. Tract-specific group analysis in fetal cohorts using in utero diffusion tensor imaging. In
+     International Conference on Medical Image Computing and Computer-Assisted Intervention, pages
+     28–35. Springer, 2018.
+[14] Gregor Kasprian, Peter C Brugger, Veronika Schöpf, Christian Mitter, Michael Weber, Johannes A
+     Hainfellner, and Daniela Prayer. Assessing prenatal white matter connectivity in commissural age-
+     nesis. Brain, 136(1):168–179, 2013.
+
+[15] András Jakab, Gregor Kasprian, Ernst Schwartz, Gerlinde Maria Gruber, Christian Mitter, Daniela
+     Prayer, Veronika Schöpf, and Georg Langs. Disrupted developmental organization of the structural
+     connectome in fetuses with corpus callosum agenesis. Neuroimage, 111:277–288, 2015.
+[16] Dustin Scheinost, Rajita Sinha, Sarah N Cross, Soo Hyun Kwon, Gordon Sze, R Todd Constable,
+     and Laura R Ment. Does prenatal stress alter the developing connectome? Pediatric research,
+     81(1):214–226, 2017.
+[17] Vincent J Schmithorst, Jodie K Votava-Smith, Nhu Tran, Richard Kim, Vince Lee, Rafael Ceschin,
+     Hollie Lai, Jennifer A Johnson, Joan Sanchez De Toledo, Stefan Blüml, et al. Structural network
+     topology correlates of microstructural brain dysmaturation in term infants with congenital heart
+     disease. Human brain mapping, 39(11):4593–4610, 2018.
+
+[18] Guillaume Theaud, Jean-Christophe Houde, Arnaud Boré, François Rheault, Felix Morency, and
+     Maxime Descoteaux. Tractoflow: A robust, efficient and reproducible diffusion mri pipeline lever-
+     aging nextflow & singularity. Neuroimage, 218:116889, 2020.
+[19] J-Donald Tournier, Robert Smith, David Raffelt, Rami Tabbara, Thijs Dhollander, Maximilian
+     Pietsch, Daan Christiaens, Ben Jeurissen, Chun-Hung Yeh, and Alan Connelly. Mrtrix3: A fast,
+     flexible and open software framework for medical image processing and visualisation. Neuroimage,
+     202:116137, 2019.
+[20] Eleftherios Garyfallidis et al. Dipy, a library for the analysis of diffusion mri data. Frontiers in
+     neuroinformatics, 8:8, 2014.
+
+[21] P. Poulin, D. Jörgens, P.-M. Jodoin, and M. Descoteaux. Tractography and machine learning:
+     Current state and open challenges. Magnetic resonance imaging, 64:37–48, 2019.
+[22] Peter F Neher, Marc-Alexandre Cote, Jean-Christophe Houde, Maxime Descoteaux, and Klaus H
+     Maier-Hein. Fiber tractography using machine learning. Neuroimage, 158:417–429, 2017.
+[23] Chun-Hung Yeh, Derek K Jones, Xiaoyun Liang, Maxime Descoteaux, and Alan Connelly. Mapping
+     structural connectivity using diffusion mri: Challenges and opportunities. Journal of Magnetic
+     Resonance Imaging, 53(6):1666–1682, 2021.
+[24] Fan Zhang, Alessandro Daducci, Yong He, Simona Schiavi, Caio Seguin, Robert Smith, Chun-
+     Hung Yeh, Tengda Zhao, and Lauren J O’Donnell. Quantitative mapping of the brain’s structural
+     connectivity using diffusion mri tractography: a review. NeuroImage, page 118870, 2022.
+[25] Alia Lemkaddem, Didrik Skiöldebrand, Alessandro Dal Palú, Jean-Philippe Thiran, and Alessan-
+     dro Daducci. Global tractography with embedded anatomical priors for quantitative connectivity
+     analysis. Frontiers in neurology, 5:232, 2014.
+[26] Peter J Basser, Sinisa Pajevic, Carlo Pierpaoli, Jeffrey Duda, and Akram Aldroubi. In vivo fiber
+     tractography using dt-mri data. Magnetic resonance in medicine, 44(4):625–632, 2000.
+[27] Robert E Smith, Jacques-Donald Tournier, Fernando Calamante, and Alan Connelly. Anatomically-
+     constrained tractography: improved diffusion mri streamlines tractography through effective use of
+     anatomical information. Neuroimage, 62(3):1924–1938, 2012.
+[28] Neda Sepasian, JHM ten Thije Boonkkamp, Bart M Ter Haar Romeny, and Anna Vilanova. Multi-
+     valued geodesic ray-tracing for computing brain connections using diffusion tensor imaging. SIAM
+     Journal on Imaging Sciences, 5(2):483–504, 2012.
+[29] Muwei Li, J Tilak Ratnanather, Michael I Miller, and Susumu Mori. Knowledge-based automated
+     reconstruction of human brain white matter tracts using a path-finding approach with dynamic
+     programming. NeuroImage, 88:271–281, 2014.
+[30] Fang-Cheng Yeh, Islam M Zaydan, Valerie R Suski, David Lacomis, R Mark Richardson, Joseph C
+     Maroon, and Jessica Barrios-Martinez. Differential tractography as a track-based biomarker for
+     neuronal injury. Neuroimage, 202:116131, 2019.
+[31] J.-F. Mangin, P. Fillard, Y. Cointepas, D. Le Bihan, V. Frouin, and C. Poupon. Toward global
+     tractography. Neuroimage, 80:290–296, 2013.
+[32] Daan Christiaens, Marco Reisert, Thijs Dhollander, Stefan Sunaert, Paul Suetens, and Frederik
+     Maes. Global tractography of multi-shell diffusion-weighted imaging data using a multi-tissue model.
+     Neuroimage, 123:89–101, 2015.
+[33] Klaus H Maier-Hein, Peter F Neher, Jean-Christophe Houde, Marc-Alexandre Côté, Eleftherios
+     Garyfallidis, Jidan Zhong, Maxime Chamberland, Fang-Cheng Yeh, Ying-Chia Lin, Qing Ji, et al.
+     The challenge of mapping the human connectome based on diffusion tractography. Nature commu-
+     nications, 8(1):1–13, 2017.
+[34] Chiara Maffei, Gabriel Girard, Kurt G Schilling, Dogu Baran Aydogan, Nagesh Adluru, Andrey
+     Zhylka, Ye Wu, Matteo Mancini, Andac Hamamci, Alessia Sarica, et al. Insights from the irontract
+     challenge: Optimal methods for mapping brain pathways from multi-shell diffusion mri. NeuroImage,
+     257:119327, 2022.
+[35] Francois Rheault, Philippe Poulin, Alex Valcourt Caron, Etienne St-Onge, and Maxime Descoteaux.
+     Common misconceptions, hidden biases and modern challenges of dmri tractography. Journal of
+     neural engineering, 17(1):011001, 2020.
+[36] Davood Karimi. Diffusion mri with machine learning. arXiv preprint arXiv:2402.00019, 2024.
+[37] Gregor Kasprian, Peter C Brugger, Michael Weber, Martin Krssák, Elisabeth Krampl, Christian
+     Herold, and Daniela Prayer. In utero tractography of fetal white matter development. Neuroimage,
+     43(2):213–224, 2008.
+[38] Christian Mitter, Daniela Prayer, Peter C Brugger, Michael Weber, and Gregor Kasprian. In vivo
+     tractography of fetal association fibers. PloS one, 10(3):e0119536, 2015.
+[39] Emilie Zanin, Jean-Philippe Ranjeva, Sylviane Confort-Gouny, Maxime Guye, Daniele Denis,
+     Patrick J Cozzone, and Nadine Girard. White matter maturation of normal human fetal brain.
+     an in vivo diffusion tensor tractography study. Brain and behavior, 1(2):95–108, 2011.
+[40] Emi Takahashi, Emiko Hayashi, Jeremy D Schmahmann, and P Ellen Grant. Development of cere-
+     bellar connectivity in human fetal brains revealed by high angular resolution diffusion tractography.
+     Neuroimage, 96:326–333, 2014.
+[41] James Kolasinski, Emi Takahashi, Allison A Stevens, Thomas Benner, Bruce Fischl, Lilla Zöllei,
+     and P Ellen Grant. Radial and tangential neuronal migration pathways in the human fetal brain:
+     anatomically distinct patterns of diffusion mri coherence. Neuroimage, 79:412–422, 2013.
+[42] Hao Huang, Rong Xue, Jiangyang Zhang, Tianbo Ren, Linda J Richards, Paul Yarowsky, Michael I
+     Miller, and Susumu Mori. Anatomical characterization of human fetal brain development with
+     diffusion tensor magnetic resonance imaging. Journal of Neuroscience, 29(13):4263–4273, 2009.
+[43] Siân Wilson, Maximilian Pietsch, Lucilio Cordero-Grande, Anthony N Price, Jana Hutter, Jiaxin
+     Xiao, Laura McCabe, Mary A Rutherford, Emer J Hughes, Serena J Counsell, et al. Development
+     of human white matter pathways in utero over the second and third trimester. Proceedings of the
+     National Academy of Sciences, 118(20), 2021.
+[44] Christian Mitter, András Jakab, Peter C Brugger, Gerda Ricken, Gerlinde M Gruber, Dieter Bet-
+     telheim, Anke Scharrer, Georg Langs, Johannes A Hainfellner, Daniela Prayer, et al. Validation
+     of in utero tractography of human fetal commissural and internal capsule fibers with histological
+     structure tensor analysis. Frontiers in neuroanatomy, 9:164, 2015.
+[45] Gang Xu, Emi Takahashi, Rebecca D Folkerth, Robin L Haynes, Joseph J Volpe, P Ellen Grant,
+     and Hannah C Kinney. Radial coherence of diffusion tractography in the cerebral white matter of
+     the human fetus: neuroanatomic insights. Cerebral cortex, 24(3):579–592, 2014.
+
+[46] Bahram Marami, Seyed Sadegh Mohseni Salehi, Onur Afacan, Benoit Scherrer, Caitlin K Rollins,
+     Edward Yang, Judy A Estroff, Simon K Warfield, and Ali Gholipour. Temporal slice registration
+     and robust diffusion-tensor reconstruction for improved fetal brain structural connectivity analysis.
+     NeuroImage, 156:475–488, 2017.
+
+[47] Maxime Descoteaux. High angular resolution diffusion MRI: from local estimation to segmentation
+     and tractography. PhD thesis, Université Nice Sophia Antipolis, 2008.
+[48] Hui Zhang, Paul A Yushkevich, Daniel C Alexander, and James C Gee. Deformable registration of
+     diffusion tensor mr images with explicit orientation optimization. Medical image analysis, 10(5):764–
+     785, 2006.
+
+[49] Camilo Calixto, Fedel Machado-Rivas, Davood Karimi, Maria C Cortes-Albornoz, Lina M Acosta-
+     Buitrago, Sebastian Gallo-Bernal, Onur Afacan, Simon K Warfield, Ali Gholipour, and Camilo
+     Jaimes. Detailed anatomic segmentations of a fetal brain diffusion tensor imaging atlas between 23
+     and 30 weeks of gestation. Human Brain Mapping, 44(4):1593–1602, 2023.
+[50] Ali Gholipour, Caitlin K Rollins, Clemente Velasco-Annis, Abdelhakim Ouaalam, Alireza Akhondi-
+     Asl, Onur Afacan, Cynthia M Ortinau, Sean Clancy, Catherine Limperopoulos, Edward Yang, et al.
+     A normative spatiotemporal mri atlas of the fetal brain for automatic segmentation and analysis of
+     early brain growth. Scientific reports, 7(1):1–13, 2017.
+[51] Alireza Akhondi-Asl and Simon K Warfield. Simultaneous truth and performance level estimation
+     through fusion of probabilistic segmentations. IEEE transactions on medical imaging, 32(10):1840–
+     1852, 2013.
+[52] J Donald Tournier, Fernando Calamante, Alan Connelly, et al. Improved probabilistic streamlines
+     tractography by 2nd order integration over fibre orientation distributions. In Proceedings of the
+     international society for magnetic resonance in medicine, volume 1670. John Wiley & Sons, Inc,
+     New Jersey, 2010.
+
+[53] Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez, Lukasz
+     Kaiser, and Illia Polosukhin. Attention is all you need. In Advances in neural information processing
+     systems, pages 5998–6008, 2017.
+[54] Alexey Dosovitskiy, Lucas Beyer, Alexander Kolesnikov, Dirk Weissenborn, Xiaohua Zhai, Thomas
+     Unterthiner, Mostafa Dehghani, Matthias Minderer, Georg Heigold, Sylvain Gelly, et al. An image is
+     worth 16x16 words: Transformers for image recognition at scale. arXiv preprint arXiv:2010.11929,
+     2020.
+[55] James G Malcolm, Martha E Shenton, and Yogesh Rathi. Filtered multitensor tractography. IEEE
+     transactions on medical imaging, 29(9):1664–1675, 2010.
+[56] Mariana Lazar, David M Weinstein, Jay S Tsuruda, Khader M Hasan, Konstantinos Arfanakis,
+     M Elizabeth Meyerand, Benham Badie, Howard A Rowley, Victor Haughton, Aaron Field, et al.
+     White matter tractography using diffusion tensor deflection. Human brain mapping, 18(4):306–321,
+     2003.
+
+[57] Philippe Poulin, Marc-Alexandre Côté, Jean-Christophe Houde, Laurent Petit, Peter F Neher,
+     Klaus H Maier-Hein, Hugo Larochelle, and Maxime Descoteaux. Learn to track: deep learning for
+     tractography. In Medical Image Computing and Computer Assisted Intervention- MICCAI 2017:
+     20th International Conference, Quebec City, QC, Canada, September 11-13, 2017, Proceedings, Part
+     I 20, pages 540–547. Springer, 2017.
+
+[58] Daniel Jörgens, Örjan Smedby, and Rodrigo Moreno. Learning a single step of streamline trac-
+     tography based on neural networks. In Computational Diffusion MRI, pages 103–116. Springer,
+     2018.
+[59] Thomas Durantel, Gabriel Girard, Emmanuel Caruyer, Olivier Commowick, and Julie Coloigner.
+     A riemannian framework for incorporating white matter bundle priors in odf-based tractography
+     algorithms. 2023.
+[60] Francois Rheault, Etienne St-Onge, Jasmeen Sidhu, Klaus Maier-Hein, Nathalie Tzourio-Mazoyer,
+     Laurent Petit, and Maxime Descoteaux. Bundle-specific tractography with incorporated anatomical
+     and orientational priors. NeuroImage, 186:382–398, 2019.
+
+[61] Camilo Calixto, Matheus Soldatelli, Bo Li, Lana Pierotich, Ali Gholipour, Simon K Warfield, and
+     Davood Karimi. White matter tract crossing and bottleneck regions in the fetal brain. bioRxiv,
+     pages 2024–07, 2024.
+[62] Viktor Wegmayr and Joachim M Buhmann. Entrack: Probabilistic spherical regression with entropy
+     regularization for fiber tractography. International Journal of Computer Vision, 129(3):656–680,
+     2021.
+[63] Demian Wassermann, Nikos Makris, Yogesh Rathi, Martha Shenton, Ron Kikinis, Marek Kubicki,
+     and Carl-Fredrik Westin. The white matter query language: a novel approach for describing human
+     white matter anatomy. Brain Structure and Function, 221:4705–4721, 2016.
+[64] Camilo Calixto, Matheus Dorigatti Soldatelli, Camilo Jaimes, Simon K Warfield, Ali Gholipour,
+     and Davood Karimi. A detailed spatio-temporal atlas of the white matter tracts for the fetal brain.
+     bioRxiv, 2024.
+[65] Jakob Wasserthal, Peter Neher, and Klaus H Maier-Hein. Tractseg-fast and accurate white matter
+     tract segmentation. NeuroImage, 183:239–253, 2018.
+
+[66] Susumu Mori, Barbara J Crain, Vadappuram P Chacko, and Peter CM Van Zijl. Three-dimensional
+     tracking of axonal projections in the brain by magnetic resonance imaging. Annals of Neurol-
+     ogy: Official Journal of the American Neurological Association and the Child Neurology Society,
+     45(2):265–269, 1999.
+[67] Leon Y Cai, Ho Hin Lee, Nancy R Newlin, Michael E Kim, Daniel Moyer, François Rheault, Kurt G
+     Schilling, and Bennett A Landman. Implementation considerations for deep learning with diffusion
+     mri streamline tractography. bioRxiv, 2023.
+[68] Philippe Poulin, Guillaume Theaud, Francois Rheault, Etienne St-Onge, Arnaud Bore, Em-
+     manuelle Renauld, Louis de Beaumont, Samuel Guay, Pierre-Marc Jodoin, and Maxime Descoteaux.
+     Tractoinferno-a large-scale, open-source, multi-site database for machine learning dmri tractography.
+     Scientific Data, 9(1):725, 2022.
+
+[69] Etienne St-Onge, Alessandro Daducci, Gabriel Girard, and Maxime Descoteaux. Surface-enhanced
+     tractography (set). Neuroimage, 169:524–539, 2018.
+[70] Kurt G Schilling, Vishwesh Nath, Colin Hansen, Prasanna Parvathaneni, Justin Blaber, Yurui
+     Gao, Peter Neher, Dogu Baran Aydogan, Yonggang Shi, Mario Ocampo-Pineda, et al. Limits to
+     anatomical accuracy of diffusion tractography using modern approaches. Neuroimage, 185:1–11,
+     2019.
+[71] Kurt G Schilling, Chantal MW Tax, Francois Rheault, Bennett A Landman, Adam W Anderson,
+     Maxime Descoteaux, and Laurent Petit. Prevalence of white matter pathways coming into a sin-
+     gle white matter voxel orientation: The bottleneck issue in tractography. Human brain mapping,
+     43(4):1196–1213, 2022.
+
+[72] Jae W Song, Paul D Mitchell, James Kolasinski, P Ellen Grant, Albert M Galaburda, and Emi
+     Takahashi. Asymmetry of white matter pathways in developing human brains. Cerebral cortex,
+     25(9):2883–2893, 2015.
+

@@ -1,0 +1,15 @@
+# Segmentation and structural connectivity of the putamen for targeted convection enhanced drug delivery in Parkinson’s disease: a tractography-based approach
+
+**Source**: semantic-scholar
+**ID**: f518f9a2f6d6648dadb67cef765df1346b50865a
+**DOI**: 10.3389/fnins.2026.1598062
+**URL**: https://www.semanticscholar.org/paper/f518f9a2f6d6648dadb67cef765df1346b50865a
+**Date**: 2026-02-23
+**Year**: 2026
+**Authors**: E. Tessmann, Marianne Schell, Sandro M. Krieg, M. Jakobs
+**Venue**: Frontiers in Neuroscience
+**Citations**: 0
+
+## Abstract
+
+Background Convection-enhanced drug delivery (CED) for Parkinson’s disease (PD) is costly, and current methods lack precision, often targeting the entire putamen, leading to inefficient use of resources. Our simulation study explores a more targeted approach, which could reduce treatment costs by focusing therapy on specific putaminal regions, aiming to optimize delivery without compromising efficacy. Methods Twenty PD patients underwent diffusion-weighted imaging (DWI) to visualize the structural connectivity. A commercial subcortical auto-segmentation tool was used to define the putamen as well as the amygdala, the STN, and the cerebellum. Utilizing the Julich Brain Atlas, nine cortical regions (Brodmann areas 44, 45, 3a/b, 4a/p, pre-SMA, SMA, and insula) were semi-automatically segmented. Before tractography, the putamen was pre-parcellated into four segments in relation to the anterior commissure. Tractography was then performed to assess the cortical connectivity of each segment. We evaluated two virtual injection trajectories (occipital and frontal) and simulated stepwise infusions of a therapeutic agent. A genetic algorithm optimized the simulated infusions and compared coverage of the target region. Results Tractography revealed a significant projection of motor areas to the superior posterior segment of the putamen, suggesting this region as a more specific target for treating motor symptoms in PD via CED. Non-motor connections were most common in the inferior posterior segment for the amygdala and in the superior anterior segment for the insula. Both occipital and frontal trajectories were found to be equally feasible for targeting the putamen segments, with surgical feasibility varying by individual patient anatomy, and achieved comparable coverage, with no significant difference between them, highlighting the need for personalized surgical approaches. Conclusion DWI-based deterministic tractography mapped motor cortical projections most consistently to the superior-posterior putamen in our AC-based segmentation. In our planning simulations, both frontal and occipital trajectories could be planned with similar safety and achieved similar simulated coverage of the segment. These results support using connectivity mapping and simple simulation as a planning adjunct to help select a motor-dominant putaminal target and compare trajectories. If validated clinically, targeting a motor-dominant segment could reduce exposure of non-motor putaminal regions and potentially reduce the required infusion volume.

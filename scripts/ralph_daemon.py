@@ -420,9 +420,7 @@ FUTURE_TIMEOUT = 1800  # 30 min max per agent run (accommodates PI_TIMEOUT 600s 
 def _kill_stale_pi_processes(agent_name: str):
     """Kill lingering pi subprocesses spawned by a timed-out agent."""
     try:
-        # Look for pi processes with our model pattern that are older than FUTURE_TIMEOUT
-        # We'll kill based on CPU time / age heuristic via ps
-        cmd = ["pkill", "-f", f"pi --model {WRITER_MODEL}"]
+        cmd = ["pkill", "-x", "pi"]
         _subprocess.run(cmd, capture_output=True, timeout=5)
         log.info("Killed stale pi processes for %s", agent_name)
     except Exception:

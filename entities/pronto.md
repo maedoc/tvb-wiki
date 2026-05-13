@@ -31,7 +31,7 @@ The Virtual Brain ([[TVB]]) and PRoNTo address different stages of the neuroimag
 ## References
 
 1. (authors unknown). *Machine learning for neuroimaging with scikit-learn*.
-2. Miguel Guillén-Pujadas, David Alaminos, Emili Vizuete Luciano, José M. Merigó, J. Horn. (2025). *Twenty Years of Neuroinformatics: A Bibliometric Analysis*. Neuroinformatics. [DOI](https://doi.org/10.1007/s12021-024-09712-3)
-3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
-4. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-5. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](https://doi.org/10.1145/3706628.3708875)
+2. Miguel Guillén-Pujadas, David Alaminos, Emili Vizuete Luciano, José M. Merigó, J. Horn. (2025). *Twenty Years of Neuroinformatics: A Bibliometric Analysis*. Neuroinformatics. [DOI](](https://doi.org/10.1007/s12021-024-09712-3))
+3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](](https://doi.org/10.1089/brain.2012.0120))
+4. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
+5. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](](https://doi.org/10.1145/3706628.3708875))

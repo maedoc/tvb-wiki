@@ -1,0 +1,999 @@
+                                                                                                                                   Development and technical paper
+Geosci. Model Dev., 18, 6295–6312, 2025
+https://doi.org/10.5194/gmd-18-6295-2025
+© Author(s) 2025. This work is distributed under
+the Creative Commons Attribution 4.0 License.
+
+
+
+
+FastCTM (v1.0): Atmospheric chemical transport modelling with a
+principle-informed neural network for air quality simulations
+Baolei Lyu1,2,3 , Ran Huang4,5 , Xinlu Wang4 , Weiguo Wang6 , and Yongtao Hu7
+1 Huayun Sounding Meteorological Technology Co. Ltd., Beijing 102299, China
+2 Key Laboratory of Intelligent Meteorological Observation Technology, Beijing 100081, China
+3 China Meteorological Administration Xiong’an Atmospheric Boundary Layer Key Laboratory,
+
+Xiong’an, 071000, China
+4 Hangzhou AiMa Technologies, Hangzhou, Zhejiang 311121, P.R. China
+5 Nanjing AiMa Environmental, Nanjing, Jiangsu 210000, P.R. China
+6 SAIC, at Environment Modelling Center, NOAA/National Centers for Environmental Prediction,
+
+College Park, Maryland 20740, United States
+7 School of Civil and Environmental Engineering, Georgia Institute of Technology, Atlanta, Georgia 30332, United States
+
+
+Correspondence: Baolei Lyu (baoleilv@foxmail.com) and Ran Huang (ranhuang2019@163.com)
+
+Received: 26 October 2024 – Discussion started: 20 November 2024
+Revised: 7 August 2025 – Accepted: 8 August 2025 – Published: 25 September 2025
+
+
+Abstract. Chemical-transport models (CTMs) are indispens-        simulations, sensitivity analysis, and process attribution with
+able for air-quality assessment and policy development, yet      high accuracy and physical consistency.
+their operational use is hampered by high computational cost.
+We present FastCTM, a physics-informed neural-network
+emulator that rapidly predicts hourly concentrations of ten
+key pollutant variables: major PM2.5 species (SO2−          −
+                                                     4 , NO3 ,
+                                                                 1   Introduction
+    −
+NH4 , organic matter, elemental carbon, crustal material),
+coarse PM10 , SO2 , NO2 , CO, and O3 . FastCTM embeds            Effective air quality management requires accurate charac-
+five process-specific neural modules – primary emissions,        terization of current and future pollution conditions to im-
+horizontal transport, turbulent diffusion, chemical reactions    plement targeted emission control measures (Wang et al.,
+and deposition within a unified framework. Given 1 h ini-        2010; Council, 2004). Driven by this demand, deterministic
+tial condition data, FastCTM can simulate future 24 h con-       air quality numerical models have been developed to simu-
+centrations for ten air pollutants using corresponding mete-     late the spatiotemporal variability and evolution of ambient
+orological fields and emissions as input. Trained on 2018–       air pollutants in the atmosphere (Hakami et al., 2003; Eder
+2022 WRF-CMAQ forecasts over China and evaluated on              et al., 2006). In these models, such as the Community Mul-
+2023 data, FastCTM reproduces CMAQ with mean RMSE                tiscale Air Quality (CMAQ) model, atmospheric physical
+(µg m−3 ) of 9.1, 11.9, 4.4, 4.0, 48.9, 10.9 and R 2 of 0.80,    and chemical processes (e.g., emissions, chemical reactions,
+0.81, 0.80, 0.83, 0.90, 0.70 for PM2.5 , PM10 , SO2 , NO2 ,      horizontal advection, and diffusion) are mathematically rep-
+CO and O3 , respectively. Sensitivity tests confirm physically   resented by partial differential equations. The air pollutant
+plausible responses to temperature, wind speed, boundary-        and species concentrations can then be calculated by solving
+layer height and precursor emissions. The modular architec-      these complex equations using numerical methods (Byun and
+ture enables quantitative process analysis, offering CTM-like    Schere, 2006), which is often time-consuming (Leal et al.,
+insight at GPU-accelerated speeds. In a nutshell, FastCTM        2017) and requires substantial computational resources such
+provides a computationally efficient solution for air-quality    as high-performance computing (Efstathiou et al., 2024).
+                                                                    Deep learning offers promising alternatives for develop-
+                                                                 ing rapid, data-driven CTMs by leveraging the capacity of
+
+
+Published by Copernicus Publications on behalf of the European Geosciences Union.
+6296                                               B. Lyu et al.: FastCTM (v1.0): Atmospheric chemical transport modelling
+
+neural networks to encode complex spatiotemporal patterns               The main objective of our study is to develop and validate
+from large datasets (LeCun et al., 2015; He et al., 2016; Liao       a principles-guided, neural network-based FastCTM, capa-
+et al., 2020). These deep learning-based CTM models are ex-          ble of simulating spatial-temporal fields of hourly concen-
+pected to provide accurate simulations that are comparable           trations of 10 criteria pollutants, including major species of
+to the current deterministic numerical CTMs while offering           PM2.5 (SO2−         −      +
+                                                                                 4 , NO3 , NH4 , organic matters and other inor-
+much higher computational efficiency and enhanced learning           ganic components, coarse part in PM10 , CO, NO2 , SO2, and
+capabilities. However, progress has been hindered by chal-           O3 . FastCTM models individual atmospheric process: trans-
+lenges in designing neural architectures that simultaneously         port, diffusion, deposition, chemical reactions, and emis-
+achieve high accuracy, interpretability, and long-term simu-         sions. FastCTM is capable of performing analysis of internal
+lation stability and fidelity (Reichstein et al., 2019; Irrgang et   chemical and physical processes, offering benefits like high
+al., 2021). In constructing deep learning-based CTM models,          computational speed, efficient data assimilation, and rapid
+air quality modeling is often formulated as a sequence-to-           model updates.
+sequence prediction problem (Shi et al., 2015; Zhang et al.,
+2024) to capture the spatiotemporal correlations among mul-
+tiple variables. Consequently, previous studies have mainly          2     Data and Methods
+focused on refining neural network’s representation capabil-
+ities by proposing new neural-network structures to improve          2.1    Parent Model Simulations and Datasets
+error back-propagation efficiencies and model encoding ca-
+pabilities (Wang et al., 2018; Huang et al., 2021; Mao et            In this study, the FastCTM model was designed to repli-
+al., 2021). For example, Xing et al. (2022) developed a deep         cate the parent model CMAQ, trained by learning CMAQ’s
+learning-based module named deepCTM that mimics atmo-                underlying physical and chemical processes among multi-
+spheric photochemical modeling to simulate ozone concen-             ple air pollutants, including the complicated chemical reac-
+trations. However, these deep learning-based CTMs are often          tion, transport, diffusion, and deposition. CMAQ has a pro-
+structured as uninterpretable black-box models that generate         cess analysis (PA) tool to separate out and quantify the con-
+simulations reflecting the cumulative effect of all physical         tributions of individual physical and chemical processes to
+and chemical processes. Such black-box models hinder error           the changes in the predicted concentrations of a pollutant,
+attribution, inspection of internal processes, and knowledge         which provides the opportunity to conduct a sensitivity anal-
+discovery (Reichstein et al., 2019).                                 ysis by comparing process contributions between CMAQ and
+   Quantifying individual atmospheric processes enables a            FastCTM.
+mechanistic interpretation of model predictions and identi-             Weather and air quality simulations from 2018 to 2023
+fication of error sources (Liu et al., 2010). Motivated by this      were conducted using a WRF-CMAQ modeling system con-
+need, recent studies have developed models that learn spe-           sisting of three major components: (1) the meteorology com-
+cific atmospheric processes, such as chemical reactions and          ponent, the Weather Research and Forecasting model, WRF
+deposition, within CTM frameworks. Kelp et al. (2022) de-            v3.4.1 (Michalakes et al., 2005; Skamarock et al., 2008),
+veloped a neural network chemical solver for stable long-            which provides meteorological fields; provides meteorologi-
+term global simulations of atmospheric chemistry, trained            cal fields, (2) the emission component, which supplies grid-
+from the GEOS-Chem model. Xia et al. (2025) simulated 74             ded estimates of hourly emission rates for primary pollu-
+chemical species and 229 reactions following the SAPRC-              tants matched to model species, and (3) the CTM compo-
+99 mechanism using an artificial intelligence photochemistry         nent, CMAQ v5.0.2 (Byun and Schere, 2006), which solves
+(AIPC) scheme, achieving approximately 8-fold speed-up.              the governing physical and chemical equations to obtain 3-D
+Sturm and Wexler (2020) developed a mass- and energy-                pollutant concentration fields. WRF-CMAQ simulations are
+conserving framework for using machine learning to accel-            not two-way coupled, so weather and chemistry do not influ-
+erate computations, demonstrating successful application in          ence each other. We used hourly average concentrations of
+a photochemistry example. For the deposition process, Silva          dominant PM2.5 components of sulfate (SO4 ), nitrate (NO3 ),
+et al. (2019) proposed a deep learning parameterization for          ammonium (NH4 ), organic carbon (OC), and other compo-
+ozone dry deposition velocities that provided accurate pre-          nents (EC and soil, etc.), and CO, SO2 , NO2, and O3 in the
+dictions on independent new datasets, revealing the potential        surface layer. The 10 species were selected based on their di-
+of neural networks to capture complex spatio-temporal latent         rect relevance to regulatory standards (e.g., PM2.5 , PM10 , O3 ,
+processes. Liu et al. (2025) proposed a Neural Network Em-           NO2 , SO2 , and CO) and their dominance in driving health
+ulator, named ChemNNE, for rapid chemical concentration              and environmental impacts in urban and industrial regions.
+modelling, which achieved strong performance in both accu-              Meteorological variables used in this study include rela-
+racy and efficiency. Although these successes, a gap remains         tive humidity (RH), air temperature (T ), wind components
+in coupling these NN operators into a complete deep-learning         (U , V ) at surface 10 m height, precipitation (RN), cloud
+CTM.                                                                 fraction (CFRAC), and planetary boundary layer height
+                                                                     (PBLH). Wind speed (WS) was calculated from U and V .
+
+
+Geosci. Model Dev., 18, 6295–6312, 2025                                               https://doi.org/10.5194/gmd-18-6295-2025
+B. Lyu et al.: FastCTM (v1.0): Atmospheric chemical transport modelling                                                          6297
+
+The data covered the whole of China at a horizontal res-            est predicted probability. The Xt ∈ RM×N ×VX is the data
+olution of 12 km with 372 × 426 grid cells. The simula-             of VX input variables at the spatial grid of M × N at time
+tion data from 2018–2022 are used as the training dataset,          t. The Yt ∈ RM×N×VY is the data of VY predictive vari-
+while the remaining simulation data in 2023 is used for in-         ables at time t. Specifically, the FastCTM simulates fu-
+dependent evaluation. The surface topographic data (HGT,            ture K-hour air pollutant concentrations, given J -hour air
+Fig. S1 in the Supplement, obtained from https://lta.cr.usgs.       pollutant concentrations Yt−J +1 , . . ., Yt as initial fields
+gov/GTOPO30, last access: 28 July 2023) and land cover              and
+                                                                     (K + J )-hour meteorological and emission conditions
+data (Zhang et al., 2021) of urban and tree fraction (LULC)          Xt−J +1 , . . ., Xt , Xt+1 , . . ., Xt+K . Previous studies gener-
+are also used to reflect the effects of land surface conditions     ally used multiple-step input data with J > 1 to ensure suf-
+in this study.                                                      ficient spatial-temporal correlations contained in the training
+   The original primary emissions used in the aforemen-             data (Sun et al., 2022; Xing et al., 2022). Instead, we use
+tioned WRF-CMAQ modelling system are used as input to               a 1 h initial pollutant concentration (J = 1) to simulate 24 h
+the FastCTM. The large amount of emission data is grouped           air quality pollutants (K =24), to ensure FastCTM is dedi-
+according to the simulated 10 pollutant variables. Specif-          cated to learning air quality changes between two neighbor-
+ically, the primary PM2.5 emissions of SO4 , NO3 , NH4 ,            ing hours as shown in Fig. 1a. In other words, at time t = 0,
+OC, and other components, and gaseous emissions includ-             FastCTM predicted K-hour air pollutant concentrations of
+ing sulfur oxide (SO2 ), nitrogen oxides (NOx , including           Ct=0 Ct=1 , . . ., Ct=K−1 , given the input air pollutant concen-
+HONO, NO, and NO2 ), ammonia (NH3 ), volatile organic               tration in the previous hour Ct=−1 and corresponding meteo-
+species (VOCs, including isoprene (ISOP), terpene (TERP),           rological data and emissions at time t = 0, 1, . . ., K − 1. The
+and other species of VOC) are used in the FastCTM. Annual           unit of concentrations is µg m−3 for all pollutants.
+average emissions of NOx , SO2 , and VOC are respectively              The FastCTM model uses the basic simulator module
+depicted in Figs. S2–S4 in the Supplement.                          (Fig. 1a) recursively for hourly simulations, using output air
+                                                                    pollutant concentrations from one step as input to the next
+2.2     FastCTM Model Formulations                                  step basic simulator. In contrast to directly learning spa-
+                                                                    tiotemporal correlations of predictand itself as in most pre-
+2.2.1    FastCTM Model Framework                                    vious studies (Wang et al., 2018; Shi et al., 2017), the basic
+                                                                    simulator (Fig. 1b) is formulated following the atmospheric
+The deterministic CTM models simulate emissions, trans-
+                                                                    physical and chemical equations and constraints shown in
+port, deposition, diffusion, and chemical transformations of
+                                                                    Eq. (1), and is composed of five modules to respectively rep-
+gases and particles in the troposphere through numerically
+                                                                    resent the physics-chemical processes to improve the model
+solving the governing equations as follows,
+                                                                    performance. The modules for each of the five processes in
+∂Ci                                                                 the basic simulator are described in the following section.
+    = −∇ · (uCi ) + ∇ (K∇Ci ) + Ri + Ei + Di                 (1)
+ ∂t                                                                 The time step used in FastCTM was 60 s.
+where Ci is the concentration of species i, u is the air fluid
+velocity, K is the eddy diffusivity tensor, Ri is the net rate of   2.2.2   Primary Emissions Module
+chemical generation of species i, Ei is the rate of direct ad-
+dition of the species from primary emissions, and Di is the         Primary pollutants are assumed to be directly emitted into
+deposition rate caused by both dry and wet depositions. A de-       the atmosphere and instantly well-mixed within the PBL.
+tailed description of CMAQ principles is available elsewhere        Therefore, hourly enhancement of air-pollutant concentra-
+(Byun and Schere, 2006; Appel et al., 2017). Inspired by nu-        tions caused by primary emissions could be described in the
+merical CTMs principles and equations, the guiding frame-           following Eq. (3).
+work of FastCTM was also structured in a similar formula-
+                                                                                  1000 × PEm,n,i,t
+tion to represent the dominant processes in order to simulate       Em,n,i, t =                                                    (3)
+air pollutant spatiotemporal variations.                                          PBLH × dx × dy
+   In the context of deep learning, hourly air quality simula-
+tion is a spatiotemporal sequence-to-sequence learning prob-        Where Em,n,k,t refers to the concentration changes con-
+lem aimed at predicting the most probable future sequence of        tributed by primary emissions at spatial coordinate (m, n) for
+length K, given a previous sequence of length J , as shown          species i at time t. The PEm,n,i,t is the corresponding total
+in Eq. (2),                                                         primary emissions within the grid cell per second, which has
+                                                                  a unit of g s−1 . Considering that the cell size in the FastCTM
+Ŷt+1 Ŷt+K = argmaxp Yt−J +1 , . . ., Yt ,                         is 12 km by 12 km, we have dx = 12 000 and dy = 12 000 in
+            
+              Xt−J +1 , . . ., Xt , Xt+1 , . . ., Xt+K
+                                                       
+                                                              (2)   this study. The boundary layer height PBLH, is also in the
+                                                                    unit of meters (m). Therefore, the resulting air pollutant con-
+Where the arg max (short for “argument of the maxi-                 centration increases by primary emission Em,n,i,t has a unit
+mum”) function is used to find the p class with the high-           of µg m−3 .
+
+
+https://doi.org/10.5194/gmd-18-6295-2025                                               Geosci. Model Dev., 18, 6295–6312, 2025
+6298                                                B. Lyu et al.: FastCTM (v1.0): Atmospheric chemical transport modelling
+
+
+
+
+Figure 1. (a) General model workflow, and (b) the basic simulator module structure at the time step t of the deep learning simulation model
+FastCTM, designed according to Eq. (1). Arrows and boxes with different colours represent calculation modules of different atmospheric
+physical and chemical processes.
+
+                                                                                  
+2.2.3   Horizontal Transport Module                                          
+                                                                                0
+                                                                             
+                                                                             
+                                                                               1  if V < 0
+                                                                             
+                                                                                −1 
+                                                                             
+In the FastCTM, horizontal transport usually has a significant          Wy =                                                           (7)
+                                                                                 1
+influence on air quality variations (Lang, 2013). In CMAQ,                   
+                                                                             
+                                                                               −1  if V ≥ 0
+                                                                             
+the regional transport is generally represented by the diver-                
+                                                                             
+                                                                                  0
+gence of the product of wind field and air pollutant species as
+in Eq. (1), inferred from continuity equations and convection           2.2.4   Diffusion Module
+equations (Michalakes et al., 2001; Byun and Schere, 2006).
+By decomposing the air mass movement into two orthogonal                Diffusion involves the physical and chemical processes that
+directions of east–west (x) and north–south (y), they could             disperse pollutants in the atmosphere. It is influenced by
+be rewritten in the form shown in Eq. (4),                              meteorological conditions, i.e. atmospheric stability and hu-
+                                                                        midity, and surface features, i.e., land terrains and vegeta-
+                                                                        tion (Jiang et al., 2021). The turbulence diffusion process
+               ∂ (Ci U ) ∂ (Ci V )                                      ∇ (K∇Ci ) in Eq. (1) helps the spread of pollutants in the
+∇ · (uCi ) =            +                                      (4)
+                  ∂x        ∂y                                          atmosphere. It is expressed as the second-order deviation of
+                                                                        species concentrations as shown in Eq. (8). They could also
+                                                                        be discretized to convolutional operations with the finite dif-
+Where the wind field is represented as u, which is then de-
+                                                                        ference method as shown in Eq. (9), just like that in the hori-
+composed into U and V , respectively, in the x and y direc-
+                                                                        zontal transport process module.
+tions.
+   In the deep learning framework, the partial equation in                              ∂
+                                                                                           
+                                                                                               ∂Ci
+                                                                                                   
+                                                                                                        ∂
+                                                                                                           
+                                                                                                               ∂Ci
+                                                                                                                    
+Eq. (4) could be rewritten in a discrete form as convolution            ∇ (K∇Ci ) =          K       +       K                      (8)
+                                                                                       ∂x       ∂x     ∂y       ∂y
+operations and inner product calculations as shown in Eq. (5)
+with a finite difference method. The convolutional kernels of                         Wx · (K × Wx · Ci ) Wy · (K × Wy · Ci )
+                                                                        ∇ (K∇Ci ) =                        +                        (9)
+Wx and Wy were defined in an upwind scheme as shown in                                       dx × dx               dy × dy
+Eqs. (6) and (7). With the scheme, this transport module it-            K = EncoderK ([T , RH, PRS, PBLH])                         (10)
+self is mass-conserved, even though FastCTM is not mass-
+conserved as a whole.                                                   The turbulent diffusivity K is closely related to the meteo-
+                                                                        rological conditions of the atmosphere and is simulated with
+                                                                        an encoder module EncoderK (Eq. 10). The input variables
+             Wx · (Ci × U ) Wy · (Ci × V )                              of the EncoderK include temperature T , humidity RH, sur-
+∇ · (uCi ) =                +                                  (5)
+                   dx               dy                                  face pressure PRS, and boundary layer height PBLH. The
+                     
+            −1   1   0                                                  EncoderK is determined to be a grid-to-grid regression model
+Wx =                   if U < 0                              (6)
+            0 −1 1         if U ≥ 0                                     based on the Unet++ model with a nested structure (Zhou et
+
+
+Geosci. Model Dev., 18, 6295–6312, 2025                                                  https://doi.org/10.5194/gmd-18-6295-2025
+B. Lyu et al.: FastCTM (v1.0): Atmospheric chemical transport modelling                                                           6299
+
+al., 2018; Ronneberger et al., 2015). The EncoderK model           lying land cover types. Therefore, they are all simulated with
+consists of 5 layers with each layer respectively composed of      an Encoder module as shown in Eq. (14).
+16, 32, 64, 128 and 256 filters.
+                                                                   Dm,n,i,t = dm,n,i,t × Cm,n,i,t                                 (13)
+2.2.5   Chemical Reaction Module                                   d = Encoderd ([WS, RH, RN, HGT, LULC])                         (14)
+
+Reduced-form models like InMAP (Tessum et al., 2017)               The model structure and parameter configurations are also
+and EASIUR (Gentry et al., 2023) focus on annual-average           the same as that of EncoderK and Encoderk . The input
+exposure, while FastCTM provides hourly-resolved simula-           data variables of Encoderd include WS, RH, RN, HGT and
+tions critical for real-time management. FastCTM quantifies        LULC.
+hourly contributions from individual processes (transport,         2.3    Model Training
+chemistry, emissions) via its modular design, rather than ag-
+gregating source impacts in reduced-form models (e.g., EAS-        The FastCTM was programmed with Python 3 on the deep
+IUR’s source-receptor matrices). Furthermore, FastCTM ex-          learning framework TensorFlow (Abadi et al., 2016). The
+plicitly couples meteorology (PBLH, T , RH) with chemistry,        model was trained with the WRF-CMAQ operational fore-
+whereas InMAP/APEEP (Muller and Mendelsohn, 2007) as-              cast data in China for 2018–2022. Considering that on
+sume static meteorology, which limits their utility in cap-        each day we had 120 h forecasts with a spatial coverage
+turing diurnal or synoptic-scale variations. Specifically, the     of 426 × 372 grid cells (each with a size of 12 × 12 km2 )
+air pollutant concentration changes caused by chemical reac-       for 9 meteorological variables and I = 10 air pollutant
+tions are represented in the following Eq. (11). In the equa-      variables, the total training dataset has a size of TD =
+tion, the rate of chemical reaction of species i is expressed as   R1826, 120, 426, 372, 19 , where 1826 represents the total count-
+the product of a rate constant k and a term that is dependent      ing days from 2018 to 2022. Since the model was set
+on the concentrations of its reactants j (Carter, 1990; Carter     to predict 24 h PM2.5 concentrations from 1 h input data,
+and Atkinson, 1996).                                               the total input sequence length was 25 h in each train-
+                                                                  ing step. Besides, the size M × N of the input data Xt to
+Rm,n,i,t = km,n,i,t × f Cm,n,j,t                            (11)
+                                                                   FastCTM was decided to be 150 × 150, equal to an area of
+ki = Encoderk ([T , RH, PRS, WS, PRE, CFRAC])              (12)    1800 × 1800 km2 in 12 km resolution. Therefore, the input
+                                                                   batch data for FastCTM in each step should be the size of
+The reaction kinetics constant k is generally temperature-
+                                                                   BD = Rb, 25, 150, 150, 19 , where b is the batch size (determined
+dependent. They could also be related to atmospheric pres-
+                                                                   as 1 in this study). The input data BD are randomly sliced
+sures and moisture humidity in some reaction processes.
+                                                                   from the whole training dataset TD in each training iteration,
+Therefore, the reaction rate constant k is simulated using a
+                                                                   indicating each BD represents different spatial and tempo-
+spatial encoder function Encoder as shown in Eq. (12), which
+                                                                   ral coverages. The random sampling tactics help the model
+has the same structure as that of diffusion encoder modules
+                                                                   learn inherent physical and chemical principles rather than
+(Eq. 10). There are 6 input variables of the Encoderk includ-
+                                                                   just statistical spatiotemporal autocorrelations using data in a
+ing T , RH, PRS, WS, RN and CFRAC. The concentration
+                                                                   constant spatial area (Xing et al., 2022). Besides, the spatio-
+processor f is designed as a simple multi-layer convolutional
+                                                                   temporal random samples contain varied emissions, which
+network with a kernel size of 1 to represent high-order and
+                                                                   would improve FastCTM adaptation to changing emission
+complex relations among different reactants.
+                                                                   levels.
+2.2.6   Deposition Module                                             Even though five modules are defined in FastCTM, indi-
+                                                                   vidual processes are not trained separately. The model was
+Air pollutant deposition refers to the process by which atmo-      trained as a whole with hour-to-hour air pollutant concen-
+spheric pollutants are transferred to Earth’s surfaces (land,      trations, while each process could learn its parameters un-
+water, vegetation) or removed from the air. This phenomenon        der the constraints of its dedicated formulation. Specifically,
+plays a critical role in environmental pollution dynamics          FastCTM was tuned to minimize the loss function L, which
+and ecosystem impacts. The deposition was closely influ-           was determined to be L2 loss (Bühlmann and Yu, 2003)
+enced by meteorological conditions and surface characteris-        of the regularized mean squared error (MSE) as shown in
+tics (Janhäll, 2015). For example, high wind disperses pollu-      Eq. (15). The model was optimized using the Adam opti-
+tants, while turbulence enhances dry deposition. Forests and       mizer (Kingma and Ba, 2014).
+crops act as sinks due to large surface areas for adsorption.                  1       XJ X M X N X I                       2
+Air quality changes due to the deposition process are ex-          L=                                   Cm,n,i,t − C̃m,n,i,t      (15)
+                                                                         J × N × M × I t=1 m=1 n=1 i=1
+pressed linearly as the product of the deposition rate d and
+the corresponding air pollutants concentrations C, as shown        The learning rate was set to be 0.001, and the batch size to be
+in Eq. (13). The constant d is closely related to the current      1. The FastCTM model was trained on one entry-level pro-
+and previous meteorological conditions, terrains, and under-       fessional acceleration card of NVIDIA A40 with a running
+
+
+https://doi.org/10.5194/gmd-18-6295-2025                                               Geosci. Model Dev., 18, 6295–6312, 2025
+6300                                              B. Lyu et al.: FastCTM (v1.0): Atmospheric chemical transport modelling
+
+time of 10 h for every 10 000 iterations. A total of 300 000        (∼ 10.5 µg m−3 ) in the previous study by Xing et al. (2022),
+iterations were performed until the remaining model loss sta-       the FastCTM model has similar RMSE values in forecasting
+bilized.                                                            O3 . To test the influences of initial conditions on FastCTM
+                                                                    long-term simulations, FastCTM forecasts using zero values
+2.4    Model Evaluation                                             as input air quality data were almost the same as those using
+                                                                    ordinary input in the long leading hours. Results indicating
+FastCTM was assessed against CMAQ simulations using the             that FastCTM simulations in long leading hours are not af-
+same input emission data and meteorological fields. Starting        fected by initial conditions (Fig. S5 in the Supplement), just
+from 00:00 local time on each day, the CMAQ model sim-              like deterministic CTMs (such as CMAQ). In other words,
+ulated 120 h forecasts in one cycle. There are 139 cycles in        the insensitivities of FastCTM to initial conditions indicate
+the evaluation year of 2023 due to data unavailability in the       that it has well learned and encoded the most physical and
+remaining days. The FastCTM model generated 119 h fore-             chemical principles in CMAQ CTM, rather than just spatio-
+casts using a 1 h initial input condition. The 119 h forecasts in   temporal correlations among air quality sequences.
+the leading hours from 2 to 120 by the two models were com-             Hourly RMSE values show clear diurnal variation with
+pared regarding to the corresponding leading time. For exam-        higher RMSE values in the nighttime than that in the day-
+ple, when we had a 120 h forecast starting at 00:00 on 1 Jan-       time, which could be due to higher hourly concentrations of
+uary 2023 at Beijing Local Time (BLT), the data of 00:00            air pollutants in the nighttime, except for O3 (Fig. S6 of the
+on 1 January 2023 were fed into FastCTM to get the 119 h            Supplement). Consistency between CMAQ and FastCTM,
+forecasts until 23:00 on 5 January. The 10 species forecasts        as characterized by R 2 , is lower in the daytime. Since the
+by FastCTM were compared against the CMAQ forecasts at              FastCTM is a 2-D model only considering atmospheric pro-
+each corresponding hour. The metrics of root mean square er-        cesses within the boundary layer, lower consistency with the
+ror (RMSE) and coefficient of determination (R 2 ) were cal-        CMAQ model during daytime, possibly due to more vigor-
+culated daily in each of 119 leading hours on the difference in     ous vertical mixing. Strong vertical mixing of air pollutants
+each of the 158 742 grid cells between CMAQ and FastCTM.            to the height above PBLH has been found (Li et al., 2017;
+Therefore, metrics of R 2 and RMSE were obtained on each            Tang et al., 2016), which may not be fully represented in
+lead hour on each day of the independent test year of 2023.         FastCTM. It is important to note that the relatively low R 2
+The statistical values on each day are then averaged for the        values observed for NH+     4 . While CMAQ explicitly resolves
+same leading hour for comparison.                                   NH+    formation   reactions,   FastCTM does not explicitly en-
+                                                                         4
+   The FastCTM was also assessed in terms of sensitivity            code these pathways. Instead, the neural network implicitly
+analysis to emission inputs and meteorological fields. For          learns relationships between NH+     4 and precursor emissions
+meteorological variables, responses of six criteria pollutant       (NH3 , NOx , SO2 ) and meteorological variables (e.g., temper-
+concentrations to T , WS, and PBLH were calculated. For             ature, humidity). This simplification omits acid-base equilib-
+emissions, responses to paired variables of SO2 /NH4 and            ria and aerosol thermodynamics, which are critical for par-
+NOx /VOC were calculated. Besides, FastCTM’s capability             titioning NH+                                                 2
+                                                                                  4 between gas and particle phases. The low R
+to simulate responses to emission changes was also evalu-           for NH+    primarily   reflects  FastCTM’s simplified  chemical
+                                                                             4
+ated by comparing with CMAQ simulations in 11 emission-             mechanism in this part, which could be improved by adding
+intervention scenarios. Finally, the contributions of five inter-   related species in the simulation.
+nal processes of transport, diffusion, emission, reaction, and          The spatial distributions of the mean absolute error (MAE)
+deposition were also analyzed and discussed for an example          and the normalized mean absolute error (NMAE) are pre-
+pollution episode.                                                  sented in Fig. 3. For all six pollutants under consideration,
+                                                                    MAE values tend to be higher in polluted areas. In pol-
+3     Results                                                       luted environments, there are often multiple sources of emis-
+                                                                    sions, complex chemical reactions, and variable meteorolog-
+3.1    Forecast Performance by FastCTM                              ical conditions that can lead to greater discrepancies between
+                                                                    the predicted concentrations of the two models. Conversely,
+FastCTM has exhibited strong, stable performance in repro-          the NMAE values exhibit an opposite trend, being lower in
+ducing CMAQ forecasts over the 119 h forecast period eval-          polluted areas. In these regions, the NMAE values typically
+uated for 2023 (Fig. 2). The average RMSE values for six            hover around 0.2, in contrast to the relatively higher values
+criteria pollutants of PM2.5 , PM10 , SO2 , NO2 , CO, and O3        of approximately 1 in cleaner areas. The NMAE is a nor-
+are, respectively 9.1, 11.9, 4.4, 4.0, 48.9 and 10.9 µg m−3 . For   malized metric that takes into account the magnitude of the
+R 2 values, they are 0.8, 0.81, 0.8, 0.83, 0.9 and 0.7. As for      actual pollutant concentrations. A lower NMAE in areas with
+PM2.5 components, RMSE values are 1.68, 2.68, 1.52, 1.98            high pollution levels suggests that the FastCTM model is ef-
+and 4.25 µg m−3 , respectively for SO2−         −     +
+                                        4 , NO3 , NH4 , organic     fectively capturing the overall magnitude and trends relative
+matters and other inorganic components, while the R 2 values        to the reference CMAQ simulation. The Air quality forecasts
+are 0.72, 0.6, 0.3, 0.83 and 0.68. Compared to the ∼ 5 ppb          starting from 00:00 a.m. on 4 March 2023 (Fig. S7 in the Sup-
+
+
+Geosci. Model Dev., 18, 6295–6312, 2025                                             https://doi.org/10.5194/gmd-18-6295-2025
+B. Lyu et al.: FastCTM (v1.0): Atmospheric chemical transport modelling                                                           6301
+
+
+
+
+Figure 2. The evaluation performances of FastCTM forecasts against CMAQ forecasts in 2023. Panels (a) and (b) respectively show RMSE
+values of criteria pollutants and the PM2.5 components. Panels (c) and (d) show R 2 values. It should be noted that the RMSE value of CO
+corresponds to the right axis in (a).
+
+
+plement) demonstrate FastCTM’s strong capability in mod-              plement. For example, R 2 values for FastCTM range from
+elling the complex spatio-temporal changes in a large spatial         0.68–0.90, whereas the LUR models only achieve 0.06–0.33.
+domain and over a relatively long period and a large area.            This outcome is anticipated when we consider the complex
+   Defining the warm season as the months from April to               nature of air quality dynamics in predicting future air qual-
+September and the winter and cold season as the remaining             ity. Air quality is not a static entity, but it varies both spa-
+months, the FastCTM model exhibited comparable perfor-                tially and temporally, determined by the joint effects of local
+mances. As shown in Fig. 4 (with detailed information in              emissions, meteorological conditions, and surface features,
+Fig. S8 in the Supplement), the coefficient of determination          etc. For instance, the transport of air pollution is a highly
+R 2 values for the six criteria pollutants were 0.82, 0.8, 0.8,       dynamic process that hinges on wind fields and air pollu-
+0.82, 0.91, and 0.7 in the warm season, and 0.8, 0.79, 0.78,          tion concentrations in a reciprocal manner. The wind direc-
+0.83, 0.88, and 0.68 in the cold season, respectively. To as-         tion and speed dictate the trajectory along which pollutants
+sess the performance variations of FastCTM across differ-             travel, while the existing pollutant concentrations in differ-
+ent spatial locations, comparative evaluations were carried           ent regions influence the overall dispersion and mixing pat-
+out in urban and rural areas as well as in inland and coastal         terns. LUR models, which on the other hand predominantly
+regions. Generally, FastCTM demonstrated slightly higher              rely on local input data (Wong et al., 2021; Cheng et al.,
+accuracies in rural areas compared to urban areas (as pre-            2021), struggle to capture these intricate, non-local interac-
+sented in Fig. S9 in the Supplement). This outcome is rea-            tions. They cannot account for the far-reaching effects, such
+sonable given the more intricate emission and chemical pro-           as wind-driven pollutant transport and the temporally accu-
+cesses prevalent in urban settings (Guo et al., 2014). Simi-          mulated changes in air quality over larger geographical areas.
+larly, FastCTM exhibited comparable performances in inland            As far as we know, LUR models have been mostly applied in
+areas to those in coastal areas, except for PM2.5 and PM10            predicting air pollution fields in retrieval given correspond-
+(Fig. S10 in the Supplement).                                         ing air quality observations as training and constrained in-
+   To validate the FastCTM model, three land use regression           put data. They have been seldom used in air quality forecasts
+(LUR) models were constructed, namely the linear regres-              and simulations, as we have demonstrated with the FastCTM
+sion model, the random forest model (with the number of               model.
+trees set at 500), and the XGBoost model (with the booster               Annually, the daily air quality typically exhibits similar
+specified as gbtree). These LUR models were developed us-             fluctuations to those in other years, which can be primar-
+ing the same input meteorological data, emissions, and geo-           ily attributed to the cyclical nature of meteorological condi-
+physical variables as FastCTM to ensure fair comparison.              tions and pollutant emission patterns. The FastCTM model
+When compared with the FastCTM model, the performance                 was trained using a comprehensive dataset spanning five
+of the LUR models was found to be significantly inferior, as          years, from 2018 to 2022. In light of this, it was crucial to
+demonstrated in the Table 1 and Figs. S10–S12 in the Sup-             rule out the possibility that the model was merely reproduc-
+
+
+https://doi.org/10.5194/gmd-18-6295-2025                                                 Geosci. Model Dev., 18, 6295–6312, 2025
+6302                                                  B. Lyu et al.: FastCTM (v1.0): Atmospheric chemical transport modelling
+
+
+
+
+Figure 3. Spatial distribution of mean absolute error (a, c, e, g, i, k) and normalized mean absolute error for the six criteria pollutants (b, d,
+f, h, j, l) of FastCTM compared with CMAQ in 2023.
+
+
+                                                                           using a simplistic approach of averaging concentrations from
+                                                                           the previous five years based on time of day. Hourly time se-
+                                                                           ries plots of air pollutant concentrations (Fig. S6 in the Sup-
+                                                                           plement) further demonstrate that FastCTM appears to incor-
+                                                                           porate real-time meteorological feedback, adjust for shifts in
+                                                                           emission patterns, and leverage its learned relationships to
+                                                                           provide more accurate and contemporaneous predictions.
+
+                                                                           3.2    Sensitivity Analysis with FastCTM
+Figure 4. The mean evaluation R 2 values for all 119 leading hours
+of FastCTM forecasts in warm/cold seasons, rural/urban areas, and
+coastal/inland areas.                                                      The FastCTM model was trained with 5-year meteorological
+                                                                           and air quality simulations by WRF-CMAQ. These simula-
+                                                                           tions used an emission inventory that was identical for every
+ing historical averages during the test year of 2023. To this              year. In this condition, the FastCTM model has learned the
+end, the daily national average concentrations of PM2.5 and                relationships between the air quality and varied meteorology
+O3 in 2023, as predicted by FastCTM, were meticulously                     with fixed emissions input. Considering that the FastCTM
+compared with those simulated by CMAQ in the same test                     model has exhibited high accuracy in an independent eval-
+year, as well as with the CMAQ forecasts from the train-                   uation year 2023, when new meteorological fields are fed
+ing years of 2018–2022. As illustrated in Fig. 5, the pre-                 into FastCTM, the deep learning model should be able to
+dictions made by FastCTM in 2023 align more closely with                   simulate responses of air pollutant concentrations to mete-
+the actual CMAQ forecasts for that year, with R 2 = 0.94                   orological variables. However, for the response of air pol-
+and 0.72, respectively, for PM2.5 and O3 , rather than with                lutant concentrations to emissions, the training data do not
+the forecasts generated from the training data of 2018–2022,               contain relationships between inter-annual varied emissions
+with R 2 = 0.54 and 0.59. The NMB was also lower between                   and air quality under the condition of the same annual meteo-
+FastCTM and CMAQ for the same year, 2023. These re-                        rological fields. Therefore, it is less expected for FastCTM to
+sults not only validate the adaptive learning capabilities of              simulate reliable and correct response relationships between
+the FastCTM model but also indicate that the model is not                  emissions and air quality. To validate these analyses, we cal-
+
+
+Geosci. Model Dev., 18, 6295–6312, 2025                                                       https://doi.org/10.5194/gmd-18-6295-2025
+B. Lyu et al.: FastCTM (v1.0): Atmospheric chemical transport modelling                                                           6303
+
+
+
+
+Figure 5. The daily FastCTM forecasts compared with CMAQ forecasts, respectively, in the training period of 2018–2022 and the evaluation
+period of 2023 for (a) PM2.5 and (b) O3 . The gaps for FastCTM and CMAQ in 2023 are due to data unavailability these days.
+
+
+Table 1. Performance metrics of LUR models and FastCTM com-           response in O3 concentrations compared to the other five cri-
+pared against CMAQ.                                                   teria pollutants. O3 concentrations have slight negative re-
+                                                                      sponses to T in January, as shown in Fig. 6a, which is prob-
+        Variable   Model           RMSE       R2     NMB              ably because higher temperatures increase NO? emissions,
+        PM2.5      FastCTM           8.78    0.81   −0.15
+                                                                      enhancing dilution. O3 concentrations had the strongest pos-
+                   Liner Model      35.05    0.09   −0.24             itive responses in August among six pollutants, which is con-
+                   Random Forest    33.08    0.19   −0.25             sistent with previous observation-based studies (Flaum et al.,
+                   XGBoost          33.02    0.14   −0.12             1996). The O3 had larger sensitivities when the air tempera-
+                                                                      ture was higher. The gaseous pollutants of CO, NO2 , and SO2
+        PM10       FastCTM          11.58    0.80   −0.17
+                                                                      show the strongest positive response to temperature, which
+                   Liner Model      44.66    0.10   −0.23
+                   Random Forest    45.07    0.19   −0.33
+                                                                      could be caused by the shift of chemical equilibrium towards
+                   XGBoost          44.53    0.15   −0.21             the higher release of these gaseous pollutants (Bassett and
+                                                                      Seinfeld, 1983; Cox, 1982). The particulate matter pollu-
+        SO2        FastCTM           4.51    0.80    0.09             tants, especially PM10 , have the weakest responses among
+                   Liner Model      39.42    0.14   −1.18             six pollutants. Considering that there are dominating propor-
+                   Random Forest    25.74    0.33   −0.65
+                                                                      tions of chemically inert species in particulates, the weak re-
+                   XGBoost          25.57    0.26   −0.60
+                                                                      sponses of PM2.5 and PM10 are expected.
+        NO2        FastCTM           4.24    0.83    0.04                For the wind speed and PBLH, the responses of pollu-
+                   Liner Model      21.42    0.27   −0.30             tants have similar patterns for the same pollutant. First, O3
+                   Random Forest    25.13    0.16   −0.58             concentrations exhibited patterns opposite to other pollutants
+                   XGBoost          23.88    0.15   −0.43             both in January and August. Higher wind speed would in-
+        CO         FastCTM          51.84    0.90     0.01            crease the dispersion and transport of air pollutants (Feng et
+                   Liner Model     427.67    0.03     6.38            al., 2015; Lv et al., 2017), resulting in lower pollution lev-
+                   Random Forest    83.25    0.08     1.32            els, so concentrations decrease as wind speed increases, ex-
+                   XGBoost          70.06    0.06     1.10            cept for O3 . The contradictory response of ozone and par-
+        O3         FastCTM          11.46    0.68    0.02             ticulate matter concentrations to PBLH is consistent with
+                   Liner Model     357.97    0.09   −0.46             the analysis results of multiple-year observations (Liu and
+                   Random Forest   285.16    0.19   −0.21             Tang, 2024). Theoretically, the air pollutant concentrations
+                   XGBoost         291.58    0.15   −0.22             should exhibit an inverse relationship between air pollution
+                                                                      concentrations and PBLH. The actual air pollutant concen-
+                                                                      tration changes simulated by FastCTM generally fit the the-
+culated the sensitivities of simulated air pollutant concentra-       ory that there are negative nonlinear effects with increas-
+tions to changes in meteorological variables and emissions.           ing PBLH. Meanwhile, the sensitivity is stronger when the
+                                                                      PBLH is lower (Fig. 6e and f), which is consistent with pre-
+3.2.1    Response of Air Pollutant Concentration to                   vious observation-based analysis (Wang et al., 2019; Su et
+         Meteorology                                                  al., 2020). The totally different relationship of O3 to wind
+                                                                      speed and PBLH compared to other pollutants could be due
+The responses of six criteria pollutants to meteorological            to its high dependence on chemical precursors, such as NOx
+changes simulated by FastCTM are evaluated as exhibited               and VOC. Concentrations of these precursors could have
+in Fig. 6. For ground-level temperature (T ) elicited a distinct      an inverse relationship with O3 at specific locations. The
+
+
+https://doi.org/10.5194/gmd-18-6295-2025                                                 Geosci. Model Dev., 18, 6295–6312, 2025
+6304                                                  B. Lyu et al.: FastCTM (v1.0): Atmospheric chemical transport modelling
+
+
+
+
+Figure 6. The FastCTM predicted air pollutant percentage changes in response to changes of T , WS, and PBLH in Beijing on 2 January
+(a–c, respectively in the left column) and 1 August (d–f, respectively in the right column), 2023. The air pollutant concentrations are relative
+to those at the baseline meteorological conditions.
+
+
+FastCTM model itself is trained with multi-year CMAQ sim-                 were generally consistent with previous studies (Li et al.,
+ulations, indicating that it is preconditioned on varied me-              2022).
+teorological fields with the same atmospheric physical and                   As for ozone, its responses to doubled NOx and VOC are
+chemical rules. Therefore, the sensitivity of air quality sim-            explored as shown in Fig. 8. For NOx emission, decreases in
+ulations to meteorological variations could be well learned,              O3 concentrations in polluted regions like North China, the
+especially with the discipline-based model FastCTM.                       Yangtze River Delta, and other highly industrial regions are
+                                                                          well captured by FastCTM. The response is reasonable con-
+                                                                          sidering that these regions are generally abundant with NOx
+3.2.2   Response of Air Pollutant Concentration to
+                                                                          emissions and at VOC-limited conditions. Doubling VOC
+        Emission
+                                                                          emissions leads to a significant decrease in O3 (Fig. S14 in
+                                                                          the Supplement), since increased VOC would consume more
+The sensitivity analysis with a “brute force” method can                  O3 in these regions. The spatial patterns of O3 responses to
+be carried out with the FastCTM model quickly due to its                  NOx and VOC are similar to a previous deep learning study
+high computational efficiency on GPU. The responses of                    trained by emission-controlled simulation data (Xing et al.,
+PM2.5 concentrations to doubled emissions of SO2 , NOx                    2022). However, due to the complex speciation of VOC emis-
+were explored in the winter month of January 2023 (Fig. 7).               sions that is simplified in the FastCTM, uncertainties for re-
+For doubled NOx , the PM2.5 concentrations exhibited posi-                sponses of O3 to VOC should be noted.
+tive responses in most areas of China as shown in Fig. 7a.                   The sensitivities of FastCTM simulations to emission in-
+The largest increases occurred in North China, Heilongjiang               terventions were contrasted with those of CMAQ. Specifi-
+province in Northeast China, the Yangtze River Delta, and                 cally, CMAQ was employed to simulate 11 emission sce-
+Sichuan province. In these places, the NOx emissions are                  narios over the two-month periods of January and July 2019
+relatively large. For doubled SO2 , PM2.5 concentrations in-              in Southwest China (Huang et al., 2022). The alterations in
+creased in almost all of China as shown in Fig. 7b. The re-               emissions relative to the base case are presented in Table 1.
+sponse was larger in North China, Northeast China and the                 Among these scenarios, 10 involved reduced emissions of
+Sichuan basin. The PM2.5 responses simulated by FastCTM
+
+
+Geosci. Model Dev., 18, 6295–6312, 2025                                                      https://doi.org/10.5194/gmd-18-6295-2025
+B. Lyu et al.: FastCTM (v1.0): Atmospheric chemical transport modelling                                                               6305
+
+
+
+
+Figure 7. Average predictions of PM2.5 concentrations in 5 lead-days with doubled emissions in January 2023. Panel (a) refers to predictions
+with doubled NOx , and (b) refers to double SO2 .
+
+
+                                                                        due to physical dispersion and transport, the decreased per-
+                                                                        formance is probably due to increased vertical mixing in
+                                                                        summer, which is not fully represented in the 2D scheme
+                                                                        of FastCTM. Specifically, in January 2019, except for NO2 ,
+                                                                        FastCTM responded to emission changes with an interquar-
+                                                                        tile range (IQR, 25 %–75 % percentile) similar to that of
+                                                                        CMAQ (Fig. S16). In July 2019, as depicted in Fig. S17, all
+                                                                        the criteria pollutants except CO demonstrated a comparable
+                                                                        degree of response to emission reductions.
+                                                                           FastCTM model used a principles-constrained formulation
+                                                                        framework. As shown in Eq. (4), atmospheric chemical re-
+                                                                        actions are in the Atkinson form, which independently esti-
+                                                                        mates the reaction rate from meteorological conditions and
+                                                                        polynomials of reactant concentrations in multiple powers.
+                                                                        The principle-based formulation should be the reason for
+Figure 8. Average predictions of hourly O3 concentrations in 5
+                                                                        the relatively significant and reasonable response simulations
+lead-days with doubled NOx emissions in July 2023.                      of PM2.5 and O3 to precursor emissions, even though the
+                                                                        FastCTM itself is not trained by emission-controlled CMAQ
+                                                                        scenario simulations. The remaining uncertainties should be
+                                                                        attributed to the reason that FastCTM only considered envi-
+major species, with only the no-control scenario exhibiting
+                                                                        ronmental chemical reactants in part, compared to that of the
+increased emissions. Utilizing the identical emissions and
+                                                                        CMAQ model (Binkowski and Roselle, 2003).
+meteorological data, FastCTM also conducted simulations,
+which were then compared to those of CMAQ. For the 11
+scenarios in question, the changes in air pollutant concentra-          3.3    Internal Processes Analysis with FastCTM
+tions relative to the base case at the locations of 139 national
+air quality monitoring stations (Fig. S15 in the Supplement)            The FastCTM is a principles-guided deep neural network to
+were extracted and compared in the winter month of Jan-                 individually simulate the dominant atmospheric physical and
+uary 2019 (Fig. 9a) and in the summer month of July 2019                chemical processes as defined in Eq. (1). The processes are
+(Fig. 9b). The results indicated that, overall, the FastCTM             calculated numerically with critical parameters describing
+simulations due to emissions changes were in good agree-                the processes being estimated by deep learning encoders. The
+ment with those of CMAQ, as reflected in two aspects. The               hourly concentration changes equal the sum of the changes
+correlation coefficient R values are around 0.9 for SO2 , NO2,          produced by each process. Figure 11 depicts an example dur-
+and O3 in both summer and winter months. For PM2.5 and                  ing the nighttime of 13 January 2023, when hourly PM2.5
+PM10 , FastCTM exhibited higher consistency with CMAQ                   concentration changes significantly. Between the two hours
+in July than in January, with R values around 0.6 for most              of 18:00 and 19:00, hourly PM2.5 concentrations change
+cases. For CO, FastCTM has much better performance in                   markedly in neighbouring areas of Shandong, Hebei, and
+January than in July, with R values of approximately 0.8 and            Henan provinces as shown in the red rectangle (denoted as
+0.2. Considering that CO concentration changes are mostly               Area A hereafter) in Fig. 11c. In this example, strong north-
+
+
+https://doi.org/10.5194/gmd-18-6295-2025                                                    Geosci. Model Dev., 18, 6295–6312, 2025
+6306                                                B. Lyu et al.: FastCTM (v1.0): Atmospheric chemical transport modelling
+
+
+
+Table 2. The emission change details of the emission scenarios.
+
+                  Scenario       abbreviation    Sector           NOx    VOCs     SO2         CO    PM2.5     PMC
+                  nocontrol      NCtrl           Industrial       30 %    30 %    30 %       30 %    30 %     30 %
+                                                 Traffic          20 %    20 %    20 %       20 %    20 %     20 %
+                  medianX        MedX            Industrial   −36 %      −35 %   −48 %     −23 %     −9 %    −9 %
+                                                 Traffic      −40 %      −10 %       0     −26 %    −10 %   −10 %
+                  medianY        MedY            Industrial   −26 %      −20 %   −38 %     −13 %    −4 %     −4 %
+                                                 Traffic      −30 %        0%        0     −16 %    −5 %     −5 %
+                  medianZ        MedZ            Industrial   −36 %      −10 %   −48 %     −23 %     −9 %    −9 %
+                                                 Traffic      −40 %        0%        0     −26 %    −10 %   −10 %
+                  median − 3     Med-3           Industrial   −10 %      −10 %   −18 %          0       0         0
+                                                 Traffic      −10 %        0%        0          0       0         0
+                  median − 2     Med-2           Industrial   −16 %      −20 %   −28 %      −3 %        0         0
+                                                 Traffic      −20 %        0%        0      −6 %        0         0
+                  median − 1     Med-1           Industrial   −26 %      −35 %   −38 %     −13 %    −4 %     −4 %
+                                                 Traffic      −30 %      −10 %       0     −16 %    −5 %     −5 %
+                  median0        Med0            Industrial   −36 %      −50 %   −48 %     −23 %     −9 %    −9 %
+                                                 Traffic      −40 %      −20 %       0     −26 %    −10 %   −10 %
+                  median + 1     Med+1           Industrial   −46 %      −65 %   −58 %     −33 %    −19 %   −19 %
+                                                 Traffic      −50 %      −30 %       0     −36 %    −20 %   −20 %
+                  median2030     Med30           Industrial   −55 %      −70 %   −80 %     −40 %    −40 %   −40 %
+                                                 Traffic      −60 %      −40 %       0     −40 %    −40 %   −40 %
+                  median2035     Med35           Industrial   −80 %      −80 %   −90 %     −60 %    −50 %   −50 %
+                                                 Traffic      −80 %      −60 %       0     −60 %    −50 %   −50 %
+
+
+
+
+Figure 9. Correlation coefficient R for responses of FastCTM and CMAQ to different emission scenarios and different air pollutants in
+January 2023 (a) and July 2023 (b).
+
+
+
+
+Geosci. Model Dev., 18, 6295–6312, 2025                                                  https://doi.org/10.5194/gmd-18-6295-2025
+B. Lyu et al.: FastCTM (v1.0): Atmospheric chemical transport modelling                                                     6307
+
+ern wind prevails, leading pollutants to move southward. For       4     Discussions
+PM2.5 concentration changes caused by primary emissions
+(Fig. 8d), it is determined by the primary emission and the        4.1    Model Accuracy and Uncertainty
+mixing volumes determined by PBLH. PM2.5 changes are
+mostly determined by the transport process (Fig. 11e) as its       One debatable concern is the accuracy of neural network
+spatial pattern most closely resembles total PM2.5 concen-         (NN)-based components in integrated chemical transport
+tration changes. In the transport process, air pollutants move     models (CTMs) and the potential for amplified uncertainty
+from one area to another, determined by the wind fields as         when coupling multiple NN modules. Literature precedent
+shown in Eq. (4). When the northern clean air prevails as in       suggests that individual NN emulators may exhibit lower ac-
+Area A, changes should be negative in the upstream direction       curacy compared to traditional physical parameterizations,
+and positive in the downstream direction. The transport pro-       but their integration could introduce unexplained uncertain-
+cess simulated by FastCTM sticks to this pattern. As known         ties. This is a valid consideration that aligns with broader
+to us, the diffusion process will bring pollutants from a re-      discussions in Earth system modeling about the trade-offs be-
+gion of high concentration to one of low concentration. Its        tween computational efficiency and physical fidelity (Irrgang
+contribution is low as shown in Fig. 11f, which is reasonable      et al., 2021).
+considering the relatively large grid cell size of 12 km and          In FastCTM, we address this by adopting a principle-
+short simulation period of 1 h. PM2.5 concentration changes        informed modular design where each module (transport,
+caused by the diffusion process constituted a small propor-        chemistry, deposition, etc.) is constrained by governing phys-
+tion compared to other processes. The activities of chemi-         ical/chemical equations (e.g., Eqs. 3–14). This distinguishes
+cal reactions are determined by both meteorological condi-         it from unconstrained “black-box” NN models, as each pro-
+tions and related precursor concentrations. PM2.5 contribu-        cess is guided by known atmospheric dynamics. For exam-
+tion changes between T1 and T2 caused by chemical reac-            ple, the transport module explicitly enforces mass conserva-
+tions are lower in the areas to the north of Area A because        tion via upwind schemes (Eqs. 5–7), and the chemical reac-
+the cold and clean air in this area is not favourable for chemi-   tion module links reaction rates to meteorological conditions
+cal reactions. The deposition is the dominant process that led     (Eq. 12) based on kinetic theory. Our evaluation shows that
+to PM2.5 concentration reductions where regional transport         FastCTM maintains high consistency with CMAQ across
+was not significant. In general, deposition rates were propor-     119 h forecasts (Sect. 3.1), with R 2 values exceeding 0.8
+tional to PM2.5 concentrations as shown in Fig. 8h (Davis and      for most pollutants, indicating that physical constraints ef-
+Swall, 2006). It should be noted that FastCTM simulated air        fectively mitigate accuracy losses.
+quality in a 2-D domain rather than in 3-D. The deposition            However, we acknowledge that uncertainty can accumu-
+may also include the vertical transport of air pollutants to the   late when coupling modules, particularly for species involved
+upper air above PBL (Zhao et al., 2020).                           in complex multi-process interactions due to limited chem-
+   Simulated contributions of five major processes to              ical constraints in our current training datasets(e.g., NH+ 4,
+hourly PM2.5 concentration changes are compared between            Sect. 3.1). This is partly due to simplifications in FastCTM’s
+FastCTM and CMAQ at 139 stations (Fig. S15) in the                 chemical mechanism, which omits some aerosol thermody-
+Sichuan-Chongqing region from 12 to 16 October 2024, as            namics included in CMAQ. Future work will reduce such un-
+shown in boxplots of Fig. 11. Overall, the simulation re-          certainties by incorporating additional species (e.g., VOCs)
+sults of the process contributions by FastCTM and its par-         and refining process formulations by adding CMAQ’s inte-
+ent model CMAQ were relatively consistent. Higher degrees          grated process rate (IPR) data for supervised training of indi-
+of consistency were found in simulations of emissions, ad-         vidual modules.
+vection processes, and diffusion processes between the two
+models. Contributions from chemical reactions of FastCTM           4.2    Choosing Neural Network Components over
+exhibited overestimation compared to CMAQ, while con-                     Traditional Parameterizations
+tributions from deposition were underestimated. The differ-
+ences in the simulated deposition and reaction contributions       One question might arise about the utility of replacing non-
+between the two models could be due to incomplete repre-           bottleneck CTM components (e.g., deposition) with NN
+sentation of influencing factors, given the complexity of the      solvers, given the argument that traditional parameterizations
+two processes. In general, the consistency between the two         may already be accurate and fast. This highlights a criti-
+models provides confidence in the reliability of FastCTM for       cal design choice in FastCTM: balancing computational effi-
+simulating and understanding the complex interplay of atmo-        ciency with fidelity to the parent model (CMAQ).
+spheric processes that govern PM2.5 levels.                           It is important to note that even non-bottleneck compo-
+                                                                   nents in traditional CTMs can benefit from NN acceleration
+                                                                   in integrated simulations. For example, CMAQ’s deposition
+                                                                   module, while not a primary computational burden, relies
+                                                                   on parameterizations based on similarity theory and limited
+
+
+https://doi.org/10.5194/gmd-18-6295-2025                                               Geosci. Model Dev., 18, 6295–6312, 2025
+6308                                               B. Lyu et al.: FastCTM (v1.0): Atmospheric chemical transport modelling
+
+
+
+
+Figure 10. An example of the PM2.5 concentration at T1 (18:00, a) and T2 (19:00, b) on 13 January 2023 (with the forecast leading time of
+42 h) and hourly changes (c). Changes caused by each of the five dominant processes are depicted in (d)–(h).
+
+
+
+
+Figure 11. Boxplots of hourly PM2.5 contribution changes from five major atmospheric processes at 139 evaluation stations from 13 to
+16 October 2024, simulated by (a) CMAQ and (b) FastCTM.
+
+
+flux measurements (Janhäll, 2015), which may oversimplify              4.3   Beyond “Black Boxes”: Interpretability and Error
+complex surface-atmosphere interactions (e.g., vegetation-                   Identification
+specific uptake). NN-based parameterizations have shown
+promise in improving such processes. Silva et al. (2019), for          A central goal of FastCTM is to advance beyond opaque
+instance, developed a deep learning model for ozone dry de-            deep learning models by enabling process-level interpretabil-
+position that outperformed traditional schemes in indepen-             ity, addressing concerns about error attribution. Traditional
+dent validation. In FastCTM, the deposition module (Eq. 14)            “black-box” NN models obscure how individual processes
+leverages NN to capture nonlinear relationships between me-            contribute to predictions, hindering error analysis. In con-
+teorology (e.g., wind speed, land cover) and deposition rates,         trast, FastCTM’s modular design quantifies hourly contri-
+while retaining compatibility with CMAQ’s output.                      butions from transport, diffusion, emissions, chemistry, and
+   Moreover, FastCTM’s modular architecture allows flexible            deposition separately (Sect. 3.3), allowing targeted identifi-
+integration of traditional parameterizations as an option. For         cation of error sources. For example, in the January 2023
+example, users could replace the NN-based deposition mod-              pollution episode (Fig. 10), transport was found to domi-
+ule with CMAQ’s original parameterization if higher fidelity           nate PM2.5 concentration changes, while deposition acted as
+to that specific process is prioritized. This hybrid approach          a secondary sink This process-level attribution aligns well
+addresses concerns about unnecessary replacement of robust             with CMAQ’s process analysis (Fig. 11), ensuring that uncer-
+components while retaining the overall speed advantage of              tainties are traced to specific physical processes rather than
+NN for bottleneck processes (e.g., chemical reactions, which           being attributed to arbitrary model behavior.
+dominate CTM runtime; Xia et al., 2025).                                  We anticipate that incorporating abundant CMAQ’s in-
+                                                                       tegrated process rate (IPR) data for supervised training of
+
+
+Geosci. Model Dev., 18, 6295–6312, 2025                                                 https://doi.org/10.5194/gmd-18-6295-2025
+B. Lyu et al.: FastCTM (v1.0): Atmospheric chemical transport modelling                                                               6309
+
+individual modules will further refine the FastCTM’s pro-             Disclaimer. The findings in this research do not necessarily reflect
+cess level predictions. However, a comprehensive process-             the views of the sponsors.
+oriented error analysis that would further enhancing inter-
+pretability, for instance isolating and quantifying whether           Publisher’s note: Copernicus Publications remains neutral
+transport or chemistry drives urban-rural accuracy discrepan-         with regard to jurisdictional claims made in the text, published
+                                                                      maps, institutional affiliations, or any other geographical represen-
+cies, requires long-term process simulations and systematic
+                                                                      tation in this paper. While Copernicus Publications makes every
+perturbations plus observational datasets (e.g., tracer exper-        effort to include appropriate place names, the final responsibility
+iments) to validate specific processes predictions from both          lies with the authors. Also, please note that this paper has not
+CMAQ and FastCTM.                                                     received English language copy-editing. Views expressed in the
+                                                                      text are those of the authors and do not necessarily reflect the views
+                                                                      of the publisher.
+4.4   Limitations and Future Directions
+
+                                                                      Acknowledgements. We thank the two anonymous reviewers for
+FastCTM’s current limitations include simplified vertical dy-         their constructive comments and suggestions.
+namics (2D boundary layer representation) and incomplete
+chemical mechanisms, which affect performance during vig-
+orous daytime mixing (Sect. 3.1). A future extension to a 3D          Financial support. This research has been in part supported by the
+framework will improve representation of vertical transport           AiMa R&D Project (R#2016-004) of Hangzhou AiMa Technolo-
+and in-cloud chemistry. Additionally, while FastCTM effi-             gies.
+ciently reproduces CMAQ simulations, it does not claim su-
+periority over traditional CTMs across all scenarios; rather,
+it serves as a complementary tool for applications requiring          Review statement. This paper was edited by Volker Grewe and re-
+rapid simulations (e.g., ensemble forecasting, emission sce-          viewed by two anonymous referees.
+nario screening).
+   By addressing these limitations and engaging with ongo-
+ing debates about NN integration in atmospheric modeling,             References
+FastCTM aims to bridge the gap between computational effi-
+ciency and physical rigor, providing a flexible framework for         Abadi, M., Agarwal, A., Barham, P., Brevdo, E., Chen,
+air quality research and management.                                    Z., Citro, C., Corrado, G. S., Davis, A., Dean, J., and
+                                                                        Devin, M.: Tensorflow: Large-scale machine learning
+                                                                        on heterogeneous distributed systems, arXiv [preprint],
+                                                                        https://doi.org/10.48550/arXiv.1603.04467, 2016.
+Data availability. The land use and land cover data are avail-
+                                                                      Appel, K. W., Napelenok, S. L., Foley, K. M., Pye, H. O.
+able at the Data Sharing and Service Portal of the Chi-
+                                                                        T., Hogrefe, C., Luecken, D. J., Bash, J. O., Roselle, S. J.,
+nese Academy of Science (http://data.casearth.cn/en/sdo/detail/
+                                                                        Pleim, J. E., Foroutan, H., Hutzell, W. T., Pouliot, G. A.,
+5ebe2a9908415d14083a4c24, last access: 23 June 2023, login
+                                                                        Sarwar, G., Fahey, K. M., Gantt, B., Gilliam, R. C., Heath,
+required). The CTM simulation data and source code files of
+                                                                        N. K., Kang, D., Mathur, R., Schwede, D. B., Spero, T. L.,
+the exact version used to produce the results used in this pa-
+                                                                        Wong, D. C., and Young, J. O.: Description and evaluation
+per are available at https://doi.org/10.5281/zenodo.13757211 on
+                                                                        of the Community Multiscale Air Quality (CMAQ) model-
+Zenodo (Lyu, 2024). The configuration files for running mod-
+                                                                        ing system version 5.1, Geosci. Model Dev., 10, 1703–1732,
+els of WRF v3.4.1 and CAMQ v5.0.2 are also available at
+                                                                        https://doi.org/10.5194/gmd-10-1703-2017, 2017.
+https://doi.org/10.5281/zenodo.5152621 (Hu, 2021).
+                                                                      Bassett, M. and Seinfeld, J. H.: Atmospheric equilibrium model
+                                                                        of sulfate and nitrate aerosols, Atmospheric Environment,
+                                                                        17, 2237–2252, https://doi.org/10.1016/0004-6981(83)90221-4,
+Supplement. The supplement related to this article is available on-     1983.
+line at https://doi.org/10.5194/gmd-18-6295-2025-supplement.          Binkowski, F. S. and Roselle, S. J.: Models-3 Community Multi-
+                                                                        scale Air Quality (CMAQ) model aerosol component 1. Model
+                                                                        description, Journal of Geophysical Research Atmospheres, 108,
+Author contributions. BL and YH conceived the study. BL devel-          335–346, 2003.
+oped the model and codes. RH and XW contributed the CTM simu-         Bühlmann, P. and Yu, B.: Boosting With the L2 Loss, Publications
+lation data. BL and RH collected the observation data. BL analyzed      of the American Statistical Association, 98, 324–339, 2003.
+data and wrote the paper with contributions from YH, RH, WW, and      Byun, D. and Schere, K. L.: Review of the governing equations,
+XW. RH managed the project.                                             computational algorithms, and other components of the Models-
+                                                                        3 Community Multiscale Air Quality (CMAQ) modeling system,
+                                                                        Applied Mechanics Reviews, 59, 51–77, 2006.
+Competing interests. The contact author has declared that none of     Carter, W. P. L.: A detailed mechanism for the gas-phase at-
+the authors has any competing interests.                                mospheric reactions of organic compounds, Atmospheric En-
+
+
+https://doi.org/10.5194/gmd-18-6295-2025                                                  Geosci. Model Dev., 18, 6295–6312, 2025
+6310                                                 B. Lyu et al.: FastCTM (v1.0): Atmospheric chemical transport modelling
+
+   vironment. Part A, 24, 481–518, https://doi.org/10.1016/0960-       Huang, L., Liu, S., Yang, Z., Xing, J., Zhang, J., Bian, J., Li, S.,
+   1686(90)90005-8, 1990.                                                 Sahu, S. K., Wang, S., and Liu, T.-Y.: Exploring deep learning
+Carter, W. P. L. and Atkinson, R.: Development and eval-                  for air pollutant emission estimation, Geosci. Model Dev., 14,
+   uation of a detailed mechanism for the atmospheric reac-               4641–4654, https://doi.org/10.5194/gmd-14-4641-2021, 2021.
+   tions of isoprene and NOx , International Journal of Chemi-         Huang, R., Wang, X., Wang, C., Du, Y., Yan, B., Zhang, W., Luo, B.,
+   cal Kinetics, 28, 497–530, https://doi.org/10.1002/(SICI)1097-         Zhang, W., and Hu, Y.: Future Year Air Quality Attainment Pre-
+   4601(1996)28:7<497::AID-KIN4>3.0.CO;2-Q, 1996.                         diction Method Based on Design-Value and Relative Response
+Cheng, B., Ma, Y., Feng, F., Zhang, Y., Shen, J., Wang, H., Guo,          Factor: A Case Study Focusing on Implementation Planning of
+   Y., and Cheng, Y.: Influence of weather and air pollution on con-      the 14th Five-Year Plan in Sichuan Province, Acta Scientiarum
+   centration change of PM2.5 using a generalized additive model          Naturalium Universitatis Pekinensis, 58, 553–564, 2022.
+   and gradient boosting machine, Atmospheric environment, 255,        Irrgang, C., Boers, N., Sonnewald, M., Barnes, E. A., Kadow,
+   118437, https://doi.org/10.1016/j.atmosenv.2021.118437, 2021.          C., Staneva, J., and Saynisch-Wagner, J.: Towards neural Earth
+National Research Council: Air Quality Management in the                  system modelling by integrating artificial intelligence in Earth
+   United States, The National Academies Press, Washington, DC,           system science, Nature Machine Intelligence, 3, 667–674,
+   https://doi.org/10.17226/10728, 2004.                                  https://doi.org/10.1038/s42256-021-00374-3, 2021.
+Cox, R. A.: Chemical Transformation Processes for NoX Species          Janhäll, S.: Review on urban vegetation and particle air pollution–
+   in the Atmosphere, in: Studies in Environmental Science,               Deposition and dispersion, Atmospheric Environment, 105, 130–
+   edited by: Schneider, T. and Grant, L., Elsevier, 249–261,             137, 2015.
+   https://doi.org/10.1016/B978-0-444-42127-2.50027-0, 1982.           Jiang, Z., Cheng, H., Zhang, P., and Kang, T.: Influence of urban
+Davis, J. M. and Swall, J. L.: An examination of the CMAQ sim-            morphological parameters on the distribution and diffusion of air
+   ulations of the wet deposition of ammonium from a Bayesian             pollutants: A case study in China, Journal of Environmental Sci-
+   perspective, Atmospheric Environment, 40, 4562–4573, 2006.             ences, 105, 163–172, 2021.
+Eder, B., Kang, D., Mathur, R., Yu, S., and Schere, K.: An opera-      Kelp, M. M., Jacob, D. J., Lin, H., and Sulprizio, M. P.: An
+   tional evaluation of the Eta–CMAQ air quality forecast model,          online-learned neural network chemical solver for stable long-
+   Atmospheric Environment, 40, 4894–4905, 2006.                          term global simulations of atmospheric chemistry, Journal of
+Efstathiou, C. I., Adams, E., Coats, C. J., Zelt, R., Reed, M.,           Advances in Modeling Earth Systems, 14, e2021MS002926,
+   McGee, J., Foley, K. M., Sidi, F. I., Wong, D. C., Fine,               https://doi.org/10.1029/2021MS002926, 2022.
+   S., and Arunachalam, S.: Enabling high-performance cloud            Kingma, D. and Ba, J.: Adam: A Method for
+   computing for the Community Multiscale Air Quality Model               Stochastic         Optimization,        Computer          Science,
+   (CMAQ) version 5.3.3: performance evaluation and benefits              https://doi.org/10.48550/arXiv.1412.6980, 2014.
+   for the user community, Geosci. Model Dev., 17, 7001–7027,          Lang, J.: A Monitoring and Modeling Study to Investigate Regional
+   https://doi.org/10.5194/gmd-17-7001-2024, 2024.                        Transport and Characteristics of PM2.5 Pollution, Aerosol & Air
+Feng, X., Li, Q., Zhu, Y., Hou, J., Jin, L., and Wang,                    Quality Research, 13, 943–956, 2013.
+   J.: Artificial neural networks forecasting of PM2.5 pollu-          Leal, A. M., Kulik, D. A., Smith, W. R., and Saar, M. O.: An
+   tion using air mass trajectory based geographic model and              overview of computational methods for chemical equilibrium
+   wavelet transformation, Atmospheric Environment, 107, 118–             and kinetic calculations for geochemical and reactive transport
+   128, https://doi.org/10.1016/j.atmosenv.2015.02.030, 2015.             modeling, Pure and Applied Chemistry, 89, 597–643, 2017.
+Flaum, J. B., Rao, S. T., and Zurbenko, I. G.: Moderating the Influ-   LeCun, Y., Bengio, Y., and Hinton, G.: Deep learning, Nature, 521,
+   ence of Meteorological Conditions on Ambient Ozone Concen-             436–444, https://doi.org/10.1038/nature14539, 2015.
+   trations, Journal of the Air & Waste Management Association,        Li, J., Dai, Y., Zhu, Y., Tang, X., Wang, S., Xing, J., Zhao, B., Fan,
+   46, 35–46, 1996.                                                       S., Long, S., and Fang, T.: Improvements of response surface
+Gentry, B. M., Robinson, A. L., and Adams, P. J.: EASIUR-HR:              modeling with self-adaptive machine learning method for PM2.5
+   a model to evaluate exposure inequality caused by ground-level         and O3 predictions, Journal of Environmental Management, 303,
+   sources of primary fine particulate matter, Environmental Sci-         114210, https://doi.org/10.1016/j.jenvman.2021.114210, 2022.
+   ence & Technology, 57, 3817–3824, 2023.                             Li, Z., Guo, J., Ding, A., Liao, H., Liu, J., Sun, Y., Wang, T., Xue,
+Guo, S., Hu, M., Zamora, M. L., Peng, J., Shang, D., Zheng, J.,           H., Zhang, H., and Zhu, B.: Aerosol and boundary-layer inter-
+   Du, Z., Wu, Z., Shao, M., and Zeng, L.: Elucidating severe urban       actions and impact on air quality, National Science Review, 4,
+   haze formation in China, Proceedings of the National Academy           810–833, 2017.
+   of Sciences, 111, 17373–17378, 2014.                                Liao, Q., Zhu, M., Wu, L., Pan, X., Tang, X., and Wang, Z.: Deep
+Hakami, A., Odman, M. T., and Russell, A. G.: High-Order,                 Learning for Air Quality Forecasts: a Review, Current Pollution
+   Direct Sensitivity Analysis of Multidimensional Air Quality            Reports, 6, 399–409, https://doi.org/10.1007/s40726-020-00159-
+   Models, Environmental Science & Technology, 37, 2442–2452,             z, 2020.
+   https://doi.org/10.1021/es020677h, 2003.                            Liu, X.-H., Zhang, Y., Xing, J., Zhang, Q., Wang, K., Streets, D.,
+He, K., Zhang, X., Ren, S., and Sun, J.: Deep                             Jang, C., Wang, W.-X., and Hao, J.-M.: Understanding of re-
+   Residual Learning for Image Recognition, IEEE,                         gional air pollution over China using CMAQ, Part II. Process
+   https://doi.org/10.1109/CVPR.2016.90, 2016.                            analysis and sensitivity of ozone and particulate matter to pre-
+Hu, Y.: Configurations for running 12 km resolution WRF-                  cursor emissions, Atmospheric Environment, 44, 3719–3727,
+   CMAQ simulations in China (v1.0), Zenodo [code],                       https://doi.org/10.1016/j.atmosenv.2010.03.036, 2010.
+   https://doi.org/10.5281/zenodo.5152621, 2021.
+
+
+
+Geosci. Model Dev., 18, 6295–6312, 2025                                                  https://doi.org/10.5194/gmd-18-6295-2025
+B. Lyu et al.: FastCTM (v1.0): Atmospheric chemical transport modelling                                                                  6311
+
+Liu, Y. and Tang, G.: Contradictory response of ozone                  Su, T., Li, Z., Zheng, Y., Luan, Q., and Guo, J.: Abnormally Shal-
+   and particulate matter concentrations to boundary layer               low Boundary Layer Associated With Severe Air Pollution Dur-
+   meteorology, Environmental Pollution, 343, 123209,                    ing the COVID-19 Lockdown in China, Geophysical Research
+   https://doi.org/10.1016/j.envpol.2023.123209, 2024.                   Letters, https://doi.org/10.1029/2020GL090041, 2020.
+Liu, Z.-S., Clusius, P., and Boy, M.: Neural network emulator          Sun, H., Fung, J. C. H., Chen, Y., Li, Z., Yuan, D., Chen, W., and Lu,
+   for atmospheric chemical ODE, Neural Networks, 184, 107106,           X.: Development of an LSTM broadcasting deep-learning frame-
+   https://doi.org/10.1016/j.neunet.2024.107106, 2025.                   work for regional air pollution forecast improvement, Geosci.
+Lv, B., Cai, J., Xu, B., and Bai, Y.: Understanding the Rising Phase     Model Dev., 15, 8439–8452, https://doi.org/10.5194/gmd-15-
+   of the PM2.5 Concentration Evolution in Large China Cities,           8439-2022, 2022.
+   Scientific Reports, 7, 46456, https://doi.org/10.1038/srep46456,    Tang, G., Zhang, J., Zhu, X., Song, T., Münkel, C., Hu, B., Schäfer,
+   2017.                                                                 K., Liu, Z., Zhang, J., Wang, L., Xin, J., Suppan, P., and
+Lyu, B.: FastCTM(v1.0)_a principle-guided neural network                 Wang, Y.: Mixing layer height and its implications for air pol-
+   for chemical transport modelling, Zenodo [data set],                  lution over Beijing, China, Atmos. Chem. Phys., 16, 2459–2475,
+   https://doi.org/10.5281/zenodo.13757211, 2024.                        https://doi.org/10.5194/acp-16-2459-2016, 2016.
+Mao, W., Wang, W., Jiao, L., Zhao, S., and Liu, A.: Modeling air       Tessum, C. W., Hill, J. D., and Marshall, J. D.: InMAP: A
+   quality prediction using a deep learning approach: Method op-         model for air pollution interventions, PLOS ONE, 12, e0176131,
+   timization and evaluation, Sustainable Cities and Society, 65,        https://doi.org/10.1371/journal.pone.0176131, 2017.
+   102567, https://doi.org/10.1016/j.scs.2020.102567, 2021.            Wang, C., Jia, M., Xia, H., Wu, Y., Wei, T., Shang, X.,
+Michalakes, J., Chen, S., Dudhia, J., Hart, L., Klemp, J., Middle-       Yang, C., Xue, X., and Dou, X.: Relationship analysis of
+   coff, J., and Skamarock, W.: Development of a next-generation         PM2.5 and boundary layer height using an aerosol and tur-
+   regional weather research and forecast model, IEEE International      bulence detection lidar, Atmos. Meas. Tech., 12, 3303–3315,
+   Conference on High Performance Computing, Data, and Analyt-           https://doi.org/10.5194/amt-12-3303-2019, 2019.
+   ics, 11/1/2001, https://doi.org/10.1142/9789812799685_0024,         Wang, L., Jang, C., Zhang, Y., Wang, K., Zhang, Q., Streets, D.,
+   2001.                                                                 Fu, J., Lei, Y., Schreifels, J., He, K., Hao, J., Lam, Y.-F., Lin, J.,
+Michalakes, J., Dudhia, J., Gill, D., Henderson, T., Klemp,              Meskhidze, N., Voorhees, S., Evarts, D., and Phillips, S.: Assess-
+   J., Skamarock, W., and Wang, W.: The Weather Research                 ment of air quality benefits from national air pollution control
+   and Forecast Model: Software Architecture and Performance,            policies in China. Part II: Evaluation of air quality predictions
+   https://doi.org/10.1142/9789812701831_0012, 2005.                     and air quality benefits assessment, Atmospheric Environment,
+Muller, N. Z. and Mendelsohn, R.: Measuring the dam-                     44, 3449–3457, https://doi.org/10.1016/j.atmosenv.2010.05.058,
+   ages of air pollution in the United States, Journal of                2010.
+   Environmental Economics and Management, 54, 1–14,                   Wang, Y., Gao, Z., Long, M., Wang, J., and Yu, P. S.: Pre-
+   https://doi.org/10.1016/j.jeem.2006.12.002, 2007.                     dRNN++: Towards A Resolution of the Deep-in-Time
+Reichstein, M., Camps-Valls, G., Stevens, B., Jung, M., Denzler,         Dilemma in Spatiotemporal Predictive Learning, ICML,
+   J., Carvalhais, N., and Prabhat: Deep learning and process un-        https://doi.org/10.48550/arXiv.1804.06300, 2018.
+   derstanding for data-driven Earth system science, Nature, 566,      Wong, P.-Y., Lee, H.-Y., Chen, Y.-C., Zeng, Y.-T., Chern, Y.-R.,
+   195–204, https://doi.org/10.1038/s41586-019-0912-1, 2019.             Chen, N.-T., Lung, S.-C. C., Su, H.-J., and Wu, C.-D.: Us-
+Ronneberger, O., Fischer, P., and Brox, T.: U-Net: Convolutional         ing a land use regression model with machine learning to esti-
+   Networks for Biomedical Image Segmentation, Medical Im-               mate ground level PM2.5 , Environmental Pollution, 277, 116846,
+   age Computing and Computer-Assisted Intervention – MICCAI             https://doi.org/10.1016/j.envpol.2021.116846, 2021.
+   2015, Cham, 234–241, 2015.                                          Xia, Z., Zhao, C., Du, Q., Yang, Z., Zhang, M., and
+Shi, X., Chen, Z., Wang, H., Yeung, D.-Y., Wong, W.-k., and              Qiao, L.: Advancing Sophisticated Photochemistry Simula-
+   Woo, W.-c.: Convolutional LSTM Network: A Machine Learn-              tion in Atmospheric Numerical Models With Artificial Intel-
+   ing Approach for Precipitation Nowcasting, Computer Science,          ligence PhotoChemistry (AIPC) Scheme Using the Feature-
+   https://doi.org/10.48550/arXiv.1506.04214, 2015.                      Mapping Subspace Self-Attention Algorithm, Journal of Ad-
+Shi, X., Gao, Z., Lausen, L., Wang, H., Yeung, D. Y., Wong, W.,          vances in Modeling Earth Systems, 17, e2024MS004646,
+   and Woo, W.: Deep Learning for Precipitation Nowcasting: A            https://doi.org/10.1029/2024MS004646, 2025
+   Benchmark and A New Model, Neural Information Processing            Xing, J., Zheng, S., Li, S., Huang, L., Wang, X., Kelly, J. T., Wang,
+   Systems, https://doi.org/10.48550/arXiv.1506.04214, 2017.             S., Liu, C., Jang, C., Zhu, Y., Zhang, J., Bian, J., Liu, T.-Y.,
+Silva, S. J., Heald, C. L., Ravela, S., Mammarella, I., and Munger,      and Hao, J.: Mimicking atmospheric photochemical modeling
+   J. W.: A deep learning parameterization for ozone dry deposition      with a deep neural network, Atmospheric Research, 265, 105919,
+   velocities, Geophysical Research Letters, 46, 983–989, 2019.          https://doi.org/10.1016/j.atmosres.2021.105919, 2022.
+Skamarock, W. C., Klemp, J. B., Dudhia, J., Gill, D. O., Barker, D.    Zhang, X., Liu, L., Chen, X., Gao, Y., Xie, S., and Mi, J.:
+   M., Duda, M. G., Huang, X. Y., Wang, W., and Powers, J. G.:           GLC_FCS30: global land-cover product with fine classification
+   A description of the advanced research WRF version 3, NCAR            system at 30 m using time-series Landsat imagery, Earth Syst.
+   Tech. Note, https://doi.org/10.13140/RG.2.1.2310.6645, 2008.          Sci. Data, 13, 2753–2776, https://doi.org/10.5194/essd-13-2753-
+Sturm, P. O. and Wexler, A. S.: A mass- and energy-conserving            2021, 2021.
+   framework for using machine learning to speed computations:         Zhang, Z., Zhang, S., Chen, C., and Yuan, J.: A sys-
+   a photochemistry example, Geosci. Model Dev., 13, 4435–4442,          tematic survey of air quality prediction based on deep
+   https://doi.org/10.5194/gmd-13-4435-2020, 2020.
+
+
+
+https://doi.org/10.5194/gmd-18-6295-2025                                                   Geosci. Model Dev., 18, 6295–6312, 2025
+6312                                                  B. Lyu et al.: FastCTM (v1.0): Atmospheric chemical transport modelling
+
+  learning, Alexandria Engineering Journal, 93, 128–141,                Zhou, Z., Rahman Siddiquee, M. M., Tajbakhsh, N., and Liang,
+  https://doi.org/10.1016/j.aej.2024.03.031, 2024.                        J.: UNet++: A Nested U-Net Architecture for Medical Image
+Zhao, J., Ma, X., Wu, S., and Sha, T.: Dust emission and transport in     Segmentation, Cham, 3–11, https://doi.org/10.1007/978-3-030-
+  Northwest China: WRF-Chem simulation and comparisons with               00889-5_1, 2018.
+  multi-sensor observations, Atmospheric Research, 241, 104978,
+  https://doi.org/10.1016/j.atmosres.2020.104978, 2020.
+
+
+
+
+Geosci. Model Dev., 18, 6295–6312, 2025                                                 https://doi.org/10.5194/gmd-18-6295-2025
+

@@ -88,5 +88,5 @@ Fox's conceptual framework intersects with [[dynamic-causal-modeling]] (DCM) thr
 
 1. (authors unknown). *Spontaneous fluctuations in brain activity observed with functional magnetic resonance imaging*.
 2. (authors unknown). *A Default Mode of Brain Function*.
-3. Abdoreza Asadpour, Amin Azimi, Kongfatt Wong-Lin. (2025). *Limitations of Variational Laplace-Based Dynamic Causal Modelling for Multistable Cortical Circuits*. bioRxiv. [DOI](https://doi.org/10.1101/2025.03.10.642327)
+3. Abdoreza Asadpour, Amin Azimi, Kongfatt Wong-Lin. (2025). *Limitations of Variational Laplace-Based Dynamic Causal Modelling for Multistable Cortical Circuits*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.03.10.642327))
 4. (authors unknown). *Correspondence of the brain's functional architecture during activation and rest*.

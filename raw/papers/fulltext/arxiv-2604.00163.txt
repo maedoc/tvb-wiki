@@ -1,0 +1,1636 @@
+       Epileptic Seizure Detection in Separate Frequency Bands Using Feature
+            Analysis and Graph Convolutional Neural Network (GCN) from
+                               Electroencephalogram (EEG) Signals
+
+
+Ferdaus Anam Jibon1, 2, Fazlul Hasan Siddiqui1, F. Deeba3, and Gahangir Hossain4
+1
+ Department of Computer Science and Engineering, Dhaka University of Engineering & Technology (DUET),
+Gazipur.
+2
+ Department of Computer Science and Engineering, IUBAT-International University of Business Agriculture and
+Technology, Uttara, Dhaka-1230.
+3
+    Department of Physics, Dhaka University of Engineering & Technology (DUET), Gazipur.
+4
+    Department of Data Science, University of North Texas, USA
+
+Email: Ferdaus Anam Jibon: jibon.cse@iubat.edu, Fazlul Hasan Siddiqui: siddiqui@duet.ac.bd, F. Deeba:
+f.deeba@duet.ac.bd , Gahangir Hossain: gahangir.hossain@unt.ed
+
+
+
+Abstract
+
+
+Epileptic seizures are neurological disorders characterized by abnormal and excessive electrical
+
+activity in the brain, leading to recurrent seizure events. Electroencephalogram (EEG) signals play
+
+a crucial role in seizure diagnosis by capturing both temporal and spatial dynamics of neural
+
+activity. Although recent deep learning approaches have achieved high seizure detection accuracy,
+
+they often lack interpretability and neurophysiological insight. This study focuses on ictal-phase
+
+EEG feature analysis for accurate and frequency-aware seizure detection. Raw EEG signals are
+
+decomposed into five frequency bands—Delta (0.5–4 Hz), Theta (4–8 Hz), Alpha (8–13 Hz),
+
+Lower Beta (13–22 Hz), and Higher Beta (22–30 Hz). Eleven discriminative features are extracted
+
+from each band and modeled using a Graph Convolutional Neural Network (GCN), where EEG
+
+electrodes are represented as graph nodes to capture spatial dependencies across brain regions.
+
+Experiments conducted on the CHB-MIT scalp EEG dataset demonstrate detection accuracies of
+97.1%, 97.13%, 99.5%, 99.7%, and 51.4% for the Delta, Theta, Alpha, Lower Beta, and Higher
+
+Beta bands, respectively, with an overall broadband accuracy of 99.01%. The results highlight the
+
+superior discriminative power of mid-frequency bands and reveal frequency-specific seizure
+
+characteristics. The proposed band-specific GCN framework enhances spatial interpretability and
+
+diagnostic precision compared to conventional broadband EEG approaches.
+
+Keywords: Epilepsy, EEG, Seizure Detection, Graph Convolutional Network, Frequency Bands,
+
+Feature Extraction
+
+Science4Impact Statement
+
+
+This paper presents a new, multi-frequency band framework with Graph Convolutional Neural
+
+Networks (GCN) that can effectively detect epileptic seizures from the EEG signal. It combines
+
+high-end feature engineering with models of brain connectivity to provide high accuracy over the
+
+different frequency bands, which provides a clinically interpretable and therapeutically efficient
+
+approach. Innovation opens the door to frequency band-oriented analysis for seizure treatment,
+
+which has made a substantial contribution to the diagnosis and treatment of epilepsy.
+
+1. Introduction
+
+
+The human brain is recognized as the most complex organ, consisting of approximately 86 billion
+
+neurons (Herculano-Houzel, 2009) that communicate with one another to form a complex network
+
+known as the nervous system. A healthy brain cell transmits a well-defined and stable pattern of
+
+electrical impulses; however, when brain cells exhibit electrical dysfunction or excessive electrical
+
+discharges, it is considered a neurological disorder In the last twenty years, numerous research
+
+efforts have focused on neurological disorders including Epileptic seizures, Parkinson's disease,
+
+Alzheimer's, Autism, Dementia, Depression, and Schizophrenia, among others. Of these
+neurological conditions, epileptic seizures are particularly prevalent worldwide, impacting
+
+approximately 50 million people (World Health Organization,2024) according to the World Health
+
+Organization (WHO). An epileptic seizure is an abnormal brain condition characterized by
+
+recurrent seizures that originate from excessive and uncontrolled electrical activity in neuronal
+
+cells. Understanding the relationship between brain electrical patterns and seizures is essential for
+
+accurate diagnosis and treatment (Gao et al., 2020).
+
+EEG signals are the most important non-invasive real-time recording method for brain electrical
+
+waves used to diagnose seizures (Wang et al., 2023). EEG testing is a painless, non-invasive
+
+treatment procedure that involves placing a combination of electrodes or montages on the scalp to
+
+investigate fluctuations in brain voltage, allowing clinicians to observe brain rhythms for both
+
+normal cognitive activities and abnormal occurrences (Wang et al.,2023). Frequency is a
+
+significant component of the EEG signal, and assessing abnormal electrical wave patterns typically
+
+ranges from 0.01 to 100 Hz. The frequencies of the brain are divided into five main bands: alpha,
+
+beta, gamma, theta, and delta (Figure 1). (Table 1) shows the frequencies associated with each
+
+band.
+
+
+Table 1: Band Frequency of EEG Signals (Huang et al., 2022)
+
+
+
+                      Band                                         Frequency (Hz)
+
+                      Delta                                            0.5-4 Hz
+
+                      Theta                                             4-8 Hz
+
+                      Alpha                                            8-13 Hz
+
+                   Lower Beta                                         13-22 Hz
+
+                  Higher Beta                                         22-30 Hz
+                     Gamma                                          30-40 Hz
+
+
+Manually detecting seizures from EEG signals by a physician is a time-consuming and labor-
+
+intensive task where there is a high degree of variation in person-to-person seizure signals.
+
+Therefore, by moving away from this manual system and using a computer-aided system, a
+
+neurologist can automatically detect seizure signals from EEG signals with minimal effort and
+
+quickly and with great reliability. The computer aided automated system provide quicker analysis,
+
+reduce diagnostic load, and enhance the consistency in EEG interpretation for seizure detection
+
+(Bomela et al., 2020).
+
+The most common automatic detection approaches rely on traditional machine learning algorithms
+
+combined with handcrafted features, such as wavelet coefficients, power spectral density (PSD),
+
+entropy, Lyapunov exponents, and Hjorth parameters (Wang et al., 2023). Hjorth parameters are
+
+essentially time-domain features that are particularly useful for analyzing nonlinear and
+
+nonstationary signal patterns (Alawee et al., 2023). On the other hand, the combination of time-
+
+domain and frequency-domain features can improve classification performance (Singh et al., 2023);
+
+nevertheless, feature extraction approaches remain limited in their ability to fully represent the
+
+nonlinear, nonstationary, and multidimensional characteristics of EEG signals. Furthermore,
+
+traditional machine learning algorithms fail to capture inter-channel spatial relationships, which
+
+are crucial for understanding seizure patterns from EEG signal propagation and synchronization
+
+(Jibon et al., 2023a; Jibon et al., 2023b; Xu et al., 2024).
+Fig. 1. EEG signals in different frequency bands.
+
+
+Deep learning is increasingly being considered more effective than machine learning in research
+
+fields that require large amounts of data (Shoeibi et al., 2022). Traditional machine learning
+
+methods use less training data than DL models. Deep learning (DL) method for automatic seizure
+
+detection involves two steps. This feature extraction uses spectral or temporal data from signals.
+
+The features can be analyzed statistically before being given to a classifier. This two-stage strategy
+
+yields excellent results but requires advanced deep learning skills for preprocessing and extracting
+
+optimal features from raw data. CNNs, RNNs, and CNN-RNN networks are trained directly on
+
+raw or minimally processed EEG data, learning hierarchical spatial and temporal features without
+
+requiring manual feature extraction (Xu, G. et al., 2020). These models are very robust and
+
+generalize well, although they have an inherent assumption of a Euclidean grid-like structure (Fan,
+
+Z. et al., 2024). This presupposition fails to correspond to the non-Euclidean geometry of the
+locations of EEG electrodes, which restricts their capacity to capture the non-Euclidean geometry
+
+of brain interconnectivity and the non-Euclidean interactions among different brain regions.
+
+
+To overcome such structural limitations, Graph Neural Networks (GNNs), particularly Graph
+
+Convolutional Networks (GCNs), have become an effective analytical model for EEG-based
+
+seizure detection. In contrast to traditional ML and DL models, which assume that EEG channels
+
+can be used as independent variables or that channel data are arranged in a grid format, GCNs
+
+model EEG electrodes as nodes of a graph and represent channel functional or anatomical
+
+interactions as edges. This formulation aligns with the physiological structure of the human brain,
+
+which consists of four principal lobes: frontal, parietal, temporal, and occipital, each with specific
+
+neural functions. EEG electrodes positioned across these lobes record regional activity, and
+
+seizures tend to propagate along these anatomical connections. Modeling of EEG using GCNs can
+
+simultaneously learn localized patterns inside the lobes and long-range synchronization between
+
+lobes and therefore offer some degree of spatial intuition not attainable by ML and traditional DL
+
+architectures (Wu, F. et al.). The graph-based view enables GCNs to model the evolution of
+
+seizures, the existence of inter-lobe connections, and propagation with clinical importance. This
+
+research presents a GCN-based epileptic seizure detection system, with a focus on accurate
+
+detection of the ictal phase based on preset seizure onset and offset labels. The proposed method,
+
+however, in contrast to the available approaches, is based on active duration of the seizure as
+
+opposed to broad per-seizure windows (Huang, J., et al., 2024). The active seizure onset period,
+
+known as the ictal phase seizure, provides more precise information about epileptic seizures, which
+
+is more suitable for model training and classification, rather than other phases like pre-ictal or post-
+
+ictal (Zhao, S., et al., 2024).
+For epileptic seizure detection, analyzing EEG signals across distinct frequency bands of the
+
+human brain plays a crucial role because the power distribution of the signal is typically observed
+
+within a particular frequency band. The differences in signal power distribution observed in
+
+different phases of seizures, such as pre-ictal, ictal, or post-ictal, make a relationship with the
+
+frequency band that can be clearly observed in the spectrogram or heatmap of the signal. By
+
+embedding this change or variation in frequency bands into graph-based deep learning, it is
+
+possible to accurately estimate both the spatial and temporal dynamics of the brain simultaneously
+
+(Saminu et al., 2021). In (Figure 2) a Time-Frequency heatmap visually illustrates how the signal
+
+powers vary in different frequencies.
+
+
+
+
+Fig. 2. Time-Frequency heatmaps to represent how signal power varies in different frequencies.
+
+
+The primary contributions of this study include,
+i) In the case of seizure detection, the training set was prepared by extracting only the echo phase
+
+features, which enhanced the precision and accuracy of the detection model, as well as ensuring
+
+the credibility and reliability of the detection model.
+
+
+ii) Investigate frequency band-specific epileptic seizure detection and determine whether the
+
+analysis of separate frequency bands (delta, theta, alpha, lower beta, and higher beta) improves
+
+detection accuracy over conventional broadband methods and identifies frequency-specific seizure
+
+patterns.
+
+
+iii) The utilization of GCN-based architecture for modeling spatial and temporal dynamics in EEG
+
+signals with electrode connections and an extensive evaluation demonstrates the high performance
+
+and lightweight nature of the proposed method utilizing the CHB-MIT dataset.
+
+
+The following is a summary of the following portions of this research paper: The state-of-the-art
+
+in seizure detection is compared, and prior research is explained in Section 2. The suggested
+
+techniques, which incorporate the paper's system model, data processing, and GCN architecture,
+
+are illustrated in Section 3. The model dataset is described in Section 4. The experimental setup
+
+and simulation in Section 5, the result analysis in Section 6, and the comparison with other cutting-
+
+edge methods, as well as discussions, are included in Section 7. Finally, the conclusion is found in
+
+Section 8.
+
+
+2. Related Works
+
+
+Medical professionals use EEG waves as a valuable source of data to examine brain activity and
+
+diagnose patients with neurological conditions. Delta (f ≤ 4 Hz), Theta (4 Hz ≤ f ≤ 8 Hz), Alpha
+
+(8 Hz < f ≤ 13 Hz), Beta (13 Hz < f ≤ 30 Hz), and Gamma (30 Hz < f ≤ 40 Hz) are the various
+frequency components from EEG signals that are helpful for medical analysis. The above-
+
+mentioned frequency bands correspond to various mental and physical processes associated with
+
+the brain. The EEG signals are difficult to detect because they are time-varying and non-stationary.
+
+Feature extraction utilizes time-frequency techniques such as the discrete wavelet transform,
+
+wavelet packet decomposition, dual-tree complex wavelet transforms, and empirical mode
+
+decomposition, among others. Decomposition based on wavelets serves as a powerful approach
+
+for identifying transients, spikes, and epileptic seizures in EEG recordings.
+
+Recent developments in deep learning have presented promising mechanisms for separating
+
+epileptic and non-epileptic EEG activity. In 2022, Tuncer et al. proposed a Bi-LSTM-based model,
+
+which was optimized with 10 neurons by systematic hyperparameter optimization. The major
+
+parameters investigated were optimizer type, learning rate, and the number of neurons, which gave
+
+the optimal architecture as 99% accuracy in binary classification and an average of 97.78% over
+
+all the evaluations. This plan not only indicates how effective the Bi-LSTM models are but also
+
+reveals the large influence that hyperparameter optimization has on the performance of
+
+classification and the efficiency of the computations (Tuncer, E. et al., 2022).
+
+Deep learning techniques have gained significant grip in medical diagnosis, especially for seizure
+
+detection from EEG signals. In this domain, Convolutional Neural Networks (CNNs) made the
+
+most interest, often requiring EEG signals to be preprocessed into two-dimensional image formats
+
+for input. In 2020 and later in 2024 (Kaziha, O. and Bonny, T., 2020) and (Zhao, S., et al., 2024)
+
+applied CNNs to extract features in raw EEG data. CNNs have, however, difficulties in capturing
+
+the temporal dependencies, resulting in a loss of information with time. To overcome this
+
+restriction, Recurrent Neural Networks (RNNs) have been used as a more detailed analyzer of the
+
+sequential character of EEG waveforms.
+The LSTM networks have been mainly applied in handling the data of epileptic EEG, and they
+
+have integrated various time-related characteristics to advance the identification of seizures before
+
+classification. Though LSTMs are quite efficient at eliminating the gradient explosion issue of
+
+classic RNNs, they are not applicable in multidirectional time series modeling. To solve this
+
+limitation in 2025, (Chekhmane, G. and Benali, R., 2025) suggested a Bidirectional LSTM (Bi-
+
+LSTM), which applies the data processing operations both forward and backward, so it is
+
+especially applicable to analyze long EEG tracks. Another example of this method can be seen
+
+where (Geng, M., et al., 2020) used Bi-LSTM and S-transform in conjunction to identify seizures.
+
+Raw EEG segments are sized by S-transform to create time-frequency matrices, which are
+
+subdivided into blocks and passed to the Bi-LSTM to extract features and classify them.
+
+Subsequently, the post-processing, such as moving average filtering, threshold assessment,
+
+multichannel fusion, and collar methodology, is applied to optimize the performance of the
+
+detection, attaining 98.69% specificity and 98.09% sensitivity.
+
+Although the recurrent architecture, such as LSTM, Bi-LSTM, is excellent at temporal modeling,
+
+Graph-based methods have emerged as a robust approach for representing and analyzing complex
+
+relationships in EEG signal classification. In 2022, (Grattarola, D., et al., 2022) used a Generalized
+
+Neural Network (GNN) to determine which parts of the brain were associated with individual
+
+electrodes during the interictal and ictal phases. Critical sites were detected by the GNN's attention-
+
+based layer without any prior knowledge of the seizure initiation zone. To mine larger data sets
+
+and investigate possible correlations between signals, (Chen et al.,2020) developed the EGCN
+
+model, a graph convolutional network. Graph Attention Network (GAT) and Bi-directional LSTM
+
+(BiLSTM) were used to create a hybrid framework for seizure detection, where GAT was used as
+
+the front end for spatial feature extraction and the BiLSTM network was utilized to explore time
+relations as the back end (He, J., et al., 2022). In 2023, (Wang et al. 2023) proposed the Sparse
+
+Spectra Graph Convolutional Network (SSGCNet), a lightweight and efficient model for epileptic
+
+seizure detection. This paper introduced a Weighted Neighborhood Field Graph (WNFG)
+
+representation that significantly reduces redundant connections and processing costs for existing
+
+graph-based approaches. The framework performs well in both time-domain and frequency-
+
+domain EEG analysis. (Yang et al., 2024) proposed a dynamic graph neural network that uses an
+
+attention mechanism for single-channel EEG input, where classification is done by graph
+
+construction through empirical mode decomposition (EMD), and also optimizes the model through
+
+an optimal adjacency matrix.
+
+In 2023, (Zheng et al., 2023) introduced a new method using knowledge distillation (KD) to
+
+personalize seizure detection while reducing the number of required EEG channels. They
+
+transferred learned by a pre-trained model to a lightweight validation model, allowing global and
+
+individualized seizure detection using the Temple University Hospital EEG Seizure Data Corpus
+
+(TUSZ). The system demonstrated competitive accuracy with as few as two EEG channels,
+
+demonstrating potential for wearable devices and real-world use. The study emphasizes the
+
+significance of integrating patient-specific adjustments with pre-trained generalized knowledge.
+
+Subsequently, within the next year, (Shen et al., 2024) suggested a real-time system for the
+
+detection of seizures based on the STFT transform. The proposed system transforms the EEG
+
+signal into the time-frequency representations and classifies them via a 29-layer Google-Net CNN.
+
+The system analyzes continuous EEG signals via a 1.35-second window with overlap and achieves
+
+remarkable results with 97.74% accuracy, 98.90% sensitivity, and a FP rate of 1.94% at a
+
+processing time of 0.02 seconds per 2 seconds of the episode. By representing the raw EEG signals
+
+transformed into image-based representations, the system overcomes the need to perform
+extensive feature engineering and enables the CNN to automatically extract the discriminative
+
+features directly from the data. In a 2020 study, (Bomela et al., 2020) adopted a dynamic learning
+
+strategy and considered the epileptic brain to be a time-evolving graph. The proposed framework
+
+employs two complementary methods where the Fourier Transform (FT) approach detects seizures
+
+by studying synchronization patterns in EEG channels, with a sensitivity of 93.6% and a false
+
+positive rate of 0.16 per hour. Later in 2024, (Jibon et al., 2024) proposed a hybrid deep learning
+
+framework for epileptic seizure detection from EEG signals combining a Sequential Graph
+
+Convolutional Network (SGCN) and a Deep Recurrent Neural Network (DeepRNN). The SGCN
+
+localizes spatial features of seizure in the human brain, and the DeepRNN effectively identifies
+
+temporal dependencies of seizure signals using GRU-based units, solving the vanishing gradient
+
+problem. This framework achieved 99.007% accuracy on the CHB-MIT dataset and 98.08%
+
+accuracy on the TUH dataset. Notably, one of the authors of this study has also contributed to the
+
+current work, which builds upon this approach to address extraction methods to reduce
+
+computational complexity and enhance detection accuracy.
+
+
+3. Proposed Methodology
+
+In this study, frequency band-specific seizure detection was performed through frequency band-
+
+oriented analysis rather than conventional broadband EEG signal analysis. Comparisons are also
+
+shown with seizure detection performed on conventional broadband EEG signals. At the beginning
+
+of this work, the original EEG signal was separated into five well-defined frequency bands (delta,
+
+theta, alpha, lower beta, and higher beta bands), and the timings of different seizure phases (pre-
+
+ictal, ictal, post-ictal, etc.) were split according to the dataset. The fundamental aspect of this study
+
+is that 11 significant signal features were extracted by analyzing only ictal-phase seizures to ensure
+
+the accuracy, precision, and credibility of seizure detection in this model. This model of frequency
+band-specific seizure detection has been learned through a graph convolutional network with 11
+
+signal features of the ictal phase, which simultaneously combines the spatial and temporal
+
+dynamics of seizure detection. The complete workflow of the proposed methodology is shown in
+
+Fig. 3.
+
+During the feature extraction stage, the detailed procedure of extracting 11 signal features from
+
+ictal phase seizures is explained. These 11 extracted features from the ictal phase seizure signal
+
+were trained by using a graph convolutional neural network (GCN). This creates a credible,
+
+interconnected graph-based model for frequency band-specific seizure detection activity. Graph-
+
+based deep learning approach for seizure detection, ensuring minimal signal loss and consistent
+
+with the spatio-temporal nature of brain signal dynamics. The following sections present a detailed
+
+description of the stages involved in the proposed approach.
+
+
+
+
+Fig. 3. The outline of the proposed approach.
+
+3.1 Preprocessing
+The preprocessing step plays an important role in this research. At the beginning of the
+
+preprocessing step, we separated the raw EEG signal obtained from the CHB-MIT dataset into five
+
+frequency bands with a specific range of frequencies using band-pass filtering. As we know, the
+
+range of five frequency bands of brain signals includes the Delta band [0.5 to 4 Hz], the Theta
+
+band [4 to 8 Hz], the Alpha band [8 to 13 Hz], the Lower Beta [13 to 22 Hz], and the Higher Beta
+
+[22 to 30 Hz]. It is important to note that this research conducted separate experiments for seizure
+
+detection on five frequency bands.
+
+
+Let 𝑥𝑐 (𝑡) denote the continuous-time EEG signal recoded from channel 𝑐𝜖{1,2, … . . , 𝐶}, where
+
+𝐶 = 23. The EEG recordings are sampled at 𝑓𝑠 = 256 𝐻𝑧, producing a discrete-time signal
+
+(Oppenheim, 2010)
+
+                 𝑥𝑐 [𝑛] = 𝑥𝑐 (𝑡)|𝑡= 𝑛 ,        𝑓𝑠 = 256 𝐻𝑧,                      (1)
+                                   𝑓𝑠
+
+
+
+
+For each frequency band 𝑏𝜖{ 𝛿, 𝜃, 𝛼, 𝛽𝐿 , 𝛽𝐻 }, Band-pass filtering is applied to obtain the band-
+
+limited signal
+
+                   (𝑏)
+                  𝑥𝑐 [𝑛] = (ℎ(𝑏) ∗ 𝑥𝑐 ) [𝑛],                                   (2)
+
+
+Where ℎ(𝑏) is the impulse response of the band-pass filter for band b, and * denotes discrete
+
+convolution.
+
+Dividing the recorded 3600-second EEG signal files in the dataset into small window segments is
+
+an important task for the processing stage. Processing a 3600-second-long EEG signal file and
+
+applying graph-based deep learning to it is a very time-consuming and difficult task. These long
+
+EEG signal files are sampled at 256 Hz and split into 6-second window segments to apply the
+
+proposed detection model. The processing window can be segmented into 8-second, 10-second,
+12-second, or 16-second segments. Note that the length of the window segment increases, the
+
+training procedure of the graph deep learning model becomes longer and more complex. Therefore,
+
+for the convenience of the experiment, windows are split into 6-second segments for consistent
+
+processing, where each minute, i.e., 60 seconds, is divisible by 6, making it easier to calculate
+
+minutes and hours. Given a window duration 𝑇𝑤 = 6 𝑠𝑒𝑐𝑜𝑛𝑑𝑠, The number of samples per
+
+segment is 𝐿 = 𝑇𝑤 𝑓𝑠 = 6 × 256 = 1536. Accordingly, the 𝑘 −th segmented window for the
+
+channel 𝑐 in band 𝑏 is defined as
+
+                    (𝑏)     (𝑏)      (𝑏)                  (𝑏)
+                   𝑥𝑐,𝑘 = [𝑥𝑐 [𝑘𝐿], 𝑥𝑐 [𝑘𝐿 + 1], … . . , 𝑥𝑐 [𝑘𝐿 + 𝐿 − 1]].               (3)
+
+
+In the preprocessing step, we separated the seizure and non-seizure signal files, where three
+
+distinct phases of seizure signals (pre-ictal, ictal, and post-ictal) are present in a seizure file in this
+
+dataset. Among these three phases of seizure signal, the ictal phase signal confirms the occurrence
+
+of a seizure. Therefore, we only separated the ictal phase seizure signals according to the timings
+
+of the ictal phases provided in the seizure files mentioned in the dataset (Table 2). Here, we present
+
+the timing of the ictal phase of the seizure signal, as described in the CHB-MIT dataset, as an
+
+example. If the ictal phase is annotated in the dataset by start and end times[𝑡𝑠 , 𝑡𝑒 ] (in seconds),
+
+the corresponding sample indices are computed as
+
+                          𝑛𝑠 = ⌊𝑡𝑠 𝑓𝑠 ⌋ ,           𝑛𝑒 = ⌊𝑡𝑒 𝑓𝑠 ⌋ .          (4)
+
+
+A segmented window 𝑘 is considered ictal if it overlaps the annotated interval, and the binary label
+
+𝑦𝑘 is defined as
+
+                                1, [𝑘𝐿, (𝑘 + 1)𝐿 − 1] ∩ [𝑛𝑠 , 𝑛𝑒 ] ≠ ∅,
+                       𝑦𝑘 = {                                                      (5)
+                                0,                       𝑜𝑡ℎ𝑒𝑟𝑤𝑖𝑠𝑒.
+
+Table 2: Timings of the Ictal Phase
+                     File Name                                               Timing
+
+                     chb01_03.edf                                         2996s to 3036s
+
+                     chb02_19.edf                                         3369s to 3378s
+
+                     chb03_02.edf                                          731s to 796s
+
+                     chb04_28.edf                                         1679s to 178s
+
+                     chb05_13.edf                                         1086s to 1196s
+
+                     chb08_02.edf                                         2670s to 2841s
+
+
+
+
+(Fig. 4) shows the Bandpass filtering of the EEG signal for better representation by separating the
+
+specific range of frequencies relevant to brain activity while removing unwanted noise and artifacts
+
+outside the range.
+
+
+
+
+Fig. 4. Bandpass filtering of the EEG signal for better representation.
+We performed feature analysis and feature extraction on these ictal phase seizure signals. It is also
+
+important to note that we subsequently trained our graph-based deep learning model using the
+
+features obtained from the seizure signals of this ictal phase.
+
+We identified 1280 seizure files and 11,305 non-seizure files in the dataset (Fig. 5), indicating a
+
+clear data imbalance. To address the class imbalance problem in the dataset, we employed a widely
+
+used machine learning technique known as SMOTE (Synthetic Minority Over-sampling
+
+Technique), which mitigates class imbalance through oversampling of the minority class.
+
+In SMOTE, a synthetic minority sample is generated by interpolating (Chawla, n.d.,2002) between
+
+a minority sample 𝑥 and one of its 𝑘-nearest minority neighbors 𝑥𝑛𝑛 as
+
+
+                     𝑥𝑛𝑒𝑤 = 𝑥 + λ(𝑥𝑛𝑛 − 𝑥),                 λ~U(0,1).       (6)
+
+
+
+
+Fig. 5. Applying SMOTE for data balancing
+
+
+3.2 Feature Extraction
+We stated in the preprocessing step that we investigated seizure signals during the ictal phase and
+
+selected 11 essential features (Table 3) from them. The seizure times, specifically the start and end
+
+times (in seconds), for each EEG file are defined. The identified seizure time intervals are used to
+
+label the corresponding EEG segments for model training. To accomplish the feature extraction
+
+step, ictal phase seizure signals are divided into discrete time using a sampling rate of 256 Hz. For
+
+each of the five frequency bands, a separate GCN model was trained and evaluated independently
+
+using the extracted band-specific features.
+
+     (𝑏)
+Let 𝑥𝑐     [𝑛] denote the discrete-time EEG signal from channel 𝑐 in the frequency band 𝑏, sampled
+
+                                                                𝑀
+at 𝑓𝑠 = 256𝐻𝑧. For a given window segment, let {𝑦𝑗 }𝑗=1 represent the samples of the signal,
+
+where 𝑀 is the total number of samples in the window. The mean and standard deviation of the
+
+samples are denoted by 𝜇 𝑎𝑛𝑑 𝜎, respectively.
+
+Table 3: Selected features & their significance.
+
+         Feature Name                          Formula                                Significance
+                                          𝑁
+   1. Power Spectral Density                                                    Reveals shifts in dominant
+                                   𝐻 = − ∑ 𝑃(𝑚)𝑙𝑜𝑔2𝑃(𝑚)              (7)
+            (PSD)                                                            frequency bands during seizures.
+                                         𝑚=1
+
+                                                                            Increases due to the high-amplitude
+ 2. Hjorth parameter (Activity)     𝑎𝑐𝑡𝑖𝑣𝑖𝑡𝑦 = 𝑣𝑎𝑟(𝛾(𝑡))            (8)
+                                                                             electrical discharges of a seizure.
+
+
+                                                      𝑑𝑦(𝑡)
+                                                   𝑣𝑎𝑟(     )                 Detects changes in the rhythmic
+ 3. Hjorth parameter (Mobility)     𝑚𝑜𝑏𝑖𝑙𝑖𝑡𝑦 = √       𝑑𝑡
+                                                                    (9)
+                                                   𝑣𝑎𝑟(𝛾(𝑡))                frequency characteristic of seizures.
+
+
+                                                        𝑑𝑦(𝑡)                 Highlights the irregularity/non-
+      4. Hjorth parameter                      𝑚𝑜𝑏𝑖𝑙𝑖𝑡𝑦(      )
+                                  𝐶𝑜𝑚𝑝𝑙𝑒𝑥𝑖𝑡𝑦 =           𝑑𝑡          (10)     sinusoidal shape of the seizure
+         (Complexity)
+                                               𝑚𝑜𝑏𝑖𝑙𝑖𝑡𝑦(𝛾(𝑡))                           waveform.
+
+
+                                                                             Detects the sharp, high-amplitude
+ 5. Kurtosis of each sub-band's            1      (𝛾𝑗 −𝜇)4
+                                     𝜑 = √ ∑𝑀                   (11)           spikes or bursts common in
+          coefficients                     𝑀𝑗=1      𝜎4
+                                                                                          seizures.
+ 6. Degree of asymmetry in the                                                       Indicates the asymmetry or
+                                               1          (𝛾𝑗 −𝜇)3
+     amplitude distribution             𝜑 = √ ∑𝑀
+                                               𝑗=1                    (12)          distortion of the signal pattern
+                                              𝑀             𝜎3
+          (Skewness)                                                                        during a seizure.
+
+                                                                                 Increases drastically, reflecting the
+                                               1
+     7. Standard Deviation              𝜎 = √ ∑𝑀
+                                               𝑗=1(𝛾𝑗 − 𝜇)
+                                                          2           (13)                  high amplitude
+                                              𝑀
+                                                                                 variability/fluctuation of a seizure.
+                                                                                 Directly captures the most extreme
+    8. Maximum amplitude                𝐴𝑚𝑎𝑥 = 𝑚𝑎𝑥𝑛 | 𝑥 [𝑛] |         (14)       high-amplitude deviation/spikes of
+                                                                                             the seizure.
+
+                                                                                   Rises with the sudden, intense
+                                              1
+          9. Variance                𝜎 2 = √ ∑𝑀
+                                              𝑗=1(𝛾𝑗 − 𝜇)
+                                                         2              (15)       fluctuation of signal amplitude
+                                              𝑀
+                                                                                          during a seizure.
+
+
+                                   If N is odd, 𝑀𝑒𝑑𝑖𝑎𝑛(𝑥) = 𝑥𝑠𝑜𝑟𝑡𝑒𝑑[𝑁+1]
+                                                                             2   Tracks the shift from the baseline or
+          10. Median                     If N is even, 𝑀𝑒𝑑𝑖𝑎𝑛(𝑥) =                  central tendency of the signal
+                                    𝑥       𝑁 +𝑥        𝑁
+                                     𝑠𝑜𝑟𝑡𝑒𝑑[ 2 ] 𝑆𝑜𝑟𝑡𝑒𝑑[ 2 +1]                            during the event.
+                                                                       (16)
+                                                  2
+
+
+                                                                                   Measures the deviation of the
+                                              1
+           11. Mean                      µ=        ∑𝑀
+                                                    𝑗=1              (17)         average amplitude level from the
+                                              𝑀
+                                                                                          normal baseline.
+
+
+
+Each of these features was selected based on its significance for our study. From 23 channels,
+
+we’ve taken 11 features for each. So, for each second, processed (23 channels x 11 features) or
+
+253 features in total. Let 𝐶 = 23 denote the number of EEG channels and 𝐹 = 11 the number of
+
+extracted features. For each second, the feature matrix is
+
+
+                             𝐹(𝑡)𝜖 ℝ𝐶×𝐹 ,                                            (18)
+
+
+Resulting in 23 × 11 = 253 features. When segmenting the long sequence of data, the signal
+
+data is segmented into 6-second segments. This was based on the average ictal phase duration
+
+throughout the whole dataset. Therefore, each segment contains 253 × 6 = 1518 features
+
+altogether, forming the input representation for the subsequent graph-based learning stage.
+
+3.3 Matrix and Graph Construction
+To enable the Graph Convolutional Network (GCN) to perform well on the data, we must
+
+transform the EEGs into a graph-based representation that reflects the inherent connections
+
+between brain regions. This model takes the brain as a network in which each EEG channel is a
+
+node and the physiological or anatomical relationship between the two is an edge. Such a structured
+
+representation not only gives the GCN the raw signal features but also important information on
+
+their spatial relationships, which is important in identifying complex brain activities during
+
+seizures.
+
+To build this graph, we define the nodes and the edges. In this study, each pair of montages forming
+
+an EEG channel in the CHB-MIT dataset is considered as a node. Their adjacency in a typical
+
+EEG montage, or the physical density of the electrodes on the scalp, determines the connections
+
+between these nodes. This connectedness is formally represented by an adjacency matrix, where a
+
+coefficient of 1 indicates that two nodes are connected (via an edge), and a coefficient of 0 indicates
+
+that the two nodes are not directly connected. Let the EEG graph be defined as
+
+
+                               𝐺 = (𝑉, 𝐸),                         (19)
+
+where 𝑉 = {𝑣1 , 𝑣2 , … . . , 𝑣𝑁 }denotes the set of EEG channel nodes and 𝐸 represents the set of
+edges. In this study, 𝑁 = 23. The adjacency relationships among nodes are represented by the
+adjacency matrix (Kipf, 2017)
+
+                                           𝐴 𝜖 {0,1}𝑁×𝑁 ,
+
+                                 1, 𝑖𝑓 𝑛𝑜𝑑𝑒𝑠 𝑣𝑖 𝑎𝑛𝑑 𝑣𝑗 𝑎𝑟𝑒 𝑐𝑜𝑛𝑛𝑒𝑐𝑡𝑒𝑑,
+                Where     𝐴𝑖𝑗 = {                                                (20)
+                                  0,                       𝑜𝑡ℎ𝑒𝑟𝑤𝑖𝑠𝑒.
+
+The adjacency matrix obtained, as well as the extracted features, becomes the main input of the
+
+GCN. (Figure 6. A) and (Figure 6. B) gives a graphical illustration of some of the developed graphs,
+
+showing the connections that take place among the EEG channels to create a network structure.
+                        A                                                   B
+
+
+
+Fig. 6 (A): Representation of Constructed Graph in Delta Band, (B): Representation of Constructed Graph
+in Theta Band
+
+Though these graphs might seem different at first glance, the nodes and connections are found to
+
+be consistent throughout. This graph representation allows the GCN to perform convolutions not
+
+just on the signal features themselves, but also across the network's topology, thereby learning
+
+from both local node information and the broader connectivity of the brain.
+
+3.4 GCN (Graph Convolutional Network)
+
+
+With the help of GCNs, the model can learn from both local feature information and the
+
+connectivity of the network, which are neural architectures that transmit and alter node features
+
+over a graph structure. In this study, EEG channels are represented as graph nodes, while the
+
+functional relationships among channels are modeled as edges. The constructed graph contains
+
+partially labeled nodes and enables the prediction of labels for all nodes through graph-based
+
+learning. A graph is defined as 𝐺 = (𝑉, 𝛢) where 𝑉 represents the vertex set of nodes and an
+adjacency matrix where 𝑎𝑖𝑗 indicates the edge weight relations between 𝜐𝑖 and 𝜐𝑗 (Wu, F., et al.,).
+
+GCNs learn a new feature representation for each node's feature 𝑥𝑖 over several layers, much like
+
+CNNs or MLPs do. This representation is then fed into a linear classifier. In the 𝑘-th graph
+
+convolution layer, we denote the input node representations as 𝐻 (𝑘−1) , and the output node
+
+representations as 𝐻 (𝑘) . The initial node representations consist of the input features used as the
+
+first GCN layer's input.
+
+
+
+
+Fig. 7. A typical layout of a Graph Convolutional Network
+
+                                             𝐻 (0) = 𝑘                                        (21)
+Except for the neighborhood averaging step applied at the beginning of each layer (Figure 7), a K-
+
+layer GCN can be viewed as a K-layer MLP operating on each node feature vector xix_ixi within
+
+the graph. In each graph convolution layer, node embeddings are updated through three main
+
+operations: feature propagation, linear transformation, and element-wise nonlinear activation. The
+
+details of these operations are explained below for clarity.
+Feature propagation is a key distinction between a Graph Convolutional Network (GCN) and a
+
+Multilayer Perceptron (MLP). At the start of each layer, the feature vector ℎ𝑖 of each node 𝑣𝑖 is
+
+aggregated with the feature vectors of its neighboring nodes (Kipf, 2017).
+
+                                          𝑛
+                             1                      𝑎𝑖𝑗                                    (22)
+                   −(𝑘)           (𝑘−1)                         (𝑘−1)
+                  ℎ𝑖    ←        ℎ𝑖     +∑                     ℎ𝑗
+                          𝑑𝑖 + 1             √(𝑑𝑖 + 1)(𝑑𝑗 + 1)
+                                         𝑗=1
+
+
+
+
+More concisely, this update can be represented for the entire graph as a matrix operation. Let 𝑆
+
+denote the 'normalized' adjacency matrix, which includes self-loops.
+
+                                                 −1        −1                                (23)
+                                        𝑆 = 𝐷~ 2 𝐴~𝐷~ 2
+
+
+Here, 𝐴~=A+I represent the adjacency matrix with added self-loops, and 𝐷~ is the degree matrix
+
+of 𝐴~. The concurrent update for all nodes, as described in Equation 2, is then simplified to a
+
+sparse matrix multiplication.
+
+
+                                          𝐻 (𝑘) ← 𝑆𝐻 (𝑘−1)                                   (24)
+
+This step spreads information through the connections in the graph, so that the representations of
+
+nodes can be affected by their neighboring nodes. This helps to ensure that nodes with close
+
+connections in the graph get more similar representations. Then, in each GCN layer, there is a
+
+learnable linear transformation with a weight matrix𝛩(𝑘) , followed by a nonlinear activation
+
+function like ReLU, which is applied element-wise to obtain an updated feature representation
+
+𝐻 (𝑘) . The update rule for the kth layer is as follows:
+
+
+                                      𝐻 (𝑘) ← 𝑅𝑒𝐿𝑈𝐻~(𝑘) 𝜃 (𝑘)                                (25)
+After the completion of this nonlinear transformation, the features of the nodes are then propagated
+
+to the next graph convolution layer. In the context of node classification, a Graph Convolutional
+Network (GCN) employs a SoftMax classifier in its final layer to predict the labels, analogous to
+
+a typical multi-layer perception (MLP) (Goodfellow, 2016). Let 𝑌^ ∈ 𝑅 𝑛×∁ represent the
+
+predicted class probabilities for 𝑛 nodes, where 𝑦^𝑖𝑐 indicates the probability that node 𝑖 belongs
+
+to class cc. For a K-layer GCN, the class predictions 𝑌^, can be expressed as:
+
+
+                                 𝑌^𝐺𝐶𝑁 = 𝑠𝑜𝑓𝑡𝑚𝑎𝑥(𝑆𝐻 (𝑘−1) 𝜃 (𝑘) )                             (26)
+                                                              𝑒𝑥𝑝(𝑥)
+The SoftMax function, defined as         𝑠𝑜𝑓𝑡𝑚𝑎𝑥(𝑥) = ∑𝐶                     serves as a normalizing
+                                                             𝑐=1 𝑒𝑥𝑝 (𝑥𝑐 )
+
+
+mechanism across all classes. The output values are transformed into a valid probability
+
+distribution by scaling the exponentiated scores for each class. The process of utilizing EEG
+
+signals in graph-based learning is shown in Figure 6, where each node in the EEG montage is taken
+
+as a node of a graph, and the connection between two adjacent nodes, which is called a channel in
+
+the EEG signal, is considered as an edge of the graph. This graph arrangement is then utilized in
+
+graph convolutional neural networks, where signal loss is reduced, and it is possible to easily
+
+investigate the spatial and temporal dynamics of seizures.
+
+
+
+
+4. Dataset
+
+
+To conduct this research, we used the scalp EEG database provided by the Children’s Hospital
+
+Boston-Massachusetts Institute of Technology (CHB-MIT) (Shoeb, A. et al., 2010). The dataset
+
+contains scalp EEG recordings of 22 children with 23 cases of epilepsy, 5 males (ages 3-22 years),
+
+and 17 females (ages 1.5-19 years). The dataset contains approximately 42.6 GB of data with 916
+
+hours of recorded signals. 182 seizures are annotated. EDF files were sampled at a 256Hz
+
+frequency with a 16-bit resolution per example. This dataset is based on the worldwide 10-20
+system of montage setup for acquiring the EEG signal. In the current study, the EDF files provided
+
+freely online for the 23 events contained annotations of a combined 182 seizures. From the files
+
+containing annotations within the dataset provided, it is evident that the montage setup of the EEG
+
+signal recording changes frequently with the addition or removal of channels with each epoch.
+
+'FP1-F7', 'F7-T7', 'T7-P7', 'P7-O1', 'FP1-F3', 'F3-C3', 'C3-P3', 'P3-O1', 'FP2-F4', 'F4-C4', 'C4-P4',
+
+'P4-O2', 'FP2-F8', 'F8-T8', 'T8-P8-0', 'P8-O2', 'FZ-CZ', 'CZ-PZ', 'P7-T7', 'T7-FT9', 'FT9-FT10',
+
+'FT10-T8', 'T8-P8-1'."FP1-F7," "F7-T7," "T7-P7," "P7-O1," "FP1-F3," "F3-C3," "C3-P3," "P3-
+
+O1," "FP2-F4," "F4-C4," "C4-P4", "P4-O2," "FP2-F8," "F8-T8," "T8-P8," "P8-O2," "FZ-CZ," and
+
+"CZ-PZ" are among the 23 channels that are consistent throughout the 23 cases. The start and end
+
+times of the seizure files are specified.
+
+
+5. Experiment and Solution
+
+This section explains the experimental design and simulation outcome of the proposed method.
+
+The hardware and software configuration utilized for this experiment is also presented here. The
+
+overall experimental results prove the credibility of the proposed method and justify the
+
+significance of this research.
+
+5.1 Experimental Setup
+
+
+The entire experiment for this research, from EEG preprocessing to feature extraction, training,
+
+and evaluation of the models, was carried out on the Google Colab Pro platform. This platform
+
+offered a powerful workstation with a Tesla T4 GPU, a high-performance Intel Xeon E5-2699 v4
+
+CPU, and 24GB RAM, all of which helped speed up the training process for the graph
+
+convolutional network (GCN). For this study, the proposed frequency band-specific seizure
+
+detection model is built using the PyTorch deep learning library and the PyTorch Geometric (PyG)
+library (Paszke, 2017). For training and evaluation of the proposed seizure detection model, the
+
+CHB-MIT Scalp EEG Dataset is used, a widely acknowledged standard dataset for research related
+
+to epileptic seizure detection. This allowed us to carry out a series of experiments, including 5-
+
+fold cross-validation, to validate the stability of the proposed seizure detection model. All scripts
+
+for data preprocessing, feature extraction, and evaluation of the models are written using Python.
+
+Let the entire dataset be denoted as 𝐷, which is partitioned into five mutually exclusive folds:
+
+
+                 𝐷 = ⋃5𝑖=1 𝐷𝑖 ,            𝐷𝑖 ∩ 𝐷𝑗 = ∅ (𝑖 ≠ 𝑗).                 (27)
+
+
+At each iteration, four folds are used for training, and the remaining fold is used for validation.
+
+5.2 Experimental Design
+As discussed in Section 3.2, five experiments were carried out on five different frequency bands
+
+(delta, theta, alpha, lower beta, and higher beta) in a band-specific manner, resulting in five unique
+
+models of the GCN. For the experiment, all signals were sampled at 256 samples per second with
+
+a 16-bit resolution. The completed dataset consists of a total of 664 EDF (European Data Format)
+
+files; 129 of these contain seizure portions, totaling 182 seizures. These signals were acquired by
+
+23 channels in the international 10-20 system of EEG montage arrangement.
+
+First, we selected the train-test split. We have structured the experiments into five major steps.
+
+Five major steps:
+
+   1.   Cleaning and preprocessing the training data.
+   2.   Training the model and tuning the hyperparameters.
+   3.   Cleaning and preprocessing the testing data.
+   4.   Testing and evaluating model performance based on selected metrics.
+   5.   Model inference and manual testing through human interaction.
+We have processed the data by band-pass filtering according to the band frequency. Therefore,
+
+these same 5-step experiments happened for all selected bands (delta, theta, alpha, and beta).
+The following sections describe one by one.
+
+In the initial phase, during the cleaning and preprocessing of the training data, we employed a band
+
+filter targeted to the specific frequency range of interest (e.g., 0.5 to 4 Hz for the delta band). Then,
+
+for each file, it was segmented into 6-second portions. The segment duration was chosen based on
+
+the average seizure phase duration of all the seizure occurrences. For the files containing seizure
+
+events, we specifically extracted the seizure segments along with the adjacent periods of normal
+
+activity. Additionally, normal segments were extracted from non-seizure files to improve model
+
+generalization. Eleven features were then derived from each of the 23 channels. As a result, for
+
+each second, we have (23x11) or 253 features. Therefore, each segment contains (253 × 6) or 1,518
+
+features. Let 𝐶 = 23 denote the number of EEG channels and 𝐹 = 11 the number of extracted
+
+features. For each second, the feature matrix is 𝐹(𝑡)𝜖 ℝ𝐶×𝐹 . For a 6-second segment, the matrix
+
+becomes:
+
+
+             𝑥𝑘 𝜖 ℝ𝐶×(𝐹.6) = ℝ23×66 , 𝑜𝑟 𝑣𝑒𝑐 (𝑥𝑘 )𝜖 ℝ1518 .                           (28)
+
+To assess the effectiveness of the proposed model, the dataset was divided into an 80% training
+set and a 20% validation set.
+                              |𝐷𝑡𝑟𝑎𝑖𝑛 | = 0.8 |𝐷| , |𝐷𝑣𝑎𝑙 | = 0.2|𝐷| .
+
+
+SMOTE was then used to balance the dataset. The model drew upon 12,585 segments for training,
+
+totaling around 20 hours. Following feature extraction and segment labeling, the processed data
+
+were stored in a .csv file. The testing data were fitted using the same procedures as the training set.
+
+The testing set involved the extraction and labeling of 10,956 segments, totaling over 18 hours of
+
+data. These processed testing data were then stored in a .csv file for final evaluation.
+
+In the next step, the graph was constructed through the edge matrix based on the adjacency of
+
+those 23 EEG channels. The preprocessed data were loaded, and the SMOTE was utilized to solve
+the class imbalance inherent in EEG recordings with a limited seizure class. For model training,
+
+the GCN parameters 𝜃 were optimized by minimizing the cross-entropy loss (Kingma, 2017):
+
+                             1
+                     𝐿 = − 𝑁 ∑𝑁    𝐶
+                              𝑖=1 ∑𝑐=1 𝑦𝑖𝑐 log 𝑦
+                                               ̂𝑖𝑐 ,                      (29)
+
+
+Where 𝑦𝑖𝑐 and 𝑦̂𝑖𝑐 denoted the true and predicted class lables, respectively.The Adam Optimizer
+
+was used for parameter updates:
+
+                                            ̂𝑡
+                                            𝑚
+                          𝜃𝑡+1 = 𝜃𝑡 − η              ,             (30)
+                                          √𝑣̂𝑡 + 𝜖
+
+
+
+with learning rate η=0.01. The GCN architecture was trained over 500 epochs, and the trained
+model was evaluated using the inference pipeline and selected performance metrics.
+
+5.3 Simulation Outcome
+This section presents some of the simulation results for each band in order: Delta (Figure 8. A),
+
+Theta (Figure 8. B), Alpha (Figure 8. C), Lower Beta (Figure 8. D), and Higher Beta (Figure 8. E).
+
+These results demonstrate band-specific seizure detection capabilities across various seizure
+
+segments.
+Fig. 8. (A) Seizure samples detected in the Delta Band.
+
+
+
+
+Fig. 8. (B) Seizure samples detected in the Theta Band.
+Fig. 8. (C) Seizure samples detected in the Alpha Band.
+
+
+
+
+Fig. 8. (D) Seizure samples detected in the Lower Beta Band.
+Fig. 8. (E) Seizure samples detected in the Higher Beta Band.
+6. Result Analysis
+
+
+Model performance is evaluated on an epoch-by-epoch basis by comparing predicted labels against
+
+the ground truth provided by experts. Sensitivity, specificity, accuracy, AUC (Area Under the
+
+Curve of ROC), and F1 are employed as evaluation criteria (Powers, 2020). The following metrics
+
+are used to assess the suggested approach's performance:
+
+Accuracy: It is defined as the ratio between the number of correctly classified EEG samples and
+
+the total number of evaluated EEG samples.
+
+                                             𝑇𝑃 + 𝑇𝑁
+                         𝐴𝑐𝑐𝑢𝑟𝑎𝑐𝑦 =                       × 100
+                                        𝑇𝑃 + 𝐹𝑁 + 𝐹𝑃 + 𝑇𝑁                                      (31)
+Specificity: It measures the proportion of correctly identified non-ictal samples relative to all non-
+ictal instances, with a focus on reducing the false positive rate.
+                                                       𝑇𝑁                                      (32)
+                                     𝑆𝑝𝑒𝑐𝑖𝑓𝑖𝑐𝑖𝑡𝑦 =
+                                                     𝑇𝑁 + 𝐹𝑃
+
+Sensitivity: It is defined as the proportion of actual ictal signals to True Positives.
+                                                       𝑇𝑃                                      (33)
+                                     𝑆𝑒𝑛𝑠𝑖𝑡𝑖𝑣𝑖𝑡𝑦 =
+                                                     𝑇𝑃 + 𝐹𝑁
+F-1 score:
+                                   (𝑅𝑒𝑐𝑎𝑙𝑙 ∗ 𝑃𝑟𝑒𝑐𝑖𝑠𝑖𝑜𝑛)                                     (34)
+                  𝐹1𝑆𝑐𝑜𝑟𝑒 = 2 ∗
+                                   (𝑅𝑒𝑐𝑎𝑙𝑙 + 𝑃𝑟𝑒𝑐𝑖𝑠𝑖𝑜𝑛)
+
+Experimental evaluation demonstrates that the proposed framework achieves reliable seizure
+
+detection performance using both broadband EEG signals and the five analyzed frequency bands
+
+(Figure 9). The overall accuracy, sensitivity, and specificity of the proposed model are 99.007%,
+
+98.058%, and 99.025%, respectively. Upon closer inspection of individual frequency bands,
+
+outstanding results can be seen within the alpha and lower beta bands, close to the perfect score.
+
+On the other extreme, the higher beta band revealed heavy imbalance, with a very high sensitivity
+of 99%, but an extremely low specificity of 3%, reflecting the bias associated with predicting
+
+positives. Overall, both F1-score and AUC metrics support the model’s robustness and its superior
+
+performance relative to the other methods described in the study.
+
+
+
+
+Fig. 9. The loss classification for all the frequency bands.
+
+Table 4: Frequency Specific Accuracy for Seizure Detection (Figure 10)
+   Frequency Bands               Accuracy (%)                  Specificity (%)   Sensitivity (%)
+        Delta                         97.1                           95               98.6
+        Theta                        97.13                          95.8              96.7
+        Alpha                         99.5                         99.38              99.2
+      Lower Beta                      99.7                          99.7              99.4
+     Higher Beta                      51.4                            3               100
+     Conventional                   99.007                          99.6            99.025
+      Broadband
+Fig. 10. Comparison of Accuracy, Sensitivity, and Specificity Across Frequency Bands.
+
+
+To evaluate how each of these five traditional bands is utilized in seizure activity detection, we
+
+break down the EEG data into four standard bands: delta (0.5–4 Hz), theta (4–8 Hz), alpha (8–13
+
+Hz), beta (14–30 Hz), gamma (30-40 Hz) and all bands (0.5-40 Hz). (Table 4) indicates the values
+
+of classification accuracy, sensitivity, and specificity for these five bands, while (Figure 11)
+
+focuses on a comparison of their Receiver Operating Characteristic (ROC) curves. There are six
+
+curves depicted here: All Bands/Broadband (0.1-40 Hz), Alpha (8-13 Hz), Lower Beta (14-22 Hz),
+
+Higher Beta (23-30 Hz), Theta (4-8 Hz), Delta (0.5-4 Hz), and a Random Guessing line. All of
+
+them have their own Area Under the Curve (AUC). The Broadband, Alpha, and Lower Beta curves
+
+all reach perfect classification (AUC = 1.00) and are positioned in the top left corner, emphasizing
+
+strong sensitivity and specificity. The Theta Band (AUC = 0.98), Delta Band (AUC = 0.97), and
+
+the Target Band (18-20 Hz, AUC = 0.99) do extremely well, though not quite perfectly. The Higher
+
+Beta Band does very badly (AUC = 0.52), though slightly above the Random Guessing line (AUC
+
+= 0.50).
+Fig. 11. Comparison of the ROC for all frequency bands.
+
+
+In this case, the Higher Beta band has the weakest performance with (51.4% accuracy and 0.52
+
+AUC). This finding suggests that this frequency range may contain minimal discriminative
+
+information for seizure detection. It provides valuable insights about the spectral characteristics of
+
+epileptic seizure activity.
+
+In the precision recall curve (PR Curve) of (Figure 12), we can see similar metrics to the ROC
+
+Curve. Similarly, the Lower Beta Band is the outlier with a significantly low 0.51 AUPRC score.
+Fig. 12. PR curve comparison across all bands.
+
+The band-wise confusion matrix also shows that the Lower Beta Band is the outlier again, with
+
+significant 321/10239 (true/predicted) labels for non-seizure. In (Figure 13.A) (Figure 13.B),
+
+(Figure 13.C), (Figure 13.D), (Figure 13.E), (Figure 13.F) presents the confusion matrices obtained
+
+for seizure detection in Delta Band, Theta Band, Alpha Band, Lower Beta Band, Higher Beta Band, and
+
+All Band.
+                   A                                                          B
+
+
+
+Fig. 13(A): Confusion Matrix for Seizure Detection in Delta Band. (B): Confusion Matrix for Seizure
+
+Detection in Theta Band.
+
+
+
+
+                   C                                                          D
+
+Fig. 13(C): Confusion Matrix for Seizure Detection in Alpha Band. (D): Confusion Matrix for Seizure
+
+Detection in Lower Beta Band.
+                    E                                                              F
+
+Fig. 13(E): Confusion Matrix for Seizure Detection in Higher Beta Band. (F): Confusion Matrix for Seizure
+
+Detection in All Bands (Broadband).
+
+
+7. Discussion
+
+
+To enhance result reliability and reduce experimental variability, each experiment was repeated
+
+ten times and validated using 5-fold cross-validation on the CHB-MIT dataset, as summarized in
+
+(Table 2). (Figure 13) As illustrated, the averaged patient-wise results demonstrate strong
+
+performance, achieving an overall accuracy of 99.007%, sensitivity of 98.058%, and specificity of
+
+99.025%. With 99% accuracy, sensitivity, and specificity, the classifier obtained excellent
+
+performance in the target, alpha, lower beta, according to the study's analysis of classification
+
+performance throughout EEG frequency bands. With 99% sensitivity and only 3% specificity, the
+
+higher beta band, on the other hand, displayed a stark imbalance, indicating that the model
+
+primarily predicts positive cases. The theta and delta bands obtained high performance, which
+
+reflected low-frequency dynamics and slight variations in model reliability. Specifically, the
+higher beta band shows a strong imbalance (99% sensitivity and 3% specificity). Notably, however,
+
+this reflects a key finding that the 22-30 Hz band may not be a significant carrier of epileptic
+
+seizure characteristics. This experimentally verifies that band-specific analysis is a significant
+
+consideration for seizure detection. This leads us to look for a clear cut-off point for where spectral
+
+analysis becomes highly significant or less so. These findings suggest that in higher frequency
+
+bands, particular attention must be paid to highly sensitive scores that lack specificity. While
+
+traditional human EEG β-band analysis is typically defined by a broad spectrum of 13-30 Hz
+
+signals, recent research has indicated that more narrowly defined β sub-bands may encode an
+
+inordinate amount of seizure-related data. Breaking the β spectrum into smaller segments may
+
+identify sub-bands that are highly discriminatory for epileptic versus non-epileptic segments of
+
+EEG. Ictal β activity around 20 Hz is linked to seizure recurrence. The proposed approach achieved
+
+an F1-score and AUC of prominently emphasized by its great accuracy and robustness. They were
+
+96.671% and 97.669% (broadband), respectively. Moreover, p-values for the fall cases were less
+
+than 0.005. In the analysis of EEG signals, it is clear that the proposed deep learning model is
+
+robust and successful. In particular, analysis of specific bands of frequencies shows that analysis
+
+of this type of EEG data leads to a significant improvement in recognition of features. Moreover,
+
+it is clear (Table 4) shows that adding predetermined times of seizures to training leads to a
+
+substantial improvement in the accuracy of prediction of seizure onsets.
+
+Following this are stepwise explanations of how you can observe the effects in each band (Figure
+
+14.A), (Figure 14.B), (Figure 14.C), (Figure 14. D), (Figure 14. E). In all bands, one particular
+
+band of delta, theta, and alpha waves shares a common observable pattern, whereas in the opposite
+
+band, a clearly different observable pattern is noticed during ictal phases.
+A high level of consistency of the model with the data set proves its efficiency in thoroughly
+
+detecting the seizure segments, which are usually complex to detect. Additionally, the model
+
+correctly distinguishes between seizures and normal brain impulses during the less severe pre-ictal
+
+or post-ictal phase. From the experimental outcome, it has been proven that the model efficiently
+
+distinguishes between seizures and non-seizure segments, which detect seizures in EEG patterns
+
+that are potentially unnoticed by human observation. This proves that the model efficiently extracts
+
+deep features of the signal, which define the transition phase to the ictal state.
+
+
+
+
+Fig 14 (A). Seizure detection in the Delta Band for different phases with varied intensities.
+Fig 14 (B). Seizure detection in the Theta Band for different phases with varied intensities.
+
+
+
+
+Fig 14 (C). Seizure detection in the Alpha Band for different phases with varied intensities.
+Fig 14 (D). Seizure detection in the Lower Beta Band for different phases with varied intensities.
+
+
+
+
+Fig 14 (E). Seizure detection in the Higher Beta Band for different phases with varied intensities.
+On the CHB-MIT dataset, the model demonstrated a remarkable accuracy of 99.007%, a sensitivity
+
+of 98.06%, and a specificity of 99.025% (all bands). The high F1-score and AUC value of 96.671%
+
+and 97.669% on the CHB-MIT dataset further confirm this. Graph-structured EEG connectivity
+
+combined with multiscale spatial-temporal characteristics is how the proposed approach improves
+
+seizure detection. The therapeutically relevant frequency bands (0.5–40 Hz, divided into delta,
+
+theta, alpha, beta, and gamma) are used to identify the most significant features for seizure and
+
+comprehensively show seizure detection. The GCN model learns the spatiotemporal correlations
+
+within each band & smoothly combines spatial and temporal data. The proposed deep learning
+
+confirms the spatial nature of the connections across various brain regions and is consistent with
+
+the temporal signal dynamics. This is often critical for the identification of seizures.
+
+Aside from recording local seizure activity. The confusion matrices (Fig. 08) indicate that the
+
+model achieves stable accuracy across different frequency bands, suggesting reliable
+
+discrimination between seizure-related and non-seizure EEG activity, especially when these three
+
+methods are combined to utilize the broadband of frequencies, especially the Theta Band.
+
+Moreover, inter-patient variability is still a major impediment to seizure detection because
+
+everyone’s unique brain dynamics. While the model performed well within the tested datasets, its
+
+performance on datasets with higher noise levels or artifact contamination remains to be explored.
+
+
+8. Conclusion
+
+
+In this study, the application of Graph Convolutional Networks (GCNs) to seizure detection
+
+enables the exploration of the brain's spatiotemporal characteristics while minimizing signal loss
+
+common in graph-based deep learning models. The proposed model for independent seizure
+detection across five frequency bands (delta, theta, alpha, lower beta, higher beta) with improved
+
+accuracy per band, identifies frequency-specific seizure patterns and enhances the diagnostic
+
+precision over conventional broadband approaches. The combination of the consideration of high-
+
+level feature extraction methods of specific frequency bands enabled us to improve the
+
+representation of EEG signals in a non-Euclidean feature space. Additionally, the use of predefined
+
+ictal-phase seizure features during model training enabled the proposed model to focus on
+
+clinically important features, resulting in improved sensitivity and lower false positive rates, with
+
+a key innovation being the use of a predefined set of seizure times from the CHB-MIT dataset. It
+
+improves the accuracy of seizure detection and still has a lightweight model architecture, which
+
+opens the way to real-life use in real-time and resource-constrained systems. It was experimentally
+
+demonstrated that the proposed model yields 0.967 F1-score, 99.025% specificity, 98.6%
+
+sensitivity, and 99% detection accuracy. A significant contribution of this research is that the
+
+proposed model demonstrates robust performance by identifying the preictal, ictal, and postictal
+
+phases as seizure activity across five frequency bands. This model for the detection of seizures can
+
+be used effectively within the specified bands, resulting in a clearer definition of the phases
+
+involved in seizures, which include pre-ictal, ictal, inter-ictal, and post-ictal phases, depending on
+
+the frequency bands involved. It’s worth noting that specific areas within the brain, which relate
+
+to where seizures originate, can greatly contribute to improving the accuracy with which seizures
+
+can be identified and targeted.
+
+
+Data availability statement
+
+
+The dataset that is used in this study is publicly available on PhysioNet. The CHB-MIT Scalp EEG
+
+Database is an open-access database. Anyone can access the dataset through this link:
+https://physionet.org/content/chbmit/1.0.0/. The database was published on June 9, 2010, with
+
+Version 1.0.0.
+
+
+Acknowledgements
+
+The authors would like to thank John Guttag and PhysioNet for providing the publicly available
+
+dataset that enabled this study.
+
+Author Contributions
+
+Conceptualization: F.A.J., F.H.S., F.D.; Formal Analysis: F.A.J., F.H.S., F.D.; Funding acquisition: G.H.;
+
+Investigation: F.A.J., F.H.S., F.D., G.H.; Methodology: F.A.J., F.H.S., F.D.; Resources: F.A.J., F.H.S.,
+
+F.D., G.H.; Software: F.A.J., F.H.S.; Visualization: F.A.J., F.D.; Writing-Original draft: F.A.J., F.H.S.;
+
+Writing-review and editing: F.A.J., F.H.S., F.D., G.H.
+
+Declaration of Competing Interest
+
+The authors declare that they do not have any competing interests.
+
+
+
+References
+
+
+    Alalayah, K.M., Senan, E.M., Atlam, H.F., Ahmed, I.A., Shatnawi, H.S.A., 2023. Effective
+early detection of epileptic seizures through EEG signals using classification algorithms based on
+t-distributed stochastic neighbor embedding and K-means. Diagnostics, 13(11).
+https://doi.org/10.3390/diagnostics13111957.
+
+   Alawee, W.H., Basem, A., Al-Haddad, L.A., 2023. Advancing biomedical engineering:
+Leveraging Hjorth features for electroencephalography signal analysis. J. Electr. Bioimpedance,
+14(1), 66–72. https://doi.org/10.2478/joeb-2023-0009.
+    Bomela, W., Wang, S., Chou, C.A. and Li, J.S., 2020. Real-time inference and detection of
+disruptive EEG networks for epileptic seizures. Scientific Reports, 10(1), p.8653.
+    Chawla, N. V., Bowyer, K. W., Hall, L. O., & Kegelmeyer, W. P. (2002). SMOTE: Synthetic
+minority over-sampling technique. Journal of Artificial Intelligence Research, 16, 321-357.
+https://doi.org/10.1613/jair.953.
+    Chekhmane, G. and Benali, R., 2025. Epileptic seizure detection in EEG signals using deep
+learning: LSTM and bidirectional LSTM. Computer Methods in Biomechanics and Biomedical
+Engineering, pp.1-24.
+    Chen, X., Zheng, Y., Niu, Y. and Li, C., 2020, July. Epilepsy classification for mining deeper
+relationships between EEG channels based on GCN. In 2020 International Conference on
+Computer Vision, Image and deep learning (CVIDL) (pp. 701-706). IEEE.
+    Powers, D. M. W. (2020). Evaluation: From precision, recall, and F-measure to ROC,
+informedness,          markedness,        and   correlation.         arXiv:2010.16061v1.
+https://doi.org/10.48550/arXiv.2010.16061.
+   Fan, Z., Chen, F., Xia, X., Liu, Y., 2024. EEG emotion classification based on graph
+convolutional network. Appl. Sci., 14(2). https://doi.org/10.3390/app14020726.
+   Gao, X., Yan, X., Gao, P., Gao, X., Zhang, S., 2020. Automatic detection of epileptic seizure
+based on approximate entropy, recurrence quantification analysis and convolutional neural
+networks. Artif. Intell. Med., 102, 101711. https://doi.org/10.1016/j.artmed.2019.101711.
+
+   Geng, M., Zhou, W., Liu, G., Li, C., Zhang, Y., 2020. Epileptic seizure detection based on
+Stockwell transform and bidirectional long short-term memory. IEEE Trans. Neural Syst. Rehabil.
+Eng., 28(3), 573–580. https://doi.org/10.1109/TNSRE.2020.2966290.
+
+
+Goodfellow, I., Bengio, Y. and Courville, A. (2016) Deep Learning. MIT Press, Cambridge.
+http://www.deeplearningbook.org.
+   Grattarola, D., Livi, L., Alippi, C., Wennberg, R. and Valiante, T.A., 2022. Seizure localisation
+with attention-based graph neural networks. Expert systems with applications, 203, p.117330.
+    He, J., Cui, J., Zhang, G., Xue, M., Chu, D. and Zhao, Y., 2022. Spatial–temporal seizure
+detection with graph attention network and bi-directional LSTM architecture. Biomedical Signal
+Processing and Control, 78, p.103908.
+   Herculano-Houzel, S., 2009. The human brain in numbers: A linearly scaled-up primate brain.
+Frontiers in Human Neuroscience, 3, p.31. https://doi.org/10.3389/neuro.09.031.2009.
+    Huang, J., Wang, C., Huang, J., Fan, H., Grau, A., Zhang, F., 2024. LDGCN: An edge-end
+lightweight dual GCN based on single-channel EEG for driver drowsiness monitoring. arXiv
+preprint. Available at: http://arxiv.org/abs/2407.05749.
+    Huang, X., et al., 2022. A novel epilepsy detection method based on feature extraction by deep
+autoencoder on EEG signal. Int. J. Environ. Res. Public Health, 19(22).
+https://doi.org/10.3390/ijerph192215110.
+
+    Jibon, F.A., et al., 2023a. Graph attention network and radial basis function neural network-
+based hybrid framework for epileptic seizure detection from EEG signal. J. Auton. Intell., 7(3).
+https://doi.org/10.32629/jai.v7i3.1149.
+    Jibon, F.A., et al., 2023b. Epileptic seizure detection from electroencephalogram (EEG) signals
+using linear graph convolutional network and DenseNet-based hybrid framework. J. Radiat. Res.
+Appl. Sci., 16(3), 100607. https://doi.org/10.1016/j.jrras.2023.100607.
+   Jibon, F.A., Jamil Chowdhury, A.R., Miraz, M.H., Jin, H.H., Khandaker, M.U., Sultana, S.,
+Nur, S., Siddiqui, F.H., Kamal, A.H.M., Salman, M. and Youssef, A.A., 2024. Sequential graph
+convolutional network and DeepRNN based hybrid framework for epileptic seizure detection from
+EEG signal. Digital Health, 10, p.20552076241249874.
+    Kipf, T. N., & Welling, M. (2017). Semi-supervised classification with graph convolutional
+networks.[Conferencepaper,ICLR2017].arXiv:1609.02907v4.
+https://doi.org/10.48550/arXiv.1609.02907
+    Kaziha, O. and Bonny, T., 2020, February. A convolutional neural network for seizure
+detection. In 2020 Advances in Science and Engineering Technology International Conferences
+(ASET) (pp. 1-5). IEEE.
+   Kingma, D. P., & Ba, J. (2017). Adam: A method for stochastic optimization.
+arXiv:1412.6980v9. https://doi.org/10.48550/arXiv.1412.6980.
+   Li, Y., Yang, Y., Zheng, Q., Liu, Y., Wang, H., Song, S. and Zhao, P., 2024. Dynamical graph
+neural network with attention mechanism for epilepsy detection using single channel
+EEG. Medical & Biological Engineering & Computing, 62(1), pp.307-326.
+    Oppenheim, A.V., Schafer, R.W., & Buck, J.R. (2010). Discrete-time signal processing (2nd
+ed.). Prentice Hall.
+
+   World Health Organization, 2024. Epilepsy. Available at: https://www.who.int/news-
+room/fact-sheets/detail/epilepsy [Accessed: 7 February 2024].
+
+    Paszke, A., Gross, S., & Chintala, S. (2017). Automatic differentiation in PyTorch. In Neural
+Information Processing Systems (NIPS).
+
+    Saminu, S., et al., 2021. A recent investigation on detection and classification of epileptic
+seizure techniques using EEG signal. Brain Sci. https://doi.org/10.3390/brainsci.
+
+    Tuncer, E. and Bolat, E.D., 2022. Classification of epileptic seizures from
+electroencephalogram (EEG) data using bidirectional short-term memory (Bi-LSTM) network
+architecture. Biomedical Signal Processing and Control, 73, p.103462.
+    Tzallas, A.T., Tsipouras, M.G. and Fotiadis, D.I., 2009. Epileptic seizure detection in EEGs
+using time–frequency analysis. IEEE transactions on information technology in
+biomedicine, 13(5), pp.703-710.
+   Wang, D., Weyen, D. and Van Tichelen, P., 2023. Proposals for updated EMC standards and
+requirements (9–500 kHz) for DC microgrids and new compliance verification
+methods. Electronics, 12(14), p.3122.
+   Wang, J., Gao, R., Zheng, H., Zhu, H. and Shi, C.J.R., 2023. Ssgcnet: A sparse spectra graph
+convolutional network for epileptic eeg signal classification. IEEE Transactions on Neural
+Networks and Learning Systems, 35(9), pp.12157-12171.
+   Wang, X., Wang, Y., Liu, D., Wang, Y., Wang, Z., 2023. Automated recognition of epilepsy
+from EEG signals using a combining space–time algorithm of CNN-LSTM. Sci. Rep., 13(1),
+14876. https://doi.org/10.1038/s41598-023-41537-z.
+
+   Wu, F., Zhang, T., de Souza, A.H., Fifty, C., Yu, T., Weinberger, K.Q., Simplifying graph
+convolutional networks. Software/online resource. Available at: https://github.com/Tiiiger/SGC.
+    Xu, G., Ren, T., Chen, Y., Che, W., 2020. A one-dimensional CNN-LSTM model for epileptic
+seizure recognition using EEG signal analysis. Front. Neurosci., 14, 578126.
+https://doi.org/10.3389/fnins.2020.578126.
+    Xu, J., Yuan, S., Shang, J., Wang, J., Yan, K., Yang, Y., 2024. Spatiotemporal network based
+on GCN and BiGRU for seizure detection. IEEE J. Biomed. Health Inform., 28(4), 2037–2046.
+https://doi.org/10.1109/JBHI.2024.3349583.
+    Zhao, S., et al., 2024. An interpretable model based on graph learning for diagnosis of
+Parkinson’s      disease    with   voice-related   EEG.     NPJ    Digit.    Med.,    7(1).
+https://doi.org/10.1038/s41746-023-00983-9.
+    Zheng, Q., Venkitaraman, A., Petravic, S. and Frossard, P., 2023, September. Knowledge
+distillation with graph neural networks for epileptic seizure detection. In Joint European
+Conference on Machine Learning and Knowledge Discovery in Databases (pp. 547-563). Cham:
+Springer Nature Switzerland.
+

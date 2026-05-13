@@ -1,0 +1,1241 @@
+                                                                  Synchronization and semantization
+                                                                      in deep spiking networks
+                                                     Jonas Oberste-Frielinghaus1,2* , Anno C. Kurth1,3 , Julian Göltz4,5 , Laura Kriener6,5 ,
+                                                                       Junji Ito1 , Mihai A. Petrovici5 , Sonja Grün1,7,8
+                                                 1
+                                                   Institute for Advanced Simulation (IAS-6), Jülich Research Centre, Jülich, Germany
+                                                 2
+                                                   RWTH Aachen University, Aachen, Germany
+                                                 3
+                                                   RIKEN Center for Brain Science, Wako, Saitama, Japan
+                                                 4
+                                                   Kirchhoff-Institute for Physics, Heidelberg University, Heidelberg, Germany
+                                                 5
+                                                   Department of Physiology, University of Bern, Bern, Switzerland
+                                                 6
+                                                   Institute of Neuroinformatics, University of Zurich and ETH Zurich, Zurich, Switzerland
+                                                 7
+                                                   JARA Brain Institute I (INM-10), Jülich Research Centre, Jülich, Germany
+arXiv:2508.12975v1 [q-bio.NC] 18 Aug 2025
+
+
+
+
+                                                 8
+                                                   Theoretical Systems Neurobiology, RWTH Aachen University, Germany
+                                              * j.oberste-frielinghaus@fz-juelich.de
+                                            keywords: spiking neural networks, network dynamics, computation, latency coding, synchrony, artificial intelligence, training algorithm
+
+
+                                                                                                              Abstract
+
+                                                     Recent studies have shown how spiking networks can learn complex functionality through error-correcting
+                                                     plasticity, but the resulting structures and dynamics remain poorly studied. To elucidate how these models
+                                                     may link to observed dynamics in vivo and thus how they may ultimately explain cortical computation,
+                                                     we need a better understanding of their emerging patterns. We train a multi-layer spiking network, as
+                                                     a conceptual analog of the bottom-up visual hierarchy, for visual input classification using spike-time
+                                                     encoding. After learning, we observe the development of distinct spatio-temporal activity patterns. While
+                                                     input patterns are synchronous by construction, activity in early layers first spreads out over time, followed
+                                                     by re-convergence into sharp pulses as classes are gradually extracted. The emergence of synchronicity is
+                                                     accompanied by the formation of increasingly distinct pathways, reflecting the gradual semantization of
+                                                     input activity. We thus observe hierarchical networks learning spike latency codes to naturally acquire
+                                                     activity patterns characterized by synchronicity and separability, with pronounced excitatory pathways
+                                                     ascending through the layers. This provides a rigorous computational hypothesis for the experimentally
+                                                     observed synchronicity in the visual system as a natural consequence of deep learning in cortex.
+
+                                                                                                    Significance Statement
+
+                                                     Recent advances in AI have rekindled the hypothesis of deep learning in the brain, but there remains
+                                                     a significant gap at the microscopic scale, as cortical neurons communicate with sparse and discrete
+                                                     signals, rather than continuously in time. Building on an analytical model of deep learning with spikes, we
+                                                     investigate the emergence of spatio-temporal structures in hierarchical spiking networks. We find that
+                                                     neuronal populations learn to form tight pulse packets for downstream communication and observe distinct
+                                                     pathways of neuronal excitation that become increasingly separated with network depth, indicating the
+                                                     progressive semantization of neuronal activity. This puts forth a rigorous computational hypothesis for
+                                                     the well-established experimental observations of synchrony and semantization in sensory cortex.
+
+
+                                            Introduction                                                               (Richards et al., 2019). Many of these studies focus on
+                                                                                                                       visual processing, as it is among the best studied com-
+                                            Artificial neuronal networks (ANNs) are the backbone                       putational tasks, both in cortex and as an application
+                                            of modern machine learning applications. Since the for-                    for AI. As an example, Convolutional Neural Networks
+                                            mulation of the perceptron (Rosenblatt, 1958), ANNs                        (LeCun et al., 1998; Krizhevsky et al., 2012) are used
+                                            have gradually diverged away from the biology that origi-                  successfully as model of the visual system (Yamins and
+                                            nally inspired them, but their recent success across many                  DiCarlo, 2016; Lindsay, 2021).
+                                            domains has prompted a broad interest to reevaluate                            However, the underlying models remain very close
+                                            their applicability as models of processing in the brain                   or even identical to conventional ANNs, in particular
+
+
+                                                                                                                   1
+by using continuous neuronal transfer functions. This is            approach their activity as we would approach electro-
+markedly different from cortical networks, in which inter-          physiological recordings, but with the added benefit of
+neuron communication is dominated by action potentials,             having access to all observables in the network, as op-
+or spikes, i.e., cortical networks are spiking neural net-          posed to the massive subsampling that is characteristic
+works (SNNs). A continuous transfer function can be                 of in-vivo data (Levina et al., 2022). In the following, we
+approximated in SNNs by considering the average spike               show how these networks form very distinct activity and
+rates over time or populations of neurons, leading to an            connectivity patterns. In particular, we show that neuron
+interpretation that the aforementioned models are operat-           subpopulations in these networks learn to synchronize
+ing in a purely rate coding framework. Even though rate             their firing in response to patterns of a particular class.
+coding has been highly influential in Neuroscience, may it          This is a phenomenon frequently observed in the cortex,
+be for characterizing response properties of single neuron          e.g., (Gray and Singer, 1989; Gray et al., 1989)), but
+(Hubel and Wiesel, 1962; Georgopoulos et al., 1982) or              here we show that it arises from learning by gradient
+neural populations (from population rates (Georgopoulos             descent, thus providing a functional explanation. More-
+et al., 1986; Churchland et al., 2012) to geometric inter-          over, we observe how these populations grow increasingly
+pretation of the evolution of the population vector (Gao            distinct across the network hierarchy, demonstrating the
+et al., 2017; Gallego et al., 2017; Stringer et al., 2019;          semantization of activity as it propagates downstream.
+Morales-Gregorio et al., 2024)), rate coding is far from            This bundling of activity in space and time maps closely
+the only operational mode of the cortex. Alternative,               to various experimental observations, thus establishing
+well-established computational interpretations of cortical          a first step towards a rigorous link between the theory
+activity emphasize the fine temporal nature of neural ac-           of learning by gradient descent in spiking networks and
+tivity, e.g., (Abeles, 1991; Thorpe et al., 2001; Izhikevich,       in-vivo recordings of cortical activity.
+2006). They are supported by experimental findings such
+as the coordinated spiking on millisecond scale (Riehle
+et al., 1997; Prut et al., 1998; Kilavik et al., 2009; Torre        Results
+et al., 2016) or characteristic temporal sequences of spikes
+(Yiling et al., 2023; Xie et al., 2024; Sotomayor-Gómez            Activity in the network
+et al., 2025).                                                      We investigate a feed-forward network with all-to-all con-
+    The main reason for using rate-based models, i.e.,              nections between consecutive layers consisting of an input,
+models that only communicate via firing rates emulating             four hidden, and an output layer as depicted in Figure 1a.
+a continuous transfer function and not precise spikes,              As a classical visual benchmark that does not require
+lies in the difficulty of training SNNs. Indeed, it is not          complicated structures lacking direct biological equiva-
+obvious how to calculate gradients of discrete spiking              lents, such as perfect copies of convolutional kernels or
+activity, which would be necessary for a straightforward            max-pooling layers, we chose classification of the MNIST
+application of error backpropagation. However, recent               dataset (LeCun et al., 1998) as task for the network.
+years have seen the development of various approaches               Importantly, and unlike in classical ANNs, the neurons in
+capable of overcoming this challenge, most notably ap-              the hidden layers obey Dale’s law (Eccles, 1957), mean-
+proximate surrogate methods (Neftci et al., 2017; Zenke             ing that each neuron has either only excitatory or only
+and Ganguli, 2018; Yin et al., 2023) and exact spike-time           inhibitory outgoing connections. To roughly approximate
+gradients (Bohte et al., 2002; Wunderlich and Pehle, 2021;          the ratio found in cortex (Markram et al., 2004), each
+Göltz et al., 2021). These now allow the training of deep          hidden layer consists of 300 excitatory and 100 inhibitory
+spiking networks to performances comparable with their              neurons. The output layer has 10 neurons, one for each
+conventional counterparts. Thus, such networks can form             image class.
+the basis of a more rigorous reassessment of the deep                   To understand how the network processes the inputs,
+learning hypothesis in the brain, now also taking into              we first examine how spiking activity propagates through
+account a more realistic form of spike-based, as opposed            the layers in response to an arbitrary image of a hand-
+to continuous, communication.                                       written digit (see Figure 1a) after training (Figure 1b).
+    With trained networks it is possible to study how their         The input image is converted into a set of spike times
+structure and activity is shaped through learning and               that specify the activity of the input layer. Each neuron
+which characteristic patterns emerge. In particular, the            in the input layer corresponds to a pixel of the input
+aspects of propagation and transformation of the neural             image, the brightness of which determines whether the
+code (Perkel and Bullock, 1968) and their underlying                corresponding neuron fires earlier or later; the darker the
+mechanisms can be investigated thoroughly. There have               pixel, the earlier the neuron fires. The spiking activity of
+been extensive studies about the propagation of activity            the input layer is passed to the subsequent layer (layer 1),
+in SNNs, e.g., in simulations (Diesmann et al., 1999; van           where incoming spikes influence the membrane potential
+Rossum et al., 2002; Vogels and Abbott, 2005) or in                 of the neurons. If, for a given neuron in layer 1, the
+vitro (Reyes, 2003; Barral et al., 2019), but the studied           evoked membrane potential exceeds the threshold, the
+networks were not trained to perform a particular task.             neuron emits a spike that is passed to all neurons in the
+    Here, we consider multi-layered SNNs trained by ex-             next layer (layer 2), and so on. Typically, to bring a
+act gradient descent as visual image classifiers using a            neuron to fire, it needs to receive sufficient synchronous
+spike latency code (Göltz et al., 2021). Thereby we
+
+
+                                                                2
+  a                       image:           image class: 4
+                                                            b                                                                           c             40                       input
+                                                                                                                                                      20
+                                                                input
+                        784                                                                                                                           40                     layer 1
+                       300 exc                                                                                                                        20
+                                                                        1
+   number of neurons
+
+
+                       100 inh
+
+
+
+
+                                                                                                                                        spike count
+                                                                                                                                                      40                     layer 2
+
+
+
+
+                                                                layer
+                       300 exc
+                       100 inh                                          2                                                                             20
+
+                       300 exc                                                                                                                        40                     layer 3
+                       100 inh                                          3
+                                                                                                                                                      20
+                       300 exc
+                       100 inh                                          4                                                                             40                     layer 4
+                                                                                                                                                      20
+                         10                                 output                        4
+                                                                                                                       9     8
+                                   0 1 2 3 4 5 6 7 8 9
+                                                                        0.0     0.5       1.0         1.5     2.0      2.5       3.0                   0.0     0.5           1.0
+                                    assigned label                                                time [τsyn ]                                                time [τsyn ]
+  d                        τ
+                                      leading neurons
+                                      trailing neurons
+                                                            e   input                                                                   f             40
+
+                                                            layer 1                                                                                   30
+                                                            layer 2
+
+
+
+
+                                                                                                                                        a
+                                                                                                                                                      20
+                                                            layer 3
+                                                            layer 4                                                                                   10
+                                    time                                    0                 200      0.00   0.25    0.50       0.75                  0.0   0.1     0.2      0.3
+                                                                                      a                          τ [τsyn ]                                     τ [τsyn ]
+Figure 1: Propagation of activity through the network. (a) Structure of the network and the task. One randomly
+chosen image of class 4 is passed into the network via the input layer. Each pixel is represented by a neuron (784 in total). The
+input propagates through four hidden layers with 300 excitatory and 100 inhibitory neurons. The output layer contains 10
+output neurons, each representing one class. The network assigns a label according to the neuron in the output layer that
+spikes first. (b) Activity in response to the image in a as raster plot. Time is shown as multiples of the synaptic time constant
+τsyn , so all our conclusions remain scale-invariant with respect to the specific time constants in the network. The dots represent
+the spike times of the individual neurons. The image is represented by a latency code via spike times in the input layer. The
+brightness of the dot corresponds to the brightness of the pixel in the image (the darker, the earlier). In the hidden layers (1-4)
+red dots correspond to excitatory, blue dots to inhibitory neurons. The first spike in the output layer is marked by an asterisk.
+The image is classified correctly as “4”. (c) Spike time histogram for the activity in b. The spike count was measured in a
+sliding window of 0.05 τsyn in 0.01 τsyn steps. In hidden layer 1-4 the spike count is separated between excitatory and inhibitory
+neurons. The colored vertical lines as well as the first black line in the panel for the input layer denote the maximum of the
+histogram before the first output spike (dashed black line). (d) Illustration of the characterization of the activity. We determine
+the rise time τ as the time from the first spike to the maximum of the histogram, we term neurons active during this time
+leading neurons and the others trailing neurons. a is the number of leading neurons. (e) Box plots of the distributions of a
+(left) and τ (right) across all images, separate for excitatory and inhibitory neurons in the hidden layers. The line marks the
+median, the box marks the range between the first (Q1) and the third quantile (Q3), the whiskers range from the box to the
+lowest data point above Q1 − 1.5(Q3 − Q1) and the highest data point below Q3 + 1.5(Q3 − Q1), fliers represent outliers. (f )
+State space representation of the medians of the distributions in e in sequence of the layers. Arrows point in the direction of
+the propagation of activity in the network.
+
+input from the preceding layer. This way, spiking activity                                          layer 4. Overall, these activity profiles resemble the prop-
+propagates downstream, from layer to layer. In the out-                                             agation of a pulse packet i.e., a synchronous volley of
+put layer, the label assigned to the input is determined by                                         spikes, through the layers, which first disperses and then
+which of the 10 output neurons emits a spike first. On the                                          re-synchronizes over the layers.
+test dataset, the trained network achieves an accuracy of                                               We characterize the pulse packets of excitatory and
+0.98, i.e, the assigned label matches the image class of                                            inhibitory neurons in each layer individually by, on the
+the input for 98% of the test images.                                                               one hand, determining the rise time τ of the spike time
+    To examine the propagation of the activity quanti-                                              histogram, i.e., the time from the first spike to the maxi-
+tatively, we first calculate the spike time histogram for                                           mum of the histogram. The rise time gives an estimate
+the spiking activity shown in Figure 1b. Starting in the                                            of how synchronous the spikes occur in the layer. On the
+input layer, we observe a sharp peak in the histogram                                               other hand, we count the number a of neurons that fire
+(Figure 1c first row). Over the next two layers, the spike                                          spikes during this time (see Figure 1d). These neurons
+times spread out, and hence the histogram peak becomes                                              we term “leading neurons”, and the neurons that fire
+less prominent. Then in layer 3, the excitatory neurons                                             after this period we term “trailing neurons”.
+synchronize again, ultimately resulting in a very sharp                                                 Figure 1e shows in the form of box plots the distri-
+peak for both the excitatory and inhibitory neurons in                                              butions of the number of leading neurons (a, left) and
+
+
+                                                                                              3
+the rise time of the histogram (τ , right) across all images.        as (Figure 2b):
+Over all images the same trend as we observe in the
+                                                                                            N l |Vxl ∩ Vyl | − |Vxl ||Vyl |
+example shown in Figure 1c solidifies; the activity starts                   ρlx,y = q                                              ,   (1)
+with a high and sharp peak (large a and small τ ), then                                  |Vxl ||Vyl |(N l − |Vxl |)(N l − |Vyl |)
+gets dispersed (smaller a and larger τ ), and then builds
+up again (see Figure 1f). This trend is evident for both             where N l is the number of neurons in layer l and |V|
+the excitatory and the inhibitory neurons.                           denotes the cardinality of the set V (see Methods: Simi-
+     In summary, we see that the propagation of activity in          larity of sets of leading neurons for details). If the two
+the network is characterized by a pulse packet that decays           sets are identical, ρlx,y = 1; if the activity is maximally
+and then builds up again. The conditions for networks                dissimilar (which would be the case if half of the neurons
+to exhibit this kind of activity have been investigated              were leading neurons for image x and the other half for
+extensively (Diesmann et al., 1999; Tetzlaff et al., 2002;           image y), ρlx,y = −1; ρlx,y = 0 implies chance overlap.
+Vogels and Abbott, 2005; Kumar et al., 2008; Shinozaki et            Figure 2b shows the similarity calculated for all pairs of
+al., 2010). More on this point will follow in the discussion.        images used in Figure 2a for all layers, again grouped
+     While the characterization of the activity as a pulse           by the image classes. Diagonal blocks correspond to
+packet allows a quantitative description of the activity             similarities between images from the same class, while
+propagation through the layers, it does not immediately              off-diagonal blocks quantify the similarity of the activity
+provide functional implications of the observed activity             for images of different classes. In the input layer and hid-
+for information processing. Assuming that the pulse                  den layer 1, there is little difference between within-class
+packet plays a relevant role in achieving a correct classi-          and between-class similarities. In layer 2, the degrees
+fication, for a pulse packet to represent the image class            of the similarities within the diagonal blocks are higher
+of the input, it would need to encode the information                than those in off-diagonal blocks, implying that images
+by the identity of the neurons that contribute spikes to             of the same class evoke more consistent activity than im-
+it. Since we observe that the pulse packet is gradually              ages of different classes. This trend solidifies as activity
+built up as it propagates through the layers, we also                propagates across layers, reaching its maximum in layer
+expect that its representation of the image class would              4, where neural representations of images from the same
+be progressively consolidated towards deeper layers, i.e.,           class are almost identical. The distribution of the over-
+a more specific subset of neurons would provide spikes               lap measures calculated for all pairs of the test images
+to the pulse packet in deeper layers. This leads us to a             (Supplemental Information: Figure S2) confirms that
+close examination of the identity of the leading neurons,            this observation is not only for the 100 images randomly
+as shown in the following section.                                   chosen here, but generally applies to all images.
+                                                                         To quantify the specificity of individual neurons in the
+Representation of classes in the activity                            representation of different image classes, we evaluate the
+                                                                     Information Gain (IG) of a neuron, i.e., the information
+Next, we investigate how different classes are repre-                about the class of an input image gained by finding that
+sented in the population activity of each layer. We focus            neuron as a leading neuron for that image (for details see
+on the leading neurons here because these neurons are                Methods: Information gain). An IG of 0 implies that the
+likely most important for the classification, since the net-         neural firing is independent of the class of the input image;
+work operates on a latency code and these neurons fired              an IG of 1 signifies that the neuron is fully indicative
+spikes with the shortest latencies in the individual layer.          of a specific class. Figure 2c shows the distributions of
+Thereby we consider a set Vxl of the leading neurons in              IGs across all neurons of the respective layers, separately
+layer l for image x (see Methods: Set of leading neurons             shown for excitatory (red) and inhibitory (blue) neurons,
+for details).                                                        excluding neurons that were not a leading neuron for any
+    Figure 2a shows, separately for each layer, the leading          image. In the input layer, we have a broad distribution
+neurons Vxl for 100 randomly chosen test images (10                  of IGs with one peak roughly at 0.1 and another at
+for each class). While in the early layers no particular             1.0. The latter represents the neurons that are leading
+structure can be discerned, in the deeper layers certain             neurons for exactly one image, thus being fully indicative
+neurons fire across all images of a particular class, forming        of the class of that image. The IG distributions for
+a bar-code-like pattern. We note that these observations             excitatory neurons in the hidden layers shift more and
+are not dependent on our specific way of defining Vxl ;              more towards an IG of 1.0 in the deeper layers. In
+other equally plausible definitions of Vxl lead to essentially       contrast, IGs of inhibitory neurons are generally low
+identical observations (see Supplemental Information:                and do not grow towards deeper layers, indicating that
+Figure S1).                                                          inhibitory neurons are less specific for one particular
+    To quantify the consistency of the leading neurons               image class than excitatory neurons throughout the layers.
+in response to different images of the same class, we                This is visualized by the two examples of the image class
+calculate the similarity ρlx,y of the leading neuron sets            distribution for the neurons with the median IG in the
+Vxl and Vyl in layer l for two respective images x and y             respective layer and subpopulation (Figure 2c, inset) for
+                                                                     all images when the neuron was a leading neuron. For
+                                                                     example, the excitatory neuron in the last layer is almost
+                                                                     exclusively active for images of class 4, while the activity
+
+
+                                                                 4
+a                  1
+                               input           1
+                                                         layer 1               1
+                                                                                           layer 2                  1
+                                                                                                                                layer 3               1
+                                                                                                                                                                  layer 4
+   neuron id
+
+
+
+                                             300                             300                                  300                               300
+
+       784                                   400                             400                                  400                               400
+                       0 1 2 3 4 5 6 7 8 9         0 1 2 3 4 5 6 7 8 9             0 1 2 3 4 5 6 7 8 9                  0 1 2 3 4 5 6 7 8 9               0 1 2 3 4 5 6 7 8 9
+b                  0
+                   1
+                                                                                                                                                                                           1
+     image class
+
+
+
+
+                   2
+                   3
+                   4                                                                                                                                                                       0
+
+
+
+
+                                                                                                                                                                                               ρ
+                   5
+                   6
+                   7
+                   8                                                                                                                                                                       −1
+                   9
+                       0 1 2 3 4 5 6 7 8 9         0 1 2 3 4 5 6 7 8 9             0 1 2 3 4 5 6 7 8 9                  0 1 2 3 4 5 6 7 8 9               0 1 2 3 4 5 6 7 8 9
+c          0.3
+                           1
+                                                                                        image class
+fraction
+
+
+
+
+           0.2
+                           0 IG = 0.24              IG = 0.24   IG = 0.07             IG = 0.36       IG = 0.2             IG = 0.63   IG = 0.49             IG = 0.78   IG = 0.29
+
+           0.1
+
+
+                   0.0          0.5      1.0 0.0            0.5             1.0 0.0           0.5                1.0 0.0           0.5             1.0 0.0           0.5             1.0
+                                                                                              IG
+Figure 2: Representation of labels across the layers. (a) State of activity for all neurons for 100 images (10 randomly
+selected for each of the 10 classes), ordered according to the classes. If the neurons is a leading neuron for the image it is
+marked black, if it is a trailing neuron it is marked white (for the definition see Figure 1d). For the hidden layers (1-4) the
+inhibitory neurons are indexed with numbers between 301 and 400, the first 300 being excitatory neurons. (b) Matrices of
+similarities ρ of any two leading neuron sets shown in a, ordered by image class, and color-coded (see colorbar on the right). (c),
+Distributions of the specificity of all neurons per layer measured by the information gain (IG) and normalized by the number of
+neurons (neurons that are never active are excluded). On the very left this distribution is shown for the input neurons, then
+for the hidden layers (1-4) (left to right), separately for the excitatory (red) and inhibitory (blue) neurons. To illustrate the
+meaning of the IG, for each population, we choose a neuron with the median IG and plot the distribution of the image classes
+of the images if the neuron was a leading neuron in the inset.
+
+of the inhibitory neuron is more broadly distributed.                                                  connected to this output neuron o than to the other out-
+This is consistent with the findings in the visual cortex,                                             put neurons. The identified neurons (marked in red in
+where inhibitory neurons are more broadly tuned than                                                   Figure 3a) constitute a subset Po4 of excitatory neurons
+excitatory neurons (Sohya et al., 2007; Niell and Stryker,                                             in layer l = 4 with positive impact on the output neuron
+2008; Lundqvist et al., 2010).                                                                         o, and complementarily, all the other excitatory neurons
+                                                                                                       in layer 4 (marked in gray) are grouped into a subset
+Connectivity structure and path identifi-                                                              No4 of neurons that do not have positive impact (for
+                                                                                                       details see Methods: Assignment of neural subsets and
+cation
+                                                                                                       paths). In a similar manner, the subset Po3 for layer 3
+So far we have concentrated on the neural activity, disre-                                             is defined by the excitatory neurons that preferentially
+garding the knowledge of synaptic weights in the network.                                              target neurons in Po4 , and the subset Po3 by all the other
+We now turn to the synaptic weights and ask if we can                                                  excitatory neurons in layer 3. This procedure is repeated
+find a relation between the connectivity structure of the                                              upstream through the whole network, and also for the
+network and the specificity of the neural activity. In                                                 other output neurons, defining Pol and Nol for all lay-
+particular, we aim to identify neurons that have strong                                                ers l and all output neurons o. Combing the subsets of
+(direct or indirect) synaptic impacts on a specific output                                             neurons from all layers, we obtain a path Po = ∪∀l Pol
+neuron. To this end, we focus only on excitatory neu-                                                  through the network for each output neuron o, as well as
+rons, since the high specificity in the representation of                                              a set of neurons not included in the path No = ∪∀l Nol .
+image classes was found almost exclusively for excitatory                                              Accordingly, we call the subsets Pol stages of the path Po .
+neurons.                                                                                               Note that our construction of the paths is based solely
+    Our procedure for connectivity structure analysis is                                               on the connection preference of neurons for an output
+schematically illustrated in Figure 3a. We start by con-                                               neuron, irrespective of the neural activity. At the end,
+sidering one specific output neuron o (o = 4 and 9 in                                                  for each output neuron, a “path” through the network
+Figure 3a top and bottom, respectively). Then we iden-                                                 is identified, along which the neurons strongly influence
+tify neurons in the last hidden layer that are stronger                                                the output neuron.
+
+
+                                                                                                  5
+a                           backwards assignment of neurons
+                                  to output neurons                       b           1
+                                                                                            input
+                                                                                                            1
+                                                                                                                  layer 1       layer 2       layer 3         layer 4
+                                                                      9
+                                                                      8
+                                                                      7
+                                                                      6
+                                                                      5
+                                                                      4
+                                                                      3
+
+
+
+
+                                                                          neuron id
+                                                                      2
+                                                                      1
+                                                                      0
+                                                                      9
+                                                                      8
+                                                                      7
+                                                                      6
+                                                                      5
+                                                                      4
+                                                                      3
+                                                                      2     784                           300
+                                                                                          0123456789            0123456789 0123456789 0123456789 0123456789
+                                                                      1                                                     output neuron
+                                                                      0
+c                0
+                           input                   layer 1                            layer 2                         layer 3                   layer 4
+                                                                                                                                                                   1.0
+                 1
+ output neuron
+
+
+
+
+                 2
+
+
+
+
+                                                                                                                                                                        overlap θ
+                 3
+                 4             0       1                0         1                          0        1                     0       1                0         1
+                                   θ                          θ                                   θ                             θ                         θ        0.5
+                 5
+                 6
+                 7
+                 8
+                                                                                                                                                                   0.0
+                 9
+                     0 1 2 3 4 5 6 7 8 9    0 1 2 3 4 5 6 7 8 9       0 1 2 3 4 5 6 7 8 9                       0 1 2 3 4 5 6 7 8 9       0 1 2 3 4 5 6 7 8 9
+                                                                          output neuron
+Figure 3: Connectivity structure for the separation of image classes. (a) Sketch for two identified paths, in the upper
+row for output neuron 4 in the lower for output neuron 9. In the upper row, neurons in the path i.e., in P4 are marked in red
+and neurons not in the path i.e., in N4 , are marked grey. The neurons in P4 have stronger connections to the neurons within the
+path converging on output neuron 4. The path is identified by tracing the connections to output neuron 4 backwards through
+the network (see Methods: Assignment of neural subsets and paths). The same holds for the lower row for output neuron 9,
+mutatis mutandis. Each neuron can take part in multiple paths i.e., be part of P4 and P9 simultaneously. (b) Assignment of
+neurons to paths denoted by the identity of their respective label neurons on the abscissa. (c) Pairwise overlap between stages
+of the paths (Equation 2). The degree of overlap is displayed in the colorbar. The insets show the distribution of overlap scores
+between pairs of pathways belonging to different output neurons (i.e., of the off diagonal elements of the presented matrices).
+
+    Figure 3b shows the resulting subsets Pol and Nol for                                        structure emerges spontaneously through the learning,
+all 10 output neurons for all layers, where neurons in Pol                                       with the loss function based on the spike times of the
+are illustrated in red and neurons in Nol in gray. In layer                                      output neurons. This indicates that the progressively
+4 we observe fewer neurons in Po4 than No4 for all output                                        separated paths would be optimal for routing activity
+neurons, in contrast to, e.g., layer 2 where much more                                           towards a specific destination as fast as possible. Further-
+neurons are in Po2 than in No2 . At first, the paths become                                      more, this structure would also ensure non-overlapping
+denser up until layer 2, where many neurons participate                                          representations of various input classes towards deeper
+in different paths. Then, from layer 2 to layer 4, the                                           layers.
+paths become increasingly sparse, such that fewer and
+fewer neurons contribute to the path to each individual                                          Activity propagates along paths
+output neuron.
+    To quantify how these sets of neurons become more                                            After the separate analysis of activity and structure, we
+specific to a particular output neuron in deeper layers, we                                      combine the two. We ask to what extent connectivity
+                                   l                                                             corresponds to dynamics, i.e., how the identified paths
+calculate their pairwise overlap θi,j  for all combinations
+of output neurons, akin to the cosine similarity of vectors:                                     relate to the activity patterns discussed before. As de-
+                                                                                                 picted in Figure 4a, images of class 4 should activate the
+                                    l
+                                         |Pil ∩ Pjl |                                            neurons in P4 and their activity should propagate along
+                                   θi,j =q              .                             (2)
+                                                                                                 this path, and the same should hold for images of class
+                                           |Pil ||Pjl |
+                                                                                                 9 and P9 . This would naturally explain the observed
+                                                    l
+                                                                                                 specificity of the leading neurons in their response to
+If the intersection of the two sets is empty, then θi,j = 0;                                     images of various classes.
+                                      l
+if the two sets are identical, then θi,j = 1.                                                        In Figure 4b, we show the spikes of excitatory neurons
+    The resulting overlaps are shown in Figure 3c, sepa-                                         in the same network activity as shown in Figure 1b, but
+rately for each layer. First the overlap overall increases                                       here the spikes are labeled according to their membership
+up to layer 2 and then clearly drops towards the output                                          in two different paths – on the left: path P4 to output
+layer, indicating that the stages of the paths become                                            neuron 4 (red: P4 , gray: N4 ), and on the right: path
+increasingly separate from each other. Remarkably, this
+
+
+                                                                                            6
+a                                                                                                   b path to output                      path to output
+                                                                                                                                                               c
+               images of                                            images of                                                                                  input
+                                                                                                         neuron 4                            neuron 9
+                class 4                                              class 9
+                                                                                                                                                            layer 1
+
+                           1.1        1.2         1.3         1.4     1.5                                                                                   layer 2
+                                                                                              input
+                                                                                                                                                            layer 3
+                      2.1         2.2       2.3         2.4     2.5         2.6
+                                                                                                                                                            layer 4
+                                                                                                                                                                        0            80 0                       1
+                    3.1     3.2         3.3       3.4     3.5         3.6       3.7                  1
+                                                                                                                                                               d             a                  τ [τsyn ]
+                                                                                            layer
+
+
+
+
+                                                                                                                                                                                        path to
+                                                                                                                                                                                        output neuron 4
+                                                                                                     2
+               4.1        4.2     4.3         4.4   4.5         4.6       4.7      4.8                                                                             20                   path to
+                                                                                                                                                                                        output neuron 9
+                                                                                                     3
+
+
+
+
+                                                                                                                                                               a
+        5.1          5.2        5.3     5.4               5.5       5.6      5.7      5.8
+                                                                                                                                                                   10
+                                                                                                     4
+                                          output                                            output           4                                          9
+
+                      4                                                      9                    0              1         2       0       1        2               0.00     0.05      0.10       0.15
+                                                                                                                           time [τsyn ]                                             τ [τsyn ]
+e               0
+                                      input                                                 layer 1                        layer 2                   layer 3                        layer 4
+                 1
+
+
+
+
+                                                                                                                                                                                                                activation χ
+image class
+
+
+
+
+                2                                                                                                                                                                                           5
+                 3
+                4                                                                                                                                                                                           0
+                 5
+                6
+                 7                                                                                                                                                                                          −5
+                8
+                 9
+f
+activation χ
+
+
+
+
+               10
+
+
+                0
+
+
+    −10
+                     0 1 2 3 4 5 6 7 8 9                                        0 1 2 3 4 5 6 7 8 9                  0 1 2 3 4 5 6 7 8 9       0 1 2 3 4 5 6 7 8 9          0 1 2 3 4 5 6 7 8 9
+                                                                                                                 path to output neuron
+Figure 4: Activity propagation along the identified paths. (a) Sketch of the separation of the path to output neuron
+4 ( ) and path to output neuron 9 ( ) in the deeper layers of the network. (b), Two raster plots (as in Figure 1b) of the
+activity in all layers in response to the same image (class 4) with the neurons labeled according to P4 (dark red) and N4 (gray)
+(left) and P9 (dark orange) and N9 (gray) (right). Inhibitory neurons not shown. (c) Box plots of the distributions across all
+images from class 4 of the number of active neurons a (left) and rise time τ (right) for the neurons in P4 (red) and P9 (orange)
+analogous to Figure 1e but this time only for a subset of neurons. (d) Corresponding state space representation of the medians
+of the distributions for the two paths in d in sequence of the layers, analogous to Figure 1d. (e) Evaluation of the activation of
+the paths. Each matrix entry is the mean activation of the paths χ (Equation 3) for all images of a given class . The colorbar
+indicates the mean activation, red indicates a strong activation of Pol , gray indicates predominant activation of Nol . (f ) Box
+plots for the distribution of the activation for all images, split between the activation when the image class and output neuron
+are the same (black) or different (gray) for each layer. An activation of zero corresponds to chance level (dashed black line).
+
+
+
+
+                                                                                                                               7
+P9 to output neuron 9 (orange: P9 , gray: N9 ). Note                      In Figure 4e, we show the mean activation for each of
+that both panels show the same spiking activity, merely               the ten paths across all images of each individual class as
+labeled differently with regard to different paths. Specif-           a matrix: rows for image classes and columns for output
+ically, the left panel highlights the spikes through the              neurons; one matrix per layer. The early layers do not
+path to the correct output neuron, and the right panel                show a concentration of activity on the correct path: the
+to an incorrect output neuron. We observe more and                    diagonal elements of the matrices up until layer 2 are not
+earlier spikes for neurons belonging to P4 compared to                distinguishable from the off-diagonal elements. In layer
+those in P9 , most evidently in the deeper layers of the              3 and 4, each path is activated in response almost only
+network, before the first spike occurs in the output layer.           to the images of its corresponding class, indicating that
+Furthermore, the spikes of the neurons in P4 are pre-                 in these layers the correct path is selectively activated,
+cisely synchronized in the deeper layers. In contrast, the            with the incorrect paths activated only at a chance level
+neurons in P9 emit only a small amount of asynchronous                (χ ≈ 0). Notably, some paths are in general more active
+spikes deeper into the network before the first spike in              to all images (i.e., the columns for these paths are “more”
+the output layer.                                                     red) than the others, but deeper in the network the
+    This relates to our earlier observation, namely, the              activation is highest for images of the correct class. This is
+shaping and propagation of pulse packets through the                  quantitatively confirmed by the distributions of activation
+network (Figure 1c-f). Hence, we employ here again the                (Figure 4f) across all images, shown separately for the
+same quantification of the activity using the rise time τ             correct paths (black) and the incorrect paths (gray). The
+and the number of leading neurons a, but in this case                 activation gets increasingly higher for the correct paths
+separately for the neurons in each individual path. The               deeper in the network, whereas the activation of the
+distributions of a and τ across all images of class 4 for             incorrect paths stays around zero throughout the layers.
+the two paths considered above (Figure 4c, P4 in red                      A high activation indicates that the neurons preferen-
+and P9 in orange) show that for both paths the rise time              tially propagating activity through the path are earlier
+first increases and then decreases, similarly to the pre-             active than neurons that would propagate activity not
+vious observation from all excitatory neurons together                through the path. The activation of the individual path
+(Figure 1e, red arrows). However, the two paths behave                needs to be high enough so that the activity further
+differently regarding the number of leading neurons. For              propagates along that path. The deciding factor for the
+P4 , the number of active neurons first decreases and                 selection of the correct path is not the activation of the
+then increases, again as observed in Figure 1e (red). In              path compared to the other paths, but whether the acti-
+contrast, for P9 , the number of active neurons decreases             vation of the given path is sufficient to further propagate
+constantly, which in part explains the decrease of τ in               activity.
+the deeper layers in this path, i.e., there are hardly any
+leading neurons and hence the rise time is bound to be
+extremely short. When an image of class 9 is given as                 Discussion
+the input, we observe the exact inverse (Supplemental
+                                                                      We analyze the spiking activity and connectivity struc-
+Information: Figure S3), with activity along path P9
+                                                                      ture of a deep SNN with distinct excitatory and inhibitory
+being shaped into a compact and stable pulse, and the
+                                                                      populations, trained to classify visual input. In response
+activity along P4 gradually fading out. Thus, the present
+                                                                      to different images, we observe pulse packets i.e., syn-
+example clearly shows that the activity through the “cor-
+                                                                      chronous volleys of spikes, propagating through the net-
+rect” pathway, i.e., the one corresponding to the correct
+                                                                      work that first broaden and then sharpen again. While
+output neuron, survives and gets strengthened, and the
+                                                                      these pulse packets propagate downstream through the
+activity in the incorrect path dies out (Figure 4d).
+                                                                      network, the neurons active within the packet become
+    For the quantification of this observation we define
+                                                                      increasingly indicative of the image class. This in particu-
+the activation χlo,x of the stage Pol in response to image
+                                                                      lar holds true for the excitatory neurons, while inhibitory
+x in layer l as
+                                                                      neurons generally respond in a less specific manner. Turn-
+                    |Vxl ∩ Pol | − |Vxl ∩ Nol | − µlo,x               ing to the network connectivity, starting from individual
+          χlo,x =                    l
+                                                        ,   (3)       output neurons we identify different paths each of which
+                                   σo,x
+                                                                      corresponds to one image class. Comparing these paths
+where we again consider the set of leading neurons Vxl                reveals an increasing separation with network depth on
+as defined earlier. This measure evaluates if the neurons             a structural level. Connecting the analysis of the spik-
+within the path Pol or those outside the path Nol are                 ing activity with the identified paths, we demonstrate
+more activated. µlo,x and σo,xl
+                                 are for normalizing χlo,x            that upon presentation of an image the evoked activity
+(for details see Methods: Activation of neural subsets)               propagates along the path to the class of the presented
+such that χo,x equals zero when the neurons are randomly              image.
+active independently of their assignments to the path.                    Feed-forward networks supporting the propagation
+The larger χlo,x is, the more neurons within the path are             of a pulse packet have been discussed extensively in the
+activated compared to the neurons outside the path. We                context of synfire chains (SFCs) (Abeles, 1982; Abeles,
+obtain, for each image x, in total ten χlo,x per layer, one           1991; Diesmann et al., 1999; Tetzlaff et al., 2002; Kumar
+for each output neuron.                                               et al., 2008; Trengove et al., 2013). SFCs were suggested
+
+
+                                                                  8
+as a model for reliable and fast propagation of activity            tivity. This is sufficient for classifying MNIST. For more
+in neural networks. Each of the paths in the network                complex object recognition (Kar et al., 2019) or other
+studied here that are activated upon presentation of                cortical processes, like attention (Lamme and Roelfsema,
+the various images can be identified as a SFC. Thus,                2000; Supèr et al., 2001) or learning (Hinton et al., 1995)
+images are classified by triggering activity along the SFC          recurrent connections are suggested to be required. The
+corresponding to the correct class. In this sense, the              influence of recurrent connections on the here studied
+studied network can be thought of as computing with                 mechanism needs to be studied in future work.
+SFCs.                                                                   By including excitatory and inhibitory neurons, we
+    Given the large number of neurons in the network, it            recover another property observed in cortical networks:
+seems plausible that many more SFCs can be embedded                 excitatory neurons are more sharply tuned to a specific
+than required to classify MNIST. In practice, we expect             stimulus, while the inhibitory neurons are less specific
+that the number of paths depends on the one hand on                 (Sohya et al., 2007; Niell and Stryker, 2008; Lundqvist
+the statistics of the input data, i.e., the inter- and intra-       et al., 2010). Inhibitory neurons are employed during the
+class variability, and on the other hand the capacity limit         propagation of the activity, but they do not carry the
+to embed paths in the network (Bienenstock, 1995). The              main information about the image class. Rather, they
+evoked activity by different images of the same class               regulate the network by providing unspecific inhibitory
+needs to converge to the same path while activity for               input to the excitatory neurons in the next layer, akin
+images from different classes needs to be distinguishable.          to the blanket of inhibition, i.e. the dense and unspecific
+    Each image class is represented by a distinct subset            innervation of excitatory neurons by inhibitory neurons,
+of neurons that consistently spike early upon the pre-              found in cortical circuits (Fino and Yuste, 2011; Karnani
+sentation of an image of a given class. With this, the              et al., 2014). Similarly, inhibition has been found to
+latency code representing the image is transformed into a           restrict the spatial spread and temporal persistence of
+binary code of the leading neurons representing the image           neural activity in visual cortex (Haider et al., 2013). Ad-
+class. The neurons in the deeper layer are specialized, i.e.,       ditionally, inhibition could facilitate the synchronization
+clearly representative of a particular class. This is similar       of the pulse packets, as had been reported in a previous
+to the well-known “grandmother neurons” or concept                  study (Shinozaki et al., 2010). In our network the in-
+cells in areas higher in the visual hierarchy (Kobatake             hibitory neurons develop a similar facilitating role though
+and Tanaka, 1994; Quiroga et al., 2005; Rust and DiCarlo,           the training.
+2010; Quiroga, 2012). The representation of the image                   We note that the size of the employed network consists
+class becomes clearer with network depth, denoising and             of a much larger number of neurons and layers than nec-
+semantizing the input through the propagation of signals            essary to classify MNIST. In the original implementation,
+along the paths (Kadmon and Sompolinsky, 2016; Zajzon               Göltz et al. (2021) showed that the task can already be
+et al., 2023). Thus our network reproduces a prominent              solved by a network with only one hidden layer. Since in
+characteristic of neurons in the visual hierarchy.                  this work we aimed at investigating the relation between
+    Remarkably, the network was not trained with this               signal propagation and computation, we chose a network
+mechanism in mind: the loss function is based on the                that contained more layers. We expect the result to be
+spike times of the output neurons and trained the network           transferable to more complex visual tasks, since MNIST
+with regular error backpropagation (for details see Göltz          does not contain any structure that inherently enforces
+et al. (2021)). Images were provided in form of spike times         the observations we report here.
+with a latency code, an efficient and easy-to-implement                 Recently the theoretical analysis of the dynamics
+code for rapid processing (Thorpe et al., 2001). The                of learning capabilities in artificial neuronal networks
+described mechanism automatically emerged through the               has gained attention (Schoenholz et al., 2017; Fischer
+training. We view this as a direct consequence of the               et al., 2023; van Meegen and Sompolinsky, 2025). The
+interplay between the spike latency coding in the input,            approaches in these studies allow for a statistical assess-
+the loss function that enforces competition between the             ment across different networks. In contrast, here we
+output neurons for who spikes first, and the learning               focused the analysis on one concrete realization of an
+algorithm which ultimately moves spike times to produce             SNN. This complementary approach enables a dissection
+the desired outcome.                                                of the relationship between structure and function on a
+    The network analyzed in this study forms a structure            more fine-grained level, doing justice to the individual-
+that enables the fast propagation through multiple layers           ity of each trained network. However, results for other
+of a network. Visual processing in the brain shares a simi-         realizations are qualitatively similar (Supplemental In-
+lar property: it is well known that in the human brain the          formation: Figure S4). Focusing on a specific network
+visual processing from image presentation to recognition            acknowledges the fact that natural neural networks are
+is very fast (∼ 150 ms) (Thorpe et al., 1996; Hung et al.,          not the averages of a distribution, but a concrete instance
+2005). Additionally, simple object recognition often relies         that grow and adjust to fulfill a specific function. With
+on the first feed-forward sweep of activity (Lamme and              our idiographic (Windelband, 1998) approach we provide
+Roelfsema, 2000; Roelfsema, 2023), and information is               insight into SNNs, even if we base the analysis on only
+transmitted by the first spikes in response to a stimulus           few examples. In this way, our approach is similar to the
+(Johansson and Birznieks, 2004). The processing in our              analysis of neuroscientific experiments, where one also
+network relies also only on the feed-forward sweep of ac-           has access to only a few subjects (Fries and Maris, 2022).
+
+
+                                                                9
+    Future work could address how different spike timing            corresponds to a maximum after the first spike in the
+codes, imposed by construction, would shape the learned             layer.
+activity in the network. Similarly, the impact of differ-
+ent learning rules could be analyzed. In this way, the              Set of leading neurons
+universality of the identified shared properties between
+the visual system and the networks studied here can be              We define a set of leading neurons Vxl for image x in layer
+investigated. Additionally, a thorough analysis of SNNs             l on the basis of the rise time τx .
+may help to also improve their performance (Dold and
+Petersen, 2025).
+    Expanding the approach of our analysis to more                              Vxl = {i|ti,x <= min(ti,x ) + τx } ,                    (4)
+                                                                                                              i
+complex networks and more complex visual tasks will
+strengthen the connection between functional neural net-            with the spike time ti,x of each neuron i.
+works and fundamental concepts in neuroscience. This
+includes whether trained SNNs form receptive fields, or if          Similarity of sets of leading neurons
+through the training binding emerges (Singer and Gray,
+                                                                    To measure similarity between the sets, we define a mea-
+1995). Moreover, future analyses could also address net-
+                                                                    sure on the basis of the Pearson product-moment corre-
+works with recurrent connections and ongoing activity.
+                                                                    lation coefficient. For that, we need to define a mean µ,
+Thus, we view this work explicitly as a starting point
+                                                                    a variance and covariance in the context of our sets. To
+for further studies of how structures inside the brain are
+                                                                    this end we interpret the neurons of in a layer as a binary
+capable of learning efficient spike-based codes. While
+                                                                    vector with N l elements vx,il              l
+                                                                                                     for which vx,i = 1 ∀ i ∈ Vxl
+our comparatively simple networks already allow the for-                  l              l
+mulation of clear and rigorous links between gradient               and vx,i = 0 ∀ i ∈
+                                                                                     / Vx . In this framework we use the mean
+descent on spike times and observations in cortex, further          over the entries of this vector.:
+extensions of our model will provide additional insight                                              Nl
+                                                                                             1 X l       |V l |
+into the computational role of the various components –                              µlx =    l
+                                                                                                   vx,i = xl .                          (5)
+in structure and dynamics – observed in the brain.                                           N i=1        N
+
+                                                                    Accordingly, for the variance we have:
+Methods                                                                                   Nl
+                                                                                     1 X l
+                                                                           Varlx =          (v − µlx )2                                 (6)
+Network setup                                                                        N l i=1 x,i
+The investigated networks are multi-layer, feed-forward,                                  Nl
+                                                                                   1 X      l         l
+                                                                                               )2 − 2vx,i µlx + (µlx )2
+                                                                                                                        
+all-to-all connected networks of spiking neurons. Here,                          = l     (vx,i                                          (7)
+we elaborate on the setup of the experiments (for details                         N i=1
+                                                                                      l          
+see Göltz et al., 2021): The neurons are leaky integrate-                             N
+                                                                                   1 X l 2 
+and-fire neurons with exponential synapses and a long                            = l      (vx,i )   − (µlx )2                           (8)
+refractory time constant to ensure single spikes per neu-                         N   i=1
+ron. Following an input sample, the spiking activity of                                                      2
+                                                                                     |Vxl |         |Vxl |
+                                                                                                
+the neurons is given by a differentiable function, and its                       =          −                     ,                     (9)
+derivatives are used to optimize the parameters in the                                Nl             Nl
+network with gradient descent (Equations 2, 4, 5 in Göltz          and the covariance:
+et al., 2021) in a mini-batch training setup. The precise
+parameters of training as well as the training code are                                         Nl
+                                                                                        1 X l
+given alongside the trained network, see Code and data                       Covlx,y =         (v − µlx )(vy,i
+                                                                                                            l
+                                                                                                               − µly )                 (10)
+                                                                                       N l i=1 x,i
+availability.                                                                               l            
+    In a change from the referenced manuscript, here we                                       N
+                                                                                        1 X l l 
+respect Dale’s law and separate the neurons into an exci-                             = l        vx,i vy,i − µlx µly                   (11)
+                                                                                       N
+tatory and an inhibitory population in the hidden layers.                                    i=1
+We ensure the desired effect by clipping the outgoing                                     |Vxl ∩ Vyl | |Vxl ||Vyl |
+weights to positive and negative values, respectively.                                =               −             .                  (12)
+                                                                                              Nl        (N l )2
+
+Rise time                                                           From this we obtain the similarity between sets as defined
+                                                                    in Equation 1:
+The rise time τx is measured on the basis of the population
+spike time histogram in each layer individually for the                                 Covlx,y
+activity in response to image x. For the calculations in                    ρlx,y = q                                                  (13)
+this paper, we calculate the spike time histogram with                                  Varlx Varly
+a sliding bin size of 0.05 τsyn with non-exclusive binning.                                N l |Vxl ∩ Vyl | − |Vxl ||Vyl |
+The rise time is defined as the center of the first bin that                     =q                                                .   (14)
+                                                                                        |Vxl ||Vyl |(N l − |Vxl |)(N l − |Vyl |)
+
+
+                                                               10
+Information gain                                                       drawn randomly from Pol or Nol respectively.
+We first measure the entropy H of the distribution of im-                                 
+                                                                                               |P l |
+                                                                                                       
+age classes X. we then measure the neuron-conditional                         µo,i =|Vil | 2 ol − 1                            (22)
+                                                                                                 N
+entropy H(X|i), i.e., the entropy of the posterior distribu-                        s
+                                                                                          |P l |      |P l |             l
+                                                                                                            
+tion of X given that neuron i was active. The information                                                      l | N − |Vi |
+                                                                              σo,i = 4 ol 1 − o |Vo,i                          (23)
+gain IGi for neuron i is the normalized difference between                                 N           N            N −1
+these two entropies:
+                                                                                                                               |P l |
+                        H(X) − H(X|i)                                  The probability of drawing a neuron from Pol is Nol .
+                  IGi =               .                   (15)         Accordingly, the probability for drawing a neuron from
+                           H(X)                                               |N l |     |P l |
+                                                                       Nol is Nol = 1 − Nol . We draw |Vil | neurons without
+Assignment of neural subsets and paths                                 replacement from the layer. This corresponds to a hyper-
+                                                                       geometric distribution, thus follows µo,i as mean and
+For identifying the paths, we start with the neurons in                σo,i as standard deviation if the neurons were drawn
+the last hidden layer, since they are directly responsi-               randomly.
+ble for the classification by the output neurons. Let’s
+consider output neuron o. To evaluate which neurons in                 Code and data availability
+layer 4 preferentially target this neuron, we compare the
+                        4                                              Code for the network simulations is available at https:
+connection weight wo,i      of each neuron i to the output
+neuron o with the averageP      weight of given neuron to all          //github.com/JulianGoeltz/fastAndDeep. Code for
+                            1    9
+output neurons: w̄i4 = 10               4
+                                 j=0 wj,i with respect to the
+                                                                       the analysis will be made available as of the date of pub-
+standard deviation σw   4
+                            of these weights. All neurons in           lication. Any additional information required to recreate
+                          i
+layer 4 that fulfill wo,i > w̄i4 + σw
+                      4             4
+                                        are assigned to the set        the results reported in this paper is available from the
+                                      i
+  4
+Po of neurons in layer 4 with strong impact on output                  lead contact upon request.
+neuron o. The neurons that do not fulfill this condition
+are in set No4 , resulting in:
+                                                                       Author contributions
+                Po4 ={i|wo,i
+                         4
+                             > w̄i4 + σw
+                                       4
+                                           }              (16)
+                                         i                             Conceptualization, JOF, JI, MAP, SG; Methodology,
+                  4      4        4    4
+                No ={i|wo,i ≤ w̄i + σwi },                (17)         JG, LK, MAP; Software, JOF, ACK, JG, LK; Formal
+             q P                                                       Analysis JOF, ACK, JI, SG; Investigation, JG, LK, MAP;
+       4        1    9     4       4 2                                 Visualization, JOF, ACK; Writing – Original Draft, JOF,
+with σw  i
+           =   10    j=0 (wj,i − w̄i ) .
+    Then in the penultimate layer (layer 3), we calculate              ACK, JG, LK, JI, MAP, SG; Writing – Review & Editing,
+for each neuron the average connection weight to neurons               JOF, ACK, JG, LK, JI, MAP, SG; Funding Acquisition,
+in Po4 and No4 , respectively:                                         MAP, SG; Resources, MAP, SG; Project Administration,
+                                                                       JOF, SG; Supervision, JI, MAP, SG.
+                   3          1 X 3
+                 w̄i,p,o =            wj,i and            (18)
+                             |Pol | 4
+                                 j∈Po                                  Acknowledgements
+                   3          1 X 3
+                 w̄i,n,o =            wj,i .              (19)         We thank Markus Diesmann, Günther Palm and Shigeru
+                             |Nol | 4
+                                  j∈No                                 Shinomoto for intense and fruitful discussions. This
+                                                                       research was funded by the European Union’s Horizon
+On this basis we again assign neurons to two sets:
+                                                                       2020 Framework programme for Research and Innovation
+                  Po3 ={i|w̄i,p,o
+                            3         3
+                                  > w̄i,n,o }             (20)         under Specific Grant Agreements No. 945539 (HBP
+                                                                       SGA3) and No. 101147319 (EBRAINS 2.0 Project), the
+                  No3 ={i|w̄i,p,o
+                            3         3
+                                  < w̄i,n,o }.            (21)         NRW-network ’iBehave’(NW21-049) and the Helmholtz
+                                                                       Joint Lab SMHB. This work was performed as part of
+This procedure is repeated backwards through the whole
+                                                                       the Helmholtz School for Data Science in Life, Earth
+network, until all excitatory neurons in the hidden layers
+                                                                       and Energy (HDS-LEE). We further wish express our
+and the neurons in the input layer are assigned.
+                                                                       gratitude to the Manfred Stärk Foundation for their
+                                                                       continuing support of the NeuroTMA Lab.
+Activation of neural subsets
+The activation χlo,x as defined in Equation 3 is normalized            References
+with respect to random activity of the neurons. It is used
+to evaluate whether |Vxl ∩ Pol | or |Vxl ∩ Nol | is larger. For        Abeles, M. (1982). Local Cortical Circuits: An Electro-
+this it takes into account the expected value µo,i and the               physiological Study. Studies of Brain Function. Berlin,
+standard deviation σo,i , if the leading neurons would be                Heidelberg, New York: Springer-Verlag.
+                                                                       — (1991). Corticonics: Neural Circuits of the Cerebral
+                                                                         Cortex. 1st. Cambridge: Cambridge University Press.
+
+
+                                                                  11
+Barral, J., X.-J. Wang, and A. D. Reyes (2019). “Propaga-               the Cat’s Visual Cortex”. Journal of Physiology 160,
+    tion of temporal and rate signals in cultured multilayer            pp. 106–154.
+    networks”. Nature Communications 10.1. Publisher:               Hung, C. P. et al. (2005). “Fast Readout of Object Iden-
+    Nature Publishing Group, p. 3969.                                   tity from Macaque Inferior Temporal Cortex”. Science
+Bienenstock, E. (1995). “A model of neocortex”. Network:                310.5749, pp. 863–866.
+   Computation in Neural Systems 6.2, pp. 179–224.                  Izhikevich, E. M. (2006). “Polychronization: computation
+Bohte, S. M., J. N. Kok, and H. La Poutré (2002). “Error-             with spikes”. Neural Computation 18.2, pp. 245–282.
+    backpropagation in temporally encoded networks of               Johansson, R. and I. Birznieks (2004). “First spikes in
+    spiking neurons”. Neurocomputing 48.1, pp. 17–37.                   ensembles of human tactile afferents code complex
+Churchland, M. M. et al. (2012). “Neural population                     spatial fingertip events.” Nature Neuroscience 2.7,
+    dynamics during reaching”. Nature 487.7405, p. 51.                  pp. 170–177.
+Diesmann, M., M.-O. Gewaltig, and A. Aertsen (1999).                Kadmon, J. and H. Sompolinsky (2016). “Optimal Archi-
+   “Stable propagation of synchronous spiking in cortical               tectures in a Solvable Model of Deep Networks”. In:
+    neural networks”. Nature 402.6761, pp. 529–533.                    Advances in Neural Information Processing Systems
+Dold, D. and P. C. Petersen (2025). “Causal pieces:                    29. Ed. by D. D. Lee et al. Curran Associates, Inc.,
+    analysing and improving spiking neural networks piece               pp. 4781–4789.
+    by piece”. ArXiv.                                               Kar, K. et al. (2019). “Evidence that recurrent circuits
+Eccles, J. C. (1957). The physiology of nerve cells. Balti-             are critical to the ventral stream’s execution of core
+    more: Johns Hopkins Press.                                          object recognition behavior”. Nature Neuroscience
+Fino, E. and R. Yuste (2011). “Dense inhibitory connec-                 22.6, pp. 974–983.
+    tivity in neocortex”. Neuron 69.6, pp. 1188–1203.               Karnani, M. M., M. Agetsuma, and R. Yuste (2014).
+Fischer, K., D. Dahmen, and M. Helias (2023). “Field                   “A blanket of inhibition: functional inferences from
+    theory for optimal signal propagation in ResNets”.                  dense inhibitory connectivity”. Current Opinion in
+   ArXiv.                                                              Neurobiology 26, pp. 96–102.
+Fries, P. and E. Maris (2022). “What to Do If N Is Two?”            Kilavik, B. E. et al. (2009). “Long-term modifications in
+   Journal of Cognitive Neuroscience 34.7, pp. 1114–                    motor cortical dynamics induced by intensive prac-
+    1118.                                                               tice”. Journal of Neuroscience 29.40, pp. 12653–12663.
+Gallego, J. A. et al. (2017). “Neural manifolds for the             Kobatake, E. and K. Tanaka (1994). “Neuronal selectivi-
+    control of movement”. Neuron 94.5, pp. 978–984.                     ties to complex object features in the ventral visual
+Gao, P. et al. (2017). “A theory of multineuronal di-                   pathway of the macaque cerebral cortex”. Journal of
+    mensionality, dynamics and measurement”. BioRxiv,                  Neurophysiology 71.3, pp. 856–867.
+    p. 214262.                                                      Krizhevsky, A., I. Sutskever, and G. E. Hinton (2012).
+Georgopoulos, A., A. Schwartz, and R. Kettner (1986).                  “Imagenet classification with deep convolutional neu-
+   “Neuronal population coding of movement direction.”                  ral networks”. In: Advances in Neural Information
+    Science 4771.233, pp. 1416–1419.                                   Processing Systems. Ed. by F. Pereira et al. Vol. 25.
+Georgopoulos, A. et al. (1982). “On the relations between               Curran Associates, Inc., pp. 1097–1105.
+    the direction of two-dimensional arm movements and              Kumar, A. et al. (2008). “The High-Conductance State of
+    cell discharge in primate motor cortex.” Journal of                 Cortical Networks”. Neural Computation 20.1, pp. 1–
+    Neuroscience 11.2, pp. 1527–1537.                                  43.
+Göltz, J. et al. (2021). “Fast and energy-efficient neuro-         Lamme, V. A. and P. R. Roelfsema (2000). “The distinct
+    morphic deep learning with first-spike times”. Nature               modes of vision offered by feedforward and recurrent
+    Machine Intelligence 3 (9), pp. 823–835.                            processing”. Trends in Neurosciences 23, pp. 571–579.
+Gray, C. M. and W. Singer (1989). “Stimulus-specific                LeCun, Y et al. (1998). “Gradient-based learning applied
+    neuronal oscillations in orientation columns of cat vi-             to document recognition”. Procedings of the IEEE
+    sual cortex”. Proceedings of the National Academy of                86.11, pp. 2278–2324.
+    Sciences of the United States of America 86, pp. 1698–          Levina, A., V. Priesemann, and J. Zierenberg (2022).
+    1702.                                                              “Tackling the subsampling problem to infer collective
+Gray, C. M. et al. (1989). “Oscillatory responses in                    properties from limited data”. Nature Reviews Physics
+    cat visual cortex exhibit inter-columnar synchroniza-              4.12. Publisher: Nature Publishing Group, pp. 770–
+    tion which reflects global stimulus properties”. Na-                784.
+   ture 338.6213. Publisher: Nature Publishing Group,               Lindsay, G. W. (2021). “Convolutional Neural Networks
+    pp. 334–337.                                                        as a Model of the Visual System: Past, Present, and
+Haider, B., M. Häusser, and M. Carandini (2013). “In-                  Future”. Journal of Cognitive Neuroscience 33.10,
+    hibition dominates sensory responses in the awake                   pp. 2017–2031.
+    cortex”. Nature 493, pp. 97–100.                                Lundqvist, M., A. Compte, and A. Lansner (2010). “Bistable,
+Hinton, G. E. et al. (1995). “The ”Wake-Sleep” Algorithm                Irregular Firing and Population Oscillations in a Mod-
+    for Unsupervised Neural Networks”. Science 268.5214,                ular Attractor Memory Network”. PLOS Computa-
+    pp. 1158–1161.                                                     tional Biology 6.6, e1000803.
+Hubel, D. H. and T. N. Wiesel (1962). “Receptive Fields,
+    Binocular Interaction, and Functional Architecture in
+
+
+                                                               12
+Markram, H. et al. (2004). “Interneurons of the neocorti-            Neurons in Layer II/III of Visual Cortex, as Revealed
+   cal inhibitory system”. Nature Reviews Neuroscience               by In Vivo Functional Ca2+ Imaging in Transgenic
+   5.10, pp. 793–807.                                                Mice”. Journal of Neuroscience 27.8, pp. 2145–2149.
+Morales-Gregorio, A. et al. (2024). “Neural manifolds in         Sotomayor-Gómez, B., F. P. Battaglia, and M. Vinck
+   V1 change with top-down signals from V4 targeting                (2025). “Firing rates in visual cortex show represen-
+   the foveal region”. Cell Reports 43.7, p. 114371.                 tational drift, while temporal spike sequences remain
+Neftci, E. O. et al. (2017). “Event-driven random back-              stable”. Cell Reports 44.4, p. 115547.
+   propagation: Enabling neuromorphic deep learning              Stringer, C. et al. (2019). “High-dimensional geometry
+   machines”. Frontiers in Neuroscience 11, p. 324.                  of population responses in visual cortex”. Nature
+Niell, C. M. and M. P. Stryker (2008). “Highly Selective             571.7765, pp. 361–365.
+   Receptive Fields in Mouse Visual Cortex”. Journal             Supèr, H., H. Spekreijse, and V. A. F. Lamme (2001).
+   of Neuroscience 28.30, pp. 7520–7536.                            “Two distinct modes of sensory processing observed
+Perkel, D. H. and T. H. Bullock (1968). “Neural coding”.             in monkey primary visual cortex (V1)”. Nature Neu-
+   Neurosciences Research Program Bulletin 6.3, pp. 221–            roscience 4.3. Publisher: Nature Publishing Group,
+   348.                                                              pp. 304–310.
+Prut, Y. et al. (1998). “Spatiotemporal structure of cor-        Tetzlaff, T., T. Geisel, and M. Diesmann (2002). “The
+   tical activity: properties and behavioral relevance”.             ground state of cortical feed-forward networks”. Neu-
+   Journal of Neurophysiology 79.6, pp. 2857–2874.                  rocomputing 44–46, pp. 673–678.
+Quiroga, R. Q. et al. (2005). “Invariant visual represen-        Thorpe, S., A. Delorme, and R. Van Rullen (2001). “Spike-
+   tation by single neurons in the human brain”. Na-                 based strategies for rapid processing”. Neural Net-
+   ture 435.7045. Publisher: Nature Publishing Group,               works 14.6, pp. 715–725.
+   pp. 1102–1107.                                                Thorpe, S., D. Fize, and C. Marlot (1996). “Speed of
+Quiroga, R. Q. (2012). “Concept cells: the building blocks           processing in the human visual system”. Nature 381,
+   of declarative memory functions”. Nature Reviews                  pp. 520–522.
+   Neuroscience 13.8. Publisher: Nature Publishing Group,        Torre, E. et al. (2016). “Synchronous spike patterns in
+   pp. 587–597.                                                      macaque motor cortex during an instructed-delay
+Reyes, A. D. (2003). “Synchrony-dependent propagation                reach-to-grasp task”. Journal of Neuroscience 36.32,
+   of firing rate in iteratively constructed networks in             pp. 8329–8340.
+   vitro”. Nature Neuroscience 6.6, pp. 593–599.                 Trengove, C., C. van Leeuwen, and M. Diesmann (2013).
+Richards, B. A. et al. (2019). “A deep learning frame-              “High-capacity embedding of synfire chains in a corti-
+   work for neuroscience”. Nature Neuroscience 22.11.                cal network model”. Journal of Computational Neu-
+   Publisher: Nature Publishing Group, pp. 1761–1770.               roscience 34.2, pp. 185–209.
+Riehle, A. et al. (1997). “Spike synchronization and rate        van Meegen, A. and H. Sompolinsky (2025). “Coding
+   modulation differentially involved in motor cortical              schemes in neural networks learning classification
+   function”. Science 278.5345, pp. 1950–1953.                       tasks”. Nature Communications 16.1. Publisher: Na-
+Roelfsema, P. R. (2023). “Solving the binding problem:               ture Publishing Group, p. 3354.
+   Assemblies form when neurons enhance their firing             van Rossum, M. C. W., G. G. Turrigiano, and S. B.
+   rate—they don’t need to oscillate or synchronize”.                Nelson (2002). “Fast Propagation of Firing Rates
+   Neuron 111.7, pp. 1003–1019.                                      through Layered Networks of Noisy Neurons”. Journal
+Rosenblatt, F (1958). “The perceptron: a probabilistic              of Neuroscience 22.5, pp. 1956–1966.
+   model for information storage and organization in the         Vogels, T. P. and L. F. Abbott (2005). “Signal propaga-
+   brain”. Psychol Rev 65, pp. 386–408.                              tion and logic gating in networks of integrate-and-fire
+Rust, N. C. and J. J. DiCarlo (2010). “Selectivity and               neurons”. Journal of Neuroscience 25.46, pp. 10786–
+   Tolerance (“Invariance”) Both Increase as Visual In-             10795.
+   formation Propagates from Cortical Area V4 to IT”.            Windelband, W. (1998). “History and Natural Science”.
+   Journal of Neuroscience 30.39. Publisher: Society for            Theory & Psychology 8.1, pp. 5–22.
+   Neuroscience Section: Articles, pp. 12978–12995.              Wunderlich, T. C. and C. Pehle (2021). “Event-based
+Schoenholz, S. S. et al. (2017). “Deep information prop-             backpropagation can compute exact gradients for spik-
+   agation”. 5th International Conference on Learning                ing neural networks”. Scientific Reports 11.1. Pub-
+   Representations, ICLR 2017 - Conference Track Pro-                lisher: Nature Publishing Group, p. 12829.
+   ceedings.                                                     Xie, W. et al. (2024). “Neuronal sequences in population
+Shinozaki, T. et al. (2010). “Flexible traffic control of the        bursts encode information in human cortex”. Na-
+   synfire-mode transmission by inhibitory modulation:              ture 635.8040. Publisher: Nature Publishing Group,
+   Nonlinear noise reduction”. Physical Review E 81.1,               pp. 935–942.
+   p. 011913.                                                    Yamins, D. L. K. and J. J. DiCarlo (2016). “Using goal-
+Singer, W. and C. Gray (1995). “Visual feature integra-              driven deep learning models to understand sensory
+   tion and the temporal correlation hypothesis.” Annual             cortex”. Nature Neuroscience 19.3. Publisher: Nature
+   Review of Neuroscience 18, pp. 555–586.                           Publishing Group, pp. 356–365.
+Sohya, K. et al. (2007). “GABAergic Neurons Are Less             Yiling, Y. et al. (2023). “Robust encoding of natural
+   Selective to Stimulus Orientation than Excitatory                 stimuli by neuronal response sequences in monkey vi-
+
+
+                                                            13
+   sual cortex”. Nature Communications 14.1. Publisher:
+   Nature Publishing Group, p. 3021.
+Yin, B., F. Corradi, and S. M. Bohté (2023). “Accurate
+   online training of dynamical spiking neural networks
+   through Forward Propagation Through Time”. Nature
+   Machine Intelligence 5.5. Publisher: Nature Publish-
+   ing Group, pp. 518–527.
+Zajzon, B. et al. (2023). “Signal denoising through to-
+   pographic modularity of neural circuits”. eLife 12,
+   e77009.
+Zenke, F. and S. Ganguli (2018). “SuperSpike: Supervised
+   Learning in Multilayer Spiking Neural Networks”.
+   Neural Computation 30.6, 1514–1541.
+
+
+
+
+                                                           14
+Supplemental Information
+
+                                                                    rise time (as in main text)
+                       input                        layer 1                       layer 2                     layer 3                       layer 4
+            1                             1                           1                             1                           1
+neuron id
+
+
+
+
+                                        300                         300                           300                         300
+
+    784                                 400                         400                           400                         400
+                0 1 2 3 4 5 6 7 8 9           0 1 2 3 4 5 6 7 8 9         0 1 2 3 4 5 6 7 8 9           0 1 2 3 4 5 6 7 8 9         0 1 2 3 4 5 6 7 8 9
+                                                              fixed interval after first spike in layer
+            1                             1                           1                             1                           1
+neuron id
+
+
+
+
+                                        300                         300                           300                         300
+
+    784                                 400                         400                           400                         400
+                0 1 2 3 4 5 6 7 8 9           0 1 2 3 4 5 6 7 8 9         0 1 2 3 4 5 6 7 8 9           0 1 2 3 4 5 6 7 8 9         0 1 2 3 4 5 6 7 8 9
+                                                                 active before first output spike
+            1                             1                           1                             1                           1
+neuron id
+
+
+
+
+                                        300                         300                           300                         300
+
+    784                                 400                         400                           400                         400
+                0 1 2 3 4 5 6 7 8 9           0 1 2 3 4 5 6 7 8 9         0 1 2 3 4 5 6 7 8 9           0 1 2 3 4 5 6 7 8 9         0 1 2 3 4 5 6 7 8 9
+                                                                                image class
+Figure S1: Robustness for the definition of the sets of leading neurons. We can define the set of leading neurons
+in different ways: in the first row we show result on the basis the definition as in the main text, in the middle row the set is
+defined as all neurons that spike in the first 0.5 τsyn after the first spike in the layer and in the last row the set is defined as all
+neurons that spike before the first output spike.
+
+
+
+
+Figure S2: Distribution of similarities. Here we show the distribution of similarities across all images, split between image
+pairs of the same class (black) and different classes (grey).
+
+   input                                                                                                                                path to
+                                                                                                  25                                    output neuron 4
+layer 1                                                                                                                                 path to
+                                                                                                  20                                    output neuron 9
+layer 2                                                                                           15
+                                                                                              a
+
+
+
+
+layer 3                                                                                           10
+
+                                                                                                   5
+layer 4
+                 0             50         100           0.0               0.5               1.0         0.0         0.1               0.2             0.3
+                                    a                                 τ [τsyn ]                                           τ [τsyn ]
+Figure S3: Robustness of the result for images from another class. The results in this figure correspond to the result
+shown in Figure 4c and Figure 4d, but for all images from class 9.
+
+
+
+
+                                                                                     15
+                        image:                                                                                                                 input
+                                                                                                                                             layer 1
+
+     input                                                                                                                                   layer 2
+                                                                                                                                             layer 3
+
+                        1                                                                                                                    layer 4
+                                                                                                                                             layer 5
+                        2                                                                                                                               0               200        0.00 0.25 0.50 0.75
+layer
+
+
+
+
+                                                                                                                                                   40              a                       τ [τsyn ]
+                        3
+                                                                                                                                                   30
+                        4
+
+
+
+
+                                                                                                                                               a
+                                                                                                                                                   20
+                        5
+output                            0                        1                       2                                   3     8
+                                                                                                                                                   10
+     0.0                    0.5       1.0    0.0     0.5    1.0    0.0 0.5 1.0      0.0                    0.5      1.0                              0.0               0.1           0.2             0.3
+                                                               time [τsyn ]
+                                                                                                                                                                              τ [τsyn ]
+                             input                      layer 1             layer 2                                   layer 3                               layer 4                        layer 5
+                1                             1                        1                                   1                                   1                               1
+neuron id
+
+
+
+
+                                            300                            300                           300                                 300                             300
+     784                          400           400           400           400           400
+                        0123456789    0123456789    0123456789    0123456789    0123456789    0123456789
+                    0                                                                                                                                                                                        1
+                    1
+    image class
+
+
+
+
+                    2
+                    3
+                    4                                                                                                                                                                                        0
+
+
+
+
+                                                                                                                                                                                                                 ρ
+                    5
+                    6
+                    7
+                    8                                                                                                                                                                                        −1
+                    9
+                        0123456789                 0123456789                    0123456789                    0123456789                          0123456789                       0123456789
+        0.3
+
+        0.2
+                            IG = 0.24              IG = 0.27   IG = 0.07         IG = 0.33   IG = 0.28           IG = 0.65       IG = 0.47          IG = 0.9    IG = 0.33            IG = 0.94   IG = 0.54
+
+        0.1
+
+
+                 0.0   0.5    1.0 0.0   0.5    1.0 0.0   0.5    1.0 0.0   0.5    1.0 0.0   0.5    1.0 0.0   0.5    1.0
+                 0
+    output neuron
+
+
+
+
+                 1                                                                                                     1.0
+
+
+
+
+                                                                                                                                                                                                                 overlap θ
+                 2
+                 3        0   1            0   1            0   1            0   1            0   1            0   1
+                 4          θ                θ                θ                θ                θ                θ     0.5
+                 5
+                 6
+                 7
+                 8                                                                                                     0.0
+                 9
+                   0123456789       0123456789       0123456789       0123456789       0123456789       0123456789
+                0
+                                                                                                                                                                                                                 activation χ
+                 1
+ image class
+
+
+
+
+                2                                                                                                      5
+                 3
+                4                                                                                                      0
+                 5
+                6
+                 7                                                                                                     −5
+                8
+                 9
+ activation χ
+
+
+
+
+           10
+
+                    0
+
+   −10
+                        0123456789                 0123456789                    0123456789                    0123456789                          0123456789                      0123456789
+                                                                                        path to output neuron
+
+Figure S4: Summary figure for all results obtained from network initialized with another seed and 5 hidden
+layers in total. The results are analogous to the corresponding figures in the main document.
+
+
+
+                                                                                                          16
+

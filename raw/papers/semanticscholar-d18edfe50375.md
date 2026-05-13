@@ -1,0 +1,15 @@
+# Age‐Related Changes in Default Mode Network in Autism Spectrum Disorder: Insights From Effective Connectivity
+
+**Source**: semantic-scholar
+**ID**: d18edfe50375ecab2a9984e3f66cdbc3b733ca62
+**DOI**: 10.1002/hbm.70410
+**URL**: https://www.semanticscholar.org/paper/d18edfe50375ecab2a9984e3f66cdbc3b733ca62
+**Date**: 2025-11-29
+**Year**: 2025
+**Authors**: Soroor Shafieizadegan, F. Shayegh, R. Amirfattahi
+**Venue**: Human Brain Mapping
+**Citations**: 0
+
+## Abstract
+
+Altered brain connectivity in the default mode network (DMN) has frequently been reported in Autism Spectrum Disorder (ASD) patients compared to typically developing control (TC) participants. Most of these studies have focused on a specific age group or mixed‐age groups with ASD. This study investigates age‐related changes in effective connectivity (EC) within the DMN in individuals with ASD compared to TC. Using resting‐state functional magnetic resonance imaging (MRI) data from the ABIDE‐I and ABIDE‐II databases, we analyzed 591 ASD and 725 TC participants across three age cohorts: children (≤ 12 years), adolescents (12–18 years), and adults (≥ 18 years). Spectral Dynamic Causal Modeling was employed to estimate EC within the DMN, focusing on eight regions of interest: posterior cingulate cortex (PCC), medial prefrontal cortex (mPFC), left/right inferior parietal cortex (lIPC/rIPC), left/right middle temporal cortex (lMTC/rMTC), and left/right hippocampus (lHIP/rHIP). Parametric Empirical Bayes (PEB) analysis was used to assess group differences and age‐related changes in EC, while controlling for covariates such as gender, handedness, eye status, and head motion. Key findings revealed significant group differences in EC between ASD and TC across all age groups. In children, ASD exhibited both hyper‐ and hypo‐connectivity in various DMN connections, with most connections showing increased EC in ASD. Adolescents and adults with ASD displayed a mixed pattern of group differences in EC, though the majority of connections showed hypo‐connectivity in ASD. Age‐by‐group interactions observed in children and adolescents not adults, highlighted nonlinear developmental trajectories, with significant differences in EC patterns between ASD and TC. Additionally, in children and adults several extrinsic and intrinsic connections were associated significantly with diagnostic observation schedule (ADOS) symptom severity, such as overall ASD symptoms, communication and stereotyped behaviors, which these connections may serve as a neural marker of symptom severity in ASD. These findings underscore the dynamic nature of EC abnormalities in ASD across the lifespan, suggesting that early hyper‐connectivity may transition to hypo‐connectivity in later developmental stages. The study highlights the potential of EC as a biomarker for ASD and emphasizes the importance of age‐specific approaches in understanding the neural underpinnings of the disorder. Future research with larger datasets is needed to validate these findings and further explore the clinical relevance of EC in ASD diagnostics and interventions.

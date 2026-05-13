@@ -1,8 +1,10 @@
 ---
 created: 2026-04-24
-updated: 2026-05-13
-title: DataLad
-type: entity
+sources:
+- raw/papers/semanticscholar-8006c459587d.md
+- raw/papers/semanticscholar-0e3dfd0e1397.md
+- raw/papers/semanticscholar-518ee560ec89.md
+- raw/papers/semanticscholar-fcd025fcc10c.md
 tags:
 - software-brain-modeling
 - reproducibility
@@ -11,11 +13,9 @@ tags:
 - functional-connectivity
 - neuroimaging-fmri
 - database-hcp
-sources:
-- raw/papers/semanticscholar-8006c459587d.md
-- raw/papers/semanticscholar-0e3dfd0e1397.md
-- raw/papers/semanticscholar-518ee560ec89.md
-- raw/papers/semanticscholar-fcd025fcc10c.md
+title: DataLad
+type: entity
+updated: '2026-05-13'
 ---
 
 DataLad is a free and open-source distributed data management system built on Git and git-annex that enables versioning, sharing, and provenance tracking for datasets of arbitrary size. Originally developed for neuroscience, it has become a general-purpose tool for any domain where reproducibility and collaborative data stewardship are paramount. By combining the branching and history capabilities of distributed version control with content-addressable storage of large files, DataLad allows researchers to install a dataset, inspect its complete provenance graph, and selectively retrieve only the files they need without downloading terabytes of irrelevant data.
@@ -27,3 +27,10 @@ Technically, DataLad extends Git with git-annex to manage large binary files tha
 For [[whole-brain-modeling]] with [[the-virtual-brain]], DataLad offers a critical infrastructure layer that is often overlooked. TVB simulations require inputs such as [[structural-connectivity]] matrices derived from [[diffusion-imaging|diffusion-weighted imaging]] and [[tractography]], regional [[functional-connectivity]] estimates from [[resting-state]] or task-based [[neuroimaging-fmri]], and anatomical parcellations that constrain [[neural-mass-models]]. These inputs frequently originate from public repositories such as the [[human-connectome-project]] or the [[uk-biobank]], or from in-house multi-site acquisitions that must be curated before simulation. DataLad can version-control the entire pipeline from raw images through tractography and parcellation to the final connectivity weights fed into a TVB simulation, ensuring that any published virtual brain model can be reconstructed exactly from its documented data lineage.
 
 DataLad operates within a broader ecosystem of reproducible neuroinformatics tools. It complements workflow engines such as [[pydra]] and [[snakemake]] by versioning the data those pipelines consume and produce, and it integrates with container technologies such as [[apptainer]] to capture both software environment and data state. While platforms like [[openneuro]] provide hosted data sharing, DataLad provides the decentralized, peer-to-peer data management substrate that makes such sharing scalable and version-aware. Unlike generic cloud storage, DataLad preserves full provenance and supports selective access, making it particularly well-suited to the privacy and scale constraints of modern [[connectome]] research.
+
+## References
+
+1. Shawn T. Schwartz, Haopei Yang, Alice M. Xue, M. He. (2025). *eyeris: A flexible, extensible, and reproducible pupillometry preprocessing framework in R*. bioRxiv. [DOI](https://doi.org/10.1101/2025.06.01.657312)
+2. Abdalla Z. Mohamed, A. Qadi, Amna Dogar, Amal Salah, Aysha Hamkari, Dana Alkalali, G. Begum, Haidee Paterson, Imane Morjane, Omnia Hassanin, Puti Wen, Rawand Benour, Soumen Mohanty, Yvonne Vallès, Milos Ljubisavljevic, Y. Idaghdour, Osama Abdullah, Kartik K. Sreenivasan, B. Rokers. (2026). *The ASPIRE Research Institute Dataset: Building a Foundation for Brain Health Research in the United Arab Emirates*. Scientific Data. [DOI](https://doi.org/10.1038/s41597-025-06498-0)
+3. Rohan Banerjee, M. Kaptan, Alexandra Tinnermann, Ali Khatibi, Alice Dabbagh, C. Büchel, Christian W Kündig, C. S. Law, Dario Pfyffer, D. Lythgoe, Dimitra Tsivaka, D. Van de Ville, Falk Eippert, Fauziyya Muhammad, Gary H. Glover, Gergely Dávid, Grace Haynes, Jan Haaker, Jonathan C. W. Brooks, J. Finsterbusch, K. Martucci, K. Hemmerling, Mahdi Mobarak-Abadi, M. Hoggarth, M. Howard, Molly G. Bright, Nawal Kinany, O. Kowalczyk, Patrick Freund, Robert L. Barry, S. Mackey, Shahabeddin Vahdat, Simon Schading, Stephen B McMahon, Todd Parish, Véronique Marchand-Pauvert, Yufen Chen, Z. A. Smith, K. Weber, B. De Leener, Julien Cohen-Adad. (2025). *EPISeg: Automated segmentation of the spinal cord on echo planar images using open-access multi-center data*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.07.631402)
+4. Mathias Goncalves, Julia Moser, Thomas J. Madison, rae McCollum, Jacob T. Lundquist, Begim Fayzullobekova, Lidia Hadera, Han H. N. Pham, Lucille A. Moore, Audrey Houghton, Greg Conan, M. Styner, Dimitrios Alexopoulos, C. Smyser, Sally M Stoyell, Sanju Koirala, Steven M. Nelson, Kimberly B. Weldon, Erik G. Lee, R. Hermosillo, L. Vizioli, E. Yacoub, G. H. Patel, Juan Sanchez, K. Wengler, T. Salo, T. Satterthwaite, J. Elison, C. Markiewicz, R. Poldrack, E. Feczko, Oscar Esteban, D. Fair. (2025). *fMRIPrep Lifespan: Extending A Robust Pipeline for Functional MRI Preprocessing to Developmental Neuroimaging*. bioRxiv. [DOI](https://doi.org/10.1101/2025.05.14.654069)

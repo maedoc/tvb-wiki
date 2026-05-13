@@ -1,0 +1,618 @@
+                                                                                                                TYPE Original Research
+                                                                                                                PUBLISHED 23 February 2026
+                                                                                                                DOI 10.3389/fnins.2026.1598062
+
+
+
+
+                                             Segmentation and structural
+OPEN ACCESS
+                                             connectivity of the putamen for
+EDITED BY
+Yilong Ma,
+                                             targeted convection enhanced
+Feinstein Institute for Medical Research,
+United States                                drug delivery in Parkinson’s
+REVIEWED BY
+Alireza Gharabaghi,
+University of Tübingen, Germany
+                                             disease: a tractography-based
+Fakhereh Movahedian Attar,
+University Hospital Dusseldorf, Germany      approach
+Christopher Miller,
+University of Kansas Medical Center,
+United States                                Edgar Tessmann 1,2,3*, Marianne Schell 2,4, Sandro M. Krieg 1,2 and
+*CORRESPONDENCE
+                                             Martin Jakobs 1,2,3
+Edgar Tessmann
+  edgar.tessmann@gmail.com                   Department of Neurosurgery, Heidelberg University Hospital, Heidelberg, Germany, 2Medical Faculty,
+                                             1
+
+                                             Heidelberg University, Heidelberg, Germany, 3Division for Stereotactic Neurosurgery, Department of
+RECEIVED 24 March 2025
+REVISED 02 February 2026
+                                             Neurosurgery, Heidelberg University Hospital, Heidelberg, Germany, 4Department of Neuroradiology,
+ACCEPTED 04 February 2026                    Heidelberg University Hospital, Heidelberg, Germany
+PUBLISHED 23 February 2026
+
+CITATION
+Tessmann E, Schell M, Krieg SM and           Background: Convection-enhanced drug delivery (CED) for Parkinson’s disease
+Jakobs M (2026) Segmentation and             (PD) is costly, and current methods lack precision, often targeting the entire puta-
+structural connectivity of the putamen       men, leading to inefficient use of resources. Our simulation study explores a more
+for targeted convection enhanced drug
+delivery in Parkinson’s disease: a           targeted approach, which could reduce treatment costs by focusing therapy on
+tractography-based approach.                 specific putaminal regions, aiming to optimize delivery without compromising
+Front. Neurosci. 20:1598062.                 efficacy.
+doi: 10.3389/fnins.2026.1598062
+                                             Methods: Twenty PD patients underwent diffusion-weighted imaging (DWI) to
+COPYRIGHT
+                                             visualize the structural connectivity. A commercial subcortical auto-segmenta-
+© 2026 Tessmann, Schell, Krieg and
+Jakobs. This is an open-access article       tion tool was used to define the putamen as well as the amygdala, the STN, and
+distributed under the terms of the           the cerebellum. Utilizing the Julich Brain Atlas, nine cortical regions (Brodmann
+Creative Commons Attribution License         areas 44, 45, 3a/b, 4a/p, pre-SMA, SMA, and insula) were semi-automatically seg-
+(CC BY). The use, distribution or
+reproduction in other forums is              mented. Before tractography, the putamen was pre-parcellated into four seg-
+permitted, provided the original             ments in relation to the anterior commissure. Tractography was then performed
+author(s) and the copyright owner(s) are     to assess the cortical connectivity of each segment. We evaluated two virtual
+credited and that the original publication
+in this journal is cited, in accordance      injection trajectories (occipital and frontal) and simulated stepwise infusions of
+with accepted academic practice. No          a therapeutic agent. A genetic algorithm optimized the simulated infusions and
+use, distribution or reproduction is         compared coverage of the target region.
+permitted which does not comply with
+these terms.                                 Results: Tractography revealed a significant projection of motor areas to the
+                                             superior posterior segment of the putamen, suggesting this region as a more spe-
+                                             cific target for treating motor symptoms in PD via CED. Non-motor connections
+                                             were most common in the inferior posterior segment for the amygdala and in the
+                                             superior anterior segment for the insula. Both occipital and frontal trajectories
+                                             were found to be equally feasible for targeting the putamen segments, with sur-
+                                             gical feasibility varying by individual patient anatomy, and achieved comparable
+                                             coverage, with no significant difference between them, highlighting the need for
+                                             personalized surgical approaches.
+                                             Conclusion: DWI-based deterministic tractography mapped motor cortical pro-
+                                             jections most consistently to the superior-posterior putamen in our AC-based
+                                             segmentation. In our planning simulations, both frontal and occipital trajectories
+                                             could be planned with similar safety and achieved similar simulated coverage of
+                                             the segment. These results support using connectivity mapping and simple simu-
+                                             lation as a planning adjunct to help select a motor-dominant putaminal target
+                                             and compare trajectories. If validated clinically, targeting a motor-dominant
+
+
+Frontiers in Neuroscience                                          01                                                             frontiersin.org
+Tessmann et al.                                                                                                                10.3389/fnins.2026.1598062
+
+
+
+
+                                                    segment could reduce exposure of non-motor putaminal regions and potentially
+                                                    reduce the required infusion volume.
+
+                                                    KEYWORDS
+
+                                                    convection-enhanced drug delivery (CED), diffusion-weighted imaging (DWI),
+                                                    parcellation, Parkinson’s disease (PD), structural connectivity, tractography
+
+
+
+                                                                                   present application, MRI-based presurgical planning tools in other
+Introduction                                                                       neurosurgical settings have been evaluated prospectively and shown
+                                                                                   to improve perioperative outcomes and functional status compared
+     Parkinson’s disease (PD) is a progressive neurodegenerative dis-              with conventional planning (Yang et al., 2009). The objective is to
+order that primarily affects motor function, significantly impairing               assess the clinical feasibility of connectivity-guided CED in the puta-
+patients’ quality of life. Current treatment options, while effective in           men with safety and coverage metrics across the two trajectories.
+managing symptoms, often become less efficient over time, prompting
+the need for innovative therapeutic approaches (Hwu et al., 2021).
+Convection-enhanced drug delivery (CED) has emerged as a promis-
+ing strategy for targeted drug administration in PD, particularly for              Methods
+cell and gene therapy. CED infuses therapeutic agents via stereotacti-
+cally placed catheters under positive pressure to drive bulk flow                  Patients
+through the interstitium, achieving high local concentrations over
+larger brain volumes, reducing systemic side effects and improving                     This study included the retrospective analysis of MRI scans from
+local drug concentration (Lam et al., 2011; Barua et al., 2014). In prac-          20 adult patients (both male and female) diagnosed with advanced
+tice, distribution is constrained by anatomical variability, tissue anisot-        Parkinson’s disease (PD). The MRI scans were part of the preoperative
+ropy, and potential reflux along the catheter track, which can challenge           protocol before undergoing DBS surgery for PD, for which all partici-
+precise targeting (Lam et al., 2011; Barua et al., 2013; Larson, 2021).            pants were cleared.
+     The putamen, as part of the basal ganglia, plays a key role in motor
+control and is a central target for CED in PD therapy (Miranpuri et                Imaging and processing
+al., 2012). Conventional CED methods, however, often target the
+entire putamen, resulting in inefficient drug use and unnecessary                       Prior to DBS treatment, all patients underwent pre-operative MRI
+exposure of non-motor regions. This broad targeting not only                       imaging as part of the standard surgical planning process. The MRI
+increases treatment costs by requiring more of the drug but also side              protocol included T1, T2, FGATIR, FLAIR, SWI, and DWI sequences.
+effects by affecting regions that do not contribute to motor function.             The DWI sequence was a single-shot spin-echo echo-planar imaging
+Thus, more precise drug delivery methods that target specific, motor-              (EPI) acquisition with 64 diffusion-encoding directions and a b-value
+relevant areas of the putamen are needed to improve therapeutic effi-              of 1,000 s/mm2. Voxel size was 2.0 × 2.0 × 2.0 mm3, with TR 5100 ms,
+cacy and reduce unnecessary drug use. Prior work using similar                     TE 64 ms, a 128 × 128 matrix, and a field of view of 256 × 256 mm2 in
+structural or multimodal approaches, such as combining resting-state               transversal orientation. All remaining acquisition parameters are pro-
+fMRI and diffusion MRI tractography, have delineated putaminal sub-                vided in Supplementary material. After acquisition, raw DICOM
+regions with distinct connectivity (Draganski et al., 2008; Tian et al.,           images were converted into NIfTI format. Brain extraction was
+2020). Analogous to the principle of applying deep brain stimulation               applied to T1 and T2 images, and eddy current correction was per-
+(DBS) for PD in the dorsolateral motor part of the subthalamic                     formed on the DWI data using the FMRIB Software Library (FSL)
+nucleus (STN) to achieve the optimal motor improvement, these find-                version 6.0 (Smith et al., 2004; Woolrich et al., 2009; Jenkinson et al.,
+ings suggest an opportunity to focus CED therapy on motor-con-                     2012). For accurate multimodal alignment, all non-T1 sequences were
+nected segments rather than the entire putamen.                                    rigidly coregistered to the native T1-weighted image. T1-weighted
+     The goal of this study is to use existing connectivity knowledge to           images were then nonlinearly registered to MNI152 Nonlinear 2009c
+explore simulation prior to CED and inform the planning. In a clinical             Symmetric space (Fonov et al., 2011) using FNIRT (Woolrich et al.,
+workflow, an easily identifiable predefined parcellation of the putamen            2009; Andersson et al., 2010), and the same transformation was
+is applied, then diffusion-weighted imaging (DWI) tractography maps                applied to all other sequences. Subcortical segmentation and tractog-
+structural connectivity onto these segments to verify the expected                 raphy were performed using Brainlab Software (Brainlab, 2024). The
+motor bias in the putamen. On this basis, the feasibility of connectivity          cortical regions were downloaded from the Julich-Brain Atlas (v3.1)
+guided CED is evaluated by using two planned trajectories and an in-               already in MNI152 Nonlinear 2009c Symmetric space (Amunts et al.,
+house developed stepwise-injection simulation that quantifies target               2024). The visualizations were rendered in 3D Slicer (Fedorov et al.,
+coverage. A genetic algorithm optimizes a theoretical stepwise infusion            2012) and Lead-DBS (Horn and Kühn, 2015; Treu et al., 2020).
+protocol to increase coverage of the selected segment while respecting
+safety constraints. The distribution model is kept simple to keep                  Cortical and subcortical segmentation
+assumptions explicit and computations tractable. Simulation outputs
+are therefore interpreted as planning aids—to quantify safety, coverage                Cortical and subcortical connections from the putamen were
+and to support case-specific decisions—rather than predictors of in                chosen after literature research and included motor and non-motor
+vivo distribution. While clinical validation is not yet available for the          projections. The subcortical structures, such as the putamen, amygdala,
+
+
+Frontiers in Neuroscience                                                     02                                                             frontiersin.org
+Tessmann et al.                                                                                                             10.3389/fnins.2026.1598062
+
+
+
+
+subthalamic nucleus (STN), and cerebellum, were automatically seg-                connections, frontal and occipital trajectories were planned in the
+mented by Brainlab Software, as routinely used for DBS planning in                patient space using a commercially available stereotactic software
+clinical practice, and then visually confirmed by the attending neuro-            (inomed Medizintechnik, 2010). The target points were chosen to
+surgeon (MJ) with reference to T1, T2, and FGATIR images. Cortical                maximize the length of the trajectory within the segment, ensuring
+brain regions were segmented in a semi-automated fashion using the                optimal coverage while adhering to established safety margins. The
+Julich-Brain Atlas. For each patient, the warp from patient space to MNI          trajectories were planned by an attending neurosurgeon specializing
+space was calculated using FSL software. The cortical regions of interest,        in functional neurosurgery.
+defining Brodmann areas 44, 45, 3a/b, 4a/p, 6ma pre-SMA, 6mp SMA,
+and insula, as previously used for putamen segmentation and supple-               Injection simulation
+mented with additional areas for more granularity (Behrens et al., 2003;
+Bohanna et al., 2011), were downloaded from the Julich-Brain Atlas and                 An in-house developed computational algorithm using Python
+then converted to patient space using the inverted warp. The segmenta-            (3.10) (with the following libraries: panda, numpy, nibabel and deap)
+tion masks were then transferred to the Brainlab Software to adapt the            was employed to simulate drug injections into a specific putamen seg-
+masks to the cortical anatomy of the respective patient, hence the “semi-         ment and to optimize the placement of injection sites within the puta-
+automated” approach. The segmentations were manually adjusted by a                men segment using a genetic algorithm. The algorithm operated as
+resident in neurosurgery (ET) and confirmed by an attending neurosur-             follows:
+geon (MJ), using T1 and T2 images to ensure anatomical accuracy.
+                                                                                   - Image data loading and preprocessing: Co-registered NifTI-
+Putamen segmentation                                                                 format images were loaded using the open-source nibabel pack-
+                                                                                     age. Brain anatomy and segmentation masks for the putamen were
+     The putamina of each patient were segmented in the patient space                extracted. The voxel dimensions were computed based on the
+into four regions based on its anatomical relationship to the anterior               image affine transformation to account for spatial scaling during
+commissure (AC). The putamen was divided into superior anterior,                     analysis.
+superior posterior, inferior posterior, and inferior anterior segments.            - Trajectory generation: Injection trajectories were computed from
+The AC-PC line served as the axial plane for distinguishing superior                 the entry point to the target using a linear interpolation method,
+and inferior segments, while the coronal plane perpendicular to the                  dividing the trajectory into 100 equidistant steps. The trajectory
+AC-PC line was used to differentiate anterior from posterior seg-                    points that intersected with the target region of interest (ROI)
+ments. This division, albeit resulting in differently sized subsections of           within the putamen were identified and used as valid centers for
+the putamen, was chosen for its strong anatomical reproducibility and                further calculations.
+practicality in clinical stereotactic neurosurgery. More balanced meth-            - Sphere generation and coverage calculation: For each valid center
+ods, such as volumetric equalization or centroid-based division, were                along the trajectory, spherical masks were generated using a voxel-
+considered but not adopted due to their increased complexity, poten-                 wise Euclidean distance metric to simulate the drug diffusion
+tial for inconsistency, and limited gain in correlation with functional              from the injection site. The mask radii were iteratively optimized
+or structural organization.                                                          based on anatomical constraints to ensure the spheres remained
+                                                                                     entirely within the boundaries of the predefined brain ROI. The
+Tractography                                                                         total coverage of the target region by these spheres was calculated
+                                                                                     as the overlap between the sphere masks and the segmentation
+     Tractography was conducted in the patient space using determin-                 mask of the ROI.
+istic, diffusion tensor imaging (DTI)-based streamline tracking,                   - Genetic algorithm optimization: A genetic algorithm (GA) was
+implemented in the Brainlab Elements Fibertracking module. The                       employed to optimize the configuration of injection spheres with
+available software supports single-tensor DTI modelling. This method                 respect to their placement and radius. Individuals in the GA pop-
+was used in this study due to its clinical availability in CE-marked (CE             ulation were represented as lists containing the number of spheres,
+marking under EU medical-device regulation) planning software and                    the radii of each sphere, and the coordinates of their centers. The
+its established role in everyday neurosurgical practice. While proba-                fitness of each individual was determined based on the fraction of
+bilistic tractography with more complex [for example constrained                     the target ROI covered by the corresponding spheres. The GA was
+spherical deconvolution (CSD)-based] underlying models may offer                     initialized with a random population of individuals, and opera-
+advantages in detecting subtle or crossing fibers, it is not routinely               tions, including crossover and mutation, were applied to evolve
+accessible for clinical use. The putamen segments served as seed                     the population over 20 generations.
+regions, and the aforementioned cortical and subcortical areas served                o Mutation: The mutation operation randomly modified the posi-
+as target regions. If any streamlines were observed between a cortical                  tion of one of the spheres by selecting a new valid center from
+region and a specific putamen segment, a connection was considered                      the trajectory.
+present. The following criteria were used to visualize the fibers: a mini-           o Crossover: Spheres were swapped between two individuals at
+mum fractional anisotropy (FA) of 0.2, a minimum fiber length of                        random points to create offspring, thus encouraging the explo-
+20 mm, and a maximum fiber angulation of 50°.                                           ration of new spatial configurations.
+                                                                                     o Fitness evaluation: The fitness of individuals was evaluated as
+Trajectories                                                                            the coverage of the target region by the spheres normalized by
+                                                                                        the total volume of the segmentation mask. Spheres that
+    Following the identification of the putamen segment with the                        exceeded the anatomical boundaries of the putamen or the ROI
+highest connectivity strength of motor-associated cortical                              were penalized by reducing their effective radius.
+
+
+Frontiers in Neuroscience                                                    03                                                           frontiersin.org
+Tessmann et al.                                                                                                                10.3389/fnins.2026.1598062
+
+
+
+
+ - Saving results: After the optimization process, the best-perform-             classified as stage III, 4 (20.0%) as stage II, 4 (20.0%) as stage IV, 1
+   ing individual, representing the optimal injection configuration,             (5.0%) as stage I.
+   was selected. The corresponding mask was saved as a NIfTI image
+   for visualization and further analysis. The volume of each sphere             Putamen connectivity heat maps
+   and the overall coverage of the target area were also computed and
+   recorded.                                                                         The structural connectivity analysis between the selected cortical/
+                                                                                 subcortical regions and putamen segments demonstrated a distinct
+Data analysis                                                                    pattern for motor-associated areas, including regions 3a/b, 4a/p, 6mp
+                                                                                 SMA, 6ma pre-SMA, the cerebellum, and the subthalamic nucleus
+Segmentation and connectivity                                                    (STN). These regions showed a higher frequency of patients with con-
+                                                                                 nections to the superior posterior segment of the putamen. Notably,
+    Heat maps were generated to visualize the connectivity patterns              the 6mp SMA exhibited connections almost exclusively with the pos-
+between cortical and subcortical regions and the segmented putamen.              terior superior segment, while other motor-related areas displayed
+The heatmaps display the number of hemispheres (0–40 from 20                     more varied connectivity patterns. For instance, regions such as 3a/b
+patients) with a present connection (≥1 streamline meeting FA/                   were predominantly connected to posterior regions, whereas the cer-
+length/angle thresholds) for each segment-ROI pair. The resulting                ebellum and STN were primarily linked to the superior parts of the
+connectivity matrices were plotted as heat maps using GraphPad                   putamen (Figure 1).
+Prism 9.0 (GraphPad Software, 2020), where the intensity of each cell                In contrast, non-motor-associated regions revealed distinct con-
+represented the strength of connectivity between a specific cortical/            nectivity patterns as well. The insula showed high connectivity
+subcortical region and a putamen segment.                                        strength to the superior anterior segment, while the amygdala was
+                                                                                 almost exclusively connected to the posterior inferior segment of the
+Trajectory feasibility                                                           putamen.
+                                                                                     A surface projection of the cortical regions included in the con-
+     For the analysis of possible trajectories, each trajectory from the         nectivity analysis is shown in Figure 2, providing an overview of the
+cortex to the target region within the specific putamen segment was              cortical areas used in the analysis.
+modelled based on anatomical constraints. Safety margins around                      For subsequent analyses, the superior posterior segment of the
+critical structures, such as vasculature and ventricles, were calcu-             putamen was selected due to its high connectivity strength with
+lated using a margin threshold of 2 mm to ensure the trajectory did              motor-associated regions.
+not violate any anatomical boundaries. Trajectories were planned
+and assessed for feasibility by an attending neurosurgeon specializ-             Feasibility of frontal and occipital
+ing in functional neurosurgery. To evaluate the feasibility between              trajectories
+the frontal and occipital trajectories, a mid-p McNemar’s test was
+performed on paired binary outcomes (0 = unsafe, 1 = safe) within                     Analysis of the frontal and occipital trajectories revealed no sig-
+the same patients. Each of the 20 patients had both frontal and                  nificant difference in the feasibility of either approach (Figure 3).
+occipital trajectories planned for the left and right putamen, result-           Across all patients, no anatomical constraints were identified that
+ing in 40 paired observations for each trajectory type. The mid-p                would prevent planning at least one trajectory per hemisphere while
+McNemar’s test was chosen due to paired nominal data and the                     adhering to the required safety margins (Figure 4). However, in one
+small number of discordant pairs in the dataset. The null hypothesis             patient, it was not possible to plan any frontal trajectories safely due
+was that there is no significant difference in safety between the fron-          to anatomical limitations and pronounced atrophy.
+tal and occipital trajectories. Statistical analyses were performed                   To statistically assess the difference in feasibility between the fron-
+using GraphPad Prism 9.0, with statistical significance set at                   tal and occipital trajectories, a mid-p McNemar’s test was performed
+p < 0.05.                                                                        on the paired binary outcomes (safe vs. unsafe) for each trajectory
+                                                                                 type (Table 1).
+Coverage comparison                                                                   The proportion of safe trajectories was 85% (34 out of 40) for the
+                                                                                 frontal approach and 82.5% (33 out of 40) for the occipital approach.
+     To assess the efficacy of different injection trajectories, a paired        The total amount of discordant cases (b and c) was 13 pairs.
+t-test was used to compare the coverage between the two trajectory               Specifically, 53.8% (7 out of 13) of the discordant pairs favored the
+types within the same patients. The null hypothesis tested was that              frontal trajectory being safe, while 46.2% (6 out of 13) favored the
+there was no significant difference in the coverage between the frontal          occipital trajectory being safe. The mid-p McNemar’s test yielded a
+and occipital approaches. Statistical significance was set at p < 0.05.          p-value of 0.8462, indicating no statistically significant difference in
+                                                                                 safety between the frontal and occipital trajectories.
+
+                                                                                 Efficacy of trajectories
+Results
+                                                                                     Further analysis of coverage within the same patients, using a
+    A total of 20 patients were included in the analysis. Fourteen               paired t-test, showed no significant differences between the frontal
+patients (70%) were male and six (30%) were female. The mean age at              and occipital trajectories. On average, the percentage coverage of the
+the time of implantation was 59.3 ± 8.9 years (range 40.5–70.1 years).           selected putamen segment was 7.69% (95% CI: 6.17–9.21%) for the
+According to the Hoehn & Yahr scale, 11 patients (55.0%) were                    frontal trajectory and 8.74% (95% CI: 6.35–11.14%) for the occipital
+
+
+Frontiers in Neuroscience                                                   04                                                                frontiersin.org
+Tessmann et al.                                                                                                               10.3389/fnins.2026.1598062
+
+
+
+
+   FIGURE 1
+   Cohort-level heat maps of connection presence counts of structural connectivity between cortical/subcortical regions and putamen segments. Heat
+   maps show connectivity patterns between motor and non-motor regions and segments of the putamen based on bilateral analysis across 40
+   hemispheres (20 patients × left/right). Color scale: 0–40 hemispheres with a present connection (≥1 streamline). Motor-associated areas, including
+   regions 3a/b, 4a/p, 6mp SMA, 6ma pre-SMA, cerebellum, and STN, have a high frequency of connections to the superior posterior putamen, with the
+   6mp SMA connecting almost exclusively to this segment. Non-motor regions reveal different patterns, such as the insula connecting mainly to the
+   superior anterior segment, while the amygdala connects almost entirely to the posterior inferior segment. The superior posterior segment was selected
+   for further analysis due to its connectivity strength to motor-associated cortical and subcortical areas.
+
+
+
+trajectory. The mean difference in coverage between the two                      generally connected to both posterior segments, while the cerebellum
+approaches was 1.06% (95% CI: −1.99 to 4.11%), with a p-value of                 and the STN were primarily linked to both superior segments of the
+0.4875 (Figures 5, 6).                                                           putamen. Non-motor-associated regions exhibited different patterns.
+                                                                                 In particular, the insula region connects predominantly to the supe-
+                                                                                 rior anterior segment and the amygdala almost entirely to the poste-
+                                                                                 rior inferior segment. Based on this pattern, we selected the superior
+Discussion                                                                       posterior segment as the CED target. Using stereotactic planning and
+                                                                                 a simple infusion simulation, both frontal and occipital drug injection
+     We aimed to characterize how motor- and non-motor-associated                trajectories could be planned safely in most hemispheres (85% vs.
+structural connectivity distributes across a simple, AC-based segmen-            82.5% safe; mid-p McNemar p = 0.8462) and achieved comparable
+tation of the putamen that is compatible with clinical workflows, and            target-segment coverage, with no statistically significant differences
+to examine whether this organization can be used to support presurgi-            between them (7.69% vs. 8.74%; paired t-test p = 0.4875). The findings
+cal planning for convection-enhanced drug delivery (CED) into a                  were obtained using deterministic tractography implemented in
+motor-dominated segment of the putamen.                                          CE-marked clinical software and indicate that even a coarse, AC-based
+     In our cohort, motor-associated cortical and subcortical regions            segmentation can distinguish a superior posterior segment with pre-
+showed higher connectivity strength to the superior posterior puta-              dominantly motor-associated connectivity from other segments with
+men segment, while non-motor regions favored other segments. The                 more limbic or paralimbic connectivity.
+motor-associated regions such as 3a/b, 4a/p, 6mp SMA, 6ma pre-                        The tractography and simulations presented here are intended as
+SMA, the cerebellum, and the STN displayed a higher connectivity                 a planning adjunct. They provide a reproducible way to select a motor-
+strength to the superior posterior segment of the putamen.                       dominant putaminal segment using a simple stereotactic segmenta-
+Particularly, the 6mp SMA showed almost exclusive structural con-                tion and compare candidate trajectories under explicit safety
+nectivity to this segment. Other regions, such as 3a/b, were more                constraints using a transparent geometric coverage metric. A
+
+
+Frontiers in Neuroscience                                                   05                                                               frontiersin.org
+Tessmann et al.                                                                                                                    10.3389/fnins.2026.1598062
+
+
+
+
+   FIGURE 2
+   Surface projection of cortical regions used for connectivity-based putamen parcellation. Lateral and medial surface views of cortical regions selected
+   for structural connectivity analysis. Each cortical area is displayed with its corresponding projection in standard MNI space, shown separately for left and
+   right hemispheres and arranged by hemisphere and view. Only medial views are shown for regions involving the supplementary motor area (SMA and
+   pre-SMA). All regions were defined using the Julich-Brain Atlas and registered to patient space via inverse warping for further analyses.
+
+
+
+
+prospective validation would be required for claiming any clinical                  organization described in animals. More recent work used functional
+benefits. At the same time, MRI-based presurgical simulation tools in               connectivity gradients and “gradientography” in a large healthy cohort
+other neurosurgical settings have been evaluated prospectively with                 to derive a multiscale subcortical atlas, including a dorsoposterior
+measurable clinical benefit. For example, in a randomized controlled                putamen subdivision (PUT-DP) with relatively high group-averaged
+study of MRI-based VR presurgical planning with Dextroscope in                      Dice coefficients and stable coupling to sensorimotor cortical net-
+skull base tumor surgery, the VR-planned group had shorter operative                works (Tian et al., 2020). In this context, our superior posterior seg-
+time and postoperative length of stay, fewer intraoperative cerebrovas-             ment is coarser and defined by stereotactic geometry rather than by
+cular injuries, and higher Karnofsky Performance Scores at discharge                gradients, but it occupies a similar dorsoposterior location and shows
+and at 6 months compared with conventional planning (Yang et al.,                   a comparable bias toward motor-associated connections, while other
+2009). This supports the premise that MRI-based planning tools can                  quadrants show stronger non-motor connectivity. Taken together,
+improve outcomes when validated.                                                    these comparisons suggest that an AC-based quadrant scheme,
+    Our findings are broadly consistent with previous functional and                although simple, can approximate the location of putaminal territories
+structural research suggesting that the putamen has distinct subre-                 described in more detailed functional and multimodal parcellations.
+gions with unique functional roles. For instance, previous studies                        The choice of an AC-based segmentation was motivated by its
+show that the anterior putamen has stronger connectivity with limbic                compatibility with established stereotactic practice. The anterior com-
+structures such as the nucleus accumbens and amygdala, whereas the                  missure (AC), together with the posterior commissure (PC), is rou-
+posterior putamen is more connected to motor-related regions like the               tinely used to establish the AC-PC line (Starr et al., 2006; Ostrem et
+cerebellum and sensorimotor cortex (Zhang et al., 2016; Liu et al.,                 al., 2007). Although newer techniques propose using alternative mark-
+2018). Studies by Choi et al. (2012) using resting-state functional con-            ers, such as the putamen itself, for deep brain stimulation (DBS) tar-
+nectivity MRT (fcMRI) characterized this functional organization,                   geting (Thompson et al., 2017), the AC remains a reliable and easily
+which aligns with findings in primate studies. Additionally, Di                     identifiable structure across imaging modalities. Furthermore, algo-
+Martino et al. (2008) analyzed the functional connectivity of basal                 rithms have been developed for automatic AC detection, aiding seg-
+ganglia circuitry in humans, highlighting distinct connections                      mentation and registration (Ardekani and Bachman, 2009),
+between striatal regions and cortical motor, cognitive, and affective               reinforcing the AC’s role in functional neurosurgery. While newer
+regions, providing another in vivo evidence of a functional                         techniques may offer promising alternatives, particularly in research
+
+
+Frontiers in Neuroscience                                                      06                                                                  frontiersin.org
+Tessmann et al.                                                                                                                             10.3389/fnins.2026.1598062
+
+
+
+
+    FIGURE 3
+    Trajectory planning outcomes by trajectory type. Stacked bar chart
+    displaying safe and unsafe outcomes for each trajectory type: frontal
+    left, occipital left, frontal right, and occipital right. Analysis with a
+    mid-p McNemar’s test revealed no significant difference in feasibility
+    between frontal and occipital approaches, with at least one safe
+    trajectory possible in each patient. However, one patient presented
+    anatomical limitations that prevented the safe planning of any frontal                     FIGURE 5
+    trajectories.                                                                              Distribution of coverage by trajectory type. Box plots showing the
+                                                                                               distribution of coverage percentages for frontal and occipital
+                                                                                               trajectories, with individual data points paired for each patient (paired
+                                                                                               t-test). On average, frontal trajectories achieved 7.69% coverage (95%
+                                                                                               CI: 6.17–9.21%), while occipital trajectories achieved 8.74% (95% CI:
+                                                                                               6.35–11.14%). The mean difference in coverage between the two
+                                                                                               approaches was 1.06% (95% CI: −1.99 to 4.11%), with no significant
+                                                                                               difference detected (p = 0.4875).
+
+
+
+
+    FIGURE 4
+    Visualization of all planned drug injection trajectories in MNI space
+    using the Lead DBS software. Frontal trajectories are represented in
+    petrol, and occipital trajectories in dark grey. The putamen is
+    segmented into regions based on relation to the AC and AC-PC line:
+    superior and inferior segments are distinguished along the axial plane
+    aligned with the AC-PC line, while anterior and posterior segments
+    are separated by the coronal plane perpendicular to the AC-PC line.
+    The segmentation includes four regions: superior posterior (red),
+                                                                                               FIGURE 6
+    superior anterior (yellow), inferior anterior (blue), and inferior
+                                                                                               Example of a simulated injection volume in 3D Slicer. The light blue
+    posterior (grey).
+                                                                                               region represents the target segment (superior posterior putamen),
+                                                                                               while the remaining segments are shown in light green. Simulated
+                                                                                               injection volumes are depicted in red for the occipital and purple for
+TABLE 1 Contingency table for safety outcomes of frontal and occipital trajectories.           the frontal trajectory.
+
+
+                           Occipital                 Occipital                 Total
+                             safe                     unsafe                                settings, the use of the AC-based division remains highly practical in
+    Frontal safe               a = 27                     b=7                     34        clinical environments where time, resources, and the experience of
+                                                                                            neurosurgeons with emerging tools can be limited. In our data, this
+    Frontal                     c=6                       d=0                      6
+                                                                                            simple segmentation was sufficient to highlight a superior posterior
+    unsafe
+                                                                                            region with predominantly motor-associated connectivity, which may
+    Total                        33                         7                     40
+                                                                                            be helpful when selecting a putaminal target for CED in PD.
+
+
+Frontiers in Neuroscience                                                              07                                                                   frontiersin.org
+Tessmann et al.                                                                                                           10.3389/fnins.2026.1598062
+
+
+
+
+     The simulation algorithm was used to explore whether the                  connectivity-guided interventions, such as DBS of globus pallidus
+superior posterior motor-dominant segment could be reached                     internus, for improved outcomes in PD (da Silva et al., 2017). The
+safely and with a quantifiable degree of simulated target-segment              simulations presented here illustrate one way in which connectivity
+coverage via frontal and occipital injection trajectories.                     information and basic geometric modelling can be combined to esti-
+Trajectories were planned under a 2 mm safety margin relative to               mate, in advance, how different trajectories might perform with
+sulci, ventricles and vasculature. In most hemispheres, at least one           respect to a chosen putaminal segment.
+safe trajectory could be identified for each entry type. In one                    Several extensions could be considered in future work. On the
+patient with marked atrophy, no safe frontal trajectory could be               connectivity side, using higher-resolution diffusion imaging and
+planned, while an occipital trajectory remained feasible. This sug-            models that account for crossing fibers could refine the estimation of
+gests that anatomical variability can lead to asymmetries in feasi-            putaminal connectivity patterns and test whether the posterior–supe-
+bility between entries, and that both options may need to be                   rior motor bias observed here remains stable under different model-
+considered at the planning stage. Within each planned trajectory,              ling assumptions. Normalized connectivity metrics, such as relative
+a small number of spherical infusion volumes, constrained to                   streamline densities adjusted for seed volume and total streamlines,
+remain within the superior posterior segment and respect safety                could reduce the influence of ROI size and inter-individual differ-
+margins, were positioned using a genetic algorithm to maximize                 ences in brain size. On the functional side, task-based or resting-state
+overlap with the target. Under these conservative assumptions,                 fMRI could be used to confirm that the structurally defined target
+frontal and occipital trajectories achieved similar target-segment             segment participates in motor networks in individual patients. With
+coverage (<10% on average), with no significant difference                     regards to segmentation, separate cortical normalization could be
+between them. The relatively low coverage values should be inter-              implemented to further improve the alignment between the atlas and
+preted in the context of the modelling choices. First, coverage was            patient-specific anatomy, reducing the manual workload even fur-
+calculated with respect to the entire volume of the superior pos-              ther. Likewise, future studies with larger datasets might incorporate
+terior segment, which includes tissue that may be difficult to reach           advanced techniques, such as deep learning, to better simulate drug
+with a single straight trajectory because of the curved and taper-             distribution, although this approach requires significant data and
+ing shape of the segment. Second, infusion volumes were required               computational resources. On the biophysical side, incorporating
+to be fully contained within the segment and to observe safety                 tissue anisotropy, regional permeability, or more complex infusion
+margins, which reduces the number and size of spheres that can                 profiles (such as ramped-rate protocols) into the simulations could
+be placed along a given trajectory. Third, the simulations were                help relate modelled coverage more directly to in vivo drug
+limited to a small number of trajectories and spheres in order to              distribution.
+remain close to what might be realistically implemented in a clini-                This study also has several limitations that must be addressed.
+cal setting. Finally, the diffusion of the infused agent was approxi-          The sample size was relatively small and limited to patients with
+mated as isotropic and spherical, without modelling tissue                     advanced PD undergoing DBS work-up, which may restrict how
+anisotropy or catheter-related backflow. Under these constraints,              broadly our findings may apply to a wider PD population or other
+the <10% coverage values are better regarded as conservative esti-             patient groups. The diffusion protocol used a single b-value and
+mates and as relative measures for comparing candidate trajecto-               standard clinical resolution, and deterministic, tensor-based trac-
+ries, rather than as estimates of maximal achievable coverage.                 tography was applied without explicit modelling of crossing fibers,
+Higher coverage might be possible with additional entry points,                which may reduce sensitivity in regions with complex fiber archi-
+longer in-segment path lengths, different catheter designs, or                 tecture. The putamen segmentation was intentionally simple,
+more detailed biophysical models, but such approaches were                     based on AC-PC geometry rather than subject-specific functional
+beyond the scope of this study.                                                gradients, and therefore aggregates finer subregions within each
+     Nevertheless, our simulation allowed us to refine injection site          quadrant. Additionally, while our semi-automated cortical seg-
+placement and volume along each trajectory to achieve optimal target           mentation method reduced manual workload, it still required
+coverage within safe anatomical limits. Using an adaptive approach,            manual adjustments, introducing variability. The infusion simula-
+the algorithm could adjust placement configurations in response to             tions used a spherical, isotropic diffusion model and were not
+coverage feedback, supporting the need for flexible trajectory plan-           validated against empirical infusion data. Future studies that
+ning when anatomical differences make one approach preferable. This            include measurement of in vivo distribution and clinical outcomes
+approach could be useful in deciding which trajectory to choose for            will be required to validate whether this planning approach
+maximal possible coverage in cases where multiple trajectories are             improves delivery, safety, or patient-relevant endpoints.
+feasible.
+     Convection-enhanced delivery (CED) shows potential for condi-
+tions like PD, though it comes with risks, such as mass effect from
+infused drugs and neurotoxicity at high drug concentrations (Slevin            Conclusion
+et al., 2006; Taylor et al., 2013). A targeted approach focusing on
+motor-associated regions of the putamen could, in principle, help                  This study used an AC-based four-quadrant segmentation and
+limit exposure of non-motor regions. However, whether this translates          deterministic, clinically available tractography to characterize
+into better clinical outcomes or altered dosing requirements cannot            connectivity patterns within the putamen in patients with
+be answered by the present simulations. Such questions require empir-          Parkinson’s disease and to explore their use for CED planning.
+ical studies that measure in vivo distribution and relate delivery met-        The superior posterior segment showed the highest connectivity
+rics to outcomes. Nevertheless, such an approach aligns with                   strength to motor-associated cortical and subcortical regions and
+recommendations in previous research on structural                             was selected as the CED target. Using stereotactic planning and a
+
+
+Frontiers in Neuroscience                                                 08                                                             frontiersin.org
+Tessmann et al.                                                                                                                                                10.3389/fnins.2026.1598062
+
+
+
+
+simple geometric infusion model, both frontal and occipital drug                                        Funding
+injection trajectories into this segment could be planned safely in
+most hemispheres and yielded similarly comparable simulated                                                  The author(s) declared that financial support was not received for
+target-segment coverage, with anatomical variation occasionally                                         this work and/or its publication.
+favoring one approach over the other. These findings suggest that
+connectivity mapping, even when derived from a coarse,
+AC-based segmentation and deterministic tractography, can help
+identify a motor-dominated putaminal segment and compare can-                                           Conflict of interest
+didate trajectories for CED into this region. Further work with
+larger samples, crossing-fiber models, multimodal connectivity,                                             The author(s) declared that this work was conducted in the
+more realistic diffusion models, and validation of infusion pat-                                        absence of any commercial or financial relationships that could be
+terns will be needed to refine this approach.                                                           construed as a potential conflict of interest.
+
+
+
+
+Data availability statement                                                                             Generative AI statement
+   The raw data supporting the conclusions of this article will be                                          The author(s) declared that Generative AI was not used in the
+made available by the authors, without undue reservation.                                               creation of this manuscript.
+                                                                                                            Any alternative text (alt text) provided alongside figures in this
+                                                                                                        article has been generated by Frontiers with the support of artificial
+                                                                                                        intelligence and reasonable efforts have been made to ensure accuracy,
+Ethics statement                                                                                        including review by the authors wherever possible. If you identify any
+                                                                                                        issues, please contact us.
+    The studies involving humans were approved by Ethics Committee
+of the Heidelberg Medical Faculty. The studies were conducted in
+accordance with the local legislation and institutional requirements.
+The participants provided their written informed consent to partici-                                    Publisher’s note
+pate in this study.
+                                                                                                            All claims expressed in this article are solely those of the authors
+                                                                                                        and do not necessarily represent those of their affiliated organizations,
+                                                                                                        or those of the publisher, the editors and the reviewers. Any product
+Author contributions                                                                                    that may be evaluated in this article, or claim that may be made by its
+                                                                                                        manufacturer, is not guaranteed or endorsed by the publisher.
+    ET: Conceptualization, Data curation, Methodology, Investigation,
+Writing – review & editing, Writing – original draft, Software,
+Visualization, Formal analysis. MS: Methodology, Writing – review &
+editing, Validation. SK: Supervision, Data curation, Writing – review                                   Supplementary material
+& editing, Resources, Project administration. MJ: Investigation,
+Writing – review & editing, Methodology, Supervision, Software,                                              The Supplementary material for this article can be found online
+Validation, Resources, Conceptualization, Project administration,                                       at: https://www.frontiersin.org/articles/10.3389/fnins.2026.1598062/
+Data curation.                                                                                          full#supplementary-material
+
+
+
+
+References
+Amunts, K., Mohlberg, H., Bludau, S., Caspers, S., Lewis, L. B., Eickhoff, S. B., et al. (2024).        Behrens, T. E. J., Johansen-Berg, H., Woolrich, M. W., Smith, S. M.,
+Julich-Brain Atlas, cytoarchitectonic maps (v3.1). Available online at: https://search.                 Wheeler-Kingshott, C. A. M., Boulby, P. A., et al. (2003). Non-invasive mapping of con-
+kg.ebrains.eu/instances/f1fe19e8-99bd-44bc-9616-a52850680777 (Accessed February                         nections between human thalamus and cortex using diffusion imaging. Nat. Neurosci.
+4, 2026).                                                                                               6, 750–757. doi: 10.1038/nn1075
+Andersson, J., Jenkinson, M., and Smith, S. (2010). “Non-linear registration, aka spatial               Bohanna, I., Georgiou-Karistianis, N., and Egan, G. F. (2011). Connectivity-based seg-
+normalisation” in FMRIB technical report TR07JA2 (Oxford: FMRIB).                                       mentation of the striatum in Huntington’s disease: vulnerability of motor pathways.
+                                                                                                        Neurobiol. Dis. 42, 475–481. doi: 10.1016/j.nbd.2011.02.010
+Ardekani, B. A., and Bachman, A. H. (2009). Model-based automatic detection of the
+anterior and posterior commissures on MRI scans. NeuroImage 46, 677–682. doi:                           Brainlab. (2024). Brainlab elements. Available online at: www.brainlab.com/ (Accessed
+10.1016/j.neuroimage.2009.02.030                                                                        February 4, 2026).
+Barua, N. U., Gill, S. S., and Love, S. (2014). Convection-enhanced drug delivery to the                Choi, E. Y., Yeo, B. T. T., and Buckner, R. L. (2012). The organization of the human stria-
+brain: therapeutic potential and neuropathological considerations. Brain Pathol. 24,                    tum estimated by intrinsic functional connectivity. J. Neurophysiol. 108, 2242–2263. doi:
+117–127. doi: 10.1111/bpa.12082                                                                         10.1152/jn.00270.2012
+Barua, N. U., Woolley, M., Bienemann, A. S., Johnson, D. E., Lewis, O., Wyatt, M. J., et al.            da Silva, N. M., Ahmadi, S.-A., Tafula, S. N., Cunha, J. P. S., Bötzel, K., Vollmar, C.,
+(2013). Intermittent convection-enhanced delivery to the brain through a novel transcu-                 et al. (2017). A diffusion-based connectivity map of the GPi for optimised stereo-
+taneous bone-anchored port. J. Neurosci. Methods 214, 223–232. doi: 10.1016/j.                          tactic targeting in DBS. NeuroImage 144, 83–91. doi: 10.1016/j.
+jneumeth.2013.02.007                                                                                    neuroimage.2016.06.018
+
+
+
+Frontiers in Neuroscience                                                                          09                                                                            frontiersin.org
+Tessmann et al.                                                                                                                                                    10.3389/fnins.2026.1598062
+
+
+
+Di Martino, A., Scheres, A., Margulies, D. S., Kelly, A. M. C., Uddin, L. Q., Shehzad, Z.,               Ostrem, J. L., Marks, W. J. Jr., Volz, M. M., Heath, S. L., and Starr, P. A. (2007). Pallidal
+et al. (2008). Functional connectivity of human striatum: a resting state FMRI study.                    deep brain stimulation in patients with cranial–cervical dystonia (Meige syndrome). Mov.
+Cereb. Cortex 18, 2735–2747. doi: 10.1093/cercor/bhn041                                                  Disord. 22, 1885–1891. doi: 10.1002/mds.21580
+Draganski, B., Kherif, F., Klöppel, S., Cook, P. A., Alexander, D. C., Parker, G. J. M., et al.          Slevin, J. T., Gash, D. M., Smith, C. D., Gerhardt, G. A., Kryscio, R., Chebrolu, H., et al.
+(2008). Evidence for segregated and integrative connectivity patterns in the human basal                 (2006). Unilateral intraputaminal glial cell line-derived neurotrophic factor in patients
+ganglia. J. Neurosci. 28, 7143–7152. doi: 10.1523/JNEUROSCI.1486-08.2008                                 with Parkinson disease: response to 1 year each of treatment and withdrawal. Neurosurg.
+                                                                                                         Focus. 20:E1. doi: 10.3171/foc.2006.20.5.2
+Fedorov, A., Beichel, R., Kalpathy-Cramer, J., Finet, J., Fillion-Robin, J.-C., Pujol, S., et al.
+(2012). 3D slicer as an image computing platform for the quantitative imaging network.                   Smith, S. M., Jenkinson, M., Woolrich, M. W., Beckmann, C. F., Behrens, T. E.,
+Magn. Reson. Imaging 30, 1323–1341. doi: 10.1016/j.mri.2012.05.001                                       Johansen-Berg, H., et al. (2004). Advances in functional and structural MR image analysis
+                                                                                                         and implementation as FSL. NeuroImage 23, S208–S219. doi: 10.1016/j.
+Fonov, V., Evans, A. C., Botteron, K., Almli, C. R., McKinstry, R. C., and Collins, D. L.                neuroimage.2004.07.051
+(2011). Unbiased average age-appropriate atlases for pediatric studies. NeuroImage 54,
+313–327. doi: 10.1016/j.neuroimage.2010.07.033                                                           Starr, P. A., Turner, R. S., Rau, G., Lindsey, N., Heath, S., Volz, M., et al. (2006).
+                                                                                                         Microelectrode-guided implantation of deep brain stimulators into the globus pallidus
+GraphPad Software. (2020). GraphPad prism. Available online at: www.graphpad.com                         internus for dystonia: techniques, electrode locations, and outcomes. J. Neurosurg. 104,
+(Accessed February 4, 2026).                                                                             488–501. doi: 10.3171/jns.2006.104.4.488
+Horn, A., and Kühn, A. A. (2015). Lead-DBS: a toolbox for deep brain stimulation elec-                   Taylor, H., Barua, N., Bienemann, A., Wyatt, M., Castrique, E., Foster, R., et al. (2013).
+trode localizations and visualizations. NeuroImage 107, 127–135. doi: 10.1016/j.                         Clearance and toxicity of recombinant methionyl human glial cell line-derived neuro-
+neuroimage.2014.12.002                                                                                   trophic factor (r-metHu GDNF) following acute convection-enhanced delivery into the
+                                                                                                         striatum. PLoS One 8:e56186. doi: 10.1371/journal.pone.0056186
+Hwu, P. W., Kiening, K., Anselm, I., Compton, D. R., Nakajima, T., Opladen, T., et al.
+(2021). Gene therapy in the putamen for curing AADC deficiency and Parkinson’s dis-                      Thompson, J. A., Yin, D., Ojemann, S. G., and Abosch, A. (2017). Use of the putamen as
+ease. EMBO Mol. Med. 13:e14712. doi: 10.15252/emmm.202114712                                             a surrogate anatomical marker for the internal segment of the globus pallidus in deep
+                                                                                                         brain stimulation surgery. Stereotact. Funct. Neurosurg. 95, 229–235. doi:
+inomed Medizintechnik. (2010). Funktionelle Neurochirurgie. Available online at: www.                    10.1159/000478105
+inomed.de/produkte/funktionelle-neurochirurgie/ips/ (Accessed February 4, 2026).
+                                                                                                         Tian, Y., Margulies, D. S., Breakspear, M., and Zalesky, A. (2020). Topographic organiza-
+Jenkinson, M., Beckmann, C. F., Behrens, T. E. J., Woolrich, M. W., and Smith, S. M.                     tion of the human subcortex unveiled with functional connectivity gradients. Nat.
+(2012). FSL. NeuroImage 62, 782–790. doi: 10.1016/j.neuroimage.2011.09.015                               Neurosci. 23, 1421–1432. doi: 10.1038/s41593-020-00711-6
+Lam, M. F., Thomas, M. G., and Lind, C. R. P. (2011). Neurosurgical convection-enhanced                  Treu, S., Strange, B., Oxenford, S., Neumann, W.-J., Kühn, A., Li, N., et al. (2020). Deep
+delivery of treatments for Parkinson’s disease. J. Clin. Neurosci. 18, 1163–1167. doi:                   brain stimulation: imaging on a group level. NeuroImage 219:117018. doi: 10.1016/j.
+10.1016/j.jocn.2011.01.012                                                                               neuroimage.2020.117018
+Larson, P. S. (2021). Improved delivery methods for gene therapy and cell transplantation                Woolrich, M. W., Jbabdi, S., Patenaude, B., Chappell, M., Makni, S., Behrens, T., et al.
+in Parkinson’s disease. J. Parkinsons Dis. 11, S199–S206. doi: 10.3233/JPD-212710                        (2009). Bayesian analysis of neuroimaging data in FSL. NeuroImage 45, S173–S186. doi:
+                                                                                                         10.1016/j.neuroimage.2008.10.055
+Liu, A., Lin, S.-J., Mi, T., Chen, X., Chan, P., Wang, Z. J., et al. (2018). Decreased subre-
+gional specificity of the putamen in Parkinson’s disease revealed by dynamic connectiv-                  Yang, D. L., Xu, Q. W., Che, X. M., Wu, J. S., and Sun, B. (2009). Clinical evaluation and fol-
+ity-derived parcellation. Neuroimage Clin. 20, 1163–1175. doi: 10.1016/j.nicl.2018.10.022                low-up outcome of presurgical plan by Dextroscope: a prospective controlled study in
+                                                                                                         patients with skull base tumors. Surg. Neurol. 72, 682–689. doi: 10.1016/j.surneu.2009.07.040
+Miranpuri, G. S., Kumbier, L., Hinchman, A., Schomberg, D., Wang, A., Marshall, H.,
+et al. (2012). Gene-based therapy of Parkinson’s disease: translation from animal model                  Zhang, Y., Liu, A., Tan, S. N., McKeown, M. J., and Wang, Z. J. (2016). Connectivity-based
+to human clinical trial employing convection enhanced delivery. Ann. Neurosci. 19,                       parcellation of functional subROIs in putamen using a sparse spatially regularized regres-
+133–146. doi: 10.5214/ans.0972.7531.190310                                                               sion model. Biomed. Signal Process. Control 27, 174–183. doi: 10.1016/j.bspc.2016.02.005
+
+
+
+
+Frontiers in Neuroscience                                                                           10                                                                               frontiersin.org
+
