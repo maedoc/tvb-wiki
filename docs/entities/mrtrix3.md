@@ -11,7 +11,7 @@ tags:
 - image-processing
 title: MRtrix3
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-13'
 ---
 
 # MRtrix3
@@ -30,16 +30,9 @@ MRtrix3 provides:
 
 ## Key Commands
 
-| Command | Purpose |
-|---------|---------|
-| **dwidenoise** | MP-PCA denoising of DWI data |
-| **mrdegibbs** | Gibbs ringing removal |
-| **dwipreproc** | Preprocessing (motion/distortion correction) |
-| **dwi2response** | Response function estimation |
-| **dwi2fod** | Fiber orientation distribution estimation |
-| **tckgen** | Tractography generation |
-| **tck2connectome** | Connectome matrix generation |
-| **SIFT/SIFT2** | Streamline filtering by density matching |
+The MRtrix3 command suite implements a comprehensive diffusion MRI pipeline that moves from raw data preprocessing to [[whole-brain]] connectome construction. Preprocessing stages such as denoising and motion correction clean diffusion-weighted imaging data before local fiber reconstruction, ensuring that downstream analyses operate on high-quality signals [[raw/papers/semanticscholar-380768cf42a8.md|Renauld et al. (2026)]]. Commands including dwidenoise suppress thermal noise in DWI volumes, mrdegibbs removes Gibbs ringing artifacts, and dwipreproc corrects motion and eddy-current distortions. The dwi2response command calibrates the tissue response function, while dwi2fod estimates the fiber orientation distributions that drive subsequent [[tractography]] algorithms [[raw/papers/semanticscholar-380768cf42a8.md|Renauld et al. (2026)]]. These preprocessing and reconstruction stages produce the crossing-fiber representations required for accurate structural connectivity mapping [[raw/papers/semanticscholar-a6b8919e7fe8.md|Lê et al. (2026)]].
+
+For [[structural-connectivity]] analysis, MRtrix3 performs diffusion-based tractography and subsequent connectome reconstructions that transform streamlines into weighted connectivity matrices [[raw/papers/semanticscholar-a6b8919e7fe8.md|Lê et al. (2026)]]. The tckgen command generates streamlines through probabilistic [[tractography]], while tck2connectome maps these tractograms onto a [[parcellation]] to produce the [[connectome]] matrices used in network simulations. Post-processing with [[sift]] and SIFT2 refines streamline density to match underlying fiber distributions, yielding connectivity weights that integrate into brain network analysis pipelines [[raw/papers/semanticscholar-380768cf42a8.md|Renauld et al. (2026)]]. These MRtrix3 outputs feed directly into downstream graph-theoretic analysis of structural brain networks [[raw/papers/mijalkov-2017-braph.md|Mijalkov et al. (2017)]], forming a critical bridge between [[diffusion-mri]] and computational [[connectomics]].
 
 ## Relationship to TVB
 

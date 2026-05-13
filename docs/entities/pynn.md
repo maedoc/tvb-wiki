@@ -12,7 +12,7 @@ tags:
 - interoperability
 title: PyNN
 type: entity
-updated: '2026-05-07'
+updated: '2026-05-13'
 ---
 
 # PyNN
@@ -30,6 +30,8 @@ PyNN provides:
 - Facilitation of model sharing and [[reproducibility]]
 
 ## Simulators Supported
+
+PyNN backends span a continuum from conventional software simulators to custom neuromorphic hardware, enabling the same network specification to execute on platforms that differ by orders of magnitude in scale, energy efficiency, and architectural approach. The [[nest]] backend traces its lineage to Python interfacing work that exposes the simulator's full functionality through a high-level scripting API, integrating with NumPy and Matplotlib to enable rapid prototyping and reproducible sharing of simulation scripts [[raw/papers/eppler-2009.md|Eppler et al. (2008)]]. Event-driven neuromorphic platforms move computation onto dedicated hardware optimized for sparse connectivity and sparse activity. Frank et al. demonstrated a reconfigurable system capable of supporting 160 million neurons and 40 billion synapses—roughly twice the scale of a mouse brain—at faster-than-real-time speeds, shielding users from hardware complexity through hardware-agnostic Python programming interfaces [[raw/papers/arxiv-2602.18072.md|Frank et al. (2026)]]. Complementing this, Johari et al. introduced frameworks for automatically synthesizing hybrid CMOS-memristor neuromorphic architectures from high-level Python descriptions, compiling spiking network models down to SPICE-level circuit designs that significantly enhance energy efficiency over conventional CMOS implementations [[raw/papers/semanticscholar-6adce6f156d9.md|Johari et al. (2025)]]. Between these extremes, the [[neuron]] backend targets detailed multicompartment morphological modeling, while [[brian2|Brian]] provides a flexible, Python-native environment suited to rapid prototyping.
 
 | Simulator | Backend | Scale |
 |-----------|---------|-------|

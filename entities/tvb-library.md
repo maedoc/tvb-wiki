@@ -11,10 +11,12 @@ tags:
 - software-tvb-library
 title: TVB Library
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-13'
 ---
 
-TVB Library (tvb-library) is a core Python library of [[the-virtual-brain]], providing the simulation engine, model implementations, and analysis tools for [[whole-brain|whole-brain modeling]].
+TVB Library (`tvb-library`) is the open-source Python simulation kernel that implements the computational engine of [[the-virtual-brain]], a neuroinformatics platform for simulating large-scale primate brain network dynamics [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. It provides the model implementations and forward-model infrastructure that enable researchers to construct personalized whole-brain models by coupling empirical [[structural-connectivity]]—derived from [[diffusion-imaging]] [[tractography]]—with [[neural-mass-model]] population dynamics, generating simulated macroscopic signals directly comparable to empirical [[eeg|EEG]], [[meg|MEG]], and [[fmri|fMRI]] recordings [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. As the simulation backbone of the platform, it underpins automated pipeline workflows and integrates with the TVB Ontology, which standardizes the description of network simulations and generates executable code while exporting FAIR metadata and provenance-aware reports to enhance reproducibility across languages and platforms [[raw/papers/semanticscholar-9afbfd2d37be.md|Martin et al. (2025)]].
+
+Recent calibration studies demonstrate the library's use in quantitative whole-brain model tuning: a Larter-Breakspear [[neural-mass-model]] simulated on a 998-node human [[connectome]] through TVB can be parameterized via analysis tools to recover biological rhythms, scale-free dynamics, and non-stereotyped spatio-temporal complexity absent in default configurations [[raw/papers/arxiv-2509.12873.md|Gaglioti et al. (2025)]][[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. The tuned configuration exhibits robust alpha-band oscillations, infra-slow rhythms, and asymmetric [[functional-connectivity]] patterns, illustrating how the simulation engine supports data-driven calibration and validation of accurate whole-brain models [[raw/papers/arxiv-2509.12873.md|Gaglioti et al. (2025)]][[raw/papers/semanticscholar-9afbfd2d37be.md|Martin et al. (2025)]].
 
 ## Key Features
 

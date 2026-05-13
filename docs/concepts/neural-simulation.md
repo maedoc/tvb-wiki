@@ -12,7 +12,7 @@ tags:
 - whole-brain-modeling
 title: Neural Simulation
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-13'
 ---
 
 # Neural Simulation
@@ -39,11 +39,7 @@ TVB operates primarily at the **macroscale** level, simulating whole-[[brain-dyn
 
 ## Related
 
-- [[the-virtual-brain]] — [[whole-brain]] simulation platform
-- [[spiking-neural-networks]] — [[neuron]]-level simulation
-- [[neural-mass-model]] — population-level approximation
-- [[co-simulation]] — multi-scale simulation coupling
-- [[computational-neuroscience]] — broader field
+Neural simulation spans a hierarchy of scales that are tightly coupled in practice. At the macroscale, whole-brain network modeling combines computational models of brain dynamics with individual brain imaging data to coordinate network nodes, advancing understanding of complex brain dynamics and their neurobiological underpinnings [[raw/papers/semanticscholar-b9acfa0a7c80.md|Ziaeemehr et al. (2025)]]. The [[the-virtual-brain|Virtual Brain]] (TVB) is a key platform in this space, integrating empirical [[structural-connectivity]] derived from diffusion MRI tractography with [[neural-mass-model|neural mass models]] to simulate large-scale primate brain network dynamics [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. These population-level approximations make whole-brain simulation computationally tractable while remaining conceptually linked to [[spiking-neural-networks|spiking]] and single-[[neuron]] dynamics. TVB further bridges simulation and empirical neuroscience by providing forward models for [[neuroimaging-eeg|EEG]], [[neuroimaging-meg|MEG]], and [[neuroimaging-fmri|fMRI]], allowing synthetic signals to be compared directly against empirical recordings [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. Despite this progress, a critical need remains for automated model inversion tools that can estimate control and [[bifurcation-analysis|bifurcation]] parameters at large scales, given the varying spatio-temporal resolutions of different [[neuroimaging]] modalities [[raw/papers/semanticscholar-b9acfa0a7c80.md|Ziaeemehr et al. (2025)]]. The Virtual Brain Inference (VBI) toolkit was introduced to fill this gap, providing efficient [[bayesian|Bayesian]] inference and uncertainty quantification to enhance the predictive power of virtual brain models for applications in precision medicine [[raw/papers/semanticscholar-b9acfa0a7c80.md|Ziaeemehr et al. (2025)]]. Taken together, these developments situate whole-brain simulation within the broader field of [[computational-neuroscience|computational neuroscience]], where the interplay between theory, simulation, and data continues to drive the field toward biophysically interpretable models of brain function.
 
 ## References
 

@@ -12,6 +12,7 @@ A collection of foundational concepts in computational neuroscience and whole-br
 - [EEG](eeg.md) – Electroencephalography
 - [XCOS](xcos.md) – EEG electrode coordinate system for source imaging
 - [MEG](meg.md) – Magnetoencephalography
+- [EEG / MEG](neuroimaging-eeg.md) – Combined neuroimaging electrophysiology overview
 - [DTI](dti.md) – Diffusion tensor imaging
 - [Fractional Anisotropy](fractional-anisotropy.md) – White matter integrity measure
 - [Diffusion MRI](diffusion-mri.md) – Structural connectivity from diffusion imaging
@@ -70,6 +71,7 @@ A collection of foundational concepts in computational neuroscience and whole-br
 - [Bifurcation Analysis](bifurcation-analysis.md) – Qualitative changes in dynamics
 - [Bifurcation Theory](bifurcation-theory.md) – Classification of transitions
 - [Variational Bayes](variational-bayes.md) – Approximate Bayesian inference
+- [Bayesian Inference](bayesian.md) – Probabilistic parameter estimation for brain models
 - [Fokker-Planck Equation](fokker-planck-equation.md) – Distribution evolution under noise
 - [Epilepsy Modeling](epilepsy-modeling.md) – Seizure dynamics and prediction
 
@@ -83,6 +85,7 @@ A collection of foundational concepts in computational neuroscience and whole-br
 
 ## Data Analysis
 
+- [Machine Learning](machine-learning.md) – Pattern inference from neuroimaging and connectome data
 - [ICA](ica.md) – Independent component analysis
 - [Structural Core](structural-core.md) – Dense connectivity backbone
 - [Personalized Brain Modeling](personalized-brain-modeling.md) – Subject-specific simulations

@@ -13,11 +13,11 @@ type: entity
 updated: '2026-05-12'
 ---
 
-nxviz is a Python library for network visualization built on top of [[networkx]], created by Eric Ma and published in the Journal of Open Source Software [[ma2017nxviz]]. While not specifically designed for [[neuroimaging]], nxviz has become a popular tool in the neuroscience community for visualizing brain networks and [[connectivity]] data derived from neuroimaging studies, thanks to its specialized plotting geometries that map naturally onto the data structures produced by [[connectome]] analysis pipelines.
+nxviz is a Python library for network visualization built on top of [[network-dynamics]], created by Eric Ma and published in the Journal of Open Source Software [[nxviz]]. While not specifically designed for [[neuroimaging]], nxviz has become a popular tool in the neuroscience community for visualizing brain networks and [[connectivity]] data derived from neuroimaging studies, thanks to its specialized plotting geometries that map naturally onto the data structures produced by [[connectome]] analysis pipelines.
 
 ## Motivation and Context
 
-The visualization of brain networks presents distinct challenges compared to generic network graphs. Neuroimaging-derived connectivity data typically consist of symmetric matrices representing structural or functional connections between brain regions, often with edge weights reflecting connection strengths from [[diffusion-imaging]] tractography or [[resting-state]] [[fMRI]] correlations [[rubinov2010complex]]. Standard network visualization libraries such as networkx or graph-tool lack specialized functions adapted to the particular requirements of neuroimaging connectivity visualization, including support for node hierarchies (e.g., cortical lobes or [[brain-parcellation]] schemes), circular node ordering by network membership, and matrix-based representations complementary to graph-based views.
+The visualization of brain networks presents distinct challenges compared to generic network graphs. Neuroimaging-derived connectivity data typically consist of symmetric matrices representing structural or functional connections between brain regions, often with edge weights reflecting connection strengths from [[diffusion-imaging]] tractography or [[resting-state]] [[fMRI]] correlations . Standard network visualization libraries such as networkx or graph-tool lack specialized functions adapted to the particular requirements of neuroimaging connectivity visualization, including support for node hierarchies (e.g., cortical lobes or [[brain-parcellation]] schemes), circular node ordering by network membership, and matrix-based representations complementary to graph-based views.
 
 nxviz was developed to fill this gap in the neuroinformatics toolchain, providing visualization primitives that map naturally onto the data structures produced by connectivity analysis pipelines. The library is compatible with [[nilearn]] through shared dataformats, enabling researchers to visualize output from [[connectome-mapper-3]], [[hcp-pipelines]], and other pipeline tools without requiring extensive custom matplotlib coding.
 
@@ -25,7 +25,7 @@ nxviz was developed to fill this gap in the neuroinformatics toolchain, providin
 
 nxviz provides four primary visualization geometries optimized for [[brain-network]] display. The **circos plot** arranges nodes in a circle and draws arcs between connected regions, with arc thickness proportional to edge weight—this geometry is particularly effective for visualizing the topological organization of large-scale brain networks such as the [[default-mode-network]]. The **matrix plot** displays the raw connectivity matrix as a heatmap, with optional hierarchical clustering revealing community structure in the connectivity pattern. The **arc plot** similarly uses arcs to represent edges but positions nodes linearly rather than circumferentially, facilitating comparison with traditional brain [[parcellation]] ordering. Finally, the **circular layout** provides a conventional network graph with nodes positioned around a circle according to a specified order factor, enabling rapid identification of hub regions and network modules.
 
-All nxviz plotting functions return matplotlib Figure and Axis objects, allowing researchers to customize titles, labels, and annotations using standard matplotlib syntax [[hunter2007matplotlib]]. The library supports weighted and unweighted networks, directed and undirected edges, and can incorporate node metadata such as network membership from [[community-detection]] algorithms. Node and edge colors follow a consistent default palette designed for grayscale printing, while also supporting custom colormap specification.
+All nxviz plotting functions return matplotlib Figure and Axis objects, allowing researchers to customize titles, labels, and annotations using standard matplotlib syntax . The library supports weighted and unweighted networks, directed and undirected edges, and can incorporate node metadata such as network membership from [[community-detection]] algorithms. Node and edge colors follow a consistent default palette designed for grayscale printing, while also supporting custom colormap specification.
 
 ## Relationship to TVB
 
@@ -33,6 +33,6 @@ nxviz serves as a complementary visualization tool for outputs generated by [[th
 
 ## References
 
-1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
-2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](](https://doi.org/10.1089/brain.2012.0120))
-3. Gorgolewski et al. (2016). *The brain imaging data structure, a format for organizing and describing outputs of neuroimaging experiments*. Scientific Data. [DOI](](https://doi.org/10.1038/sdata.2016.44))
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010))
+2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120))
+3. Gorgolewski et al. (2016). *The brain imaging data structure, a format for organizing and describing outputs of neuroimaging experiments*. Scientific Data. [DOI](https://doi.org/10.1038/sdata.2016.44))

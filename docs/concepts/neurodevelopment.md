@@ -14,7 +14,7 @@ tags:
 - whole-brain-modeling
 title: neurodevelopment
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-13'
 ---
 
 # Neurodevelopment
@@ -73,11 +73,7 @@ This "back-to-front" gradient mirrors evolutionary cortical development.
 
 ## Individual Differences
 
-Development varies across individuals due to:
-- Genetic factors
-- Environmental influences
-- Experience-dependent [[plasticity]]
-- Sensitive periods for specific functions
+Developmental trajectories exhibit considerable individual variation, even though certain spatial and temporal patterns remain broadly conserved across the population. Gogtay et al. [[raw/papers/gogtay-2004.md|Gogtay et al. (2004)]] tracked the same thirteen children longitudinally from ages 4 to 21 and found that, despite the shared back-to-front gradient of cortical maturation, the rate and extent of cortical thinning differed from child to child, reflecting individual variation in pruning and myelination processes that shape [[white-matter]] and cortical structure. Fair et al. [[raw/papers/fair-2009.md|Fair et al. (2009)]] observed a similar range of variability in a cross-sectional resting-state fMRI sample of 210 participants aged 7–31: while the group-level trend showed short-range [[functional-connectivity]] weakening and long-range connections strengthening, the timing of this local-to-distributed shift varied considerably across individuals. Tau & Peterson [[raw/papers/tau-peterson-2010.md|Tau & Peterson (2010)]] note that differences in [[structural-connectivity]] integrity, cortical thickness, and functional connectivity patterns all contribute to these divergent [[developmental-trajectories]], underscoring that models of neurodevelopment must account for both the canonical pattern and the spread around it.
 
 ## Related Concepts
 - [[developmental-trajectories]] – Patterns of brain change over time

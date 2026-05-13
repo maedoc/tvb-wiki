@@ -31,7 +31,7 @@ The TVB-VM distribution also includes visualization capabilities through [[tvb-w
 
 ## Relationship to TVB
 
-TVB-VM serves as one of several deployment options for [[the-virtual-brain]], complementing the traditional pip-based installation and [[docker]] container approaches. Unlike the standalone Python installation, which requires users to manage their own Python environment and dependencies, TVB-VM provides a completely isolated system where all components are pre-configured to work together. This makes it particularly useful for workshops, tutorials, and educational settings where participants may have varying levels of technical expertise.
+TVB-VM serves as one of several deployment options for [[the-virtual-brain]], complementing the traditional pip-based installation and docker container approaches. Unlike the standalone Python installation, which requires users to manage their own Python environment and dependencies, TVB-VM provides a completely isolated system where all components are pre-configured to work together. This makes it particularly useful for workshops, tutorials, and educational settings where participants may have varying levels of technical expertise.
 
 The virtual machine approach also facilitates workflow integration with external tools. Researchers can use the bundled neuroimaging software to process their own [[structural-connectivity]] data, import the resulting [[connectivity]] matrices into TVB, and then export simulation results for further analysis. This end-to-end capability makes TVB-VM a complete research platform for [[personalized-brain-modeling]] applications, from raw imaging data to fitted computational models.
 
@@ -41,7 +41,7 @@ While TVB-VM provides convenience, it carries certain trade-offs relative to oth
 
 ## Related Software
 
-TVB-VM relates to several other software deployment approaches in the TVB ecosystem. The [[tvb-docker]] project provides containerized deployments offering similar convenience with reduced resource overhead. For users preferring native installations, [[tvb-library]] and [[tvb-rest]] provide programmatic APIs. The virtual machine also complements [[tvb-adapters]] by providing the execution environment needed to run simulations with various neural simulator backends including [[nest]] and [[brian2]].
+TVB-VM relates to several other software deployment approaches in the TVB ecosystem. The [[tvb]] project provides containerized deployments offering similar convenience with reduced resource overhead. For users preferring native installations, [[tvb-library]] and [[tvb-rest]] provide programmatic APIs. The virtual machine also complements [[tvb-adapters]] by providing the execution environment needed to run simulations with various neural simulator backends including [[nest]] and [[brian2]].
 
 TVB-VM integrates with the broader neuroimaging ecosystem through its bundled tools. [[connectome-workbench]] enables visualization of connectivity data in CIFTI format, while [[freesurfer]] provides the cortical segmentation needed for many TVB parcellation workflows. The combination of these tools within a single environment makes TVB-VM particularly valuable for researchers working across multiple neuroimaging modalities including [[neuroimaging-fmri]], [[neuroimaging-meg]], and [[neuroimaging-eeg]].
 

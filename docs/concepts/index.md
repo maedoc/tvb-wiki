@@ -83,6 +83,7 @@ A collection of foundational concepts in computational neuroscience and whole-br
 
 ## Data Analysis
 
+- [Machine Learning](](machine-learning.md)) – Pattern inference from neuroimaging and connectome data
 - [ICA](](ica.md)) – Independent component analysis
 - [Structural Core](](structural-core.md)) – Dense connectivity backbone
 - [Personalized Brain Modeling](](personalized-brain-modeling.md)) – Subject-specific simulations

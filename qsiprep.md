@@ -4,6 +4,7 @@ sources:
 - raw/papers/semanticscholar-380768cf42a8.md
 - raw/papers/semanticscholar-a0cce22e2ffc.md
 - raw/papers/Renton2024.md
+- raw/papers/semanticscholar-deecd9987645.md
 tags:
 - software-bids
 - neuroimaging-dti
@@ -12,12 +13,18 @@ tags:
 - quality-control
 title: QSIprep
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-13'
 ---
 
 # QSIprep
 
 **QSIprep** is a [[bids]]-App for preprocessing and reconstructing [[diffusion-mri]] (dMRI) data. It provides a standardized, reproducible pipeline for quality control, preprocessing, and reconstruction of diffusion-weighted imaging data within the Brain Imaging Data Structure (BIDS) framework.
+
+## Overview
+
+The [[diffusion-mri|diffusion MRI]] processing pipeline spans multiple stages, beginning with preprocessing and local fiber reconstruction before advancing to [[tractography]] and post‑processing of tractograms [[raw/papers/semanticscholar-380768cf42a8.md|Renauld et al. (2026)]]. Within this landscape, QSIprep functions as a tool for preprocessing diffusion‑weighted imaging data, included alongside [[mrtrix3]] and dsistudio in the Neurodesk platform's diffusion MRI tool suite [[raw/papers/Renton2024.md|Renton et al. (2024)]]. The software performs first‑level preprocessing of diffusion‑weighted images and generates parametric maps and connectivity matrices [[raw/papers/semanticscholar-deecd9987645.md|Asay et al. (2025)]], and these outputs feed directly into structural [[connectome]] analyses for whole‑brain network modeling [[raw/papers/Renton2024.md|Renton et al. (2024)]]. Its outputs further support downstream data management and integration with quality‑assurance pipelines [[raw/papers/semanticscholar-deecd9987645.md|Asay et al. (2025)]].
+
+QSIprep participates in a broader movement toward reproducible, containerized neuroimaging analysis. The Neurodesk platform demonstrated empirically that containerized software eliminates inter‑computer differences that occur with locally installed tools, establishing a foundation for consistent preprocessing outcomes across heterogeneous hardware [[raw/papers/Renton2024.md|Renton et al. (2024)]]. QSIprep is one of more than one hundred neuroimaging applications accessible through this portable environment, which supports analysis on personal workstations, high‑performance computers, and cloud infrastructure [[raw/papers/Renton2024.md|Renton et al. (2024)]]. Its preprocessed diffusion outputs serve as critical inputs for whole‑brain network simulators such as [[the-virtual-brain|TVB]], where they are transformed into structural connectivity matrices for large‑scale brain modeling [[raw/papers/Renton2024.md|Renton et al. (2024)]]. By operating within containerized platforms alongside companion preprocessors, QSIprep functions as a reproducible bridge between raw dMRI acquisitions and downstream [[connectome]] modeling workflows [[raw/papers/Renton2024.md|Renton et al. (2024)]][[raw/papers/semanticscholar-deecd9987645.md|Asay et al. (2025)]].
 
 ## History and Motivation
 

@@ -1,49 +1,29 @@
 ---
 created: 2026-04-24
-sources:
-- raw/papers/semanticscholar-fcd025fcc10c.md
-- raw/papers/semanticscholar-0e3dfd0e1397.md
-- raw/papers/semanticscholar-1a3ed92b9f5a.md
-- raw/papers/semanticscholar-8006c459587d.md
-- raw/papers/semanticscholar-518ee560ec89.md
-- raw/papers/semanticscholar-113f4eac2c33.md
-- raw/papers/semanticscholar-fb4cf47c4f31.md
-tags:
-- software-brain-modeling
-- structural-connectivity
-- functional-connectivity
-- neuroimaging-dti
-- neuroimaging-fmri
-- reproducibility
-- database-hcp
+updated: 2026-05-13
 title: DataLad
 type: entity
-updated: '2026-05-06'
+tags:
+- software-brain-modeling
+- reproducibility
+- connectomics
+- structural-connectivity
+- functional-connectivity
+- neuroimaging-fmri
+- database-hcp
+sources:
+- raw/papers/semanticscholar-8006c459587d.md
+- raw/papers/semanticscholar-0e3dfd0e1397.md
+- raw/papers/semanticscholar-518ee560ec89.md
+- raw/papers/semanticscholar-fcd025fcc10c.md
 ---
 
-The DataLad wiki page has been successfully improved:
+DataLad is a free and open-source distributed data management system built on Git and git-annex that enables versioning, sharing, and provenance tracking for datasets of arbitrary size. Originally developed for neuroscience, it has become a general-purpose tool for any domain where reproducibility and collaborative data stewardship are paramount. By combining the branching and history capabilities of distributed version control with content-addressable storage of large files, DataLad allows researchers to install a dataset, inspect its complete provenance graph, and selectively retrieve only the files they need without downloading terabytes of irrelevant data.
 
-**File created:** `entities/datalad.md`
-- Full entity page (~750 words) replacing all placeholders
-- Updated frontmatter with `updated: 2026-04-24`
-- 7 validated tags from the taxonomy
-- 16+ wikilinks to related pages (TVB, git-annex, [[bids]], [[openneuro]], HCP, [[uk-biobank]], [[neuroimaging]], etc.)
-- Sections: Overview, Key Features (4 subsections), Relationship to TVB (3 subsections), Related Software, Integration table, Key Papers, References
-- Cited papers: Halchenko et al. (2023), Hanke et al. (2021), DataLad Handbook
+The need for tools like DataLad arises from a reproducibility crisis in neuroimaging exacerbated by the sheer scale of modern datasets. Many established preprocessing packages and workflows fall short of enhancing reproducibility because they lack designs based on Findability, Accessibility, Interoperability, and Reusability (FAIR) principles [[raw/papers/semanticscholar-8006c459587d.md|Schwartz et al. 2025]]. DataLad addresses this gap by treating data as a first-class citizen in the scientific workflow: every modification is versioned, every derivative can be linked to its exact inputs, and every dataset can be published to a remote repository while keeping actual file content in separate, optionally redundant storage. The ASPIRE Research Institute dataset documentation, for instance, outlines data management and preprocessing workflows that exemplify the multi-site collection challenges DataLad is designed to solve [[raw/papers/semanticscholar-0e3dfd0e1397.md|Mohamed et al. 2026]]. Multi-center neuroimaging studies increasingly share open-access data through platforms like [[openneuro]], yet the underlying logistical problem of tracking which participants, modalities, and derivatives are present across sites remains acute [[raw/papers/semanticscholar-518ee560ec89.md|Banerjee et al. 2025]].
 
-**Index updated:** `entities/index.md`
-- DataLad added under Software Platforms section
+Technically, DataLad extends Git with git-annex to manage large binary files that would otherwise break a standard repository. Each file is represented by a lightweight pointer in Git while its content is stored in an annex and can be distributed across local disks, network-attached storage, or remote platforms. A Python API and command-line interface provide programmatic access to dataset operations, enabling integration into automated pipelines. DataLad also supports the [[bids]] standard natively: BIDS datasets can be installed, validated, and shared as versioned objects, making it straightforward to align raw data organization with downstream analysis requirements. The convergence of standardized preprocessing with robust data frameworks is evident in efforts such as [[fmriprep]] Lifespan, which maintains reproducible frameworks for functional MRI research across developmental and aging cohorts [[raw/papers/semanticscholar-fcd025fcc10c.md|Goncalves et al. 2025]].
 
-**Log updated:** `log.md`
-- Entry documenting the page creation and all changes
+For [[whole-brain-modeling]] with [[the-virtual-brain]], DataLad offers a critical infrastructure layer that is often overlooked. TVB simulations require inputs such as [[structural-connectivity]] matrices derived from [[diffusion-imaging|diffusion-weighted imaging]] and [[tractography]], regional [[functional-connectivity]] estimates from [[resting-state]] or task-based [[neuroimaging-fmri]], and anatomical parcellations that constrain [[neural-mass-models]]. These inputs frequently originate from public repositories such as the [[human-connectome-project]] or the [[uk-biobank]], or from in-house multi-site acquisitions that must be curated before simulation. DataLad can version-control the entire pipeline from raw images through tractography and parcellation to the final connectivity weights fed into a TVB simulation, ensuring that any published virtual brain model can be reconstructed exactly from its documented data lineage.
 
-## References
-
-1. Mathias Goncalves, Julia Moser, Thomas J. Madison, rae McCollum, Jacob T. Lundquist, Begim Fayzullobekova, Lidia Hadera, Han H. N. Pham, Lucille A. Moore, Audrey Houghton, Greg Conan, M. Styner, Dimitrios Alexopoulos, C. Smyser, Sally M Stoyell, Sanju Koirala, Steven M. Nelson, Kimberly B. Weldon, Erik G. Lee, R. Hermosillo, L. Vizioli, E. Yacoub, G. H. Patel, Juan Sanchez, K. Wengler, T. Salo, T. Satterthwaite, J. Elison, C. Markiewicz, R. Poldrack, E. Feczko, Oscar Esteban, D. Fair. (2025). *[[fmriprep]] Lifespan: Extending A Robust Pipeline for [[neuroimaging-fmri|Functional MRI]] Preprocessing to Developmental Neuroimaging*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.05.14.654069))
-2. Yanfan Zhu, Marilyn Lionts, Ezekial Haugen, A. Walter, Trevor Voss, George Ryan Grow, Richard L. Liao, Meagan E. McKee, Andrea Locke, Girish Hiremath, Anita Mahadevan-Jansen, Yuankai Huo. (2026). *TRaP: An Open-source, Reproducible Framework for Raman Spectral Preprocessing across Heterogeneous Systems*. bioRxiv. [DOI](](https://doi.org/10.64898/2026.03.26.714582))
-3. Abdalla Z. Mohamed, A. Qadi, Amna Dogar, Amal Salah, Aysha Hamkari, Dana Alkalali, G. Begum, Haidee Paterson, Imane Morjane, Omnia Hassanin, Puti Wen, Rawand Benour, Soumen Mohanty, Yvonne Vallès, Milos Ljubisavljevic, Y. Idaghdour, Osama Abdullah, Kartik K. Sreenivasan, B. Rokers. (2026). *The ASPIRE Research Institute Dataset: Building a Foundation for Brain Health Research in the United Arab Emirates*. Scientific Data. [DOI](](https://doi.org/10.1038/s41597-025-06498-0))
-4. Teppei Matsubara, Abbass Sohrabpur, Seppo Ahlfors, M. Jas, John G. W. Samuelsson, Padmavathi Sundaram, Steven M. Stufflebeam. (2026). *Quantifying Cerebellar Signal Detectability in MEG and EEG in Epilepsy Using Anatomically Informed Source Modeling*. bioRxiv. [DOI](](https://doi.org/10.64898/2026.01.14.699512))
-5. Shawn T. Schwartz, Haopei Yang, Alice M. Xue, M. He. (2025). *eyeris: A flexible, extensible, and reproducible pupillometry preprocessing framework in R*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.06.01.657312))
-6. Rohan Banerjee, M. Kaptan, Alexandra Tinnermann, Ali Khatibi, Alice Dabbagh, C. Büchel, Christian W Kündig, C. S. Law, Dario Pfyffer, D. Lythgoe, Dimitra Tsivaka, D. Van de Ville, Falk Eippert, Fauziyya Muhammad, Gary H. Glover, Gergely Dávid, Grace Haynes, Jan Haaker, Jonathan C. W. Brooks, J. Finsterbusch, K. Martucci, K. Hemmerling, Mahdi Mobarak-Abadi, M. Hoggarth, M. Howard, Molly G. Bright, Nawal Kinany, O. Kowalczyk, Patrick Freund, Robert L. Barry, S. Mackey, Shahabeddin Vahdat, Simon Schading, Stephen B McMahon, Todd Parish, Véronique Marchand-Pauvert, Yufen Chen, Z. A. Smith, K. Weber, B. De Leener, Julien Cohen-Adad. (2025). *EPISeg: Automated segmentation of the spinal cord on echo planar images using open-access multi-center data*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.01.07.631402))
-7. Julius Beichert, Jonas A. Kretz, Jena Kim, Xiaoyun Ma, D. Azorín, Andreas Moor, Haikun Liu, M. Ratliff. (2026). *Abstract 3000: Tumor Treating Fields (TTFields) may weaken glioblastoma network [[connectivity]], with implications for malignancy*. Cancer Research. [DOI](](https://doi.org/10.1158/1538-7445.am2026-3000))
-8. Rohan Banerjee, M. Kaptan, Alexandra Tinnermann, Ali Khatibi, Alice Dabbagh, C. Büchel, Christian W Kündig, C. S. Law, Dario Pfyffer, D. Lythgoe, Dimitra Tsivaka, D. Van de Ville, Falk Eippert, Fauziyya Muhammad, Gary H. Glover, Gergely Dávid, Grace Haynes, Jan Haaker, Jonathan C. W. Brooks, J. Finsterbusch, K. Martucci, K. Hemmerling, Mahdi Mobarak-Abadi, M. Hoggarth, M. Howard, Molly G. Bright, Nawal Kinany, O. Kowalczyk, Patrick Freund, Robert L. Barry, S. Mackey, Shahabeddin Vahdat, Simon Schading, Stephen B McMahon, Todd Parish, Véronique Marchand-Pauvert, Yufen Chen, Z. Smith, K. Weber II, B. De Leener, Julien Cohen-Adad. (2025). *EPISeg: Automated segmentation of the spinal cord on echo planar images using open-access multi-center data*. Imaging neuroscience. [DOI](](https://doi.org/10.1162/IMAG.a.98))
+DataLad operates within a broader ecosystem of reproducible neuroinformatics tools. It complements workflow engines such as [[pydra]] and [[snakemake]] by versioning the data those pipelines consume and produce, and it integrates with container technologies such as [[apptainer]] to capture both software environment and data state. While platforms like [[openneuro]] provide hosted data sharing, DataLad provides the decentralized, peer-to-peer data management substrate that makes such sharing scalable and version-aware. Unlike generic cloud storage, DataLad preserves full provenance and supports selective access, making it particularly well-suited to the privacy and scale constraints of modern [[connectome]] research.

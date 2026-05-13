@@ -28,6 +28,7 @@ Connectome‑based whole‑brain modeling, neural mass models, neuroimaging moda
 - neural‑mass‑models
 - dynamic‑causal‑modeling
 - whole‑brain‑modeling
+- machine‑learning
 - connectomics
 - structural‑connectivity
 - functional‑connectivity

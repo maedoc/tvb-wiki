@@ -12,12 +12,14 @@ tags:
 - regions
 title: Brain Parcellation
 type: concept
-updated: '2026-05-08'
+updated: '2026-05-13'
 ---
 
 # Brain Parcellation
 
-**Brain [[parcellation]]** is the process of dividing the brain into discrete regions (nodes) for analysis. It is a foundational step in [[whole-brain|whole-brain modeling]] and [[connectivity]] analysis.
+**Brain [[parcellation]]** is the process of dividing the brain into discrete regions, or nodes, that serve as the elementary units of large-scale neuroimaging and [[connectivity]] analyses. By delineating anatomical or functional boundaries within the cerebral cortex and subcortical structures, parcellation enables the extraction of region-specific measurements from multimodal MRI data and represents a crucial step in neuroimaging analyses [[raw/papers/semanticscholar-66f887e82e89.md|Franza et al. (2025)]]. In [[whole-brain|whole-brain modeling]] platforms such as [[the-virtual-brain|TVB]], these parcels become the nodes of a [[connectome|connectivity graph]], where each node is assigned a [[neural-mass-model|neural mass]] or [[mean-field-theory|mean-field]] model and inter-node coupling is governed by empirical [[structural-connectivity|structural connectivity]] derived from diffusion MRI tractography [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. This architecture couples spatial structure to temporal dynamics, a relationship that Breakspear [[raw/papers/breakspear-2017.md|Breakspear (2017)]] formalizes within a broader mathematical framework linking structural topology, conduction delays, and emergent functional dynamics. Parcellation choices thus constrain not only the spatial resolution of a model—trading computational cost against fidelity—but also the very patterns of network activity that arise from simulation.
+
+The downstream consequences of atlas selection extend beyond simulation geometry. Franza et al. [[raw/papers/semanticscholar-66f887e82e89.md|Franza et al. (2025)]] demonstrate that different parcellation schemes, such as the functionally derived Schaefer atlas and the multimodal Brainnetome atlas, yield significantly different neurovascular coupling estimates across canonical large-scale networks despite overall consistency exceeding ICC = 0.702. These differences are especially pronounced in attention-related networks, underscoring that parcellation choice can substantially impact analytical outcomes even when atlases appear broadly aligned. Such findings highlight the need to carefully consider atlas properties when investigating subtle alterations in brain physiology or when interpreting personalized simulation results obtained from platforms like [[the-virtual-brain|TVB]] [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]].
 
 ## Overview
 

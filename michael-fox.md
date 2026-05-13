@@ -19,7 +19,7 @@ His clinical practice specializes in both invasive brain stimulation ([[paramete
 
 ### Resting State Functional Connectivity MRI
 
-Fox has made fundamental contributions to the development and application of resting state functional connectivity MRI ([[fcMRI]]), a neuroimaging technique that uses spontaneous fluctuations in blood oxygenation to map intrinsic brain networks. His early work demonstrated that the human brain is intrinsically organized into dynamic, anticorrelated functional networks, revealing the [[default-mode-network]] and its anti-correlation with attention networks. This foundational discovery has become one of the most cited findings in modern neuroimaging.
+Fox has made fundamental contributions to the development and application of resting state functional connectivity MRI (fcMRI), a neuroimaging technique that uses spontaneous fluctuations in blood oxygenation to map intrinsic brain networks. His early work demonstrated that the human brain is intrinsically organized into dynamic, anticorrelated functional networks, revealing the [[default-mode-network]] and its anti-correlation with attention networks. This foundational discovery has become one of the most cited findings in modern neuroimaging.
 
 His influential 2007 review article "Spontaneous fluctuations in brain activity observed with functional magnetic resonance imaging" in Nature Reviews Neuroscience remains a landmark paper in the field, describing how spontaneous low-frequency oscillations in the [[BOLD-signal]] reflect underlying neuronal activity and can be used to delineate functional brain networks without task performance.
 

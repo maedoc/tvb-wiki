@@ -12,7 +12,6 @@ title: TVB-WebUI
 type: entity
 updated: '2026-05-11'
 ---
-
 **TVB-WebUI** is the web-based user interface for [The Virtual Brain](/tvb), an open-source [[neuroimaging]] simulation platform. It provides a graphical environment for configuring, running, and visualizing [[brain-network]] simulations through a modern web browser.
 
 ## Overview
@@ -53,7 +52,3 @@ The WebUI can be run as a standalone service that connects to a TVB instance, or
 - [TVB-Explorer](](/tvb-explorer)) — Visualization toolkit for connectivity and imaging data
 - [TVB-NEURO](](/tvb-neuro)) — Clinical neuroscience extensions
 - [TVB-GUI](](/tvbgui)) — Legacy desktop GUI (deprecated)
-
-## References
-
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))

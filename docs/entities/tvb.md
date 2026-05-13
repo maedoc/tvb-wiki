@@ -16,7 +16,7 @@ tags:
 - neural-mass-models
 title: TVB
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-12'
 ---
 
 # TVB (The Virtual Brain)
@@ -62,6 +62,7 @@ TVB combines:
 - jax
 - [[cifti-tools]]
 - [[brainscales]]
+- [[powermap]]
 - [[geppetto]]
 - [[gift]]
 - [[amico]]

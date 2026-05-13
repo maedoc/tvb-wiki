@@ -27,6 +27,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [BrainSpace](brainspace.md) - Macroscale gradient analysis toolbox
 - [BRAPH](braph.md) - Graph theory software for brain connectivity analysis
 - [Brain Dynamics Toolbox](brain-dynamics-toolbox.md) - MATLAB toolbox for neural mass model simulation and dynamical systems analysis
+- [Brain-Score](brain-score.md) - Open-source benchmarking platform for evaluating brain models against empirical data
 - [Cytoscape](cytoscape.md) - Network visualization and analysis platform for brain connectivity graphs
 - [ModelDB](modeldb.md) - Computational neuroscience model repository
 - [PsyNeuLink](psyneulink.md) - Graph-based cognitive neuroscience modeling framework

@@ -4,6 +4,7 @@ sources:
 - raw/papers/david-friston-2003.md
 - raw/papers/semanticscholar-f05f8cbafb78.md
 - raw/papers/breakspear-2017.md
+- raw/papers/semanticscholar-6a0f2f6ded9a.md
 tags:
 - people-researcher
 - dynamic-causal-modeling
@@ -18,7 +19,7 @@ tags:
 - active-inference
 title: Karl J. Friston
 type: entity
-updated: '2026-05-07'
+updated: '2026-05-13'
 ---
 
 **Karl J. Friston** is a British neuroscientist and theoretical biologist who holds positions at University College London and the Wellcome Trust Centre for Neuroimaging. He is widely regarded as one of the most influential theoretical neuroscientists of his generation, having developed several foundational frameworks that bridge [[computational-neuroscience]], [[bayesian]] inference, and [[neuroimaging]] analysis. His work on the [[free-energy-principle]] and [[dynamic-causal-modeling]] has shaped how researchers conceptualize brain function, connectivity, and the relationship between structure and dynamics in large-scale brain networks.

@@ -14,7 +14,7 @@ tags:
 - neuroimaging-dti
 title: Brain Imaging Data Structure (BIDS)
 type: concept
-updated: '2026-05-07'
+updated: '2026-05-12'
 ---
 
 The Brain Imaging Data Structure (BIDS) is a **standard specification for organizing neuroimaging datasets** that enables reproducible, tool-independent data sharing across the [[computational-neuroscience]] community. BIDS defines a hierarchical file structure and naming convention for brain imaging data, along with metadata specifications in JSON sidecar files that capture acquisition parameters, processing history, and subject metadata. The specification has become the de facto standard for data sharing in neuroimaging, supported by over 200 software tools and adopted by major data repositories including the [[human-connectome-project]] (HCP), [[openneuro]], and UK Biobank (which supports BIDS as one of several acceptable formats for data submission) [@raw/papers/jordan-2018].
@@ -43,7 +43,7 @@ BIDS also facilitates the integration of functional neuroimaging data for model 
 
 ## Ecosystem and Tools
 
-The BIDS ecosystem includes numerous tools that operate on BIDS datasets. [[pybids]] is a Python library that provides programmatic access to BIDS datasets, enabling queries for specific subjects, sessions, or file types. [[bidskit]] is a command-line toolkit for converting raw DICOM data to BIDS format during initial data organization. [[bids-apps]] are dockerized neuroimaging pipelines that accept BIDS datasets as input, implementing standardized processing workflows that can be run reproducibly across computing environments. Tools like [[mne-bids]] and [[dcm2niix]] bridge between specific acquisition formats and the BIDS specification.
+The BIDS ecosystem includes numerous tools that operate on BIDS datasets. [[pybids]] is a Python library that provides programmatic access to BIDS datasets, enabling queries for specific subjects, sessions, or file types. [[braindecode]] offers additional capabilities for decoding neural signals from EEG and MEG recordings stored in BIDS format. [[bidskit]] is a command-line toolkit for converting raw DICOM data to BIDS format during initial data organization. [[bids-apps]] are dockerized neuroimaging pipelines that accept BIDS datasets as input, implementing standardized processing workflows that can be run reproducibly across computing environments. Tools like [[mne-bids]] and [[dcm2niix]] bridge between specific acquisition formats and the BIDS specification.
 
 Several major preprocessing pipelines expect BIDS-formatted input, including [[fmriprep]] for fMRI, [[qsiprep]] for diffusion MRI, and [[aslprep]] for arterial spin labeling. These pipelines produce [[bids-derivatives]] outputs that maintain the BIDS structure while documenting the processing steps applied. This end-to-end standardization—from raw acquisition through preprocessing to analysis—has substantially improved reproducibility in neuroimaging research.
 
@@ -56,3 +56,28 @@ BIDS interacts with several related standards and tools in the neuroimaging ecos
 1. Jordan et al. (2018). *Extremely scalable spiking neuronal network simulation code: from laptops to exascale computers*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2018.00002))
 2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
 3. Peter Yongho Kim, Juhyeon Park, Jungwoo Park, Jubin Choi, Jungwoo Seo, Jiook Cha, Taesup Moon. (2026). *Can Natural Image Autoencoders Compactly Tokenize [[fmri]] Volumes for Long-Range Dynamics Modeling?*. [Link](](https://arxiv.org/abs/2604.03619))
+
+## ORPHAN PAGE CONTEXT (braindecode)
+---
+created: 2024-01-15
+sources:
+- raw/papers/schirrmeister-2017.md
+- raw/papers/bein-2018.md
+- raw/papers/sanz-leon-2013.md
+tags:
+- software-braindecode
+- machine-learning
+- neural-network
+- electrophysiology
+- eeg
+- meg
+- brain-computer-interface
+- deep-learning
+- software-neuroimaging
+- python
+title: Braindecode
+type: entity
+updated: '2026-05-12'
+---
+
+Braindecode is an open-source Python library designed for decoding neural signals, particularly electroencephalography (EEG) and magnetoencepha

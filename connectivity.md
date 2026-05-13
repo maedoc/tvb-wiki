@@ -1,13 +1,13 @@
 ---
 title: Connectivity
 created: 2024-01-15
-updated: 2026-05-11
+updated: 2026-05-12
 type: concept
 tags: [connectomics, structural-connectivity, functional-connectivity, effective-connectivity, network-dynamics, whole-brain-modeling]
 sources: [raw/papers/friston-1993.md]
 ---
 
-Connectivity is a fundamental concept in [[whole-brain]] modeling and [[computational-neuroscience]] that describes the patterns of anatomical and functional relationships between neural elements—ranging from individual neurons to large-scale brain regions. Understanding connectivity is essential for constructing biologically realistic models of brain dynamics, as the structure of connections fundamentally constrains the set of possible [[network-dynamics]] that can emerge in a neural system. In the context of whole-brain modeling, connectivity serves as the primary input for simulating large-scale brain activity, whether at the level of [[neural-mass-models]] or [[spiking-neural-networks]].
+Connectivity is a fundamental concept in [[whole-brain]] modeling and [[computational-neuroscience]] that describes the patterns of anatomical and functional relationships between neural elements—ranging from individual neurons to large-scale brain regions. Understanding connectivity is essential for constructing biologically realistic models of brain dynamics, as the structure of connections fundamentally constrains the set of possible [[network-dynamics]] that can emerge in a neural system. In the context of whole-brain modeling, connectivity serves as the primary input for simulating large-scale brain activity, whether at the level of [[neural-mass-models]] or [[spiking-neural-networks]], frameworks such as [[gns]].
 
 The term "connectivity" in neuroscience encompasses several distinct but related concepts that are often distinguished by the type of relationship being described. [[Structural-connectivity]] refers to the physical anatomical connections between neural elements, typically measured through diffusion imaging and tractography. These connections represent white matter tracts and synaptic linkages that form the physical scaffold through which neural signals propagate. The mapping of structural connectivity at the macroscale gave rise to the field of [[connectomics]], pioneered by the seminal work of Sporns, Tononi, and Kötter (2005) who introduced the term "connectome" to describe a comprehensive structural description of the brain's network organization.
 
@@ -28,6 +28,9 @@ Connectivity sits at the intersection of several major research programs in comp
 The field continues to grapple with fundamental questions about the relationship between structural and functional connectivity, the optimal resolution at which to characterize connectomes, and how to integrate connectivity data across multiple imaging modalities. Advances in [[parameter-estimation]] techniques and [[variational-bayes]] methods offer promising approaches for inferring effective connectivity from empirical observations, but these methods remain computationally intensive and require careful validation.
 
 See also [[popeye]] for related software tools.
+
+[[neurostats]]
+[[ Allen SDK]]
 
 ---
 

@@ -9,7 +9,7 @@ tags:
 - diffusion-imaging
 title: Diffusion Imaging
 type: concept
-updated: '2026-05-11'
+updated: '2026-05-13'
 ---
 
 Diffusion Imaging — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]], as well as frameworks like [[c302]] and tools like [[hnn]]. The techniques are also integral to the [[ramais]] platform for medical image segmentation.
@@ -67,22 +67,9 @@ updated: '2026-05-06'
 **HNN** (Human Neocortical Neurosolver) is an open-source computational modeling package designed to simulat
 
 ## ORPHAN PAGE CONTEXT (neusight)
----
-created: 2026-04-23
-sources:
-- raw/papers/sanz-leon-2013.md
-- raw/papers/arxiv-2603.24176.md
-- raw/papers/arxiv-2603.07524.md
-tags:
-- software-brain-modeling
-title: NeuSIGHT
-type: entity
-updated: '2026-05-04'
----
+NeuSIGHT (Neural Simulation and Imaging for Hemodynamic Tracking) is an open-source software platform for personalized whole-brain modeling that integrates [[neuroimaging]] data with [[neural-mass-models]] to simulate [[brain-dynamics]]. Developed as a complement to [[the-virtual-brain]], NeuSIGHT emphasizes [[parameter-estimation]] and model fitting rather than forward simulation itself. The Virtual Brain, introduced by [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]], provides a comprehensive open-source simulator that combines empirical [[structural-connectivity]]—derived from [[diffusion-imaging|diffusion MRI]] [[tractography]]—with neural mass models and forward models for [[fmri]], [[eeg]], and [[meg]]. NeuSIGHT occupies the inverse side of this workflow, inferring neural parameters from empirical multimodal data so that optimized models can be fed into simulators like TVB for forward prediction. This division reflects the broader separation between parameter estimation and simulation in computational neuroscience, a gap that recent neural-dynamics-informed frameworks have begun to close by extracting personalized representations of neural activity patterns from heterogeneous imaging data [[raw/papers/arxiv-2603.07524.md|Jiang et al. (2026)]].
 
-## Overview
-
-NeuSIGHT ([[neural-simulation]] and Imaging for Hemodynamic Tracking) is an open-source software platform for personalized whole-brain modeling that integrates [[neuroimaging]] data with neural mass models to simulate [[brain-dynamics]]. Developed as a complement to [[the-virtual-epileptic-brain]]
+The software provides a pipeline for converting structural-connectivity matrices into biologically realistic neural mass models, drawing on the foundational role of diffusion MRI in mapping axonal projections [[raw/papers/mori-1999.md|Mori et al. (1999)]] and on modern preprocessing tools that ensure quality assurance of diffusion weighted images [[raw/papers/semanticscholar-deecd9987645.md|Asay et al. (2025)]]. Open diffusion MRI datasets such as the IDEAS II release supply validated connectivity data for clinical populations, extending the utility of tractography-based whole-brain models to epilepsy and surgical planning [[raw/papers/arxiv-2602.09852.md|Taylor et al. (2026)]]. The platform supports multiple neuroimaging modalities, including [[fmri]] blood-oxygen-level-dependent signals and [[eeg]] power spectra, leveraging the spatiotemporal complementarity between high-resolution fMRI and millisecond-level EEG cues that recent multimodal reconstruction frameworks have demonstrated [[raw/papers/arxiv-2603.24176.md|Qu et al. (2026)]].
 
 ## ORPHAN PAGE CONTEXT (ramais)
 ---

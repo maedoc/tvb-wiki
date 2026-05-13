@@ -11,10 +11,10 @@ tags:
 - software-eeglab
 title: EEGLAB
 type: entity
-updated: '2026-05-07'
+updated: '2026-05-13'
 ---
 
-EEGLAB (eeglab) is a open-source MATLAB environment for processing and analyzing electroencephalographic (EEG) and magnetoencephalographic (MEG) data.
+EEGLAB is an open-source MATLAB toolbox for processing and analyzing electroencephalography ([[eeg]]) data that has become a standard platform for EEG preprocessing and independent component analysis ([[ica]]) [[raw/papers/arxiv-2604.16463.md|Liu (2026)]]. Originally introduced by Delorme and Makeig, the toolbox provides a graphical user interface and scripting environment for data import, filtering, artifact rejection, event-related potential analysis, and spectral decomposition [[raw/papers/arxiv-2604.16463.md|Liu (2026)]]. Its analysis conventions are widely adopted: researchers routinely follow EEGLAB guidelines for preprocessing resting-state and task-based recordings [[raw/papers/semanticscholar-93016091487b.md|Eroğlu (2025)]], and the toolbox is considered a gold-standard environment alongside [[mne-python]] and [[fmriprep]] in the broader neuroimaging community [[raw/papers/semanticscholar-8006c459587d.md|Schwartz et al. (2025)]]. EEGLAB interoperates natively with established platforms such as [[brainstorm]] and [[freesurfer]], allowing researchers to leverage existing workflows while exchanging data through standardized structures [[raw/papers/arxiv-2604.16463.md|Liu (2026)]]. The toolbox is also distributed as a core electrophysiology component within containerized neuroimaging suites, supporting reproducible analysis across workstations and high-performance computing environments [[raw/papers/Renton2024.md|Renton et al. (2024)]]. Clinical and cognitive studies employ EEGLAB for microstate analysis, [[functional-connectivity]] estimation, and spectral power mapping [[raw/papers/semanticscholar-c8ef0398ea18.md|Yang et al. (2025)]]; [[raw/papers/semanticscholar-0175970c7639.md|Avital et al. (2025)]], while downstream packages such as [[limo]] and PSGpower build on its algorithms for specialized statistical and sleep-science applications [[raw/papers/semanticscholar-41c14ba9b00d.md|Fitzroy et al. (2025)]].
 
 ## Key Features
 

@@ -12,12 +12,12 @@ tags:
 - personalized-brain-modeling
 title: Michael Schirner
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-13'
 ---
 
 # Michael Schirner
 
-Researcher in personalized brain modeling and TVB pipeline development.
+Michael Schirner is a computational neuroscientist whose research focuses on developing automated methods for translating multimodal [[neuroimaging]] data into personalized, simulation-ready whole-brain models. In early work within [[TVB]], he co-authored a foundational study demonstrating that subject-specific [[structural-connectivity]] matrices derived from [[diffusion-mri|diffusion-weighted imaging]] and [[tractography]] could parameterize individualized [[neural-mass-models]] capable of reproducing empirical [[resting-state]] [[functional-connectivity]] patterns [[raw/papers/ritter-2013.md|Ritter et al. (2013)]]. Schirner subsequently led the development of an end-to-end automated pipeline, described in [[raw/papers/schirner-2018.md|Schirner et al. (2018)]], that constructs TVB-ready personalized virtual brains directly from individual structural MRI and diffusion-weighted imaging data. By unifying [[brain-parcellation|brain parcellation]], [[tractography]], and [[connectivity|connectivity estimation]] within a single computational workflow, the pipeline minimizes manual intervention and substantially lowers the technical barrier for deploying personalized brain simulations in large cohort studies and clinical settings. More recently, he has contributed to large-scale empirical and modeling initiatives, including a comprehensive dataset of simultaneous [[neuroimaging-eeg|EEG]]-[[neuroimaging-fmri|fMRI]] resting-state recordings from fifty healthy subjects alongside TVB-derived simulation results optimized to predict individual empirical features such as dynamic functional connectivity and alpha-band bimodality [[raw/papers/semanticscholar-adcab180dcd3.md|Meier et al. (2025)]], and to the development of intervention-capable brain simulation frameworks for precision psychiatry applications [[raw/papers/semanticscholar-ff8218c1e55e.md|Xia et al. (2026)]]. Across these contributions, Schirner's work consistently advances the transition from descriptive brain mapping to predictive, subject-specific computational neuroscience.
 
 ## Research Focus
 

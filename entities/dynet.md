@@ -37,7 +37,7 @@ The primary references for Dynet are the software documentation and the original
 
 ## Related Software
 
-Dynet occupies a niche in the neural network software landscape, sitting alongside other specialized frameworks. Related tools include [[brian]] and [[brian2]], which are dedicated neural simulators widely used in computational neuroscience for spiking network models; [[nest]], a simulator for point neurons and neural circuits; and [[pynn]], a Python interface for neuronal simulation that abstracts over multiple backends. For machine learning tasks, [[pytorch]] and [[tensorflow]] offer broader ecosystem support and have largely superseded Dynet in general deep learning applications, though Dynet remains relevant for its specific dynamic graph capabilities. The [[brain-dynamics-toolbox]] provides tools specifically for dynamical systems analysis in neuroscience contexts.
+Dynet occupies a niche in the neural network software landscape, sitting alongside other specialized frameworks. Related tools include [[brian]] and [[brian2]], which are dedicated neural simulators widely used in computational neuroscience for spiking network models; [[nest]], a simulator for point neurons and neural circuits; and [[pynn]], a Python interface for neuronal simulation that abstracts over multiple backends. For machine learning tasks, [[pytorch-geometric-temporal]] and [[tensorflow]] offer broader ecosystem support and have largely superseded Dynet in general deep learning applications, though Dynet remains relevant for its specific dynamic graph capabilities. The [[brain-dynamics-toolbox]] provides tools specifically for dynamical systems analysis in neuroscience contexts.
 
 ## References
 

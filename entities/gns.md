@@ -33,7 +33,7 @@ The framework is particularly valuable for investigating [[personalized-brain-mo
 
 ## Technical Content
 
-In practice, GNS implementations typically combine several components. First, a [[brain-parcellation]] scheme divides the brain into discrete regions (nodes), which can range from coarse anatomical divisions (e.g., [[aal-atlas]]) to fine-grained voxel-wise or [[surface-based]] parcellations. Second, [[structural-connectivity]] matrices are derived from [[diffusion-imaging]] data, typically using [[tractography]] algorithms to estimate the number or probability of white matter fiber tracks connecting each pair of regions.
+In practice, GNS implementations typically combine several components. First, a [[brain-parcellation]] scheme divides the brain into discrete regions (nodes), which can range from coarse anatomical divisions (e.g., [[aal-atlas]]) to fine-grained voxel-wise or [[rate-based-neural-networks]] parcellations. Second, [[structural-connectivity]] matrices are derived from [[diffusion-imaging]] data, typically using [[tractography]] algorithms to estimate the number or probability of white matter fiber tracks connecting each pair of regions.
 
 The dynamical system governing node activity can take multiple forms, ranging from simple linear coupling models to biophysically detailed [[neural-mass-models]] such as the [[jansen-rit-model]] or [[wong-wang-model]]. The choice of neural mass model determines the equation governing each node's dynamics:
 

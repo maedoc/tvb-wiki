@@ -11,14 +11,16 @@ tags:
 - statistical-inference
 title: NBS
 type: concept
-updated: '2026-05-11'
+updated: '2026-05-13'
 ---
 
 # NBS (Network Based Statistics)
 
 ## Overview
 
-NBS (Network Based Statistics) is a method for performing mass-univariate statistical inference on high-dimensional connectivity data represented as brain networks or graphs. It was developed specifically to address the multiple comparisons problem inherent in whole-brain connectivity analyses, where statistical tests must be conducted on thousands of connections simultaneously. Rather than treating each connection as an independent test—which would require prohibitively stringent Bonferroni correction—NBS exploits the topological structure of brain networks to identify connected subnetworks that show significant between-group differences. The method has become a standard tool in [[connectomics]] research for analyzing [[resting-state]] functional connectivity, [[structural-connectivity]] networks, and effective connectivity patterns derived from [[dynamic-causal-modeling]] [@zalesky2010; @frässle2018].
+Network-Based Statistics (NBS) is a method for whole-brain analysis of [[functional-connectivity]] data, typically applied to resting-state functional magnetic resonance imaging ([[resting-state-fmri]]) to investigate connectivity alterations between groups or across conditions. Unlike mass-univariate approaches that test individual edges in isolation, NBS evaluates [[network-dynamics]] at the systems level, examining modular changes both within and between large-scale brain networks [[raw/papers/semanticscholar-01d1a635e589.md|Cheng et al. (2026)]]. In developmental and clinical contexts, researchers have employed NBS alongside synchronization measures and nodal degree metrics to characterize functional differences from [[neuroimaging-fmri|fMRI]] BOLD signals, revealing how early perturbations alter network organization [[raw/papers/semanticscholar-54101b2b74be.md|Hamouda et al. (2025)]]. The method is also used to establish corrected significance thresholds for whole-brain connectome analyses, as demonstrated in investigations of laterality preferences where NBS-corrected associations revealed connectivity differences at p < 0.05 across posterior temporal and cerebellar regions [[raw/papers/semanticscholar-56a0e3ebf0cb.md|Tejavibulya et al. (2025)]].
+
+NBS has proven effective for detecting clinically relevant connectivity disruptions that manifest as clusters of altered edges rather than isolated connections. In studies of [[white-matter]] hyperintensities, NBS identified reduced inter-network coupling involving the [[default-mode-network]], sensorimotor network, and cingulo-opercular network [[raw/papers/semanticscholar-01d1a635e589.md|Cheng et al. (2026)]]. In neonatal cohorts, whole-brain NBS analyses have identified amygdala-involving networks associated with later cognitive outcomes and autistic traits [[raw/papers/semanticscholar-2c772d3f807c.md|Vaher et al. (2026)]]. Similarly, in preterm birth research, NBS uncovered clusters of hypo-connections—particularly between gyral and sulcal regions—linking early structural disruptions to altered functional organization [[raw/papers/semanticscholar-54101b2b74be.md|Hamouda et al. (2025)]].
 
 ## Motivation and Context
 

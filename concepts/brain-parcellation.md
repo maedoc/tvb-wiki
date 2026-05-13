@@ -12,12 +12,14 @@ tags:
 - regions
 title: Brain Parcellation
 type: concept
-updated: '2026-05-08'
+updated: '2026-05-13'
 ---
 
 # Brain Parcellation
 
-**Brain [[parcellation]]** is the process of dividing the brain into discrete regions (nodes) for analysis. It is a foundational step in [[whole-brain|whole-brain modeling]] and [[connectivity]] analysis.
+Brain [[parcellation]] is the process of partitioning the brain into discrete, non-overlapping regions—commonly called parcels or nodes—that serve as the spatial substrate for nearly all macro-scale neuroimaging and [[whole-brain-modeling|whole-brain modeling]] analyses. Whether derived from anatomical landmarks, [[resting-state|resting-state]] functional co-activation patterns, cytoarchitectonic boundaries, or multimodal integration, a parcellation scheme fundamentally dictates how data are aggregated and how [[connectivity]] relationships are estimated across the [[connectome]] [[raw/papers/semanticscholar-66f887e82e89.md|Franza et al. (2025)]]. In the context of computational modeling, each parcel typically corresponds to a single node in a network graph, where local neuronal population dynamics are approximated by [[neural-mass-models|neural mass]] or [[mean-field-theory|mean-field]] equations and inter-regional coupling is governed by empirical [[structural-connectivity|structural connectivity]] weights and conduction delays [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. Because the resulting graph topology serves as the backbone upon which large-scale [[network-dynamics|network dynamics]] unfold, parcellation selection directly influences the emergent oscillatory regimes and functional patterns predicted by the model [[raw/papers/breakspear-2017.md|Breakspear (2017)]].
+
+The choice of parcellation is not a neutral preprocessing step: different atlases can yield materially different analytical outcomes even when overall consistency appears high. [[raw/papers/semanticscholar-66f887e82e89.md|Franza et al. (2025)]] demonstrated that functional and multimodal atlases such as the Schaefer and Brainnetome parcellations produce significantly divergent estimates of neurovascular coupling within canonical large-scale networks, particularly in dorsal and ventral attention systems. Similarly, the resolution of a parcellation—ranging from coarse schemes with fewer than one hundred nodes to fine-grained grids exceeding one thousand parcels—directly constrains the trade-off between spatial specificity and computational tractability in simulators such as [[the-virtual-brain|TVB]] [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. Because the resulting graph topology shapes emergent [[network-dynamics|network dynamics]] and observable [[neuroimaging-fmri|fMRI]], [[neuroimaging-eeg|EEG]], or [[neuroimaging-meg|MEG]] signals, parcellation selection is increasingly recognized as a key modeling decision in its own right [[raw/papers/breakspear-2017.md|Breakspear (2017)]].
 
 ## Overview
 

@@ -18,9 +18,7 @@ TVB Adapters (tvb-adapters) is a component of [[the-virtual-brain]] framework pr
 
 ## Key Features
 
-* Core functionality for [[neuroimaging]] and [[computational-neuroscience]] workflows
-* Integration with Python ecosystem and neuroimaging toolchains
-* Open-source with active community maintenance
+The adapter infrastructure mediates between TVB's simulation kernel and the broader neuroimaging toolchain by ingesting empirical [[structural-connectivity]] matrices derived from [[diffusion-imaging]] [[tractography]] and translating them into simulation-ready network descriptions [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. By coupling [[neural-mass-models]] with multimodal empirical data spanning [[fmri]], [[eeg]], and [[meg]], the framework projects simulated neuronal activity into sensor space through forward models, enabling direct quantitative comparison between virtual signals and recorded brain activity [[raw/papers/ritter-2013.md|Ritter et al. (2013)]]. Subject-specific parameterization pipelines integrate cortical parcellation, white-matter tractography, and connectivity estimation to produce individualized model inputs from structural MRI and diffusion-weighted imaging with minimal manual intervention, preserving each participant's [[connectome]] topology and resting-state functional signature [[raw/papers/schirner-2018.md|Schirner et al. (2018)]]. The Virtual Brain Ontology further extends this interoperability by generating executable simulation code for diverse platforms and programming languages—including TVB itself, Jax, and Julia—while standardizing metadata exchange, enforcing FAIR data principles, and maintaining provenance-aware reporting across heterogeneous computational toolchains [[raw/papers/semanticscholar-9afbfd2d37be.md|Leon Martin et al. (2025)]].
 
 ## Relationship to Whole-Brain Modeling
 

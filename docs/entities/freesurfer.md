@@ -15,7 +15,7 @@ tags:
 - cortical-surface
 title: FreeSurfer
 type: entity
-updated: '2026-05-11'
+updated: '2026-05-13'
 ---
 
 # FreeSurfer
@@ -24,13 +24,7 @@ updated: '2026-05-11'
 
 ## Overview
 
-FreeSurfer provides tools for:
-- Automated cortical surface reconstruction from T1-weighted MRI
-- Subcortical and cortical segmentation
-- Cortical thickness measurement
-- Surface-based registration to standard atlases
-- Functional data projection to cortical surfaces
-- Automated parcellation into anatomical or functional regions
+FreeSurfer is a widely-used program for automated segmentation of cortical and subcortical regions of interest from structural magnetic resonance imaging scans, producing anatomical [[parcellation]]s that serve as the basis for subsequent [[neuroimaging]] analyses [[raw/papers/semanticscholar-182202db91fa.md|Rizzo et al. (2025)]]. Regional volumetric measures can be calculated directly from these segmentations, and the resulting region-of-interest definitions are routinely employed by other imaging modalities for targeted quantification [[raw/papers/semanticscholar-182202db91fa.md|Rizzo et al. (2025)]]. The software has recently undergone successive updates to improve performance, reflecting ongoing refinement of its underlying algorithms [[raw/papers/semanticscholar-182202db91fa.md|Rizzo et al. (2025)]]. Within the broader [[neuroimaging]] software landscape, FreeSurfer functions as a standard processing pipeline alongside established alternatives such as [[fsl]] and [[ants]] [[raw/papers/huntenburg-2018.md|Huntenburg et al. (2018)]]. While these conventional pipelines provide reliable workflows for standard-resolution acquisitions, the anatomical detail preserved at ultra-high-field strengths has motivated the development of complementary frameworks that extend rather than replace standard methods [[raw/papers/huntenburg-2018.md|Huntenburg et al. (2018)]]. This layered ecosystem positions FreeSurfer as a foundational preprocessing tool whose outputs—cortical and subcortical segmentations, volumetric estimates, and regional [[parcellation]]s—enable a wide range of downstream neuroimaging and network analyses [[raw/papers/semanticscholar-182202db91fa.md|Rizzo et al. (2025)]][[raw/papers/huntenburg-2018.md|Huntenburg et al. (2018)]].
 
 ## Key Pipelines
 

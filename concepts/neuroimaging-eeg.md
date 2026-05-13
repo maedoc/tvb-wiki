@@ -16,12 +16,14 @@ tags:
 - source-localization
 title: EEG / MEG
 type: concept
-updated: '2026-05-07'
+updated: '2026-05-13'
 ---
 
 # EEG / MEG
 
-**Electroencephalography (EEG)** and **Magnetoencephalography (MEG)** are non-invasive techniques for measuring brain electrical activity with millisecond temporal resolution.
+**Electroencephalography (EEG)** and **Magnetoencephalography (MEG)** are electrophysiological techniques for measuring brain electrical activity with millisecond temporal resolution. EEG records voltage fluctuations from ionic currents in neurons via scalp electrodes, while MEG captures the associated magnetic fields using superconducting quantum interference devices (SQUIDs) — a configuration leveraged in clinical studies with 306-channel systems to resolve spectral power dynamics across frequency bands from delta to high-frequency oscillations [[raw/papers/semanticscholar-2df7f31d5f27.md|Hsiao et al. (2025)]]. Because EEG provides millisecond-level temporal cues that complement the high-resolution cortical representations of [[neuroimaging-fmri|fMRI]], it has become a cornerstone of multimodal neuroimaging frameworks that advance dynamic brain activity modeling [[raw/papers/arxiv-2603.24176.md|Qu et al. (2026)]]. Source-reconstructed M/EEG data further enable the extraction of band-limited power time courses that reflect the amplitude of underlying [[brain-oscillations|neural oscillations]] and correlate with synaptic activity, supporting group-level network decompositions [[raw/papers/glean-github.md|Baker et al. (2015)]].
+
+Intracranial EEG (iEEG), encompassing electrocorticography and depth recordings, represents a state-of-the-art measurement modality offering unparalleled spatial and temporal resolution for investigating neural dynamics across cortical states such as wakefulness and sleep [[raw/papers/arxiv-2511.09243.md|Bordini de Lucas et al. (2025)]]. Such recordings have been used to characterize sleep stages via complexity-entropy analysis, with empirical signatures reproduced by [[whole-brain-modeling|whole-brain computational models]] in which each cortical region is described by a [[mean-field-theory|mean-field]] formulation based on networks of [[adaptive-exponential-integrate-and-fire|Adaptive Exponential Integrate-and-Fire]] neurons [[raw/papers/arxiv-2511.09243.md|Bordini de Lucas et al. (2025)]]. At the sensor level, M/EEG resting-state data are routinely analyzed through [[source-localization|source reconstruction]] — for instance via beamforming — followed by decomposition into discrete brain states using hidden Markov models or independent component analysis to identify patterns of covariation across clinical populations [[raw/papers/glean-github.md|Baker et al. (2015)]]. Recent MEG-based classification of migraine phenotypes further demonstrates that disrupted spectral complexity and dynamic coupling across sensory–cognitive networks can be captured non-invasively, motivating extension of these temporal-dynamics frameworks to scalable EEG modalities [[raw/papers/semanticscholar-2df7f31d5f27.md|Hsiao et al. (2025)]].
 
 ## Overview
 

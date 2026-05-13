@@ -1,36 +1,37 @@
 ---
 created: 2026-04-23
 sources:
-- raw/papers/arxiv-2603.29176.md
-- raw/papers/semanticscholar-301489ffb9de.md
-- raw/papers/semanticscholar-24420855b2da.md
-- raw/papers/semanticscholar-fb4cf47c4f31.md
-- raw/papers/semanticscholar-109de470e443.md
-- raw/papers/glean-github.md
+- raw/papers/doi-10-3389-fninf-2014-00014.md
+- raw/papers/semanticscholar-92f4183665f3.md
+- raw/papers/ritter-2013.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-eb4197c24bf2.md
 tags:
 - software-brain-modeling
 - neuroimaging-fmri
 - functional-connectivity
-- whole-brain-modeling
+- statistics
 title: PRoNTo
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-13'
 ---
 
-The corrected `pronto.md` file has been written. Summary of fixes:
+**PRoNTo** (Pattern Recognition for Neuroimaging Toolbox) is a MATLAB-based software package developed by Schrouff et al. for applying multivariate pattern analysis to [[neuroimaging]] data. Published in 2013, it has become one of the most cited methodological contributions in the journal *Neuroinformatics*, accumulating 315 citations and ranking among the fifty most influential papers in that venue [[raw/papers/semanticscholar-92f4183665f3.md|Guillén-Pujadas et al. (2025)]]. The toolbox enables researchers to move beyond the traditional mass-univariate statistical frameworks that dominated early [[functional-connectivity|functional neuroimaging]], offering instead a systematic interface between brain imaging datasets and [[machine-learning]] classifiers.
 
-1. **Populated `sources:` frontmatter** with three paper references linked to the wiki corpus
-2. **Removed Relevance Vector Machines** from the ML capabilities list (not confirmed in the foundational paper)
-3. **Fixed `[[structural-connectivity|structural MRI]]`** → plain text "structural MRI" (avoiding conceptual mismatch)
-4. **Fixed `[[neuroimaging-pet|PET]]`** → plain text "PET" (page doesn't exist)
-5. **Normalized wikilinks**: `SPM...` → `SPM` and `[[tvb|TVB...]]` → `[[TVB]]` for consistency
-6. **Added MATLAB-only note** and maintenance status caveat in Overview section
+The toolbox emerged from a growing recognition that multivariate pattern information distributed across multiple voxels or brain regions could reveal diagnostic or cognitive states that univariate tests might overlook. PRoNTo streamlines the process of importing preprocessed neuroimaging data, specifying [[classification]] or regression models, and evaluating predictive performance through cross-validation. Its architecture is designed to interface natively with [[SPM]], allowing users to apply pattern recognition directly to the outputs of the most widely used preprocessing pipeline in neuroimaging [[raw/papers/doi-10-3389-fninf-2014-00014.md|Abraham et al. (2014)]]. Because it operates within the MATLAB environment familiar to most neuroimaging researchers, PRoNTo lowers the barrier to entry for clinical and cognitive scientists who need multivariate methods but lack extensive machine learning expertise.
+
+PRoNTo supports both classification and regression analyses on a variety of neuroimaging modalities, though its design emphasizes compatibility with SPM-processed [[fMRI|functional MRI]] and structural MRI. Users can specify models through a graphical interface or batch system, define kernels for support vector machines, and perform nested cross-validation to guard against overfitting. However, comparative reviews have noted that the toolbox offers a relatively narrow portfolio of machine learning algorithms compared to more recent Python-based alternatives, which integrate larger and more extensible algorithm libraries [[raw/papers/doi-10-3389-fninf-2014-00014.md|Abraham et al. (2014)]]. This trade-off between ease of use and algorithmic breadth reflects the broader tension in neuroinformatics between domain-specific convenience and general-purpose flexibility.
+
+Relative to other multivariate analysis tools, PRoNTo occupies a distinct niche. [[PyMVPA]] provides a Python-native alternative with richer algorithmic integration and searchlight mapping capabilities, while [[Nilearn]] and scikit-learn offer modern, open-source [[machine-learning]] ecosystems that have largely superseded MATLAB-based solutions. Nevertheless, PRoNTo retains relevance in laboratories where SPM-based preprocessing pipelines are standard and where researchers require a lightweight interface to pattern recognition without migrating to Python.
+
+## Relationship to TVB
+
+The Virtual Brain ([[TVB]]) and PRoNTo address different stages of the neuroimaging analysis pipeline, yet their workflows are ultimately complementary. TVB is a simulation platform that generates large-scale brain network dynamics using structural [[connectivity]] and [[neural-mass-models]], producing synthetic neuroimaging signals that can be compared against empirical data [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. PRoNTo, conversely, operates on the empirical side: it classifies brain states from measured [[fMRI]] or structural MRI using multivariate pattern recognition. The integration of computational modeling and empirical neuroimaging is a core principle of TVB's design, which couples subject-specific [[diffusion-mri|diffusion MRI]] and functional data into personalized virtual brain models [[raw/papers/ritter-2013.md|Ritter et al. (2013)]]. In this ecosystem, PRoNTo could serve as a downstream analytical tool operating on the same SPM-processed empirical signals that inform TVB parameterization, translating raw neuroimaging features into predictive biomarkers that mechanistic models might seek to explain or reproduce.
 
 ## References
 
-1. Siyuan Du, Siyi Li, Shuwei Bai, Ang Li, Haolin Li, Mingqing Xiao, Yang Pan, Dongsheng Li, Weidi Xie, Yanfeng Wang, Ya Zhang, Chencheng Zhang, Jiangchao Yao. *Predicting Neuromodulation Outcome for Parkinson's Disease with Generative Virtual Brain Model*. [Link](](https://arxiv.org/abs/2603.29176))
-2. Muhammad Nabi Yasinzai, R. Mito, M. Pedersen. (2025). *BrainScape: An open-source framework for integrating and preprocessing anatomical MRI datasets*. Imaging neuroscience. [DOI](](https://doi.org/10.1162/IMAG.a.944))
-3. *Patricia Burhunduli, Zhuo Fang, Katie L. Vandeloo, Pierre Blier, Jennifer L Phillips. (2025). *A PRELIMINARY INVESTIGATION OF [[resting-state]] [[functional-connectivity]] NETWORKS IN PATIENTS WITH TREATMENT-RESISTANT DEPRESSION AND A HISTORY OF SUICIDE ATTEMPT*. International Journal of Neuropsychopharmacology. [DOI](](https://doi.org/10.1093/ijnp/pyae059.440))
-4. Rohan Banerjee, M. Kaptan, Alexandra Tinnermann, Ali Khatibi, Alice Dabbagh, C. Büchel, Christian W Kündig, C. S. Law, Dario Pfyffer, D. Lythgoe, Dimitra Tsivaka, D. Van de Ville, Falk Eippert, Fauziyya Muhammad, Gary H. Glover, Gergely Dávid, Grace Haynes, Jan Haaker, Jonathan C. W. Brooks, J. Finsterbusch, K. Martucci, K. Hemmerling, Mahdi Mobarak-Abadi, M. Hoggarth, M. Howard, Molly G. Bright, Nawal Kinany, O. Kowalczyk, Patrick Freund, Robert L. Barry, S. Mackey, Shahabeddin Vahdat, Simon Schading, Stephen B McMahon, Todd Parish, Véronique Marchand-Pauvert, Yufen Chen, Z. Smith, K. Weber II, B. De Leener, Julien Cohen-Adad. (2025). *EPISeg: Automated segmentation of the spinal cord on echo planar images using open-access multi-center data*. Imaging neuroscience. [DOI](](https://doi.org/10.1162/IMAG.a.98))
-5. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical [[fmri]] preprocessing via a multi-stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](](https://doi.org/10.3389/fnins.2025.1621244))
-6. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.
+1. (authors unknown). *Machine learning for neuroimaging with scikit-learn*.
+2. Miguel Guillén-Pujadas, David Alaminos, Emili Vizuete Luciano, José M. Merigó, J. Horn. (2025). *Twenty Years of Neuroinformatics: A Bibliometric Analysis*. Neuroinformatics. [DOI](https://doi.org/10.1007/s12021-024-09712-3)
+3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+4. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+5. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](https://doi.org/10.1145/3706628.3708875)
