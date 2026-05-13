@@ -1,0 +1,1239 @@
+                                          PHYSICAL REVIEW X 5, 021028 (2015)
+
+
+                         Macroscopic Description for Networks of Spiking Neurons
+                                        Ernest Montbrió,1 Diego Pazó,2 and Alex Roxin3
+                  1
+                   Center for Brain and Cognition, Department of Information and Communication Technologies,
+                                         Universitat Pompeu Fabra, 08018 Barcelona, Spain
+                2
+                 Instituto de Física de Cantabria (IFCA), CSIC-Universidad de Cantabria, 39005 Santander, Spain
+                     3
+                       Centre de Recerca Matemàtica, Campus de Bellaterra, Edifici C, 08193 Bellaterra, Spain
+                                       (Received 30 December 2014; published 19 June 2015)
+                 A major goal of neuroscience, statistical physics, and nonlinear dynamics is to understand how brain
+              function arises from the collective dynamics of networks of spiking neurons. This challenge has been
+              chiefly addressed through large-scale numerical simulations. Alternatively, researchers have formulated
+              mean-field theories to gain insight into macroscopic states of large neuronal networks in terms of the
+              collective firing activity of the neurons, or the firing rate. However, these theories have not succeeded in
+              establishing an exact correspondence between the firing rate of the network and the underlying microscopic
+              state of the spiking neurons. This has largely constrained the range of applicability of such macroscopic
+              descriptions, particularly when trying to describe neuronal synchronization. Here, we provide the
+              derivation of a set of exact macroscopic equations for a network of spiking neurons. Our results reveal
+              that the spike generation mechanism of individual neurons introduces an effective coupling between two
+              biophysically relevant macroscopic quantities, the firing rate and the mean membrane potential, which
+              together govern the evolution of the neuronal network. The resulting equations exactly describe all possible
+              macroscopic dynamical states of the network, including states of synchronous spiking activity. Finally, we
+              show that the firing-rate description is related, via a conformal map, to a low-dimensional description in
+              terms of the Kuramoto order parameter, called Ott-Antonsen theory. We anticipate that our results will be
+              an important tool in investigating how large networks of spiking neurons self-organize in time to process
+              and encode information in the brain.
+
+              DOI: 10.1103/PhysRevX.5.021028                          Subject Areas: Biological Physics,
+                                                                                     Interdisciplinary Physics,
+                                                                                     Nonlinear Dynamics
+
+
+
+                      I. INTRODUCTION                                 large networks of recurrently coupled spiking neurons,
+                                                                      including Hodgkin-Huxley-type conductance-based neu-
+   The processing and coding of information in the brain
+                                                                      rons [2], as well as simplified neuron models; see, e.g.,
+necessarily imply the coordinated activity of large ensem-
+                                                                      Refs. [3–5]. In parallel, researchers have sought to develop
+bles of neurons. Within sensory regions of the cortex, many
+                                                                      statistical descriptions of neuronal networks, mainly in
+cells show similar responses to a given stimulus, indicating
+                                                                      terms of a macroscopic observable that measures the mean
+a high degree of neuronal redundancy at the local level.
+                                                                      rate at which neurons emit spikes, the firing rate [6–20].
+This suggests that information is encoded in the population
+                                                                      These descriptions, called firing-rate equations (FREs),
+response and, hence, can be captured via macroscopic
+                                                                      have been proven to be extremely useful in understanding
+measures of the network activity [1]. Moreover, the
+                                                                      general computational principles underlying functions such
+collective behavior of large neuronal networks is particu-
+larly relevant given that current brain measurement                   as memory [21,22], visual processing [23–25], motor
+techniques, such as electroencephalography or functional              control [26], or decision making [27].
+magnetic resonance imaging, provide data that are neces-                 Despite these efforts, to date there is no exact theory
+sarily averaged over the activity of a large number of                linking the dynamics of a large network of spiking neurons
+neurons.                                                              with that of the firing rate. Specifically, current macro-
+   The macroscopic dynamics of neuronal ensembles has                 scopic descriptions do not offer a precise correspondence
+been extensively studied through computational models of              between the microscopic dynamics of the individual
+                                                                      neurons, e.g., individual membrane potentials, and the
+                                                                      firing-rate dynamics of the neuronal network.
+                                                                         Indeed, FREs are generally derived through heuristic
+Published by the American Physical Society under the terms of
+the Creative Commons Attribution 3.0 License. Further distri-         arguments that rely on the underlying spiking activity of the
+bution of this work must maintain attribution to the author(s) and    neurons being asynchronous and hence uncorrelated. As
+the published article’s title, journal citation, and DOI.             such, firing-rate descriptions are not sufficient to describe
+
+
+
+2160-3308=15=5(2)=021028(15)                                   021028-1               Published by the American Physical Society
+ERNEST MONTBRIÓ, DIEGO PAZÓ, AND ALEX ROXIN                                                    PHYS. REV. X 5, 021028 (2015)
+
+network states involving some degree of spike synchroni-            Here, the overdot denotes the time derivative and I j
+zation. Synchronization is, however, a ubiquitous phe-              represents an input current. Each time a neuron’s mem-
+nomenon in the brain, and its potential role in neuronal            brane potential V j reaches the peak value V p , the neuron
+computation is the subject of intense research [14,28–34].          emits a spike and its voltage is reset to the value V r . In our
+Hence, the lack of firing-rate descriptions for synchronous         analysis, we consider the limit V p ¼ −V r → ∞. This
+states limits the range of applicability of mean-field              resetting rule captures the spike reset as well as the
+theories to investigate neuronal dynamics.                          refractoriness of the neuron. Without loss of generality,
+   Here, we propose a method to derive the FREs for                 we rescale the time and the voltage in Eq. (1) to absorb any
+networks of heterogeneous, all-to-all coupled quadratic             coefficients that would have appeared in the first two terms.
+integrate-and-fire (QIF) neurons, which is exact in the             The form for the input currents is
+thermodynamic limit, i.e., for large numbers of neurons.
+We consider an ansatz for the distribution of the neurons’                             I j ¼ ηj þ JsðtÞ þ IðtÞ;                           ð2Þ
+membrane potentials that we denominate the Lorentzian
+ansatz (LA). The LA solves the corresponding continuity             where the external input has a heterogeneous, quenched
+equation exactly, making the system amenable to theoreti-           component ηj as well as a common time-varying compo-
+cal analysis. Specifically, for particular distributions of the     nent IðtÞ, and the recurrent input is the synaptic weight J
+heterogeneity, the LA yields a system of two ordinary               times the mean synaptic activation sðtÞ, which is written as
+differential equations for the firing rate and mean mem-
+                                                                                                    Z t
+brane potential of the neuronal population. These equations                         1X N X
+
+fully describe the macroscopic states of the network—                      sðtÞ ¼                         dt0 aτ ðt − t0 Þδðt0 − tkj Þ:   ð3Þ
+                                                                                    N j¼1 k          −∞
+including synchronized states, and represent the first                                    kntj <t
+example of an exact firing-rate description for a network
+of recurrently connected spiking neurons. Finally, we show          Here, tkj is the time of the kth spike of the jth neuron, δðtÞ is
+how the LA transforms, via a conformal mapping, into                the Dirac delta function, and aτ ðtÞ is the normalized
+the so-called Ott-Antonsen ansatz (OA) that is used                 synaptic activation caused by a single presynaptic spike
+extensively to investigate the low-dimensional dynamics             with time scale τ, e.g., aτ ðtÞ ¼ e−t=τ =τ.
+of large populations of phase oscillators in terms of the
+Kuramoto order parameter [35].                                                      A. Continuous formulation
+                                                                       In the thermodynamic limit N → ∞, we drop the indices
+                II. MODEL DESCRIPTION                               in Eqs. (1) and (2) and denote ρðVjη; tÞdV as the fraction of
+                                                                    neurons with membrane potentials between V and V þ dV
+   Hodgkin-Huxley-type neuronal models can be broadly               and parameter η, at time t. Accordingly, parameter η
+classified into two classes, according to the nature of their       now becomes a continuous random variable distributed
+transition to spiking in response to an injected current            according to a probability distribution function gðηÞ.
+[36,37]. Neuronal models with so-called class I excitability        TheR total voltage density at time t is then given
+                                                                          ∞
+generate action potentials with arbitrarily low frequency,          by −∞    ρðVjη; tÞgðηÞdη.
+depending on the strength of the applied current. This                 The conservation of the number of neurons leads to the
+occurs when a resting state disappears through a saddle-            following continuity equation:
+node bifurcation. In contrast, in neurons with class II
+excitability, the action potentials are generated with a finite                 ∂ t ρ þ ∂ V ½ðV 2 þ η þ Js þ IÞρ ¼ 0;                    ð4Þ
+frequency. This occurs when the resting state loses stability
+via a Hopf bifurcation. The QIF neuron is the canonical             where we explicitly include the velocity given by
+model for class I neurons, and, thus, generically describes         Eqs. (1) and (2).
+their dynamics near the spiking threshold [5,38,39]. Our
+aim here is to derive the FREs corresponding to a                                          III. RESULTS
+heterogeneous all-to-all coupled population of N QIF
+neurons. The correspondence is exact in the thermody-                  The continuity equation (4) without temporal forcing
+namic limit, i.e., when N → ∞ (this convergence was                 IðtÞ ¼ 0 has a trivial stationary solution. For each value of
+studied recently in Ref. [40]).                                     η, this solution has the form of a Lorentzian function:
+   The microscopic state of the population of QIF neurons           ρ0 ðVjηÞ ∝ ðV 2 þ η þ JsÞ−1 . Physically, the Lorentzian
+is given by the membrane potentials fV j gj¼1;…;N , which           density means that firing neurons with the same η value
+obey the following ordinary differential equations [5]:             will be scattered with a density inversely proportional to
+                                                                    their speed [Eq. (1)]; i.e., they will accumulate at slow
+                                                                    places and thin out at fast places on the V axis. In addition,
+    V_ j ¼ V 2j þ I j ;   if V j ≥ V p ;   then V j ← V r :   ð1Þ   for those η values corresponding to quiescent neurons, the
+
+
+                                                              021028-2
+MACROSCOPIC DESCRIPTION FOR NETWORKS OF …                                                  PHYS. REV. X 5, 021028 (2015)
+
+density ρ0 collapses at the rest state in the form of a Dirac     x and y must obey two coupled equations, which can be
+delta function.                                                   written in complex form as
+  Next, we assume that, independently of the initial
+condition, solutions of Eq. (4) generically converge to a               ∂ t wðη; tÞ ¼ i½η þ JsðtÞ − wðη; tÞ2 þ IðtÞ;       ð10Þ
+Lorentzian-shaped function, so that all relevant dynamics
+occur inside that lower-dimensional space. This fact is           where wðη; tÞ ≡ xðη; tÞ þ iyðη; tÞ. Closing this equation
+mathematically expressed by the following LA for the              requires expressing the mean synaptic activation sðtÞ as
+conditional density functions:                                    a function of wðη; tÞ. The simplest choice is to take the limit
+                                                                  of infinitely fast synapses, τ → 0 in Eq. (3), so that we get
+                        1         xðη; tÞ                         an equality with the firing rate sðtÞ ¼ rðtÞ. This allows for
+          ρðVjη; tÞ ¼                               ;      ð5Þ
+                        π ½V − yðη; tÞ2 þ xðη; tÞ2               the system of QIF neurons [Eqs. (1)–(3)] to be exactly
+                                                                  described by Eqs. (10) and (7), an infinite set of integro-
+which is a Lorentzian function with time-dependent half-          differential equations if gðηÞ is a continuous distribution.
+width xðη; tÞ and center at yðη; tÞ. In the following, we            Equation (10) is useful for general distributions gðηÞ (see
+assume that the LA Eq. (5) completely describes the               Appendix B), but a particularly sharp reduction in dimen-
+macroscopic dynamics of the network of QIF neurons                sionality is achieved if η is distributed according to a
+and postpone the mathematical justification of its validity to    Lorentzian distribution of half-width Δ centered at η̄:
+Sec. III E.
+                                                                                             1        Δ
+                                                                                    gðηÞ ¼                    :             ð11Þ
+        A. Macroscopic observables: Firing rate                                              π ðη − η̄Þ2 þ Δ2
+            and mean membrane potential
+   The half-width xðη; tÞ of the LA has a particularly simple     Note that this distribution accounts for the quenched
+relation with the firing rate of the neuronal population (i.e.,   variability in the external inputs. The fact that it is
+the number of spikes per unit time). Indeed, the firing rate      Lorentzian is unrelated to the LA for the density of
+for each η value at time t, rðη; tÞ, can be computed by           membrane potentials. Assuming Eq. (11), the integrals in
+noting that neurons fire at a rate given by the probability       Eqs. (7) and (9) can be evaluated closing the integral
+flux at infinity: rðη; tÞ ¼ ρðV → ∞jη; tÞVðV  _   → ∞jη; tÞ.      contour in the complex η plane and using the residue
+The limit V → ∞ on the right-hand side of this equation           theorem [41]. Notably, the firing rate and the mean
+can be evaluated within the LA, and gives the simple              membrane potential only depend on the value of w at
+identity                                                          the pole of gðηÞ in the lower half η plane:
+
+                     xðη; tÞ ¼ πrðη; tÞ:                   ð6Þ                   πrðtÞ þ ivðtÞ ¼ wðη̄ − iΔ; tÞ:
+
+The (total) firing rate rðtÞ is then                              As a result, we only need to evaluate Eq. (10) at
+                          Z                                       η ¼ η̄ − iΔ, and thereby obtain a system of FREs com-
+                        1 ∞                                       posed of two ordinary differential equations:
+                 rðtÞ ¼        xðη; tÞgðηÞdη:              ð7Þ
+                        π −∞
+                                                                                 r_ ¼ Δ=π þ 2rv;                           ð12aÞ
+Additionally, the quantity yðη; tÞ is, for each value of η, the
+mean of the membrane potential:
+                                                                                v_ ¼ v2 þ η̄ þ Jr þ IðtÞ − π 2 r2 :       ð12bÞ
+                            Z ∞
+             yðη; tÞ ¼ p:v:      ρðVjη; tÞVdV:              ð8Þ   This nonlinear system describes the macroscopic dynamics
+                                −∞
+                                                                  of the population of QIF neurons in terms of the population
+Here,R we take the CauchyR principal value, defined as            firing rate r and mean membrane potential v.
+      ∞
+p:v: −∞   fðxÞdx ¼ limR→∞ −R  R
+                                fðxÞdx, to avoid the other-          It is enlightening to compare the mean-field model
+wise ill-defined integral. The mean membrane potential is         Eq. (12) with the equations of the spiking neurons. Note
+then                                                              that Eq. (12b) resembles Eqs. (1) and (2) for the individual
+                                                                  QIF neuron, but without spike resetting. Indeed, the
+                         Z ∞                                      macroscopic firing-rate variable r enters as a negative
+                 vðtÞ ¼      yðη; tÞgðηÞdη:             ð9Þ       feedback term in Eq. (12b) and impedes the explosive
+                           −∞
+                                                                  growth of the mean membrane potential v.
+                                                                     This negative feedback, combined with the coupling
+                 B. Firing-rate equations                         term on the right-hand side of Eq. (12a), describes the
+  Substituting the LA Eq. (5) into the continuity                 effective interaction between the firing rate and mean
+equation (4), we find that, for each value of η, variables        membrane potential at the network level. Therefore, the
+
+
+                                                            021028-3
+ERNEST MONTBRIÓ, DIEGO PAZÓ, AND ALEX ROXIN                                                             PHYS. REV. X 5, 021028 (2015)
+
+FREs (12) describe the effect of the single-cell spike                       of the neurons in the ensemble. This behavior is common in
+generation and reset mechanism at the network level.                         spiking neuron models with weak noise, and is not captured
+  In the following, we examine the dynamics described by                     by traditional firing-rate models (see, e.g., Ref. [20]).
+Eq. (12) and show that they fully reproduce the macro-
+scopic dynamics of the network of QIF neurons, even                                  D. Analysis of the firing-rate equations:
+during episodes of strong spike synchrony.                                                    Nonstationary inputs
+                                                                                To show that the FREs (12) fully describe the macro-
+            C. Analysis of the firing-rate equations                         scopic response of the population of QIF neurons to time-
+   To begin with the analysis of Eq. (12), we first note that                varying stimuli (up to finite-size effects), we consider two
+in the absence of forcing, IðtÞ ¼ 0, the only attractors of                  types of stimulus IðtÞ: (1) a step function and (2) a
+Eq. (12) are fixed points. Figure 1(a) shows a phase                         sinusoidal forcing. In both cases, we simulate the full
+diagram of the system as a function of the mean external                     system of QIF neurons and the FREs (12).
+drive η̄ and synaptic weight J, both normalized by the width                    Figure 2 shows the system’s response to the two different
+of the input distribution [42]. There are three qualitatively                inputs. In both cases, the system is initially (t < 0) in a
+distinct regions of the phase diagram: (1) a single stable                   bistable regime and set in the low-activity state, with
+node corresponding to a low-activity state (white), (2) a                    parameters corresponding to those of Fig. 1(d). The left-
+single stable focus (spiral) generally corresponding to a                    hand panels of Fig. 2 show the response of the system to a
+high-activity state (gray), and (3) a region of bistability                  step current applied at t ¼ 0. The applied current is
+between low and high firing rate [cyan; see a phase portrait                 such that the system abandons the bistable region—see
+of this region in Fig. 1(d)]. Comparison of a sample                         Fig. 1(a)—and approaches the high-activity state, which is
+bifurcation diagram of the fixed points from numerical                       a stable focus. This is clearly reflected in the time series
+simulation of networks of QIF neurons with that obtained                     rðtÞ; vðtÞ, where the rate equations (12) exactly predict the
+from the FREs (12) shows an excellent correspondence; see                    damped oscillations exhibited by the mean field of the QIF
+Figs. 1(b) and 1(c).                                                         neurons. The raster plot in Fig. 2(e) shows the presence of
+   A similar phase diagram can be readily reproduced by                      the oscillations, which is due to the transitory synchronous
+traditional heuristic firing-rate models, with one significant               firing of a large fraction of neurons in the population.
+qualitative difference: the presence of a stable focus—and                   Finally, at t ¼ 30, the current is removed and the system
+hence, damped oscillations. Specifically, in the gray region                 converges—again, showing damped oscillations—to the
+of the phase diagram in Fig. 1(a), the system undergoes                      new location of the (focus) fixed point, which clearly
+oscillatory decay to the stable fixed point. This oscillatory                coexists with the stable node where it was originally
+decay occurs as well for the high-activity state over a large                placed (t < 0).
+extent of the region of bistability (cyan); see, e.g., Fig. 1(d).               The right-hand panels of Fig. 2 show the response of the
+   The presence of damped oscillations at the macroscopic                    model to a periodic current, which drives the system from
+level reflects the transitory synchronous firing of a fraction               one side of the bistable region to the other. As a result, we
+
+(a)                                                   (b)                                                   (d)
+      20               Bistability       Stable
+                                                            1/2
+
+
+
+
+                                                                    1
+                                         focus
+                                                              r/Δ
+
+
+
+
+                                                                                                                    1
+                                                                   0
+1/2
+
+
+
+
+                                                                   -10             -5               0
+  J/Δ
+
+
+
+
+                                                                                                                    0
+                                                                                                            1/2
+
+
+
+
+      10                                              (c)
+                                                                                                              v/Δ
+
+
+
+
+                                                                   0
+              Stable node
+                                                            1/2
+
+
+
+
+                                                                                                                    -1
+                                                             v/Δ
+
+
+
+
+                                                                  -3                                              -2
+        0
+                -10               -5              0                -10             -5               0               0    0.5     1         1.5   2
+                            η/Δ                                                    η/Δ                                               1/2
+                                                                                                                               r/Δ
+
+FIG. 1. Analysis of the steady states of FREs (12). (a) Phase diagram: In the wedge-shaped cyan-shaded region there is bistability
+between a high- and a low-activity state. The boundary of the bistability region is the locus of a saddle-node bifurcation which is exactly
+obtained in parametric form: ðη̄; JÞSN ¼ ½−π 2 r2 − 3Δ2 =ð2πrÞ2 ; 2π 2 r þ Δ2 =ð2π 2 r3 Þ. To the right of the dashed line, defined by
+η̄f ¼ −½J=ð2πÞ2 − ðπΔ=JÞ2 , there is a stable focus (shaded regions). (b) r − η̄ and (c) v − η̄ bifurcation diagrams for J=Δ1=2 ¼ 15.
+Square symbols: Results obtained from numerical simulations of QIF neurons (see Appendix A for details). (d) Phase portrait of the
+system in the bistable region [η̄=Δ ¼ −5; J=Δ1=2 ¼ 15, triangle in (a)] with three fixed points: a stable focus (with its basin of attraction
+shaded), a stable node, and a saddle point.
+
+
+
+                                                                        021028-4
+MACROSCOPIC DESCRIPTION FOR NETWORKS OF …                                                                      PHYS. REV. X 5, 021028 (2015)
+
+ (a)            3                                                      (b) 3
+
+   r
+                0                                                            0
+ (c)                                                                   (d)
+                2                                                            2
+  v
+
+
+                0                                                            0
+             -2                                                              -2
+                  300
+
+
+
+
+                                                                             300
+ (e)                                                                   (f)
+       Neuron index
+       0
+
+
+
+
+                                                                             0
+ (g)                                                                   (h)
+                                                                              3
+   I(t)
+
+
+
+
+                3                                                             0
+                0                                                            -3
+                -10     0    10          20          30           40         -10         0       10     20       30          40   50   60   70    80
+                                  time                                                                                time
+
+FIG. 2. The transient dynamics of an ensemble of QIF model neurons [Eqs. (1) and (2)] are exactly described by the FREs (12).
+(a),(b) Instantaneous firing rate and (c),(d) mean membrane potential of the QIF neurons and the FREs are depicted in black and orange,
+respectively. (e),(f) Raster plots of 300 randomly selected QIF neurons of the N ¼ 104 in the ensemble. (a),(c),(e),(g) At time t ¼ 0,
+a current I ¼ 3 is applied to all neurons, and set to zero again at t ¼ 30; stimulus IðtÞ shown in (g). (b),(d),(f),(h) At time t ¼ 0,
+a sinusoidal current is applied to all neurons IðtÞ ¼ I 0 sinðωtÞ, with I 0 ¼ 3, ω ¼ π=20; stimulus IðtÞ shown in (h). Parameters:
+J ¼ 15, η̄ ¼ −5; Δ ¼ 1.
+
+observe periodic bursting behavior when the system visits               of these clusters is highly irregular in time, in concomitance
+the stable focus region of the phase diagram, Fig. 1(a).                with the chaotic behavior.
+   To further illustrate the potential of the FREs (12) to
+predict and investigate complex dynamics in ensembles of                                     E. Validity of the Lorentzian ansatz
+spiking neurons, we present here a simple situation where
+the system of QIF neurons exhibits macroscopic chaos.                      Thus far, we have shown that the LA Eq. (5) solves the
+This is observed by increasing the frequency ω of the                   continuity equation (4) and confirmed that these solutions
+sinusoidal driving, so that the system cannot trivially follow          agree with the numerical simulations of the original system
+the stable fixed point at each cycle of the applied current.            of QIF neurons [Eqs. (1) and (2)]. Here, we further clarify
+   Figure 3(a) shows a phase diagram obtained using                     why the LA holds for ensembles of QIF neurons.
+Eq. (12). The shaded regions indicate parameter values                     Transforming the voltage of the QIF neuron into a phase
+where the rate model has either a single chaotic attractor (in          via V j ¼ tanðθj =2Þ, the system [Eqs. (1) and (2)] becomes
+black) or a chaotic attractor coexisting with a periodic orbit          an ensemble of “theta neurons” [38]:
+(in cyan). A trajectory on the chaotic attractor is depicted in
+Fig. 3(b), and the clearly irregular time series of the firing                     θ_ j ¼ ð1 − cosθj Þ þ ð1 þ cosθj Þ½ηj þ JsðtÞ þ IðtÞ:        ð13Þ
+rate is shown in orange in Fig. 3(d). Using the same
+parameters, we perform numerical simulations of the QIF                 In the new phase variable θ ∈ ½0; 2πÞ, the LA Eq. (5)
+neurons [Eqs. (1) and (2)], finding a similar attractor and             becomes
+irregular dynamics as in the rate model; see Figs. 3(c)                                                                              
+and 3(d). To obtain the time series shown in Fig. 3(d), we                                                      1     1 þ αðη; tÞeiθ
+                                                                                               ρ~ ðθjη; tÞ ¼      Re                    ;        ð14Þ
+run the QIF neurons numerically and, after a long transient,                                                   2π      1 − αðη; tÞeiθ
+at time t ¼ 0, the rate model Eq. (12) is initiated with the
+values of r and v obtained from the population of QIF                   where the function αðη; tÞ is related to wðη; tÞ as
+neurons. The time series of the two systems, which are
+initially close, rapidly diverge, reflecting the chaotic nature                                                       1 − wðη; tÞ
+                                                                                                      αðη; tÞ ¼                   :              ð15Þ
+of the system.                                                                                                        1 þ wðη; tÞ
+   Finally, to illustrate this chaotic state at the microscopic
+level, Fig. 3(e) shows the raster plot for 300 randomly                 Equations (5) and (14) are two representations of the so-
+chosen neurons, corresponding to the time series in                     called Poisson kernel on the half-plane and on the unit disk,
+Fig. 3(d). The irregular firing of neurons in Fig. 3(e) has             respectively. These representations are related via Eq. (15),
+some underlying structure that may be visualized ordering               which establishes a conformal mapping from the half-plane
+the same set of neurons according to their intrinsic currents           ReðwÞ ≥ 0 onto the unit disk jαj ≤ 1. In the next section,
+as ηk < ηkþ1 , with k ∈ ½1; 300; see Fig. 3(f). Clearly, the           we show that variables r and v can be related, via the same
+maxima of the firing rate coincide with the synchronous                 conformal map, to the Kuramoto order parameter, which is
+firings of clusters of neurons with similar η values. The size          a macroscopic measure of phase coherence [43,44].
+
+
+                                                              021028-5
+ERNEST MONTBRIÓ, DIEGO PAZÓ, AND ALEX ROXIN                                                                                    PHYS. REV. X 5, 021028 (2015)
+
+      (a)                                                         (b) 2
+                                                                                                     and Winfree models [45,46], but not Eq. (13). However,
+                     20
+                                                                                                     there are theoretical arguments [47] that strongly suggest
+                                                                       0
+
+
+
+
+                                                                   v
+                                                                                                     that the OA manifold is also attracting for η-dependent H,
+                     16
+                                                                       -2                            as numerically confirmed by a number of recent papers
+                                                                                     r
+        J
+
+                                                                  (c) 2                              using theta neurons [48–50] and other phase-oscillator
+                     12                                                                              models [51–55].
+                                                                       0
+
+
+
+
+                                                                   v
+                           8
+                                                                                                          F. Firing rate and Kuramoto order parameter
+                                                                       -2
+                            -4                               -2             0        1   2
+                                               η                                     r                  There exists a mapping between the macroscopic var-
+      (d)                  2                                                                         iables r and v and the so-called Kuramoto order parameter
+                                                                                                     Z. Equation (15) relates, for each value of η, the firing rate
+                            1                                                                        and the mean membrane potential, both contained in w,
+            r
+
+
+
+
+                                                                                                     with the uniformity of the phase density, measured by
+                           0                                                                         α—note that α ¼ 0 in Eq. (14) yields a perfectly uniform
+      (e)                                                                                            density. The Kuramoto order parameter is obtained by
+                           300
+
+
+
+
+                                                                                                     integrating α over the whole population as
+            Neuron index
+
+
+
+
+                                                                                                                      Z ∞       Z 2π
+                                                                                                               ZðtÞ ¼      gðηÞ      ρ~ ðθjη; tÞeiθ dθdη
+                                                                                                                       −∞        0
+                                                                                                                      Z ∞
+                              300 0
+
+
+
+
+      (f)
+            Ordered neuron index
+
+
+
+
+                                                                                                                    ¼      gðηÞα ðη; tÞdη;                   ð17Þ
+                                                                                                                        −∞
+
+                                                                                                     where we assume that the density ρ~ is the OA ansatz
+                                                                                                     Eq. (14). The quantity Z can be seen as the center of mass
+            0
+
+
+
+
+                                 0      10      20     30         40            50       60
+                                                      time                                           of a population of phases distributed across the unit
+                                                                                                     circle eiθ .
+FIG. 3. Firing-rate model predicts the existence of macroscopic                                         For a Lorentzian distribution of currents, gðηÞ, we may
+chaos in ensemble QIF neurons [Eq. (1)] with an injected periodic                                    derive the exact formula (see Appendix B)
+current IðtÞ ¼ I 0 sinðωtÞ. (a) Phase diagram with the regions
+where chaos is found, obtained using the rate model Eq. (12). In                                                                   1 − W
+the black-shaded region, there is only one chaotic attractor,                                                                Z¼           ;                      ð18Þ
+                                                                                                                                   1 þ W
+whereas in the cyan region the chaotic attractor coexists with a
+periodic attractor. Dotted lines correspond to the bistability                                       relating the Kuramoto order parameter Z with the firing-
+boundary of Fig. 1(a), depicted to facilitate comparison. (b) Cha-
+                                                                                                     rate quantity W ≡ πr þ iv. Figure 4 illustrates this con-
+otic trajectory obtained simulating the FREs (12); the Lyapunov
+exponent is λ ¼ 0.183…. (c) Chaotic trajectory obtained from the
+                                                                                                     formal mapping of the right half-plane (r ≥ 0) onto the unit
+QIF neurons—parameters corresponding to the (yellow) triangle                                        disk (jZj ≤ 1).
+symbol in (a). (d) Time series for the rate model (orange) and QIF
+model (black). (e) Raster plot corresponding to 300 randomly
+selected neurons. (f) Same raster plot as in (e), ordering neurons
+according to their intrinsic current ηk . Parameters: I 0 ¼ 3, ω ¼ π
+and η̄ ¼ −2.5, J ¼ 10.5 [triangle symbol in (a)].
+
+
+   The key observation supporting the applicability of the
+LA is the fact that Eq. (14) turns out to be the ansatz
+discovered in 2008 by Ott and Antonsen [35]. According to
+the OA theory, in the thermodynamic limit, the dynamics of
+the class of systems
+                                                                                                     FIG. 4. The conformal map Eq. (18) transforms the right half-
+                                  ∂ t θðη; tÞ ¼ Ωðη; tÞ þ Im½Hðη; tÞe−iθ                     ð16Þ   plane onto the unit disk. This transformation and its inverse
+                                                                                                     define a one-to-one mapping between the Kuramoto order
+generally converges to the OA manifold [Eq. (14)]. In our                                            parameter Z and the macroscopic quantities of the population
+case, for Eq. (13), we have Ωðη; tÞ ¼ 1 þ η þ Js þ I and                                             of QIF neurons: r, firing rate; v, mean membrane potential. Note
+Hðη; tÞ ¼ ið−1 þ η þ Js þ IÞ. Thus far, the convergence                                              that in the limit Z ¼ eiΨ [full coherence, ρ~ ðθÞ ¼ δðθ − ΨÞ], we
+of Eq. (16) to the OA manifold has been only proven for                                              recover v ¼ ið1 − eiΨ Þ=ð1 þ eiΨ Þ ¼ tanðΨ=2Þ, as the original
+Hðη; tÞ ¼ HðtÞ. This includes the well-known Kuramoto                                                mapping V ¼ tanðθ=2Þ between QIF and theta neurons dictates.
+
+
+
+                                                                                               021028-6
+MACROSCOPIC DESCRIPTION FOR NETWORKS OF …                                                   PHYS. REV. X 5, 021028 (2015)
+
+                   IV. CONCLUSIONS                                and subthreshold voltage. Furthermore, because these
+                                                                  equations are exact, we can explore the full nonlinear
+    We present a method for deriving firing-rate equations
+                                                                  response of the network, such as the generation of chaotic
+for a network of heterogeneous QIF neurons, which is exact
+                                                                  states of synchronous bursting, as shown in Fig. 3.
+in the thermodynamic limit. To our knowledge, the result-
+                                                                     Recently, it has been shown that not only Kuramoto-like
+ing system of ordinary differential equations (12) repre-
+                                                                  models, but a much wider class of phase models, evolve in
+sents the first exact FREs of a network of spiking neurons.
+                                                                  the OA manifold defined by Eq. (14). Specifically, net-
+    We emphasize that the derivation of the FREs does not
+                                                                  works of pulse-coupled oscillators [46] and theta neurons
+rely on assumptions of weak coupling, separation of time
+                                                                  [48–50] allow for an exact, low-dimensional description in
+scales, averaging, or any other approximation. Rather, the
+                                                                  terms of the Kuramoto order parameter [Eq. (17)].
+assumptions underlying the validity of Eq. (12) are that
+(i) the QIF neurons are all-to-all connected, (ii) hetero-        Although these later works use a finite-width phase-
+geneity is quenched, and (iii) inputs are distributed accord-     coupling function that differs from the synaptic coupling
+ing to a Lorentzian distribution.                                 [Eq. (3)], the obtained low-dimensional description in
+    The last two assumptions may seem particularly restric-       terms of the Kuramoto order parameter is analogous to
+tive. Concerning assumption (iii), it must be stressed that       ours, but in a different space [56]. Indeed, we show that the
+for arbitrary distributions of quenched heterogeneity, the        OA ansatz Eq. (14) is related, via the nonlinear trans-
+LA Eq. (5) remains generally valid, and, therefore, Eq. (10)      formation of variables Eq. (15), to the LA ansatz Eq. (5).
+can be used to discern the stability of the network states        Remarkably, this transformation establishes an exact cor-
+(see Appendix C). Furthermore, in Appendix C, we also             respondence between the Kuramoto order parameter and a
+show numerical simulations using uniform- and Gaussian-           novel, biophysically meaningful macroscopic observable
+distributed inputs that reveal very similar macroscopic           that describes the firing rate and mean membrane potential
+dynamics in response to time-varying inputs. Even relaxing        of the neuronal network. Interestingly, the low-dimensional
+assumption (ii), numerical simulations with identical QIF         description in terms of firing rates seems to be a more
+neurons driven by external independent Gaussian noise             natural description for networks of spiking neurons, com-
+sources show qualitative agreement with the FREs (12) (see        pared to that in terms of the Kuramoto order parameter. The
+Appendix D). In summary, the choice of a quenched                 firing-rate equations (12) take a surprisingly simple form in
+Lorentzian distribution gðηÞ is, thus, a mere mathematical        the LA manifold, which makes them a valuable tool to
+convenience, whereas the insights gained from the resulting       explore and understand the mechanisms governing the
+firing-rate description are valid more generally.                 macroscopic dynamics of neuronal networks.
+    Our derivation represents a sharp departure from and a           Finally, since the OA ansatz is the asymptotic solution
+major advance compared to previous studies in several             for systems of the form in Eq. (16), applying the change of
+regards. First, in the past it has been possible to calculate     variables V ¼ tanðθ=2Þ automatically implies that the LA
+only the approximate firing rate of networks of spiking           should hold for populations governed by
+neurons for stationary states, or for weak deviations of such
+states [9–12,15,19,20]. The equations that result from these
+derivations are difficult to solve, and typically require                  V_ j ¼ Aðηj ; tÞ þ Bðηj ; tÞV j þ Cðηj ; tÞV 2j ;   ð19Þ
+special numerical methods. In contrast, FREs (12) can
+be easily analyzed and simulated, and exactly reproduce the
+behavior of the spiking network far from any fixed point          where A, B, and C are related to Ω and H as
+and for arbitrary external currents. Second, firing-rate          A ¼ ½Ω þ ImðHÞ=2, B ¼ −ReðHÞ, C ¼ ½Ω − ImðHÞ=2.
+descriptions traditionally assume that the activity of a          Notably, Eq. (19) defines a wide family of ensembles of
+population of neurons is equivalent to a set of uncorrelated      QIF neurons.
+stochastic processes with a given rate; see, e.g.,                   Therefore, the LA is actually valid for more general
+Refs. [13,14]. However, in simulations of spiking networks,       networks beyond the one investigated here—ηj in Eq. (19)
+it is well known that the response of the network to              may also be a vector containing several forms of disorder.
+nonstationary inputs generally involves some degree of            As particularly relevant cases, in Appendix E, we provide
+spike synchrony. Recent theoretical work has sought to            the FREs governing the dynamics of an excitatory network
+improve on classical rate models, which act as a low-pass         with both heterogeneous inputs η and synaptic weights J, as
+filter of inputs, by fitting them with linear filters extracted   well as a pair of interacting excitatory and inhibitory
+from the corresponding Fokker-Planck equation for the             populations of QIF neurons. In addition, according to
+network [19,20]. These filters tend to generate damped            Eq. (19), the LA is also valid if synapses are modeled
+oscillations when the external noise level is not too high,       as conductances, in which case the reversal potentials may
+reflecting the presence of spike synchrony [15,20]. The           be distributed as well. Moreover, the role of gap junctions
+FREs (12) also capture this phenomenon and reveal that the        or synaptic kinetics may be considered within the same
+underlying mechanism is an interplay between firing rate          framework.
+
+
+                                                            021028-7
+ERNEST MONTBRIÓ, DIEGO PAZÓ, AND ALEX ROXIN                                                 PHYS. REV. X 5, 021028 (2015)
+
+                ACKNOWLEDGMENTS                                  Recalling Eqs. (7) and (9), we write the macroscopic
+                                                                 field W as
+  D. P. and A. R. acknowledge support by MINECO
+(Spain) under the Ramón y Cajal program. E. M. and A.                                  Z ∞
+R. acknowledge support from a grants from the Spanish                          WðtÞ ¼      wðη; tÞgðηÞdη;
+                                                                                              −∞
+Ministry of Economics and Competitiveness PSI2013-
+42091 and BFU2012-33413.                                         where w ≡ x þ iy. Inserting the conformal mapping
+                                                                 w ¼ ð1 − αÞ=ð1 þ αÞ—the inverse of Eq. (15)—we get
+   APPENDIX A: NUMERICAL SIMULATIONS                                                Z ∞             
+                                                                                         1 − αðη; tÞ
+   To numerically simulate the population of QIF neurons                    WðtÞ ¼                     gðηÞdη:
+                                                                                     −∞ 1 þ αðη; tÞ
+[Eq. (1)], we use the Euler method, with time step
+dt ¼ 10−4 . The population has N ¼ 104 neurons, and              Using the geometric series formula, and grouping the
+the Lorentzian distribution Eq. (11) is deterministically        powers of α, we may evaluate the integrals, obtaining
+generated using ηj ¼ η̄þΔarctan½π=2ð2j−N −1Þ=ðN þ1Þ,
+where j ¼ 1; …; N and Δ ¼ 1.                                          WðtÞ ¼ 1 − 2Z ðtÞ þ 2Z2 ðtÞ − 2Z3 ðtÞ þ    ;   ðB2Þ
+   The time it takes for the membrane potential of a QIF
+neuron (with I j > 0) to reach infinity from p
+                                             a given
+                                               ﬃﬃﬃﬃ positive
+                                                      pﬃﬃﬃﬃ      where the Zm are the generalized order parameters [57]:
+value of the membrane potential is arctanð I j =V p Þ= I j .                     Z ∞      Z 2π
+    pﬃﬃﬃﬃ
+For I j ≪ V p, this expression can be approximated as                   Zm ðtÞ ¼     gðηÞ      ρ~ ðθjη; tÞeimθ dθdη
+                                                                                  −∞       0
+                          pﬃﬃﬃﬃ                                                  Z ∞
+                  arctan ð I j =V p Þ 1
+                         pﬃﬃﬃﬃ       ≈    :                                    ¼     gðηÞ½α ðη; tÞm dη:
+                           Ij          Vp                                            −∞
+
+
+   In simulations, we consider V p ¼ −V r ¼ 100, and use         Since, for Lorentzian gðηÞ, Zm ðtÞ ¼ ½α ðη ¼ η̄−iΔ;tÞm ¼
+the previous approximation. Thus, the time for the neurons       ZðtÞm , we can revert the power series in Eq. (B2) and obtain
+to reach infinity from V p is 1=V p ≈ 10−2 . Additionally, the   the result in Eq. (B1).
+time taken from minus infinity to V r is 1=V r ≈ 10−2 .
+Numerically, once a neuron’s membrane potential V j                   APPENDIX C: RESULTS FOR ARBITRARY
+satisfies V j ≥ V p the neuron is reset to −V j and held there            DISTRIBUTIONS OF CURRENTS
+for a refractory time 2=V j . The neurons produce a spike           In this Appendix, we compare the results in the main
+when V j reaches infinity, i.e., a time interval 1=V j after     text, obtained using a Lorentzian distribution of currents
+crossing V p . The exact time of the spike cannot be             gðηÞ, with other distributions. The results are qualitatively
+evaluated exactly in numerical simulations, since dt is          similar, as evidenced by Figs. 5–7 (cf. Figs. 1–3).
+finite. However, simulations agree very well with the               Note that, if a particular distribution gðηÞ has 2n poles
+theory, provided that 1=V p ≫ dt.                                (all of them off the real axis). one can readily obtain the
+   To evaluate the mean membrane potential v, the pop-           FREs consisting of n complex-valued ordinary differential
+ulation average is computed discarding those neurons in the      equations. Even if gðηÞ does not fulfill this condition,
+refractory period. The choice V p ¼ −V r is not needed, but      as in the case of Gaussian or uniform distributions, the
+in this way the observed mean membrane potential v agrees        Lorentzian ansatz still holds (see below).
+with the theory, consistent with the definition in Eq. (8).         Moreover, it is possible to efficiently simulate the
+The mean synaptic activation Eq. (3) is evaluated using          dynamics of a population by integrating Eq. (10) for a
+the Heaviside step function aτ ðtÞ ¼ Θðτ − tÞ=τ, with            sample of η values that approximate a particular gðηÞ [58].
+τ ¼ 10−3 . The instantaneous firing rates are obtained           However, if gðηÞ is a discrete distribution (or has a discrete
+binning time and counting spikes within a sliding                part), as in the case of the Dirac delta function
+time window of size δt ¼ 2 × 10−2 (Figs. 2,6–8) and              gðηÞ ¼ δðη − η̄Þ, the so-called Watanabe-Strogatz theory
+δt ¼ 4 × 10−2 (Fig. 3).                                          applies [47,60,61], and the “Lorentzian manifold” is no
+                                                                 longer attracting since the dynamics is extremely degen-
+                                                                 erate, akin to a Hamiltonian system.
+         APPENDIX B: PROOF OF EQ. (18)
+  The inverse of Eq. (18) reads                                                           1. Steady states
+                                                                    Considering IðtÞ ¼ 0 in Eqs. (1) and (2), it is possible to
+                          1 − Z                                 find the solutions with steady firing rate rðtÞ ¼ r0 for
+                       W¼        :                      ðB1Þ
+                          1 þ Z                                 arbitrary distributions of currents.
+
+
+                                                           021028-8
+MACROSCOPIC DESCRIPTION FOR NETWORKS OF …                                                                                        PHYS. REV. X 5, 021028 (2015)
+
+  (a)                                          (b)
+                                                                                                    which is valid for any distribution gðηÞ [an analogous
+           20                                            20                                         expression was obtained in Eq. (45) of Ref. [40]]. For
+                                                                                                    Lorentzian gðηÞ, the integral in Eq. (C1) can be evaluated,
+
+
+
+
+                                               1/2
+  1/2
+
+
+
+
+                                                   J/σ
+   J/ γ
+
+
+           10                                            10                                         and solving the resulting equation for r0, one obtains the
+                                                                                                    steady states in agreement with the result of setting
+              0                                          0
+                                                                                                    r_ ¼ v_ ¼ 0 in the FREs (12).
+               -2            -1            0              -3         -2          -1    0
+                            η/γ                                            η/σ
+                                                                                                               2. Linear stability analysis of steady states
+FIG. 5. Phase diagrams for (a) uniform and (b) Gaussian                                                Assuming that the LA captures the actual dynamics of
+distributions of currents gðηÞ. The cyan-shaded region represents
+                                                                                                    the population of QIF neurons, one can also investigate the
+the bistable region, with the solid lines corresponding to saddle-
+node bifurcations analytically obtained from Eqs. (C5) and (C6).
+                                                                                                    stability of steady states for arbitrary distributions gðηÞ.
+Square symbols are estimates of the bifurcations’ loci obtained by                                  Indeed, the evolution of infinitesimal perturbations from a
+direct numerical simulations of N ¼ 104 QIF neurons. Triangle                                       steady state,
+symbols indicate parameter values used in numerical simulations                                                                  pﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+of Figs. 6 and 7.                                                                                                                  η þ Jr0                 if η > −Jr0
+                                                                                                    w0 ðηÞ ≡ x0 ðηÞ þ iy0 ðηÞ ¼     pﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+                                                                                                                                  −i −η − Jr0              if η ≤ −Jr0 ;
+   As we point out in the main text, the stationary solution                                        is determined by the linearization of Eq. (10):
+of the continuity equation (4) for those neurons that are
+intrinsically active (η > −Jr0 ) must be inversely propor-                                                         ∂ t δwðη; tÞ ¼ iðJδr − 2w0 δwÞ;            ðC2Þ
+tional to their speed; that is,
+                                                                                                                             R∞
+                                                                                                    where δrðtÞ ¼ ð2πÞ−1 −∞      ½δwðη; tÞ þ δw ðη; tÞgðηÞdη.
+                                             cðηÞ                                                      To find the discrete spectrum of eigenvalues [62], we use
+                            ρ0 ðVjηÞ ¼         2
+                                                      ;
+                                          V þ η þ Jr0                                               the ansatz δwðη; tÞ ¼ bðηÞeλt in Eq. (C2) and obtain
+                                                                     pﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ                                            Z
+where the normalizing constant is cðηÞ ¼                              η þ Jr0 =π. The                                    λt    iJ ∞                      
+
+firing rate for each value of η is then                                                             ½λ þ 2w0 ðηÞibðηÞe ¼            ½bðηÞeλt þ b ðηÞeλ t gðηÞdη:
+                                                                                                                              2π −∞
+                                      _
+                 r0 ðηÞ ¼ ρ0 ðV → ∞jηÞVðV → ∞jη; tÞ ¼ cðηÞ;                                         Solving the equation for beλt, we find
+                                                                                                                             Z
+and integration over all the firing neurons gives the                                                              1        J ∞                      
+                                                                                                    bðηÞeλt ¼                     ½bðηÞeλt þ b ðηÞeλ t gðηÞdη:
+self-consistent condition for r0 :                                                                            2w0 ðηÞ − iλ 2π −∞
+                                    Z ∞
+                             r0 ¼          cðηÞgðηÞdη;                                ðC1Þ          After summing the complex conjugate at each side of the
+                                    −Jr0                                                            equation, we multiply by gðηÞ and integrate over η. This
+
+(a)                                                                                                (e) 3
+                 3
+      r
+
+
+
+
+                 0                                                                                       0
+(b)                                                                                                (f)
+                2                                                                                        2
+                0
+      v
+
+
+
+
+               -2                                                                                        0
+               -4                                                                                        -2
+               -6
+                                                                                                         300
+
+
+
+
+(c)                                                                                                (g)
+                  300
+        Neuron index
+
+
+
+
+                                                                                                         0
+        0
+
+
+
+
+(d)                                                                                                (h)
+                 1                                                                                    1.5
+        I(t)
+
+
+
+
+                 0                                                                                      0
+                -1                                                                                   -1.5
+                 -10    0     10    20             30           40        50     60   70      80         -10     0     10   20     30          40   50    60   70    80
+                                                         time                                                                           time
+
+FIG. 6. Numerical simulations of the excitatory network of QIF neurons, Eqs. (1) and (2). with (a)–(d) uniform and (e)–(h) Gaussian
+distributions of currents. As in Fig. 2, at time t ¼ 0, an external sinusoidal current IðtÞ ¼ I 0 sinðωtÞ—shown in (d) and (h)—is applied to
+all neurons. (a),(e) Time series of the firing rate and (b),(f) the mean membrane potential of all cells. In (c) and (g), we depict the raster
+plots of 300 randomly chosen neurons. Parameters correspond to the black triangle symbols in Fig. 5: (a)–(d) η̄ ¼ −1, J ¼ 8, γ ¼ 1,
+I 0 ¼ 1; (e)–(h) η̄ ¼ −2, J ¼ 10, σ ¼ 1, I 0 ¼ 1.5.
+
+
+
+                                                                                           021028-9
+ERNEST MONTBRIÓ, DIEGO PAZÓ, AND ALEX ROXIN                                                                 PHYS. REV. X 5, 021028 (2015)
+
+  (a)                                                                                                          2π
+                                                                                                J SN ¼ R ∞ −1=2            ;                              ðC5Þ
+                        1                                                                               0 η     gðη − ξÞdη
+
+                                                                           with ξ obtained solving
+        r
+
+                                                                                                 R
+                                                                                               2 0∞ η1=2 gðη − ξÞdη
+                       0                                                                   ξ ¼ R ∞ −1=2             :                                     ðC6Þ
+                                                                                                 0 η    gðη − ξÞdη
+                       300
+
+
+
+
+  (b)
+                                                                                           3. Bistability region for uniform
+        Neuron index
+
+
+
+
+                                                                                              and Gaussian distributions
+                                                                             Equations (C5) and (C6) are particularly easy to solve for
+                                                                           uniform distributions of currents:
+                                                                                                           1
+                                                                                                              2γ    for jη − η̄j < γ
+                       0
+
+
+
+
+                                                                                              gðηÞ ¼
+                                                                                                              0     otherwise:
+                           300
+
+
+
+
+  (c)
+        Ordered neuron index
+
+
+
+
+                                                                           After defining the rescaled parameters η~ ¼ η̄=γ and
+                                                                                  pﬃﬃﬃ
+                                                                           J~ ¼ J= γ , we find two branches of saddle-node bifurca-
+                                                                           tions emanating from the cusp point at η~ ¼ −1=3:
+
+                                                                                 ð1Þ     2π
+                                                                              J~ SN ¼ pﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ ;
+                                                                                       3~η þ 3
+                       0
+
+
+
+
+                            0            20               40        60
+                                                time                             ð2Þ                                       2π
+                                                                              J~ SN ¼ rﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+                                                                                                          qﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ rﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+                                                                                                                                            qﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ :
+FIG. 7. Chaotic state in a network of N ¼ 104 QIF neurons with                         η~ þ 1 þ 2 3 þ η~ − η~ − 1 þ 2 13 þ η~ 2
+                                                                                                               1        2
+Gaussian-distributed currents. Network parameters correspond to
+the yellow triangle in the phase diagram of Fig. 5(b). As in Fig. 3,
+neurons receive a common periodic current IðtÞ ¼ I 0 sinðωtÞ of            These functions are plotted in Fig. 5(b). Numerical sim-
+frequency ω ¼ π. Parameters: η̄ ¼ −1, J ¼ 8, σ ¼ 1, I 0 ¼ 1.5.             ulations using the network of QIF neurons confirm the
+                                                                           correctness of these boundaries (see the square symbols
+                                                                           in Fig. 5).
+                                      R                                      For Gaussian distributions,
+allows one to cancel out the integrals ðbeλt þ b eλ t Þgdη.
+Then, imposing self-consistency, we find                                                                  1             2    2
+                                                                                                 gðηÞ ¼ pﬃﬃﬃﬃﬃﬃ e−ðη−η̄Þ =ð2σ Þ ;
+                                 Z ∞                                                                   2π σ
+              J                            1
+          1¼                                       þ c:c: gðηÞdη:   ðC3Þ
+             2π                  −∞   2w0 ðηÞ − iλ                         the solutions of Eqs. (C5) and (C6) can be numerically
+                                                                           found. The results are shown in Fig. 5(b). Again, there is a
+Local bifurcations are associated with marginal stability of               perfect agreement between Eqs. (C5) and (C6)—derived
+the fixed points: ReðλÞ → 0. In correspondence with the                    assuming the Lorentzian Ansatz—and the numerical esti-
+results obtained for a Lorentzian distribution in the main                 mations obtained simulating the network of QIF neurons.
+text, we expect bifurcations of saddle-node type associated
+with λ ¼ 0. Therefore, from Eq. (C3) we find that the loci                 4. Excitatory networks with external periodic currents
+of the saddle-node bifurcations are located at
+                                                                              Firing-rate equations (12) predict the existence of a
+                                                 2π                        stable focus in the shaded region of Fig. 1. Trajectories
+                                  J SN ¼ R                      :   ðC4Þ   attracted to this fixed point display oscillations in the firing
+                                          ∞ x0 ðηÞ
+                                          −∞ jw0 ðηÞj2 gðηÞdη              rate and mean membrane potential due to the transient
+             pﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ                                              synchronous firing of the QIF neurons.
+Since x0 ¼ η þ Jr0 for η > −Jr0, and zero otherwise, we                       When an external periodic current is injected to all
+can restrict the integration over η to the range ð−Jr0 ; ∞Þ.               neurons in the network, the spiral dynamics around the
+Now, multiplying Eq. (C4) by Eq. (C1), we get, after                       fixed point is responsible for the bursting behavior
+defining ξ ¼ JSN r0 , two equations that permit us to find the             observed in Fig. 2, as well as for the emergence of the
+locus of the saddle-node bifurcations systematically for                   macroscopic chaos shown in Fig. 3. Here, we investigate
+arbitrary distributions of currents:                                       whether similar phenomena occur when an external
+
+
+                                                                     021028-10
+MACROSCOPIC DESCRIPTION FOR NETWORKS OF …                                                                     PHYS. REV. X 5, 021028 (2015)
+
+periodic current of the same frequency is injected in an                                               I j ¼ η̄ þ JrðtÞ þ ξj ðtÞ;           ðD1Þ
+excitatory network with either uniform or Gaussian-
+distributed currents.                                                                where ξj are independent white noise terms with expected
+   We introduce a sinusoidal forcing IðtÞ ¼ I 0 sinðωtÞ                              values hξj ðtÞi ¼ 0, and hξj ðtÞξk ðt0 Þi ¼ 2Dδjk δðt − t0 Þ.
+observing a behavior qualitatively identical to the one                                In the thermodynamic limit, the density ρðV; tÞ obeys the
+reported in the main text with Lorentzian gðηÞ. Under a                              Fokker-Planck equation:
+low-frequency forcing, the system displays periodic burst-
+ing, see Fig. 6, provided the parameters are set inside the
+                                                                                                ∂ t ρ þ ∂ V ½ðV 2 þ η̄ þ JrÞρ ¼ D∂ 2V ρ:   ðD2Þ
+bistable region (see the black triangles in Fig. 5).
+Furthermore, note that the range of firing rates and
+mean membrane potentials in Fig. 6 are similar to those                              The Lorentzian ansatz is not a solution of this equation, but
+of Fig. 2—for Lorentzian distributions of currents.                                  we demonstrate here that the phenomena observed with
+   As for the simulations shown in Fig. 3, we next increase                          quenched heterogeneity also arise with independent noise
+the frequency of the injected current up to ω ¼ π to                                 sources. This qualitative similarity at the macroscopic level
+investigate the emergence of macroscopic chaos in a                                  between quenched Lorentzian heterogeneity and Gaussian
+network with Gaussian-distributed currents. Figure. 7                                noise has been noted in previous work [63].
+shows the emergence of an apparently chaotic state. The                                 A subtle point in Eq. (D2) is that its nondimensionaliza-
+observed dynamics is similar to that of Fig. 3, which                                tion entails a different (compared to Δ) rescaling with D:
+suggests it is chaotic. This type of chaos persists in the                           V~ ¼V=D1=3 , η~ ¼ η=D2=3 , J~ ¼ J=D1=3 , ~t ¼ tD1=3 (implying
+thermodynamic limit N → ∞. On top of this, highly                                    r~ ¼ r=D1=3 ).
+dimensional but weakly chaotic dynamics is probably also                                Numerical simulations reveal the existence of a region of
+present due to “residual” finite-size effects.                                       bistability, see Fig. 8(a), analogous to the one observed for
+                                                                                     quenched heterogeneity, cf. Figs. 1(a) and 5. Obviously,
+                                                                                     true bistability holds only in the thermodynamic limit,
+        APPENDIX D: IDENTICAL QIF NEURONS
+                                                                                     while what we observe are rather exceedingly long resi-
+       DRIVEN BY INDEPENDENT NOISE TERMS
+                                                                                     dence times close to each fixed point (see Fig. 8 caption for
+   Now, we compare the results obtained above and in the                             details).
+main text for quenched heterogeneity gðηÞ with the results                              Additionally, in order to investigate and compare the
+for identical neurons gðηÞ ¼ δðη − η̄Þ driven by noise.                              dynamical behavior of the identical noise-driven neurons
+Specifically, the input currents are now taken as                                    with that of the FREs (12), an external current of intensity
+
+ (a)                                                     (b)                   3
+
+       20
+                                                               r
+
+
+
+
+                                                                               0
+       15
+                                                         (c)
+                                                                               2
+ 1/3
+
+
+
+
+                                                               v
+
+
+
+
+                                                                               0
+  J/D
+
+
+
+
+                                                                               -2
+       10
+                                                                               300
+
+
+
+
+                                                         (d)
+                                                                Neuron index
+
+
+
+
+        5
+                                                                               0
+
+
+
+
+                                                         (e)
+                                                               I(t)
+
+
+
+
+        0                                                                      3
+              -10                   -5         0
+                              2/3                                              0
+                        η/D                                                    -10         0            10
+                                                                                                              time
+                                                                                                                      20            30         40
+
+
+
+FIG. 8. Numerically obtained phase diagram (a) and time series (b)–(d) for a network of identical QIF neurons driven by independent
+white noise terms. The square symbols in (a) represent the boundaries that enclose the region of bistability between a high- and a low-
+activity state. The boundaries have been obtained using a network of 104 neurons, and by numerical continuation of a low-activity
+solution (filled squares) and a high-activity solution (empty squares). Specifically, using a noise intensity D ¼ 1 and a particular value of
+J, the system is initialized either at η̄ ¼ −5 or at η̄ ¼ 0 and, after t ¼ 10 time units, parameter η̄ is decreased or increased an amount
+0.025 or 0.1, respectively. This continuation is made until the relative change of two successive values of the averaged firing rate (time
+averaged over the last time unit for each parameter value) is larger than 50%. Other parameters for the numerical simulations are the
+same as in all other figures, and are described in Appendix A. The triangle symbol indicates the parameter value,
+ðη̄=D2=3 ; J=D1=3 Þ ¼ ð−5; 15Þ, corresponding to the numerical simulations shown in black in the right-hand panels—for the simulations.
+we use D ¼ 1. To facilitate the comparison with the FREs (12), the orange curves show the time series of the FREs, using the same
+parameters ðη̄; JÞ ¼ ð−5; 15Þ, but with Δ ¼ 1.
+
+
+
+                                                                               021028-11
+ERNEST MONTBRIÓ, DIEGO PAZÓ, AND ALEX ROXIN                                                          PHYS. REV. X 5, 021028 (2015)
+                                                                                     20
+I 0 ¼ 3 is injected to all neurons at time t ¼ 0, like in Fig. 2.
+In Figs. 8(b) and 8(c), the time series of the firing rate and
+the mean membrane potential clearly display damped                                   15
+
+oscillations after the injection of the current, confirming                                                                            1/2
+                                                                                                                                    Γ/ Δ = 0
+
+
+
+
+                                                                             1/2
+the existence of a stable focus, exactly as observed in the
+
+
+
+
+                                                                              J/ Δ
+                                                                                     10
+                                                                                                              1/2
+FREs (12). The existence of a stable focus reflects the                                                    Γ/Δ = 5
+                                                                                                                            1/2
+presence of transient spike synchrony in the network, as                                                                 Γ/ Δ = 1
+                                                                                      5
+seen by the raster plot in Fig. 8(d). Remarkably, the raster
+plot and the time series closely resemble those of Fig. 2.
+The resemblance is not just qualitative, but rather there is a                        0
+                                                                                          -10                       -5                         0
+near quantitative fit between the network of QIF neurons                                                     η/Δ
+driven by Gaussian noise and the FREs (12), which are
+derived assuming quenched Lorentzian heterogeneity                    FIG. 9. Phase diagram for an excitatory population with
+(orange curves).                                                      heterogeneous currents and synaptic weights obtained using
+                                                                      the FREs (E1).
+
+   APPENDIX E: MODEL GENERALIZATIONS
+                                                                      Finally, evaluating Eq. (10) at the poles (η ¼ η̄ − iΔ,
+   To illustrate the potential of the LA for investigating
+                                                                      J ¼ J̄ − iΓ), we get the exact FREs:
+more sophisticated networks, here we provide the low-
+dimensional FREs corresponding to an excitatory network
+of QIF neurons with independently distributed currents and                                r_ ¼ Δ=π þ Γr=π þ 2rv;                                   ðE1aÞ
+synaptic weights and to two interacting populations of
+excitatory and inhibitory QIF neurons with distributed
+currents.                                                                                 v_ ¼ v2 þ η̄ þ J̄r þ IðtÞ − π 2 r2 :                     ðE1bÞ
+
+     1. Excitatory population with heterogeneous                      These equations simply contain an extra term þΓr=π
+            currents and synaptic weights                             compared to Eq. (12). Figure 9 shows the bistability
+                                                                      boundaries obtained from Eq. (E1) for different ratios of
+  As a first example, let us assume that both the currents η
+                                                                      Γ and Δ, and IðtÞ ¼ 0. Note that the region of bistabilitypﬃﬃﬃﬃ
+and the synaptic weights J are distributed—this type of
+heterogeneity was also considered in Ref. [40]. The input             shifts to lower values of η̄=Δ and to higher values of J̄= Δ
+currents then read [66]                                               as the level of heterogeneity in the synaptic coupling Γ is
+                                                                      increased.
+                   I j ¼ ηj þ Jj rðtÞ þ IðtÞ:
+                                                                                    2. Firing-rate equations for a pair of
+For simplicity, we additionally assume that η and J are                               excitatory-inhibitory populations
+distributed independently, with a joint distribution
+                                                                        The microscopic state of each population of QIF
+pðη; JÞ ¼ gðηÞhðJÞ. In the simplest situation of
+                                                                      neurons is characterized by the membrane potentials
+Lorentzian gðηÞ and hðJÞ,                                                ðe;iÞ
+                                                                      fV j gj¼1;…;N , which obey the following ordinary differ-
+                  Δ=π                             Γ=π                 ential equations:
+    gðηÞ ¼                  ;       hðJÞ ¼                  ;
+             ðη − η̄Þ2 þ Δ2                  ðJ − J̄Þ2 þ Γ2
+                                                                         ðe;iÞ  ðe;iÞ    ðe;iÞ    ðe;iÞ            ðe;iÞ
+                                                                      V_ j ¼ ðV j Þ2 þ I j ; if V j ≥ V p ; then V j ← V r :
+the problem is extremely simplified using the Lorentzian
+ansatz, which now trivially reads
+                                                                               ðe;iÞ
+                                                                      Here, V j represents the membrane potential of neuron j
+                        1           xðη; J; tÞ                        in either the excitatory ðeÞ or the inhibitory ðiÞ population.
+       ρðVjη; J; tÞ ¼                                     :
+                        π ½V − yðη; J; tÞ2 þ xðη; J; tÞ2             The external currents for the excitatory and inhibitory
+                                                                      populations are, respectively,
+The firing rate and mean membrane potential are deter-
+mined only by the value of w ≡ x þ iy at the poles in the                     ðeÞ         ðeÞ
+lower half-planes:                                                          I j ¼ ηj þ Jee sðeÞ ðtÞ − Jie sðiÞ ðtÞ þ I ðeÞ ðtÞ;
+                                                                              ðiÞ         ðiÞ
+                      ZZ                                                     I j ¼ ηj þ Jei sðeÞ ðtÞ − Jii sðiÞ ðtÞ þ I ðiÞ ðtÞ;
+       rðtÞ þ ivðtÞ ¼    wðη; J; tÞgðηÞhðJÞdηdJ
+                                                                      where the synaptic weights are J ee ; Jii ; Jie ; Jei . Finally, the
+                     ¼ wðη̄ − iΔ; J̄ − iΓ; tÞ:                        mean synaptic activation for each population is
+
+
+                                                                021028-12
+MACROSCOPIC DESCRIPTION FOR NETWORKS OF …                                                                            PHYS. REV. X 5, 021028 (2015)
+
+                                             Z t
+    ðe;iÞ         1X N        X                                                            [10] S. Fusi and M. Mattia, Collective behavior of networks with
+s           ðtÞ ¼                                  dt0 aτ ðt − t0 Þδðt0 − ðtkj Þðe;iÞ Þ:        linear (VLSI) integrate-and-fire neurons, Neural Comput.
+                  N j¼1                       −∞                                                11, 633 (1998).
+                          knðtkj Þðe;iÞ <t
+                                                                                           [11] D. J. Amit and N. Brunel, Model of global spontaneous
+                                                                                                activity and local structured activity during delay periods in
+Here, ðtkj Þðe;iÞ is the time of the kth spike of the jth neuron in                             the cerebral cortex, Cereb. Cortex 7, 237 (1997).
+either the excitatory ðeÞ or the inhibitory ðiÞ population.                                [12] N. Brunel, Dynamics of sparsely connected networks of
+                                                                                                excitatory and inhibitory spiking neurons, J. Comput.
+Additionally, δðtÞ is the Dirac delta function, and aτ ðtÞ is                                   Neurosci. 8, 183 (2000).
+the normalized synaptic activation caused by a single pre-                                 [13] P. Dayan and L. F. Abbott, Theoretical neuroscience (MIT
+synaptic spike with time scale τ, e.g., aτ ðtÞ ¼ e−t=τ =τ.                                      Press, Cambridge, MA, 2001).
+   It is straightforward to apply the LA and the method                                    [14] W. Gerstner and W. M. Kistler, Spiking neuron models:
+described in the main text to obtain the firing-rate equations                                  Single neurons, populations, plasticity (Cambridge
+corresponding to the two-population model. Considering                                          University Press, Cambridge, England, 2002).
+the limit of infinitely fast synapses, τ → 0, we get                                       [15] O. Shriki, D. Hansel, and H. Sompolinsky, Rate models for
+                                                                                                conductance-based cortical neuronal networks, Neural
+sðe;iÞ ðtÞ ¼ rðe;iÞ ðtÞ. Finally, assuming the Lorentzian dis-
+                                                                                                Comput. 15, 1809 (2003).
+tributions of currents for both populations,                                               [16] S. Coombes, Waves, bumps, and patterns in neural field
+                                                                                                theories, Biol. Cybern. 93, 91 (2005).
+                                      1        Δe;i
+                    ge;i ðηÞ ¼                                ;                            [17] G. Deco, V. K. Jirsa, P. A. Robinson, M. Breakspear, and
+                                      π ðη − η̄e;i Þ2 þ Δ2e;i                                   K. Friston, The dynamic brain: From spiking neurons to
+                                                                                                neural masses and cortical fields, PLoS Comput. Biol. 4,
+we obtain the firing-rate equations:                                                            e1000092 (2008).
+                                                                                           [18] G. B. Ermentrout and D. H. Terman, Mathematical founda-
+r_ ðeÞ ¼ Δe =π þ 2rðeÞ vðeÞ ;                                                                   tions of neuroscience (Springer, New York, 2010), Vol. 64.
+                                                                                           [19] S. Ostojic and N. Brunel, From spiking neuron models to
+v_ ðeÞ ¼ ðvðeÞ Þ2 þ η̄e þ Jee rðeÞ − Jie rðiÞ þ I ðeÞ ðtÞ − ðπrðeÞ Þ2 ;                         linear-nonlinear models, PLoS Comput. Biol. 7, e1001056
+                                                                                                (2011).
+r_ ðiÞ ¼ Δi =π þ 2rðiÞ vðiÞ ;                                                              [20] E. S. Schaffer, S. Ostojic, and L. F. Abbott, A complex-
+v_ ðiÞ ¼ ðvðiÞ Þ2 þ η̄i þ J ei rðeÞ − J ii rðiÞ þ I ðiÞ ðtÞ − ðπrðiÞ Þ2 :                       valued firing-rate model that approximates the dynamics
+                                                                                                of spiking networks, PLoS Comput. Biol. 9, e1003301
+                                                                                                (2013).
+                                                                                           [21] J. J. Hopfield, Neurons with graded response have collec-
+                                                                                                tive computational properties like those of two-state
+                                                                                                neurons, Proc. Natl. Acad. Sci. U.S.A. 81, 3088 (1984).
+                                                                                           [22] G. Mongillo, O. Barak, and M. Tsodyks, Synaptic theory of
+ [1] B. B. Averbeck, P. E. Latham, and A. Pouget, Neural                                        working memory, Science 319, 1543 (2008).
+     correlations, population coding and computation, Nat.                                 [23] R. Ben-Yishai, R. Lev Bar-Or, and H. Sompolinsky, Theory
+     Rev. Neurosci. 7, 358 (2006).                                                              of orientation tuning in visual cortex, Proc. Natl. Acad. Sci.
+ [2] A. L. Hodgkin and A. F. Huxley, A quantitative description                                 U.S.A. 92, 3844 (1995).
+     of membrane current and its application to conduction and                             [24] D. Hansel and H. Sompolinsky, in Methods in neuronal
+     excitation in nerve, J. Physiol. 117, 500 (1952).                                          modelling: From ions to networks, edited by C. Koch and
+ [3] R. Brette, M. Rudolph, T. Carnevale, M. Hines, D. Beeman,                                  I. Segev (MIT Press, Cambridge, MA, 1998), pp. 499–567.
+     J. M. Bower, M. Diesmann, A. Morrison, P. H. Goodman,                                 [25] R. Moreno-Bote, J. Rinzel, and N. Rubin, Noise-induced
+     F. C. Harris, Jr. et al., Simulation of networks of spiking                                alternations in an attractor network model of perceptual
+     neurons: A review of tools and strategies, J. Comput.                                      bistability, J. Neurophysiol. 98, 1125 (2007).
+     Neurosci. 23, 349 (2007).                                                             [26] K. Zhang, Representation of spatial orientation by the
+ [4] E. M. Izhikevich and G. M. Edelman, Large-scale model of                                   intrinsic dynamics of the head-direction cell ensemble:
+     mammalian thalamocortical systems, Proc. Natl. Acad. Sci.                                  A theory, J. Neurosci. 16, 2112 (1996).
+     U.S.A. 105, 3593 (2008).                                                              [27] K.-F. Wong and X.-J. Wang, A recurrent network
+ [5] E. M. Izhikevich, Dynamical systems in neuroscience                                        mechanism of time integration in perceptual decisions,
+     (MIT Press, Cambridge, MA, 2007).                                                          J. Neurosci. 26, 1314 (2006).
+ [6] H. R. Wilson and J. D. Cowan, Excitatory and inhibitory                               [28] M. Abeles, Corticonics: Neural Circuits of the Cerebral
+     interactions in localized populations of model neurons,                                    Cortex (Cambridge University Press, Cambridge, England,
+     Biophys. J. 12, 1 (1972).                                                                  1991).
+ [7] S.-i. Amari, A method of statistical neurodynamics,                                   [29] F. Varela, J.-P. Lachaux, E. Rodriguez, and J. Martinerie,
+     Kybernetik 14, 201 (1974).                                                                 The brainweb: Phase synchronization and large-scale
+ [8] W. J. Freeman, Mass action in the nervous system                                           integration, Nat. Rev. Neurosci. 2, 229 (2001).
+     (Academic Press, New York, 1975).                                                     [30] A. K. Engel and W. Singer, Temporal binding and the
+ [9] W. Gerstner, Time structure of the activity in neural network                              neural correlates of sensory awareness, Trends Cogn. Sci.
+     models, Phys. Rev. E 51, 738 (1995).                                                       5, 16 (2001).
+
+
+
+                                                                                   021028-13
+ERNEST MONTBRIÓ, DIEGO PAZÓ, AND ALEX ROXIN                                                        PHYS. REV. X 5, 021028 (2015)
+
+[31] L. M. Ward, Synchronous neural oscillations and cognitive           [49] P. So, T. B. Luke, and E. Barreto, Networks of theta neurons
+     orocesses, Trends Cogn. Sci. 7, 553 (2003).                              with time-varying excitability: Macroscopic chaos, multi-
+[32] P. Fries, A mechanism for cognitive dynamics: Neuronal                   stability, and final-state uncertainty, Physica (Amsterdam)
+     communication through neuronal coherence, Trends Cogn.                   267D, 16 (2014).
+     Sci. 9, 474 (2005).                                                 [50] C. R. Laing, Derivation of a neural field model from a
+[33] G. Buzsaki, Rhythms of the Brain (Oxford University Press,               network of theta neurons, Phys. Rev. E 90, 010901
+     New York, 2006).                                                         (2014).
+[34] J. Fell and N. Axmacher, The role of phase synchronization          [51] E. Montbrió and D. Pazó, Shear Diversity Prevents
+     in memory processes, Nat. Rev. Neurosci. 12, 105 (2011).                 Collective Synchronization, Phys. Rev. Lett. 106, 254101
+[35] E. Ott and T. M. Antonsen, Low dimensional behavior of                   (2011).
+     large systems of globally coupled oscillators, Chaos 18,            [52] D. Pazó and E. Montbrió, The Kuramoto model
+     037113 (2008).                                                           with distributed shear, Europhys. Lett. 95, 60007
+[36] A. L. Hodgkin, The local electric changes associated with                (2011).
+     repetitive action in a non-medullated axon, J. Physiol. 107,        [53] E. Montbrió and D. Pazó, Collective synchronization in
+     165 (1948).                                                              the presence of reactive coupling and shear diversity,
+[37] J. Rinzel and B. Ermentrout, in Methods in Neuronal                      Phys. Rev. E 84, 046206 (2011).
+     Modelling: From Ions to Networks, edited by C. Koch                 [54] D. Iatsenko, S. Petkoski, P. V. E. McClintock, and A.
+     and I. Segev (MIT Press, Cambridge, MA, 1998),                           Stefanovska, Stationary and Traveling Wave States of the
+     pp. 251–291.                                                             Kuramoto Model with an Arbitrary Distribution of
+[38] B. Ermentrout and N. Kopell, Parabolic bursting in an                    Frequencies and Coupling Strengths, Phys. Rev. Lett.
+     excitable system coupled with a slow oscillation, SIAM J.                110, 064101 (2013).
+     Appl. Math. 46, 233 (1986).                                         [55] D. Iatsenko, P. V. E. McClintock, and A. Stefanovska,
+[39] P. E. Latham, B. J. Richmond, P. G. Nelson, and S.                       Oscillator glass in the generalized Kuramoto model:
+     Nirenberg, Intrinsic dynamics in neuronal networks. I.                   Synchronous disorder and two-step relaxation, Nat.
+     Theory, J. Neurophysiol. 83, 808 (2000).                                 Commun. 5, 4188 (2014).
+[40] M. A. Buice and C. C. Chow, Dynamic finite size effects in          [56] However, note that the phase diagrams in Luke et al. [48] do
+     spiking neural networks, PLoS Comput. Biol. 9, e1002872                  not fully agree with ours and show additional instabilities.
+     (2013).                                                                  These bifurcations are associated with the finite width of the
+[41] We make an analytic continuation of wðη; tÞ from real η                  pulses, as it occurs in the Winfree model [46].
+     into complex-valued η ¼ ηr þ iηi . This is possible into            [57] H. Daido, Onset of cooperative entrainment in limit-cycle
+     the lower half-plane ηi < 0, since this guarantees that the              oscillators with uniform all-to-all interactions: Bifurcation
+     half-width xðη; tÞ remains positive zero: ∂ t xðη; tÞ ¼ −ηi > 0          of the order function, Physica (Amsterdam) 91D, 24
+     at x ¼ 0. Therefore, we close the integrals in Eqs. (7)                  (1996).
+     and (9) with an arc jηjeiϑ , with jηj → ∞ and ϑ ∈ ð−π; 0Þ.          [58] Equation (10) then becomes a reversible system [59] of
+     This contour encloses one pole of the Lorentzian distribu-               ordinary differential equations with the invariance under
+     tion [Eq. (11)], which, written in partial fractions, reads as           time reversal and w → w , e.g., Eq. (12) for Δ ¼ 0 is
+     follows: gðηÞ ¼ ð2πiÞ−1 ½ðη − η̄ − iΔÞ−1 − ðη − η̄ þ iΔÞ−1 .            reversible, with invariance under t → −t, v → −v. It is
+[42] The number of effective parameters can be reducedpby         ﬃﬃﬃﬃ        advisable to approximate Eq. (10) by a set of ordinary
+     nondimensionalizing
+                     pﬃﬃﬃﬃ thepsystem
+                                 ﬃﬃﬃﬃ   as η~ ¼ η̄=Δ, pJ~ ﬃﬃﬃ¼
+                                                             ﬃ J= Δ,
+                                                                              differential equations (one for each η value) with additional
+          ~ ¼ ðr; vÞ= Δ, ~t ¼ Δt, and Ið
+     ð~r; vÞ                              ~ ~tÞ ¼ Iðt= ΔÞ=Δ.                  small terms breaking time reversibility. This is achieved by
+[43] Y. Kuramoto, Chemical Oscillations, Waves, and                           including a small term in each ordinary differential equation,
+     Turbulence (Springer-Verlag, Berlin, 1984).                              like Δ in Eq. (12a), so that gðηÞ is actually approximated by
+[44] A. S. Pikovsky, M. G. Rosenblum, and J. Kurths,                          a sum of very sharp Lorentzian functions.
+     Synchronization, A Universal Concept in Nonlinear                   [59] J. A. G. Roberts and G. R. W. Quispel, Chaos and
+     Sciences (Cambridge University Press, Cambridge,                         time-reversal symmetry. Order and chaos in reversible
+     England, 2001).                                                          dynamical systems, Phys. Rep. 216, 63 (1992).
+[45] E. Ott and T. M. Antonsen, Long time evolution of phase             [60] S. Watanabe and S. H. Strogatz, Constant of motion for
+     oscillator systems, Chaos 19, 023117 (2009); E. Ott, B. R.               superconducting Josephson arrays, Physica (Amsterdam)
+     Hunt, and T. M. Antonsen, Comment on “long time                          74D, 197 (1994).
+     evolution of phase oscillators systems”, Chaos 21,                  [61] A. Pikovsky and M. Rosenblum, Partially integrable
+     025112 (2011).                                                           dynamics of hierarchical populations of coupled oscillators,
+[46] D. Pazó and E. Montbrió, Low-Dimensional Dynamics of                     Phys. Rev. Lett. 101, 264103 (2008).
+     Populations of Pulse-Coupled Oscillators, Phys. Rev. X 4,           [62] A subtle question is that, as it occurs in the Kuramoto
+     011009 (2014).                                                           model, there exists a continuous spectrum of eigenvalues at
+[47] A. Pikovsky and M. Rosenblum, Dynamics of hetero-                        λ ¼ −2w0 ðηÞi and the complex conjugate. Indeed, for η
+     geneous oscillator ensembles in terms of collective varia-               values such that neurons are actively firing [y0 ðηÞ ¼ 0], the
+     bles, Physica (Amsterdam) 240D, 872 (2011).                              eigenvalues lie exactly on the imaginary axis. Apparently,
+[48] T. B. Luke, E. Barreto, and P. So, Complete classification of            this seems to forbid the exponential stability obtained from
+     the macroscopic behavior of a heterogeneous network of                   Eq. (12) for the Lorentzian distribution. The same math-
+     theta neurons, Neural Comput. 25, 3207 (2013).                           ematical conundrum was encountered and solved in the
+
+
+
+                                                                  021028-14
+MACROSCOPIC DESCRIPTION FOR NETWORKS OF …                                                    PHYS. REV. X 5, 021028 (2015)
+
+     Kuramoto model [63–65], which suggests that similar                  Threshold: Relaxation by Generalized Landau Damping,
+     mechanisms are operating here.                                       Phys. Rev. Lett. 68, 2730 (1992).
+[63] S. H. Strogatz and R. E. Mirollo, Stability of incoherence in   [65] H. Chiba and I. Nishikawa, Center manifold reduction for
+     a population of coupled oscillators, J. Stat. Phys. 63, 613          large populations of globally coupled phase oscillators,
+     (1991).                                                              Chaos 21, 043103 (2011).
+[64] S. H. Strogatz, R. E. Mirollo, and P. C. Matthews,              [66] Note that considering stronger forms of heterogeneity for
+     Coupled Nonlinear Oscillators below the Synchronization              the synaptic weights may generally not lead to Eq. (19).
+
+
+
+
+                                                              021028-15
+

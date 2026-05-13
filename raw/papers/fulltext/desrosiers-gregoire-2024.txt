@@ -1,0 +1,886 @@
+                                    Article                                                                                                   https://doi.org/10.1038/s41467-024-50826-8
+
+
+                                    A standardized image processing and data
+                                    quality platform for rodent fMRI
+
+                                    Received: 13 October 2023                           Gabriel Desrosiers-Grégoire 1,2 , Gabriel A. Devenyi                     1,3
+                                                                                                                                                                   ,
+                                                                                        Joanes Grandjean4,5 & M. Mallar Chakravarty 1,2,3,6
+                                    Accepted: 22 July 2024
+
+
+                                                                                        Functional magnetic resonance imaging in rodents holds great potential for
+                                        Check for updates                               advancing our understanding of brain networks. Unlike the human commu-
+                                                                                        nity, there remains no standardized resource in rodents for image processing,
+                  1234567890():,;
+1234567890():,;
+
+
+
+
+                                                                                        analysis and quality control, posing signiﬁcant reproducibility limitations. Our
+                                                                                        software platform, Rodent Automated Bold Improvement of EPI Sequences, is
+                                                                                        a pipeline designed to address these limitations for preprocessing, quality
+                                                                                        control, and confound correction, along with best practices for reproducibility
+                                                                                        and transparency. We demonstrate the robustness of the preprocessing
+                                                                                        workﬂow by validating performance across multiple acquisition sites and both
+                                                                                        mouse and rat data. Building upon a thorough investigation into data quality
+                                                                                        metrics across acquisition sites, we introduce guidelines for the quality control
+                                                                                        of network analysis and offer recommendations for addressing issues. Taken
+                                                                                        together, this software platform will allow the emerging community to adopt
+                                                                                        reproducible practices and foster progress in translational neuroscience.
+
+
+                                    Functional magnetic resonance imaging (fMRI) experiments in rodents            community, drawing parallels with the ongoing conversation within
+                                    have enabled important investigations of brain activity organisation1.         the human literature11,12. Despite recent successes towards the stan-
+                                    Several avenues are now available for probing the biological under-            dardisation of rodent acquisition protocols10, there are two unresolved
+                                    pinnings of brain networks by coupling fMRI experiments conducted              problems: (1) laboratories primarily rely on custom-made solutions for
+                                    in model organisms with transcriptomics2, calcium imaging (using               image processing since no readily available software has been vali-
+                                    wide-ﬁeld3 or ﬁbre-photometry4), optogenetics5,6, and more. Such               dated across multiple acquisition sites, and (2) there are no governing
+                                    applications hold great potential for bridging across biological and           standards for data quality assessment for rodent images. The choices
+                                    functional scales and, in turn, provide a powerful translational tool to       across image processing steps, including image alignment to a com-
+                                    address open questions pertaining to behaviour, brain development or           monspace, head motion realignment, and appropriate confound cor-
+                                    neuropsychiatric disease.                                                      rection, can have signiﬁcant implications for downstream analysis
+                                          The study of resting-state networks in rodents is a rapidly              outcomes; the impact of these experimental design choices further
+                                    expanding neuroscientiﬁc discipline. Whereas workﬂow standardisa-              emphasises the need for a standardised state-of-the-art processing
+                                    tion emerged for human fMRI applications7,8, the rodent imaging                workﬂow in this domain7. Developing robust image processing work-
+                                    community has yet to deliver agreed-upon methodological standards              ﬂows for rodent acquisitions presents new challenges due to site-
+                                    across various aspects of experimental designs. Recent multi-site stu-         speciﬁc ﬁeld strengths (4.7, 7, 9.4, 11.7 T), coil types (room-tempera-
+                                    dies have demonstrated signiﬁcant variability in the ability to detect         ture vs cryogenic) and geometry (i.e., surface vs saddle vs quadrature
+                                    canonical brain networks in mice9 and rats10. Accordingly, reproduci-          coil), and acquisition parameters9,12. Although rodent-adapted soft-
+                                    bility concerns are becoming increasingly salient within the rodent            ware pipelines were recently introduced for either mice and rats12–16, no
+
+
+                                    1
+                                     Computational Brain Anatomy Laboratory, Cerebral Imaging Center, Douglas Mental Health University Institute, Montreal, QC, Canada. 2Integrated Program
+                                    in Neuroscience, McGill University, Montreal, QC, Canada. 3Department of Psychiatry, McGill University, Montreal, QC, Canada. 4Donders Institute for Brain,
+                                    Cognition and Behaviour, Radboud University Medical Center, Nijmegen, The Netherlands. 5Department of Medical Imaging, Radboud University Medical
+                                    Center, Nijmegen, The Netherlands. 6Department of Biological and Biomedical Engineering, McGill University, Montreal, QC, Canada.
+                                       e-mail: gabriel.desrosiers-gregoire@mail.mcgill.ca; mallar.chakravarty@mcgill.ca
+
+
+                                    Nature Communications | (2024)15:6708                                                                                                                    1
+Article                                                                                               https://doi.org/10.1038/s41467-024-50826-8
+
+
+existing software has been thoroughly validated across acquisition           A robust registration workﬂow across rodent species and
+sites and species in terms of preprocessing quality. In addition, thor-      imaging sites
+ough data quality assessment is also essential for comparability             To evaluate the robustness of our registration workﬂow, we used
+between studies. In the human literature, after noting that poor             multi-site fMRI data spanning ﬁeld strengths (4.7, 7, 9.4, and 11.7 T),
+accounting for confounds may lead to false positive results17, there has     coil types (room temperature and cryogenically cooled coils), anaes-
+been signiﬁcant debate regarding how to appropriately account for            thesia protocols (awake, isoﬂurane [iso], medetomidine [med], med
+fMRI confounds during connectivity analyses. The human fMRI com-             and iso, or halothane), ventilation protocols (free breathing and ven-
+munity recently came together to delineate general insights and              tilated), and rodent species (mice and rats) (23 publicly available
+recommendations that can be drawn from the quality control proto-            datasets total, 441 mice and 232 rats echo-planar imaging (EPI) scans,
+cols of several research teams18. In rodents, investigations into con-       29 EPI scans per dataset on average; Supplementary Table 2). The
+found characterisation are emerging15,19, but in spite of the                visual quality control report (Fig. 1b) was examined across datasets to
+aforementioned acquisition protocol guidelines10, sources of diver-          benchmark every critical registration operation throughout the pipe-
+gence in data quality between datasets remain, and rodent-adapted            line, consisting of brain masking for B1 inhomogeneity correction,
+guidelines for quality control are still needed for the community.           alignment to commonspace and EPI susceptibility distortion correc-
+     In this work, we aim to address the need for standardised work-         tion (methods section 4; Supplementary Fig. 1). Several innovations
+ﬂow and quality control measures in network analyses. We address             were required to ensure high-quality image alignment in all 23 datasets
+these shortcomings with two main innovations: (1) the implementation         (detailed in Supplementary Table 3), given the extensive variability in
+of an adaptive image registration workﬂow offering consistent, high-         species, inhomogeneity artefacts, brain coverage and anatomical
+quality outputs across sites and species, and (2) conducting a thorough      contrast of the EPI images (Supplementary Fig. 2). Despite a common
+inspection of data quality markers across acquisition protocols to           workﬂow, mild differences in preprocessing parameters per dataset
+introduce reliable guidelines for quality control in network analysis.       were necessary to achieve ideal performance across all datasets (listed
+Inspired by previous initiatives fostering reproducibility and standar-      in Supplementary Table 4).
+disation in humans7,18,20, these innovations are integrated through the            Each dataset was processed individually using the ﬁnal workﬂow,
+distribution of an open-source software platform, Rodent Automated           and performance was evaluated by inspecting the quality control
+Bold Improvement of EPI Sequences (RABIES; publicly available to the         report, where a ‘successful’ registration would provide sufﬁcient
+community https://github.com/CoBrALab/RABIES and thoroughly                  image alignment across the brain for most standard analyses (see
+documented online https://rabies.readthedocs.io/en/stable/) that             details in methods section 4). In the improved workﬂow, failures
+provides an integrative solution for preprocessing, confound correc-         were marginal (Supplementary Table 2and Supplementary Fig. 3). For
+tion, analysis, together with data diagnostic tools encouraging best         the 17 mouse datasets lacking structural images, we achieved a 100%
+practices for quality control. While the RABIES pipeline was used            (255/255) success rate for the B1 intensity inhomogeneity correction
+elsewhere for preprocessing in rats10, in the current manuscript, we         step in EPIs and 99.6% (254/255) success during cross-subject align-
+formally describe the software’s technical implementation and its            ment to the unbiased template. For the 3 mouse datasets, including
+validation across rodent species and develop a suite of data quality         supporting structural scans, we obtained a 100% success rate for
+reports and guidelines tailored for tackling comparability between           intensity inhomogeneity correction in both structural (110/110) and
+rodent datasets.                                                             EPI (185/185) scans. We achieved a success rate of 99.1% (109/110) for
+                                                                             the alignment to the unbiased template and 100% (185/185) for the
+Results                                                                      susceptibility distortion correction of EPIs through non-linear align-
+Software designed to facilitate reproducible science and                     ment to the structural scan. Finally, in the 3 rat datasets (1 dataset
+transparency                                                                 only included EPI scans), 98.9% (88/89) and 100% (230/230) of scans
+RABIES is an open-source software largely inspired by fMRIPrep’s             passed inhomogeneity correction for anatomical and EPI scans,
+design for reproducibility7. We made three important design choices          respectively, and we obtained 99.6% (230/231) success rate for cross-
+that follow best practices for reproducibility in neuroimaging research:     subject alignment and 98.9% (87/88) success rate during suscept-
+(1) the input data format requires that users follow the BIDS                ibility distortion correction. Detailed reports for each dataset can be
+standards21; (2) quality control can be conducted using automatically        found in Supplementary Table 2, and the visual quality control
+generated reports; and (3) the software distribution is handled via          report from each preprocessing run is provided in the Supplemen-
+containerised versions (https://github.com/CoBrALab/RABIES/pkgs/             tary ﬁles. We consider that this high success rate can address the
+container/rabies; executable through Docker or Singularity22), ensur-        signiﬁcant preprocessing needs within the rodent fMRI community,
+ing reproducible execution across computing environments. Like               despite the current cross-site variability in acquisition equipment
+fMRIprep, RABIES is built using Nipype23, which allows optimal               and parameters.
+resource allocation for parallelisation and for a ﬂexible workﬂow re-
+organisation according to provided input parameters and dataset              Standard tools for confound correction and connectivity
+features (e.g., number of subjects, the availability of structural images,   analysis
+and the presence of multiple fMRI sessions). Log and quality control         Following image preprocessing, RABIES integrates a selection of tools
+reports are automatically generated in portable, standardised formats,       for conducting confound correction (Fig. 1c and Methods section 5)
+allowing for rapid and reliable consultation while encouraging sharing       and for deriving connectivity measures (Fig. 1d and Methods section
+along presentations and publications.                                        8). The available options for confound correction24 cover most stan-
+      The major pipeline steps include a registration workﬂow con-           dard strategies in the literature, including censoring (or scrubbing)17,
+ducting essential preprocessing steps prior to group-level analysis          confound regression25, and frequency ﬁltering24. Operations are com-
+(Fig. 1a and Supplementary Table 1), the quality control of registration     bined and orchestrated to maximise effectiveness while preventing the
+operations using a visual report (Fig. 1b), confound correction (Fig. 1c),   re-introduction of artefacts (e.g., ringing artefact when ﬁltering prior
+and connectivity measurement in individual scans (Fig. 1d), altogether       to censoring26), as recommended in Power et al.27 and Lindquist et al.28.
+providing outputs prepared for subsequent statistical analyses and           Following confound correction, connectivity can be measured in each
+hypothesis testing. Outputs from each pipeline stage are generated in        individual scan, and results then exported for statistical testing. Ana-
+standardised NifTi or CSV formats, readily available for exportation         lysis options include seed-based correlation29, whole-brain functional
+and subsequent uses external to RABIES.                                      connectivity matrix generation30, and dual regression31,32. Integrating
+
+
+Nature Communications | (2024)15:6708                                                                                                               2
+Article                                                                                                            https://doi.org/10.1038/s41467-024-50826-8
+
+
+standardised operations for confound correction and connectivity                      scan level (i.e., scan diagnosis), from which we derive guidelines to
+facilitates the reproducibility of these steps as a means of improving                conduct quality control prior to group statistics. Finally, we discuss
+comparisons across studies33.                                                         how these tools can support the improvement of data quality through
+                                                                                      optimisation of confound correction, as well as the revision of analysis
+Rodent-adapted guidelines for data quality assessment                                 designs and acquisition protocols. The tools described in this section
+Deﬁning interpretable and reliable quality control measures is chal-                  follow upon previous stages of the RABIES pipeline, leading to the
+lenging. Most common practices in humans include estimating con-                      generation of connectivity outputs (Fig. 1), allowing evaluation of
+founding effects from non-neural sources (e.g., motion or respiration)                confound correction and analysis design as well as informing sub-
+on connectivity measures8. In addition in rodents, canonical network                  sequent statistical testing.
+detectability varies signiﬁcantly between acquisition sites both in
+mice9 and rats10 irrespective of non-neural confounds. This could be                  Data quality markers identiﬁed through scan diagnosis
+explained by the relatively lower signal-to-noise ratio (SNR) in small                To deﬁne an appropriate set of metrics benchmarking data quality, a
+animals and/or anaesthesia effects (known to decrease network                         large set of features was assessed from the fMRI scans across multi-site
+activity)1,34. Canonical network detectability is essential for experi-               mouse datasets covering a comprehensive range of quality (N = 19
+mental reproducibility and should be accounted for during quality                     datasets, 17 sites, 367/369 scans passing preprocessing quality control;
+control. In the remainder of the results, we expand on previous work in               see Methods section 9). This was conducted using a scan-level quali-
+rodents (Supplementary Discussion) to deﬁne guidelines for network                    tative visual report (i.e., spatiotemporal diagnosis; Supplementary
+analysis quality control across two separate axes: spurious effects from              Methods) which compiles metrics featuring temporal and spatial
+confounds and network detectability. We identify metrics that capture                 properties of the blood-oxygen-level-dependent (BOLD) signal. From
+key features of spurious connectivity and network detectability at the                these observations, we determined that scan quality can be
+
+
+
+
+Fig. 1 | RABIES allows the preprocessing, quality control, confound correction        automatically PNG images, allowing the visual quality control of each failure-prone
+and analysis of rodent fMRI datasets. a Schematic organisation of the pre-            preprocessing step (methods section 4). c Following preprocessing, an array of
+processing pipeline. RABIES takes as inputs a dataset of EPI functional scans along   confound correction strategies are made optional and can be customised accord-
+with their structural scan (optional) in BIDS format, together with an external       ing to user needs (methods section 5). d After applying confound correction, a ﬁnal
+reference structural atlas containing anatomical masks and labels. The core pre-      workﬂow is made available to conduct basic resting state analysis (methods section
+processing architecture conducts commonspace alignment, head motion realign-          8). EPI: echo-planar imaging; RABIES: Rodent Automated Bold Improvement of EPI
+ment and susceptibility distortion correction (detailed in methods section 1; sup.    Sequences.
+table 1). b Along the execution of the preprocessing pipeline, RABIES generates
+
+
+
+
+Nature Communications | (2024)15:6708                                                                                                                                  3
+Article                                                                                           https://doi.org/10.1038/s41467-024-50826-8
+
+
+
+
+categorised into four main groups (Fig. 2): speciﬁc connectivity (i.e.,   A. BOLD variability: The temporal standard deviation at each voxel
+the network is well detected) without confound signatures (speciﬁc),         reﬂects the spatial distribution of signal variability. The resulting
+confounds leading to spurious connectivity (spurious), no network            BOLD variability map presents a homogeneous contrast in
+connectivity nor confound signatures (absent), or scans which did not        uncorrupted scans and can otherwise reveal the anatomical sig-
+neatly ﬁt within one category, with a mixture of network and confound        nature of confounds, thus allowing us to identify the type of
+signatures (mixed). A subset of features from the spatiotemporal             confound (Supplementary Figs. 4, 5).
+diagnosis are key in characterising these quality divergences, and are    B. Global signal covariance: The global signal covariance map (the
+detailed below:                                                              temporal covariance of each voxel with the global signal
+
+
+Nature Communications | (2024)15:6708                                                                                                           4
+Article                                                                                                             https://doi.org/10.1038/s41467-024-50826-8
+
+Fig. 2 | Four main categories of scan quality. An example scan is displayed for        network maps reproduce features of the canonical network, and the networks do
+each category using a key subset of features from the spatiotemporal diagnosis         not display obvious correlation with confounds across time. b In the absent cate-
+(Supplementary Methods; Supplementary Fig. 4 and Supplementary Table 5).               gory, the contrast between the global signal covariance and network maps is largely
+Network maps were derived through dual regression in these examples and are            random. c In this example scan showing mixed features, spurious signatures are
+thresholded to keep the top 4% of voxels with the highest absolute value. Each         observable along anatomical edges in the BOLD variability map and overlap with
+anatomical map is displayed across four coronal slices overlapped onto the com-        features of the global signal covariance. Core network features are derived from the
+monspace reference template. In the last panel, timecourses belonging to the           network maps, although there are also some spurious features. Some correlations
+network or confound category are derived from dual regression, and a repre-            can be noticed between the network and confounded timecourses. d In the spur-
+sentative average is displayed for each category. To do so, each time course (from a   ious category, signatures of confounds predominate in all features. In this example,
+network or confound) is initially variance normalised with an L2-norm and an           a confound signature is predominant in the ventricles and major brain vessels, as
+average is derived by taking the mean across the absolute-valued (i.e., positively-    observed from the BOLD variability and global signal covariance. The network
+weighted) time courses within a given category. a In the speciﬁc category, the BOLD    maps resemble spurious features, and the network time course is predominantly
+variability is mostly homogeneous, the contrast of the global signal covariance is     correlated with confounds. BOLD: blood-oxygen-level-dependent signal.
+predominantly in the grey matter without spurious features of confounds, the
+
+
+
+   timecourse), is sensitive to coordinated ﬂuctuations across voxels                  individual scans that do not meet minimum quality thresholds are ﬁrst
+   (i.e., does not include random noise as with the BOLD variability).                 removed. Subsequently, group-level statistical reports describing the
+   As such, it is sensitive to both non-neural confounds (e.g., Fig. 2d)               impact of data quality on inter-scan variability in connectivity are
+   and network signatures (e.g., Fig. 2a). The global signal covariance                generated. To allow for the inspection of network shape (see below)
+   thus reﬂects whether network or confound sources dominate                           and to identify network-speciﬁc issues, these guidelines are carried out
+   coordinated ﬂuctuations, and can delineate the most likely                          a per network basis. Supplementary Fig. 4–12 document observations
+   contributors to downstream connectivity measures.                                   derived using RABIES reports across the aforementioned mouse
+C. Network map: When conducting dual regression or seed-based                          datasets to support these guidelines.
+   connectivity analysis, the network connectivity map is displayed                         Scans which fail on either standard of network detectability or
+   for each individual network to determine if regions known to                        spurious connectivity are removed using two scan-level mea-
+   belong to speciﬁc networks are effectively captured by the                          sures (Fig. 3):
+   connectivity analysis (i.e., network speciﬁcity). As reported in the                   • Network speciﬁcity: The speciﬁcity of the network map relative to
+   original publication of the multi-site datasets9, in certain scans,                      the canonical network is evaluated using the Dice overlap of the
+   the network was absent, or the network shape was distorted and                           thresholded maps. Sufﬁcient speciﬁcity implies both network
+   shows spurious connectivity signatures.                                                  detectability (i.e., see the absent category in Fig. 2b) and minimal
+D. Network and confound timecourses: Finally, the respective time-                          spurious effects distorting network shape (see spurious scan
+   courses for networks and confounds can be compared to reveal                             category in Fig. 2d).
+   direct relationships between network amplitude and confounds in                        • Confound temporal correlation: To evaluate whether the network
+   the temporal domain. Although this metric does not describe the                          timecourse is dependent on known confounds (indicating spur-
+   type of confound, it is the most direct indicator of spurious                            ious connectivity), the timecourse is correlated with confound
+   connectivity. It is an important complement to the inspection of                         sources evaluated from dual regression (after the careful identi-
+   network shape, since spurious effects may only affect amplitude                          ﬁcation of confound components described in methods section
+   with minimal impact on shape (Supplementary Fig. 6). To model                            10). This measure complements the Dice overlap by accounting
+   confounded timecourses, dual regression analysis is conducted                            for spurious effects on network amplitude and allows us to fully
+   with a complete set of components from Independent Compo-                                distinguish the spurious and absent categories.
+   nent Analysis representing a mixture of networks and confounds
+   from various origins (Methods section 10), and the timecourses
+   from confound components are compiled to summarise a broad                               We propose that scans which do not meet thresholds on either
+   set of potential confounds.                                                         measure be removed from downstream statistical analysis. These
+     These 4 features robustly capture the essential characteristics of                thresholds should be selected by inspecting quality markers from
+network detectability and spurious connectivity at the single scan                     Fig. 2, identifying scans with spurious or absent connectivity, and
+level. The remaining features from the spatiotemporal diagnosis pro-                   determining an appropriate threshold for each metric to delineate
+vide additional details regarding timeseries properties, the motion                    these scans. In addition to these two thresholds, for dual regression
+parameters, or confound regression, and can further support con-                       analysis, scans that present outlier values in network amplitude are
+found characterisation (Supplementary Table 5). Altogether, this in-                   removed (Methods section 14). This conservative approach was taken
+depth investigation at the scan level allows for detailed reporting of                 as extreme values of network amplitude may not be biologically
+quality features in a given dataset, and supports deﬁning key dimen-                   plausible and can present additional evidence of spurious effects32.
+sions of data quality to control for during analysis.                                       After removing individual scans, network detectability and spur-
+                                                                                       ious effects are evaluated at the group level based on inter-scan
+A quality control framework for network analysis                                       variability using the following metrics compiled in a dataset statistical
+While the scan-level observations described above allow for char-                      report (Fig. 4a):
+acterising speciﬁc data quality pitfalls, it does not establish how these                 • Speciﬁcity of network variability: The inter-scan standard devia-
+may impact group-level statistical inference. Statistics in network                         tion in connectivity is computed voxelwise, creating a network
+analyses are commonly controlled for using group-level quality indices                      variability map which is then compared to the canonical network
+relating connectivity to confound metrics. For instance, the group-                         map. In several datasets composed of scans with speciﬁc
+level correlation between mean framewise displacement and con-                              connectivity, we observed that network variability is largely
+nectivity can be estimated across subjects8. Here, we provide recom-                        speciﬁc to the anatomical extent of the network modelled.
+mendations in the form of systematic guidelines, to control for both                        Conversely, datasets characterised by absent connectivity present
+network detectability and spurious connectivity issues prior to statis-                     random variability distributions, and heavily confounded datasets
+tical analysis. To avoid absent and spurious connectivity (Fig. 2),                         display spurious connectivity signatures (Fig. 4b). Evaluating the
+
+
+Nature Communications | (2024)15:6708                                                                                                                                    5
+Article                                                                                                  https://doi.org/10.1038/s41467-024-50826-8
+
+
+    speciﬁcity of network variability thus allows to mitigate issues of
+    absent or spurious connectivity which may persist at the group
+    level despite scan-level quality control (Supplementary Figs. 9, 12).
+    The expectation of network variability for quality control is
+    further discussed in the Supplementary Discussion.
+  • Confound effects: Connectivity is correlated across scans with
+    three complementary measures of confounds: mean framewise
+    displacement, the variance explained from confound regression,
+    and temporal degrees of freedom (tDOF). Mean framewise dis-
+    placement is amongst the most commonly used metrics8. How-
+    ever, it is limited to motion effects and does not localise
+    confounding effects anatomically. Conversely, the variance
+    modelled from confound regression, computed voxelwise, can
+    reliably capture a wider variety of confound sources with anato-
+    mical speciﬁcity (Supplementary Figs. 4, 5). Lastly, unequal tDOF
+    between different scans, resulting, for instance, from frame cen-
+    soring during confound correction, can introduce further statis-
+    tical biases into the evaluation of connectivity strength. To
+    mitigate confound effects, correlations should be minimised for
+    all three metrics.
+
+                                                                            Fig. 3 | Scan-level network speciﬁcity and confound correlation across 19
+     Scan-level thresholds must be applied together with the evalua-        datasets. The results shown correspond to the analysis of the somatomotor net-
+tion of group-level statistics as group-level metrics are inaccurate        work with dual regression. Each dataset was assigned a predominant scan category
+without meeting data quality assumptions at the scan level, and group       (Supplementary Table 2), and the scans were labelled accordingly. Network spe-
+statistics inspecting inter-scan variability can reveal persisting issues   ciﬁcity is estimated by ﬁrst thresholding the network map to identify the top 4% of
+pertaining to group analysis despite sensible scan-level features           voxels with the highest connectivity, and then a Dice overlap is computed between
+(Supplementary Table 6). However, each quality control metric has           the area covered by those voxels and the area covered by the corresponding
+limitations (Supplementary Table 6), and certain issues are not always      canonical network map (Methods section 12) thresholded in the same way. Both
+                                                                            scan and canonical network maps are spatially smoothed with 0.3 mm FWHM
+best captured through a simpliﬁed framework. Ideally, the inter-
+                                                                            before thresholding. The temporal correlation with confounds is estimated as the
+pretation of the quality control report should be supported by the
+                                                                            mean absolute correlation between the time course of the network and the time
+inspection of the spatiotemporal diagnosis in individual scans, which
+                                                                            course from each confound component obtained through dual regression. The
+provides a more comprehensive evaluation of dataset-speciﬁc issues.         grey dotted lines represent the selected thresholds for inclusion. The threshold for
+                                                                            network speciﬁcity (Dice> 0.4) is selected to delineate scans which reproduce
+Applications for improving analysis quality markers                         network shape with little spurious features. A set of examples is shown along the
+Here we describe potential applications of these tools for improving        axis of network speciﬁcity to represent corresponding increments in Dice overlap.
+data quality and orienting analytical design. We ﬁrst explore how           For the confound temporal correlation, a threshold of 0.25 is selected to delineate
+confound correction can be optimised according to the relevant              scans in which clear spurious features were observed from the quality markers in
+quality issues, then discuss further applications for deﬁning analysis      Fig. 2.
+design and improving acquisition protocols.
+      Ideally, the confound correction strategy is adapted to correct the
+speciﬁc issues present in a given dataset, given that excess correction     correction of spurious effects on network shape. However, in datasets
+can negatively impact data quality by removing network activity35. This     with low network detectability (i.e., absent connectivity), confound
+was tested by comparing the impact of various correction methods            correction was unable to improve quality, suggesting a limited net-
+available within RABIES on the scan-level and group-level quality. We       work signal at data acquisition instead, which cannot be recovered by
+observed important trade-offs across different aspects of data quality      correcting confounds. Thus, this protocol offers important support for
+(e.g., reduction of confound correlation at the cost of network             navigating the range of options for confound correction and mitigat-
+detectability), and important variability between datasets regarding        ing spurious effects on connectivity, but alternatives must be con-
+the effectiveness of a given correction strategy (Supplementary             sidered for issues strictly targeting network detectability.
+Fig. 13). Thus, instead of applying the same strategy across datasets, we        Other important aspects of the experimental design which impact
+leveraged the spatiotemporal diagnosis and analysis quality control to      network quality are the analysis design and the acquisition protocol.
+deﬁne a principled approach to designing dataset-speciﬁc corrections        The impact of data quality issues is inﬂuenced both by the technique
+which address relevant aspects of data quality (see Methods section 15,     selected for measuring connectivity and the speciﬁc brain network
+Supplementary Fig. 14, and the rationale discussed in Supplementary         studied (Supplementary Figs. 15, 16). We observed greater challenges
+Discussion). With this approach, correction strategies are combined         with regard to network detectability with the default mode network
+incrementally, evaluating scan quality features and analysis quality        than the somatomotor network, which could be explained by an
+control at each iteration, with the goal of maximising network              increased susceptibility to physiological confounds provided its
+detectability and minimising spurious effects. This process was con-        overlap with major blood vessels and ventricles (Supplementary
+ducted across the multi-site datasets and led to improvements in            Fig. 8), a narrower anatomical shape compared to the somatomotor
+quality, both at the scan (36 more scans passing threshold for con-         network, an increased anaesthesia susceptibility, or a reduced intrinsic
+found effects, 7 less passing for network speciﬁcity) and dataset level     activity of the network. In addition, although seed-based connectivity
+(3 more datasets passing threshold for network speciﬁcity and 2 more        does not require deﬁning network maps a priori as with dual regres-
+for confound effects) (Fig. 5). In particular, correlations with con-       sion, this technique performed relatively worse on measures of net-
+founds were greatly reduced at the scan level, and network speciﬁcity       work speciﬁcity. Thus, the network of interest and type of analysis may
+was improved in datasets with spurious connectivity, suggesting             be best considered in the context of data quality, supported by
+
+
+Nature Communications | (2024)15:6708                                                                                                                         6
+Article                                                                                                              https://doi.org/10.1038/s41467-024-50826-8
+
+
+
+
+Fig. 4 | The group-level statistical report for quality control of network ana-         voxelwise with connectivity, allowing to delineate effects which are anatomically
+lysis. a An example is shown for a dataset which displayed desired outcomes for the     speciﬁc (Supplementary Fig. 8). All brain maps in the report are spatially smoothed
+somatomotor network using dual regression. The cross-scan variability is measured       with a 0.3 mm FWHM kernel before display and thresholding. b Schema illustrating
+with the standard deviation at each voxel, and the resulting brain map is thre-         the evaluation of the speciﬁcity of network variability and example cases for the
+sholded to include the top 4% of voxels with the highest value. The predominant         speciﬁc, absent and spurious categories. After deriving thresholded maps of net-
+variability is speciﬁc to the canonical network (shown at the top, thresholded the      work variability and the canonical network, speciﬁcity can be summarised quanti-
+same way). The correlation maps (thresholded at r > 0.1) for each confound mea-         tatively by estimating the Dice overlap between the thresholded regions. CRSD:
+sure are then listed. For mean FD and tDOF, a single scalar is derived for each scan,   variance explained by confound regression (Supplementary Fig. 4); mean FD: mean
+and correlated with connectivity across subjects for each voxel. Since CRSD is          framewise displacement; tDOF: temporal degrees of freedom. Source data is pro-
+measured at each voxel (Supplementary Fig. 4), this measure is correlated               vided as a sheet in the Source Data ﬁle.
+
+
+
+
+network quality control guidelines. Finally, the RABIES tools can sup-                  in the human literature18. Hence, our approach leverages a wide array
+port accurately identifying underlying issues at acquisition (e.g., sig-                of tools for quality control (Supplementary Table 5) and synthesises
+niﬁcant motion, physiological instability or low network detectability),                recommendations based on observations derived across a repre-
+and in turn, these observations may help users in designing adjust-                     sentative variety of rodent fMRI acquisition protocols. This is an
+ments to the acquisition protocol (e.g., improving head stability,                      important initial step towards providing standards for high quality
+increasing or lowering anaesthesia administration) or other aspects of                  rodent connectivity research, and their adoption by the wider com-
+the experimental design. In cases where networks are detected at the                    munity will improve comparability between studies, as well as foster
+scan level, but network variability is absent at the group level, more                  future conversations towards addressing persisting challenges.
+scans may need to be acquired, as this metric is dependent on sample                          Despite the innovations of the RABIES software, certain limita-
+size (Supplementary Fig. 12b).                                                          tions remain with regard to reproducibility within the current work-
+     Altogether, data quality assessment within RABIES supports sev-                    ﬂow. To address the substantial variability in image contrast and
+eral aspects of the analysis workﬂow. For best practices, these tools                   artefacts across rodent acquisition protocols, it remains necessary to
+can be integrated throughout an experiment as it unfolds, orienting                     provide ﬂexible registration parameters which must be handled by the
+researchers in designing high-quality experiments, and ensuring                         user. We provide a set of recommendations online to navigate the
+quality standards are met for the ﬁnal analyses (Fig. 6).                               variety of registration challenges (https://rabies.readthedocs.io/en/
+                                                                                        stable/registration_troubleshoot.html). Also, the quality control of
+Discussion                                                                              registration relies on subjective visual inspection, although this lim-
+We introduce a robust image processing and analysis pipeline adapted                    itation is shared with human work7,20. There are further concerns sur-
+for speciﬁc challenges to rodent fMRI. While previous preprocessing                     rounding the design of confound correction, which could not
+pipelines were introduced for rodent fMRI12–16, the strengths of the                    generalise across datasets, drawing parallels with ongoing challenges
+proposed approach include a thorough validation across acquisition                      discussed in the human literature regarding those decisions36,37. Here,
+sites and species, spanning broad differences in image quality, toge-                   we put forward a protocol which, informed by the reports from ana-
+ther with the integration of state-of-the-art tools for confound cor-                   lysis quality control, allows identifying the most sensible strategies for
+rection, analysis and data quality assessment. To date, RABIES is also                  correcting issues pertaining to a given dataset. Thus, instead of putting
+the only rodent software combining containerised distribution, BIDS                     forward a single solution for confound correction, we support the
+compatibility and extensive user documentation. These advances with                     dataset-speciﬁc design and recommend harmonising standards along
+regard to accessibility are essential for the widespread adaptation of                  with quality control measures accounting for issues of network
+standard practices across the rodent imaging community.                                 detectability and spurious connectivity. Similar to the quality control
+     Motivated by the current variability in results from network ana-                  of preprocessing, the proposed guidelines for the quality control of
+lysis between mouse fMRI sites9,10, we provide insights into the                        network analysis rely on the visual interpretation of reports compris-
+underlying sources of data quality divergences leading to downstream                    ing several metrics. This is necessary, as generic quality control metrics
+issues with network analyses. We put forward tools and guidelines for                   have their shortcomings (Supplementary Table 6), and their afﬁliated
+the quality control of network analysis, which support addressing                       thresholds may not blindly generalise across all datasets. Instead, as
+potential data quality challenges and deriving informed decisions                       highlighted in a recent editorial, the bedrock of quality control with
+regarding experimental design. Establishing formal guidelines in those                  fMRI still rests on qualitative assessment of the data, which can then
+regards is challenging, and remains an ongoing topic of conversation                    support quantitative methods18. For this purpose, RABIES provides
+
+
+Nature Communications | (2024)15:6708                                                                                                                                    7
+Article                                                                                                             https://doi.org/10.1038/s41467-024-50826-8
+
+
+
+
+Fig. 5 | Impact of optimising confound correction on quality control measures.         inspection of the spatial maps to attempt to distinguish maps displaying spurious
+Results are shown for analyses of the somatomotor network measured with dual           features. For the confound effects, a threshold of 0.25 was selected. Limitations to
+regression. At the top, scan-level measures are shown in Fig. 3 before and after       these thresholds are discussed in the Supplementary Discussion. Points are circled
+optimisation. With optimisation, the confound correlation is broadly reduced,          in the black when at least 8 scans pass scan-level thresholds before computing
+whereas network speciﬁcity is only signiﬁcantly improved in the spurious category.     group-level measures (points are circled in grey otherwise, and group-level mea-
+At the bottom, outcomes for group-level measures are summarised across all 19          sures are computed on all scans without applying scan-level thresholds). With the
+datasets considered (each point is a dataset). The speciﬁcity of network variability   optimisation of confound correction, the number of datasets passing this inclusion
+is estimated using Dice overlap with the canonical network map as illustrated in       threshold of 8 scans increased from 9 to 12. In the absent category, we can observe
+Fig. 4b. For the confound effects, the mean correlation is calculated within the       that none of the 5 datasets could pass this threshold with or without optimisation.
+thresholded area of the canonical network map for each of the three confound           The optimisation increased the speciﬁcity of network variability in several datasets,
+metrics, and the maximum absolute mean correlation out of the three metrics is         where only three datasets that do not belong to the absent category do not meet
+shown (we take the absolute value to include negative relationships). Similarly to     the threshold. However, confound effects remain above the threshold in several
+the scan-level thresholds, the grey dotted lines represent ideal outcomes. The         datasets. Source data is provided as a sheet in the Source Data ﬁle.
+threshold for network variability (Dice > 0.38) was determined upon visual
+
+
+
+adequate automatically-generated visual reports to complement the                      RABIES users as to the main confounding factors which may impact
+interpretation of quality control metrics and the selection of appro-                  analysis.
+priate thresholds. Finally, although the quality control guidelines we                      We provide the community with a reliable tool for conducting
+present here can greatly support evaluating the main pitfalls in net-                  image processing together with recommendations for analysis quality
+work analysis, these recommendations are not meant to be required                      control, thereby allowing harmonisation of computational practices
+irrespective of the scientiﬁc question and experimental design. The                    across laboratories and fostering reproducible research. This
+judgement of the experimenter remains paramount in determining                         advancement is timely in light of current inconsistencies in metho-
+which aspect applies to their study (for instance, network detectability               dological and reporting practices for rodent fMRI. Like previous neu-
+may not always be expected, if studying the impact of anaesthesia or                   roimaging softwares7,8,20,38,39, RABIES is made open source to
+inspecting a visual network in blind subjects). The guidelines are thus                encourage community involvement in the development of additional
+meant to offer a baseline which may apply to most standard resting-                    features (see our online guidelines https://rabies.readthedocs.io/en/
+state network studies, as well as to instruct new researchers and                      stable/contributing.html). This will support expanding beyond the
+
+
+Nature Communications | (2024)15:6708                                                                                                                                     8
+Article                                                                                                               https://doi.org/10.1038/s41467-024-50826-8
+
+
+
+
+Fig. 6 | Application of the RABIES data quality assessment tools. Quality control       (Supplementary Methods), together with the aforementioned quality control
+criteria are ﬁrst assessed to meet the recommended standards for analysis. These        reports, to identify plausible sources for the issue. Here, the temporal features from
+consist of three complementary steps, namely the visual assessment of scan-level        a scan presenting a motion spike are shown. Finally, the information provided can
+markers for speciﬁc connectivity, consulting the dataset distribution plot and          be leveraged to improve experimental design, either by selecting an appropriate
+associated ﬁles to evaluate scan-level quality thresholds (Methods section 13), and     confound correction strategy (Supplementary Fig. 14), by revising the analysis
+consulting the group statistical report to evaluate expectations of network varia-      approach, or by re-visiting the acquisition protocol. Following modiﬁcations, the
+bility and group-wise confound correlation. If issues are found, these can be further   quality control criteria can be re-assessed to evaluate improvements, and whether
+characterised using the extended features from the spatiotemporal diagnosis             desired outcomes are achieved.
+
+
+
+default workﬂow presented here to address more speciﬁc needs (e.g.,                     the development of high-quality data acquisition protocols10. Provid-
+inclusion of alternative distortion correction methods or multi-echo                    ing these reports, automatically generated from RABIES, along with
+preprocessing) and, ultimately, involve the community in meeting                        publications, will improve transparency of results and prevent false
+evolving best practices over time. Previous initiatives, such as fMRI-                  positives/negatives. The adoption of RABIES for rodent fMRI will foster
+Prep, have already been transformative in those regards for human                       key practices and provide essential tools for addressing pressing issues
+work. The RABIES analysis quality control framework will be crucial for                 in translational neuroscience.
+
+
+Nature Communications | (2024)15:6708                                                                                                                                       9
+Article                                                                                                https://doi.org/10.1038/s41467-024-50826-8
+
+
+Methods                                                                       sex-speciﬁc analyses were conducted since the information in this
+Core preprocessing pipeline                                                   regard was incomplete in the original publication of the datasets. All
+The preprocessing of functional magnetic resonance imaging (fMRI)             datasets are openly accessible, and acquisition details for each dataset
+scans prior to analysis consists of, at minimum, the anatomical align-        can be found in their respective original publication (see Supplemen-
+ment of scans to a common space, head realignment to correct for              tary Table 2). All data was acquired with approval from local ethical
+motion, and the correction of susceptibility distortions arising from         authorities.
+the echo-planar imaging (EPI) acquisition of functional scans. The core            For mouse preprocessing using structural scans, we used the
+preprocessing pipeline in Rodent Automated Bold Improvement of EPI            DSURQE ex-vivo MRI atlas43–46, and the Fischer 344 in vivo atlas47 was
+Sequences (RABIES) carries each of these steps with state-of-the-art          used for rat preprocessing. 17 mouse datasets did not include struc-
+processing tools and techniques (detail of each step in Supplementary         tural scans (see Supplementary Table 2), allowing for testing the
+Table 1).                                                                     workﬂow without structural scans, and for which we generated a
+     To conduct common space alignment, structural images, which              mouse EPI atlas for the preprocessing of mouse datasets lacking
+should be acquired along the EPI scans, are initially corrected for inho-     structural images (see Methods section 3 below).
+mogeneities and then registered together to allow the alignment of
+different MRI acquisitions. This registration is conducted by generating      Generation of a EPI atlas
+an unbiased data-driven template through the iterative linear and non-        We selected 5 mouse datasets (i.e., 117_Cryo_mediso_v, 7_Cryo_med_f1,
+linear registration of each image to the dataset consensus average (using     7_Cryo_med_f2, 7_Cryo_aw_f, 7_RT_med_f in Supplementary Table 2)
+ANTs’ SyN registration algorithm40 with Mattes Mutual Information and         from the multi-site study by Grandjean and colleagues9. We selected
+ANTs cross-correlation objective functions for linear and non-linear          those datasets for their complete brain coverage, minimal suscept-
+stages, respectively), where the average gets updated at each iteration to    ibility distortions and variable anatomical contrast. Using the RABIES
+provide an increasingly representative dataset template (https://github.      workﬂow, each EPI scan was ﬁrst corrected for inhomogeneity and an
+com/CoBrALab/optimized_antsMultivariateTemplateConstruction)41.               unbiased template was generated combining all 5 datasets. The
+The ﬁnalised template after the last iteration provides a representative      unbiased template was then registered to the DSURQE mouse atlas
+alignment of each MRI session to a template that shares the acquisition       using a non-linear registration40 to propagate brain masks and anato-
+properties of the dataset (e.g., brain shape, ﬁeld of view, anatomical        mical labels onto the newly generated EPI template. This EPI atlas is
+contrast,…), making it a stable registration target for cross-subject         openly available online (https://doi.org/10.5281/zenodo.5118030), and
+alignment. This newly-generated unbiased template is then itself regis-       used by default by RABIES as reference atlas when executing the EPI-
+tered to an external reference atlas to provide both an anatomical seg-       only preprocessing workﬂow.
+mentation and a common space comparable across studies deﬁned
+from the provided reference atlas.                                            Preprocessing quality control
+     The remaining preprocessing involves the EPI images. A volu-             During preprocessing, a set of images is generated to conduct visual
+metric EPI image is ﬁrst derived using a trimmed mean across the EPI          quality control of each failure-prone preprocessing step (Supplemen-
+frames, after an initial motion realignment step. Using this volumetric       tary Fig. 1). To visualise the intensity inhomogeneity correction of
+EPI as a target, the head motion parameters are estimated by realigning       either the structural or the EPI image, the input MRI image is shown
+each EPI frame to the target using a rigid registration. To correct for EPI   before and after the correction together with the overlap of the brain
+susceptibility distortions, the volumetric EPI is ﬁrst subjected to an        mask used for the ﬁnal correction, thus allowing to visualise the quality
+inhomogeneity correction step and then registered non-linearly to the         of inhomogeneity correction. Failures can be noticed either if impor-
+anatomical scan from the same MRI session, which allows the calcu-            tant inhomogeneities remain or if brain masking fails. Then for the
+lation of the required geometrical transforms for recovering brain            remaining registration steps, the report shows the overlap between the
+anatomy42. This data-driven approach to distortion correction was             moving image and the target image. These registration steps include
+opted for as a default technique to maximise accessibility, like fMRI-        alignment to the generated unbiased template, the alignment between
+Prep, since it does not require additional acquisitions which may not         the unbiased template and the reference common space atlas, and the
+be available (e.g., B0 ﬁeld map or reversed phase encode image).              registration between anatomical and functional images for suscept-
+Finally, after calculating the transformations required to correct for        ibility distortion correction.
+head motion and susceptibility distortions, both transforms are con-                The entire quality control report from each dataset was visually
+catenated into a single resampling operation (avoiding multiple               inspected to record the number of failures at each registration step.
+resampling) which is applied at each EPI frame, generating the pre-           Registration failures were considered when there was a clear mis-
+processed EPI timeseries in native space7. Preprocessed timeseries in         alignment of at least one brain structure. Minimal misalignments that
+common space are also generated by further concatenating the                  subsisted because of EPI distortions and poor anatomical contrast
+transforms allowing resampling to the reference atlas.                        were tolerated, given that few EPIs have sufﬁcient contrast to achieve
+     The preprocessing workﬂow of RABIES is illustrated in Fig. 1a, and       speciﬁc anatomical alignment and complete correction for distortions
+each associated module is described in detail in the RABIES doc-              through non-linear registration. In Supplementary Table 2, additional
+umentation (https://rabies.readthedocs.io/en/stable/). When struc-            notes on preprocessing quality are provided to detail dataset-speciﬁc
+tural images are not provided by the dataset, the volumetric EPI              limitations (e.g., partial misalignment to the reference atlas in highly
+replaces the structural image during the generation of the unbiased           distorted regions). All reports inspected are provided in this paper in
+template.                                                                     the supplementary ﬁles.
+
+Datasets for preprocessing benchmarking                                       Confound correction workﬂow
+The robustness of RABIES preprocessing was evaluated by sampling a            The workﬂow for confound correction is structured following best
+range of datasets from different sites to attempt to capture repre-           practices found in human literature, largely based on recommenda-
+sentative data samples across the rodent fMRI community. We acces-            tions from Power and colleagues27. Here, we detail the execution of the
+sed 20 mouse fMRI datasets (totalising 318 C57Bl/6 J mice including           confound correction workﬂow, which requires speciﬁc considerations
+both males and females), as well as 3 independent rat fMRI datasets           regarding the order and combination of multiple correction steps.
+(totalising 166 rats including Wistar (both male and females), Long-          These considerations aim to avoid inefﬁcient corrections, or the re-
+Evans (male only), and Sprague-Dawley (male and females) strains). No         introduction of confounds into the data at later steps28. Several
+
+
+Nature Communications | (2024)15:6708                                                                                                               10
+Article                                                                                              https://doi.org/10.1038/s41467-024-50826-8
+
+
+options are provided, and, if selected, are applied in the following             Regressed timeseries Y   ^ are obtained with Eq. (1) where Y is the
+sequence:                                                                        timeseries, X is the set of nuisance timecourses and YCR is the
+ 1. Frame censoring: Frame censoring temporal masks are derived                  confound timeseries predicted from the model at each voxel
+    from framewise displacement and/or DVARS thresholds, and                     (YCR is a time by voxel 2D matrix). Prior to the regression, the
+    applied ﬁrst on both BOLD timeseries before any other correction             nuisance timecourses were subjected to the same frame cen-
+    step to exclude signal spikes which may bias downstream cor-                 soring, detrending and frequency ﬁltering, which were applied
+    rections, in particular, detrending, frequency ﬁltering, and con-            to the BOLD timeseries to avoid the re-introduction of
+    found regression27.                                                          previously corrected confounds27,28.
+     a. Censoring with framewise displacement: Apply frame censor-          6. Intensity scaling: Signal amplitude must be scaled to allow for
+        ing based on a framewise displacement threshold. The frames            comparison of network amplitude estimates between scans32,50.
+        that exceed the given threshold, together with 1 back and 2            The following options are available within RABIES:
+        forward frames, will be masked out17.                                  a. Grand mean: Timeseries are divided by the mean intensity
+    b. Censoring with DVARS: The DVARS time course is z-scored                     across the brain, and then multiplied by 100 to obtain percent
+        (i.e., subtract the temporal mean and divide by the temporal               BOLD deviations from the mean. The mean intensity of each
+        standard deviation), and frames with values above a threshold              voxel is derived from the linear coefﬁcient (β) from the inter-
+        of 2.5 (i.e., above 2.5 standard deviations from the mean) are             cept computed during detrending.
+        removed. z-scoring and outlier detection is repeated within the        b. Voxelwise mean: Same as grand mean, but each voxel is inde-
+        remaining frames, iteratively, until no more outliers are                  pendently scaled by its own mean signal.
+        detected, to obtain a ﬁnal set of frames post-censoring. This          c. Global standard deviation: Timeseries are divided by the total
+        second censoring strategy was implemented to address                       standard deviation across all voxel timeseries.
+        residual spiking artefacts which were not well detected with           d. Voxelwise z-scoring: Each voxel is divided by its standard
+        a one-shot framewise displacement censoring approach                       deviation (i.e., z-scoring).
+        (Supplementary Fig. 17).                                            7. Smoothing: Timeseries are spatially smoothed using a Gaussian
+ 2. Detrending: Linear (or quadratic) trends are removed from the              smoothing ﬁlter.
+    timeseries. Detrended timeseries are obtained by performing
+    ordinary-least square (OLS) linear regression, where regressors              Importantly, each confound correction step (with the exception
+    consist of time together with an intercept (time-squared is also        of linear detrending) is optional when using RABIES to allow for
+    included as a regressor if removing quadratic trends).                  adapting the correction strategy to speciﬁc dataset needs.
+ 3. ICA-AROMA: Motion sources can be cleaned using a rodent-
+    adapted ICA-AROMA classiﬁer48 (Methods section 6). ICA-AROMA            Rodent-adapted ICA-AROMA
+    is applied prior to frequency ﬁltering to remove further motion         The original code for the algorithm (https://github.com/
+    effects that can result in ringing after ﬁltering26,48.                 maartenmennes/ICA-AROMA) was adapted to function without the
+ 4. Frequency ﬁltering: For highpass and/or lowpass ﬁltering of             hard-coded human priors for anatomical masking and parameter
+    timeseries, censored timepoints are ﬁrst simulated while pre-           thresholds for component classiﬁcation. Following an initial indepen-
+    senting the frequency proﬁle of the timeseries to allow for the         dent component analysis (ICA) decomposition of the data using FSL’s
+    application of a Butterworth ﬁlter.                                     MELODIC algorithm51, four features are extracted from each ICA
+     a. Simulating censored time points: frequency ﬁltering requires        component spatial map for classiﬁcation: (1) the temporal correlation
+        particular considerations when applied after frame censoring        between the component and motion parameters, (2) the fraction of the
+        since conventional ﬁlters cannot handle missing data (cen-          frequency spectrum within the high-frequency range, and the fraction
+        soring results in missing time points). To address this issue, we   of the component within (3) the cerebrospinal ﬂuid (CSF) mask and (4)
+        implemented a method described in Power et al.27, allowing the      the brain edge mask. The component is classiﬁed as motion if the CSF
+        simulation of data points while preserving the frequency            or high-frequency content fractions are above a given threshold, or if
+        composition of the data. This method relies on an adaptation        classiﬁed by a pre-trained linear classiﬁer combining the brain edge
+        of the Lomb-Scargle periodogram, which allows estimating the        fraction and motion correlation. To adapt the original algorithm with
+        frequency composition of the timeseries despite missing data        RABIES, the CSF mask is inherited from the rodent reference atlas and
+        points, and from that estimation, missing time points can be        the edge mask is automatically generated from the brain mask, the
+        simulated while preserving the frequency proﬁle49.                  threshold for high frequency content was increased as rodent can
+    b. Butterworth ﬁlter: Following the simulation, frequency ﬁlter-        express higher BOLD frequencies, particularly under medetomidine52,
+        ing is applied using a 3rd-order Butterworth ﬁlter, and             and the linear classiﬁer was retrained. To select the new parameters,
+        timepoints can be removed at each edge of the timeseries to         we manually classiﬁed motion and network components derived from
+        account for edge artefacts following ﬁltering27. Edge artefacts     a set of scans from the REST-AWK group anaesthetised under a
+        were visualised in simulated data (Supplementary Fig. 18), and      medetomidine-isoﬂurane mixture, and selected parameters to suc-
+        from those observations, we conclude that removing 30 s at          cessfully classify clear motion components while avoiding false clas-
+        each edge and using a 3rd order ﬁlter is optimal for a highpass     siﬁcation of brain networks.
+        ﬁlter at 0.01 Hz. After frequency ﬁltering, the temporal mask
+        from censoring is re-applied to remove simulated time points.       Standardisation of variance voxelwise
+ 5. Confound regression: For each voxel timeseries, a selected set of       Observing the distribution of signal variability across the brain (i.e.,
+    nuisance regressors (Supplementary Table 5) are modelled using          BOLD variability) allows one to identify confound signatures if present,
+    OLS linear regression and their modelled contribution to the            whereas relatively uncorrupted scans present a predominantly
+    signal is removed.                                                      homogeneous distribution of signal variability. To attempt mitigating
+                                                                            the impact of confounds observed from the BOLD variability map
+                                β = OLSðX,YÞ                                (Fig. 2), we implemented a correction strategy to enforce a homo-
+                                  YCR = Xβ                            ð1Þ   geneous variance distribution across voxels. To do so, timeseries are
+                                ^ =Y  Y
+                                Y                                           ﬁrst scaled voxelwise by their standard deviation (yielding
+                                         CR
+
+
+
+
+Nature Communications | (2024)15:6708                                                                                                             11
+Article                                                                                              https://doi.org/10.1038/s41467-024-50826-8
+
+
+standardised variance), and then timeseries are re-scaled to preserve      the quality control metrics and guidelines across a representative
+the original total standard deviation of the entire 4D timeseries (i.e.,   range of data quality found with mouse fMRI, we further leveraged a
+the global standard deviation does not change). This is to avoid           multicenter dataset previously harmonised by Grandjean and collea-
+changing the overall scale of image intensity, which is handled sepa-      gues (17 acquisition sites, N = 15 scans per site, including both males
+rately during confound correction (see Methods section 5). Impor-          and females)9. All datasets were preprocessed using only EPI scans, as
+tantly, this is different from z-scoring, where timeseries are             the multicenter study did not provide structural scans.
+standardised to unit variance. Enforcing standardised variance dis-
+tribution effectively downscales the contribution of voxels with higher    Group-ICA priors for dual regression
+variance, which typically corresponds to a confound signature.             The group-ICA components used as priors for dual regression (available
+                                                                           online https://zenodo.org/record/5118030/ﬁles/melodic_IC.nii.gz) were
+Connectivity analysis implemented within RABIES                            obtained using FSL’s MELODIC algorithm51. MELODIC was run with 30
+Here we detail how each connectivity analysis available within RABIES      components on the combined data from the anaesthetised and awake
+can be conducted following the completion of the confound correc-          mouse groups of the REST-AWK dataset, where confound correction
+tion workﬂow.                                                              consisted of highpass ﬁltering at 0.01 Hz, FD and DVARS censoring, and
+   Seed-based connectivity29: An anatomical seed of interest is            confound regression was applied with the 6 rigid motion parameters
+   selected, and the mean time course within the seed is correlated        together with white matter (WM)/CSF mask signals. The group-ICA maps
+   (Pearson’s r) with each voxel timeseries to measure the brain           were visually inspected, and inspired by suggestions from Zerbi and
+   connectivity map for that seed. In RABIES, this is repeated for each    colleagues19, each component was classiﬁed into a rodent brain network,
+   scan independently, to obtain a subject-level connectivity map that     confound source or other (Supplementary Fig. 19). More speciﬁcally,
+   can then be used for hypothesis testing.                                confound components display signatures of motion (i.e., edge effects),
+   Whole-brain connectivity matrix30: the whole brain parcellation         bilateral asymmetry, high loadings into WM and CSF tissues, wide-
+   during RABIES preprocessing is used to extract a mean time course       spread effects across the brain or affect only single slices. We opted for a
+   at each parcel. Then, all parcel timecourses are cross-correlated       conservative categorisation of components into confounds by selecting
+   (Pearson’s r) to obtain a whole-brain matrix describing the             those which primarily displayed anatomically recognisable confound
+   connectivity strength between every region pair. As with SBC, in        features without network-like features. For network analyses in this
+   RABIES, a connectivity matrix is computed for each scan.                study, we selected two components corresponding to canonical mouse
+   Group independent component analysis (ICA)51: the timeseries from       networks: (1) the somatomotor network, primarily expressed along the
+   all scans are concatenated in common space, and ICA decomposi-          somatosensory and motor cortices9,19, and (2) the default mode network,
+   tion is conducted on those concatenated timeseries to identify          primarily expressed along the cingulate and retrosplenial cortices9,19.
+   spatial sources of covariance (components) prevalent in the entire
+   group. Among those components, resting-state networks as well as        Confound correction strategies investigated
+   sources of confounds can be identiﬁed (example in Supplementary         To assess how confound correction can improve the quality of net-
+   Fig. 19). RABIES uses FSL’s MELODIC ICA algorithm51.                    work analysis, the REST-AWK dataset and the 17 datasets from the
+   Dual regression31,32: Dual regression is a technique building on the    multi-site study9 were processed over a range of confound correction
+   group ICA algorithm which allows the modelling of previously            strategies. The datasets were initially corrected by applying a frame-
+   detected group-level components back onto single scans. The dual        wise displacement threshold of 0.05 mm and regressing the 6 motion
+   regression algorithm consists of two consecutive linear regression      parameters to ﬁrst establish a baseline with minimal correction.
+   steps. First, components from group ICA are regressed against an             We then evaluated the impact of the following additional cor-
+   individual scan timeseries to obtain an associated time course for      rections: voxelwise variance standardisation (Methods section 7),
+   each component. Then, a second regression using these component         DVARS censoring, 24 motion parameters regression25, WM and CSF
+   timecourses is regressed again against the scan’s timeseries,           signal regression, aCompCor regression of the ﬁrst 5 principal com-
+   allowing to ﬁnally derive scan-speciﬁc spatial maps for each            ponents, global signal regression, highpass ﬁltering and ICA-AROMA.
+   corresponding ICA component. Those linear coefﬁcients can allow         Lowpass ﬁltering was not considered in this study, as lowpass inﬂates
+   for describing individual-speciﬁc features of resting-state networks,   temporal autocorrelations54 and impacts the measures of confound
+   such as amplitude or anatomical shape. To include network               correlations at the scan level. Lowpass can be used in conjunction with
+   amplitude, the timeseries of the ﬁrst regression are variance-          the proposed framework in future studies but would require re-
+   normalised prior to the second regression, to weight the variance       evaluating an appropriate threshold separately.
+   explained by each component into the spatial maps32. This method             In all conditions, we applied linear detrending, grand mean scaling
+   is applied to all dual regression analyses in this paper.               and spatial smoothing using a 0.3 mm Full-Width at Half Maximum
+                                                                           Gaussian ﬁlter. When highpass ﬁltering was applied, 30 s were
+Datasets included for data quality characterisation and                    removed at each end of the timeseries to avoid edge artefacts. After
+guidelines                                                                 censoring time points, scans which had less than 2=3 of the original
+To explore signatures of confounds in mouse fMRI, we ﬁrst relied on a      number of frames were removed from further analysis.
+dataset with a group of anaesthetised mice under a medetomidine-
+isoﬂurane mixture equipped with mechanical ventilation (i.e., con-         Connectivity analyses and deﬁnition of canonical network maps
+trolling for motion) (N = 10 females) and a group of physically-           In this study, we consider the analysis of two different mouse canonical
+restrained, freely-breathing, awake mice (N = 9 females)53. The group      networks, namely the somatomotor and default mode networks9,19,55,
+of awake mice was conditioned to the restraint system for 1 week prior     and each network was measured with either dual regression or seed-
+to scanning. fMRI (gradient echo EPI, 0.18 × 0.15 mm and 90 × 60           based connectivity. For seed-based connectivity analysis, the soma-
+matrix in-plane, 28 0.4 mm slices, TR = 1.2 s, 180 volumes) were           tomotor and default mode networks were mapped using a seed in the
+acquired on an 11.7 T Bruker animal scanner. For each subject, data was    right primary somatosensory cortex and anterior cingulate cortex,
+acquired over 2 sessions where 3 consecutive fMRI scans were               respectively. For dual regression, both networks were found among
+acquired per session, giving a total of 60 and 53 functional scans for     the group ICA components used as priors (Methods section 10).
+the anaesthetised and awake group, respectively (one awake scan was             To conduct the proposed analysis quality control framework, we
+lost during registration quality control). Furthermore, to benchmark       needed to deﬁne a reference brain map for each canonical network and
+
+
+Nature Communications | (2024)15:6708                                                                                                               12
+Article                                                                                              https://doi.org/10.1038/s41467-024-50826-8
+
+
+each analysis technique. For dual regression, a representative map of       1. The dataset is initially corrected only using framewise displace-
+each network was already deﬁned from the group ICA priors. However,            ment censoring and regression of 6 motion parameters, and the
+for seed-based connectivity analysis (Supplementary Figs. 15, 16), we          initial data quality reports are generated.
+needed to compute a representative average brain map for each net-          2. Evaluation of data quality reports:
+work from the set of scans across datasets. To do so, we selected a            a. Using the spatiotemporal diagnosis, the 4 main data quality
+subset of the datasets with various acquisition parameters (for the                markers described in Fig. 2 are inspected across scans to
+somatomotor network: 7_Cryo_aw_f, 7_Cryo_mediso_v, 7_RT_halo_v,                    identify potential issues.
+94_RT_iso_v, REST-AWK mediso; for the default mode network:                    b. The dataset distribution report is inspected to assess how
+7_Cryo_mediso_v, 7_RT_halo_v, 94_RT_iso_v, 117_Cryo_mediso_v, REST-                many scans pass the quality control thresholds and identify
+AWK mediso) and performed well on quality metrics with dual regres-                outliers. If fewer than 8 scans passed, the group statistical
+sion analysis, when using the initial confound correction strategy (fra-           report was not considered.
+mewise displacement censoring + 6 motion parameters regression).               c. Inspect the group statistical report to notice absent or spur-
+The consensus network map was obtained by taking the median con-                   ious signatures in the network variability map and evaluate the
+nectivity across scans. The selection of datasets was repeated inde-               extent of confound correlation (the average correlation within
+pendently for each network to select datasets succeeding quality                   the network is saved in an attached CSV ﬁle).
+control for the relevant network. The resulting consensus network           3. An appropriate CR strategy is selected based on the observations
+maps were highly similar to the corresponding ICA components.                  from the data quality reports, following the order of priority and
+                                                                               instructions in Supplementary Fig. 14a.
+Dataset distribution report                                                 4. One additional correction is applied at a time to evaluate the
+To complement the group statistical report during analysis quality             impact of individual corrections. The quality outcomes are re-
+control (Fig. 4), as well as the selection of scan-level thresholds for        evaluated as in (2), and the correction is kept only if improving
+network speciﬁcity and confound correlation (Fig. 3), an additional            quality outcomes.
+ﬁgure is generated to display the sample distribution across quality        5. Repeat (3), (4) until no quality issues are left, or CR options are
+metrics (Supplementary Fig. 7). This report is automatically generated         exhausted.
+along the spatiotemporal diagnosis and group statistical reports and
+allows visualising the relationship of both network speciﬁcity and               When evaluating the quality reports, the somatomotor - dual
+amplitude with each measure of confound, i.e., the within scan tem-         regression analysis was prioritised, but other analyses were also con-
+poral correlation with confounds, mean framewise displacement, the          sidered for improvements. The optimised set of corrections deﬁned
+variance explained from confound regression and temporal degrees of         for each dataset is documented in Supplementary Fig. 14b.
+freedom. For dual regression only, the overall network amplitude is
+summarised for each scan by taking the L2-norm across the spatial           Reporting summary
+map of network amplitude.                                                   Further information on research design is available in the Nature
+      This report can be used to assess the proportion of scans which       Portfolio Reporting Summary linked to this article.
+pass quality control thresholds, as well as evaluate the impact of
+modifying confound correction strategy on network speciﬁcity and            Data availability
+temporal correlation with confounds. In addition, visualising the           All data used for this work is publicly available through the
+relationship between network amplitude and the three measures of            OpenNeuro57 data-sharing platform (with the exception of the NITRC
+confounds from the group statistical report allows for inspecting the       rat, provided through the NITRC platform). The online link to each
+correlational structure between connectivity and confounds. In parti-       dataset is found in sup. table 2. Additionally, supplementary ﬁles which
+cular, it can be useful for detecting outliers, which are automatically     accompany the results presented here are accessible at this online
+identiﬁed using a threshold of 3.5 on the modiﬁed Z-score56 for each        repository https://doi.org/10.17605/OSF.IO/GT7EX. Source data is also
+measure independently (network amplitude/shape, and each con-               provided for Figs. 3, 5, and Supplementary Figs. 12b, 13, 15, 16. Source
+found measure). Z-scores are computed on the subset of scans which          data are provided with this paper.
+passed scan-level quality control thresholds and after removing out-
+liers in network amplitude (Methods section 14).                            Code availability
+                                                                            All code related to the RABIES software is openly accessible on GitHub
+Outlier removal based on network amplitude                                  (https://github.com/CoBrALab/RABIES). Installation and version con-
+Scans presenting outlier values in overall network amplitude from the       trol for all dependencies are managed through Docker containers, all
+distribution plot were automatically removed, as this likely indicates      readily available on the GitHub container registry for download
+spurious connectivity (e.g., Supplementary Fig. 8). After removing          (https://github.com/CoBrALab/RABIES/pkgs/container/rabies). In this
+scans which did not pass quality control, outliers were automatically       work, preprocessing was conducted with version 0.3.3 for datasets
+detected and removed using the modiﬁed z-score, with a threshold of         with anatomical scans and 0.4.7 for preprocessing using only EPI (for
+3.556. If outliers were detected and removed, z-scores were re-             results in Supplementary Table 2). For all results involving connectivity
+computed on the remaining scans, and new outliers were removed.             analyses, the pipeline steps for confound correction and analysis were
+This process was repeated iteratively until no more outliers were           conducted with version 0.5.0, while using the pre-generated pre-
+detected to obtain a group distribution without outliers.                   processing outputs from version 0.4.7. Of note, the same core regis-
+                                                                            tration algorithms are preserved across all software versions, and thus
+Confound correction optimisation protocol                                   the same preprocessing outcome is expected. The software is pre-
+We designed a stepwise protocol for optimising confound correction          dominantly written using Python and uses several packages, including
+on a per-dataset basis, which refers to a table relating data quality       NumPy v1.20.1, SciPy v1.6.2, NiPype v1.6.0, SimpleITK v2.0.2, NiBabel
+features to the corresponding correction strategy (Supplementary            v3.2.1, Nilearn v0.7.1, pandas v1.2.4 and PyBIDS v0.13, as well as a
+Fig. 14a). For all analyses, we selected the following scan-level quality   modiﬁed version of ICA-AROMA (Methods section 6). Additional
+control thresholds: minimum of 0.4 Dice overlap for network speciﬁ-         software dependencies used within the RABIES software include
+city and maximum of 0.25 correlation for confound effects (Fig. 3). The     ANTs58 v2.5.0, minc-toolkit v1.9.18, FSL59 (using MELODIC version 3.14),
+procedure applied for each dataset was as follow:                           and AFNI60 23.1.09. Instructions and associated scripts for reproducing
+
+
+Nature Communications | (2024)15:6708                                                                                                             13
+Article                                                                                                  https://doi.org/10.1038/s41467-024-50826-8
+
+
+the RABIES outputs used in this paper can be found in a separate online        22. Kurtzer, G. M., Sochat, V. & Bauer, M. W. Singularity: Scientiﬁc
+repository (https://github.com/Gab-D-G/RABIES_paper_repro)61. The                  containers for mobility of compute. PLoS ONE 12, e0177459 (2017).
+repository also regroups custom code for generating ﬁgures in this             23. Gorgolewski, K. et al. Nipype: a ﬂexible, lightweight and extensible
+manuscript, which was done with a Python environment regrouping                    neuroimaging data processing framework in python. Front. Neu-
+the Python packages listed above together with the RABIES python                   roinform. 5, 13 (2011).
+package.                                                                       24. Satterthwaite, T. D. et al. An improved framework for confound
+                                                                                   regression and ﬁltering for control of motion artifact in the pre-
+References                                                                         processing of resting-state functional connectivity data. Neuro-
+1.  Chuang, K.-H. & Nasrallah, F. A. Functional networks and network               image 64, 240–256 (2013).
+    perturbations in rodents. Neuroimage 163, 419–436 (2017).                  25. Friston, K. J., Williams, S., Howard, R., Frackowiak, R. S. J. & Turner,
+2. Mills, B. D. et al. Correlated gene expression and anatomical com-              R. Movement-Related effects in fMRI time-series. Magn. Reson.
+    munication support synchronized brain activity in the mouse                    Med. 35, 346–355 (1996).
+    functional connectome. J. Neurosci. 38, 5774–5787 (2018).                  26. Carp, J. Optimizing the order of operations for movement scrub-
+3. Lake, E. M. R. et al. Simultaneous cortex-wide ﬂuorescence Ca2+                 bing: Comment on Power et al. NeuroImage 76, 436–438 (2013).
+    imaging and whole-brain fMRI. Nat. Methods 17, 1262–1271 (2020).           27. Power, J. D. et al. Methods to detect, characterize, and remove
+4. Schlegel, F. et al. Fiber-optic implant for simultaneous                        motion artifact in resting state fMRI. Neuroimage 84, 320–341 (2014).
+    ﬂuorescence-based calcium recordings and BOLD fMRI in mice.                28. Lindquist, M. A., Geuter, S., Wager, T. D. & Caffo, B. S. Modular
+    Nat. Protoc. 13, 840–855 (2018).                                               preprocessing pipelines can reintroduce artifacts into fMRI data.
+5. Grandjean, J. et al. A brain-wide functional map of the serotonergic            Hum. Brain Mapp. 40, 2358–2376 (2019).
+    responses to acute stress and ﬂuoxetine. Nat. Commun. 10, 350              29. Biswal, B., Zerrin Yetkin, F., Haughton, V. M. & Hyde, J. S. Functional
+    (2019).                                                                        connectivity in the motor cortex of resting human brain using echo-
+6. Zerbi, V. et al. Rapid reconﬁguration of the functional connectome              planar MRI. Magn. Reson. Med. 34, 537–541 (1995).
+    after chemogenetic locus coeruleus activation. Neuron 103,                 30. Biswal, B. B. et al. Toward discovery science of human brain func-
+    702–718.e5 (2019).                                                             tion. Proc. Natl. Acad. Sci. USA 107, 4734–4739 (2010).
+7. Esteban, O. et al. fMRIPrep: a robust preprocessing pipeline for            31. Beckmann, C. F., Mackay, C. E., Filippini, N. & Smith, S. M. Group
+    functional MRI. Nat. Methods 16, 111–116 (2019).                               comparison of resting-state FMRI data using multi-subject ICA and
+8. Ciric, R. et al. Mitigating head motion artifact in functional con-             dual regression. Neuroimage 47, S148 (2009).
+    nectivity MRI. Nat. Protoc. 13, 2801–2826 (2018).                          32. Nickerson, L. D., Smith, S. M., Öngür, D. & Beckmann, C. F. Using
+9. Grandjean, J. et al. Common functional networks in the mouse brain              dual regression to investigate network shape and amplitude in
+    revealed by multi-centre resting-state fMRI analysis. Neuroimage               functional connectivity analyses. Front. Neurosci. 11, 115 (2017).
+    205, 116278 (2020).                                                        33. Botvinik-Nezer, R. et al. Variability in the analysis of a single neu-
+10. Grandjean, J. et al. A consensus protocol for functional connectivity          roimaging dataset by many teams. Nature 582, 84–88 (2020).
+    analysis in the rat brain. Nat. Neurosci. 26, 673–681 (2023).              34. Hutchison, R. M., Hutchison, M., Manning, K. Y., Menon, R. S. &
+11. Mandino, F. et al. Animal functional magnetic resonance imaging:               Everling, S. Isoﬂurane induces dose-dependent alterations in the
+    Trends and path toward standardization. Front. Neuroinform. 13,                cortical connectivity proﬁles and dynamic properties of the brain’s
+    78 (2020).                                                                     functional architecture. Hum. Brain Mapp. 35, 5754–5775 (2014).
+12. Ioanas, H.-I., Marks, M., Zerbi, V., Yanik, M. F. & Rudin, M. An opti-     35. Bright, M. G. & Murphy, K. Is fMRI ‘noise’ really noise? Resting state
+    mized registration workﬂow and standard geometric space for                    nuisance regressors remove variance with network structure.
+    small animal brain imaging. Neuroimage 241, 118386 (2021).                     Neuroimage 114, 158–169 (2015).
+13. Lee, S.-H. et al. An isotropic EPI database and analytical pipelines for   36. Power, J. D., Lynch, C. J., Adeyemo, B. & Petersen, S. E. A critical,
+    rat brain resting-state fMRI. Neuroimage 243, 118541 (2021).                   event-related appraisal of denoising in resting-state fMRI studies.
+14. Celestine, M., Nadkarni, N. A., Garin, C. M., Bougacha, S. & Dhenain,          Cereb. Cortex 30, 5544–5559 (2020).
+    M. Sammba-MRI: A library for processing SmAll-MaMmal BrAin MRI             37. Satterthwaite, T. D. et al. Motion artifact in studies of functional
+    data in Python. Front. Neuroinform. 14, 24 (2020).                             connectivity: Characteristics and mitigation strategies. Hum. Brain
+15. Diao, Y., Yin, T., Gruetter, R. & Jelescu, I. O. PIRACY: An optimized          Mapp. 40, 2033–2051 (2019).
+    pipeline for functional connectivity analysis in the rat brain. Front.     38. Abraham, A. et al. Machine learning for neuroimaging with scikit-
+    Neurosci. 15, 602170 (2021).                                                   learn. Front. Neuroinform. 8, 14 (2014).
+16. Ji, J. L. et al. QuNex-An integrative platform for reproducible neu-       39. Esteban, O. et al. MRIQC: Advancing the automatic prediction of
+    roimaging analytics. Front. Neuroinform. 17, 1104508 (2023).                   image quality in MRI from unseen sites. PLoS ONE 12,
+17. Power, J. D., Barnes, K. A., Snyder, A. Z., Schlaggar, B. L. &                 e0184661 (2017).
+    Petersen, S. E. Spurious but systematic correlations in functional         40. Avants, B. B., Epstein, C. L., Grossman, M. & Gee, J. C. Symmetric
+    connectivity MRI networks arise from subject motion. Neuroimage                diffeomorphic image registration with cross-correlation: evaluating
+    59, 2142–2154 (2012).                                                          automated labeling of elderly and neurodegenerative brain. Med.
+18. Taylor, P. A. et al. Editorial: Demonstrating quality control (QC)             Image Anal. 12, 26–41 (2008).
+    procedures in fMRI. Front. Neurosci. 17, 1205928 (2023).                   41. Avants, B. B. et al. A reproducible evaluation of ANTs similarity
+19. Zerbi, V., Grandjean, J., Rudin, M. & Wenderoth, N. Mapping the                metric performance in brain image registration. Neuroimage 54,
+    mouse brain with rs-fMRI: An optimized pipeline for functional                 2033–2044 (2011).
+    network identiﬁcation. Neuroimage 123, 11–21 (2015).                       42. Wang, S. et al. Evaluation of ﬁeld map and nonlinear registration
+20. Craddock, C. et al. Towards automated analysis of connectomes:                 methods for correction of susceptibility artifacts in diffusion MRI.
+    The conﬁgurable pipeline for the analysis of connectomes (c-pac).              Front. Neuroinform. 11, 17 (2017).
+    Front. Neuroinform. 42, 10–3389 (2013).                                    43. Dorr, A. E., Lerch, J. P., Spring, S., Kabani, N. & Henkelman, R. M.
+21. Gorgolewski, K. J. et al. The brain imaging data structure, a format           High resolution three-dimensional brain atlas using an average
+    for organizing and describing outputs of neuroimaging experi-                  magnetic resonance image of 40 adult C57Bl/6J mice. Neuroimage
+    ments. Sci. Data 3, 160044 (2016).                                             42, 60–69 (2008).
+
+
+
+Nature Communications | (2024)15:6708                                                                                                                   14
+Article                                                                                                   https://doi.org/10.1038/s41467-024-50826-8
+
+
+44. Steadman, P. E. et al. Genetic effects on cerebellar structure across       correct issues and enhance the distribution of the software. Finally, we
+    mouse models of autism using a magnetic resonance imaging atlas.            acknowledge our funding sources. The Fonds de recherche du Québec
+    Autism Res. 7, 124–137 (2014).                                              – Nature et technologies (FRQNT) scholarship (ﬁle #288131) for providing
+45. Ullmann, J. F. P., Watson, C., Janke, A. L., Kurniawan, N. D. & Reu-        salary support to G.D.-G., the Dutch Research Council grant
+    tens, D. C. A segmentation protocol and MRI atlas of the C57BL/6J           OCENW.KLEIN.334 supports the work of J.G., and M.M.C. receives salary
+    mouse neocortex. Neuroimage 78, 196–203 (2013).                             support from the les Fonds de recherche du Québec – Santé (FRQS).
+46. Richards, K. et al. Segmentation of the mouse hippocampal forma-            Furthermore, M.M.C. research is supported by McGill University’s
+    tion in magnetic resonance images. Neuroimage 58, 732–740 (2011).           Healthy Brains for Healthy Lives (a Canada First Research Excellence
+47. Goerzen, D. et al. An MRI-derived neuroanatomical atlas of the              Fund programme), Canadian Institutes of Health Research, the National
+    Fischer 344 rat brain. Sci. Rep. 10, 6952 (2020).                           Sciences and Engineering Research Council of Canada, and a donation
+48. Pruim, R. H. R. et al. ICA-AROMA: A robust ICA-based strategy for           from the Toronto Dominion Bank.
+    removing motion artifacts from fMRI data. Neuroimage 112,
+    267–277 (2015).                                                             Author contributions
+49. Mathias, A. et al. Algorithms for spectral analysis of irregularly          G. D.-G. led the project, analyses, and manuscript writing. G. D.-G. wrote
+    sampled time series. J. Stat. Softw. 11, 1–27 (2004).                       the code behind the RABIES software and all its associated doc-
+50. Chen, G., Taylor, P. A. & Cox, R. W. Is the statistic value all we should   umentation. G.A.D. contributed key preprocessing functions, in parti-
+    care about in neuroimaging? Neuroimage 147, 952–959 (2017).                 cular registration scripts, and supervised software design and
+51. Beckmann, C. F. & Smith, S. M. Probabilistic independent compo-             distribution. G.A.D. is also the main developer of the Docker container.
+    nent analysis for functional magnetic resonance imaging. IEEE               J.G. participated extensively in testing the software, provided recom-
+    Trans. Med. Imaging 23, 137–152 (2004).                                     mendations and feedback regarding user needs, and contributed to
+52. Grandjean, J., Schroeter, A., Batata, I. & Rudin, M. Optimization of        software dissemination. J.G. also provided recommendations for
+    anesthesia protocol for resting-state fMRI in mice based on differ-         selecting datasets in this study. M.M.C. supervised the research project
+    ential effects of anesthetics on functional connectivity patterns.          and manuscript and supervised G. D.-G. G.A.D., J.G., and M.M.C. all
+    Neuroimage 102, 838–847 (2014).                                             provided feedback on analyses and contributed to editing the
+53. Yun, Y. L. & Grandjean, J. Mouse_rest_awake. OpenNeuro https://             manuscript.
+    openneuro.org/datasets/ds001653/versions/1.0.2 (2020).
+54. Ebisuzaki, W. A Method to estimate the statistical signiﬁcance of a         Competing interests
+    correlation when the data are serially correlated. J. Clim. 10,             The authors declare no competing interests.
+    2147–2153 (1997).
+55. Liska, A., Galbusera, A., Schwarz, A. J. & Gozzi, A. Functional con-        Additional information
+    nectivity hubs of the mouse brain. Neuroimage 115, 281–291 (2015).          Supplementary information The online version contains
+56. Iglewicz, B. & Hoaglin, D. Volume 16: how to detect and handle              supplementary material available at
+    outliers, The ASQC basic references in quality control: statistical         https://doi.org/10.1038/s41467-024-50826-8.
+    techniques, Edward F. Mykytka. (Ph. D., Editor, 1993).
+57. Gorgolewski, K., Esteban, O., Schaefer, G., Wandell, B. & Poldrack,         Correspondence and requests for materials should be addressed to
+    R. OpenNeuro—a free online platform for sharing and analysis of             Gabriel Desrosiers-Grégoire or M. Mallar Chakravarty.
+    neuroimaging data. Organization for human brain mapping. Van-
+    couver, Canada 1677, (2017).                                                Peer review information Nature Communications thanks Ileana Jelescu
+58. Avants, B. B., Tustison, N. & Song, G. Advanced normalization tools         and Valerio Zerbi for their contribution to the peer review of this work. A
+    (ANTS). Insight J. 2, 1–35 (2009).                                          peer review ﬁle is available.
+59. Jenkinson, M., Beckmann, C. F., Behrens, T. E. J., Woolrich, M. W. &
+    Smith, S. M. FSL. Neuroimage 62, 782–790 (2012).                            Reprints and permissions information is available at
+60. Cox, R. W. AFNI: software for analysis and visualization of functional      http://www.nature.com/reprints
+    magnetic resonance neuroimages. Comput. Biomed. Res. 29,
+    162–173 (1996).                                                             Publisher’s note Springer Nature remains neutral with regard to jur-
+61. Desrosiers-Gregoire, G., Devenyi, G. A., Grandjean, J. & Mallar             isdictional claims in published maps and institutional afﬁliations.
+    Chakravarty, M. A standardized image processing and data quality
+    platform for rodent fMRI. Gab-D-G/RABIES_paper_repro. https://              Open Access This article is licensed under a Creative Commons
+    doi.org/10.5281/zenodo.11122918 (2024).                                     Attribution 4.0 International License, which permits use, sharing,
+                                                                                adaptation, distribution and reproduction in any medium or format, as
+Acknowledgements                                                                long as you give appropriate credit to the original author(s) and the
+We thank the fMRIPrep team for their leadership in providing standards          source, provide a link to the Creative Commons licence, and indicate if
+and guidelines in the development of open-source neuroimaging soft-             changes were made. The images or other third party material in this
+ware. We also thank the ICA-AROMA developer for making their code               article are included in the article’s Creative Commons licence, unless
+open-access, which allowed us to integrate the algorithm with minor             indicated otherwise in a credit line to the material. If material is not
+adaptations. We are grateful to all members of the mouse multicenter            included in the article’s Creative Commons licence and your intended
+initiative from Grandjean et al.9 as well as other members of the rodent        use is not permitted by statutory regulation or exceeds the permitted
+fMRI community who publicly shared data. Without these recent initia-           use, you will need to obtain permission directly from the copyright
+tives, this work would not have been possible. We also thank Dr. Ales-          holder. To view a copy of this licence, visit http://creativecommons.org/
+sandro Gozzi and his laboratory Mila Urosevic for providing critical            licenses/by/4.0/.
+feedback regarding the manuscript, Daniel Gallino for suggesting the
+software acronym, and the RABIES users who provided feedback to                 © The Author(s) 2024
+
+
+
+
+Nature Communications | (2024)15:6708                                                                                                                   15
+

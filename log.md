@@ -521,3 +521,9 @@
 - Improved [[popeye]] _preamble section: further refined dense sourced prose (~195 words across 2 paragraphs), added 8 inline citations from 3 available sources (Qu et al. 2026 x4, Burkhardt & Gießing 2025 x2, Chen & Yu 2026 x2), added 6 wikilinks (fmri, neuroimaging, eeg, functional-connectivity, computational-neuroscience, brain-dynamics), strengthened synthesis of fMRI cost pressures, EEG-fMRI multimodal reconstruction, network neuroscience robustness challenges, and clinical FC reliability within pRF modeling context, bumped updated date to 2026-05-13
 
 - Improved [[itk]] _preamble section: rewrote sparse 2-word heading into dense sourced prose (~180 words across 3 paragraphs), added 4 inline citations from 2 available sources (Sanz Leon et al. 2013 x2, Ritter et al. 2013 x2), added 10 wikilinks (whole-brain-modeling, the-virtual-brain, neuroimaging, structural-connectivity, diffusion-imaging, dti, fmri, eeg, meg, brain-network, neural-mass-models), replaced bare heading with source-backed discussion of multimodal neuroimaging integration in TVB, the role of diffusion-derived structural connectivity matrices in constraining neural mass dynamics, and ITKs foundational position in the medical image processing workflows bridging raw neuroimaging and simulation-ready brain network models, bumped updated date to 2026-05-13
+
+## [2026-05-13 17:57] LinkRepair: fixed 15 files (9 wikilink-in-URL, 6 abs-path)
+
+## [2026-05-13 17:57] Linter: 118 broken links, 6 orphans, 8 stale, 0 empty
+
+## [2026-05-13 18:01] Audit: 860 issues (118 broken links, 6 orphans, 1 placeholders, 0 dup-refs, 5 bad-meta, 100 citation-verify, 33 opaque-refs, 11 thin, 474 missing-links)

@@ -34,7 +34,7 @@ MRI scans frequently exhibit intensity inhomogeneities arising from magnetic fie
 
 ### Cortical Thickness Measurement
 
-For studying neurodegeneration and development, ANTs provides DiReCT (Diffeomorphic Registration-based Cortical Thickness), which estimates cortical thickness from T1-weighted MRI by leveraging the same diffeomorphic machinery used for SyN registration. A large-scale comparison of ANTs DiReCT against [[freesurfer|FreeSurfer]]—a widely used alternative—across datasets spanning healthy aging, neurodegeneration, and development demonstrated that ANTs-derived thickness measurements achieve competitive or superior reliability and effect sizes in several key comparisons [[raw/papers/tustison-2014.md|Tustison et al. (2014)]]. This validation has influenced tool selection in structural neuroimaging studies and reinforced the reproducibility of population-based cortical morphometry.
+For studying neurodegeneration and development, ANTs provides DiReCT (Diffeomorphic Registration-based Cortical Thickness), which estimates cortical thickness from T1-weighted MRI by leveraging the same diffeomorphic machinery used for SyN registration. A large-scale comparison of ANTs DiReCT against [[freesurfer|FreeSurfer]]—a widely used alternative—across datasets spanning healthy [[aging]], neurodegeneration, and development demonstrated that ANTs-derived thickness measurements achieve competitive or superior reliability and effect sizes in several key comparisons [[raw/papers/tustison-2014.md|Tustison et al. (2014)]]. This validation has influenced tool selection in structural neuroimaging studies and reinforced the [[reproducibility]] of population-based cortical morphometry.
 
 ## Relationship to TVB
 

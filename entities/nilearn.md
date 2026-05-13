@@ -12,8 +12,9 @@ tags:
 - resting-state
 title: Nilearn
 type: entity
-updated: '2026-05-11'
+updated: '2026-05-13'
 ---
+
 **Nilearn** is a Python library for fast and easy statistical learning on [[neuroimaging]] data. It provides tools for decoding, predictive modeling, [[connectivity]] analysis, and visualization of functional MRI data, making it a bridge between the broader [[machine-learning]] ecosystem and the specific data structures used in neuroscience research.
 
 ## Overview
@@ -32,3 +33,9 @@ Nilearn complements [[the-virtual-brain]] in several important ways in the [[who
 
 ## ORPHAN PAGE CONTEXT (suit)
 ---
+
+## References
+
+1. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
+2. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f))
+3. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](](https://doi.org/10.1016/j.jneumeth.2014.07.015))

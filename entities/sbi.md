@@ -1,10 +1,15 @@
 ---
-title: Simulation-Based Inference
 created: 2024-01-15
-updated: 2026-05-13
+sources: []
+tags:
+- parameter-estimation
+- machine-learning
+- whole-brain-modeling
+- variational-bayes
+- dynamical-systems-theory
+title: Simulation-Based Inference
 type: concept
-tags: [parameter-estimation, machine-learning, whole-brain-modeling, variational-bayes, dynamical-systems-theory]
-sources: [raw/papers/cranmer-etal-2020-sbi-frontier.md, raw/papers/lueckmann-etal-2021-sbi.md, raw/papers/papamakarios-murray-2016-fast-epsilon-free.md]
+updated: 2026-05-13
 ---
 
 # Simulation-Based Inference
