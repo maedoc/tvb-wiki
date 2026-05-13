@@ -184,6 +184,7 @@ def git_commit(message: str, cwd: str = None) -> bool:
         return False
 
     # ── commit under global lock ─────────────────────────────────────
+    log = get_logger("git")
     with GIT_LOCK:
         subprocess.run(["git", "add", "."], cwd=cwd, capture_output=True)
         result = subprocess.run(
@@ -191,8 +192,10 @@ def git_commit(message: str, cwd: str = None) -> bool:
             cwd=cwd, capture_output=True, text=True
         )
         if result.returncode != 0:
+            log.warn("Commit failed: %s", result.stderr.strip()[:200])
             return False
 
+        log.info("Committed: %s", message[:100])
         # --- optional push -------------------------------------------------
         _maybe_git_push(cwd)
     return True
@@ -200,8 +203,9 @@ def git_commit(message: str, cwd: str = None) -> bool:
 def _maybe_git_push(cwd: str):
     """Push to the remote if the last push was more than PUSH_INTERVAL ago.
     The timestamp of the last successful push is stored in LAST_PUSH_FILE as an
-    ISO‑8601 datetime string.
+    ISO-8601 datetime string.
     """
+    log = get_logger("git")
     with GIT_LOCK:
         try:
             now = datetime.datetime.now()
@@ -213,14 +217,19 @@ def _maybe_git_push(cwd: str):
                     if txt:
                         last_push = datetime.datetime.fromisoformat(txt)
             if last_push is None or (now - last_push).total_seconds() >= PUSH_INTERVAL:
+                log.info("Pushing to remote (last push was %s)", last_push.isoformat() if last_push else 'never')
                 push_res = subprocess.run(["git", "push"], cwd=cwd, capture_output=True, text=True)
                 if push_res.returncode == 0:
                     with open(LAST_PUSH_FILE, "w", encoding="utf-8") as f:
                         f.write(now.isoformat())
+                    log.info("Push succeeded")
                 else:
-                    print(f"⚠️ Git push failed: {push_res.stderr.strip()}")
+                    log.warn("Git push failed: %s", push_res.stderr.strip()[:200])
+            else:
+                next_push = PUSH_INTERVAL - (now - last_push).total_seconds()
+                log.info("Skipping push (next push in %.0fs)", next_push)
         except Exception as e:
-            print(f"⚠️ Exception during git push: {e}")
+            log.error("Exception during git push: %s", e)
 
 
 def append_log(message: str):
