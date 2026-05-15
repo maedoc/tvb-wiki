@@ -1,13 +1,16 @@
 ---
 created: 2026-05-13
-sources: []
+sources:
+- raw/papers/semanticscholar-3256c8880985.md
+- raw/papers/arxiv-2509.08179.md
+- raw/papers/arxiv-2509.02799.md
 tags:
 - software-brain-modeling
 - neural-mass-models
 - whole-brain-modeling
 title: PyCeLoSim
 type: entity
-updated: '2026-05-13'
+updated: '2026-05-15'
 ---
 
 PyCeLoSim (Python Cell and Local-circuit Simulator) is a Python-based computational framework for simulating cellular-level neural dynamics and local microcircuit activity. It operates at the microscopic scale — modeling individual neurons and small populations — and can serve as a bridge between single-neuron [[neuron-models|neuron models]] and the mesoscopic [[neural-mass-models]] used in large-scale platforms like [[TVB]].

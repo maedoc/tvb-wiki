@@ -322,9 +322,11 @@ def has_placeholder(text: str) -> bool:
 
 def get_sources(metadata: dict) -> list[str]:
     """Get sources list from frontmatter. Normalizes dict entries to strings."""
-    sources = metadata.get('sources', [])
+    sources = metadata.get('sources', []) or []
     if isinstance(sources, str):
         sources = [s.strip() for s in sources.split(',') if s.strip()]
+    if sources is None:
+        return []
     # Normalize dict sources (e.g. {url: ..., description: ...}) to plain strings
     result = []
     for s in sources:

@@ -8,6 +8,7 @@ sources:
 - raw/papers/arxiv-2512.03907.md
 - raw/papers/arxiv-2509.02799.md
 - raw/papers/semanticscholar-ce89e593c89e.md
+- raw/papers/semanticscholar-1ca793089a82.md
 tags:
 - neuroimaging-eeg
 - neural-mass-models
@@ -15,7 +16,7 @@ tags:
 - textbook
 title: Paul Nunez
 type: concept
-updated: '2026-05-07'
+updated: '2026-05-15'
 ---
 
 Paul Nunez — a researcher whose work on the neurophysics of EEG forms a foundational resource for whole-brain modeling and [[computational-neuroscience]].

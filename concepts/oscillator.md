@@ -4,6 +4,7 @@ sources:
 - raw/papers/izhikevich-2007.md
 - raw/papers/semanticscholar-e5e78e93bf31.md
 - raw/papers/arxiv-2512.03907.md
+- raw/papers/semanticscholar-d076ee89d442.md
 tags:
 - dynamical-systems-theory
 - nonlinear-dynamics
@@ -14,7 +15,7 @@ tags:
 - whole-brain-modeling
 title: Oscillator
 type: concept
-updated: '2026-05-07'
+updated: '2026-05-15'
 ---
 
 # Oscillator

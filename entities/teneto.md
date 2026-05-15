@@ -1,6 +1,7 @@
 ---
 created: 2026-05-13
-sources: []
+sources:
+- raw/papers/woodman-2014.md
 tags:
 - software-brain-modeling
 - network-dynamics
@@ -13,7 +14,7 @@ tags:
 - neuroimaging-meg
 title: Teneto
 type: entity
-updated: '2026-05-13'
+updated: '2026-05-15'
 ---
 
 # Teneto

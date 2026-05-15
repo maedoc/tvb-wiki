@@ -15,7 +15,7 @@ tags:
 - neuroimaging-processing
 title: GraphVar
 type: entity
-updated: '2026-05-14'
+updated: '2026-05-15'
 ---
 
 # GraphVar
@@ -85,7 +85,7 @@ sources:
 tags:
 - software
 - connectomics
-- structural-connectivity
+- [[structural-connectivity]]
 - network-dynamics
 - python
 title: Scona

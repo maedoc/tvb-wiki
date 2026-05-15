@@ -4,6 +4,7 @@ sources:
 - raw/papers/smith2011nets.md
 - raw/papers/smith2012future.md
 - raw/papers/smith2013connectomics.md
+- raw/papers/anticevic-2012.md
 tags:
 - software-brain-modeling
 - functional-connectivity
@@ -14,7 +15,7 @@ tags:
 - whole-brain-modeling
 title: FSLNets
 type: entity
-updated: '2026-05-13'
+updated: '2026-05-15'
 ---
 
 # FSLNets

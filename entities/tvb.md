@@ -16,7 +16,7 @@ tags:
 - neural-mass-models
 title: TVB
 type: entity
-updated: '2026-05-14'
+updated: '2026-05-15'
 ---
 
 # TVB (The Virtual Brain)
@@ -80,7 +80,7 @@ TVB combines:
 
 [[cvodes]]
 
-- Genn
+- [[genn]]
 
 - [[bcilab]]
 - [[camino-probtract]]

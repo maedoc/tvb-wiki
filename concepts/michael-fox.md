@@ -5,6 +5,7 @@ sources:
 - raw/papers/raichle-2001.md
 - raw/papers/semanticscholar-d70e1661858c.md
 - raw/papers/semanticscholar-f05f8cbafb78.md
+- raw/papers/smith-2009.md
 tags:
 - people-researcher
 - brain-stimulation
@@ -16,7 +17,7 @@ tags:
 - database-hcp
 title: Michael D. Fox
 type: entity
-updated: '2026-05-13'
+updated: '2026-05-15'
 ---
 
 Michael D. Fox, MD, PhD is a physician-scientist and Professor of Neurology at Harvard Medical School who directs the Center for Brain Circuit Therapeutics at Brigham and Women's Hospital in Boston. His research focuses on mapping and modulating human brain circuits to develop new treatments for neurological and psychiatric diseases. Fox is internationally recognized for his work on [[resting-state-fmri]] and its application to understanding brain stimulation therapies.

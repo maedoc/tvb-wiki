@@ -1,7 +1,7 @@
 ---
 title: Demois
 created: 2025-01-15
-updated: 2026-05-13
+updated: 2026-05-15
 type: entity
 tags: [software-tvb, whole-brain-modeling, computational-neuroscience, controversy]
 sources: []
@@ -41,7 +41,7 @@ If Demois represents a specific demonstration framework or validation tool withi
 
 Since the entity cannot be verified, no key features can be documented. Users seeking demonstration or validation capabilities within TVB should consult:
 
-- The official TVB documentation at [docs.thevirtualbrain.org](](http://docs.thevirtualbrain.org))
+- The official TVB documentation at [docs.thevirtualbrain.org](http://docs.thevirtualbrain.org)
 - TVB's collection of Jupyter notebooks and tutorial materials
 - EduCases available through the TVB platform
 

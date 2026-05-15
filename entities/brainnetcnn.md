@@ -2,6 +2,9 @@
 created: 2026-05-13
 sources:
 - raw/papers/kawahara-2017-brainnetcnn.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+- raw/papers/semanticscholar-bc3fb1518d09.md
 tags:
 - software-brain-modeling
 - machine-learning
@@ -13,7 +16,7 @@ tags:
 - graph-theory
 title: BrainNetCNN
 type: entity
-updated: '2026-05-13'
+updated: '2026-05-15'
 ---
 
 # BrainNetCNN

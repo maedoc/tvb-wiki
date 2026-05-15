@@ -10,7 +10,7 @@ tags:
 - whole-brain-modeling
 title: NeuroElectro
 type: entity
-updated: '2026-05-13'
+updated: '2026-05-15'
 ---
 
 NeuroElectro is a curated database and web resource that extracts, organizes, and summarizes published electrophysiological properties of diverse neuron types from the neuroscience literature. It employs a semi-automated pipeline combining text mining of journal articles with expert manual curation to populate a structured repository of cellular biophysical measurements. By centralizing data that were previously scattered across thousands of publications with heterogeneous reporting conventions, NeuroElectro provides a critical empirical bridge between experimental cellular neuroscience, [[computational-neuroscience]], and computational modeling frameworks including [[neuronunit]], [[the-virtual-brain]], and large-scale [[spiking-neural-networks]] simulations.
@@ -34,3 +34,7 @@ The quantities archived by NeuroElectro correspond directly to the biophysical v
 ## Relationship to TVB
 
 Although NeuroElectro operates at the single-cell scale, it interfaces directly with [[the-virtual-brain]] workflows by supplying empirically grounded estimates for parameters that are otherwise free variables in neural mass formulations. TVB population models abstract millions of neurons into mean-field variables, yet their effective time constants, firing thresholds, and gain functions can be anchored to distributions of cellular properties measured in vitro. As TVB expands toward multi-scale architectures that couple large-scale connectivity with local circuit detail, databases such as NeuroElectro become essential for setting physiologically plausible ranges in both [[neural-mass-models]] and hybrid schemes that embed [[spiking-neural-networks]] within connectome-based simulations.
+
+## References
+
+1. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale [[co-simulation]] Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](https://arxiv.org/abs/2505.16861)

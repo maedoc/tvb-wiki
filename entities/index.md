@@ -34,6 +34,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [ModelDB](modeldb.md) - Computational neuroscience model repository
 - [PsyNeuLink](psyneulink.md) - Graph-based cognitive neuroscience modeling framework
 - [jNeuroML](jneuroml.md) - Java implementation of NeuroML for neuronal model validation and export
+- [PyNeuroML](pyneuroml.md) - Python library and command-line toolkit for the NeuroML ecosystem
 - [OpenMEEG](openmeeg.md) - Boundary Element Method forward solver for EEG/MEG
 - [SCIRun](scirun.md) - Visual programming environment for scientific computing and neuroimaging forward modeling
 - [SCOT](scot.md) - Proposed structural connectivity toolbox for tractogram-to-matrix preprocessing (verification required)

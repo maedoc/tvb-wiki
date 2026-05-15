@@ -13,7 +13,7 @@ tags:
 - classification
 title: Machine Learning
 type: concept
-updated: '2026-05-14'
+updated: '2026-05-15'
 ---
 
 # Machine Learning
@@ -70,9 +70,9 @@ sources:
 tags:
 - parameter-estimation
 - machine-learning
-- whole-brain-modeling
-- variational-bayes
-- dynamical-systems-theory
+- [[whole-brain-modeling]]
+- [[variational-bayes]]
+- [[dynamical-systems-theory]]
 title: Simulation-Based Inference
 type: concept
 updated: '2026-05-13'

@@ -1,16 +1,17 @@
 ---
-title: Brainconn
 created: 2026-05-13
-updated: 2026-05-13
-type: entity
+sources:
+- raw/papers/woodman-2014.md
 tags:
-  - software-brain-modeling
-  - connectomics
-  - graph-theory
-  - network-dynamics
-  - structural-connectivity
-  - functional-connectivity
-sources: []
+- software-brain-modeling
+- connectomics
+- graph-theory
+- network-dynamics
+- structural-connectivity
+- functional-connectivity
+title: Brainconn
+type: entity
+updated: '2026-05-15'
 ---
 
 **Brainconn** is an open-source Python package for graph-theoretical analysis of brain connectivity data. It provides a comprehensive suite of algorithms for computing network metrics on anatomical and functional brain networks, porting the widely-used [[brain-connectivity-toolbox]] (BCT) from MATLAB into idiomatic Python with NumPy and SciPy integration. The package enables researchers to characterize the topological organization of brain [[connectome]] data across scales, from single-subject [[structural-connectivity]] matrices to group-level [[functional-connectivity]] networks.
@@ -19,7 +20,7 @@ sources: []
 
 The computational analysis of brain networks has become a central methodology in [[connectomics]], driven by the recognition that cognition, development, and disease are reflected in the large-scale [[network-dynamics]] of the brain. The [[brain-connectivity-toolbox]], originally developed in MATLAB by Rubinov and Sporns (2010), established a de facto standard for graph-theoretic analysis in neuroscience, with over 100 implementations of network metrics ranging from basic degree distributions to sophisticated [[community-detection]] algorithms and null-model generation. However, as the Python scientific computing ecosystem matured — with tools like [[dipy]] for [[diffusion-imaging]], [[nilearn]] for fMRI analysis, and [[the-virtual-brain]] for [[whole-brain-modeling]] — the need for a native Python implementation that could interoperate seamlessly with these tools became pressing.
 
-Brainconn addresses this gap by providing a clean, dependency-light Python reimplementation of the core BCT algorithms. Unlike earlier efforts such as [[bctpy]], which attempted a more literal line-by-line translation, Brainconn emphasizes idiomatic Python design patterns, vectorised NumPy operations, and an API that integrates naturally with the PyData stack. This makes it particularly useful in research pipelines that combine network analysis with other Python-based neuroimaging or simulation tools, reducing the friction of switching between MATLAB and Python environments.
+Brainconn addresses this gap by providing a clean, dependency-light Python reimplementation of the core BCT algorithms. Unlike earlier efforts such as [[bctpy]], which attempted a more literal line-by-line translation, Brainconn emphasizes idiomatic Python design patterns, vectorised NumPy operations, and an API that integrates naturally with the PyData stack. This makes it particularly useful in research pipelines that combine network analysis with other Python-based [[neuroimaging]] or simulation tools, reducing the friction of switching between MATLAB and Python environments.
 
 ## Key Features
 

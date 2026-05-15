@@ -5,6 +5,7 @@ sources:
 - raw/papers/arxiv-2511.09243.md
 - raw/papers/arxiv-2510.08436.md
 - raw/papers/anticevic-2012.md
+- raw/papers/semanticscholar-0b037f4be915.md
 tags:
 - spiking-neural-networks
 - neural-mass-models
@@ -16,7 +17,7 @@ tags:
 - brain-oscillations
 title: Adaptive Exponential Integrate-and-Fire
 type: concept
-updated: '2026-05-07'
+updated: '2026-05-15'
 ---
 
 The Adaptive Exponential Integrate-and-Fire (AdEx) model is a [[spiking-neural-networks]] that combines a membrane potential equation with an exponential term for action potential generation and an adaptation variable that tracks the history of spiking activity. Developed by Romain Brette and Wulfram Gerstner in 2005 [@brette-gerstner-2005], the AdEx model has become one of the most widely used neuron models in [[computational-neuroscience]] due to its ability to reproduce a rich variety of firing patterns while maintaining mathematical tractability that scales well to large network simulations.

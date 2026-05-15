@@ -12,7 +12,7 @@ tags:
 - reproducibility
 title: RABIES
 type: entity
-updated: '2026-05-13'
+updated: '2026-05-15'
 ---
 
 RABIES (Robust Astute Segmentation of Images) is an open-source [[neuroimaging]] software tool for automated segmentation of brain structures from magnetic resonance imaging (MRI) data. The software produces tissue classifications and region-of-interest maps in standard [[nifti]] format, which can serve as the anatomical foundation for constructing [[connectome]]-based [[whole-brain-modeling]] simulations. By providing reproducible, automated segmentation, RABIES addresses a fundamental bottleneck in translating raw neuroimaging acquisitions into the parcellated structural data that large-scale brain network models require.
@@ -32,3 +32,9 @@ In personalized modeling workflows, the quality of individual segmentations prop
 ## Related Software
 
 RABIES occupies a methodological niche alongside other tools that translate raw MRI data into the segmented, parcellated formats used by [[whole-brain]] simulators. The [[nighres]] package provides complementary capabilities for high-resolution segmentation and cortical reconstruction, including the MGDM (Multi-Atlas Multi-Cloud Decomposition) algorithm for tissue classification and the CRUISE (Cortical Reconstruction Using Implicit Surface Evolution) method for extracting topologically correct cortical surfaces [[raw/papers/huntenburg-2018.md|Huntenburg et al. (2018)]]. While Nighres targets laminar-resolution analysis and depth-dependent cortical profiling, RABIES addresses a related challenge for clinical and population-level studies where automated, robust segmentation across heterogeneous datasets is the primary requirement. Both tools output data in formats compatible with [[connectivity]] analysis packages and TVB's model construction workflows.
+
+## References
+
+1. Ritter et al. (2013). *[[tvb|The Virtual Brain]] integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. (authors unknown). *Nighres: processing tools for high-resolution neuroimaging*.

@@ -1,6 +1,9 @@
 ---
 created: 2026-05-13
-sources: []
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+- raw/papers/gorgolewski-2016.md
 tags:
 - software-tvb
 - dataset
@@ -8,7 +11,7 @@ tags:
 - software-brain-modeling
 title: tvb-data
 type: entity
-updated: '2026-05-13'
+updated: '2026-05-15'
 ---
 
 # tvb-data

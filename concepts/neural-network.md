@@ -9,6 +9,7 @@ sources:
 - raw/papers/anticevic-2012.md
 - raw/papers/arxiv-2512.03907.md
 - raw/papers/arxiv-2506.22951.md
+- raw/papers/semanticscholar-1ca793089a82.md
 tags:
 - neural-mass-models
 - network-dynamics
@@ -17,7 +18,7 @@ tags:
 - bifurcation-theory
 title: Neural Network
 type: concept
-updated: '2026-05-11'
+updated: '2026-05-15'
 ---
 
 A **neural network** in the context of whole-brain modeling refers to a mathematical framework composed of interacting units that represent neural populations or individual neurons. Unlike machine learning neural networks—which are black-box function approximators trained via gradient descent—neural networks in computational neuroscience are explicitly designed to capture biologically motivated dynamics, often derived from conductance-based equations or mean-field approximations of spiking populations. These models form the dynamical core of [[whole-brain modeling]] platforms such as [[the-virtual-brain]], where they generate simulated brain activity that can be compared to empirical [[neuroimaging-fmri]], [[neuroimaging-eeg]], or [[neuroimaging-meg]] data.

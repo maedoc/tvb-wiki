@@ -6,6 +6,7 @@ sources:
 - raw/papers/breakspear-2006.md
 - raw/papers/arxiv-2512.03907.md
 - raw/papers/semanticscholar-2004e006655b.md
+- raw/papers/semanticscholar-d076ee89d442.md
 tags:
 - neural-mass-models
 - network-dynamics
@@ -14,7 +15,7 @@ tags:
 - bifurcation-analysis
 title: Kuramoto
 type: concept
-updated: '2026-05-10'
+updated: '2026-05-15'
 ---
 
 The Kuramoto model is a mathematical framework for describing the synchronous behavior of large populations of coupled oscillators. Originally proposed by the Japanese physicist Yoshiki Kuramoto in 1975[^kuramoto-1975], it has become one of the most influential models in [[computational-neuroscience]] for understanding how neural populations transition from disordered, asynchronous activity to coherent oscillations. The model captures the essential physics of synchronization without requiring detailed biophysical specifications of individual neurons, making it particularly useful for [[whole-brain|whole-brain modeling]] where the focus is on population-level dynamics rather than single-cell physiology.

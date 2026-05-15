@@ -1,6 +1,9 @@
 ---
 created: 2026-05-13
-sources: []
+sources:
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/semanticscholar-de2622579d45.md
 tags:
 - software-brain-modeling
 - neural-mass-models
@@ -11,7 +14,7 @@ tags:
 - bifurcation-analysis
 title: PyRates
 type: entity
-updated: '2026-05-13'
+updated: '2026-05-15'
 ---
 
 # PyRates

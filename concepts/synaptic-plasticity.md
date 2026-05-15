@@ -1,17 +1,17 @@
 ---
 created: 2026-04-27
 sources:
-- raw/papers/strogatz-1994.md
-- raw/papers/hagmann-2008.md
-- raw/papers/izhikevich-2007.md
+- [[gat]]
+- [[izhikevich]]
 - raw/papers/power-2011.md
 - raw/papers/semanticscholar-ff8218c1e55e.md
 - raw/papers/semanticscholar-eadc34d87ac8.md
+- raw/papers/arxiv-2603.04149.md
 tags:
 - synaptic-plasticity
 title: Synaptic Plasticity
 type: concept
-updated: '2026-05-13'
+updated: '2026-05-15'
 ---
 
 Synaptic [[plasticity]] denotes the capacity of neuronal connections to undergo activity-dependent strengthening or weakening, a process that links microscopic synaptic dynamics to macroscopic reorganization in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]]. In large-scale network simulations, plasticity operates on the substrate of [[structural-connectivity]] provided by the [[connectome|human connectome]] — the dense anatomical scaffold of cortical and subcortical pathways whose posterior medial and parietal hub regions form a highly interconnected structural core Hagmann et al. 2008. Because synaptic weight changes alter the effective coupling between neural populations, they can shift collective dynamics across [[bifurcation-analysis|bifurcation boundaries]] that separate quiescence from oscillation or from pathological seizure states seizure states [[gat|Strogatz 1994]] [[izhikevich|Izhikevich 2007]]. Geometric methods drawn from [[nonlinear-dynamics]] — including phase-plane analysis and classification of saddle-node and Andronov–Hopf transitions — therefore provide the mathematical language for predicting how plasticity-induced rewiring reconfigures [[brain-oscillations]] and population-level excitability in [[neural-mass-models]] [[gat|Strogatz 1994]] [[izhikevich|Izhikevich 2007]].
@@ -27,4 +27,4 @@ The dynamical consequences of such rewiring are best understood through the lens
 2. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.
 3. Eugene M. [[izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
 4. (authors unknown). *Functional Network Organization of the Human Brain*.
-5. Yunman Xia, S. Peng, J. Dukart, C. Xie, Shitong Xiang, S. Petkoski, Zilin Li, Joerg F. Hipp, S. Muthukumaraswup... (truncated for brevity)
+5. Yunman Xia, S. Peng, J. Dukart, C. Xie, Shitong Xi. ... (truncated for brevity)

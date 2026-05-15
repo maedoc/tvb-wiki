@@ -1,11 +1,22 @@
 ---
-title: SCOT
+contradictions:
+- brain-connectivity-toolbox
 created: 2025-01-15
-updated: 2026-05-13
+sources:
+- raw/papers/rubinov-sporns-2010.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/wang-etal-2015-gretna.md
+tags:
+- software-brain-modeling
+- structural-connectivity
+- connectomics
+- diffusion-imaging
+- tractography
+- whole-brain-modeling
+- network-dynamics
+title: SCOT
 type: entity
-tags: [software-brain-modeling, structural-connectivity, connectomics, diffusion-imaging, tractography, whole-brain-modeling, network-dynamics]
-sources: [raw/papers/rubinov-sporns-2010.md, raw/papers/sanz-leon-2013.md, raw/papers/wang-etal-2015-gretna.md]
-contradictions: [brain-connectivity-toolbox]
+updated: '2026-05-15'
 ---
 
 SCOT is a proposed or less-established software package reportedly designed for the analysis and visualization of structural brain [[connectivity]] data derived from [[fractional-anisotropy|diffusion tensor imaging]] (DTI) and probabilistic tractography. **This entry requires verification: none of the three source papers currently held in the wiki explicitly describe, cite, or confirm the existence of SCOT as a documented tool in the [[neuroimaging-pet|neuroimaging]] ecosystem.**
@@ -27,3 +38,9 @@ The landscape of structural connectivity toolboxes includes several well-documen
 ## Verification Status
 
 The source holdings currently available in this wiki do not independently confirm SCOT as an established, documented tool. The [[raw/papers/rubinov-sporns-2010.md|Rubinov & Sporns (2010)]] source describes the Brain Connectivity Toolbox, not SCOT; the [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]] source describes TVB architecture without reference to SCOT; and the [[raw/papers/wang-etal-2015-gretna.md|Wang et al. (2015)]] source describes GRETNA. Any claims about SCOT's specific feature set, output formats, compatibility with [[dynamic-causal-modeling]] workflows, or integration with specific simulators should be treated as unverified pending the addition of primary documentation to the wiki source holdings.
+
+## References
+
+1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+2. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Wang, J., Wang, X., Xia, M., Liao, X., Evans, A., & He, Y. (2015). *GRETNA: a graph theoretical network analysis toolbox for MATLAB*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2015.04.016)

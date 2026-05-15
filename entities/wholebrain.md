@@ -1,6 +1,7 @@
 ---
 created: 2025-01-01
-sources: []
+sources:
+- raw/papers/semanticscholar-60ca593f7e0c.md
 tags:
 - whole-brain-modeling
 - neural-mass-models
@@ -14,7 +15,7 @@ tags:
 - personalized-brain-modeling
 title: Whole-Brain Modeling
 type: concept
-updated: '2026-05-13'
+updated: '2026-05-15'
 ---
 
 # Whole-Brain Modeling

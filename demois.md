@@ -1,7 +1,7 @@
 ---
 title: Demois
 created: 2025-01-15
-updated: 2026-05-13
+updated: 2026-05-15
 type: entity
 tags: [software-tvb, whole-brain-modeling, computational-neuroscience, controversy]
 sources: []

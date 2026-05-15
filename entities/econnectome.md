@@ -1,6 +1,9 @@
 ---
 created: 2026-05-13
-sources: []
+sources:
+- raw/papers/arxiv-2604.16463.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-brain-modeling
 - effective-connectivity
@@ -14,7 +17,7 @@ tags:
 - source-localization
 title: eConnectome
 type: entity
-updated: '2026-05-13'
+updated: '2026-05-15'
 ---
 
 eConnectome is an open-source MATLAB toolbox for mapping, imaging, and analyzing brain [[functional-connectivity]] and [[effective-connectivity]] from electrophysiological signals including scalp electroencephalography ([[eeg]]), electrocorticography (ECoG), and magnetoencephalography ([[meg]]). Developed at the University of Minnesota and first described by He et al. (2011), the toolbox provides an integrated workflow that spans from cortical source imaging through connectivity estimation to graph-theoretic network analysis and three-dimensional visualization. eConnectome was among the earliest comprehensive software packages to bring the full [[connectomics]] analysis pipeline to the electrophysiology domain, offering both a graphical user interface and a scriptable command-line environment.

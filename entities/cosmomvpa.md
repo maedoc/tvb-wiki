@@ -1,6 +1,9 @@
 ---
 created: 2026-05-13
-sources: []
+sources:
+- raw/papers/woodman-2014.md
+- raw/papers/semanticscholar-db98f2ae6803.md
+- raw/papers/arxiv-2507.09747.md
 tags:
 - software-brain-modeling
 - machine-learning
@@ -12,7 +15,7 @@ tags:
 - representational-similarity-analysis
 title: CoSMoMVPA
 type: entity
-updated: '2026-05-13'
+updated: '2026-05-15'
 ---
 
 # CoSMoMVPA
