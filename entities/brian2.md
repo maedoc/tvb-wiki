@@ -13,7 +13,7 @@ tags:
 - software-nest
 title: Brian2
 type: entity
-updated: '2026-05-11'
+updated: '2026-05-14'
 ---
 
 Brian2 is a Python-based simulator for [[spiking-neural-networks]] (SNNs) that serves as the successor to the original [[brian]] simulator. Developed primarily by Marcel Stimberg and colleagues, Brian2 is designed to enable rapid prototyping of neural models through an equation-oriented specification language that closely resembles mathematical notation. Unlike traditional simulators that require low-level code, Brian2 allows researchers to define neuron and synapse dynamics using differential equations written in a syntax that mirrors published scientific literature, then automatically generates optimized executable code for simulation.
@@ -31,6 +31,8 @@ Brian2's core innovation lies in its equation-based model specification system. 
 A notable capability of Brian2 is its just-in-time code generation system. When a model is compiled, Brian2 analyzes the system of equations and generates optimized code appropriate to the selected backend. This approach allows achieving performance comparable to manually written implementations in compiled languages while maintaining the flexibility of a high-level specification language. For graphics processing unit acceleration, the separate Brian2CUDA package enables simulations to run on NVIDIA GPUs, providing significant speedup for large-scale network simulations. Similarly, Brian2GeNN interfaces with the [[genn]] code generator to produce optimized code for GPU clusters. These extensions enable Brian2 to simulate networks with large numbers of neurons and synapses.
 
 ## Relationship to TVB
+
+The TVB-VM virtual appliance [[tvb-vm]] provides a ready-to-use environment for running TVB alongside Brian2 simulations.
 
 Brian2 and [[the-virtual-brain]] operate at complementary scales within the hierarchy of brain modeling. While TVB simulates population-level neural mass dynamics using models like the [[wong-wang-model]] or [[jansen-rit-model]] at the mesoscopic and macroscopic scales, Brian2 captures the microscopic dynamics of individual spiking neurons. This multiscale relationship is not merely theoretical—practical integration exists through TVB-PyNN adapters that enable hybrid simulations where TVB's population-level dynamics can be informed by or coupled to Brian2's spiking network simulations. The [[pynn]] API provides a common interface enabling code written for Brian2 to run on NEST or NEURON with minimal modification, facilitating comparison between simulators and collaborative workflows. Brian2 is particularly valuable for generating synthetic spiking data used to calibrate and validate TVB neural mass models, allowing researchers to derive effective parameters by fitting population responses to microscopic simulations. The relationship between spiking and mass models exemplifies the broader challenge of bridging temporal scales in computational neuroscience, as microscopic spike trains must be appropriately averaged to inform mesoscopic population dynamics, and vice versa.
 

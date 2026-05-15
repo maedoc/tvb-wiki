@@ -15,7 +15,7 @@ tags:
 - neuroimaging-processing
 title: GraphVar
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-14'
 ---
 
 # GraphVar
@@ -51,6 +51,7 @@ GraphVar provides a graphical user interface (GUI) for performing graph-theoreti
 
 - [[ANTs]] — Image preprocessing for connectivity analysis
 - [[TVB]] — Can use GraphVar-derived connectivity measures
+[[scona]]
 
 ## Related Concepts
 
@@ -73,3 +74,27 @@ GraphVar provides a graphical user interface (GUI) for performing graph-theoreti
 4. (authors unknown). *Networks of the Brain*.
 5. Mohammadtaha Parsayan, S. Andalib, T. L. Andersen, Habib Ganjgahi, P. Høilund-Carlsen, Abass Alavi, Mojtaba Zarei. (2025). *Odense-Oxford PET Image Analysis (OPETIA): An FSL-based toolbox for multimodal neuroimaging*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2025.121278))
 6. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.
+
+## ORPHAN PAGE CONTEXT (scona)
+---
+created: 2024-01-15
+sources:
+- raw/papers/wang-etal-2015-gretna.md
+- raw/papers/woodman-2014.md
+- raw/papers/rubinov-sporns-2010.md
+tags:
+- software
+- connectomics
+- structural-connectivity
+- network-dynamics
+- python
+title: Scona
+type: entity
+updated: '2026-05-12'
+---
+
+# Scona
+
+## Overview
+
+**Scona** (Structural COvariability Network Analysis) is a Python-based software toolbox designed for the analysis of structural covariance networks derived from [[neuroimaging]] data, particularly gray

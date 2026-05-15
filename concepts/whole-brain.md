@@ -90,10 +90,10 @@ sources:
 - raw/papers/semanticscholar-eadc34d87ac8.md
 tags:
 - whole-brain-modeling
-- neural-mass-models
+- [[neural-mass-models]]
 - network-dynamics
 - dynamical-systems-theory
-- computational-neuroscience
+- [[computational-neuroscience]]
 title: GNS
 type: concept
 updated: '2026-05-12'

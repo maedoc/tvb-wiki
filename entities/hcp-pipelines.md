@@ -23,6 +23,8 @@ updated: '2026-05-13'
 
 # HCP Pipelines
 
+The **HCP Pipelines** are the standardized, open-source preprocessing framework developed by the [[human-connectome-project|Human Connectome Project]] (HCP) to serve as the computational backbone for one of the largest [[connectomics|connectomic]] mapping efforts ever undertaken — a multimodal characterization of brain connectivity in 1200 healthy young adults [[raw/papers/van-essen-2013.md|Van Essen et al. (2013)]]. Released in 2013 alongside a coordinated set of papers in *NeuroImage*, the pipelines operationalize a surface-based analysis philosophy that jointly processes structural MRI, [[resting-state]] and task-based [[neuroimaging-fmri|functional MRI]], and [[diffusion-mri|diffusion MRI]] through a unified workflow, deliberately favoring minimal preprocessing — bias field correction, motion correction, and distortion correction — over aggressive filtering or smoothing that might degrade the very connectivity signals the HCP was designed to capture [[raw/papers/glasser-2013.md|Glasser et al. (2013)]], [[raw/papers/smith-2013-hcp.md|Smith et al. (2013)]]. By mapping every modality onto a common [[cortical-surface|cortical surface]] (the fs_LR 32k mesh) and aligning them within each subject, the pipelines produce datasets in which [[structural-connectivity|structural]] pathways, [[functional-connectivity|functional]] networks, and individual differences can be compared on a vertex-by-vertex basis, establishing a de facto standard that has since powered [[whole-brain-modeling|whole-brain]] simulation platforms such as [[TVB|The Virtual Brain]] [[raw/papers/van-essen-2013.md|Van Essen et al. (2013)]].
+
 ## Overview
 
 The **HCP Pipelines** are open-source [[neuroimaging]] preprocessing pipelines developed by the Human Connectome Project to standardize the processing of multimodal brain imaging data. These pipelines implement a surface-based analysis framework that emphasizes cross-modal alignment while applying minimal yet effective preprocessing to preserve data quality Glasser et al. (2013)(raw/papers/glasser-2013.md).
@@ -95,7 +97,7 @@ sources:
 - raw/papers/gorgolewski-2016.md
 tags:
 - software-visualization
-- connectomics
+- [[connectomics]]
 - network-dynamics
 title: nxviz
 type: entity

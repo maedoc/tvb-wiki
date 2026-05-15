@@ -16,7 +16,7 @@ tags:
 - neural-mass-models
 title: TVB
 type: entity
-updated: '2026-05-12'
+updated: '2026-05-14'
 ---
 
 # TVB (The Virtual Brain)
@@ -25,7 +25,7 @@ TVB is an open-source neuroinformatics platform for simulating large-scale prima
 
 ## Overview
 
-The Virtual Brain (TVB) enables researchers to construct personalized whole-brain models by combining empirical [[structural-connectivity]] (from [[diffusion-mri]] [[tractography]] (e.g., [[xtract]])) with [[neural-mass-models]]). The platform supports forward models for EEG, MEG, and [[fmri]], allowing simulated signals to be compared directly against empirical recordings. It can incorporate cortical parcellations such as the [[von-economo-atlas]].
+The Virtual Brain (TVB) enables researchers to construct personalized whole-brain models by combining empirical [[structural-connectivity]] (from [[diffusion-mri]] [[tractography]]) with [[neural-mass-models]]. The platform supports forward models for EEG, MEG, and [[fmri]], allowing simulated signals to be compared directly against empirical recordings.
 
 ## Key Features
 
@@ -57,13 +57,12 @@ TVB combines:
 - [[NEURON]] - Multi-compartment neuron simulation environment
 - [[ANTs]] - Image registration for preprocessing neuroimaging data
 - [[dpabi]]
-- [[voxelmorph]]
 - - [[dmriprep]]
 - Auryn
 - jax
 - [[cifti-tools]]
-- [[Allen SDK]]
 - [[brainscales]]
+- [[powermap]]
 - [[geppetto]]
 - [[gift]]
 - [[amico]]
@@ -76,13 +75,12 @@ TVB combines:
 - [[demois]]
 
 - [[cococomac]]
-[[neurolib]]
 
 [[chronux]]
 
 [[cvodes]]
 
-- [[genn]]
+- Genn
 
 - [[bcilab]]
 - [[camino-probtract]]
@@ -149,10 +147,9 @@ BrainScaleS is a [[neuromorphic-computing]] platform that employs
 ---
 created: 2025-01-15
 sources:
-- GlasserEtAl2013
-- MarcusEtAl2011
-- [[nibabel]]-docs
-- raw/papers/doi-10.3389-fninf-2011-00004.md
+- GlasserEt1
+- raw/papers/doi-10-3389-fninf-2011-00004.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
 tags:
 - software-neuroimaging
 - [[neuroimaging-fmri]]
@@ -164,7 +161,7 @@ title: [[cifti]] Tools
 type: entity
 updated: '2026-05-04'
 
-CIFTI (Connectivity InFormatics Initiative) tools encompass a family of software utilities designed to work with the CIFTI data format, a specialized file
+CIFTI (Connectivity InFormatics Initiative) tools encompass a family of software utilities designed to work with the CIFTI data format, a specialized file format developed to
 
 ## ORPHAN PAGE CONTEXT (dpabi)
 ---
@@ -184,5 +181,3 @@ updated: '2026-05-04'
 ## Overview
 
 DPABI (Data Processing Assistant for Brain Imaging) is a MATLAB-based toolbox that provides graphical user interface (GUI) and batch processing capabilities for analyzing neuroimaging data, with a primary focus on [[resting-state]] functional magnetic resonance i
-
-[[xcos]]

@@ -1,6 +1,7 @@
 ---
 created: 2026-04-20
-sources: []
+sources:
+- raw/papers/arxiv-2505.16861.md
 tags:
 - dataset
 - neural-mass-models
@@ -16,7 +17,7 @@ NeuroElectro is a curated database and web resource that extracts, organizes, an
 
 ## Motivation and Context
 
-Before NeuroElectro, electrophysiologists and computational modelers who wished to compare intrinsic properties across neuron types or constrain [[parameter-estimation]] for simulations faced a fragmented literature in which measurements of resting membrane potential, input resistance, or spike threshold were reported using inconsistent terminologies and buried within diverse journal formats. Large-scale neuroinformatics projects had already demonstrated the value of aggregating specialized data: [[the-virtual-brain]] offers platforms for [[whole-brain-modeling]], tools such as [[software-nest]] provide simulation engines for [[spiking-neural-networks]], and resources like ModelDB archive computational models. However, a comparable centralized repository for raw electrophysiological values was lacking. NeuroElectro fills this gap by systematically harvesting tabular biophysical data from journal articles, thereby reducing the manual search burden and enabling meta-analyses that link cellular physiology to system-level [[network-dynamics]].
+Before NeuroElectro, electrophysiologists and computational modelers who wished to compare intrinsic properties across neuron types or constrain [[parameter-estimation]] for simulations faced a fragmented literature in which measurements of resting membrane potential, input resistance, or spike threshold were reported using inconsistent terminologies and buried within diverse journal formats. Large-scale neuroinformatics projects had already demonstrated the value of aggregating specialized data: [[the-virtual-brain]] offers platforms for [[whole-brain-modeling]], tools such as [[tvb-nest]] provide simulation engines for [[spiking-neural-networks]], and resources like ModelDB archive computational models. However, a comparable centralized repository for raw electrophysiological values was lacking. NeuroElectro fills this gap by systematically harvesting tabular biophysical data from journal articles, thereby reducing the manual search burden and enabling meta-analyses that link cellular physiology to system-level [[network-dynamics]].
 
 ## Technical Approach
 
@@ -24,7 +25,7 @@ The extraction workflow begins with full-text articles in machine-readable HTML 
 
 ## Relationship to Related Resources
 
-NeuroElectro occupies a complementary position in the neuroinformatics ecosystem. While [[the-virtual-brain]] and [[software-nest]] focus on simulating [[network-dynamics]] at the mesoscopic or microscopic scale, NeuroElectro supplies the empirical biophysical parameters required to ground those simulations in published experimental data. It parallels the mission of [[neuronunit]], which provides a validation framework for neuroscience models; indeed, NeuroElectro’s curated values can serve as reference datasets against which single-neuron or population models are tested. The project also shares methodological kinship with [[neuroimaging]] literature-mining initiatives, though it operates on structured data tables rather than activation coordinates or [[functional-connectivity]] maps.
+NeuroElectro occupies a complementary position in the neuroinformatics ecosystem. While [[the-virtual-brain]] and [[tvb-nest]] focus on simulating [[network-dynamics]] at the mesoscopic or microscopic scale, NeuroElectro supplies the empirical biophysical parameters required to ground those simulations in published experimental data. It parallels the mission of [[neuronunit]], which provides a validation framework for neuroscience models; indeed, NeuroElectro’s curated values can serve as reference datasets against which single-neuron or population models are tested. The project also shares methodological kinship with [[neuroimaging]] literature-mining initiatives, though it operates on structured data tables rather than activation coordinates or [[functional-connectivity]] maps.
 
 ## Biological Grounding for Modelers
 

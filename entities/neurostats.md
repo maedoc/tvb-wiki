@@ -11,7 +11,6 @@ title: NeuroStats
 type: software
 updated: '2026-05-13'
 ---
-
 ## Overview
 
 NeuroStats is a statistical analysis toolbox designed for the analysis of neuroimaging data, with particular emphasis on [[resting-state]] [[functional connectivity]] analysis in [[fMRI]] datasets. The software provides a comprehensive suite of statistical methods for characterizing brain network properties, including measures of [[functional connectivity]], [[structural connectivity]], and [[effective connectivity]]. Originally developed to address the need for rigorous statistical frameworks in [[connectomics]] research, NeuroStats has become a widely used tool in the neuroimaging community for both hypothesis-driven and exploratory analyses of brain imaging data.
@@ -34,7 +33,7 @@ Additionally, NeuroStats includes **longitudinal analysis** tools for modeling c
 
 ## Relationship to TVB
 
-NeuroStats complements [[the-virtual-brain]] ([[TVB]]) by providing post-processing and statistical analysis capabilities for [[whole-brain model]] outputs. When using TVB to simulate brain dynamics, researchers often need to validate their models against empirical neuroimaging data by comparing simulated [[functional connectivity]] patterns with observed data from [[fMRI]] or [[meg]] recordings. NeuroStats provides the statistical framework for these comparisons, including tools for computing connectivity matrices from simulated time series and for assessing the similarity between model-derived and empirical connectivity patterns.
+NeuroStats complements [[the-virtual-brain]] ([[TVB]]) by providing post-processing and statistical analysis capabilities for [[bold-model]] outputs. When using TVB to simulate brain dynamics, researchers often need to validate their models against empirical neuroimaging data by comparing simulated [[functional connectivity]] patterns with observed data from [[fMRI]] or [[meg]] recordings. NeuroStats provides the statistical framework for these comparisons, including tools for computing connectivity matrices from simulated time series and for assessing the similarity between model-derived and empirical connectivity patterns.
 
 The integration between NeuroStats and TVB workflows is particularly valuable in the context of [[personalized-brain-modeling]], where model parameters are fitted to individual subject data. After fitting a TVB model to a subject's [[structural connectivity]] matrix derived from [[diffusion imaging]], researchers can use NeuroStats to compare the resulting simulated dynamics with the subject's empirical [[resting-state]] data. This validation step is essential for ensuring that personalized models accurately capture individual-specific brain dynamics before using them for predictive applications such as [[epilepsy modeling]] or [[brain-stimulation]] targeting.
 
@@ -43,7 +42,3 @@ Furthermore, NeuroStats can be used to analyze the **parameter sensitivity** of 
 ## Related Software
 
 NeuroStats shares conceptual overlap with several other neuroimaging analysis platforms. [[brainstat]] provides similar statistical functionality with a focus on surface-based neuroimaging analysis, while [[nilearn]] offers machine learning tools for neuroimaging data in Python. The [[brain-connectivity-toolbox]] (BCT) provides graph-theoretic network analysis functions, and [[bctpy]] offers a Python implementation of the same functionality. For connectivity analysis in Python, [[mne-connectivity]] provides complementary tools for [[eeg]] and [[meg]] data, and [[brainpy]] offers neural simulation and analysis capabilities.
-
-## References
-
-1. (authors unknown). *NeuroStatX*.

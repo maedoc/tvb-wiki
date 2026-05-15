@@ -13,7 +13,7 @@ tags:
 - classification
 title: Machine Learning
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-14'
 ---
 
 # Machine Learning
@@ -43,6 +43,7 @@ Machine learning complements TVB in several ways:
 - **Validation**: Cross-validated ML predictions validate TVB model outputs against empirical observations
 - [[nilearn]] provides standard ML tools for neuroimaging that integrate with TVB workflows
 - [[machine-learning]] approaches increasingly inform both spatial [[parcellation]] and temporal dynamics in [[whole-brain]] models
+[[sbi]]
 
 ## Related Concepts
 
@@ -56,3 +57,28 @@ Machine learning complements TVB in several ways:
 1. Debasis Maji, Arghya Banerjee, Debaditya Barman. *Spectral Graph Neural Networks for Cognitive Task Classification in fMRI Connectomes*. [Link](](https://arxiv.org/abs/2512.24901))
 2. Muhammad Nabi Yasinzai, R. Mito, M. Pedersen. (2025). *BrainScape: An open-source framework for integrating and preprocessing anatomical MRI datasets*. Imaging neuroscience. [DOI](](https://doi.org/10.1162/IMAG.a.944))
 3. Mai P. Ho, Yang Song, Perminder S. Sachdev, Lei Fan, Jiyang Jiang, Wei Wen. (2026). *A prior-sampling conditional variational autoencoder for neuroimaging normative modelling: Benchmarking deep learning against statistical approaches*. Imaging neuroscience. [DOI](](https://doi.org/10.1162/IMAG.a.1098))
+
+## ORPHAN PAGE CONTEXT (sbi)
+---
+created: 2024-01-15
+sources:
+- raw/papers/arxiv-2510.22651.md
+- raw/papers/arxiv-2601.22367.md
+- raw/papers/arxiv-2506.04558.md
+- raw/papers/semanticscholar-8133a79e2e93.md
+- raw/papers/arxiv-2505.22685.md
+tags:
+- parameter-estimation
+- machine-learning
+- whole-brain-modeling
+- variational-bayes
+- dynamical-systems-theory
+title: Simulation-Based Inference
+type: concept
+updated: '2026-05-13'
+---
+
+# Simulation-Based Inference
+
+## Overview
+Simulation-based inference (SBI) denotes a class of Bay

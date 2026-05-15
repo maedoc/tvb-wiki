@@ -21,8 +21,10 @@ A collection of people, software platforms, datasets, and research groups releva
 - [BrainVoyager](brainvoyager.md) - Commercial neuroimaging analysis and visualization platform
 - [Brainstorm](brainstorm.md) - Open-source MEG/EEG toolbox for source localization and connectivity analysis
 - [DataLad](datalad.md) - Distributed data management and version control for neuroimaging
+- [GAT](gat.md) - Graph Analysis Toolbox, MATLAB GUI for graph-theoretical brain network analysis
 - [GraphVar](graphvar.md) - Graph-theoretical analysis toolbox
 - [BCTpy](bctpy.md) - Brain Connectivity Toolbox for Python
+- [Brainconn](brainconn.md) - Python graph-theoretical analysis of brain connectivity networks
 - [BrainSMASH](brainsmash.md) - Spatial autocorrelation null models for brain map statistics
 - [BrainSpace](brainspace.md) - Macroscale gradient analysis toolbox
 - [BRAPH](braph.md) - Graph theory software for brain connectivity analysis
@@ -34,6 +36,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [jNeuroML](jneuroml.md) - Java implementation of NeuroML for neuronal model validation and export
 - [OpenMEEG](openmeeg.md) - Boundary Element Method forward solver for EEG/MEG
 - [SCIRun](scirun.md) - Visual programming environment for scientific computing and neuroimaging forward modeling
+- [SCOT](scot.md) - Proposed structural connectivity toolbox for tractogram-to-matrix preprocessing (verification required)
 - [OpenWorm](openworm.md) — Whole-organism simulation project for the *C. elegans* nervous system
 - [OpenCortex](opencortex.md) - Framework for building cortical network models in NeuroML format
 - [DTI-TK](dti-tk.md) - Diffusion Tensor Imaging Toolkit for tensor-based tractography
@@ -42,6 +45,8 @@ A collection of people, software platforms, datasets, and research groups releva
 - [BIDSkit](bidskit.md) - Command-line toolkit for BIDS data manipulation and conversion
 - [ABCBIDS](abcbids.md) - ABCD Study data in BIDS format plus community-curated derivatives collection (ABCC) for developmental neuroimaging research
 - [BindsNET](bindsnet.md) - Spiking neural network simulator with PyTorch integration and STDP learning rules
+- [Brian2](brian2.md) - Equation-based spiking neural network simulator
+- [Brian2CUDA](brian2cuda.md) - GPU-accelerated backend for Brian2 via CUDA
 - [Brian2GeNN](brian2genn.md) - GPU-accelerated spiking neural network simulation via Brian2-GeNN bridge
 - [BCBToolKit](bcbtoolkit.md) - Brain-Computer Interface toolkit for real-time EEG signal processing and BCI applications
 - [BrainDecode](braindecode.md) - Deep learning library for EEG neural decoding and brain-computer interfaces

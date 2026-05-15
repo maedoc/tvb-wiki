@@ -1,10 +1,20 @@
 ---
-title: Jansen-Rit Model
 created: 2026-04-20
-updated: 2026-05-13
+sources:
+- raw/papers/jansen-rit-1995.md
+- raw/papers/rit-2013.md
+- raw/papers/arxiv-2411.16449.md
+tags:
+- neural-mass-models
+- computational-neuroscience
+- whole-brain-modeling
+- eeg
+- meg
+- bifurcation-analysis
+- software-tvb
+title: Jansen-Rit Model
 type: concept
-tags: [neural-mass-models, computational-neuroscience, whole-brain-modeling, eeg, meg, bifurcation-analysis, software-tvb]
-sources: [raw/papers/jansen-rit-1995.md, raw/papers/rit-2013.md, raw/papers/arxiv-2411.16449.md]
+updated: '2026-05-13'
 ---
 
 The Jansen-Rit model is a [[neural-mass-models|neural mass model]] of a cortical column that generates realistic electroencephalogram (EEG) and magnetoencephalography (MEG) signals. Introduced by Benjamin H. Jansen and Vincent G. Rit in their seminal 1995 paper[^1], it represents one of the most influential formulations in whole-brain modeling and serves as the default neural mass implementation in [[the-virtual-brain|TVB]][^2]. The model couples three neuronal populations—pyramidal cells, excitatory interneurons, and inhibitory interneurons—through delayed synaptic interactions, producing oscillatory dynamics that recapitulate key features of spontaneous brain activity including alpha rhythms, beta oscillations, and evoked potentials.
@@ -17,7 +27,7 @@ The motivation stemmed from the need to understand the neural basis of visual ev
 
 ## Mathematical Formalism
 
-The Jansen-Rit model describes the dynamics of a cortical column through a system of nonlinear differential equations. Each population is characterized by its input-output relationship governed by a sigmoid activation function that transforms the total synaptic input into a firing rate. The standard formulation represents each population's postsynaptic response as a second-order linear filter followed by the nonlinear sigmoid function[^1][^3].
+The Jansen-Rit model describes the dynamics of a cortical column through a system of nonlinear differential equations. Each population is characterized by its input-output relationship governed by a sigmoid activation function that transforms the total synaptic input into a firing rate. The standard formulation represents each population's postsynaptic response as a second-order [[linear]] filter followed by the nonlinear sigmoid function[^1][^3].
 
 For a given population $i$, the dynamics can be written as:
 
@@ -47,17 +57,17 @@ Beyond alpha and delta, the model exhibits a rich repertoire of dynamical regime
 
 The single-column Jansen-Rit model serves as the building block for large-scale whole-brain simulations. By coupling multiple cortical columns through [[structural-connectivity]] matrices derived from [[diffusion-imaging|diffusion tensor imaging]] and tractography, researchers construct [[whole-brain]] models capable of reproducing functional connectivity patterns observed in resting-state fMRI and EEG[^2][^3]. This approach, implemented in [[the-virtual-brain|TVB]] and often using efficient computation libraries such as [[dynet]], enables personalization of brain models using individual subject connectivity data[^2].
 
-Extensions to the basic model include the addition of more populations to capture specific phenomena, incorporation of [[stochastic-differential-equations|stochastic fluctuations]] to simulate noise-driven dynamics, and coupling to [[bold-model|hemodynamic models]] for fMRI simulation[^3]. The model has also been adapted to study K-complexes and slow wave activity during sleep, demonstrating its versatility across cognitive states and clinical applications[^3].
+Extensions to the basic model include the addition of more populations to capture specific phenomena, incorporation of [[stochastic-differential-equations|stochastic fluctuations]] to simulate noise-driven dynamics, and coupling to [[bold-model|hemodynamic models]] for [[fmri]] simulation[^3]. The model has also been adapted to study K-complexes and slow wave activity during sleep, demonstrating its versatility across cognitive states and clinical applications[^3].
 
 ## Comparison with Related Models
 
 The Jansen-Rit model occupies a central position among neural mass formulations. Compared to the [[wilson-cowan-model|Wilson-Cowan model]], it provides more biologically detailed population structure at the cost of increased complexity. Unlike the [[wong-wang-model|Wong-Wang model]] which emphasizes excitatory-inhibitory interactions at the mesoscopic scale, the Jansen-Rit formulation includes explicit delay terms that capture axonal conduction and synaptic integration times crucial for oscillatory dynamics. The [[epileptor]] model, often used in TVB for seizure modeling, represents a further simplification specialized for pathological dynamics[^2].
 
-The choice between models depends on the specific scientific question. For detailed studies of EEG genesis and evoked potentials, the Jansen-Rit model's physiological grounding is advantageous. For whole-brain functional connectivity analysis, its computational efficiency relative to spiking network models makes it the practical choice. For studies specifically focused on epilepsy, the Epileptor may be more appropriate despite its reduced biological detail[^2].
+The choice between models depends on the specific scientific question. For detailed studies of EEG [[genesis]] and evoked potentials, the Jansen-Rit model's physiological grounding is advantageous. For whole-brain [[functional-connectivity]] analysis, its computational efficiency relative to spiking network models makes it the practical choice. For studies specifically focused on epilepsy, the Epileptor may be more appropriate despite its reduced biological detail[^2].
 
 ## Relationship to The Virtual Brain
 
-The Jansen-Rit model forms the default neural mass implementation in [[the-virtual-brain|TVB]], selected as the primary model for EEG and MEG simulation due to its proven ability to generate physiologically realistic signals and its favorable computational properties for large-scale simulations[^2]. TVB's implementation allows users to specify region-specific parameters, coupling functions, and connectivity matrices, enabling personalized brain modeling campaigns. The model's bifurcation structure has been characterized within TVB, providing users with guidance on parameter regimes that produce specific dynamical behaviors[^4]. This integration makes the Jansen-Rit model accessible to researchers without extensive computational neuroscience background while maintaining the flexibility for advanced users to explore parameter spaces systematically[^2].
+The Jansen-Rit model forms the default neural mass implementation in [[the-virtual-brain|TVB]], selected as the primary model for EEG and MEG simulation due to its proven ability to generate physiologically realistic signals and its favorable computational properties for large-scale simulations[^2]. TVB's implementation allows users to specify region-specific parameters, coupling functions, and [[connectivity]] matrices, enabling [[personalized-brain-modeling]] campaigns. The model's bifurcation structure has been characterized within TVB, providing users with guidance on parameter regimes that produce specific dynamical behaviors[^4]. This integration makes the Jansen-Rit model accessible to researchers without extensive [[computational-neuroscience]] background while maintaining the flexibility for advanced users to explore parameter spaces systematically[^2].
 
 ## Related Concepts
 

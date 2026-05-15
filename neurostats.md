@@ -1,7 +1,7 @@
 ---
 title: NeuroStats
 created: 2026-05-12
-updated: 2026-05-12
+updated: 2026-05-13
 type: entity
 tags: [software-statistics, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, functional-connectivity, structural-connectivity, network-dynamics, brain-network, statistical-analysis]
 sources: [raw/papers/arxiv-neurostatx.md]

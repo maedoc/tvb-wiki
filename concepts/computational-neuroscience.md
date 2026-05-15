@@ -13,7 +13,7 @@ tags:
 - computational-neuroscience
 title: Computational Neuroscience
 type: concept
-updated: '2026-05-13'
+updated: '2026-05-14'
 ---
 
 Computational neuroscience is the discipline that formalizes brain function as a dynamical system constrained by anatomical structure and the [[connectome]], seeking to bridge biophysical mechanism with observable neural activity patterns. Jiang et al. (2026) emphasize that brain activity is intrinsically a neural dynamic process shaped by anatomical space, producing significant variations in spatial distribution and correlation patterns across heterogeneous scenarios. At the microscopic scale, the field simulates [[spiking-neural-networks]] with synaptic resolution; Jordan et al. (2018) demonstrated that the [[nest]] simulator can weak-scale from laptops to petascale supercomputers, executing networks comprising 10^11 synapses—approaching human cortex scale—through a five-step communication scheme and memory-efficient data structures. At the macroscopic scale, [[neural-mass-model|neural mass models]] and mean-field approximations capture population-level dynamics governed by [[nonlinear-dynamics|nonlinear differential equations]], with Strogatz (1994) supplying the foundational treatment of [[bifurcation-analysis|bifurcation theory]], limit cycles, and strange attractors that underpin the analysis of brain state transitions such as [[epilepsy-modeling|seizure onset]].

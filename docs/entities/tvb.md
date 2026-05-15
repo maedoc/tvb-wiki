@@ -16,7 +16,7 @@ tags:
 - neural-mass-models
 title: TVB
 type: entity
-updated: '2026-05-12'
+updated: '2026-05-14'
 ---
 
 # TVB (The Virtual Brain)

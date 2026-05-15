@@ -1,0 +1,1372 @@
+                                          JOURNAL                                                                                                                                   1
+
+
+
+
+                                             Investigating Brain Connectivity and Information
+                                             Flow in Mental Workload Using EEG and fNIRS
+                                                                Integration
+                                                                  Mohaddese Qaremohammadlou and Mohammad Bagher Shamsollahi
+                                                            Department of Electrical Engineering, Sharif University of Technology, Tehran, Iran
+                                                                                 Emails: qml.mohaddese@ee.sharif.edu, mbshams@sharif.edu
+
+
+
+                                                                                                           Abstract
+                                                   This study investigates brain connectivity and information flow during mental workload (MWL) by integrating electroen-
+arXiv:2511.02457v1 [eess.SP] 4 Nov 2025
+
+
+
+
+                                               cephalogram (EEG) and functional near-infrared spectroscopy (fNIRS) signals. Utilizing the N-back task to induce varying levels
+                                               of MWL in 26 participants, we analyzed both functional and effective connectivity across 25 cortical regions derived from
+                                               combined EEG and fNIRS signals. Functional connectivity was assessed using Pearson Correlation Coefficient (PCC), Phase
+                                               Locking Value (PLV), and Magnitude Squared Coherence (MSC), while effective connectivity was evaluated using directed
+                                               Directed Transfer Function (dDTF) and generalized Partial Directed Coherence (gPDC). Our findings reveal increased functional
+                                               connectivity in frontal regions during higher MWL conditions (3-back compared to 0-back). Furthermore, effective connectivity
+                                               analysis demonstrates a significant directional information flow from EEG to fNIRS, indicating a dominant influence of neural
+                                               activity on hemodynamic responses. Statistical tests confirm significant differences in connectivity patterns between low and high
+                                               MWL states. These results underscore the utility of EEG-fNIRS integration for characterizing brain network dynamics under
+                                               varying cognitive demands and provide insights into neurovascular coupling mechanisms during mental workload.
+
+                                                                                                         Index Terms
+                                                    Mental Workload, EEG, fNIRS, Brain Connectivity, Functional Connectivity, Effective Connectivity, Neurovascular Coupling.
+
+
+
+                                                                                                     I. I NTRODUCTION
+                                             Mental workload (MWL) is the cognitive demand imposed on an individual during task execution and reflects the allocation
+                                          of mental resources for processing, storing, and managing information. It is influenced by task complexity, cognitive capacity,
+                                          and external factors such as time pressure and environmental stressors [1]. MWL is a dynamic state that affects performance,
+                                          attention, and decision-making. Excessive workload can lead to cognitive overload, errors, and fatigue, whereas insufficient
+                                          workload may result in under-stimulation and reduced efficiency [2], [3].
+                                             Modern technology heightens cognitive demands, particularly in high-risk environments where operators must respond to
+                                          system failures or equipment malfunctions. Quantifying the MWL is crucial for improving performance, productivity, and
+                                          safety [4]. Accurate MWL assessment has broad applications, from Brain–Computer Interfaces (BCIs) to optimizing human
+                                          performance [5]. Elevated MWL is linked to mental fatigue and adverse health effects including immune suppression, depression,
+                                          and increased risk of cardiovascular, respiratory, and musculoskeletal disorders [6]. Researchs have predominantly focused on
+                                          prefrontal regions, given their roles in attention and working memory [7].
+                                             MWL detection has been extensively studied using various neurophysiological and behavioral measurements. Among these,
+                                          electroencephalogram (EEG) and functional near-infrared spectroscopy (fNIRS) signals have gained prominence owing to their
+                                          ability to capture neural activity changes associated with cognitive load [1]. Traditional MWL detection methods include
+                                          subjective assessments (e.g., NASA-TLX), behavioral metrics, and physiological measurements, with the latter being the most
+                                          reliable for real-time applications [8]. Various modalities have been explored for MWL detection including EEG, fNIRS,
+                                          electrocardiogram (ECG), electromyogram (EMG), and functional Magnetic Resonance Imaging (fMRI) data. EEG is widely
+                                          used because of its high temporal resolution and sensitivity to workload-related neural oscillations, whereas fNIRS provides
+                                          insights into hemodynamic responses with a better spatial resolution [1], [3]. fMRI offers superior spatial accuracy, but is costly
+                                          and lacks real-time application potential. ECG and EMG can provide indirect workload measures by assessing physiological
+                                          stress responses but do not directly reflect brain activity [9]. Regarding cost and practicality, EEG and fNIRS have emerged
+                                          as optimal choices because of their portability, non-invasiveness, and ability to monitor workload in real-world settings [2].
+                                          EEG is preferred when precise temporal tracking of workload fluctuations is required, whereas fNIRS is advantageous for
+                                          assessing cortical hemodynamic changes [9]. Combining EEG and fNIRS allows for a comprehensive assessment of MWL,
+                                          leveraging the strengths of both modalities to enhance the classification accuracy [1]. Several cognitive paradigms have been
+                                          utilized to investigate MWL, including the N-back task, mental arithmetic, and the Multi-Task Attribute Battery (MATB); The
+                                          N-back task is a widely used working memory task that manipulates difficulty levels by adjusting the memory load, initially
+                                          introduced by Kirchner in 1958 [10].
+JOURNAL                                                                                                                             2
+
+
+
+   Brain connectivity analysis plays a crucial role in understanding information flow and connectivities between different
+brain regions, and is categorized into single-modality and cross-modality connectivity. The two primary approaches used
+for connectivity analysis are functional connectivity (FC) and effective connectivity (EC). Functional connectivity refers to
+the statistical dependencies between neural signals, commonly assessed using correlation-based measures, whereas effective
+connectivity determines the causal influence of one neural region on another one, often using Granger causality, dynamic causal
+modeling (DCM), or transfer entropy [3], [11].
+   Investigations into brain connectivity often leverage single-modalities, each providing a distinct perspective on neural activity.
+In the realm of EEG-based brain connectivity analysis, several studies have focused on understanding how brain networks
+reorganize under varying cognitive loads. These investigations predominantly use a range of functional and effective connectivity
+metrics to characterize neural dynamics. In the realm of functional connectivity, researchers have employed a variety of measures
+to explore brain network changes. For instance, a study on dynamic functional connectivity (dFC) in EEG, using Phase Locking
+Value (PLV) and graph theory, found that frontal-parietal connectivity was highly sensitive to changes in mental workload
+(MWL). Their results showed that higher MWL led to decreased characteristic path length and increased global efficiency
+in the Microstate D brain network, suggesting enhanced functional integration in the Theta and Alpha bands [12]. Another
+study introduced a framework for task-independent MWL discrimination by fusing EEG spectral characteristics and functional
+connectivity, highlighting that measures like Phase Lag Index (PLI) can reveal complex, frequency- and region-dependent
+alterations, such as elevated frontal delta/theta power and reduced parietal alpha power, under increased cognitive demand [13].
+   Further investigations have delved into how specific frequency bands respond to working memory (WM) load. A study
+employing the weighted Phase Lag Index (wPLI) and graph theoretical metrics found that the alpha band exhibited significant
+reductions in connectivity and network metrics, while the high-gamma band showed a notable increase in connectivity,
+particularly in frontal, central, parietal, and temporal regions during difficult tasks [14]. Complementing this, research using
+Minimum Spanning Tree (MST) analysis also quantified network reorganization, showing that increased cognitive demand
+shifted the theta band network towards a more decentralized, line-like topology, with significantly higher leaf fraction and
+lower diameter and kappa in low-load conditions [2]. Additionally, a study on EEG-based biometrics confirmed that functional
+connectivity metrics, especially PLV in the gamma band, demonstrate high discriminatory power for subject identification, with
+accuracy improving in higher frequency bands [15].
+   Beyond functional connectivity, some studies have leveraged effective connectivity to understand the directional flow of
+information. For example, a study on MWL estimation from EEG data extracted brain-effective connectivities using the
+directed Directed Transfer Function (dDTF). The results demonstrated that these effective connectivity patterns could effectively
+distinguish between high and low MWL levels, highlighting specific directed neural activity flows that differentiate cognitive
+states [9]. This concept of cognitive reorganization has been a central theme, as another study found statistically significant
+reductions in clustering coefficient and small-worldness metrics with higher workload, suggesting that the brain network rewired
+for more efficient long-range communication to meet increased cognitive demands [16]. These findings are further supported by
+a study on simulated flight experiments, which showed distinct alterations in functional brain networks and differing topological
+patterns in beta band global efficiency between 2D and 3D interfaces under varying MWL levels [17].
+   In the analysis of brain connectivity within fNIRS studies, various investigations have been conducted. For instance, a study
+notably demonstrated that increased mental workload, induced by a pattern recognition task, leads to a robust enhancement
+in prefrontal cortex (PFC) functional connectivity, as quantified by metrics such as network density, clustering coefficient,
+and global efficiency. These findings underscore the dynamic nature of brain networks in response to cognitive demands
+and emphasize fNIRS’s potential as a tool for investigating real-time changes in brain function [18]. another study focusing
+on mental fatigue compared brain connectivity across five frequency bands, mental fatigue induces distinct changes in brain
+functional connectivity across three levels of fatigue (non-fatigue, moderate, and severe). As fatigue progressed to a severe
+state, in higher frequency bands (0.6-2.0 Hz), overall connectivity decreased, especially between the PFC and other regions. The
+PFC, Frontal Eye Field (FEF), Premotor Cortex (PMC), and Supplementary Motor Area (SMA) consistently showed the most
+pronounced changes in connectivity and network characteristics, reflecting their involvement in cognitive processes affected
+by fatigue [19]. Complementing these, a new methodological approach was introduced for the analysis of fNIRS connectivity
+by describing a differential symmetry index (DSI) to quantify the incommon physiological information between functional
+connectivity networks of oxy-haemoglobin (HbO) and deoxy-haemoglobin (HbR). Their work highlighted that for sparse FC
+networks, it is strongly recommended to analyze both hemoglobin species to avoid potentially misleading inferences from
+incomplete brain network information, providing a crucial guideline for fNIRS connectivity analysis [20].
+   The relationships between physiological signals have been studied extensively using various methods. However, specific
+cross-modality connectivity studies for mental workload remain scarce, leading researchers to draw insights from related
+fields. For instance, the coupling between EEG and fNIRS has been evaluated by analyzing the simultaneous variations in
+HbO and HbR concentrations, along with changes in the alpha and beta frequency bands of EEG signals [21]. Brain–heart
+interactions during injection procedures have been investigated by comparing spectral power changes in EEG within the 33–36
+Hz frequency band and mean heart rate (HR) values at different injection depths, where Granger causality analysis indicated a
+stronger directional connection from the brain to the heart, which increased with injection depth [22]. Another study examined
+the relationship between EEG and ECG at varying heart rates and respiration rates using the Magnitude Squared Coherence
+JOURNAL                                                                                                                          3
+
+
+
+(MSC) metric, demonstrating that EEG signal information could be extracted from ECG signals by analyzing power spectral
+density [23]. In Parkinson’s disease patients, the EEG-ECG connection was found to be weaker than in healthy individuals,
+particularly when analyzing the relationship between alpha and gamma oscillations and heart rate fluctuations [24]. Another
+study explored EEG-EMG interactions in stroke patients compared to healthy individuals using transfer entropy analysis
+during motor tasks (e.g., grasping with the left and right hand and elbow flexion). The results showed higher bidirectional
+transfer entropy (EMG-to-EEG and EEG-to-EMG) in patients with stroke, with the strongest connectivity observed in the beta
+frequency band (15–35 Hz) during upper limb movement. Furthermore, EMG-to-EEG coupling was found to be stronger in
+the affected limb, whereas EEG-to-EMG connectivity was lower [25]. In Alzheimer’s disease (AD), EEG-fNIRS connectivity
+reveals weakened alpha- and beta-band connectivity in the orbitofrontal and parietal regions, highlighting the potential of
+multimodal fusion for early AD detection [26]. Another study applied nonlinear Granger causality with NARX modeling
+to analyze cardiovascular signal interactions, and their results showed that respiration strongly influences the heart rate and
+blood oxygen concentration, demonstrating the effectiveness of nonlinear methods in physiological connectivity analysis [27]. In
+EEG-PPG Fusion, explores the interaction between EEG and photoplethysmogram (PPG) to assess deception detection through
+effective connectivity analysis. The researchers introduced a wavelet-based fusion approach for EEG and PPG signals, which
+was validated on 41 subjects who participated in an interview-based deception scenario. Using generalized Partial Directed
+Coherence (gPDC) and dDTF, they constructed effective connectivity networks to analyze the information flow between the
+brain and autonomic nervous system responses. The findings revealed distinct connectivity patterns between guilty and innocent
+individuals, with increased connectivity in specific brain regions in those engaging in deception. This study highlights the role
+of brain-autonomic coupling in cognitive and emotional processes, emphasizing the importance of multimodal physiological
+connectivity in forensic and cognitive research [28].
+   This study builds on previous EEG-PPG effective connectivity research [28], which highlighted the advantages of multimodal
+integration for cognitive state monitoring. Expanding on these findings, we investigated EEG-fNIRS coupling and information
+flow under mental workload conditions. Our approach involved EEG-fNIRS integration across 25 cortical regions (R1–R25),
+constructing functional connectivity matrices (PCC, PLV, MSC), and effective connectivity metrics (dDTF, gPDC) to assess
+network interactions and directional information flow. We compared connectivity patterns between low- and high-workload
+states and performed statistical analysis across 26 subjects to identify significant MWL-related connectivity changes. This study
+aimed to enhance EEG-fNIRS connectivity analysis and contribute to real-time MWL monitoring applications in cognitive
+neuroscience and human performance research.
+
+                                            II. MATERIALS AND METHODES
+A. Experiment
+  In this study, an open-source N-back dataset collected at the Technical University of Berlin was utilized [29]. This dataset
+comprises three sessions, each including three series corresponding to the 0-back, 2-back, and 3-back tasks. Within each series,
+a 2-second instructional phase introduced the specific task type (n = 0, 2, 3), followed by a 40-second active task period and a
+subsequent 20-second rest period. A short, 250 ms sound marks the beginning and end of each active period. Upon completion
+of the active period, the monitor displays the word ”STOP” for a duration of 1 s, subsequently transitioning into the rest
+period where a fixation cross is shown on the screen. Each active session included 20 trials, each of which was considered
+a discrete stimulus. During each trial, a randomly generated single-digit number appears on the monitor every 2 seconds,
+remaining visible for 0.5 seconds before a fixation cross occupies the screen for the remaining 1.5 seconds. Targets appear
+with a 30% probability, with the remaining 70% representing nontargets. In the 0-back task, participants were instructed to
+press the designated ”target” button (number 7) or the ”non-target” button (number 8) in response to a specific predetermined
+character, serving as a preliminary measure to confirm their familiarity with the task protocol. In the 2-back and 3-back
+conditions, participants press the ”target” button if the presented digit matches the one shown 2 or 3 trials prior, respectively.
+  Throughout the rest period, a fixation cross remained on the screen for 20 s, allowing participants to relax and minimize eye
+movement, thereby supporting the brain’s return to baseline activity. For each n-back task condition, 180 trials were conducted,
+calculated as 20 trials per series across three series and three sessions (Fig. 1).
+
+B. Data Acquisition and Participants
+   The study included twenty-six healthy participants (9 male and 17 female; mean age = 26 ± 3 years). Data were acquired
+concurrently using EEG and fNIRS. EEG data were sampled at a frequency of 1000 Hz across 30 channels arranged according
+to the international 10-5 electrode placement system, with TP9 and TP10 electrodes serving as reference and ground electrodes,
+respectively. The fNIRS data were recorded at a sampling rate of 10.4 Hz across 36 channels [29].
+
+C. Preprocessing
+  EEG and fNIRS data underwent separate preprocessing, utilizing filtering techniques and methods specific to each modality:
+JOURNAL                                                                                                                                                                         4
+
+
+
+
+                                   Session 1                                   Session 2                                   Session 3
+
+
+
+
+                       3-back           2-back       0-back           2-back     0-back          3-back           0-back     3-back    2-back
+
+
+                       2-back           0-back       3-back           0-back     3-back          2-back           3-back     2-back    0-back
+
+
+                       0-back           3-back       2-back           3-back     2-back          0-back           2-back     0-back    3-back
+
+                            Instruction                                              Instruction                                            Instruction
+                                 2s                                                       2s                                                     2s
+
+
+                        Task:                                                    Task:                                                 Task:
+                         40s                                                      40s                                                   40s
+                                                 Digit         +                                          Digit    +                                            Digit    +
+                          20      Each trial                                       20       Each trial                                    20       Each trial
+                        trials       2s          0.5 s        1.5 s              trials        2s         0.5 s   1.5 s                 trials        2s        0.5 s   1.5 s
+
+
+                                 Stop                                                     Stop                                                   Stop
+                                  1s                                                       1s                                                     1s
+                        Rest                                                      Rest                                                  Rest
+                        20 s                                                      20 s                                                  20 s
+
+
+
+
+Fig. 1. Experiment paradigm of the N-back task. Each session consists of three series for 0-back, 2-back, and 3-back tasks, presented in a randomized order.
+Each series includes a 2-second instruction phase indicating the task type, a 40-second active task period with 20 trials, and a 20-second rest period. Each
+trial within the active task period is 2 seconds long, comprising a 0.5-second digit presentation and a 1.5-second fixation cross. Auditory cues signal the start
+and end of the active task period, and the word ”STOP” is displayed for 1 second after each active period, followed by the rest period with a fixation cross
+[30].
+
+
+    1) EEG Preprocessing:: The EEG data sampling rate was initially reduced from 1000 Hz to 200 Hz. Subsequently, a
+sixth-order Butterworth bandpass filter with a frequency range of 1–40 Hz was applied. Eye movement artifacts were removed
+using the Adaptive Artifact Removal (AAR) toolbox in conjunction with the iWASOBI method [31].
+    2) fNIRS Preprocessing:: Raw fNIRS data were converted to reflect changes in deoxygenated hemoglobin concentration
+(∆HbR or DEOXY) and oxygenated hemoglobin concentration (∆HbO or OXY) using the modified Beer-Lambert law (MBLL)
+[32], [33]. The sampling rate was adjusted from 10.4 Hz to 10 Hz. Owing to the low intrinsic frequency of this signal (0.017 Hz)
+and the mitigation of high-frequency components and systemic physiological noise (e.g., cardiac and respiratory), a sixth-order
+Butterworth low-pass filter (cutoff frequency: 0.2 Hz) and a third-order Savitzky-Golay (SG) filter were applied [34].
+    Following preprocessing, the EEG and fNIRS signals were segmented based on dataset labels to create target and non-target
+samples for each task type (0-back, 2-back, and 3-back). Smaller segments of EEG and fNIRS signals have been extracted
+in various ways in the literature: a time window of 0.1 s before stimulation and 1 s after stimulation [35], 500 ms before
+stimulation and 6 s after stimulation [36], 1 s before stimulation and 3 s after stimulation [14], and time windows of 2 to 5 s
+and 1 s [37]–[39].
+    Based on outcomes from various segment lengths, the selected segment for this study was 0.5 s before and 10 s after
+stimulation for EEG data and 5 s before and 30 s after stimulation for fNIRS data. The extended segment length for the fNIRS
+data accommodates the delayed hemodynamic response following stimulation. A total of 180 samples per class were used
+across the 0-back, 2-back, and 3-back conditions for each data type (EEG, OXY, and DEOXY) [30]. The relationship between
+EEG and fNIRS signals was analyzed by extracting the upper envelope of the 10 Hz wavelet component for EEG data and
+the 1 Hz component for fNIRS data [28].
+     As shown in Fig. 2, the average of the channels within each region was calculated for the EEG, OXY, and DEOXY data,
+with nine regions defined for the EEG data and eight regions specified for each fNIRS data type. Owing to the differing
+dynamics of the EEG and fNIRS signals, a wavelet transform with a db2 mother wavelet was applied to both the signals.
+Ultimately, the 1 Hz wavelet component of the fNIRS signal and the upper envelope of the 10 Hz wavelet component of the
+EEG signal were extracted. Fig. 3 illustrates an example of the preprocessed EEG signal, 10 Hz wavelet component, and upper
+envelope of the 10 Hz wavelet component. After normalizing the data for each channel, low-frequency data comprising 25
+channels were available and used to calculate effective and functional brain connectivities.
+    Functional connectivity metrics were compared across two workload levels, 0-back (low level) and 3-back (high level), to
+examine changes in functional connectivity between EEG and fNIRS signals. The metrics used included PCC, PLV, and MSC,
+each calculated for the 0-back and 3-back levels. To investigate the effective connectivity between the EEG and fNIRS signals,
+effective connectivity metrics were calculated for two workload levels: 0-back and 3-back. The metrics used included dDTF
+and gPDC, and calculations were performed using the SIFT toolbox [40], [41]. For each subject, an MVAR model was first
+fitted to the data, and the effective connectivity metrics were then computed. In the SIFT toolbox, as illustrated in Table I,
+JOURNAL                                                                                                                                                                                                                                                                                                                                5
+
+
+
+
+                                                                                                                                                                                                                                                                                   R19
+                              FP1
+                                          R2           FP2
+                                                                                                                                                                 R11
+                                                                                                                                                                                                                                                                 AFP3              AFpz
+                                                                                                                                                                                                                                                   AFP7                                            AFp4           AFp8
+                                                                                                                                              AFP3               AFpz
+                                                                                                                                AFP7                                             AFp4           AFp8
+                                          AFZ
+                     Aff5h                                                                                                                                                                                                                 AF7                               AF1          AF2
+                                                             Aff6h                                                                                                                                                                                                                                                         AF8
+         R1                                       F2
+                                                                           R3                                           AF7
+                                                                                                                                    AF5h
+                                                                                                                                                           AF1          AF2
+                                                                                                                                                                                         AF6H            AF8
+                                                                                                                                                                                                                                                       AF5h                                                AF6H
+
+                                    F1
+                                                                                                                                                                                                                                     R18                         AFF3h             AFFz            AFF4h
+                                                                                                                                                                                                                                                                                                                                 R20
+                                                                                                          R10                                 AFF3h              AFFz            AFF4h                         R12
+                                                                                                                                                                                                                                                  AFF5                                                             AFF6
+
+                                          R5                                                                                   AFF5                                                              AFF6
+
+    R4    FC5                                                             FC6
+                                                                                 R6
+                                    FC2         FC1                                                                                                                                                                                                       FCC3                                             FCC4
+                                                                                                                                       FCC3                                              FCC4
+
+
+    T7                   C3
+                                          CZ
+                                                                                                          R13                 C5h                  C3h                          C4h                     C6h     R14                  R21         C5h                  C3h                         C4h                     C6h
+                                                                                                                                                                                                                                                                                                                                 R22
+                                                              C4                     T8
+
+                                                                                                                                                                                                                                                          CCP3                                             CCP4
+                                                                                                                                       CCP3                                              CCP4
+                                    CP1          CP2
+          CP5                                                         CP6
+                                                                                                                                                                                                                                                   CPP3
+
+                              P3                        P4
+                                                                                                          R15                   CPP3
+                                                                                                                                                                                                CPP4           R17                   R23                                                                          CPP4
+                                                                                                                                                                                                                                                                                                                                 R25
+                                                                                                                                                                 R16                                                                                            P3h               R24
+     R7         P7
+                                          PZ
+                                                                     P8
+                                                                                R9                                      P5h
+                                                                                                                                             P3h                                P4h                     P6h                                P5h
+                                                                                                                                                                                                                                                                                                  P4h                     P6h
+
+                                                                                                                                                                 PPOz                                                                                                              PPOz
+                                                                                                                                      PPO3                                                                                                               PPO3                                               PPO4
+                                                                                                                                                                                          PPO4
+                                          POZ
+                                                                                                                                                                          PO2                                                                                               PO1             PO2
+                                                                                                                                                         PO1
+                              O1                       O2
+
+                                          R8                                                                                                                     POOz                                                                                                              POOz
+
+
+
+
+                              (a) EEG-regions.                                                                                             (b) OXY-regions.                                                                                              (c) DEOXY-regions.
+Fig. 2. Region segmentation method for EEG and fNIRS datasets. (a) EEG-regions: Depicts the nine regions (R1-R9) defined for EEG data, based on the
+international 10-5 electrode placement system. (b) OXY-regions: Shows the eight regions (R10-R17) defined for oxygenated hemoglobin (OXY) fNIRS data.
+(c) DEOXY-regions: Illustrates the eight regions (R18-R25) defined for deoxygenated hemoglobin (DEOXY) fNIRS data. Each region represents an average
+signal from the channels within that area for connectivity analysis.
+
+
+                                                                                                                                                                   EEG
+                                                                                          20
+
+
+                                                                                           0
+
+
+                                                                                          -20
+                                                                                                0   200           400               600                  800        1000         1200                  1400     1600   1800   2000
+                                                                                                                                        10 Hz Component of Wavelet
+                                                                                          20
+
+
+                                                                                           0
+
+
+                                                                                          -20
+                                                                                                0   200           400               600                  800        1000         1200                  1400     1600   1800   2000
+                                                                                                                 Upper Envelope of 10 Hz Component of Wavelet
+                                                                                          20
+
+
+                                                                                           0
+
+
+                                                                                          -20
+                                                                                                0   200           400               600                  800        1000         1200                  1400     1600   1800   2000
+
+
+
+
+Fig. 3. Example of signal preprocessing for EEG data. Top panel: The preprocessed EEG signal from a single channel. Middle panel: The 10 Hz wavelet
+component extracted from the EEG signal using wavelet transform with a db2 mother wavelet. Bottom panel: The upper envelope of the 10 Hz wavelet
+component, which is used for further functional and effective connectivity analysis.
+
+
+
+the vertical axes of the connectivity matrices represent the flow of information ”from” a channel, while the horizontal axes
+indicate the flow of information ”to” a channel.
+
+                                                                                                                                    TABLE I
+                                                                                                                              C ONNECTIVITY M ATRIX
+
+                                                                                                                                                          From (output)
+                                                                                                           To (input)
+
+
+
+
+                                                                                                                                      EEG                               OXY                     DEOXY
+                                                                                                                                      OXY
+                                                                                                                                DEOXY
+
+
+
+                                                                                                                                           III. R ESULTS
+  The results of brain connectivities are detailed below and include both functional and effective brain connectivity.
+
+A. Results of Functional Connectivity from EEG and fNIRS Signals Coupling
+   The matrices presented for each functional connectivity metric (PCC, PLV, and MSC) at the 0-back and 3-back workload
+levels corresponded to all the participants in the study.
+JOURNAL                                                                                                                                                                                                                                                                                                                                               6
+
+
+
+    1) PCC:: Based on Figure 4, which displays the PCC values for the 0-back and 3-back tasks, an overall increase in brain
+connectivity was observed in the frontal regions of the head (R1, R2, R3). A comparison of the connectivity values between
+the 0-back and 3-back tasks revealed that connectivity was higher in the 3-back task. Furthermore, in regions R10, R11, R12,
+... R17, corresponding to OXY data, increased connectivity was observed.
+
+
+                                                               PCC Connectivity Values for 0-back task                                                                                                                                   PCC Connectivity Values for 3-back task
+          S1                          S2                            S3                          S4                          S5                          S6                          S1                          S2                            S3                          S4                          S5                          S6
+                       1                           1                             1                           1                           1                           1                           1                           1                             1                           1                           1                           1
+   5                           5                           5                             5                           5                           5                           5                           5                           5                             5                           5                           5
+                       0.5                         0.5                           0.5                         0.5                         0.5                         0.5                         0.5                         0.5                           0.5                         0.5                         0.5                         0.5
+  10                          10                          10                            10                          10                          10                          10                          10                          10                            10                          10                          10
+  15                   0      15                   0      15                     0      15                          15                          15                   0      15                   0      15                          15                     0      15                          15                          15                   0
+                                                                                                             0                           0                                                                                   0                                                         0                           0
+  20                   -0.5   20                          20                     -0.5
+                                                                                        20                          20                          20                          20                          20                          20                     -0.5   20                          20                          20
+                                                   -0.5                                                                                                              -0.5                        -0.5                                                                                                                                          -0.5
+  25                          25                          25                            25                   -0.5   25                   -0.5   25                          25                          25                          25                            25                   -0.5   25                   -0.5   25
+       5 10 15 20 25               5 10 15 20 25                 5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25                 5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25
+          S7                          S8                            S9                          S 10                        S 11                        S 12                        S7                          S8                            S9                          S 10                        S 11                        S 12
+                       1                           1                             1                           1                           1                           1                           1                           1                             1                           1                           1                           1
+   5                           5                           5                             5                           5                           5                           5                           5                           5                             5                           5                           5
+                       0.5                         0.5                                                       0.5                         0.5                         0.5                         0.5                         0.5                                                       0.5                         0.5                         0.5
+  10                          10                          10                     0.5    10                          10                          10                          10                          10                          10                     0.5    10                          10                          10
+  15                          15                          15                            15                          15                   0      15                   0      15                   0      15                   0      15                            15                   0      15                          15                   0
+                       0                           0                                                         0                                                                                                                                             0                                                       0
+  20                          20                          20                     0      20                          20                          20                          20                          20                          20                            20                          20                          20
+                                                                                                                                         -0.5                                                    -0.5                        -0.5                                                      -0.5                                                    -0.5
+  25                          25                          25                            25                   -0.5   25                          25                   -0.5   25                          25                          25                            25                          25                   -0.5   25
+       5 10 15 20 25               5 10 15 20 25                 5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25                 5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25
+          S 13                        S 14                          S 15                        S 16                        S 17                        S 18                        S 13                        S 14                          S 15                        S 16                        S 17                        S 18
+                       1                           1                             1                           1                           1                           1                           1                           1                             1                           1                           1                           1
+   5                           5                           5                             5                           5                           5                           5                           5                           5                             5                           5                           5
+                       0.5                         0.5                                                       0.5                         0.5                         0.5                         0.5                         0.5                           0.5                         0.5                         0.5                         0.5
+  10                          10                          10                     0.5    10                          10                          10                          10                          10                          10                            10                          10                          10
+  15                          15                   0      15                            15                   0      15                          15                          15                          15                   0      15                     0      15                   0      15                   0      15
+                       0                                                                                                                 0                           0                           0                                                                                                                                             0
+  20                          20                          20                     0      20                          20                          20                          20                          20                          20                            20                          20                          20
+                                                                                                             -0.5                                                                                                            -0.5                                                                                  -0.5
+  25                   -0.5   25                   -0.5   25                            25                          25                   -0.5   25                   -0.5   25                   -0.5   25                          25                     -0.5   25                   -0.5   25                          25                   -0.5
+       5 10 15 20 25               5 10 15 20 25                 5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25                 5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25
+          S 19                        S 20                          S 21                        S 22                        S 23                        S 24                        S 19                        S 20                          S 21                        S 22                        S 23                        S 24
+                       1                           1                             1                           1                           1                           1                           1                           1                             1                           1                           1                           1
+   5                           5                           5                             5                           5                           5                           5                           5                           5                             5                           5                           5
+                       0.5                         0.5                                                       0.5                         0.5                         0.5                         0.5                         0.5                           0.5                         0.5                         0.5                         0.5
+  10                          10                          10                     0.5    10                          10                          10                          10                          10                          10                            10                          10                          10
+  15                          15                          15                            15                          15                          15                   0      15                          15                          15                     0      15                          15                          15                   0
+                       0                           0                                                         0                           0                                                       0                           0                                                         0                           0
+                                                                                 0
+  20                          20                          20                            20                          20                          20                          20                          20                          20                            20                          20                          20                   -0.5
+                                                                                                                                                                     -0.5                                                                                  -0.5
+  25                   -0.5   25                          25                            25                   -0.5   25                   -0.5   25                          25                          25                   -0.5   25                            25                   -0.5   25                   -0.5   25
+       5 10 15 20 25               5 10 15 20 25                 5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25                 5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25
+          S 25                        S 26                                                                                                                                          S 25                        S 26
+                       1                           1                                                                                                                                             1                           1
+   5                           5                                                                                                                                             5                           5
+                       0.5                         0.5                                                                                                                                           0.5                         0.5
+  10                          10                                                                                                                                            10                          10
+  15                          15                   0                                                                                                                        15                          15                   0
+                       0                                                                                                                                                                         0
+  20                          20                                                                                                                                            20                          20
+  25                          25                   -0.5                                                                                                                     25                          25                   -0.5
+       5 10 15 20 25               5 10 15 20 25                                                                                                                                 5 10 15 20 25               5 10 15 20 25
+
+
+
+
+                                                                           (a) 0-back.                                                                                                                                                               (b) 3-back.
+Fig. 4. Pearson Correlation Coefficient (PCC) connectivity matrices for the 0-back (a) and 3-back (b) tasks. Each matrix represents the functional connectivity
+between 25 brain regions (R1-R25) for 26 individual subjects (S1-S26), with data derived from combined EEG and fNIRS signals. The color scale, ranging
+from -0.5 to 1, indicates the strength of the correlation. Higher values (yellow/red) signify stronger positive correlations, while lower values (blue) denote
+weaker or negative correlations. Comparing the two sub-figures, notice the distinct changes in connectivity patterns under the higher cognitive workload of
+the 3-back task.
+
+   2) PLV:: Based on Figure 5, which displays the PLV values for the 0-back and 3-back tasks, respectively, an overall
+increase in brain connectivity was observed in the frontal regions of the head (R1, R2, R3). A comparison of the connectivity
+values between the 0-back and 3-back tasks indicated that connectivity was higher in the 3-back task. Additionally, greater
+connectivity was observed in regions associated with fNIRS data than in those related to EEG data.
+
+
+                                                               PLV Connectivity Values for 0-back task                                                                                                                                   PLV Connectivity Values for 3-back task
+          S1                          S2                            S3                          S4                          S5                          S6                          S1                          S2                            S3                          S4                          S5                          S6
+   5                   0.8     5                   0.8     5                     0.8     5                   0.8     5                   0.8     5                   0.8     5                   0.8     5                   0.8     5                     0.8     5                   0.8     5                   0.8     5                   0.8
+  10                   0.6    10                          10                     0.6
+                                                                                        10                          10                   0.6
+                                                                                                                                                10                   0.6
+                                                                                                                                                                            10                   0.6    10                   0.6    10                     0.6    10                   0.6    10                   0.6
+                                                                                                                                                                                                                                                                                                                          10                   0.6
+                                                   0.6                                                       0.6
+  15                          15                          15                            15                          15                          15                          15                          15                          15                            15                          15                          15
+                       0.4                         0.4                           0.4                         0.4                         0.4                         0.4                         0.4                         0.4                           0.4                         0.4                         0.4                         0.4
+  20                          20                          20                            20                          20                          20                          20                          20                          20                            20                          20                          20
+                       0.2                         0.2                           0.2                         0.2                         0.2                         0.2                         0.2                         0.2                           0.2                         0.2                         0.2                         0.2
+  25                          25                          25                            25                          25                          25                          25                          25                          25                            25                          25                          25
+       5 10 15 20 25               5 10 15 20 25                 5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25                 5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25
+          S7                          S8                            S9                          S 10                        S 11                        S 12                        S7                          S8                            S9                          S 10                        S 11                        S 12
+   5                   0.8     5                   0.8     5                     0.8     5                   0.8     5                   0.8     5                   0.8     5                   0.8     5                   0.8     5                     0.8     5                   0.8     5                   0.8     5                   0.8
+  10                          10                   0.6
+                                                          10                     0.6    10                   0.6
+                                                                                                                    10                   0.6    10                   0.6
+                                                                                                                                                                            10                   0.6
+                                                                                                                                                                                                        10                   0.6    10                     0.6    10                   0.6    10                   0.6    10                   0.6
+                       0.6
+  15                          15                          15                            15                          15                          15                          15                          15                          15                            15                          15                          15
+                       0.4                         0.4                           0.4                         0.4                         0.4                         0.4                         0.4                         0.4                           0.4                         0.4                         0.4                         0.4
+  20                          20                          20                            20                          20                          20                          20                          20                          20                            20                          20                          20
+                       0.2                         0.2                           0.2                         0.2                         0.2                         0.2                         0.2                         0.2                           0.2                         0.2                         0.2                         0.2
+  25                          25                          25                            25                          25                          25                          25                          25                          25                            25                          25                          25
+       5 10 15 20 25               5 10 15 20 25                 5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25                 5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25
+          S 13                        S 14                          S 15                        S 16                        S 17                        S 18                        S 13                        S 14                          S 15                        S 16                        S 17                        S 18
+   5                   0.8     5                   0.8     5                     0.8     5                   0.8     5                   0.8     5                   0.8     5                   0.8     5                   0.8     5                     0.8     5                   0.8     5                   0.8     5                   0.8
+  10                   0.6
+                              10                   0.6    10                            10                   0.6    10                   0.6    10                          10                   0.6    10                   0.6    10                     0.6    10                   0.6    10                   0.6    10
+                                                                                 0.6                                                                                 0.6                                                                                                                                                                       0.6
+  15                          15                          15                            15                          15                          15                          15                          15                          15                            15                          15                          15
+                       0.4                         0.4                           0.4                         0.4                         0.4                         0.4                         0.4                         0.4                           0.4                         0.4                         0.4                         0.4
+  20                          20                          20                            20                          20                          20                          20                          20                          20                            20                          20                          20
+                       0.2                         0.2                           0.2                         0.2                         0.2                         0.2                         0.2                         0.2                           0.2                         0.2                         0.2                         0.2
+  25                          25                          25                            25                          25                          25                          25                          25                          25                            25                          25                          25
+       5 10 15 20 25               5 10 15 20 25                 5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25                 5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25
+          S 19                        S 20                          S 21                        S 22                        S 23                        S 24                        S 19                        S 20                          S 21                        S 22                        S 23                        S 24
+   5                   0.8     5                   0.8     5                     0.8     5                   0.8     5                   0.8     5                   0.8     5                   0.8     5                   0.8     5                     0.8     5                   0.8     5                   0.8     5                   0.8
+  10                   0.6    10                   0.6
+                                                          10                     0.6    10                   0.6    10                          10                          10                   0.6    10                   0.6    10                     0.6    10                   0.6    10                   0.6    10                   0.6
+                                                                                                                                         0.6                         0.6
+  15                          15                          15                            15                          15                          15                          15                          15                          15                            15                          15                          15
+                       0.4                         0.4                           0.4                         0.4                         0.4                         0.4                         0.4                         0.4                           0.4                         0.4                         0.4                         0.4
+  20                          20                          20                            20                          20                          20                          20                          20                          20                            20                          20                          20
+                       0.2                         0.2                           0.2                         0.2                         0.2                         0.2                         0.2                         0.2                           0.2                         0.2                         0.2                         0.2
+  25                          25                          25                            25                          25                          25                          25                          25                          25                            25                          25                          25
+       5 10 15 20 25               5 10 15 20 25                 5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25                 5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25
+          S 25                        S 26                                                                                                                                          S 25                        S 26
+   5                   0.8     5                   0.8                                                                                                                       5                   0.8     5                   0.8
+  10                   0.6    10                   0.6
+                                                                                                                                                                            10                   0.6    10                   0.6
+  15                          15                                                                                                                                            15                          15
+                       0.4                         0.4                                                                                                                                           0.4                         0.4
+  20                          20                                                                                                                                            20                          20
+                       0.2                         0.2                                                                                                                                           0.2                         0.2
+  25                          25                                                                                                                                            25                          25
+       5 10 15 20 25               5 10 15 20 25                                                                                                                                 5 10 15 20 25               5 10 15 20 25
+
+
+
+
+                                                                           (a) 0-back.                                                                                                                                                               (b) 3-back.
+Fig. 5. Phase Locking Value (PLV) connectivity matrices for the 0-back (a) and 3-back (b) tasks. Each matrix represents the functional connectivity between
+25 brain regions (R1-R25) for 26 individual subjects (S1-S26), with data derived from combined EEG and fNIRS signals. The color scale, ranging from
+0.2 to 0.8, indicates the strength of phase synchronization. Higher values (yellow/red) signify stronger phase locking between regions. Comparing the two
+sub-figures, notice the distinct changes in phase synchronization patterns under the higher mental workload of the 3-back task.
+
+   3) MSC:: Based on Figure 6, which displays the MSC values for the 0-back and 3-back tasks, respectively, an overall
+increase in brain connectivity was observed in the frontal regions of the head (R1, R2, R3). A comparison of the connectivity
+values between the 0-back and 3-back tasks indicated that connectivity was higher in the 3-back task. Additionally, greater
+connectivity was observed in regions associated with the OXY data.
+
+B. Results of Effective Connectivity from EEG and fNIRS Signals Coupling
+  The results of the dDTF and gPDC metrics for the 0-back and 3-back tasks, along with the average results across all
+participants, are presented in Figure 7. Dark blue regions indicate minimal connectivity values close to zero, whereas lighter
+JOURNAL                                                                                                                                                                                                                                                                                                                                                     7
+
+
+
+
+                                                        MSC Connectivity Values for 0-back task                                                                                                                                                MSC Connectivity Values for 3-back task
+         S1                         S2                           S3                           S4                           S5                         S6                                         S1                        S2                         S3                           S4                         S5                         S6
+  5                   0.8    5                   0.8    5                   0.8        5                   0.8    5                     0.8    5                   0.8                   5                   0.8    5                   0.8    5                    0.8    5                    0.8    5                   0.8    5                   0.8
+ 10                   0.6   10                   0.6   10                   0.6       10                   0.6   10                     0.6   10                   0.6                  10                   0.6   10                   0.6   10                    0.6   10                    0.6   10                   0.6   10                   0.6
+ 15                   0.4   15                   0.4   15                   0.4       15                   0.4   15                     0.4   15                   0.4                  15                   0.4   15                   0.4   15                    0.4   15                    0.4   15                   0.4   15                   0.4
+ 20                   0.2   20                   0.2   20                   0.2       20                   0.2   20                     0.2   20                   0.2                  20                   0.2   20                   0.2   20                    0.2   20                    0.2   20                   0.2   20                   0.2
+ 25                         25                         25                             25                         25                           25                                        25                         25                         25                          25                          25                         25
+      5 10 15 20 25              5 10 15 20 25              5 10 15 20 25                  5 10 15 20 25                5 10 15 20 25              5 10 15 20 25                             5 10 15 20 25              5 10 15 20 25              5 10 15 20 25                5 10 15 20 25              5 10 15 20 25              5 10 15 20 25
+         S7                         S8                           S9                           S 10                         S 11                       S 12                                       S7                        S8                         S9                           S 10                       S 11                       S 12
+  5                   0.8    5                   0.8    5                   0.8        5                   0.8    5                     0.8    5                   0.8                   5                   0.8    5                   0.8    5                    0.8    5                    0.8    5                   0.8    5                   0.8
+ 10                   0.6   10                   0.6   10                   0.6       10                   0.6   10                     0.6   10                   0.6                  10                   0.6   10                   0.6   10                    0.6   10                    0.6   10                   0.6   10                   0.6
+ 15                   0.4   15                   0.4   15                   0.4       15                   0.4   15                     0.4   15                   0.4                  15                   0.4   15                   0.4   15                    0.4   15                    0.4   15                   0.4   15                   0.4
+ 20                   0.2   20                   0.2   20                   0.2       20                   0.2   20                     0.2   20                   0.2                  20                   0.2   20                   0.2   20                    0.2   20                    0.2   20                   0.2   20                   0.2
+ 25                         25                         25                             25                         25                           25                                        25                         25                         25                          25                          25                         25
+      5 10 15 20 25              5 10 15 20 25              5 10 15 20 25                  5 10 15 20 25                5 10 15 20 25              5 10 15 20 25                             5 10 15 20 25              5 10 15 20 25              5 10 15 20 25                5 10 15 20 25              5 10 15 20 25              5 10 15 20 25
+         S 13                       S 14                         S 15                         S 16                         S 17                       S 18                                       S 13                      S 14                       S 15                         S 16                       S 17                       S 18
+  5                   0.8    5                   0.8    5                   0.8        5                   0.8    5                     0.8    5                   0.8                   5                   0.8    5                   0.8    5                    0.8    5                    0.8    5                   0.8    5                   0.8
+ 10                   0.6   10                   0.6   10                   0.6       10                   0.6   10                     0.6   10                   0.6                  10                   0.6   10                   0.6   10                    0.6   10                    0.6   10                   0.6   10                   0.6
+ 15                   0.4   15                   0.4   15                   0.4       15                   0.4   15                     0.4   15                   0.4                  15                   0.4   15                   0.4   15                    0.4   15                    0.4   15                   0.4   15                   0.4
+ 20                   0.2   20                   0.2   20                   0.2       20                   0.2   20                     0.2   20                   0.2                  20                   0.2   20                   0.2   20                    0.2   20                    0.2   20                   0.2   20                   0.2
+ 25                         25                         25                             25                         25                           25                                        25                         25                         25                          25                          25                         25
+      5 10 15 20 25              5 10 15 20 25              5 10 15 20 25                  5 10 15 20 25                5 10 15 20 25              5 10 15 20 25                             5 10 15 20 25              5 10 15 20 25              5 10 15 20 25                5 10 15 20 25              5 10 15 20 25              5 10 15 20 25
+         S 19                       S 20                         S 21                         S 22                         S 23                       S 24                                       S 19                      S 20                       S 21                         S 22                       S 23                       S 24
+  5                   0.8    5                   0.8    5                   0.8        5                   0.8    5                     0.8    5                   0.8                   5                   0.8    5                   0.8    5                    0.8    5                    0.8    5                   0.8    5                   0.8
+ 10                   0.6   10                   0.6   10                   0.6       10                   0.6   10                     0.6   10                   0.6                  10                   0.6   10                   0.6   10                    0.6   10                    0.6   10                   0.6   10                   0.6
+ 15                   0.4   15                   0.4   15                   0.4       15                   0.4   15                     0.4   15                   0.4                  15                   0.4   15                   0.4   15                    0.4   15                    0.4   15                   0.4   15                   0.4
+ 20                   0.2   20                   0.2   20                   0.2       20                   0.2   20                     0.2   20                   0.2                  20                   0.2   20                   0.2   20                    0.2   20                    0.2   20                   0.2   20                   0.2
+ 25                         25                         25                             25                         25                           25                                        25                         25                         25                          25                          25                         25
+      5 10 15 20 25              5 10 15 20 25              5 10 15 20 25                  5 10 15 20 25                5 10 15 20 25              5 10 15 20 25                             5 10 15 20 25              5 10 15 20 25              5 10 15 20 25                5 10 15 20 25              5 10 15 20 25              5 10 15 20 25
+         S 25                       S 26                                                                                                                                                         S 25                      S 26
+  5                   0.8    5                   0.8                                                                                                                                     5                   0.8    5                   0.8
+ 10                   0.6   10                   0.6                                                                                                                                    10                   0.6   10                   0.6
+ 15                   0.4   15                   0.4                                                                                                                                    15                   0.4   15                   0.4
+ 20                   0.2   20                   0.2                                                                                                                                    20                   0.2   20                   0.2
+ 25                         25                                                                                                                                                          25                         25
+      5 10 15 20 25              5 10 15 20 25                                                                                                                                               5 10 15 20 25              5 10 15 20 25
+
+
+
+
+                                                                        (a) 0-back.                                                                                                                                                                          (b) 3-back.
+Fig. 6. Magnitude Squared Coherence (MSC) connectivity matrices for the 0-back (a) and 3-back (b) tasks. Each matrix represents the functional connectivity
+between 25 brain regions (R1-R25) for 26 individual subjects (S1-S26), with data derived from combined EEG and fNIRS signals. The color scale, ranging
+from 0.2 to 0.8, indicates the strength of coherence. Higher values (yellow/red) signify a stronger linear dependency in the frequency domain between regions.
+Comparing the two sub-figures, notice the distinct alterations in frequency domain coherence due to the increased mental workload of the 3-back task.
+
+
+                                                                                                                                  Connectivity mean Values of all subjects for 0-back & 3-back task
+                                                                                                           dDTF0                                                                                                   dDTF3
+
+                                                                                                                                                                   0.06                                                                                                   0.06
+                                                            5                                                                                                                 5
+                                                                                                                                                                   0.05                                                                                                   0.05
+
+                                                            10                                                                                                     0.04
+                                                                                                                                                                             10
+                                                                                                                                                                                                                                                                          0.04
+
+
+                                                            15                                                                                                     0.03      15                                                                                           0.03
+
+                                                                                                                                                                   0.02                                                                                                   0.02
+                                                            20                                                                                                               20
+                                                                                                                                                                   0.01                                                                                                   0.01
+
+                                                            25                                                                                                               25
+                                                                                  5                  10            15                   20             25                                    5               10              15               20                   25
+
+
+
+                                                                                                           GPDC0                                                                                                   GPDC3
+                                                                                                                                                                   0.6                                                                                                    0.6
+
+
+                                                            5                                                                                                                 5                                                                                           0.5
+                                                                                                                                                                   0.5
+
+
+                                                            10                                                                                                     0.4       10                                                                                           0.4
+
+
+                                                            15                                                                                                     0.3       15                                                                                           0.3
+
+
+                                                                                                                                                                   0.2                                                                                                    0.2
+                                                            20                                                                                                               20
+
+                                                                                                                                                                   0.1                                                                                                    0.1
+                                                            25                                                                                                               25
+                                                                                  5                  10            15                   20             25                                    5               10              15               20                   25
+
+
+
+
+Fig. 7. Connectivity mean Values of all subjects for 0-back & 3-back task. Top row: Mean dDTF (directed Directed Transfer Function) effective connectivity
+matrices across all 26 subjects for 0-back (dDTF0) and 3-back (dDTF3) tasks. Bottom row: Mean gPDC (generalized Partial Directed Coherence) effective
+connectivity matrices across all 26 subjects for 0-back (GPDC0) and 3-back (GPDC3) tasks. Color scales indicate the strength of effective connectivity,
+highlighting the directional information flow between regions (R1-R25).
+
+
+
+colors represent increased connectivity within the matrix. The dDTF, which measures the inflow of information, shows higher
+inflow values in regions R10, R11, ..., R25 compared to other areas. Additionally, the inflow from fNIRS data to EEG data
+was greater than that from EEG data to fNIRS data. The gPDC, which assesses the outflow of information, indicates that the
+outflow values in R10, R11, ..., R25 are lower than those in other regions. Moreover, the outflow from the EEG data to the
+fNIRS data is greater than that from the fNIRS data to the EEG data.
+   By comparing the dDTF and gPDC values, it was observed that the gPDC values were generally higher than the dDTF
+values, indicating that the outflow of information from EEG to fNIRS is greater than the inflow of information from fNIRS to
+EEG.
+   The dDTF metric quantifies the inflow of information from the various channels. For example, the inflow from fNIRS to
+EEG represents the proportion of information received by EEG from fNIRS relative to the total amount of information received
+by EEG. As illustrated in Figure 8, a comparative analysis of the information exchange between EEG and fNIRS indicates
+that, across all participants, the inflow of information from fNIRS to EEG is consistently greater than the inflow from EEG to
+fNIRS.
+JOURNAL                                                                                                                                                                                                                                                                                                                                          8
+
+
+
+
+                                                          dDTF Connectivity Values for 0-back task                                                                                                                                dDTF Connectivity Values for 3-back task
+         S1                          S2                          S3                          S4                          S5                          S6                          S1                          S2                          S3                          S4                          S5                          S6
+  5                   0.06    5                   0.06    5                   0.06    5                   0.06    5                           5                   0.06    5                   0.06    5                   0.06    5                   0.06    5                   0.06    5                           5                   0.06
+                                                                                                                                      0.06                                                                                                                                                                    0.06
+ 10                   0.04   10                   0.04   10                          10                          10                          10                   0.04   10                          10                          10                          10                   0.04   10                          10                   0.04
+                                                                              0.04                        0.04                        0.04                                                    0.04                        0.04                        0.04                                                    0.04
+ 15                          15                          15                          15                          15                          15                          15                          15                          15                          15                          15                          15
+                      0.02                        0.02                        0.02                        0.02                        0.02                        0.02                        0.02                        0.02                        0.02                        0.02                        0.02                        0.02
+ 20                          20                          20                          20                          20                          20                          20                          20                          20                          20                          20                          20
+ 25                          25                          25                          25                          25                          25                          25                          25                          25                          25                          25                          25
+      5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25
+         S7                          S8                          S9                          S 10                        S 11                        S 12                        S7                          S8                          S9                          S 10                        S 11                        S 12
+  5                           5                   0.06    5                   0.06    5                   0.06    5                   0.06    5                   0.06    5                   0.06    5                   0.06    5                   0.06    5                   0.06    5                   0.06    5                   0.06
+                      0.06
+ 10                          10                          10                   0.04   10                   0.04
+                                                                                                                 10                          10                          10                          10                          10                          10                   0.04   10                   0.04   10
+                      0.04                        0.04                                                                                0.04                        0.04                        0.04                        0.04                        0.04                                                                                0.04
+ 15                          15                          15                          15                          15                          15                          15                          15                          15                          15                          15                          15
+ 20                   0.02   20                   0.02   20                   0.02   20                   0.02   20                   0.02   20                   0.02   20                   0.02   20                   0.02   20                   0.02   20                   0.02   20                   0.02   20                   0.02
+ 25                          25                          25                          25                          25                          25                          25                          25                          25                          25                          25                          25
+      5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25
+         S 13                        S 14                        S 15                        S 16                        S 17                        S 18                        S 13                        S 14                        S 15                        S 16                        S 17                        S 18
+  5                   0.06    5                   0.06    5                   0.06    5                   0.06    5                   0.06    5                   0.06    5                   0.06    5                   0.06    5                   0.06    5                   0.06    5                           5                   0.06
+                                                                                                                                                                                                                                                                                                              0.06
+ 10                   0.04   10                          10                          10                          10                   0.04   10                          10                   0.04   10                   0.04   10                          10                          10                          10
+                                                  0.04                        0.04                        0.04                                                    0.04                                                                                0.04                        0.04                        0.04                        0.04
+ 15                          15                          15                          15                          15                          15                          15                          15                          15                          15                          15                          15
+ 20                   0.02   20                   0.02   20                   0.02   20                   0.02   20                   0.02   20                   0.02   20                   0.02   20                   0.02   20                   0.02   20                   0.02   20                   0.02   20                   0.02
+ 25                          25                          25                          25                          25                          25                          25                          25                          25                          25                          25                          25
+      5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25
+         S 19                        S 20                        S 21                        S 22                        S 23                        S 24                        S 19                        S 20                        S 21                        S 22                        S 23                        S 24
+  5                           5                           5                   0.06    5                   0.06    5                   0.06    5                           5                   0.06    5                   0.06    5                   0.06    5                   0.06    5                           5
+                      0.06                        0.06                                                                                                            0.06                                                                                                                                        0.06                        0.06
+ 10                          10                          10                   0.04   10                   0.04   10                   0.04   10                          10                          10                   0.04   10                   0.04   10                          10                          10
+                      0.04                        0.04                                                                                                            0.04                        0.04                                                                                0.04                        0.04                        0.04
+ 15                          15                          15                          15                          15                          15                          15                          15                          15                          15                          15                          15
+                      0.02                        0.02                        0.02                        0.02                        0.02                        0.02                        0.02                        0.02                        0.02                        0.02                        0.02                        0.02
+ 20                          20                          20                          20                          20                          20                          20                          20                          20                          20                          20                          20
+ 25                          25                          25                          25                          25                          25                          25                          25                          25                          25                          25                          25
+      5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25
+         S 25                        S 26                                                                                                                                        S 25                        S 26
+  5                   0.06    5                   0.06                                                                                                                    5                   0.06    5                   0.06
+ 10                   0.04   10                   0.04                                                                                                                   10                   0.04
+                                                                                                                                                                                                     10
+                                                                                                                                                                                                                          0.04
+ 15                          15                                                                                                                                          15                          15
+ 20                   0.02   20                   0.02                                                                                                                   20                   0.02   20                   0.02
+ 25                          25                                                                                                                                          25                          25
+      5 10 15 20 25               5 10 15 20 25                                                                                                                               5 10 15 20 25               5 10 15 20 25
+
+
+
+
+                                                                        (a) 0-back.                                                                                                                                                             (b) 3-back.
+Fig. 8. directed Directed Transfer Function (dDTF) connectivity matrices for the 0-back (a) and 3-back (b) tasks. Each matrix represents the directional
+information flow between 25 brain regions (R1-R25) for 26 individual subjects (S1-S26), with data derived from combined EEG and fNIRS signals. The color
+scale, ranging from 0.02 to 0.06, indicates the strength of the directed connectivity. Higher values signify a stronger information inflow.
+
+
+
+   The gPDC metric quantifies the outflow of information from the different channels. For instance, the outflow from EEG
+to fNIRS represents the proportion of information transmitted from EEG to fNIRS relative to the total amount of information
+leaving the EEG signals. As illustrated in Figure 9, a comparative analysis of the information flow between EEG and fNIRS
+indicates that, across all participants, the outflow of information from EEG to fNIRS is greater than the outflow from fNIRS
+to EEG.
+
+
+                                                          gPDC Connectivity Values for 0-back task                                                                                                                                gPDC Connectivity Values for 3-back task
+         S1                          S2                          S3                          S4                          S5                          S6                          S1                          S2                          S3                          S4                          S5                          S6
+                      0.6                         0.6                                                                                 0.6                         0.6                         0.6                         0.6                         0.6                                                     0.6                         0.6
+                                                                              0.6                         0.6                                                                                                                                                                     0.6
+  5                           5                           5                           5                           5                           5                           5                           5                           5                           5                           5                           5
+ 10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4
+ 15                          15                          15                          15                          15                          15                          15                          15                          15                          15                          15                          15
+ 20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2
+ 25                          25                          25                          25                          25                          25                          25                          25                          25                          25                          25                          25
+      5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25
+         S7                          S8                          S9                          S 10                        S 11                        S 12                        S7                          S8                          S9                          S 10                        S 11                        S 12
+                                                  0.6                                                                                 0.6                         0.6                         0.6                         0.6                                                                                 0.6                         0.6
+                                                                              0.6                         0.6                                                                                                                                         0.6                         0.6
+  5                   0.5     5                           5                           5                           5                           5                           5                           5                           5                           5                           5                           5
+ 10                   0.4    10                   0.4    10                          10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4
+                                                                              0.4
+ 15                   0.3    15                          15                          15                          15                          15                          15                          15                          15                          15                          15                          15
+ 20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2
+ 25                   0.1    25                          25                          25                          25                          25                          25                          25                          25                          25                          25                          25
+      5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25
+         S 13                        S 14                        S 15                        S 16                        S 17                        S 18                        S 13                        S 14                        S 15                        S 16                        S 17                        S 18
+                                                  0.6                                                     0.6                         0.6                         0.6                                                                                                             0.6                         0.6
+  5                   0.5     5                           5                   0.5     5                           5                           5                           5                   0.5     5                   0.5     5                   0.5     5                           5                           5                   0.5
+ 10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                          10                   0.4
+                                                                                                                                                                                                                                                                                                              0.4
+ 15                   0.3    15                          15                   0.3    15                          15                          15                          15                   0.3    15                   0.3    15                   0.3    15                          15                          15                   0.3
+ 20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2
+                      0.1                                                     0.1                                                                                                             0.1                         0.1                         0.1                                                                                 0.1
+ 25                          25                          25                          25                          25                          25                          25                          25                          25                          25                          25                          25
+      5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25
+         S 19                        S 20                        S 21                        S 22                        S 23                        S 24                        S 19                        S 20                        S 21                        S 22                        S 23                        S 24
+                      0.6                         0.6                         0.6                         0.6                         0.6                         0.6                                                     0.6                         0.6                         0.6                         0.6                         0.6
+                                                                                                                                                                                              0.6
+  5                           5                           5                           5                           5                           5                           5                           5                           5                           5                           5                           5
+ 10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4    10                   0.4
+ 15                          15                          15                          15                          15                          15                          15                          15                          15                          15                          15                          15
+ 20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2    20                   0.2
+ 25                          25                          25                          25                          25                          25                          25                          25                          25                          25                          25                          25
+      5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25               5 10 15 20 25
+         S 25                        S 26                                                                                                                                        S 25                        S 26
+                                                  0.6                                                                                                                                                                     0.6
+                      0.6                                                                                                                                                                     0.6
+  5                           5                                                                                                                                           5                           5
+ 10                   0.4    10                   0.4                                                                                                                    10                   0.4    10                   0.4
+ 15                          15                                                                                                                                          15                          15
+ 20                   0.2    20                   0.2                                                                                                                    20                   0.2    20                   0.2
+ 25                          25                                                                                                                                          25                          25
+      5 10 15 20 25               5 10 15 20 25                                                                                                                               5 10 15 20 25               5 10 15 20 25
+
+
+
+
+                                                                        (a) 0-back.                                                                                                                                                             (b) 3-back.
+Fig. 9. generalized Partial Directed Coherence (gPDC) connectivity matrices for the 0-back (a) and 3-back (b) tasks. Each matrix represents the directional
+information flow between 25 brain regions (R1-R25) for 26 individual subjects (S1-S26), with data derived from combined EEG and fNIRS signals. The color
+scale, ranging from 0.1 to 0.6, indicates the strength of the directed connectivity. Higher values signify a stronger information outflow.
+
+
+
+C. Results of Statistical tests
+   To assess the statistical significance of the differences in brain connectivity between the high and low mental workload
+groups, a Wilcoxon signed-rank test was conducted using SPSS. In this analysis, p-values less than 0.05 were considered
+indicative of a statistically significant difference. The presented matrix displays the results of the Wilcoxon signed-rank test for
+comparing brain connectivity between the two cognitive load conditions: low cognitive load (0-back) and high cognitive load
+(3-back). The rows and columns of this matrix correspond to different EEG and fNIRS brain regions, categorized as R1–R25.
+   The p-values in each cell of the matrix indicate the statistical significance of the differences in connectivity between these
+regions under the two cognitive load conditions. Darker colors (blue) represent p-values less than 0.05, signifying a statistically
+significant difference in brain connectivity between the 0-back and 3-back conditions. In contrast, the white cells indicate
+non-significant differences between these conditions.
+JOURNAL                                                                                                                                                                                                                                                                             9
+
+
+
+   Overall, these findings highlight the changes in brain connectivity patterns in response to increased cognitive load, particularly
+in specific brain regions that may play a more critical role in cognitive task processing. The results of statistical tests for each
+brain connectivity measure are discussed in detail in the following sections.
+   1) Statistical tests for MSC:: Based on Figure 10, which shows the results of the Wilcoxon signed-rank test for MSC
+connectivity under two levels of cognitive load, significant changes were observed across different brain regions. it can be
+concluded that an increase in cognitive load from the 0-back to the 3-back task extensively impacts brain coherence. This effect
+is particularly statistically significant in the EEG-related frontal and central brain regions, indicating an increase in coherence
+within networks responsible for executive functions and working memory. Furthermore, statistically significant differences are
+also observed in both DEOXY and OXY, which confirms the impact of cognitive load on fNIRS as well.
+
+
+
+
+                                                                                                     Results of Wilcoxon signed-rank test for MSC connectivities
+                                                                                                 comparisons between low workload (0-back) vs high workload (3-back)
+                                                                                                                                                                                                                                                                   0.05
+                                  R1    NaN   0.0001   0.0031   0.0020   0.0016   0.0462   NaN    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN
+
+
+
+                                  R2 0.0001    NaN     0.0005   0.0002   0.0014    NaN     NaN    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN
+
+
+
+                                  R3 0.0031   0.0005    NaN     0.0050   0.0013   0.0361   NaN    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN
+
+
+
+                                  R4 0.0020   0.0002   0.0050    NaN     0.0006    NaN     NaN    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN
+
+
+
+                                  R5 0.0016   0.0014   0.0013   0.0006    NaN     0.0034   NaN    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN
+
+                                                                                                                                                                                                                                                                   0.04
+                                  R6 0.0462    NaN     0.0361    NaN     0.0034    NaN     NaN    NaN      NaN     0.0115    NaN     0.0246    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN
+
+
+
+                                  R7    NaN    NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN
+
+
+
+                                  R8    NaN    NaN      NaN      NaN      NaN      NaN     NaN    NaN     0.0086    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0490    NaN      NaN     0.0361    NaN      NaN      NaN      NaN
+
+
+
+                                  R9    NaN    NaN      NaN      NaN      NaN      NaN     NaN   0.0086    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0215    NaN     0.0176   0.0176   0.0080    NaN      NaN     0.0435
+
+
+
+                                  R10   NaN    NaN      NaN      NaN      NaN     0.0115   NaN    NaN      NaN      NaN     0.0299    NaN      NaN     0.0319    NaN      NaN      NaN     0.0280   0.0043   0.0068   0.0020   0.0001   0.0011   0.0361   0.0080
+
+                                                                                                                                                                                                                                                                   0.03
+                                  R11   NaN    NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN     0.0299    NaN     0.0026    NaN      NaN      NaN      NaN      NaN      NaN     0.0462   0.0059   0.0039   0.0001   0.0001    NaN     0.0246
+
+
+
+                                  R12   NaN    NaN      NaN      NaN      NaN     0.0246   NaN    NaN      NaN      NaN     0.0026    NaN      NaN      NaN      NaN      NaN      NaN     0.0409   0.0026    NaN     0.0011   0.0010   0.0006   0.0280   0.0080
+
+
+
+
+                                                                                                                                                                                                                                                                          P-value
+                                  R13   NaN    NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0462    NaN      NaN     0.0014   0.0006    NaN     0.0080
+
+
+
+                                  R14   NaN    NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN     0.0319    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0339   0.0022    NaN     0.0086
+
+
+
+                                  R15   NaN    NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0263    NaN      NaN     0.0008   0.0024    NaN     0.0043
+
+                                                                                                                                                                                                                                                                   0.02
+                                  R16   NaN    NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0014    NaN     0.0435   0.0022   0.0462    NaN     0.0215
+
+
+
+                                  R17   NaN    NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0115    NaN     0.0435   0.0007   0.0246    NaN     0.0092
+
+
+
+                                  R18   NaN    NaN      NaN      NaN      NaN      NaN     NaN   0.0490   0.0215   0.0280    NaN     0.0409    NaN      NaN      NaN      NaN      NaN      NaN     0.0280   0.0043    NaN     0.0409    NaN      NaN     0.0020
+
+
+
+                                  R19   NaN    NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN     0.0043   0.0462   0.0026   0.0462    NaN     0.0263   0.0014   0.0115   0.0280    NaN     0.0068    NaN      NaN      NaN      NaN      NaN
+
+
+
+                                  R20   NaN    NaN      NaN      NaN      NaN      NaN     NaN    NaN     0.0176   0.0068   0.0059    NaN      NaN      NaN      NaN      NaN      NaN     0.0043   0.0068    NaN      NaN      NaN     0.0299   0.0107   0.0068
+
+                                                                                                                                                                                                                                                                   0.01
+                                  R21   NaN    NaN      NaN      NaN      NaN      NaN     NaN   0.0361   0.0176   0.0020   0.0039   0.0011    NaN      NaN      NaN     0.0435   0.0435    NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0153
+
+
+
+                                  R22   NaN    NaN      NaN      NaN      NaN      NaN     NaN    NaN     0.0080   0.0001   0.0001   0.0010   0.0014   0.0339   0.0008   0.0022   0.0007   0.0409    NaN      NaN      NaN      NaN     0.0153   0.0074    NaN
+
+
+
+                                  R23   NaN    NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN     0.0011   0.0001   0.0006   0.0006   0.0022   0.0024   0.0462   0.0246    NaN      NaN     0.0299    NaN     0.0153    NaN     0.0215   0.0490
+
+
+
+                                  R24   NaN    NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN     0.0361    NaN     0.0280    NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0107    NaN     0.0074   0.0215    NaN     0.0339
+
+
+
+                                  R25   NaN    NaN      NaN      NaN      NaN      NaN     NaN    NaN     0.0435   0.0080   0.0246   0.0080   0.0080   0.0086   0.0043   0.0215   0.0092   0.0020    NaN     0.0068   0.0153    NaN     0.0490   0.0339    NaN
+
+                                                                                                                                                                                                                                                                   0
+                                        R1     R2       R3       R4       R5       R6      R7     R8       R9      R10      R11      R12      R13      R14      R15      R16      R17      R18      R19      R20      R21      R22      R23      R24      R25
+
+
+
+
+Fig. 10. Results of Wilcoxon signed-rank test for Magnitude Squared Coherence (MSC) connectivities comparing low workload (0-back) versus high workload
+(3-back) conditions. The matrix displays p-values for statistical significance of differences in MSC connectivity between 0-back and 3-back tasks across 25
+regions (R1-R25). The color scale represents p-values, with darker blue indicating statistically significant difference and lighter colors/white indicating less
+significant differences. Regions R1-R9 correspond to EEG regions, R10-R17 to OXY regions, and R18-R25 to DEOXY regions.
+
+   2) Statistical tests for PLV:: Based on Figure 11, the analysis of PLV changes in the EEG, OXY, and DEOXY regions
+revealed distinct patterns in response to an increased cognitive load. it can be concluded that an increase in cognitive load
+from the 0-back to the 3-back task extensively impacts the temporal synchrony of brain activity. This effect is particularly
+statistically significant in the EEG-related frontal and central brain regions, indicating an increase in synchrony within areas
+responsible for executive functions and working memory. Statistically significant differences are also observed in the temporal
+coordination of fNIRS (R10 to R25), which confirms the impact of cognitive load on both OXY and DEOXY. Furthermore,
+an increase in synchrony in both EEG and fNIRS networks is observable in response to the higher cognitive demand.
+   3) Statistical tests for PCC:: Based on Figure 12, the statistical analysis of PCC-based brain connectivity, it can be concluded
+that an increase in cognitive load from the 0-back to the 3-back task significantly impacts brain connectivity. This effect is
+particularly statistically significant in the EEG-related frontal and central brain regions, as well as in the DEOXY-related
+frontal regions. These areas, which are responsible for executive functions and working memory, increase their coordination
+and connectivity to respond to the higher cognitive demand. These changes are also observed in the connectivity between
+the EEG and fNIRS regions. In contrast, a statistically significant difference is not seen in the connectivity within the OXY
+regions. This finding indicates that the increase in cognitive load has not significantly altered the internal connectivity patterns
+of this network.
+   4) Statistical tests for dDTF and gPDC:: The results of the Wilcoxon signed-rank test for effective connectivity (dDTF and
+gPDC) indicate a highly significant difference (p = 8.3 × 10−6 ) in information flow between EEG and fNIRS, confirming that
+connectivity values in the EEG-to-fNIRS and fNIRS-to-EEG directions are statistically distinct. This suggests an asymmetric
+JOURNAL                                                                                                                                                                                                                                                                                   10
+
+
+
+
+                                                                                                           Results of Wilcoxon signed-rank test for PLV connectivities
+                                                                                                       comparisons between low workload (0-back) vs high workload (3-back)
+                                                                                                                                                                                                                                                                         0.05
+                                   R1    NaN     0.0001   0.0005   0.0063   0.0054   0.0059    NaN      NaN      NaN      NaN      NaN      NaN     0.0059    NaN     0.0176   0.0153    NaN     0.0299   0.0092   0.0280   0.0230    NaN     0.0039    NaN     0.0299
+
+
+
+                                   R2 0.0001      NaN     0.0004   0.0007   0.0005   0.0124    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0280    NaN      NaN
+
+
+
+                                   R3 0.0005     0.0004    NaN     0.0176   0.0215    NaN      NaN      NaN      NaN      NaN      NaN     0.0063   0.0028   0.0080   0.0246   0.0016   0.0230   0.0142   0.0086   0.0074   0.0046   0.0176   0.0074   0.0099   0.0153
+
+
+
+                                   R4 0.0063     0.0007   0.0176    NaN     0.0005    NaN      NaN      NaN      NaN     0.0201   0.0080   0.0133   0.0020   0.0068   0.0059   0.0142   0.0201   0.0028   0.0031   0.0028   0.0074   0.0299   0.0024   0.0124   0.0107
+
+
+
+                                   R5 0.0054     0.0005   0.0215   0.0005    NaN     0.0022    NaN      NaN      NaN     0.0490   0.0263   0.0153   0.0080   0.0164   0.0092   0.0059   0.0164   0.0115   0.0092   0.0263   0.0176   0.0164   0.0050   0.0142   0.0215
+
+                                                                                                                                                                                                                                                                         0.04
+                                   R6 0.0059     0.0124    NaN      NaN     0.0022    NaN      NaN      NaN      NaN     0.0012   0.0107   0.0034   0.0046   0.0074   0.0107   0.0201   0.0339    NaN     0.0036   0.0022   0.0385   0.0024   0.0068    NaN     0.0133
+
+
+
+                                   R7    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0142   0.0099   0.0026   0.0028   0.0022   0.0176   0.0050   0.0063   0.0059   0.0007   0.0176   0.0092   0.0164   0.0013   0.0046   0.0008
+
+
+
+                                   R8    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0385   0.0013   0.0059   0.0006   0.0012   0.0020   0.0034   0.0034   0.0024   0.0039   0.0011   0.0022   0.0034   0.0074   0.0074   0.0046   0.0009
+
+
+
+                                   R9    NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0385    NaN     0.0001   0.0003   0.0001   0.0003   0.0001   0.0001   0.0002   0.0001   0.0002   0.0001   0.0001   0.0007   0.0000   0.0002   0.0000   0.0000
+
+
+
+                                  R10    NaN      NaN      NaN     0.0201   0.0490   0.0012   0.0142   0.0013   0.0001    NaN      NaN      NaN      NaN     0.0490    NaN      NaN      NaN     0.0022   0.0013   0.0215   0.0092   0.0009   0.0164    NaN     0.0153
+
+                                                                                                                                                                                                                                                                         0.03
+                                  R11    NaN      NaN      NaN     0.0080   0.0263   0.0107   0.0099   0.0059   0.0003    NaN      NaN     0.0063    NaN      NaN      NaN      NaN      NaN     0.0016   0.0164   0.0039   0.0462   0.0016   0.0017   0.0280   0.0176
+
+
+
+                                  R12    NaN      NaN     0.0063   0.0133   0.0153   0.0034   0.0026   0.0006   0.0001    NaN     0.0063    NaN      NaN      NaN      NaN      NaN      NaN     0.0462   0.0034    NaN     0.0299   0.0074   0.0115   0.0230   0.0462
+
+
+
+
+                                                                                                                                                                                                                                                                                P-value
+                                  R13   0.0059    NaN     0.0028   0.0020   0.0080   0.0046   0.0028   0.0012   0.0003    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0246    NaN      NaN     0.0068   0.0074    NaN     0.0462
+
+
+
+                                  R14    NaN      NaN     0.0080   0.0068   0.0164   0.0074   0.0022   0.0020   0.0001   0.0490    NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0490    NaN      NaN      NaN      NaN     0.0230    NaN      NaN
+
+
+
+                                  R15   0.0176    NaN     0.0246   0.0059   0.0092   0.0107   0.0176   0.0034   0.0001    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0462    NaN      NaN      NaN
+
+                                                                                                                                                                                                                                                                         0.02
+                                  R16   0.0153    NaN     0.0016   0.0142   0.0059   0.0201   0.0050   0.0034   0.0002    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN
+
+
+
+                                  R17    NaN      NaN     0.0230   0.0201   0.0164   0.0339   0.0063   0.0024   0.0001    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0176   0.0490    NaN      NaN
+
+
+
+                                  R18   0.0299    NaN     0.0142   0.0028   0.0115    NaN     0.0059   0.0039   0.0002   0.0022   0.0016   0.0462    NaN     0.0490    NaN      NaN      NaN      NaN     0.0068   0.0016    NaN     0.0028   0.0246   0.0115   0.0050
+
+
+
+                                  R19   0.0092    NaN     0.0086   0.0031   0.0092   0.0036   0.0007   0.0011   0.0001   0.0013   0.0164   0.0034   0.0246    NaN      NaN      NaN      NaN     0.0068    NaN     0.0050    NaN     0.0435    NaN     0.0133    NaN
+
+
+
+                                  R20   0.0280    NaN     0.0074   0.0028   0.0263   0.0022   0.0176   0.0022   0.0001   0.0215   0.0039    NaN      NaN      NaN      NaN      NaN      NaN     0.0016   0.0050    NaN     0.0319   0.0080   0.0490   0.0034   0.0115
+
+                                                                                                                                                                                                                                                                         0.01
+                                  R21   0.0230    NaN     0.0046   0.0074   0.0176   0.0385   0.0092   0.0034   0.0007   0.0092   0.0462   0.0299    NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0319    NaN      NaN      NaN     0.0462   0.0409
+
+
+
+                                  R22    NaN      NaN     0.0176   0.0299   0.0164   0.0024   0.0164   0.0074   0.0000   0.0009   0.0016   0.0074   0.0068    NaN     0.0462    NaN     0.0176   0.0028   0.0435   0.0080    NaN      NaN     0.0043   0.0034   0.0142
+
+
+
+                                  R23   0.0039   0.0280   0.0074   0.0024   0.0050   0.0068   0.0013   0.0074   0.0002   0.0164   0.0017   0.0115   0.0074   0.0230    NaN      NaN     0.0490   0.0246    NaN     0.0490    NaN     0.0043    NaN      NaN     0.0435
+
+
+
+                                  R24    NaN      NaN     0.0099   0.0124   0.0142    NaN     0.0046   0.0046   0.0000    NaN     0.0280   0.0230    NaN      NaN      NaN      NaN      NaN     0.0115   0.0133   0.0034   0.0462   0.0034    NaN      NaN     0.0046
+
+
+
+                                  R25   0.0299    NaN     0.0153   0.0107   0.0215   0.0133   0.0008   0.0009   0.0000   0.0153   0.0176   0.0462   0.0462    NaN      NaN      NaN      NaN     0.0050    NaN     0.0115   0.0409   0.0142   0.0435   0.0046    NaN
+
+                                                                                                                                                                                                                                                                         0
+                                         R1       R2       R3       R4       R5       R6       R7       R8       R9      R10      R11      R12      R13      R14      R15      R16      R17      R18      R19      R20      R21      R22      R23      R24      R25
+
+
+
+
+Fig. 11. Results of Wilcoxon signed-rank test for Phase Locking Value (PLV) connectivities comparing low workload (0-back) versus high workload (3-back)
+conditions. The matrix displays p-values for statistical significance of differences in PLV connectivity between 0-back and 3-back tasks across 25 regions
+(R1-R25). The color scale represents p-values, with darker blue indicating statistically significant difference and lighter colors/white indicating non-significant
+differences. Regions R1-R9 correspond to EEG regions, R10-R17 to OXY regions, and R18-R25 to DEOXY regions.
+
+
+
+neurovascular interaction, where EEG activity predominantly drives fNIRS responses, aligning with neurovascular coupling
+models where electrical activity induces metabolic demand, leading to vascular adaptation. The weaker fNIRS-to-EEG con-
+nectivity implies that hemodynamic changes do not exert an equivalent immediate effect on neural oscillations, reinforcing
+the feedforward dominance of EEG over fNIRS in cognitive workload processing. These findings highlight the necessity of
+directional analysis in multimodal neuroimaging, demonstrating that effective connectivity metrics (dDTF, gPDC) provide
+critical insights into neural-vascular interactions, with implications for mental workload assessment and cognitive neuroscience
+research.
+
+                                                                                                                                             IV. D ISCUSSION
+    This study provides a comprehensive investigation into brain connectivity and information flow during mental workload by
+integrating EEG and fNIRS signals, utilizing the N-back task to induce varying cognitive demands. Our findings provide novel
+insights into the reorganization of brain networks under workload and crucially, elucidate the directional interplay between
+neural and hemodynamic responses.
+   Our analysis of functional connectivity revealed consistent patterns across PCC, PLV and MSC metrics. Specifically, we
+observed a significant increase in brain connectivity in frontal regions (R1, R2, R3) as mental workload increased from the
+0-back to the 3-back condition. This heightened connectivity in frontal areas, well-known for their roles in working memory
+and cognitive control, aligns with the expected neural recruitment necessary to manage increased task complexity.
+   The most critical contribution of this study lies in the effective connectivity analysis, employing dDTF and gPDC. Our results
+demonstrated a highly significant directional information flow from EEG to fNIRS (p = 8.3 × 10−6 ). This finding powerfully
+substantiates the concept of neurovascular coupling, providing empirical evidence that neural electrical activity, as captured
+by EEG, predominantly drives the subsequent hemodynamic responses measured by fNIRS during cognitive processing under
+workload. The consistent observation that outflow from EEG to fNIRS was greater than inflow from fNIRS to EEG, while
+inflow from fNIRS to EEG was generally greater than EEG to fNIRS, indicates a strong feedforward dominance of neural
+activity influencing vascular changes. This supports the widely accepted notion that neuronal activation triggers metabolic
+demands, leading to local changes in cerebral blood flow and oxygenation, which fNIRS then detects. This directional insight
+is paramount for understanding the fundamental mechanisms by which the brain adapts to cognitive effort, moving beyond mere
+JOURNAL                                                                                                                                                                                                                                                                                11
+
+
+
+
+                                                                                                           Results of Wilcoxon signed-rank test for PCC connectivities
+                                                                                                       comparisons between low workload (0-back) vs high workload (3-back)
+                                                                                                                                                                                                                                                                      0.05
+                                  R1     NaN     0.0001   0.0046   0.0031   0.0050   0.0034    NaN      NaN      NaN      NaN      NaN      NaN      NaN     NaN   0.0435   0.0107    NaN     0.0068    NaN     0.0086   0.0124   0.0099   0.0107    NaN     0.0046
+
+
+
+                                  R2 0.0001       NaN     0.0014   0.0002   0.0043   0.0086    NaN      NaN      NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN
+
+
+
+                                  R3 0.0046      0.0014    NaN     0.0435   0.0092   0.0319    NaN      NaN      NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN      NaN     0.0319    NaN     0.0339   0.0099    NaN     0.0490    NaN     0.0014
+
+
+
+                                  R4 0.0031      0.0002   0.0435    NaN     0.0028    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     NaN   0.0188   0.0031   0.0099   0.0385    NaN      NaN     0.0153    NaN     0.0188    NaN     0.0063
+
+
+
+                                  R5 0.0050      0.0043   0.0092   0.0028    NaN     0.0008    NaN      NaN      NaN      NaN      NaN      NaN      NaN     NaN    NaN     0.0385    NaN     0.0230    NaN      NaN     0.0068    NaN      NaN      NaN     0.0039
+
+                                                                                                                                                                                                                                                                      0.04
+                                  R6 0.0034      0.0086   0.0319    NaN     0.0008    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN      NaN     0.0435    NaN     0.0319   0.0014    NaN      NaN      NaN     0.0133
+
+
+
+                                  R7     NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN      NaN     0.0176    NaN      NaN      NaN      NaN      NaN      NaN     0.0142
+
+
+
+                                  R8     NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0080    NaN      NaN      NaN      NaN     NaN    NaN      NaN      NaN     0.0115    NaN      NaN     0.0039   0.0280   0.0361    NaN     0.0006
+
+
+
+                                  R9     NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0080    NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN      NaN     0.0046    NaN     0.0086   0.0039    NaN      NaN      NaN     0.0133
+
+
+
+                                  R10    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN      NaN      NaN     0.0063    NaN     0.0462    NaN     0.0024    NaN     0.0002
+
+                                                                                                                                                                                                                                                                      0.03
+                                  R11    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0050    NaN     0.0153
+
+
+
+                                  R12    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN      NaN     0.0409   0.0031    NaN      NaN     0.0299   0.0017    NaN     0.0002
+
+
+
+
+                                                                                                                                                                                                                                                                             P-value
+                                  R13    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0263    NaN     0.0490
+
+
+
+                                  R14    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN
+
+
+
+                                  R15   0.0435    NaN      NaN     0.0188    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0215    NaN     0.0074
+
+                                                                                                                                                                                                                                                                      0.02
+                                  R16   0.0107    NaN      NaN     0.0031   0.0385    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0133    NaN     0.0043
+
+
+
+                                  R17    NaN      NaN      NaN     0.0099    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0107    NaN     0.0074
+
+
+
+                                  R18   0.0068    NaN     0.0319   0.0385   0.0230   0.0435   0.0176   0.0115   0.0046    NaN      NaN     0.0409    NaN     NaN    NaN      NaN      NaN      NaN     0.0230   0.0299    NaN      NaN      NaN      NaN     0.0086
+
+
+
+                                  R19    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0063    NaN     0.0031    NaN     NaN    NaN      NaN      NaN     0.0230    NaN      NaN      NaN      NaN      NaN      NaN      NaN
+
+
+
+                                  R20   0.0086    NaN     0.0339    NaN      NaN     0.0319    NaN      NaN     0.0086    NaN      NaN      NaN      NaN     NaN    NaN      NaN      NaN     0.0299    NaN      NaN      NaN      NaN      NaN     0.0230    NaN
+
+                                                                                                                                                                                                                                                                      0.01
+                                  R21   0.0124    NaN     0.0099   0.0153   0.0068   0.0014    NaN     0.0039   0.0039   0.0462    NaN      NaN      NaN     NaN    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0230
+
+
+
+                                  R22   0.0099    NaN      NaN      NaN      NaN      NaN      NaN     0.0280    NaN      NaN      NaN     0.0299    NaN     NaN    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     0.0409    NaN
+
+
+
+                                  R23   0.0107    NaN     0.0490   0.0188    NaN      NaN      NaN     0.0361    NaN     0.0024   0.0050   0.0017   0.0263   NaN   0.0215   0.0133   0.0107    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN
+
+
+
+                                  R24    NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN      NaN     NaN    NaN      NaN      NaN      NaN      NaN     0.0230    NaN     0.0409    NaN      NaN      NaN
+
+
+
+                                  R25   0.0046    NaN     0.0014   0.0063   0.0039   0.0133   0.0142   0.0006   0.0133   0.0002   0.0153   0.0002   0.0490   NaN   0.0074   0.0043   0.0074   0.0086    NaN      NaN     0.0230    NaN      NaN      NaN      NaN
+
+                                                                                                                                                                                                                                                                      0
+                                         R1       R2       R3       R4       R5       R6       R7       R8       R9      R10      R11      R12      R13      R14   R15      R16      R17      R18      R19      R20      R21      R22      R23      R24      R25
+
+
+
+
+Fig. 12. Results of Wilcoxon signed-rank test for Pearson Correlation Coefficient (PCC) connectivities comparing low workload (0-back) versus high workload
+(3-back) conditions. The matrix displays p-values for statistical significance of differences in PCC connectivity between 0-back and 3-back tasks across 25
+regions (R1-R25). The color scale represents p-values, with darker blue indicating statistically significant difference and lighter colors/white indicating non-
+significant differences. Regions R1-R9 correspond to EEG regions, R10-R17 to OXY regions, and R18-R25 to DEOXY regions.
+
+
+
+statistical associations to infer causal influence. Our findings resonate with previous multimodal studies that have explored brain-
+heart interactions and EEG-PPG coupling, further emphasizing the importance of directional analysis in unraveling complex
+physiological interdependencies.
+   Compared to prior single-modality studies, our integrated approach provides a more nuanced understanding of MWL-related
+connectivity. For instance, previous EEG-based studies have reported decreased characteristic path lengths and increased global
+efficiency in high workload conditions, suggesting functional integration of brain networks. Similarly, fNIRS-only studies have
+shown increased connectivity in prefrontal cortex regions under elevated cognitive load. However, these unimodal approaches do
+not capture the directionality of neurovascular interactions. By integrating EEG and fNIRS and applying effective connectivity
+analysis, our findings fill this gap, offering a new dimension to MWL assessment.
+   Our study primarily focused on investigating changes in brain connectivity patterns and analyzing information flow and did
+not involve classification. In future work, the features and insights derived from this study can be leveraged for classification
+tasks, potentially incorporating advanced methods such as deep learning. Further research could also explore connectivity
+analysis in additional frequency bands, delve deeper into graph theoretical approaches, or apply these findings to real-time
+classification scenarios.
+
+                                                                                                                                           V. C ONCLUSIONS
+   This study successfully integrated EEG and fNIRS to investigate brain connectivity and information flow under varying levels
+of mental workload induced by the N-back task. Our analysis of functional connectivity, using PCC, PLV, and MSC, revealed
+increased connectivity, particularly in frontal regions, as mental workload increased from the 0-back to the 3-back condition.
+Crucially, the effective connectivity analysis employing dDTF and gPDC demonstrated a statistically significant directional
+information flow from EEG to fNIRS. This finding strongly suggests that neural electrical activity, as measured by EEG, exerts
+a dominant influence on the hemodynamic responses captured by fNIRS during cognitive processing under workload. The
+highly significant p-value obtained for both dDTF and gPDC underscores this directional influence and supports the concept of
+neurovascular coupling, in which neuronal activity drives subsequent vascular changes. These results highlight the synergistic
+benefits of EEG-fNIRS integration for a comprehensive understanding of brain network dynamics and information flow in
+response to mental workload. The observed directional connectivity provides valuable insights into the neurophysiological
+JOURNAL                                                                                                                                                     12
+
+
+
+mechanisms underlying cognitive effort and has implications for developing more robust and nuanced methods for real-time
+mental workload monitoring and assessment in various applied settings.
+
+   CRediT authorship contribution statement
+  Mohaddese Qaremohammadlou: Conceptualization, Formal analysis, Investigation, Methodology, Software, Validation,
+Visualization, Writing – original draft, Writing – review & editing. Mohammad Bagher Shamsollahi: Conceptualization,
+Investigation, Methodology, Supervision, Validation, Writing – review & editing.
+
+    Declaration of Competing interest
+  It is declared that no known competing financial interests or personal relationships could have appeared to influence the
+work reported in this paper.
+
+    Funding sources
+   This research did not receive any specific grant from funding agencies in the public, commercial, or not-for-profit sectors.
+
+    Data availability
+  The data is available for download from the following link: doc.ml.tu-berlin.de/simultaneous EEG NIRS/. Further details
+and comprehensive information regarding this dataset are provided in the corresponding publication [29].
+
+                                                                      R EFERENCES
+ [1] H. Aghajani, M. Garbey, and A. Omurtag, “Measuring mental workload with eeg+ fnirs,” Frontiers in human neuroscience, vol. 11, p. 359, 2017.
+ [2] J. Nuamah and J. Uba, “Graph analysis of functional brain networks under varying working memory load: An eeg-based minimum spanning tree
+     approach,” Cognitive Systems Research, vol. 86, p. 101238, 2024.
+ [3] K. J. Verdière, R. N. Roy, and F. Dehais, “Detecting pilot’s engagement using fnirs connectivity features in an automated vs. manual landing scenario,”
+     Frontiers in human neuroscience, vol. 12, p. 6, 2018.
+ [4] T. G. Monteiro, C. Skourup, and H. Zhang, “Using eeg for mental fatigue assessment: A comprehensive look into the current state of the art,” IEEE
+     Transactions on Human-Machine Systems, vol. 49, no. 6, pp. 599–610, 2019.
+ [5] Y. Liu, H. Ayaz, and P. A. Shewokis, “Multisubject “learning” for mental workload classification using concurrent eeg, fnirs, and physiological measures,”
+     Frontiers in human neuroscience, vol. 11, p. 389, 2017.
+ [6] K. Khaksari, E. Condy, J. B. Millerhagen, A. A. Anderson, H. Dashtestani, and A. H. Gandjbakhche, “Effects of performance and task duration on
+     mental workload during working memory task,” in Photonics, vol. 6, no. 3. Multidisciplinary Digital Publishing Institute, 2019, p. 94.
+ [7] N. J. Bourguignon, S. L. Bue, C. Guerrero-Mosquera, and G. Borragán, “Bimodal eeg-fnirs in neuroergonomics. current evidence and prospects for
+     future research,” Frontiers in Neuroergonomics, vol. 3, p. 934234, 2022.
+ [8] H. Chu, Y. Cao, J. Jiang, J. Yang, M. Huang, Q. Li, C. Jiang, and X. Jiao, “Optimized electroencephalogram and functional near-infrared spectroscopy-
+     based mental workload detection method for practical applications,” BioMedical Engineering OnLine, vol. 21, no. 1, p. 9, 2022.
+ [9] M. Safari, R. Shalbaf, S. Bagherzadeh, and A. Shalbaf, “Classification of mental workload using brain connectivity and machine learning on
+     electroencephalogram data,” Scientific Reports, vol. 14, no. 1, p. 9153, 2024.
+[10] W. K. Kirchner, “Age differences in short-term retention of rapidly changing information.” Journal of experimental psychology, vol. 55, no. 4, p. 352,
+     1958.
+[11] Y. L. Chan, W. C. Ung, L. G. Lim, C.-K. Lu, M. Kiguchi, and T. B. Tang, “Automated thresholding method for fnirs-based functional connectivity
+     analysis: Validation with a case study on alzheimer’s disease,” IEEE Transactions on Neural Systems and Rehabilitation Engineering, vol. 28, no. 8, pp.
+     1691–1701, 2020.
+[12] K. Guan, Z. Zhang, X. Chai, Z. Tian, T. Liu, and H. Niu, “Eeg based dynamic functional connectivity analysis in mental workload tasks with different
+     types of information,” IEEE Transactions on Neural Systems and Rehabilitation Engineering, vol. 30, pp. 632–642, 2022.
+[13] I. Kakkos, G. N. Dimitrakopoulos, Y. Sun, J. Yuan, G. K. Matsopoulos, A. Bezerianos, and Y. Sun, “Eeg fingerprints of task-independent mental workload
+     discrimination,” IEEE Journal of Biomedical and Health Informatics, vol. 25, no. 10, pp. 3824–3833, 2021.
+[14] S. Samiei, M. Delrobaei, and A. Khadem, “Evaluating the effect of increasing working memory load on eeg-based functional brain networks,” Frontiers
+     in Biomedical Technologies, vol. 9, no. 3, pp. 160–169, 2022.
+[15] U. Dutta, K. Sharma, R. A. Ganesan et al., “Functional connectivity methods for eeg-based biometrics on a large, heterogeneous dataset,” arXiv preprint
+     arXiv:2206.01475, 2022.
+[16] G. N. Dimitrakopoulos, I. Kakkos, Z. Dai, J. Lim, J. J. deSouza, A. Bezerianos, and Y. Sun, “Task-independent mental workload classification based upon
+     common multiband eeg cortical connectivity,” IEEE Transactions on Neural Systems and Rehabilitation Engineering, vol. 25, no. 11, pp. 1940–1949,
+     2017.
+[17] I. Kakkos, G. N. Dimitrakopoulos, L. Gao, Y. Zhang, P. Qi, G. K. Matsopoulos, N. Thakor, A. Bezerianos, and Y. Sun, “Mental workload drives
+     different reorganizations of functional cortical connectivity between 2d and 3d simulated flight experiments,” IEEE Transactions on Neural Systems and
+     Rehabilitation Engineering, vol. 27, no. 9, pp. 1704–1713, 2019.
+[18] F. S. Racz, P. Mukli, Z. Nagy, and A. Eke, “Increased prefrontal cortex connectivity during cognitive challenge assessed by fnirs imaging,” Biomedical
+     optics express, vol. 8, no. 8, pp. 3842–3855, 2017.
+[19] Y. Peng, C. Li, Q. Chen, Y. Zhu, and L. Sun, “Functional connectivity analysis and detection of mental fatigue induced by different tasks using functional
+     near-infrared spectroscopy,” Frontiers in Neuroscience, vol. 15, p. 771056, 2022.
+[20] S. Montero-Hernandez, F. Orihuela-Espina, L. E. Sucar, P. Pinti, A. Hamilton, P. Burgess, and I. Tachtsidis, “Estimating functional connectivity symmetry
+     between oxy-and deoxy-haemoglobin: implications for fnirs connectivity analysis,” Algorithms, vol. 11, no. 5, p. 70, 2018.
+[21] P. Lachert, D. Janusek, P. Pulawski, A. Liebert, D. Milej, and K. J. Blinowska, “Coupling of oxy-and deoxyhemoglobin concentrations with eeg rhythms
+     during motor task,” Scientific reports, vol. 7, no. 1, p. 15414, 2017.
+[22] D.-O. Won, B.-R. Lee, K.-S. Seo, H. J. Kim, and S.-W. Lee, “Alteration of coupling between brain and heart induced by sedation with propofol and
+     midazolam,” PLoS One, vol. 14, no. 7, p. e0219238, 2019.
+JOURNAL                                                                                                                                                    13
+
+
+
+[23] G. Singh and C. Singh, “Estimation of coherence between ecg signal and eeg signal at different heart rates and respiratory rates,” Int J Eng Innov
+     Technol, vol. 1, no. 5, pp. 159–163, 2012.
+[24] D. Candia-Rivera, M. Vidailhet, M. Chavez, and F. de Vico Fallani, “The coupling between brain connectivity and heartbeat dynamics unveils the altered
+     interoceptive mechanisms in parkinson’s disease,” Available at SSRN 4540760, 2023.
+[25] Y. Gao, L. Ren, R. Li, and Y. Zhang, “Electroencephalogram–electromyography coupling analysis in stroke based on symbolic transfer entropy,” Frontiers
+     in neurology, vol. 8, p. 716, 2018.
+[26] R. Li, T. Nguyen, T. Potter, and Y. Zhang, “Dynamic cortical connectivity alterations associated with alzheimer’s disease: An eeg and fnirs integration
+     study,” NeuroImage: Clinical, vol. 21, p. 101622, 2019.
+[27] S. Bahrami, M. B. Shamsollahi, and V. Ansari, “Investigating causal relationships between cardiovascular signals using effective connectivity assessment
+     measures,” in 2023 30th National and 8th International Iranian Conference on Biomedical Engineering (ICBME). IEEE, 2023, pp. 1–7.
+[28] M. Daneshi Kohan, A. Motie Nasrabadi, M. B. Shamsollahi, and A. Sharifi, “Eeg/ppg effective connectivity fusion for analyzing deception in interview,”
+     Signal, Image and Video Processing, vol. 14, no. 5, pp. 907–914, 2020.
+[29] J. Shin, A. Von Lühmann, D.-W. Kim, J. Mehnert, H.-J. Hwang, and K.-R. Müller, “Simultaneous acquisition of eeg and nirs during cognitive tasks for
+     an open access dataset,” Scientific data, vol. 5, no. 1, pp. 1–16, 2018.
+[30] M. Qaremohammadlou and M. B. Shamsollahi, “Mental work load assessment using brain connectivity based features of simultaneous eeg and fnirs,”
+     in 2024 31st National and 9th International Iranian Conference on Biomedical Engineering (ICBME). IEEE, 2024, pp. 448–452.
+[31] G. Gómez-Herrero, “Automatic artifact removal (aar) toolbox v1. 3 (release 09.12. 2007) for matlab,” Tampere University of Technology, 2007.
+[32] H.-J. Hwang, J.-H. Lim, D.-W. Kim, and C.-H. Im, “Evaluation of various mental task combinations for near-infrared spectroscopy-based brain-computer
+     interfaces,” Journal of biomedical optics, vol. 19, no. 7, pp. 077 005–077 005, 2014.
+[33] B. Blankertz, M. Tangermann, C. Vidaurre, S. Fazli, C. Sannelli, S. Haufe, C. Maeder, L. Ramsey, I. Sturm, G. Curio et al., “The berlin brain–computer
+     interface: non-medical uses of bci technology,” Frontiers in neuroscience, vol. 4, p. 198, 2010.
+[34] F. Khanam, A. A. Hossain, and M. Ahmad, “Statistical valuation of cognitive load level hemodynamics from functional near-infrared spectroscopy
+     signals,” Neuroscience Informatics, vol. 2, no. 3, p. 100042, 2022.
+[35] N. Salimi, “Predicting humans’ identity and mental load from eeg: Performed by ai,” Ph.D. dissertation, UNSW Sydney, 2022.
+[36] J. Cao, E. M. Garro, and Y. Zhao, “Eeg/fnirs based workload classification using functional brain connectivity and machine learning,” Sensors, vol. 22,
+     no. 19, p. 7623, 2022.
+[37] M. Saadati, J. Nelson, and H. Ayaz, “Convolutional neural network for hybrid fnirs-eeg mental workload classification,” in Advances in Neuroergonomics
+     and Cognitive Engineering: Proceedings of the AHFE 2019 International Conference on Neuroergonomics and Cognitive Engineering, and the AHFE
+     International Conference on Industrial Cognitive Ergonomics and Engineering Psychology, July 24-28, 2019, Washington DC, USA 10. Springer, 2020,
+     pp. 221–232.
+[38] M. U. Khan and M. A. Hasan, “Hybrid eeg-fnirs bci fusion using multi-resolution singular value decomposition (msvd),” Frontiers in Human Neuroscience,
+     vol. 14, p. 599802, 2020.
+[39] M. Saadati, J. Nelson, and H. Ayaz, “Mental workload classification from spatial representation of fnirs recordings using convolutional neural networks,”
+     in IEEE 29th International Workshop on Machine Learning for Signal Processing (MLSP), 2019, pp. 1–6.
+[40] K. C. A. A. Z. B. S. N. V. A. M. S. Delorme A, Mullen T, “Eeglab, sift, nft, bcilab, and erica: New tools for advanced eeg/meg processing,” Computational
+     Intelligence and Neuroscience, 2011.
+[41] M. T, “The dynamic brain: Modeling neural dynamics and interactions from human electrophysiological recordings,” Ph.D. dissertation, UC San Diego,
+     2014.
+

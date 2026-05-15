@@ -1,18 +1,20 @@
 ---
-
-title: PyCeLoSim
 created: 2026-05-13
-updated: 2026-05-13
-type: entity
-tags: [software-brain-modeling, neural-mass-models, whole-brain-modeling]
 sources: []
+tags:
+- software-brain-modeling
+- neural-mass-models
+- whole-brain-modeling
+title: PyCeLoSim
+type: entity
+updated: '2026-05-13'
 ---
 
 PyCeLoSim (Python Cell and Local-circuit Simulator) is a Python-based computational framework for simulating cellular-level neural dynamics and local microcircuit activity. It operates at the microscopic scale — modeling individual neurons and small populations — and can serve as a bridge between single-neuron [[neuron-models|neuron models]] and the mesoscopic [[neural-mass-models]] used in large-scale platforms like [[TVB]].
 
 ## Motivation and Context
 
-Whole-brain modeling platforms such as [[TVB]] typically operate at the mesoscopic level, treating each brain region as a [[neural-mass-models|neural mass]] or mean-field population whose dynamics are governed by systems of ordinary differential equations. While computationally efficient, this abstraction discards the rich microscopic detail — individual spike timing, cell-type-specific dynamics, and local circuit motifs — that shapes emergent population behavior. PyCeLoSim addresses this gap by providing a Python-native environment for building and simulating cellular-resolution models of local circuits, enabling systematic study of how microscopic properties percolate upward to influence the mesoscopic dynamics that feed whole-brain simulations.
+[[whole-brain|Whole-brain modeling]] platforms such as [[TVB]] typically operate at the mesoscopic level, treating each brain region as a [[neural-mass-models|neural mass]] or [[mean-field-theory|mean-field]] population whose dynamics are governed by systems of ordinary differential equations. While computationally efficient, this abstraction discards the rich microscopic detail — individual spike timing, cell-type-specific dynamics, and local circuit motifs — that shapes emergent population behavior. PyCeLoSim addresses this gap by providing a Python-native environment for building and simulating cellular-resolution models of local circuits, enabling systematic study of how microscopic properties percolate upward to influence the mesoscopic dynamics that feed whole-brain simulations.
 
 The tool is part of a broader trend toward multi-scale modeling in computational neuroscience, in which models at different spatial and temporal resolutions are linked hierarchically. [[software-nest|NEST]] and [[software-brian|Brian]] provide similar capabilities at the cellular level, but PyCeLoSim emphasizes tight integration with Python's scientific ecosystem and a design philosophy oriented toward parameter sweeps and systematic exploration of model spaces — a workflow well-suited to the parameter-fitting and [[bifurcation-analysis]] pipelines common in [[whole-brain-modeling]] research.
 
@@ -20,7 +22,7 @@ The tool is part of a broader trend toward multi-scale modeling in computational
 
 PyCeLoSim models local circuits as collections of conductance-based or integrate-and-fire neuron types connected by conductance- or current-based synapses. Common [[neuron-models|neuron models]] supported include the [[hodgkin-huxley-model|Hodgkin-Huxley]] formalism, the [[adaptive-exponential-integrate-and-fire]] (AdEx) model, and the [[izhikevich-model|Izhikevich]] model. Network topology is user-specified — connectivity can be drawn from statistical distributions, imported from [[connectomics]] databases, or generated algorithmically to mimic canonical microcircuit motifs such as feedforward inhibition and lateral recurrent excitation.
 
-Simulations are built around a modular architecture: neuron and synapse models are defined independently, assembled into populations, and connected via a specification of projection rules. A key feature is the built-in support for systematic parameter exploration — users can define parameter grids or distributions and PyCeLoSim will execute batched simulations, collect summary statistics (firing rates, synchrony measures, local field potential proxies), and store results in standard formats compatible with downstream analysis in [[software-tvb|TVB]] or [[software-graphvar|GraphVar]].
+Simulations are built around a modular architecture: [[neuron]] and synapse models are defined independently, assembled into populations, and connected via a specification of projection rules. A key feature is the built-in support for systematic parameter exploration — users can define parameter grids or distributions and PyCeLoSim will execute batched simulations, collect summary statistics (firing rates, synchrony measures, [[local-field-potentials|local field potential]] proxies), and store results in standard formats compatible with downstream analysis in [[software-tvb|TVB]] or [[software-graphvar|GraphVar]].
 
 ## Relationship to TVB
 

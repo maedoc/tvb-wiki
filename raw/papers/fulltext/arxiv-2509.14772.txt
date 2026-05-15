@@ -1,0 +1,936 @@
+                                         UMind: A Unified Multitask Network for Zero-Shot M/EEG Visual
+                                         Decoding
+                                         Chengjian Xua,b , Yonghao Songc , Zelin Liaod , Haochuan Zhangd , Qiong Wange and Qingqing
+                                         Zhengf,∗
+                                         a Shenzhen Institutes of Advanced Technology, Chinese Academy of Sciences, China
+                                         b University of Chinese Academy of Sciences, China
+                                         c Department of Biomedical Engineering, Tsinghua University, China
+                                         d School of Automation, Guangdong University of Technology, China
+                                         e Guangdong Provincial Key Laboratory of Computer Vision and Virtual Reality Technology, Shenzhen Institutes of Advanced Technology, China
+                                         f Artificial Intelligence Research Institute, Shenzhen University of Advanced Technology, China
+arXiv:2509.14772v2 [cs.HC] 11 Nov 2025
+
+
+
+
+                                         ARTICLE INFO                                          ABSTRACT
+                                         Keywords:                                             Decoding visual information from time-resolved brain recordings, such as EEG and MEG, plays a
+                                         Brain-computer interfaces (BCIs)                      pivotal role in real-time brain-computer interfaces. However, existing approaches primarily focus on
+                                         Visual stimulus decoding                              direct brain-image feature alignment and are limited to single-task frameworks or task-specific models.
+                                         Electroencephalography(EEG)                           In this paper, we propose a Unified MultItask Network for zero-shot M/EEG visual Decoding (referred
+                                         Magnetoencephalography (MEG)                          to UMind), including visual stimulus retrieval, classification, and reconstruction, where multiple tasks
+                                         Multitask learning                                    mutually enhance each other. Our method learns robust neural-visual and semantic representations
+                                         Multimodal alignment                                  through multimodal alignment with both image and text modalities. The integration of both coarse
+                                                                                               and fine-grained texts enhances the extraction of these neural representations, enabling more detailed
+                                                                                               semantic and visual decoding. These representations then serve as dual conditional inputs to a pre-
+                                                                                               trained diffusion model, guiding visual reconstruction from both visual and semantic perspectives.
+                                                                                               Extensive evaluations on MEG and EEG datasets demonstrate the effectiveness, robustness, and
+                                                                                               biological plausibility of our approach in capturing spatiotemporal neural dynamics. Our approach
+                                                                                               sets a multitask pipeline for brain visual decoding, highlighting the synergy of semantic information
+                                                                                               in visual feature extraction. The code is available at https://github.com/xuchengjian632/UMind.
+
+
+
+                                         1. Introduction                                                                 introduced a simple but efficient contrastive learning frame-
+                                                                                                                         work NICE, which aligns EEG and image representations
+                                             In the realm of brain-computer interfaces (BCIs), visual
+                                                                                                                         for decoding images from EEG signals. The NICE demon-
+                                         information decoding from neural signals is of paramount
+                                                                                                                         strated the feasibility of feature alignment and its biological
+                                         importance in understanding the intricate processes of visual                   plausibility. Similarly, Benchetrit et al. (Benchetrit et al.,
+                                         perception and cognition (Miyawaki et al., 2008). It forms                      2024) firstly aligns MEG features with CLIP image em-
+                                         the foundation for advancing our comprehension of how the                       beddings for retrieval and reconstruction of real-time visual
+                                         brain interprets and processes visual stimuli, including tasks                  stimuli. However, these methods remain confined to single-
+                                         such as visual classification, retrieval, and reconstruction.
+                                                                                                                         task objectives, lacking a unified framework to mutually
+                                         Visual decoding has wide-ranging applications, offering
+                                                                                                                         reinforce multiple tasks (e.g., retrieval, classification, and
+                                         significant potential to provide alternative communication                      reconstruction). Furthermore, they primarily focus on align-
+                                         and control mechanisms, thereby enhancing the autonomy                          ing M/EEG signals with visual embeddings, while neglect-
+                                         and capabilities of individuals with severe motor impair-                       ing the integration of textual semantic information, thereby
+                                         ments (Kay et al., 2008). As non-invasive brain imaging
+                                                                                                                         limiting their ability to utilize rich contextual semantics for
+                                         technologies, electroencephalography (EEG) and magne-
+                                                                                                                         accurate cross-modal understanding and inference.
+                                         toencephalography (MEG) have shown great potential in the                           Some studies have attempted to design multitask frame-
+                                         field of visual stimulus decoding (Song et al., 2024; Wang                      works for zero-shot visual stimulus decoding. A represen-
+                                         et al., 2025; Borra et al., 2025).                                              tative example is the work by Li et al. (Li et al., 2024),
+                                             It is noteworthy that learning robust visual represen-                      which proposes a novel brain decoding framework that
+                                         tations from M/EEG signals for visual stimulus decoding
+                                                                                                                         enables zero-shot visual stimulus classification, retrieval,
+                                         and reconstruction has become a prominent research fo-
+                                                                                                                         and reconstruction using EEG and MEG data. The method
+                                         cus (Spampinato et al., 2017a; Jiao et al., 2019; Li et al.,                    achieves results comparable to visual stimulus decoding
+                                         2024). Although numerous studies have focused on decoding                       using fMRI data with a customized M/EEG encoder and
+                                         M/EEG signals, most existing methods are designed for                           a two-stage M/EEG-to-image generation strategy. Although
+                                         single-task scenarios, such as visual stimulus reconstruction                   this work presents a multitask model, its underlying imple-
+                                         or classification. For instance, Song et al. (Song et al., 2024)
+                                                                                                                         mentations still rely on separate M/EEG encoders for each
+                                             ∗ Corresponding author.                                                     task, thereby preventing cross-task knowledge sharing and
+                                                 zhengqingqing@suat-sz.edu.cn ( Qingqing Zheng)                          mutual reinforcement. Furthermore, while the framework
+                                                                                                                         incorporates coarse-grained textual categories (e.g., "cat"
+
+                                         C. Xu et al.: Preprint submitted to Elsevier                                                                                                 Page 1 of 13
+or "raspberry") for visual stimulus reconstruction, it fails                framework outperforms conventional single-task ap-
+to perform multimodal alignment between M/EEG signals,                      proaches, establishing a new paradigm for neural
+images, and text, resulting in generated images or retrieval                signal processing with mutually reinforcing feature
+outcomes with compromised semantic consistency and vi-                      learning.
+sual fidelity. Most critically, it fails to utilize fine-grained
+                                                                         • We propose a novel multimodal alignment strategy
+textual descriptions (e.g., “the aircraft carrier is sailing in the
+                                                                           that integrates M/EEG, images, and text to simultane-
+ocean”), which fundamentally constrains their applicability
+                                                                           ously extract neural visual and semantic representa-
+in complex scenarios requiring high-precision representa-
+                                                                           tions. The proposed dual-granularity text integration
+tions, such as fine-grained image generation or semantically
+                                                                           facilitates multimodal alignment, which not only en-
+ambiguous stimulus retrieval.
+                                                                           ables the extraction of neural semantic representations
+    To address the above challenges, we propose UMind,
+                                                                           but also enhances the extraction of neural visual rep-
+a unified multitask framework for zero-shot visual stimulus
+                                                                           resentations.
+retrieval, classification, and reconstruction. This framework
+learns robust neural visual/semantic representations through             • We separately extract neural visual representations
+cross-modal alignment with visual stimuli and textural se-                 and neural semantic representations and use them as
+mantic information. First, M/EEG signals, images, and text                 dual conditional inputs to the diffusion model. These
+pass through their respective encoders to extract neural                   representations guide the image generation from both
+features, visual embeddings, and semantic embeddings. For                  visual and semantic perspectives, ensuring a more
+M/EEG-image alignment, it maps neural features to vi-                      comprehensive and accurate reconstruction.
+sual embeddings, preserving spatial-temporal dynamics of
+brain responses. For M/EEG-text alignment, we incorpo-                   • We conducted extensive quantitative and qualitative
+rate a dual-text alignment strategy comprising both Coarse-                validation experiments on two datasets, covering both
+grained text and Fine-grained text and align the neural                    EEG and MEG modalities. The experimental results
+features with semantic embeddings using a text projector.                  demonstrate the superior performance of our method.
+The coarse-grained text contains only category-level labels               The remainder of this paper is structured as follows. We
+that provide categorical priors but lacks fine visual details         provide a brief overview of the related works in Section 2.
+(e.g., color, shape, orientation). In contrast, fine-grained text,    Section 3 presents a detailed description of our proposed
+generated by pre-trained large multimodal models (LMMs),              method. The experiments and results are illustrated in Sec-
+offers rich perceptual descriptions but may contain ambigu-           tion 4. A careful discussion is presented in Section 5. Finally,
+ous categorical information. Therefore, coarse-grained and            we reach a conclusion in Section 6.
+fine-grained text can complement each other, enabling the
+model to learn more effective neural semantic representa-
+                                                                      2. Related Works
+tions.
+    Subsequently, to align the M/EEG signals with images                  While early visual decoding predominantly relied on
+and text, we introduce separate image and text projectors fol-        fMRI, recent advances extend to M/EEG paradigms. There-
+lowing the M/EEG encoder. These projectors extract neural             fore, we review related works on fMRI-based and M/EEG-
+visual and semantic representations, which are then applied           based visual decoding methods
+to the visual stimulus retrieval and classification tasks. For
+visual stimulus reconstruction, these neural visual and se-           2.1. Visual Decoding from fMRI Data
+mantic representations are then mapped to CLIP image em-                   In earlier studies, researchers employed linear regres-
+beddings and prompt embeddings, derived from the coarse-              sion to map fMRI data to handcrafted image features or
+and fine-grained text, respectively. Specifically, we employ a        to image features extracted using pre-trained models for
+diffusion prior (Ramesh et al., 2022) to map the neural visual        visual decoding(Kay et al., 2008; Nishimoto et al., 2011;
+representations to CLIP image embeddings. Inspired by the             Wen et al., 2018). With the development of generative
+learned queries in BLIP2 (Li et al., 2023), we leverage the           adversarial nets (GAN) (Goodfellow et al., 2014), some
+Q-Former to map the neural semantic representations to the            studies (Ren et al., 2021; Ozcelik et al., 2022; Lin et al.,
+fused prompt embeddings, derived from both types of tex-              2022) used the aligned fMRI embeddings as conditional
+tural information. Finally, these mapped neural embeddings            inputs to conditional GAN (Casanova et al., 2021; Karras
+serve as dual conditions for the pre-trained diffusion model,         et al., 2020) for image reconstruction. More recently, diffu-
+which guides the image reconstruction process from visual             sion models (Rombach et al., 2022) have emerged as highly
+and semantic perspectives.                                            effective and powerful tools for high-quality image genera-
+    The main contributions of this paper are as follows:              tion. Numerous studies have leveraged pre-trained diffusion
+                                                                      models for fMRI visual stimulus reconstruction, resulting in
+    • We present a unified multitask learning framework               high-resolution images with exceptional fidelity. Takagi et
+      that synergistically integrates zero-shot M/EEG-based           al. (Takagi & Nishimoto, 2023) employed Stable Diffusion
+      visual stimulus retrieval, classification, and recon-           for visual stimulus reconstruction with fMRI signals from
+      struction through joint optimization. This multitask            different visual cortex. Chen et al. (Chen et al., 2023) devel-
+                                                                      oped a two-stage framework MinD-Vis which first uses mask
+
+C. Xu et al.: Preprint submitted to Elsevier                                                                            Page 2 of 13
+signal modeling for pre-training to learn fMRI representa-         embeddings serve as conditions of cascaded diffusion mod-
+tions and then finetunes a latent diffusion model through          els for image reconstruction. Li et al. (Li et al., 2024)
+double conditioning for image reconstruction. Ozcelik et           presented a novel brain decoding framework that can si-
+al. (Ozcelik & VanRullen, 2023) used ridge regression mod-         multaneously perform zero-shot visual stimulus retrieval,
+els to map fMRI signals separately to VAE latent variables,        classification, and reconstruction tasks based on M/EEG
+CLIP image embeddings, and CLIP text embeddings and                data. Actually, the work trains a separate M/EEG encoder
+then employed a versatile diffusion model (Xu et al., 2023)        for each of the three tasks, rather than employing a unified
+for image reconstruction. Scotti et al. (Scotti et al., 2024a)     multitask framework. In conclusion, these M/EEG-based
+proposed a framework called MindEye, which consists of             visual decoding approaches are limited to single or dual-task
+two parallel submodules for visual stimulus retrieval and          frameworks and do not leverage text for multimodal align-
+reconstruction. Additionally, the model integrates a high-         ment to simultaneously extract neural visual representations
+level semantic pipeline and a low-level perceptual pipeline        and neural semantic representations.
+for image generation. Subsequently, Scotti et al. (Scotti
+et al., 2024b) presented an enhanced model MindEye2 which
+achieves competitive decoding performance with just one            3. Methods
+hour of data comparable to using a subject’s full dataset          3.1. Overall Architecture and Problem Definition
+through multi-subject pre-training.                                     We propose UMind, a unified multitask framework for
+                                                                   zero-shot visual decoding from M/EEG signals, which si-
+2.2. Visual Decoding from M/EEG Data                               multaneously performs visual stimulus retrieval, classifica-
+    Due to the high temporal resolution and convenience of         tion, and reconstruction. As illustrated in Fig. 1, our ar-
+EEG signals, researchers have attempted to use EEG signals         chitecture comprises three main submodules: a multimodal
+for real-time visual decoding. Spampinato et al. proposed          alignment module, a visual stimulus retrieval and classifica-
+an EEG dataset (Spampinato et al., 2017b) for visual object        tion module, and a dual conditioned diffusion reconstruction
+analysis and conducted a series of works (Palazzo et al.,          module. In the multimodal alignment module, it disentan-
+2017; Kavasidis et al., 2017; Tirupattur et al., 2018; Jiang       gles the neurocognitive representations by aligning neural
+et al., 2020), including EEG visual stimulus decoding and          signals 𝐗𝑏 with visual stimuli 𝐗𝑣 and textual information.
+reconstruction using VAE and GAN on this dataset. How-             For textual information, we incorporate dual-textual modal-
+ever, Li et al. (Li et al., 2020) pointed out a flaw in the        ity data, including coarse-grained texts (𝐗𝑐 ) containing only
+dataset, namely that all stimuli of a given class are presented    category information and fine-grained descriptions (𝐗𝑡 ) of
+together. This results in visual stimulus decoding relying on      images generated by a pre-trained image-to-text generation
+block-level temporal correlations which are present in all         model. This allows our model to extract both neural visual
+EEG data, rather than the visual information contained in          representations and neural semantic representations, which
+the EEG signals.                                                   can be used separately for visual stimulus retrieval and clas-
+    Recently, with the release of a new large-scale and rig-       sification. In the reconstruction module, the obtained neural
+orous Things-EEG dataset (Gifford et al., 2022), researchers       visual representations and neural semantic representations
+are now able to perform zero-shot visual stimulus decoding         are mapped to CLIP image embeddings and prompt em-
+and reconstruction on this dataset. Song et al. (Song et al.,      beddings derived from coarse- and fine-grained text, respec-
+2024) designed an EEG-image contrastive learning frame-            tively. These mapped embeddings guide the generation of
+work, NICE, along with two plug-and-play modules that              realistic and credible images from both visual and semantic
+can capture spatial correlations for EEG visual decoding.          perspectives.
+NICE++ (Song et al., 2025) further incorporated language                We         denote       the       training        set   𝑡𝑟𝑎𝑖𝑛   as
+guidance to capture the semantic information embedded                                                {( 𝑖 𝑖 𝑖 𝑖 𝑖 )}𝑁𝑡𝑟𝑎𝑖𝑛
+                                                                   (𝑿 𝑏 , 𝑿 𝑣 , 𝑿 𝑐 , 𝑿 𝑡 , 𝒀 ) =        𝒙𝑏 , 𝒙𝑣 , 𝒙𝑐 , 𝒙𝑡 , 𝒚 𝑖=1 , where
+within EEG signals. Du et al. (Du et al., 2023) proposed
+                                                                   𝑁𝑡𝑟𝑎𝑖𝑛 is the sample size, 𝒙𝑏 ∈ ℝ𝐶×𝑇 is the 𝑖𝑡ℎ EEG or MEG
+                                                                                                      𝑖
+a multimodal framework BraVL for visual neural represen-
+                                                                   trial in training data with 𝐶 electrode channels and 𝑇 time
+tation learning, which utilizes mutual information regular-
+                                                                   points, 𝒙𝑖𝑣 denotes the corresponding 𝑖𝑡ℎ visual stimulus
+ization to align brain signals, images, and text. However,
+                                                                   images, 𝒙𝑖𝑐 denotes the coarse-grained texts containing only
+BraVL is primarily designed for fMRI data and is limited to
+                                                                   the category label, 𝒙𝑖𝑡 denotes the detailed descriptions
+the visual stimulus classification task. Wei et al. (Wei et al.,
+                                                                   of the image and 𝒚 𝑖 denotes the corresponding one-hot
+2024) employed contrastive learning and bidirectional cycle
+                                                                   category label. Likewise, the test set 𝑡𝑒𝑠𝑡 is defined as
+consistency to align the feature distributions of EEG and
+                                                                   (𝑿 𝑡𝑒𝑠𝑡      𝑡𝑒𝑠𝑡   𝑡𝑒𝑠𝑡
+                                                                       𝑏 , 𝑿𝑣 , 𝑿𝑐 , 𝑿𝑡 , 𝒀
+                                                                                                𝑡𝑒𝑠𝑡    𝑡𝑒𝑠𝑡
+                                                                                                             ). The labels of test data are
+images for visual classification and reconstruction. Based on
+                                                                   with no overlap with the labels in the training data, namely,
+MEG, Benchetritet al. (Benchetrit et al., 2024) proposed a
+                                                                   𝒀 ∩ 𝒀 𝑡𝑒𝑠𝑡 = ∅. Therefore, the tasks of visual stimulus
+real-time visual stimulus retrieval and reconstruction frame-
+                                                                   retrieval, classification, and reconstruction are zero-shot.
+work. Fu et al. (Fu et al., 2024) developed a novel EEG image
+                                                                   The objective is to pre-train a M/EEG encoder using the
+reconstruction framework BrainVis which aligns EEG time-
+                                                                   multimodal training data 𝑡𝑟𝑎𝑖𝑛 that includes M/EEG,
+frequency embeddings with the interpolation of both coarse-
+                                                                   images, and text, enabling the pre-trained M/EEG encoder
+grained and fine-grained text embeddings. The aligned EEG
+
+
+C. Xu et al.: Preprint submitted to Elsevier                                                                                Page 3 of 13
+                                                                                                                                                                ...
+                                                                                                                                                                           Learned Queries
+  Multimodal Alignment                                                                    Reconstruction                                                  Self Attention
+                                                                                                                                                                              77×2048
+
+                                                                                                                                                         Cross Attention
+                                                                 M/EEG-Image                                                                              Feed Forward
+      Stimulus images                             Image              Loss                                                  Semantic pipeline
+                                                                                                                                                               Prompt embeddings
+                                                 Encoder                                                             1×1024         Perceiver                     1×77×2048
+                                                                                                                                    Q-former
+
+
+
+
+                                                                                                         projector
+                                                                                                           Text
+                                                                                                                                           Pooled prompt embeddings
+
+
+
+
+                                                                     projector
+                                                                                                                                                    1×1280
+
+
+
+
+                                                                      Image
+                                                                                          M/EEG                                     Perceiver
+                                                                                          Encoder                                   Q-former                                         Reconstructed
+                LMMs                             M/EEG                                                                                                                                  Image
+                                                 Encoder                                                                                                                     IP-
+                                                                                                                                   Visual pipeline                         Adapter
+
+
+
+
+                                                                     projector
+
+
+
+
+                                                                                                         projector
+                                                                                                                                                                              +
+
+
+
+
+                                                                       Text
+
+
+
+
+                                                                                                          Image
+ “the aircraft                                                                                                                                                             SDXL-
+ carrier is sailing    Fine-grained                                                                                                 diffusion prior                         turbo
+ in the ocean”                                                Fine-grained                                                                            Image embeddings
+                                                                                                                     1×1024
+                                                  Text                                                                                                    1×1024
+ “aircraft carrier”                              Encoder
+
+
+
+
+                                                                                                                       projector
+                      Coarse-grained
+
+
+
+
+                                                                                                                        Image
+                                                            Coarse-grained
+                                                                                                                                                                       Retrieval
+                                                                     M/EEG-Text
+                                                                        Loss                        M/EEG
+                                                                                                    Encoder                                   aircraft carrier
+
+
+
+
+                                                                                                                       projector
+                                                                                                                                                    cat
+
+
+
+
+                                                                                                                         Text
+      neural semantic
+      representations
+                                 neural visual
+                               representations
+                                                         Trainable               Frozen                                                           omelet              Classification
+
+
+
+
+                                                                                                                                                      ...
+                                                                                                                                                  sailboat
+
+
+Figure 1: The proposed UMind framework enables zero-shot visual decoding from M/EEG signals, which simultaneously performs
+visual stimulus retrieval, classification, and reconstruction. It comprises three key components: a multimodal alignment module,
+a visual stimulus retrieval and classification module, and a dual conditioned diffusion reconstruction module.
+
+
+
+                       Coarse-grained:
+                                                                                               the CLIP text embeddings extracted by a frozen pre-trained
+                                                 A picture of antelope.
+                                                                                               text encoder.
+                      Fine-grained:                                                                In aligning M/EEG with textual information, we employ
+                                       Please give me a description of this picture.           dual-grained supervision: coarse-grained labels and fine-
+                                                                                               grained captions, as illustrated in Fig. 2. We apply LLaVA-
+                                       The image features a large, brown antelope              1.5 (Liu et al., 2024) to generate fine-grained captions
+                                       standing in a grassy field. The antelope has
+                      LLaVA-1.5        a prominent set of horns on its head,
+                                                                                               (enriched with spatial, chromatic, and contextual details).
+                                       making it a striking sight. The animal                  By combining fine-grained and coarse-grained text, we can
+                                       appears to be looking to its left, possibly             extract rich semantic information with more detailed de-
+                                       observing its surroundings or another
+                                       animal.                                                 scriptions, while also enhancing the extraction of visual rep-
+                                                                                               resentations. We denote the coarse- and fine-grained image
+Figure 2: Comparison between fine-grained text generated by                                    embeddings as 𝒛𝑖𝑐 and 𝒛𝑖𝑡 , respectively. The neural-visual
+LLaVA-1.5 7B and coarse-grained text.                                                          and neural-semantic representations are aligned with their
+                                                                                               multimodal counterparts using contrastive learning loss with
+
+                                                                                                                                   1 ∑
+                                                                                                                                      𝐵
+to perform zero-shot visual stimulus retrieval, classification,                                                                                exp(𝑠(𝒛̂ 𝑖𝑣 , 𝒛𝑖𝑣 )∕𝜏)
+                                                                                                        𝐶𝐿𝐼𝑃𝑉 = −                       log ∑𝐵                                                (1)
+and reconstruction excellently on the test set 𝑡𝑒𝑠𝑡 .                                                                             𝐵 𝑖=1                    ̂ 𝑖𝑣 , 𝒛𝑗𝑣 )∕𝜏)
+                                                                                                                                              𝑗=1 exp(𝑠(𝒛
+
+3.2. Multimodal Alignment
+    To extract both visual and semantic representations from
+                                                                                                                                   1 ∑
+                                                                                                                                      𝐵
+                                                                                                                                               exp(𝑠(𝒛̂ 𝑖𝑠 , 𝒛𝑖𝑐 )∕𝜏)
+neural signals (M/EEG), we employ a multimodal frame-                                                   𝐶𝐿𝐼𝑃𝑇 1 = −                     log ∑𝐵                                                (2)
+work that bridges neural signals with paired images and                                                                            𝐵 𝑖=1
+                                                                                                                                              𝑗=1 exp(𝑠(𝒛    ̂ 𝑖𝑠 , 𝒛𝑗𝑐 )∕𝜏)
+text. This framework integrates a M/EEG encoder 𝑓𝑏 (⋅)
+with two parallel projectors: an image projector 𝑝𝑣 (⋅) and
+a text projector 𝑝𝑡 (⋅). The neural signals are first encoded                                                                      1 ∑
+                                                                                                                                      𝐵
+                                                                                                                                               exp(𝑠(𝒛̂ 𝑖𝑠 , 𝒛𝑖𝑡 )∕𝜏)
+via 𝑓𝑏 (⋅), then mapped through 𝑝𝑣 (⋅) to derive neural-visual                                          𝐶𝐿𝐼𝑃𝑇 2 = −                     log ∑𝐵                                                (3)
+representations 𝒛̂ 𝑖𝑣 (𝒛̂ 𝑖𝑣 = 𝑝𝑣 (𝑓𝑏 (𝒙𝑖𝑏 ))), which align with
+                                                                                                                                   𝐵 𝑖=1
+                                                                                                                                              𝑗=1 exp(𝑠(𝒛   ̂ 𝑖𝑠 , 𝒛𝑗𝑡 )∕𝜏)
+the CLIP image embeddings 𝒛𝑖𝑣 from a frozen pre-trained                                                                  (                   )
+image encoder. Simultaneously, the neural-semantic repre-                                                        𝐶𝐿𝐼𝑃𝑇 = 𝐶𝐿𝐼𝑃𝑇 1 + 𝐶𝐿𝐼𝑃𝑇 2 ∕2                                               (4)
+sentations generated by 𝒛̂ 𝑖𝑠 (𝒛̂ 𝑖𝑠 = 𝑝𝑡 (𝑓𝑏 (𝒙𝑖𝑏 ))) are aligned with
+
+C. Xu et al.: Preprint submitted to Elsevier                                                                                                                                       Page 4 of 13
+   where 𝐶𝐿𝐼𝑃𝑉 and 𝐶𝐿𝐼𝑃𝑇 are the contrastive loss              neural visual representations into the CLIP image space.
+between neural representations with image and text em-           This prior enables the pre-trained diffusion model to perform
+beddings, respectively. 𝑠 denotes cosine similarity, 𝜏 is the    image reconstruction from the visual perspective.
+temperature parameter and 𝐵 is the batch size.                       Semantic guidance: Direct caption decoding from low-
+   Additionally, we also compute the Mean Squared Error          dimensional neural-semantic representations proves unsta-
+(MSE) loss between the neural representations and the image      ble due to information loss in alignment (Li et al., 2024).
+and text embeddings:                                             Inspired by BLIP-2 (Li et al., 2023), we project these neural-
+                                                                 semantic representations to the CLIP text space using a Q-
+                             1 ∑ 𝑖
+                                  𝐵
+                                                                 Former block with a set of learnable query vectors. Specifi-
+                𝑀𝑆𝐸𝑉 =           ‖𝒛 − 𝒛̂ 𝑖𝑣 ‖22           (5)   cally, the learnable query vectors 𝒛𝑞 first pass through a self-
+                            𝐵𝑑 𝑖=1 𝑣
+                                                                 attention layer (Vaswani et al., 2017):
+
+                                                                                    𝒛′𝑞 = Self Attention(𝒛𝑞 )                    (8)
+             1 ∑( 𝑖
+                     𝐵
+                                                     )
+    𝑀𝑆𝐸𝑇 =        ‖𝒛𝑐 − 𝒛̂ 𝑖𝑠 ‖22 + ‖𝒛𝑖𝑡 − 𝒛̂ 𝑖𝑠 ‖22 ∕2   (6)
+            𝐵𝑑 𝑖=1                                                  Next, the learnable query embeddings 𝒛′𝑞 attend to
+                                                                 neural-semantic features 𝒛̂ 𝑖𝑠 :
+where 𝑑 is the dimension of representations.
+     During training, both the CLIP image and text encoder                𝑄 = 𝑊𝑄 ⋅ 𝒛′𝑞 , 𝐾 = 𝑊𝐾 ⋅ 𝒛̂ 𝑠 , 𝑉 = 𝑊𝑉 ⋅ 𝒛̂ 𝑠           (9)
+are frozen. We optimize the M/EEG encoder, image projec-
+tor, and text projector by combining the contrastive loss and
+MSE loss. The overall loss function is:                                                                    (           )
+                                                                                                                𝑄𝐾 𝑇
+                                                                   𝒛′′
+                                                                    𝑞 = Attention(𝑄, 𝐾, 𝑉 ) = sof tmax          √          ⋅𝑉   (10)
+𝑎𝑙𝑙 = 𝛼(𝐶𝐿𝐼𝑃𝑉 +𝛽𝑀𝑆𝐸𝑉 )+(1−𝛼)(𝐶𝐿𝐼𝑃𝑇 +𝛽𝑀𝑆𝐸𝑇 )                                                                  𝑑
+                                                        (7)
+where 𝛼 and 𝛽 are the hyperparameters that control the           where 𝑊𝑄 , 𝑊𝐾 and 𝑊𝑉 are learnable projection matrices.
+balance between the M/EEG-image alignment loss and the                                                        𝑞 pass through
+                                                                     Finally, the learnable query embeddings 𝒛′′
+M/EEG-text alignment loss, and between the contrastive loss      a Feed-Forward Network (FFN) to produce the outputs.
+and the MSE loss, respectively.
+                                                                                      𝒛𝑝𝑟𝑜𝑚𝑝𝑡
+                                                                                       𝑞      = FFN(𝒛′′
+                                                                                                     𝑞)                         (11)
+3.3. Visual Stimulus Retrieval and Classification                    Additionally, SDXL-Turbo conditions the model on the
+    In the test phase, after multimodal alignment, we employ     pooled prompt embedding. Similarly, we utilize the Q-
+cosine similarity to match the extracted neural-visual and       Former to map 𝒛̂ 𝑠 into pooled prompt embeddings, denoted
+semantic representations with image and category templates,
+                                                                 as 𝒛𝑝𝑜𝑜𝑙_𝑝𝑟𝑜𝑚𝑝𝑡
+                                                                      𝑞          , which guide image reconstruction from the
+facilitating zero-shot visual stimulus retrieval and classifi-
+                                                                 semantic perspective with the prompt embeddings together.
+cation. These templates are constructed using images and
+                                                                 In this way, the proposed dual-guidance approach enhances
+coarse-level label texts that do not overlap with the training
+                                                                 image reconstruction by leveraging both visual and semantic
+samples. Each image and its corresponding text are pro-
+                                                                 information.
+cessed separately through pre-trained CLIP image and text
+encoders to build the templates.
+                                                                 4. Experiments
+3.4. Dual Guidance for Image Reconstruction                      4.1. Datasets and Preprocessing
+    Through the multimodal alignment pre-training, we                 THINGS-EEG The THINGS-EEG dataset (Gifford
+can simultaneously extract neural-visual representations and     et al., 2022) comprises EEG recordings from ten participants
+neural-semantic representations, which jointly guide visual      acquired via 63 electrodes at 1000 Hz during a rapid serial
+stimulus reconstruction. Inspired by (Li et al., 2024), we       visual presentation (RSVP) task. Each of the 10 participants
+integrate the pre-trained IP-Adapter (Ye et al., 2023) with      completed four identical experimental sessions, resulting in
+the SDXL-Turbo (Sauer et al., 2025) to enable dual-modality      a total of 10 datasets. For each dataset, the training set
+conditioned image generation. SDXL-Turbo utilizes Adver-         consists of 1654 categories, with 10 images per category,
+sarial Diffusion Distillation (ADD) to generate high-quality     repeated 4 times. The test set includes 200 categories, with
+images using only 1–4 sampling steps. The addition of the        one image per category, repeated 80 times. Each dataset
+IP-Adapter enables both text-to-image generation and image       contains a total of 82160 image trials.
+prompt capabilities, allowing for guiding image reconstruc-           THINGS-MEG The THINGS-MEG dataset (Hebart
+tion from both visual and semantic perspectives using the        et al., 2023) consists of MEG data from 4 subjects with 12
+extracted neural representations.                                MEG sessions, recorded using 271 channels at a 1200 Hz
+    Visual guidance: While contrastive learning aligns           sampling rate. The image stimuli were presented for 500ms,
+neural-visual representations with CLIP image embeddings,        followed by a variable fixation period of 1000±200ms.
+it still lacks explicit spatial reconstruction (Scotti et al.,   The training dataset has 1854 concepts × 12 images × 1
+2024a). Therefore, we train a diffusion prior to map the         repetition, and the test dataset has 200 concepts × 1 image
+
+C. Xu et al.: Preprint submitted to Elsevier                                                                           Page 5 of 13
+Table 1
+Retrieval and classification accuracy (%) of different methods on THINGS-EEG dataset
+           Subject 1    Subject 2   Subject 3   Subject 4    Subject 5       Subject 6        Subject 7         Subject 8      Subject 9      Subject 10      Average
+Methods
+          top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5
+                                                                    Retrieval accuracy
+NICE      21.50 53.50 21.00 51.00 27.50 62.50 30.00 63.50 13.00 36.00 22.50 56.00 25.50 59.50 38.50 68.50 21.00 57.00 23.00 64.50 24.35 57.20
+ATM       20.50 58.00 18.00 47.50 25.00 60.00 27.50 58.00 15.50 42.00 27.50 63.50 24.00 53.00 41.00 72.00 21.50 51.00 36.50 69.50 25.70 57.45
+MB2C      23.67 56.33 22.67 50.50 26.33 60.17 34.83 67.00 21.33 53.00 31.00 62.33 25.00 54.83 39.00 69.33 27.50 59.33 33.17 70.83 28.45 60.37
+UMind     27.00 56.00 32.00 70.00 34.00 70.00 36.00 70.50 23.00 50.50 32.50 68.50 28.00 59.00 46.50 80.00 37.50 66.50 42.00 76.00 33.85 66.70
+                                                               Classification accuracy
+BraVL     6.11   17.89 4.90 14.87 5.58 17.38 4.96 15.11      4.01   13.39 6.01 18.18 6.51 20.35 8.79 23.68 4.34 13.98 7.04 19.71 5.82 17.45
+NICE      9.00   27.50 10.50 24.50 10.00 37.50 11.50 35.50   6.50   20.50 9.00 28.50 9.50 31.00 11.50 37.50 7.00 29.00 11.50 31.50 9.60 30.30
+ATM       4.50   15.50 1.50 7.00 5.00 17.00 4.50 15.50       2.50   11.00 4.50 12.50 6.50 18.00 8.00 23.00 2.50 10.00 5.50 18.50 4.50 14.80
+UMind     7.50   31.00 7.50 32.00 15.50 37.50 17.00 38.50    8.00   22.50 10.50 37.50 11.50 30.00 16.00 46.00 10.00 32.50 16.50 36.50 12.00 34.40
+
+
+
+Table 2
+Retrieval and classification accuracy (%) of different methods on THINGS-MEG dataset
+
+                               Subject 1            Subject 2                 Subject 3                       Subject 4                  Average
+             Methods
+                            top-1     top-5      top-1       top-5         top-1         top-5        top-1           top-5        top-1          top-5
+                                                               Retrieval accuracy
+             NICE           12.00     36.50      23.50       61.00        18.00          50.00        14.00           38.00        16.87          46.38
+             ATM            11.50     32.00      29.00       65.50        24.00          48.50        9.00            30.50        18.38          44.13
+             UMind           7.50     30.00      38.50       69.50        23.00          49.50        8.50            30.00        19.38          44.75
+                                                             Classification accuracy
+             NICE           4.00      16.50       9.00       33.00        10.50          26.50         5.50           17.00         7.25          23.25
+             ATM            1.00      13.00      10.50       28.50         7.50          21.00         2.50           10.00         5.38          18.13
+             UMind          5.50      18.50      11.00       34.50        13.00          32.50         6.50           22.50         9.00          27.00
+
+
+× 12 repetitions. To create the zero-shot task, we removed                       Ground Truth         Top 1           Top 2         Top 3          Top 4         Top 5
+
+200 test concepts from the training set. The MEG data were
+segmented into trials, spanning from 0 to 1000 ms after
+stimulus onset.                                                                       cat              cat            piglet       gopher          lamb        dalmatian
+    For preprocessing, the EEG is filtered between 0.1 Hz
+and 100 Hz. EEG data were sampled from 0 to 1000 ms after
+stimulus onset, baseline corrected, and downsampled to 250                      aircrafter_carrier   sailboat      submarine aircrafter_carrier    ferry       cruise_ship
+Hz, followed by multivariate noise normalization (Guggen-
+mos et al., 2018) on the training data. Similarly, MEG signals
+were filtered between 0.1 Hz and 100 Hz, downsampled from                             suit             suit           coat         coverall       pajamas        robot
+1200 Hz to 200 Hz. To improve the signal-to-noise ratio,
+EEG and MEG trials were averaged across repetitions for
+each image.
+                                                                                    lettuce          lettuce          basil       bok_choy        scallion       scallop
+
+4.2. Experiments Settings
+    Our method was implemented in Python 3.10 using the
+PyTorch framework, with all experiments conducted on an                               pie              pie          meatloaf      croissant        bun         hamburger
+
+NVIDIA GeForce RTX 4090 GPU. Following (Song et al.,                           Figure 3: Visualization of top-5 retrieval examples for the
+2024), 740 samples from the training set were randomly                         retrieval task.
+selected as a validation set for model optimization. The
+model was trained using the Adam optimizer with a learning
+rate of 2×10−4 for 100 epochs with a batch size of 256. In the                 4.3. Retrieval and Classification Performance
+contrastive loss, the temperature parameter 𝜏 is a learnable                   4.3.1. Quantitative Comparison Results
+parameter and is initially set to 0.07. The hyperparameters 𝛼                      We evaluated our UMind model through zero-shot visual
+and 𝛽 in Eq. (7) were set to 0.5 and 2, respectively.                          stimulus retrieval and classification tasks on the THINGS-
+                                                                               EEG dataset, comparing it with several state-of-the-art ap-
+                                                                               proaches, including BraVL (Du et al., 2023), NICE (Song
+
+C. Xu et al.: Preprint submitted to Elsevier                                                                                                               Page 6 of 13
+A                                                                             B
+
+
+
+
+Figure 4: The results of temporal and spatial analysis on THINGS-EEG dataset. (A) The average top-1 retrieval accuracy of all
+subjects using different EEG time windows: [0, 𝑡], [𝑡-100, 𝑡], and [𝑡, 1000]. (B) Retrieval performance using electrode channels
+from different brain areas.
+
+
+et al., 2024), MB2C (Wei et al., 2024), and ATM (Li                windows [𝑡 − 100,𝑡], respectively. It can be observed that the
+et al., 2024). Wilcoxon Signed-Rank Test was employed              results of the expanding window stabilize at approximately
+to evaluate statistical significance. As shown in Table 1,         𝑡 = 500𝑚𝑠. For the sliding window, results exceeding the
+our UMind achieves superior performance for both retrieval         chance level are primarily observed between 100 − 500𝑚𝑠.
+and classification tasks. In the retrieval task, our method        Therefore, the effective information for visual stimulus re-
+achieves a top-1 accuracy of 33.85% and a top-5 accuracy of        trieval is predominantly concentrated within the 0 − 500𝑚𝑠.
+66.70%, significantly surpassing the chance levels of 0.5%             As shown in Fig. 4(B), the frontal and central electrodes
+and 2.5%, respectively. In the classification task, our method     contribute minimally to visual stimulus retrieval. In contrast,
+achieves a top-1 accuracy of 12.00% and an average top-5           the occipital, parietal, and temporal electrodes contain vary-
+accuracy of 34.40%, outperforming the existing best method         ing degrees of effective visual information, ranked from high
+by 2.40% (p < 0.05) and 4.10% (p < 0.05), respectively.            to low. When using only occipital electrodes, the average
+These observations highlight the effectiveness of integrating      top-1 retrieval accuracy is 19.7%, with a decrease of 4.15%
+text modality for both retrieval and classification.               (p > 0.05) compared to using electrodes from all brain
+    To validate generalizability, we tested UMind on the           regions. Similar phenomena occur for the classification task.
+THING-MEG dataset, as shown in Table 2. Our method
+achieved a top-1 accuracy of 19.38% for the retrieval task         4.4. Reconstruction Performance
+and 9.00% for the classification task, respectively. Similarly,    4.4.1. Quantitative Comparison
+our unified multitask framework outperforms individually               We further conducted image generation experiments on
+trained models for each task on the THINGS-MEG dataset,            the THINGS-EEG and THINGS-MEG datasets to investi-
+demonstrating the generalizability of our approach.                gate its proficiency in learning neural-visual and semantic
+                                                                   information. We present the quantitative comparison be-
+4.3.2. Quanlitative Comparison Results                             tween our model and recent state-of-the-art methods, in-
+    We randomly showcase several top-5 retrieval results           cluding MB2C (Wei et al., 2024), B.D. (Benchetrit et al.,
+from the retrieval task, as illustrated in Fig. 3. These results   2024), and ATM (Li et al., 2024). We employ various high-
+revealed consistent semantic patterns, for example, the re-        level and low-level metrics to evaluate the similarity between
+trieval results for “aircraft carrier" are all related to ships,   the generated images and ground truth images. Low-level
+while those for “lettuce" are all associated with vegetable-       metrics include pixel-level correlation (PixCorr), structural
+related items. This indicates that UMind effectively captures      similarity index (SSIM), and the second and fifth layers
+semantic details from dual-grained text and neural signals.        of the AlexNet model (AlexNet(2) and AlexNet(5)), while
+                                                                   high-level metrics encompass Inception, CLIP, EfficientNet,
+4.3.3. Temporal and Spatial Analysis                               and SwAV-ResNet50 (SwAV) to calculate the visual and
+    To investigate the temporal and spatial characteristics of     semantic fidelity. For each category, we generate 10 images
+visual stimulus retrieval, we conducted experiments using          and rank them in descending order based on their similarity
+different EEG time windows and electrode channels from             to the ground truth. Finally, we compute the average metrics
+various brain regions. As shown in Fig. 4(A), three types          across these batches as our final results.
+of time windows were employed: expanding time windows                  The experimental results are presented in Table 3. It can
+[0,𝑡], decreasing time windows [𝑡,1000], and the sliding time      be observed that our UMind generates images that perform
+
+C. Xu et al.: Preprint submitted to Elsevier                                                                        Page 7 of 13
+               Table 3
+               The quantitative comparison of reconstruction performance between our model and other methods.
+
+                                                       Low-Level                                High-Level
+   Datasets          Methods
+                               PixCorr ↑ SSIM ↑ AlexNet(2) ↑ AlexNet(5) ↑ Inception ↑ CLIP ↑ EfficientNet ↓ SwAV ↓
+                      MB2C       0.188         0.333         −        −             −         −           −           −
+   THINGS-EEG          ATM       0.164         0.513       0.583    0.603         0.558     0.577       0.962       0.630
+                      UMind      0.156         0.390       0.725    0.839         0.744     0.798       0.879       0.560
+                       B.D.      0.076         0.336       0.736    0.826         0.671     0.767         −         0.584
+   THINGS-MEG          ATM       0.104         0.340       0.613    0.672         0.619     0.603         −         0.651
+                      UMind      0.107         0.360       0.700    0.808         0.679     0.754       0.915       0.601
+
+
+                  Seen
+                 images
+
+        Best
+               Generated
+                images
+
+
+
+
+                  Seen
+                 images
+
+    Median
+               Generated
+                images
+
+
+
+
+                  Seen
+                 images
+
+     Worst
+               Generated
+                images
+
+
+
+Figure 5: We compare the images reconstructed using UMind with the ground truth images, including those that show the best,
+median, and worst correspondence to the original stimulus images.
+
+
+
+                                                                   the diffusion model, thereby providing more low-level infor-
+ Seen
+images
+                                                                   mation. However, our method significantly outperforms on
+                                                                   high-level metrics. This improvement is attributed to the in-
+                                                                   tegration of dual-grained text, along with the guidance from
+ Ours                                                              aligned neural-visual representations, enabling the model to
+                                                                   learn more detailed visual and semantic information. On
+                                                                   the THINGS-MEG dataset, our reconstruction performance
+ ATM
+                                                                   surpasses that of ATM and achieves results comparable to
+                                                                   B.D. framework.
+Figure 6: Comparison between the reconstructions using dif-
+ferent methods.                                                    4.4.2. Qualitative Comparison
+                                                                       We qualitatively compare the images reconstructed by
+                                                                   our method with ground truth images. As shown in Fig. 5,
+slightly lower on low-level metrics, such as PixCorr and           the comparison includes the images that best, median, and
+SSIM, compared to other models on the THINGS-EEG                   worst correspond to the original stimulus images. It can
+dataset. This is because methods like ATM leverage VAE             be observed that the images generated by our method are
+latents to generate low-level images as the initial input for      visually consistent with the ground truth images, including
+
+
+
+C. Xu et al.: Preprint submitted to Elsevier                                                                       Page 8 of 13
+Table 4
+Retrieval and classification accuracy (%) with different EEG encoder on THINGS-EEG dataset
+               Subject 1      Subject 2      Subject 3   Subject 4   Subject 5     Subject 6    Subject 7   Subject 8   Subject 9   Subject 10   Average
+Methods
+              top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5
+                                                                        Retrieval accuracy
+ShallowNet 14.50 38.50 15.00 35.00 4.00 19.50 14.00 34.50 15.00 42.50 19.50 41.00 9.00 28.50 19.00 52.00 14.50 39.00 24.00 54.50 14.85 38.50
+DeepNet    12.00 34.00 16.50 40.00 17.50 45.00 21.00 51.00 11.50 38.00 18.00 46.50 16.00 41.00 24.50 56.50 18.00 44.00 25.00 52.00 18.00 44.80
+EEGNet     18.50 46.00 29.50 60.50 27.50 55.00 28.50 63.00 13.00 41.00 32.00 68.50 25.00 59.00 35.00 70.50 26.00 60.00 34.50 69.50 26.95 59.30
+Conformer 9.50 30.00 20.50 45.50 20.00 49.50 25.00 55.00 9.50 27.50 29.00 56.00 16.50 43.00 23.50 59.00 15.50 40.00 29.00 57.50 19.80 46.30
+TSConv     25.00 54.50 19.00 53.50 28.50 65.50 25.50 64.00 23.50 55.50 22.50 55.50 23.00 59.50 47.50 78.50 25.00 64.50 36.00 71.00 27.55 63.20
+ATM        27.00 56.00 32.00 70.00 34.00 70.00 36.00 70.50 23.00 50.50 32.50 68.50 28.00 59.00 46.50 80.00 37.50 66.50 42.00 76.00 33.85 66.70
+                                                                      Classification accuracy
+ShallowNet    4.00   14.00    1.00    8.00 1.00 4.50 4.00 13.00      5.50   23.00 1.00 9.00 2.50 10.50 4.50 18.50 5.00 16.00 6.00 19.00 3.45 13.55
+DeepNet       6.50   22.50    6.00   23.00 8.50 24.00 9.00 22.50     7.00   18.00 6.50 22.50 6.00 25.00 12.00 27.50 7.00 24.00 7.50 26.00 7.60 23.50
+EEGNet        5.00   27.50    8.50   27.00 9.50 30.00 12.50 33.50    8.00   21.50 10.50 31.00 9.50 30.50 16.50 35.50 8.50 25.00 12.00 37.00 10.05 29.85
+Conformer     4.50   17.50    8.00   21.50 6.00 28.50 10.50 30.00    5.00   15.00 8.50 25.00 5.50 24.50 9.50 23.50 7.00 22.00 11.00 30.50 7.55 23.80
+TSConv        9.50   30.00    7.00   23.00 10.00 31.50 13.50 29.50   6.50   22.50 6.00 23.50 9.50 35.50 15.50 36.50 10.00 35.00 14.00 36.50 10.15 30.35
+ATM           7.50   31.00    7.50   32.00 15.50 37.50 17.00 38.50   8.00   22.50 10.50 37.50 11.50 30.00 16.00 46.00 10.00 32.50 16.50 36.50 12.00 34.40
+
+
+
+Table 5
+Retrieval and classification accuracy (%) with different pre-trained CLIP on THINGS-EEG dataset
+              Subject 1      Subject 2      Subject 3    Subject 4   Subject 5    Subject 6     Subject 7   Subject 8   Subject 9   Subject 10   Average
+Methods
+             top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5
+                                                                        Retrieval accuracy
+ViT-B/16 29.50 61.50 27.00 55.00 30.50 66.00 39.50 68.50 21.00 50.00 35.50 67.00 30.00 64.00 49.00 82.00 30.00 67.00 33.50 69.50 32.55 65.05
+ViT-L/14 28.50 56.00 26.00 58.50 37.00 74.50 42.00 74.00 23.50 54.50 33.00 69.50 27.00 71.50 43.00 74.50 38.00 67.00 40.00 73.00 33.80 67.30
+ViT-H/14 27.00 56.00 32.00 70.00 34.00 70.00 36.00 70.50 23.00 50.50 32.50 68.50 28.00 59.00 46.50 80.00 37.50 66.50 42.00 76.00 33.85 66.70
+ViT-G/14 25.50 51.50 33.00 65.50 23.00 52.50 31.50 68.50 20.00 48.50 25.50 58.00 28.00 60.00 48.00 77.50 18.00 46.00 39.50 68.50 29.20 59.65
+                                                                      Classification accuracy
+ViT-B/16 11.00 34.00         8.50    34.50 13.50 40.00 14.00 40.50 10.50 25.00 10.50 34.00 11.00 35.00 16.50 47.50 15.00 35.50 13.00 37.00 12.35 36.30
+ViT-L/14 7.50 24.00          6.50    26.00 10.00 38.50 12.50 40.50 8.00 25.00 8.50 34.50 9.00 35.00 16.00 39.50 11.00 30.50 11.50 40.00 10.05 33.35
+ViT-H/14 7.50 31.00          7.50    32.00 15.50 37.50 17.00 38.50 8.00 22.50 10.50 37.50 11.50 30.00 16.00 46.00 10.00 32.50 16.50 36.50 12.00 34.40
+ViT-G/14 8.00 23.50          7.50    29.00 9.50 23.50 13.50 42.00 8.00 28.00 11.50 31.50 11.00 32.00 15.00 37.50 9.00 22.50 11.00 36.50 10.40 30.60
+
+
+
+
+Table 6                                                                             4.5. Ablation Study
+Effects of dual grained text on retrieval & classification (%)                      4.5.1. Effect of different M/EEG encoders
+                                                                                        To investigate the impact of different encoders on the
+                                             Retrieval       Classification         experimental results, we compare several representative
+ coarse-grained fine-grained
+                                           top-1   top-5     top-1   top-5          M/EEG encoders, including EEGNet (Lawhern et al., 2018),
+       ✗                      ✗           20.30    44.25 0.55 2.40                  DeepConvNet, ShallowNet (Schirrmeister et al., 2017),
+       ✓                      ✗           30.90    62.45 10.15 31.25                Conformer (Song et al., 2022), TSConv in NICE (Song
+       ✗                      ✓           32.35    63.90 7.60 24.85                 et al., 2024), and ATM (Li et al., 2024). The comparison
+       ✓                      ✓           33.85    66.70 12.00 34.40                results of different encoders are shown in Table 4. On the
+                                                                                    THINGS-EEG dataset, the ATM encoder outperforms other
+                                                                                    methods in both retrieval and classification tasks. ATM
+color, shape, and orientation. Although some reconstruc-                            achieves a top-1 accuracy of 33.85% in the retrieval task
+tions do not effectively preserve the semantic information of                       and 12.00% in the classification task, surpassing the best-
+the original images, they still capture detailed features such                      performing TSConv by 6.30% (p < 0.01) and 1.85% (p
+as similar colors and shapes.                                                       < 0.05), respectively. Therefore, we selected ATM as our
+    As shown in Fig. 6, we also qualitatively compare the                           M/EEG encoder.
+images reconstructed by our method with those by ATM.
+The images reconstructed using our method achieve greater                           4.5.2. Effect of different image and text encoders
+visual and semantic consistency with the original images.                               In the multimodal alignment module, we use the pre-
+For example, in the second column of Fig. 6, our method                             trained image encoder and text encoder from Contrastive
+accurately reconstructs the nightstand, along with details                          Language-Image Pre-training (CLIP) (Radford et al., 2021)
+such as the bed beside it and the lamp on the nightstand. In                        to extract image and text features. We systematically eval-
+contrast, the image reconstructed by ATM only resembles a                           uate CLIP variants in different scales, including OpenCLIP
+wooden box similar to a nightstand.                                                 ViT-B/16, ViT-L/14, ViT-H/14, and ViT-G/14 (Ilharco et al.,
+
+
+
+C. Xu et al.: Preprint submitted to Elsevier                                                                                                Page 9 of 13
+Table 7
+Effects of coarse-grained text and fine-grained text on reconstruction performance.
+
+                                                            Low-Level                                    High-Level
+  coarse-grained fine-grained
+                                    PixCorr ↑ SSIM ↑ AlexNet(2) ↑ AlexNet(5) ↑ Inception ↑ CLIP ↑ EfficientNet ↓ SwAV ↓
+         ✗                  ✓           0.143      0.398          0.669      0.779         0.686      0.756       0.901       0.583
+         ✓                  ✗           0.148      0.399          0.689      0.805         0.709      0.779       0.899       0.584
+         ✓                  ✓           0.156      0.390          0.725      0.839         0.744      0.798       0.879       0.560
+
+
+
+Table 8                                                                   better reconstruction performance when both coarse and
+Effect of loss function for retrieval and classification (%)              fine-grained text are employed, as their complementary in-
+                                                                          formation allows the model to capture more semantic details.
+                            Retrieval            Classification           Therefore, our model can learn semantically rich neural
+         Loss
+                          top-1    top-5        top-1       top-5         representations and reconstruct images that are semantically
+     w/o 𝐶𝐿𝐼𝑃          0.5         2.5          0.5         2.5          similar to the ground truth visual stimuli.
+     w/o 𝑀𝑆𝐸          33.15       64.50        10.75       31.10
+      overall          33.85       66.70        12.00       34.40         4.5.4. Effect of Different Loss Functions
+                                                                              Table 8 shows the effect of different loss functions. As
+                                                                          observed, removing the MSE loss resulted in a decrease of
+Table 9                                                                   0.7% (p > 0.05) and 1.25% (p < 0.05) in top-1 accuracy for
+Single task vs Multitask framework for retrieval & classification         retrieval and classification, respectively. This indicates that
+(%)                                                                       incorporating an appropriately weighted MSE loss for the
+                                    Retrieval           Classification    subsequent reconstruction task can also enhance the model’s
+ Retrieval      Classification                                            performance in retrieval and classification. Using only MSE
+                                  top-1    top-5     top-1      top-5
+                                                                          loss is ineffective for multimodal alignment, whereas com-
+     ✓                ✗           31.85    64.15       −          −       bining contrastive learning with MSE loss enhances retrieval
+     ✗                ✓             −        −       10.50      30.75     and classification performance.
+     ✓                ✓           33.85    66.70     12.00      34.40
+                                                                          4.5.5. Effect of Multitask Framework
+                                                                              To investigate whether our multitask framework can
+2021; Schuhmann et al., 2022). The performance compar-                    facilitate mutual enhancement among different tasks, we
+ison of different pre-trained CLIP models is presented in                 trained separate single-task models using only image and
+Table 5. It can be observed that all pre-trained CLIP models              text data for M/EEG visual retrieval and classification, re-
+demonstrate comparable performance in both retrieval and                  spectively. As shown in Table 9, the results demonstrate that
+classification tasks. Among them, OpenCLIP ViT-H/14 was                   our unified multitask framework outperforms the single-task
+chosen as our frozen image and text encoder because it                    retrieval and classification frameworks by 2.00% (p > 0.05)
+consistently delivers strong results across both tasks.                   and 1.50% (p < 0.05) in top-1 accuracy, respectively. This
+                                                                          suggests that incorporating text for multimodal alignment
+4.5.3. Effect of Coarse-grained and Fine-grained Text                     not only enables the model to handle different tasks but
+    We conducted ablation experiments on the THINGS-                      also facilitates mutual enhancement between tasks, leading
+EEG dataset to investigate the effects of coarse-grained and              to more effective learning of neural visual and semantic
+fine-grained text. As presented in Table 6, without text                  representations.
+modality data, the framework achieves top-1 classification
+accuracies of only 0.55%, indicating that images provide                  4.5.6. Effect of Different Image-to-Text Generation
+very limited semantic information for M/EEG visual stim-                          Models
+ulus classification. After incorporating coarse-grained and                   To assess the impact of fine-grained text generated by
+fine-grained text, the model’s classification performance                 different pre-trained image-to-text models on experimental
+improves significantly, and retrieval accuracy is also no-                results, we conducted a comparative analysis using two
+tably enhanced. This demonstrates that introducing the text               models: LLaVA-1.5 (Liu et al., 2024) and BLIP2 (Li et al.,
+modality for multimodal alignment not only enables the ex-                2023). The results are shown in Fig. 7. It can be observed that
+traction of detailed semantic information but also enhances               for both retrieval and classification tasks, the average top-1
+the extraction of neural visual representations.                          accuracy of using fine-grained text generated by LLaVA-1.5
+    Table 7 also presented the effects of dual-grained text on            surpasses that of BLIP2. This is because the image captions
+visual stimulus reconstruction. The results indicate that rely-           generated by BLIP2 are often short and simplistic, such as
+ing on only one type of text granularity significantly reduces            “the antelope is brown." In contrast, the text generated by
+the quality of reconstructed images compared to using both
+granularity levels together. Specifically, the model achieves
+
+C. Xu et al.: Preprint submitted to Elsevier                                                                              Page 10 of 13
+                                                                    falls short compared to fMRI-based works. Further research
+                                                                    is needed to narrow this gap.
+
+                                                                    6. Conclusion
+                                                                        In this work, we propose UMind, a novel multitask mul-
+                                                                    timodal alignment framework that simultaneously addresses
+                                                                    zero-shot M/EEG-based visual stimulus retrieval, classifica-
+                                                                    tion, and reconstruction tasks. By incorporating both coarse-
+                                                                    grained and fine-grained text, we can not only extract more
+                                                                    detailed neural semantic representations but also enhance
+                                                                    the learning of neural visual representations. The extracted
+                                                                    neural visual and semantic representations can be used for
+                                                                    M/EEG visual stimulus retrieval and classification, respec-
+                                                                    tively. Additionally, they serve as dual conditional inputs to a
+                                                                    frozen diffusion model to guide image generation. Extensive
+Figure 7: Comparison of results for visual stimulus retrieval and   quantitative and qualitative experiments demonstrate that
+classification using fine-grained text generated by LLaVA-1.5
+                                                                    our framework achieves state-of-the-art performance across
+and BLIP2.
+                                                                    two datasets, highlighting its effectiveness in learning robust
+                                                                    visual and semantic representations for visual stimulus de-
+                                                                    coding.
+LLaVA-1.5 contains richer details about the image, includ-
+ing information on location, color, and direction, as illus-
+trated in Fig. 2. Consequently, the fine-grained text generated     Declaration of generative AI and AI-assisted
+by LLaVA-1.5 better facilitates the model in learning neural        technologies in the writing process
+semantic representations with more detailed information.
+                                                                        During the preparation of this work, the authors used
+                                                                    ChatGPT to improve language and readability. After using
+5. Discussion                                                       this tool, the authors reviewed and edited the content as
+                                                                    needed and take full responsibility for the content of the
+    Current approaches for decoding visual stimuli primar-
+                                                                    publication.
+ily rely on contrastive learning to align brain signals with
+images, overlooking the critical role of the textual modality.
+Additionally, these models are often limited to addressing a        References
+single task or require training a separate encoder for each         Benchetrit, Y., Banville, H., & King, J.-R. (2024). Brain decoding: Toward
+task. To address these limitations, we propose a unified               real-time reconstruction of visual perception. URL: https://arxiv.org/
+multitask framework UMind capable of simultaneously per-               abs/2310.19812. arXiv:2310.19812.
+                                                                    Borra, D., Magosso, E., & Ravanelli, M. (2025). A protocol for trustworthy
+forming zero-shot visual stimulus retrieval, classification,
+                                                                       eeg decoding with neural networks. Neural Networks, 182, 106847.
+and reconstruction tasks. By leveraging both coarse-grained         Casanova, A., Careil, M., Verbeek, J., Drozdzal, M., & Romero Soriano, A.
+and fine-grained text for multimodal alignment, our frame-             (2021). Instance-conditioned gan. In Advances in Neural Information
+work facilitates the learning of neural-visual and neural-             Processing Systems (pp. 27517–27529). volume 34.
+semantic representations enriched with finer details. This          Chen, Z., Qing, J., Xiang, T., Yue, W. L., & Zhou, J. H. (2023). Seeing
+                                                                       beyond the brain: Conditional diffusion model with sparse masked mod-
+enhances the extraction of neural representations that are
+                                                                       eling for vision decoding. In Proceedings of the IEEE/CVF Conference
+beneficial for visual stimulus retrieval and classification            on Computer Vision and Pattern Recognition (pp. 22710–22720).
+tasks. Furthermore, these extracted neural representations          Du, C., Fu, K., Li, J., & He, H. (2023). Decoding visual neural represen-
+serve as dual conditioning inputs for the pre-trained diffusion        tations by multimodal learning of brain-visual-linguistic features. IEEE
+model, guiding the generation of realistic and semantically            Transactions on Pattern Analysis and Machine Intelligence, 45, 10760–
+                                                                       10777.
+meaningful images from both visual and semantic perspec-
+                                                                    Fu, H., Shen, Z., Chin, J. J., & Wang, H. (2024). BrainVis: Exploring
+tives.                                                                 the Bridge between Brain and Visual Signals via Image Reconstruction.
+    Nevertheless, there are some limitations in our work.              URL: https://arxiv.org/abs/2312.14871. arXiv:2312.14871.
+By incorporating coarse-grained and fine-grained text, we           Gifford, A. T., Dwivedi, K., Roig, G., & Cichy, R. M. (2022). A large
+have successfully learned more detailed neural semantic                and rich EEG dataset for modeling human visual object recognition.
+                                                                       NeuroImage, 264, 119754.
+representations associated with visual stimuli, which are ef-
+                                                                    Goodfellow, I., Pouget-Abadie, J., Mirza, M., Xu, B., Warde-Farley, D.,
+fective for classification and reconstruction tasks. However,          Ozair, S., Courville, A., & Bengio, Y. (2014). Generative adversarial
+decoding text corresponding to visual stimuli from these               nets. In Advances in neural information processing systems. volume 27.
+semantic representations remains a significant challenge.           Guggenmos, M., Sterzer, P., & Cichy, R. M. (2018). Multivariate pattern
+Additionally, although we have reconstructed images from               analysis for MEG: A comparison of dissimilarity measures. Neuroim-
+                                                                       age, 173, 434–447.
+M/EEG signals, the quality of the reconstructed images still
+                                                                    Hebart, M. N., Contier, O., Teichmann, L., Rockter, A. H., Zheng, C. Y.,
+                                                                       Kidder, A., Corriveau, A., Vaziri-Pashkam, M., & Baker, C. I. (2023).
+
+C. Xu et al.: Preprint submitted to Elsevier                                                                                 Page 11 of 13
+    THINGS-data, a multimodal collection of large-scale datasets for inves-       Ramesh, A., Dhariwal, P., Nichol, A., Chu, C., & Chen, M. (2022). Hierar-
+    tigating object representations in human brain and behavior. Elife, 12,          chical text-conditional image generation with clip latents. arXiv preprint
+    e82580.                                                                          arXiv:2204.06125, 1, 3. arXiv:2204.06125.
+Ilharco, G., Wortsman, M., Wightman, R., Gordon, C., Carlini, N., Taori,          Ren, Z., Li, J., Xue, X., Li, X., Yang, F., Jiao, Z., & Gao, X. (2021). Re-
+    R., Dave, A., Shankar, V., Namkoong, H., Miller, J., Hajishirzi, H.,             constructing seen image from brain activity by visually-guided cognitive
+    Farhadi, A., & Schmidt, L. (2021). Openclip. URL: https://doi.org/               representation and adversarial learning. NeuroImage, 228, 117602.
+    10.5281/zenodo.5143773. doi:10.5281/zenodo.5143773.                           Rombach, R., Blattmann, A., Lorenz, D., Esser, P., & Ommer, B. (2022).
+Jiang, J., Fares, A., & Zhong, S.-H. (2020). A brain-media deep framework            High-resolution image synthesis with latent diffusion models. In Pro-
+    towards seeing imaginations inside brains. IEEE Transactions on                  ceedings of the IEEE/CVF Conference on Computer Vision and Pattern
+    Multimedia, 23, 1454–1465.                                                       Recognition (pp. 10684–10695).
+Jiao, Z., You, H., Yang, F., Li, X., Zhang, H., & Shen, D. (2019). Decoding       Sauer, A., Lorenz, D., Blattmann, A., & Rombach, R. (2025). Adversarial
+    EEG by Visual-guided Deep Neural Networks. In IJCAI (pp. 1387–                   Diffusion Distillation. In European Conference on Computer Vision (pp.
+    1393). Macao volume 28.                                                          87–103). volume 15144.
+Karras, T., Laine, S., Aittala, M., Hellsten, J., Lehtinen, J., & Aila, T.        Schirrmeister, R. T., Springenberg, J. T., Fiederer, L. D. J., Glasstetter, M.,
+    (2020). Analyzing and improving the image quality of stylegan. In                Eggensperger, K., Tangermann, M., Hutter, F., Burgard, W., & Ball, T.
+    Proceedings of the IEEE/CVF Conference on Computer Vision and                    (2017). Deep learning with convolutional neural networks for EEG
+    Pattern Recognition (pp. 8110–8119).                                             decoding and visualization. Human Brain Mapping, 38, 5391–5420.
+Kavasidis, I., Palazzo, S., Spampinato, C., Giordano, D., & Shah, M. (2017).         doi:10.1002/hbm.23730.
+    Brain2Image: Converting Brain Signals into Images. In Proceedings of          Schuhmann, C., Beaumont, R., Vencu, R., Gordon, C., Wightman, R.,
+    the 25th ACM International Conference on Multimedia (pp. 1809–1817).             Cherti, M., Coombes, T., Katta, A., Mullis, C., & Wortsman, M. (2022).
+    Mountain View California USA: ACM. doi:10.1145/3123266.3127907.                  Laion-5b: An open large-scale dataset for training next generation
+Kay, K. N., Naselaris, T., Prenger, R. J., & Gallant, J. L. (2008). Identifying      image-text models. In Advances in Neural Information Processing
+    natural images from human brain activity. Nature, 452, 352–355.                  Systems (pp. 25278–25294). volume 35.
+Lawhern, V. J., Solon, A. J., Waytowich, N. R., Gordon, S. M., Hung,              Scotti, P., Banerjee, A., Goode, J., Shabalin, S., Nguyen, A., Dempster,
+    C. P., & Lance, B. J. (2018). EEGNet: A compact convolutional neural             A., Verlinde, N., Yundler, E., Weisberg, D., & Norman, K. (2024a).
+    network for EEG-based brain–computer interfaces. Journal of neural               Reconstructing the mind’s eye: fMRI-to-image with contrastive learning
+    engineering, 15, 056013.                                                         and diffusion priors. In Advances in Neural Information Processing
+Li, D., Wei, C., Li, S., Zou, J., & Liu, Q. (2024). Visual decoding and              Systems. volume 36.
+    reconstruction via EEG embeddings with guided diffusion. In Advances          Scotti, P. S., Tripathy, M., Villanueva, C. K. T., Kneeland, R., Chen, T.,
+    in Neural Information Processing Systems (pp. 102822–102864). vol-               Narang, A., Santhirasegaran, C., Xu, J., Naselaris, T., Norman, K. A.,
+    ume 37.                                                                          & Abraham, T. M. (2024b). MindEye2: Shared-Subject Models Enable
+Li, J., Li, D., Savarese, S., & Hoi, S. (2023). Blip-2: Bootstrapping                fMRI-To-Image With 1 Hour of Data. URL: https://arxiv.org/abs/
+    language-image pre-training with frozen image encoders and large lan-            2403.11207. arXiv:2403.11207.
+    guage models. In International Conference on Machine Learning (pp.            Song, Y., Liu, B., Li, X., Shi, N., Wang, Y., & Gao, X. (2024). Decoding
+    19730–19742). PMLR.                                                              Natural Images from EEG for Object Recognition. In International
+Li, R., Johansen, J. S., Ahmed, H., Ilyevsky, T. V., Wilbur, R. B., Bharadwaj,       Conference on Learning Representations.
+    H. M., & Siskind, J. M. (2020). The perils and pitfalls of block design for   Song, Y., Wang, Y., He, H., & Gao, X. (2025). Recognizing natural
+    EEG classification experiments. IEEE Transactions on Pattern Analysis            images from EEG with language-guided contrastive learning. IEEE
+    and Machine Intelligence, 43, 316–333.                                           Transactions on Neural Networks and Learning Systems, .
+Lin, S., Sprague, T., & Singh, A. K. (2022). Mind reader: Reconstructing          Song, Y., Zheng, Q., Liu, B., & Gao, X. (2022). EEG conformer:
+    complex images from brain activities. In Advances in Neural Informa-             Convolutional transformer for EEG decoding and visualization. IEEE
+    tion Processing Systems (pp. 29624–29636). volume 35.                            Transactions on Neural Systems and Rehabilitation Engineering, 31,
+Liu, H., Li, C., Li, Y., & Lee, Y. J. (2024). Improved baselines with visual         710–719.
+    instruction tuning. In Proceedings of the IEEE/CVF Conference on              Spampinato, C., Palazzo, S., Kavasidis, I., Giordano, D., Souly, N., &
+    Computer Vision and Pattern Recognition (pp. 26296–26306).                       Shah, M. (2017a). Deep learning human mind for automated visual
+Miyawaki, Y., Uchida, H., Yamashita, O., Sato, M.-a., Morito, Y., Tanabe,            classification. In Proceedings of the IEEE Conference on Computer
+    H. C., Sadato, N., & Kamitani, Y. (2008). Visual image reconstruction            Vision and Pattern Recognition (pp. 6809–6817).
+    from human brain activity using a combination of multiscale local image       Spampinato, C., Palazzo, S., Kavasidis, I., Giordano, D., Souly, N., &
+    decoders. Neuron, 60, 915–929.                                                   Shah, M. (2017b). Deep learning human mind for automated visual
+Nishimoto, S., Vu, A. T., Naselaris, T., Benjamini, Y., Yu, B., & Gallant,           classification. In Proceedings of the IEEE Conference on Computer
+    J. L. (2011). Reconstructing visual experiences from brain activity              Vision and Pattern Recognition (pp. 6809–6817).
+    evoked by natural movies. Current biology, 21, 1641–1646.                     Takagi, Y., & Nishimoto, S. (2023). High-resolution image reconstruction
+Ozcelik, F., Choksi, B., Mozafari, M., Reddy, L., & VanRullen, R. (2022).            with latent diffusion models from human brain activity. In Proceedings
+    Reconstruction of perceived images from fmri patterns and semantic               of the IEEE/CVF Conference on Computer Vision and Pattern Recogni-
+    brain exploration using instance-conditioned gans. In 2022 International         tion (pp. 14453–14463).
+    Joint Conference on Neural Networks (IJCNN) (pp. 1–8). IEEE.                  Tirupattur, P., Rawat, Y. S., Spampinato, C., & Shah, M. (2018).
+Ozcelik, F., & VanRullen, R. (2023). Natural scene reconstruction from               ThoughtViz: Visualizing Human Thoughts Using Generative Adversar-
+    fMRI signals using generative latent diffusion. Scientific Reports, 13,          ial Network. In Proceedings of the 26th ACM International Conference
+    15666.                                                                           on Multimedia (pp. 950–958). ACM. doi:10.1145/3240508.3240641.
+Palazzo, S., Spampinato, C., Kavasidis, I., Giordano, D., & Shah, M.              Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N.,
+    (2017). Generative adversarial networks conditioned by brain signals. In         Kaiser, L. u., & Polosukhin, I. (2017). Attention is All you Need. In
+    Proceedings of the IEEE International Conference on Computer Vision              Advances in Neural Information Processing Systems. Curran Associates,
+    (pp. 3410–3418).                                                                 Inc. volume 30.
+Radford, A., Kim, J. W., Hallacy, C., Ramesh, A., Goh, G., Agarwal, S.,           Wang, J., Zhao, S., Luo, Z., Zhou, Y., Li, S., & Pan, G. (2025). Eegmamba:
+    Sastry, G., Askell, A., Mishkin, P., & Clark, J. (2021). Learning transfer-      An eeg foundation model with mamba. Neural Networks, (p. 107816).
+    able visual models from natural language supervision. In International        Wei, Y., Cao, L., Li, H., & Dong, Y. (2024). MB2C: Multimodal
+    Conference on Machine Learning (pp. 8748–8763). PMLR.                            Bidirectional Cycle Consistency for Learning Robust Visual Neural
+                                                                                     Representations. In ACM Multimedia 2024.
+
+
+
+C. Xu et al.: Preprint submitted to Elsevier                                                                                                   Page 12 of 13
+Wen, H., Shi, J., Zhang, Y., Lu, K.-H., Cao, J., & Liu, Z. (2018). Neural
+   encoding and decoding with deep learning for dynamic natural vision.
+   Cerebral cortex, 28, 4136–4160.
+Xu, X., Wang, Z., Zhang, G., Wang, K., & Shi, H. (2023). Versatile
+   diffusion: Text, images and variations all in one diffusion model. In
+   Proceedings of the IEEE/CVF International Conference on Computer
+   Vision (pp. 7754–7765).
+Ye, H., Zhang, J., Liu, S., Han, X., & Yang, W. (2023). IP-Adapter: Text
+   Compatible Image Prompt Adapter for Text-to-Image Diffusion Models.
+   doi:10.48550/arXiv.2308.06721. arXiv:2308.06721.
+
+
+
+
+C. Xu et al.: Preprint submitted to Elsevier                                Page 13 of 13
+

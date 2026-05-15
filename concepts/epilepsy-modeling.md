@@ -61,7 +61,7 @@ The Wendling model's clinical validation against intracranial EEG demonstrated i
 
 Breakspear et al. (2006) extended the neural mass framework to spatially distributed systems, modeling cortical sheets as continuous media where neighboring columns couple through anatomical [[connectivity]]. This [[neural-field-theory|neural field]] approach captures the fundamental observation that seizures propagate: pathological activity at a seizure focus spreads to anatomically connected regions, producing the characteristic spatial evolution of ictal events visible in EEG source imaging.
 
-The asymptotic analysis in this work reduced the infinite‑dimensional neural field equations to low‑dimensional ordinary differential equations describing the collective dynamics of the cortical sheet. This reduction revealed that seizure propagation itself can exhibit bifurcations—transitions from localized focal seizures to secondary generalization that depend on the coupling strength and the excitability profile of the network. The framework thus connects local mechanisms of seizure onset with the global [[network-dynamics]] that determine clinical outcome. Agent‑based platforms like [[netlogo]] provide complementary approaches for simulating individual neuron interactions.
+The asymptotic analysis in this work reduced the infinite‑dimensional neural field equations to low‑dimensional ordinary differential equations describing the collective dynamics of the cortical sheet. This reduction revealed that seizure propagation itself can exhibit bifurcations—transitions from localized focal seizures to secondary generalization that depend on the coupling strength and the excitability profile of the network. The framework thus connects local mechanisms of seizure onset with the global [[network-dynamics]] that determine clinical outcome. Agent‑based platforms like [[netlogo]] provide complementary approaches for simulating individual [[neuron]] interactions.
 
 ## Seizure Classification by Modeling Mechanism
 
@@ -156,8 +156,8 @@ sources:
 tags:
 - software-brain-modeling
 - network-dynamics
-- computational-neuroscience
-- spiking-neural-networks
+- [[computational-neuroscience]]
+- [[spiking-neural-networks]]
 title: NetLogo
 type: entity
 updated: '2026-05-12'
