@@ -7,7 +7,7 @@ Stop:  Ctrl+C (graceful shutdown between cycles)
 
 Agents:
   Ingestor       (hourly) — fetches papers from arXiv, Semantic Scholar, PubMed, OpenAlex
-  Improver       (hourly) — improves worst pages via writer(deepseek-v4-pro)  [reviewer skipped for burst mode]
+  Improver       (hourly) — improves worst pages via writer(kimi-k2.6)  [reviewer skipped for burst mode]
   Auditor        (daily)  — structural integrity check (broken links, orphans, etc)
   Librarian      (daily)  — index rebuild, authority scores, symmetry check
   SoftwareMapper (weekly) — ensures full software ecosystem coverage
@@ -436,27 +436,26 @@ FUTURE_TIMEOUT = 1800  # 30 min max per agent run (accommodates PI_TIMEOUT 600s 
 
 def _kill_stale_pi_processes(agent_name: str):
     """Kill only the pi subprocesses belonging to the timed-out agent.
-    Uses PID tracking from ralph_config to avoid killing other agents' pi processes."""
+    Uses killpg to kill the entire process group (pi is Node.js and spawns children)."""
     from ralph_config import get_agent_pids
+    import signal
     pids = get_agent_pids(agent_name)
 
     killed = 0
     for pid in pids:
         try:
-            os.kill(pid, 9)  # SIGKILL
+            os.killpg(pid, signal.SIGKILL)  # kill entire process group
             killed += 1
-            log.info("Killed pi PID %d for agent %s", pid, agent_name)
+            log.info("Killed pi process group PGID %d for agent %s", pid, agent_name)
         except ProcessLookupError:
             pass  # already dead
         except PermissionError:
-            log.warn("Cannot kill pi PID %d (permission denied)", pid)
+            log.warn("Cannot kill pi process group PGID %d (permission denied)", pid)
 
     if not pids:
-        # Fallback: no tracked PIDs, so we can't target specific processes.
-        # Do NOT use pkill -x pi (kills all agents' processes).
-        log.warn("No tracked PIDs for %s — skipping indiscriminate kill", agent_name)
+        log.warn("No tracked PIDs for %s — skipping kill", agent_name)
     else:
-        log.info("Killed %d/%d tracked pi processes for %s", killed, len(pids), agent_name)
+        log.info("Killed %d/%d tracked pi process groups for %s", killed, len(pids), agent_name)
 
 
 def _run_agent_async(agent_name: str, runner) -> bool:

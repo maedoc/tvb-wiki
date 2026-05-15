@@ -48,7 +48,7 @@ def get_page_lock(page_path: str) -> threading.Lock:
     return PAGE_LOCKS.setdefault(page_path, threading.Lock())
 
 # ── Models ─────────────────────────────────────────────────────────────
-WRITER_MODEL = "ollama/deepseek-v4-pro:cloud"  # Strong grounding in source material
+WRITER_MODEL = "ollama/kimi-k2.6:cloud"  # Fast, reliable — deepseek hangs indefinitely with Popen
 REVIEWER_MODEL = "ollama/glm-5.1:cloud"
 REPAIRER_MODEL = "ollama/gpt-oss:120b-cloud"
 
@@ -360,16 +360,20 @@ def run_pi(prompt: str, model: str = None, tools: str = None,
             log.info("Spawning: pi --model %s (%d tokens in prompt, attempt %d/%d)",
                      model, len(prompt.split()), attempt + 1, MAX_RETRIES)
             start = datetime.datetime.now()
+            # start_new_session=True: kill() kills the entire process group,
+            # not just the top-level pi process. Essential because pi (Node.js)
+            # spawns child processes that inherit pipe FDs.
             result = subprocess.Popen(
-                cmd, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+                cmd, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+                start_new_session=True
             )
             # Register PID for agent-scoped kill targeting
             register_pi_pid(result.pid)
             try:
                 stdout, stderr = result.communicate(timeout=timeout)
             except subprocess.TimeoutExpired:
-                result.kill()
-                stdout, stderr = result.communicate()
+                os.killpg(result.pid, 9)  # kill entire process group
+                stdout, stderr = result.communicate()  # collect any remaining output
                 unregister_pi_pid(result.pid)
                 log.warn("pi timeout after %ds (attempt %d/%d)", timeout, attempt + 1, MAX_RETRIES)
                 if attempt < MAX_RETRIES - 1:
@@ -417,6 +421,11 @@ def run_pi(prompt: str, model: str = None, tools: str = None,
             log.info("pi completed in %.1fs (%d chars out)", elapsed, len(output))
             return True, output
 
+        except subprocess.TimeoutExpired:
+            log.warn("pi timeout after %ds (attempt %d/%d)", timeout, attempt + 1, MAX_RETRIES)
+            if attempt < MAX_RETRIES - 1:
+                import time
+                time.sleep(RETRY_BACKOFF[min(attempt, len(RETRY_BACKOFF) - 1)])
         except Exception as e:
             log.error("pi exception: %s", str(e)[:200])
             return False, str(e)

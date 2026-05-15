@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """
-Ralph Improver Agent — picks worst pages, improves them via writer-reviewer pipeline.
-Writer: ollama/deepseek-v4-pro (cloud, strong source grounding)
-Reviewer: zai/glm-5.1 (cloud, different training)
+Ralph Improver Agent — picks worst pages, improves them via writer-only pipeline.
+Writer: ollama/kimi-k2.6 (cloud, fast, reliable)
 
 Runs N pages in parallel through pi subshells.
 """
