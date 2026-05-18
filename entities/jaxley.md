@@ -13,7 +13,6 @@ title: Jaxley
 type: entity
 updated: '2026-05-18'
 ---
-
 # Jaxley
 
 Jaxley is a differentiable simulator for biophysical neuron models written in JAX, designed to enable gradient-based optimization of detailed neuronal dynamics alongside large-scale network simulation Deistler et al. (2025). The framework exposes all internal variables to automatic differentiation, permitting gradient-based optimization of thousands of parameters in detailed [[ion-channel]] models and multicompartment neurons [[jaxley]]. This capability is particularly significant for fitting complex biophysical models—such as variants of the [[hodgkin-huxley-model]] formalism—to empirical [[electrophysiology]] data, where high-dimensional parameter landscapes render traditional search methods prohibitively expensive [[jaxley]].
@@ -49,7 +48,3 @@ The gradient-based parameter estimation capabilities of Jaxley address a key cha
 Jaxley occupies a specific niche in the neural simulation ecosystem, with several related tools addressing different aspects of the simulation and optimization workflow. [[brian2|Brian2]] provides the primary conceptual inspiration for Jaxley's API design, offering a widely-adopted Python-based neural simulator that prioritizes ease of use and flexibility. The underlying [[jax|JAX] framework provides the automatic differentiation and compilation infrastructure that enables Jaxley's gradient-based optimization capabilities.
 
 For parameter estimation in the context of whole-brain modeling, Jaxley's approach complements the Bayesian optimization methods implemented in TVB's parameter estimation framework. Other neural simulators in this space include [[nest|NEST]], which focuses on large-scale spiking network simulations, and [[brian2genn|GeNN]], which provides GPU acceleration for Brian2-compatible models through code generation. The [[neural-mass-models]] field that TVB operates in represents a different modeling abstraction level, where populations of neurons are represented by aggregate variables rather than explicit spike trains.
-
-## References
-
-1. Deistler, Michael and Kadhim, Kyra L and Pals, Matthijs and Beck, Jonas and Huang, Ziwei and Gloeckler, Manuel and Lappalainen, Janne K and Schröder, Cornelius and Berens, Philipp and Goncalves, Pedro J and Macke, Jakob H. *Jaxley: differentiable simulation enables large-scale training of detailed biophysical models of neural dynamics*. Nature Methods. [DOI](https://doi.org/10.1038/s41592-025-02895-w)

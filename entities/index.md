@@ -59,6 +59,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [SimBrain](simbrain.md) - Interactive neural network simulator focused on emergent behaviors and learning
 - [SpikeInterface](spikeinterface.md) — Unified Python framework for standardized spike sorting, preprocessing, and quality assessment of extracellular electrophysiology data
 - [Nighres](nighres.md) - High-resolution neuroimaging processing for laminar analysis
+- [RABIES](rabies.md) - Robust Astute Segmentation of Images for automated brain structure segmentation
 - [NNU-Net](nnu-net.md) - Self-configuring deep learning framework for biomedical image segmentation
 - [NiftyReg](niftyreg.md) - Open-source medical image registration toolkit for neuroimaging
 - [MedPy](medpy.md) - Python library for medical image processing and analysis
