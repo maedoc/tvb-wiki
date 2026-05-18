@@ -591,3 +591,5 @@
 
 ## 2026-05-18
 - Improved [[nnu-net]] page: rewrote to dense sourced prose (~530 words), added 12 inline citations from 5 sources (Gi et al. 2025 x4, Aslam et al. 2025 x3, Karimzadeh et al. 2025 x3, Iratni et al. 2025 x3, Kumar & Aggarwal 2026 x2), added 10 wikilinks (connectivity, white-matter, structural-connectivity, parcellation, the-virtual-brain, personalized-brain-modeling, neuroimaging-fmri, connectomics, machine-learning, alzheimers-modeling), removed standalone References body section, fixed tags to schema taxonomy, bumped updated date to 2026-05-18
+
+## [2026-05-18 10:14] CrosslinkApplier: added 81 wikilinks (81 inline, 0 suggested)
