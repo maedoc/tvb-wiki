@@ -13,7 +13,7 @@ tags:
 - fsl
 title: TBSS
 type: concept
-updated: '2026-05-07'
+updated: '2026-05-18'
 ---
 
 # TBSS (Tract-Based Spatial Statistics)
@@ -68,10 +68,11 @@ TBSS findings often feed into TVB workflows:
 
 ## Related
 
-- [[neuroimaging]] — underlying data modality
-- [[fsl]] — software implementing TBSS
-- [[tractography]] — complementary approach preserving tract topology
-- [[white-matter]] — anatomy and function
+TBSS has become a standard tool in clinical diffusion neuroimaging studies seeking to link [[white-matter]] microstructure to disease outcomes. [[raw/papers/semanticscholar-c893f42e33a6.md|Yang et al. (2025)]] applied the TBSS pipeline within [[fsl]] to a cohort of 103 first-episode major depressive disorder patients, measuring [[fractional-anisotropy]], mean diffusivity, axial diffusivity, and radial diffusivity via FSL's tensor fitting workflow. [[raw/papers/semanticscholar-c893f42e33a6.md|Yang et al. (2025)]] then performed voxel-wise statistical analysis of the cingulate bundle using the TBSS procedure, revealing that functional damage to the cingulum hippocampal region may predispose patients to major depressive disorder. [[raw/papers/semanticscholar-c893f42e33a6.md|Yang et al. (2025)]] further reported that cingulum bundle [[fractional-anisotropy]] correlated significantly with clinical severity scores on the HAMD-17 scale, demonstrating how skeleton-based metrics can serve as neurobiological markers for antidepressant treatment stratification.
+
+The voxel-wise group inference at the core of TBSS rests on permutation-based statistical frameworks for the general linear model developed within the FMRIB software ecosystem. [[raw/papers/winkler-2014-palm.md|Winkler et al. (2014)]]—which includes TBSS originator Stephen M. Smith among its authors—presented a comprehensive theory of permutation inference robust to heteroscedasticity that underpins non-parametric testing in neuroimaging. [[raw/papers/winkler-2014-palm.md|Winkler et al. (2014)]] introduced a generalized statistic suitable for complex experimental designs with nuisance variables, providing the mathematical basis for the threshold-free cluster enhancement and randomise procedures routinely invoked during TBSS statistical stages. [[raw/papers/winkler-2014-palm.md|Winkler et al. (2014)]] also compared alternative permutation strategies including exchangeability blocks, establishing guidelines that inform how TBSS and related tools such as [[palm]] implement rigorous non-parametric inference for high-dimensional [[neuroimaging]] data.
+
+TBSS can be usefully contrasted with tractography-based approaches that preserve anatomical topology rather than projecting tensor metrics onto a common skeleton. [[raw/papers/semanticscholar-50e828bd956a.md|Zhang et al. (2025)]] analyzed whole-brain [[white-matter]] sex differences in 707 young adults from the [[hcp-dataset]] using diffusion MRI [[tractography]] combined with suprathreshold fiber cluster statistics. [[raw/papers/semanticscholar-50e828bd956a.md|Zhang et al. (2025)]] examined [[fractional-anisotropy]] and mean diffusivity across deep tracts including the arcuate fasciculus, corticospinal tract, and corpus callosum, as well as cerebellar pathways, identifying significant differences through fiber clustering rather than voxel-wise skeletonisation. [[raw/papers/semanticscholar-50e828bd956a.md|Zhang et al. (2025)]] additionally correlated these white-matter differences with neurobehavioral measures, with the strongest associations observed for motor function, illustrating how tract-level statistical methods can complement skeleton-based approaches in relating [[structural-connectivity]] microstructure to behavior.
 
 ## References
 

@@ -47,9 +47,11 @@ JAX intersects with TVB in three main ways:
 
 ## Software
 
-- Website: https://github.com/google/jax
-- Documentation: https://jax.readthedocs.io/
-- Install: `pip install jax jaxlib` (CPU); follow Google Cloud TPU or NVIDIA GPU instructions for accelerators
+JAX is an open-source Python library for composable function transformations, first described by [[raw/papers/semanticscholar-39decd6e7d9f.md|Bradbury et al. (2018)]]. Its XLA-backed just-in-time compiler generates machine code for CPU, GPU, and TPU from a single NumPy-like API, delivering substantial performance gains over imperative array frameworks. In cosmological emulation, [[raw/papers/arxiv-2507.20990.md|Reeves et al. (2025)]] report that their JAX-based pipeline achieves three to four orders of magnitude speed-up over a standard Python implementation, evaluating one-loop power spectrum predictions in 1.2 ms on a CPU and 0.2 ms on a GPU; end-to-end Markov chain Monte Carlo inference then converges in minutes on a GPU rather than hours or days.
+
+A hallmark of JAX as a software platform is its native support for automatic differentiation, which enables gradient-based optimization and differentiable programming without external autodiff toolkits. [[raw/papers/arxiv-2507.20990.md|Reeves et al. (2025)]] exploit this capability for Fisher forecasting and gradient-based parameter searches, while [[raw/papers/semanticscholar-39decd6e7d9f.md|Wang and Lai (2025)]] build physics-informed neural networks for ice-shelf data assimilation directly on JAX's automatic-differentiation primitives. Accessibility is reinforced by community packaging practices: [[raw/papers/semanticscholar-39decd6e7d9f.md|Wang and Lai (2025)]] distribute tutorial Colab notebooks with their solver so that users can reproduce results and adapt the code to new inverse problems.
+
+Within whole-brain modeling, JAX operates less as a monolithic application and more as a portable execution backend. [[raw/papers/semanticscholar-9afbfd2d37be.md|Martin et al. (2025)]] show that the [[tvb-library|Virtual Brain]] Ontology can export standardized simulation metadata to executable JAX code alongside other platforms, bridging reproducible experiment descriptions with accelerator-ready performance. When combined with the GPU speed-ups reported by [[raw/papers/arxiv-2507.20990.md|Reeves et al. (2025)]] and the differentiable inverse-modeling capabilities demonstrated by [[raw/papers/semanticscholar-39decd6e7d9f.md|Wang and Lai (2025)]], this portability positions JAX as a practical substrate for large-scale, differentiable [[brain-dynamics|brain-network]] simulations.
 
 ## Related
 

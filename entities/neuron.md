@@ -12,7 +12,7 @@ tags:
 - neural-mass-models
 title: NEURON
 type: entity
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 # NEURON

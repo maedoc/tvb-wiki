@@ -268,3 +268,6 @@
 ## 2026-05-12
 - Improved [[computational-neuroscience]] page: rewrote _preamble section with sourced content from 5 available papers (Jiang 2026, Jordan 2018, Strogatz 1994, Friston 1993, Hater 2026), added 12+ wikilinks, ensured 3+ inline citations per paragraph, split into two dense paragraphs covering microscopic and macroscopic scales plus neuroimaging and multiscale integration
 
+
+## 2026-05-18
+- Improved [[modeldb]] page: rewrote Related section with full prose (cited Migliore et al. 2006 and Potjans & Diesmann 2014), replaced bullet list with dense explanatory paragraphs, added cross-links to neuron, nest, brian2, genesis, netm, neuroml, open-source-brain, the-virtual-brain, neural-mass-models, whole-brain-modeling, and jansen-rit-model.

@@ -8,12 +8,12 @@ tags:
 - whole-brain-modeling
 title: gira
 type: concept
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 # gira
 
-gira is a computational modeling framework that extends the [[the-virtual-brain]] (TVB) ecosystem with neural mass model implementations for large-scale brain network simulation. TVB is an open-source neuroinformatics platform that enables researchers to construct personalized whole-brain models by coupling empirical [[structural-connectivity]] matrices—typically derived from [[diffusion-imaging]] tractography—with biologically parametrized neural mass equations Sanz Leon et al. (2013). Within this architecture, gira supplies the population-level dynamical models that drive simulated activity, while TVB provides the underlying simulation engine, [[connectome]] data management, and forward modeling infrastructure for comparing predictions against empirical [[neuroimaging-eeg]], [[neuroimaging-meg]], and [[neuroimaging-fmri]] recordings Sanz Leon et al. (2013). By combining individual connectome data with mean-field approximations of synaptic dynamics, gira facilitates the study of [[brain-oscillations]], [[resting-state]] network formation, and the mechanistic basis of neurological conditions through computationally efficient whole-brain simulation Sanz Leon et al. (2013).
+gira is a computational modeling framework that extends the [[the-virtual-brain]] (TVB) ecosystem with neural mass model implementations for large-scale brain network simulation. TVB is an open-source neuroinformatics platform that enables researchers to construct personalized whole-brain models by coupling empirical [[structural-connectivity]] matrices—typically derived from [[diffusion-imaging]] tractography—with biologically parametrized neural mass equations Sanz Leon et al. (2013). Within this architecture, gira supplies the population-level dynamical models that drive simulated activity, while TVB provides the underlying simulation engine, [[connectome]] data management, and forward modeling infrastructure for comparing predictions against empirical [[neuroimaging-eeg]], [[neuroimaging-meg]], and [[neuroimaging-fmri]] recordings Sanz Leon et al. (2013). By combining individual connectome data with mean-field approximations of synaptic dynamics, gira facilitates the study of [[brain-oscillations]], [[resting-state]] network formation, and the mechanistic basis of neurological conditions through computationally efficient whole-brain simulation Sanz Leon et. 2013.
 
 ## Overview
 
